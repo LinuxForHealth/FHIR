@@ -126,14 +126,14 @@ public class MockFHIRResourceHelpers implements FHIRResourceHelpers {
     }
 
     @Override
-    public SingleResourceResult<? extends Resource> doRead(String type, String id, boolean throwExcOnNull, boolean includeDeleted, Resource contextResource,
+    public SingleResourceResult<? extends Resource> doRead(String type, String id, boolean throwExcOnNull, Resource contextResource,
         MultivaluedMap<String, String> queryParameters) throws Exception {
 
         return null;
     }
 
     @Override
-    public Resource doVRead(String type, String id, String versionId, MultivaluedMap<String, String> queryParameters) throws Exception {
+    public SingleResourceResult<? extends Resource> doVRead(String type, String id, String versionId, MultivaluedMap<String, String> queryParameters) throws Exception {
 
         return null;
     }

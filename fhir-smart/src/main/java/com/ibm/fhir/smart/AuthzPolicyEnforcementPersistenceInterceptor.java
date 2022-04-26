@@ -48,8 +48,6 @@ import com.ibm.fhir.persistence.context.FHIRPersistenceContext;
 import com.ibm.fhir.persistence.context.FHIRPersistenceContextFactory;
 import com.ibm.fhir.persistence.context.FHIRPersistenceEvent;
 import com.ibm.fhir.persistence.exception.FHIRPersistenceException;
-import com.ibm.fhir.persistence.exception.FHIRPersistenceResourceDeletedException;
-import com.ibm.fhir.persistence.exception.FHIRPersistenceResourceNotFoundException;
 import com.ibm.fhir.search.compartment.CompartmentHelper;
 import com.ibm.fhir.search.context.FHIRSearchContext;
 import com.ibm.fhir.search.exception.FHIRSearchException;
@@ -432,7 +430,7 @@ public class AuthzPolicyEnforcementPersistenceInterceptor implements FHIRPersist
                 break;
             case "Encounter":
                 Resource r = executeRead(event.getPersistenceImpl(), ModelSupport.getResourceType(compartment), compartmentId);
-                if (!isInCompartment(compartment, compartmentId, r, CompartmentType.PATIENT, patientIdFromToken)) {
+                if (r == null || !isInCompartment(compartment, compartmentId, r, CompartmentType.PATIENT, patientIdFromToken)) {
                     String msg = "Interaction with 'Encounter/" + compartmentId + "' is not permitted for patient context " + patientIdFromToken;
                     throw new FHIRPersistenceInterceptorException(msg).withIssue(FHIRUtil.buildOperationOutcomeIssue(msg, IssueType.FORBIDDEN));
                 }
@@ -540,6 +538,8 @@ public class AuthzPolicyEnforcementPersistenceInterceptor implements FHIRPersist
         Set<String> patientIdFromToken = getPatientIdFromToken(jwt);
         Map<ContextType, List<Scope>> scopesFromToken = getScopesFromToken(jwt);
 
+        // used to avoid leaking Patient id existence in the off-chance of a history page with only deleted entries
+        boolean hasResourceContent = false;
         if (event.getFhirResource() instanceof Bundle) {
             for (Bundle.Entry entry : ((Bundle) event.getFhirResource()).getEntry()) {
                 String resourceType = getResourceType(entry);
@@ -558,11 +558,21 @@ public class AuthzPolicyEnforcementPersistenceInterceptor implements FHIRPersist
                     // that are only covered by 'patient' scoped access tokens (and not 'user' or 'system' scopes)
                     continue;
                 }
+
+                hasResourceContent = true;
                 enforce(resourceType, resourceId, resource, patientIdFromToken, Permission.READ, scopesFromToken);
             }
         } else {
             throw new IllegalStateException("Expected event resource of type Bundle but found " +
                     event.getFhirResource().getClass().getSimpleName());
+        }
+
+        // avoid Patient id existence leakage
+        if (PATIENT.equals(event.getFhirResourceType()) && !patientIdFromToken.contains(event.getFhirResourceId()) && !hasResourceContent) {
+            String msg = "The requested interaction is not permitted by any of the passed scopes " + scopesFromToken +
+                    " for context id(s): " + patientIdFromToken;
+            throw new FHIRPersistenceInterceptorException(msg)
+                    .withIssue(FHIRUtil.buildOperationOutcomeIssue(msg, IssueType.FORBIDDEN));
         }
     }
 
@@ -646,24 +656,22 @@ public class AuthzPolicyEnforcementPersistenceInterceptor implements FHIRPersist
                 persistence.vread(freshContext, resourceType, referenceValue.getValue(), referenceValue.getVersion().toString());
     }
 
+    /**
+     * @param persistence
+     * @param resourceType
+     * @param resourceId
+     * @return the requested resource or null if the resource could not be read (e.g. if it is deleted or does not exist)
+     * @throws FHIRPersistenceInterceptorException
+     */
     private Resource executeRead(FHIRPersistence persistence, Class<? extends Resource> resourceType, String resourceId)
             throws FHIRPersistenceInterceptorException {
         try {
             FHIRPersistenceContext freshContext = FHIRPersistenceContextFactory.createPersistenceContext(null);
             SingleResourceResult<? extends Resource> result = persistence.read(freshContext, resourceType, resourceId);
-            if (!result.isSuccess()) {
-                String msg = "Unexpected error while reading resource " + resourceType.getSimpleName() + "/" + resourceId;
-                throw new FHIRPersistenceInterceptorException(msg).withIssue(result.getOutcome().getIssue());
-            }
             return result.getResource();
-        } catch (FHIRPersistenceInterceptorException e) {
-            throw e;
-        } catch (FHIRPersistenceResourceNotFoundException | FHIRPersistenceResourceDeletedException e) {
-            String msg = "The resource '" + resourceType.getSimpleName() + "/" + resourceId + "' does not exist.";
-            throw new FHIRPersistenceInterceptorException(msg).withIssue(FHIRUtil.buildOperationOutcomeIssue(msg, IssueType.FORBIDDEN));
         } catch (FHIRPersistenceException e) {
-            String msg = "Unexpected error while reading resource " + resourceType.getSimpleName() + "/" + resourceId;
-            log.log(Level.WARNING, msg, e);
+            String msg = "Unexpected error while reading resource of type " + resourceType.getSimpleName();
+            log.log(Level.WARNING, msg + " and id " + resourceId, e);
             throw new FHIRPersistenceInterceptorException(msg);
         }
     }
@@ -868,7 +876,7 @@ public class AuthzPolicyEnforcementPersistenceInterceptor implements FHIRPersist
             if (approvingScope.isPresent()) {
                 if (PATIENT.equals(resourceType)) {
                     if (contextIds.contains(resourceId)) {
-                        log.fine(requiredPermission.value() + " permission for 'Patient/" + resource.getId() +
+                        log.fine(requiredPermission.value() + " permission for 'Patient/" + resourceId +
                                 "' is granted via scope " + approvingScope.get());
                         return true;
                     } else if (resource == null) {

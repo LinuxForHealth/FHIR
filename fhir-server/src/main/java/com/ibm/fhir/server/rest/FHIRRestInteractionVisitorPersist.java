@@ -91,12 +91,12 @@ public class FHIRRestInteractionVisitorPersist extends FHIRRestInteractionVisito
 
         doInteraction(entryIndex, requestDescription, accumulatedTime, () -> {
             // Perform the VREAD and return the result entry we want in the response bundle
-            Resource resource = helpers.doVRead(type, id, versionId, queryParameters);
+            SingleResourceResult<? extends Resource> srr = helpers.doVRead(type, id, versionId, queryParameters);
             return Entry.builder()
                     .response(Entry.Response.builder()
                         .status(SC_OK_STRING)
                         .build())
-                    .resource(resource)
+                    .resource(srr.getResource())
                     .build();
         });
 
@@ -105,13 +105,13 @@ public class FHIRRestInteractionVisitorPersist extends FHIRRestInteractionVisito
 
     @Override
     public FHIRRestOperationResponse doRead(int entryIndex, String requestDescription, FHIRUrlParser requestURL,
-            long accumulatedTime, String type, String id, boolean throwExcOnNull, boolean includeDeleted,
+            long accumulatedTime, String type, String id, boolean throwExcOnNull,
             Resource contextResource, MultivaluedMap<String, String> queryParameters, boolean checkInteractionAllowed)
             throws Exception {
 
         doInteraction(entryIndex, requestDescription, accumulatedTime, () -> {
             // Perform the VREAD and return the result entry we want in the response bundle
-            SingleResourceResult<? extends Resource> readResult = helpers.doRead(type, id, throwExcOnNull, includeDeleted, contextResource, queryParameters);
+            SingleResourceResult<? extends Resource> readResult = helpers.doRead(type, id, throwExcOnNull, contextResource, queryParameters);
             return Entry.builder()
                     .response(Entry.Response.builder()
                         .status(SC_OK_STRING)

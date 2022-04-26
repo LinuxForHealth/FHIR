@@ -293,8 +293,6 @@ public interface FHIRResourceHelpers {
      *            the id of the Resource to be retrieved
      * @param throwExcOnNull
      *            whether to throw an exception on null
-     * @param includeDeleted
-     *            allow the read, even if the resource has been deleted
      * @param contextResource
      *            the resource
      * @param queryParameters
@@ -302,9 +300,9 @@ public interface FHIRResourceHelpers {
      * @return a SingleResourceResult wrapping the resource and including its deletion status
      * @throws Exception
      */
-    default SingleResourceResult<? extends Resource> doRead(String type, String id, boolean throwExcOnNull, boolean includeDeleted,
+    default SingleResourceResult<? extends Resource> doRead(String type, String id, boolean throwExcOnNull,
             Resource contextResource) throws Exception {
-        return doRead(type, id, throwExcOnNull, includeDeleted, contextResource, null);
+        return doRead(type, id, throwExcOnNull, contextResource, null);
     }
 
     /**
@@ -316,8 +314,6 @@ public interface FHIRResourceHelpers {
      *            the id of the Resource to be retrieved
      * @param throwExcOnNull
      *            whether to throw an exception on null
-     * @param includeDeleted
-     *            allow the read, even if the resource has been deleted
      * @param contextResource
      *            the resource
      * @param queryParameters
@@ -325,7 +321,7 @@ public interface FHIRResourceHelpers {
      * @return a SingleResourceResult wrapping the resource and including its deletion status
      * @throws Exception
      */
-    SingleResourceResult<? extends Resource> doRead(String type, String id, boolean throwExcOnNull, boolean includeDeleted,
+    SingleResourceResult<? extends Resource> doRead(String type, String id, boolean throwExcOnNull,
             Resource contextResource, MultivaluedMap<String, String> queryParameters) throws Exception;
 
     /**
@@ -340,7 +336,7 @@ public interface FHIRResourceHelpers {
      * @return the Resource
      * @throws Exception
      */
-    default Resource doVRead(String type, String id, String versionId) throws Exception {
+    default SingleResourceResult<? extends Resource> doVRead(String type, String id, String versionId) throws Exception {
         return doVRead(type, id, versionId, null);
     }
 
@@ -358,7 +354,7 @@ public interface FHIRResourceHelpers {
      * @return the Resource
      * @throws Exception
      */
-    Resource doVRead(String type, String id, String versionId, MultivaluedMap<String, String> queryParameters) throws Exception;
+    SingleResourceResult<? extends Resource> doVRead(String type, String id, String versionId, MultivaluedMap<String, String> queryParameters) throws Exception;
 
     /**
      * Performs the work of retrieving versions of a Resource.

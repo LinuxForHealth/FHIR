@@ -112,7 +112,7 @@ public class MeasureCollectDataOperationTest {
         Parameters parameters = Parameters.builder().parameter(pPeriodStart, pPeriodEnd, pReportType, pMeasure, pSubject).build();
 
         FHIRResourceHelpers resourceHelper = mock(FHIRResourceHelpers.class);
-        when(resourceHelper.doRead(eq("Patient"), eq(patient.getId()), anyBoolean(), anyBoolean(), any())).thenAnswer(x -> TestHelper.asResult(patient));
+        when(resourceHelper.doRead(eq("Patient"), eq(patient.getId()), anyBoolean(), any())).thenAnswer(x -> TestHelper.asResult(patient));
 
         when(resourceHelper.doSearch(eq("Encounter"), anyString(), anyString(), any(), anyString(), any())).thenReturn( bundle(encounter) );
         when(resourceHelper.doSearch(eq("Procedure"), anyString(), anyString(), any(), anyString(), any())).thenReturn( bundle(procedure) );
@@ -158,7 +158,7 @@ public class MeasureCollectDataOperationTest {
                 .build();
 
         FHIRResourceHelpers resourceHelper = mock(FHIRResourceHelpers.class);
-        when(resourceHelper.doRead(eq("Patient"), eq(patient.getId()), anyBoolean(), anyBoolean(), any())).thenAnswer(x -> TestHelper.asResult(patient));
+        when(resourceHelper.doRead(eq("Patient"), eq(patient.getId()), anyBoolean(), any())).thenAnswer(x -> TestHelper.asResult(patient));
 
         Parameters.Builder builder = Parameters.builder();
         operation.resolveReferences(encounter, builder, new HashMap<>(), resourceHelper);

@@ -19,7 +19,6 @@ public class FHIRRestInteractionRead extends FHIRRestInteractionBase {
     private final String type;
     private final String id;
     private final boolean throwExcOnNull;
-    private final boolean includeDeleted;
     private final Resource contextResource;
     private final MultivaluedMap<String, String> queryParameters;
     private final boolean checkInteractionAllowed;
@@ -33,19 +32,17 @@ public class FHIRRestInteractionRead extends FHIRRestInteractionBase {
      * @param type
      * @param id
      * @param throwExcOnNull
-     * @param includeDeleted
      * @param contextResource
      * @param queryParameters
      * @param checkInteractionAllowed
      */
     public FHIRRestInteractionRead(int entryIndex, String requestDescription, FHIRUrlParser requestURL,
-            String type, String id, boolean throwExcOnNull, boolean includeDeleted,
+            String type, String id, boolean throwExcOnNull,
             Resource contextResource, MultivaluedMap<String, String> queryParameters, boolean checkInteractionAllowed) {
         super(entryIndex, requestDescription, requestURL);
         this.type = type;
         this.id = id;
         this.throwExcOnNull = throwExcOnNull;
-        this.includeDeleted = includeDeleted;
         this.contextResource = contextResource;
         this.queryParameters = queryParameters;
         this.checkInteractionAllowed = checkInteractionAllowed;
@@ -53,6 +50,7 @@ public class FHIRRestInteractionRead extends FHIRRestInteractionBase {
 
     @Override
     public void process(FHIRRestInteractionVisitor visitor) throws Exception {
-        visitor.doRead(getEntryIndex(), getRequestDescription(), getRequestURL(), getAccumulatedTime(), type, id, throwExcOnNull, includeDeleted, contextResource, queryParameters, checkInteractionAllowed);
+        visitor.doRead(getEntryIndex(), getRequestDescription(), getRequestURL(), getAccumulatedTime(),
+                type, id, throwExcOnNull, contextResource, queryParameters, checkInteractionAllowed);
     }
 }

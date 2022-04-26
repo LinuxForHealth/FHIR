@@ -47,7 +47,6 @@ import com.ibm.fhir.model.type.code.IssueType;
 import com.ibm.fhir.model.type.code.ResourceType;
 import com.ibm.fhir.model.util.ModelSupport;
 import com.ibm.fhir.model.util.ReferenceFinder;
-import com.ibm.fhir.persistence.exception.FHIRPersistenceResourceDeletedException;
 import com.ibm.fhir.registry.FHIRRegistry;
 import com.ibm.fhir.search.SearchConstants;
 import com.ibm.fhir.search.compartment.CompartmentHelper;
@@ -167,11 +166,7 @@ public class EverythingOperation extends AbstractOperation {
 
         Patient patient = null;
         try {
-            patient = (Patient) resourceHelper.doRead(PATIENT, logicalId, false, false, null).getResource();
-        } catch (FHIRPersistenceResourceDeletedException fde) {
-            FHIROperationException exceptionWithIssue = buildExceptionWithIssue("Patient with ID '" + logicalId + "' "
-                    + "does not exist.", IssueType.NOT_FOUND);
-            throw exceptionWithIssue;
+            patient = (Patient) resourceHelper.doRead(PATIENT, logicalId, false, null).getResource();
         } catch (Exception e) {
             FHIROperationException exceptionWithIssue = buildExceptionWithIssue("An unexpected error occurred while "
                     + "reading patient '" + logicalId + "'", IssueType.EXCEPTION, e);

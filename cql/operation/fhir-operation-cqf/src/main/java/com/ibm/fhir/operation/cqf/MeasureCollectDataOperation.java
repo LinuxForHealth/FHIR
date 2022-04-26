@@ -108,7 +108,7 @@ public class MeasureCollectDataOperation extends EvaluateMeasureOperation {
 
                         if( ! resourceMap.containsKey(id) ) {
                             try {
-                                SingleResourceResult<? extends Resource> readResult = resourceHelper.doRead(type, id, /*throwExOnNull=*/true, /*includeDeleted=*/false, /*contextResource=*/null);
+                                SingleResourceResult<? extends Resource> readResult = resourceHelper.doRead(type, id, /*throwExOnNull=*/true, /*contextResource=*/null);
                                 if( readResult.isSuccess() ) {
                                     Resource fetchedResource = readResult.getResource();
                                     parameters.parameter(Parameter.builder().name(fhirstring(PARAM_OUT_RESOURCE)).resource(fetchedResource).build());

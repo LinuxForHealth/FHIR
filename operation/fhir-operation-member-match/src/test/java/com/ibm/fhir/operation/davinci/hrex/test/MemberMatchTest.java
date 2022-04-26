@@ -1675,13 +1675,13 @@ public class MemberMatchTest {
         }
 
         @Override
-        public SingleResourceResult<? extends Resource> doRead(String type, String id, boolean throwExcOnNull, boolean includeDeleted, Resource contextResource,
+        public SingleResourceResult<? extends Resource> doRead(String type, String id, boolean throwExcOnNull, Resource contextResource,
             MultivaluedMap<String, String> queryParameters) throws Exception {
             throw new AssertionError("Unused");
         }
 
         @Override
-        public Resource doVRead(String type, String id, String versionId, MultivaluedMap<String, String> queryParameters) throws Exception {
+        public SingleResourceResult<? extends Resource> doVRead(String type, String id, String versionId, MultivaluedMap<String, String> queryParameters) throws Exception {
             throw new AssertionError("Unused");
         }
 

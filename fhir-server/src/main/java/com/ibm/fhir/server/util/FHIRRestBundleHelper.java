@@ -460,7 +460,7 @@ public class FHIRRestBundleHelper {
         } else if (pathTokens.length == 2) {
             // This is a 'read' request.
             checkResourceType(pathTokens[0]);
-            result = new FHIRRestInteractionRead(entryIndex, requestDescription, requestURL, pathTokens[0], pathTokens[1], true, false, null, null, true);
+            result = new FHIRRestInteractionRead(entryIndex, requestDescription, requestURL, pathTokens[0], pathTokens[1], true, null, null, true);
         } else if (pathTokens.length == 3) {
             if ("_history".equals(pathTokens[2])) {
                 // This is a 'history' request.

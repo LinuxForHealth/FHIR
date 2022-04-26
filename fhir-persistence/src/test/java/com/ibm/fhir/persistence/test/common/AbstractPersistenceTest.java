@@ -291,6 +291,11 @@ public abstract class AbstractPersistenceTest {
         Class<? extends Resource> resourceType = resource.getClass();
         SingleResourceResult<? extends Resource> srr = persistence.read(context, resourceType, resource.getId());
 
+        // If its already deleted, then nothing to do
+        if (srr.isDeleted()) {
+            return;
+        }
+
         // If we weren't able to read the resource, we need to bail on the delete, just like the FHIRRestHelper.
         if (srr.getResource() == null) {
             throw new FHIRPersistenceResourceNotFoundException("Resource '"

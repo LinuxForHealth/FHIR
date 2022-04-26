@@ -78,7 +78,7 @@ public class ServerFHIRRetrieveProviderTest {
         when(result.isSuccess()).thenReturn(true);
         when(result.getResource()).thenReturn(p1);
 
-        when(helpers.doRead(eq("Patient"), eq("123"), eq(true), eq(false), isNull())).thenReturn(result);
+        when(helpers.doRead(eq("Patient"), eq("123"), eq(true), isNull())).thenReturn(result);
 
         Iterable<Object> resources = provider.retrieve("Patient", "id", "123", "Patient", null, null, null, null, null, null, null, null);
         assertNotNull(resources);
@@ -94,7 +94,7 @@ public class ServerFHIRRetrieveProviderTest {
 
     @Test(expectedExceptions = RuntimeException.class)
     public void testQueryByIdNotFound() throws Exception {
-        when(helpers.doRead(eq("Patient"), eq("123"), eq(true), eq(false), isNull())).thenThrow(FHIRPersistenceResourceNotFoundException.class);
+        when(helpers.doRead(eq("Patient"), eq("123"), eq(true), isNull())).thenThrow(FHIRPersistenceResourceNotFoundException.class);
 
         provider.retrieve("Patient", "id", "123", "Patient", null, null, null, null, null, null, null, null);
     }

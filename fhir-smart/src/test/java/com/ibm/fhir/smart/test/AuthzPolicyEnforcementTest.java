@@ -265,9 +265,11 @@ public class AuthzPolicyEnforcementTest {
         properties.put(FHIRPersistenceEvent.PROPNAME_RESOURCE_TYPE, "Patient");
         properties.put(FHIRPersistenceEvent.PROPNAME_RESOURCE_ID, "bogus");
         FHIRPersistenceEvent event = new FHIRPersistenceEvent(patient, properties);
+        event.setFhirResource(null);
 
         try {
             interceptor.beforeRead(event);
+            interceptor.afterRead(event);
             fail("Patient read was allowed but should not be");
         } catch (FHIRPersistenceInterceptorException e) {
             // success
@@ -275,6 +277,7 @@ public class AuthzPolicyEnforcementTest {
 
         try {
             interceptor.beforeVread(event);
+            interceptor.afterVread(event);
             fail("Patient vread was allowed but should not be");
         } catch (FHIRPersistenceInterceptorException e) {
             // success
@@ -282,6 +285,10 @@ public class AuthzPolicyEnforcementTest {
 
         try {
             interceptor.beforeHistory(event);
+            event.setFhirResource(Bundle.builder()
+                    .type(BundleType.HISTORY)
+                    .build());
+            interceptor.afterHistory(event);
             fail("Patient history was allowed but should not be");
         } catch (FHIRPersistenceInterceptorException e) {
             // success
@@ -479,7 +486,7 @@ public class AuthzPolicyEnforcementTest {
                 assertEquals(e.getIssues().size(), 1);
                 assertEquals(e.getIssues().get(0).getCode(), IssueType.FORBIDDEN);
                 assertEquals(e.getIssues().get(0).getDetails().getText().getValue(),
-                        "The resource 'Encounter/bogus' does not exist.");
+                        "Interaction with 'Encounter/bogus' is not permitted for patient context [11111111-1111-1111-1111-111111111111]");
             } else {
                 fail("Encounter compartment interaction was not allowed but should have been", e);
             }
@@ -692,15 +699,17 @@ public class AuthzPolicyEnforcementTest {
 
         try {
             properties.put(FHIRPersistenceEvent.PROPNAME_RESOURCE_TYPE, "Patient");
+            properties.put(FHIRPersistenceEvent.PROPNAME_RESOURCE_ID, PATIENT_ID);
             FHIRPersistenceEvent event = new FHIRPersistenceEvent(patient, properties);
             interceptor.afterRead(event);
             assertTrue(shouldSucceed(resourceTypesPermittedByScope, PATIENT, READ_APPROVED, permission));
         } catch (FHIRPersistenceInterceptorException e) {
-            assertFalse(shouldSucceed(resourceTypesPermittedByScope, PATIENT, READ_APPROVED, permission));
+            assertFalse(shouldSucceed(resourceTypesPermittedByScope, PATIENT, READ_APPROVED, permission), e.getMessage());
         }
 
         try {
             properties.put(FHIRPersistenceEvent.PROPNAME_RESOURCE_TYPE, "Observation");
+            properties.put(FHIRPersistenceEvent.PROPNAME_RESOURCE_ID, OBSERVATION_ID);
             FHIRPersistenceEvent event = new FHIRPersistenceEvent(observation, properties);
             interceptor.afterRead(event);
             assertTrue(shouldSucceed(resourceTypesPermittedByScope, OBSERVATION, READ_APPROVED, permission));
@@ -710,6 +719,7 @@ public class AuthzPolicyEnforcementTest {
 
         try {
             properties.put(FHIRPersistenceEvent.PROPNAME_RESOURCE_TYPE, "Condition");
+            properties.put(FHIRPersistenceEvent.PROPNAME_RESOURCE_ID, CONDITION_ID);
             FHIRPersistenceEvent event = new FHIRPersistenceEvent(condition, properties);
             interceptor.afterRead(event);
             assertTrue(shouldSucceed(resourceTypesPermittedByScope, CONDITION, READ_APPROVED, permission));
@@ -719,6 +729,7 @@ public class AuthzPolicyEnforcementTest {
 
         try {
             properties.put(FHIRPersistenceEvent.PROPNAME_RESOURCE_TYPE, "Provenance");
+            properties.put(FHIRPersistenceEvent.PROPNAME_RESOURCE_ID, PATIENT_PROVENANCE_ID);
             FHIRPersistenceEvent event = new FHIRPersistenceEvent(patientProvenance, properties);
             interceptor.afterRead(event);
             assertTrue(shouldSucceed(resourceTypesPermittedByScope, PROVENANCE, READ_APPROVED, permission));
@@ -728,6 +739,7 @@ public class AuthzPolicyEnforcementTest {
 
         try {
             properties.put(FHIRPersistenceEvent.PROPNAME_RESOURCE_TYPE, "Provenance");
+            properties.put(FHIRPersistenceEvent.PROPNAME_RESOURCE_ID, OBSERVATION_PROVENANCE_ID);
             FHIRPersistenceEvent event = new FHIRPersistenceEvent(observationProvenance, properties);
             interceptor.afterRead(event);
             assertTrue(shouldSucceed(resourceTypesPermittedByScope, PROVENANCE, READ_APPROVED, permission));
@@ -742,6 +754,7 @@ public class AuthzPolicyEnforcementTest {
 
         try {
             properties.put(FHIRPersistenceEvent.PROPNAME_RESOURCE_TYPE, "Patient");
+            properties.put(FHIRPersistenceEvent.PROPNAME_RESOURCE_ID, PATIENT_ID);
             FHIRPersistenceEvent event = new FHIRPersistenceEvent(patient, properties);
             interceptor.afterVread(event);
             assertTrue(shouldSucceed(typesPermittedByScopes, PATIENT, READ_APPROVED, permission));
@@ -751,6 +764,7 @@ public class AuthzPolicyEnforcementTest {
 
         try {
             properties.put(FHIRPersistenceEvent.PROPNAME_RESOURCE_TYPE, "Observation");
+            properties.put(FHIRPersistenceEvent.PROPNAME_RESOURCE_ID, OBSERVATION_ID);
             FHIRPersistenceEvent event = new FHIRPersistenceEvent(observation, properties);
             interceptor.afterVread(event);
             assertTrue(shouldSucceed(typesPermittedByScopes, OBSERVATION, READ_APPROVED, permission));
@@ -760,11 +774,32 @@ public class AuthzPolicyEnforcementTest {
 
         try {
             properties.put(FHIRPersistenceEvent.PROPNAME_RESOURCE_TYPE, "Condition");
+            properties.put(FHIRPersistenceEvent.PROPNAME_RESOURCE_ID, CONDITION_ID);
             FHIRPersistenceEvent event = new FHIRPersistenceEvent(condition, properties);
             interceptor.afterVread(event);
             assertTrue(shouldSucceed(typesPermittedByScopes, CONDITION, READ_APPROVED, permission));
         } catch (FHIRPersistenceInterceptorException e) {
             assertFalse(shouldSucceed(typesPermittedByScopes, CONDITION, READ_APPROVED, permission));
+        }
+
+        try {
+            properties.put(FHIRPersistenceEvent.PROPNAME_RESOURCE_TYPE, "Provenance");
+            properties.put(FHIRPersistenceEvent.PROPNAME_RESOURCE_ID, PATIENT_PROVENANCE_ID);
+            FHIRPersistenceEvent event = new FHIRPersistenceEvent(patientProvenance, properties);
+            interceptor.afterVread(event);
+            assertTrue(shouldSucceed(typesPermittedByScopes, PROVENANCE, READ_APPROVED, permission));
+        } catch (FHIRPersistenceInterceptorException e) {
+            assertFalse(shouldSucceed(typesPermittedByScopes, PROVENANCE, READ_APPROVED, permission));
+        }
+
+        try {
+            properties.put(FHIRPersistenceEvent.PROPNAME_RESOURCE_TYPE, "Provenance");
+            properties.put(FHIRPersistenceEvent.PROPNAME_RESOURCE_ID, OBSERVATION_PROVENANCE_ID);
+            FHIRPersistenceEvent event = new FHIRPersistenceEvent(observationProvenance, properties);
+            interceptor.afterVread(event);
+            assertTrue(shouldSucceed(typesPermittedByScopes, PROVENANCE, READ_APPROVED, permission));
+        } catch (FHIRPersistenceInterceptorException e) {
+            assertFalse(shouldSucceed(typesPermittedByScopes, PROVENANCE, READ_APPROVED, permission));
         }
     }
 
@@ -1484,11 +1519,15 @@ public class AuthzPolicyEnforcementTest {
 
         return new Object[][] {
             //String scopeString, String context, Set<ResourceType.Value> resourceTypesPermittedByScope, Permission permission
+
             {"patient/*.*", null, all_resources, null},
-            {"patient/*.*", CONTEXT_IDS, Collections.EMPTY_SET, null},
-            {"patient/*.read", CONTEXT_IDS, Collections.EMPTY_SET, null},
-            {"patient/*.write", CONTEXT_IDS, Collections.EMPTY_SET, null},
-            {"patient/Patient.* patient/Provenance.*", CONTEXT_IDS, Collections.EMPTY_SET, null},
+            // even though the scopes apply to many types, because the resource contents are missing
+            // we can only assume compartment membership for the Patient resource (the "identity" of the compartment)
+            // and the provenance that points to that
+            {"patient/*.*", CONTEXT_IDS, union(patient, provenance), Permission.ALL},
+            {"patient/*.read", CONTEXT_IDS, union(patient, provenance), Permission.READ},
+            {"patient/*.write", CONTEXT_IDS, union(patient, provenance), Permission.WRITE},
+            {"patient/Patient.* patient/Provenance.*", CONTEXT_IDS, union(patient, provenance), Permission.ALL},
             {"patient/Observation.* patient/Provenance.*", CONTEXT_IDS, Collections.EMPTY_SET, null},
 
             {"user/*.*", CONTEXT_IDS, all_resources, Permission.ALL},

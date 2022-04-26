@@ -90,7 +90,7 @@ public class FHIRRestInteractionVisitorMeta extends FHIRRestInteractionVisitorBa
     }
 
     @Override
-    public FHIRRestOperationResponse doRead(int entryIndex, String requestDescription, FHIRUrlParser requestURL, long accumulatedTime, String type, String id, boolean throwExcOnNull, boolean includeDeleted, Resource contextResource,
+    public FHIRRestOperationResponse doRead(int entryIndex, String requestDescription, FHIRUrlParser requestURL, long accumulatedTime, String type, String id, boolean throwExcOnNull, Resource contextResource,
         MultivaluedMap<String, String> queryParameters, boolean checkInteractionAllowed) throws Exception {
         // NOP for now. TODO: when offloading payload, try an optimistic async read of the latest payload
         logStart(entryIndex, requestDescription, requestURL);

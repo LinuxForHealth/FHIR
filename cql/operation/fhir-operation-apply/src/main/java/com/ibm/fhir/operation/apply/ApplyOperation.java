@@ -207,9 +207,9 @@ public class ApplyOperation extends AbstractOperation {
         return result;
     }
 
-    /*
+    /**
      * Transforms the CarePlan resource.
-     * @param resource
+     * @param planDefinition
      * @param subjects
      * @param encounter
      * @param practitioner
@@ -222,10 +222,9 @@ public class ApplyOperation extends AbstractOperation {
      * @return
      */
     private CarePlan transform(PlanDefinition planDefinition, List<String> subjects,
-        String encounter,
-        String practitioner, String organization, CodeableConcept userType,
-        CodeableConcept userLanguage, CodeableConcept userTaskContext, CodeableConcept setting,
-        CodeableConcept settingContext) {
+            String encounter, String practitioner, String organization, CodeableConcept userType,
+            CodeableConcept userLanguage, CodeableConcept userTaskContext, CodeableConcept setting,
+            CodeableConcept settingContext) {
         CarePlan.Builder builder = CarePlan.builder();
 
         if (planDefinition.getUrl() != null) {
@@ -381,27 +380,6 @@ public class ApplyOperation extends AbstractOperation {
         }
         builder.activity(activities);
         builder.intent(CarePlanIntent.PLAN);
-
-        /**
-         * A single activity represented by a RequestGroup.
-         * <p>
-         * RequestGroup has multiple actions for each of the applicable actions in the plan based on evaluating the
-         * applicability condition in context.
-         * <p>
-         * For each applicable action, the definition is applied as described in the $apply operation of the
-         * ActivityDefinition resource, and the resulting resource is added as an activity to the CarePlan.
-         * <p>
-         * If the ActivityDefinition includes library references, those libraries will be available to the evaluated
-         * expressions.
-         * <p>
-         * If those libraries have parameters, those parameters will be bound by name to the parameters given to the
-         * operation.
-         * <p>
-         * In addition, parameters to the $apply operation are available within dynamicValue expressions as context
-         * variables, accessible by the name of the parameter, prefixed with a percent (%) symbol.
-         * <p>
-         * For a more detailed description, refer to the PlanDefinition and ActivityDefinition resource documentation
-         */
     }
 
     private List<Action> getActions(List<Action> actions) {
@@ -415,16 +393,16 @@ public class ApplyOperation extends AbstractOperation {
         return result;
     }
 
-    /*
+    /**
      * reads the plan definition and converts to PlanDefinition resource.
      * @param resourceHelper
      * @param planDefinitionId
      * @return
      */
     private PlanDefinition checkAndRetrievePlanDefinition(FHIRResourceHelpers resourceHelper,
-        String planDefinitionId) throws Exception {
+            String planDefinitionId) throws Exception {
         Resource resource =
-                resourceHelper.doRead("PlanDefinition", planDefinitionId, false, false, null).getResource();
+                resourceHelper.doRead("PlanDefinition", planDefinitionId, false, null).getResource();
         if (resource == null) {
             throw buildOperationExceptionNotFound("Could not find 'PlanDefinition' with id: ["
                     + planDefinitionId + "]");
@@ -432,18 +410,18 @@ public class ApplyOperation extends AbstractOperation {
         return (PlanDefinition) resource;
     }
 
-    /*
+    /**
      * validates the resource is of the PlanDefinition type.
      * @param resourceType
      */
     private void checkAndValidateResourceType(Class<? extends Resource> resourceType)
-        throws FHIROperationException {
+            throws FHIROperationException {
         if ("PlanDefinition".compareTo(resourceType.getSimpleName()) != 0) {
             throw buildOperationException("$apply operation is available for PlanDefinition only");
         }
     }
 
-    /*
+    /**
      * checks the plan definition logical Id.
      * @param logicalId
      * @param queryParameters
@@ -451,7 +429,7 @@ public class ApplyOperation extends AbstractOperation {
      * @throws FHIROperationException
      */
     private String checkPlanDefintionLogicalId(String logicalId,
-        MultivaluedMap<String, String> queryParameters) throws FHIROperationException {
+            MultivaluedMap<String, String> queryParameters) throws FHIROperationException {
         String checkedLogicalId = logicalId;
 
         // Instance
@@ -480,14 +458,14 @@ public class ApplyOperation extends AbstractOperation {
         return checkedLogicalId;
     }
 
-    /*
+    /**
      * Checks each of the subjects to see if they are valid. If the subject is invalid, the code throws and exception.
      * @param queryParameters
      * @return
      * @throws FHIROperationException
      */
     private List<String> checkSubjects(MultivaluedMap<String, String> queryParameters)
-        throws FHIROperationException {
+            throws FHIROperationException {
         List<String> subjects = queryParameters.get(PARAM_SUBJECT);
 
         // Null and Empty Check

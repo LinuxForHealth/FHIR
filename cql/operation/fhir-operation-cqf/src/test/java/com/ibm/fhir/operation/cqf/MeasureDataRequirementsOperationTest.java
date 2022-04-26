@@ -61,7 +61,7 @@ public class MeasureDataRequirementsOperationTest extends BaseDataRequirementsOp
                                 .build()).build())
                     .build())
                 .build();
-        
+
         primaryLibraryExists = true;
     }
 
@@ -81,7 +81,7 @@ public class MeasureDataRequirementsOperationTest extends BaseDataRequirementsOp
         Library moduleDefinition = (Library) outParams.getParameter().get(0).getResource();
         assertEquals(moduleDefinition.getRelatedArtifact().stream().filter( ra -> ra.getResource().getValue().equals(measure.getLibrary().get(0).getValue()) ).count(), 1);
     }
-    
+
     @Test(expectedExceptions = { FHIROperationException.class } , expectedExceptionsMessageRegExp  = "Failed to resolve Library resource.*")
     public void testInstanceExecutionMissingPrimaryLibrary() throws Exception {
         primaryLibraryExists = false;
@@ -91,7 +91,7 @@ public class MeasureDataRequirementsOperationTest extends BaseDataRequirementsOp
                 .parameter(Parameters.Parameter.builder().name(fhirstring("periodStart")).value(Date.of("2000-01-01")).build())
                 .parameter(Parameters.Parameter.builder().name(fhirstring("periodEnd")).value(Date.of("2001-01-01")).build())
                 .build();
- 
+
         runTest(FHIROperationContext.createInstanceOperationContext("data-requirements"),
             Measure.class, primaryLibrary -> measureId, primaryLibrary -> inParams);
     }
@@ -102,7 +102,7 @@ public class MeasureDataRequirementsOperationTest extends BaseDataRequirementsOp
 
         measure = measure.toBuilder().library( canonical(primaryLibrary) ).build();
 
-        when(resourceHelper.doRead(eq("Measure"), eq(measure.getId()), anyBoolean(), anyBoolean(), any())).thenAnswer(x -> TestHelper.asResult(measure));
+        when(resourceHelper.doRead(eq("Measure"), eq(measure.getId()), anyBoolean(), any())).thenAnswer(x -> TestHelper.asResult(measure));
         when(mockRegistry.getResource( canonical(measure.getUrl(), measure.getVersion()).getValue(), Measure.class )).thenReturn(measure);
 
         return primaryLibrary;

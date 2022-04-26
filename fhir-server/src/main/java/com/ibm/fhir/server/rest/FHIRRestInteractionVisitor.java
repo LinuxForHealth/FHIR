@@ -89,8 +89,6 @@ public interface FHIRRestInteractionVisitor {
      *            the id of the Resource to be retrieved
      * @param throwExcOnNull
      *            whether to throw an exception on null
-     * @param includeDeleted
-     *            allow the read, even if the resource has been deleted
      * @param contextResource
      *            the resource
      * @param queryParameters
@@ -99,7 +97,7 @@ public interface FHIRRestInteractionVisitor {
      * @throws Exception
      */
     FHIRRestOperationResponse doRead(int entryIndex, String requestDescription, FHIRUrlParser requestURL,
-            long accumulatedTime, String type, String id, boolean throwExcOnNull, boolean includeDeleted,
+            long accumulatedTime, String type, String id, boolean throwExcOnNull,
             Resource contextResource, MultivaluedMap<String, String> queryParameters, boolean checkInteractionAllowed)
             throws Exception;
 

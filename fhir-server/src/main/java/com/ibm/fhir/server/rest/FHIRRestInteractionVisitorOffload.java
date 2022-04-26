@@ -67,7 +67,7 @@ public class FHIRRestInteractionVisitorOffload extends FHIRRestInteractionVisito
     }
 
     @Override
-    public FHIRRestOperationResponse doRead(int entryIndex, String requestDescription, FHIRUrlParser requestURL, long accumulatedTime, String type, String id, boolean throwExcOnNull, boolean includeDeleted, Resource contextResource,
+    public FHIRRestOperationResponse doRead(int entryIndex, String requestDescription, FHIRUrlParser requestURL, long accumulatedTime, String type, String id, boolean throwExcOnNull, Resource contextResource,
             MultivaluedMap<String, String> queryParameters, boolean checkInteractionAllowed) throws Exception {
         // NOP for now. TODO: when offloading payload, try an optimistic async read of the latest payload
         return null;
@@ -113,7 +113,7 @@ public class FHIRRestInteractionVisitorOffload extends FHIRRestInteractionVisito
             // Resource doesn't change, so no need to return it
             FHIRRestOperationResponse result = new FHIRRestOperationResponse(null, null, actualOffloadResponse);
             result.setDeleted(isDeleted);
-            
+
             return result;
         });
     }
@@ -163,8 +163,8 @@ public class FHIRRestInteractionVisitorOffload extends FHIRRestInteractionVisito
     /**
      * If payload offloading is supported by the persistence layer, store the given resource. This
      * can be an async operation which we resolve at the end just prior to the transaction being
-     * committed. If offloading isn't enabled, the operation is a NOP and the persistence layer 
-     * returns null. 
+     * committed. If offloading isn't enabled, the operation is a NOP and the persistence layer
+     * returns null.
      * @param resource
      * @param logicalId
      * @param newVersionNumber
@@ -177,7 +177,7 @@ public class FHIRRestInteractionVisitorOffload extends FHIRRestInteractionVisito
 
     /**
      * Unified exception handling for each of the operation calls
-     * 
+     *
      * @param entryIndex
      * @param requestDescription
      * @param accumulatedTime

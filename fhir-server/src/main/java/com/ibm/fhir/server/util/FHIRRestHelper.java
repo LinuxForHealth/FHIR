@@ -109,6 +109,7 @@ import com.ibm.fhir.persistence.context.impl.FHIRPersistenceContextImpl;
 import com.ibm.fhir.persistence.erase.EraseDTO;
 import com.ibm.fhir.persistence.exception.FHIRPersistenceException;
 import com.ibm.fhir.persistence.exception.FHIRPersistenceIfNoneMatchException;
+import com.ibm.fhir.persistence.exception.FHIRPersistenceResourceDeletedException;
 import com.ibm.fhir.persistence.exception.FHIRPersistenceResourceNotFoundException;
 import com.ibm.fhir.persistence.helper.FHIRTransactionHelper;
 import com.ibm.fhir.persistence.jdbc.exception.FHIRPersistenceDataAccessException;
@@ -157,7 +158,6 @@ public class FHIRRestHelper implements FHIRResourceHelpers {
 
     // Convenience constants to make call parameters more readable
     private static final boolean THROW_EXC_ON_NULL = true;
-    private static final boolean INCLUDE_DELETED = true;
     private static final boolean CHECK_INTERACTION_ALLOWED = true;
 
     // default number of entries in system history if no _count is given
@@ -574,7 +574,7 @@ public class FHIRRestHelper implements FHIRResourceHelpers {
                         // this is going to be an update or create. This also now gives us the version id
                         // needed to correctly update the meta for the new resource
                         id = newResource.getId();
-                        SingleResourceResult<? extends Resource> srr = doRead(type, id, false, true, newResource, null, false);
+                        SingleResourceResult<? extends Resource> srr = doRead(type, id, false, newResource, null, false);
                         ior.setPrevResource(srr.getResource()); // might be null if resource is deleted
                         isDeleted = srr.isDeleted();
                         currentVersion = srr.getVersion();
@@ -638,7 +638,7 @@ public class FHIRRestHelper implements FHIRResourceHelpers {
 
                 // Retrieve the resource to be updated using the type and id values. Include
                 // the resource even if it has been deleted
-                SingleResourceResult<? extends Resource> srr = doRead(type, id, (patch != null), INCLUDE_DELETED, newResource, null, false);
+                SingleResourceResult<? extends Resource> srr = doRead(type, id, (patch != null), newResource, null, false);
                 ior.setPrevResource(srr.getResource());
                 isDeleted = srr.isDeleted();
                 currentVersion = srr.getVersion();
@@ -976,7 +976,7 @@ public class FHIRRestHelper implements FHIRResourceHelpers {
                 }
 
                 // Read the resource so it will be available to the beforeDelete interceptor methods.
-                SingleResourceResult<? extends Resource> srr = doRead(type, id, !THROW_EXC_ON_NULL, INCLUDE_DELETED, null, null, !CHECK_INTERACTION_ALLOWED);
+                SingleResourceResult<? extends Resource> srr = doRead(type, id, !THROW_EXC_ON_NULL, null, null, !CHECK_INTERACTION_ALLOWED);
                 if (srr.isDeleted()) {
                     // Because the resource is already deleted, we can't create a
                     warnings.add(buildOperationOutcomeIssue(IssueSeverity.WARNING, IssueType.DELETED, "Resource of type '"
@@ -1078,15 +1078,15 @@ public class FHIRRestHelper implements FHIRResourceHelpers {
     }
 
     @Override
-    public SingleResourceResult<? extends Resource> doRead(String type, String id, boolean throwExcOnNull, boolean includeDeleted,
+    public SingleResourceResult<? extends Resource> doRead(String type, String id, boolean throwExcOnNull,
             Resource contextResource) throws Exception {
-        return doRead(type, id, throwExcOnNull, includeDeleted, contextResource, null);
+        return doRead(type, id, throwExcOnNull, contextResource, null);
     }
 
     @Override
-    public SingleResourceResult<? extends Resource> doRead(String type, String id, boolean throwExcOnNull, boolean includeDeleted,
+    public SingleResourceResult<? extends Resource> doRead(String type, String id, boolean throwExcOnNull,
             Resource contextResource, MultivaluedMap<String, String> queryParameters) throws Exception {
-        return doRead(type, id, throwExcOnNull, includeDeleted, contextResource, queryParameters, true);
+        return doRead(type, id, throwExcOnNull, contextResource, queryParameters, true);
     }
 
     /**
@@ -1098,10 +1098,6 @@ public class FHIRRestHelper implements FHIRResourceHelpers {
      *            the id of the Resource to be retrieved
      * @param throwExcOnNull
      *            if true, throw an exception if returned resource is null
-     * @param includeDeleted
-     *            if true, return resource even if deleted
-     * @param requestProperties
-     *            additional request properties which supplement the HTTP headers associated with this request
      * @param contextResource
      *            a FHIR resource associated with this request
      * @param queryParameters
@@ -1111,7 +1107,8 @@ public class FHIRRestHelper implements FHIRResourceHelpers {
      * @return a {@link SingleResourceResult} containing the Resource
      * @throws Exception
      */
-    private SingleResourceResult<? extends Resource> doRead(String type, String id, boolean throwExcOnNull, boolean includeDeleted,
+    // TODO remove contextResource?  it doesn't seem to ever be populated...
+    private SingleResourceResult<? extends Resource> doRead(String type, String id, boolean throwExcOnNull,
             Resource contextResource, MultivaluedMap<String, String> queryParameters, boolean checkInteractionAllowed)
             throws Exception {
         log.entering(this.getClass().getName(), "doRead");
@@ -1150,15 +1147,19 @@ public class FHIRRestHelper implements FHIRResourceHelpers {
             getInterceptorMgr().fireBeforeReadEvent(event);
 
             FHIRPersistenceContext persistenceContext =
-                    FHIRPersistenceContextFactory.createPersistenceContext(event, includeDeleted, searchContext);
+                    FHIRPersistenceContextFactory.createPersistenceContext(event, searchContext);
             result = persistence.read(persistenceContext, resourceType, id);
             event.setFhirResource(result.getResource());
 
             // Invoke the 'afterRead' interceptor methods.
             getInterceptorMgr().fireAfterReadEvent(event);
 
-            if (!result.isSuccess() && throwExcOnNull) {
-                throw new FHIRPersistenceResourceNotFoundException("Resource '" + type + "/" + id + "' not found.");
+            if (result.getResource() == null && throwExcOnNull) {
+                if (result.isDeleted()) {
+                    throw new FHIRPersistenceResourceDeletedException("Resource '" + type + "/" + id + "' is deleted.");
+                } else {
+                    throw new FHIRPersistenceResourceNotFoundException("Resource '" + type + "/" + id + "' not found.");
+                }
             }
 
             // Commit our transaction if we started one before.
@@ -1180,7 +1181,7 @@ public class FHIRRestHelper implements FHIRResourceHelpers {
     }
 
     @Override
-    public Resource doVRead(String type, String id, String versionId, MultivaluedMap<String, String> queryParameters)
+    public SingleResourceResult<? extends Resource> doVRead(String type, String id, String versionId, MultivaluedMap<String, String> queryParameters)
             throws Exception {
         log.entering(this.getClass().getName(), "doVRead");
 
@@ -1216,23 +1217,28 @@ public class FHIRRestHelper implements FHIRResourceHelpers {
             FHIRPersistenceContext persistenceContext =
                     FHIRPersistenceContextFactory.createPersistenceContext(event, searchContext);
             SingleResourceResult<? extends Resource> srr = persistence.vread(persistenceContext, resourceType, id, versionId);
-            if (!srr.isSuccess() || srr.getResource() == null && !srr.isDeleted()) {
-                throw new FHIRPersistenceResourceNotFoundException("Resource '"
-                        + resourceType.getSimpleName() + "/" + id + "' version " + versionId + " not found.");
-            }
 
-            // The resource should exist at this point because if not found, we have already thrown
-            // FHIRPersistenceResourceNotFoundException or, if deleted, a FHIRPersistenceResourceDeletedException.
+            // The resource may be null if it doesn't exist or has been deleted
             event.setFhirResource(srr.getResource());
 
             // Invoke the 'afterVread' interceptor methods.
             getInterceptorMgr().fireAfterVreadEvent(event);
 
+            if (srr.getResource() == null) {
+                if (srr.isDeleted()) {
+                    throw new FHIRPersistenceResourceDeletedException("Resource '" + type + "/" + id + "'"
+                            + " version " + versionId + " is deleted.");
+                } else {
+                    throw new FHIRPersistenceResourceNotFoundException("Resource '" + type + "/" + id + "'"
+                            + " version " + versionId + " not found.");
+                }
+            }
+
             // Commit our transaction if we started one before.
             txn.commit();
             txn = null;
 
-            return srr.getResource();
+            return srr;
         } finally {
             // Restore the original request context.
             FHIRRequestContext.set(requestContext);

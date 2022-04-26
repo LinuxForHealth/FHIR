@@ -27,7 +27,9 @@ import javax.ws.rs.core.Response.Status;
 
 import com.ibm.fhir.core.FHIRMediaType;
 import com.ibm.fhir.exception.FHIROperationException;
+import com.ibm.fhir.model.resource.OperationOutcome;
 import com.ibm.fhir.model.resource.Resource;
+import com.ibm.fhir.persistence.SingleResourceResult;
 import com.ibm.fhir.server.spi.operation.FHIRRestOperationResponse;
 import com.ibm.fhir.server.util.FHIRRestHelper;
 import com.ibm.fhir.server.util.RestAuditLogger;
@@ -61,11 +63,17 @@ public class VRead extends FHIRResource {
             MultivaluedMap<String, String> queryParameters = uriInfo.getQueryParameters();
 
             FHIRRestHelper helper = new FHIRRestHelper(getPersistenceImpl(), getSearchHelper());
-            Resource resource = helper.doVRead(type, id, vid, queryParameters);
-            status = Status.OK;
-            ResponseBuilder response = Response.ok().entity(resource);
-            response = addETagAndLastModifiedHeaders(response, resource);
-            return response.build();
+            SingleResourceResult<? extends Resource> srr = helper.doVRead(type, id, vid, queryParameters);
+            if (srr.isSuccess()) {
+                status = Status.OK;
+                ResponseBuilder response = Response.ok().entity(srr.getResource());
+                response = addETagAndLastModifiedHeaders(response, srr.getResource());
+                return response.build();
+            } else {
+                OperationOutcome oo = srr.getOutcome();
+                status = issueListToStatus(oo.getIssue());
+                return exceptionResponse(oo, status);
+            }
         } catch (FHIROperationException e) {
             status = issueListToStatus(e.getIssues());
             return exceptionResponse(e, status);
