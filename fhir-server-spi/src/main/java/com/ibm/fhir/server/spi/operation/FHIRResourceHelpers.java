@@ -293,16 +293,12 @@ public interface FHIRResourceHelpers {
      *            the id of the Resource to be retrieved
      * @param throwExcOnNull
      *            whether to throw an exception on null
-     * @param contextResource
-     *            the resource
-     * @param queryParameters
-     *            for supporting _elements and _summary for resource read
      * @return a SingleResourceResult wrapping the resource and including its deletion status
      * @throws Exception
      */
-    default SingleResourceResult<? extends Resource> doRead(String type, String id, boolean throwExcOnNull,
-            Resource contextResource) throws Exception {
-        return doRead(type, id, throwExcOnNull, contextResource, null);
+    default SingleResourceResult<? extends Resource> doRead(String type, String id, boolean throwExcOnNull)
+            throws Exception {
+        return doRead(type, id, throwExcOnNull, null);
     }
 
     /**
@@ -314,15 +310,13 @@ public interface FHIRResourceHelpers {
      *            the id of the Resource to be retrieved
      * @param throwExcOnNull
      *            whether to throw an exception on null
-     * @param contextResource
-     *            the resource
      * @param queryParameters
      *            for supporting _elements and _summary for resource read
      * @return a SingleResourceResult wrapping the resource and including its deletion status
      * @throws Exception
      */
     SingleResourceResult<? extends Resource> doRead(String type, String id, boolean throwExcOnNull,
-            Resource contextResource, MultivaluedMap<String, String> queryParameters) throws Exception;
+            MultivaluedMap<String, String> queryParameters) throws Exception;
 
     /**
      * Performs a 'vread' operation by retrieving the specified version of a Resource with no query parameters
@@ -419,13 +413,11 @@ public interface FHIRResourceHelpers {
      *            a Map containing the query parameters from the request URL
      * @param requestUri
      *            the request URI
-     * @param contextResource
-     *            the resource context
      * @return a Bundle containing the search result set
      * @throws Exception
      */
     Bundle doSearch(String type, String compartment, String compartmentId, MultivaluedMap<String, String> queryParameters,
-            String requestUri, Resource contextResource) throws Exception;
+            String requestUri) throws Exception;
 
     /**
      * Performs heavy lifting associated with a 'search' operation.
@@ -440,8 +432,6 @@ public interface FHIRResourceHelpers {
      *            a Map containing the query parameters from the request URL
      * @param requestUri
      *            the request URI
-     * @param contextResource
-     *            the resource context
      * @param checkIfInteractionAllowed
      *            if true, check that the search interaction is permitted
      * @param alwaysIncludeResources
@@ -450,7 +440,7 @@ public interface FHIRResourceHelpers {
      * @throws Exception
      */
     Bundle doSearch(String type, String compartment, String compartmentId, MultivaluedMap<String, String> queryParameters,
-        String requestUri, Resource contextResource, boolean checkIfInteractionAllowed, boolean alwaysIncludeResources) throws Exception;
+            String requestUri, boolean checkIfInteractionAllowed, boolean alwaysIncludeResources) throws Exception;
 
     /**
      * Helper method which invokes a custom operation.

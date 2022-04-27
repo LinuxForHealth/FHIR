@@ -88,8 +88,8 @@ public class LibraryEvaluateOperationTest extends BaseCqlOperationTest<LibraryEv
         FHIRResourceHelpers resourceHelper = mock(FHIRResourceHelpers.class);
         when(resourceHelper.doRead(eq("Patient"), anyString(), anyBoolean(), any())).thenAnswer(x -> asResult(patient));
 
-        when(resourceHelper.doSearch(eq("Encounter"), anyString(), anyString(), any(), anyString(), any())).thenReturn(bundle(encounter));
-        when(resourceHelper.doSearch(eq("Procedure"), anyString(), anyString(), any(), anyString(), any())).thenReturn(bundle(procedure));
+        when(resourceHelper.doSearch(eq("Encounter"), anyString(), anyString(), any(), anyString())).thenReturn(bundle(encounter));
+        when(resourceHelper.doSearch(eq("Procedure"), anyString(), anyString(), any(), anyString())).thenReturn(bundle(procedure));
 
         try (MockedStatic<FHIRRegistry> staticRegistry = mockStatic(FHIRRegistry.class)) {
             FHIRRegistry mockRegistry = spy(FHIRRegistry.class);
@@ -141,8 +141,8 @@ public class LibraryEvaluateOperationTest extends BaseCqlOperationTest<LibraryEv
         FHIRResourceHelpers resourceHelper = mock(FHIRResourceHelpers.class);
         when(resourceHelper.doRead(eq("Patient"), anyString(), anyBoolean(), any())).thenAnswer(x -> asResult(patient));
 
-        when(resourceHelper.doSearch(eq("Encounter"), anyString(), anyString(), any(), anyString(), any())).thenReturn(bundle(encounter));
-        when(resourceHelper.doSearch(eq("Procedure"), anyString(), anyString(), any(), anyString(), any())).thenReturn(bundle(procedure));
+        when(resourceHelper.doSearch(eq("Encounter"), anyString(), anyString(), any(), anyString())).thenReturn(bundle(encounter));
+        when(resourceHelper.doSearch(eq("Procedure"), anyString(), anyString(), any(), anyString())).thenReturn(bundle(procedure));
 
         try (MockedStatic<FHIRRegistry> staticRegistry = mockStatic(FHIRRegistry.class)) {
             FHIRRegistry mockRegistry = spy(FHIRRegistry.class);
@@ -214,8 +214,8 @@ public class LibraryEvaluateOperationTest extends BaseCqlOperationTest<LibraryEv
         FHIRResourceHelpers resourceHelper = mock(FHIRResourceHelpers.class);
         when(resourceHelper.doRead(eq("Patient"), anyString(), anyBoolean(), any())).thenAnswer(x -> asResult(patient));
 
-        when(resourceHelper.doSearch(eq("Encounter"), anyString(), anyString(), any(), anyString(), any())).thenReturn(bundle(encounter));
-        when(resourceHelper.doSearch(eq("Procedure"), anyString(), anyString(), any(), anyString(), any())).thenReturn(bundle(procedure));
+        when(resourceHelper.doSearch(eq("Encounter"), anyString(), anyString(), any(), anyString())).thenReturn(bundle(encounter));
+        when(resourceHelper.doSearch(eq("Procedure"), anyString(), anyString(), any(), anyString())).thenReturn(bundle(procedure));
 
         try (MockedStatic<FHIRRegistry> staticRegistry = mockStatic(FHIRRegistry.class)) {
             FHIRRegistry mockRegistry = spy(FHIRRegistry.class);

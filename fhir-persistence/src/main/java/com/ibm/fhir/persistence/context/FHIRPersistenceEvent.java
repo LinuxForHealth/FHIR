@@ -49,7 +49,8 @@ public class FHIRPersistenceEvent {
 
     /**
      * This property is of type String and contains the version id associated with a
-     * vread operation.   For other operations, this property will be null.
+     * vread operation.
+     * For other operations, this property will be null.
      */
     public static final String PROPNAME_VERSION_ID = "VERSION_ID";
 
@@ -85,9 +86,17 @@ public class FHIRPersistenceEvent {
     }
 
     /**
-     * Ctor which accepts the FHIR resource and a collection of properties.
+     * Ctor that accepts a collection of properties.
+     * @param properties the set of properties associated with the event
+     */
+    public FHIRPersistenceEvent(Map<String, Object> properties) {
+        this.properties = properties;
+    }
+
+    /**
+     * Ctor that accepts the FHIR resource and a collection of properties.
      * @param fhirResource the FHIR resource associated with the event
-     * @param properties the set of properties associated with the event.
+     * @param properties the set of properties associated with the event
      */
     public FHIRPersistenceEvent(Resource fhirResource, Map<String, Object> properties) {
         this.fhirResource = fhirResource;
@@ -96,7 +105,8 @@ public class FHIRPersistenceEvent {
 
     /**
      * Returns the resource associated with the REST API request that triggered the
-     * interceptor invocation.  This will be non-null before and after a create or update operation,
+     * interceptor invocation.
+     * This will be non-null before and after a create or update operation,
      * and will be non-null after a read, vread, history or search operation.
      */
     public Resource getFhirResource() {
@@ -105,7 +115,8 @@ public class FHIRPersistenceEvent {
 
     /**
      * Sets the specific resource in 'this'.
-     * Interceptor implementations should *not* call this method.  This method is reserved for use by the FHIR Server.
+     * Interceptor implementations should *not* call this method.
+     * This method is reserved for use by the FHIR Server.
      */
     public void setFhirResource(Resource resource) {
         this.fhirResource = resource;
@@ -113,7 +124,7 @@ public class FHIRPersistenceEvent {
 
     /**
      * Returns the "previous" resource associated with the REST API request that triggered
-     * the interceptor invocation.  This field is set only for an "update" operation and represents
+     * the interceptor invocation. This field is set only for an "update" operation and represents
      * the existing version of the resource prior to the new resource being stored.
      */
     public Resource getPrevFhirResource() {
@@ -134,7 +145,7 @@ public class FHIRPersistenceEvent {
 
     /**
      * This method returns true if and only if the "previous resource" field has in fact
-     * been set.   This flag exists so that we can differentiate between these two scenarios:
+     * been set. This flag exists so that we can differentiate between these two scenarios:
      * <ul>
      * <li>The "previous resource" field is explicitly set to null.</li>
      * <li>The "previous resource" field is not explicitly set at all.</li>
@@ -149,7 +160,7 @@ public class FHIRPersistenceEvent {
 
     /**
      * Returns the resource type associated with the FHIR REST API request that triggered the
-     * interceptor invocation.   This will be non-null for a
+     * interceptor invocation. This will be non-null for a
      * create, update, read, vread, history, search, or delete operation.
      */
     public String getFhirResourceType() {
@@ -158,7 +169,7 @@ public class FHIRPersistenceEvent {
 
     /**
      * Returns the resource id associated with the FHIR REST API request that triggered the
-     * interceptor invocation.   This will be non-null for a read, vread, non-whole-system history, or non-conditional update/delete operation.
+     * interceptor invocation. This will be non-null for a read, vread, non-whole-system history, or non-conditional update/delete operation.
      */
     public String getFhirResourceId() {
         return (String) getProperty(PROPNAME_RESOURCE_ID);
@@ -166,7 +177,7 @@ public class FHIRPersistenceEvent {
 
     /**
      * Returns the version id associated with the FHIR REST API request that triggered the
-     * interceptor invocation.  This will be non-null for a vread operation.
+     * interceptor invocation. This will be non-null for a vread operation.
      */
     public String getFhirVersionId() {
         return (String) getProperty(PROPNAME_VERSION_ID);

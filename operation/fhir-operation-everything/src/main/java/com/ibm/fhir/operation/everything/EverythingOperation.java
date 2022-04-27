@@ -236,7 +236,7 @@ public class EverythingOperation extends AbstractOperation {
                 if (retrieveAdditionalResources) {
                     addIncludesSearchParameters(compartmentMemberType, tempSearchParameters, extraResources, searchHelper);
                 }
-                results = resourceHelper.doSearch(compartmentMemberType, PATIENT, logicalId, tempSearchParameters, null, null);
+                results = resourceHelper.doSearch(compartmentMemberType, PATIENT, logicalId, tempSearchParameters, null);
                 int countBeforeAddingNewResources = allEntries.size();
                 processResults(results, compartmentMemberType, results.getEntry(), allEntries, resourceIds, resourceHelper, extraResources, retrieveAdditionalResources);
                 currentResourceCount = results.getTotal().getValue();
@@ -268,7 +268,7 @@ public class EverythingOperation extends AbstractOperation {
                     }
                     try {
                         tempSearchParameters.putSingle(SearchConstants.PAGE, page++ + "");
-                        results = resourceHelper.doSearch(compartmentMemberType, PATIENT, logicalId, tempSearchParameters, null, null);
+                        results = resourceHelper.doSearch(compartmentMemberType, PATIENT, logicalId, tempSearchParameters, null);
                         processResults(results, compartmentMemberType, results.getEntry(), allEntries, resourceIds, resourceHelper, extraResources, retrieveAdditionalResources);
                     } catch (Exception e) {
                         FHIROperationException exceptionWithIssue = buildExceptionWithIssue("Error retrieving "

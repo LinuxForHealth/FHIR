@@ -111,8 +111,8 @@ public class ServerFHIRRetrieveProviderTest {
 
         Bundle page2 = Bundle.builder().type(BundleType.SEARCHSET).total(UnsignedInt.of(1)).entry(Bundle.Entry.builder().resource(c2).build()).build();
 
-        when(helpers.doSearch(eq("Condition"), isNull(), isNull(), not(hasEntry("_page")), anyString(), isNull())).thenReturn(page1);
-        when(helpers.doSearch(eq("Condition"), isNull(), isNull(), hasEntry("_page"), anyString(), isNull())).thenReturn(page2);
+        when(helpers.doSearch(eq("Condition"), isNull(), isNull(), not(hasEntry("_page")), anyString())).thenReturn(page1);
+        when(helpers.doSearch(eq("Condition"), isNull(), isNull(), hasEntry("_page"), anyString())).thenReturn(page2);
 
         Iterable<Object> resources = provider.retrieve("Patient", "subject", "123", "Condition", null, null, null, null, null, null, null, null);
         assertNotNull(resources);
@@ -126,7 +126,7 @@ public class ServerFHIRRetrieveProviderTest {
         expected.add(c2.getId());
         assertEquals(results.keySet(), expected);
 
-        verify(helpers, times(2)).doSearch(eq("Condition"), isNull(), isNull(), ArgumentMatchers.<MultivaluedMap<String, String>> any(), anyString(), isNull());
+        verify(helpers, times(2)).doSearch(eq("Condition"), isNull(), isNull(), ArgumentMatchers.<MultivaluedMap<String, String>> any(), anyString());
     }
 
     private String getBaseUrl() {

@@ -1,5 +1,5 @@
 /*
- * (C) Copyright IBM Corp. 2021
+ * (C) Copyright IBM Corp. 2021, 2022
  *
  * SPDX-License-Identifier: Apache-2.0
  */
@@ -43,8 +43,6 @@ public interface FHIRRestInteractionVisitor {
      *            a Map containing the query parameters from the request URL
      * @param requestUri
      *            the request URI
-     * @param contextResource
-     *            the resource context
      * @param checkIfInteractionAllowed
      *            if true, check that the search interaction is permitted
      * @return a FHIRRestOperationResponse containing the search result bundle
@@ -53,7 +51,7 @@ public interface FHIRRestInteractionVisitor {
     FHIRRestOperationResponse doSearch(int entryIndex, String requestDescription, FHIRUrlParser requestURL,
             long accumulatedTime, String type, String compartment, String compartmentId,
             MultivaluedMap<String, String> queryParameters, String requestUri,
-            Resource contextResource, boolean checkInteractionAllowed) throws Exception;
+            boolean checkInteractionAllowed) throws Exception;
 
     /**
      * Performs a 'vread' operation by retrieving the specified version of a Resource with no query parameters
@@ -89,16 +87,16 @@ public interface FHIRRestInteractionVisitor {
      *            the id of the Resource to be retrieved
      * @param throwExcOnNull
      *            whether to throw an exception on null
-     * @param contextResource
-     *            the resource
      * @param queryParameters
      *            for supporting _elements and _summary for resource read
+     * @param checkInteractionAllowed
+     *            if true, check that the read interaction is permitted
      * @return a SingleResourceResult wrapping the resource and including its deletion status
      * @throws Exception
      */
     FHIRRestOperationResponse doRead(int entryIndex, String requestDescription, FHIRUrlParser requestURL,
             long accumulatedTime, String type, String id, boolean throwExcOnNull,
-            Resource contextResource, MultivaluedMap<String, String> queryParameters, boolean checkInteractionAllowed)
+            MultivaluedMap<String, String> queryParameters, boolean checkInteractionAllowed)
             throws Exception;
 
     /**

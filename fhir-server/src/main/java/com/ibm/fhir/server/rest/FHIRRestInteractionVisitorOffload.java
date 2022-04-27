@@ -53,8 +53,9 @@ public class FHIRRestInteractionVisitorOffload extends FHIRRestInteractionVisito
     }
 
     @Override
-    public FHIRRestOperationResponse doSearch(int entryIndex, String requestDescription, FHIRUrlParser requestURL, long accumulatedTime, String type, String compartment, String compartmentId,
-            MultivaluedMap<String, String> queryParameters, String requestUri, Resource contextResource, boolean checkInteractionAllowed) throws Exception {
+    public FHIRRestOperationResponse doSearch(int entryIndex, String requestDescription, FHIRUrlParser requestURL,
+            long accumulatedTime, String type, String compartment, String compartmentId,
+            MultivaluedMap<String, String> queryParameters, String requestUri, boolean checkInteractionAllowed) throws Exception {
         // NOP. Nothing to do
         return null;
     }
@@ -67,7 +68,8 @@ public class FHIRRestInteractionVisitorOffload extends FHIRRestInteractionVisito
     }
 
     @Override
-    public FHIRRestOperationResponse doRead(int entryIndex, String requestDescription, FHIRUrlParser requestURL, long accumulatedTime, String type, String id, boolean throwExcOnNull, Resource contextResource,
+    public FHIRRestOperationResponse doRead(int entryIndex, String requestDescription, FHIRUrlParser requestURL,
+            long accumulatedTime, String type, String id, boolean throwExcOnNull,
             MultivaluedMap<String, String> queryParameters, boolean checkInteractionAllowed) throws Exception {
         // NOP for now. TODO: when offloading payload, try an optimistic async read of the latest payload
         return null;

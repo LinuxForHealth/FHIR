@@ -56,7 +56,7 @@ public abstract class AbstractTermOperation extends AbstractOperation {
         String resourceParameterName = resourceTypeName.substring(0, 1).toLowerCase() + resourceTypeName.substring(1);
         String resourceVersionParameterName = resourceParameterName + "Version";
         if (FHIROperationContext.Type.INSTANCE.equals(operationContext.getType())) {
-            Resource resource = resourceHelper.doRead(resourceTypeName, logicalId, false, null).getResource();
+            Resource resource = resourceHelper.doRead(resourceTypeName, logicalId, false).getResource();
             if (resource == null) {
                 throw buildExceptionWithIssue(resourceTypeName + " with id '" + logicalId + "' was not found", IssueType.NOT_FOUND);
             }

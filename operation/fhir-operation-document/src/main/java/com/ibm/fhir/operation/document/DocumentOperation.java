@@ -51,7 +51,7 @@ public class DocumentOperation extends AbstractOperation {
         try {
             Composition composition = null;
 
-            Resource resource = resourceHelper.doRead("Composition", logicalId, false, null).getResource();
+            Resource resource = resourceHelper.doRead("Composition", logicalId, false).getResource();
             if (resource == null) {
                 throw FHIROperationUtil.buildExceptionWithIssue("Could not find composition with id: " + logicalId, IssueType.INVALID);
             }
@@ -178,7 +178,7 @@ public class DocumentOperation extends AbstractOperation {
             String resourceTypeName = referenceTokens[0];
             String logicalId = referenceTokens[1];
 
-            resource = resourceHelper.doRead(resourceTypeName, logicalId, false, null).getResource();
+            resource = resourceHelper.doRead(resourceTypeName, logicalId, false).getResource();
 
             if (resource == null) {
                 throw new FHIROperationException("Could not find resource for reference value: " + referenceValue);

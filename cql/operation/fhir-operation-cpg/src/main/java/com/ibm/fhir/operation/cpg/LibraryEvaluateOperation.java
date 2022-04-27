@@ -62,7 +62,7 @@ public class LibraryEvaluateOperation extends AbstractCqlOperation {
         try {
             Library primaryLibrary = null;
             if (operationContext.getType().equals(FHIROperationContext.Type.INSTANCE)) {
-                SingleResourceResult<?> readResult = resourceHelper.doRead(ResourceType.LIBRARY.getValue(), logicalId, true, null);
+                SingleResourceResult<?> readResult = resourceHelper.doRead(ResourceType.LIBRARY.getValue(), logicalId, true);
                 primaryLibrary = (Library) readResult.getResource();
             } else if (operationContext.getType().equals(FHIROperationContext.Type.RESOURCE_TYPE)) {
                 Parameter param = paramMap.getSingletonParameter("library");

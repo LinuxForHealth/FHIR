@@ -66,12 +66,12 @@ public class FHIRRestInteractionVisitorPersist extends FHIRRestInteractionVisito
     @Override
     public FHIRRestOperationResponse doSearch(int entryIndex, String requestDescription, FHIRUrlParser requestURL,
             long accumulatedTime, String type, String compartment, String compartmentId,
-            MultivaluedMap<String, String> queryParameters, String requestUri, Resource contextResource,
+            MultivaluedMap<String, String> queryParameters, String requestUri,
             boolean checkInteractionAllowed) throws Exception {
 
         doInteraction(entryIndex, requestDescription, accumulatedTime, () -> {
             Bundle searchResults = helpers.doSearch(type, compartment, compartmentId, queryParameters, requestUri,
-                    contextResource, checkInteractionAllowed, true);
+                    checkInteractionAllowed, true);
 
             return Bundle.Entry.builder()
                     .resource(searchResults)
@@ -106,12 +106,12 @@ public class FHIRRestInteractionVisitorPersist extends FHIRRestInteractionVisito
     @Override
     public FHIRRestOperationResponse doRead(int entryIndex, String requestDescription, FHIRUrlParser requestURL,
             long accumulatedTime, String type, String id, boolean throwExcOnNull,
-            Resource contextResource, MultivaluedMap<String, String> queryParameters, boolean checkInteractionAllowed)
+            MultivaluedMap<String, String> queryParameters, boolean checkInteractionAllowed)
             throws Exception {
 
         doInteraction(entryIndex, requestDescription, accumulatedTime, () -> {
             // Perform the VREAD and return the result entry we want in the response bundle
-            SingleResourceResult<? extends Resource> readResult = helpers.doRead(type, id, throwExcOnNull, contextResource, queryParameters);
+            SingleResourceResult<? extends Resource> readResult = helpers.doRead(type, id, throwExcOnNull, queryParameters);
             return Entry.builder()
                     .response(Entry.Response.builder()
                         .status(SC_OK_STRING)

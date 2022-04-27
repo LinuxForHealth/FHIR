@@ -96,23 +96,18 @@ import com.ibm.fhir.validation.exception.FHIRValidationException;
  */
 public class MemberMatchTest {
 
-    private static final Extension DATA_ABSENT =
-            Extension
-                .builder()
-                .url("http://hl7.org/fhir/StructureDefinition/data-absent-reason")
-                .value(Code.of("unknown"))
-                .build();
+    private static final Extension DATA_ABSENT = Extension.builder()
+            .url("http://hl7.org/fhir/StructureDefinition/data-absent-reason")
+            .value(Code.of("unknown"))
+            .build();
 
-    private static final com.ibm.fhir.model.type.String DATA_ABSENT_STRING =
-            com.ibm.fhir.model.type.String
-                .builder()
-                .extension(DATA_ABSENT)
-                .build();
+    private static final com.ibm.fhir.model.type.String DATA_ABSENT_STRING = com.ibm.fhir.model.type.String.builder()
+            .extension(DATA_ABSENT)
+            .build();
 
-    private static final Reference DATA_ABSENT_REFERENCE = Reference
-        .builder()
-        .extension(DATA_ABSENT)
-        .build();
+    private static final Reference DATA_ABSENT_REFERENCE = Reference.builder()
+            .extension(DATA_ABSENT)
+            .build();
 
     private static final Uri DATA_ABSENT_URI = Uri.builder().extension(DATA_ABSENT).build();
 
@@ -1553,15 +1548,15 @@ public class MemberMatchTest {
         }
 
         @Override
-        public Bundle doSearch(String type, String compartment, String compartmentId, MultivaluedMap<String, String> queryParameters, String requestUri,
-            Resource contextResource) throws Exception {
+        public Bundle doSearch(String type, String compartment, String compartmentId, MultivaluedMap<String, String> queryParameters, String requestUri)
+                throws Exception {
             // TODO Auto-generated method stub
-            return doSearch(type, compartment, compartmentId, queryParameters, requestUri, contextResource, false, true);
+            return doSearch(type, compartment, compartmentId, queryParameters, requestUri, false, true);
         }
 
         @Override
         public Bundle doSearch(String type, String compartment, String compartmentId, MultivaluedMap<String, String> queryParameters, String requestUri,
-            Resource contextResource, boolean checkIfInteractionAllowed, boolean alwaysIncludeResource) throws Exception {
+                boolean checkIfInteractionAllowed, boolean alwaysIncludeResource) throws Exception {
             if (throwException) {
                 throw new Exception("Test");
             }
@@ -1659,13 +1654,13 @@ public class MemberMatchTest {
 
         @Override
         public FHIRRestOperationResponse doUpdate(String type, String id, Resource newResource, String ifMatchValue, String searchQueryString,
-            boolean skippableUpdate, boolean doValidation, Integer ifNoneMatch) throws Exception {
+                boolean skippableUpdate, boolean doValidation, Integer ifNoneMatch) throws Exception {
             throw new AssertionError("Unused");
         }
 
         @Override
         public FHIRRestOperationResponse doPatch(String type, String id, FHIRPatch patch, String ifMatchValue, String searchQueryString,
-            boolean skippableUpdate) throws Exception {
+                boolean skippableUpdate) throws Exception {
             throw new AssertionError("Unused");
         }
 
@@ -1675,8 +1670,8 @@ public class MemberMatchTest {
         }
 
         @Override
-        public SingleResourceResult<? extends Resource> doRead(String type, String id, boolean throwExcOnNull, Resource contextResource,
-            MultivaluedMap<String, String> queryParameters) throws Exception {
+        public SingleResourceResult<? extends Resource> doRead(String type, String id, boolean throwExcOnNull,
+                MultivaluedMap<String, String> queryParameters) throws Exception {
             throw new AssertionError("Unused");
         }
 

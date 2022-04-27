@@ -106,15 +106,15 @@ public class MockFHIRResourceHelpers implements FHIRResourceHelpers {
     }
 
     @Override
-    public FHIRRestOperationResponse doUpdate(String type, String id, Resource newResource, String ifMatchValue, String searchQueryString,
-        boolean skippableUpdate, boolean doValidation, Integer ifNoneMatch) throws Exception {
+    public FHIRRestOperationResponse doUpdate(String type, String id, Resource newResource, String ifMatchValue,
+            String searchQueryString, boolean skippableUpdate, boolean doValidation, Integer ifNoneMatch) throws Exception {
 
         return null;
     }
 
     @Override
-    public FHIRRestOperationResponse doPatch(String type, String id, FHIRPatch patch, String ifMatchValue, String searchQueryString, boolean skippableUpdate)
-        throws Exception {
+    public FHIRRestOperationResponse doPatch(String type, String id, FHIRPatch patch, String ifMatchValue,
+            String searchQueryString, boolean skippableUpdate) throws Exception {
 
         return null;
     }
@@ -126,14 +126,15 @@ public class MockFHIRResourceHelpers implements FHIRResourceHelpers {
     }
 
     @Override
-    public SingleResourceResult<? extends Resource> doRead(String type, String id, boolean throwExcOnNull, Resource contextResource,
-        MultivaluedMap<String, String> queryParameters) throws Exception {
+    public SingleResourceResult<? extends Resource> doRead(String type, String id, boolean throwExcOnNull,
+            MultivaluedMap<String, String> queryParameters) throws Exception {
 
         return null;
     }
 
     @Override
-    public SingleResourceResult<? extends Resource> doVRead(String type, String id, String versionId, MultivaluedMap<String, String> queryParameters) throws Exception {
+    public SingleResourceResult<? extends Resource> doVRead(String type, String id, String versionId,
+            MultivaluedMap<String, String> queryParameters) throws Exception {
 
         return null;
     }
@@ -151,15 +152,15 @@ public class MockFHIRResourceHelpers implements FHIRResourceHelpers {
     }
 
     @Override
-    public Bundle doSearch(String type, String compartment, String compartmentId, MultivaluedMap<String, String> queryParameters, String requestUri,
-        Resource contextResource) throws Exception {
+    public Bundle doSearch(String type, String compartment, String compartmentId, MultivaluedMap<String, String> queryParameters,
+            String requestUri) throws Exception {
 
         return null;
     }
 
     @Override
     public Resource doInvoke(FHIROperationContext operationContext, String resourceTypeName, String logicalId, String versionId,
-        Resource resource, MultivaluedMap<String, String> queryParameters) throws Exception {
+            Resource resource, MultivaluedMap<String, String> queryParameters) throws Exception {
 
         return null;
     }
@@ -171,14 +172,16 @@ public class MockFHIRResourceHelpers implements FHIRResourceHelpers {
     }
 
     @Override
-    public List<Long> doRetrieveIndex(FHIROperationContext operationContext, String resourceTypeName, int count, java.time.Instant notModifiedAfter, Long afterIndexId) throws Exception {
+    public List<Long> doRetrieveIndex(FHIROperationContext operationContext, String resourceTypeName, int count,
+            java.time.Instant notModifiedAfter, Long afterIndexId) throws Exception {
 
         return null;
     }
 
     @Override
-    public Bundle doSearch(String type, String compartment, String compartmentId, MultivaluedMap<String, String> queryParameters, String requestUri,
-        Resource contextResource, boolean checkIfInteractionAllowed, boolean alwaysIncludeResource) throws Exception {
+    public Bundle doSearch(String type, String compartment, String compartmentId, MultivaluedMap<String, String> queryParameters,
+            String requestUri, boolean checkIfInteractionAllowed, boolean alwaysIncludeResource) throws Exception {
+
         return null;
     }
 
@@ -198,30 +201,33 @@ public class MockFHIRResourceHelpers implements FHIRResourceHelpers {
 
     @Override
     public FHIRRestOperationResponse doCreateMeta(FHIRPersistenceEvent event, List<Issue> warnings, String type, Resource resource,
-        String ifNoneExist) throws Exception {
+            String ifNoneExist) throws Exception {
         return null;
     }
 
     @Override
-    public FHIRRestOperationResponse doCreatePersist(FHIRPersistenceEvent event, List<Issue> warnings, Resource resource, PayloadPersistenceResponse offloadResponse) throws Exception {
+    public FHIRRestOperationResponse doCreatePersist(FHIRPersistenceEvent event, List<Issue> warnings, Resource resource,
+            PayloadPersistenceResponse offloadResponse) throws Exception {
         return null;
     }
 
     @Override
-    public FHIRRestOperationResponse doUpdateMeta(FHIRPersistenceEvent event, String type, String id, FHIRPatch patch, Resource newResource, String ifMatchValue, String searchQueryString,
-        boolean skippableUpdate, boolean doValidation, List<Issue> warnings) throws Exception {
+    public FHIRRestOperationResponse doUpdateMeta(FHIRPersistenceEvent event, String type, String id, FHIRPatch patch,
+            Resource newResource, String ifMatchValue, String searchQueryString, boolean skippableUpdate, boolean doValidation,
+            List<Issue> warnings) throws Exception {
         return null;
     }
 
     @Override
     public FHIRRestOperationResponse doPatchOrUpdatePersist(FHIRPersistenceEvent event, String type, String id, boolean isPatch,
-        Resource newResource, Resource prevResource, List<Issue> warnings, boolean isDeleted, Integer ifNoneMatch, PayloadPersistenceResponse offloadResponse) throws Exception {
+            Resource newResource, Resource prevResource, List<Issue> warnings, boolean isDeleted, Integer ifNoneMatch,
+            PayloadPersistenceResponse offloadResponse) throws Exception {
         return null;
     }
 
     @Override
-    public Map<String, Object> buildPersistenceEventProperties(String type, String id, String version, FHIRSearchContext searchContext, FHIRSystemHistoryContext systemHistoryContext)
-        throws FHIRPersistenceException {
+    public Map<String, Object> buildPersistenceEventProperties(String type, String id, String version, FHIRSearchContext searchContext,
+            FHIRSystemHistoryContext systemHistoryContext) throws FHIRPersistenceException {
         return null;
     }
 

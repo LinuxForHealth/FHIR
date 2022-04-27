@@ -52,35 +52,40 @@ public class FHIRRestInteractionVisitorReferenceMapping extends FHIRRestInteract
     }
 
     @Override
-    public FHIRRestOperationResponse doSearch(int entryIndex, String requestDescription, FHIRUrlParser requestURL, long accumulatedTime, String type, String compartment, String compartmentId,
-        MultivaluedMap<String, String> queryParameters, String requestUri, Resource contextResource, boolean checkInteractionAllowed) throws Exception {
+    public FHIRRestOperationResponse doSearch(int entryIndex, String requestDescription, FHIRUrlParser requestURL,
+            long accumulatedTime, String type, String compartment, String compartmentId,
+            MultivaluedMap<String, String> queryParameters, String requestUri, boolean checkInteractionAllowed) throws Exception {
         // NOP. Nothing to do
         return null;
     }
 
     @Override
-    public FHIRRestOperationResponse doVRead(int entryIndex, String requestDescription, FHIRUrlParser requestURL, long accumulatedTime, String type, String id, String versionId, MultivaluedMap<String, String> queryParameters)
-        throws Exception {
+    public FHIRRestOperationResponse doVRead(int entryIndex, String requestDescription, FHIRUrlParser requestURL,
+            long accumulatedTime, String type, String id, String versionId, MultivaluedMap<String, String> queryParameters)
+            throws Exception {
         // NOP for now. TODO: when offloading payload, start an async optimistic read of the id/version payload
         return null;
     }
 
     @Override
-    public FHIRRestOperationResponse doRead(int entryIndex, String requestDescription, FHIRUrlParser requestURL, long accumulatedTime, String type, String id, boolean throwExcOnNull, Resource contextResource,
-        MultivaluedMap<String, String> queryParameters, boolean checkInteractionAllowed) throws Exception {
+    public FHIRRestOperationResponse doRead(int entryIndex, String requestDescription, FHIRUrlParser requestURL,
+            long accumulatedTime, String type, String id, boolean throwExcOnNull,
+            MultivaluedMap<String, String> queryParameters, boolean checkInteractionAllowed) throws Exception {
         // NOP for now. TODO: when offloading payload, try an optimistic async read of the latest payload
         return null;
     }
 
     @Override
-    public FHIRRestOperationResponse doHistory(int entryIndex, String requestDescription, FHIRUrlParser requestURL, long accumulatedTime, String type, String id, MultivaluedMap<String, String> queryParameters, String requestUri)
-        throws Exception {
+    public FHIRRestOperationResponse doHistory(int entryIndex, String requestDescription, FHIRUrlParser requestURL,
+            long accumulatedTime, String type, String id, MultivaluedMap<String, String> queryParameters, String requestUri)
+            throws Exception {
         // NOP for now. TODO: optimistic async reads, if we can scope them properly
         return null;
     }
 
     @Override
-    public FHIRRestOperationResponse doCreate(int entryIndex, FHIRPersistenceEvent event, List<Issue> warnings, Entry validationResponseEntry, String requestDescription, FHIRUrlParser requestURL, long accumulatedTime, String type, Resource resource, String ifNoneExist, String localIdentifier, PayloadPersistenceResponse offloadResponse) throws Exception {
+    public FHIRRestOperationResponse doCreate(int entryIndex, FHIRPersistenceEvent event, List<Issue> warnings, Entry validationResponseEntry, String requestDescription, FHIRUrlParser requestURL,
+            long accumulatedTime, String type, Resource resource, String ifNoneExist, String localIdentifier, PayloadPersistenceResponse offloadResponse) throws Exception {
 
         // Use doOperation so we can implement common exception handling in one place
         return doOperation(entryIndex, requestDescription, accumulatedTime, () -> {
@@ -97,8 +102,8 @@ public class FHIRRestInteractionVisitorReferenceMapping extends FHIRRestInteract
 
     @Override
     public FHIRRestOperationResponse doUpdate(int entryIndex, FHIRPersistenceEvent event, Entry validationResponseEntry, String requestDescription, FHIRUrlParser requestURL,
-        long accumulatedTime, String type, String id, Resource resource, Resource prevResource, String ifMatchValue, String searchQueryString,
-        boolean skippableUpdate, String localIdentifier, List<Issue> warnings, boolean isDeleted, Integer ifNoneMatch, PayloadPersistenceResponse offloadResponse) throws Exception {
+            long accumulatedTime, String type, String id, Resource resource, Resource prevResource, String ifMatchValue, String searchQueryString,
+            boolean skippableUpdate, String localIdentifier, List<Issue> warnings, boolean isDeleted, Integer ifNoneMatch, PayloadPersistenceResponse offloadResponse) throws Exception {
 
         // Use doOperation for common exception handling
         return doOperation(entryIndex, requestDescription, accumulatedTime, () -> {
@@ -122,8 +127,8 @@ public class FHIRRestInteractionVisitorReferenceMapping extends FHIRRestInteract
 
     @Override
     public FHIRRestOperationResponse doPatch(int entryIndex, FHIRPersistenceEvent event, Entry validationResponseEntry, String requestDescription, FHIRUrlParser requestURL, long accumulatedTime,
-        String type, String id, Resource resource, Resource prevResource, FHIRPatch patch, String ifMatchValue, String searchQueryString,
-        boolean skippableUpdate, List<Issue> warnings, String localIdentifier, PayloadPersistenceResponse offloadResponse) throws Exception {
+            String type, String id, Resource resource, Resource prevResource, FHIRPatch patch, String ifMatchValue, String searchQueryString,
+            boolean skippableUpdate, List<Issue> warnings, String localIdentifier, PayloadPersistenceResponse offloadResponse) throws Exception {
         // Use doOperation for common exception handling
         return doOperation(entryIndex, requestDescription, accumulatedTime, () -> {
 

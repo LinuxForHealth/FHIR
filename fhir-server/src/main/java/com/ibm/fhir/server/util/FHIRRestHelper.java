@@ -270,7 +270,7 @@ public class FHIRRestHelper implements FHIRResourceHelpers {
                 // Perform the search using the "If-None-Exist" header value.
                 try {
                     MultivaluedMap<String, String> searchParameters = getQueryParameterMap(ifNoneExist);
-                    responseBundle = doSearch(type, null, null, searchParameters, null, resource, false, true);
+                    responseBundle = doSearch(type, null, null, searchParameters, null, false, true);
                 } catch (FHIROperationException e) {
                     throw e;
                 } catch (Throwable t) {
@@ -496,8 +496,8 @@ public class FHIRRestHelper implements FHIRResourceHelpers {
 
     @Override
     public FHIRRestOperationResponse doUpdateMeta(FHIRPersistenceEvent event, String type, String id, FHIRPatch patch, Resource newResource,
-        String ifMatchValue, String searchQueryString, boolean skippableUpdate, boolean doValidation,
-        List<Issue> warnings) throws Exception {
+            String ifMatchValue, String searchQueryString, boolean skippableUpdate, boolean doValidation,
+            List<Issue> warnings) throws Exception {
         log.entering(this.getClass().getName(), "doUpdateMeta");
 
         // Do everything we need to get the resource ready for storage. This includes handling
@@ -538,7 +538,7 @@ public class FHIRRestHelper implements FHIRResourceHelpers {
                 Bundle responseBundle = null;
                 try {
                     MultivaluedMap<String, String> searchParameters = getQueryParameterMap(searchQueryString);
-                    responseBundle = doSearch(type, null, null, searchParameters, null, newResource, false, true);
+                    responseBundle = doSearch(type, null, null, searchParameters, null, false, true);
                 } catch (FHIROperationException e) {
                     throw e;
                 } catch (Throwable t) {
@@ -574,7 +574,7 @@ public class FHIRRestHelper implements FHIRResourceHelpers {
                         // this is going to be an update or create. This also now gives us the version id
                         // needed to correctly update the meta for the new resource
                         id = newResource.getId();
-                        SingleResourceResult<? extends Resource> srr = doRead(type, id, false, newResource, null, false);
+                        SingleResourceResult<? extends Resource> srr = doRead(type, id, false, null, false);
                         ior.setPrevResource(srr.getResource()); // might be null if resource is deleted
                         isDeleted = srr.isDeleted();
                         currentVersion = srr.getVersion();
@@ -638,7 +638,7 @@ public class FHIRRestHelper implements FHIRResourceHelpers {
 
                 // Retrieve the resource to be updated using the type and id values. Include
                 // the resource even if it has been deleted
-                SingleResourceResult<? extends Resource> srr = doRead(type, id, (patch != null), newResource, null, false);
+                SingleResourceResult<? extends Resource> srr = doRead(type, id, (patch != null), null, false);
                 ior.setPrevResource(srr.getResource());
                 isDeleted = srr.isDeleted();
                 currentVersion = srr.getVersion();
@@ -940,7 +940,7 @@ public class FHIRRestHelper implements FHIRResourceHelpers {
                 try {
                     MultivaluedMap<String, String> searchParameters = getQueryParameterMap(searchQueryString);
                     searchParameters.putSingle(SearchConstants.COUNT, Integer.toString(searchPageSize));
-                    responseBundle = doSearch(type, null, null, searchParameters, null, null, false, true);
+                    responseBundle = doSearch(type, null, null, searchParameters, null, false, true);
                 } catch (FHIROperationException e) {
                     throw e;
                 } catch (Throwable t) {
@@ -976,7 +976,7 @@ public class FHIRRestHelper implements FHIRResourceHelpers {
                 }
 
                 // Read the resource so it will be available to the beforeDelete interceptor methods.
-                SingleResourceResult<? extends Resource> srr = doRead(type, id, !THROW_EXC_ON_NULL, null, null, !CHECK_INTERACTION_ALLOWED);
+                SingleResourceResult<? extends Resource> srr = doRead(type, id, !THROW_EXC_ON_NULL, null, !CHECK_INTERACTION_ALLOWED);
                 if (srr.isDeleted()) {
                     // Because the resource is already deleted, we can't create a
                     warnings.add(buildOperationOutcomeIssue(IssueSeverity.WARNING, IssueType.DELETED, "Resource of type '"
@@ -1078,15 +1078,14 @@ public class FHIRRestHelper implements FHIRResourceHelpers {
     }
 
     @Override
-    public SingleResourceResult<? extends Resource> doRead(String type, String id, boolean throwExcOnNull,
-            Resource contextResource) throws Exception {
-        return doRead(type, id, throwExcOnNull, contextResource, null);
+    public SingleResourceResult<? extends Resource> doRead(String type, String id, boolean throwExcOnNull) throws Exception {
+        return doRead(type, id, throwExcOnNull, null);
     }
 
     @Override
     public SingleResourceResult<? extends Resource> doRead(String type, String id, boolean throwExcOnNull,
-            Resource contextResource, MultivaluedMap<String, String> queryParameters) throws Exception {
-        return doRead(type, id, throwExcOnNull, contextResource, queryParameters, true);
+            MultivaluedMap<String, String> queryParameters) throws Exception {
+        return doRead(type, id, throwExcOnNull, queryParameters, true);
     }
 
     /**
@@ -1098,8 +1097,6 @@ public class FHIRRestHelper implements FHIRResourceHelpers {
      *            the id of the Resource to be retrieved
      * @param throwExcOnNull
      *            if true, throw an exception if returned resource is null
-     * @param contextResource
-     *            a FHIR resource associated with this request
      * @param queryParameters
      *            for supporting _elements and _summary for resource read
      * @param checkInteractionAllowed
@@ -1109,8 +1106,7 @@ public class FHIRRestHelper implements FHIRResourceHelpers {
      */
     // TODO remove contextResource?  it doesn't seem to ever be populated...
     private SingleResourceResult<? extends Resource> doRead(String type, String id, boolean throwExcOnNull,
-            Resource contextResource, MultivaluedMap<String, String> queryParameters, boolean checkInteractionAllowed)
-            throws Exception {
+            MultivaluedMap<String, String> queryParameters, boolean checkInteractionAllowed) throws Exception {
         log.entering(this.getClass().getName(), "doRead");
 
         SingleResourceResult<? extends Resource> result;
@@ -1143,7 +1139,7 @@ public class FHIRRestHelper implements FHIRResourceHelpers {
 
             // First, invoke the 'beforeRead' interceptor methods.
             FHIRPersistenceEvent event =
-                    new FHIRPersistenceEvent(contextResource, buildPersistenceEventProperties(type, id, null, searchContext, null));
+                    new FHIRPersistenceEvent(buildPersistenceEventProperties(type, id, null, searchContext, null));
             getInterceptorMgr().fireBeforeReadEvent(event);
 
             FHIRPersistenceContext persistenceContext =
@@ -1316,14 +1312,14 @@ public class FHIRRestHelper implements FHIRResourceHelpers {
 
     @Override
     public Bundle doSearch(String type, String compartment, String compartmentId,
-            MultivaluedMap<String, String> queryParameters, String requestUri, Resource contextResource) throws Exception {
-        return doSearch(type, compartment, compartmentId, queryParameters, requestUri, contextResource, true, false);
+            MultivaluedMap<String, String> queryParameters, String requestUri) throws Exception {
+        return doSearch(type, compartment, compartmentId, queryParameters, requestUri, true, false);
     }
 
     @Override
     public Bundle doSearch(String type, String compartment, String compartmentId,
             MultivaluedMap<String, String> queryParameters, String requestUri,
-            Resource contextResource, boolean checkInteractionAllowed, boolean alwaysIncludeResources) throws Exception {
+            boolean checkInteractionAllowed, boolean alwaysIncludeResources) throws Exception {
         log.entering(this.getClass().getName(), "doSearch");
 
         // Validate that interaction is allowed for given resource type
@@ -1361,7 +1357,7 @@ public class FHIRRestHelper implements FHIRResourceHelpers {
 
             // First, invoke the 'beforeSearch' interceptor methods.
             FHIRPersistenceEvent event =
-                    new FHIRPersistenceEvent(contextResource, buildPersistenceEventProperties(type, null, null, searchContext, null));
+                    new FHIRPersistenceEvent(buildPersistenceEventProperties(type, null, null, searchContext, null));
             getInterceptorMgr().fireBeforeSearchEvent(event);
 
             FHIRPersistenceContext persistenceContext =

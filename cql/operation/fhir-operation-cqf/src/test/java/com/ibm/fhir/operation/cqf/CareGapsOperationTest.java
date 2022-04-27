@@ -116,9 +116,9 @@ public class CareGapsOperationTest {
         FHIRResourceHelpers resourceHelper = mock(FHIRResourceHelpers.class);
         when(resourceHelper.doRead(eq("Patient"), anyString(), anyBoolean(), any())).thenAnswer(x -> asResult(patient));
 
-        when(resourceHelper.doSearch(eq("Encounter"), nullable(String.class), nullable(String.class), any(), nullable(String.class), nullable(Resource.class))).thenReturn(bundle(encounter));
-        when(resourceHelper.doSearch(eq("Procedure"), nullable(String.class), nullable(String.class), any(), nullable(String.class), nullable(Resource.class))).thenReturn(bundle(procedure));
-        when(resourceHelper.doSearch(eq("Measure"), nullable(String.class), nullable(String.class), any(), nullable(String.class), nullable(Resource.class))).thenReturn(bundle(measure));
+        when(resourceHelper.doSearch(eq("Encounter"), nullable(String.class), nullable(String.class), any(), nullable(String.class))).thenReturn(bundle(encounter));
+        when(resourceHelper.doSearch(eq("Procedure"), nullable(String.class), nullable(String.class), any(), nullable(String.class))).thenReturn(bundle(procedure));
+        when(resourceHelper.doSearch(eq("Measure"), nullable(String.class), nullable(String.class), any(), nullable(String.class))).thenReturn(bundle(measure));
 
         try (MockedStatic<FHIRRegistry> staticRegistry = mockStatic(FHIRRegistry.class)) {
             FHIRRegistry mockRegistry = spy(FHIRRegistry.class);

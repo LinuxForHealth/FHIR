@@ -70,7 +70,7 @@ public class ServerFHIRRetrieveProvider extends SearchParameterFHIRRetrieveProvi
                             logger.fine(String.format("Retrieving page %d / %s", nextPage, url));
                         }
                         queryParameters.putSingle(SearchConstants.PAGE, String.valueOf(nextPage));
-                        return resourceHelpers.doSearch(dataType, /*compartment=*/null, /*compartmentId=*/null, queryParameters, requestUri, /*contextResource=*/null);
+                        return resourceHelpers.doSearch(dataType, /*compartment=*/null, /*compartmentId=*/null, queryParameters, requestUri);
                     } catch (Exception ex) {
                         throw new RuntimeException(ex);
                     }
@@ -99,7 +99,7 @@ public class ServerFHIRRetrieveProvider extends SearchParameterFHIRRetrieveProvi
                     resource = result.getResource();
                 }
             } else {
-                resource = resourceHelpers.doSearch(dataType, /*compartment=*/null, /*compartmentId=*/null, queryParameters, DUMMY_REQUEST_URI, /*contextResource=*/null);
+                resource = resourceHelpers.doSearch(dataType, /*compartment=*/null, /*compartmentId=*/null, queryParameters, DUMMY_REQUEST_URI);
             }
         } catch (RuntimeException rex) {
             throw rex;
