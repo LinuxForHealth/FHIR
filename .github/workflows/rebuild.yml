@@ -2,9 +2,9 @@ name: Rebuild
 
 on:
   schedule:
-    # 7am (UTC) each day
+    # 7am (UTC) each tuesday
     # '*' is a special character in YAML so you have to quote this string
-    - cron:  '0 7 * * *'
+    - cron:  '0 7 * * TUE'
   # allows the workflow to be manually executed any time
   workflow_dispatch:
 
@@ -14,7 +14,7 @@ jobs:
     strategy:
       matrix:
         java: [ '11' ]
-        tag: [ '4.11.0' ]
+        tag: [ '4.11.0', '4.11.1' ]
       fail-fast: false
     steps:
     - uses: actions/checkout@v2
