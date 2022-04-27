@@ -365,7 +365,7 @@ public class InteractionValidationConfigTest {
         FHIRRequestContext.get().setOriginalRequestUri("test");
         FHIRRequestContext.get().setReturnPreference(HTTPReturnPreference.OPERATION_OUTCOME);
         try {
-            Resource resource = helper.doRead("Patient", "1", false, null).getResource();
+            Resource resource = helper.doRead("Patient", "1", false).getResource();
             assertNotNull(resource);
         } catch (FHIROperationException e) {
             fail();
@@ -384,7 +384,7 @@ public class InteractionValidationConfigTest {
         FHIRRequestContext.get().setOriginalRequestUri("test");
         FHIRRequestContext.get().setReturnPreference(HTTPReturnPreference.OPERATION_OUTCOME);
         try {
-            Resource resource = helper.doRead("Encounter", "1", false, null).getResource();
+            Resource resource = helper.doRead("Encounter", "1", false).getResource();
             assertNotNull(resource);
         } catch (FHIROperationException e) {
             fail();
@@ -447,7 +447,7 @@ public class InteractionValidationConfigTest {
         FHIRRequestContext.get().setOriginalRequestUri("test");
         FHIRRequestContext.get().setReturnPreference(HTTPReturnPreference.OPERATION_OUTCOME);
         try {
-            helper.doRead("Encounter", "1", false, null);
+            helper.doRead("Encounter", "1", false);
             fail();
         } catch (FHIROperationException e) {
             // Validate results
@@ -472,7 +472,7 @@ public class InteractionValidationConfigTest {
         FHIRRequestContext.get().setOriginalRequestUri("test");
         FHIRRequestContext.get().setReturnPreference(HTTPReturnPreference.OPERATION_OUTCOME);
         try {
-            helper.doRead("Procedure", "1", false, null);
+            helper.doRead("Procedure", "1", false);
             fail();
         } catch (FHIROperationException e) {
             // Validate results
@@ -522,7 +522,7 @@ public class InteractionValidationConfigTest {
         FHIRRequestContext.get().setOriginalRequestUri("test");
         FHIRRequestContext.get().setReturnPreference(HTTPReturnPreference.OPERATION_OUTCOME);
         try {
-            helper.doRead("Practitioner", "1", false, null);
+            helper.doRead("Practitioner", "1", false);
             fail();
         } catch (FHIROperationException e) {
             // Validate results

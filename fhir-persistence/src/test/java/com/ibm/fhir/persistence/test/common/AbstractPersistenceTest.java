@@ -37,7 +37,6 @@ import com.ibm.fhir.persistence.context.FHIRHistoryContext;
 import com.ibm.fhir.persistence.context.FHIRPersistenceContext;
 import com.ibm.fhir.persistence.context.FHIRPersistenceContextFactory;
 import com.ibm.fhir.persistence.exception.FHIRPersistenceException;
-import com.ibm.fhir.persistence.exception.FHIRPersistenceResourceNotFoundException;
 import com.ibm.fhir.persistence.util.FHIRPersistenceTestSupport;
 import com.ibm.fhir.persistence.util.FHIRPersistenceUtil;
 import com.ibm.fhir.search.context.FHIRSearchContext;
@@ -279,11 +278,12 @@ public abstract class AbstractPersistenceTest {
     }
 
     /**
-     * Soft delete the resource
+     * Soft delete the resource in a manner that is mostly-consistent with the REST layer.
+     *
      * @param <T>
      * @param context
      * @param resource
-     * @throws FHIRPersistenceException
+     * @throws FHIRPersistenceException if the resource was not found, but not if it was previously deleted.
      */
     protected <T extends Resource> void delete(FHIRPersistenceContext context, T resource) throws FHIRPersistenceException {
         // before attempting the delete, we need to make sure the resource actually exists
@@ -298,7 +298,7 @@ public abstract class AbstractPersistenceTest {
 
         // If we weren't able to read the resource, we need to bail on the delete, just like the FHIRRestHelper.
         if (srr.getResource() == null) {
-            throw new FHIRPersistenceResourceNotFoundException("Resource '"
+            throw new FHIRPersistenceException("Resource '"
                     + resourceType.getSimpleName() + "/" + resource.getId() + "' not found.");
         }
 

@@ -23,10 +23,10 @@ import com.ibm.fhir.model.resource.OperationOutcome.Issue;
 import com.ibm.fhir.model.resource.Resource;
 import com.ibm.fhir.model.util.FHIRUtil;
 import com.ibm.fhir.persistence.context.FHIRPersistenceEvent;
-import com.ibm.fhir.persistence.exception.FHIRPersistenceResourceDeletedException;
-import com.ibm.fhir.persistence.exception.FHIRPersistenceResourceNotFoundException;
 import com.ibm.fhir.persistence.payload.PayloadPersistenceResponse;
 import com.ibm.fhir.search.exception.FHIRSearchException;
+import com.ibm.fhir.server.exception.FHIRResourceDeletedException;
+import com.ibm.fhir.server.exception.FHIRResourceNotFoundException;
 import com.ibm.fhir.server.exception.FHIRRestBundledRequestException;
 import com.ibm.fhir.server.spi.operation.FHIROperationContext;
 import com.ibm.fhir.server.spi.operation.FHIRResourceHelpers;
@@ -192,7 +192,7 @@ public class FHIRRestInteractionVisitorOffload extends FHIRRestInteractionVisito
         final long start = System.nanoTime();
         try {
             return v.call();
-        } catch (FHIRPersistenceResourceNotFoundException e) {
+        } catch (FHIRResourceNotFoundException e) {
             if (failFast) {
                 String msg = "Error while processing request bundle.";
                 throw new FHIRRestBundledRequestException(msg, e).withIssue(e.getIssues());
@@ -207,7 +207,7 @@ public class FHIRRestInteractionVisitorOffload extends FHIRRestInteractionVisito
                     .build();
             final long elapsed = System.nanoTime() - start;
             setEntryComplete(entryIndex, entry, requestDescription, accumulatedTime + elapsed);
-        } catch (FHIRPersistenceResourceDeletedException e) {
+        } catch (FHIRResourceDeletedException e) {
             if (failFast) {
                 String msg = "Error while processing request bundle.";
                 throw new FHIRRestBundledRequestException(msg, e).withIssue(e.getIssues());

@@ -120,7 +120,7 @@ public class ServerFHIRTerminologyProvider implements TerminologyProvider {
             // See https://www.hl7.org/fhir/datatypes.html#id
             if (id.matches("[A-Za-z0-9\\-\\.]{1,64}")) {
                 try {
-                    SingleResourceResult<? extends Resource> result = resourceHelper.doRead(ResourceType.VALUE_SET.getValue(), id, /*throwExOnMissing=*/false, /*contextResource=*/null);
+                    SingleResourceResult<? extends Resource> result = resourceHelper.doRead(ResourceType.VALUE_SET.getValue(), id, /*throwExOnMissing=*/false);
                     if( result.isSuccess() ) {
                         valueSet = (ValueSet) result.getResource();
                     }

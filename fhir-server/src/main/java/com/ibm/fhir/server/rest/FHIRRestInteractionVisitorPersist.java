@@ -26,10 +26,10 @@ import com.ibm.fhir.model.util.FHIRUtil;
 import com.ibm.fhir.persistence.SingleResourceResult;
 import com.ibm.fhir.persistence.context.FHIRPersistenceEvent;
 import com.ibm.fhir.persistence.exception.FHIRPersistenceIfNoneMatchException;
-import com.ibm.fhir.persistence.exception.FHIRPersistenceResourceDeletedException;
-import com.ibm.fhir.persistence.exception.FHIRPersistenceResourceNotFoundException;
 import com.ibm.fhir.persistence.payload.PayloadPersistenceResponse;
 import com.ibm.fhir.search.exception.FHIRSearchException;
+import com.ibm.fhir.server.exception.FHIRResourceDeletedException;
+import com.ibm.fhir.server.exception.FHIRResourceNotFoundException;
 import com.ibm.fhir.server.spi.operation.FHIROperationContext;
 import com.ibm.fhir.server.spi.operation.FHIRResourceHelpers;
 import com.ibm.fhir.server.spi.operation.FHIRRestOperationResponse;
@@ -276,7 +276,7 @@ public class FHIRRestInteractionVisitorPersist extends FHIRRestInteractionVisito
                 final long elapsed = System.nanoTime() - start;
                 setEntryComplete(entryIndex, entry, requestDescription, accumulatedTime + elapsed);
             }
-        } catch (FHIRPersistenceResourceNotFoundException e) {
+        } catch (FHIRResourceNotFoundException e) {
             if (failFast) {
                 updateIssuesWithEntryIndexAndThrow(entryIndex, e);
             }
@@ -290,7 +290,7 @@ public class FHIRRestInteractionVisitorPersist extends FHIRRestInteractionVisito
                     .build();
             final long elapsed = System.nanoTime() - start;
             setEntryComplete(entryIndex, entry, requestDescription, accumulatedTime + elapsed);
-        } catch (FHIRPersistenceResourceDeletedException e) {
+        } catch (FHIRResourceDeletedException e) {
             if (failFast) {
                 updateIssuesWithEntryIndexAndThrow(entryIndex, e);
             }

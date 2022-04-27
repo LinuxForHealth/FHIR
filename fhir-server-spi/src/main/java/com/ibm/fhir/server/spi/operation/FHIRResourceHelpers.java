@@ -311,7 +311,7 @@ public interface FHIRResourceHelpers {
      * @param throwExcOnNull
      *            whether to throw an exception on null
      * @param queryParameters
-     *            for supporting _elements and _summary for resource read
+     *            for supporting _elements and _summary for resource read; allows null
      * @return a SingleResourceResult wrapping the resource and including its deletion status
      * @throws Exception
      */

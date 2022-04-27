@@ -11,6 +11,7 @@ import static org.testng.Assert.assertEquals;
 import static org.testng.Assert.assertFalse;
 import static org.testng.Assert.assertNotNull;
 import static org.testng.Assert.assertTrue;
+import static org.testng.Assert.fail;
 import static org.testng.AssertJUnit.assertNull;
 
 import java.time.ZoneOffset;
@@ -25,12 +26,15 @@ import com.ibm.fhir.model.resource.Device;
 import com.ibm.fhir.model.resource.Device.UdiCarrier;
 import com.ibm.fhir.model.resource.Resource;
 import com.ibm.fhir.model.test.TestUtil;
+import com.ibm.fhir.model.type.Instant;
+import com.ibm.fhir.model.type.code.IssueType;
+import com.ibm.fhir.model.type.code.IssueType.Value;
 import com.ibm.fhir.persistence.ResourceResult;
 import com.ibm.fhir.persistence.SingleResourceResult;
 import com.ibm.fhir.persistence.context.FHIRHistoryContext;
 import com.ibm.fhir.persistence.context.FHIRPersistenceContext;
 import com.ibm.fhir.persistence.context.FHIRPersistenceContextFactory;
-import com.ibm.fhir.persistence.exception.FHIRPersistenceResourceNotFoundException;
+import com.ibm.fhir.persistence.exception.FHIRPersistenceException;
 import com.ibm.fhir.persistence.util.FHIRPersistenceTestSupport;
 
 /**
@@ -59,11 +63,11 @@ public abstract class AbstractDeleteTest extends AbstractPersistenceTest {
         this.deviceId2 = device2.getId();
     }
 
-    @Test(expectedExceptions = FHIRPersistenceResourceNotFoundException.class)
+    @Test(expectedExceptions = FHIRPersistenceException.class)
     public void testDeleteInvalidDevice() throws Exception {
 
         // When the persistence layer attempts to read the device it should kick
-        // back with FHIRPersistenceResourceNotFoundException
+        // back with a FHIRPersistenceException
         Device device = TestUtil.getMinimalResource(Device.class);
         device = FHIRPersistenceTestSupport.setIdAndMeta(persistence, device, "invalid-device-id", 1);
         delete(getDefaultPersistenceContext(), device);
@@ -188,14 +192,20 @@ public abstract class AbstractDeleteTest extends AbstractPersistenceTest {
     @Test(dependsOnMethods = { "testDeleteValidDevice" })
     public void testReDeleteValidDevice() throws Exception {
 
-        Device device = TestUtil.getMinimalResource(Device.class);
-
         // Deleted version is 2, so the new delete request needs would be version 3
         // in order to get past the concurrent update check. But because the
         // resource is currently deleted, we expect the delete call to throw
         // an exception
-        device = FHIRPersistenceTestSupport.setIdAndMeta(persistence, device, this.deviceId1, 3);
-        delete(getDefaultPersistenceContext(), device);
+        try {
+            persistence.delete(getDefaultPersistenceContext(), Device.class, deviceId1, 3, Instant.now());
+            fail("attempting to delete a deleted resource should throw an exception");
+        } catch (FHIRPersistenceException e) {
+            if (e.getIssues().isEmpty()) {
+                Value issueType = e.getIssues().get(0).getCode().getValueAsEnum();
+                assertEquals(issueType, IssueType.Value.EXCEPTION, "issue type must be translatable to a server error");
+            }
+            // else if no issue is present then this is translated into a server error, so we're good
+        }
     }
 
     @Test

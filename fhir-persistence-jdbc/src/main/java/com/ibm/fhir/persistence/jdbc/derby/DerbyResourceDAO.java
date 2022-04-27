@@ -146,9 +146,6 @@ public class DerbyResourceDAO extends ResourceDAOImpl {
             if (FHIRDAOConstants.SQLSTATE_WRONG_VERSION.equals(e.getSQLState())) {
                 // this is just a concurrent update, so there's no need to log the SQLException here
                 throw new FHIRPersistenceVersionIdMismatchException("Encountered version id mismatch while inserting Resource");
-            } else if (FHIRDAOConstants.SQLSTATE_CURRENTLY_DELETED.equals((e.getSQLState()))) {
-                // the resource is already deleted, which should be handled before the persistence layer is called
-                throw new FHIRPersistenceException("Unexpected attempt to delete a Resource which is currently deleted.");
             } else {
                 FHIRPersistenceException fx = new FHIRPersistenceException("SQLException encountered while inserting Resource.");
                 throw severe(logger, fx, e);

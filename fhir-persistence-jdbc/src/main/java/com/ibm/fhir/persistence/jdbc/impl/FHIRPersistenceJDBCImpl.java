@@ -1051,8 +1051,7 @@ public class FHIRPersistenceJDBCImpl implements FHIRPersistence, SchemaNameSuppl
             // Create a new Resource DTO instance to represent the deletion marker.
             final int newVersionId = versionId + 1;
             com.ibm.fhir.persistence.jdbc.dto.Resource resourceDTO =
-                    createResourceDTO(resourceType, logicalId, newVersionId, lastUpdated, null,
-                        null);
+                    createResourceDTO(resourceType, logicalId, newVersionId, lastUpdated, null, null);
             resourceDTO.setDeleted(true);
 
             // Persist the logically deleted Resource DTO.

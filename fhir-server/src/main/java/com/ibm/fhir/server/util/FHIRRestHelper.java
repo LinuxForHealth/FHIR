@@ -109,8 +109,6 @@ import com.ibm.fhir.persistence.context.impl.FHIRPersistenceContextImpl;
 import com.ibm.fhir.persistence.erase.EraseDTO;
 import com.ibm.fhir.persistence.exception.FHIRPersistenceException;
 import com.ibm.fhir.persistence.exception.FHIRPersistenceIfNoneMatchException;
-import com.ibm.fhir.persistence.exception.FHIRPersistenceResourceDeletedException;
-import com.ibm.fhir.persistence.exception.FHIRPersistenceResourceNotFoundException;
 import com.ibm.fhir.persistence.helper.FHIRTransactionHelper;
 import com.ibm.fhir.persistence.jdbc.exception.FHIRPersistenceDataAccessException;
 import com.ibm.fhir.persistence.payload.PayloadPersistenceResponse;
@@ -126,6 +124,8 @@ import com.ibm.fhir.search.util.ReferenceUtil;
 import com.ibm.fhir.search.util.ReferenceValue;
 import com.ibm.fhir.search.util.ReferenceValue.ReferenceType;
 import com.ibm.fhir.search.util.SearchHelper;
+import com.ibm.fhir.server.exception.FHIRResourceDeletedException;
+import com.ibm.fhir.server.exception.FHIRResourceNotFoundException;
 import com.ibm.fhir.server.interceptor.FHIRPersistenceInterceptorMgr;
 import com.ibm.fhir.server.operation.FHIROperationRegistry;
 import com.ibm.fhir.server.rest.FHIRRestInteraction;
@@ -648,7 +648,7 @@ public class FHIRRestHelper implements FHIRResourceHelpers {
                 if (srr.getResource() == null && (!persistence.isUpdateCreateEnabled() || (patch != null))) {
                     String msg = "Resource '" + type + "/" + id + "' not found.";
                     log.log(Level.SEVERE, msg);
-                    throw new FHIRPersistenceResourceNotFoundException(msg);
+                    throw new FHIRResourceNotFoundException(msg);
                 }
             }
 
@@ -1078,11 +1078,6 @@ public class FHIRRestHelper implements FHIRResourceHelpers {
     }
 
     @Override
-    public SingleResourceResult<? extends Resource> doRead(String type, String id, boolean throwExcOnNull) throws Exception {
-        return doRead(type, id, throwExcOnNull, null);
-    }
-
-    @Override
     public SingleResourceResult<? extends Resource> doRead(String type, String id, boolean throwExcOnNull,
             MultivaluedMap<String, String> queryParameters) throws Exception {
         return doRead(type, id, throwExcOnNull, queryParameters, true);
@@ -1104,7 +1099,6 @@ public class FHIRRestHelper implements FHIRResourceHelpers {
      * @return a {@link SingleResourceResult} containing the Resource
      * @throws Exception
      */
-    // TODO remove contextResource?  it doesn't seem to ever be populated...
     private SingleResourceResult<? extends Resource> doRead(String type, String id, boolean throwExcOnNull,
             MultivaluedMap<String, String> queryParameters, boolean checkInteractionAllowed) throws Exception {
         log.entering(this.getClass().getName(), "doRead");
@@ -1152,9 +1146,9 @@ public class FHIRRestHelper implements FHIRResourceHelpers {
 
             if (result.getResource() == null && throwExcOnNull) {
                 if (result.isDeleted()) {
-                    throw new FHIRPersistenceResourceDeletedException("Resource '" + type + "/" + id + "' is deleted.");
+                    throw new FHIRResourceDeletedException("Resource '" + type + "/" + id + "' is deleted.");
                 } else {
-                    throw new FHIRPersistenceResourceNotFoundException("Resource '" + type + "/" + id + "' not found.");
+                    throw new FHIRResourceNotFoundException("Resource '" + type + "/" + id + "' not found.");
                 }
             }
 
@@ -1222,10 +1216,10 @@ public class FHIRRestHelper implements FHIRResourceHelpers {
 
             if (srr.getResource() == null) {
                 if (srr.isDeleted()) {
-                    throw new FHIRPersistenceResourceDeletedException("Resource '" + type + "/" + id + "'"
+                    throw new FHIRResourceDeletedException("Resource '" + type + "/" + id + "'"
                             + " version " + versionId + " is deleted.");
                 } else {
-                    throw new FHIRPersistenceResourceNotFoundException("Resource '" + type + "/" + id + "'"
+                    throw new FHIRResourceNotFoundException("Resource '" + type + "/" + id + "'"
                             + " version " + versionId + " not found.");
                 }
             }

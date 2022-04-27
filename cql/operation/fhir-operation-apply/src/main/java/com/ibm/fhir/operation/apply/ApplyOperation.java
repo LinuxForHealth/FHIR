@@ -402,7 +402,7 @@ public class ApplyOperation extends AbstractOperation {
     private PlanDefinition checkAndRetrievePlanDefinition(FHIRResourceHelpers resourceHelper,
             String planDefinitionId) throws Exception {
         Resource resource =
-                resourceHelper.doRead("PlanDefinition", planDefinitionId, false, null).getResource();
+                resourceHelper.doRead("PlanDefinition", planDefinitionId, false).getResource();
         if (resource == null) {
             throw buildOperationExceptionNotFound("Could not find 'PlanDefinition' with id: ["
                     + planDefinitionId + "]");

@@ -114,7 +114,7 @@ public class CareGapsOperationTest {
         Parameters parameters = Parameters.builder().parameter(pPeriodStart, pPeriodEnd, pTopic, pSubject).build();
 
         FHIRResourceHelpers resourceHelper = mock(FHIRResourceHelpers.class);
-        when(resourceHelper.doRead(eq("Patient"), anyString(), anyBoolean(), any())).thenAnswer(x -> asResult(patient));
+        when(resourceHelper.doRead(eq("Patient"), anyString(), anyBoolean())).thenAnswer(x -> asResult(patient));
 
         when(resourceHelper.doSearch(eq("Encounter"), nullable(String.class), nullable(String.class), any(), nullable(String.class))).thenReturn(bundle(encounter));
         when(resourceHelper.doSearch(eq("Procedure"), nullable(String.class), nullable(String.class), any(), nullable(String.class))).thenReturn(bundle(procedure));

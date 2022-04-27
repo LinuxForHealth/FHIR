@@ -38,7 +38,7 @@ public class LibraryDataRequirementsOperation extends AbstractDataRequirementsOp
         Library library = null;
         if (operationContext.getType().equals(FHIROperationContext.Type.INSTANCE)) {
             try {
-                SingleResourceResult<?> readResult = resourceHelper.doRead(ResourceType.LIBRARY.getValue(), logicalId, true, null);
+                SingleResourceResult<?> readResult = resourceHelper.doRead(ResourceType.LIBRARY.getValue(), logicalId, true);
                 library = (Library) readResult.getResource();
             } catch (Exception ex) {
                 throw new FHIROperationException("Failed to read resource", ex);
@@ -66,7 +66,7 @@ public class LibraryDataRequirementsOperation extends AbstractDataRequirementsOp
             }
 
             try {
-                SingleResourceResult<?> readResult = resourceHelper.doRead(targetType, logicalId, true, null);
+                SingleResourceResult<?> readResult = resourceHelper.doRead(targetType, logicalId, true);
                 if( readResult.getResource() instanceof Library ) {
                     library = (Library) readResult.getResource();
                 } else {

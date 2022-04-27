@@ -152,7 +152,7 @@ public class OperationHelper {
     public static <T extends Resource> T loadResourceById(FHIRResourceHelpers resourceHelper, ResourceType resourceType, String resourceId) throws FHIROperationException {
         T resource;
         try {
-            SingleResourceResult<?> readResult = resourceHelper.doRead(resourceType.getValue(), resourceId, true, null);
+            SingleResourceResult<?> readResult = resourceHelper.doRead(resourceType.getValue(), resourceId, true);
             resource = (T) readResult.getResource();
         } catch (Exception ex) {
             throw new FHIROperationException(String.format("Failed to resolve %s resource \"%s\"", resourceType.getValue(), resourceId), ex);

@@ -1,5 +1,5 @@
 /*
- * (C) Copyright IBM Corp. 2021
+ * (C) Copyright IBM Corp. 2021, 2022
  *
  * SPDX-License-Identifier: Apache-2.0
  */
@@ -175,10 +175,10 @@ public class ServerFHIRTerminologyProviderTest {
         if( matchByID ) {
             when(result.isSuccess()).thenReturn(true);
             when(result.getResource()).thenReturn(valueSet);
-            when(resourceHelper.doRead("ValueSet", TEST_SYSTEM_ID, false, null)).thenReturn(result);
+            when(resourceHelper.doRead("ValueSet", TEST_SYSTEM_ID, false)).thenReturn(result);
         } else {
             when(result.isSuccess()).thenReturn(false);
-            when(resourceHelper.doRead("ValueSet", idInCQL, false, null)).thenReturn(result);
+            when(resourceHelper.doRead("ValueSet", idInCQL, false)).thenReturn(result);
         }
 
         termProvider.resolveByUrl(info);

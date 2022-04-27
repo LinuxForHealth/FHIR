@@ -166,7 +166,7 @@ public class EverythingOperation extends AbstractOperation {
 
         Patient patient = null;
         try {
-            patient = (Patient) resourceHelper.doRead(PATIENT, logicalId, false, null).getResource();
+            patient = (Patient) resourceHelper.doRead(PATIENT, logicalId, false).getResource();
         } catch (Exception e) {
             FHIROperationException exceptionWithIssue = buildExceptionWithIssue("An unexpected error occurred while "
                     + "reading patient '" + logicalId + "'", IssueType.EXCEPTION, e);

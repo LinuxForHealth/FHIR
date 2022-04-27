@@ -106,7 +106,7 @@ public class CqlOperationTest extends BaseCqlOperationTest<CqlOperation> {
         Parameters parameters = Parameters.builder().parameter(pSubject, pLibrary, pUseServerData, pData, pPrefetchData, pDataEndpoint, pContentEndpoint, pTerminologyEndpoint).build();
 
         FHIRResourceHelpers resourceHelper = mock(FHIRResourceHelpers.class);
-        when(resourceHelper.doRead(eq("Patient"), anyString(), anyBoolean(), any())).thenAnswer(x -> asResult(patient));
+        when(resourceHelper.doRead(eq("Patient"), anyString(), anyBoolean())).thenAnswer(x -> asResult(patient));
         when(resourceHelper.doSearch(eq("Encounter"), anyString(), anyString(), any(), anyString())).thenReturn(bundle(encounter));
 
         // Library fhirHelpers = TestHelper.getTestLibraryResource("FHIRHelpers-4.0.1.json");
@@ -155,7 +155,7 @@ public class CqlOperationTest extends BaseCqlOperationTest<CqlOperation> {
         Parameters parameters = Parameters.builder().parameter(pSubject, pLibrary, pDebug).build();
 
         FHIRResourceHelpers resourceHelper = mock(FHIRResourceHelpers.class);
-        when(resourceHelper.doRead(eq("Patient"), anyString(), anyBoolean(), any())).thenAnswer(x -> asResult(patient));
+        when(resourceHelper.doRead(eq("Patient"), anyString(), anyBoolean())).thenAnswer(x -> asResult(patient));
         when(resourceHelper.doSearch(eq("Encounter"), anyString(), anyString(), any(), anyString())).thenReturn(bundle(encounter));
 
         // Library fhirHelpers = TestHelper.getTestLibraryResource("FHIRHelpers-4.0.1.json");
@@ -202,7 +202,7 @@ public class CqlOperationTest extends BaseCqlOperationTest<CqlOperation> {
         Parameters parameters = Parameters.builder().parameter(pSubject, pLibrary, pDebug).build();
 
         FHIRResourceHelpers resourceHelper = mock(FHIRResourceHelpers.class);
-        when(resourceHelper.doRead(eq("Patient"), anyString(), anyBoolean(), any())).thenAnswer(x -> asResult(patient));
+        when(resourceHelper.doRead(eq("Patient"), anyString(), anyBoolean())).thenAnswer(x -> asResult(patient));
         when(resourceHelper.doSearch(eq("Encounter"), anyString(), anyString(), any(), anyString())).thenReturn(bundle(encounter));
 
         // Library fhirHelpers = TestHelper.getTestLibraryResource("FHIRHelpers-4.0.1.json");
@@ -249,7 +249,7 @@ public class CqlOperationTest extends BaseCqlOperationTest<CqlOperation> {
         Parameters parameters = Parameters.builder().parameter(pSubject, pLibrary, pDebug).build();
 
         FHIRResourceHelpers resourceHelper = mock(FHIRResourceHelpers.class);
-        when(resourceHelper.doRead(eq("Patient"), anyString(), anyBoolean(), any())).thenAnswer(x -> asResult(patient));
+        when(resourceHelper.doRead(eq("Patient"), anyString(), anyBoolean())).thenAnswer(x -> asResult(patient));
         when(resourceHelper.doSearch(eq("Encounter"), anyString(), anyString(), any(), anyString())).thenReturn(bundle(encounter));
 
         // Library fhirHelpers = TestHelper.getTestLibraryResource("FHIRHelpers-4.0.1.json");
@@ -297,7 +297,7 @@ public class CqlOperationTest extends BaseCqlOperationTest<CqlOperation> {
         Parameters parameters = Parameters.builder().parameter(pSubject, pExpression, pLibrary).build();
 
         FHIRResourceHelpers resourceHelper = mock(FHIRResourceHelpers.class);
-        when(resourceHelper.doRead(eq("Patient"), anyString(), anyBoolean(), any())).thenAnswer(x -> asResult(patient));
+        when(resourceHelper.doRead(eq("Patient"), anyString(), anyBoolean())).thenAnswer(x -> asResult(patient));
         when(resourceHelper.doSearch(eq("Encounter"), anyString(), anyString(), any(), anyString())).thenReturn(bundle(encounter));
 
         try (MockedStatic<FHIRRegistry> staticRegistry = mockStatic(FHIRRegistry.class)) {
@@ -327,7 +327,7 @@ public class CqlOperationTest extends BaseCqlOperationTest<CqlOperation> {
         Parameters parameters = Parameters.builder().parameter(pSubject, pLibrary).build();
 
         FHIRResourceHelpers resourceHelper = mock(FHIRResourceHelpers.class);
-        when(resourceHelper.doRead(eq("Patient"), anyString(), anyBoolean(), any())).thenAnswer(x -> asResult(patient));
+        when(resourceHelper.doRead(eq("Patient"), anyString(), anyBoolean())).thenAnswer(x -> asResult(patient));
 
         try (MockedStatic<FHIRRegistry> staticRegistry = mockStatic(FHIRRegistry.class)) {
             FHIRRegistry mockRegistry = spy(FHIRRegistry.class);
@@ -359,7 +359,7 @@ public class CqlOperationTest extends BaseCqlOperationTest<CqlOperation> {
         Parameters parameters = Parameters.builder().parameter(pSubject, pLibrary, pDebug).build();
 
         FHIRResourceHelpers resourceHelper = mock(FHIRResourceHelpers.class);
-        when(resourceHelper.doRead(eq("Patient"), anyString(), anyBoolean(), any())).thenAnswer(x -> asResult(patient));
+        when(resourceHelper.doRead(eq("Patient"), anyString(), anyBoolean())).thenAnswer(x -> asResult(patient));
         when(resourceHelper.doSearch(eq("Condition"), anyString(), anyString(), any(MultivaluedMap.class), anyString())).thenReturn(ModelHelper.bundle());
 
         try (MockedStatic<FHIRRegistry> staticRegistry = mockStatic(FHIRRegistry.class)) {

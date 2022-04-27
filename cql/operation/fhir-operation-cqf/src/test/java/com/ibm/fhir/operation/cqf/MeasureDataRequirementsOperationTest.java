@@ -10,7 +10,6 @@ import static com.ibm.fhir.cql.helpers.ModelHelper.concept;
 import static com.ibm.fhir.cql.helpers.ModelHelper.fhircode;
 import static com.ibm.fhir.cql.helpers.ModelHelper.fhirstring;
 import static com.ibm.fhir.cql.helpers.ModelHelper.fhiruri;
-import static org.mockito.ArgumentMatchers.any;
 import static org.mockito.ArgumentMatchers.anyBoolean;
 import static org.mockito.ArgumentMatchers.eq;
 import static org.mockito.Mockito.when;
@@ -102,7 +101,7 @@ public class MeasureDataRequirementsOperationTest extends BaseDataRequirementsOp
 
         measure = measure.toBuilder().library( canonical(primaryLibrary) ).build();
 
-        when(resourceHelper.doRead(eq("Measure"), eq(measure.getId()), anyBoolean(), any())).thenAnswer(x -> TestHelper.asResult(measure));
+        when(resourceHelper.doRead(eq("Measure"), eq(measure.getId()), anyBoolean())).thenAnswer(x -> TestHelper.asResult(measure));
         when(mockRegistry.getResource( canonical(measure.getUrl(), measure.getVersion()).getValue(), Measure.class )).thenReturn(measure);
 
         return primaryLibrary;

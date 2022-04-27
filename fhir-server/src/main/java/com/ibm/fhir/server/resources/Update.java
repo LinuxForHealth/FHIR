@@ -35,7 +35,7 @@ import com.ibm.fhir.exception.FHIROperationException;
 import com.ibm.fhir.model.resource.Resource;
 import com.ibm.fhir.model.type.code.IssueType;
 import com.ibm.fhir.persistence.exception.FHIRPersistenceIfNoneMatchException;
-import com.ibm.fhir.persistence.exception.FHIRPersistenceResourceNotFoundException;
+import com.ibm.fhir.server.exception.FHIRResourceNotFoundException;
 import com.ibm.fhir.server.spi.operation.FHIRRestOperationResponse;
 import com.ibm.fhir.server.util.FHIRRestHelper;
 import com.ibm.fhir.server.util.RestAuditLogger;
@@ -96,7 +96,7 @@ public class Update extends FHIRResource {
                 response = addHeaders(response, ior.getLocationURI());
             }
             return response.build();
-        } catch (FHIRPersistenceResourceNotFoundException e) {
+        } catch (FHIRResourceNotFoundException e) {
             // By default, NOT_FOUND is mapped to HTTP 404, so explicitly set it to HTTP 405
             status = Status.METHOD_NOT_ALLOWED;
             return exceptionResponse(e, status);
@@ -161,7 +161,7 @@ public class Update extends FHIRResource {
             response = addETagAndLastModifiedHeaders(response, updatedResource);
 
             return response.build();
-        } catch (FHIRPersistenceResourceNotFoundException e) {
+        } catch (FHIRResourceNotFoundException e) {
             status = Status.METHOD_NOT_ALLOWED;
             return exceptionResponse(e, status);
         } catch (FHIROperationException e) {
