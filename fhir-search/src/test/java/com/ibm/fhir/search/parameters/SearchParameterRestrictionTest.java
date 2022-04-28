@@ -12,10 +12,8 @@ import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
-import org.testng.annotations.BeforeClass;
 import org.testng.annotations.Test;
 
-import com.ibm.fhir.config.FHIRConfiguration;
 import com.ibm.fhir.config.FHIRRequestContext;
 import com.ibm.fhir.exception.FHIRException;
 import com.ibm.fhir.model.resource.CarePlan;
@@ -36,12 +34,6 @@ public class SearchParameterRestrictionTest extends BaseSearchTest {
 
     private static final String DEFAULT_TENANT_ID = "default";
     private static final String TENANT_ID = "tenant7";
-
-    @Override
-    @BeforeClass
-    public void setup() {
-        FHIRConfiguration.setConfigHome("target/test-classes");
-    }
 
     private void setRequestContext(String tenant) throws FHIRException {
         // Inject a reasonable uri into the request context - it gets used to

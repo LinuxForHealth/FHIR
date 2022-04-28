@@ -1,5 +1,5 @@
 /*
- * (C) Copyright IBM Corp. 2019
+ * (C) Copyright IBM Corp. 2019, 2022
  *
  * SPDX-License-Identifier: Apache-2.0
  */
@@ -15,11 +15,8 @@ import com.ibm.fhir.search.test.ExtractorValidator.Builder;
 
 /**
  * Test the Tag | https://www.hl7.org/fhir/r4/search.html#all
- * 
- * For instance - GET [base]/Condition?_tag=http://acme.org/codes|needs-review
- * 
- * @author pbastide
  *
+ * For instance - GET [base]/Condition?_tag=http://acme.org/codes|needs-review
  */
 public class SearchTagTest {
 

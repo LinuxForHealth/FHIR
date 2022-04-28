@@ -41,6 +41,10 @@ public abstract class BaseSearchTest {
     public static final boolean DEBUG = false;
 
     protected static SearchHelper searchHelper;
+    {
+        FHIRConfiguration.setConfigHome("target/test-classes");
+        searchHelper = new SearchHelper();
+    }
 
     @BeforeClass
     public void configureLogging() throws Exception {
@@ -64,12 +68,6 @@ public abstract class BaseSearchTest {
         if (DEBUG) {
             System.out.println("End of Test -> " + method.getName());
         }
-    }
-
-    @BeforeClass
-    public void setup() {
-        FHIRConfiguration.setConfigHome("target/test-classes");
-        searchHelper = new SearchHelper();
     }
 
     @AfterMethod
