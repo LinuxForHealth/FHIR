@@ -94,7 +94,7 @@ public class ServerFHIRRetrieveProvider extends SearchParameterFHIRRetrieveProvi
         try {
             if (queryParameters.containsKey("_id")) {
                 String id = queryParameters.getFirst("_id");
-                SingleResourceResult<?> result = resourceHelpers.doRead(dataType, id, true);
+                SingleResourceResult<?> result = resourceHelpers.doRead(dataType, id, FHIRResourceHelpers.THROW_EXC_ON_MISSING);
                 if (result.isSuccess()) {
                     resource = result.getResource();
                 }

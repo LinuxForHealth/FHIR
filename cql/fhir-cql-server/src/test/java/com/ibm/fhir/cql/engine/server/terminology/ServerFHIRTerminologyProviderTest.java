@@ -8,6 +8,7 @@ package com.ibm.fhir.cql.engine.server.terminology;
 import static com.ibm.fhir.cql.helpers.ModelHelper.fhirboolean;
 import static com.ibm.fhir.cql.helpers.ModelHelper.fhircode;
 import static com.ibm.fhir.cql.helpers.ModelHelper.fhirstring;
+import static com.ibm.fhir.server.spi.operation.FHIRResourceHelpers.THROW_EXC_ON_MISSING;
 import static org.mockito.ArgumentMatchers.any;
 import static org.mockito.ArgumentMatchers.eq;
 import static org.mockito.Mockito.mock;
@@ -175,10 +176,10 @@ public class ServerFHIRTerminologyProviderTest {
         if( matchByID ) {
             when(result.isSuccess()).thenReturn(true);
             when(result.getResource()).thenReturn(valueSet);
-            when(resourceHelper.doRead("ValueSet", TEST_SYSTEM_ID, false)).thenReturn(result);
+            when(resourceHelper.doRead("ValueSet", TEST_SYSTEM_ID, !THROW_EXC_ON_MISSING)).thenReturn(result);
         } else {
             when(result.isSuccess()).thenReturn(false);
-            when(resourceHelper.doRead("ValueSet", idInCQL, false)).thenReturn(result);
+            when(resourceHelper.doRead("ValueSet", idInCQL, !THROW_EXC_ON_MISSING)).thenReturn(result);
         }
 
         termProvider.resolveByUrl(info);

@@ -6,6 +6,7 @@
 package com.ibm.fhir.operation.cpg;
 
 import static com.ibm.fhir.cql.helpers.ModelHelper.fhirstring;
+import static com.ibm.fhir.server.spi.operation.FHIRResourceHelpers.THROW_EXC_ON_MISSING;
 
 import java.io.InputStream;
 import java.util.List;
@@ -62,7 +63,7 @@ public class LibraryEvaluateOperation extends AbstractCqlOperation {
         try {
             Library primaryLibrary = null;
             if (operationContext.getType().equals(FHIROperationContext.Type.INSTANCE)) {
-                SingleResourceResult<?> readResult = resourceHelper.doRead(ResourceType.LIBRARY.getValue(), logicalId, true);
+                SingleResourceResult<?> readResult = resourceHelper.doRead(ResourceType.LIBRARY.getValue(), logicalId, THROW_EXC_ON_MISSING);
                 primaryLibrary = (Library) readResult.getResource();
             } else if (operationContext.getType().equals(FHIROperationContext.Type.RESOURCE_TYPE)) {
                 Parameter param = paramMap.getSingletonParameter("library");

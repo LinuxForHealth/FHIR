@@ -7,6 +7,7 @@
 package com.ibm.fhir.operation.document;
 
 import static com.ibm.fhir.model.type.String.string;
+import static com.ibm.fhir.server.spi.operation.FHIRResourceHelpers.THROW_EXC_ON_MISSING;
 
 import java.net.URI;
 import java.time.ZoneOffset;
@@ -51,7 +52,7 @@ public class DocumentOperation extends AbstractOperation {
         try {
             Composition composition = null;
 
-            Resource resource = resourceHelper.doRead("Composition", logicalId, false).getResource();
+            Resource resource = resourceHelper.doRead("Composition", logicalId, !THROW_EXC_ON_MISSING).getResource();
             if (resource == null) {
                 throw FHIROperationUtil.buildExceptionWithIssue("Could not find composition with id: " + logicalId, IssueType.INVALID);
             }
@@ -178,7 +179,7 @@ public class DocumentOperation extends AbstractOperation {
             String resourceTypeName = referenceTokens[0];
             String logicalId = referenceTokens[1];
 
-            resource = resourceHelper.doRead(resourceTypeName, logicalId, false).getResource();
+            resource = resourceHelper.doRead(resourceTypeName, logicalId, !THROW_EXC_ON_MISSING).getResource();
 
             if (resource == null) {
                 throw new FHIROperationException("Could not find resource for reference value: " + referenceValue);

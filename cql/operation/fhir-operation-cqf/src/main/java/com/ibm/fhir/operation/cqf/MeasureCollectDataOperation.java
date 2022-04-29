@@ -6,6 +6,7 @@
 package com.ibm.fhir.operation.cqf;
 
 import static com.ibm.fhir.cql.helpers.ModelHelper.fhirstring;
+import static com.ibm.fhir.server.spi.operation.FHIRResourceHelpers.THROW_EXC_ON_MISSING;
 
 import java.util.Collection;
 import java.util.HashMap;
@@ -108,7 +109,7 @@ public class MeasureCollectDataOperation extends EvaluateMeasureOperation {
 
                         if( ! resourceMap.containsKey(id) ) {
                             try {
-                                SingleResourceResult<? extends Resource> readResult = resourceHelper.doRead(type, id, /*throwExOnNull=*/true);
+                                SingleResourceResult<? extends Resource> readResult = resourceHelper.doRead(type, id, THROW_EXC_ON_MISSING);
                                 if( readResult.isSuccess() ) {
                                     Resource fetchedResource = readResult.getResource();
                                     parameters.parameter(Parameter.builder().name(fhirstring(PARAM_OUT_RESOURCE)).resource(fetchedResource).build());

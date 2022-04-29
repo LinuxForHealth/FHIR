@@ -5,6 +5,8 @@
  */
 package com.ibm.fhir.operation.cqf;
 
+import static com.ibm.fhir.server.spi.operation.FHIRResourceHelpers.THROW_EXC_ON_MISSING;
+
 import java.util.List;
 
 import com.ibm.fhir.cql.helpers.LibraryHelper;
@@ -38,7 +40,7 @@ public class LibraryDataRequirementsOperation extends AbstractDataRequirementsOp
         Library library = null;
         if (operationContext.getType().equals(FHIROperationContext.Type.INSTANCE)) {
             try {
-                SingleResourceResult<?> readResult = resourceHelper.doRead(ResourceType.LIBRARY.getValue(), logicalId, true);
+                SingleResourceResult<?> readResult = resourceHelper.doRead(ResourceType.LIBRARY.getValue(), logicalId, THROW_EXC_ON_MISSING);
                 library = (Library) readResult.getResource();
             } catch (Exception ex) {
                 throw new FHIROperationException("Failed to read resource", ex);
@@ -66,7 +68,7 @@ public class LibraryDataRequirementsOperation extends AbstractDataRequirementsOp
             }
 
             try {
-                SingleResourceResult<?> readResult = resourceHelper.doRead(targetType, logicalId, true);
+                SingleResourceResult<?> readResult = resourceHelper.doRead(targetType, logicalId, THROW_EXC_ON_MISSING);
                 if( readResult.getResource() instanceof Library ) {
                     library = (Library) readResult.getResource();
                 } else {

@@ -37,6 +37,8 @@ public interface FHIRResourceHelpers {
     public static final boolean DO_VALIDATION = true;
     // Constant for indicating whether an update can be skipped when the requested update resource matches the existing one
     public static final boolean SKIPPABLE_UPDATE = true;
+    // Constant for indicating whether an interaction should throw when the corresponding resource could not be read
+    public static final boolean THROW_EXC_ON_MISSING = true;
 
     // Constant for when we don't use the If-Not-Match header value
     public static final Integer IF_NOT_MATCH_NULL = null;

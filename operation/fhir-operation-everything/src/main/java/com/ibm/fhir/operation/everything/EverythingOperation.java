@@ -8,6 +8,7 @@ package com.ibm.fhir.operation.everything;
 import static com.ibm.fhir.model.util.ModelSupport.FHIR_DATE;
 import static com.ibm.fhir.model.util.ModelSupport.FHIR_INSTANT;
 import static com.ibm.fhir.model.util.ModelSupport.FHIR_STRING;
+import static com.ibm.fhir.server.spi.operation.FHIRResourceHelpers.THROW_EXC_ON_MISSING;
 
 import java.util.ArrayList;
 import java.util.Arrays;
@@ -166,7 +167,7 @@ public class EverythingOperation extends AbstractOperation {
 
         Patient patient = null;
         try {
-            patient = (Patient) resourceHelper.doRead(PATIENT, logicalId, false).getResource();
+            patient = (Patient) resourceHelper.doRead(PATIENT, logicalId, !THROW_EXC_ON_MISSING).getResource();
         } catch (Exception e) {
             FHIROperationException exceptionWithIssue = buildExceptionWithIssue("An unexpected error occurred while "
                     + "reading patient '" + logicalId + "'", IssueType.EXCEPTION, e);
