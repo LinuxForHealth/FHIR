@@ -7,7 +7,6 @@ package com.ibm.fhir.cql.engine.server.terminology;
 
 import static com.ibm.fhir.cql.helpers.ModelHelper.fhircode;
 import static com.ibm.fhir.cql.helpers.ModelHelper.fhirstring;
-import static com.ibm.fhir.server.spi.operation.FHIRResourceHelpers.THROW_EXC_ON_MISSING;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -121,7 +120,7 @@ public class ServerFHIRTerminologyProvider implements TerminologyProvider {
             // See https://www.hl7.org/fhir/datatypes.html#id
             if (id.matches("[A-Za-z0-9\\-\\.]{1,64}")) {
                 try {
-                    SingleResourceResult<? extends Resource> result = resourceHelper.doRead(ResourceType.VALUE_SET.getValue(), id, !THROW_EXC_ON_MISSING);
+                    SingleResourceResult<? extends Resource> result = resourceHelper.doRead(ResourceType.VALUE_SET.getValue(), id);
                     if( result.isSuccess() ) {
                         valueSet = (ValueSet) result.getResource();
                     }

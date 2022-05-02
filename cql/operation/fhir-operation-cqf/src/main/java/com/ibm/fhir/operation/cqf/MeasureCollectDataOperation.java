@@ -6,7 +6,6 @@
 package com.ibm.fhir.operation.cqf;
 
 import static com.ibm.fhir.cql.helpers.ModelHelper.fhirstring;
-import static com.ibm.fhir.server.spi.operation.FHIRResourceHelpers.THROW_EXC_ON_MISSING;
 
 import java.util.Collection;
 import java.util.HashMap;
@@ -57,13 +56,13 @@ public class MeasureCollectDataOperation extends EvaluateMeasureOperation {
         Parameters.Builder outParams = Parameters.builder();
         outParams.parameter( Parameter.builder().name(fhirstring(PARAM_OUT_MEASURE_REPORT)).resource(measureReport).build());
 
-        if( measureReport.getContained() != null ) {
-            for( Resource containedResource : measureReport.getContained() ) {
+        if ( measureReport.getContained() != null ) {
+            for ( Resource containedResource : measureReport.getContained() ) {
                 // This is exactly how the cqf-ruler implementation is coded.
                 // Right now, this is never going to fire based on both the
                 // cqf-ruler and cql-evaluator implementations. This needs to
                 // be discussed with the spec team and revisited as appropriate.
-                if( containedResource instanceof Bundle ) {
+                if ( containedResource instanceof Bundle ) {
                     addEvaluatedResourcesToParameters((Bundle) containedResource, outParams, resourceHelper);
                 }
             }
@@ -74,10 +73,10 @@ public class MeasureCollectDataOperation extends EvaluateMeasureOperation {
 
     protected void addEvaluatedResourcesToParameters( Bundle contained, Parameters.Builder parameters, FHIRResourceHelpers resourceHelper ) throws FHIROperationException {
         Map<String,Resource> resourceMap = new HashMap<>();
-        if( contained.getEntry() != null ) {
-            for( Bundle.Entry entry : contained.getEntry() ) {
-                if( entry.getResource() != null && !(entry.getResource() instanceof com.ibm.fhir.model.resource.List) ) {
-                    if( ! resourceMap.containsKey(entry.getResource().getId()) ) {
+        if ( contained.getEntry() != null ) {
+            for ( Bundle.Entry entry : contained.getEntry() ) {
+                if ( entry.getResource() != null && !(entry.getResource() instanceof com.ibm.fhir.model.resource.List) ) {
+                    if ( ! resourceMap.containsKey(entry.getResource().getId()) ) {
                         parameters.parameter(Parameter.builder().name(fhirstring(PARAM_OUT_RESOURCE)).resource(entry.getResource()).build());
                         resourceMap.put(entry.getResource().getId(), entry.getResource());
 
@@ -97,28 +96,34 @@ public class MeasureCollectDataOperation extends EvaluateMeasureOperation {
     protected void resolveReferences(Resource resource, Parameters.Builder parameters, Map<String, Resource> resourceMap, FHIRResourceHelpers resourceHelper) throws FHIROperationException {
 
         Collection<ElementInfo> elementInfos = ModelSupport.getElementInfo(resource.getClass());
-        for( ElementInfo elementInfo : elementInfos ) {
+        for ( ElementInfo elementInfo : elementInfos ) {
             Set<String> referenceTypes = elementInfo.getReferenceTypes();
-            if( referenceTypes.size() > 0 ) {
+            if ( referenceTypes.size() > 0 ) {
                 Reference reference = (Reference) resolver.resolvePath(resource,  elementInfo.getName());
-                if( reference != null ) {
-                    String[] parts = reference.getReference().getValue().split("/");
-                    if( parts.length == 2 ) {
+                if ( reference != null && reference.getReference() != null && reference.getReference().getValue() != null) {
+                    String refValue = reference.getReference().getValue();
+                    String[] parts = refValue.split("/");
+                    if ( parts.length == 2 ) {
                         String type = parts[0];
                         String id = parts[1];
 
-                        if( ! resourceMap.containsKey(id) ) {
+                        if ( ! resourceMap.containsKey(id) ) {
                             try {
-                                SingleResourceResult<? extends Resource> readResult = resourceHelper.doRead(type, id, THROW_EXC_ON_MISSING);
-                                if( readResult.isSuccess() ) {
-                                    Resource fetchedResource = readResult.getResource();
-                                    parameters.parameter(Parameter.builder().name(fhirstring(PARAM_OUT_RESOURCE)).resource(fetchedResource).build());
-                                    resourceMap.put(id, resource);
+                                SingleResourceResult<? extends Resource> readResult = resourceHelper.doRead(type, id);
+                                if ( readResult.getResource() == null) {
+                                    throw new FHIROperationException("Failed to read referenced resource: " + refValue);
                                 }
-                            } catch( Exception ex ) {
-                                throw new FHIROperationException("Failed to read referenced resource", ex);
+                                Resource fetchedResource = readResult.getResource();
+                                parameters.parameter(Parameter.builder().name(fhirstring(PARAM_OUT_RESOURCE)).resource(fetchedResource).build());
+                                resourceMap.put(id, resource);
+                            } catch ( FHIROperationException fex ) {
+                                throw fex;
+                            } catch ( Exception ex ) {
+                                throw new FHIROperationException("Unexpected error while reading library: " + refValue, ex);
                             }
                         }
+                    } else {
+                        throw new FHIROperationException("Expected a relative reference with two parts, but found " + refValue);
                     }
                 }
             }

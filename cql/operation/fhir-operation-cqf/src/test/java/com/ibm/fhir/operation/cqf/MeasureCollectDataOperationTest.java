@@ -13,7 +13,6 @@ import static com.ibm.fhir.cql.helpers.ModelHelper.fhirstring;
 import static com.ibm.fhir.cql.helpers.ModelHelper.reference;
 import static com.ibm.fhir.cql.helpers.ModelHelper.valueset;
 import static org.mockito.ArgumentMatchers.any;
-import static org.mockito.ArgumentMatchers.anyBoolean;
 import static org.mockito.ArgumentMatchers.anyString;
 import static org.mockito.ArgumentMatchers.eq;
 import static org.mockito.Mockito.mock;
@@ -112,7 +111,7 @@ public class MeasureCollectDataOperationTest {
         Parameters parameters = Parameters.builder().parameter(pPeriodStart, pPeriodEnd, pReportType, pMeasure, pSubject).build();
 
         FHIRResourceHelpers resourceHelper = mock(FHIRResourceHelpers.class);
-        when(resourceHelper.doRead(eq("Patient"), eq(patient.getId()), anyBoolean())).thenAnswer(x -> TestHelper.asResult(patient));
+        when(resourceHelper.doRead(eq("Patient"), eq(patient.getId()))).thenAnswer(x -> TestHelper.asResult(patient));
 
         when(resourceHelper.doSearch(eq("Encounter"), anyString(), anyString(), any(), anyString())).thenReturn( bundle(encounter) );
         when(resourceHelper.doSearch(eq("Procedure"), anyString(), anyString(), any(), anyString())).thenReturn( bundle(procedure) );
@@ -158,7 +157,7 @@ public class MeasureCollectDataOperationTest {
                 .build();
 
         FHIRResourceHelpers resourceHelper = mock(FHIRResourceHelpers.class);
-        when(resourceHelper.doRead(eq("Patient"), eq(patient.getId()), anyBoolean())).thenAnswer(x -> TestHelper.asResult(patient));
+        when(resourceHelper.doRead(eq("Patient"), eq(patient.getId()))).thenAnswer(x -> TestHelper.asResult(patient));
 
         Parameters.Builder builder = Parameters.builder();
         operation.resolveReferences(encounter, builder, new HashMap<>(), resourceHelper);

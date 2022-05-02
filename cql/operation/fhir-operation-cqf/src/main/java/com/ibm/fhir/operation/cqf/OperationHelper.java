@@ -5,8 +5,6 @@
  */
 package com.ibm.fhir.operation.cqf;
 
-import static com.ibm.fhir.server.spi.operation.FHIRResourceHelpers.THROW_EXC_ON_MISSING;
-
 import java.util.List;
 import java.util.Objects;
 import java.util.stream.Collectors;
@@ -154,10 +152,15 @@ public class OperationHelper {
     public static <T extends Resource> T loadResourceById(FHIRResourceHelpers resourceHelper, ResourceType resourceType, String resourceId) throws FHIROperationException {
         T resource;
         try {
-            SingleResourceResult<?> readResult = resourceHelper.doRead(resourceType.getValue(), resourceId, THROW_EXC_ON_MISSING);
+            SingleResourceResult<?> readResult = resourceHelper.doRead(resourceType.getValue(), resourceId);
             resource = (T) readResult.getResource();
+            if (resource == null) {
+                throw new FHIROperationException(String.format("Failed to resolve %s resource \"%s\"", resourceType.getValue(), resourceId));
+            }
+        } catch (FHIROperationException fex) {
+            throw fex;
         } catch (Exception ex) {
-            throw new FHIROperationException(String.format("Failed to resolve %s resource \"%s\"", resourceType.getValue(), resourceId), ex);
+            throw new FHIROperationException("Unexpected error while reading " + resourceType.getValue() + "/" + resourceId, ex);
         }
         return resource;
     }

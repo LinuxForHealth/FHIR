@@ -7,7 +7,6 @@
 package com.ibm.fhir.operation.term;
 
 import static com.ibm.fhir.model.util.ModelSupport.FHIR_STRING;
-import static com.ibm.fhir.server.spi.operation.FHIRResourceHelpers.THROW_EXC_ON_MISSING;
 
 import com.ibm.fhir.exception.FHIROperationException;
 import com.ibm.fhir.model.resource.OperationDefinition;
@@ -57,7 +56,7 @@ public abstract class AbstractTermOperation extends AbstractOperation {
         String resourceParameterName = resourceTypeName.substring(0, 1).toLowerCase() + resourceTypeName.substring(1);
         String resourceVersionParameterName = resourceParameterName + "Version";
         if (FHIROperationContext.Type.INSTANCE.equals(operationContext.getType())) {
-            Resource resource = resourceHelper.doRead(resourceTypeName, logicalId, !THROW_EXC_ON_MISSING).getResource();
+            Resource resource = resourceHelper.doRead(resourceTypeName, logicalId).getResource();
             if (resource == null) {
                 throw buildExceptionWithIssue(resourceTypeName + " with id '" + logicalId + "' was not found", IssueType.NOT_FOUND);
             }

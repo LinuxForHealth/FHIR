@@ -6,7 +6,6 @@
 package com.ibm.fhir.server.test;
 
 import static com.ibm.fhir.model.type.String.string;
-import static com.ibm.fhir.server.spi.operation.FHIRResourceHelpers.THROW_EXC_ON_MISSING;
 import static org.testng.Assert.assertEquals;
 import static org.testng.Assert.assertNotNull;
 import static org.testng.Assert.assertTrue;
@@ -366,7 +365,7 @@ public class InteractionValidationConfigTest {
         FHIRRequestContext.get().setOriginalRequestUri("test");
         FHIRRequestContext.get().setReturnPreference(HTTPReturnPreference.OPERATION_OUTCOME);
         try {
-            Resource resource = helper.doRead("Patient", "1", !THROW_EXC_ON_MISSING).getResource();
+            Resource resource = helper.doRead("Patient", "1").getResource();
             assertNotNull(resource);
         } catch (FHIROperationException e) {
             fail();
@@ -385,7 +384,7 @@ public class InteractionValidationConfigTest {
         FHIRRequestContext.get().setOriginalRequestUri("test");
         FHIRRequestContext.get().setReturnPreference(HTTPReturnPreference.OPERATION_OUTCOME);
         try {
-            Resource resource = helper.doRead("Encounter", "1", !THROW_EXC_ON_MISSING).getResource();
+            Resource resource = helper.doRead("Encounter", "1").getResource();
             assertNotNull(resource);
         } catch (FHIROperationException e) {
             fail();
@@ -404,7 +403,7 @@ public class InteractionValidationConfigTest {
         FHIRRequestContext.get().setOriginalRequestUri("test");
         FHIRRequestContext.get().setReturnPreference(HTTPReturnPreference.OPERATION_OUTCOME);
         try {
-            Resource resource = helper.doRead("Encounter", "1", !THROW_EXC_ON_MISSING).getResource();
+            Resource resource = helper.doRead("Encounter", "1").getResource();
             assertNotNull(resource);
         } catch (FHIROperationException e) {
             fail();
@@ -423,7 +422,7 @@ public class InteractionValidationConfigTest {
         FHIRRequestContext.get().setOriginalRequestUri("test");
         FHIRRequestContext.get().setReturnPreference(HTTPReturnPreference.OPERATION_OUTCOME);
         try {
-            helper.doRead("Patient", "1", !THROW_EXC_ON_MISSING);
+            helper.doRead("Patient", "1");
             fail();
         } catch (FHIROperationException e) {
             // Validate results
@@ -448,7 +447,7 @@ public class InteractionValidationConfigTest {
         FHIRRequestContext.get().setOriginalRequestUri("test");
         FHIRRequestContext.get().setReturnPreference(HTTPReturnPreference.OPERATION_OUTCOME);
         try {
-            helper.doRead("Encounter", "1", !THROW_EXC_ON_MISSING);
+            helper.doRead("Encounter", "1");
             fail();
         } catch (FHIROperationException e) {
             // Validate results
@@ -473,7 +472,7 @@ public class InteractionValidationConfigTest {
         FHIRRequestContext.get().setOriginalRequestUri("test");
         FHIRRequestContext.get().setReturnPreference(HTTPReturnPreference.OPERATION_OUTCOME);
         try {
-            helper.doRead("Procedure", "1", !THROW_EXC_ON_MISSING);
+            helper.doRead("Procedure", "1");
             fail();
         } catch (FHIROperationException e) {
             // Validate results
@@ -498,7 +497,7 @@ public class InteractionValidationConfigTest {
         FHIRRequestContext.get().setOriginalRequestUri("test");
         FHIRRequestContext.get().setReturnPreference(HTTPReturnPreference.OPERATION_OUTCOME);
         try {
-            helper.doRead("Procedure", "1", !THROW_EXC_ON_MISSING);
+            helper.doRead("Procedure", "1");
             fail();
         } catch (FHIROperationException e) {
             // Validate results
@@ -523,7 +522,7 @@ public class InteractionValidationConfigTest {
         FHIRRequestContext.get().setOriginalRequestUri("test");
         FHIRRequestContext.get().setReturnPreference(HTTPReturnPreference.OPERATION_OUTCOME);
         try {
-            helper.doRead("Practitioner", "1", !THROW_EXC_ON_MISSING);
+            helper.doRead("Practitioner", "1");
             fail();
         } catch (FHIROperationException e) {
             // Validate results

@@ -6,7 +6,6 @@
 package com.ibm.fhir.operation.cpg;
 
 import static com.ibm.fhir.cql.helpers.ModelHelper.fhirstring;
-import static com.ibm.fhir.server.spi.operation.FHIRResourceHelpers.THROW_EXC_ON_MISSING;
 
 import java.io.InputStream;
 import java.util.List;
@@ -63,27 +62,34 @@ public class LibraryEvaluateOperation extends AbstractCqlOperation {
         try {
             Library primaryLibrary = null;
             if (operationContext.getType().equals(FHIROperationContext.Type.INSTANCE)) {
-                SingleResourceResult<?> readResult = resourceHelper.doRead(ResourceType.LIBRARY.getValue(), logicalId, THROW_EXC_ON_MISSING);
+                SingleResourceResult<?> readResult = resourceHelper.doRead(ResourceType.LIBRARY.getValue(), logicalId);
                 primaryLibrary = (Library) readResult.getResource();
+                if (primaryLibrary == null) {
+                    throw new IllegalArgumentException("failed to resolve library with resource id: " + logicalId);
+                }
             } else if (operationContext.getType().equals(FHIROperationContext.Type.RESOURCE_TYPE)) {
                 Parameter param = paramMap.getSingletonParameter("library");
                 String canonicalURL = ((com.ibm.fhir.model.type.Uri) param.getValue()).getValue();
                 primaryLibrary = FHIRRegistry.getInstance().getResource(canonicalURL, Library.class);
+                if (primaryLibrary == null) {
+                    throw new IllegalArgumentException("failed to resolve library with canonical URL: " + canonicalURL);
+                }
             } else {
                 throw new UnsupportedOperationException("This operation must be invoked in the context of the Library resource");
             }
 
-            if (primaryLibrary == null) {
-                throw new IllegalArgumentException("failed to resolve library");
-            } else {
-                result = doEvaluation(resourceHelper, paramMap, searchHelper, primaryLibrary);
-            }
+            result = doEvaluation(resourceHelper, paramMap, searchHelper, primaryLibrary);
 
         } catch (FHIROperationException fex) {
             throw fex;
         } catch (IllegalArgumentException | CqlTranslationException iex) {
             logger.log(Level.SEVERE, "Bad Request", iex);
-            throw new FHIROperationException(iex.getMessage(), iex).withIssue(Issue.builder().severity(IssueSeverity.ERROR).code(IssueType.INVALID).details(CodeableConcept.builder().text(fhirstring(iex.getMessage())).build()).build());
+            throw new FHIROperationException(iex.getMessage(), iex)
+                    .withIssue(Issue.builder()
+                        .severity(IssueSeverity.ERROR)
+                        .code(IssueType.INVALID)
+                        .details(CodeableConcept.builder().text(fhirstring(iex.getMessage())).build())
+                        .build());
         } catch (Exception ex) {
             logger.log(Level.SEVERE, "Evaluation failed", ex);
             throwOperationException(ex);
@@ -95,7 +101,7 @@ public class LibraryEvaluateOperation extends AbstractCqlOperation {
     @Override
     protected Set<String> getCqlExpressionsToEvaluate(ParameterMap paramMap) {
         Set<String> expressions = null;
-        if( paramMap.containsKey(PARAM_IN_EXPRESSION) ) {
+        if ( paramMap.containsKey(PARAM_IN_EXPRESSION) ) {
             List<Parameter> expressionsParams = paramMap.getParameter(PARAM_IN_EXPRESSION);
             if (expressionsParams != null) {
                 expressions = expressionsParams.stream().map(p -> ((com.ibm.fhir.model.type.String) p.getValue()).getValue()).collect(Collectors.toSet());

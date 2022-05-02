@@ -7,7 +7,6 @@
 package com.ibm.fhir.operation.apply;
 
 import static com.ibm.fhir.model.type.String.string;
-import static com.ibm.fhir.server.spi.operation.FHIRResourceHelpers.THROW_EXC_ON_MISSING;
 
 import java.util.ArrayList;
 import java.util.Collections;
@@ -403,7 +402,7 @@ public class ApplyOperation extends AbstractOperation {
     private PlanDefinition checkAndRetrievePlanDefinition(FHIRResourceHelpers resourceHelper,
             String planDefinitionId) throws Exception {
         Resource resource =
-                resourceHelper.doRead("PlanDefinition", planDefinitionId, !THROW_EXC_ON_MISSING).getResource();
+                resourceHelper.doRead("PlanDefinition", planDefinitionId).getResource();
         if (resource == null) {
             throw buildOperationExceptionNotFound("Could not find 'PlanDefinition' with id: ["
                     + planDefinitionId + "]");

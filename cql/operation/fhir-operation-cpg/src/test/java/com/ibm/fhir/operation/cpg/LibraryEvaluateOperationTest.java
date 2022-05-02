@@ -12,7 +12,6 @@ import static com.ibm.fhir.cql.helpers.ModelHelper.fhirboolean;
 import static com.ibm.fhir.cql.helpers.ModelHelper.fhirstring;
 import static com.ibm.fhir.cql.helpers.ModelHelper.valueset;
 import static org.mockito.ArgumentMatchers.any;
-import static org.mockito.ArgumentMatchers.anyBoolean;
 import static org.mockito.ArgumentMatchers.anyString;
 import static org.mockito.ArgumentMatchers.eq;
 import static org.mockito.Mockito.mock;
@@ -86,7 +85,7 @@ public class LibraryEvaluateOperationTest extends BaseCqlOperationTest<LibraryEv
         ParameterMap paramMap = new ParameterMap(parameters);
 
         FHIRResourceHelpers resourceHelper = mock(FHIRResourceHelpers.class);
-        when(resourceHelper.doRead(eq("Patient"), anyString(), anyBoolean())).thenAnswer(x -> asResult(patient));
+        when(resourceHelper.doRead(eq("Patient"), anyString())).thenAnswer(x -> asResult(patient));
 
         when(resourceHelper.doSearch(eq("Encounter"), anyString(), anyString(), any(), anyString())).thenReturn(bundle(encounter));
         when(resourceHelper.doSearch(eq("Procedure"), anyString(), anyString(), any(), anyString())).thenReturn(bundle(procedure));
@@ -139,7 +138,7 @@ public class LibraryEvaluateOperationTest extends BaseCqlOperationTest<LibraryEv
         ParameterMap paramMap = new ParameterMap(parameters);
 
         FHIRResourceHelpers resourceHelper = mock(FHIRResourceHelpers.class);
-        when(resourceHelper.doRead(eq("Patient"), anyString(), anyBoolean())).thenAnswer(x -> asResult(patient));
+        when(resourceHelper.doRead(eq("Patient"), anyString())).thenAnswer(x -> asResult(patient));
 
         when(resourceHelper.doSearch(eq("Encounter"), anyString(), anyString(), any(), anyString())).thenReturn(bundle(encounter));
         when(resourceHelper.doSearch(eq("Procedure"), anyString(), anyString(), any(), anyString())).thenReturn(bundle(procedure));
@@ -212,7 +211,7 @@ public class LibraryEvaluateOperationTest extends BaseCqlOperationTest<LibraryEv
         Parameters parameters = Parameters.builder().parameter(pSubject, pLibrary, pUseServerData, pData, pPrefetchData, pDataEndpoint, pContentEndpoint, pTerminologyEndpoint).build();
 
         FHIRResourceHelpers resourceHelper = mock(FHIRResourceHelpers.class);
-        when(resourceHelper.doRead(eq("Patient"), anyString(), anyBoolean())).thenAnswer(x -> asResult(patient));
+        when(resourceHelper.doRead(eq("Patient"), anyString())).thenAnswer(x -> asResult(patient));
 
         when(resourceHelper.doSearch(eq("Encounter"), anyString(), anyString(), any(), anyString())).thenReturn(bundle(encounter));
         when(resourceHelper.doSearch(eq("Procedure"), anyString(), anyString(), any(), anyString())).thenReturn(bundle(procedure));

@@ -1096,7 +1096,7 @@ public class FHIRRestHelper implements FHIRResourceHelpers {
      *            for supporting _elements and _summary for resource read
      * @param checkInteractionAllowed
      *            if true, check if this interaction is allowed per the tenant configuration; if false, assume interaction is allowed
-     * @return a {@link SingleResourceResult} containing the Resource
+     * @return a {@link SingleResourceResult} containing the ResourceResult for the interaction
      * @throws Exception
      */
     private SingleResourceResult<? extends Resource> doRead(String type, String id, boolean throwExcOnNull,

@@ -293,14 +293,13 @@ public interface FHIRResourceHelpers {
      *            the resource type associated with the Resource to be retrieved
      * @param id
      *            the id of the Resource to be retrieved
-     * @param throwExcOnNull
-     *            whether to throw an exception on null
-     * @return a SingleResourceResult wrapping the resource and including its deletion status
+     * @return a SingleResourceResult thats wraps a ResourceResult which contains the possibly-null resource
+     *         that was read from the datastore
      * @throws Exception
      */
-    default SingleResourceResult<? extends Resource> doRead(String type, String id, boolean throwExcOnNull)
+    default SingleResourceResult<? extends Resource> doRead(String type, String id)
             throws Exception {
-        return doRead(type, id, throwExcOnNull, null);
+        return doRead(type, id, !THROW_EXC_ON_MISSING, null);
     }
 
     /**

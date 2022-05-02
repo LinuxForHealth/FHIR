@@ -1,5 +1,5 @@
 /*
- * (C) Copyright IBM Corp. 2021
+ * (C) Copyright IBM Corp. 2021, 2022
  *
  * SPDX-License-Identifier: Apache-2.0
  */
@@ -43,10 +43,10 @@ public class TestHelper {
     }
     
     @SuppressWarnings("unchecked")
-    public static SingleResourceResult<? extends Resource> asResult(Resource patient) {
+    public static SingleResourceResult<? extends Resource> asResult(Resource resource) {
         SingleResourceResult<Resource> result = (SingleResourceResult<Resource>) mock(SingleResourceResult.class);
         when(result.isSuccess()).thenReturn(true);
-        when(result.getResource()).thenReturn(patient);
+        when(result.getResource()).thenReturn(resource);
         return result;
     }
 }

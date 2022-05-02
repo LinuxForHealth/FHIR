@@ -5,8 +5,6 @@
  */
 package com.ibm.fhir.operation.cqf;
 
-import static com.ibm.fhir.server.spi.operation.FHIRResourceHelpers.THROW_EXC_ON_MISSING;
-
 import java.util.Arrays;
 import java.util.List;
 
@@ -40,8 +38,13 @@ public class MeasureDataRequirementsOperation extends AbstractDataRequirementsOp
 
         Measure measure = null;
         try {
-            SingleResourceResult<?> readResult = resourceHelper.doRead(ResourceType.MEASURE.getValue(), logicalId, THROW_EXC_ON_MISSING);
+            SingleResourceResult<?> readResult = resourceHelper.doRead(ResourceType.MEASURE.getValue(), logicalId);
             measure = (Measure) readResult.getResource();
+            if (measure == null) {
+                throw new FHIROperationException("Failed to resolve measure with resource id: " + logicalId);
+            }
+        } catch (FHIROperationException fex) {
+            throw fex;
         } catch (Exception ex) {
             throw new FHIROperationException("Failed to read resource", ex);
         }
