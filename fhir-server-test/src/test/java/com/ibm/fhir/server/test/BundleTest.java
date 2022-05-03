@@ -108,8 +108,6 @@ public class BundleTest extends FHIRServerTestBase {
     private static final String PREFER_HEADER_RETURN_REPRESENTATION = "return=representation";
     private static final String PREFER_HEADER_NAME = "Prefer";
 
-    private static final String UPDATE_IF_MODIFIED_HEADER_NAME = "X-FHIR-UPDATE-IF-MODIFIED";
-
     /**
      * Retrieve the server's conformance statement to determine the status of
      * certain runtime options.
@@ -2627,8 +2625,7 @@ public class BundleTest extends FHIRServerTestBase {
 
         // Process bundle
         FHIRRequestHeader returnPref = FHIRRequestHeader.header(PREFER_HEADER_NAME, PREFER_HEADER_RETURN_REPRESENTATION);
-        FHIRRequestHeader updateOnlyIfModified = FHIRRequestHeader.header(UPDATE_IF_MODIFIED_HEADER_NAME, true);
-        FHIRResponse response = client.transaction(requestBundle, returnPref, updateOnlyIfModified);
+        FHIRResponse response = client.transaction(requestBundle, returnPref);
         assertNotNull(response);
         assertResponse(response.getResponse(), Response.Status.OK.getStatusCode());
         Bundle responseBundle = response.getResource(Bundle.class);
@@ -2658,7 +2655,7 @@ public class BundleTest extends FHIRServerTestBase {
                 .build();
 
         // Process bundle
-        FHIRResponse response2 = client.transaction(requestBundle, returnPref, updateOnlyIfModified);
+        FHIRResponse response2 = client.transaction(requestBundle, returnPref);
         assertNotNull(response2);
         assertResponse(response2.getResponse(), Response.Status.OK.getStatusCode());
         Bundle responseBundle2 = response2.getResource(Bundle.class);
@@ -2706,7 +2703,7 @@ public class BundleTest extends FHIRServerTestBase {
                 .build();
 
         // Process the bundle request and check that the patch was skipped
-        FHIRResponse response3 = client.transaction(requestBundle, returnPref, updateOnlyIfModified);
+        FHIRResponse response3 = client.transaction(requestBundle, returnPref);
         assertNotNull(response3);
         assertResponse(response3.getResponse(), Response.Status.OK.getStatusCode());
         Bundle responseBundle3 = response3.getResource(Bundle.class);

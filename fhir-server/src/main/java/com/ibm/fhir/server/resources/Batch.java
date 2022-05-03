@@ -59,7 +59,7 @@ public class Batch extends FHIRResource {
     }
 
     @POST
-    public Response bundle(Resource resource, @HeaderParam(FHIRConstants.UPDATE_IF_MODIFIED_HEADER) boolean updateOnlyIfModified) {
+    public Response bundle(Resource resource, @HeaderParam(FHIRConstants.FORCE_UPDATE_HEADER) boolean forceUpdate) {
         log.entering(this.getClass().getName(), "bundle(Bundle)");
         Date startTime = new Date();
         Response.Status status = null;
@@ -86,7 +86,7 @@ public class Batch extends FHIRResource {
             }
 
             FHIRRestHelper helper = new FHIRRestHelper(getPersistenceImpl(), getSearchHelper());
-            responseBundle = helper.doBundle(inputBundle, updateOnlyIfModified);
+            responseBundle = helper.doBundle(inputBundle, !forceUpdate);
             status = Status.OK;
             return Response.ok(responseBundle).build();
         } catch (FHIRRestBundledRequestException e) {
