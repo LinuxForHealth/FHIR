@@ -55,6 +55,9 @@ import com.ibm.fhir.model.type.code.NarrativeStatus;
 import jakarta.json.Json;
 import jakarta.json.JsonArray;
 
+/**
+ * Tests for JSON and FHIRPath patch interactions
+ */
 public class FHIRPatchTest extends FHIRServerTestBase {
     @Test(groups = { "fhir-patch" })
     public void testJSONPatchAddOperation() throws Exception {
@@ -1110,10 +1113,10 @@ public class FHIRPatchTest extends FHIRServerTestBase {
         response = target.path("Patient/" + patient.getId())
                 .request(FHIRMediaType.APPLICATION_FHIR_JSON)
                 .method("PATCH", patchEntity, Response.class);
-        assertResponse(response, Response.Status.NOT_FOUND.getStatusCode());
+        assertResponse(response, Response.Status.GONE.getStatusCode());
         OperationOutcome oo = response.readEntity(OperationOutcome.class);
         assertNotNull(oo);
-        assertEquals("Resource 'Patient/" + patient.getId() + "' not found.", oo.getIssue().get(0).getDetails().getText().getValue());
+        assertEquals("Resource 'Patient/" + patient.getId() + "' is deleted.", oo.getIssue().get(0).getDetails().getText().getValue());
     }
 
     @Test(groups = { "fhir-patch" })
@@ -1143,10 +1146,10 @@ public class FHIRPatchTest extends FHIRServerTestBase {
         response = target.path("Patient/" + patient.getId())
                 .request(FHIRMediaType.APPLICATION_FHIR_JSON)
                 .method("PATCH", patchEntity, Response.class);
-        assertResponse(response, Response.Status.NOT_FOUND.getStatusCode());
+        assertResponse(response, Response.Status.GONE.getStatusCode());
         OperationOutcome oo = response.readEntity(OperationOutcome.class);
         assertNotNull(oo);
-        assertEquals("Resource 'Patient/" + patient.getId() + "' not found.", oo.getIssue().get(0).getDetails().getText().getValue());
+        assertEquals("Resource 'Patient/" + patient.getId() + "' is deleted.", oo.getIssue().get(0).getDetails().getText().getValue());
     }
 
     private void assertGoodGetResponse(Bundle.Entry entry, int expectedStatusCode, HTTPReturnPreference returnPref) throws Exception {

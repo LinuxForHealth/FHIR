@@ -23,10 +23,10 @@ import com.ibm.fhir.model.resource.OperationOutcome.Issue;
 import com.ibm.fhir.model.resource.Resource;
 import com.ibm.fhir.model.util.FHIRUtil;
 import com.ibm.fhir.persistence.context.FHIRPersistenceEvent;
-import com.ibm.fhir.persistence.exception.FHIRPersistenceResourceDeletedException;
-import com.ibm.fhir.persistence.exception.FHIRPersistenceResourceNotFoundException;
 import com.ibm.fhir.persistence.payload.PayloadPersistenceResponse;
 import com.ibm.fhir.search.exception.FHIRSearchException;
+import com.ibm.fhir.server.exception.FHIRResourceDeletedException;
+import com.ibm.fhir.server.exception.FHIRResourceNotFoundException;
 import com.ibm.fhir.server.exception.FHIRRestBundledRequestException;
 import com.ibm.fhir.server.spi.operation.FHIROperationContext;
 import com.ibm.fhir.server.spi.operation.FHIRResourceHelpers;
@@ -53,8 +53,9 @@ public class FHIRRestInteractionVisitorOffload extends FHIRRestInteractionVisito
     }
 
     @Override
-    public FHIRRestOperationResponse doSearch(int entryIndex, String requestDescription, FHIRUrlParser requestURL, long accumulatedTime, String type, String compartment, String compartmentId,
-            MultivaluedMap<String, String> queryParameters, String requestUri, Resource contextResource, boolean checkInteractionAllowed) throws Exception {
+    public FHIRRestOperationResponse doSearch(int entryIndex, String requestDescription, FHIRUrlParser requestURL,
+            long accumulatedTime, String type, String compartment, String compartmentId,
+            MultivaluedMap<String, String> queryParameters, String requestUri, boolean checkInteractionAllowed) throws Exception {
         // NOP. Nothing to do
         return null;
     }
@@ -67,7 +68,8 @@ public class FHIRRestInteractionVisitorOffload extends FHIRRestInteractionVisito
     }
 
     @Override
-    public FHIRRestOperationResponse doRead(int entryIndex, String requestDescription, FHIRUrlParser requestURL, long accumulatedTime, String type, String id, boolean throwExcOnNull, boolean includeDeleted, Resource contextResource,
+    public FHIRRestOperationResponse doRead(int entryIndex, String requestDescription, FHIRUrlParser requestURL,
+            long accumulatedTime, String type, String id, boolean throwExcOnNull,
             MultivaluedMap<String, String> queryParameters, boolean checkInteractionAllowed) throws Exception {
         // NOP for now. TODO: when offloading payload, try an optimistic async read of the latest payload
         return null;
@@ -113,7 +115,7 @@ public class FHIRRestInteractionVisitorOffload extends FHIRRestInteractionVisito
             // Resource doesn't change, so no need to return it
             FHIRRestOperationResponse result = new FHIRRestOperationResponse(null, null, actualOffloadResponse);
             result.setDeleted(isDeleted);
-            
+
             return result;
         });
     }
@@ -163,8 +165,8 @@ public class FHIRRestInteractionVisitorOffload extends FHIRRestInteractionVisito
     /**
      * If payload offloading is supported by the persistence layer, store the given resource. This
      * can be an async operation which we resolve at the end just prior to the transaction being
-     * committed. If offloading isn't enabled, the operation is a NOP and the persistence layer 
-     * returns null. 
+     * committed. If offloading isn't enabled, the operation is a NOP and the persistence layer
+     * returns null.
      * @param resource
      * @param logicalId
      * @param newVersionNumber
@@ -177,7 +179,7 @@ public class FHIRRestInteractionVisitorOffload extends FHIRRestInteractionVisito
 
     /**
      * Unified exception handling for each of the operation calls
-     * 
+     *
      * @param entryIndex
      * @param requestDescription
      * @param accumulatedTime
@@ -190,7 +192,7 @@ public class FHIRRestInteractionVisitorOffload extends FHIRRestInteractionVisito
         final long start = System.nanoTime();
         try {
             return v.call();
-        } catch (FHIRPersistenceResourceNotFoundException e) {
+        } catch (FHIRResourceNotFoundException e) {
             if (failFast) {
                 String msg = "Error while processing request bundle.";
                 throw new FHIRRestBundledRequestException(msg, e).withIssue(e.getIssues());
@@ -205,7 +207,7 @@ public class FHIRRestInteractionVisitorOffload extends FHIRRestInteractionVisito
                     .build();
             final long elapsed = System.nanoTime() - start;
             setEntryComplete(entryIndex, entry, requestDescription, accumulatedTime + elapsed);
-        } catch (FHIRPersistenceResourceDeletedException e) {
+        } catch (FHIRResourceDeletedException e) {
             if (failFast) {
                 String msg = "Error while processing request bundle.";
                 throw new FHIRRestBundledRequestException(msg, e).withIssue(e.getIssues());

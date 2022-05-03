@@ -13,8 +13,6 @@ import com.ibm.fhir.model.util.ValidationSupport;
 /**
  * A Result wrapper for FHIR interactions that return a single resource.
  * Instances are immutable and can be constructed via {@code new SingleResourceResult.Builder<T>()}.
- *
- * @author lmsurpre
  */
 public class SingleResourceResult<T extends Resource> {
     // The resourceResult will only be set if success == true
@@ -22,13 +20,13 @@ public class SingleResourceResult<T extends Resource> {
     private final boolean success;
     private final OperationOutcome outcome;
     private final InteractionStatus interactionStatus;
-    
+
     // The current version of the resource returned by the database if we hit IfNoneMatch
     final Integer ifNoneMatchVersion;
-    
+
     private SingleResourceResult(Builder<T> builder) {
         success = ValidationSupport.requireNonNull(builder.success, "success");
-        
+
         if (success) {
             resourceResult = builder.resourceResultBuilder.build();
         } else {
@@ -37,15 +35,15 @@ public class SingleResourceResult<T extends Resource> {
         outcome = builder.outcome;
         interactionStatus = builder.interactionStatus;
         ifNoneMatchVersion = builder.ifNoneMatchVersion;
-        
+
         if (!success && (outcome == null || outcome.getIssue().isEmpty())) {
             throw new IllegalStateException("Failed interaction results must include an OperationOutcome with one or more issue.");
         }
-        
+
         if (interactionStatus == null) {
             throw new IllegalStateException("All interaction results must include a valid InteractionStatus");
         }
-        
+
         if (interactionStatus == InteractionStatus.IF_NONE_MATCH_EXISTED && ifNoneMatchVersion == null) {
             throw new IllegalStateException("Must specify ifNoneMatchVersion when IF_NON_MATCH_EXISTED is true");
         }
@@ -100,7 +98,7 @@ public class SingleResourceResult<T extends Resource> {
     public Integer getIfNoneMatchVersion() {
         return this.ifNoneMatchVersion;
     }
-    
+
     /**
      * An OperationOutcome that represents the outcome of the interaction
      *
@@ -164,7 +162,7 @@ public class SingleResourceResult<T extends Resource> {
 
         /**
          * Sets the interaction status
-         * 
+         *
          * @param status
          * @return a reference to this Builder instance
          */
@@ -175,7 +173,7 @@ public class SingleResourceResult<T extends Resource> {
 
         /**
          * Sets the version we found hitting IfNoneMatch. Null in other cases.
-         * 
+         *
          * @param versionId
          * @return
          */
@@ -186,7 +184,7 @@ public class SingleResourceResult<T extends Resource> {
 
         /**
          * Whether or not the resource is deleted
-         * 
+         *
          * @param flag
          * @return A reference to this Builder instance
          */
@@ -228,7 +226,7 @@ public class SingleResourceResult<T extends Resource> {
         /**
          * The type name of the resource which should be set when the resource
          * value itself is null
-         * 
+         *
          * @param resourceTypeName
          *     The type name of the resource this result represents
          * @return
@@ -242,7 +240,7 @@ public class SingleResourceResult<T extends Resource> {
         /**
          * Sets the logicalId of the resource which should be set when the resource
          * value itself is null
-         * 
+         *
          * @param logicalId
          *     The logicalId of this resource
          * @return
@@ -256,7 +254,7 @@ public class SingleResourceResult<T extends Resource> {
         /**
          * Sets the version of the resource which should be set when the resource
          * value itself is null
-         * 
+         *
          * @param version
          *     The version of this resource
          * @return

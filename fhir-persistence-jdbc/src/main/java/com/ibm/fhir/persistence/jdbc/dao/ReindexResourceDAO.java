@@ -22,7 +22,6 @@ import javax.transaction.TransactionSynchronizationRegistry;
 
 import com.ibm.fhir.database.utils.api.IDatabaseTranslator;
 import com.ibm.fhir.database.utils.common.CalendarHelper;
-import com.ibm.fhir.persistence.exception.FHIRPersistenceResourceNotFoundException;
 import com.ibm.fhir.persistence.jdbc.FHIRPersistenceJDBCCache;
 import com.ibm.fhir.persistence.jdbc.connection.FHIRDbFlavor;
 import com.ibm.fhir.persistence.jdbc.dao.api.IResourceReferenceDAO;
@@ -314,7 +313,7 @@ public class ReindexResourceDAO extends ResourceDAOImpl {
                 } else {
                     // Can't really happen, because the resource is selected for update, so it can't disappear
                     logger.severe("Logical resource no longer exists: logical_resource_id=" + result.getLogicalResourceId());
-                    throw new FHIRPersistenceResourceNotFoundException("resource not found");
+                    throw new IllegalStateException("resource not found");
                 }
             } catch (SQLException x) {
                 logger.log(Level.SEVERE, SELECT_RESOURCE_TYPE, x);

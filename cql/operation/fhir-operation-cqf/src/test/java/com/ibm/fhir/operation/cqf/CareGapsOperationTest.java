@@ -12,7 +12,6 @@ import static com.ibm.fhir.cql.helpers.ModelHelper.concept;
 import static com.ibm.fhir.cql.helpers.ModelHelper.fhirstring;
 import static com.ibm.fhir.cql.helpers.ModelHelper.valueset;
 import static org.mockito.ArgumentMatchers.any;
-import static org.mockito.ArgumentMatchers.anyBoolean;
 import static org.mockito.ArgumentMatchers.anyString;
 import static org.mockito.ArgumentMatchers.eq;
 import static org.mockito.ArgumentMatchers.nullable;
@@ -114,11 +113,11 @@ public class CareGapsOperationTest {
         Parameters parameters = Parameters.builder().parameter(pPeriodStart, pPeriodEnd, pTopic, pSubject).build();
 
         FHIRResourceHelpers resourceHelper = mock(FHIRResourceHelpers.class);
-        when(resourceHelper.doRead(eq("Patient"), anyString(), anyBoolean(), anyBoolean(), any())).thenAnswer(x -> asResult(patient));
+        when(resourceHelper.doRead(eq("Patient"), anyString())).thenAnswer(x -> asResult(patient));
 
-        when(resourceHelper.doSearch(eq("Encounter"), nullable(String.class), nullable(String.class), any(), nullable(String.class), nullable(Resource.class))).thenReturn(bundle(encounter));
-        when(resourceHelper.doSearch(eq("Procedure"), nullable(String.class), nullable(String.class), any(), nullable(String.class), nullable(Resource.class))).thenReturn(bundle(procedure));
-        when(resourceHelper.doSearch(eq("Measure"), nullable(String.class), nullable(String.class), any(), nullable(String.class), nullable(Resource.class))).thenReturn(bundle(measure));
+        when(resourceHelper.doSearch(eq("Encounter"), nullable(String.class), nullable(String.class), any(), nullable(String.class))).thenReturn(bundle(encounter));
+        when(resourceHelper.doSearch(eq("Procedure"), nullable(String.class), nullable(String.class), any(), nullable(String.class))).thenReturn(bundle(procedure));
+        when(resourceHelper.doSearch(eq("Measure"), nullable(String.class), nullable(String.class), any(), nullable(String.class))).thenReturn(bundle(measure));
 
         try (MockedStatic<FHIRRegistry> staticRegistry = mockStatic(FHIRRegistry.class)) {
             FHIRRegistry mockRegistry = spy(FHIRRegistry.class);

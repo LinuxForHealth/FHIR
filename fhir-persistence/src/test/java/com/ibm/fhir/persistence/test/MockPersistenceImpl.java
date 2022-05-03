@@ -22,7 +22,6 @@ import com.ibm.fhir.persistence.ResourcePayload;
 import com.ibm.fhir.persistence.SingleResourceResult;
 import com.ibm.fhir.persistence.context.FHIRPersistenceContext;
 import com.ibm.fhir.persistence.exception.FHIRPersistenceException;
-import com.ibm.fhir.persistence.exception.FHIRPersistenceResourceDeletedException;
 import com.ibm.fhir.persistence.payload.PayloadPersistenceResponse;
 
 /**
@@ -32,20 +31,20 @@ import com.ibm.fhir.persistence.payload.PayloadPersistenceResponse;
 public class MockPersistenceImpl implements FHIRPersistence {
 
     @Override
-    public <T extends Resource> SingleResourceResult<T> create(FHIRPersistenceContext context, T resource) 
+    public <T extends Resource> SingleResourceResult<T> create(FHIRPersistenceContext context, T resource)
             throws FHIRPersistenceException {
         return null;
     }
 
     @Override
     public <T extends Resource> SingleResourceResult<T> read(FHIRPersistenceContext context, Class<T> resourceType, String logicalId)
-            throws FHIRPersistenceException, FHIRPersistenceResourceDeletedException {
+            throws FHIRPersistenceException {
         return null;
     }
 
     @Override
     public <T extends Resource> SingleResourceResult<T> vread(FHIRPersistenceContext context, Class<T> resourceType, String logicalId, String versionId)
-            throws FHIRPersistenceException, FHIRPersistenceResourceDeletedException {
+            throws FHIRPersistenceException {
         return null;
     }
 
@@ -93,7 +92,7 @@ public class MockPersistenceImpl implements FHIRPersistence {
     }
 
     @Override
-    public List<ResourceChangeLogRecord> changes(int resourceCount, Instant fromLastModified, Instant beforeLastModified, Long afterResourceId, List<String> resourceTypeNames, 
+    public List<ResourceChangeLogRecord> changes(int resourceCount, Instant fromLastModified, Instant beforeLastModified, Long afterResourceId, List<String> resourceTypeNames,
             boolean excludeTransactionTimeoutWindow, HistorySortOrder historySortOrder) throws FHIRPersistenceException {
         return Collections.emptyList();
     }

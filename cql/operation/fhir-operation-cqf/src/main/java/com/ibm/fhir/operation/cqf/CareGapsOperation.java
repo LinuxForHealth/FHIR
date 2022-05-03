@@ -73,13 +73,13 @@ public class CareGapsOperation extends AbstractMeasureOperation {
         searchParameters.putSingle("_total", "none");
 
         try {
-            Bundle bundle = resourceHelper.doSearch(ResourceType.MEASURE.getValue(), null, null, searchParameters, null, null);
+            Bundle bundle = resourceHelper.doSearch(ResourceType.MEASURE.getValue(), null, null, searchParameters, null);
 
             AtomicInteger pageNumber = new AtomicInteger(1);
             FHIRBundleCursor cursor = new FHIRBundleCursor(url -> {
                 try {
                     searchParameters.putSingle(SearchConstants.PAGE, String.valueOf(pageNumber.incrementAndGet()));
-                    return resourceHelper.doSearch(ResourceType.MEASURE.getValue(), null, null, searchParameters, null, null);
+                    return resourceHelper.doSearch(ResourceType.MEASURE.getValue(), null, null, searchParameters, null);
                 } catch (Exception ex) {
                     throw new RuntimeException(ex);
                 }

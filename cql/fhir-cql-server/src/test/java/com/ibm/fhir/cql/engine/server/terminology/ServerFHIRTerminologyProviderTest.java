@@ -1,5 +1,5 @@
 /*
- * (C) Copyright IBM Corp. 2021
+ * (C) Copyright IBM Corp. 2021, 2022
  *
  * SPDX-License-Identifier: Apache-2.0
  */
@@ -8,26 +8,27 @@ package com.ibm.fhir.cql.engine.server.terminology;
 import static com.ibm.fhir.cql.helpers.ModelHelper.fhirboolean;
 import static com.ibm.fhir.cql.helpers.ModelHelper.fhircode;
 import static com.ibm.fhir.cql.helpers.ModelHelper.fhirstring;
+import static org.mockito.ArgumentMatchers.any;
+import static org.mockito.ArgumentMatchers.eq;
+import static org.mockito.Mockito.mock;
+import static org.mockito.Mockito.when;
 import static org.testng.Assert.assertEquals;
 import static org.testng.Assert.assertNotNull;
 import static org.testng.Assert.assertTrue;
-import static org.mockito.ArgumentMatchers.*;
-import static org.mockito.Mockito.mock;
-import static org.mockito.Mockito.when;
 
 import java.util.Arrays;
 import java.util.HashSet;
 import java.util.Set;
 import java.util.stream.Collectors;
 
-import org.testng.annotations.AfterMethod;
-import org.testng.annotations.BeforeMethod;
-import org.testng.annotations.Test;
 import org.mockito.MockedStatic;
 import org.mockito.Mockito;
 import org.opencds.cqf.cql.engine.runtime.Code;
 import org.opencds.cqf.cql.engine.terminology.CodeSystemInfo;
 import org.opencds.cqf.cql.engine.terminology.ValueSetInfo;
+import org.testng.annotations.AfterMethod;
+import org.testng.annotations.BeforeMethod;
+import org.testng.annotations.Test;
 
 import com.ibm.fhir.cql.Constants;
 import com.ibm.fhir.model.resource.ValueSet;
@@ -55,7 +56,7 @@ public class ServerFHIRTerminologyProviderTest {
 
     private ServerFHIRTerminologyProvider termProvider;
     private FHIRResourceHelpers resourceHelper;
-    
+
     @BeforeMethod
     public void setup() {
         termService = Mockito.mock(FHIRTermService.class);
@@ -129,27 +130,27 @@ public class ServerFHIRTerminologyProviderTest {
         assertNotNull(actual);
         assertEquals(actual.getDisplay(), "test");
     }
-    
+
     @Test
     public void testResolveByUrlURNOID() throws Exception {
         runResolveByIdTest(Constants.URN_OID + TEST_VALUE_SET_ID, true, true);
     }
-    
+
     @Test
     public void testResolveByUrlURNUUID() throws Exception {
         runResolveByIdTest(Constants.URN_UUID  + TEST_VALUE_SET_ID, true, true);
     }
-    
+
     @Test
     public void testResolveByUrlURNValidFHIRID() throws Exception {
         runResolveByIdTest(TEST_VALUE_SET_ID, true, true);
     }
-    
+
     @Test(expectedExceptions = {IllegalArgumentException.class})
     public void testResolveByUrlURNInvalidFHIRID() throws Exception {
         runResolveByIdTest("***", false, false);
     }
-    
+
     @Test(expectedExceptions = {IllegalArgumentException.class})
     public void testResolveByUrlURNMissingFHIRID() throws Exception {
         runResolveByIdTest("9999", false, false);
@@ -158,7 +159,7 @@ public class ServerFHIRTerminologyProviderTest {
     @SuppressWarnings({ "rawtypes", "unchecked" })
     protected void runResolveByIdTest(String idInCQL, boolean matchByURL, boolean matchByID) throws Exception {
         ValueSetInfo info = new ValueSetInfo().withId(idInCQL);
-        
+
         Set<String> expected = Arrays.asList("123", "456", "789").stream().collect(Collectors.toSet());
 
         ValueSet.Builder valueSetBuilder = getBaseValueSet(info);
@@ -169,17 +170,17 @@ public class ServerFHIRTerminologyProviderTest {
         if( matchByURL ) {
             staticValueSetSupport.when(() -> ValueSetSupport.getValueSet(info.getId())).thenReturn(valueSet);
         }
-        
+
         SingleResourceResult result = mock(SingleResourceResult.class);
         if( matchByID ) {
             when(result.isSuccess()).thenReturn(true);
             when(result.getResource()).thenReturn(valueSet);
-            when(resourceHelper.doRead("ValueSet", TEST_SYSTEM_ID, false, false, null)).thenReturn(result);
-        } else { 
+            when(resourceHelper.doRead("ValueSet", TEST_SYSTEM_ID)).thenReturn(result);
+        } else {
             when(result.isSuccess()).thenReturn(false);
-            when(resourceHelper.doRead("ValueSet", idInCQL, false, false, null)).thenReturn(result);
+            when(resourceHelper.doRead("ValueSet", idInCQL)).thenReturn(result);
         }
-        
+
         termProvider.resolveByUrl(info);
     }
 

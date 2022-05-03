@@ -38,8 +38,13 @@ public class MeasureDataRequirementsOperation extends AbstractDataRequirementsOp
 
         Measure measure = null;
         try {
-            SingleResourceResult<?> readResult = resourceHelper.doRead(ResourceType.MEASURE.getValue(), logicalId, true, false, null);
+            SingleResourceResult<?> readResult = resourceHelper.doRead(ResourceType.MEASURE.getValue(), logicalId);
             measure = (Measure) readResult.getResource();
+            if (measure == null) {
+                throw new FHIROperationException("Failed to resolve measure with resource id: " + logicalId);
+            }
+        } catch (FHIROperationException fex) {
+            throw fex;
         } catch (Exception ex) {
             throw new FHIROperationException("Failed to read resource", ex);
         }

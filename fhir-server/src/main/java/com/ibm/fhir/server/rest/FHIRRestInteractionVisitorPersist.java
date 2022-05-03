@@ -26,10 +26,10 @@ import com.ibm.fhir.model.util.FHIRUtil;
 import com.ibm.fhir.persistence.SingleResourceResult;
 import com.ibm.fhir.persistence.context.FHIRPersistenceEvent;
 import com.ibm.fhir.persistence.exception.FHIRPersistenceIfNoneMatchException;
-import com.ibm.fhir.persistence.exception.FHIRPersistenceResourceDeletedException;
-import com.ibm.fhir.persistence.exception.FHIRPersistenceResourceNotFoundException;
 import com.ibm.fhir.persistence.payload.PayloadPersistenceResponse;
 import com.ibm.fhir.search.exception.FHIRSearchException;
+import com.ibm.fhir.server.exception.FHIRResourceDeletedException;
+import com.ibm.fhir.server.exception.FHIRResourceNotFoundException;
 import com.ibm.fhir.server.spi.operation.FHIROperationContext;
 import com.ibm.fhir.server.spi.operation.FHIRResourceHelpers;
 import com.ibm.fhir.server.spi.operation.FHIRRestOperationResponse;
@@ -66,12 +66,12 @@ public class FHIRRestInteractionVisitorPersist extends FHIRRestInteractionVisito
     @Override
     public FHIRRestOperationResponse doSearch(int entryIndex, String requestDescription, FHIRUrlParser requestURL,
             long accumulatedTime, String type, String compartment, String compartmentId,
-            MultivaluedMap<String, String> queryParameters, String requestUri, Resource contextResource,
+            MultivaluedMap<String, String> queryParameters, String requestUri,
             boolean checkInteractionAllowed) throws Exception {
 
         doInteraction(entryIndex, requestDescription, accumulatedTime, () -> {
             Bundle searchResults = helpers.doSearch(type, compartment, compartmentId, queryParameters, requestUri,
-                    contextResource, checkInteractionAllowed, true);
+                    checkInteractionAllowed, true);
 
             return Bundle.Entry.builder()
                     .resource(searchResults)
@@ -91,12 +91,12 @@ public class FHIRRestInteractionVisitorPersist extends FHIRRestInteractionVisito
 
         doInteraction(entryIndex, requestDescription, accumulatedTime, () -> {
             // Perform the VREAD and return the result entry we want in the response bundle
-            Resource resource = helpers.doVRead(type, id, versionId, queryParameters);
+            SingleResourceResult<? extends Resource> srr = helpers.doVRead(type, id, versionId, queryParameters);
             return Entry.builder()
                     .response(Entry.Response.builder()
                         .status(SC_OK_STRING)
                         .build())
-                    .resource(resource)
+                    .resource(srr.getResource())
                     .build();
         });
 
@@ -105,13 +105,13 @@ public class FHIRRestInteractionVisitorPersist extends FHIRRestInteractionVisito
 
     @Override
     public FHIRRestOperationResponse doRead(int entryIndex, String requestDescription, FHIRUrlParser requestURL,
-            long accumulatedTime, String type, String id, boolean throwExcOnNull, boolean includeDeleted,
-            Resource contextResource, MultivaluedMap<String, String> queryParameters, boolean checkInteractionAllowed)
+            long accumulatedTime, String type, String id, boolean throwExcOnNull,
+            MultivaluedMap<String, String> queryParameters, boolean checkInteractionAllowed)
             throws Exception {
 
         doInteraction(entryIndex, requestDescription, accumulatedTime, () -> {
             // Perform the VREAD and return the result entry we want in the response bundle
-            SingleResourceResult<? extends Resource> readResult = helpers.doRead(type, id, throwExcOnNull, includeDeleted, contextResource, queryParameters);
+            SingleResourceResult<? extends Resource> readResult = helpers.doRead(type, id, throwExcOnNull, queryParameters);
             return Entry.builder()
                     .response(Entry.Response.builder()
                         .status(SC_OK_STRING)
@@ -276,7 +276,7 @@ public class FHIRRestInteractionVisitorPersist extends FHIRRestInteractionVisito
                 final long elapsed = System.nanoTime() - start;
                 setEntryComplete(entryIndex, entry, requestDescription, accumulatedTime + elapsed);
             }
-        } catch (FHIRPersistenceResourceNotFoundException e) {
+        } catch (FHIRResourceNotFoundException e) {
             if (failFast) {
                 updateIssuesWithEntryIndexAndThrow(entryIndex, e);
             }
@@ -290,7 +290,7 @@ public class FHIRRestInteractionVisitorPersist extends FHIRRestInteractionVisito
                     .build();
             final long elapsed = System.nanoTime() - start;
             setEntryComplete(entryIndex, entry, requestDescription, accumulatedTime + elapsed);
-        } catch (FHIRPersistenceResourceDeletedException e) {
+        } catch (FHIRResourceDeletedException e) {
             if (failFast) {
                 updateIssuesWithEntryIndexAndThrow(entryIndex, e);
             }

@@ -1,5 +1,5 @@
 /*
- * (C) Copyright IBM Corp. 2016, 2021
+ * (C) Copyright IBM Corp. 2016, 2022
  *
  * SPDX-License-Identifier: Apache-2.0
  */
@@ -34,17 +34,6 @@ public class FHIRPersistenceContextFactory {
                 .build();
     }
 
-    /**
-     * Returns a FHIRPersistenceContext that contains a FHIRPersistenceEvent instance.
-     * @param event the FHIRPersistenceEvent instance to be contained in the FHIRPersistenceContext instance
-     * @param includeDeleted flag to tell the persistence layer to include deleted resources in the operation results.
-     */
-    public static FHIRPersistenceContext createPersistenceContext(FHIRPersistenceEvent event, boolean includeDeleted) {
-        return FHIRPersistenceContextImpl.builder(event)
-                .withIncludeDeleted(includeDeleted)
-                .build();
-    }
-    
     /**
      * Returns a FHIRPersistenceContext that contains a FHIRPersistenceEvent instance.
      * @param event the FHIRPersistenceEvent instance to be contained in the FHIRPersistenceContext instance
@@ -96,18 +85,5 @@ public class FHIRPersistenceContextFactory {
         ctx.setMaxPageSize(maxPageSize);
         ctx.setMaxPageIncludeCount(maxPageIncludeCount);
         return ctx;
-    }
-
-    /**
-     * Returns a FHIRPersistenceContext that contains a FHIRPersistenceEvent instance.
-     * @param event the FHIRPersistenceEvent instance to be contained in the FHIRPersistenceContext instance
-     * @param includeDeleted flag to tell the persistence layer to include deleted resources in the operation results
-     * @param searchContext the FHIRSearchContext instance to be contained in the FHIRPersistenceContext instance
-     */
-    public static FHIRPersistenceContext createPersistenceContext(FHIRPersistenceEvent event, boolean includeDeleted, FHIRSearchContext searchContext) {
-        return FHIRPersistenceContextImpl.builder(event)
-                .withIncludeDeleted(includeDeleted)
-                .withSearchContext(searchContext)
-                .build();
     }
 }

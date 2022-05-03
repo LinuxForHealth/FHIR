@@ -38,8 +38,8 @@ import com.ibm.fhir.model.resource.Resource;
 import com.ibm.fhir.model.type.code.IssueType;
 import com.ibm.fhir.model.util.FHIRUtil;
 import com.ibm.fhir.path.patch.FHIRPathPatch;
-import com.ibm.fhir.persistence.exception.FHIRPersistenceResourceNotFoundException;
 import com.ibm.fhir.server.annotation.PATCH;
+import com.ibm.fhir.server.exception.FHIRResourceNotFoundException;
 import com.ibm.fhir.server.spi.operation.FHIRRestOperationResponse;
 import com.ibm.fhir.server.util.FHIRRestHelper;
 import com.ibm.fhir.server.util.RestAuditLogger;
@@ -94,7 +94,7 @@ public class Patch extends FHIRResource {
             }
             response = addETagAndLastModifiedHeaders(response, resource);
             return response.build();
-        } catch (FHIRPersistenceResourceNotFoundException e) {
+        } catch (FHIRResourceNotFoundException e) {
             status = Status.NOT_FOUND;
             return exceptionResponse(e, status);
         } catch (FHIROperationException e) {
@@ -154,7 +154,7 @@ public class Patch extends FHIRResource {
             }
             response = addETagAndLastModifiedHeaders(response, resource);
             return response.build();
-        } catch (FHIRPersistenceResourceNotFoundException e) {
+        } catch (FHIRResourceNotFoundException e) {
             status = Status.NOT_FOUND;
             return exceptionResponse(e, status);
         } catch (FHIROperationException e) {
@@ -219,7 +219,7 @@ public class Patch extends FHIRResource {
             response = addETagAndLastModifiedHeaders(response, ior.getResource());
 
             return response.build();
-        } catch (FHIRPersistenceResourceNotFoundException e) {
+        } catch (FHIRResourceNotFoundException e) {
             status = Status.NOT_FOUND;
             return exceptionResponse(e, status);
         } catch (FHIROperationException e) {
@@ -285,7 +285,7 @@ public class Patch extends FHIRResource {
             response = addETagAndLastModifiedHeaders(response, ior.getResource());
 
             return response.build();
-        } catch (FHIRPersistenceResourceNotFoundException e) {
+        } catch (FHIRResourceNotFoundException e) {
             status = Status.NOT_FOUND;
             return exceptionResponse(e, status);
         } catch (FHIROperationException e) {
