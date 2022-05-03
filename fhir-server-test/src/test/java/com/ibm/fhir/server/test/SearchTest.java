@@ -127,12 +127,13 @@ public class SearchTest extends FHIRServerTestBase {
         Organization responseOrganization = response.readEntity(Organization.class);
         TestUtil.assertResourceEquals(organization, responseOrganization);
 
-        // Call the 'update' API.
+        // Call the 'update' API with force-update to ensure version 2 gets created.
         entity = Entity.entity(responseOrganization, FHIRMediaType.APPLICATION_FHIR_JSON);
         response =
                 target.path("Organization/" + organizationId).request()
                 .header("X-FHIR-TENANT-ID", tenantName)
                 .header("X-FHIR-DSID", dataStoreId)
+                .header("X-FHIR-FORCE-UPDATE", "true")
                 .put(entity, Response.class);
         assertResponse(response, Response.Status.OK.getStatusCode());
 
@@ -144,7 +145,7 @@ public class SearchTest extends FHIRServerTestBase {
                 .get();
         assertResponse(response, Response.Status.OK.getStatusCode());
         organization = response.readEntity(Organization.class);
-        assertEquals("2", organization.getMeta().getVersionId().getValue());
+        assertEquals(organization.getMeta().getVersionId().getValue(), "2");
     }
 
     @Test(groups = { "server-search" }, dependsOnMethods = {"testCreateOrganization" })
@@ -1984,11 +1985,11 @@ public class SearchTest extends FHIRServerTestBase {
         }
         assertNotNull(organization);
         assertNotNull(practitionerRole);
-        assertEquals(organizationId, organization.getId());
-        assertEquals("2", organization.getMeta().getVersionId().getValue());
-        assertEquals(practitionerRoleId, practitionerRole.getId());
-        assertEquals("Organization/"
-                + organizationId + "/_history/2", practitionerRole.getOrganization().getReference().getValue());
+        assertEquals(organization.getId(), organizationId);
+        assertEquals(organization.getMeta().getVersionId().getValue(), "2");
+        assertEquals(practitionerRole.getId(), practitionerRoleId);
+        assertEquals(practitionerRole.getOrganization().getReference().getValue(),
+                "Organization/" + organizationId + "/_history/2");
     }
 
     @Test(groups = { "server-search" }, dependsOnMethods = {"testCreatePractitionerRole" })
@@ -2018,11 +2019,11 @@ public class SearchTest extends FHIRServerTestBase {
         }
         assertNotNull(organization);
         assertNotNull(practitionerRole);
-        assertEquals(organizationId, organization.getId());
-        assertEquals("2", organization.getMeta().getVersionId().getValue());
-        assertEquals(practitionerRoleId, practitionerRole.getId());
-        assertEquals("Organization/"
-                + organizationId + "/_history/2", practitionerRole.getOrganization().getReference().getValue());
+        assertEquals(organization.getId(), organizationId);
+        assertEquals(organization.getMeta().getVersionId().getValue(), "2");
+        assertEquals(practitionerRole.getId(), practitionerRoleId);
+        assertEquals(practitionerRole.getOrganization().getReference().getValue(),
+                "Organization/" + organizationId + "/_history/2");
     }
 
     @Test(groups = { "server-search" }, dependsOnMethods = {"testCreatePatient" })
@@ -2041,8 +2042,8 @@ public class SearchTest extends FHIRServerTestBase {
         assertTrue(bundle.getEntry().size() == 1);
         Organization organization = (Organization) bundle.getEntry().get(0).getResource();
         assertNotNull(organization);
-        assertEquals(organizationId, organization.getId());
-        assertEquals("2", organization.getMeta().getVersionId().getValue());
+        assertEquals(organization.getId(), organizationId);
+        assertEquals(organization.getMeta().getVersionId().getValue(), "2");
     }
 
     @Test(groups = { "server-search" })
@@ -2075,7 +2076,7 @@ public class SearchTest extends FHIRServerTestBase {
             }
         }
         assertNotNull(responseCarePlan);
-        assertEquals(carePlanId, responseCarePlan.getId());
+        assertEquals(responseCarePlan.getId(), carePlanId);
     }
 
     @Test(groups = { "server-search" }, dependsOnMethods = { "testCreateAllergyIntolerance" })
@@ -2092,7 +2093,7 @@ public class SearchTest extends FHIRServerTestBase {
         Bundle bundle = response.readEntity(Bundle.class);
         assertNotNull(bundle);
         assertTrue(bundle.getEntry().size() == 1);
-        assertEquals(allergyIntoleranceId, bundle.getEntry().get(0).getResource().getId());
+        assertEquals(bundle.getEntry().get(0).getResource().getId(), allergyIntoleranceId);
     }
 
     @Test(groups = { "server-search" }, dependsOnMethods = { "testCreateAllergyIntolerance" })
@@ -2109,7 +2110,7 @@ public class SearchTest extends FHIRServerTestBase {
         Bundle bundle = response.readEntity(Bundle.class);
         assertNotNull(bundle);
         assertTrue(bundle.getEntry().size() == 1);
-        assertEquals(allergyIntoleranceId, bundle.getEntry().get(0).getResource().getId());
+        assertEquals(bundle.getEntry().get(0).getResource().getId(), allergyIntoleranceId);
     }
 
     @Test(groups = { "server-search" }, dependsOnMethods = { "testCreateAllergyIntolerance" })
@@ -2158,7 +2159,7 @@ public class SearchTest extends FHIRServerTestBase {
         Bundle bundle = response.readEntity(Bundle.class);
         assertNotNull(bundle);
         assertTrue(bundle.getEntry().size() == 1);
-        assertEquals(allergyIntoleranceId, bundle.getEntry().get(0).getResource().getId());
+        assertEquals(bundle.getEntry().get(0).getResource().getId(), allergyIntoleranceId);
     }
 
     @Test(groups = { "server-search" })

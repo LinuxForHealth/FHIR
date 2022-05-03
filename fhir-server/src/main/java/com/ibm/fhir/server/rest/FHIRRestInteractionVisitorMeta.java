@@ -178,7 +178,7 @@ public class FHIRRestInteractionVisitorMeta extends FHIRRestInteractionVisitorBa
         return doInteraction(entryIndex, requestDescription, accumulatedTime, () -> {
             helpers.validateInteraction(Interaction.UPDATE, type);
 
-            FHIRRestOperationResponse metaResponse = helpers.doUpdateMeta(event, type, id, null, resource, ifMatchValue, searchQueryString, skippableUpdate, !DO_VALIDATION, warnings);
+            FHIRRestOperationResponse metaResponse = helpers.doUpdateMeta(event, type, id, null, resource, ifMatchValue, searchQueryString, skippableUpdate, ifNoneMatch, !DO_VALIDATION, warnings);
 
             // If the update was skippable we might be able to skip the future persistence step
             if (metaResponse.isCompleted()) {
@@ -219,7 +219,7 @@ public class FHIRRestInteractionVisitorMeta extends FHIRRestInteractionVisitorBa
         return doInteraction(entryIndex, requestDescription, accumulatedTime, () -> {
             // Validate that interaction is allowed for given resource type
             helpers.validateInteraction(Interaction.PATCH, type);
-            FHIRRestOperationResponse metaResponse = helpers.doUpdateMeta(event, type, id, patch, null, ifMatchValue, searchQueryString, skippableUpdate, !DO_VALIDATION, warnings);
+            FHIRRestOperationResponse metaResponse = helpers.doUpdateMeta(event, type, id, patch, null, ifMatchValue, searchQueryString, skippableUpdate, null, !DO_VALIDATION, warnings);
 
             // If the update was skippable we might be able to skip the future persistence step
             if (metaResponse.isCompleted()) {

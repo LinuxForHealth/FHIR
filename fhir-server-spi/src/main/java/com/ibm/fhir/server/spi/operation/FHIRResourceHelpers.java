@@ -152,13 +152,14 @@ public interface FHIRResourceHelpers {
      * @param ifMatchValue
      * @param searchQueryString
      * @param skippableUpdate
+     * @param ifNoneMatch
      * @param doValidation
      * @param warnings
      * @return
      * @throws Exception
      */
     FHIRRestOperationResponse doUpdateMeta(FHIRPersistenceEvent event, String type, String id, FHIRPatch patch, Resource newResource, String ifMatchValue,
-        String searchQueryString, boolean skippableUpdate, boolean doValidation, List<Issue> warnings) throws Exception;
+        String searchQueryString, boolean skippableUpdate, Integer ifNoneMatch, boolean doValidation, List<Issue> warnings) throws Exception;
 
     /**
      * Persist the newResource value for patch or update interactions
@@ -214,7 +215,7 @@ public interface FHIRResourceHelpers {
      *            if true, and the resource content in the update matches the existing resource on the server, then skip the update;
      *            if false, then always attempt the update
      * @param ifNoneMatch
-     *            conditional create-on-update
+     *            for conditional create-on-update, set to 0; otherwise leave null
      * @return a FHIRRestOperationResponse that contains the results of the operation
      * @throws Exception
      */
@@ -242,7 +243,7 @@ public interface FHIRResourceHelpers {
      * @param doValidation
      *            if true, validate the resource; if false, assume the resource has already been validated
      * @param ifNoneMatch
-     *            conditional create-on-update
+     *            for conditional create-on-update, set to 0; otherwise leave null
      * @return a FHIRRestOperationResponse that contains the results of the operation
      * @throws Exception
      */

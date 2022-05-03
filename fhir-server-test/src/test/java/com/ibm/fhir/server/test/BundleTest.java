@@ -534,8 +534,8 @@ public class BundleTest extends FHIRServerTestBase {
         WebTarget target = getWebTarget();
 
         // Make a small change to each patient.
-        patientBVA2 = patientBVA2.toBuilder().active(com.ibm.fhir.model.type.Boolean.TRUE).build();
-        patientBVA1 = patientBVA1.toBuilder().active(com.ibm.fhir.model.type.Boolean.FALSE).build();
+        patientBVA2 = patientBVA2.toBuilder().deceased(true).build();
+        patientBVA1 = patientBVA1.toBuilder().deceased(false).build();
 
         Bundle bundle = buildBundle(BundleType.BATCH);
         bundle = addRequestToBundle(null, bundle, HTTPVerb.PUT, "Patient/" + patientBVA2.getId(), "W/\"1\"",
@@ -622,8 +622,8 @@ public class BundleTest extends FHIRServerTestBase {
         assertNotNull(patientVA1);
 
         // Make a small change to each patient.
-        patientVA2 = patientVA2.toBuilder().active(com.ibm.fhir.model.type.Boolean.TRUE).build();
-        patientVA1 = patientVA1.toBuilder().active(com.ibm.fhir.model.type.Boolean.FALSE).build();
+        patientVA2 = patientVA2.toBuilder().language(Code.of("en")).build();
+        patientVA1 = patientVA1.toBuilder().language(Code.of("en")).build();
 
         Bundle bundle = buildBundle(BundleType.BATCH);
         bundle = addRequestToBundle(null, bundle, HTTPVerb.PUT, "Patient/" + patientVA2.getId(), "W/\"1\"",
@@ -948,6 +948,11 @@ public class BundleTest extends FHIRServerTestBase {
     public void testBatchMixture() throws Exception {
         String method = "testBatchMixture";
         WebTarget target = getWebTarget();
+
+        // change at least one field so that the update below isn't skipped
+        patientB1 = patientB1.toBuilder()
+                .deceased(true)
+                .build();
 
         // Perform a mixture of request types.
         Bundle bundle = buildBundle(BundleType.BATCH);

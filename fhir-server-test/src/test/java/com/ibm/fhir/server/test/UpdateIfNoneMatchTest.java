@@ -55,7 +55,7 @@ public class UpdateIfNoneMatchTest extends FHIRServerTestBase {
             OperationOutcome oo = response.getResource(OperationOutcome.class);
             assertEquals(oo.getIssue().size(), 1);
             Issue issue = oo.getIssue().get(0);
-            assertEquals(issue.getCode(), IssueType.CONFLICT);
+            assertEquals(issue.getCode().getValue(), IssueType.CONFLICT.getValue());
             assertEquals(issue.getExpression().size(), 0);
 
             // Read back the patient and make sure it is still at version 1

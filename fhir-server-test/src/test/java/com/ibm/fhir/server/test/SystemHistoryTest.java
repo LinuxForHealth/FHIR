@@ -99,11 +99,12 @@ public class SystemHistoryTest extends FHIRServerTestBase {
         Patient responsePatient = response.readEntity(Patient.class);
         TestUtil.assertResourceEquals(patient, responsePatient);
 
-        updateResource(responsePatient);                    // 2
-        updateResource(responsePatient);                    // 3
+        // Set the multipleBirth field to ensure each instance is unique / the updates aren't optimized away
+        updateResource(responsePatient.toBuilder().multipleBirth(2).build());                    // 2
+        updateResource(responsePatient.toBuilder().multipleBirth(3).build());                    // 3
         deleteResource("Patient", responsePatient.getId()); // 4
-        undeleteResource(responsePatient);                  // 5
-        updateResource(responsePatient);                    // 6
+        undeleteResource(responsePatient.toBuilder().multipleBirth(5).build());                  // 5
+        updateResource(responsePatient.toBuilder().multipleBirth(6).build());                    // 6
 
         // Create an Observation, so that we can check the type filtering works
         Observation observation =
@@ -186,10 +187,11 @@ public class SystemHistoryTest extends FHIRServerTestBase {
         int found = 0;
         int count = 10;
         do {
-            Response historyResponse =
-                    target.path(requestPath)
+            Response historyResponse = target.path(requestPath)
                     .queryParam("_count", Integer.toString(count))
-                    .request().get(Response.class);
+                    .request()
+                    .header("X-FHIR-FORCE-UPDATE", "true")
+                    .get(Response.class);
             assertResponse(historyResponse, Response.Status.OK.getStatusCode());
 
             Bundle bundle = historyResponse.readEntity(Bundle.class);

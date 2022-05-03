@@ -1730,7 +1730,7 @@ public class MemberMatchTest {
 
         @Override
         public FHIRRestOperationResponse doUpdateMeta(FHIRPersistenceEvent event, String type, String id, FHIRPatch patch, Resource newResource,
-            String ifMatchValue, String searchQueryString, boolean skippableUpdate, boolean doValidation, List<Issue> warnings) throws Exception {
+            String ifMatchValue, String searchQueryString, boolean skippableUpdate, Integer ifNoneMatch, boolean doValidation, List<Issue> warnings) throws Exception {
             throw new AssertionError("Unused");
         }
 

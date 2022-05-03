@@ -213,8 +213,8 @@ public class MockFHIRResourceHelpers implements FHIRResourceHelpers {
 
     @Override
     public FHIRRestOperationResponse doUpdateMeta(FHIRPersistenceEvent event, String type, String id, FHIRPatch patch,
-            Resource newResource, String ifMatchValue, String searchQueryString, boolean skippableUpdate, boolean doValidation,
-            List<Issue> warnings) throws Exception {
+            Resource newResource, String ifMatchValue, String searchQueryString, boolean skippableUpdate, Integer ifNoneMatch,
+            boolean doValidation, List<Issue> warnings) throws Exception {
         return null;
     }
 
