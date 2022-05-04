@@ -61,6 +61,24 @@ public class ResourceFingerprintVisitorTest {
     }
 
     @Test
+    public void testUnequalResources_intVals() throws Exception {
+        Patient patient = TestUtil.getMinimalResource(Patient.class).toBuilder()
+                .multipleBirth(1)
+                .build();
+
+        ResourceFingerprintVisitor resourceFingerprintVisitor = new ResourceFingerprintVisitor();
+        patient.accept(resourceFingerprintVisitor);
+        SaltHash baseline = resourceFingerprintVisitor.getSaltAndHash();
+
+        patient = patient.toBuilder()
+                .multipleBirth(2)
+                .build();
+        resourceFingerprintVisitor = new ResourceFingerprintVisitor(baseline);
+        patient.accept(resourceFingerprintVisitor);
+        assertNotEquals(resourceFingerprintVisitor.getSaltAndHash(), baseline);
+    }
+
+    @Test
     public void testUnequalResources_add() throws Exception {
         Patient patient = TestUtil.getMinimalResource(Patient.class);
 

@@ -135,6 +135,7 @@ public class ResourceFingerprintVisitor extends PathAwareVisitor {
     public void visit(java.lang.String elementName, java.lang.Integer value) {
         ByteBuffer bb = ByteBuffer.allocate(4);
         bb.putInt(value);
+        bb.flip();
         digest.update(bb);
     }
 
