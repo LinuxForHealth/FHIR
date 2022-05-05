@@ -10,7 +10,7 @@ import java.util.ArrayList;
 import java.util.Collection;
 import java.util.List;
 
-import com.ibm.fhir.database.utils.api.IDatabaseAdapter;
+import com.ibm.fhir.database.utils.api.ISchemaAdapter;
 import com.ibm.fhir.database.utils.api.SchemaApplyContext;
 
 /**
@@ -26,12 +26,12 @@ public class RowType extends BaseObject {
     }
 
     @Override
-    public void apply(IDatabaseAdapter target, SchemaApplyContext context) {
+    public void apply(ISchemaAdapter target, SchemaApplyContext context) {
         target.createRowType(getSchemaName(), getObjectName(), columns);
     }
 
     @Override
-    public void apply(Integer priorVersion, IDatabaseAdapter target, SchemaApplyContext context) {
+    public void apply(Integer priorVersion, ISchemaAdapter target, SchemaApplyContext context) {
         if (priorVersion != null && priorVersion > 0 && this.version > priorVersion) {
             throw new UnsupportedOperationException("Upgrading row types is not supported");
         }
@@ -39,7 +39,7 @@ public class RowType extends BaseObject {
     }
 
     @Override
-    public void drop(IDatabaseAdapter target) {
+    public void drop(ISchemaAdapter target) {
         target.dropType(getSchemaName(), getObjectName());
     }
 

@@ -15,7 +15,10 @@ import java.util.logging.Logger;
 
 import org.testng.annotations.Test;
 
+import com.ibm.fhir.database.utils.api.ISchemaAdapter;
 import com.ibm.fhir.database.utils.api.SchemaApplyContext;
+import com.ibm.fhir.database.utils.api.SchemaType;
+import com.ibm.fhir.database.utils.common.PlainSchemaAdapter;
 import com.ibm.fhir.database.utils.common.PrintTarget;
 import com.ibm.fhir.database.utils.db2.Db2Adapter;
 import com.ibm.fhir.database.utils.db2.Db2Translator;
@@ -41,7 +44,7 @@ public class FhirSchemaServiceTest {
 
         // Create an instance of the service and use it to test creation
         // of the FHIR schema
-        FhirSchemaGenerator gen = new FhirSchemaGenerator(ADMIN_SCHEMA_NAME, SCHEMA_NAME, false);
+        FhirSchemaGenerator gen = new FhirSchemaGenerator(ADMIN_SCHEMA_NAME, SCHEMA_NAME, SchemaType.PLAIN);
         PhysicalDataModel model = new PhysicalDataModel();
         gen.buildSchema(model);
 
@@ -50,8 +53,9 @@ public class FhirSchemaServiceTest {
 
         // Pretend that our target is a DB2 database
         Db2Adapter adapter = new Db2Adapter(tgt);
+        ISchemaAdapter schemaAdapter = new PlainSchemaAdapter(adapter);
         SchemaApplyContext context = SchemaApplyContext.getDefault();
-        model.apply(adapter, context);
+        model.apply(schemaAdapter, context);
     }
 
     @Test
@@ -60,7 +64,7 @@ public class FhirSchemaServiceTest {
 
         // Create an instance of the service and use it to test creation
         // of the FHIR schema
-        FhirSchemaGenerator gen = new FhirSchemaGenerator(ADMIN_SCHEMA_NAME, SCHEMA_NAME, false);
+        FhirSchemaGenerator gen = new FhirSchemaGenerator(ADMIN_SCHEMA_NAME, SCHEMA_NAME, SchemaType.PLAIN);
         PhysicalDataModel model = new PhysicalDataModel();
         gen.buildSchema(model);
 
@@ -71,8 +75,9 @@ public class FhirSchemaServiceTest {
         ITaskCollector collector = taskService.makeTaskCollector(pool);
         PrintTarget tgt = new PrintTarget(null, logger.isLoggable(Level.FINE));
         Db2Adapter adapter = new Db2Adapter(tgt);
+        ISchemaAdapter schemaAdapter = new PlainSchemaAdapter(adapter);
         SchemaApplyContext context = SchemaApplyContext.getDefault();
-        model.collect(collector, adapter, context, new TransactionProviderTest(), vhs);
+        model.collect(collector, schemaAdapter, context, new TransactionProviderTest(), vhs);
 
         // FHIR in the hole!
         collector.startAndWait();
@@ -86,7 +91,7 @@ public class FhirSchemaServiceTest {
 
         // Create an instance of the service and use it to test creation
         // of the FHIR schema
-        FhirSchemaGenerator gen = new FhirSchemaGenerator(ADMIN_SCHEMA_NAME, SCHEMA_NAME, false);
+        FhirSchemaGenerator gen = new FhirSchemaGenerator(ADMIN_SCHEMA_NAME, SCHEMA_NAME, SchemaType.PLAIN);
         PhysicalDataModel model = new PhysicalDataModel();
         gen.buildSchema(model);
 
@@ -95,8 +100,9 @@ public class FhirSchemaServiceTest {
 
         // Pretend that our target is a Derby database
         DerbyAdapter adapter = new DerbyAdapter(tgt);
+        ISchemaAdapter schemaAdapter = new PlainSchemaAdapter(adapter);
         SchemaApplyContext context = SchemaApplyContext.getDefault();
-        model.apply(adapter, context);
+        model.apply(schemaAdapter, context);
     }
 
     @Test
@@ -104,7 +110,7 @@ public class FhirSchemaServiceTest {
 
         // Create an instance of the service and use it to test creation
         // of the FHIR schema
-        FhirSchemaGenerator gen = new FhirSchemaGenerator(ADMIN_SCHEMA_NAME, SCHEMA_NAME, false);
+        FhirSchemaGenerator gen = new FhirSchemaGenerator(ADMIN_SCHEMA_NAME, SCHEMA_NAME, SchemaType.PLAIN);
         PhysicalDataModel model = new PhysicalDataModel();
         gen.buildSchema(model);
 
@@ -127,7 +133,7 @@ public class FhirSchemaServiceTest {
 
         // Create an instance of the service and use it to test creation
         // of the FHIR schema
-        FhirSchemaGenerator gen = new FhirSchemaGenerator(ADMIN_SCHEMA_NAME, SCHEMA_NAME, false);
+        FhirSchemaGenerator gen = new FhirSchemaGenerator(ADMIN_SCHEMA_NAME, SCHEMA_NAME, SchemaType.PLAIN);
         PhysicalDataModel model = new PhysicalDataModel();
         gen.buildSchema(model);
 
@@ -136,7 +142,8 @@ public class FhirSchemaServiceTest {
 
         // Pretend that our target is a DB2 database
         Db2Adapter adapter = new Db2Adapter(tgt);
-        model.drop(adapter);
+        ISchemaAdapter schemaAdapter = new PlainSchemaAdapter(adapter);
+        model.drop(schemaAdapter);
     }
 
     @Test
@@ -146,7 +153,8 @@ public class FhirSchemaServiceTest {
 
         // Pretend that our target is a DB2 database
         Db2Adapter adapter = new Db2Adapter(tgt);
-        CreateVersionHistory.createTableIfNeeded(ADMIN_SCHEMA_NAME, adapter);
+        ISchemaAdapter schemaAdapter = new PlainSchemaAdapter(adapter);
+        CreateVersionHistory.createTableIfNeeded(ADMIN_SCHEMA_NAME, schemaAdapter);
 
     }
 }

@@ -6,6 +6,7 @@
 
 package com.ibm.fhir.persistence.jdbc.connection;
 
+import com.ibm.fhir.database.utils.api.SchemaType;
 import com.ibm.fhir.database.utils.model.DbType;
 
 /**
@@ -14,20 +15,24 @@ import com.ibm.fhir.database.utils.model.DbType;
  */
 public class FHIRDbFlavorImpl implements FHIRDbFlavor {
     
-    // does the database schema support multi-tenancy
-    private final boolean multitenant;
-
     // basic type of the database (DB2, Derby etc)
     private final DbType type;
     
-    public FHIRDbFlavorImpl(DbType type, boolean multitenant) {
+    private final SchemaType schemaType;
+
+    /**
+     * Public constructor
+     * @param type
+     * @param schemaType
+     */
+    public FHIRDbFlavorImpl(DbType type, SchemaType schemaType) {
         this.type = type;
-        this.multitenant = multitenant;
+        this.schemaType = schemaType;
     }
     
     @Override
     public boolean isMultitenant() {
-        return this.multitenant;
+        return this.schemaType == SchemaType.MULTITENANT;
     }
 
     @Override
@@ -38,5 +43,10 @@ public class FHIRDbFlavorImpl implements FHIRDbFlavor {
     @Override
     public boolean isFamilyPostgreSQL() {
         return this.type == DbType.POSTGRESQL || this.type == DbType.CITUS;
+    }
+
+    @Override
+    public SchemaType getSchemaType() {
+        return this.schemaType;
     }
 }

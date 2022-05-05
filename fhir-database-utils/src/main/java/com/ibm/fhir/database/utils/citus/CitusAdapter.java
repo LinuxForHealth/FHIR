@@ -10,12 +10,14 @@ import java.sql.Connection;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
+import java.util.Collection;
 import java.util.List;
 import java.util.Set;
 import java.util.logging.Logger;
 import java.util.stream.Collectors;
 
-import com.ibm.fhir.database.utils.api.DistributionRules;
+import com.ibm.fhir.database.utils.api.DistributionContext;
+import com.ibm.fhir.database.utils.api.DistributionType;
 import com.ibm.fhir.database.utils.api.IConnectionProvider;
 import com.ibm.fhir.database.utils.api.IDatabaseTarget;
 import com.ibm.fhir.database.utils.common.DataDefinitionUtil;
@@ -53,16 +55,21 @@ public class CitusAdapter extends PostgresAdapter {
     @Override
     public void createTable(String schemaName, String name, String tenantColumnName, List<ColumnBase> columns, PrimaryKeyDef primaryKey,
         IdentityDef identity, String tablespaceName, List<With> withs, List<CheckConstraint> checkConstraints,
-        DistributionRules distributionRules) {
+        DistributionContext distributionContext) {
 
         // We don't use partitioning for multi-tenancy in our Citus implementation, so ignore the mt_id column
         if (tenantColumnName != null) {
             warnOnce(MessageKey.MULTITENANCY, "Citus does not support multi-tenancy: " + name);
         }
 
-        // Build a Citus-specific create table statement
-        String ddl = buildCitusCreateTableStatement(schemaName, name, columns, primaryKey, identity, withs, checkConstraints, distributionRules);
-        runStatement(ddl);
+        if (distributionContext != null) {
+            // Build a Citus-specific create table statement
+            String ddl = buildCitusCreateTableStatement(schemaName, name, columns, primaryKey, identity, withs, checkConstraints, distributionContext);
+            runStatement(ddl);
+        } else {
+            // building a plain schema, so we can use the standard PostgreSQL method
+            super.createTable(schemaName, name, tenantColumnName, columns, primaryKey, identity, tablespaceName, withs, checkConstraints, distributionContext);
+        }
     }
 
     /**
@@ -75,14 +82,16 @@ public class CitusAdapter extends PostgresAdapter {
      * @param identity
      * @param withs
      * @param checkConstraints
-     * @param distributionRules
+     * @param distributionType
      * @return
      */
     private String buildCitusCreateTableStatement(String schema, String name, List<ColumnBase> columns, 
             PrimaryKeyDef pkDef, IdentityDef identity, List<With> withs,
-            List<CheckConstraint> checkConstraints, DistributionRules distributionRules) {
+            List<CheckConstraint> checkConstraints, DistributionContext distributionContext) {
 
-        if (identity != null && distributionRules != null && distributionRules.getDistributionColumn() != null) {
+        final DistributionType distributionType = distributionContext.getDistributionType();
+        final String distributionColumnName = distributionContext.getDistributionColumnName();
+        if (identity != null && distributionType == DistributionType.DISTRIBUTED) {
             logger.warning("Citus: Ignoring IDENTITY columns on distributed table: '" + name + "." + identity.getColumnName());
             identity = null;
         }
@@ -100,7 +109,7 @@ public class CitusAdapter extends PostgresAdapter {
             // match where expected
             String pkColString = String.join(",", pkDef.getColumns());
             Set<String> pkSet = pkDef.getColumns().stream().map(c -> c.toLowerCase()).collect(Collectors.toSet());
-            final String ldc = distributionRules == null || distributionRules.getDistributionColumn() == null ? null : distributionRules.getDistributionColumn().toLowerCase();
+            final String ldc = distributionType == DistributionType.DISTRIBUTED ? distributionColumnName.toLowerCase() : null;
             if (ldc == null || pkSet.contains(ldc)) {
                 result.append(", CONSTRAINT ");
                 result.append(pkDef.getConstraintName());
@@ -142,11 +151,13 @@ public class CitusAdapter extends PostgresAdapter {
 
     @Override
     public void createUniqueIndex(String schemaName, String tableName, String indexName, String tenantColumnName,
-        List<OrderedColumnDef> indexColumns, DistributionRules distributionRules) {
+        List<OrderedColumnDef> indexColumns, DistributionContext distributionContext) {
         // For Citus, we are prevented from creating a unique index unless the index contains
         // the distribution column
+        final DistributionType distributionType = distributionContext.getDistributionType();
+        final String distributionColumnName = distributionContext.getDistributionColumnName();
         List<String> columnNames = indexColumns.stream().map(ocd -> ocd.getColumnName()).collect(Collectors.toList());
-        if (distributionRules != null && distributionRules.isDistributedTable() && !distributionRules.includesDistributionColumn(columnNames)) {
+        if (distributionType == DistributionType.DISTRIBUTED && !includesDistributionColumn(distributionColumnName, columnNames)) {
             // Can only a normal index because it isn't partitioned by the distributionColumn
             String ddl = DataDefinitionUtil.createIndex(schemaName, tableName, indexName, indexColumns, !USE_SCHEMA_PREFIX);
             runStatement(ddl);
@@ -158,21 +169,23 @@ public class CitusAdapter extends PostgresAdapter {
     }
 
     @Override
-    public void applyDistributionRules(String schemaName, String tableName, DistributionRules distributionRules) {
+    public void applyDistributionRules(String schemaName, String tableName, DistributionContext distributionContext) {
         // Apply the distribution rules. Tables without distribution rules are created
         // only on Citus controller nodes and never distributed to the worker nodes. All
         // the distribution changes are implemented in one transaction, which makes it much
         // more efficient.
+        final DistributionType distributionType = distributionContext.getDistributionType();
+        final String distributionColumnName = distributionContext.getDistributionColumnName();
         final String fullName = DataDefinitionUtil.getQualifiedName(schemaName, tableName);
-        if (distributionRules.isReferenceTable()) {
+        if (distributionType == DistributionType.REFERENCE) {
             // A table that is fully replicated for each worker node
             logger.info("Citus: distributing reference table '" + fullName + "'");
             CreateReferenceTableDAO dao = new CreateReferenceTableDAO(schemaName, tableName);
             runStatement(dao);
-        } else if (distributionRules.getDistributionColumn() != null && distributionRules.getDistributionColumn().length() > 0) {
+        } else if (distributionType == DistributionType.DISTRIBUTED) {
             // A table that is sharded using a hash on the distributionColumn value
-            logger.info("Citus: Sharding table '" + fullName + "' using '" + distributionRules.getDistributionColumn() + "'");
-            CreateDistributedTableDAO dao = new CreateDistributedTableDAO(schemaName, tableName, distributionRules.getDistributionColumn());
+            logger.info("Citus: Sharding table '" + fullName + "' using '" + distributionColumnName + "'");
+            CreateDistributedTableDAO dao = new CreateDistributedTableDAO(schemaName, tableName, distributionColumnName);
             runStatement(dao);
         }
     }
@@ -217,5 +230,21 @@ public class CitusAdapter extends PostgresAdapter {
         } else {
             throw new IllegalStateException("distributeFunction requires a connectionProvider");
         }
+    }
+
+    /**
+     * Asks if the distributionColumnName is contained in the given collection of column names
+     *
+     * @implNote case-insensitive
+     * @param distributionColumnName
+     * @param columns
+     * @return
+     */
+    public boolean includesDistributionColumn(String distributionColumnName, Collection<String> columns) {
+        if (distributionColumnName != null) {
+            Set<String> colSet = columns.stream().map(p -> p.toLowerCase()).collect(Collectors.toSet());
+            return colSet.contains(distributionColumnName.toLowerCase());
+        }
+        return false;
     }
 }

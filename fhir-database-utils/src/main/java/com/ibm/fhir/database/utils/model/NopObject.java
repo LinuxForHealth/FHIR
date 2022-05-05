@@ -6,7 +6,7 @@
 
 package com.ibm.fhir.database.utils.model;
 
-import com.ibm.fhir.database.utils.api.IDatabaseAdapter;
+import com.ibm.fhir.database.utils.api.ISchemaAdapter;
 import com.ibm.fhir.database.utils.api.ITransactionProvider;
 import com.ibm.fhir.database.utils.api.IVersionHistoryService;
 import com.ibm.fhir.database.utils.api.SchemaApplyContext;
@@ -30,22 +30,22 @@ public class NopObject extends BaseObject {
     }
 
     @Override
-    public void apply(IDatabaseAdapter target, SchemaApplyContext context) {
+    public void apply(ISchemaAdapter target, SchemaApplyContext context) {
         // We're NOP so we do nothing on purpose
     }
 
     @Override
-    public void apply(Integer priorVersion, IDatabaseAdapter target, SchemaApplyContext context) {
+    public void apply(Integer priorVersion, ISchemaAdapter target, SchemaApplyContext context) {
         // We're NOP so we do nothing on purpose
     }
 
     @Override
-    public void drop(IDatabaseAdapter target) {
+    public void drop(ISchemaAdapter target) {
         // We're NOP so we do nothing on purpose
     }
 
     @Override
-    public void applyTx(IDatabaseAdapter target, SchemaApplyContext context, ITransactionProvider tp, IVersionHistoryService vhs) {
+    public void applyTx(ISchemaAdapter target, SchemaApplyContext context, ITransactionProvider tp, IVersionHistoryService vhs) {
         // We're NOP so we do nothing on purpose
     }
 

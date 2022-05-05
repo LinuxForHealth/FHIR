@@ -23,6 +23,7 @@ public class FHIRPersistenceContextImpl implements FHIRPersistenceContext {
     private FHIRSearchContext searchContext;
     private boolean includeDeleted = false;
     private Integer ifNoneMatch;
+    private Short shardKey;
     
     // The response from the payload persistence (offloading) call, if any
     private PayloadPersistenceResponse offloadResponse;
@@ -46,6 +47,7 @@ public class FHIRPersistenceContextImpl implements FHIRPersistenceContext {
         private boolean includeDeleted;
         private Integer ifNoneMatch;
         private PayloadPersistenceResponse offloadResponse;
+        private Short shardKey;
         
         /**
          * Protected constructor
@@ -72,6 +74,7 @@ public class FHIRPersistenceContextImpl implements FHIRPersistenceContext {
             impl.setIfNoneMatch(ifNoneMatch);
             impl.setIncludeDeleted(includeDeleted);
             impl.setOffloadResponse(offloadResponse);
+            impl.setShardKey(shardKey);
             
             return impl;
         }
@@ -113,6 +116,16 @@ public class FHIRPersistenceContextImpl implements FHIRPersistenceContext {
          */
         public Builder withIncludeDeleted(boolean includeDeleted) {
             this.includeDeleted = includeDeleted;
+            return this;
+        }
+
+        /**
+         * Build with the shardKey value
+         * @param shardKey
+         * @return
+         */
+        public Builder withShardKey(Short shardKey) {
+            this.shardKey = shardKey;
             return this;
         }
 
@@ -185,12 +198,25 @@ public class FHIRPersistenceContextImpl implements FHIRPersistenceContext {
         return includeDeleted;
     }
 
+    @Override
+    public Short getShardKey() {
+        return this.shardKey;
+    }
+
     /**
      * Setter for the includeDeleted flag
      * @param includeDeleted
      */
     public void setIncludeDeleted(boolean includeDeleted) {
         this.includeDeleted = includeDeleted;
+    }
+
+    /**
+     * Set the shardKey value
+     * @param value
+     */
+    public void setShardKey(Short value) {
+        this.shardKey = value;
     }
 
     /**

@@ -54,4 +54,11 @@ public interface FHIRPersistenceContext {
      * @return
      */
     PayloadPersistenceResponse getOffloadResponse();
+
+    /**
+     * Get the key used for sharding used by the distributed schema variant. If
+     * the tenant is not configured for distribution, the value will be null
+     * @return any Short value in [Short.MIN_VALUE, Short.MAX_VALUE] or null
+     */
+    Short getShardKey();
 }

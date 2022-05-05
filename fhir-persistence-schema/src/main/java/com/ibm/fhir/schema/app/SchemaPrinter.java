@@ -46,9 +46,12 @@ import java.util.Map;
 import java.util.Properties;
 import java.util.concurrent.Executor;
 
+import com.ibm.fhir.database.utils.api.ISchemaAdapter;
 import com.ibm.fhir.database.utils.api.SchemaApplyContext;
+import com.ibm.fhir.database.utils.api.SchemaType;
 import com.ibm.fhir.database.utils.common.JdbcTarget;
 import com.ibm.fhir.database.utils.db2.Db2Adapter;
+import com.ibm.fhir.database.utils.derby.DerbyMaster;
 import com.ibm.fhir.database.utils.model.PhysicalDataModel;
 import com.ibm.fhir.database.utils.version.CreateVersionHistory;
 import com.ibm.fhir.database.utils.version.VersionHistoryService;
@@ -90,7 +93,7 @@ public class SchemaPrinter {
     private static final String STORED_PROCEDURE_DELIMITER = "@";
 
     private final boolean toFile;
-    private final boolean multitenant;
+    private final SchemaType schemaType;
     private File schemaFile = new File("schema.sql");
     private File spFile = new File("stored-procedures.sql");
     private File grantFile = new File("grants.sql");
@@ -105,11 +108,15 @@ public class SchemaPrinter {
 
     /**
      *  constructor that switches behavior toFile our output stream. 
+     * 
+     * @param toFile
+     * @param schemaType
+     * @throws FileNotFoundException
      */
-    public SchemaPrinter(boolean toFile, boolean multitenant) throws FileNotFoundException {
+    public SchemaPrinter(boolean toFile, SchemaType schemaType) throws FileNotFoundException {
 
         this.toFile = toFile;
-        this.multitenant = multitenant;
+        this.schemaType = schemaType;
 
         if (this.toFile) {
             out = new PrintStream(new FileOutputStream(schemaFile));
@@ -154,9 +161,10 @@ public class SchemaPrinter {
         PrintConnection connection = new PrintConnection();
         JdbcTarget target = new JdbcTarget(connection);
         Db2Adapter adapter = new Db2Adapter(target);
+        ISchemaAdapter schemaAdapter = DerbyMaster.wrap(adapter);
 
         // Set up the version history service first if it doesn't yet exist
-        CreateVersionHistory.createTableIfNeeded(Main.ADMIN_SCHEMANAME, adapter);
+        CreateVersionHistory.createTableIfNeeded(Main.ADMIN_SCHEMANAME, schemaAdapter);
 
         // Current version history for the database. This is used by applyWithHistory
         // to determine which updates to apply and to record the new changes as they
@@ -166,7 +174,7 @@ public class SchemaPrinter {
 
         // Create an instance of the service and use it to test creation
         // of the FHIR schema
-        FhirSchemaGenerator gen = new FhirSchemaGenerator(Main.ADMIN_SCHEMANAME, Main.DATA_SCHEMANAME, multitenant);
+        FhirSchemaGenerator gen = new FhirSchemaGenerator(Main.ADMIN_SCHEMANAME, Main.DATA_SCHEMANAME, this.schemaType);
         PhysicalDataModel model = new PhysicalDataModel();
         gen.buildSchema(model);
 
@@ -176,7 +184,7 @@ public class SchemaPrinter {
         JavaBatchSchemaGenerator javaBatchSchemaGenerator = new JavaBatchSchemaGenerator(Main.BATCH_SCHEMANAME);
         javaBatchSchemaGenerator.buildJavaBatchSchema(model);
         SchemaApplyContext context = SchemaApplyContext.getDefault();
-        model.apply(adapter, context);
+        model.apply(schemaAdapter, context);
     }
     
     public void processApplyGrants() {
@@ -184,9 +192,10 @@ public class SchemaPrinter {
         PrintConnection connection = new PrintConnection();
         JdbcTarget target = new JdbcTarget(connection);
         Db2Adapter adapter = new Db2Adapter(target);
+        ISchemaAdapter schemaAdapter = DerbyMaster.wrap(adapter);
 
         // Set up the version history service first if it doesn't yet exist
-        CreateVersionHistory.createTableIfNeeded(Main.ADMIN_SCHEMANAME, adapter);
+        CreateVersionHistory.createTableIfNeeded(Main.ADMIN_SCHEMANAME, schemaAdapter);
 
         // Current version history for the database. This is used by applyWithHistory
         // to determine which updates to apply and to record the new changes as they
@@ -196,7 +205,7 @@ public class SchemaPrinter {
 
         // Create an instance of the service and use it to test creation
         // of the FHIR schema
-        FhirSchemaGenerator gen = new FhirSchemaGenerator(Main.ADMIN_SCHEMANAME, Main.DATA_SCHEMANAME, multitenant);
+        FhirSchemaGenerator gen = new FhirSchemaGenerator(Main.ADMIN_SCHEMANAME, Main.DATA_SCHEMANAME, schemaType);
         PhysicalDataModel model = new PhysicalDataModel();
         gen.buildSchema(model);
 
@@ -208,7 +217,7 @@ public class SchemaPrinter {
 
         // clear it out. 
         commands.clear();
-        model.applyGrants(adapter, FhirSchemaConstants.FHIR_USER_GRANT_GROUP, "FHIRUSER");
+        model.applyGrants(schemaAdapter, FhirSchemaConstants.FHIR_USER_GRANT_GROUP, "FHIRUSER");
     }
     
     /**
@@ -262,6 +271,7 @@ public class SchemaPrinter {
     public static void main(String[] args) {
         boolean outputToFile = false;
         boolean multitenant = false;
+        boolean distributed = false;
         String outputFile = "";
 
         // If there are files
@@ -274,13 +284,22 @@ public class SchemaPrinter {
             case "--multitenant":
                 multitenant = true;
                 break;
+            case "--distributed":
+                distributed = true;
+                break;
             default:
                 throw new IllegalArgumentException("Invalid argument: " + arg);
             }
         }
 
+        if (multitenant && distributed) {
+            throw new IllegalArgumentException("--multitenant and --distributed are mutually exclusive");
+        }
+
+        SchemaType schemaType = multitenant ? SchemaType.MULTITENANT : distributed ? SchemaType.DISTRIBUTED : SchemaType.PLAIN;
+
         try {
-            SchemaPrinter printer = new SchemaPrinter(outputToFile, multitenant);
+            SchemaPrinter printer = new SchemaPrinter(outputToFile, schemaType);
             printer.process();
             printer.print();
             printer.processApplyGrants();

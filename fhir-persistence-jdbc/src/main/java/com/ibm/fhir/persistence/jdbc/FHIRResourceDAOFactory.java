@@ -44,15 +44,19 @@ public class FHIRResourceDAOFactory {
     /**
      * Construct a new ResourceDAO implementation matching the database type
      * @param connection valid connection to the database
+     * @param adminSchemaName
      * @param schemaName the name of the schema containing the FHIR resource tables
      * @param flavor the type and capability of the database and schema
      * @param trxSynchRegistry
+     * @param cache
+     * @param ptdi
+     * @param shardKey
      * @return a concrete implementation of {@link ResourceDAO}
      * @throws IllegalArgumentException
      * @throws FHIRPersistenceException
      */
     public static ResourceDAO getResourceDAO(Connection connection, String adminSchemaName, String schemaName, FHIRDbFlavor flavor, TransactionSynchronizationRegistry trxSynchRegistry,
-        FHIRPersistenceJDBCCache cache, ParameterTransactionDataImpl ptdi)
+        FHIRPersistenceJDBCCache cache, ParameterTransactionDataImpl ptdi, Short shardKey)
         throws IllegalArgumentException, FHIRPersistenceException {
         final ResourceDAO resourceDAO;
 
@@ -65,10 +69,10 @@ public class FHIRResourceDAOFactory {
             resourceDAO = new DerbyResourceDAO(connection, schemaName, flavor, trxSynchRegistry, cache, rrd, ptdi);
             break;
         case POSTGRESQL:
-            resourceDAO = new PostgresResourceDAO(connection, schemaName, flavor, trxSynchRegistry, cache, rrd, ptdi);
+            resourceDAO = new PostgresResourceDAO(connection, schemaName, flavor, trxSynchRegistry, cache, rrd, ptdi, shardKey);
             break;
         case CITUS:
-            resourceDAO = new CitusResourceDAO(connection, schemaName, flavor, trxSynchRegistry, cache, rrd, ptdi);
+            resourceDAO = new CitusResourceDAO(connection, schemaName, flavor, trxSynchRegistry, cache, rrd, ptdi, shardKey);
             break;
         default:
             throw new IllegalArgumentException("Unsupported database type: " + flavor.getType().name());
@@ -124,15 +128,19 @@ public class FHIRResourceDAOFactory {
 
     /**
      * Construct a new ResourceDAO implementation matching the database type
+     * 
      * @param connection valid connection to the database
+     * @param adminSchemaName
      * @param schemaName the name of the schema containing the FHIR resource tables
      * @param flavor the type and capability of the database and schema
+     * @param cache
+     * @param shardKey
      * @return a concrete implementation of {@link ResourceDAO}
      * @throws IllegalArgumentException
      * @throws FHIRPersistenceException
      */
     public static ResourceDAO getResourceDAO(Connection connection, String adminSchemaName, String schemaName, FHIRDbFlavor flavor,
-        FHIRPersistenceJDBCCache cache) throws IllegalArgumentException, FHIRPersistenceException {
+        FHIRPersistenceJDBCCache cache, Short shardKey) throws IllegalArgumentException, FHIRPersistenceException {
         final ResourceDAO resourceDAO;
 
         IResourceReferenceDAO rrd = getResourceReferenceDAO(connection, adminSchemaName, schemaName, flavor, cache);
@@ -144,10 +152,10 @@ public class FHIRResourceDAOFactory {
             resourceDAO = new DerbyResourceDAO(connection, schemaName, flavor, cache, rrd);
             break;
         case POSTGRESQL:
-            resourceDAO = new PostgresResourceDAO(connection, schemaName, flavor, cache, rrd);
+            resourceDAO = new PostgresResourceDAO(connection, schemaName, flavor, cache, rrd, shardKey);
             break;
         case CITUS:
-            resourceDAO = new CitusResourceDAO(connection, schemaName, flavor, cache, rrd);
+            resourceDAO = new CitusResourceDAO(connection, schemaName, flavor, cache, rrd, shardKey);
             break;
         default:
             throw new IllegalArgumentException("Unsupported database type: " + flavor.getType().name());

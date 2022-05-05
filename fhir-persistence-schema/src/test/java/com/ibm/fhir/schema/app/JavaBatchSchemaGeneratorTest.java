@@ -45,8 +45,10 @@ import java.util.concurrent.Executor;
 
 import org.testng.annotations.Test;
 
+import com.ibm.fhir.database.utils.api.ISchemaAdapter;
 import com.ibm.fhir.database.utils.api.SchemaApplyContext;
 import com.ibm.fhir.database.utils.common.JdbcTarget;
+import com.ibm.fhir.database.utils.common.PlainSchemaAdapter;
 import com.ibm.fhir.database.utils.db2.Db2Adapter;
 import com.ibm.fhir.database.utils.model.AlterSequenceStartWith;
 import com.ibm.fhir.database.utils.model.AlterTableIdentityCache;
@@ -77,9 +79,10 @@ public class JavaBatchSchemaGeneratorTest {
         PrintConnection connection = new PrintConnection();
         JdbcTarget target = new JdbcTarget(connection);
         Db2Adapter adapter = new Db2Adapter(target);
+        ISchemaAdapter schemaAdapter = new PlainSchemaAdapter(adapter);
 
         // Set up the version history service first if it doesn't yet exist
-        CreateVersionHistory.createTableIfNeeded(Main.ADMIN_SCHEMANAME, adapter);
+        CreateVersionHistory.createTableIfNeeded(Main.ADMIN_SCHEMANAME, schemaAdapter);
 
         // Current version history for the database. This is used by applyWithHistory
         // to determine which updates to apply and to record the new changes as they
@@ -91,9 +94,9 @@ public class JavaBatchSchemaGeneratorTest {
         JavaBatchSchemaGenerator generator = new JavaBatchSchemaGenerator(Main.BATCH_SCHEMANAME);
         generator.buildJavaBatchSchema(pdm);
         SchemaApplyContext context = SchemaApplyContext.getDefault();
-        pdm.apply(adapter, context);
-        pdm.applyFunctions(adapter, context);
-        pdm.applyProcedures(adapter, context);
+        pdm.apply(schemaAdapter, context);
+        pdm.applyFunctions(schemaAdapter, context);
+        pdm.applyProcedures(schemaAdapter, context);
 
         if (DEBUG) {
             for (Entry<String, String> command : commands.entrySet()) {
@@ -109,9 +112,10 @@ public class JavaBatchSchemaGeneratorTest {
         PrintConnection connection = new PrintConnection();
         JdbcTarget target = new JdbcTarget(connection);
         PostgresAdapter adapter = new PostgresAdapter(target);
+        ISchemaAdapter schemaAdapter = new PlainSchemaAdapter(adapter);
 
         // Set up the version history service first if it doesn't yet exist
-        CreateVersionHistory.createTableIfNeeded(Main.ADMIN_SCHEMANAME, adapter);
+        CreateVersionHistory.createTableIfNeeded(Main.ADMIN_SCHEMANAME, schemaAdapter);
 
         // Current version history for the database. This is used by applyWithHistory
         // to determine which updates to apply and to record the new changes as they
@@ -123,8 +127,8 @@ public class JavaBatchSchemaGeneratorTest {
         JavaBatchSchemaGenerator generator = new JavaBatchSchemaGenerator(Main.BATCH_SCHEMANAME);
         generator.buildJavaBatchSchema(pdm);
         SchemaApplyContext context = SchemaApplyContext.getDefault();
-        pdm.apply(adapter, context);
-        pdm.applyFunctions(adapter, context);
+        pdm.apply(schemaAdapter, context);
+        pdm.applyFunctions(schemaAdapter, context);
 
         if (DEBUG) {
             for (Entry<String, String> command : commands.entrySet()) {
@@ -141,9 +145,10 @@ public class JavaBatchSchemaGeneratorTest {
         PrintConnection connection = new PrintConnection();
         JdbcTarget target = new JdbcTarget(connection);
         Db2Adapter adapter = new Db2Adapter(target);
+        ISchemaAdapter schemaAdapter = new PlainSchemaAdapter(adapter);
 
         // Set up the version history service first if it doesn't yet exist
-        CreateVersionHistory.createTableIfNeeded(Main.ADMIN_SCHEMANAME, adapter);
+        CreateVersionHistory.createTableIfNeeded(Main.ADMIN_SCHEMANAME, schemaAdapter);
 
         // Current version history for the database. This is used by applyWithHistory
         // to determine which updates to apply and to record the new changes as they
@@ -155,9 +160,9 @@ public class JavaBatchSchemaGeneratorTest {
         JavaBatchSchemaGenerator generator = new JavaBatchSchemaGenerator(Main.BATCH_SCHEMANAME);
         generator.buildJavaBatchSchema(pdm);
         SchemaApplyContext context = SchemaApplyContext.getDefault();
-        pdm.apply(adapter, context);
-        pdm.applyFunctions(adapter, context);
-        pdm.applyProcedures(adapter, context);
+        pdm.apply(schemaAdapter, context);
+        pdm.applyFunctions(schemaAdapter, context);
+        pdm.applyProcedures(schemaAdapter, context);
 
         pdm.visit(new ConfirmTagsVisitor());
 

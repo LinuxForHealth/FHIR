@@ -20,6 +20,7 @@ import java.util.function.Supplier;
 import java.util.logging.Logger;
 
 import com.ibm.fhir.database.utils.api.IDatabaseAdapter;
+import com.ibm.fhir.database.utils.api.ISchemaAdapter;
 import com.ibm.fhir.database.utils.api.ITransaction;
 import com.ibm.fhir.database.utils.api.ITransactionProvider;
 import com.ibm.fhir.database.utils.api.IVersionHistoryService;
@@ -118,7 +119,7 @@ public class PhysicalDataModel implements IDataModel {
      * @param tp
      * @param vhs
      */
-    public void collect(ITaskCollector tc, IDatabaseAdapter target, SchemaApplyContext context, ITransactionProvider tp, IVersionHistoryService vhs) {
+    public void collect(ITaskCollector tc, ISchemaAdapter target, SchemaApplyContext context, ITransactionProvider tp, IVersionHistoryService vhs) {
         for (IDatabaseObject obj: allObjects) {
             obj.collect(tc, target, context, tp, vhs);
         }
@@ -129,7 +130,7 @@ public class PhysicalDataModel implements IDataModel {
      * @param target
      * @param context
      */
-    public void apply(IDatabaseAdapter target, SchemaApplyContext context) {
+    public void apply(ISchemaAdapter target, SchemaApplyContext context) {
         int total = allObjects.size();
         int count = 1;
         for (IDatabaseObject obj: allObjects) {
@@ -143,7 +144,7 @@ public class PhysicalDataModel implements IDataModel {
      * may have (e.g. for Citus)
      * @param target
      */
-    public void applyDistributionRules(IDatabaseAdapter target) {
+    public void applyDistributionRules(ISchemaAdapter target) {
 
         // make a first pass to apply reference rules
         for (IDatabaseObject obj: allObjects) {
@@ -162,7 +163,7 @@ public class PhysicalDataModel implements IDataModel {
      * @param target
      * @param vhs
      */
-    public void applyWithHistory(IDatabaseAdapter target, SchemaApplyContext context, IVersionHistoryService vhs) {
+    public void applyWithHistory(ISchemaAdapter target, SchemaApplyContext context, IVersionHistoryService vhs) {
         int total = allObjects.size();
         int count = 1;
         for (IDatabaseObject obj: allObjects) {
@@ -175,7 +176,7 @@ public class PhysicalDataModel implements IDataModel {
      * Apply all the procedures in the order in which they were added to the model
      * @param adapter
      */
-    public void applyProcedures(IDatabaseAdapter adapter, SchemaApplyContext context) {
+    public void applyProcedures(ISchemaAdapter adapter, SchemaApplyContext context) {
         int total = procedures.size();
         int count = 1;
         for (ProcedureDef obj: procedures) {
@@ -189,7 +190,7 @@ public class PhysicalDataModel implements IDataModel {
      * Apply all the functions in the order in which they were added to the model
      * @param adapter
      */
-    public void applyFunctions(IDatabaseAdapter adapter, SchemaApplyContext context) {
+    public void applyFunctions(ISchemaAdapter adapter, SchemaApplyContext context) {
         int total = functions.size();
         int count = 1;
         for (FunctionDef obj: functions) {
@@ -206,7 +207,7 @@ public class PhysicalDataModel implements IDataModel {
      * @param tagGroup
      * @param tag
      */
-    public void drop(IDatabaseAdapter target, String tagGroup, String tag) {
+    public void drop(ISchemaAdapter target, String tagGroup, String tag) {
         // The simplest way to reverse the list is add everything into an array list
         // which we then simply traverse end to start
         ArrayList<IDatabaseObject> copy = new ArrayList<>();
@@ -236,7 +237,7 @@ public class PhysicalDataModel implements IDataModel {
      * @param tagGroup
      * @param tag
      */
-    public void dropSplitTransaction(IDatabaseAdapter target, ITransactionProvider transactionProvider, String tagGroup, String tag) {
+    public void dropSplitTransaction(ISchemaAdapter target, ITransactionProvider transactionProvider, String tagGroup, String tag) {
         
         ArrayList<IDatabaseObject> copy = new ArrayList<>();
         copy.addAll(allObjects);
@@ -272,7 +273,7 @@ public class PhysicalDataModel implements IDataModel {
      * @param tagGroup
      * @param tag
      */
-    public void dropForeignKeyConstraints(IDatabaseAdapter target, String tagGroup, String tag) {
+    public void dropForeignKeyConstraints(ISchemaAdapter target, String tagGroup, String tag) {
         // The simplest way to reverse the list is add everything into an array list
         // which we then simply traverse end to start
         ArrayList<IDatabaseObject> copy = new ArrayList<>();
@@ -335,7 +336,7 @@ public class PhysicalDataModel implements IDataModel {
      * Drop the lot
      * @param target
      */
-    public void drop(IDatabaseAdapter target) {
+    public void drop(ISchemaAdapter target) {
         drop(target, null, null);
     }
 
@@ -597,7 +598,7 @@ public class PhysicalDataModel implements IDataModel {
      * @param groupName
      * @param username
      */
-    public void applyGrants(IDatabaseAdapter target, String groupName, String username) {
+    public void applyGrants(ISchemaAdapter target, String groupName, String username) {
         int total = allObjects.size();
         int count = 1;
         for (IDatabaseObject obj: allObjects) {
@@ -612,7 +613,7 @@ public class PhysicalDataModel implements IDataModel {
      * @param groupName
      * @param username
      */
-    public void applyProcedureAndFunctionGrants(IDatabaseAdapter target, String groupName, String username) {
+    public void applyProcedureAndFunctionGrants(ISchemaAdapter target, String groupName, String username) {
         int total = functions.size() + procedures.size();
         int count = 1;
         

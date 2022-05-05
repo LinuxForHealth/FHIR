@@ -11,8 +11,8 @@ import java.util.Collection;
 import java.util.List;
 import java.util.stream.Collectors;
 
-import com.ibm.fhir.database.utils.api.DistributionRules;
-import com.ibm.fhir.database.utils.api.IDatabaseAdapter;
+import com.ibm.fhir.database.utils.api.DistributionType;
+import com.ibm.fhir.database.utils.api.ISchemaAdapter;
 import com.ibm.fhir.database.utils.common.CreateIndexStatement;
 
 /**
@@ -71,16 +71,16 @@ public class IndexDef {
      * @param target
      * @param distributionRules
      */
-    public void apply(String schemaName, String tableName, String tenantColumnName, IDatabaseAdapter target,
-            DistributionRules distributionRules) {
+    public void apply(String schemaName, String tableName, String tenantColumnName, ISchemaAdapter target,
+            DistributionType distributionType) {
         if (includeColumns != null && includeColumns.size() > 0) {
-            target.createUniqueIndex(schemaName, tableName, indexName, tenantColumnName, indexColumns, includeColumns, distributionRules);
+            target.createUniqueIndex(schemaName, tableName, indexName, tenantColumnName, indexColumns, includeColumns, distributionType);
         }
         else if (unique) {
-            target.createUniqueIndex(schemaName, tableName, indexName, tenantColumnName, indexColumns, distributionRules);
+            target.createUniqueIndex(schemaName, tableName, indexName, tenantColumnName, indexColumns, distributionType);
         }
         else {
-            target.createIndex(schemaName, tableName, indexName, tenantColumnName, indexColumns);
+            target.createIndex(schemaName, tableName, indexName, tenantColumnName, indexColumns, distributionType);
         }
     }
 
@@ -89,7 +89,7 @@ public class IndexDef {
      * @param schemaName
      * @param target
      */
-    public void drop(String schemaName, IDatabaseAdapter target) {
+    public void drop(String schemaName, ISchemaAdapter target) {
         target.dropIndex(schemaName, indexName);
     }
 

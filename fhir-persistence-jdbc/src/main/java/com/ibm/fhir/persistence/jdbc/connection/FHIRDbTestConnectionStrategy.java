@@ -11,6 +11,7 @@ import java.sql.SQLException;
 import java.util.logging.Logger;
 
 import com.ibm.fhir.database.utils.api.IConnectionProvider;
+import com.ibm.fhir.database.utils.api.SchemaType;
 import com.ibm.fhir.persistence.jdbc.exception.FHIRPersistenceDBConnectException;
 import com.ibm.fhir.persistence.jdbc.exception.FHIRPersistenceDataAccessException;
 
@@ -51,8 +52,9 @@ public class FHIRDbTestConnectionStrategy implements FHIRDbConnectionStrategy {
         this.connectionProvider = cp;
         this.action = action;
 
-        // we don't support multi-tenancy in our unit-test database
-        flavor = new FHIRDbFlavorImpl(cp.getTranslator().getType(), false);
+        // we don't support multi-tenancy or distribution in our unit-test database,
+        // so we use PLAIN for the schema type
+        flavor = new FHIRDbFlavorImpl(cp.getTranslator().getType(), SchemaType.PLAIN);
     }
 
     @Override

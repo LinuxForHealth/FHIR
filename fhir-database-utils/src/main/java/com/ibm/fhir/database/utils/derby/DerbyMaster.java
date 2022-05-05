@@ -22,11 +22,13 @@ import com.ibm.fhir.database.utils.api.DataAccessException;
 import com.ibm.fhir.database.utils.api.IConnectionProvider;
 import com.ibm.fhir.database.utils.api.IDatabaseAdapter;
 import com.ibm.fhir.database.utils.api.IDatabaseTranslator;
+import com.ibm.fhir.database.utils.api.ISchemaAdapter;
 import com.ibm.fhir.database.utils.api.IVersionHistoryService;
 import com.ibm.fhir.database.utils.api.SchemaApplyContext;
 import com.ibm.fhir.database.utils.common.ConnectionProviderTarget;
 import com.ibm.fhir.database.utils.common.DataDefinitionUtil;
 import com.ibm.fhir.database.utils.common.JdbcTarget;
+import com.ibm.fhir.database.utils.common.PlainSchemaAdapter;
 import com.ibm.fhir.database.utils.common.PrintTarget;
 import com.ibm.fhir.database.utils.model.PhysicalDataModel;
 
@@ -234,7 +236,7 @@ public class DerbyMaster implements AutoCloseable {
      * @param pool provides database connections
      * @param fn the command to execute
      */
-    public void runWithAdapter(IConnectionProvider pool, Consumer<IDatabaseAdapter> fn) {
+    public void runWithAdapter(IConnectionProvider pool, Consumer<ISchemaAdapter> fn) {
 
         // We need to obtain connections from the same pool as the version history service
         // so we can avoid deadlocks for certain DDL like DROP INDEX
@@ -244,7 +246,7 @@ public class DerbyMaster implements AutoCloseable {
             
             // call the Function we've been given using the adapter we just wrapped
             // around the connection.
-            fn.accept(adapter);
+            fn.accept(wrap(adapter));
         } catch (DataAccessException x) {
             logger.log(Level.SEVERE, "Error while running", x);
             throw x;
@@ -257,7 +259,7 @@ public class DerbyMaster implements AutoCloseable {
      * 
      * @param fn
      */
-    public void runWithAdapter(java.util.function.Consumer<IDatabaseAdapter> fn) {
+    public void runWithAdapter(java.util.function.Consumer<ISchemaAdapter> fn) {
 
         IConnectionProvider cp = new DerbyConnectionProvider(this, null);
         ConnectionProviderTarget target = new ConnectionProviderTarget(cp);
@@ -272,7 +274,18 @@ public class DerbyMaster implements AutoCloseable {
       
         // call the Function we've been given using the adapter we just wrapped
         // around the connection. Each statement executes in its own connection/transaction.
-        fn.accept(adapter);
+        // We also need to wrap the DerbyAdapter in a plain schema adapter
+        fn.accept(wrap(adapter));
+    }
+
+    /**
+     * Utility method to wrap the database adapter in a plain schema adapter 
+     * which acts as a pass-through to the underlying databaseAdapter
+     * @param databaseAdapter
+     * @return
+     */
+    public static ISchemaAdapter wrap(IDatabaseAdapter databaseAdapter) {
+        return new PlainSchemaAdapter(databaseAdapter);
     }
 
     /**

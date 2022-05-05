@@ -6,7 +6,7 @@
 
 package com.ibm.fhir.database.utils.version;
 
-import com.ibm.fhir.database.utils.api.IDatabaseAdapter;
+import com.ibm.fhir.database.utils.api.ISchemaAdapter;
 import com.ibm.fhir.database.utils.api.SchemaApplyContext;
 import com.ibm.fhir.database.utils.model.PhysicalDataModel;
 import com.ibm.fhir.database.utils.model.Table;
@@ -59,7 +59,7 @@ public class CreateVersionHistory {
      * @param adminSchemaName
      * @param target
      */
-    public static void createTableIfNeeded(String adminSchemaName, IDatabaseAdapter target) {
+    public static void createTableIfNeeded(String adminSchemaName, ISchemaAdapter target) {
         PhysicalDataModel dataModel = new PhysicalDataModel();
         SchemaApplyContext context = SchemaApplyContext.getDefault();
 

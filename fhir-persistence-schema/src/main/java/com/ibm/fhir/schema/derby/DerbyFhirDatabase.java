@@ -7,7 +7,6 @@
 package com.ibm.fhir.schema.derby;
 
 import java.sql.Connection;
-import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.sql.Statement;
@@ -19,6 +18,7 @@ import com.ibm.fhir.database.utils.api.IConnectionProvider;
 import com.ibm.fhir.database.utils.api.IDatabaseTranslator;
 import com.ibm.fhir.database.utils.api.ITransaction;
 import com.ibm.fhir.database.utils.api.ITransactionProvider;
+import com.ibm.fhir.database.utils.api.SchemaType;
 import com.ibm.fhir.database.utils.common.JdbcTarget;
 import com.ibm.fhir.database.utils.derby.DerbyAdapter;
 import com.ibm.fhir.database.utils.derby.DerbyConnectionProvider;
@@ -87,11 +87,11 @@ public class DerbyFhirDatabase implements AutoCloseable, IConnectionProvider {
         // Database objects for the admin schema (shared across multiple tenants in the same DB)
         PhysicalDataModel pdm = new PhysicalDataModel();
         if (resourceTypeNames == null) {
-            FhirSchemaGenerator gen = new FhirSchemaGenerator(ADMIN_SCHEMA_NAME, SCHEMA_NAME, false);
+            FhirSchemaGenerator gen = new FhirSchemaGenerator(ADMIN_SCHEMA_NAME, SCHEMA_NAME, SchemaType.PLAIN);
             gen.buildSchema(pdm);
         } else {
             // just build out a subset of tables
-            FhirSchemaGenerator gen = new FhirSchemaGenerator(ADMIN_SCHEMA_NAME, SCHEMA_NAME, false, resourceTypeNames);
+            FhirSchemaGenerator gen = new FhirSchemaGenerator(ADMIN_SCHEMA_NAME, SCHEMA_NAME, SchemaType.PLAIN, resourceTypeNames);
             gen.buildSchema(pdm);
         }
 
@@ -177,7 +177,7 @@ public class DerbyFhirDatabase implements AutoCloseable, IConnectionProvider {
             try {
                 JdbcTarget target = new JdbcTarget(c);
                 DerbyAdapter derbyAdapter = new DerbyAdapter(target);
-                CreateVersionHistory.createTableIfNeeded(ADMIN_SCHEMA_NAME, derbyAdapter);
+                CreateVersionHistory.createTableIfNeeded(ADMIN_SCHEMA_NAME, DerbyMaster.wrap(derbyAdapter));
                 c.commit();
             } catch (SQLException x) {
                 logger.log(Level.SEVERE, "failed to create version history table", x);

@@ -8,7 +8,7 @@ package com.ibm.fhir.database.utils.version;
 
 import java.util.logging.Logger;
 
-import com.ibm.fhir.database.utils.api.IDatabaseAdapter;
+import com.ibm.fhir.database.utils.api.ISchemaAdapter;
 import com.ibm.fhir.database.utils.api.SchemaApplyContext;
 import com.ibm.fhir.database.utils.model.PhysicalDataModel;
 import com.ibm.fhir.database.utils.model.Table;
@@ -60,7 +60,7 @@ public class CreateControl {
      * @param adminSchemaName
      * @param target
      */
-    public static void createTableIfNeeded(String adminSchemaName, IDatabaseAdapter target) {
+    public static void createTableIfNeeded(String adminSchemaName, ISchemaAdapter target) {
         SchemaApplyContext context = SchemaApplyContext.getDefault();
         PhysicalDataModel dataModel = new PhysicalDataModel();
 

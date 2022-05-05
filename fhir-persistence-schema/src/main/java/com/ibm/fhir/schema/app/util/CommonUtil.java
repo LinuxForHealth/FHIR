@@ -19,6 +19,8 @@ import java.util.logging.Logger;
 import com.ibm.fhir.database.utils.api.IConnectionProvider;
 import com.ibm.fhir.database.utils.api.IDatabaseAdapter;
 import com.ibm.fhir.database.utils.api.IDatabaseTranslator;
+import com.ibm.fhir.database.utils.api.ISchemaAdapter;
+import com.ibm.fhir.database.utils.api.SchemaType;
 import com.ibm.fhir.database.utils.citus.CitusAdapter;
 import com.ibm.fhir.database.utils.common.JdbcPropertyAdapter;
 import com.ibm.fhir.database.utils.common.JdbcTarget;
@@ -30,6 +32,9 @@ import com.ibm.fhir.database.utils.derby.DerbyPropertyAdapter;
 import com.ibm.fhir.database.utils.model.DbType;
 import com.ibm.fhir.database.utils.postgres.PostgresAdapter;
 import com.ibm.fhir.database.utils.postgres.PostgresPropertyAdapter;
+import com.ibm.fhir.schema.build.DistributedSchemaAdapter;
+import com.ibm.fhir.schema.build.FhirSchemaAdapter;
+import com.ibm.fhir.schema.control.FhirSchemaConstants;
 
 /**
  *
@@ -125,6 +130,47 @@ public final class CommonUtil {
             return new CitusAdapter(target);
         default:
             throw new IllegalStateException("Unsupported db type: " + dbType);
+        }
+    }
+    /**
+     * Get the schema adapter which will build the schema variant described by
+     * the given schemaType
+     * @param schemaType
+     * @param dbType
+     * @param connectionProvider
+     * @return
+     */
+    public static ISchemaAdapter getSchemaAdapter(SchemaType schemaType, DbType dbType, IConnectionProvider connectionProvider) {
+        IDatabaseAdapter dbAdapter = getDbAdapter(dbType, connectionProvider);
+        switch (schemaType) {
+        case PLAIN:
+            return new FhirSchemaAdapter(dbAdapter);
+        case MULTITENANT:
+            return new FhirSchemaAdapter(dbAdapter);
+        case DISTRIBUTED:
+            return new DistributedSchemaAdapter(dbAdapter, FhirSchemaConstants.SHARD_KEY);
+        default:
+            throw new IllegalArgumentException("Unsupported schema type: " + schemaType);
+        }
+    }
+
+    /**
+     * Wrap the given databaseAdapter in an ISchemaAdapter implementation selected
+     * by the given schemaType
+     * @param schemaType
+     * @param dbAdapter
+     * @return
+     */
+    public static ISchemaAdapter getSchemaAdapter(SchemaType schemaType, IDatabaseAdapter dbAdapter) {
+        switch (schemaType) {
+        case PLAIN:
+            return new FhirSchemaAdapter(dbAdapter);
+        case MULTITENANT:
+            return new FhirSchemaAdapter(dbAdapter);
+        case DISTRIBUTED:
+            return new DistributedSchemaAdapter(dbAdapter, FhirSchemaConstants.SHARD_KEY);
+        default:
+            throw new IllegalArgumentException("Unsupported schema type: " + schemaType);
         }
     }
 

@@ -15,7 +15,7 @@ import java.util.function.Supplier;
 import java.util.logging.Level;
 import java.util.logging.Logger;
 
-import com.ibm.fhir.database.utils.api.DistributionRules;
+import com.ibm.fhir.database.utils.api.DistributionContext;
 import com.ibm.fhir.database.utils.api.DuplicateNameException;
 import com.ibm.fhir.database.utils.api.DuplicateSchemaException;
 import com.ibm.fhir.database.utils.api.IConnectionProvider;
@@ -81,7 +81,7 @@ public class DerbyAdapter extends CommonDatabaseAdapter {
     @Override
     public void createTable(String schemaName, String name, String tenantColumnName, List<ColumnBase> columns, PrimaryKeyDef primaryKey,
             IdentityDef identity, String tablespaceName, List<With> withs, List<CheckConstraint> checkConstraints,
-            DistributionRules distributionRules) {
+            DistributionContext distributionContext) {
         // Derby doesn't support partitioning, so we ignore tenantColumnName
         if (tenantColumnName != null) {
             warnOnce(MessageKey.MULTITENANCY, "Derby does not support multi-tenancy on: [" + name + "]");
@@ -94,10 +94,10 @@ public class DerbyAdapter extends CommonDatabaseAdapter {
 
     @Override
     public void createUniqueIndex(String schemaName, String tableName, String indexName, String tenantColumnName, List<OrderedColumnDef> indexColumns,
-            List<String> includeColumns, DistributionRules distributionRules) {
+            List<String> includeColumns, DistributionContext distributionContext) {
 
         // Derby doesn't support include columns, so we just have to create a normal index
-        createUniqueIndex(schemaName, tableName, indexName, tenantColumnName, indexColumns, distributionRules);
+        createUniqueIndex(schemaName, tableName, indexName, tenantColumnName, indexColumns, distributionContext);
     }
 
     @Override

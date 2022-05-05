@@ -762,7 +762,7 @@ public class ResourceDAOImpl extends FHIRDbDAOImpl implements ResourceDAO {
      * @param logicalResourceId
      * @throws SQLException
      */
-    protected void deleteFromParameterTable(Connection conn, String tableName, long logicalResourceId) throws SQLException {
+    private void deleteFromParameterTable(Connection conn, String tableName, long logicalResourceId) throws SQLException {
         final String delStrValues = "DELETE FROM " + tableName + " WHERE logical_resource_id = ?";
         try (PreparedStatement stmt = conn.prepareStatement(delStrValues)) {
             // bind parameters

@@ -10,7 +10,7 @@ import java.util.Set;
 import java.util.function.Supplier;
 import java.util.logging.Logger;
 
-import com.ibm.fhir.database.utils.api.IDatabaseAdapter;
+import com.ibm.fhir.database.utils.api.ISchemaAdapter;
 import com.ibm.fhir.database.utils.api.SchemaApplyContext;
 
 /**
@@ -35,7 +35,7 @@ public class ProcedureDef extends BaseObject {
     }
 
     @Override
-    public void apply(IDatabaseAdapter target, SchemaApplyContext context) {
+    public void apply(ISchemaAdapter target, SchemaApplyContext context) {
         // Serialize the execution of the procedure, to try and avoid the
         // horrible deadlocks we keep getting
         synchronized (this) {
@@ -45,7 +45,7 @@ public class ProcedureDef extends BaseObject {
     }
 
     @Override
-    public void apply(Integer priorVersion, IDatabaseAdapter target, SchemaApplyContext context) {
+    public void apply(Integer priorVersion, ISchemaAdapter target, SchemaApplyContext context) {
         if (priorVersion != null && priorVersion > 0 && this.getVersion() > priorVersion && !migrations.isEmpty()) {
             logger.warning("Found '" + migrations.size() + "' migration steps, but performing 'create or replace' instead");
         }
@@ -56,12 +56,12 @@ public class ProcedureDef extends BaseObject {
     }
 
     @Override
-    public void drop(IDatabaseAdapter target) {
+    public void drop(ISchemaAdapter target) {
         target.dropProcedure(getSchemaName(), getObjectName());
     }
 
     @Override
-    protected void grantGroupPrivileges(IDatabaseAdapter target, Set<Privilege> group, String toUser) {
+    protected void grantGroupPrivileges(ISchemaAdapter target, Set<Privilege> group, String toUser) {
         target.grantProcedurePrivileges(getSchemaName(), getObjectName(), group, toUser);
     }
 

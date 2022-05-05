@@ -11,8 +11,8 @@ import java.util.List;
 import java.util.logging.Level;
 import java.util.logging.Logger;
 
-import com.ibm.fhir.database.utils.api.DistributionRules;
-import com.ibm.fhir.database.utils.api.IDatabaseAdapter;
+import com.ibm.fhir.database.utils.api.DistributionType;
+import com.ibm.fhir.database.utils.api.ISchemaAdapter;
 import com.ibm.fhir.database.utils.api.SchemaApplyContext;
 import com.ibm.fhir.database.utils.common.CreateIndexStatement;
 
@@ -33,22 +33,22 @@ public class CreateIndex extends BaseObject {
     private final String tableName;
 
     // Distribution rules if the associated table is distributed
-    private final DistributionRules distributionRules;
+    private final DistributionType distributionType;
 
     /**
      * Protected constructor. Use the Builder to create instance.
      * @param schemaName
      * @param indexName
      * @param version
-     * @distributionRules
+     * @param distributionType
      */
     protected CreateIndex(String schemaName, String versionTrackingName, String tableName, int version, IndexDef indexDef, String tenantColumnName,
-            DistributionRules distributionRules) {
+            DistributionType distributionType) {
         super(schemaName, versionTrackingName, DatabaseObjectType.INDEX, version);
         this.tableName = tableName;
         this.indexDef = indexDef;
         this.tenantColumnName = tenantColumnName;
-        this.distributionRules = distributionRules;
+        this.distributionType = distributionType;
     }
     
     /**
@@ -93,9 +93,9 @@ public class CreateIndex extends BaseObject {
 
     
     @Override
-    public void apply(IDatabaseAdapter target, SchemaApplyContext context) {
+    public void apply(ISchemaAdapter target, SchemaApplyContext context) {
         long start = System.nanoTime();
-        indexDef.apply(getSchemaName(), getTableName(), tenantColumnName, target, distributionRules);
+        indexDef.apply(getSchemaName(), getTableName(), tenantColumnName, target, distributionType);
         
         if (logger.isLoggable(Level.FINE)) {
             long end = System.nanoTime();
@@ -105,12 +105,12 @@ public class CreateIndex extends BaseObject {
     }
 
     @Override
-    public void apply(Integer priorVersion, IDatabaseAdapter target, SchemaApplyContext context) {
+    public void apply(Integer priorVersion, ISchemaAdapter target, SchemaApplyContext context) {
         apply(target, context);
     }
 
     @Override
-    public void drop(IDatabaseAdapter target) {
+    public void drop(ISchemaAdapter target) {
         long start = System.nanoTime();
         indexDef.drop(getSchemaName(), target);
         
@@ -161,10 +161,7 @@ public class CreateIndex extends BaseObject {
         private String versionTrackingName;
 
         // Set if the table is distributed
-        private String distributionColumn;
-
-        // Set if the table is a distributed reference type table
-        private boolean distributionReference;
+        private DistributionType distributionType = DistributionType.NONE;
 
         /**
          * @param schemaName the schemaName to set
@@ -198,22 +195,12 @@ public class CreateIndex extends BaseObject {
         }
 
         /**
-         * Setter for distributionColumn
-         * @param name
+         * Setter for distributionType
+         * @param dt
          * @return
          */
-        public Builder setDistributionColumn(String name) {
-            this.distributionColumn = name;
-            return this;
-        }
-
-        /**
-         * Setter for distributionReference
-         * @param flag
-         * @return
-         */
-        public Builder setDistributionReference(boolean flag) {
-            this.distributionReference = flag;
+        public Builder setDistributionType(DistributionType dt) {
+            this.distributionType = dt;
             return this;
         }
 
@@ -269,13 +256,9 @@ public class CreateIndex extends BaseObject {
             if (versionTrackingName == null) {
                 versionTrackingName = this.indexName;
             }
-            DistributionRules distributionRules = null;
-            if (this.distributionReference || this.distributionColumn != null) {
-                distributionRules = new DistributionRules(distributionColumn, distributionReference);
-            }
             
             return new CreateIndex(schemaName, versionTrackingName, tableName, version,
-                new IndexDef(indexName, indexCols, unique), tenantColumnName, distributionRules);
+                new IndexDef(indexName, indexCols, unique), tenantColumnName, distributionType);
         }
         
         /**

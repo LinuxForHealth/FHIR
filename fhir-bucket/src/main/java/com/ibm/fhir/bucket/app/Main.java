@@ -56,11 +56,13 @@ import com.ibm.fhir.database.utils.api.IConnectionProvider;
 import com.ibm.fhir.database.utils.api.IDatabaseAdapter;
 import com.ibm.fhir.database.utils.api.IDatabaseTranslator;
 import com.ibm.fhir.database.utils.api.ILeaseManagerConfig;
+import com.ibm.fhir.database.utils.api.ISchemaAdapter;
 import com.ibm.fhir.database.utils.api.ITransaction;
 import com.ibm.fhir.database.utils.api.ITransactionProvider;
 import com.ibm.fhir.database.utils.api.SchemaApplyContext;
 import com.ibm.fhir.database.utils.api.UniqueConstraintViolationException;
 import com.ibm.fhir.database.utils.common.JdbcConnectionProvider;
+import com.ibm.fhir.database.utils.common.PlainSchemaAdapter;
 import com.ibm.fhir.database.utils.db2.Db2Adapter;
 import com.ibm.fhir.database.utils.db2.Db2PropertyAdapter;
 import com.ibm.fhir.database.utils.db2.Db2Translator;
@@ -147,6 +149,9 @@ public class Main {
 
     // The adapter configured for the type of database we're using
     private IDatabaseAdapter adapter;
+
+    // The (plain) schema adapter which wraps the database adapter
+    private ISchemaAdapter schemaAdapter;
 
     // The number of threads to use for the schema creation step
     private int createSchemaThreads = 1;
@@ -671,6 +676,7 @@ public class Main {
         this.connectionPool = new PoolConnectionProvider(cp, connectionPoolSize);
         this.connectionPool.setCloseOnAnyError();
         this.adapter = new DerbyAdapter(connectionPool);
+        this.schemaAdapter = new PlainSchemaAdapter(adapter);
         this.transactionProvider = new SimpleTransactionProvider(connectionPool);
     }
 
@@ -734,7 +740,7 @@ public class Main {
         // Create the version history table if it doesn't yet exist
         try (ITransaction tx = transactionProvider.getTransaction()) {
             try {
-                CreateVersionHistory.createTableIfNeeded(schemaName, this.adapter);
+                CreateVersionHistory.createTableIfNeeded(schemaName, this.schemaAdapter);
             } catch (Exception x) {
                 logger.log(Level.SEVERE, "failed to create version history table", x);
                 tx.setRollbackOnly();
@@ -763,8 +769,8 @@ public class Main {
             try (ITransaction tx = transactionProvider.getTransaction()) {
                 try {
                     adapter.createSchema(schemaName);
-                    CreateControl.createTableIfNeeded(schemaName, adapter);
-                    CreateWholeSchemaVersion.createTableIfNeeded(schemaName, adapter);
+                    CreateControl.createTableIfNeeded(schemaName, schemaAdapter);
+                    CreateWholeSchemaVersion.createTableIfNeeded(schemaName, schemaAdapter);
                     success = true;
                 } catch (Exception x) {
                     logger.log(Level.SEVERE, "failed to create schema management tables", x);
@@ -825,7 +831,7 @@ public class Main {
         ExecutorService pool = Executors.newFixedThreadPool(this.createSchemaThreads);
         ITaskCollector collector = taskService.makeTaskCollector(pool);
         SchemaApplyContext context = SchemaApplyContext.getDefault();
-        pdm.collect(collector, adapter, context, this.transactionProvider, vhs);
+        pdm.collect(collector, schemaAdapter, context, this.transactionProvider, vhs);
 
         // FHIR in the hole!
         logger.info("Starting schema updates");

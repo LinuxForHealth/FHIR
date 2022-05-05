@@ -73,6 +73,7 @@ import java.util.Collection;
 import java.util.List;
 import java.util.Set;
 
+import com.ibm.fhir.database.utils.api.DistributionType;
 import com.ibm.fhir.database.utils.api.IDatabaseStatement;
 import com.ibm.fhir.database.utils.common.AddColumn;
 import com.ibm.fhir.database.utils.common.CreateIndexStatement;
@@ -200,8 +201,9 @@ public class FhirResourceTableGroup {
         // We also have a FK constraint pointing back to that table to try and keep
         // things sensible.
         Table.Builder builder = Table.builder(schemaName, tableName)
-                .setTenantColumnName(MT_ID)
                 .setVersion(FhirSchemaVersion.V0026.vid()) // V0026: add support for distribution/sharding
+                .setTenantColumnName(MT_ID)
+                .setDistributionType(DistributionType.DISTRIBUTED) // V0026 support for sharding
                 .addTag(FhirSchemaTags.RESOURCE_TYPE, prefix)
                 .addBigIntColumn(LOGICAL_RESOURCE_ID, false)
                 .addVarcharColumn(LOGICAL_ID, LOGICAL_ID_BYTES, false)
@@ -214,7 +216,6 @@ public class FhirResourceTableGroup {
                 .setTablespace(fhirTablespace)
                 .addPrivileges(resourceTablePrivileges)
                 .enableAccessControl(this.sessionVariable)
-                .setDistributionColumnName(LOGICAL_RESOURCE_ID) // V0026 support for sharding
                 // Add indexes to avoid dead lock issue of derby, and improve Db2 performance
                 // Derby requires all columns used in where clause to be indexed, otherwise whole table lock will be
                 // used instead of row lock, which can cause dead lock issue frequently during concurrent accesses.
@@ -339,6 +340,7 @@ public class FhirResourceTableGroup {
         Table tbl = Table.builder(schemaName, tableName)
                 .setVersion(FhirSchemaVersion.V0026.vid()) // V0026: add support for distribution/sharding
                 .setTenantColumnName(MT_ID)
+                .setDistributionType(DistributionType.DISTRIBUTED) // V0026 support for sharding
                 .addTag(FhirSchemaTags.RESOURCE_TYPE, prefix)
                 .addBigIntColumn(          RESOURCE_ID,                     false)
                 .addBigIntColumn(  LOGICAL_RESOURCE_ID,                     false)
@@ -353,7 +355,6 @@ public class FhirResourceTableGroup {
                 .setTablespace(fhirTablespace)
                 .addPrivileges(resourceTablePrivileges)
                 .enableAccessControl(this.sessionVariable)
-                .setDistributionColumnName(LOGICAL_RESOURCE_ID) // V0026 support for sharding
                 .addMigration(priorVersion -> {
                     List<IDatabaseStatement> statements = new ArrayList<>();
                     if (priorVersion < FhirSchemaVersion.V0024.vid()) {
@@ -424,6 +425,7 @@ ALTER TABLE device_str_values ADD CONSTRAINT fk_device_str_values_rid  FOREIGN K
                 .addTag(FhirSchemaTags.RESOURCE_TYPE, prefix)
                 .setVersion(FhirSchemaVersion.V0026.vid()) // V0026: add support for distribution/sharding
                 .setTenantColumnName(MT_ID)
+                .setDistributionType(DistributionType.DISTRIBUTED) // V0026 support for sharding
                 // .addBigIntColumn(             ROW_ID,      false) // Removed by issue-1683 - composites refactor
                 .addIntColumn(     PARAMETER_NAME_ID,      false)
                 .addVarcharColumn(         STR_VALUE, msb,  true)
@@ -439,7 +441,6 @@ ALTER TABLE device_str_values ADD CONSTRAINT fk_device_str_values_rid  FOREIGN K
                 .setTablespace(fhirTablespace)
                 .addPrivileges(resourceTablePrivileges)
                 .enableAccessControl(this.sessionVariable)
-                .setDistributionColumnName(LOGICAL_RESOURCE_ID) // V0026 support for sharding
                 .addWiths(withs)
                 .addMigration(priorVersion -> {
                     List<IDatabaseStatement> statements = new ArrayList<>();
@@ -514,6 +515,7 @@ ALTER TABLE device_str_values ADD CONSTRAINT fk_device_str_values_rid  FOREIGN K
         Table tbl = Table.builder(schemaName, tableName)
                 .setVersion(FhirSchemaVersion.V0026.vid()) // V0026: add support for distribution/sharding
                 .setTenantColumnName(MT_ID)
+                .setDistributionType(DistributionType.DISTRIBUTED) // V0026 support for sharding
                 .addIntColumn(       PARAMETER_NAME_ID,    false)
                 .addBigIntColumn(COMMON_TOKEN_VALUE_ID,     true)
                 .addBigIntColumn(  LOGICAL_RESOURCE_ID,    false)
@@ -527,7 +529,6 @@ ALTER TABLE device_str_values ADD CONSTRAINT fk_device_str_values_rid  FOREIGN K
                 .setTablespace(fhirTablespace)
                 .addPrivileges(resourceTablePrivileges)
                 .enableAccessControl(this.sessionVariable)
-                .setDistributionColumnName(LOGICAL_RESOURCE_ID) // V0026 support for sharding
                 .addWiths(withs)
                 .addMigration(priorVersion -> {
                     List<IDatabaseStatement> statements = new ArrayList<>();
@@ -594,6 +595,7 @@ ALTER TABLE device_str_values ADD CONSTRAINT fk_device_str_values_rid  FOREIGN K
         Table tbl = Table.builder(schemaName, tableName)
                 .setVersion(FhirSchemaVersion.V0026.vid()) // V0026: add support for distribution/sharding
                 .setTenantColumnName(MT_ID)
+                .setDistributionType(DistributionType.DISTRIBUTED) // V0026 support for sharding
                 .addBigIntColumn(          CANONICAL_ID,    false)
                 .addBigIntColumn(   LOGICAL_RESOURCE_ID,    false)
                 .addVarcharColumn(             VERSION,  VERSION_BYTES, true)
@@ -605,7 +607,6 @@ ALTER TABLE device_str_values ADD CONSTRAINT fk_device_str_values_rid  FOREIGN K
                 .setTablespace(fhirTablespace)
                 .addPrivileges(resourceTablePrivileges)
                 .enableAccessControl(this.sessionVariable)
-                .setDistributionColumnName(LOGICAL_RESOURCE_ID) // V0026 support for sharding
                 .addWiths(withs)
                 .addMigration(priorVersion -> {
                     List<IDatabaseStatement> statements = new ArrayList<>();
@@ -643,6 +644,7 @@ ALTER TABLE device_str_values ADD CONSTRAINT fk_device_str_values_rid  FOREIGN K
         Table tbl = Table.builder(schemaName, tableName)
                 .setVersion(FhirSchemaVersion.V0026.vid()) // V0026: add support for distribution/sharding
                 .setTenantColumnName(MT_ID)
+                .setDistributionType(DistributionType.DISTRIBUTED) // V0026 support for sharding
                 .addBigIntColumn(COMMON_TOKEN_VALUE_ID,   false)
                 .addBigIntColumn(  LOGICAL_RESOURCE_ID,   false)
                 .addIndex(IDX + tableName + "_TPLR", COMMON_TOKEN_VALUE_ID, LOGICAL_RESOURCE_ID)
@@ -652,7 +654,6 @@ ALTER TABLE device_str_values ADD CONSTRAINT fk_device_str_values_rid  FOREIGN K
                 .setTablespace(fhirTablespace)
                 .addPrivileges(resourceTablePrivileges)
                 .enableAccessControl(this.sessionVariable)
-                .setDistributionColumnName(LOGICAL_RESOURCE_ID) // V0026 support for sharding
                 .addWiths(withs)
                 .addMigration(priorVersion -> {
                     List<IDatabaseStatement> statements = new ArrayList<>();
@@ -687,6 +688,7 @@ ALTER TABLE device_str_values ADD CONSTRAINT fk_device_str_values_rid  FOREIGN K
         Table tbl = Table.builder(schemaName, tableName)
                 .setVersion(FhirSchemaVersion.V0026.vid()) // V0026: add support for distribution/sharding
                 .setTenantColumnName(MT_ID)
+                .setDistributionType(DistributionType.DISTRIBUTED) // V0026 support for sharding
                 .addBigIntColumn(COMMON_TOKEN_VALUE_ID,   false)
                 .addBigIntColumn(  LOGICAL_RESOURCE_ID,   false)
                 .addIndex(IDX + tableName + "_TPLR", COMMON_TOKEN_VALUE_ID, LOGICAL_RESOURCE_ID)
@@ -696,7 +698,6 @@ ALTER TABLE device_str_values ADD CONSTRAINT fk_device_str_values_rid  FOREIGN K
                 .setTablespace(fhirTablespace)
                 .addPrivileges(resourceTablePrivileges)
                 .enableAccessControl(this.sessionVariable)
-                .setDistributionColumnName(LOGICAL_RESOURCE_ID) // V0026 support for sharding
                 .addWiths(withs)
                 .addMigration(priorVersion -> {
                     List<IDatabaseStatement> statements = new ArrayList<>();
@@ -792,8 +793,9 @@ ALTER TABLE device_date_values ADD CONSTRAINT fk_device_date_values_r  FOREIGN K
 
         Table tbl = Table.builder(schemaName, tableName)
                 .setVersion(FhirSchemaVersion.V0026.vid()) // V0026: add support for distribution/sharding
-                .addTag(FhirSchemaTags.RESOURCE_TYPE, prefix)
                 .setTenantColumnName(MT_ID)
+                .setDistributionType(DistributionType.DISTRIBUTED) // V0026 support for sharding
+                .addTag(FhirSchemaTags.RESOURCE_TYPE, prefix)
                 .addIntColumn(     PARAMETER_NAME_ID,      false)
                 .addTimestampColumn(      DATE_START,      true)
                 .addTimestampColumn(        DATE_END,      true)
@@ -807,7 +809,6 @@ ALTER TABLE device_date_values ADD CONSTRAINT fk_device_date_values_r  FOREIGN K
                 .setTablespace(fhirTablespace)
                 .addPrivileges(resourceTablePrivileges)
                 .enableAccessControl(this.sessionVariable)
-                .setDistributionColumnName(LOGICAL_RESOURCE_ID) // V0026 support for sharding
                 .addWiths(withs)
                 .addMigration(priorVersion -> {
                     List<IDatabaseStatement> statements = new ArrayList<>();
@@ -859,8 +860,9 @@ ALTER TABLE device_number_values ADD CONSTRAINT fk_device_number_values_r  FOREI
 
         Table tbl = Table.builder(schemaName, tableName)
                 .setVersion(FhirSchemaVersion.V0026.vid()) // V0026: add support for distribution/sharding
-                .addTag(FhirSchemaTags.RESOURCE_TYPE, prefix)
                 .setTenantColumnName(MT_ID)
+                .setDistributionType(DistributionType.DISTRIBUTED) // V0026 support for sharding
+                .addTag(FhirSchemaTags.RESOURCE_TYPE, prefix)
                 .addIntColumn(     PARAMETER_NAME_ID,      false)
                 .addDoubleColumn(       NUMBER_VALUE,       true)
                 .addBigIntColumn(LOGICAL_RESOURCE_ID,      false)
@@ -874,7 +876,6 @@ ALTER TABLE device_number_values ADD CONSTRAINT fk_device_number_values_r  FOREI
                 .setTablespace(fhirTablespace)
                 .addPrivileges(resourceTablePrivileges)
                 .enableAccessControl(this.sessionVariable)
-                .setDistributionColumnName(LOGICAL_RESOURCE_ID) // V0026 support for sharding
                 .addWiths(withs)
                 .addMigration(priorVersion -> {
                     List<IDatabaseStatement> statements = new ArrayList<>();
@@ -932,9 +933,10 @@ ALTER TABLE device_latlng_values ADD CONSTRAINT fk_device_latlng_values_r  FOREI
         final String logicalResourcesTable = prefix + _LOGICAL_RESOURCES;
 
         Table tbl = Table.builder(schemaName, tableName)
-                .addTag(FhirSchemaTags.RESOURCE_TYPE, prefix)
                 .setVersion(FhirSchemaVersion.V0026.vid()) // V0026: add support for distribution/sharding
                 .setTenantColumnName(MT_ID)
+                .setDistributionType(DistributionType.DISTRIBUTED) // V0026 support for sharding
+                .addTag(FhirSchemaTags.RESOURCE_TYPE, prefix)
                 .addIntColumn(     PARAMETER_NAME_ID,      false)
                 .addDoubleColumn(     LATITUDE_VALUE,       true)
                 .addDoubleColumn(    LONGITUDE_VALUE,       true)
@@ -949,7 +951,6 @@ ALTER TABLE device_latlng_values ADD CONSTRAINT fk_device_latlng_values_r  FOREI
                 .setTablespace(fhirTablespace)
                 .addPrivileges(resourceTablePrivileges)
                 .enableAccessControl(this.sessionVariable)
-                .setDistributionColumnName(LOGICAL_RESOURCE_ID) // V0026 support for sharding
                 .addWiths(withs)
                 .addMigration(priorVersion -> {
                     List<IDatabaseStatement> statements = new ArrayList<>();
@@ -1005,9 +1006,10 @@ ALTER TABLE device_quantity_values ADD CONSTRAINT fk_device_quantity_values_r  F
         final String logicalResourcesTable = prefix + _LOGICAL_RESOURCES;
 
         Table tbl = Table.builder(schemaName, tableName)
-                .addTag(FhirSchemaTags.RESOURCE_TYPE, prefix)
                 .setVersion(FhirSchemaVersion.V0026.vid()) // V0026: add support for distribution/sharding
                 .setTenantColumnName(MT_ID)
+                .setDistributionType(DistributionType.DISTRIBUTED) // V0026 support for sharding
+                .addTag(FhirSchemaTags.RESOURCE_TYPE, prefix)
                 .addIntColumn(     PARAMETER_NAME_ID,      false)
                 .addVarcharColumn(              CODE, 255, false)
                 .addDoubleColumn(     QUANTITY_VALUE,      true)
@@ -1027,7 +1029,6 @@ ALTER TABLE device_quantity_values ADD CONSTRAINT fk_device_quantity_values_r  F
                 .setTablespace(fhirTablespace)
                 .addPrivileges(resourceTablePrivileges)
                 .enableAccessControl(this.sessionVariable)
-                .setDistributionColumnName(LOGICAL_RESOURCE_ID) // V0026 support for sharding
                 .addWiths(withs)
                 .addMigration(priorVersion -> {
                     List<IDatabaseStatement> statements = new ArrayList<>();
@@ -1065,8 +1066,9 @@ ALTER TABLE device_quantity_values ADD CONSTRAINT fk_device_quantity_values_r  F
 
         Table tbl = Table.builder(schemaName, LIST_LOGICAL_RESOURCE_ITEMS)
                 .setVersion(FhirSchemaVersion.V0026.vid()) // V0026: add support for distribution/sharding
-                .addTag(FhirSchemaTags.RESOURCE_TYPE, prefix)
                 .setTenantColumnName(MT_ID)
+                .setDistributionType(DistributionType.DISTRIBUTED) // V0026 support for sharding
+                .addTag(FhirSchemaTags.RESOURCE_TYPE, prefix)
                 .addBigIntColumn( LOGICAL_RESOURCE_ID,      false)
                 .addIntColumn(       RESOURCE_TYPE_ID,      false)
                 .addVarcharColumn(    ITEM_LOGICAL_ID, lib,  true)
@@ -1075,7 +1077,6 @@ ALTER TABLE device_quantity_values ADD CONSTRAINT fk_device_quantity_values_r  F
                 .setTablespace(fhirTablespace)
                 .addPrivileges(resourceTablePrivileges)
                 .enableAccessControl(this.sessionVariable)
-                .setDistributionColumnName(LOGICAL_RESOURCE_ID) // V0026 support for sharding
                 .addWiths(withs)
                 .addMigration(priorVersion -> {
                     List<IDatabaseStatement> statements = new ArrayList<>();
@@ -1109,8 +1110,9 @@ ALTER TABLE device_quantity_values ADD CONSTRAINT fk_device_quantity_values_r  F
 
         Table tbl = Table.builder(schemaName, PATIENT_CURRENT_REFS)
                 .setVersion(FhirSchemaVersion.V0026.vid()) // V0026: add support for distribution/sharding
-                .addTag(FhirSchemaTags.RESOURCE_TYPE, prefix)
                 .setTenantColumnName(MT_ID)
+                .setDistributionType(DistributionType.DISTRIBUTED) // V0026 support for sharding
+                .addTag(FhirSchemaTags.RESOURCE_TYPE, prefix)
                 .addBigIntColumn(         LOGICAL_RESOURCE_ID,      false)
                 .addVarcharColumn(      CURRENT_PROBLEMS_LIST, lib,  true)
                 .addVarcharColumn(   CURRENT_MEDICATIONS_LIST, lib,  true)
@@ -1121,7 +1123,6 @@ ALTER TABLE device_quantity_values ADD CONSTRAINT fk_device_quantity_values_r  F
                 .setTablespace(fhirTablespace)
                 .addPrivileges(resourceTablePrivileges)
                 .enableAccessControl(this.sessionVariable)
-                .setDistributionColumnName(LOGICAL_RESOURCE_ID) // V0026 support for sharding
                 .addWiths(withs)
                 .addMigration(priorVersion -> {
                     List<IDatabaseStatement> statements = new ArrayList<>();

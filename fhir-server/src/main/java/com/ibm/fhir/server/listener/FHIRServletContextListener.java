@@ -12,6 +12,9 @@ import static com.ibm.fhir.config.FHIRConfiguration.PROPERTY_DATASOURCES;
 import static com.ibm.fhir.config.FHIRConfiguration.PROPERTY_EXTENDED_CODEABLE_CONCEPT_VALIDATION;
 import static com.ibm.fhir.config.FHIRConfiguration.PROPERTY_KAFKA_CONNECTIONPROPS;
 import static com.ibm.fhir.config.FHIRConfiguration.PROPERTY_KAFKA_ENABLED;
+import static com.ibm.fhir.config.FHIRConfiguration.PROPERTY_KAFKA_INDEX_SERVICE_CONNECTIONPROPS;
+import static com.ibm.fhir.config.FHIRConfiguration.PROPERTY_KAFKA_INDEX_SERVICE_MODE;
+import static com.ibm.fhir.config.FHIRConfiguration.PROPERTY_KAFKA_INDEX_SERVICE_TOPICNAME;
 import static com.ibm.fhir.config.FHIRConfiguration.PROPERTY_KAFKA_TOPICNAME;
 import static com.ibm.fhir.config.FHIRConfiguration.PROPERTY_NATS_CHANNEL;
 import static com.ibm.fhir.config.FHIRConfiguration.PROPERTY_NATS_CLIENT;
@@ -23,6 +26,7 @@ import static com.ibm.fhir.config.FHIRConfiguration.PROPERTY_NATS_SERVERS;
 import static com.ibm.fhir.config.FHIRConfiguration.PROPERTY_NATS_TLS_ENABLED;
 import static com.ibm.fhir.config.FHIRConfiguration.PROPERTY_NATS_TRUSTSTORE;
 import static com.ibm.fhir.config.FHIRConfiguration.PROPERTY_NATS_TRUSTSTORE_PW;
+import static com.ibm.fhir.config.FHIRConfiguration.PROPERTY_REMOTE_INDEX_SERVICE_TYPE;
 import static com.ibm.fhir.config.FHIRConfiguration.PROPERTY_SERVER_REGISTRY_RESOURCE_PROVIDER_ENABLED;
 import static com.ibm.fhir.config.FHIRConfiguration.PROPERTY_SERVER_RESOLVE_FUNCTION_ENABLED;
 import static com.ibm.fhir.config.FHIRConfiguration.PROPERTY_WEBSOCKET_ENABLED;
@@ -54,9 +58,13 @@ import com.ibm.fhir.model.lang.util.LanguageRegistryUtil;
 import com.ibm.fhir.model.util.FHIRUtil;
 import com.ibm.fhir.model.util.ModelSupport;
 import com.ibm.fhir.path.function.registry.FHIRPathFunctionRegistry;
+import com.ibm.fhir.persistence.exception.FHIRPersistenceException;
 import com.ibm.fhir.persistence.helper.FHIRPersistenceHelper;
+import com.ibm.fhir.persistence.index.FHIRRemoteIndexService;
 import com.ibm.fhir.registry.FHIRRegistry;
 import com.ibm.fhir.search.util.SearchHelper;
+import com.ibm.fhir.server.index.kafka.FHIRRemoteIndexKafkaService;
+import com.ibm.fhir.server.index.kafka.KafkaPropertyAdapter;
 import com.ibm.fhir.server.notification.kafka.FHIRNotificationKafkaPublisher;
 import com.ibm.fhir.server.notification.websocket.FHIRNotificationServiceEndpointConfig;
 import com.ibm.fhir.server.notifications.nats.FHIRNotificationNATSPublisher;
@@ -81,12 +89,14 @@ public class FHIRServletContextListener implements ServletContextListener {
 
     private static final String ATTRNAME_WEBSOCKET_SERVERCONTAINER = "javax.websocket.server.ServerContainer";
     private static final String DEFAULT_KAFKA_TOPICNAME = "fhirNotifications";
+    private static final String DEFAULT_KAFKA_INDEX_SERVICE_TOPICNAME = "fhirIndex";
     private static final String DEFAULT_NATS_CHANNEL = "fhirNotifications";
     private static final String DEFAULT_NATS_CLUSTER = "nats-streaming";
     private static final String DEFAULT_NATS_CLIENT = "fhir-server";
     public static final String FHIR_SERVER_INIT_COMPLETE = "com.ibm.fhir.webappInitComplete";
     private static FHIRNotificationKafkaPublisher kafkaPublisher = null;
     private static FHIRNotificationNATSPublisher natsPublisher = null;
+    private static FHIRRemoteIndexService remoteIndexService = null;
 
     private List<GraphTermServiceProvider> graphTermServiceProviders = new ArrayList<>();
     private List<RemoteTermServiceProvider> remoteTermServiceProviders = new ArrayList<>();
@@ -213,6 +223,39 @@ public class FHIRServletContextListener implements ServletContextListener {
                 natsPublisher = new FHIRNotificationNATSPublisher(clusterId, channelName, clientId, servers, tlsProps);
             } else {
                 log.info("Bypassing NATS notification init.");
+            }
+
+            // If the Kafka async indexing service is enabled, set it up so that it's ready to go
+            // before we starting processing any requests.
+            String remoteIndexServiceType = fhirConfig.getStringProperty(PROPERTY_REMOTE_INDEX_SERVICE_TYPE, null);
+            if (remoteIndexServiceType != null) {
+                if ("kafka".equals(remoteIndexServiceType)) {
+                    String topicName = fhirConfig.getStringProperty(PROPERTY_KAFKA_INDEX_SERVICE_TOPICNAME, DEFAULT_KAFKA_INDEX_SERVICE_TOPICNAME);
+                    String mode = fhirConfig.getStringProperty(PROPERTY_KAFKA_INDEX_SERVICE_MODE, "active");
+    
+                    // Gather up the Kafka connection properties for the async index service
+                    Properties kafkaProps = new Properties();
+                    PropertyGroup pg = fhirConfig.getPropertyGroup(PROPERTY_KAFKA_INDEX_SERVICE_CONNECTIONPROPS);
+                    if (pg != null) {
+                        List<PropertyEntry> connectionProps = pg.getProperties();
+                        if (connectionProps != null) {
+                            for (PropertyEntry entry : connectionProps) {
+                                kafkaProps.setProperty(entry.getName(), entry.getValue().toString());
+                            }
+                        }
+                    }
+    
+                    log.info("Initializing Kafka async indexing service.");
+                    FHIRRemoteIndexKafkaService s = new FHIRRemoteIndexKafkaService();
+                    s.init(new KafkaPropertyAdapter(topicName, kafkaProps, KafkaPropertyAdapter.Mode.valueOf(mode)));
+                    // Now the service is ready, we can publish it
+                    remoteIndexService = s;
+                    FHIRRemoteIndexService.setServiceInstance(remoteIndexService);
+                } else {
+                    throw new FHIRPersistenceException("Invalid value for remote index service property '" + PROPERTY_REMOTE_INDEX_SERVICE_TYPE + "'");
+                }
+            } else {
+                log.info("Bypassing Kafka async indexing service configuration.");
             }
 
             Boolean checkReferenceTypes = fhirConfig.getBooleanProperty(PROPERTY_CHECK_REFERENCE_TYPES, Boolean.TRUE);

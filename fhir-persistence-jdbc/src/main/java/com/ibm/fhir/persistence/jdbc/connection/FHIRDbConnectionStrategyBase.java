@@ -18,6 +18,7 @@ import com.ibm.fhir.config.FHIRConfigHelper;
 import com.ibm.fhir.config.FHIRConfiguration;
 import com.ibm.fhir.config.FHIRRequestContext;
 import com.ibm.fhir.config.PropertyGroup;
+import com.ibm.fhir.database.utils.api.SchemaType;
 import com.ibm.fhir.database.utils.model.DbType;
 import com.ibm.fhir.persistence.exception.FHIRPersistenceException;
 import com.ibm.fhir.persistence.jdbc.exception.FHIRPersistenceDataAccessException;
@@ -97,17 +98,17 @@ public abstract class FHIRDbConnectionStrategyBase implements FHIRDbConnectionSt
         if (dsPG != null) {
 
             try {
-                boolean multitenant = false;
                 String typeValue = dsPG.getStringProperty("type");
 
+                SchemaType schemaType = SchemaType.PLAIN;
                 DbType type = DbType.from(typeValue);
                 if (type == DbType.DB2) {
                     // We make this absolute for now. May change in the future if we
                     // support a single-tenant schema in DB2.
-                    multitenant = true;
+                    schemaType = SchemaType.MULTITENANT;
                 }
 
-                result = new FHIRDbFlavorImpl(type, multitenant);
+                result = new FHIRDbFlavorImpl(type, schemaType);
             } catch (Exception x) {
                 log.log(Level.SEVERE, "No type property found for datastore '" + datastoreId + "'", x);
                 throw new FHIRPersistenceDataAccessException("Datastore configuration issue. Details in server logs");

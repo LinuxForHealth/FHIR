@@ -9,7 +9,7 @@ package com.ibm.fhir.database.utils.model;
 import java.util.Collection;
 import java.util.List;
 
-import com.ibm.fhir.database.utils.api.IDatabaseAdapter;
+import com.ibm.fhir.database.utils.api.ISchemaAdapter;
 import com.ibm.fhir.database.utils.api.ITransactionProvider;
 import com.ibm.fhir.database.utils.api.IVersionHistoryService;
 import com.ibm.fhir.database.utils.api.SchemaApplyContext;
@@ -35,7 +35,7 @@ public class Tablespace extends DatabaseObject {
     }
 
     @Override
-    public void apply(IDatabaseAdapter target, SchemaApplyContext context) {
+    public void apply(ISchemaAdapter target, SchemaApplyContext context) {
         if (this.extentSizeKB > 0) {
             target.createTablespace(getName(), this.extentSizeKB);
         }
@@ -46,7 +46,7 @@ public class Tablespace extends DatabaseObject {
     }
 
     @Override
-    public void apply(Integer priorVersion, IDatabaseAdapter target, SchemaApplyContext context) {
+    public void apply(Integer priorVersion, ISchemaAdapter target, SchemaApplyContext context) {
         if (priorVersion != null && priorVersion > 0) {
             throw new UnsupportedOperationException("Modifying tablespaces is not supported");
         }
@@ -54,12 +54,12 @@ public class Tablespace extends DatabaseObject {
     }
 
     @Override
-    public void drop(IDatabaseAdapter target) {
+    public void drop(ISchemaAdapter target) {
         target.dropTablespace(getName());
     }
 
     @Override
-    public ITaskGroup collect(ITaskCollector tc, IDatabaseAdapter target, SchemaApplyContext context, ITransactionProvider tp, IVersionHistoryService vhs) {
+    public ITaskGroup collect(ITaskCollector tc, ISchemaAdapter target, SchemaApplyContext context, ITransactionProvider tp, IVersionHistoryService vhs) {
         // no dependencies, so no need to recurse down
         List<ITaskGroup> children = null;
         return tc.makeTaskGroup(this.getTypeNameVersion(), () -> applyTx(target, context, tp, vhs), children);
@@ -76,7 +76,7 @@ public class Tablespace extends DatabaseObject {
     }
 
     @Override
-    public void grant(IDatabaseAdapter target, String groupName, String toUser) {
+    public void grant(ISchemaAdapter target, String groupName, String toUser) {
         // NOP
     }
 

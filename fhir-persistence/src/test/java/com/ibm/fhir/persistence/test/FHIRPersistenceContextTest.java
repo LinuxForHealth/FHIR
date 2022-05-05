@@ -78,7 +78,7 @@ public class FHIRPersistenceContextTest {
         FHIRSearchContext sc = FHIRSearchContextFactory.createSearchContext();
         assertNotNull(sc);
         
-        FHIRPersistenceContext ctxt = FHIRPersistenceContextFactory.createPersistenceContext(pe, sc);
+        FHIRPersistenceContext ctxt = FHIRPersistenceContextFactory.createPersistenceContext(pe, sc, (short)13);
         assertNotNull(ctxt);
         assertNotNull(ctxt.getPersistenceEvent());
         assertEquals(pe, ctxt.getPersistenceEvent());
@@ -86,5 +86,6 @@ public class FHIRPersistenceContextTest {
         assertEquals(sc, ctxt.getSearchContext());
         assertFalse(ctxt.includeDeleted());
         assertNull(ctxt.getHistoryContext());
+        assertEquals(13, Short.toUnsignedInt(ctxt.getShardKey()));
     }
 }

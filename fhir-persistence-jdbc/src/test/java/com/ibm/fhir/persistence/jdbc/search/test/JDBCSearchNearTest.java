@@ -132,7 +132,7 @@ public class JDBCSearchNearTest {
 
             FHIRSearchContext ctx = searchHelper.parseQueryParameters(Location.class, Collections.emptyMap(), true, true);
             FHIRPersistenceContext persistenceContext =
-                    FHIRPersistenceContextFactory.createPersistenceContext(null, ctx);
+                    FHIRPersistenceContextFactory.createPersistenceContext(null, ctx, null);
             com.ibm.fhir.model.type.Instant lastUpdated = FHIRPersistenceUtil.getUpdateTime();
             persistence.delete(persistenceContext, savedResource.getClass(), savedResource.getId(), FHIRPersistenceSupport.getMetaVersionId(savedResource), lastUpdated);
             if (persistence.isTransactional()) {
@@ -164,7 +164,7 @@ public class JDBCSearchNearTest {
 
     public MultiResourceResult runQueryTest(Map<String, List<String>> queryParms) throws Exception {
         FHIRSearchContext ctx = searchHelper.parseQueryParameters(Location.class, queryParms, true, true);
-        FHIRPersistenceContext persistenceContext = FHIRPersistenceContextFactory.createPersistenceContext(null, ctx);
+        FHIRPersistenceContext persistenceContext = FHIRPersistenceContextFactory.createPersistenceContext(null, ctx, null);
         MultiResourceResult result = persistence.search(persistenceContext, Location.class);
         return result;
     }

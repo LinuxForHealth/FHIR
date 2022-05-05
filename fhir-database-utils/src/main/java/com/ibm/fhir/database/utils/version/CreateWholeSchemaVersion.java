@@ -8,7 +8,7 @@ package com.ibm.fhir.database.utils.version;
 
 import java.util.logging.Logger;
 
-import com.ibm.fhir.database.utils.api.IDatabaseAdapter;
+import com.ibm.fhir.database.utils.api.ISchemaAdapter;
 import com.ibm.fhir.database.utils.api.SchemaApplyContext;
 import com.ibm.fhir.database.utils.model.PhysicalDataModel;
 import com.ibm.fhir.database.utils.model.Privilege;
@@ -70,7 +70,7 @@ public class CreateWholeSchemaVersion {
      * @param schemaName
      * @param target
      */
-    public static void createTableIfNeeded(String schemaName, IDatabaseAdapter target) {
+    public static void createTableIfNeeded(String schemaName, ISchemaAdapter target) {
         PhysicalDataModel dataModel = new PhysicalDataModel();
         SchemaApplyContext context = SchemaApplyContext.getDefault();
 
@@ -100,7 +100,7 @@ public class CreateWholeSchemaVersion {
      * @param schemaName
      * @param target
      */
-    public static void dropTable(String schemaName, IDatabaseAdapter target) {
+    public static void dropTable(String schemaName, ISchemaAdapter target) {
         PhysicalDataModel dataModel = new PhysicalDataModel();
 
         Table t = buildTableDef(dataModel, schemaName, false);
@@ -120,7 +120,7 @@ public class CreateWholeSchemaVersion {
      * @param groupName
      * @param toUser
      */
-    public static void grantPrivilegesTo(IDatabaseAdapter target, String schemaName, String groupName, String toUser) {
+    public static void grantPrivilegesTo(ISchemaAdapter target, String schemaName, String groupName, String toUser) {
         PhysicalDataModel dataModel = new PhysicalDataModel();
         Table t = buildTableDef(dataModel, schemaName, false);
         t.grant(target, groupName, toUser);

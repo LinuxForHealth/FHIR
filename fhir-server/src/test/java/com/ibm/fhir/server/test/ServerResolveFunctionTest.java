@@ -433,6 +433,7 @@ public class ServerResolveFunctionTest {
 
         @Override
         public List<ResourceChangeLogRecord> changes(
+                FHIRPersistenceContext context,
                 int resourceCount,
                 java.time.Instant sinceLastModified,
                 java.time.Instant beforeLastModified,
@@ -474,7 +475,7 @@ public class ServerResolveFunctionTest {
         }
 
         @Override
-        public List<Long> retrieveIndex(int count, java.time.Instant notModifiedAfter, Long afterIndexId, String resourceTypeName) throws FHIRPersistenceException {
+        public List<Long> retrieveIndex(FHIRPersistenceContext context, int count, java.time.Instant notModifiedAfter, Long afterIndexId, String resourceTypeName) throws FHIRPersistenceException {
             throw new UnsupportedOperationException();
         }
 

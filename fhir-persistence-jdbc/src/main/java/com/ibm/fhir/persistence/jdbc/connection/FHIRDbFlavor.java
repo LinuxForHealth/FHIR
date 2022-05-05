@@ -6,6 +6,7 @@
 
 package com.ibm.fhir.persistence.jdbc.connection;
 
+import com.ibm.fhir.database.utils.api.SchemaType;
 import com.ibm.fhir.database.utils.model.DbType;
 
 /**
@@ -20,6 +21,12 @@ public interface FHIRDbFlavor {
      * @return
      */
     public boolean isMultitenant();
+
+    /**
+     * What type of schema is this
+     * @return
+     */
+    public SchemaType getSchemaType();
 
     /**
      * What type of database is this?

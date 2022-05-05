@@ -30,6 +30,7 @@ import com.ibm.fhir.database.utils.api.IConnectionProvider;
 import com.ibm.fhir.database.utils.api.IDatabaseAdapter;
 import com.ibm.fhir.database.utils.api.ITransaction;
 import com.ibm.fhir.database.utils.api.ITransactionProvider;
+import com.ibm.fhir.database.utils.api.SchemaType;
 import com.ibm.fhir.database.utils.derby.DerbyAdapter;
 import com.ibm.fhir.database.utils.derby.DerbyConnectionProvider;
 import com.ibm.fhir.database.utils.derby.DerbyMaster;
@@ -174,7 +175,7 @@ public class DerbyMigrationTest {
     private void createOrUpgradeSchema(DerbyMaster db, IConnectionProvider pool, VersionHistoryService vhs, Set<String> resourceTypes) throws SQLException {
 
 
-        FhirSchemaGenerator gen = new FhirSchemaGenerator(ADMIN_SCHEMA_NAME, SCHEMA_NAME, false, resourceTypes);
+        FhirSchemaGenerator gen = new FhirSchemaGenerator(ADMIN_SCHEMA_NAME, SCHEMA_NAME, SchemaType.PLAIN, resourceTypes);
         PhysicalDataModel pdm = new PhysicalDataModel();
         gen.buildSchema(pdm);
 

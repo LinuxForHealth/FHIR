@@ -11,7 +11,7 @@ import java.util.Arrays;
 import java.util.List;
 import java.util.Set;
 
-import com.ibm.fhir.database.utils.api.IDatabaseAdapter;
+import com.ibm.fhir.database.utils.api.ISchemaAdapter;
 import com.ibm.fhir.database.utils.api.SchemaApplyContext;
 
 /**
@@ -62,7 +62,7 @@ public class AlterTableAddColumn extends BaseObject {
     }
 
     @Override
-    public void apply(IDatabaseAdapter target, SchemaApplyContext context) {
+    public void apply(ISchemaAdapter target, SchemaApplyContext context) {
         // To keep things simple, just add each column in its own statement
         for (ColumnBase c: columns) {
             target.alterTableAddColumn(getSchemaName(), getObjectName(), c);
@@ -70,17 +70,17 @@ public class AlterTableAddColumn extends BaseObject {
     }
 
     @Override
-    public void apply(Integer priorVersion, IDatabaseAdapter target, SchemaApplyContext context) {
+    public void apply(Integer priorVersion, ISchemaAdapter target, SchemaApplyContext context) {
         apply(target, context);
     }
 
     @Override
-    public void drop(IDatabaseAdapter target) {
+    public void drop(ISchemaAdapter target) {
         // NOP
     }
 
     @Override
-    protected void grantGroupPrivileges(IDatabaseAdapter target, Set<Privilege> group, String toUser) {
+    protected void grantGroupPrivileges(ISchemaAdapter target, Set<Privilege> group, String toUser) {
         // NOP
     }
 

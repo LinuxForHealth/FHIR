@@ -47,8 +47,8 @@ public class CitusResourceDAO extends PostgresResourceDAO {
      * @param cache
      * @param rrd
      */
-    public CitusResourceDAO(Connection connection, String schemaName, FHIRDbFlavor flavor, FHIRPersistenceJDBCCache cache, IResourceReferenceDAO rrd) {
-        super(connection, schemaName, flavor, cache, rrd);
+    public CitusResourceDAO(Connection connection, String schemaName, FHIRDbFlavor flavor, FHIRPersistenceJDBCCache cache, IResourceReferenceDAO rrd, Short shardKey) {
+        super(connection, schemaName, flavor, cache, rrd, shardKey);
     }
 
     /**
@@ -63,8 +63,8 @@ public class CitusResourceDAO extends PostgresResourceDAO {
      * @param ptdi
      */
     public CitusResourceDAO(Connection connection, String schemaName, FHIRDbFlavor flavor, TransactionSynchronizationRegistry trxSynchRegistry, FHIRPersistenceJDBCCache cache, IResourceReferenceDAO rrd,
-        ParameterTransactionDataImpl ptdi) {
-        super(connection, schemaName, flavor, trxSynchRegistry, cache, rrd, ptdi);
+        ParameterTransactionDataImpl ptdi, Short shardKey) {
+        super(connection, schemaName, flavor, trxSynchRegistry, cache, rrd, ptdi, shardKey);
     }
 
     @Override

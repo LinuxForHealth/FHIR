@@ -16,6 +16,7 @@ import static com.ibm.fhir.schema.app.menu.Menu.CREATE_SCHEMA_FHIR;
 import static com.ibm.fhir.schema.app.menu.Menu.CREATE_SCHEMA_OAUTH;
 import static com.ibm.fhir.schema.app.menu.Menu.DB_TYPE;
 import static com.ibm.fhir.schema.app.menu.Menu.DELETE_TENANT_META;
+import static com.ibm.fhir.schema.app.menu.Menu.DISTRIBUTED;
 import static com.ibm.fhir.schema.app.menu.Menu.DROP_ADMIN;
 import static com.ibm.fhir.schema.app.menu.Menu.DROP_DETACHED;
 import static com.ibm.fhir.schema.app.menu.Menu.DROP_SCHEMA;
@@ -60,6 +61,7 @@ import static com.ibm.fhir.schema.app.util.CommonUtil.configureLogger;
 import static com.ibm.fhir.schema.app.util.CommonUtil.getDbAdapter;
 import static com.ibm.fhir.schema.app.util.CommonUtil.getPropertyAdapter;
 import static com.ibm.fhir.schema.app.util.CommonUtil.getRandomKey;
+import static com.ibm.fhir.schema.app.util.CommonUtil.getSchemaAdapter;
 import static com.ibm.fhir.schema.app.util.CommonUtil.loadDriver;
 import static com.ibm.fhir.schema.app.util.CommonUtil.logClasspath;
 
@@ -94,9 +96,11 @@ import com.ibm.fhir.database.utils.api.DatabaseNotReadyException;
 import com.ibm.fhir.database.utils.api.IDatabaseAdapter;
 import com.ibm.fhir.database.utils.api.IDatabaseTranslator;
 import com.ibm.fhir.database.utils.api.ILeaseManagerConfig;
+import com.ibm.fhir.database.utils.api.ISchemaAdapter;
 import com.ibm.fhir.database.utils.api.ITransaction;
 import com.ibm.fhir.database.utils.api.ITransactionProvider;
 import com.ibm.fhir.database.utils.api.SchemaApplyContext;
+import com.ibm.fhir.database.utils.api.SchemaType;
 import com.ibm.fhir.database.utils.api.TableSpaceRemovalException;
 import com.ibm.fhir.database.utils.api.TenantStatus;
 import com.ibm.fhir.database.utils.api.UndefinedNameException;
@@ -311,6 +315,9 @@ public class Main {
     // Configuration to control how the LeaseManager operates
     private ILeaseManagerConfig leaseManagerConfig;
 
+    // Do we want to build the distributed flavor of the FHIR data schema?
+    private boolean distributed = false;
+
     // -----------------------------------------------------------------------------------------------------------------
     // The following method is related to the common methods and functions
     /**
@@ -355,7 +362,8 @@ public class Main {
      */
     protected void buildAdminSchemaModel(PhysicalDataModel pdm) {
         // Add the tenant and tenant_keys tables and any other admin schema stuff
-        FhirSchemaGenerator gen = new FhirSchemaGenerator(schema.getAdminSchemaName(), schema.getSchemaName(), isMultitenant());
+        SchemaType schemaType = isMultitenant() ? SchemaType.MULTITENANT : SchemaType.PLAIN;
+        FhirSchemaGenerator gen = new FhirSchemaGenerator(schema.getAdminSchemaName(), schema.getSchemaName(), schemaType);
         gen.buildAdminSchema(pdm);
     }
 
@@ -389,7 +397,7 @@ public class Main {
      * @param collector
      * @param vhs
      */
-    protected void applyModel(PhysicalDataModel pdm, IDatabaseAdapter adapter, ITaskCollector collector, VersionHistoryService vhs) {
+    protected void applyModel(PhysicalDataModel pdm, ISchemaAdapter adapter, ITaskCollector collector, VersionHistoryService vhs) {
         logger.info("Collecting model update tasks");
         // If using a distributed RDBMS (Citus) then skip the initial FK creation
         SchemaApplyContext context = SchemaApplyContext.builder().setIncludeForeignKeys(!isDistributed()).build();
@@ -476,9 +484,9 @@ public class Main {
 
         // Make sure that we have the CONTROL table created before we try any
         // schema update work
-        IDatabaseAdapter adapter = getDbAdapter(dbType, connectionPool);
+        ISchemaAdapter schemaAdapter = getSchemaAdapter(SchemaType.PLAIN, dbType, connectionPool);
         try (ITransaction tx = transactionProvider.getTransaction()) {
-            CreateControl.createTableIfNeeded(schema.getAdminSchemaName(), adapter);
+            CreateControl.createTableIfNeeded(schema.getAdminSchemaName(), schemaAdapter);
         } catch (UniqueConstraintViolationException x) {
             // Race condition - two or more instances trying to create the CONTROL table
             throw new ConcurrentUpdateException("Concurrent update - create control table");
@@ -504,9 +512,9 @@ public class Main {
     protected void buildFhirDataSchemaModel(PhysicalDataModel pdm) {
         FhirSchemaGenerator gen;
         if (resourceTypeSubset == null || resourceTypeSubset.isEmpty()) {
-            gen = new FhirSchemaGenerator(schema.getAdminSchemaName(), schema.getSchemaName(), isMultitenant());
+            gen = new FhirSchemaGenerator(schema.getAdminSchemaName(), schema.getSchemaName(), getSchemaType());
         } else {
-            gen = new FhirSchemaGenerator(schema.getAdminSchemaName(), schema.getSchemaName(), isMultitenant(), resourceTypeSubset);
+            gen = new FhirSchemaGenerator(schema.getAdminSchemaName(), schema.getSchemaName(), getSchemaType(), resourceTypeSubset);
         }
 
         gen.buildSchema(pdm);
@@ -541,9 +549,9 @@ public class Main {
             }
 
             final String targetSchemaName = schema.getSchemaName();
-            IDatabaseAdapter adapter = getDbAdapter(dbType, connectionPool);
+            ISchemaAdapter schemaAdapter = getSchemaAdapter(SchemaType.PLAIN, dbType, connectionPool);
             try (ITransaction tx = transactionProvider.getTransaction()) {
-                CreateWholeSchemaVersion.createTableIfNeeded(targetSchemaName, adapter);                
+                CreateWholeSchemaVersion.createTableIfNeeded(targetSchemaName, schemaAdapter);
             }
 
             // If our schema is already at the latest version, we can skip a lot of processing
@@ -562,7 +570,7 @@ public class Main {
                 // Build/update the FHIR-related tables as well as the stored procedures
                 PhysicalDataModel pdm = new PhysicalDataModel(isDistributed());
                 buildFhirDataSchemaModel(pdm);
-                boolean isNewDb = updateSchema(pdm);
+                boolean isNewDb = updateSchema(pdm, getSchemaType());
 
                 if (this.exitStatus == EXIT_OK) {
                     // If the db is multi-tenant, we populate the resource types and parameter names in allocate-tenant.
@@ -622,18 +630,18 @@ public class Main {
             }
 
             final String targetSchemaName = schema.getOauthSchemaName();
-            IDatabaseAdapter adapter = getDbAdapter(dbType, connectionPool);
+            ISchemaAdapter schemaAdapter = getSchemaAdapter(SchemaType.PLAIN, dbType, connectionPool);
             try (ITransaction tx = transactionProvider.getTransaction()) {
-                CreateWholeSchemaVersion.createTableIfNeeded(targetSchemaName, adapter);
+                CreateWholeSchemaVersion.createTableIfNeeded(targetSchemaName, schemaAdapter);
             }
 
             // If our schema is already at the latest version, we can skip a lot of processing
             SchemaVersionsManager svm = new SchemaVersionsManager(translator, connectionPool, transactionProvider, targetSchemaName,
                 FhirSchemaVersion.getLatestFhirSchemaVersion().vid());
             if (svm.isSchemaOld() || this.force && svm.isSchemaVersionMatch()) {
-                PhysicalDataModel pdm = new PhysicalDataModel(isDistributed());
+                PhysicalDataModel pdm = new PhysicalDataModel(false);
                 buildOAuthSchemaModel(pdm);
-                updateSchema(pdm);
+                updateSchema(pdm, SchemaType.PLAIN);
 
                 if (this.exitStatus == EXIT_OK) {
                     // Apply privileges if asked
@@ -668,18 +676,18 @@ public class Main {
             }
 
             final String targetSchemaName = schema.getJavaBatchSchemaName();
-            IDatabaseAdapter adapter = getDbAdapter(dbType, connectionPool);
+            ISchemaAdapter schemaAdapter = getSchemaAdapter(SchemaType.PLAIN, dbType, connectionPool);
             try (ITransaction tx = transactionProvider.getTransaction()) {
-                CreateWholeSchemaVersion.createTableIfNeeded(targetSchemaName, adapter);
+                CreateWholeSchemaVersion.createTableIfNeeded(targetSchemaName, schemaAdapter);
             }
 
             // If our schema is already at the latest version, we can skip a lot of processing
             SchemaVersionsManager svm = new SchemaVersionsManager(translator, connectionPool, transactionProvider, targetSchemaName,
                 FhirSchemaVersion.getLatestFhirSchemaVersion().vid());
             if (svm.isSchemaOld() || this.force && svm.isSchemaVersionMatch()) {
-                PhysicalDataModel pdm = new PhysicalDataModel(isDistributed());
+                PhysicalDataModel pdm = new PhysicalDataModel(false);
                 buildJavaBatchSchemaModel(pdm);
-                updateSchema(pdm);
+                updateSchema(pdm, SchemaType.PLAIN);
 
                 if (this.exitStatus == EXIT_OK) {
                     // Apply privileges if asked
@@ -705,7 +713,7 @@ public class Main {
      * Update the schema associated with the given {@link PhysicalDataModel}
      * @return true if the database is new
      */
-    protected boolean updateSchema(PhysicalDataModel pdm) {
+    protected boolean updateSchema(PhysicalDataModel pdm, SchemaType schemaType) {
 
         // The objects are applied in parallel, which relies on each object
         // expressing its dependencies correctly. Changes are only applied
@@ -716,12 +724,13 @@ public class Main {
         ExecutorService pool = Executors.newFixedThreadPool(this.threadPoolSize);
         ITaskCollector collector = taskService.makeTaskCollector(pool);
         IDatabaseAdapter adapter = getDbAdapter(dbType, connectionPool);
+        ISchemaAdapter schemaAdapter = getSchemaAdapter(schemaType, dbType, connectionPool);
 
         // Before we start anything, we need to make sure our schema history
         // and control tables are in place. These tables are used to manage
         // all FHIR data, oauth and JavaBatch schemas we build
         try (ITransaction tx = transactionProvider.getTransaction()) {
-            CreateVersionHistory.createTableIfNeeded(schema.getAdminSchemaName(), adapter);
+            CreateVersionHistory.createTableIfNeeded(schema.getAdminSchemaName(), schemaAdapter);
         }
 
         // Current version history for the data schema
@@ -735,7 +744,7 @@ public class Main {
         boolean isNewDb = vhs.getVersion(schema.getSchemaName(), DatabaseObjectType.TABLE.name(), "PARAMETER_NAMES") == null ||
                 vhs.getVersion(schema.getSchemaName(), DatabaseObjectType.TABLE.name(), "PARAMETER_NAMES") == 0;
 
-        applyModel(pdm, adapter, collector, vhs);
+        applyModel(pdm, schemaAdapter, collector, vhs);
         if (isDistributed()) {
             applyDistributionRules(pdm);
         }
@@ -752,8 +761,8 @@ public class Main {
     private void applyDistributionRules(PhysicalDataModel pdm) {
         try (ITransaction tx = TransactionFactory.openTransaction(connectionPool)) {
             try {
-                IDatabaseAdapter adapter = getDbAdapter(dbType, connectionPool);
-                pdm.applyDistributionRules(adapter);
+                ISchemaAdapter schemaAdapter = getSchemaAdapter(SchemaType.PLAIN, dbType, connectionPool);
+                pdm.applyDistributionRules(schemaAdapter);
             } catch (RuntimeException x) {
                 tx.setRollbackOnly();
                 throw x;
@@ -765,7 +774,7 @@ public class Main {
         try (ITransaction tx = TransactionFactory.openTransaction(connectionPool)) {
             try {
                 final String tenantColumnName = isMultitenant() ? "mt_id" : null;
-                IDatabaseAdapter adapter = getDbAdapter(dbType, connectionPool);
+                ISchemaAdapter adapter = getSchemaAdapter(getSchemaType(), dbType, connectionPool);
                 AddForeignKey adder = new AddForeignKey(adapter, tenantColumnName);
                 pdm.visit(adder, FhirSchemaGenerator.SCHEMA_GROUP_TAG, FhirSchemaGenerator.FHIRDATA_GROUP);
             } catch (RuntimeException x) {
@@ -860,6 +869,8 @@ public class Main {
                 try {
                     JdbcTarget target = new JdbcTarget(c);
                     IDatabaseAdapter adapter = getDbAdapter(dbType, target);
+                    ISchemaAdapter schemaAdapter = getSchemaAdapter(getSchemaType(), adapter);
+                    ISchemaAdapter plainSchemaAdapter = getSchemaAdapter(SchemaType.PLAIN, adapter);
                     VersionHistoryService vhs =
                             new VersionHistoryService(schema.getAdminSchemaName(), schema.getSchemaName(), schema.getOauthSchemaName(), schema.getJavaBatchSchemaName());
                     vhs.setTransactionProvider(transactionProvider);
@@ -871,13 +882,15 @@ public class Main {
                         if (this.dropSplitTransaction) {
                             // important that we use an adapter connected with the connection pool
                             // (which is connected to the transaction provider)
-                            IDatabaseAdapter txAdapter = getDbAdapter(dbType, connectionPool);
-                            pdm.dropSplitTransaction(txAdapter, this.transactionProvider, FhirSchemaGenerator.SCHEMA_GROUP_TAG, FhirSchemaGenerator.FHIRDATA_GROUP);
+                            ISchemaAdapter poolSchemaAdapter = getSchemaAdapter(getSchemaType(), dbType, connectionPool);
+                            pdm.dropSplitTransaction(poolSchemaAdapter, this.transactionProvider, FhirSchemaGenerator.SCHEMA_GROUP_TAG, FhirSchemaGenerator.FHIRDATA_GROUP);
                         } else {
                             // old fashioned drop where we do everything in one (big) transaction
-                            pdm.drop(adapter, FhirSchemaGenerator.SCHEMA_GROUP_TAG, FhirSchemaGenerator.FHIRDATA_GROUP);
+                            pdm.drop(schemaAdapter, FhirSchemaGenerator.SCHEMA_GROUP_TAG, FhirSchemaGenerator.FHIRDATA_GROUP);
                         }
-                        CreateWholeSchemaVersion.dropTable(schemaName, adapter);
+
+                        // Drop the whole-schema-version table
+                        CreateWholeSchemaVersion.dropTable(schemaName, plainSchemaAdapter);
                         if (!checkSchemaIsEmpty(adapter, schemaName)) {
                             throw new DataAccessException("Schema '" + schemaName + "' not empty after drop");
                         }
@@ -887,8 +900,8 @@ public class Main {
                     if (dropOauthSchema) {
                         // Just drop the objects associated with the OAUTH schema group
                         final String schemaName = schema.getOauthSchemaName();
-                        pdm.drop(adapter, FhirSchemaGenerator.SCHEMA_GROUP_TAG, OAuthSchemaGenerator.OAUTH_GROUP);
-                        CreateWholeSchemaVersion.dropTable(schemaName, adapter);
+                        pdm.drop(schemaAdapter, FhirSchemaGenerator.SCHEMA_GROUP_TAG, OAuthSchemaGenerator.OAUTH_GROUP);
+                        CreateWholeSchemaVersion.dropTable(schemaName, plainSchemaAdapter);
                         if (!checkSchemaIsEmpty(adapter, schemaName)) {
                             throw new DataAccessException("Schema '" + schemaName + "' not empty after drop");
                         }
@@ -898,8 +911,8 @@ public class Main {
                     if (dropJavaBatchSchema) {
                         // Just drop the objects associated with the BATCH schema group
                         final String schemaName = schema.getJavaBatchSchemaName();
-                        pdm.drop(adapter, FhirSchemaGenerator.SCHEMA_GROUP_TAG, JavaBatchSchemaGenerator.BATCH_GROUP);
-                        CreateWholeSchemaVersion.dropTable(schemaName, adapter);
+                        pdm.drop(plainSchemaAdapter, FhirSchemaGenerator.SCHEMA_GROUP_TAG, JavaBatchSchemaGenerator.BATCH_GROUP);
+                        CreateWholeSchemaVersion.dropTable(schemaName, plainSchemaAdapter);
                         if (!checkSchemaIsEmpty(adapter, schemaName)) {
                             throw new DataAccessException("Schema '" + schemaName + "' not empty after drop");
                         }
@@ -910,7 +923,7 @@ public class Main {
                         // Just drop the objects associated with the ADMIN schema group
                         CreateVersionHistory.generateTable(pdm, ADMIN_SCHEMANAME, true);
                         CreateControl.buildTableDef(pdm, ADMIN_SCHEMANAME, true);
-                        pdm.drop(adapter, FhirSchemaGenerator.SCHEMA_GROUP_TAG, FhirSchemaGenerator.ADMIN_GROUP);
+                        pdm.drop(plainSchemaAdapter, FhirSchemaGenerator.SCHEMA_GROUP_TAG, FhirSchemaGenerator.ADMIN_GROUP);
                         if (!checkSchemaIsEmpty(adapter, schema.getAdminSchemaName())) {
                             throw new DataAccessException("Schema '" + schema.getAdminSchemaName() + "' not empty after drop");
                         }
@@ -975,15 +988,15 @@ public class Main {
         try (ITransaction tx = TransactionFactory.openTransaction(connectionPool)) {
             try (Connection c = connectionPool.getConnection();) {
                 try {
-                    IDatabaseAdapter adapter = getDbAdapter(dbType, connectionPool);
+                    ISchemaAdapter schemaAdapter = getSchemaAdapter(getSchemaType(), dbType, connectionPool);
                     SchemaApplyContext context = SchemaApplyContext.getDefault();
-                    pdm.applyProcedures(adapter, context);
-                    pdm.applyFunctions(adapter, context);
+                    pdm.applyProcedures(schemaAdapter, context);
+                    pdm.applyFunctions(schemaAdapter, context);
 
                     // Because we're replacing the procedures, we should also check if
                     // we need to apply the associated privileges
                     if (this.grantTo != null) {
-                        pdm.applyProcedureAndFunctionGrants(adapter, FhirSchemaConstants.FHIR_USER_GRANT_GROUP, grantTo);
+                        pdm.applyProcedureAndFunctionGrants(schemaAdapter, FhirSchemaConstants.FHIR_USER_GRANT_GROUP, grantTo);
                     }
                 } catch (DataAccessException x) {
                     // Something went wrong, so mark the transaction as failed
@@ -1026,16 +1039,16 @@ public class Main {
      */
     protected void grantPrivilegesForFhirData() {
 
-        final IDatabaseAdapter adapter = getDbAdapter(dbType, connectionPool);
+        final ISchemaAdapter schemaAdapter = getSchemaAdapter(getSchemaType(), dbType, connectionPool);
         try (ITransaction tx = TransactionFactory.openTransaction(connectionPool)) {
             try {
                 PhysicalDataModel pdm = new PhysicalDataModel(isDistributed());
                 buildFhirDataSchemaModel(pdm);
-                pdm.applyGrants(adapter, FhirSchemaConstants.FHIR_USER_GRANT_GROUP, grantTo);
+                pdm.applyGrants(schemaAdapter, FhirSchemaConstants.FHIR_USER_GRANT_GROUP, grantTo);
 
                 // Grant SELECT on WHOLE_SCHEMA_VERSION to the FHIR server user
                 // Note the constant comes from SchemaConstants on purpose
-                CreateWholeSchemaVersion.grantPrivilegesTo(adapter, schema.getSchemaName(), SchemaConstants.FHIR_USER_GRANT_GROUP, grantTo);
+                CreateWholeSchemaVersion.grantPrivilegesTo(schemaAdapter, schema.getSchemaName(), SchemaConstants.FHIR_USER_GRANT_GROUP, grantTo);
             } catch (DataAccessException x) {
                 // Something went wrong, so mark the transaction as failed
                 tx.setRollbackOnly();
@@ -1048,12 +1061,12 @@ public class Main {
      * Apply grants to the OAuth schema objects
      */
     protected void grantPrivilegesForOAuth() {
-        final IDatabaseAdapter adapter = getDbAdapter(dbType, connectionPool);
+        final ISchemaAdapter schemaAdapter = getSchemaAdapter(SchemaType.PLAIN, dbType, connectionPool);
         try (ITransaction tx = TransactionFactory.openTransaction(connectionPool)) {
             try {
-                PhysicalDataModel pdm = new PhysicalDataModel(isDistributed());
+                PhysicalDataModel pdm = new PhysicalDataModel(false);
                 buildOAuthSchemaModel(pdm);
-                pdm.applyGrants(adapter, FhirSchemaConstants.FHIR_OAUTH_GRANT_GROUP, grantTo);
+                pdm.applyGrants(schemaAdapter, FhirSchemaConstants.FHIR_OAUTH_GRANT_GROUP, grantTo);
 
             } catch (DataAccessException x) {
                 // Something went wrong, so mark the transaction as failed
@@ -1068,15 +1081,15 @@ public class Main {
      * Apply grants to the JavaBatch schema objects
      */
     protected void grantPrivilegesForBatch() {
-        final IDatabaseAdapter adapter = getDbAdapter(dbType, connectionPool);
+        final ISchemaAdapter schemaAdapter = getSchemaAdapter(SchemaType.PLAIN, dbType, connectionPool);
         try (ITransaction tx = TransactionFactory.openTransaction(connectionPool)) {
             try {
-                PhysicalDataModel pdm = new PhysicalDataModel(isDistributed());
+                PhysicalDataModel pdm = new PhysicalDataModel(false);
                 buildJavaBatchSchemaModel(pdm);
-                pdm.applyGrants(adapter, FhirSchemaConstants.FHIR_BATCH_GRANT_GROUP, grantTo);
+                pdm.applyGrants(schemaAdapter, FhirSchemaConstants.FHIR_BATCH_GRANT_GROUP, grantTo);
 
                 // special case for the JavaBatch schema in PostgreSQL
-                adapter.grantAllSequenceUsage(schema.getJavaBatchSchemaName(), grantTo);
+                schemaAdapter.grantAllSequenceUsage(schema.getJavaBatchSchemaName(), grantTo);
 
             } catch (DataAccessException x) {
                 // Something went wrong, so mark the transaction as failed
@@ -1125,6 +1138,20 @@ public class Main {
      */
     protected boolean isMultitenant() {
         return MULTITENANT_FEATURE_ENABLED.contains(this.dbType);
+    }
+
+    /**
+     * What type of schema do we want to build?
+     * @return
+     */
+    protected SchemaType getSchemaType() {
+        if (isMultitenant()) {
+            return SchemaType.MULTITENANT;
+        } else if (isDistributed()) {
+            return SchemaType.DISTRIBUTED;
+        } else {
+            return SchemaType.PLAIN;
+        }
     }
 
     // -----------------------------------------------------------------------------------------------------------------
@@ -1308,7 +1335,7 @@ public class Main {
             }
 
             // Build/update the tables as well as the stored procedures
-            FhirSchemaGenerator gen = new FhirSchemaGenerator(schema.getAdminSchemaName(), schema.getSchemaName(), isMultitenant());
+            FhirSchemaGenerator gen = new FhirSchemaGenerator(schema.getAdminSchemaName(), schema.getSchemaName(), getSchemaType());
             PhysicalDataModel pdm = new PhysicalDataModel(isDistributed());
             gen.buildSchema(pdm);
 
@@ -1441,7 +1468,7 @@ public class Main {
             if (ti.getTenantSchema() != null && (!schema.isOverrideDataSchema() || schema.matchesDataSchema(ti.getTenantSchema()))) {
                 // It's crucial we use the correct schema for each particular tenant, which
                 // is why we have to build the PhysicalDataModel separately for each tenant
-                FhirSchemaGenerator gen = new FhirSchemaGenerator(schema.getAdminSchemaName(), ti.getTenantSchema(), isMultitenant());
+                FhirSchemaGenerator gen = new FhirSchemaGenerator(schema.getAdminSchemaName(), ti.getTenantSchema(), getSchemaType());
                 PhysicalDataModel pdm = new PhysicalDataModel(isDistributed());
                 gen.buildSchema(pdm);
 
@@ -1659,7 +1686,7 @@ public class Main {
         TenantInfo tenantInfo = freezeTenant();
 
         // Build the model of the data (FHIRDATA) schema which is then used to drive the drop
-        FhirSchemaGenerator gen = new FhirSchemaGenerator(schema.getAdminSchemaName(), tenantInfo.getTenantSchema(), isMultitenant());
+        FhirSchemaGenerator gen = new FhirSchemaGenerator(schema.getAdminSchemaName(), tenantInfo.getTenantSchema(), getSchemaType());
         PhysicalDataModel pdm = new PhysicalDataModel(isDistributed());
         gen.buildSchema(pdm);
 
@@ -1678,7 +1705,7 @@ public class Main {
     protected void dropDetachedPartitionTables() {
 
         TenantInfo tenantInfo = getTenantInfo();
-        FhirSchemaGenerator gen = new FhirSchemaGenerator(schema.getAdminSchemaName(), tenantInfo.getTenantSchema(), isMultitenant());
+        FhirSchemaGenerator gen = new FhirSchemaGenerator(schema.getAdminSchemaName(), tenantInfo.getTenantSchema(), getSchemaType());
         PhysicalDataModel pdm = new PhysicalDataModel(isDistributed());
         gen.buildSchema(pdm);
 
@@ -2130,6 +2157,9 @@ public class Main {
                 break;
             case CONFIRM_DROP:
                 this.confirmDrop = true;
+                break;
+            case DISTRIBUTED:
+                this.distributed = true;
                 break;
             case ALLOCATE_TENANT:
                 if (++i < args.length) {
@@ -2616,11 +2646,11 @@ public class Main {
     }
 
     /**
-     * Citus is a distributed implementation of PostgreSQL
+     * Should we build the distributed variant of the FHIR data schema
      * @return
      */
     private boolean isDistributed() {
-        return this.dbType == DbType.CITUS;
+        return this.distributed;
     }
 
     /**

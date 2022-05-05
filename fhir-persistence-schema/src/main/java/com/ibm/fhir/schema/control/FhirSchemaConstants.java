@@ -195,4 +195,7 @@ public class FhirSchemaConstants {
     public static final String ERASED_RESOURCES = "ERASED_RESOURCES";
     public static final String ERASED_RESOURCE_ID = "ERASED_RESOURCE_ID";
     public static final String ERASED_RESOURCE_GROUP_ID = "ERASED_RESOURCE_GROUP_ID";
+
+    // Data Distribution/Sharding Constants
+    public static final String SHARD_KEY = "SHARD_KEY";
 }

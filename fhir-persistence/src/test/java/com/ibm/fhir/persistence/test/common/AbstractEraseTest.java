@@ -126,7 +126,7 @@ public abstract class AbstractEraseTest extends AbstractPersistenceTest {
         EraseDTO dto = new EraseDTO();
         dto.setLogicalId(resource1.getId());
         dto.setResourceType("Basic");
-        ResourceEraseRecord eraseRecord = persistence.erase(dto);
+        ResourceEraseRecord eraseRecord = persistence.erase(null, dto);
         assertNotNull(eraseRecord);
         assertEquals((int) eraseRecord.getTotal(), 3);
         assertEquals(eraseRecord.getStatus(), ResourceEraseRecord.Status.DONE);
@@ -141,7 +141,7 @@ public abstract class AbstractEraseTest extends AbstractPersistenceTest {
         EraseDTO dto = new EraseDTO();
         dto.setLogicalId(resource1.getId());
         dto.setResourceType("Basic");
-        ResourceEraseRecord eraseRecord = persistence.erase(dto);
+        ResourceEraseRecord eraseRecord = persistence.erase(null, dto);
         assertNotNull(eraseRecord);
         assertEquals((int) eraseRecord.getTotal(), 1);
         assertEquals(eraseRecord.getStatus(), ResourceEraseRecord.Status.DONE);
@@ -158,7 +158,7 @@ public abstract class AbstractEraseTest extends AbstractPersistenceTest {
         EraseDTO dto = new EraseDTO();
         dto.setLogicalId(resource1.getId());
         dto.setResourceType("Basic");
-        ResourceEraseRecord eraseRecord = persistence.erase(dto);
+        ResourceEraseRecord eraseRecord = persistence.erase(null, dto);
         assertNotNull(eraseRecord);
         assertEquals((int) eraseRecord.getTotal(), 2);
         assertEquals(eraseRecord.getStatus(), ResourceEraseRecord.Status.DONE);
@@ -171,7 +171,7 @@ public abstract class AbstractEraseTest extends AbstractPersistenceTest {
         EraseDTO dto = new EraseDTO();
         dto.setLogicalId("---NOTEXISTS");
         dto.setResourceType("Basic");
-        ResourceEraseRecord eraseRecord = persistence.erase(dto);
+        ResourceEraseRecord eraseRecord = persistence.erase(null, dto);
         assertNotNull(eraseRecord);
         assertEquals(eraseRecord.getStatus(), ResourceEraseRecord.Status.NOT_FOUND);
     }
@@ -189,7 +189,7 @@ public abstract class AbstractEraseTest extends AbstractPersistenceTest {
         dto.setLogicalId(resource1.getId());
         dto.setResourceType("Basic");
         dto.setVersion(4);
-        ResourceEraseRecord eraseRecord = persistence.erase(dto);
+        ResourceEraseRecord eraseRecord = persistence.erase(null, dto);
         assertNotNull(eraseRecord);
         assertEquals((int) eraseRecord.getTotal(), -1);
         assertEquals(eraseRecord.getStatus(), ResourceEraseRecord.Status.NOT_SUPPORTED_GREATER);
@@ -209,7 +209,7 @@ public abstract class AbstractEraseTest extends AbstractPersistenceTest {
         dto.setLogicalId(resource1.getId());
         dto.setResourceType("Basic");
         dto.setVersion(2);
-        ResourceEraseRecord eraseRecord = persistence.erase(dto);
+        ResourceEraseRecord eraseRecord = persistence.erase(null, dto);
         assertNotNull(eraseRecord);
         assertEquals((int) eraseRecord.getTotal(), 1);
         assertEquals(eraseRecord.getStatus(), ResourceEraseRecord.Status.VERSION);
@@ -232,7 +232,7 @@ public abstract class AbstractEraseTest extends AbstractPersistenceTest {
         dto.setLogicalId(resource1.getId());
         dto.setResourceType("Basic");
         dto.setVersion(3);
-        ResourceEraseRecord eraseRecord = persistence.erase(dto);
+        ResourceEraseRecord eraseRecord = persistence.erase(null, dto);
         assertNotNull(eraseRecord);
         assertEquals((int) eraseRecord.getTotal(), -1);
         assertEquals(eraseRecord.getStatus(), ResourceEraseRecord.Status.NOT_SUPPORTED_LATEST);
@@ -248,7 +248,7 @@ public abstract class AbstractEraseTest extends AbstractPersistenceTest {
         dto.setLogicalId(resource1.getId());
         dto.setResourceType("Basic");
         dto.setVersion(1);
-        ResourceEraseRecord eraseRecord = persistence.erase(dto);
+        ResourceEraseRecord eraseRecord = persistence.erase(null, dto);
         assertNotNull(eraseRecord);
         assertEquals((int) eraseRecord.getTotal(), 1);
         assertEquals(eraseRecord.getStatus(), ResourceEraseRecord.Status.DONE);

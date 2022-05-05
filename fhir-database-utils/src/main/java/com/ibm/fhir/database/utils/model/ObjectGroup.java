@@ -13,7 +13,7 @@ import java.util.List;
 import java.util.Set;
 import java.util.function.Consumer;
 
-import com.ibm.fhir.database.utils.api.IDatabaseAdapter;
+import com.ibm.fhir.database.utils.api.ISchemaAdapter;
 import com.ibm.fhir.database.utils.api.IVersionHistoryService;
 import com.ibm.fhir.database.utils.api.SchemaApplyContext;
 
@@ -60,7 +60,7 @@ public class ObjectGroup extends BaseObject {
     }
 
     @Override
-    public void applyVersion(IDatabaseAdapter target, SchemaApplyContext context, IVersionHistoryService vhs) {
+    public void applyVersion(ISchemaAdapter target, SchemaApplyContext context, IVersionHistoryService vhs) {
 
         // Apply each member of our group to the target if it is a new version.
         // Version tracking is done at the individual level, not the group.
@@ -70,7 +70,7 @@ public class ObjectGroup extends BaseObject {
     }
 
     @Override
-    public void drop(IDatabaseAdapter target) {
+    public void drop(ISchemaAdapter target) {
         // Apply each member of the group, but going in reverse
         for (int i=group.size()-1; i>=0; i--) {
             group.get(i).drop(target);
@@ -78,7 +78,7 @@ public class ObjectGroup extends BaseObject {
     }
 
     @Override
-    public void grant(IDatabaseAdapter target, String groupName, String toUser) {
+    public void grant(ISchemaAdapter target, String groupName, String toUser) {
         // Override the BaseObject behavior because we need to propagate the grant request
         // to the indivual objects we have aggregated
         for (IDatabaseObject obj: this.group) {
@@ -87,7 +87,7 @@ public class ObjectGroup extends BaseObject {
     }
 
     @Override
-    public void apply(IDatabaseAdapter target, SchemaApplyContext context) {
+    public void apply(ISchemaAdapter target, SchemaApplyContext context) {
         // Plain old apply, used to apply all changes, regardless of version - e.g. for testing
         for (IDatabaseObject obj: this.group) {
             obj.apply(target, context);
@@ -95,7 +95,7 @@ public class ObjectGroup extends BaseObject {
     }
 
     @Override
-    public void apply(Integer priorVersion, IDatabaseAdapter target, SchemaApplyContext context) {
+    public void apply(Integer priorVersion, ISchemaAdapter target, SchemaApplyContext context) {
         // Plain old apply, used to apply all changes, regardless of version - e.g. for testing
         for (IDatabaseObject obj: this.group) {
             obj.apply(priorVersion, target, context);
@@ -137,7 +137,7 @@ public class ObjectGroup extends BaseObject {
     }
 
     @Override
-    public void applyDistributionRules(IDatabaseAdapter target, int pass) {
+    public void applyDistributionRules(ISchemaAdapter target, int pass) {
         for (IDatabaseObject obj: this.group) {
             obj.applyDistributionRules(target, pass);
         }

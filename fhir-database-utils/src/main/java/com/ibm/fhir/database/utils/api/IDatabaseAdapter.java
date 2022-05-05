@@ -79,19 +79,19 @@ public interface IDatabaseAdapter {
      * @param tablespaceName
      * @param withs
      * @param checkConstraints
-     * @param distributionRules
+     * @param distributionContext
      */
     public void createTable(String schemaName, String name, String tenantColumnName, List<ColumnBase> columns,
             PrimaryKeyDef primaryKey, IdentityDef identity, String tablespaceName, List<With> withs, List<CheckConstraint> checkConstraints,
-            DistributionRules distributionRules);
+            DistributionContext distributionContext);
 
     /**
      * Apply any distribution rules configured for the named table
      * @param schemaName
      * @param tableName
-     * @param distributionRules
+     * @param distributionContext
      */
-    public void applyDistributionRules(String schemaName, String tableName, DistributionRules distributionRules);
+    public void applyDistributionRules(String schemaName, String tableName, DistributionContext distributionContext);
 
     /**
      * Add a new column to an existing table
@@ -167,10 +167,10 @@ public interface IDatabaseAdapter {
      * @param tenantColumnName
      * @param indexColumns
      * @param includeColumns
-     * @param distributionRules
+     * @param distributionContext
      */
     public void createUniqueIndex(String schemaName, String tableName, String indexName, String tenantColumnName,
-            List<OrderedColumnDef> indexColumns, List<String> includeColumns, DistributionRules distributionRules);
+            List<OrderedColumnDef> indexColumns, List<String> includeColumns, DistributionContext distributionContext);
 
     /**
      * Create a unique index
@@ -179,10 +179,10 @@ public interface IDatabaseAdapter {
      * @param indexName
      * @param tenantColumnName
      * @param indexColumns
-     * @param distributionRules
+     * @param distributionContext
      */
     public void createUniqueIndex(String schemaName, String tableName, String indexName, String tenantColumnName,
-            List<OrderedColumnDef> indexColumns, DistributionRules distributionRules);
+            List<OrderedColumnDef> indexColumns, DistributionContext distributionContext);
 
     /**
      *

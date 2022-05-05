@@ -17,7 +17,7 @@ import java.util.function.Consumer;
 import java.util.logging.Level;
 import java.util.logging.Logger;
 
-import com.ibm.fhir.database.utils.api.IDatabaseAdapter;
+import com.ibm.fhir.database.utils.api.ISchemaAdapter;
 import com.ibm.fhir.database.utils.api.ITransaction;
 import com.ibm.fhir.database.utils.api.ITransactionProvider;
 import com.ibm.fhir.database.utils.api.IVersionHistoryService;
@@ -142,7 +142,7 @@ public abstract class DatabaseObject implements IDatabaseObject {
     }
 
     @Override
-    public void applyTx(IDatabaseAdapter target, SchemaApplyContext context, ITransactionProvider tp, IVersionHistoryService vhs) {
+    public void applyTx(ISchemaAdapter target, SchemaApplyContext context, ITransactionProvider tp, IVersionHistoryService vhs) {
         // Wrap the apply operation in its own transaction, as this is likely
         // being executed from a thread-pool. DB2 has some issues with deadlocks
         // on its catalog tables (SQLCODE=-911, SQLSTATE=40001, SQLERRMC=2) when
@@ -193,7 +193,7 @@ public abstract class DatabaseObject implements IDatabaseObject {
      * @param vhs the service used to manage the version history table
      */
     @Override
-    public void applyVersion(IDatabaseAdapter target, SchemaApplyContext context, IVersionHistoryService vhs) {
+    public void applyVersion(ISchemaAdapter target, SchemaApplyContext context, IVersionHistoryService vhs) {
         // TODO find a better way to track database-level type stuff (not schema-specific)
         if (vhs.applies("__DATABASE__", getObjectType().name(), getObjectName(), version)) {
             logger.info("Applying change [v" + version + "]: "+ this.getTypeNameVersion());
@@ -218,7 +218,7 @@ public abstract class DatabaseObject implements IDatabaseObject {
     }
 
     @Override
-    public void applyDistributionRules(IDatabaseAdapter target, int pass) {
+    public void applyDistributionRules(ISchemaAdapter target, int pass) {
         // NOP
     }
 }

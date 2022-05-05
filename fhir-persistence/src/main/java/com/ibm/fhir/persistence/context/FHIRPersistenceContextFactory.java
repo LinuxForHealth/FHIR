@@ -71,10 +71,12 @@ public class FHIRPersistenceContextFactory {
      * Returns a FHIRPersistenceContext that contains a FHIRPersistenceEvent and a FHIRSearchContext.
      * @param event the FHIRPersistenceEvent instance to be contained in the FHIRPersistenceContext instance
      * @param searchContext the FHIRSearchContext instance to be contained in the FHIRPersistenceContext instance
+     * @param shardKey
      */
-    public static FHIRPersistenceContext createPersistenceContext(FHIRPersistenceEvent event, FHIRSearchContext searchContext) {
+    public static FHIRPersistenceContext createPersistenceContext(FHIRPersistenceEvent event, FHIRSearchContext searchContext, Short shardKey) {
         return FHIRPersistenceContextImpl.builder(event)
                 .withSearchContext(searchContext)
+                .withShardKey(shardKey)
                 .build();
     }
 
@@ -103,11 +105,14 @@ public class FHIRPersistenceContextFactory {
      * @param event the FHIRPersistenceEvent instance to be contained in the FHIRPersistenceContext instance
      * @param includeDeleted flag to tell the persistence layer to include deleted resources in the operation results
      * @param searchContext the FHIRSearchContext instance to be contained in the FHIRPersistenceContext instance
+     * @param shardKey the sharding value used for the distributed schema
      */
-    public static FHIRPersistenceContext createPersistenceContext(FHIRPersistenceEvent event, boolean includeDeleted, FHIRSearchContext searchContext) {
+    public static FHIRPersistenceContext createPersistenceContext(FHIRPersistenceEvent event, boolean includeDeleted, FHIRSearchContext searchContext,
+        Short shardKey) {
         return FHIRPersistenceContextImpl.builder(event)
                 .withIncludeDeleted(includeDeleted)
                 .withSearchContext(searchContext)
+                .withShardKey(shardKey)
                 .build();
     }
 }

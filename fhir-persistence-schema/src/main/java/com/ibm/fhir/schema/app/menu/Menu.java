@@ -62,6 +62,7 @@ public class Menu {
     public static final String HELP = "--help";
     public static final String SHOW_DB_SIZE = "--show-db-size";
     public static final String SHOW_DB_SIZE_DETAIL = "--show-db-size-detail";
+    public static final String DISTRIBUTED = "--distributed";
 
     public Menu() {
         // NOP
@@ -116,6 +117,7 @@ public class Menu {
         MI_CREATE_SCHEMA_FHIR(CREATE_SCHEMA_FHIR, "schemaName", "Create the FHIR Data Schema"),
         MI_CREATE_SCHEMA_BATCH(CREATE_SCHEMA_BATCH, "schemaName", "Create the Batch Schema"),
         MI_CREATE_SCHEMA_OAUTH(CREATE_SCHEMA_OAUTH, "schemaName", "Create the OAuth Schema"),
+        MI_DISTRIBUTED(DISTRIBUTED, "", "Build the distributed variant of the FHIR data schema"),
         MI_SHOW_DB_SIZE(SHOW_DB_SIZE, "", "Generate report with a breakdown of database size"),
         MI_SHOW_DB_SIZE_DETAIL(SHOW_DB_SIZE_DETAIL, "", "Include detailed table and index info in size report");
 

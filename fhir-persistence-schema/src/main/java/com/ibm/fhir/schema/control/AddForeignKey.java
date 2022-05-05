@@ -7,7 +7,7 @@ package com.ibm.fhir.schema.control;
 
 import java.util.logging.Logger;
 
-import com.ibm.fhir.database.utils.api.IDatabaseAdapter;
+import com.ibm.fhir.database.utils.api.ISchemaAdapter;
 import com.ibm.fhir.database.utils.model.DataModelVisitorBase;
 import com.ibm.fhir.database.utils.model.ForeignKeyConstraint;
 import com.ibm.fhir.database.utils.model.Table;
@@ -22,14 +22,13 @@ public class AddForeignKey extends DataModelVisitorBase {
     private static final Logger logger = Logger.getLogger(DropForeignKey.class.getName());
 
     // The database adapter used to issue changes to the database
-    private final IDatabaseAdapter adapter;
+    private final ISchemaAdapter adapter;
     private final String tenantColumnName;
-
     /**
      * Public constructor
      * @param adapter
      */
-    public AddForeignKey(IDatabaseAdapter adapter, String tenantColumnName) {
+    public AddForeignKey(ISchemaAdapter adapter, String tenantColumnName) {
         this.adapter = adapter;
         this.tenantColumnName = tenantColumnName;
     }
@@ -37,7 +36,9 @@ public class AddForeignKey extends DataModelVisitorBase {
     @Override
     public void visited(Table fromChildTable, ForeignKeyConstraint fk) {
         // Enable (add) the FK constraint
+        // TODO handle distributed tables...need the src and target distribution types
+        // so we know whether or not to inject the distribution column into the FK
         logger.info(String.format("Adding foreign key: %s.%s[%s]", fromChildTable.getSchemaName(), fromChildTable.getObjectName(), fk.getConstraintName()));
-        fk.apply(fromChildTable.getSchemaName(), fromChildTable.getObjectName(), this.tenantColumnName, adapter);
+        fk.apply(fromChildTable.getSchemaName(), fromChildTable.getObjectName(), this.tenantColumnName, adapter, fromChildTable.getDistributionType());
     }
 }

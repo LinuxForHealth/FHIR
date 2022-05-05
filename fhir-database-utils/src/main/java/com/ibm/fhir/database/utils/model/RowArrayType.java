@@ -6,7 +6,7 @@
 
 package com.ibm.fhir.database.utils.model;
 
-import com.ibm.fhir.database.utils.api.IDatabaseAdapter;
+import com.ibm.fhir.database.utils.api.ISchemaAdapter;
 import com.ibm.fhir.database.utils.api.SchemaApplyContext;
 import com.ibm.fhir.database.utils.common.DataDefinitionUtil;
 
@@ -36,12 +36,12 @@ public class RowArrayType extends BaseObject {
     }
 
     @Override
-    public void apply(IDatabaseAdapter target, SchemaApplyContext context) {
+    public void apply(ISchemaAdapter target, SchemaApplyContext context) {
         target.createArrType(getSchemaName(), getObjectName(), rowTypeName, arraySize);
     }
 
     @Override
-    public void apply(Integer priorVersion, IDatabaseAdapter target, SchemaApplyContext context) {
+    public void apply(Integer priorVersion, ISchemaAdapter target, SchemaApplyContext context) {
         if (priorVersion != null && priorVersion > 0 && this.version > priorVersion) {
             throw new UnsupportedOperationException("Upgrading row array types is not supported");
         }
@@ -49,7 +49,7 @@ public class RowArrayType extends BaseObject {
     }
 
     @Override
-    public void drop(IDatabaseAdapter target) {
+    public void drop(ISchemaAdapter target) {
         target.dropType(getSchemaName(), getObjectName());
     }
 

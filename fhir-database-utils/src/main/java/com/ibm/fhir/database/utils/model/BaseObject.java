@@ -19,7 +19,7 @@ import java.util.function.Consumer;
 import java.util.logging.Level;
 import java.util.logging.Logger;
 
-import com.ibm.fhir.database.utils.api.IDatabaseAdapter;
+import com.ibm.fhir.database.utils.api.ISchemaAdapter;
 import com.ibm.fhir.database.utils.api.ITransaction;
 import com.ibm.fhir.database.utils.api.ITransactionProvider;
 import com.ibm.fhir.database.utils.api.IVersionHistoryService;
@@ -187,7 +187,7 @@ public abstract class BaseObject implements IDatabaseObject {
     }
 
     @Override
-    public ITaskGroup collect(final ITaskCollector tc, final IDatabaseAdapter target, final SchemaApplyContext context, final ITransactionProvider tp, final IVersionHistoryService vhs) {
+    public ITaskGroup collect(final ITaskCollector tc, final ISchemaAdapter target, final SchemaApplyContext context, final ITransactionProvider tp, final IVersionHistoryService vhs) {
         // Make sure that anything we depend on gets processed first
         List<ITaskGroup> children = null;
         if (!this.dependencies.isEmpty()) {
@@ -204,7 +204,7 @@ public abstract class BaseObject implements IDatabaseObject {
     }
 
     @Override
-    public void applyTx(IDatabaseAdapter target, SchemaApplyContext context, ITransactionProvider tp, IVersionHistoryService vhs) {
+    public void applyTx(ISchemaAdapter target, SchemaApplyContext context, ITransactionProvider tp, IVersionHistoryService vhs) {
         // Wrap the apply operation in its own transaction, as this is likely
         // being executed from a thread-pool. DB2 has some issues with deadlocks
         // on its catalog tables (SQLCODE=-911, SQLSTATE=40001, SQLERRMC=2) when
@@ -251,7 +251,7 @@ public abstract class BaseObject implements IDatabaseObject {
     }
 
     @Override
-    public void applyVersion(IDatabaseAdapter target, SchemaApplyContext context, IVersionHistoryService vhs) {
+    public void applyVersion(ISchemaAdapter target, SchemaApplyContext context, IVersionHistoryService vhs) {
         // Only for Procedures do we skip the Version History Service check, and apply.
         if (vhs.applies(getSchemaName(), getObjectType().name(), getObjectName(), version)
                     || getObjectType() == DatabaseObjectType.PROCEDURE) {
@@ -278,7 +278,7 @@ public abstract class BaseObject implements IDatabaseObject {
     }
 
     @Override
-    public void grant(IDatabaseAdapter target, String groupName, String toUser) {
+    public void grant(ISchemaAdapter target, String groupName, String toUser) {
 
         // The group is optional. Some objects may not have a group corresponding with
         // the requested groupName, in which case no privileges will be granted
@@ -295,7 +295,7 @@ public abstract class BaseObject implements IDatabaseObject {
      * @param group
      * @param toUser
      */
-    protected void grantGroupPrivileges(IDatabaseAdapter target, Set<Privilege> group, String toUser) {
+    protected void grantGroupPrivileges(ISchemaAdapter target, Set<Privilege> group, String toUser) {
         target.grantObjectPrivileges(this.schemaName, this.objectName, group, toUser);
     }
 
@@ -320,7 +320,7 @@ public abstract class BaseObject implements IDatabaseObject {
     }
 
     @Override
-    public void applyDistributionRules(IDatabaseAdapter target, int pass) {
+    public void applyDistributionRules(ISchemaAdapter target, int pass) {
         // NOP. Only applies to Table
     }
 }

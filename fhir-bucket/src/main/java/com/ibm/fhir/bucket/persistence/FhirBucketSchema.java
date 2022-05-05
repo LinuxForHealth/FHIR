@@ -58,7 +58,7 @@ import static com.ibm.fhir.bucket.persistence.SchemaConstants.UNQ;
 import static com.ibm.fhir.bucket.persistence.SchemaConstants.VERSION;
 
 import com.ibm.fhir.bucket.app.Main;
-import com.ibm.fhir.database.utils.api.IDatabaseAdapter;
+import com.ibm.fhir.database.utils.api.ISchemaAdapter;
 import com.ibm.fhir.database.utils.api.SchemaApplyContext;
 import com.ibm.fhir.database.utils.model.Generated;
 import com.ibm.fhir.database.utils.model.PhysicalDataModel;
@@ -304,9 +304,11 @@ public class FhirBucketSchema {
 
     /**
      * Apply the model to the database. Will generate the DDL and execute it
+     * @param adapter
+     * @param context
      * @param pdm
      */
-    protected void applyModel(IDatabaseAdapter adapter, SchemaApplyContext context, PhysicalDataModel pdm) {
+    protected void applyModel(ISchemaAdapter adapter, SchemaApplyContext context, PhysicalDataModel pdm) {
         pdm.apply(adapter, context);
     }    
 }

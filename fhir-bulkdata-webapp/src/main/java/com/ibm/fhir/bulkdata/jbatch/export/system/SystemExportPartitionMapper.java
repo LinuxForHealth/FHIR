@@ -78,7 +78,7 @@ public class SystemExportPartitionMapper implements PartitionMapper {
         List<String> target = new ArrayList<>();
         try {
             for (String resourceType : resourceTypes) {
-                List<ResourceChangeLogRecord> resourceResults = fhirPersistence.changes(1, null, null, null, Arrays.asList(resourceType), false, HistorySortOrder.NONE);
+                List<ResourceChangeLogRecord> resourceResults = fhirPersistence.changes(null, 1, null, null, null, Arrays.asList(resourceType), false, HistorySortOrder.NONE);
 
                 // Early Exit Logic
                 if (!resourceResults.isEmpty()) {
