@@ -6,6 +6,8 @@
 package com.ibm.fhir.path.patch.test;
 
 import static org.testng.Assert.assertEquals;
+import static org.testng.Assert.assertNotNull;
+import static org.testng.Assert.assertNull;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -24,16 +26,17 @@ import com.ibm.fhir.model.resource.Patient;
 import com.ibm.fhir.model.resource.Practitioner;
 import com.ibm.fhir.model.type.Uri;
 import com.ibm.fhir.model.type.code.BundleType;
+import com.ibm.fhir.model.util.FHIRUtil;
 import com.ibm.fhir.path.exception.FHIRPathException;
 import com.ibm.fhir.path.util.FHIRPathUtil;
 
 /**
  * Tests against the FHIRPathPatch helper methods in FHIRPathUtil
  */
-public class FHIRPathUtilTest {
+public class FHIRPathUtilPatchTest {
     Bundle bundle = Bundle.builder().type(BundleType.COLLECTION).build();
-    Patient patient = Patient.builder().id("test").build();
-    Practitioner practitioner = Practitioner.builder().id("test").build();
+    Patient patient = Patient.builder().id("patientId").build();
+    Practitioner practitioner = Practitioner.builder().id("practitionerId").build();
 
     @Test
     private void testAddListResource() throws FHIRPathException, FHIRPatchException {
@@ -52,6 +55,72 @@ public class FHIRPathUtilTest {
 
         assertEquals(modifiedBundle.getEntry().get(0).getResource(), patient);
         assertEquals(modifiedBundle.getEntry().get(1).getResource(), practitioner);
+    }
+
+    @Test
+    private void testRemoveResourceId() throws FHIRPathException, FHIRPatchException {
+        assertNotNull(patient.getId());
+        Patient modifiedPatient = FHIRPathUtil.delete(patient, "Patient.id");
+        assertNull(modifiedPatient.getId());
+    }
+
+    @Test
+    private void testRemoveElementId() throws FHIRPathException, FHIRPatchException {
+        Patient modifiedPatient = FHIRPathUtil.add(patient, "Patient", "active", com.ibm.fhir.model.type.Boolean.builder()
+                .id("elementId")
+                .value(true)
+                .build());
+        assertNotNull(modifiedPatient.getActive().getId());
+        modifiedPatient = FHIRPathUtil.delete(modifiedPatient, "Patient.active.id");
+        assertNull(modifiedPatient.getActive().getId());
+    }
+
+    /**
+     * Add a Patient.extension element and then try removing its url. This should fail because
+     * Extension.url is a required field.
+     */
+    @Test(expectedExceptions = FHIRPatchException.class)
+    private void testRemoveExtensionUrl() throws FHIRPathException, FHIRPatchException {
+        Patient modifiedPatient = FHIRPathUtil.add(patient, "Patient", "extension", FHIRUtil.DATA_ABSENT_REASON_UNKNOWN);
+        modifiedPatient = FHIRPathUtil.delete(modifiedPatient, "Patient.extension[0].url");
+    }
+
+    /**
+     * Add a Patient.active element and then try removing its value. This should fail because
+     * an element must have either a value or and extension and the removal results in neither.
+     */
+    @Test(expectedExceptions = FHIRPatchException.class)
+    private void testRemoveValue_invalid() throws FHIRPathException, FHIRPatchException {
+        Patient modifiedPatient = FHIRPathUtil.add(patient, "Patient", "active", com.ibm.fhir.model.type.Boolean.TRUE);
+        modifiedPatient = FHIRPathUtil.delete(modifiedPatient, "Patient.active.value");
+    }
+
+    /**
+     * Add a Patient.active element with an extension and then try removing its value. This should work
+     * because a primitive element can have a null value as long as it has an extension.
+     */
+    @Test
+    private void testRemoveValue_valid() throws FHIRPathException, FHIRPatchException {
+        Patient modifiedPatient = FHIRPathUtil.add(patient, "Patient", "active", com.ibm.fhir.model.type.Boolean.builder()
+                .value(true)
+                .extension(FHIRUtil.DATA_ABSENT_REASON_UNKNOWN)
+                .build());
+        modifiedPatient = FHIRPathUtil.delete(modifiedPatient, "Patient.active.value");
+        assertNull(modifiedPatient.getActive().getValue());
+    }
+
+    /**
+     * Add a Patient.active element with an extension and then try removing its value. This should work
+     * because a primitive element can have a null value as long as it has an extension.
+     */
+    @Test
+    private void testRemoveValue_allTypes() throws FHIRPathException, FHIRPatchException {
+        Patient modifiedPatient = FHIRPathUtil.add(patient, "Patient", "active", com.ibm.fhir.model.type.Boolean.builder()
+                .value(true)
+                .extension(FHIRUtil.DATA_ABSENT_REASON_UNKNOWN)
+                .build());
+        modifiedPatient = FHIRPathUtil.delete(modifiedPatient, "Patient.active.value");
+        assertNull(modifiedPatient.getActive().getValue());
     }
 
     @Test
