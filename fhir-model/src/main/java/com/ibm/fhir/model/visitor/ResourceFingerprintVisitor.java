@@ -1,5 +1,5 @@
 /*
- * (C) Copyright IBM Corp. 2019, 2021
+ * (C) Copyright IBM Corp. 2019, 2022
  *
  * SPDX-License-Identifier: Apache-2.0
  */
@@ -116,35 +116,35 @@ public class ResourceFingerprintVisitor extends PathAwareVisitor {
     }
 
     @Override
-    public void visit(java.lang.String elementName, byte[] value) {
+    public void doVisit(java.lang.String elementName, byte[] value) {
         digest.update(getPath().getBytes(StandardCharsets.UTF_8));
         digest.update(value);
     }
 
     @Override
-    public void visit(java.lang.String elementName, BigDecimal value) {
+    public void doVisit(java.lang.String elementName, BigDecimal value) {
         updateDigest(getPath(), value.toString());
     }
 
     @Override
-    public void visit(java.lang.String elementName, java.lang.Boolean value) {
+    public void doVisit(java.lang.String elementName, java.lang.Boolean value) {
         updateDigest(getPath(), value.toString());
     }
 
     @Override
-    public void visit(java.lang.String elementName, java.lang.Integer value) {
+    public void doVisit(java.lang.String elementName, java.lang.Integer value) {
         ByteBuffer bb = ByteBuffer.allocate(4);
         bb.putInt(value);
         digest.update(bb);
     }
 
     @Override
-    public void visit(java.lang.String elementName, LocalDate value) {
+    public void doVisit(java.lang.String elementName, LocalDate value) {
         updateDigest(getPath(), value.toString());
     }
 
     @Override
-    public void visit(java.lang.String elementName, LocalTime value) {
+    public void doVisit(java.lang.String elementName, LocalTime value) {
         updateDigest(getPath(), value.toString());
     }
 
@@ -157,17 +157,17 @@ public class ResourceFingerprintVisitor extends PathAwareVisitor {
     }
 
     @Override
-    public void visit(java.lang.String elementName, Year value) {
+    public void doVisit(java.lang.String elementName, Year value) {
         updateDigest(getPath(), value.toString());
     }
 
     @Override
-    public void visit(java.lang.String elementName, YearMonth value) {
+    public void doVisit(java.lang.String elementName, YearMonth value) {
         updateDigest(getPath(), value.toString());
     }
 
     @Override
-    public void visit(java.lang.String elementName, ZonedDateTime value) {
+    public void doVisit(java.lang.String elementName, ZonedDateTime value) {
         updateDigest(getPath(), value.toString());
     }
 

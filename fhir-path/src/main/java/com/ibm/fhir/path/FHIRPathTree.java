@@ -246,52 +246,64 @@ public class FHIRPathTree {
         }
 
         @Override
-        public void visit(java.lang.String elementName, BigDecimal value) {
+        public void doVisit(java.lang.String elementName, BigDecimal value) {
             builderStack.peek().value(FHIRPathDecimalValue.decimalValue(getPath(), elementName, value));
         }
 
         @Override
-        public void visit(java.lang.String elementName, byte[] value) {
+        public void doVisit(java.lang.String elementName, byte[] value) {
             builderStack.peek().value(FHIRPathStringValue.stringValue(getPath(), elementName, Base64.getEncoder().encodeToString(value)));
         }
 
         @Override
-        public void visit(java.lang.String elementName, java.lang.Boolean value) {
+        public void doVisit(java.lang.String elementName, java.lang.Boolean value) {
             builderStack.peek().value(FHIRPathBooleanValue.booleanValue(getPath(), elementName, value));
         }
 
         @Override
-        public void visit(java.lang.String elementName, java.lang.Integer value) {
+        public void doVisit(java.lang.String elementName, java.lang.Integer value) {
             builderStack.peek().value(FHIRPathIntegerValue.integerValue(getPath(), elementName, value));
         }
 
         @Override
         public void doVisit(java.lang.String elementName, java.lang.String value) {
-            builderStack.peek().value(FHIRPathStringValue.stringValue(getPath(), elementName, value));
+            if ("value".equals(elementName)) {
+                builderStack.peek().value(FHIRPathStringValue.stringValue(getPath(), elementName, value));
+            } else {
+                String path = getPath();
+                FHIRPathNode node = FHIRPathStringValue.builder(value).name(elementName).path(path).build();
+                pathNodeMap.put(path, node);
+
+                if (builderStack.isEmpty()) {
+                    throw new IllegalStateException("builderStack was unexpectedly empty "
+                            + "while visiting string primitive with name: " + elementName);
+                }
+                builderStack.peek().children(node);
+            }
         }
 
         @Override
-        public void visit(java.lang.String elementName, LocalDate value) {
+        public void doVisit(java.lang.String elementName, LocalDate value) {
             builderStack.peek().value(FHIRPathDateTimeValue.dateTimeValue(getPath(), elementName, value));
         }
 
         @Override
-        public void visit(java.lang.String elementName, LocalTime value) {
+        public void doVisit(java.lang.String elementName, LocalTime value) {
             builderStack.peek().value(FHIRPathTimeValue.timeValue(getPath(), elementName, value));
         }
 
         @Override
-        public void visit(java.lang.String elementName, Year value) {
+        public void doVisit(java.lang.String elementName, Year value) {
             builderStack.peek().value(FHIRPathDateTimeValue.dateTimeValue(getPath(), elementName, value));
         }
 
         @Override
-        public void visit(java.lang.String elementName, YearMonth value) {
+        public void doVisit(java.lang.String elementName, YearMonth value) {
             builderStack.peek().value(FHIRPathDateTimeValue.dateTimeValue(getPath(), elementName, value));
         }
 
         @Override
-        public void visit(java.lang.String elementName, ZonedDateTime value) {
+        public void doVisit(java.lang.String elementName, ZonedDateTime value) {
             builderStack.peek().value(FHIRPathDateTimeValue.dateTimeValue(getPath(), elementName, value));
         }
     }
