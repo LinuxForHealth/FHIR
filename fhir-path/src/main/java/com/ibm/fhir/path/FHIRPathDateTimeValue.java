@@ -1,5 +1,5 @@
 /*
- * (C) Copyright IBM Corp. 2019, 2021
+ * (C) Copyright IBM Corp. 2019, 2022
  *
  * SPDX-License-Identifier: Apache-2.0
  */
@@ -119,6 +119,8 @@ public class FHIRPathDateTimeValue extends FHIRPathAbstractTemporalValue {
     /**
      * Static factory method for creating named FHIRPathDateTimeValue instances from a {@link TemporalAccessor} date/time value
      *
+     * @param path
+     *     the path of the FHIRPathNode
      * @param name
      *     the name
      * @param dateTime
@@ -126,8 +128,8 @@ public class FHIRPathDateTimeValue extends FHIRPathAbstractTemporalValue {
      * @return
      *     a new named FHIRPathDateTimeValue instance
      */
-    public static FHIRPathDateTimeValue dateTimeValue(String name, TemporalAccessor dateTime) {
-        return FHIRPathDateTimeValue.builder(dateTime, getPrecision(dateTime)).name(name).build();
+    public static FHIRPathDateTimeValue dateTimeValue(String path, String name, TemporalAccessor dateTime) {
+        return FHIRPathDateTimeValue.builder(dateTime, getPrecision(dateTime)).name(name).path(path).build();
     }
 
     @Override
