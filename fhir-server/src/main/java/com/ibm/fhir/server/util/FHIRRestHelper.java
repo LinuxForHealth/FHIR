@@ -862,7 +862,7 @@ public class FHIRRestHelper implements FHIRResourceHelpers {
 
     private void handleIfNoneMatchExisted(String type, String id, FHIRRestOperationResponse ior,
             Integer ifNoneMatchVersion) throws FHIRPersistenceIfNoneMatchException {
-        ior.setResource(null); // the resource shouldn't be needed for either case (302 or 412)
+        ior.setResource(null); // the resource shouldn't be needed for either case (304 or 412)
         ior.setLocationURI(FHIRUtil.buildLocationURI(type, id, ifNoneMatchVersion));
         Boolean ifNoneMatchNotModified = FHIRConfigHelper.getBooleanProperty(
             FHIRConfiguration.PROPERTY_IF_NONE_MATCH_RETURNS_NOT_MODIFIED, Boolean.FALSE);

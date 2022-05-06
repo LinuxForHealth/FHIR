@@ -190,7 +190,6 @@ public class SystemHistoryTest extends FHIRServerTestBase {
             Response historyResponse = target.path(requestPath)
                     .queryParam("_count", Integer.toString(count))
                     .request()
-                    .header("X-FHIR-FORCE-UPDATE", "true")
                     .get(Response.class);
             assertResponse(historyResponse, Response.Status.OK.getStatusCode());
 
