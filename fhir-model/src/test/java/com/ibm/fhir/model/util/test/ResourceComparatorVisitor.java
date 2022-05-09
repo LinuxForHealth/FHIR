@@ -1,5 +1,5 @@
 /*
- * (C) Copyright IBM Corp. 2019
+ * (C) Copyright IBM Corp. 2019, 2022
  *
  * SPDX-License-Identifier: Apache-2.0
  */
@@ -23,19 +23,17 @@ import com.ibm.fhir.model.visitor.PathAwareVisitor;
 /**
  * Simple visitor to flatten the structure of a resource and compare
  * it with another instance
-
- *
  */
 public class ResourceComparatorVisitor extends PathAwareVisitor {
     public boolean compare = false;
 
     // First set of values we collect
     public Map<String, Comparer> values = new HashMap<>();
-    
+
     public static interface Comparer {
         public boolean compare(Comparer other);
     }
-    
+
     public static class ByteArrayComparer implements Comparer {
         final byte[] value;
         public ByteArrayComparer(byte[] value) {
@@ -77,7 +75,7 @@ public class ResourceComparatorVisitor extends PathAwareVisitor {
             return value == null ? "null" : value.toString();
         }
     }
-    
+
     public static class StringComparer implements Comparer {
         final String value;
         public StringComparer(String value) {
@@ -254,7 +252,7 @@ public class ResourceComparatorVisitor extends PathAwareVisitor {
         boolean result = true;
 
         for (Map.Entry<String, Comparer> entry: originals.entrySet()) {
-            
+
             Comparer other = others.get(entry.getKey());
             if (other != null) {
                 if (!entry.getValue().compare(other)) {
@@ -278,62 +276,62 @@ public class ResourceComparatorVisitor extends PathAwareVisitor {
                 result = false;
             }
         }
-        
-        
+
+
         return result;
     }
-    
+
     public Map<String, Comparer> getValues() {
         return this.values;
     }
 
     @Override
-    public void visit(java.lang.String elementName, byte[] value) {
+    public void doVisit(java.lang.String elementName, byte[] value) {
         this.values.put(getPath(), new ByteArrayComparer(value));
     }
-    
+
     @Override
-    public void visit(java.lang.String elementName, BigDecimal value) {
+    public void doVisit(java.lang.String elementName, BigDecimal value) {
         this.values.put(getPath(), new BigDecimalComparer(value));
     }
 
     @Override
-    public void visit(java.lang.String elementName, java.lang.Boolean value) {
+    public void doVisit(java.lang.String elementName, java.lang.Boolean value) {
         this.values.put(getPath(), new BooleanComparer(value));
     }
-    
+
     @Override
-    public void visit(java.lang.String elementName, java.lang.Integer value) {
+    public void doVisit(java.lang.String elementName, java.lang.Integer value) {
         this.values.put(getPath(), new IntComparer(value));
     }
 
     @Override
-    public void visit(java.lang.String elementName, LocalDate value) {
+    public void doVisit(java.lang.String elementName, LocalDate value) {
         this.values.put(getPath(), new LocalDateComparer(value));
     }
-    
+
     @Override
-    public void visit(java.lang.String elementName, LocalTime value) {
+    public void doVisit(java.lang.String elementName, LocalTime value) {
         this.values.put(getPath(), new LocalTimeComparer(value));
     }
-    
+
     @Override
     public void doVisit(java.lang.String elementName, java.lang.String value) {
         this.values.put(getPath(), new StringComparer(value));
     }
-    
+
     @Override
-    public void visit(java.lang.String elementName, Year value) {
+    public void doVisit(java.lang.String elementName, Year value) {
         this.values.put(getPath(), new YearComparer(value));
     }
-    
+
     @Override
-    public void visit(java.lang.String elementName, YearMonth value) {
+    public void doVisit(java.lang.String elementName, YearMonth value) {
         this.values.put(getPath(), new YearMonthComparer(value));
     }
-    
+
     @Override
-    public void visit(java.lang.String elementName, ZonedDateTime value) {
+    public void doVisit(java.lang.String elementName, ZonedDateTime value) {
         this.values.put(getPath(), new ZonedDateTimeComparer(value));
     }
 }

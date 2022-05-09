@@ -1,5 +1,5 @@
 /*
- * (C) Copyright IBM Corp. 2019, 2021
+ * (C) Copyright IBM Corp. 2019, 2022
  *
  * SPDX-License-Identifier: Apache-2.0
  */
@@ -53,6 +53,8 @@ public class FHIRPathStringValue extends FHIRPathAbstractSystemValue {
     /**
      * Static factory method for creating named FHIRPathStringValue instances from a {@link String} value
      *
+     * @param path
+     *     the path of the FHIRPathNode
      * @param name
      *     the name
      * @param string
@@ -60,8 +62,8 @@ public class FHIRPathStringValue extends FHIRPathAbstractSystemValue {
      * @return
      *     a new named FHIRPathStringValue instance
      */
-    public static FHIRPathStringValue stringValue(String name, String string) {
-        return FHIRPathStringValue.builder(string).name(name).build();
+    public static FHIRPathStringValue stringValue(String path, String name, String string) {
+        return FHIRPathStringValue.builder(string).name(name).path(path).build();
     }
 
     @Override

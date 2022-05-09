@@ -1,5 +1,5 @@
 /*
- * (C) Copyright IBM Corp. 2019, 2021
+ * (C) Copyright IBM Corp. 2019, 2022
  *
  * SPDX-License-Identifier: Apache-2.0
  */
@@ -95,6 +95,8 @@ public class FHIRPathTimeValue extends FHIRPathAbstractTemporalValue {
     /**
      * Static factory method for creating named FHIRPathTimeValue instances from a {@link LocalTime} value
      *
+     * @param path
+     *     the path of the FHIRPathNode
      * @param name
      *     the name
      * @param time
@@ -102,8 +104,8 @@ public class FHIRPathTimeValue extends FHIRPathAbstractTemporalValue {
      * @return
      *     a new named FHIRPathTimeValue instance
      */
-    public static FHIRPathTimeValue timeValue(String name, LocalTime time) {
-        return FHIRPathTimeValue.builder(time, getPrecision(time)).name(name).build();
+    public static FHIRPathTimeValue timeValue(String path, String name, LocalTime time) {
+        return FHIRPathTimeValue.builder(time, getPrecision(time)).name(name).path(path).build();
     }
 
     @Override
