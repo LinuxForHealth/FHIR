@@ -58,7 +58,7 @@ public class ConcurrentUpdateTest extends FHIRServerTestBase {
 
             // Prepare PatientUpdater instances for running each on its own thread.
             for (int i = 0; i < maxThreads; i++) {
-                concurrentUpdates.add(new PatientUpdater(patient));
+                concurrentUpdates.add(new PatientUpdater(patient, i));
             }
 
             // Run each PatientUpdater on its own thread.
@@ -107,8 +107,11 @@ public class ConcurrentUpdateTest extends FHIRServerTestBase {
     private class PatientUpdater implements Callable<Patient> {
         private Patient patient;
 
-        PatientUpdater(Patient newPatient) {
-            this.patient = newPatient;
+        PatientUpdater(Patient newPatient, int counter) {
+            // the counter is used to ensure that each instance is unique
+            this.patient = newPatient.toBuilder()
+                    .multipleBirth(counter)
+                    .build();
         }
 
         @Override

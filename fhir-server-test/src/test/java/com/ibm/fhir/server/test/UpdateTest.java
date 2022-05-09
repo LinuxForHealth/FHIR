@@ -32,6 +32,8 @@ import com.ibm.fhir.model.type.code.IssueType;
  */
 public class UpdateTest extends FHIRServerTestBase {
 
+    private static final String X_FHIR_FORCE_UPDATE = "X-FHIR-FORCE-UPDATE";
+
     private Boolean updateCreateEnabled = null;
 
     private Patient savedUCPatient = null;
@@ -113,7 +115,7 @@ public class UpdateTest extends FHIRServerTestBase {
     }
 
     /**
-     * Test the update-if-modified behavior.
+     * Test the skippableUpdate/forceUpdate behavior.
      */
     @Test(dependsOnMethods = {"testUpdateCreate2"})
     public void testUpdateIfModified() throws Exception {
@@ -125,9 +127,9 @@ public class UpdateTest extends FHIRServerTestBase {
             Patient patient = savedUCPatient;
             patient = patient.toBuilder().birthDate(Date.of("1986-06-20")).build();
 
-            // Set the updateIfModified header to true and update the resource with a new resource with the same contents (should skip the update)
+            // Set the forceUpdate header to false and update the resource with a new resource with the same contents (should skip the update)
             FHIRClient client = getFHIRClient();
-            FHIRResponse response = client.update(patient, FHIRRequestHeader.header("X-FHIR-UPDATE-IF-MODIFIED", true));
+            FHIRResponse response = client.update(patient, FHIRRequestHeader.header(X_FHIR_FORCE_UPDATE, false));
             assertNotNull(response);
             assertResponse(response.getResponse(), Response.Status.OK.getStatusCode());
             String locationURI = response.getLocation();
@@ -149,9 +151,9 @@ public class UpdateTest extends FHIRServerTestBase {
             Patient patient = savedUCPatient;
             patient = patient.toBuilder().birthDate(Date.of("1986-06-20")).build();
 
-            // Set the updateIfModified header to false and update the resource with a new resource with the same contents (should perform the update)
+            // Set the forceUpdate header to true and update the resource with a new resource with the same contents (should perform the update)
             FHIRClient client = getFHIRClient();
-            FHIRResponse response = client.update(patient, FHIRRequestHeader.header("X-FHIR-UPDATE-IF-MODIFIED", false));
+            FHIRResponse response = client.update(patient, FHIRRequestHeader.header(X_FHIR_FORCE_UPDATE, true));
             assertNotNull(response);
             assertResponse(response.getResponse(), Response.Status.OK.getStatusCode());
             String locationURI = response.getLocation();
@@ -173,15 +175,15 @@ public class UpdateTest extends FHIRServerTestBase {
             Patient patient = savedUCPatient;
             patient = patient.toBuilder().birthDate(Date.of("1986-06-20")).build();
 
-            // Set the updateIfModified header to "invalid" and update the resource with a new resource with the same contents (should perform the update)
+            // Set the forceUpdate header to "invalid" and update the resource with a new resource with the same contents (should skip the update)
             FHIRClient client = getFHIRClient();
-            FHIRResponse response = client.update(patient, FHIRRequestHeader.header("X-FHIR-UPDATE-IF-MODIFIED", "invalid"));
+            FHIRResponse response = client.update(patient, FHIRRequestHeader.header(X_FHIR_FORCE_UPDATE, "invalid"));
             assertNotNull(response);
             assertResponse(response.getResponse(), Response.Status.OK.getStatusCode());
             String locationURI = response.getLocation();
+
+            validateLocationURI(locationURI, "Patient", patient.getId(), "3");
             String[] locationTokens = parseLocationURI(locationURI);
-            assertEquals(3, locationTokens.length);
-            assertEquals("4", locationTokens[2]);
 
             // Now read the resource to verify it's there.
             response = client.vread(locationTokens[0], locationTokens[1], locationTokens[2]);
@@ -197,15 +199,15 @@ public class UpdateTest extends FHIRServerTestBase {
             Patient patient = savedUCPatient;
             patient = patient.toBuilder().birthDate(Date.of("1986-06-20")).build();
 
-            // Set the updateIfModified header to null and update the resource with a new resource with the same contents (should perform the update)
+            // Set the forceUpdate header to null and update the resource with a new resource with the same contents (should skip the update)
             FHIRClient client = getFHIRClient();
-            FHIRResponse response = client.update(patient, FHIRRequestHeader.header("X-FHIR-UPDATE-IF-MODIFIED", null));
+            FHIRResponse response = client.update(patient, FHIRRequestHeader.header(X_FHIR_FORCE_UPDATE, null));
             assertNotNull(response);
             assertResponse(response.getResponse(), Response.Status.OK.getStatusCode());
             String locationURI = response.getLocation();
+
+            validateLocationURI(locationURI, "Patient", patient.getId(), "3");
             String[] locationTokens = parseLocationURI(locationURI);
-            assertEquals(3, locationTokens.length);
-            assertEquals("5", locationTokens[2]);
 
             // Now read the resource to verify it's there.
             response = client.vread(locationTokens[0], locationTokens[1], locationTokens[2]);
@@ -435,13 +437,12 @@ public class UpdateTest extends FHIRServerTestBase {
     }
 
     /**
-     * Test the update-if-modified with return preference behavior.
+     * Test the skippableUpdate with return preference behavior.
      */
     @Test(dependsOnMethods = {"testUpdateIfModified"})
     public void testUpdateIfModifiedWithReturnPref() throws Exception {
         assertNotNull(updateCreateEnabled);
         FHIRClient client = getFHIRClient();
-        FHIRRequestHeader updateIfModified = FHIRRequestHeader.header("X-FHIR-UPDATE-IF-MODIFIED", "true");
         FHIRRequestHeader returnPref;
 
         // If the "Update/Create" feature is enabled, then test the normal update behavior.
@@ -452,14 +453,14 @@ public class UpdateTest extends FHIRServerTestBase {
 
             // Set updateIfModified=true and update the resource that was previously created with return pref "minimal".
             returnPref = new FHIRRequestHeader("Prefer", "return=minimal");
-            FHIRResponse response = client.update(patient, returnPref, updateIfModified);
+            FHIRResponse response = client.update(patient, returnPref);
             assertNotNull(response);
             assertResponse(response.getResponse(), Response.Status.OK.getStatusCode());
             assertTrue(response.isEmpty());
 
             // Set updateIfModified=true and update the resource that was previously created with return pref "representation".
             returnPref = new FHIRRequestHeader("Prefer", "return=representation");
-            FHIRResponse response2 = client.update(patient, updateIfModified, returnPref);
+            FHIRResponse response2 = client.update(patient, returnPref);
             assertNotNull(response2);
             assertResponse(response2.getResponse(), Response.Status.OK.getStatusCode());
             assertFalse(response2.isEmpty());
@@ -468,7 +469,7 @@ public class UpdateTest extends FHIRServerTestBase {
 
             // Set updateIfModified=true and update the resource that was previously created with return pref "OperationOutcome".
             returnPref = new FHIRRequestHeader("Prefer", "return=OperationOutcome");
-            FHIRResponse response3 = client.update(patient, returnPref, updateIfModified);
+            FHIRResponse response3 = client.update(patient, returnPref);
             assertNotNull(response3);
             assertResponse(response3.getResponse(), Response.Status.OK.getStatusCode());
             assertFalse(response3.isEmpty());

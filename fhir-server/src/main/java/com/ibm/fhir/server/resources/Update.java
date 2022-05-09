@@ -60,7 +60,7 @@ public class Update extends FHIRResource {
     @Path("{type}/{id}")
     public Response update(@PathParam("type") String type, @PathParam("id") String id, Resource resource,
             @HeaderParam(HttpHeaders.IF_MATCH) String ifMatch,
-            @HeaderParam(FHIRConstants.UPDATE_IF_MODIFIED_HEADER) boolean onlyIfModified,
+            @HeaderParam(FHIRConstants.FORCE_UPDATE_HEADER) boolean forceUpdate,
             @HeaderParam(HttpHeaders.IF_NONE_MATCH) String ifNoneMatchHdr) {
         log.entering(this.getClass().getName(), "update(String,String,Resource)");
         Date startTime = new Date();
@@ -73,7 +73,7 @@ public class Update extends FHIRResource {
             Integer ifNoneMatch = encodeIfNoneMatch(ifNoneMatchHdr);
 
             FHIRRestHelper helper = new FHIRRestHelper(getPersistenceImpl(), getSearchHelper());
-            ior = helper.doUpdate(type, id, resource, ifMatch, null, onlyIfModified, ifNoneMatch);
+            ior = helper.doUpdate(type, id, resource, ifMatch, null, !forceUpdate, ifNoneMatch);
 
             ResponseBuilder response = Response.ok()
                     .location(toUri(buildAbsoluteUri(getRequestBaseUri(type), ior.getLocationURI().toString())));
@@ -126,8 +126,9 @@ public class Update extends FHIRResource {
 
     @PUT
     @Path("{type}")
-    public Response conditionalUpdate(@PathParam("type") String type, Resource resource, @HeaderParam(HttpHeaders.IF_MATCH) String ifMatch,
-            @HeaderParam(FHIRConstants.UPDATE_IF_MODIFIED_HEADER) boolean onlyIfModified) {
+    public Response conditionalUpdate(@PathParam("type") String type, Resource resource,
+            @HeaderParam(HttpHeaders.IF_MATCH) String ifMatch,
+            @HeaderParam(FHIRConstants.FORCE_UPDATE_HEADER) boolean forceUpdate) {
         log.entering(this.getClass().getName(), "conditionalUpdate(String,Resource)");
         Date startTime = new Date();
         Response.Status status = null;
@@ -145,7 +146,7 @@ public class Update extends FHIRResource {
             }
 
             FHIRRestHelper helper = new FHIRRestHelper(getPersistenceImpl(), getSearchHelper());
-            ior = helper.doUpdate(type, null, resource, ifMatch, searchQueryString, onlyIfModified, IF_NONE_MATCH_NULL);
+            ior = helper.doUpdate(type, null, resource, ifMatch, searchQueryString, !forceUpdate, IF_NONE_MATCH_NULL);
 
             ResponseBuilder response =
                     Response.ok().location(toUri(buildAbsoluteUri(getRequestBaseUri(type), ior.getLocationURI().toString())));

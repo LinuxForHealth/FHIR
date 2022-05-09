@@ -458,7 +458,7 @@ public class FHIRRestHelper implements FHIRResourceHelpers {
             // Do the first phase, which includes updating the meta in the resource
             FHIRPersistenceEvent event = new FHIRPersistenceEvent(newResource, buildPersistenceEventProperties(type, id, null, null, null));
             List<Issue> warnings = new ArrayList<>();
-            FHIRRestOperationResponse metaResponse = doUpdateMeta(event, type, id, patch, newResource, ifMatchValue, searchQueryString, skippableUpdate, doValidation, warnings);
+            FHIRRestOperationResponse metaResponse = doUpdateMeta(event, type, id, patch, newResource, ifMatchValue, searchQueryString, skippableUpdate, ifNoneMatch, doValidation, warnings);
             if (metaResponse.isCompleted()) {
                 // skip the update, so we can short-circuit here
                 txn.commit();
@@ -496,7 +496,7 @@ public class FHIRRestHelper implements FHIRResourceHelpers {
 
     @Override
     public FHIRRestOperationResponse doUpdateMeta(FHIRPersistenceEvent event, String type, String id, FHIRPatch patch, Resource newResource,
-            String ifMatchValue, String searchQueryString, boolean skippableUpdate, boolean doValidation,
+            String ifMatchValue, String searchQueryString, boolean skippableUpdate, Integer ifNoneMatch, boolean doValidation,
             List<Issue> warnings) throws Exception {
         log.entering(this.getClass().getName(), "doUpdateMeta");
 
@@ -676,6 +676,13 @@ public class FHIRRestHelper implements FHIRResourceHelpers {
 
             // Perform the "version-aware" update check
             if (ior.getPrevResource() != null) {
+                if (ifNoneMatch != null && ifNoneMatch.equals(0)) {
+                    Integer existingVersion = Integer.parseInt(ior.getPrevResource().getMeta().getVersionId().getValue());
+                    handleIfNoneMatchExisted(type, id, ior, existingVersion);
+
+                    ior.setCompleted(true);
+                    return ior; // early exit, before firing any update events
+                }
                 performVersionAwareUpdateCheck(ior.getPrevResource(), ifMatchValue);
 
                 // In the case of a patch, we should not be updating meaninglessly.
@@ -701,7 +708,7 @@ public class FHIRRestHelper implements FHIRResourceHelpers {
                                 .build());
 
                         ior.setCompleted(true);
-                        return ior; // early exit, before firing any events
+                        return ior; // early exit, before firing any update events
                     }
                 }
             }
@@ -802,16 +809,7 @@ public class FHIRRestHelper implements FHIRResourceHelpers {
 
                     // Another thread snuck in and created the resource. Because the client requested
                     // If-None-Match, we skip any update and return 304 Not Modified.
-                    ior.setResource(null); // null, because we're in createOnUpdate
-                    ior.setLocationURI(FHIRUtil.buildLocationURI(type, id, result.getIfNoneMatchVersion()));
-                    Boolean ifNoneMatchNotModified = FHIRConfigHelper.getBooleanProperty(
-                        FHIRConfiguration.PROPERTY_IF_NONE_MATCH_RETURNS_NOT_MODIFIED, Boolean.FALSE);
-                    if (ifNoneMatchNotModified != null && ifNoneMatchNotModified) {
-                        // Don't treat as an error
-                        ior.setStatus(Response.Status.NOT_MODIFIED);
-                    } else {
-                        throw new FHIRPersistenceIfNoneMatchException("IfNoneMatch precondition failed.");
-                    }
+                    handleIfNoneMatchExisted(type, id, ior, result.getIfNoneMatchVersion());
                 } else {
                     ior.setStatus(Response.Status.CREATED);
                     ior.setLocationURI(FHIRUtil.buildLocationURI(type, newResource));
@@ -821,19 +819,9 @@ public class FHIRRestHelper implements FHIRResourceHelpers {
             } else {
                 // prevResource exists
                 if (result.getStatus() == InteractionStatus.IF_NONE_MATCH_EXISTED) {
-                    // Use the location assigned to the previous resource because we're
-                    // not updating anything. Also, we don't fire any 'after' event
-                    // for the same reason.
-                    ior.setResource(prevResource); // 304 Not Modified never needs to return content
-                    ior.setLocationURI(FHIRUtil.buildLocationURI(type, id, result.getIfNoneMatchVersion()));
-                    Boolean ifNoneMatchNotModified = FHIRConfigHelper.getBooleanProperty(
-                        FHIRConfiguration.PROPERTY_IF_NONE_MATCH_RETURNS_NOT_MODIFIED, Boolean.FALSE);
-                    if (ifNoneMatchNotModified != null && ifNoneMatchNotModified) {
-                        // Don't treat as an error
-                        ior.setStatus(Response.Status.NOT_MODIFIED);
-                    } else {
-                        throw new FHIRPersistenceIfNoneMatchException("IfNoneMatch precondition failed.");
-                    }
+                    // this should have been handled before the db interaction; this is just a double check
+                    log.warning("If-None-Match precondition check succeeded in REST layer but shouldn't have.");
+                    handleIfNoneMatchExisted(type, id, ior, result.getIfNoneMatchVersion());
                 } else {
                     // update, so make sure the location is configured correctly for the event
                     ior.setLocationURI(FHIRUtil.buildLocationURI(type, newResource));
@@ -869,6 +857,20 @@ public class FHIRRestHelper implements FHIRResourceHelpers {
             }
 
             log.exiting(this.getClass().getName(), "doPatchOrUpdatePersist");
+        }
+    }
+
+    private void handleIfNoneMatchExisted(String type, String id, FHIRRestOperationResponse ior,
+            Integer ifNoneMatchVersion) throws FHIRPersistenceIfNoneMatchException {
+        ior.setResource(null); // the resource shouldn't be needed for either case (304 or 412)
+        ior.setLocationURI(FHIRUtil.buildLocationURI(type, id, ifNoneMatchVersion));
+        Boolean ifNoneMatchNotModified = FHIRConfigHelper.getBooleanProperty(
+            FHIRConfiguration.PROPERTY_IF_NONE_MATCH_RETURNS_NOT_MODIFIED, Boolean.FALSE);
+        if (ifNoneMatchNotModified != null && ifNoneMatchNotModified) {
+            // Don't treat as an error
+            ior.setStatus(Response.Status.NOT_MODIFIED);
+        } else {
+            throw new FHIRPersistenceIfNoneMatchException("IfNoneMatch precondition failed.");
         }
     }
 
@@ -1760,6 +1762,8 @@ public class FHIRRestHelper implements FHIRResourceHelpers {
      *
      * @param currentResource
      *            the current latest version of the resource
+     * @param ifMatchValue
+     *            the string value of the If-Match header
      */
     private void performVersionAwareUpdateCheck(Resource currentResource, String ifMatchValue) throws FHIROperationException {
         if (ifMatchValue != null) {
