@@ -2144,13 +2144,15 @@ public class FHIRRestHelper implements FHIRResourceHelpers {
                 } else {
                     // Off-spec - simply provide the url without the resource body. But in order
                     // to satisfy "Rule: must be a resource unless there's a request or response"
-                    // we also add a minimal response element
-                    final Uri uri = Uri.of(getRequestBaseUri(type) + "/" + resourceResult.getResourceTypeName() + "/" + resourceResult.getLogicalId());
-                    com.ibm.fhir.model.resource.Bundle.Entry.Response response =
-                            com.ibm.fhir.model.resource.Bundle.Entry.Response.builder()
+                    // we also add a response element with the version and lastModified info
+                    final String fullUrl = getRequestBaseUri(type) + "/" + resourceResult.getResourceTypeName() + "/" + resourceResult.getLogicalId();
+                    Bundle.Entry.Response response = Bundle.Entry.Response.builder()
                             .status("200")
+                            .etag(getEtagValue(resourceResult.getVersion()))
+                            .location(Uri.of(fullUrl + "/_history/" + resourceResult.getVersion()))
+                            .lastModified(com.ibm.fhir.model.type.Instant.of(resourceResult.getLastUpdated().atZone(UTC)))
                             .build();
-                    entryBuilder.fullUrl(uri).response(response);
+                    entryBuilder.fullUrl(Uri.of(fullUrl)).response(response);
                 }
                 // Search mode is determined by the matchResourceCount, which will be decremented each time through the loop.
                 // If the count is greater than 0, the mode is MATCH. If less than or equal to 0, the mode is INCLUDE.
@@ -2375,7 +2377,6 @@ public class FHIRRestHelper implements FHIRResourceHelpers {
                     .etag(getEtagValue(resourceResult.getVersion()))
                     .location(Uri.of(fullUrl + "/_history/" + resourceResult.getVersion()))
                     .lastModified(com.ibm.fhir.model.type.Instant.of(resourceResult.getLastUpdated().atZone(UTC)))
-                    .location(Uri.of(fullUrl + "/_history/" + resourceResult.getVersion()))
                     .build();
 
             Entry entry = Entry.builder()
