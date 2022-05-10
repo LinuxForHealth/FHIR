@@ -9,6 +9,7 @@ package com.ibm.fhir.remote.index.database;
 import java.util.List;
 
 import com.google.gson.Gson;
+import com.ibm.fhir.persistence.exception.FHIRPersistenceException;
 import com.ibm.fhir.persistence.index.DateParameter;
 import com.ibm.fhir.persistence.index.LocationParameter;
 import com.ibm.fhir.persistence.index.NumberParameter;
@@ -21,24 +22,36 @@ import com.ibm.fhir.remote.index.api.IMessageHandler;
 
 
 /**
- *
+ * Base for the Kafka message handler to load message data into
+ * a database via JDBC.
  */
 public abstract class BaseMessageHandler implements IMessageHandler {
 
     @Override
-    public void process(List<String> messages) {
-        for (String payload: messages) {
-            RemoteIndexMessage message = unmarshall(payload);
-            process(message);
+    public void process(List<String> messages) throws FHIRPersistenceException {
+        try {
+            for (String payload: messages) {
+                RemoteIndexMessage message = unmarshall(payload);
+                process(message);
+            }
+            pushBatch();
+        } catch (Throwable t) {
+            setRollbackOnly();
+            throw t;
+        } finally {
+            endTransaction();
         }
-        pushBatch();
-        commit();
     }
+
+    /**
+     * Mark the transaction for rollback
+     */
+    protected abstract void setRollbackOnly();
 
     /**
      * Push any data we've accumulated from processing messages.
      */
-    protected abstract void pushBatch();
+    protected abstract void pushBatch() throws FHIRPersistenceException;
 
     /**
      * Unmarshall the json payload string into a RemoteIndexMessage
@@ -53,7 +66,7 @@ public abstract class BaseMessageHandler implements IMessageHandler {
      * Process the data 
      * @param message
      */
-    private void process(RemoteIndexMessage message) {
+    private void process(RemoteIndexMessage message) throws FHIRPersistenceException {
         SearchParametersTransport params = message.getData();
         if (params.getStringValues() != null) {
             for (StringParameter p: params.getStringValues()) {
@@ -99,7 +112,7 @@ public abstract class BaseMessageHandler implements IMessageHandler {
      * @param logicalResourceId
      * @param p
      */
-    protected abstract void process(String tenantId, String resourceType, String logicalId, long logicalResourceId, LocationParameter p);
+    protected abstract void process(String tenantId, String resourceType, String logicalId, long logicalResourceId, LocationParameter p) throws FHIRPersistenceException;
 
     /**
      * @param tenantId
@@ -108,7 +121,7 @@ public abstract class BaseMessageHandler implements IMessageHandler {
      * @param logicalResourceId
      * @param p
      */
-    protected abstract void process(String tenantId, String resourceType, String logicalId, long logicalResourceId, TokenParameter p);
+    protected abstract void process(String tenantId, String resourceType, String logicalId, long logicalResourceId, TokenParameter p) throws FHIRPersistenceException;
 
     /**
      * @param tenantId
@@ -117,7 +130,7 @@ public abstract class BaseMessageHandler implements IMessageHandler {
      * @param logicalResourceId
      * @param p
      */
-    protected abstract void process(String tenantId, String resourceType, String logicalId, long logicalResourceId, QuantityParameter p);
+    protected abstract void process(String tenantId, String resourceType, String logicalId, long logicalResourceId, QuantityParameter p) throws FHIRPersistenceException;
 
     /**
      * @param tenantId
@@ -126,7 +139,7 @@ public abstract class BaseMessageHandler implements IMessageHandler {
      * @param logicalResourceId
      * @param p
      */
-    protected abstract void process(String tenantId, String resourceType, String logicalId, long logicalResourceId, NumberParameter p);
+    protected abstract void process(String tenantId, String resourceType, String logicalId, long logicalResourceId, NumberParameter p) throws FHIRPersistenceException;
 
     /**
      * @param tenantId
@@ -135,7 +148,7 @@ public abstract class BaseMessageHandler implements IMessageHandler {
      * @param logicalResourceId
      * @param p
      */
-    protected abstract void process(String tenantId, String resourceType, String logicalId, long logicalResourceId, DateParameter p);
+    protected abstract void process(String tenantId, String resourceType, String logicalId, long logicalResourceId, DateParameter p) throws FHIRPersistenceException;
 
     /**
      * @param tenantId
@@ -144,9 +157,7 @@ public abstract class BaseMessageHandler implements IMessageHandler {
      * @param logicalResourceId
      * @param p
      */
-    protected abstract void process(String tenantId, String resourceType, String logicalId, long logicalResourceId, StringParameter p);
+    protected abstract void process(String tenantId, String resourceType, String logicalId, long logicalResourceId, StringParameter p) throws FHIRPersistenceException;
 
-    private void commit() {
-        
-    }
+    protected abstract void endTransaction() throws FHIRPersistenceException;
 }

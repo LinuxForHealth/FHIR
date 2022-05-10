@@ -9,12 +9,8 @@ import java.time.Duration;
 import java.util.ArrayList;
 import java.util.Collection;
 import java.util.Collections;
-import java.util.HashMap;
-import java.util.HashSet;
-import java.util.LinkedHashSet;
 import java.util.List;
 import java.util.Map;
-import java.util.Set;
 import java.util.logging.Level;
 import java.util.logging.Logger;
 
@@ -23,134 +19,111 @@ import org.apache.kafka.clients.consumer.ConsumerRecord;
 import org.apache.kafka.clients.consumer.ConsumerRecords;
 import org.apache.kafka.clients.consumer.KafkaConsumer;
 import org.apache.kafka.clients.consumer.OffsetAndMetadata;
+import org.apache.kafka.clients.consumer.OffsetCommitCallback;
 import org.apache.kafka.common.TopicPartition;
 
+import com.ibm.fhir.persistence.exception.FHIRPersistenceException;
 import com.ibm.fhir.remote.index.api.IMessageHandler;
 
 /**
  * Kafka consumer reading remote index messages, batches the data and
  * loads it into the configured database.
  */
-public class RemoteIndexConsumer implements Runnable {
-	private static final Logger logger = Logger.getLogger(RemoteIndexConsumer.class.getName());	
+public class RemoteIndexConsumer implements Runnable, OffsetCommitCallback {
 
-	// Nanoseconds in a second
-	private static final long NANOS = 1000000000L;
+    private static final Logger logger = Logger.getLogger(RemoteIndexConsumer.class.getName());
 
-	// the remote index service Kafka topic name
-	private final String topicName;
-	
-	// The max time to spend collecting a batch before submitting
-	private final long maxBatchCollectTimeMs;
+    // Nanoseconds in a second
+    private static final long NANOS = 1000000000L;
 
-	// The consumer object representing the connection to Kafka
-	private final KafkaConsumer<String, String> kafkaConsumer;
+    // the remote index service Kafka topic name
+    private final String topicName;
 
-	// The handler we use to process messages we receive from Kafka
-	private final IMessageHandler messageHandler;
+    // The max time to spend collecting a batch before submitting
+    private final long maxBatchCollectTimeMs;
 
-	private final Duration pollWaitTime;
+    // The consumer object representing the connection to Kafka
+    private final KafkaConsumer<String, String> kafkaConsumer;
 
-	// Flag used to exit kafka loop on termination
-	private volatile boolean running = true;
-	
-	// The map we use to track offsets as we process messages
-	private Map<TopicPartition,OffsetAndMetadata> trackingOffsetMap = new HashMap<>();
-	private Map<TopicPartition,Long> rollbackOffsetMap = new HashMap<>();
-	
-	 // Use a list to stage the results of a poll()
-    private final LinkedHashSet<ConsumerRecord<String, String>> recordBuffer = new LinkedHashSet<>();
-    private final List<ConsumerRecord<String,String>> currentBatch = new ArrayList<>();
-    private final Set<TopicPartition> assignedPartitions = new HashSet<>();
-	
-	// Track the number of sequential commit failures
-	private int commitFailures = 0;
-	
-	// If we get 5 failures in a row, we disconnect
-	private static final int COMMIT_FAILURE_DISCONNECT_THRESHOLD = 5;
-	
-	// A callback used to signal that this consumer has failed
-	private final Runnable consumerFailedCallback;
-	
-	/**
-	 * A listener to track the partitions assigned to this cluster member
-	 * Callbacks happen as part of the consumer#poll() call, so no concurrency concerns
-	 */
-	private class PartitionChangeListener implements ConsumerRebalanceListener {
+    // The handler we use to process messages we receive from Kafka
+    private final IMessageHandler messageHandler;
 
-		@Override
-		public void onPartitionsRevoked(Collection<TopicPartition> partitions) {
-			for (TopicPartition tp: partitions) {
-				logger.info("Revoking partition: " + tp.topic() + ":" + tp.partition());
-			}
-			assignedPartitions.removeAll(partitions);
-		}
+    private final Duration pollWaitTime;
 
-		@Override
-		public void onPartitionsAssigned(Collection<TopicPartition> partitions) {
-			for (TopicPartition tp: partitions) {
-				logger.info("Assigning partition: " + tp.topic() + ":" + tp.partition());				
-			}
-			assignedPartitions.addAll(partitions);
-		}
-	}
-		
-	/**
-	 * Public constructor
-	 * 
-	 * @param kafkaConsumer
-	 * @param messageHandler
-	 * @param consumerFailedCallback
-	 * @param topicName
-	 * @param maxBatchCollectTimeMs
-	 * @param pollWaitTime
-	 */
-	public RemoteIndexConsumer(KafkaConsumer<String,String> kafkaConsumer, IMessageHandler messageHandler,
-	    Runnable consumerFailedCallback, String topicName, long maxBatchCollectTimeMs, Duration pollWaitTime) {
-	    this.kafkaConsumer = kafkaConsumer;
-	    this.messageHandler = messageHandler;
-	    this.consumerFailedCallback = consumerFailedCallback;
-	    this.topicName = topicName;
-	    this.maxBatchCollectTimeMs = maxBatchCollectTimeMs;
-	    this.pollWaitTime = pollWaitTime;
-	}
+    // Flag used to exit kafka loop on termination
+    private volatile boolean running = true;
 
-	/**
-	 * poll the consumer and forward any messages we receive to the message handler
-	 */
-	private void consume() {
-		ConsumerRecords<String, String> records = kafkaConsumer.poll(pollWaitTime);
-		List<String> messages = new ArrayList<>();
-		
-		for (ConsumerRecord<String, String> record : records) {
-		    messages.add(record.value());
-		}
-		messageHandler.process(messages);
-		kafkaConsumer.commitAsync();
-	}
-	
+    // The number of commit failures since the last successful one
+    private int sequentialCommitFailures = 0;
 
-	public void shutdown() {
-		this.running = false;
-		try {
-			kafkaConsumer.wakeup();
-		} catch (Throwable x) {
-			logger.warning("Error waking up kafka consumer: " + x.getMessage());
-		}
-	}
-	
+    // If we get 5 failures in a row, we disconnect
+    private static final int COMMIT_FAILURE_DISCONNECT_THRESHOLD = 5;
+
+    // A callback used to signal that this consumer has failed
+    private final Runnable consumerFailedCallback;
+
     /**
-     * Get an array of the TopicPartition tuples currently assigned to this node
-     * @return the assigned TopicPartitions, or null if the consumer.assignment is empty
+     * A listener to track the partitions assigned to this cluster member
+     * Callbacks happen as part of the consumer#poll() call, so no concurrency concerns
      */
-    private TopicPartition[] getConsumerAssignment() {
-        Set<TopicPartition> assignment = kafkaConsumer.assignment();
-    
-        if (assignment.size() > 0) {
-            return assignment.toArray(new TopicPartition[assignment.size()]);
+    private class PartitionChangeListener implements ConsumerRebalanceListener {
+
+        @Override
+        public void onPartitionsRevoked(Collection<TopicPartition> partitions) {
+            for (TopicPartition tp : partitions) {
+                logger.info("Revoking partition: " + tp.topic() + ":" + tp.partition());
+            }
         }
-        else {
-            return null;
+
+        @Override
+        public void onPartitionsAssigned(Collection<TopicPartition> partitions) {
+            for (TopicPartition tp : partitions) {
+                logger.info("Assigning partition: " + tp.topic() + ":" + tp.partition());
+            }
+        }
+    }
+
+    /**
+     * Public constructor
+     * 
+     * @param kafkaConsumer
+     * @param messageHandler
+     * @param consumerFailedCallback
+     * @param topicName
+     * @param maxBatchCollectTimeMs
+     * @param pollWaitTime
+     */
+    public RemoteIndexConsumer(KafkaConsumer<String, String> kafkaConsumer, IMessageHandler messageHandler,
+            Runnable consumerFailedCallback, String topicName, long maxBatchCollectTimeMs, Duration pollWaitTime) {
+        this.kafkaConsumer = kafkaConsumer;
+        this.messageHandler = messageHandler;
+        this.consumerFailedCallback = consumerFailedCallback;
+        this.topicName = topicName;
+        this.maxBatchCollectTimeMs = maxBatchCollectTimeMs;
+        this.pollWaitTime = pollWaitTime;
+    }
+
+    /**
+     * poll the consumer and forward any messages we receive to the message handler
+     */
+    private void consume() throws FHIRPersistenceException {
+        ConsumerRecords<String, String> records = kafkaConsumer.poll(pollWaitTime);
+        List<String> messages = new ArrayList<>();
+
+        for (ConsumerRecord<String, String> record : records) {
+            messages.add(record.value());
+        }
+        messageHandler.process(messages);
+        // TODO, obviously
+        // kafkaConsumer.commitAsync(this);
+    }
+
+    public void shutdown() {
+        this.running = false;
+        try {
+            kafkaConsumer.wakeup();
+        } catch (Throwable x) {
+            logger.warning("Error waking up kafka consumer: " + x.getMessage());
         }
     }
 
@@ -162,19 +135,49 @@ public class RemoteIndexConsumer implements Runnable {
         logger.info("Starting consumer loop");
         while (running) {
             try {
-                consume();
+                if (this.sequentialCommitFailures > COMMIT_FAILURE_DISCONNECT_THRESHOLD) {
+                    logger.severe("Too many commit failures. Stopping consumer");
+                    this.running = false;
+                } else {
+                    consume();
+                }
             } catch (Throwable t) {
-                // If we end up here, it means we think it's an unrecoverable error which
-                // we want to signal back to the main controller. If enough consumer 
-                // threads fail, this will lead to the whole program to terminate
-                // which in typical deployments will mean that the container will
-                // hopefully be restarted
+                // If we end up here, it means we think it's an unrecoverable error so
+                // clear the running flag allowing us to exit
                 logger.log(Level.SEVERE, "unexpected error in consumer loop", t);
                 this.running = false;
-                this.consumerFailedCallback.run();
+            } finally {
+                if (!running) {
+                    // explicitly closing the consumer here should allow for faster error recovery
+                    // (assuming, of course, that the brokers are still reachable from this node)
+                    kafkaConsumer.close();
+
+                    // close the handler, cleaning up any resources it is holding onto
+                    messageHandler.close();
+
+                    // signal back to the main controller. If enough consumer
+                    // threads fail, this will lead to the whole program to terminate
+                    // which in typical deployments will mean that the container will
+                    // hopefully be restarted
+                    consumerFailedCallback.run();
+                }
             }
         }
-        logger.info("Consumer thread terminated");
+        logger.info("Consumer closed and thread terminated");
     }
 
+    @Override
+    public void onComplete(Map<TopicPartition, OffsetAndMetadata> offsets, Exception exception) {
+        // called on this consumer's thread, so no need for any synchronization
+        if (exception == null) {
+            // successful commit, so reset the failure counter
+            this.sequentialCommitFailures = 0;
+        } else {
+            this.sequentialCommitFailures++;
+            logger.warning("Commit failure sequential=[" + this.sequentialCommitFailures + "] reason=[" + exception.getMessage() + "]");
+            if (logger.isLoggable(Level.FINE)) {
+                logger.log(Level.FINE, "sequentialCommitFailures=" + sequentialCommitFailures, exception);
+            }
+        }
+    }
 }

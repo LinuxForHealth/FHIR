@@ -9,10 +9,13 @@ package com.ibm.fhir.remote.index.app;
 import java.io.FileInputStream;
 import java.io.IOException;
 import java.io.InputStream;
+import java.sql.Connection;
+import java.sql.SQLException;
 import java.time.Duration;
 import java.util.ArrayList;
 import java.util.Iterator;
 import java.util.List;
+import java.util.Objects;
 import java.util.Properties;
 import java.util.concurrent.ExecutorService;
 import java.util.concurrent.Executors;
@@ -24,8 +27,17 @@ import java.util.logging.Logger;
 import org.apache.kafka.clients.consumer.KafkaConsumer;
 import org.apache.kafka.common.PartitionInfo;
 
+import com.ibm.fhir.database.utils.api.IConnectionProvider;
+import com.ibm.fhir.database.utils.api.IDatabaseTranslator;
+import com.ibm.fhir.database.utils.common.JdbcConnectionProvider;
+import com.ibm.fhir.database.utils.postgres.PostgresPropertyAdapter;
+import com.ibm.fhir.database.utils.postgres.PostgresTranslator;
 import com.ibm.fhir.database.utils.thread.ThreadHandler;
+import com.ibm.fhir.persistence.exception.FHIRPersistenceException;
 import com.ibm.fhir.remote.index.api.IMessageHandler;
+import com.ibm.fhir.remote.index.cache.IdentityCacheImpl;
+import com.ibm.fhir.remote.index.database.CacheLoader;
+import com.ibm.fhir.remote.index.database.DistributedPostgresMessageHandler;
 import com.ibm.fhir.remote.index.kafka.RemoteIndexConsumer;
 
 /**
@@ -45,7 +57,7 @@ public class Main {
 
     private int consumerCount = 1;
 
-    private Duration pollDuration;
+    private Duration pollDuration = Duration.ofSeconds(10);
     private long maxBatchCollectTimeMs = 5000;
 
     // the list of consumers
@@ -54,11 +66,16 @@ public class Main {
     // track the number of consumers that are still running
     private AtomicInteger stillRunningCounter;
 
-    private volatile boolean running;
+    private volatile boolean running = true;
 
     // Exit if we drop below this number of running consumers
     private int minRunningConsumerThreshold = 1;
+    private IdentityCacheImpl identityCache;
 
+    // Database Configuration
+    private IDatabaseTranslator translator;
+    private IConnectionProvider connectionProvider;
+    
     /**
      * Parse the given command line arguments
      * @param args
@@ -93,14 +110,14 @@ public class Main {
                 if (a < args.length && !args[a].startsWith("--")) {
                     consumerGroup = args[a++];
                 } else {
-                    throw new IllegalArgumentException("Missing value for --topic-name");
+                    throw new IllegalArgumentException("Missing value for --consumer-group");
                 }
                 break;
             case "--consumer-count":
                 if (a < args.length && !args[a].startsWith("--")) {
                     consumerCount = Integer.parseInt(args[a++]);
                 } else {
-                    throw new IllegalArgumentException("Missing value for --topic-name");
+                    throw new IllegalArgumentException("Missing value for --consumer-count");
                 }
                 break;
             default:
@@ -134,12 +151,27 @@ public class Main {
     }
 
     /**
+     * Get the configured schema name for where we need to use it explicitly
+     * @return
+     * @throws FHIRPersistenceException
+     */
+    private String getSchemaName() throws FHIRPersistenceException {
+        String result = databaseProperties.getProperty("currentSchema");
+        if (result == null) {
+            throw new FHIRPersistenceException("currentSchema value missing in database properties");
+        }
+        return result;
+    }
+
+    /**
      * Keep consuming from Kafka forever...or until we see too many
      * consumers fail
      */
-    public void run() {
+    public void run() throws FHIRPersistenceException {
         dumpProperties("kafka", kafkaProperties);
         dumpProperties("database", databaseProperties);
+        configureForPostgres();
+        initIdentityCache();
 
         // One thread per consumer
         ExecutorService pool = Executors.newCachedThreadPool();
@@ -182,10 +214,26 @@ public class Main {
     }
 
     /**
+     * Set up the identity cache and preload it with all the parameter_names
+     * currently in the database
+     * @throws FHIRPersistenceException
+     */
+    private void initIdentityCache() throws FHIRPersistenceException {
+        logger.info("Initializing identity cache");
+        identityCache = new IdentityCacheImpl(1000, Duration.ofSeconds(3600), 10000, Duration.ofSeconds(3600));
+        CacheLoader loader = new CacheLoader(identityCache);
+        try (Connection connection = connectionProvider.getConnection()) {
+            loader.apply(connection);
+            connection.commit();
+        } catch (SQLException x) {
+            throw new FHIRPersistenceException("cache init failed", x);
+        }
+    }
+    /**
      * Create a new consumer
      * @return
      */
-    public KafkaConsumer<String,String> buildConsumer() {
+    private KafkaConsumer<String,String> buildConsumer() {
             
         Properties kp = new Properties();
         kp.putAll(kafkaProperties);
@@ -198,6 +246,35 @@ public class Main {
 
         KafkaConsumer<String,String> consumer = new KafkaConsumer<>(kp);
         return consumer;
+    }
+
+    private void configureForPostgres() {
+        this.translator = new PostgresTranslator();
+        try {
+            Class.forName(translator.getDriverClassName());
+        } catch (ClassNotFoundException e) {
+            throw new IllegalStateException(e);
+        }
+
+        PostgresPropertyAdapter propertyAdapter = new PostgresPropertyAdapter(databaseProperties);
+        connectionProvider = new JdbcConnectionProvider(translator, propertyAdapter);
+    }
+
+    /**
+     * Instantiate a new message handler for use by a consumer thread. Each handler gets
+     * its own database connection.
+     * @return
+     * @throws FHIRPersistenceException
+     */
+    private IMessageHandler buildHandler() throws FHIRPersistenceException {
+        Objects.requireNonNull(identityCache, "must set up identityCache first");
+        try {
+            // Each handler gets a dedicated database connection so we don't have
+            // to deal with contention when grabbing connections from a pool
+            return new DistributedPostgresMessageHandler(connectionProvider.getConnection(), getSchemaName(), identityCache);
+        } catch (SQLException x) {
+            throw new FHIRPersistenceException("get connection failed", x);
+        }
     }
 
     /**
@@ -249,11 +326,6 @@ public class Main {
             buffer.append("}");
             logger.info(which + ": " + buffer.toString());
         }
-    }
-
-    public IMessageHandler buildHandler() {
-        // 
-        return null;
     }
 
     private void failedConsumerCallback() {

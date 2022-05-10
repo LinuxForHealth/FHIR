@@ -19,6 +19,9 @@ public class SearchParameterValue {
     // The composite id used to tie together values belonging to the same composite parameter. Null for ordinary params.
     private Integer compositeId;
 
+    // True if this parameter should also be stored at the whole-system level
+    private Boolean wholeSystem;
+
     /**
      * @return the name
      */
@@ -45,5 +48,27 @@ public class SearchParameterValue {
      */
     public void setCompositeId(Integer compositeId) {
         this.compositeId = compositeId;
+    }
+
+    /**
+     * @return the wholeSystem
+     */
+    public Boolean getWholeSystem() {
+        return wholeSystem;
+    }
+
+    /**
+     * Returns true iff the wholeSystem property is not null and true
+     * @return
+     */
+    public boolean isSystemParam() {
+        return this.wholeSystem != null && this.wholeSystem.booleanValue();
+    }
+
+    /**
+     * @param wholeSystem the wholeSystem to set
+     */
+    public void setWholeSystem(Boolean wholeSystem) {
+        this.wholeSystem = wholeSystem;
     }
 }
