@@ -5,11 +5,13 @@ description: IBM FHIR Server on the Raspberry Pi 4
 date:   2021-06-07
 ---
 
+By Robin Arnold    |    Published September 13, 2019
+
 ![IBM FHIR Server on Raspberry Pi 4](https://ibm.github.io/FHIR/images/piOnFhir30.jpg)
 
 ## Usage
 
-This installation is for curiosity only and should not be used with PHI, only synthetic test data. Production instances require additional hardening which is outside the scope of this guide. 
+This installation is for curiosity only and should not be used with PHI, only synthetic test data. Production instances require additional hardening which is outside the scope of this guide.
 
 The default password used throughout is `change-password` and this is configured as clear-text in the configuration files to make it even more obvious that it should be changed as part of any hardening. Refer to the [FHIRServerUsersGuide](https://ibm.github.io/FHIR/guides/FHIRServerUsersGuide) for more details.
 
@@ -88,7 +90,7 @@ OS name: "linux", version: "4.19.66-v7l+", arch: "arm", family: "unix"
 
 ## Building
 
-Set up your development environment and clone the repository: 
+Set up your development environment and clone the repository:
 
 ```
 mkdir -p ~/git && cd ~/git && git clone https://github.com/IBM/FHIR.git
@@ -107,7 +109,7 @@ Some exceptions from negative tests may appear in the build log. As long as the 
 
 ```
 [INFO] Reactor Summary for IBM FHIR Server FHIR 4.0.0-SNAPSHOT:
-[INFO] 
+[INFO]
 [INFO] IBM FHIR Server ...................... SUCCESS [  8.537 s]
 [INFO] fhir-core .......................................... SUCCESS [  7.478 s]
 [INFO] fhir-task-api ...................................... SUCCESS [  0.583 s]
@@ -165,7 +167,7 @@ mkdir -p ~/unpack && cd ~/unpack && unzip ~/git/FHIR/fhir-install/target/fhir-se
 
 Decide where you want to install. As this isn't a production server, installing it under the pi user is convenient.
 
-mkdir -p ~/runtime/fhir-server && sh ~/unpack/fhir-server-dist/install.sh ~/runtime/fhir-server 
+mkdir -p ~/runtime/fhir-server && sh ~/unpack/fhir-server-dist/install.sh ~/runtime/fhir-server
 
 
 Check that the Liberty runtime was installed correctly:
@@ -179,7 +181,7 @@ Server fhir-server is not running.
 The default configuration uses a 4GB heap size which is too large for the Pi. Edit the jvm.options file and reduce the memory footprint using -Xmx1024M and -Xms1024M:
 
 ```
-pi@raspberrypi:~ $ vi ~/runtime/fhir-server/wlp/usr/servers/fhir-server/jvm.options 
+pi@raspberrypi:~ $ vi ~/runtime/fhir-server/wlp/usr/servers/fhir-server/jvm.options
 ...
 grep -- -Xm ~/runtime/fhir-server/wlp/usr/servers/fhir-server/jvm.options
 -Xms1024M
@@ -247,7 +249,7 @@ curl -k \
 The FHIR server should respond with a 201 Created status:
 
 ```
-HTTP/2 201 
+HTTP/2 201
 location: https://localhost:9443/fhir-server/api/v4/Patient/041786ad-d6a1-42ea-bf47-4dd8eb08a5fc/_history/1
 etag: W/"1"
 last-modified: 2019-09-12T19:22:02.159503Z
@@ -320,7 +322,7 @@ curl -k -i \
 Response:
 
 ```
-HTTP/2 200 
+HTTP/2 200
 location: https://localhost:9443/fhir-server/api/v4/Patient/041786ad-d6a1-42ea-bf47-4dd8eb08a5fc/_history/2
 etag: W/"2"
 last-modified: 2019-09-12T19:46:24.656131Z
