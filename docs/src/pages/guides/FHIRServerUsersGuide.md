@@ -707,8 +707,7 @@ With the `includeResourceTypes`property set as in the preceding example, the FHI
 The IBM FHIR Server supports a persistence interceptor feature that enables users to add their own logic to the REST API processing flow around persistence events. This can be used to enforce application-specific business rules associated with resources. Interceptor methods are called immediately before or after each persistence operation.
 
 ### 4.3.1 FHIRPersistenceInterceptor interface
-A persistence interceptor implementation must implement the `com.ibm.fhir.persistence.interceptor.FHIRPersistenceInterceptor`
-interface.
+A persistence interceptor implementation must implement the `com.ibm.fhir.server.spi.interceptor.FHIRPersistenceInterceptor` interface.
 
 Each interceptor method receives a parameter of type `FHIRPersistenceEvent`, which contains context information related to the request being processed at the time that the interceptor method is invoked. It includes the FHIR resource, security information, request URI information, and the collection of HTTP headers associated with the request.
 
@@ -726,7 +725,7 @@ To implement a persistence interceptor, complete the following steps:
 1.  Develop a Java class which implements the `FHIRPersistenceInterceptor` interface.
 2.  Store the fully-qualified classname of your interceptor implementation class in a file called :
 
-      `META-INF/services/com.ibm.fhir.persistence.interceptor.FHIRPersistenceInterceptor`
+      `META-INF/services/com.ibm.fhir.server.spi.interceptor.FHIRPersistenceInterceptor`
 
     Here's an example of the file contents:
 
