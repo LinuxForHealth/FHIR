@@ -9,6 +9,7 @@ on:
   pull_request:
     # https://docs.github.com/en/actions/using-workflows/workflow-syntax-for-github-actions#onpushpull_requestpull_request_targetpathspaths-ignore
     paths:
+      - '.github/workflows/migration.yml'
       - 'build/migration/**'
       - 'fhir-database-utils/**'
       - 'fhir-persistence-schema/**'
@@ -52,12 +53,12 @@ jobs:
           fetch-depth: 0
           token: ${{ secrets.GITHUB_TOKEN }}
 
-      - name: Fetch the right branch
-        env:
-          BASE: ${{ github['base_ref'] }}
+      - name: Fetch the target branch
         run: |
+          # the target branch of the PR or "main" if its not a PR (e.g. when manually invoked)
+          TARGET_BRANCH=${GITHUB_BASE_REF:-main}
           cd fhir/
-          git fetch --no-tags --prune --depth=1 origin +refs/heads/${BASE}:refs/remotes/origin/${BASE}
+          git fetch --no-tags --prune --depth=1 origin +refs/heads/${TARGET_BRANCH}:refs/remotes/origin/${TARGET_BRANCH}
 
       - name: Set up java
         uses: actions/setup-java@v2.3.1
