@@ -21,19 +21,20 @@ public class BatchLocationParameter extends BatchParameterValue {
     /**
      * Canonical constructor
      * 
+     * @param requestShard
      * @param resourceType
      * @param logicalId
      * @param logicalResourceId
      * @param parameterNameValue
      * @param parameter
      */
-    public BatchLocationParameter(String resourceType, String logicalId, long logicalResourceId, ParameterNameValue parameterNameValue, LocationParameter parameter) {
-        super(resourceType, logicalId, logicalResourceId, parameterNameValue);
+    public BatchLocationParameter(String requestShard, String resourceType, String logicalId, long logicalResourceId, ParameterNameValue parameterNameValue, LocationParameter parameter) {
+        super(requestShard, resourceType, logicalId, logicalResourceId, parameterNameValue);
         this.parameter = parameter;
     }
 
     @Override
     public void apply(BatchParameterProcessor processor) throws FHIRPersistenceException {
-        processor.process(resourceType, logicalId, logicalResourceId, parameterNameValue, parameter);
+        processor.process(requestShard, resourceType, logicalId, logicalResourceId, parameterNameValue, parameter);
     }
 }

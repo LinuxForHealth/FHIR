@@ -28,7 +28,7 @@ public class SearchParametersTransport {
     private long logicalResourceId;
 
     // The key value used for sharding the data when using a distributed database
-    private Short shardKey;
+    private String requestShard;
 
     private List<StringParameter> stringValues;
     private List<NumberParameter> numberValues;
@@ -36,6 +36,9 @@ public class SearchParametersTransport {
     private List<TokenParameter> tokenValues;
     private List<DateParameter> dateValues;
     private List<LocationParameter> locationValues;
+    private List<TagParameter> tagValues = new ArrayList<>();
+    private List<ProfileParameter> profileValues = new ArrayList<>();
+    private List<SecurityParameter> securityValues = new ArrayList<>();
 
     /**
      * Factory method to create a {@link Builder} instance
@@ -55,11 +58,14 @@ public class SearchParametersTransport {
         private List<TokenParameter> tokenValues = new ArrayList<>();
         private List<DateParameter> dateValues = new ArrayList<>();
         private List<LocationParameter> locationValues = new ArrayList<>();
+        private List<TagParameter> tagValues = new ArrayList<>();
+        private List<ProfileParameter> profileValues = new ArrayList<>();
+        private List<SecurityParameter> securityValues = new ArrayList<>();
     
         private String resourceType;
         private String logicalId;
         private long logicalResourceId = -1;
-        private Short shardKey;
+        private String requestShard;
 
         /**
          * Set the resourceType
@@ -96,8 +102,8 @@ public class SearchParametersTransport {
          * @param shardKey
          * @return
          */
-        public Builder withShardKey(Short shardKey) {
-            this.shardKey = shardKey;
+        public Builder withRequestShard(String shardValue) {
+            this.requestShard = shardValue;
             return this;
         }
 
@@ -142,6 +148,36 @@ public class SearchParametersTransport {
         }
 
         /**
+         * Add a tag parameter value
+         * @param value
+         * @return
+         */
+        public Builder addTagValue(TagParameter value) {
+            tagValues.add(value);
+            return this;
+        }
+
+        /**
+         * Add a profile parameter value
+         * @param value
+         * @return
+         */
+        public Builder addProfileValue(ProfileParameter value) {
+            profileValues.add(value);
+            return this;
+        }
+
+        /**
+         * Add a security parameter value
+         * @param value
+         * @return
+         */
+        public Builder addSecurityValue(SecurityParameter value) {
+            securityValues.add(value);
+            return this;
+        }
+
+        /**
          * Add a date parameter value
          * @param value
          * @return
@@ -181,7 +217,7 @@ public class SearchParametersTransport {
             result.resourceType = this.resourceType;
             result.logicalId = this.logicalId;
             result.logicalResourceId = this.logicalResourceId;
-            result.shardKey = this.shardKey;
+            result.setRequestShard(this.requestShard);
 
             if (this.stringValues.size() > 0) {
                 result.stringValues = new ArrayList<>(this.stringValues);
@@ -200,6 +236,15 @@ public class SearchParametersTransport {
             }
             if (this.locationValues.size() > 0) {
                 result.locationValues = new ArrayList<>(this.locationValues);
+            }
+            if (this.tagValues.size() > 0) {
+                result.setTagValues(new ArrayList<>(this.tagValues));
+            }
+            if (this.profileValues.size() > 0) {
+                result.setProfileValues(new ArrayList<>(this.profileValues));
+            }
+            if (this.securityValues.size() > 0) {
+                result.setSecurityValues(new ArrayList<>(this.securityValues));
             }
             return result;
         }
@@ -346,5 +391,67 @@ public class SearchParametersTransport {
      */
     public void setLocationValues(List<LocationParameter> locationValues) {
         this.locationValues = locationValues;
+    }
+
+
+    /**
+     * @return the requestShard
+     */
+    public String getRequestShard() {
+        return requestShard;
+    }
+
+
+    /**
+     * @param shardValue the request shard value to set
+     */
+    public void setRequestShard(String shardValue) {
+        this.requestShard = shardValue;
+    }
+
+
+    /**
+     * @return the tagValues
+     */
+    public List<TagParameter> getTagValues() {
+        return tagValues;
+    }
+
+
+    /**
+     * @param tagValues the tagValues to set
+     */
+    public void setTagValues(List<TagParameter> tagValues) {
+        this.tagValues = tagValues;
+    }
+
+
+    /**
+     * @return the profileValues
+     */
+    public List<ProfileParameter> getProfileValues() {
+        return profileValues;
+    }
+
+
+    /**
+     * @param profileValues the profileValues to set
+     */
+    public void setProfileValues(List<ProfileParameter> profileValues) {
+        this.profileValues = profileValues;
+    }
+
+    /**
+     * @return the securityValues
+     */
+    public List<SecurityParameter> getSecurityValues() {
+        return securityValues;
+    }
+
+    /**
+     * @param profileValues the profileValues to set
+     */
+    public void setSecurityValues(List<SecurityParameter> securityValues) {
+        this.securityValues = securityValues;
     }
 }

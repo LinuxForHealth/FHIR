@@ -13,6 +13,17 @@ package com.ibm.fhir.persistence.index;
 public class StringParameter extends SearchParameterValue {
     private String value;
     
+    @Override
+    public String toString() {
+        StringBuilder result = new StringBuilder();
+        result.append("String[");
+        addDescription(result);
+        result.append(",");
+        result.append(value);
+        result.append("]");
+        return result.toString();
+    }
+
     /**
      * @return the value
      */

@@ -103,30 +103,6 @@ public class RemoteIndexConsumer implements Runnable, OffsetCommitCallback {
         this.pollWaitTime = pollWaitTime;
     }
 
-    /**
-     * poll the consumer and forward any messages we receive to the message handler
-     */
-    private void consume() throws FHIRPersistenceException {
-        ConsumerRecords<String, String> records = kafkaConsumer.poll(pollWaitTime);
-        List<String> messages = new ArrayList<>();
-
-        for (ConsumerRecord<String, String> record : records) {
-            messages.add(record.value());
-        }
-        messageHandler.process(messages);
-        // TODO, obviously
-        // kafkaConsumer.commitAsync(this);
-    }
-
-    public void shutdown() {
-        this.running = false;
-        try {
-            kafkaConsumer.wakeup();
-        } catch (Throwable x) {
-            logger.warning("Error waking up kafka consumer: " + x.getMessage());
-        }
-    }
-
     @Override
     public void run() {
         logger.info("Subscribing consumer to topic '" + this.topicName + "'");
@@ -148,6 +124,8 @@ public class RemoteIndexConsumer implements Runnable, OffsetCommitCallback {
                 this.running = false;
             } finally {
                 if (!running) {
+                    logger.warning("Stopping consumer loop");
+
                     // explicitly closing the consumer here should allow for faster error recovery
                     // (assuming, of course, that the brokers are still reachable from this node)
                     kafkaConsumer.close();
@@ -164,6 +142,37 @@ public class RemoteIndexConsumer implements Runnable, OffsetCommitCallback {
             }
         }
         logger.info("Consumer closed and thread terminated");
+    }
+
+    /**
+     * poll the consumer and forward any messages we receive to the message handler
+     */
+    private void consume() throws FHIRPersistenceException {
+        logger.finer("Polling Kafka");
+        ConsumerRecords<String, String> records = kafkaConsumer.poll(pollWaitTime);
+        logger.finer(() -> "Kafka poll records count: " + records.count());
+
+        // Extract the message payloads from each ConsumerRecord
+        List<String> messages = new ArrayList<>();
+        for (ConsumerRecord<String, String> record : records) {
+            messages.add(record.value());
+        }
+        if (messages.size() > 0) {
+            messageHandler.process(messages);
+        }
+        kafkaConsumer.commitAsync(this);
+    }
+
+    /**
+     * Shut down this consumer, interrupting the Kafka poll wait
+     */
+    public void shutdown() {
+        this.running = false;
+        try {
+            kafkaConsumer.wakeup();
+        } catch (Throwable x) {
+            logger.warning("Error waking up kafka consumer: " + x.getMessage());
+        }
     }
 
     @Override

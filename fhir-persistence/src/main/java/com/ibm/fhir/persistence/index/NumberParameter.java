@@ -16,6 +16,21 @@ public class NumberParameter extends SearchParameterValue {
     private BigDecimal lowValue;
     private BigDecimal highValue;
     
+    @Override
+    public String toString() {
+        StringBuilder result = new StringBuilder();
+        result.append("Number[");
+        addDescription(result);
+        result.append(",");
+        result.append(value);
+        result.append(",");
+        result.append(lowValue);
+        result.append(",");
+        result.append(highValue);
+        result.append("]");
+        return result.toString();
+    }
+
     /**
      * @return the value
      */

@@ -7,16 +7,18 @@
 package com.ibm.fhir.remote.index.batch;
 
 import com.ibm.fhir.persistence.exception.FHIRPersistenceException;
-import com.ibm.fhir.persistence.index.NumberParameter;
+import com.ibm.fhir.persistence.index.ProfileParameter;
 import com.ibm.fhir.remote.index.api.BatchParameterProcessor;
 import com.ibm.fhir.remote.index.api.BatchParameterValue;
+import com.ibm.fhir.remote.index.database.CommonCanonicalValue;
 import com.ibm.fhir.remote.index.database.ParameterNameValue;
 
 /**
- * A number parameter we are collecting to batch
+ * A profile parameter we are collecting to batch
  */
-public class BatchNumberParameter extends BatchParameterValue {
-    private final NumberParameter parameter;
+public class BatchProfileParameter extends BatchParameterValue {
+    private final ProfileParameter parameter;
+    private final CommonCanonicalValue commonCanonicalValue;
     
     /**
      * Canonical constructor
@@ -27,14 +29,17 @@ public class BatchNumberParameter extends BatchParameterValue {
      * @param logicalResourceId
      * @param parameterNameValue
      * @param parameter
+     * @param commonCanonicalValue
      */
-    public BatchNumberParameter(String requestShard, String resourceType, String logicalId, long logicalResourceId, ParameterNameValue parameterNameValue, NumberParameter parameter) {
+    public BatchProfileParameter(String requestShard, String resourceType, String logicalId, long logicalResourceId, 
+            ParameterNameValue parameterNameValue, ProfileParameter parameter, CommonCanonicalValue commonCanonicalValue) {
         super(requestShard, resourceType, logicalId, logicalResourceId, parameterNameValue);
         this.parameter = parameter;
+        this.commonCanonicalValue = commonCanonicalValue;
     }
 
     @Override
     public void apply(BatchParameterProcessor processor) throws FHIRPersistenceException {
-        processor.process(requestShard, resourceType, logicalId, logicalResourceId, parameterNameValue, parameter);
+        processor.process(requestShard, resourceType, logicalId, logicalResourceId, parameterNameValue, parameter, commonCanonicalValue);
     }
 }

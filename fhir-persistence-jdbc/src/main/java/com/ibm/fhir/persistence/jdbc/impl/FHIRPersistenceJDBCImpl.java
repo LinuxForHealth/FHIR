@@ -421,7 +421,7 @@ public class FHIRPersistenceJDBCImpl implements FHIRPersistence, SchemaNameSuppl
                             + ", version=" + resourceDTO.getVersionId());
             }
 
-            sendParametersToRemoteIndexService(resourceDTO.getResourceType(), resourceDTO.getLogicalId(), resourceDTO.getId(), context.getShardKey(), searchParameters);
+            sendParametersToRemoteIndexService(resourceDTO.getResourceType(), resourceDTO.getLogicalId(), resourceDTO.getId(), context.getRequestShard(), searchParameters);
             SingleResourceResult.Builder<T> resultBuilder = new SingleResourceResult.Builder<T>()
                     .success(true)
                     .interactionStatus(resourceDTO.getInteractionStatus())
@@ -464,12 +464,12 @@ public class FHIRPersistenceJDBCImpl implements FHIRPersistence, SchemaNameSuppl
      * @param shardKey
      * @param searchParameters
      */
-    private void sendParametersToRemoteIndexService(String resourceType, String logicalId, long logicalResourceId, Short shardKey,
+    private void sendParametersToRemoteIndexService(String resourceType, String logicalId, long logicalResourceId, String requestShard,
             ExtractedSearchParameters searchParameters) throws FHIRPersistenceException {
         FHIRRemoteIndexService remoteIndexService = FHIRRemoteIndexService.getServiceInstance();
         if (remoteIndexService != null) {
             // convert the parameters into a form that will be easy to ship to a remote service
-            SearchParametersTransportAdapter adapter = new SearchParametersTransportAdapter(resourceType, logicalId, logicalResourceId, shardKey);
+            SearchParametersTransportAdapter adapter = new SearchParametersTransportAdapter(resourceType, logicalId, logicalResourceId, requestShard);
             ParameterTransportVisitor visitor = new ParameterTransportVisitor(adapter);
             for (ExtractedParameterValue pv: searchParameters.getParameters()) {
                 pv.accept(visitor);
@@ -548,6 +548,22 @@ public class FHIRPersistenceJDBCImpl implements FHIRPersistence, SchemaNameSuppl
     }
 
     /**
+     * To minimize the impact of using an additional column for explicit sharding,
+     * we encode the requestShard into a short value which is stored in the database.
+     * This provides sufficient spread across nodes, but minimizes the amount of extra
+     * space required.
+     * @param requestShard
+     * @return
+     */
+    private Short encodeRequestShard(String requestShard) {
+        if (requestShard != null) {
+            return Short.valueOf((short)requestShard.hashCode());
+        } else {
+            return null;
+        }
+    }
+
+    /**
      * Convenience method to construct a new instance of the {@link ResourceDAO}
      * @param persistenceContext the persistence context for the current request
      * @param connection the connection to the database for the DAO to use
@@ -563,7 +579,7 @@ public class FHIRPersistenceJDBCImpl implements FHIRPersistence, SchemaNameSuppl
             if (persistenceContext == null) {
                 throw new FHIRPersistenceException("persistenceContext is always required for DISTRIBUTED schemas");
             }
-            shardKey = persistenceContext.getShardKey();
+            shardKey = encodeRequestShard(persistenceContext.getRequestShard());
             if (shardKey == null) {
                 throw new FHIRPersistenceException("shardKey value is required for DISTRIBUTED schemas");
             }
@@ -656,7 +672,7 @@ public class FHIRPersistenceJDBCImpl implements FHIRPersistence, SchemaNameSuppl
             }
 
             // If configured, send the extracted parameters to the remote indexing service
-            sendParametersToRemoteIndexService(resourceDTO.getResourceType(), resourceDTO.getLogicalId(), resourceDTO.getId(), context.getShardKey(), searchParameters);
+            sendParametersToRemoteIndexService(resourceDTO.getResourceType(), resourceDTO.getLogicalId(), resourceDTO.getId(), context.getRequestShard(), searchParameters);
 
             SingleResourceResult.Builder<T> resultBuilder = new SingleResourceResult.Builder<T>()
                     .success(true)

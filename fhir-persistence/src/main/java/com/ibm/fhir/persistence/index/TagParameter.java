@@ -10,24 +10,19 @@ package com.ibm.fhir.persistence.index;
 /**
  * A token search parameter value
  */
-public class TokenParameter extends SearchParameterValue {
+public class TagParameter extends SearchParameterValue {
     private String valueSystem;
     private String valueCode;
-
-    // for storing versioned references
-    private Integer refVersionId;
 
     @Override
     public String toString() {
         StringBuilder result = new StringBuilder();
-        result.append("Token[");
+        result.append("Tag[");
         addDescription(result);
         result.append(",");
         result.append(valueSystem);
         result.append(",");
         result.append(valueCode);
-        result.append(",");
-        result.append(refVersionId);
         result.append("]");
         return result.toString();
     }
@@ -59,19 +54,4 @@ public class TokenParameter extends SearchParameterValue {
     public void setValueCode(String valueCode) {
         this.valueCode = valueCode;
     }
-
-    /**
-     * @return the refVersionId
-     */
-    public Integer getRefVersionId() {
-        return refVersionId;
-    }
-
-    /**
-     * @param refVersionId the refVersionId to set
-     */
-    public void setRefVersionId(Integer refVersionId) {
-        this.refVersionId = refVersionId;
-    }
-
 }

@@ -14,6 +14,19 @@ public class LocationParameter extends SearchParameterValue {
     private Double valueLatitude;
     private Double valueLongitude;
     
+    @Override
+    public String toString() {
+        StringBuilder result = new StringBuilder();
+        result.append("Location[");
+        addDescription(result);
+        result.append(",");
+        result.append(valueLatitude);
+        result.append(",");
+        result.append(valueLongitude);
+        result.append("]");
+        return result.toString();
+    }
+
     /**
      * @return the valueLatitude
      */

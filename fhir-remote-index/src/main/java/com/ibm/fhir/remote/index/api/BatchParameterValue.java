@@ -13,6 +13,7 @@ import com.ibm.fhir.remote.index.database.ParameterNameValue;
  * A parameter value batched for later processing
  */
 public abstract class BatchParameterValue {
+    protected final String requestShard;
     protected final ParameterNameValue parameterNameValue;
     protected final String resourceType;
     protected final String logicalId;
@@ -20,12 +21,14 @@ public abstract class BatchParameterValue {
 
     /**
      * Protected constructor
+     * @param requestShard
      * @param resourceType
      * @param logicalId
      * @param logicalResourceId
      * @param parameterNameValue
      */
-    protected BatchParameterValue(String resourceType, String logicalId, long logicalResourceId, ParameterNameValue parameterNameValue) {
+    protected BatchParameterValue(String requestShard, String resourceType, String logicalId, long logicalResourceId, ParameterNameValue parameterNameValue) {
+        this.requestShard = requestShard;
         this.resourceType = resourceType;
         this.logicalId = logicalId;
         this.logicalResourceId = logicalResourceId;

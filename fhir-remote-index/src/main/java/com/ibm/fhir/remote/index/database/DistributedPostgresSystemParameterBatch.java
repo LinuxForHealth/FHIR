@@ -14,6 +14,7 @@ import java.sql.Types;
 import java.util.Calendar;
 
 import com.ibm.fhir.database.utils.common.CalendarHelper;
+import com.ibm.fhir.database.utils.common.PreparedStatementHelper;
 
 /**
  * Batch insert statements for system-level parameters
@@ -28,6 +29,15 @@ public class DistributedPostgresSystemParameterBatch {
 
     private PreparedStatement systemDates;
     private int systemDateCount;
+
+    private PreparedStatement systemProfiles;
+    private int systemProfileCount;
+
+    private PreparedStatement systemTags;
+    private int systemTagCount;
+
+    private PreparedStatement systemSecurity;
+    private int systemSecurityCount;
 
     /**
      * Public constructor
@@ -49,21 +59,20 @@ public class DistributedPostgresSystemParameterBatch {
             systemDates.executeBatch();
             systemDateCount = 0;
         }
+        if (systemTagCount > 0) {
+            systemTags.executeBatch();
+            systemTagCount = 0;
+        }
+        if (systemProfileCount > 0) {
+            systemProfiles.executeBatch();
+            systemProfileCount = 0;
+        }
+        if (systemSecurityCount > 0) {
+            systemSecurity.executeBatch();
+            systemSecurityCount = 0;
+        }
     }
 
-    /**
-     * Clear the current batch
-     */
-    public void clearBatch() throws SQLException {
-        if (systemStringCount > 0) {
-            systemStrings.clearBatch();
-            systemStringCount = 0;
-        }
-        if (systemDateCount > 0) {
-            systemDates.clearBatch();
-            systemDateCount = 0;
-        }
-    }
     /**
      * Closes all the statements currently open
      */
@@ -76,6 +85,7 @@ public class DistributedPostgresSystemParameterBatch {
                 // NOP
             } finally {
                 systemStrings = null;
+                systemStringCount = 0;
             }
         }
 
@@ -86,6 +96,37 @@ public class DistributedPostgresSystemParameterBatch {
                 // NOP
             } finally {
                 systemDates = null;
+                systemDateCount = 0;
+            }
+        }
+        if (systemTags != null) {
+            try {
+                systemTags.close();
+            } catch (SQLException x) {
+                // NOP
+            } finally {
+                systemTags = null;
+                systemTagCount = 0;
+            }
+        }
+        if (systemProfiles != null) {
+            try {
+                systemProfiles.close();
+            } catch (SQLException x) {
+                // NOP
+            } finally {
+                systemProfiles = null;
+                systemProfileCount = 0;
+            }
+        }
+        if (systemSecurity != null) {
+            try {
+                systemSecurity.close();
+            } catch (SQLException x) {
+                // NOP
+            } finally {
+                systemSecurity = null;
+                systemProfileCount = 0;
             }
         }
     }
@@ -135,5 +176,46 @@ public class DistributedPostgresSystemParameterBatch {
         systemDates.setShort(6, shardKey);
         systemDates.addBatch();
         systemDateCount++;
+    }
+
+    public void addTag(long logicalResourceId, long commonTokenValueId, short shardKey) throws SQLException {
+        if (systemTags == null) {
+            final String INS = "INSERT INTO logical_resource_tags(common_token_value_id, logical_resource_id, shard_key) VALUES (?,?,?)";
+            systemTags = connection.prepareStatement(INS);
+        }
+        PreparedStatementHelper psh = new PreparedStatementHelper(systemTags);
+        psh.setLong(commonTokenValueId)
+            .setLong(logicalResourceId)
+            .setShort(shardKey)
+            .addBatch();
+        systemTagCount++;
+    }
+
+    public void addProfile(long logicalResourceId, long canonicalId, String version, String fragment, short shardKey) throws SQLException {
+        if (systemProfiles == null) {
+            final String INS = "INSERT INTO logical_resource_profiles(canonical_id, logical_resource_id, shard_key, version, fragment) VALUES (?,?,?,?,?)";
+            systemProfiles = connection.prepareStatement(INS);
+        }
+        PreparedStatementHelper psh = new PreparedStatementHelper(systemProfiles);
+        psh.setLong(canonicalId)
+            .setLong(logicalResourceId)
+            .setShort(shardKey)
+            .setString(version)
+            .setString(fragment)
+            .addBatch();
+        systemProfileCount++;
+    }
+
+    public void addSecurity(long logicalResourceId, long commonTokenValueId, short shardKey) throws SQLException {
+        if (systemTags == null) {
+            final String INS = "INSERT INTO logical_resource_security(common_token_value_id, logical_resource_id, shard_key) VALUES (?,?,?)";
+            systemSecurity = connection.prepareStatement(INS);
+        }
+        PreparedStatementHelper psh = new PreparedStatementHelper(systemSecurity);
+        psh.setLong(commonTokenValueId)
+            .setLong(logicalResourceId)
+            .setShort(shardKey)
+            .addBatch();
+        systemSecurityCount++;
     }
 }

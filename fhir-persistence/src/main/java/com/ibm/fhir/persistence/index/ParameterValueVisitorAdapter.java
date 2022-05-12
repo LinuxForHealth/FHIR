@@ -9,8 +9,6 @@ package com.ibm.fhir.persistence.index;
 import java.math.BigDecimal;
 import java.sql.Timestamp;
 
-import com.ibm.fhir.search.util.ReferenceValue;
-
 /**
  * Used by a parameter value visitor to translate the parameter values
  * to a new form
@@ -21,8 +19,9 @@ public interface ParameterValueVisitorAdapter {
      * @param name
      * @param valueString
      * @param compositeId
+     * @param wholeSystem
      */
-    void stringValue(String name, String valueString, Integer compositeId);
+    void stringValue(String name, String valueString, Integer compositeId, boolean wholeSystem);
 
     /**
      * @param name
@@ -38,8 +37,9 @@ public interface ParameterValueVisitorAdapter {
      * @param valueDateStart
      * @param valueDateEnd
      * @param compositeId
+     * @param wholeSystem
      */
-    void dateValue(String name, Timestamp valueDateStart, Timestamp valueDateEnd, Integer compositeId);
+    void dateValue(String name, Timestamp valueDateStart, Timestamp valueDateEnd, Integer compositeId, boolean wholeSystem);
 
     /**
      * @param name
@@ -49,6 +49,32 @@ public interface ParameterValueVisitorAdapter {
      */
     void tokenValue(String name, String valueSystem, String valueCode, Integer compositeId);
 
+    /**
+     * @param name
+     * @param valueSystem
+     * @param valueCode
+     * @param compositeId
+     * @param wholeSystem
+     */
+    void tagValue(String name, String valueSystem, String valueCode, boolean wholeSystem);
+
+    /**
+     * @param name
+     * @param url
+     * @param version
+     * @param fragment
+     * @param wholeSystem
+     */
+    void profileValue(String name, String url, String version, String fragment, boolean wholeSystem);
+
+    /**
+     * @param name
+     * @param valueSystem
+     * @param valueCode
+     * @param wholeSystem
+     */
+    void securityValue(String name, String valueSystem, String valueCode, boolean wholeSystem);
+    
     /**
      * @param name
      * @param valueSystem
@@ -71,8 +97,10 @@ public interface ParameterValueVisitorAdapter {
 
     /**
      * @param name
-     * @param refValue
+     * @param refResourceType
+     * @param refLogicalId
+     * @param refVersion
      * @param compositeId
      */
-    void referenceValue(String name, ReferenceValue refValue, Integer compositeId);
+    void referenceValue(String name, String refResourceType, String refLogicalId, Integer refVersion, Integer compositeId);
 }

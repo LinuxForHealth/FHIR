@@ -23,6 +23,7 @@ public class BatchTokenParameter extends BatchParameterValue {
     /**
      * Canonical constructor
      * 
+     * @param requestShard
      * @param resourceType
      * @param logicalId
      * @param logicalResourceId
@@ -30,14 +31,14 @@ public class BatchTokenParameter extends BatchParameterValue {
      * @param parameter
      * @param commonTokenValue
      */
-    public BatchTokenParameter(String resourceType, String logicalId, long logicalResourceId, ParameterNameValue parameterNameValue, TokenParameter parameter, CommonTokenValue commonTokenValue) {
-        super(resourceType, logicalId, logicalResourceId, parameterNameValue);
+    public BatchTokenParameter(String requestShard, String resourceType, String logicalId, long logicalResourceId, ParameterNameValue parameterNameValue, TokenParameter parameter, CommonTokenValue commonTokenValue) {
+        super(requestShard, resourceType, logicalId, logicalResourceId, parameterNameValue);
         this.parameter = parameter;
         this.commonTokenValue = commonTokenValue;
     }
 
     @Override
     public void apply(BatchParameterProcessor processor) throws FHIRPersistenceException {
-        processor.process(resourceType, logicalId, logicalResourceId, parameterNameValue, parameter, commonTokenValue);
+        processor.process(requestShard, resourceType, logicalId, logicalResourceId, parameterNameValue, parameter, commonTokenValue);
     }
 }

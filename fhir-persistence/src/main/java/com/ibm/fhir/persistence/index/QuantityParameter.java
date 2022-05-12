@@ -18,6 +18,25 @@ public class QuantityParameter extends SearchParameterValue {
     private String valueSystem;
     private String valueCode;
 
+    @Override
+    public String toString() {
+        StringBuilder result = new StringBuilder();
+        result.append("Quantity[");
+        addDescription(result);
+        result.append(",");
+        result.append(valueNumber);
+        result.append(",");
+        result.append(valueNumberLow);
+        result.append(",");
+        result.append(valueNumberHigh);
+        result.append(",");
+        result.append(valueSystem);
+        result.append(",");
+        result.append(valueCode);
+        result.append("]");
+        return result.toString();
+    }
+
     /**
      * @return the valueNumber
      */

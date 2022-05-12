@@ -7,16 +7,18 @@
 package com.ibm.fhir.remote.index.batch;
 
 import com.ibm.fhir.persistence.exception.FHIRPersistenceException;
-import com.ibm.fhir.persistence.index.NumberParameter;
+import com.ibm.fhir.persistence.index.TagParameter;
 import com.ibm.fhir.remote.index.api.BatchParameterProcessor;
 import com.ibm.fhir.remote.index.api.BatchParameterValue;
+import com.ibm.fhir.remote.index.database.CommonTokenValue;
 import com.ibm.fhir.remote.index.database.ParameterNameValue;
 
 /**
- * A number parameter we are collecting to batch
+ * A tag parameter we are collecting to batch
  */
-public class BatchNumberParameter extends BatchParameterValue {
-    private final NumberParameter parameter;
+public class BatchTagParameter extends BatchParameterValue {
+    private final TagParameter parameter;
+    private final CommonTokenValue commonTokenValue;
     
     /**
      * Canonical constructor
@@ -27,14 +29,16 @@ public class BatchNumberParameter extends BatchParameterValue {
      * @param logicalResourceId
      * @param parameterNameValue
      * @param parameter
+     * @param commonTokenValue
      */
-    public BatchNumberParameter(String requestShard, String resourceType, String logicalId, long logicalResourceId, ParameterNameValue parameterNameValue, NumberParameter parameter) {
+    public BatchTagParameter(String requestShard, String resourceType, String logicalId, long logicalResourceId, ParameterNameValue parameterNameValue, TagParameter parameter, CommonTokenValue commonTokenValue) {
         super(requestShard, resourceType, logicalId, logicalResourceId, parameterNameValue);
         this.parameter = parameter;
+        this.commonTokenValue = commonTokenValue;
     }
 
     @Override
     public void apply(BatchParameterProcessor processor) throws FHIRPersistenceException {
-        processor.process(requestShard, resourceType, logicalId, logicalResourceId, parameterNameValue, parameter);
+        processor.process(requestShard, resourceType, logicalId, logicalResourceId, parameterNameValue, parameter, commonTokenValue);
     }
 }

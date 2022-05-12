@@ -11,6 +11,7 @@ package com.ibm.fhir.persistence.index;
  */
 public class RemoteIndexMessage {
     private String tenantId;
+    private int messageVersion;
     private SearchParametersTransport data;
     
     /**
@@ -39,6 +40,20 @@ public class RemoteIndexMessage {
      */
     public void setData(SearchParametersTransport data) {
         this.data = data;
+    }
+
+    /**
+     * @return the messageVersion
+     */
+    public int getMessageVersion() {
+        return messageVersion;
+    }
+
+    /**
+     * @param messageVersion the messageVersion to set
+     */
+    public void setMessageVersion(int messageVersion) {
+        this.messageVersion = messageVersion;
     }
     
 }

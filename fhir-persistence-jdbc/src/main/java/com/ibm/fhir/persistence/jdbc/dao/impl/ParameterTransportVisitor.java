@@ -6,8 +6,13 @@
  
 package com.ibm.fhir.persistence.jdbc.dao.impl;
 
+import java.util.logging.Logger;
+
 import com.ibm.fhir.persistence.exception.FHIRPersistenceException;
+import com.ibm.fhir.persistence.index.CanonicalSupport;
 import com.ibm.fhir.persistence.index.ParameterValueVisitorAdapter;
+import com.ibm.fhir.persistence.index.ProfileParameter;
+import com.ibm.fhir.persistence.jdbc.JDBCConstants;
 import com.ibm.fhir.persistence.jdbc.dto.CompositeParmVal;
 import com.ibm.fhir.persistence.jdbc.dto.DateParmVal;
 import com.ibm.fhir.persistence.jdbc.dto.ExtractedParameterValue;
@@ -18,6 +23,9 @@ import com.ibm.fhir.persistence.jdbc.dto.QuantityParmVal;
 import com.ibm.fhir.persistence.jdbc.dto.ReferenceParmVal;
 import com.ibm.fhir.persistence.jdbc.dto.StringParmVal;
 import com.ibm.fhir.persistence.jdbc.dto.TokenParmVal;
+import com.ibm.fhir.search.SearchConstants;
+import com.ibm.fhir.search.util.ReferenceValue;
+import com.ibm.fhir.search.util.ReferenceValue.ReferenceType;
 
 
 /**
@@ -25,6 +33,10 @@ import com.ibm.fhir.persistence.jdbc.dto.TokenParmVal;
  * system (e.g. for remote indexing)
  */
 public class ParameterTransportVisitor implements ExtractedParameterValueVisitor {
+    private static final Logger logger = Logger.getLogger(ParameterTransportVisitor.class.getName());
+    private static final Boolean IS_WHOLE_SYSTEM = Boolean.TRUE;
+
+    // The adapter to which we delegate each of our visit calls
     private final ParameterValueVisitorAdapter adapter;
 
     // tracks the number of composites so we know what next composite_id to use
@@ -43,8 +55,15 @@ public class ParameterTransportVisitor implements ExtractedParameterValueVisitor
 
     @Override
     public void visit(StringParmVal stringParameter) throws FHIRPersistenceException {
-        Integer compositeId = this.currentCompositeParameterName != null ? this.compositeIdCounter : null;
-        adapter.stringValue(stringParameter.getName(), stringParameter.getValueString(), compositeId);
+
+        if (SearchConstants.PROFILE.equals(stringParameter.getName())) {
+            // special case to store profile parameters in their own table
+            ProfileParameter pp = CanonicalSupport.createProfileParameter(stringParameter.getName(), stringParameter.getValueString());
+            adapter.profileValue(pp.getName(), pp.getUrl(), pp.getVersion(), pp.getFragment(), IS_WHOLE_SYSTEM);
+        } else {
+            Integer compositeId = this.currentCompositeParameterName != null ? this.compositeIdCounter : null;
+            adapter.stringValue(stringParameter.getName(), stringParameter.getValueString(), compositeId, stringParameter.isWholeSystem());
+        }
     }
 
     @Override
@@ -60,13 +79,25 @@ public class ParameterTransportVisitor implements ExtractedParameterValueVisitor
     @Override
     public void visit(DateParmVal dateParameter) throws FHIRPersistenceException {
         Integer compositeId = this.currentCompositeParameterName != null ? this.compositeIdCounter : null;
-        adapter.dateValue(dateParameter.getName(), dateParameter.getValueDateStart(), dateParameter.getValueDateEnd(), compositeId);
+        adapter.dateValue(dateParameter.getName(), dateParameter.getValueDateStart(), dateParameter.getValueDateEnd(), compositeId, dateParameter.isWholeSystem());
     }
 
     @Override
     public void visit(TokenParmVal tokenParameter) throws FHIRPersistenceException {
         Integer compositeId = this.currentCompositeParameterName != null ? this.compositeIdCounter : null;
-        adapter.tokenValue(tokenParameter.getName(), tokenParameter.getValueSystem(), tokenParameter.getValueCode(), compositeId);
+        // tag and profile search params are often low-selectivity (many resources sharing the same value) so
+        // we put them into their own tables to allow better cardinality estimation by the query
+        // optimizer
+        switch (tokenParameter.getName()) {
+        case SearchConstants.TAG:
+            adapter.tagValue(tokenParameter.getName(), tokenParameter.getValueSystem(), tokenParameter.getValueCode(), IS_WHOLE_SYSTEM);
+            break;
+        case SearchConstants.SECURITY:
+            adapter.securityValue(tokenParameter.getName(), tokenParameter.getValueSystem(), tokenParameter.getValueCode(), IS_WHOLE_SYSTEM);
+            break;
+        default:
+            adapter.tokenValue(tokenParameter.getName(), tokenParameter.getValueSystem(), tokenParameter.getValueCode(), compositeId);
+        }
     }
 
     @Override
@@ -84,9 +115,26 @@ public class ParameterTransportVisitor implements ExtractedParameterValueVisitor
     }
 
     @Override
-    public void visit(ReferenceParmVal ref) throws FHIRPersistenceException {
+    public void visit(ReferenceParmVal rpv) throws FHIRPersistenceException {
         Integer compositeId = this.currentCompositeParameterName != null ? this.compositeIdCounter : null;
-        adapter.referenceValue(ref.getName(), ref.getRefValue(), compositeId);
+
+        // The ReferenceValue has already been processed to convert the reference to
+        // the required standard form, ready for insertion as a token value.
+        ReferenceValue refValue = rpv.getRefValue();
+        String resourceType = rpv.getResourceType();
+        String refResourceType = refValue.getTargetResourceType();
+        String refLogicalId = refValue.getValue();
+        Integer refVersion = refValue.getVersion();
+        if (refValue.getType() == ReferenceType.DISPLAY_ONLY || refValue.getType() == ReferenceType.INVALID) {
+            // protect against code regression. Invalid/improper references should be
+            // filtered out already.
+            logger.warning("Invalid reference parameter type: '" + resourceType + "." + rpv.getName() + "' type=" + refValue.getType().name());
+            throw new IllegalArgumentException("Invalid reference parameter value. See server log for details.");
+        }
+        if (refResourceType == null) {
+            refResourceType = JDBCConstants.DEFAULT_TOKEN_SYSTEM;
+        }
+        adapter.referenceValue(rpv.getName(), refResourceType, refLogicalId, refVersion, compositeId);
     }
 
     @Override

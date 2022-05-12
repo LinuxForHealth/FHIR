@@ -23,6 +23,18 @@ public class SearchParameterValue {
     private Boolean wholeSystem;
 
     /**
+     * Add the base description of this parameter to the given {@link StringBuilder}
+     * @param sb
+     */
+    protected void addDescription(StringBuilder sb) {
+        sb.append(name);
+        sb.append(",");
+        sb.append(compositeId);
+        sb.append(",");
+        sb.append(wholeSystem);
+    }
+
+    /**
      * @return the name
      */
     public String getName() {

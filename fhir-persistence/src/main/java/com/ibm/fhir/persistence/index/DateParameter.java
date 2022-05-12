@@ -14,7 +14,20 @@ import java.sql.Timestamp;
 public class DateParameter extends SearchParameterValue {
     private Timestamp valueDateStart;
     private Timestamp valueDateEnd;
-    
+
+    @Override
+    public String toString() {
+        StringBuilder result = new StringBuilder();
+        result.append("Date[");
+        addDescription(result);
+        result.append(",");
+        result.append(valueDateStart);
+        result.append(",");
+        result.append(valueDateEnd);
+        result.append("]");
+        return result.toString();
+    }
+
     /**
      * @return the valueDateStart
      */

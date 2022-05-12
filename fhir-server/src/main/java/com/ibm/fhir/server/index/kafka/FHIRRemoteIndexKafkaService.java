@@ -23,6 +23,7 @@ import com.google.gson.Gson;
 import com.ibm.fhir.config.FHIRRequestContext;
 import com.ibm.fhir.persistence.index.FHIRRemoteIndexService;
 import com.ibm.fhir.persistence.index.IndexProviderResponse;
+import com.ibm.fhir.persistence.index.RemoteIndexConstants;
 import com.ibm.fhir.persistence.index.RemoteIndexData;
 import com.ibm.fhir.persistence.index.RemoteIndexMessage;
 import com.ibm.fhir.server.index.kafka.KafkaPropertyAdapter.Mode;
@@ -108,6 +109,7 @@ public class FHIRRemoteIndexKafkaService extends FHIRRemoteIndexService {
         // something like "Patient/a-patient-logical-id"
         final String tenantId = FHIRRequestContext.get().getTenantId();
         RemoteIndexMessage msg = new RemoteIndexMessage();
+        msg.setMessageVersion(RemoteIndexConstants.MESSAGE_VERSION);
         msg.setTenantId(tenantId);
         msg.setData(data.getSearchParameters());
         final String message = marshallToString(msg);

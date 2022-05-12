@@ -23,7 +23,7 @@ public class FHIRPersistenceContextImpl implements FHIRPersistenceContext {
     private FHIRSearchContext searchContext;
     private boolean includeDeleted = false;
     private Integer ifNoneMatch;
-    private Short shardKey;
+    private String requestShard;
     
     // The response from the payload persistence (offloading) call, if any
     private PayloadPersistenceResponse offloadResponse;
@@ -47,7 +47,7 @@ public class FHIRPersistenceContextImpl implements FHIRPersistenceContext {
         private boolean includeDeleted;
         private Integer ifNoneMatch;
         private PayloadPersistenceResponse offloadResponse;
-        private Short shardKey;
+        private String requestShard;
         
         /**
          * Protected constructor
@@ -74,7 +74,7 @@ public class FHIRPersistenceContextImpl implements FHIRPersistenceContext {
             impl.setIfNoneMatch(ifNoneMatch);
             impl.setIncludeDeleted(includeDeleted);
             impl.setOffloadResponse(offloadResponse);
-            impl.setShardKey(shardKey);
+            impl.setRequestShard(requestShard);
             
             return impl;
         }
@@ -124,8 +124,8 @@ public class FHIRPersistenceContextImpl implements FHIRPersistenceContext {
          * @param shardKey
          * @return
          */
-        public Builder withShardKey(Short shardKey) {
-            this.shardKey = shardKey;
+        public Builder withRequestShard(String requestShard) {
+            this.requestShard = requestShard;
             return this;
         }
 
@@ -199,8 +199,8 @@ public class FHIRPersistenceContextImpl implements FHIRPersistenceContext {
     }
 
     @Override
-    public Short getShardKey() {
-        return this.shardKey;
+    public String getRequestShard() {
+        return this.requestShard;
     }
 
     /**
@@ -215,8 +215,8 @@ public class FHIRPersistenceContextImpl implements FHIRPersistenceContext {
      * Set the shardKey value
      * @param value
      */
-    public void setShardKey(Short value) {
-        this.shardKey = value;
+    public void setRequestShard(String value) {
+        this.requestShard = value;
     }
 
     /**

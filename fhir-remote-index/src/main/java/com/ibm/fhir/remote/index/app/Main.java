@@ -69,7 +69,8 @@ public class Main {
     private volatile boolean running = true;
 
     // Exit if we drop below this number of running consumers
-    private int minRunningConsumerThreshold = 1;
+    private float minRunningConsumerRatio = 0.5f;
+    private int minRunningConsumerThreshold;
     private IdentityCacheImpl identityCache;
 
     // Database Configuration
@@ -173,6 +174,12 @@ public class Main {
         configureForPostgres();
         initIdentityCache();
 
+        // Keep track of how many consumers are still running. If too many fail,
+        // we stop everything and exit which allows our operating environment
+        // to handle things perhaps by restarting us somewhere else
+        stillRunningCounter = new AtomicInteger(this.consumerCount);
+        this.minRunningConsumerThreshold = Math.max(1, Math.round(this.consumerCount * minRunningConsumerRatio));
+
         // One thread per consumer
         ExecutorService pool = Executors.newCachedThreadPool();
         for (int i=0; i<this.consumerCount; i++) {
@@ -205,6 +212,7 @@ public class Main {
         // partition, brokers failed, database down etc).
         int waitForTerminationSeconds = 30;
         logger.info("Waiting " + waitForTerminationSeconds + " seconds for consumers to stop");
+        pool.shutdown();
         try {
             pool.awaitTermination(waitForTerminationSeconds, TimeUnit.SECONDS);
         } catch (InterruptedException x) {
@@ -220,7 +228,10 @@ public class Main {
      */
     private void initIdentityCache() throws FHIRPersistenceException {
         logger.info("Initializing identity cache");
-        identityCache = new IdentityCacheImpl(1000, Duration.ofSeconds(3600), 10000, Duration.ofSeconds(3600));
+        identityCache = new IdentityCacheImpl(
+            1000, Duration.ofSeconds(3600), 
+            10000, Duration.ofSeconds(3600),
+            1000, Duration.ofSeconds(3600));
         CacheLoader loader = new CacheLoader(identityCache);
         try (Connection connection = connectionProvider.getConnection()) {
             loader.apply(connection);
@@ -243,6 +254,7 @@ public class Main {
         kp.put("key.deserializer", "org.apache.kafka.common.serialization.StringDeserializer");
         kp.put("value.deserializer", "org.apache.kafka.common.serialization.StringDeserializer");
         kp.put("group.id", this.consumerGroup);
+        kp.put("auto.offset.reset", "earliest");
 
         KafkaConsumer<String,String> consumer = new KafkaConsumer<>(kp);
         return consumer;
@@ -328,11 +340,17 @@ public class Main {
         }
     }
 
+    /**
+     * Called from a consumer thread when it is about to exit
+     */
     private void failedConsumerCallback() {
-        if (this.stillRunningCounter.decrementAndGet() < minRunningConsumerThreshold) {
+        final int remainingConsumersStillRunning = stillRunningCounter.decrementAndGet();
+        if (remainingConsumersStillRunning < minRunningConsumerThreshold) {
             // Signal termination of the entire program
             logger.severe("Too many consumers have failed. Terminating");
             this.running = false;
+        } else {
+            logger.info("Remaining consumer count: " + remainingConsumersStillRunning);
         }
     }
 

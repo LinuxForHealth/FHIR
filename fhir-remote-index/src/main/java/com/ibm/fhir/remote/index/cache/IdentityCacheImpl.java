@@ -12,6 +12,7 @@ import java.util.concurrent.ConcurrentHashMap;
 import com.github.benmanes.caffeine.cache.Cache;
 import com.github.benmanes.caffeine.cache.Caffeine;
 import com.ibm.fhir.remote.index.api.IdentityCache;
+import com.ibm.fhir.remote.index.database.CommonCanonicalValueKey;
 import com.ibm.fhir.remote.index.database.CommonTokenValueKey;
 
 /**
@@ -22,6 +23,7 @@ public class IdentityCacheImpl implements IdentityCache {
     private final ConcurrentHashMap<String, Integer> parameterNames = new ConcurrentHashMap<>();
     private final Cache<String, Integer> codeSystemCache;
     private final Cache<CommonTokenValueKey, Long> commonTokenValueCache;
+    private final Cache<CommonCanonicalValueKey, Long> commonCanonicalValueCache;
     private static final Integer NULL_INT = null;
     private static final Long NULL_LONG = null;
 
@@ -29,7 +31,8 @@ public class IdentityCacheImpl implements IdentityCache {
      * Public constructor
      */
     public IdentityCacheImpl(int maxCodeSystemCacheSize, Duration codeSystemCacheDuration,
-        long maxCommonTokenCacheSize, Duration commonTokenCacheDuration) {
+        long maxCommonTokenCacheSize, Duration commonTokenCacheDuration,
+        long maxCommonCanonicalCacheSize, Duration commonCanonicalCacheDuration) {
         codeSystemCache = Caffeine.newBuilder()
                 .maximumSize(maxCodeSystemCacheSize)
                 .expireAfterWrite(codeSystemCacheDuration)
@@ -37,6 +40,10 @@ public class IdentityCacheImpl implements IdentityCache {
         commonTokenValueCache = Caffeine.newBuilder()
                 .maximumSize(maxCommonTokenCacheSize)
                 .expireAfterWrite(commonTokenCacheDuration)
+                .build();
+        commonCanonicalValueCache = Caffeine.newBuilder()
+                .maximumSize(maxCommonCanonicalCacheSize)
+                .expireAfterWrite(commonCanonicalCacheDuration)
                 .build();
     }
 
@@ -60,5 +67,10 @@ public class IdentityCacheImpl implements IdentityCache {
     @Override
     public void addParameterName(String parameterName, int parameterNameId) {
         parameterNames.put(parameterName, parameterNameId);
+    }
+
+    @Override
+    public Long getCommonCanonicalValueId(short shardKey, String url) {
+        return commonCanonicalValueCache.get(new CommonCanonicalValueKey(shardKey, url), k -> NULL_LONG);
     }
 }

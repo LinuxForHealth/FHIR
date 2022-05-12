@@ -41,4 +41,11 @@ public interface IdentityCache {
      * @param parameterNameId
      */
     void addParameterName(String parameterName, int parameterNameId);
+
+    /**
+     * @param shardKey
+     * @param url
+     * @return
+     */
+    Long getCommonCanonicalValueId(short shardKey, String url);
 }

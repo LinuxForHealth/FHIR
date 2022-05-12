@@ -8,29 +8,28 @@ package com.ibm.fhir.persistence.jdbc.impl;
 
 import java.math.BigDecimal;
 import java.sql.Timestamp;
-import java.util.logging.Logger;
 
 import com.ibm.fhir.persistence.index.DateParameter;
 import com.ibm.fhir.persistence.index.LocationParameter;
 import com.ibm.fhir.persistence.index.NumberParameter;
 import com.ibm.fhir.persistence.index.ParameterValueVisitorAdapter;
+import com.ibm.fhir.persistence.index.ProfileParameter;
 import com.ibm.fhir.persistence.index.QuantityParameter;
 import com.ibm.fhir.persistence.index.SearchParametersTransport;
+import com.ibm.fhir.persistence.index.SecurityParameter;
 import com.ibm.fhir.persistence.index.StringParameter;
+import com.ibm.fhir.persistence.index.TagParameter;
 import com.ibm.fhir.persistence.index.TokenParameter;
-import com.ibm.fhir.search.util.ReferenceValue;
-import com.ibm.fhir.search.util.ReferenceValue.ReferenceType;
 
 
 /**
- * Visitor implementation to build an instance of {@link SearchParametersTransport} to
+ * Visitor adapter implementation to build an instance of {@link SearchParametersTransport} to
  * provide support for shipping a set of search parameter values off to a remote
  * index service. This allows the parameters to be stored in the database in a
  * separate transaction, and allows the inserts to be batched together, providing
  * improved throughput.
  */
 public class SearchParametersTransportAdapter implements ParameterValueVisitorAdapter {
-    private static final Logger logger = Logger.getLogger(SearchParametersTransportAdapter.class.getName());
 
     // The builder we use to collect all the visited parameter values
     private final SearchParametersTransport.Builder builder;
@@ -40,14 +39,14 @@ public class SearchParametersTransportAdapter implements ParameterValueVisitorAd
      * @param resourceType
      * @param logicalId
      * @param logicalResourceId
-     * @param shardKey
+     * @param requestShard
      */
-    public SearchParametersTransportAdapter(String resourceType, String logicalId, long logicalResourceId, Short shardKey) {
+    public SearchParametersTransportAdapter(String resourceType, String logicalId, long logicalResourceId, String requestShard) {
         builder = SearchParametersTransport.builder()
             .withResourceType(resourceType)
             .withLogicalId(logicalId)
             .withLogicalResourceId(logicalResourceId)
-            .withShardKey(shardKey);
+            .withRequestShard(requestShard);
     }
 
     /**
@@ -59,11 +58,12 @@ public class SearchParametersTransportAdapter implements ParameterValueVisitorAd
     }
 
     @Override
-    public void stringValue(String name, String valueString, Integer compositeId) {
+    public void stringValue(String name, String valueString, Integer compositeId, boolean wholeSystem) {
         StringParameter value = new StringParameter();
         value.setName(name);
         value.setValue(valueString);
         value.setCompositeId(compositeId);
+        value.setWholeSystem(wholeSystem);
         builder.addStringValue(value);
     }
 
@@ -79,12 +79,13 @@ public class SearchParametersTransportAdapter implements ParameterValueVisitorAd
     }
 
     @Override
-    public void dateValue(String name, Timestamp valueDateStart, Timestamp valueDateEnd, Integer compositeId) {
+    public void dateValue(String name, Timestamp valueDateStart, Timestamp valueDateEnd, Integer compositeId, boolean wholeSystem) {
         DateParameter value = new DateParameter();
         value.setName(name);
         value.setValueDateStart(valueDateStart);
         value.setValueDateEnd(valueDateEnd);
         value.setCompositeId(compositeId);
+        value.setWholeSystem(wholeSystem);
         builder.addDateValue(value);
     }
 
@@ -96,6 +97,37 @@ public class SearchParametersTransportAdapter implements ParameterValueVisitorAd
         value.setValueCode(valueCode);
         value.setCompositeId(compositeId);
         builder.addTokenValue(value);
+    }
+
+    @Override
+    public void tagValue(String name, String valueSystem, String valueCode, boolean wholeSystem) {
+        TagParameter value = new TagParameter();
+        value.setName(name);
+        value.setValueSystem(valueSystem);
+        value.setValueCode(valueCode);
+        value.setWholeSystem(wholeSystem);
+        builder.addTagValue(value);
+    }
+
+    @Override
+    public void profileValue(String name, String url, String version, String fragment, boolean wholeSystem) {
+        ProfileParameter value = new ProfileParameter();
+        value.setName(name);
+        value.setUrl(url);
+        value.setVersion(version);
+        value.setFragment(fragment);
+        value.setWholeSystem(wholeSystem);
+        builder.addProfileValue(value);
+    }
+
+    @Override
+    public void securityValue(String name, String valueSystem, String valueCode, boolean wholeSystem) {
+        SecurityParameter value = new SecurityParameter();
+        value.setName(name);
+        value.setValueSystem(valueSystem);
+        value.setValueCode(valueCode);
+        value.setWholeSystem(wholeSystem);
+        builder.addSecurityValue(value);
     }
 
     @Override
@@ -123,28 +155,7 @@ public class SearchParametersTransportAdapter implements ParameterValueVisitorAd
     }
 
     @Override
-    public void referenceValue(String name, ReferenceValue refValue, Integer compositeId) {
-        if (refValue == null) {
-            return;
-        }
-
-        // The ReferenceValue has already been processed to convert the reference to
-        // the required standard form, ready for insertion as a token value.
-
-        String refResourceType = refValue.getTargetResourceType();
-        String refLogicalId = refValue.getValue();
-        Integer refVersion = refValue.getVersion();
-
-        // Ignore references containing only a "display" element (apparently supported by the spec,
-        // but contains nothing useful to store because there's no searchable value).
-        // See ParameterVisitorBatchDAO
-        if (refValue.getType() == ReferenceType.DISPLAY_ONLY || refValue.getType() == ReferenceType.INVALID) {
-            // protect against code regression. Invalid/improper references should be
-            // filtered out already.
-            logger.warning("Invalid reference parameter type: name='" + name + "' type=" + refValue.getType().name());
-            throw new IllegalArgumentException("Invalid reference parameter value. See server log for details.");
-        }
-        
+    public void referenceValue(String name, String refResourceType, String refLogicalId, Integer refVersion, Integer compositeId) {
         TokenParameter value = new TokenParameter();
         value.setName(name);
         value.setValueSystem(refResourceType);

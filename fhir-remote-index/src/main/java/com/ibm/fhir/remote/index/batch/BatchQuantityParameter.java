@@ -23,6 +23,7 @@ public class BatchQuantityParameter extends BatchParameterValue {
     /**
      * Canonical constructor
      * 
+     * @param requestShard
      * @param resourceType
      * @param logicalId
      * @param logicalResourceId
@@ -30,14 +31,14 @@ public class BatchQuantityParameter extends BatchParameterValue {
      * @param parameter
      * @param csv
      */
-    public BatchQuantityParameter(String resourceType, String logicalId, long logicalResourceId, ParameterNameValue parameterNameValue, QuantityParameter parameter, CodeSystemValue csv) {
-        super(resourceType, logicalId, logicalResourceId, parameterNameValue);
+    public BatchQuantityParameter(String requestShard, String resourceType, String logicalId, long logicalResourceId, ParameterNameValue parameterNameValue, QuantityParameter parameter, CodeSystemValue csv) {
+        super(requestShard, resourceType, logicalId, logicalResourceId, parameterNameValue);
         this.parameter = parameter;
         this.codeSystemValue = csv;
     }
 
     @Override
     public void apply(BatchParameterProcessor processor) throws FHIRPersistenceException {
-        processor.process(resourceType, logicalId, logicalResourceId, parameterNameValue, parameter, codeSystemValue);
+        processor.process(requestShard, resourceType, logicalId, logicalResourceId, parameterNameValue, parameter, codeSystemValue);
     }
 }

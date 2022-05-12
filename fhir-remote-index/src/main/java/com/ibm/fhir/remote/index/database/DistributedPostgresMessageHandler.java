@@ -27,17 +27,23 @@ import com.ibm.fhir.persistence.exception.FHIRPersistenceException;
 import com.ibm.fhir.persistence.index.DateParameter;
 import com.ibm.fhir.persistence.index.LocationParameter;
 import com.ibm.fhir.persistence.index.NumberParameter;
+import com.ibm.fhir.persistence.index.ProfileParameter;
 import com.ibm.fhir.persistence.index.QuantityParameter;
 import com.ibm.fhir.persistence.index.SearchParameterValue;
+import com.ibm.fhir.persistence.index.SecurityParameter;
 import com.ibm.fhir.persistence.index.StringParameter;
+import com.ibm.fhir.persistence.index.TagParameter;
 import com.ibm.fhir.persistence.index.TokenParameter;
 import com.ibm.fhir.remote.index.api.BatchParameterValue;
 import com.ibm.fhir.remote.index.api.IdentityCache;
 import com.ibm.fhir.remote.index.batch.BatchDateParameter;
 import com.ibm.fhir.remote.index.batch.BatchLocationParameter;
 import com.ibm.fhir.remote.index.batch.BatchNumberParameter;
+import com.ibm.fhir.remote.index.batch.BatchProfileParameter;
 import com.ibm.fhir.remote.index.batch.BatchQuantityParameter;
+import com.ibm.fhir.remote.index.batch.BatchSecurityParameter;
 import com.ibm.fhir.remote.index.batch.BatchStringParameter;
+import com.ibm.fhir.remote.index.batch.BatchTagParameter;
 import com.ibm.fhir.remote.index.batch.BatchTokenParameter;
 
 /**
@@ -68,6 +74,9 @@ public class DistributedPostgresMessageHandler extends BaseMessageHandler {
     // A map to support lookup of CommonTokenValue records by key
     private final Map<CommonTokenValueKey, CommonTokenValue> commonTokenValueMap = new HashMap<>();
 
+    // A map to support lookup of CommonCanonicalValue records by key
+    private final Map<CommonCanonicalValueKey, CommonCanonicalValue> commonCanonicalValueMap = new HashMap<>();
+
     // All parameter names in the current transaction for which we don't yet know the parameter_name_id
     private final List<ParameterNameValue> unresolvedParameterNames = new ArrayList<>();
 
@@ -76,6 +85,9 @@ public class DistributedPostgresMessageHandler extends BaseMessageHandler {
 
     // A list of all the CommonTokenValues for which we don't yet know the common_token_value_id
     private final List<CommonTokenValue> unresolvedTokenValues = new ArrayList<>();
+
+    // A list of all the CommonCanonicalValues for which we don't yet know the canonical_id
+    private final List<CommonCanonicalValue> unresolvedCanonicalValues = new ArrayList<>();
     
     // The processed values we've collected
     private final List<BatchParameterValue> batchedParameterValues = new ArrayList<>();
@@ -85,6 +97,7 @@ public class DistributedPostgresMessageHandler extends BaseMessageHandler {
 
     private final int maxCodeSystemsPerStatement = 512;
     private final int maxCommonTokenValuesPerStatement = 256;
+    private final int maxCommonCanonicalValuesPerStatement = 256;
     private boolean rollbackOnly;
 
     /**
@@ -97,6 +110,17 @@ public class DistributedPostgresMessageHandler extends BaseMessageHandler {
         this.schemaName = schemaName;
         this.identityCache = cache;
         this.batchProcessor = new JDBCBatchParameterProcessor(connection);
+    }
+
+    @Override
+    protected void startBatch() {
+        // always start with a clean slate
+        batchedParameterValues.clear();
+        unresolvedParameterNames.clear();
+        unresolvedSystemValues.clear();
+        unresolvedTokenValues.clear();
+        unresolvedCanonicalValues.clear();
+        batchProcessor.startBatch();
     }
 
     @Override
@@ -115,10 +139,13 @@ public class DistributedPostgresMessageHandler extends BaseMessageHandler {
 
     @Override
     protected void endTransaction() throws FHIRPersistenceException {
+        boolean committed = false;
         try {
             if (!this.rollbackOnly) {
                 logger.fine("Committing transaction");
                 connection.commit();
+                committed = true;
+
                 // any values from parameter_names, code_systems and common_token_values
                 // are now committed to the database, so we can publish their record ids
                 // to the shared cache which makes them accessible from other threads 
@@ -131,16 +158,23 @@ public class DistributedPostgresMessageHandler extends BaseMessageHandler {
                 } catch (SQLException x) {
                     // It could very well be that we've lost touch with the database in which case
                     // the rollback will also fail. Not much we can do, although we don't bother
-                    // with a stack trace here because it's just more noise for the log file.
+                    // with a stack trace here because it's just more noise for the log file, and
+                    // the exception that triggered the rollback is already going to be propagated
+                    // and logged.
                     logger.severe("Rollback failed; reason=[" + x.getMessage() + "]");
                 }
             }
         } catch (SQLException x) {
             throw new FHIRPersistenceException("commit failed", x);
         } finally {
-            unresolvedParameterNames.clear();
-            unresolvedSystemValues.clear();
-            unresolvedTokenValues.clear();
+            if (!committed) {
+                // The maps may contain ids that were not committed to the database so
+                // we should clean them out in case we decide to reuse this consumer
+                this.parameterNameMap.clear();
+                this.codeSystemValueMap.clear();
+                this.commonTokenValueMap.clear();
+                this.commonCanonicalValueMap.clear();
+            }
         }
     }
 
@@ -153,7 +187,6 @@ public class DistributedPostgresMessageHandler extends BaseMessageHandler {
         for (ParameterNameValue pnv: this.unresolvedParameterNames) {
             identityCache.addParameterName(pnv.getParameterName(), pnv.getParameterNameId());
         }
-        this.unresolvedParameterNames.clear();
     }
 
     @Override
@@ -166,6 +199,7 @@ public class DistributedPostgresMessageHandler extends BaseMessageHandler {
         resolveParameterNames();
         resolveCodeSystems();
         resolveCommonTokenValues();
+        resolveCommonCanonicalValues();
 
         // Now that all the lookup values should've been resolved, we can go ahead
         // and push the parameters to the JDBC batch insert statements via the
@@ -182,6 +216,9 @@ public class DistributedPostgresMessageHandler extends BaseMessageHandler {
      * @return
      */
     private ParameterNameValue getParameterNameId(SearchParameterValue p) throws FHIRPersistenceException {
+        if (logger.isLoggable(Level.FINEST)) {
+            logger.finest("get ParameterNameValue for [" + p.toString() + "]");
+        }
         ParameterNameValue result = parameterNameMap.get(p.getName());
         if (result == null) {
             result = new ParameterNameValue(p.getName());
@@ -200,42 +237,66 @@ public class DistributedPostgresMessageHandler extends BaseMessageHandler {
     }
     
     @Override
-    protected void process(String tenantId, String resourceType, String logicalId, long logicalResourceId, StringParameter p) throws FHIRPersistenceException {
+    protected void process(String tenantId, String requestShard, String resourceType, String logicalId, long logicalResourceId, StringParameter p) throws FHIRPersistenceException {
         ParameterNameValue parameterNameValue = getParameterNameId(p);
-        this.batchedParameterValues.add(new BatchStringParameter(resourceType, logicalId, logicalResourceId, parameterNameValue, p));
+        this.batchedParameterValues.add(new BatchStringParameter(requestShard, resourceType, logicalId, logicalResourceId, parameterNameValue, p));
     }
 
     @Override
-    protected void process(String tenantId, String resourceType, String logicalId, long logicalResourceId, LocationParameter p) throws FHIRPersistenceException {
+    protected void process(String tenantId, String requestShard, String resourceType, String logicalId, long logicalResourceId, LocationParameter p) throws FHIRPersistenceException {
         ParameterNameValue parameterNameValue = getParameterNameId(p);
-        this.batchedParameterValues.add(new BatchLocationParameter(resourceType, logicalId, logicalResourceId, parameterNameValue, p));
+        this.batchedParameterValues.add(new BatchLocationParameter(requestShard, resourceType, logicalId, logicalResourceId, parameterNameValue, p));
     }
 
     @Override
-    protected void process(String tenantId, String resourceType, String logicalId, long logicalResourceId, TokenParameter p) throws FHIRPersistenceException {
-        short shardKey = batchProcessor.encodeShardKey(resourceType, logicalId);
+    protected void process(String tenantId, String requestShard, String resourceType, String logicalId, long logicalResourceId, TokenParameter p) throws FHIRPersistenceException {
+        Short shardKey = batchProcessor.encodeShardKey(requestShard);
         CommonTokenValue ctv = lookupCommonTokenValue(shardKey, p.getValueSystem(), p.getValueCode());
         ParameterNameValue parameterNameValue = getParameterNameId(p);
-        this.batchedParameterValues.add(new BatchTokenParameter(resourceType, logicalId, logicalResourceId, parameterNameValue, p, ctv));
+        this.batchedParameterValues.add(new BatchTokenParameter(requestShard, resourceType, logicalId, logicalResourceId, parameterNameValue, p, ctv));
     }
 
     @Override
-    protected void process(String tenantId, String resourceType, String logicalId, long logicalResourceId, QuantityParameter p) throws FHIRPersistenceException {
+    protected void process(String tenantId, String requestShard, String resourceType, String logicalId, long logicalResourceId, TagParameter p) throws FHIRPersistenceException {
+        Short shardKey = batchProcessor.encodeShardKey(requestShard);
+        CommonTokenValue ctv = lookupCommonTokenValue(shardKey, p.getValueSystem(), p.getValueCode());
+        ParameterNameValue parameterNameValue = getParameterNameId(p);
+        this.batchedParameterValues.add(new BatchTagParameter(requestShard, resourceType, logicalId, logicalResourceId, parameterNameValue, p, ctv));
+    }
+
+    @Override
+    protected void process(String tenantId, String requestShard, String resourceType, String logicalId, long logicalResourceId, SecurityParameter p) throws FHIRPersistenceException {
+        Short shardKey = batchProcessor.encodeShardKey(requestShard);
+        CommonTokenValue ctv = lookupCommonTokenValue(shardKey, p.getValueSystem(), p.getValueCode());
+        ParameterNameValue parameterNameValue = getParameterNameId(p);
+        this.batchedParameterValues.add(new BatchSecurityParameter(requestShard, resourceType, logicalId, logicalResourceId, parameterNameValue, p, ctv));
+    }
+
+    @Override
+    protected void process(String tenantId, String requestShard, String resourceType, String logicalId, long logicalResourceId, ProfileParameter p) throws FHIRPersistenceException {
+        Short shardKey = batchProcessor.encodeShardKey(requestShard);
+        CommonCanonicalValue ctv = lookupCommonCanonicalValue(shardKey, p.getUrl());
+        ParameterNameValue parameterNameValue = getParameterNameId(p);
+        this.batchedParameterValues.add(new BatchProfileParameter(requestShard, resourceType, logicalId, logicalResourceId, parameterNameValue, p, ctv));
+    }
+
+    @Override
+    protected void process(String tenantId, String requestShard, String resourceType, String logicalId, long logicalResourceId, QuantityParameter p) throws FHIRPersistenceException {
         ParameterNameValue parameterNameValue = getParameterNameId(p);
         CodeSystemValue csv = lookupCodeSystemValue(p.getValueSystem());
-        this.batchedParameterValues.add(new BatchQuantityParameter(resourceType, logicalId, logicalResourceId, parameterNameValue, p, csv));
+        this.batchedParameterValues.add(new BatchQuantityParameter(requestShard, resourceType, logicalId, logicalResourceId, parameterNameValue, p, csv));
     }
 
     @Override
-    protected void process(String tenantId, String resourceType, String logicalId, long logicalResourceId, NumberParameter p) throws FHIRPersistenceException {
+    protected void process(String tenantId, String requestShard, String resourceType, String logicalId, long logicalResourceId, NumberParameter p) throws FHIRPersistenceException {
         ParameterNameValue parameterNameValue = getParameterNameId(p);
-        this.batchedParameterValues.add(new BatchNumberParameter(resourceType, logicalId, logicalResourceId, parameterNameValue, p));
+        this.batchedParameterValues.add(new BatchNumberParameter(requestShard, resourceType, logicalId, logicalResourceId, parameterNameValue, p));
     }
 
     @Override
-    protected void process(String tenantId, String resourceType, String logicalId, long logicalResourceId, DateParameter p) throws FHIRPersistenceException {
+    protected void process(String tenantId, String requestShard, String resourceType, String logicalId, long logicalResourceId, DateParameter p) throws FHIRPersistenceException {
         ParameterNameValue parameterNameValue = getParameterNameId(p);
-        this.batchedParameterValues.add(new BatchDateParameter(resourceType, logicalId, logicalResourceId, parameterNameValue, p));
+        this.batchedParameterValues.add(new BatchDateParameter(requestShard, resourceType, logicalId, logicalResourceId, parameterNameValue, p));
     }
 
     /**
@@ -291,6 +352,24 @@ public class DistributedPostgresMessageHandler extends BaseMessageHandler {
         return result;
     }
 
+    private CommonCanonicalValue lookupCommonCanonicalValue(short shardKey, String url) {
+        CommonCanonicalValueKey key = new CommonCanonicalValueKey(shardKey, url);
+        CommonCanonicalValue result = this.commonCanonicalValueMap.get(key);
+        if (result == null) {
+            result = new CommonCanonicalValue(shardKey, url);
+            this.commonCanonicalValueMap.put(key, result);
+
+            // Take this opportunity to see if we have a cached value for this common token value
+            Long canonicalId = identityCache.getCommonCanonicalValueId(shardKey, url);
+            if (canonicalId != null) {
+                result.setCanonicalId(canonicalId);
+            } else {
+                this.unresolvedCanonicalValues.add(result);
+            }
+        }
+        return result;
+    }
+
     /**
      * Make sure we have values for all the code_systems we have collected
      * in the current
@@ -316,7 +395,7 @@ public class DistributedPostgresMessageHandler extends BaseMessageHandler {
     }
 
     /**
-     * Build and prepare a statement to fetch the code_system_id and code_system value
+     * Build and prepare a statement to fetch the code_system_id and code_system_name
      * from the code_systems table for all the given (unresolved) code system values
      * @param values
      * @return
@@ -324,7 +403,7 @@ public class DistributedPostgresMessageHandler extends BaseMessageHandler {
      */
     private PreparedStatement buildCodeSystemSelectStatement(List<CodeSystemValue> values) throws SQLException {
         StringBuilder query = new StringBuilder();
-        query.append("SELECT code_system_id, code_system FROM code_systems WHERE code_system IN (");
+        query.append("SELECT code_system_id, code_system_name FROM code_systems WHERE code_system_name IN (");
         for (int i=0; i<values.size(); i++) {
             if (i > 0) {
                 query.append(",");
@@ -355,7 +434,7 @@ public class DistributedPostgresMessageHandler extends BaseMessageHandler {
 
         final String nextVal = translator.nextValue(schemaName, "fhir_ref_sequence");
         StringBuilder insert = new StringBuilder();
-        insert.append("INSERT INTO code_systems (code_system_id, code_system) VALUES (");
+        insert.append("INSERT INTO code_systems (code_system_id, code_system_name) VALUES (");
         insert.append(nextVal); // next sequence value
         insert.append(",?) ON CONFLICT DO NOTHING");
 
@@ -470,14 +549,15 @@ public class DistributedPostgresMessageHandler extends BaseMessageHandler {
      * @return SELECT shard_key, code_system, token_value, common_token_value_id
      * @throws SQLException
      */
-    private PreparedStatement buildCommonTokenValueSelectStatement(List<CommonTokenValue> values) throws SQLException {
+    private PreparedStatementWrapper buildCommonTokenValueSelectStatement(List<CommonTokenValue> values) throws SQLException {
         StringBuilder query = new StringBuilder();
         // need the code_system name - so we join back to the code_systems table as well
-        query.append("SELECT c.shard_key, cs.code_system, c.token_value, c.common_token_value_id ");
+        query.append("SELECT c.shard_key, cs.code_system_name, c.token_value, c.common_token_value_id ");
         query.append("  FROM common_token_values c");
         query.append("  JOIN code_systems cs ON (cs.code_system_id = c.code_system_id)");
-        query.append("  JOIN VALUES (");
-        
+        query.append("  JOIN (VALUES ");
+
+        // Create a (codeSystem, shardKey, tokenValue) tuple for each of the CommonTokenValue records
         boolean first = true;
         for (CommonTokenValue ctv: values) {
             if (first) {
@@ -487,19 +567,22 @@ public class DistributedPostgresMessageHandler extends BaseMessageHandler {
             }
             query.append("(");
             query.append(ctv.getCodeSystemValue().getCodeSystemId()); // literal for code_system_id
+            query.append(",").append(ctv.getShardKey()); // literal for shard_key
             query.append(",?)"); // bind variable for the token-value
         }
-        query.append(") AS v(code_system_id, token_value) ");
-        query.append(" ON c.code_system_id = v.code_system_id AND c.token_value = v.token_value");
+        query.append(") AS v(code_system_id, shard_key, token_value) ");
+        query.append(" ON (c.code_system_id = v.code_system_id AND c.token_value = v.token_value AND c.shard_key = v.shard_key)");
 
         // Create the prepared statement and bind the values
-        PreparedStatement ps = connection.prepareStatement(query.toString());
+        final String statementText = query.toString();
+        PreparedStatement ps = connection.prepareStatement(statementText);
+
         // bind the parameter values
         int param = 1;
         for (CommonTokenValue ctv: values) {
             ps.setString(param++, ctv.getTokenValue());
         }
-        return ps;
+        return new PreparedStatementWrapper(statementText, ps);
     }
     
     private List<CommonTokenValue> fetchCommonTokenValueIds(List<CommonTokenValue> unresolved) throws FHIRPersistenceException {
@@ -512,7 +595,9 @@ public class DistributedPostgresMessageHandler extends BaseMessageHandler {
             int subSize = Math.min(remaining, this.maxCommonTokenValuesPerStatement);
             List<CommonTokenValue> sub = unresolved.subList(offset, offset+subSize); // remember toIndex is exclusive
             offset += subSize; // set up for the next iteration
-            try (PreparedStatement ps = buildCommonTokenValueSelectStatement(sub)) {
+            String sql = null; // the SQL text for logging when there's an error
+            try (PreparedStatementWrapper ps = buildCommonTokenValueSelectStatement(sub)) {
+                sql = ps.getStatementText();
                 ResultSet rs = ps.executeQuery();
                 // We can't rely on the order of result rows matching the order of the in-list,
                 // so we have to go back to our map to look up each CodeSystemValue
@@ -542,7 +627,7 @@ public class DistributedPostgresMessageHandler extends BaseMessageHandler {
                     }
                 }
             } catch (SQLException x) {
-                logger.log(Level.SEVERE, "common token values fetch failed", x);
+                logger.log(Level.SEVERE, "common token values fetch failed. SQL=[" + sql + "]", x);
                 throw new FHIRPersistenceException("common token values fetch failed");
             }
         }
@@ -561,8 +646,9 @@ public class DistributedPostgresMessageHandler extends BaseMessageHandler {
 
         final String nextVal = translator.nextValue(schemaName, "fhir_sequence");
         StringBuilder insert = new StringBuilder();
-        insert.append("INSERT INTO common_token_values (shard_key, code_system_id, token_value, common_token_value_id) VALUES (");
-        insert.append("?,?,?,");
+        insert.append("INSERT INTO common_token_values (shard_key, code_system_id, token_value, common_token_value_id) ");
+        insert.append(" OVERRIDING SYSTEM VALUE "); // we want to use our sequence number
+        insert.append("     VALUES (?,?,?,");
         insert.append(nextVal); // next sequence value
         insert.append(") ON CONFLICT DO NOTHING");
 
@@ -586,6 +672,172 @@ public class DistributedPostgresMessageHandler extends BaseMessageHandler {
         } catch (SQLException x) {
             logger.log(Level.SEVERE, "failed: " + insert.toString(), x);
             throw new FHIRPersistenceException("failed inserting new common token values");
+        }
+    }
+
+    /**
+     * Make sure we have values for all the common_canonical_value records we have collected
+     * in the current batch
+     * @throws FHIRPersistenceException
+     */
+    private void resolveCommonCanonicalValues() throws FHIRPersistenceException {
+        // identify which values aren't yet in the database
+        List<CommonCanonicalValue> missing = fetchCanonicalIds(unresolvedCanonicalValues);
+
+        if (!missing.isEmpty()) {
+            // Sort on (url, shard_key) to minimize deadlocks
+            Collections.sort(missing, (a,b) -> {
+                int result = a.getUrl().compareTo(b.getUrl());
+                if (result == 0) {
+                    result = Short.compare(a.getShardKey(), b.getShardKey());
+                }
+                return result;
+            });
+            addMissingCommonCanonicalValues(missing);
+        }
+
+        // All the previously missing values should now be in the database. We need to fetch them again,
+        // possibly having to use multiple queries
+        List<CommonCanonicalValue> bad = fetchCanonicalIds(missing);
+
+        if (!bad.isEmpty()) {
+            // shouldn't happen, but let's protected against it anyway
+            throw new FHIRPersistenceException("Failed to create all canonical values");
+        }
+    }
+
+    private List<CommonCanonicalValue> fetchCanonicalIds(List<CommonCanonicalValue> unresolved) throws FHIRPersistenceException {
+        // track which values aren't yet in the database
+        List<CommonCanonicalValue> missing = new ArrayList<>();
+
+        int offset = 0;
+        while (offset < unresolved.size()) {
+            int remaining = unresolved.size() - offset;
+            int subSize = Math.min(remaining, this.maxCommonCanonicalValuesPerStatement);
+            List<CommonCanonicalValue> sub = unresolved.subList(offset, offset+subSize); // remember toIndex is exclusive
+            offset += subSize; // set up for the next iteration
+            String sql = null; // the SQL text for logging when there's an error
+            try (PreparedStatementWrapper ps = buildCommonCanonicalValueSelectStatement(sub)) {
+                sql = ps.getStatementText();
+                ResultSet rs = ps.executeQuery();
+                // We can't rely on the order of result rows matching the order of the in-list,
+                // so we have to go back to our map to look up each CodeSystemValue
+                int resultCount = 0;
+                while (rs.next()) {
+                    resultCount++;
+                    CommonCanonicalValueKey key = new CommonCanonicalValueKey(rs.getShort(1), rs.getString(2));
+                    CommonCanonicalValue ctv = this.commonCanonicalValueMap.get(key);
+                    if (ctv != null) {
+                        ctv.setCanonicalId(rs.getLong(3));
+                    } else {
+                        // can't really happen, but be defensive
+                        throw new FHIRPersistenceException("common canonical values query returned an unexpected value");
+                    }
+                }
+
+                // Optimize the check for missing values
+                if (resultCount == 0) {
+                    // 100% miss
+                    missing.addAll(sub);
+                } else if (resultCount < subSize) {
+                    // need to scan the sub list and see which values we don't yet have ids for
+                    for (CommonCanonicalValue ctv: sub) {
+                        if (ctv.getCanonicalId() == null) {
+                            missing.add(ctv);
+                        }
+                    }
+                }
+            } catch (SQLException x) {
+                logger.log(Level.SEVERE, "common canonical values fetch failed. SQL=[" + sql + "]", x);
+                throw new FHIRPersistenceException("common canonical values fetch failed");
+            }
+        }
+
+        // Return the list of CodeSystemValues which don't yet have a database entry
+        return missing;
+    }
+
+    /**
+     * Build and prepare a statement to fetch the common_token_value records
+     * for all the given (unresolved) code system values
+     * @param values
+     * @return SELECT shard_key, code_system, token_value, common_token_value_id
+     * @throws SQLException
+     */
+    private PreparedStatementWrapper buildCommonCanonicalValueSelectStatement(List<CommonCanonicalValue> values) throws SQLException {
+        StringBuilder query = new StringBuilder();
+        query.append("SELECT c.shard_key, c.url, c.canonical_id ");
+        query.append("  FROM common_canonical_values c ");
+        query.append("  JOIN (VALUES ");
+
+        // Create a (shardKey, url) tuple for each of the CommonCanonicalValue records
+        boolean first = true;
+        for (CommonCanonicalValue ctv: values) {
+            if (first) {
+                first = false;
+            } else {
+                query.append(",");
+            }
+            query.append("(");
+            query.append(ctv.getShardKey()); // literal for shard_key
+            query.append(",?)"); // bind variable for the uri
+        }
+        query.append(") AS v(shard_key, url) ");
+        query.append(" ON (c.url = v.url AND c.shard_key = v.shard_key)");
+
+        // Create the prepared statement and bind the values
+        final String statementText = query.toString();
+        logger.finer(() -> "fetch common canonical values [" + statementText + "]");
+        PreparedStatement ps = connection.prepareStatement(statementText);
+
+        // bind the parameter values
+        int param = 1;
+        for (CommonCanonicalValue ctv: values) {
+            ps.setString(param++, ctv.getUrl());
+        }
+        return new PreparedStatementWrapper(statementText, ps);
+    }
+
+    /**
+     * Add the values we think are missing from the database. The given list should be
+     * sorted to reduce deadlocks
+     * @param missing
+     * @throws FHIRPersistenceException
+     */
+    private void addMissingCommonCanonicalValues(List<CommonCanonicalValue> missing) throws FHIRPersistenceException {
+
+        final String nextVal = translator.nextValue(schemaName, "fhir_sequence");
+        StringBuilder insert = new StringBuilder();
+        insert.append("INSERT INTO common_canonical_values (shard_key, url, canonical_id) ");
+        insert.append(" OVERRIDING SYSTEM VALUE "); // we want to use our sequence number
+        insert.append("     VALUES (?,?,");
+        insert.append(nextVal); // next sequence value
+        insert.append(") ON CONFLICT DO NOTHING");
+
+        final String DML = insert.toString();
+        if (logger.isLoggable(Level.FINE)) {
+            logger.fine("addMissingCanonicalIds: " + DML);
+        }
+        try (PreparedStatement ps = connection.prepareStatement(DML)) {
+            int count = 0;
+            for (CommonCanonicalValue ctv: missing) {
+                logger.finest(() -> "Adding canonical value [" + ctv.toString() + "]");
+                ps.setShort(1, ctv.getShardKey());
+                ps.setString(2, ctv.getUrl());
+                ps.addBatch();
+                if (++count == this.maxCommonCanonicalValuesPerStatement) {
+                    // not too many statements in a single batch
+                    ps.executeBatch();
+                    count = 0;
+                }
+            }
+            if (count > 0) {
+                // final batch
+                ps.executeBatch();
+            }
+        } catch (SQLException x) {
+            logger.log(Level.SEVERE, "failed: " + insert.toString(), x);
+            throw new FHIRPersistenceException("failed inserting new common canonical values");
         }
     }
 

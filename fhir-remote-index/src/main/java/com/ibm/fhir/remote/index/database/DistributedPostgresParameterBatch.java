@@ -15,6 +15,7 @@ import java.sql.Types;
 import java.util.Calendar;
 
 import com.ibm.fhir.database.utils.common.CalendarHelper;
+import com.ibm.fhir.database.utils.common.PreparedStatementHelper;
 
 /**
  * Parameter batch statements configured for a given resource type
@@ -40,6 +41,15 @@ public class DistributedPostgresParameterBatch {
 
     private PreparedStatement resourceTokenRefs;
     private int resourceTokenRefCount;
+
+    private PreparedStatement tags;
+    private int tagCount;
+
+    private PreparedStatement profiles;
+    private int profileCount;
+
+    private PreparedStatement security;
+    private int securityCount;
 
     /**
      * Public constructor
@@ -78,6 +88,18 @@ public class DistributedPostgresParameterBatch {
         if (resourceTokenRefCount > 0) {
             resourceTokenRefs.executeBatch();
             resourceTokenRefCount = 0;
+        }
+        if (tagCount > 0) {
+            tags.executeBatch();
+            tagCount = 0;
+        }
+        if (profileCount > 0) {
+            profiles.executeBatch();
+            profileCount = 0;
+        }
+        if (securityCount > 0) {
+            security.executeBatch();
+            securityCount = 0;
         }
     }
 
@@ -151,6 +173,36 @@ public class DistributedPostgresParameterBatch {
                 resourceTokenRefCount = 0;
             }
         }
+        if (tags != null) {
+            try {
+                tags.close();
+            } catch (SQLException x) {
+                // NOP
+            } finally {
+                tags = null;
+                tagCount = 0;
+            }            
+        }
+        if (profiles != null) {
+            try {
+                profiles.close();
+            } catch (SQLException x) {
+                // NOP
+            } finally {
+                profiles = null;
+                profileCount = 0;
+            }            
+        }
+        if (security != null) {
+            try {
+                security.close();
+            } catch (SQLException x) {
+                // NOP
+            } finally {
+                security = null;
+                securityCount = 0;
+            }
+        }
     }
 
     /**
@@ -165,6 +217,20 @@ public class DistributedPostgresParameterBatch {
             ps.setInt(index, compositeId);
         } else {
             ps.setNull(index, Types.INTEGER);
+        }
+    }
+    /**
+     * Utility method to set a string value and handle null
+     * @param ps
+     * @param index
+     * @param value
+     * @throws SQLException
+     */
+    private void setString(PreparedStatement ps, int index, String value) throws SQLException {
+        if (value == null) {
+            ps.setNull(index, Types.VARCHAR);
+        } else {
+            ps.setString(index, value);
         }
     }
 
@@ -271,5 +337,47 @@ public class DistributedPostgresParameterBatch {
         resourceTokenRefs.setShort(6, shardKey);
         resourceTokenRefs.addBatch();
         resourceTokenRefCount++;
+    }
+
+    public void addTag(long logicalResourceId, long commonTokenValueId, short shardKey) throws SQLException {
+        if (tags == null) {
+            final String tablePrefix = resourceType.toLowerCase();
+            final String tokenString = "INSERT INTO " + tablePrefix + "_tags (common_token_value_id, logical_resource_id, shard_key) VALUES (?,?,?)";
+            tags = connection.prepareStatement(tokenString);
+        }
+        tags.setLong(1, commonTokenValueId);
+        tags.setLong(2, logicalResourceId);
+        tags.setShort(3, shardKey);
+        tags.addBatch();
+        tagCount++;
+    }
+
+    public void addProfile(long logicalResourceId, long canonicalId, String version, String fragment, short shardKey) throws SQLException {
+        if (profiles == null) {
+            final String tablePrefix = resourceType.toLowerCase();
+            final String tokenString = "INSERT INTO " + tablePrefix + "_profiles (canonical_id, logical_resource_id, shard_key, version, fragment) VALUES (?,?,?,?,?)";
+            profiles = connection.prepareStatement(tokenString);
+        }
+        profiles.setLong(1, canonicalId);
+        profiles.setLong(2, logicalResourceId);
+        profiles.setShort(3, shardKey);
+        setString(profiles, 4, version);
+        setString(profiles, 5, fragment);
+        profiles.addBatch();
+        profileCount++;
+    }
+
+    public void addSecurity(long logicalResourceId, long commonTokenValueId, short shardKey) throws SQLException {
+        if (tags == null) {
+            final String tablePrefix = resourceType.toLowerCase();
+            final String INS = "INSERT INTO " + tablePrefix + "_security (common_token_value_id, logical_resource_id, shard_key) VALUES (?,?,?)";
+            security = connection.prepareStatement(INS);
+        }
+        PreparedStatementHelper psh = new PreparedStatementHelper(security);
+        psh.setLong(commonTokenValueId)
+            .setLong(logicalResourceId)
+            .setShort(shardKey)
+            .addBatch();
+        securityCount++;
     }
 }

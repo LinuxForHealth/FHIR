@@ -369,7 +369,7 @@ public class FHIRRestHelper implements FHIRResourceHelpers {
             final FHIRPersistenceContext persistenceContext =
                     FHIRPersistenceContextImpl.builder(event)
                     .withOffloadResponse(offloadResponse)
-                    .withShardKey(encodeRequestShardKey(requestContext))
+                    .withRequestShard(requestContext.getRequestShardKey())
                     .build();
 
             // For 1869 bundle processing, the resource is updated first and is no longer mutated by the
@@ -1151,7 +1151,7 @@ public class FHIRRestHelper implements FHIRResourceHelpers {
             getInterceptorMgr().fireBeforeReadEvent(event);
 
             FHIRPersistenceContext persistenceContext =
-                    FHIRPersistenceContextFactory.createPersistenceContext(event, includeDeleted, searchContext, encodeRequestShardKey(requestContext));
+                    FHIRPersistenceContextFactory.createPersistenceContext(event, includeDeleted, searchContext, requestContext.getRequestShardKey());
             result = persistence.read(persistenceContext, resourceType, id);
             if (!result.isSuccess() && throwExcOnNull) {
                 throw new FHIRPersistenceResourceNotFoundException("Resource '" + type + "/" + id + "' not found.");
@@ -1179,22 +1179,6 @@ public class FHIRRestHelper implements FHIRResourceHelpers {
 
             log.exiting(this.getClass().getName(), "doRead");
         }
-    }
-    /**
-     * Encode the shard key value if it has been set in the request context
-     * @param context
-     * @return
-     */
-    private Short encodeRequestShardKey(FHIRRequestContext context) {
-        Short result = null;
-        final String requestShardKey = context.getRequestShardKey();
-        if (requestShardKey != null) {
-            result = Short.valueOf((short)requestShardKey.hashCode());
-            if (log.isLoggable(Level.FINEST)) {
-                log.finest("shardKey:[" + requestShardKey + "] hash:[" + result + "]");
-            }
-        }
-        return result;
     }
 
     @Override
@@ -1232,7 +1216,7 @@ public class FHIRRestHelper implements FHIRResourceHelpers {
             getInterceptorMgr().fireBeforeVreadEvent(event);
 
             FHIRPersistenceContext persistenceContext =
-                    FHIRPersistenceContextFactory.createPersistenceContext(event, searchContext, encodeRequestShardKey(requestContext));
+                    FHIRPersistenceContextFactory.createPersistenceContext(event, searchContext, requestContext.getRequestShardKey());
             SingleResourceResult<? extends Resource> srr = persistence.vread(persistenceContext, resourceType, id, versionId);
             if (!srr.isSuccess() || srr.getResource() == null && !srr.isDeleted()) {
                 throw new FHIRPersistenceResourceNotFoundException("Resource '"
@@ -1377,7 +1361,7 @@ public class FHIRRestHelper implements FHIRResourceHelpers {
             getInterceptorMgr().fireBeforeSearchEvent(event);
 
             FHIRPersistenceContext persistenceContext =
-                    FHIRPersistenceContextFactory.createPersistenceContext(event, searchContext, encodeRequestShardKey(requestContext));
+                    FHIRPersistenceContextFactory.createPersistenceContext(event, searchContext, requestContext.getRequestShardKey());
             MultiResourceResult searchResult =
                     persistence.search(persistenceContext, resourceType);
 
@@ -3030,7 +3014,7 @@ public class FHIRRestHelper implements FHIRResourceHelpers {
                 new FHIRPersistenceEvent(null, buildPersistenceEventProperties(resourceType == null ? "Resource" : resourceType, null, null, null, historyContext));
         getInterceptorMgr().fireBeforeHistoryEvent(event);
         // Build a context
-        FHIRPersistenceContext context = FHIRPersistenceContextImpl.builder(event).withShardKey(encodeRequestShardKey(requestContext)).build();
+        FHIRPersistenceContext context = FHIRPersistenceContextImpl.builder(event).withRequestShard(requestContext.getRequestShardKey()).build();
 
         // Start a new txn in the persistence layer if one is not already active.
         Integer count = historyContext.getCount();
