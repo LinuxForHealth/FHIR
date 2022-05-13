@@ -7,12 +7,16 @@
   },
   "url": "http://example.org/ActivityDefinition/serum-zika-dengue-virus-igm",
   "status": "draft",
+  "experimental": true,
   "description": "Order Serum Zika and Dengue Virus IgM",
   "relatedArtifact": [
     {
       "type": "documentation",
       "display": "Explanation of diagnostic tests for Zika virus and which to use based on the patient’s clinical and exposure history.",
-      "url": "http://www.cdc.gov/zika/hc-providers/diagnostic.html"
+      "url": "http://www.cdc.gov/zika/hc-providers/diagnostic.html",
+      "document": {
+        "url": "http://www.cdc.gov/zika/hc-providers/diagnostic.html"
+      }
     },
     {
       "type": "derived-from",
@@ -27,6 +31,9 @@
     "text": "Serum Zika and Dengue Virus IgM"
   },
   "timingTiming": {
+    "event": [
+      null
+    ],
     "_event": [
       {
         "extension": [

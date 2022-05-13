@@ -2,7 +2,7 @@
     "resourceType": "ValueSet",
     "id": "ingredient-manufacturer-role",
     "meta": {
-        "lastUpdated": "2022-03-04T09:04:06.196+11:00",
+        "lastUpdated": "2022-04-24T09:21:35.043+11:00",
         "profile": [
             "http://hl7.org/fhir/StructureDefinition/shareablevalueset"
         ]
@@ -28,7 +28,7 @@
             "value": "urn:oid:2.16.840.1.113883.4.642.3.1598"
         }
     ],
-    "version": "4.3.0-CIBUILD",
+    "version": "4.3.0-cibuild",
     "name": "IngredientManufacturerRole",
     "title": "IngredientManufacturerRole",
     "status": "draft",
@@ -59,8 +59,8 @@
         ]
     },
     "expansion": {
-        "identifier": "urn:uuid:7dfa8368-9553-4458-8317-bdc7aafd1584",
-        "timestamp": "2022-03-03T22:05:09Z",
+        "identifier": "urn:uuid:feb0312f-a9f3-4311-9ac2-375fc2503375",
+        "timestamp": "2022-04-23T22:23:07Z",
         "total": 3,
         "parameter": [
             {
@@ -73,7 +73,7 @@
             },
             {
                 "name": "version",
-                "valueUri": "http://hl7.org/fhir/ingredient-manufacturer-role|4.3.0-CIBUILD"
+                "valueUri": "http://hl7.org/fhir/ingredient-manufacturer-role|4.3.0-cibuild"
             }
         ],
         "contains": [

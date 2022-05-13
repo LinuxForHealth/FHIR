@@ -2,7 +2,7 @@
     "resourceType": "ValueSet",
     "id": "FHIR-version",
     "meta": {
-        "lastUpdated": "2022-03-03T22:04:06.196Z",
+        "lastUpdated": "2022-04-23T22:21:35.043Z",
         "profile": [
             "http://hl7.org/fhir/StructureDefinition/shareablevalueset"
         ]
@@ -32,12 +32,12 @@
             "value": "urn:oid:2.16.840.1.113883.4.642.3.1309"
         }
     ],
-    "version": "4.3.0-CIBUILD",
+    "version": "4.3.0-cibuild",
     "name": "FHIRVersion",
     "title": "FHIRVersion",
     "status": "active",
     "experimental": false,
-    "date": "2022-03-03T22:04:06Z",
+    "date": "2022-04-23T22:21:35Z",
     "publisher": "HL7 (FHIR Project)",
     "contact": [
         {
@@ -63,9 +63,9 @@
         ]
     },
     "expansion": {
-        "identifier": "urn:uuid:99ef6cd7-cb86-4315-ad82-9352fdbddaf1",
-        "timestamp": "2022-03-03T22:05:09Z",
-        "total": 24,
+        "identifier": "urn:uuid:05b79c73-e6f2-4568-a79c-329f680aa992",
+        "timestamp": "2022-04-23T22:23:07Z",
+        "total": 25,
         "parameter": [
             {
                 "name": "excludeNested",
@@ -77,7 +77,7 @@
             },
             {
                 "name": "version",
-                "valueUri": "http://hl7.org/fhir/FHIR-version|4.3.0-CIBUILD"
+                "valueUri": "http://hl7.org/fhir/FHIR-version|4.3.0-cibuild"
             }
         ],
         "contains": [
@@ -173,6 +173,11 @@
             },
             {
                 "system": "http://hl7.org/fhir/FHIR-version",
+                "code": "3.0.2",
+                "display": "3.0.2"
+            },
+            {
+                "system": "http://hl7.org/fhir/FHIR-version",
                 "code": "3.3.0",
                 "display": "3.3.0"
             },
@@ -198,8 +203,8 @@
             },
             {
                 "system": "http://hl7.org/fhir/FHIR-version",
-                "code": "4.3.0-CIBUILD",
-                "display": "4.3.0-CIBUILD"
+                "code": "4.3.0-cibuild",
+                "display": "4.3.0-cibuild"
             }
         ]
     }

@@ -11,7 +11,7 @@
       <p>There SHALL be a code if there is a value and it SHALL be an expression of currency.  If system is present, it SHALL be ISO 4217 (system = &quot;urn:iso:std:iso:4217&quot; - currency).</p>
       <p>XPath:</p>
       <blockquote>
-        <pre>(f:code or not(f:value)) and (not(exists(f:system)) or f:system/@value=&#39;urn:iso:std:iso:4217&#39;)</pre>
+        <pre>(f:code or not(f:value)) and (not(exists(f:system)) or f:system/@value='urn:iso:std:iso:4217')</pre>
       </blockquote>
     </div>
   </text>
@@ -22,10 +22,11 @@
     <valueCode value="4.0.0"/>
   </extension>
   <url value="http://hl7.org/fhir/StructureDefinition/MoneyQuantity"/>
-  <version value="4.3.0-CIBUILD"/>
+  <version value="4.3.0-cibuild"/>
   <name value="MoneyQuantity"/>
   <status value="active"/>
-  <date value="2022-01-01T15:17:18+00:00"/>
+  <experimental value="false"/>
+  <date value="2022-04-23T22:21:35+00:00"/>
   <publisher value="HL7 FHIR Standard"/>
   <contact>
     <telecom>
@@ -34,7 +35,7 @@
     </telecom>
   </contact>
   <description value="An amount of money. With regard to precision, see [Decimal Precision](datatypes.html#precision)"/>
-  <fhirVersion value="4.3.0-CIBUILD"/>
+  <fhirVersion value="4.3.0-cibuild"/>
   <mapping>
     <identity value="v2"/>
     <uri value="http://hl7.org/v2"/>
@@ -76,8 +77,8 @@
         <key value="mqty-1"/>
         <severity value="error"/>
         <human value="There SHALL be a code if there is a value and it SHALL be an expression of currency.  If system is present, it SHALL be ISO 4217 (system = &quot;urn:iso:std:iso:4217&quot; - currency)."/>
-        <expression value="(code.exists() or value.empty()) and (system.empty() or system = &#39;urn:iso:std:iso:4217&#39;)"/>
-        <xpath value="(f:code or not(f:value)) and (not(exists(f:system)) or f:system/@value=&#39;urn:iso:std:iso:4217&#39;)"/>
+        <expression value="(code.exists() or value.empty()) and (system.empty() or system = 'urn:iso:std:iso:4217')"/>
+        <xpath value="(f:code or not(f:value)) and (not(exists(f:system)) or f:system/@value='urn:iso:std:iso:4217')"/>
       </constraint>
       <constraint>
         <key value="qty-3"/>
@@ -244,7 +245,7 @@
           <valueString value="QuantityComparator"/>
         </extension>
         <strength value="required"/>
-        <valueSet value="http://hl7.org/fhir/ValueSet/quantity-comparator|4.3.0-CIBUILD"/>
+        <valueSet value="http://hl7.org/fhir/ValueSet/quantity-comparator|4.3.0-cibuild"/>
       </binding>
       <mapping>
         <identity value="v2"/>
@@ -380,8 +381,8 @@
         <key value="mqty-1"/>
         <severity value="error"/>
         <human value="There SHALL be a code if there is a value and it SHALL be an expression of currency.  If system is present, it SHALL be ISO 4217 (system = &quot;urn:iso:std:iso:4217&quot; - currency)."/>
-        <expression value="(code.exists() or value.empty()) and (system.empty() or system = &#39;urn:iso:std:iso:4217&#39;)"/>
-        <xpath value="(f:code or not(f:value)) and (not(exists(f:system)) or f:system/@value=&#39;urn:iso:std:iso:4217&#39;)"/>
+        <expression value="(code.exists() or value.empty()) and (system.empty() or system = 'urn:iso:std:iso:4217')"/>
+        <xpath value="(f:code or not(f:value)) and (not(exists(f:system)) or f:system/@value='urn:iso:std:iso:4217')"/>
       </constraint>
       <isModifier value="false"/>
     </element>

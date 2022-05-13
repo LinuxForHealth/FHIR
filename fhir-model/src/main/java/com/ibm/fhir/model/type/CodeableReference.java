@@ -16,11 +16,11 @@ import com.ibm.fhir.model.util.ValidationSupport;
 import com.ibm.fhir.model.visitor.Visitor;
 
 /**
- * A reference to a resource (by instance), or instead, a reference to a cencept defined in a terminology or ontology (by 
+ * A reference to a resource (by instance), or instead, a reference to a concept defined in a terminology or ontology (by 
  * class).
  */
 @Generated("com.ibm.fhir.tools.CodeGenerator")
-public class CodeableReference extends DataType {
+public class CodeableReference extends Element {
     @Summary
     private final CodeableConcept concept;
     @Summary
@@ -33,7 +33,7 @@ public class CodeableReference extends DataType {
     }
 
     /**
-     * A reference to a concept - e.g. the information is identified by it's general classto the degree of precision found in 
+     * A reference to a concept - e.g. the information is identified by its general class to the degree of precision found in 
      * the terminology.
      * 
      * @return
@@ -116,7 +116,7 @@ public class CodeableReference extends DataType {
         return new Builder();
     }
 
-    public static class Builder extends DataType.Builder {
+    public static class Builder extends Element.Builder {
         private CodeableConcept concept;
         private Reference reference;
 
@@ -183,7 +183,7 @@ public class CodeableReference extends DataType {
         }
 
         /**
-         * A reference to a concept - e.g. the information is identified by it's general classto the degree of precision found in 
+         * A reference to a concept - e.g. the information is identified by its general class to the degree of precision found in 
          * the terminology.
          * 
          * @param concept

@@ -65,7 +65,7 @@ public class CatalogEntry extends DomainResource {
         bindingName = "PublicationStatus",
         strength = BindingStrength.Value.REQUIRED,
         description = "The lifecycle status of an artifact.",
-        valueSet = "http://hl7.org/fhir/ValueSet/publication-status|4.3.0-CIBUILD"
+        valueSet = "http://hl7.org/fhir/ValueSet/publication-status|4.3.0-cibuild"
     )
     private final PublicationStatus status;
     private final Period validityPeriod;
@@ -1013,7 +1013,7 @@ public class CatalogEntry extends DomainResource {
             bindingName = "CatalogEntryRelationType",
             strength = BindingStrength.Value.REQUIRED,
             description = "The type of relations between entries.",
-            valueSet = "http://hl7.org/fhir/ValueSet/relation-type|4.3.0-CIBUILD"
+            valueSet = "http://hl7.org/fhir/ValueSet/relation-type|4.3.0-cibuild"
         )
         @Required
         private final CatalogEntryRelationType relationtype;

@@ -12,10 +12,11 @@
     }
   ],
   "url": "http://hl7.org/fhir/StructureDefinition/devicerequest-patientInstruction",
-  "version": "4.3.0-CIBUILD",
+  "version": "4.3.0-cibuild",
   "name": "patientInstruction",
   "title": "Directions",
   "status": "draft",
+  "experimental": false,
   "date": "2015-02-21",
   "publisher": "Health Level Seven, Inc. - FHIR WG",
   "contact": [
@@ -29,7 +30,7 @@
     }
   ],
   "description": "Simple concise instructions to be read by the patient.  For example  “twice a day” rather than “BID.”.",
-  "fhirVersion": "4.3.0-CIBUILD",
+  "fhirVersion": "4.3.0-cibuild",
   "mapping": [
     {
       "identity": "rim",
@@ -704,9 +705,6 @@
             "code": "CodeableConcept"
           },
           {
-            "code": "CodeableReference"
-          },
-          {
             "code": "Coding"
           },
           {
@@ -741,9 +739,6 @@
           },
           {
             "code": "Ratio"
-          },
-          {
-            "code": "RatioRange"
           },
           {
             "code": "Reference"

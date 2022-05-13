@@ -2,7 +2,7 @@
     "resourceType": "ValueSet",
     "id": "appointmentstatus",
     "meta": {
-        "lastUpdated": "2022-03-04T09:04:06.196+11:00",
+        "lastUpdated": "2022-04-24T09:21:35.043+11:00",
         "profile": [
             "http://hl7.org/fhir/StructureDefinition/shareablevalueset"
         ]
@@ -28,7 +28,7 @@
             "value": "urn:oid:2.16.840.1.113883.4.642.3.484"
         }
     ],
-    "version": "4.3.0-CIBUILD",
+    "version": "4.3.0-cibuild",
     "name": "AppointmentStatus",
     "title": "AppointmentStatus",
     "status": "draft",
@@ -59,8 +59,8 @@
         ]
     },
     "expansion": {
-        "identifier": "urn:uuid:5240306b-fd99-4e1b-ac0b-97974a2fabc9",
-        "timestamp": "2022-03-03T22:05:09Z",
+        "identifier": "urn:uuid:9567883a-5615-4fbe-9625-81e9706cef6d",
+        "timestamp": "2022-04-23T22:23:07Z",
         "total": 10,
         "parameter": [
             {
@@ -73,7 +73,7 @@
             },
             {
                 "name": "version",
-                "valueUri": "http://hl7.org/fhir/appointmentstatus|4.3.0-CIBUILD"
+                "valueUri": "http://hl7.org/fhir/appointmentstatus|4.3.0-cibuild"
             }
         ],
         "contains": [

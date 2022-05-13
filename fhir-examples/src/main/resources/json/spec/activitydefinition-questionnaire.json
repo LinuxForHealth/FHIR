@@ -9,8 +9,8 @@
       "status": "active",
       "description": "Type options for ActivityDefinition.subject[x]",
       "expansion": {
-        "identifier": "urn:uuid:c017b3f0-8486-44b2-aeff-5c23849ae5b0",
-        "timestamp": "2022-01-01T15:23:39+00:00",
+        "identifier": "urn:uuid:c67da6b9-2979-4412-bd71-29ce995ad091",
+        "timestamp": "2022-04-23T22:28:27+00:00",
         "contains": [
           {
             "system": "http://hl7.org/fhir/data-types",
@@ -32,8 +32,8 @@
       "status": "active",
       "description": "Type options for ActivityDefinition.timing[x]",
       "expansion": {
-        "identifier": "urn:uuid:292bed4a-0cce-46c3-a193-f15c49c6dfc1",
-        "timestamp": "2022-01-01T15:23:39+00:00",
+        "identifier": "urn:uuid:86fb50a0-75b8-4ba7-8ec6-add96c4650c0",
+        "timestamp": "2022-04-23T22:28:27+00:00",
         "contains": [
           {
             "system": "http://hl7.org/fhir/data-types",
@@ -75,8 +75,8 @@
       "status": "active",
       "description": "Type options for ActivityDefinition.product[x]",
       "expansion": {
-        "identifier": "urn:uuid:8cfb0ff3-1399-474f-9792-84c66fb5c0a3",
-        "timestamp": "2022-01-01T15:23:39+00:00",
+        "identifier": "urn:uuid:806488f7-ac68-43f8-ae74-fd90523887bd",
+        "timestamp": "2022-04-23T22:28:27+00:00",
         "contains": [
           {
             "system": "http://hl7.org/fhir/resource-types",
@@ -107,9 +107,10 @@
       "system": "urn:ietf:rfc:3986"
     }
   ],
-  "version": "4.3.0-CIBUILD",
+  "version": "4.3.0-cibuild",
   "status": "draft",
-  "date": "2022-01-01T15:17:18+00:00",
+  "experimental": false,
+  "date": "2022-04-23T22:21:35+00:00",
   "publisher": "Health Level Seven International (Clinical Decision Support)",
   "item": [
     {
@@ -298,10 +299,9 @@
             {
               "linkId": "ActivityDefinition.language.value",
               "text": "language",
-              "type": "coding",
+              "type": "choice",
               "required": false,
-              "repeats": false,
-              "answerConstraint": "optionsOnly"
+              "repeats": false
             }
           ]
         },
@@ -740,10 +740,9 @@
             {
               "linkId": "ActivityDefinition.status.value",
               "text": "status",
-              "type": "coding",
+              "type": "choice",
               "required": false,
-              "repeats": false,
-              "answerConstraint": "optionsOrType"
+              "repeats": false
             }
           ]
         },
@@ -820,16 +819,15 @@
                 }
               ],
               "linkId": "ActivityDefinition.subject[x]-flyover",
-              "text": "A code, group definition, or canonical reference that describes  or identifies the intended subject of the activity being defined.  Canonical references are allowed to support the definition of protocols for drug and substance quality specifications, and is allowed to reference a MedicinalProductDefinition, SubstanceDefinition, AdministrableProductDefinition, ManufacturedItemDefinition, or PackagedProductDefinition resource.",
+              "text": "A code, group definition, or canonical reference that describes  or identifies the intended subject of the activity being defined.  Canonical references are allowed to support the definition of protocols for drug and substance quality specifications, and is allowed to reference a MedicinalProductDefinition, SubstanceDefinition, AdministrableProductDefinition, ManufacturedItemDefinition, or PackagedProductDefinition resource. Note that the choice of canonical for the subject element was introduced in R4B to support pharmaceutical quality use cases. To ensure as much backwards-compatibility as possible, it is recommended to only use the new canonical type with these use cases.",
               "type": "display"
             },
             {
               "linkId": "ActivityDefinition.subject[x]._type",
               "text": "type",
-              "type": "coding",
+              "type": "choice",
               "required": false,
               "repeats": false,
-              "answerConstraint": "optionsOnly",
               "answerValueSet": "#vs2",
               "item": [
                 {
@@ -845,10 +843,9 @@
                     {
                       "linkId": "ActivityDefinition.subject[x]._null.coding",
                       "text": "code:",
-                      "type": "coding",
+                      "type": "choice",
                       "required": false,
-                      "repeats": false,
-                      "answerConstraint": "optionsOnly"
+                      "repeats": false
                     },
                     {
                       "linkId": "ActivityDefinition.subject[x]._null.text",
@@ -1142,10 +1139,9 @@
             {
               "linkId": "ActivityDefinition.jurisdiction.coding",
               "text": "code:",
-              "type": "coding",
+              "type": "choice",
               "required": false,
-              "repeats": false,
-              "answerConstraint": "optionsOnly"
+              "repeats": false
             },
             {
               "linkId": "ActivityDefinition.jurisdiction.text",
@@ -1463,10 +1459,9 @@
             {
               "linkId": "ActivityDefinition.topic.coding",
               "text": "code:",
-              "type": "coding",
+              "type": "choice",
               "required": false,
-              "repeats": false,
-              "answerConstraint": "optionsOnly"
+              "repeats": false
             },
             {
               "linkId": "ActivityDefinition.topic.text",
@@ -1700,10 +1695,9 @@
             {
               "linkId": "ActivityDefinition.kind.value",
               "text": "kind",
-              "type": "coding",
+              "type": "choice",
               "required": false,
-              "repeats": false,
-              "answerConstraint": "optionsOrType"
+              "repeats": false
             }
           ]
         },
@@ -1790,10 +1784,9 @@
             {
               "linkId": "ActivityDefinition.code.coding",
               "text": "code:",
-              "type": "coding",
+              "type": "choice",
               "required": false,
-              "repeats": false,
-              "answerConstraint": "optionsOnly"
+              "repeats": false
             },
             {
               "linkId": "ActivityDefinition.code.text",
@@ -1842,10 +1835,9 @@
             {
               "linkId": "ActivityDefinition.intent.value",
               "text": "intent",
-              "type": "coding",
+              "type": "choice",
               "required": false,
-              "repeats": false,
-              "answerConstraint": "optionsOrType"
+              "repeats": false
             }
           ]
         },
@@ -1887,10 +1879,9 @@
             {
               "linkId": "ActivityDefinition.priority.value",
               "text": "priority",
-              "type": "coding",
+              "type": "choice",
               "required": false,
-              "repeats": false,
-              "answerConstraint": "optionsOrType"
+              "repeats": false
             }
           ]
         },
@@ -1973,10 +1964,9 @@
             {
               "linkId": "ActivityDefinition.timing[x]._type",
               "text": "type",
-              "type": "coding",
+              "type": "choice",
               "required": false,
               "repeats": false,
-              "answerConstraint": "optionsOnly",
               "answerValueSet": "#vs3",
               "item": [
                 {
@@ -2057,10 +2047,9 @@
                     {
                       "linkId": "ActivityDefinition.timing[x]._null.comparator",
                       "text": "comp:",
-                      "type": "coding",
+                      "type": "choice",
                       "required": false,
-                      "repeats": false,
-                      "answerConstraint": "optionsOnly"
+                      "repeats": false
                     },
                     {
                       "linkId": "ActivityDefinition.timing[x]._null.value",
@@ -2164,10 +2153,9 @@
                     {
                       "linkId": "ActivityDefinition.timing[x]._null.comparator",
                       "text": "comp:",
-                      "type": "coding",
+                      "type": "choice",
                       "required": false,
-                      "repeats": false,
-                      "answerConstraint": "optionsOnly"
+                      "repeats": false
                     },
                     {
                       "linkId": "ActivityDefinition.timing[x]._null.value",
@@ -2425,10 +2413,9 @@
                 {
                   "linkId": "ActivityDefinition.participant.type.value",
                   "text": "type",
-                  "type": "coding",
+                  "type": "choice",
                   "required": false,
-                  "repeats": false,
-                  "answerConstraint": "optionsOrType"
+                  "repeats": false
                 }
               ]
             },
@@ -2471,10 +2458,9 @@
                 {
                   "linkId": "ActivityDefinition.participant.role.coding",
                   "text": "code:",
-                  "type": "coding",
+                  "type": "choice",
                   "required": false,
-                  "repeats": false,
-                  "answerConstraint": "optionsOnly"
+                  "repeats": false
                 },
                 {
                   "linkId": "ActivityDefinition.participant.role.text",
@@ -2522,10 +2508,9 @@
             {
               "linkId": "ActivityDefinition.product[x]._type",
               "text": "type",
-              "type": "coding",
+              "type": "choice",
               "required": false,
               "repeats": false,
-              "answerConstraint": "optionsOnly",
               "answerValueSet": "#vs4",
               "item": [
                 {
@@ -2569,10 +2554,9 @@
                     {
                       "linkId": "ActivityDefinition.product[x]._null.coding",
                       "text": "code:",
-                      "type": "coding",
+                      "type": "choice",
                       "required": false,
-                      "repeats": false,
-                      "answerConstraint": "optionsOnly"
+                      "repeats": false
                     },
                     {
                       "linkId": "ActivityDefinition.product[x]._null.text",
@@ -2626,10 +2610,9 @@
             {
               "linkId": "ActivityDefinition.quantity.comparator",
               "text": "comp:",
-              "type": "coding",
+              "type": "choice",
               "required": false,
-              "repeats": false,
-              "answerConstraint": "optionsOnly"
+              "repeats": false
             },
             {
               "linkId": "ActivityDefinition.quantity.value",
@@ -2729,10 +2712,9 @@
             {
               "linkId": "ActivityDefinition.bodySite.coding",
               "text": "code:",
-              "type": "coding",
+              "type": "choice",
               "required": false,
-              "repeats": false,
-              "answerConstraint": "optionsOnly"
+              "repeats": false
             },
             {
               "linkId": "ActivityDefinition.bodySite.text",

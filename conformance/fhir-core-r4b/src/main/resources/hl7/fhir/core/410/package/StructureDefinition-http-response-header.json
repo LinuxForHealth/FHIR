@@ -12,10 +12,11 @@
         }
     ],
     "url": "http://hl7.org/fhir/StructureDefinition/http-response-header",
-    "version": "4.3.0-CIBUILD",
+    "version": "4.3.0-cibuild",
     "name": "http-response-header",
     "title": "HTTP Response header",
     "status": "draft",
+    "experimental": false,
     "date": "2015-03-11",
     "publisher": "Health Level Seven, Inc. - FHIR Core WG",
     "contact": [
@@ -29,7 +30,7 @@
         }
     ],
     "description": "In a transaction, every single interaction can have multiple HTTP response headers returned as a result of the interaction.",
-    "fhirVersion": "4.3.0-CIBUILD",
+    "fhirVersion": "4.3.0-cibuild",
     "mapping": [
         {
             "identity": "v2",

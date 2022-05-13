@@ -10,7 +10,7 @@
       <display value="test health data"/>
     </security>
   </meta>
-  <text><status value="extensions"/><div xmlns="http://www.w3.org/1999/xhtml"><p><b>Generated Narrative</b></p><div><p>Resource "example-genetics-1" </p></div><p><b>Gene</b>: EGFR <span> (<a>HUGO Gene Nomenclature</a>#3236)</span></p><p><b>DNARegionName</b>: Exon 21</p><p><b>GenomicSourceClass</b>: somatic <span> (<a>LOINC</a>#LA6684-0)</span></p><p><b>status</b>: final</p><p><b>code</b>: The material on this page will be removed in a future release. This content is deprecated and SHOULD NOT be used. Implementers are instead directed to the ([Genomics Reporting Implementation Guide](http://hl7.org/fhir/uv/genomics-reporting/index.html)) for guidance. Genetic analysis master panel-- This is the parent OBR for the panel holding all of the associated observations that can be reported with a molecular genetics analysis result. <span> (<a>LOINC</a>#55233-1)</span></p><p><b>subject</b>: <a>Patient/example: Molecular Lab Patient ID: HOSP-23456</a> "Peter CHALMERS"</p><p><b>issued</b>: Apr 3, 2013 2:30:10 PM</p><p><b>performer</b>: <a>Practitioner/example: Molecular Diagnostics Laboratory</a> "Adam CAREFUL"</p><p><b>value</b>: Positive <span> (<a>SNOMED CT</a>#10828004)</span></p><p><b>specimen</b>: <a>Specimen/genetics-example1-somatic: Molecular Specimen ID: MLD45-Z4-1234</a></p></div></text><extension url="http://hl7.org/fhir/StructureDefinition/observation-geneticsGene">
+  <text><status value="extensions"/><div xmlns="http://www.w3.org/1999/xhtml"><p><b>Generated Narrative</b></p><div style="display: inline-block; background-color: #d9e0e7; padding: 6px; margin: 4px; border: 1px solid #8da1b4; border-radius: 5px; line-height: 60%"><p style="margin-bottom: 0px">Resource "example-genetics-1" </p></div><p><b>Gene</b>: EGFR <span style="background: LightGoldenRodYellow; margin: 4px; border: 1px solid khaki"> (<a href="http://terminology.hl7.org/3.1.0/CodeSystem-v3-hgnc.html">HUGO Gene Nomenclature</a>#3236)</span></p><p><b>DNARegionName</b>: Exon 21</p><p><b>GenomicSourceClass</b>: somatic <span style="background: LightGoldenRodYellow; margin: 4px; border: 1px solid khaki"> (<a href="https://loinc.org/">LOINC</a>#LA6684-0)</span></p><p><b>status</b>: final</p><p><b>code</b>: The material on this page will be removed in a future release. This content is deprecated and SHOULD NOT be used. Implementers are instead directed to the ([Genomics Reporting Implementation Guide](http://hl7.org/fhir/uv/genomics-reporting/index.html)) for guidance. Genetic analysis master panel-- This is the parent OBR for the panel holding all of the associated observations that can be reported with a molecular genetics analysis result. <span style="background: LightGoldenRodYellow; margin: 4px; border: 1px solid khaki"> (<a href="https://loinc.org/">LOINC</a>#55233-1)</span></p><p><b>subject</b>: <a href="patient-example.html">Patient/example: Molecular Lab Patient ID: HOSP-23456</a> "Peter CHALMERS"</p><p><b>effective</b>: 2013-04-03T15:30:10+01:00</p><p><b>performer</b>: <a href="practitioner-example.html">Practitioner/example: Molecular Diagnostics Laboratory</a> "Adam CAREFUL"</p><p><b>value</b>: Positive <span style="background: LightGoldenRodYellow; margin: 4px; border: 1px solid khaki"> (<a href="https://browser.ihtsdotools.org/">SNOMED CT</a>#10828004)</span></p><p><b>device</b>: <a href="device-example.html">Device/example</a></p></div></text><extension url="http://hl7.org/fhir/StructureDefinition/observation-geneticsGene">
 		<valueCodeableConcept>
 			<coding>
 				<system value="http://www.genenames.org"/>
@@ -43,7 +43,7 @@
 		<reference value="Patient/example"/>
 		<display value="Molecular Lab Patient ID: HOSP-23456"/>
 	</subject>
-	<issued value="2013-04-03T15:30:10+01:00"/>
+	<effectiveDateTime value="2013-04-03T15:30:10+01:00"/>
 	<performer>
 		<reference value="Practitioner/example"/>
 		<display value="Molecular Diagnostics Laboratory"/>
@@ -55,8 +55,14 @@
 			<display value="Positive"/>
 		</coding>
 	</valueCodeableConcept>
+	<!--  
 	<specimen>
 		<reference value="Specimen/genetics-example1-somatic"/>
 		<display value="Molecular Specimen ID: MLD45-Z4-1234"/>
 	</specimen>
+	  -->
+  <device>
+    <reference value="Device/example"/>
+  </device>	
+
 </Observation>

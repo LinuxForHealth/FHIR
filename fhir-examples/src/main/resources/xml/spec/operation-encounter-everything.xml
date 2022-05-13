@@ -5,8 +5,8 @@
   <text>
     <status value="extensions"/>
     <div xmlns="http://www.w3.org/1999/xhtml">
-      <h2>everything</h2>
-      <p>OPERATION: everything</p>
+      <h2>Everything</h2>
+      <p>OPERATION: Everything</p>
       <p>The official URL for this operation definition is: </p>
       <pre>http://hl7.org/fhir/OperationDefinition/Encounter-everything</pre>
       <div>
@@ -151,12 +151,13 @@
     <valueCode value="trial-use"/>
   </extension>
   <url value="http://hl7.org/fhir/OperationDefinition/Encounter-everything"/>
-  <version value="4.3.0-CIBUILD"/>
-  <name value="everything"/>
+  <version value="4.3.0-cibuild"/>
+  <name value="Everything"/>
   <title value="Fetch Encounter Record"/>
   <status value="draft"/>
   <kind value="operation"/>
-  <date value="2022-01-01T15:17:18+00:00"/>
+  <experimental value="false"/>
+  <date value="2022-04-23T22:21:35+00:00"/>
   <publisher value="HL7 (FHIR Project)"/>
   <contact>
     <telecom>

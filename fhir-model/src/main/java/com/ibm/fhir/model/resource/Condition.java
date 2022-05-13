@@ -119,7 +119,7 @@ public class Condition extends DomainResource {
         bindingName = "ConditionClinicalStatus",
         strength = BindingStrength.Value.REQUIRED,
         description = "The clinical status of the condition or diagnosis.",
-        valueSet = "http://hl7.org/fhir/ValueSet/condition-clinical|4.3.0-CIBUILD"
+        valueSet = "http://hl7.org/fhir/ValueSet/condition-clinical|4.3.0-cibuild"
     )
     private final CodeableConcept clinicalStatus;
     @Summary
@@ -127,7 +127,7 @@ public class Condition extends DomainResource {
         bindingName = "ConditionVerificationStatus",
         strength = BindingStrength.Value.REQUIRED,
         description = "The verification status to support or decline the clinical status of the condition or diagnosis.",
-        valueSet = "http://hl7.org/fhir/ValueSet/condition-ver-status|4.3.0-CIBUILD"
+        valueSet = "http://hl7.org/fhir/ValueSet/condition-ver-status|4.3.0-cibuild"
     )
     private final CodeableConcept verificationStatus;
     @Binding(

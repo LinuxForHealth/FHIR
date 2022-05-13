@@ -9,8 +9,8 @@
       "status": "active",
       "description": "Type options for DiagnosticReport.effective[x]",
       "expansion": {
-        "identifier": "urn:uuid:d49edf09-6463-447f-b508-14da66cf3c34",
-        "timestamp": "2022-01-01T15:24:17+00:00",
+        "identifier": "urn:uuid:ea3e4b0c-46d8-40b6-8cc6-0ffe41ac6859",
+        "timestamp": "2022-04-23T22:29:07+00:00",
         "contains": [
           {
             "system": "http://hl7.org/fhir/data-types",
@@ -31,9 +31,10 @@
       "system": "urn:ietf:rfc:3986"
     }
   ],
-  "version": "4.3.0-CIBUILD",
+  "version": "4.3.0-cibuild",
   "status": "draft",
-  "date": "2022-01-01T15:17:18+00:00",
+  "experimental": false,
+  "date": "2022-04-23T22:21:35+00:00",
   "publisher": "Health Level Seven International (Orders and Observations)",
   "item": [
     {
@@ -227,10 +228,9 @@
             {
               "linkId": "DiagnosticReport.language.value",
               "text": "language",
-              "type": "coding",
+              "type": "choice",
               "required": false,
-              "repeats": false,
-              "answerConstraint": "optionsOnly"
+              "repeats": false
             }
           ]
         },
@@ -499,10 +499,9 @@
             {
               "linkId": "DiagnosticReport.status.value",
               "text": "status",
-              "type": "coding",
+              "type": "choice",
               "required": false,
-              "repeats": false,
-              "answerConstraint": "optionsOrType"
+              "repeats": false
             }
           ]
         },
@@ -541,10 +540,9 @@
             {
               "linkId": "DiagnosticReport.category.coding",
               "text": "code:",
-              "type": "coding",
+              "type": "choice",
               "required": false,
-              "repeats": false,
-              "answerConstraint": "optionsOnly"
+              "repeats": false
             },
             {
               "linkId": "DiagnosticReport.category.text",
@@ -598,10 +596,9 @@
             {
               "linkId": "DiagnosticReport.code.coding",
               "text": "code:",
-              "type": "coding",
+              "type": "choice",
               "required": false,
-              "repeats": false,
-              "answerConstraint": "optionsOnly"
+              "repeats": false
             },
             {
               "linkId": "DiagnosticReport.code.text",
@@ -755,10 +752,9 @@
             {
               "linkId": "DiagnosticReport.effective[x]._type",
               "text": "type",
-              "type": "coding",
+              "type": "choice",
               "required": false,
               "repeats": false,
-              "answerConstraint": "optionsOnly",
               "answerValueSet": "#vs2",
               "item": [
                 {
@@ -1412,10 +1408,9 @@
             {
               "linkId": "DiagnosticReport.conclusionCode.coding",
               "text": "code:",
-              "type": "coding",
+              "type": "choice",
               "required": false,
-              "repeats": false,
-              "answerConstraint": "optionsOnly"
+              "repeats": false
             },
             {
               "linkId": "DiagnosticReport.conclusionCode.text",

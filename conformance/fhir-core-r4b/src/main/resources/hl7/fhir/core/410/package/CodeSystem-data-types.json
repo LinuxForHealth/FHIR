@@ -2,7 +2,7 @@
     "resourceType": "CodeSystem",
     "id": "data-types",
     "meta": {
-        "lastUpdated": "2022-01-01T15:17:18.597Z"
+        "lastUpdated": "2022-04-23T22:21:35.043Z"
     },
     "text": {
         "status": "empty",
@@ -31,12 +31,12 @@
         }
     ],
     "url": "http://hl7.org/fhir/data-types",
-    "version": "4.3.0-CIBUILD",
+    "version": "4.3.0-cibuild",
     "name": "DataType",
     "title": "DataType",
     "status": "active",
     "experimental": false,
-    "date": "2022-01-01T15:17:18Z",
+    "date": "2022-04-23T22:21:35Z",
     "publisher": "HL7 (FHIR Project)",
     "contact": [
         {
@@ -89,7 +89,7 @@
         {
             "code": "CodeableReference",
             "display": "CodeableReference",
-            "definition": "A reference to a resource (by instance), or instead, a reference to a cencept defined in a terminology or ontology (by class)."
+            "definition": "A reference to a resource (by instance), or instead, a reference to a concept defined in a terminology or ontology (by class)."
         },
         {
             "code": "Coding",
@@ -120,11 +120,6 @@
             "code": "DataRequirement",
             "display": "DataRequirement",
             "definition": "Describes a required data item for evaluation in terms of the type of data, and optional code or date-based filters of the data."
-        },
-        {
-            "code": "DataType",
-            "display": "DataType",
-            "definition": "The base class for all re-useable types defined as part of the FHIR Specification."
         },
         {
             "code": "Distance",

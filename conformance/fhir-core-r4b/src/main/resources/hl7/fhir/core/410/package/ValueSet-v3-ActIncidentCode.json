@@ -40,8 +40,8 @@
         ]
     },
     "expansion": {
-        "identifier": "urn:uuid:c65edc7d-3797-46ce-8a76-d814e7839032",
-        "timestamp": "2022-03-03T22:05:30Z",
+        "identifier": "urn:uuid:1d8ca78e-cd1f-4499-9997-e36090800e5f",
+        "timestamp": "2022-04-23T22:23:26Z",
         "total": 5,
         "parameter": [
             {
@@ -81,6 +81,7 @@
             {
                 "system": "http://terminology.hl7.org/CodeSystem/v3-ActCode",
                 "abstract": true,
+                "inactive": true,
                 "code": "_ActPatientSafetyIncidentCode",
                 "display": "ActPatientSafetyIncidentCode"
             }

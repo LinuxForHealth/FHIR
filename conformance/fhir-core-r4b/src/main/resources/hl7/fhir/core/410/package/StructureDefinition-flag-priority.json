@@ -12,10 +12,11 @@
         }
     ],
     "url": "http://hl7.org/fhir/StructureDefinition/flag-priority",
-    "version": "4.3.0-CIBUILD",
+    "version": "4.3.0-cibuild",
     "name": "priority",
     "title": "Flag Priority",
     "status": "draft",
+    "experimental": false,
     "date": "2015-02-21",
     "publisher": "Health Level Seven, Inc. - Patient Care WG",
     "contact": [
@@ -29,7 +30,7 @@
         }
     ],
     "description": "A code that identifies the priority of the alert, for example the Alert Priority flags column in IHE PCD TF 2 Table B.8-4.",
-    "fhirVersion": "4.3.0-CIBUILD",
+    "fhirVersion": "4.3.0-cibuild",
     "mapping": [
         {
             "identity": "rim",

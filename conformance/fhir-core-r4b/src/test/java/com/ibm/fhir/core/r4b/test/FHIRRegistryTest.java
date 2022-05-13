@@ -1,5 +1,5 @@
 /*
- * (C) Copyright IBM Corp. 2019, 2020
+ * (C) Copyright IBM Corp. 2019, 2022
  *
  * SPDX-License-Identifier: Apache-2.0
  */
@@ -29,7 +29,7 @@ public class FHIRRegistryTest {
     @Test
     public void testGetResourcesByResourceType() {
         Collection<SearchParameter> searchParameters = FHIRRegistry.getInstance().getResources(SearchParameter.class);
-        Assert.assertEquals(searchParameters.size(), 1410);
+        Assert.assertEquals(searchParameters.size(), 1414);
     }
 
     @Test
@@ -41,7 +41,7 @@ public class FHIRRegistryTest {
     @Test
     public void testGetSearchParametersByType() {
         Collection<SearchParameter> tokenSearchParameters = FHIRRegistry.getInstance().getSearchParameters("token");
-        Assert.assertEquals(tokenSearchParameters.size(), 564);
+        Assert.assertEquals(tokenSearchParameters.size(), 566);
     }
 
     @Test

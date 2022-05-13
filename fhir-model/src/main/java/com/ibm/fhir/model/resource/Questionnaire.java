@@ -70,15 +70,31 @@ import com.ibm.fhir.model.visitor.Visitor;
     level = "Warning",
     location = "(base)",
     description = "Name should be usable as an identifier for the module by machine processing applications such as code generation",
-    expression = "name.matches('[A-Z]([A-Za-z0-9_]){0,254}')",
+    expression = "name.exists() implies name.matches('[A-Z]([A-Za-z0-9_]){0,254}')",
     source = "http://hl7.org/fhir/StructureDefinition/Questionnaire"
 )
 @Constraint(
-    id = "que-1",
+    id = "que-1a",
     level = "Rule",
     location = "Questionnaire.item",
-    description = "Group items must have nested items, display items cannot have nested items",
-    expression = "(type='group' implies item.empty().not()) and (type.trace('type')='display' implies item.trace('item').empty())",
+    description = "Group items must have nested items when Questionanire is complete",
+    expression = "(type='group' and %resource.status='complete') implies item.empty().not()",
+    source = "http://hl7.org/fhir/StructureDefinition/Questionnaire"
+)
+@Constraint(
+    id = "que-1b",
+    level = "Warning",
+    location = "Questionnaire.item",
+    description = "Groups should have items",
+    expression = "type='group' implies item.empty().not()",
+    source = "http://hl7.org/fhir/StructureDefinition/Questionnaire"
+)
+@Constraint(
+    id = "que-1c",
+    level = "Rule",
+    location = "Questionnaire.item",
+    description = "Display items cannot have child items",
+    expression = "type='display' implies item.empty()",
     source = "http://hl7.org/fhir/StructureDefinition/Questionnaire"
 )
 @Constraint(
@@ -204,7 +220,7 @@ public class Questionnaire extends DomainResource {
         bindingName = "PublicationStatus",
         strength = BindingStrength.Value.REQUIRED,
         description = "The lifecycle status of an artifact.",
-        valueSet = "http://hl7.org/fhir/ValueSet/publication-status|4.3.0-CIBUILD"
+        valueSet = "http://hl7.org/fhir/ValueSet/publication-status|4.3.0-cibuild"
     )
     @Required
     private final PublicationStatus status;
@@ -215,7 +231,7 @@ public class Questionnaire extends DomainResource {
         bindingName = "ResourceType",
         strength = BindingStrength.Value.REQUIRED,
         description = "One of the resource types defined as part of this version of FHIR.",
-        valueSet = "http://hl7.org/fhir/ValueSet/resource-types|4.3.0-CIBUILD"
+        valueSet = "http://hl7.org/fhir/ValueSet/resource-types|4.3.0-cibuild"
     )
     private final List<ResourceTypeCode> subjectType;
     @Summary
@@ -1637,7 +1653,7 @@ public class Questionnaire extends DomainResource {
             bindingName = "QuestionnaireItemType",
             strength = BindingStrength.Value.REQUIRED,
             description = "Distinguishes groups from questions and display text and indicates data type for questions.",
-            valueSet = "http://hl7.org/fhir/ValueSet/item-type|4.3.0-CIBUILD"
+            valueSet = "http://hl7.org/fhir/ValueSet/item-type|4.3.0-cibuild"
         )
         @Required
         private final QuestionnaireItemType type;
@@ -1646,7 +1662,7 @@ public class Questionnaire extends DomainResource {
             bindingName = "EnableWhenBehavior",
             strength = BindingStrength.Value.REQUIRED,
             description = "Controls how multiple enableWhen values are interpreted -  whether all or any must be true.",
-            valueSet = "http://hl7.org/fhir/ValueSet/questionnaire-enable-behavior|4.3.0-CIBUILD"
+            valueSet = "http://hl7.org/fhir/ValueSet/questionnaire-enable-behavior|4.3.0-cibuild"
         )
         private final EnableWhenBehavior enableBehavior;
         private final Boolean required;
@@ -2673,7 +2689,7 @@ public class Questionnaire extends DomainResource {
                 bindingName = "QuestionnaireItemOperator",
                 strength = BindingStrength.Value.REQUIRED,
                 description = "The criteria by which a question is enabled.",
-                valueSet = "http://hl7.org/fhir/ValueSet/questionnaire-enable-operator|4.3.0-CIBUILD"
+                valueSet = "http://hl7.org/fhir/ValueSet/questionnaire-enable-operator|4.3.0-cibuild"
             )
             @Required
             private final QuestionnaireItemOperator operator;

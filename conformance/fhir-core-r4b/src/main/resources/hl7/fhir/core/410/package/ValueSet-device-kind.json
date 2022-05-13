@@ -2,7 +2,7 @@
     "resourceType": "ValueSet",
     "id": "device-kind",
     "meta": {
-        "lastUpdated": "2022-03-03T22:04:06.196Z",
+        "lastUpdated": "2022-04-23T22:21:35.043Z",
         "profile": [
             "http://hl7.org/fhir/StructureDefinition/shareablevalueset"
         ]
@@ -28,7 +28,7 @@
             "value": "urn:oid:2.16.840.1.113883.4.642.3.208"
         }
     ],
-    "version": "4.3.0-CIBUILD",
+    "version": "4.3.0-cibuild",
     "name": "FHIRDeviceTypes",
     "title": "FHIR Device Types",
     "status": "draft",
@@ -71,11 +71,12 @@
                 "valueBoolean": true
             }
         ],
-        "identifier": "urn:uuid:92b0e943-fa0e-42a1-a25f-628c8ed96367",
-        "timestamp": "2021-11-17T05:28:39.408Z",
+        "identifier": "urn:uuid:8f10f901-e597-4dc7-937b-67439673d74b",
+        "timestamp": "2022-04-23T22:23:26Z",
+        "total": 1000,
         "parameter": [
             {
-                "name": "limitedExpansion",
+                "name": "excludeNested",
                 "valueBoolean": true
             },
             {
@@ -83,12 +84,12 @@
                 "valueBoolean": true
             },
             {
-                "name": "excludeNested",
+                "name": "limitedExpansion",
                 "valueBoolean": true
             },
             {
                 "name": "version",
-                "valueUri": "http://snomed.info/sct|http://snomed.info/sct/900000000000207008/version/20200131"
+                "valueUri": "http://snomed.info/sct|http://snomed.info/sct/900000000000207008/version/20200731"
             }
         ],
         "contains": [
@@ -421,13 +422,13 @@
                         "value": "Mammary prosthesis"
                     },
                     {
-                        "value": "Breast prosthesis, device (physical object)"
-                    },
-                    {
                         "value": "Breast implant"
                     },
                     {
-                        "value": "Breast prosthesis, device"
+                        "value": "Prosthetic breast implant (physical object)"
+                    },
+                    {
+                        "value": "Prosthetic breast implant"
                     }
                 ]
             },
@@ -1509,9 +1510,6 @@
                         "value": "Cardiac pacemaker, device (physical object)"
                     },
                     {
-                        "value": "Cardiac pacemaker implant"
-                    },
-                    {
                         "value": "Cardiac pacemaker, device"
                     }
                 ]
@@ -1688,16 +1686,7 @@
                         "value": "Prosthetic implant"
                     },
                     {
-                        "value": "Attached prosthetic device"
-                    },
-                    {
-                        "value": "Implanted prosthetic device"
-                    },
-                    {
-                        "value": "Prosthetic implant, device (physical object)"
-                    },
-                    {
-                        "value": "Prosthetic implant, device"
+                        "value": "Prosthetic implant (physical object)"
                     }
                 ]
             },
@@ -1969,13 +1958,10 @@
                         "value": "Mitral valve prosthesis"
                     },
                     {
-                        "value": "Mitral valve prosthesis, device (physical object)"
-                    },
-                    {
                         "value": "Prosthetic mitral valve"
                     },
                     {
-                        "value": "Mitral valve prosthesis, device"
+                        "value": "Mitral valve prosthesis (physical object)"
                     }
                 ]
             },
@@ -2725,25 +2711,6 @@
             },
             {
                 "system": "http://snomed.info/sct",
-                "code": "24073000",
-                "display": "Artificial cardiac valve prosthesis",
-                "designation": [
-                    {
-                        "value": "Artificial cardiac valve prosthesis"
-                    },
-                    {
-                        "value": "Artificial cardiac valve prosthesis, device (physical object)"
-                    },
-                    {
-                        "value": "Mechanical cardiac valve prosthesis"
-                    },
-                    {
-                        "value": "Artificial cardiac valve prosthesis, device"
-                    }
-                ]
-            },
-            {
-                "system": "http://snomed.info/sct",
                 "code": "24110008",
                 "display": "Anoscope",
                 "designation": [
@@ -2799,16 +2766,13 @@
                         "value": "Biologic cardiac valve prosthesis"
                     },
                     {
-                        "value": "Biologic cardiac valve prosthesis, device (physical object)"
-                    },
-                    {
                         "value": "Cardiac valve bioprosthesis"
                     },
                     {
                         "value": "Heart valve graft"
                     },
                     {
-                        "value": "Biologic cardiac valve prosthesis, device"
+                        "value": "Biologic cardiac valve prosthesis (physical object)"
                     }
                 ]
             },
@@ -2946,13 +2910,10 @@
                         "value": "Cardiac valve prosthesis"
                     },
                     {
-                        "value": "Cardiac valve prosthesis, device (physical object)"
-                    },
-                    {
                         "value": "Heart valve prosthesis"
                     },
                     {
-                        "value": "Cardiac valve prosthesis, device"
+                        "value": "Cardiac valve prosthesis (physical object)"
                     }
                 ]
             },
@@ -7218,10 +7179,7 @@
                         "value": "Stent"
                     },
                     {
-                        "value": "Stent, device (physical object)"
-                    },
-                    {
-                        "value": "Stent, device"
+                        "value": "Stent (physical object)"
                     }
                 ]
             },
@@ -8256,25 +8214,6 @@
             },
             {
                 "system": "http://snomed.info/sct",
-                "code": "76428000",
-                "display": "Elbow prosthesis",
-                "designation": [
-                    {
-                        "value": "Elbow prosthesis"
-                    },
-                    {
-                        "value": "Elbow prosthesis, device (physical object)"
-                    },
-                    {
-                        "value": "Elbow joint prosthesis"
-                    },
-                    {
-                        "value": "Elbow prosthesis, device"
-                    }
-                ]
-            },
-            {
-                "system": "http://snomed.info/sct",
                 "code": "76433001",
                 "display": "Apron",
                 "designation": [
@@ -9154,10 +9093,7 @@
                         "value": "Aortic valve prosthesis"
                     },
                     {
-                        "value": "Aortic valve prosthesis, device (physical object)"
-                    },
-                    {
-                        "value": "Aortic valve prosthesis, device"
+                        "value": "Aortic valve prosthesis (physical object)"
                     }
                 ]
             },
@@ -14440,19 +14376,6 @@
             },
             {
                 "system": "http://snomed.info/sct",
-                "code": "183236009",
-                "display": "Breast non-surgical prosthesis",
-                "designation": [
-                    {
-                        "value": "Breast non-surgical prosthesis"
-                    },
-                    {
-                        "value": "Breast non-surgical prosthesis (physical object)"
-                    }
-                ]
-            },
-            {
-                "system": "http://snomed.info/sct",
                 "code": "183240000",
                 "display": "Self-propelled wheelchair",
                 "designation": [
@@ -16005,6 +15928,45 @@
                     },
                     {
                         "value": "Loupes (physical object)"
+                    }
+                ]
+            },
+            {
+                "system": "http://snomed.info/sct",
+                "code": "257194007",
+                "display": "Video",
+                "designation": [
+                    {
+                        "value": "Video"
+                    },
+                    {
+                        "value": "Video (physical object)"
+                    }
+                ]
+            },
+            {
+                "system": "http://snomed.info/sct",
+                "code": "257211007",
+                "display": "Cylinder cutter",
+                "designation": [
+                    {
+                        "value": "Cylinder cutter"
+                    },
+                    {
+                        "value": "Cylinder cutter (physical object)"
+                    }
+                ]
+            },
+            {
+                "system": "http://snomed.info/sct",
+                "code": "257212000",
+                "display": "Rotary cutter",
+                "designation": [
+                    {
+                        "value": "Rotary cutter"
+                    },
+                    {
+                        "value": "Rotary cutter (physical object)"
                     }
                 ]
             }

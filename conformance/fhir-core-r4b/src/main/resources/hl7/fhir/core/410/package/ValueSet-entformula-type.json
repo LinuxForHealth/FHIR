@@ -2,7 +2,7 @@
     "resourceType": "ValueSet",
     "id": "entformula-type",
     "meta": {
-        "lastUpdated": "2022-03-03T22:04:06.196Z",
+        "lastUpdated": "2022-04-23T22:21:35.043Z",
         "profile": [
             "http://hl7.org/fhir/StructureDefinition/shareablevalueset"
         ]
@@ -28,7 +28,7 @@
             "value": "urn:oid:2.16.840.1.113883.4.642.3.391"
         }
     ],
-    "version": "4.3.0-CIBUILD",
+    "version": "4.3.0-cibuild",
     "name": "EnteralFormulaTypeCodes",
     "title": "Enteral Formula Type Codes",
     "status": "draft",
@@ -201,11 +201,12 @@
         ]
     },
     "expansion": {
-        "identifier": "urn:uuid:9f61bcea-5484-49b0-b595-214ef7ad0d1b",
-        "timestamp": "2021-11-17T05:28:50.398Z",
+        "identifier": "urn:uuid:2ead4051-f5f0-4c8f-9666-f5efbb44ce5e",
+        "timestamp": "2022-04-23T22:23:26Z",
+        "total": 36,
         "parameter": [
             {
-                "name": "limitedExpansion",
+                "name": "excludeNested",
                 "valueBoolean": true
             },
             {
@@ -213,444 +214,282 @@
                 "valueBoolean": true
             },
             {
-                "name": "excludeNested",
+                "name": "limitedExpansion",
                 "valueBoolean": true
             },
             {
                 "name": "version",
-                "valueUri": "http://snomed.info/sct|http://snomed.info/sct/731000124108/version/20210901"
+                "valueUri": "http://snomed.info/sct|http://snomed.info/sct/731000124108/version/20220301"
             }
         ],
         "contains": [
             {
                 "system": "http://snomed.info/sct",
                 "code": "443031000124106",
-                "display": "Adult critical care formula (product)",
+                "display": "Adult critical care formula",
                 "designation": [
                     {
-                        "value": "Adult critical care formula (product)"
-                    },
-                    {
                         "value": "Adult critical care formula"
-                    },
-                    {
-                        "value": "Liquid formula intended for enteral and/or oral method of delivery, formulated to meet the nutritional needs of adult critical care patients."
                     }
                 ]
             },
             {
                 "system": "http://snomed.info/sct",
                 "code": "443051000124104",
-                "display": "Adult diabetic specialty formula (product)",
+                "display": "Adult diabetes specialty formula",
                 "designation": [
                     {
-                        "value": "Adult diabetic specialty formula (product)"
-                    },
-                    {
-                        "value": "Adult diabetic specialty formula"
-                    },
-                    {
-                        "value": "Liquid formula intended for enteral and/or oral method of delivery, formulated to meet the nutritional needs of adults with diabetes."
+                        "value": "Adult diabetes specialty formula"
                     }
                 ]
             },
             {
                 "system": "http://snomed.info/sct",
                 "code": "442911000124109",
-                "display": "Adult elemental formula (product)",
+                "display": "Adult elemental formula",
                 "designation": [
                     {
-                        "value": "Adult elemental formula (product)"
-                    },
-                    {
                         "value": "Adult elemental formula"
-                    },
-                    {
-                        "value": "Liquid formula intended for enteral and/or oral method of delivery, formulated to meet the needs of adults; designed with elemental energy (kcal/kJ) sources to improve gastrointestinal tolerance."
                     }
                 ]
             },
             {
                 "system": "http://snomed.info/sct",
                 "code": "443021000124108",
-                "display": "Adult hepatic specialty formula (product)",
+                "display": "Adult hepatic specialty formula",
                 "designation": [
                     {
-                        "value": "Adult hepatic specialty formula (product)"
-                    },
-                    {
                         "value": "Adult hepatic specialty formula"
-                    },
-                    {
-                        "value": "Liquid formula intended for enteral and/or oral method of delivery, formulated to meet the nutritional needs of adults with hepatic disease and reduce metabolic end products."
                     }
                 ]
             },
             {
                 "system": "http://snomed.info/sct",
                 "code": "442971000124100",
-                "display": "Adult high energy formula (product)",
+                "display": "Adult high energy formula",
                 "designation": [
                     {
-                        "value": "Adult high energy formula (product)"
-                    },
-                    {
                         "value": "Adult high energy formula"
-                    },
-                    {
-                        "value": "Adult high calorie formula"
-                    },
-                    {
-                        "value": "Liquid formula intended for enteral and/or oral method of delivery, formulated to meet the nutritional needs of adults and provide increased energy (kcal/kJ) relative to standard formula."
                     }
                 ]
             },
             {
                 "system": "http://snomed.info/sct",
                 "code": "442981000124102",
-                "display": "Adult hydrolyzed protein formula (product)",
+                "display": "Adult hydrolyzed protein formula",
                 "designation": [
                     {
-                        "value": "Adult hydrolyzed protein formula (product)"
-                    },
-                    {
                         "value": "Adult hydrolyzed protein formula"
-                    },
-                    {
-                        "value": "Liquid formula intended for enteral and/or oral method of delivery, formulated to meet the nutritional needs of adult and provide protein hydrolyzed to peptides."
                     }
                 ]
             },
             {
                 "system": "http://snomed.info/sct",
                 "code": "442991000124104",
-                "display": "Adult high protein formula (product)",
+                "display": "Adult high protein formula",
                 "designation": [
                     {
-                        "value": "Adult high protein formula (product)"
-                    },
-                    {
                         "value": "Adult high protein formula"
-                    },
-                    {
-                        "value": "Liquid formula intended for enteral and/or oral method of delivery, formulated to meet the nutritional needs of adults and provide increased protein."
                     }
                 ]
             },
             {
                 "system": "http://snomed.info/sct",
                 "code": "443011000124100",
-                "display": "Adult high protein high fiber formula (product)",
+                "display": "Adult high protein high fiber formula",
                 "designation": [
                     {
-                        "value": "Adult high protein high fiber formula (product)"
-                    },
-                    {
                         "value": "Adult high protein high fiber formula"
-                    },
-                    {
-                        "value": "Liquid formula intended for enteral and/or oral method of delivery, formulated to meet the nutritional needs of adults and provide increased protein and fiber."
                     }
                 ]
             },
             {
                 "system": "http://snomed.info/sct",
                 "code": "442961000124107",
-                "display": "Adult low carbohydrate formula (product)",
+                "display": "Adult low carbohydrate formula",
                 "designation": [
                     {
-                        "value": "Adult low carbohydrate formula (product)"
-                    },
-                    {
                         "value": "Adult low carbohydrate formula"
-                    },
-                    {
-                        "value": "Liquid formula intended for enteral and/or oral method of delivery, formulated to meet the nutritional needs of adults and provide reduced carbohydrate relative to standard formula."
                     }
                 ]
             },
             {
                 "system": "http://snomed.info/sct",
                 "code": "442951000124105",
-                "display": "Adult pulmonary specialty formula (product)",
+                "display": "Adult pulmonary specialty formula",
                 "designation": [
                     {
-                        "value": "Adult pulmonary specialty formula (product)"
-                    },
-                    {
                         "value": "Adult pulmonary specialty formula"
-                    },
-                    {
-                        "value": "Liquid formula intended for enteral and/or oral method of delivery, formulated to meet the nutritional needs of adults and reduce carbon dioxide production in patient with pulmonary disorders."
                     }
                 ]
             },
             {
                 "system": "http://snomed.info/sct",
                 "code": "442941000124108",
-                "display": "Adult renal specialty formula (product)",
+                "display": "Adult renal specialty formula",
                 "designation": [
                     {
-                        "value": "Adult renal specialty formula (product)"
-                    },
-                    {
                         "value": "Adult renal specialty formula"
-                    },
-                    {
-                        "value": "Liquid formula intended for enteral and/or oral method of delivery, formulated to meet the nutritional needs of adults with renal disorders."
                     }
                 ]
             },
             {
                 "system": "http://snomed.info/sct",
                 "code": "442921000124101",
-                "display": "Adult standard formula (product)",
+                "display": "Adult standard formula",
                 "designation": [
                     {
-                        "value": "Adult standard formula (product)"
-                    },
-                    {
                         "value": "Adult standard formula"
-                    },
-                    {
-                        "value": "Liquid formula intended for enteral and/or oral method of delivery, formulated to meet the nutritional needs of adults without any other specialized nutrition therapy needs."
                     }
                 ]
             },
             {
                 "system": "http://snomed.info/sct",
                 "code": "442931000124103",
-                "display": "Adult soy protein isolate formula (product)",
+                "display": "Adult soy protein isolate formula",
                 "designation": [
                     {
-                        "value": "Adult soy protein isolate formula (product)"
-                    },
-                    {
                         "value": "Adult soy protein isolate formula"
-                    },
-                    {
-                        "value": "Liquid formula intended for enteral and/or oral method of delivery, formulated to meet the nutritional needs of adults and based on soy protein instead of cow's milk."
                     }
                 ]
             },
             {
                 "system": "http://snomed.info/sct",
                 "code": "443361000124100",
-                "display": "Pediatric formula (product)",
+                "display": "Pediatric Formula",
                 "designation": [
                     {
-                        "value": "Pediatric formula (product)"
-                    },
-                    {
-                        "value": "Pediatric formula"
+                        "value": "Pediatric Formula"
                     }
                 ]
             },
             {
                 "system": "http://snomed.info/sct",
                 "code": "443401000124105",
-                "display": "Pediatric elemental formula (product)",
+                "display": "Pediatric elemental formula",
                 "designation": [
                     {
-                        "value": "Pediatric elemental formula (product)"
-                    },
-                    {
                         "value": "Pediatric elemental formula"
-                    },
-                    {
-                        "value": "Liquid formula intended for enteral and/or oral method of delivery, formulated to meet the nutritional needs of children. Designed with elemental energy (kcal/kJ) sources to improve GI tolerance."
                     }
                 ]
             },
             {
                 "system": "http://snomed.info/sct",
                 "code": "443491000124103",
-                "display": "Pediatric high energy formula (product)",
+                "display": "Pediatric high energy formula",
                 "designation": [
                     {
-                        "value": "Pediatric high energy formula (product)"
-                    },
-                    {
                         "value": "Pediatric high energy formula"
-                    },
-                    {
-                        "value": "Pediatric high calorie formula"
-                    },
-                    {
-                        "value": "Liquid formula intended for enteral and/or oral method of delivery, formulated to meet the nutritional needs of children and provide increased energy (kcal/kJ) relative to standard formula."
                     }
                 ]
             },
             {
                 "system": "http://snomed.info/sct",
                 "code": "443501000124106",
-                "display": "Pediatric high energy formula with increased fiber (product)",
+                "display": "Pediatric high energy formula with increased fiber",
                 "designation": [
                     {
-                        "value": "Pediatric high energy formula with increased fiber (product)"
-                    },
-                    {
                         "value": "Pediatric high energy formula with increased fiber"
-                    },
-                    {
-                        "value": "Pediatric high calorie formula with increased fiber"
-                    },
-                    {
-                        "value": "Liquid formula intended for enteral and/or oral method of delivery, formulated to meet the nutritional needs of children and provide increased calories and fiber relative to standard formula."
                     }
                 ]
             },
             {
                 "system": "http://snomed.info/sct",
                 "code": "443421000124100",
-                "display": "Pediatric hydrolyzed protein formula (product)",
+                "display": "Pediatric hydrolyzed protein formula",
                 "designation": [
                     {
-                        "value": "Pediatric hydrolyzed protein formula (product)"
-                    },
-                    {
                         "value": "Pediatric hydrolyzed protein formula"
-                    },
-                    {
-                        "value": "Liquid formula intended for enteral and/or oral method of delivery, formulated to meet the nutritional needs of children and providing protein as peptides."
                     }
                 ]
             },
             {
                 "system": "http://snomed.info/sct",
                 "code": "443471000124104",
-                "display": "Pediatric increased fiber formula (product)",
+                "display": "Pediatric increased fiber formula",
                 "designation": [
                     {
-                        "value": "Pediatric increased fiber formula (product)"
-                    },
-                    {
                         "value": "Pediatric increased fiber formula"
-                    },
-                    {
-                        "value": "Liquid formula intended for enteral and/or oral method of delivery, formulated to meet the nutritional needs of children and provide increased fiber relative to a standard formula."
                     }
                 ]
             },
             {
                 "system": "http://snomed.info/sct",
                 "code": "444431000124104",
-                "display": "Pediatric reduced energy formula (product)",
+                "display": "Pediatric reduced energy formula",
                 "designation": [
                     {
-                        "value": "Pediatric reduced energy formula (product)"
-                    },
-                    {
                         "value": "Pediatric reduced energy formula"
-                    },
-                    {
-                        "value": "Pediatric reduced calorie formula"
-                    },
-                    {
-                        "value": "Liquid formula intended for enteral and/or oral method of delivery, formulated to meet the nutritional needs of children and provide reduced calories relative to a standard formula."
                     }
                 ]
             },
             {
                 "system": "http://snomed.info/sct",
                 "code": "443451000124109",
-                "display": "Pediatric standard formula (product)",
+                "display": "Pediatric standard formula",
                 "designation": [
                     {
-                        "value": "Pediatric standard formula (product)"
-                    },
-                    {
                         "value": "Pediatric standard formula"
-                    },
-                    {
-                        "value": "Liquid formula intended for enteral and/or oral method of delivery, formulated to meet the nutritional needs of children without any other specialized nutrition therapy needs."
                     }
                 ]
             },
             {
                 "system": "http://snomed.info/sct",
                 "code": "441561000124106",
-                "display": "Standard enteral formula with fiber (product)",
+                "display": "Standard enteral formula with fiber",
                 "designation": [
                     {
-                        "value": "Standard enteral formula with fiber (product)"
-                    },
-                    {
                         "value": "Standard enteral formula with fiber"
-                    },
-                    {
-                        "value": "Generic enteral nutrition product formulated to provide 1 calorie per milliliter (1 kcal/milliliter) with the addition of fiber."
                     }
                 ]
             },
             {
                 "system": "http://snomed.info/sct",
                 "code": "443461000124106",
-                "display": "Standard formula (product)",
+                "display": "Standard Formula",
                 "designation": [
                     {
-                        "value": "Standard formula (product)"
-                    },
-                    {
-                        "value": "Standard formula"
+                        "value": "Standard Formula"
                     }
                 ]
             },
             {
                 "system": "http://snomed.info/sct",
                 "code": "441531000124102",
-                "display": "Standard enteral formula",
+                "display": "Standard Enteral Formula",
                 "designation": [
                     {
-                        "value": "Standard enteral formula"
-                    },
-                    {
-                        "value": "Standard enteral formula (product)"
-                    },
-                    {
-                        "value": "Generic enteral nutrition product formulated to provide 1 calorie (1 kcal/1 milliliter) used for patients who require enteral feeding (tube feeding)."
+                        "value": "Standard Enteral Formula"
                     }
                 ]
             },
             {
                 "system": "http://snomed.info/sct",
                 "code": "443561000124107",
-                "display": "Soy-based formula (product)",
+                "display": "Soy based formula",
                 "designation": [
                     {
-                        "value": "Soy-based formula (product)"
-                    },
-                    {
-                        "value": "Soy-based formula"
+                        "value": "Soy based formula"
                     }
                 ]
             },
             {
                 "system": "http://snomed.info/sct",
                 "code": "443481000124101",
-                "display": "Renal formula",
+                "display": "Renal Formula",
                 "designation": [
                     {
-                        "value": "Renal formula"
-                    },
-                    {
-                        "value": "Renal formula (product)"
+                        "value": "Renal Formula"
                     }
                 ]
             },
             {
                 "system": "http://snomed.info/sct",
                 "code": "441571000124104",
-                "display": "High energy enteral formula with fiber (product)",
+                "display": "High energy enteral formula with fiber",
                 "designation": [
                     {
-                        "value": "High energy enteral formula with fiber (product)"
-                    },
-                    {
                         "value": "High energy enteral formula with fiber"
-                    },
-                    {
-                        "value": "Calorically dense enteral nutrition product formulated to provide 1.5 calorie (1.2 kcal/milliliter) with addition of fiber."
                     }
                 ]
             },
@@ -661,12 +500,6 @@
                 "designation": [
                     {
                         "value": "Diabetic enteral formula with fiber"
-                    },
-                    {
-                        "value": "Diabetic enteral formula with fiber (product)"
-                    },
-                    {
-                        "value": "Specialty enteral formula plus fiber designed to provide defined nutrients for patients with diabetes or altered carbohydrate metabolism."
                     }
                 ]
             },
@@ -677,23 +510,14 @@
                 "designation": [
                     {
                         "value": "Diabetic high calorie high protein enteral formula with fiber"
-                    },
-                    {
-                        "value": "Diabetic high calorie high protein enteral formula with fiber (product)"
-                    },
-                    {
-                        "value": "Calorically dense, high protein speciality enteral nutrition product with fiber designed to provide for patients with diabetes or altered carbohydrate metabolism."
                     }
                 ]
             },
             {
                 "system": "http://snomed.info/sct",
                 "code": "443351000124102",
-                "display": "Increased fiber formula (product)",
+                "display": "Increased fiber formula",
                 "designation": [
-                    {
-                        "value": "Increased fiber formula (product)"
-                    },
                     {
                         "value": "Increased fiber formula"
                     }
@@ -702,16 +526,10 @@
             {
                 "system": "http://snomed.info/sct",
                 "code": "443771000124106",
-                "display": "Hydrolyzed protein formula (product)",
+                "display": "Hydrolyzed protein formula",
                 "designation": [
                     {
-                        "value": "Hydrolyzed protein formula (product)"
-                    },
-                    {
                         "value": "Hydrolyzed protein formula"
-                    },
-                    {
-                        "value": "Liquid formula intended for enteral and/or oral method of delivery, formulated to provide protein hydrolyzed into peptides."
                     }
                 ]
             },
@@ -722,71 +540,44 @@
                 "designation": [
                     {
                         "value": "Hydrolyzed peptide-based high protein enteral formula"
-                    },
-                    {
-                        "value": "Hydrolyzed peptide-based high protein enteral formula (product)"
-                    },
-                    {
-                        "value": "Nutritionally complete, calorically dense, high protein specialty enteral formula with partially or fully hydrolyzed protein (amino acids) designed to be easily digestible."
                     }
                 ]
             },
             {
                 "system": "http://snomed.info/sct",
                 "code": "443111000124101",
-                "display": "High protein formula (product)",
+                "display": "High protein formula",
                 "designation": [
                     {
-                        "value": "High protein formula (product)"
-                    },
-                    {
                         "value": "High protein formula"
-                    },
-                    {
-                        "value": "Liquid formula intended for enteral and/or oral method of delivery, formulated to provide increased protein relative to standard formula."
                     }
                 ]
             },
             {
                 "system": "http://snomed.info/sct",
                 "code": "443431000124102",
-                "display": "High energy formula",
+                "display": "High Energy Formula",
                 "designation": [
                     {
-                        "value": "High energy formula"
-                    },
-                    {
-                        "value": "High calorie formula"
-                    },
-                    {
-                        "value": "High energy formula (product)"
+                        "value": "High Energy Formula"
                     }
                 ]
             },
             {
                 "system": "http://snomed.info/sct",
                 "code": "443411000124108",
-                "display": "Elemental formula (product)",
+                "display": "Elemental Formula",
                 "designation": [
                     {
-                        "value": "Elemental formula (product)"
-                    },
-                    {
-                        "value": "Elemental formula"
-                    },
-                    {
-                        "value": "Liquid formula intended for enteral and/or oral method of delivery, formulated to provide energy (kcal/kJ) sources which are easier to digest relative to standard formulas."
+                        "value": "Elemental Formula"
                     }
                 ]
             },
             {
                 "system": "http://snomed.info/sct",
                 "code": "442651000124102",
-                "display": "Adult formula (product)",
+                "display": "Adult formula",
                 "designation": [
-                    {
-                        "value": "Adult formula (product)"
-                    },
                     {
                         "value": "Adult formula"
                     }

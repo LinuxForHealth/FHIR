@@ -69,7 +69,7 @@ import com.ibm.fhir.model.visitor.Visitor;
     level = "Warning",
     location = "(base)",
     description = "Name should be usable as an identifier for the module by machine processing applications such as code generation",
-    expression = "name.matches('[A-Z]([A-Za-z0-9_]){0,254}')",
+    expression = "name.exists() implies name.matches('[A-Z]([A-Za-z0-9_]){0,254}')",
     source = "http://hl7.org/fhir/StructureDefinition/ResearchElementDefinition"
 )
 @Constraint(
@@ -110,7 +110,7 @@ public class ResearchElementDefinition extends DomainResource {
         bindingName = "PublicationStatus",
         strength = BindingStrength.Value.REQUIRED,
         description = "The lifecycle status of an artifact.",
-        valueSet = "http://hl7.org/fhir/ValueSet/publication-status|4.3.0-CIBUILD"
+        valueSet = "http://hl7.org/fhir/ValueSet/publication-status|4.3.0-cibuild"
     )
     @Required
     private final PublicationStatus status;
@@ -169,7 +169,7 @@ public class ResearchElementDefinition extends DomainResource {
         bindingName = "ResearchElementType",
         strength = BindingStrength.Value.REQUIRED,
         description = "The possible types of research elements (E.g. Population, Exposure, Outcome).",
-        valueSet = "http://hl7.org/fhir/ValueSet/research-element-type|4.3.0-CIBUILD"
+        valueSet = "http://hl7.org/fhir/ValueSet/research-element-type|4.3.0-cibuild"
     )
     @Required
     private final ResearchElementType type;
@@ -177,7 +177,7 @@ public class ResearchElementDefinition extends DomainResource {
         bindingName = "VariableType",
         strength = BindingStrength.Value.REQUIRED,
         description = "The possible types of variables for exposures or outcomes (E.g. Dichotomous, Continuous, Descriptive).",
-        valueSet = "http://hl7.org/fhir/ValueSet/variable-type|4.3.0-CIBUILD"
+        valueSet = "http://hl7.org/fhir/ValueSet/variable-type|4.3.0-cibuild"
     )
     private final VariableType variableType;
     @Summary
@@ -2145,7 +2145,7 @@ public class ResearchElementDefinition extends DomainResource {
             bindingName = "UCUMUnits",
             strength = BindingStrength.Value.REQUIRED,
             description = "Unified Code for Units of Measure (UCUM).",
-            valueSet = "http://hl7.org/fhir/ValueSet/ucum-units|4.3.0-CIBUILD"
+            valueSet = "http://hl7.org/fhir/ValueSet/ucum-units|4.3.0-cibuild"
         )
         private final CodeableConcept unitOfMeasure;
         private final String studyEffectiveDescription;
@@ -2156,7 +2156,7 @@ public class ResearchElementDefinition extends DomainResource {
             bindingName = "GroupMeasure",
             strength = BindingStrength.Value.REQUIRED,
             description = "Possible group measure aggregates (E.g. Mean, Median).",
-            valueSet = "http://hl7.org/fhir/ValueSet/group-measure|4.3.0-CIBUILD"
+            valueSet = "http://hl7.org/fhir/ValueSet/group-measure|4.3.0-cibuild"
         )
         private final GroupMeasure studyEffectiveGroupMeasure;
         private final String participantEffectiveDescription;
@@ -2167,7 +2167,7 @@ public class ResearchElementDefinition extends DomainResource {
             bindingName = "GroupMeasure",
             strength = BindingStrength.Value.REQUIRED,
             description = "Possible group measure aggregates (E.g. Mean, Median).",
-            valueSet = "http://hl7.org/fhir/ValueSet/group-measure|4.3.0-CIBUILD"
+            valueSet = "http://hl7.org/fhir/ValueSet/group-measure|4.3.0-cibuild"
         )
         private final GroupMeasure participantEffectiveGroupMeasure;
 

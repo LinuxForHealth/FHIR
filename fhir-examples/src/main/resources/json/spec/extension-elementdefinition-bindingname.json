@@ -12,9 +12,10 @@
     }
   ],
   "url": "http://hl7.org/fhir/StructureDefinition/elementdefinition-bindingName",
-  "version": "4.3.0-CIBUILD",
+  "version": "4.3.0-cibuild",
   "name": "bindingName",
   "status": "draft",
+  "experimental": false,
   "date": "2015-02-28",
   "publisher": "Health Level Seven, Inc. - FHIR Core WG",
   "contact": [
@@ -28,7 +29,7 @@
     }
   ],
   "description": "A name that can be used for code generation when generating named enumerations for the binding.",
-  "fhirVersion": "4.3.0-CIBUILD",
+  "fhirVersion": "4.3.0-cibuild",
   "mapping": [
     {
       "identity": "rim",

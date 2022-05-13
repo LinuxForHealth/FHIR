@@ -2,7 +2,7 @@
     "resourceType": "StructureDefinition",
     "id": "ProductShelfLife",
     "meta": {
-        "lastUpdated": "2022-01-01T15:17:18.597Z"
+        "lastUpdated": "2022-04-23T22:21:35.043Z"
     },
     "text": {
         "status": "empty",
@@ -15,10 +15,11 @@
         }
     ],
     "url": "http://hl7.org/fhir/StructureDefinition/ProductShelfLife",
-    "version": "4.3.0-CIBUILD",
+    "version": "4.3.0-cibuild",
     "name": "ProductShelfLife",
     "status": "draft",
-    "date": "2022-01-01T15:17:18Z",
+    "experimental": false,
+    "date": "2022-04-23T22:21:35Z",
     "publisher": "HL7 FHIR Standard",
     "contact": [
         {
@@ -31,7 +32,7 @@
         }
     ],
     "description": "Base StructureDefinition for ProductShelfLife Type: The shelf-life and storage information for a medicinal product item or container can be described using this class.",
-    "fhirVersion": "4.3.0-CIBUILD",
+    "fhirVersion": "4.3.0-cibuild",
     "mapping": [
         {
             "identity": "w5",
@@ -87,7 +88,7 @@
                     },
                     {
                         "identity": "w5",
-                        "map": "administrative.medication"
+                        "map": "clinical.medication"
                     }
                 ]
             },
@@ -238,15 +239,45 @@
                 ]
             },
             {
+                "id": "ProductShelfLife.identifier",
+                "path": "ProductShelfLife.identifier",
+                "short": "Unique identifier for the packaged Medicinal Product",
+                "definition": "Unique identifier for the packaged Medicinal Product.",
+                "min": 0,
+                "max": "1",
+                "base": {
+                    "path": "ProductShelfLife.identifier",
+                    "min": 0,
+                    "max": "1"
+                },
+                "type": [
+                    {
+                        "code": "Identifier"
+                    }
+                ],
+                "constraint": [
+                    {
+                        "key": "ele-1",
+                        "severity": "error",
+                        "human": "All FHIR elements must have a @value or children",
+                        "expression": "hasValue() or (children().count() > id.count())",
+                        "xpath": "@value|f:*|h:div",
+                        "source": "http://hl7.org/fhir/StructureDefinition/Element"
+                    }
+                ],
+                "isModifier": false,
+                "isSummary": true
+            },
+            {
                 "id": "ProductShelfLife.type",
                 "path": "ProductShelfLife.type",
                 "short": "This describes the shelf life, taking into account various scenarios such as shelf life of the packaged Medicinal Product itself, shelf life after transformation where necessary and shelf life after the first opening of a bottle, etc. The shelf life type shall be specified using an appropriate controlled vocabulary The controlled term and the controlled term identifier shall be specified",
                 "definition": "This describes the shelf life, taking into account various scenarios such as shelf life of the packaged Medicinal Product itself, shelf life after transformation where necessary and shelf life after the first opening of a bottle, etc. The shelf life type shall be specified using an appropriate controlled vocabulary The controlled term and the controlled term identifier shall be specified.",
-                "min": 0,
+                "min": 1,
                 "max": "1",
                 "base": {
                     "path": "ProductShelfLife.type",
-                    "min": 0,
+                    "min": 1,
                     "max": "1"
                 },
                 "type": [
@@ -268,23 +299,20 @@
                 "isSummary": true
             },
             {
-                "id": "ProductShelfLife.period[x]",
-                "path": "ProductShelfLife.period[x]",
+                "id": "ProductShelfLife.period",
+                "path": "ProductShelfLife.period",
                 "short": "The shelf life time period can be specified using a numerical value for the period of time and its unit of time measurement The unit of measurement shall be specified in accordance with ISO 11240 and the resulting terminology The symbol and the symbol identifier shall be used",
                 "definition": "The shelf life time period can be specified using a numerical value for the period of time and its unit of time measurement The unit of measurement shall be specified in accordance with ISO 11240 and the resulting terminology The symbol and the symbol identifier shall be used.",
-                "min": 0,
+                "min": 1,
                 "max": "1",
                 "base": {
-                    "path": "ProductShelfLife.period[x]",
-                    "min": 0,
+                    "path": "ProductShelfLife.period",
+                    "min": 1,
                     "max": "1"
                 },
                 "type": [
                     {
-                        "code": "Duration"
-                    },
-                    {
-                        "code": "string"
+                        "code": "Quantity"
                     }
                 ],
                 "constraint": [
@@ -350,16 +378,30 @@
                 "mapping": [
                     {
                         "identity": "w5",
-                        "map": "administrative.medication"
+                        "map": "clinical.medication"
                     }
                 ]
+            },
+            {
+                "id": "ProductShelfLife.identifier",
+                "path": "ProductShelfLife.identifier",
+                "short": "Unique identifier for the packaged Medicinal Product",
+                "definition": "Unique identifier for the packaged Medicinal Product.",
+                "min": 0,
+                "max": "1",
+                "type": [
+                    {
+                        "code": "Identifier"
+                    }
+                ],
+                "isSummary": true
             },
             {
                 "id": "ProductShelfLife.type",
                 "path": "ProductShelfLife.type",
                 "short": "This describes the shelf life, taking into account various scenarios such as shelf life of the packaged Medicinal Product itself, shelf life after transformation where necessary and shelf life after the first opening of a bottle, etc. The shelf life type shall be specified using an appropriate controlled vocabulary The controlled term and the controlled term identifier shall be specified",
                 "definition": "This describes the shelf life, taking into account various scenarios such as shelf life of the packaged Medicinal Product itself, shelf life after transformation where necessary and shelf life after the first opening of a bottle, etc. The shelf life type shall be specified using an appropriate controlled vocabulary The controlled term and the controlled term identifier shall be specified.",
-                "min": 0,
+                "min": 1,
                 "max": "1",
                 "type": [
                     {
@@ -369,18 +411,15 @@
                 "isSummary": true
             },
             {
-                "id": "ProductShelfLife.period[x]",
-                "path": "ProductShelfLife.period[x]",
+                "id": "ProductShelfLife.period",
+                "path": "ProductShelfLife.period",
                 "short": "The shelf life time period can be specified using a numerical value for the period of time and its unit of time measurement The unit of measurement shall be specified in accordance with ISO 11240 and the resulting terminology The symbol and the symbol identifier shall be used",
                 "definition": "The shelf life time period can be specified using a numerical value for the period of time and its unit of time measurement The unit of measurement shall be specified in accordance with ISO 11240 and the resulting terminology The symbol and the symbol identifier shall be used.",
-                "min": 0,
+                "min": 1,
                 "max": "1",
                 "type": [
                     {
-                        "code": "Duration"
-                    },
-                    {
-                        "code": "string"
+                        "code": "Quantity"
                     }
                 ],
                 "isSummary": true

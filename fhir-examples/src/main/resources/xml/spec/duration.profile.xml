@@ -78,10 +78,11 @@
     <valueCode value="4.0.0"/>
   </extension>
   <url value="http://hl7.org/fhir/StructureDefinition/Duration"/>
-  <version value="4.3.0-CIBUILD"/>
+  <version value="4.3.0-cibuild"/>
   <name value="Duration"/>
   <status value="active"/>
-  <date value="2022-01-01T15:17:18+00:00"/>
+  <experimental value="false"/>
+  <date value="2022-04-23T22:21:35+00:00"/>
   <publisher value="HL7 FHIR Standard"/>
   <contact>
     <telecom>
@@ -90,7 +91,7 @@
     </telecom>
   </contact>
   <description value="Base StructureDefinition for Duration Type: A length of time."/>
-  <fhirVersion value="4.3.0-CIBUILD"/>
+  <fhirVersion value="4.3.0-cibuild"/>
   <mapping>
     <identity value="rim"/>
     <uri value="http://hl7.org/v3"/>
@@ -130,7 +131,7 @@
         <severity value="error"/>
         <human value="There SHALL be a code if there is a value and it SHALL be an expression of time.  If system is present, it SHALL be UCUM."/>
         <expression value="value.exists() implies ((system = %ucum) and code.exists())"/>
-        <xpath value="(f:code or not(f:value)) and (not(exists(f:system)) or f:system/@value=&#39;http://unitsofmeasure.org&#39;)"/>
+        <xpath value="(f:code or not(f:value)) and (not(exists(f:system)) or f:system/@value='http://unitsofmeasure.org')"/>
         <source value="http://hl7.org/fhir/StructureDefinition/Duration"/>
       </constraint>
       <constraint>
@@ -188,7 +189,6 @@
         <min value="0"/>
         <max value="1"/>
       </base>
-    <!-- Note: special primitive values have a FHIRPath system type. e.g. this is compiler magic (j) -->
       <type>
         <extension url="http://hl7.org/fhir/StructureDefinition/structuredefinition-fhir-type">
           <valueUrl value="string"/>
@@ -320,7 +320,7 @@
           <valueString value="QuantityComparator"/>
         </extension>
         <strength value="required"/>
-        <valueSet value="http://hl7.org/fhir/ValueSet/quantity-comparator|4.3.0-CIBUILD"/>
+        <valueSet value="http://hl7.org/fhir/ValueSet/quantity-comparator|4.3.0-cibuild"/>
       </binding>
       <mapping>
         <identity value="v2"/>
@@ -463,7 +463,7 @@
         <severity value="error"/>
         <human value="There SHALL be a code if there is a value and it SHALL be an expression of time.  If system is present, it SHALL be UCUM."/>
         <expression value="value.exists() implies ((system = %ucum) and code.exists())"/>
-        <xpath value="(f:code or not(f:value)) and (not(exists(f:system)) or f:system/@value=&#39;http://unitsofmeasure.org&#39;)"/>
+        <xpath value="(f:code or not(f:value)) and (not(exists(f:system)) or f:system/@value='http://unitsofmeasure.org')"/>
         <source value="http://hl7.org/fhir/StructureDefinition/Duration"/>
       </constraint>
       <binding>

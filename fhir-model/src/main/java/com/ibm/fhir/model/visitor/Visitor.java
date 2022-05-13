@@ -385,12 +385,6 @@ public interface Visitor {
 
     /**
      * @return
-     *     true if the children of this dataType should be visited; otherwise false
-     */
-    boolean visit(java.lang.String elementName, int elementIndex, DataType dataType);
-
-    /**
-     * @return
      *     true if the children of this date should be visited; otherwise false
      */
     boolean visit(java.lang.String elementName, int elementIndex, Date date);

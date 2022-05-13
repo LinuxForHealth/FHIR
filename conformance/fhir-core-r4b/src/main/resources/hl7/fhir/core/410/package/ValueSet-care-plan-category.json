@@ -2,7 +2,7 @@
     "resourceType": "ValueSet",
     "id": "care-plan-category",
     "meta": {
-        "lastUpdated": "2022-03-03T22:04:06.196Z",
+        "lastUpdated": "2022-04-23T22:21:35.043Z",
         "profile": [
             "http://hl7.org/fhir/StructureDefinition/shareablevalueset"
         ]
@@ -28,7 +28,7 @@
             "value": "urn:oid:2.16.840.1.113883.4.642.3.148"
         }
     ],
-    "version": "4.3.0-CIBUILD",
+    "version": "4.3.0-cibuild",
     "name": "CarePlanCategory",
     "title": "Care Plan Category",
     "status": "draft",
@@ -67,11 +67,12 @@
                 "valueBoolean": true
             }
         ],
-        "identifier": "urn:uuid:03e57bba-0d67-4886-8491-72913b4f1bc5",
-        "timestamp": "2021-11-17T05:28:21.575Z",
+        "identifier": "urn:uuid:b1cdcd11-8690-4d3b-bd73-4ca09351b588",
+        "timestamp": "2022-04-23T22:23:26Z",
+        "total": 169,
         "parameter": [
             {
-                "name": "limitedExpansion",
+                "name": "excludeNested",
                 "valueBoolean": true
             },
             {
@@ -79,12 +80,12 @@
                 "valueBoolean": true
             },
             {
-                "name": "excludeNested",
+                "name": "limitedExpansion",
                 "valueBoolean": true
             },
             {
                 "name": "version",
-                "valueUri": "http://snomed.info/sct|http://snomed.info/sct/900000000000207008/version/20200131"
+                "valueUri": "http://snomed.info/sct|http://snomed.info/sct/900000000000207008/version/20200731"
             }
         ],
         "contains": [

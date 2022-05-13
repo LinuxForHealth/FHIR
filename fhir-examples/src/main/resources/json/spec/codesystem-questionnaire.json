@@ -9,8 +9,56 @@
       "status": "active",
       "description": "Type options for CodeSystem.concept.property.value[x]",
       "expansion": {
-        "identifier": "urn:uuid:0b1fc363-ecff-4fb7-9d7f-b8e2212ce3fd",
-        "timestamp": "2022-01-01T15:18:45+00:00",
+        "identifier": "urn:uuid:9b0ed4a1-d068-4d1e-95f2-ab945a794d02",
+        "timestamp": "2022-04-23T22:23:27+00:00",
+        "contains": [
+          {
+            "system": "http://hl7.org/fhir/data-types",
+            "code": "code",
+            "display": "code"
+          },
+          {
+            "system": "http://hl7.org/fhir/data-types",
+            "code": "Coding",
+            "display": "Coding"
+          },
+          {
+            "system": "http://hl7.org/fhir/data-types",
+            "code": "string",
+            "display": "string"
+          },
+          {
+            "system": "http://hl7.org/fhir/data-types",
+            "code": "integer",
+            "display": "integer"
+          },
+          {
+            "system": "http://hl7.org/fhir/data-types",
+            "code": "boolean",
+            "display": "boolean"
+          },
+          {
+            "system": "http://hl7.org/fhir/data-types",
+            "code": "dateTime",
+            "display": "dateTime"
+          },
+          {
+            "system": "http://hl7.org/fhir/data-types",
+            "code": "decimal",
+            "display": "decimal"
+          }
+        ]
+      }
+    },
+    {
+      "resourceType": "ValueSet",
+      "id": "vs3",
+      "name": "Type options for CodeSystem.concept.property.value[x]",
+      "status": "active",
+      "description": "Type options for CodeSystem.concept.property.value[x]",
+      "expansion": {
+        "identifier": "urn:uuid:318639c0-cd7f-4d83-8beb-247c3b6660a6",
+        "timestamp": "2022-04-23T22:23:27+00:00",
         "contains": [
           {
             "system": "http://hl7.org/fhir/data-types",
@@ -56,9 +104,10 @@
       "system": "urn:ietf:rfc:3986"
     }
   ],
-  "version": "4.3.0-CIBUILD",
+  "version": "4.3.0-cibuild",
   "status": "active",
-  "date": "2022-01-01T15:17:18+00:00",
+  "experimental": false,
+  "date": "2022-04-23T22:21:35+00:00",
   "publisher": "Health Level Seven International (Vocabulary)",
   "item": [
     {
@@ -247,10 +296,9 @@
             {
               "linkId": "CodeSystem.language.value",
               "text": "language",
-              "type": "coding",
+              "type": "choice",
               "required": false,
-              "repeats": false,
-              "answerConstraint": "optionsOnly"
+              "repeats": false
             }
           ]
         },
@@ -645,10 +693,9 @@
             {
               "linkId": "CodeSystem.status.value",
               "text": "status",
-              "type": "coding",
+              "type": "choice",
               "required": false,
-              "repeats": false,
-              "answerConstraint": "optionsOrType"
+              "repeats": false
             }
           ]
         },
@@ -929,10 +976,9 @@
             {
               "linkId": "CodeSystem.jurisdiction.coding",
               "text": "code:",
-              "type": "coding",
+              "type": "choice",
               "required": false,
-              "repeats": false,
-              "answerConstraint": "optionsOnly"
+              "repeats": false
             },
             {
               "linkId": "CodeSystem.jurisdiction.text",
@@ -1157,10 +1203,9 @@
             {
               "linkId": "CodeSystem.hierarchyMeaning.value",
               "text": "hierarchy meaning",
-              "type": "coding",
+              "type": "choice",
               "required": false,
-              "repeats": false,
-              "answerConstraint": "optionsOrType"
+              "repeats": false
             }
           ]
         },
@@ -1294,10 +1339,9 @@
             {
               "linkId": "CodeSystem.content.value",
               "text": "content",
-              "type": "coding",
+              "type": "choice",
               "required": false,
-              "repeats": false,
-              "answerConstraint": "optionsOrType"
+              "repeats": false
             }
           ]
         },
@@ -1562,10 +1606,9 @@
                 {
                   "linkId": "CodeSystem.filter.code.value",
                   "text": "code",
-                  "type": "coding",
+                  "type": "choice",
                   "required": false,
-                  "repeats": false,
-                  "answerConstraint": "optionsOnly"
+                  "repeats": false
                 }
               ]
             },
@@ -1651,10 +1694,9 @@
                 {
                   "linkId": "CodeSystem.filter.operator.value",
                   "text": "operator",
-                  "type": "coding",
+                  "type": "choice",
                   "required": false,
-                  "repeats": false,
-                  "answerConstraint": "optionsOrType"
+                  "repeats": false
                 }
               ]
             },
@@ -1876,10 +1918,9 @@
                 {
                   "linkId": "CodeSystem.property.code.value",
                   "text": "code",
-                  "type": "coding",
+                  "type": "choice",
                   "required": false,
-                  "repeats": false,
-                  "answerConstraint": "optionsOnly"
+                  "repeats": false
                 }
               ]
             },
@@ -2013,10 +2054,9 @@
                 {
                   "linkId": "CodeSystem.property.type.value",
                   "text": "type",
-                  "type": "coding",
+                  "type": "choice",
                   "required": false,
-                  "repeats": false,
-                  "answerConstraint": "optionsOrType"
+                  "repeats": false
                 }
               ]
             }
@@ -2195,10 +2235,9 @@
                 {
                   "linkId": "CodeSystem.concept.code.value",
                   "text": "code",
-                  "type": "coding",
+                  "type": "choice",
                   "required": false,
-                  "repeats": false,
-                  "answerConstraint": "optionsOnly"
+                  "repeats": false
                 }
               ]
             },
@@ -2459,10 +2498,9 @@
                     {
                       "linkId": "CodeSystem.concept.designation.language.value",
                       "text": "language",
-                      "type": "coding",
+                      "type": "choice",
                       "required": false,
-                      "repeats": false,
-                      "answerConstraint": "optionsOnly"
+                      "repeats": false
                     }
                   ]
                 },
@@ -2504,10 +2542,9 @@
                     {
                       "linkId": "CodeSystem.concept.designation.use.value",
                       "text": "Details how this designation would be used",
-                      "type": "coding",
+                      "type": "choice",
                       "required": false,
-                      "repeats": false,
-                      "answerConstraint": "optionsOnly"
+                      "repeats": false
                     }
                   ]
                 },
@@ -2729,10 +2766,9 @@
                     {
                       "linkId": "CodeSystem.concept.property.code.value",
                       "text": "code",
-                      "type": "coding",
+                      "type": "choice",
                       "required": false,
-                      "repeats": false,
-                      "answerConstraint": "optionsOnly"
+                      "repeats": false
                     }
                   ]
                 },
@@ -2775,10 +2811,9 @@
                     {
                       "linkId": "CodeSystem.concept.property.value[x]._type",
                       "text": "type",
-                      "type": "coding",
+                      "type": "choice",
                       "required": false,
                       "repeats": false,
-                      "answerConstraint": "optionsOnly",
                       "answerValueSet": "#vs2",
                       "item": [
                         {
@@ -2794,10 +2829,9 @@
                             {
                               "linkId": "CodeSystem.concept.property.value[x]._null.value",
                               "text": "value[x]",
-                              "type": "coding",
+                              "type": "choice",
                               "required": false,
-                              "repeats": false,
-                              "answerConstraint": "optionsOnly"
+                              "repeats": false
                             }
                           ]
                         },
@@ -2813,10 +2847,9 @@
                           "item": [
                             {
                               "linkId": "CodeSystem.concept.property.value[x]._null.value",
-                              "type": "coding",
+                              "type": "choice",
                               "required": false,
-                              "repeats": false,
-                              "answerConstraint": "optionsOnly"
+                              "repeats": false
                             }
                           ]
                         },
@@ -2941,6 +2974,862 @@
                   "linkId": "CodeSystem.concept.concept-flyover",
                   "text": "Defines children of a concept to produce a hierarchy of concepts. The nature of the relationships is variable (is-a/contains/categorizes) - see hierarchyMeaning.",
                   "type": "display"
+                },
+                {
+                  "extension": [
+                    {
+                      "url": "http://hl7.org/fhir/StructureDefinition/questionnaire-maxOccurs",
+                      "valueInteger": 1
+                    },
+                    {
+                      "url": "http://hl7.org/fhir/StructureDefinition/questionnaire-fhirType",
+                      "valueString": "string"
+                    }
+                  ],
+                  "linkId": "CodeSystem.concept.id",
+                  "type": "group",
+                  "required": false,
+                  "repeats": true,
+                  "item": [
+                    {
+                      "extension": [
+                        {
+                          "url": "http://hl7.org/fhir/StructureDefinition/questionnaire-itemControl",
+                          "valueCodeableConcept": {
+                            "coding": [
+                              {
+                                "system": "http://hl7.org/fhir/questionnaire-item-control",
+                                "code": "flyover",
+                                "display": "Fly-over"
+                              }
+                            ]
+                          }
+                        }
+                      ],
+                      "linkId": "CodeSystem.concept.id-flyover",
+                      "text": "Unique id for the element within a resource (for internal references). This may be any string value that does not contain spaces.",
+                      "type": "display"
+                    },
+                    {
+                      "linkId": "CodeSystem.concept.id.value",
+                      "text": "Unique id for inter-element referencing",
+                      "type": "string",
+                      "required": false,
+                      "repeats": false
+                    }
+                  ]
+                },
+                {
+                  "linkId": "CodeSystem.concept.extension",
+                  "text": "Additional content defined by implementations",
+                  "type": "group",
+                  "required": false,
+                  "repeats": true,
+                  "item": [
+                    {
+                      "extension": [
+                        {
+                          "url": "http://hl7.org/fhir/StructureDefinition/questionnaire-itemControl",
+                          "valueCodeableConcept": {
+                            "coding": [
+                              {
+                                "system": "http://hl7.org/fhir/questionnaire-item-control",
+                                "code": "flyover",
+                                "display": "Fly-over"
+                              }
+                            ]
+                          }
+                        }
+                      ],
+                      "linkId": "CodeSystem.concept.extension-flyover",
+                      "text": "May be used to represent additional information that is not part of the basic definition of the element. To make the use of extensions safe and manageable, there is a strict set of governance  applied to the definition and use of extensions. Though any implementer can define an extension, there is a set of requirements that SHALL be met as part of the definition of the extension. There can be no stigma associated with the use of extensions by any application, project, or standard - regardless of the institution or jurisdiction that uses or defines the extensions.  The use of extensions is what allows the FHIR specification to retain a core level of simplicity for everyone.",
+                      "type": "display"
+                    }
+                  ]
+                },
+                {
+                  "linkId": "CodeSystem.concept.modifierExtension",
+                  "text": "Extensions that cannot be ignored even if unrecognized",
+                  "type": "group",
+                  "required": false,
+                  "repeats": true,
+                  "item": [
+                    {
+                      "extension": [
+                        {
+                          "url": "http://hl7.org/fhir/StructureDefinition/questionnaire-itemControl",
+                          "valueCodeableConcept": {
+                            "coding": [
+                              {
+                                "system": "http://hl7.org/fhir/questionnaire-item-control",
+                                "code": "flyover",
+                                "display": "Fly-over"
+                              }
+                            ]
+                          }
+                        }
+                      ],
+                      "linkId": "CodeSystem.concept.modifierExtension-flyover",
+                      "text": "May be used to represent additional information that is not part of the basic definition of the element and that modifies the understanding of the element in which it is contained and/or the understanding of the containing element\u0027s descendants. Usually modifier elements provide negation or qualification. To make the use of extensions safe and manageable, there is a strict set of governance applied to the definition and use of extensions. Though any implementer can define an extension, there is a set of requirements that SHALL be met as part of the definition of the extension. Applications processing a resource are required to check for modifier extensions.\n\nModifier extensions SHALL NOT change the meaning of any elements on Resource or DomainResource (including cannot change the meaning of modifierExtension itself). There can be no stigma associated with the use of extensions by any application, project, or standard - regardless of the institution or jurisdiction that uses or defines the extensions.  The use of extensions is what allows the FHIR specification to retain a core level of simplicity for everyone.",
+                      "type": "display"
+                    }
+                  ]
+                },
+                {
+                  "extension": [
+                    {
+                      "url": "http://hl7.org/fhir/StructureDefinition/questionnaire-minOccurs",
+                      "valueInteger": 1
+                    },
+                    {
+                      "url": "http://hl7.org/fhir/StructureDefinition/questionnaire-maxOccurs",
+                      "valueInteger": 1
+                    },
+                    {
+                      "url": "http://hl7.org/fhir/StructureDefinition/questionnaire-fhirType",
+                      "valueString": "code"
+                    }
+                  ],
+                  "linkId": "CodeSystem.concept.code",
+                  "type": "group",
+                  "required": true,
+                  "repeats": true,
+                  "item": [
+                    {
+                      "extension": [
+                        {
+                          "url": "http://hl7.org/fhir/StructureDefinition/questionnaire-itemControl",
+                          "valueCodeableConcept": {
+                            "coding": [
+                              {
+                                "system": "http://hl7.org/fhir/questionnaire-item-control",
+                                "code": "flyover",
+                                "display": "Fly-over"
+                              }
+                            ]
+                          }
+                        }
+                      ],
+                      "linkId": "CodeSystem.concept.code-flyover",
+                      "text": "A code - a text symbol - that uniquely identifies the concept within the code system.",
+                      "type": "display"
+                    },
+                    {
+                      "linkId": "CodeSystem.concept.code.value",
+                      "text": "code",
+                      "type": "choice",
+                      "required": false,
+                      "repeats": false
+                    }
+                  ]
+                },
+                {
+                  "extension": [
+                    {
+                      "url": "http://hl7.org/fhir/StructureDefinition/questionnaire-maxOccurs",
+                      "valueInteger": 1
+                    },
+                    {
+                      "url": "http://hl7.org/fhir/StructureDefinition/questionnaire-fhirType",
+                      "valueString": "string"
+                    }
+                  ],
+                  "linkId": "CodeSystem.concept.display",
+                  "type": "group",
+                  "required": false,
+                  "repeats": true,
+                  "item": [
+                    {
+                      "extension": [
+                        {
+                          "url": "http://hl7.org/fhir/StructureDefinition/questionnaire-itemControl",
+                          "valueCodeableConcept": {
+                            "coding": [
+                              {
+                                "system": "http://hl7.org/fhir/questionnaire-item-control",
+                                "code": "flyover",
+                                "display": "Fly-over"
+                              }
+                            ]
+                          }
+                        }
+                      ],
+                      "linkId": "CodeSystem.concept.display-flyover",
+                      "text": "A human readable string that is the recommended default way to present this concept to a user.",
+                      "type": "display"
+                    },
+                    {
+                      "linkId": "CodeSystem.concept.display.value",
+                      "text": "Text to display to the user",
+                      "type": "string",
+                      "required": false,
+                      "repeats": false
+                    }
+                  ]
+                },
+                {
+                  "extension": [
+                    {
+                      "url": "http://hl7.org/fhir/StructureDefinition/questionnaire-maxOccurs",
+                      "valueInteger": 1
+                    },
+                    {
+                      "url": "http://hl7.org/fhir/StructureDefinition/questionnaire-fhirType",
+                      "valueString": "string"
+                    }
+                  ],
+                  "linkId": "CodeSystem.concept.definition",
+                  "type": "group",
+                  "required": false,
+                  "repeats": true,
+                  "item": [
+                    {
+                      "extension": [
+                        {
+                          "url": "http://hl7.org/fhir/StructureDefinition/questionnaire-itemControl",
+                          "valueCodeableConcept": {
+                            "coding": [
+                              {
+                                "system": "http://hl7.org/fhir/questionnaire-item-control",
+                                "code": "flyover",
+                                "display": "Fly-over"
+                              }
+                            ]
+                          }
+                        }
+                      ],
+                      "linkId": "CodeSystem.concept.definition-flyover",
+                      "text": "The formal definition of the concept. The code system resource does not make formal definitions required, because of the prevalence of legacy systems. However, they are highly recommended, as without them there is no formal meaning associated with the concept.",
+                      "type": "display"
+                    },
+                    {
+                      "linkId": "CodeSystem.concept.definition.value",
+                      "text": "Formal definition",
+                      "type": "string",
+                      "required": false,
+                      "repeats": false
+                    }
+                  ]
+                },
+                {
+                  "linkId": "CodeSystem.concept.designation",
+                  "text": "Additional representations for the concept",
+                  "type": "group",
+                  "required": false,
+                  "repeats": true,
+                  "item": [
+                    {
+                      "linkId": "CodeSystem.concept.designation-display",
+                      "text": "Concepts have both a ```display``` and an array of ```designation```. The display is equivalent to a special designation with an implied ```designation.use``` of \"primary code\" and a language equal to the [Resource Language](resource.html#language).",
+                      "type": "display"
+                    },
+                    {
+                      "extension": [
+                        {
+                          "url": "http://hl7.org/fhir/StructureDefinition/questionnaire-itemControl",
+                          "valueCodeableConcept": {
+                            "coding": [
+                              {
+                                "system": "http://hl7.org/fhir/questionnaire-item-control",
+                                "code": "flyover",
+                                "display": "Fly-over"
+                              }
+                            ]
+                          }
+                        }
+                      ],
+                      "linkId": "CodeSystem.concept.designation-flyover",
+                      "text": "Additional representations for the concept - other languages, aliases, specialized purposes, used for particular purposes, etc.",
+                      "type": "display"
+                    },
+                    {
+                      "extension": [
+                        {
+                          "url": "http://hl7.org/fhir/StructureDefinition/questionnaire-maxOccurs",
+                          "valueInteger": 1
+                        },
+                        {
+                          "url": "http://hl7.org/fhir/StructureDefinition/questionnaire-fhirType",
+                          "valueString": "string"
+                        }
+                      ],
+                      "linkId": "CodeSystem.concept.designation.id",
+                      "type": "group",
+                      "required": false,
+                      "repeats": true,
+                      "item": [
+                        {
+                          "extension": [
+                            {
+                              "url": "http://hl7.org/fhir/StructureDefinition/questionnaire-itemControl",
+                              "valueCodeableConcept": {
+                                "coding": [
+                                  {
+                                    "system": "http://hl7.org/fhir/questionnaire-item-control",
+                                    "code": "flyover",
+                                    "display": "Fly-over"
+                                  }
+                                ]
+                              }
+                            }
+                          ],
+                          "linkId": "CodeSystem.concept.designation.id-flyover",
+                          "text": "Unique id for the element within a resource (for internal references). This may be any string value that does not contain spaces.",
+                          "type": "display"
+                        },
+                        {
+                          "linkId": "CodeSystem.concept.designation.id.value",
+                          "text": "Unique id for inter-element referencing",
+                          "type": "string",
+                          "required": false,
+                          "repeats": false
+                        }
+                      ]
+                    },
+                    {
+                      "linkId": "CodeSystem.concept.designation.extension",
+                      "text": "Additional content defined by implementations",
+                      "type": "group",
+                      "required": false,
+                      "repeats": true,
+                      "item": [
+                        {
+                          "extension": [
+                            {
+                              "url": "http://hl7.org/fhir/StructureDefinition/questionnaire-itemControl",
+                              "valueCodeableConcept": {
+                                "coding": [
+                                  {
+                                    "system": "http://hl7.org/fhir/questionnaire-item-control",
+                                    "code": "flyover",
+                                    "display": "Fly-over"
+                                  }
+                                ]
+                              }
+                            }
+                          ],
+                          "linkId": "CodeSystem.concept.designation.extension-flyover",
+                          "text": "May be used to represent additional information that is not part of the basic definition of the element. To make the use of extensions safe and manageable, there is a strict set of governance  applied to the definition and use of extensions. Though any implementer can define an extension, there is a set of requirements that SHALL be met as part of the definition of the extension. There can be no stigma associated with the use of extensions by any application, project, or standard - regardless of the institution or jurisdiction that uses or defines the extensions.  The use of extensions is what allows the FHIR specification to retain a core level of simplicity for everyone.",
+                          "type": "display"
+                        }
+                      ]
+                    },
+                    {
+                      "linkId": "CodeSystem.concept.designation.modifierExtension",
+                      "text": "Extensions that cannot be ignored even if unrecognized",
+                      "type": "group",
+                      "required": false,
+                      "repeats": true,
+                      "item": [
+                        {
+                          "extension": [
+                            {
+                              "url": "http://hl7.org/fhir/StructureDefinition/questionnaire-itemControl",
+                              "valueCodeableConcept": {
+                                "coding": [
+                                  {
+                                    "system": "http://hl7.org/fhir/questionnaire-item-control",
+                                    "code": "flyover",
+                                    "display": "Fly-over"
+                                  }
+                                ]
+                              }
+                            }
+                          ],
+                          "linkId": "CodeSystem.concept.designation.modifierExtension-flyover",
+                          "text": "May be used to represent additional information that is not part of the basic definition of the element and that modifies the understanding of the element in which it is contained and/or the understanding of the containing element\u0027s descendants. Usually modifier elements provide negation or qualification. To make the use of extensions safe and manageable, there is a strict set of governance applied to the definition and use of extensions. Though any implementer can define an extension, there is a set of requirements that SHALL be met as part of the definition of the extension. Applications processing a resource are required to check for modifier extensions.\n\nModifier extensions SHALL NOT change the meaning of any elements on Resource or DomainResource (including cannot change the meaning of modifierExtension itself). There can be no stigma associated with the use of extensions by any application, project, or standard - regardless of the institution or jurisdiction that uses or defines the extensions.  The use of extensions is what allows the FHIR specification to retain a core level of simplicity for everyone.",
+                          "type": "display"
+                        }
+                      ]
+                    },
+                    {
+                      "extension": [
+                        {
+                          "url": "http://hl7.org/fhir/StructureDefinition/questionnaire-maxOccurs",
+                          "valueInteger": 1
+                        },
+                        {
+                          "url": "http://hl7.org/fhir/StructureDefinition/questionnaire-fhirType",
+                          "valueString": "code"
+                        }
+                      ],
+                      "linkId": "CodeSystem.concept.designation.language",
+                      "type": "group",
+                      "required": false,
+                      "repeats": true,
+                      "item": [
+                        {
+                          "extension": [
+                            {
+                              "url": "http://hl7.org/fhir/StructureDefinition/questionnaire-itemControl",
+                              "valueCodeableConcept": {
+                                "coding": [
+                                  {
+                                    "system": "http://hl7.org/fhir/questionnaire-item-control",
+                                    "code": "flyover",
+                                    "display": "Fly-over"
+                                  }
+                                ]
+                              }
+                            }
+                          ],
+                          "linkId": "CodeSystem.concept.designation.language-flyover",
+                          "text": "The language this designation is defined for. In the absence of a language, the resource language applies.",
+                          "type": "display"
+                        },
+                        {
+                          "linkId": "CodeSystem.concept.designation.language.value",
+                          "text": "language",
+                          "type": "choice",
+                          "required": false,
+                          "repeats": false
+                        }
+                      ]
+                    },
+                    {
+                      "extension": [
+                        {
+                          "url": "http://hl7.org/fhir/StructureDefinition/questionnaire-maxOccurs",
+                          "valueInteger": 1
+                        },
+                        {
+                          "url": "http://hl7.org/fhir/StructureDefinition/questionnaire-fhirType",
+                          "valueString": "Coding"
+                        }
+                      ],
+                      "linkId": "CodeSystem.concept.designation.use",
+                      "type": "group",
+                      "required": false,
+                      "repeats": true,
+                      "item": [
+                        {
+                          "extension": [
+                            {
+                              "url": "http://hl7.org/fhir/StructureDefinition/questionnaire-itemControl",
+                              "valueCodeableConcept": {
+                                "coding": [
+                                  {
+                                    "system": "http://hl7.org/fhir/questionnaire-item-control",
+                                    "code": "flyover",
+                                    "display": "Fly-over"
+                                  }
+                                ]
+                              }
+                            }
+                          ],
+                          "linkId": "CodeSystem.concept.designation.use-flyover",
+                          "text": "A code that details how this designation would be used. If no use is provided, the designation can be assumed to be suitable for general display to a human user.",
+                          "type": "display"
+                        },
+                        {
+                          "linkId": "CodeSystem.concept.designation.use.value",
+                          "text": "Details how this designation would be used",
+                          "type": "choice",
+                          "required": false,
+                          "repeats": false
+                        }
+                      ]
+                    },
+                    {
+                      "extension": [
+                        {
+                          "url": "http://hl7.org/fhir/StructureDefinition/questionnaire-minOccurs",
+                          "valueInteger": 1
+                        },
+                        {
+                          "url": "http://hl7.org/fhir/StructureDefinition/questionnaire-maxOccurs",
+                          "valueInteger": 1
+                        },
+                        {
+                          "url": "http://hl7.org/fhir/StructureDefinition/questionnaire-fhirType",
+                          "valueString": "string"
+                        }
+                      ],
+                      "linkId": "CodeSystem.concept.designation.value",
+                      "type": "group",
+                      "required": true,
+                      "repeats": true,
+                      "item": [
+                        {
+                          "extension": [
+                            {
+                              "url": "http://hl7.org/fhir/StructureDefinition/questionnaire-itemControl",
+                              "valueCodeableConcept": {
+                                "coding": [
+                                  {
+                                    "system": "http://hl7.org/fhir/questionnaire-item-control",
+                                    "code": "flyover",
+                                    "display": "Fly-over"
+                                  }
+                                ]
+                              }
+                            }
+                          ],
+                          "linkId": "CodeSystem.concept.designation.value-flyover",
+                          "text": "The text value for this designation.",
+                          "type": "display"
+                        },
+                        {
+                          "linkId": "CodeSystem.concept.designation.value.value",
+                          "text": "The text value for this designation",
+                          "type": "string",
+                          "required": false,
+                          "repeats": false
+                        }
+                      ]
+                    }
+                  ]
+                },
+                {
+                  "linkId": "CodeSystem.concept.property",
+                  "text": "Property value for the concept",
+                  "type": "group",
+                  "required": false,
+                  "repeats": true,
+                  "item": [
+                    {
+                      "extension": [
+                        {
+                          "url": "http://hl7.org/fhir/StructureDefinition/questionnaire-itemControl",
+                          "valueCodeableConcept": {
+                            "coding": [
+                              {
+                                "system": "http://hl7.org/fhir/questionnaire-item-control",
+                                "code": "flyover",
+                                "display": "Fly-over"
+                              }
+                            ]
+                          }
+                        }
+                      ],
+                      "linkId": "CodeSystem.concept.property-flyover",
+                      "text": "A property value for this concept.",
+                      "type": "display"
+                    },
+                    {
+                      "extension": [
+                        {
+                          "url": "http://hl7.org/fhir/StructureDefinition/questionnaire-maxOccurs",
+                          "valueInteger": 1
+                        },
+                        {
+                          "url": "http://hl7.org/fhir/StructureDefinition/questionnaire-fhirType",
+                          "valueString": "string"
+                        }
+                      ],
+                      "linkId": "CodeSystem.concept.property.id",
+                      "type": "group",
+                      "required": false,
+                      "repeats": true,
+                      "item": [
+                        {
+                          "extension": [
+                            {
+                              "url": "http://hl7.org/fhir/StructureDefinition/questionnaire-itemControl",
+                              "valueCodeableConcept": {
+                                "coding": [
+                                  {
+                                    "system": "http://hl7.org/fhir/questionnaire-item-control",
+                                    "code": "flyover",
+                                    "display": "Fly-over"
+                                  }
+                                ]
+                              }
+                            }
+                          ],
+                          "linkId": "CodeSystem.concept.property.id-flyover",
+                          "text": "Unique id for the element within a resource (for internal references). This may be any string value that does not contain spaces.",
+                          "type": "display"
+                        },
+                        {
+                          "linkId": "CodeSystem.concept.property.id.value",
+                          "text": "Unique id for inter-element referencing",
+                          "type": "string",
+                          "required": false,
+                          "repeats": false
+                        }
+                      ]
+                    },
+                    {
+                      "linkId": "CodeSystem.concept.property.extension",
+                      "text": "Additional content defined by implementations",
+                      "type": "group",
+                      "required": false,
+                      "repeats": true,
+                      "item": [
+                        {
+                          "extension": [
+                            {
+                              "url": "http://hl7.org/fhir/StructureDefinition/questionnaire-itemControl",
+                              "valueCodeableConcept": {
+                                "coding": [
+                                  {
+                                    "system": "http://hl7.org/fhir/questionnaire-item-control",
+                                    "code": "flyover",
+                                    "display": "Fly-over"
+                                  }
+                                ]
+                              }
+                            }
+                          ],
+                          "linkId": "CodeSystem.concept.property.extension-flyover",
+                          "text": "May be used to represent additional information that is not part of the basic definition of the element. To make the use of extensions safe and manageable, there is a strict set of governance  applied to the definition and use of extensions. Though any implementer can define an extension, there is a set of requirements that SHALL be met as part of the definition of the extension. There can be no stigma associated with the use of extensions by any application, project, or standard - regardless of the institution or jurisdiction that uses or defines the extensions.  The use of extensions is what allows the FHIR specification to retain a core level of simplicity for everyone.",
+                          "type": "display"
+                        }
+                      ]
+                    },
+                    {
+                      "linkId": "CodeSystem.concept.property.modifierExtension",
+                      "text": "Extensions that cannot be ignored even if unrecognized",
+                      "type": "group",
+                      "required": false,
+                      "repeats": true,
+                      "item": [
+                        {
+                          "extension": [
+                            {
+                              "url": "http://hl7.org/fhir/StructureDefinition/questionnaire-itemControl",
+                              "valueCodeableConcept": {
+                                "coding": [
+                                  {
+                                    "system": "http://hl7.org/fhir/questionnaire-item-control",
+                                    "code": "flyover",
+                                    "display": "Fly-over"
+                                  }
+                                ]
+                              }
+                            }
+                          ],
+                          "linkId": "CodeSystem.concept.property.modifierExtension-flyover",
+                          "text": "May be used to represent additional information that is not part of the basic definition of the element and that modifies the understanding of the element in which it is contained and/or the understanding of the containing element\u0027s descendants. Usually modifier elements provide negation or qualification. To make the use of extensions safe and manageable, there is a strict set of governance applied to the definition and use of extensions. Though any implementer can define an extension, there is a set of requirements that SHALL be met as part of the definition of the extension. Applications processing a resource are required to check for modifier extensions.\n\nModifier extensions SHALL NOT change the meaning of any elements on Resource or DomainResource (including cannot change the meaning of modifierExtension itself). There can be no stigma associated with the use of extensions by any application, project, or standard - regardless of the institution or jurisdiction that uses or defines the extensions.  The use of extensions is what allows the FHIR specification to retain a core level of simplicity for everyone.",
+                          "type": "display"
+                        }
+                      ]
+                    },
+                    {
+                      "extension": [
+                        {
+                          "url": "http://hl7.org/fhir/StructureDefinition/questionnaire-minOccurs",
+                          "valueInteger": 1
+                        },
+                        {
+                          "url": "http://hl7.org/fhir/StructureDefinition/questionnaire-maxOccurs",
+                          "valueInteger": 1
+                        },
+                        {
+                          "url": "http://hl7.org/fhir/StructureDefinition/questionnaire-fhirType",
+                          "valueString": "code"
+                        }
+                      ],
+                      "linkId": "CodeSystem.concept.property.code",
+                      "type": "group",
+                      "required": true,
+                      "repeats": true,
+                      "item": [
+                        {
+                          "extension": [
+                            {
+                              "url": "http://hl7.org/fhir/StructureDefinition/questionnaire-itemControl",
+                              "valueCodeableConcept": {
+                                "coding": [
+                                  {
+                                    "system": "http://hl7.org/fhir/questionnaire-item-control",
+                                    "code": "flyover",
+                                    "display": "Fly-over"
+                                  }
+                                ]
+                              }
+                            }
+                          ],
+                          "linkId": "CodeSystem.concept.property.code-flyover",
+                          "text": "A code that is a reference to CodeSystem.property.code.",
+                          "type": "display"
+                        },
+                        {
+                          "linkId": "CodeSystem.concept.property.code.value",
+                          "text": "code",
+                          "type": "choice",
+                          "required": false,
+                          "repeats": false
+                        }
+                      ]
+                    },
+                    {
+                      "extension": [
+                        {
+                          "url": "http://hl7.org/fhir/StructureDefinition/questionnaire-minOccurs",
+                          "valueInteger": 1
+                        },
+                        {
+                          "url": "http://hl7.org/fhir/StructureDefinition/questionnaire-maxOccurs",
+                          "valueInteger": 1
+                        }
+                      ],
+                      "linkId": "CodeSystem.concept.property.value[x]",
+                      "text": "Value of the property for this concept",
+                      "type": "group",
+                      "required": true,
+                      "repeats": true,
+                      "item": [
+                        {
+                          "extension": [
+                            {
+                              "url": "http://hl7.org/fhir/StructureDefinition/questionnaire-itemControl",
+                              "valueCodeableConcept": {
+                                "coding": [
+                                  {
+                                    "system": "http://hl7.org/fhir/questionnaire-item-control",
+                                    "code": "flyover",
+                                    "display": "Fly-over"
+                                  }
+                                ]
+                              }
+                            }
+                          ],
+                          "linkId": "CodeSystem.concept.property.value[x]-flyover",
+                          "text": "The value of this property.",
+                          "type": "display"
+                        },
+                        {
+                          "linkId": "CodeSystem.concept.property.value[x]._type",
+                          "text": "type",
+                          "type": "choice",
+                          "required": false,
+                          "repeats": false,
+                          "answerValueSet": "#vs3",
+                          "item": [
+                            {
+                              "extension": [
+                                {
+                                  "url": "http://hl7.org/fhir/StructureDefinition/questionnaire-fhirType",
+                                  "valueString": "code"
+                                }
+                              ],
+                              "linkId": "CodeSystem.concept.property.value[x]._null",
+                              "type": "group",
+                              "item": [
+                                {
+                                  "linkId": "CodeSystem.concept.property.value[x]._null.value",
+                                  "text": "value[x]",
+                                  "type": "choice",
+                                  "required": false,
+                                  "repeats": false
+                                }
+                              ]
+                            },
+                            {
+                              "extension": [
+                                {
+                                  "url": "http://hl7.org/fhir/StructureDefinition/questionnaire-fhirType",
+                                  "valueString": "Coding"
+                                }
+                              ],
+                              "linkId": "CodeSystem.concept.property.value[x]._null",
+                              "type": "group",
+                              "item": [
+                                {
+                                  "linkId": "CodeSystem.concept.property.value[x]._null.value",
+                                  "type": "choice",
+                                  "required": false,
+                                  "repeats": false
+                                }
+                              ]
+                            },
+                            {
+                              "extension": [
+                                {
+                                  "url": "http://hl7.org/fhir/StructureDefinition/questionnaire-fhirType",
+                                  "valueString": "string"
+                                }
+                              ],
+                              "linkId": "CodeSystem.concept.property.value[x]._null",
+                              "type": "group",
+                              "item": [
+                                {
+                                  "linkId": "CodeSystem.concept.property.value[x]._null.value",
+                                  "type": "string",
+                                  "required": false,
+                                  "repeats": false
+                                }
+                              ]
+                            },
+                            {
+                              "extension": [
+                                {
+                                  "url": "http://hl7.org/fhir/StructureDefinition/questionnaire-fhirType",
+                                  "valueString": "integer"
+                                }
+                              ],
+                              "linkId": "CodeSystem.concept.property.value[x]._null",
+                              "type": "group",
+                              "item": [
+                                {
+                                  "linkId": "CodeSystem.concept.property.value[x]._null.value",
+                                  "type": "integer",
+                                  "required": false,
+                                  "repeats": false
+                                }
+                              ]
+                            },
+                            {
+                              "extension": [
+                                {
+                                  "url": "http://hl7.org/fhir/StructureDefinition/questionnaire-fhirType",
+                                  "valueString": "boolean"
+                                }
+                              ],
+                              "linkId": "CodeSystem.concept.property.value[x]._null",
+                              "type": "group",
+                              "item": [
+                                {
+                                  "linkId": "CodeSystem.concept.property.value[x]._null.value",
+                                  "type": "boolean",
+                                  "required": false,
+                                  "repeats": false
+                                }
+                              ]
+                            },
+                            {
+                              "extension": [
+                                {
+                                  "url": "http://hl7.org/fhir/StructureDefinition/questionnaire-fhirType",
+                                  "valueString": "datetime"
+                                }
+                              ],
+                              "linkId": "CodeSystem.concept.property.value[x]._null",
+                              "type": "group",
+                              "item": [
+                                {
+                                  "linkId": "CodeSystem.concept.property.value[x]._null.value",
+                                  "type": "dateTime",
+                                  "required": false,
+                                  "repeats": false
+                                }
+                              ]
+                            },
+                            {
+                              "extension": [
+                                {
+                                  "url": "http://hl7.org/fhir/StructureDefinition/questionnaire-fhirType",
+                                  "valueString": "decimal"
+                                }
+                              ],
+                              "linkId": "CodeSystem.concept.property.value[x]._null",
+                              "type": "group",
+                              "item": [
+                                {
+                                  "linkId": "CodeSystem.concept.property.value[x]._null.value",
+                                  "type": "decimal",
+                                  "required": false,
+                                  "repeats": false
+                                }
+                              ]
+                            }
+                          ]
+                        }
+                      ]
+                    }
+                  ]
                 }
               ]
             }

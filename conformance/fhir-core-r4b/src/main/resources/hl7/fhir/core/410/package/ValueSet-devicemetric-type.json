@@ -2,7 +2,7 @@
     "resourceType": "ValueSet",
     "id": "devicemetric-type",
     "meta": {
-        "lastUpdated": "2022-03-03T22:04:06.196Z",
+        "lastUpdated": "2022-04-23T22:21:35.043Z",
         "profile": [
             "http://hl7.org/fhir/StructureDefinition/shareablevalueset"
         ]
@@ -24,10 +24,11 @@
             "value": "urn:oid:2.16.840.1.113883.4.642.3.645"
         }
     ],
-    "version": "4.3.0-CIBUILD",
+    "version": "4.3.0-cibuild",
     "name": "DeviceMetricAndComponentTypes",
     "title": "Device Metric and Component Types",
     "status": "draft",
+    "experimental": false,
     "publisher": "HL7 Health Care Devices Workgroup",
     "contact": [
         {
@@ -55,11 +56,12 @@
                 "valueBoolean": true
             }
         ],
-        "identifier": "urn:uuid:ce44a2f5-b900-4220-945f-07fc8d18927d",
-        "timestamp": "2021-11-17T05:28:25.714Z",
+        "identifier": "urn:uuid:0f9def45-a80a-4c72-9603-1e356a978bc2",
+        "timestamp": "2022-04-23T22:23:26Z",
+        "total": 1000,
         "parameter": [
             {
-                "name": "limitedExpansion",
+                "name": "excludeNested",
                 "valueBoolean": true
             },
             {
@@ -67,7 +69,7 @@
                 "valueBoolean": true
             },
             {
-                "name": "excludeNested",
+                "name": "limitedExpansion",
                 "valueBoolean": true
             },
             {
@@ -1250,12 +1252,6 @@
                 ]
             },
             {
-                "extension": [
-                    {
-                        "url": "http://hl7.org/fhir/StructureDefinition/valueset-definition",
-                        "valueString": "ECG as recorded according to  <lead> in specified position (time series)"
-                    }
-                ],
                 "system": "urn:iso:std:iso:11073:10101",
                 "code": "131328",
                 "display": "MDC_ECG_ELEC_POTL",
@@ -1605,12 +1601,6 @@
                 ]
             },
             {
-                "extension": [
-                    {
-                        "url": "http://hl7.org/fhir/StructureDefinition/valueset-definition",
-                        "valueString": "Amplitude of the ST segment at xx ms after the end of QRS complex of ECG in specified  <lead>. The time point xx is defined globally by item with code MDC_ECG_TIME_ST_Jxx (2::16304)"
-                    }
-                ],
                 "system": "urn:iso:std:iso:11073:10101",
                 "code": "131840",
                 "designation": [
@@ -1892,12 +1882,6 @@
                 ]
             },
             {
-                "extension": [
-                    {
-                        "url": "http://hl7.org/fhir/StructureDefinition/valueset-definition",
-                        "valueString": "Amplitude level of first extremum of the P wave of ECG in specified  <lead> (mostly maximum of P, depends on morphology)"
-                    }
-                ],
                 "system": "urn:iso:std:iso:11073:10101",
                 "code": "132352",
                 "display": "MDC_ECG_AMPL_P_MAX",
@@ -1917,12 +1901,6 @@
                 ]
             },
             {
-                "extension": [
-                    {
-                        "url": "http://hl7.org/fhir/StructureDefinition/valueset-definition",
-                        "valueString": "Amplitude level of the second extremum of the P wave of ECG in specified  <lead> (often minimum of P, depends on morphology)"
-                    }
-                ],
                 "system": "urn:iso:std:iso:11073:10101",
                 "code": "132608",
                 "display": "MDC_ECG_AMPL_P_MIN",
@@ -1942,12 +1920,6 @@
                 ]
             },
             {
-                "extension": [
-                    {
-                        "url": "http://hl7.org/fhir/StructureDefinition/valueset-definition",
-                        "valueString": "Amplitude of the Q wave of ECG in specified  <lead>"
-                    }
-                ],
                 "system": "urn:iso:std:iso:11073:10101",
                 "code": "132864",
                 "display": "MDC_ECG_AMPL_Q",
@@ -1964,12 +1936,6 @@
                 ]
             },
             {
-                "extension": [
-                    {
-                        "url": "http://hl7.org/fhir/StructureDefinition/valueset-definition",
-                        "valueString": "Maximum amplitude of R wave of ECG in specified  <lead>"
-                    }
-                ],
                 "system": "urn:iso:std:iso:11073:10101",
                 "code": "133120",
                 "display": "MDC_ECG_AMPL_R",
@@ -1986,12 +1952,6 @@
                 ]
             },
             {
-                "extension": [
-                    {
-                        "url": "http://hl7.org/fhir/StructureDefinition/valueset-definition",
-                        "valueString": "Maximum amplitude of S wave of ECG in specified  <lead>"
-                    }
-                ],
                 "system": "urn:iso:std:iso:11073:10101",
                 "code": "133376",
                 "display": "MDC_ECG_AMPL_S",
@@ -2008,12 +1968,6 @@
                 ]
             },
             {
-                "extension": [
-                    {
-                        "url": "http://hl7.org/fhir/StructureDefinition/valueset-definition",
-                        "valueString": "Amplitude of the T positive wave of ECG in specified  <lead>"
-                    }
-                ],
                 "system": "urn:iso:std:iso:11073:10101",
                 "code": "133632",
                 "display": "MDC_ECG_AMPL_T_MAX",
@@ -2033,12 +1987,6 @@
                 ]
             },
             {
-                "extension": [
-                    {
-                        "url": "http://hl7.org/fhir/StructureDefinition/valueset-definition",
-                        "valueString": "Amplitude of the T negative wave of ECG in specified  <lead>"
-                    }
-                ],
                 "system": "urn:iso:std:iso:11073:10101",
                 "code": "133888",
                 "display": "MDC_ECG_AMPL_T_MIN",
@@ -2058,12 +2006,6 @@
                 ]
             },
             {
-                "extension": [
-                    {
-                        "url": "http://hl7.org/fhir/StructureDefinition/valueset-definition",
-                        "valueString": "Amplitude level of the third extremum of the P wave of ECG in specified  <lead>"
-                    }
-                ],
                 "system": "urn:iso:std:iso:11073:10101",
                 "code": "134144",
                 "display": "MDC_ECG_AMPL_P3",
@@ -2080,12 +2022,6 @@
                 ]
             },
             {
-                "extension": [
-                    {
-                        "url": "http://hl7.org/fhir/StructureDefinition/valueset-definition",
-                        "valueString": "Area of the Q wave of ECG in specified  <lead> (mVolt x millisecond) by integrating absolute values."
-                    }
-                ],
                 "system": "urn:iso:std:iso:11073:10101",
                 "code": "134400",
                 "display": "MDC_ECG_AREA_Q",
@@ -2105,12 +2041,6 @@
                 ]
             },
             {
-                "extension": [
-                    {
-                        "url": "http://hl7.org/fhir/StructureDefinition/valueset-definition",
-                        "valueString": "Area of the T wave of ECG in specified  <lead> (mVolt x millisecond) by integrating absolute values."
-                    }
-                ],
                 "system": "urn:iso:std:iso:11073:10101",
                 "code": "134656",
                 "display": "MDC_ECG_AREA_T",
@@ -2130,12 +2060,6 @@
                 ]
             },
             {
-                "extension": [
-                    {
-                        "url": "http://hl7.org/fhir/StructureDefinition/valueset-definition",
-                        "valueString": "Area of the P wave of ECG in specified  <lead> (mVolt x millisecond) by integrating absolute values."
-                    }
-                ],
                 "system": "urn:iso:std:iso:11073:10101",
                 "code": "134912",
                 "display": "MDC_ECG_AREA_P",
@@ -2155,12 +2079,6 @@
                 ]
             },
             {
-                "extension": [
-                    {
-                        "url": "http://hl7.org/fhir/StructureDefinition/valueset-definition",
-                        "valueString": "Area of the QRS complex of ECG in specified  <lead> (mVolt x millisecond) by integrating absolute values."
-                    }
-                ],
                 "system": "urn:iso:std:iso:11073:10101",
                 "code": "135168",
                 "display": "MDC_ECG_AREA_QRS",
@@ -2180,12 +2098,6 @@
                 ]
             },
             {
-                "extension": [
-                    {
-                        "url": "http://hl7.org/fhir/StructureDefinition/valueset-definition",
-                        "valueString": "Area of the ST-T segment computed between J point and the beginning of the T wave of ECG in specified  <lead> (mVolt x millisecond) by integrating absolute values."
-                    }
-                ],
                 "system": "urn:iso:std:iso:11073:10101",
                 "code": "135424",
                 "display": "MDC_ECG_AREA_ST",
@@ -2205,12 +2117,6 @@
                 ]
             },
             {
-                "extension": [
-                    {
-                        "url": "http://hl7.org/fhir/StructureDefinition/valueset-definition",
-                        "valueString": "Duration of the interval between P onset and the first extremum of the P wave of ECG in specified  <lead>"
-                    }
-                ],
                 "system": "urn:iso:std:iso:11073:10101",
                 "code": "135680",
                 "display": "MDC_ECG_TIME_PD_P1",
@@ -2224,12 +2130,6 @@
                 ]
             },
             {
-                "extension": [
-                    {
-                        "url": "http://hl7.org/fhir/StructureDefinition/valueset-definition",
-                        "valueString": "Duration of the interval between P onset and the second extremum of the P wave of ECG in specified  <lead>"
-                    }
-                ],
                 "system": "urn:iso:std:iso:11073:10101",
                 "code": "135936",
                 "display": "MDC_ECG_TIME_PD_P2",
@@ -2243,12 +2143,6 @@
                 ]
             },
             {
-                "extension": [
-                    {
-                        "url": "http://hl7.org/fhir/StructureDefinition/valueset-definition",
-                        "valueString": "Duration of the interval between P onset and the third extremum of the P wave of ECG in specified  <lead>"
-                    }
-                ],
                 "system": "urn:iso:std:iso:11073:10101",
                 "code": "136192",
                 "display": "MDC_ECG_TIME_PD_P3",
@@ -2262,12 +2156,6 @@
                 ]
             },
             {
-                "extension": [
-                    {
-                        "url": "http://hl7.org/fhir/StructureDefinition/valueset-definition",
-                        "valueString": "Slope of ST-segment between QRS offset plus 20 ms and QRS offset plus 60 ms of ECG in specified  <lead>"
-                    }
-                ],
                 "system": "urn:iso:std:iso:11073:10101",
                 "code": "136448",
                 "display": "MDC_ECG_SLOPE_ST",
@@ -2281,12 +2169,6 @@
                 ]
             },
             {
-                "extension": [
-                    {
-                        "url": "http://hl7.org/fhir/StructureDefinition/valueset-definition",
-                        "valueString": "Time point of end of P wave in a specified  <lead>"
-                    }
-                ],
                 "system": "urn:iso:std:iso:11073:10101",
                 "code": "136960",
                 "display": "MDC_ECG_TIME_END_P",
@@ -2303,12 +2185,6 @@
                 ]
             },
             {
-                "extension": [
-                    {
-                        "url": "http://hl7.org/fhir/StructureDefinition/valueset-definition",
-                        "valueString": "Time point of end of QRS complex in a specified  <lead>"
-                    }
-                ],
                 "system": "urn:iso:std:iso:11073:10101",
                 "code": "137216",
                 "display": "MDC_ECG_TIME_END_QRS",
@@ -2325,12 +2201,6 @@
                 ]
             },
             {
-                "extension": [
-                    {
-                        "url": "http://hl7.org/fhir/StructureDefinition/valueset-definition",
-                        "valueString": "Time point of end of T wave in a specified <lead>"
-                    }
-                ],
                 "system": "urn:iso:std:iso:11073:10101",
                 "code": "137472",
                 "display": "MDC_ECG_TIME_END_T",
@@ -2347,12 +2217,6 @@
                 ]
             },
             {
-                "extension": [
-                    {
-                        "url": "http://hl7.org/fhir/StructureDefinition/valueset-definition",
-                        "valueString": "Duration of the P wave of ECG in  <lead>"
-                    }
-                ],
                 "system": "urn:iso:std:iso:11073:10101",
                 "code": "137728",
                 "display": "MDC_ECG_TIME_PD_P",
@@ -2369,12 +2233,6 @@
                 ]
             },
             {
-                "extension": [
-                    {
-                        "url": "http://hl7.org/fhir/StructureDefinition/valueset-definition",
-                        "valueString": "Integral of the P wave of ECG in specified  <lead> (mVolt x milisecond)"
-                    }
-                ],
                 "system": "urn:iso:std:iso:11073:10101",
                 "code": "137984",
                 "display": "MDC_ECG_INTEGRAL_P",
@@ -2394,12 +2252,6 @@
                 ]
             },
             {
-                "extension": [
-                    {
-                        "url": "http://hl7.org/fhir/StructureDefinition/valueset-definition",
-                        "valueString": "Duration of the interval between P offset and QRS onset of ECG in  <lead>"
-                    }
-                ],
                 "system": "urn:iso:std:iso:11073:10101",
                 "code": "138240",
                 "display": "MDC_ECG_TIME_PD_PR",
@@ -2419,12 +2271,6 @@
                 ]
             },
             {
-                "extension": [
-                    {
-                        "url": "http://hl7.org/fhir/StructureDefinition/valueset-definition",
-                        "valueString": "Integral of the Q wave of ECG in specified  <lead> (mVolt x millisecond)"
-                    }
-                ],
                 "system": "urn:iso:std:iso:11073:10101",
                 "code": "138496",
                 "display": "MDC_ECG_INTEGRAL_Q",
@@ -2444,12 +2290,6 @@
                 ]
             },
             {
-                "extension": [
-                    {
-                        "url": "http://hl7.org/fhir/StructureDefinition/valueset-definition",
-                        "valueString": "Duration of the Q wave of ECG in  <lead>"
-                    }
-                ],
                 "system": "urn:iso:std:iso:11073:10101",
                 "code": "138752",
                 "display": "MDC_ECG_TIME_PD_Q",
@@ -2466,12 +2306,6 @@
                 ]
             },
             {
-                "extension": [
-                    {
-                        "url": "http://hl7.org/fhir/StructureDefinition/valueset-definition",
-                        "valueString": "Duration of the QRS complex of ECG in  <lead>"
-                    }
-                ],
                 "system": "urn:iso:std:iso:11073:10101",
                 "code": "139008",
                 "display": "MDC_ECG_TIME_PD_QRS",
@@ -2488,12 +2322,6 @@
                 ]
             },
             {
-                "extension": [
-                    {
-                        "url": "http://hl7.org/fhir/StructureDefinition/valueset-definition",
-                        "valueString": "Duration of the interval between the QRS onset and T wave offset of ECG in  <lead> (used for QT dispersion)"
-                    }
-                ],
                 "system": "urn:iso:std:iso:11073:10101",
                 "code": "139264",
                 "display": "MDC_ECG_TIME_PD_QT",
@@ -2513,12 +2341,6 @@
                 ]
             },
             {
-                "extension": [
-                    {
-                        "url": "http://hl7.org/fhir/StructureDefinition/valueset-definition",
-                        "valueString": "Duration of the interval between the QRS onset and T wave offset, related to heart rate 60 beats per minute of ECG in  <lead>, Bazett formula"
-                    }
-                ],
                 "system": "urn:iso:std:iso:11073:10101",
                 "code": "139520",
                 "display": "MDC_ECG_TIME_PD_QT_CORR",
@@ -2538,12 +2360,6 @@
                 ]
             },
             {
-                "extension": [
-                    {
-                        "url": "http://hl7.org/fhir/StructureDefinition/valueset-definition",
-                        "valueString": "Integral of the QRS complex of ECG in specified  <lead> (mVolt x millisecond)"
-                    }
-                ],
                 "system": "urn:iso:std:iso:11073:10101",
                 "code": "139776",
                 "display": "MDC_ECG_INTEGRAL_QRS",
@@ -2563,12 +2379,6 @@
                 ]
             },
             {
-                "extension": [
-                    {
-                        "url": "http://hl7.org/fhir/StructureDefinition/valueset-definition",
-                        "valueString": "Integral of the T wave of ECG in specified  <lead> (mVolt x millisecond)"
-                    }
-                ],
                 "system": "urn:iso:std:iso:11073:10101",
                 "code": "140032",
                 "display": "MDC_ECG_INTEGRAL_T",
@@ -2588,12 +2398,6 @@
                 ]
             },
             {
-                "extension": [
-                    {
-                        "url": "http://hl7.org/fhir/StructureDefinition/valueset-definition",
-                        "valueString": "Integral of the ST-T segment computed between J point and the beginning of the T wave of ECG in specified  <lead> (mVolt x millisecond)"
-                    }
-                ],
                 "system": "urn:iso:std:iso:11073:10101",
                 "code": "140288",
                 "display": "MDC_ECG_INTEGRAL_ST",
@@ -2613,12 +2417,6 @@
                 ]
             },
             {
-                "extension": [
-                    {
-                        "url": "http://hl7.org/fhir/StructureDefinition/valueset-definition",
-                        "valueString": "Time point of start of P wave in a specified  <lead>"
-                    }
-                ],
                 "system": "urn:iso:std:iso:11073:10101",
                 "code": "140544",
                 "display": "MDC_ECG_TIME_START_P",
@@ -2635,12 +2433,6 @@
                 ]
             },
             {
-                "extension": [
-                    {
-                        "url": "http://hl7.org/fhir/StructureDefinition/valueset-definition",
-                        "valueString": "Time point of start of QRS complex in a specified  <lead>"
-                    }
-                ],
                 "system": "urn:iso:std:iso:11073:10101",
                 "code": "140800",
                 "display": "MDC_ECG_TIME_START_QRS",
@@ -2657,12 +2449,6 @@
                 ]
             },
             {
-                "extension": [
-                    {
-                        "url": "http://hl7.org/fhir/StructureDefinition/valueset-definition",
-                        "valueString": "Time point of start of T wave in a specified  <lead>"
-                    }
-                ],
                 "system": "urn:iso:std:iso:11073:10101",
                 "code": "141056",
                 "display": "MDC_ECG_TIME_START_T",
@@ -2709,12 +2495,6 @@
                 ]
             },
             {
-                "extension": [
-                    {
-                        "url": "http://hl7.org/fhir/StructureDefinition/valueset-definition",
-                        "valueString": "Ventricular activation time"
-                    }
-                ],
                 "system": "urn:iso:std:iso:11073:10101",
                 "code": "142080",
                 "display": "MDC_ECG_TIME_PD_VENT_ACTIV",
@@ -2734,12 +2514,6 @@
                 ]
             },
             {
-                "extension": [
-                    {
-                        "url": "http://hl7.org/fhir/StructureDefinition/valueset-definition",
-                        "valueString": "Duration of the R1 wave of ECG in  <lead>"
-                    }
-                ],
                 "system": "urn:iso:std:iso:11073:10101",
                 "code": "142336",
                 "display": "MDC_ECG_TIME_PD_R_1",
@@ -2759,12 +2533,6 @@
                 ]
             },
             {
-                "extension": [
-                    {
-                        "url": "http://hl7.org/fhir/StructureDefinition/valueset-definition",
-                        "valueString": "Duration of the R2 wave of ECG in  <lead>"
-                    }
-                ],
                 "system": "urn:iso:std:iso:11073:10101",
                 "code": "142592",
                 "display": "MDC_ECG_TIME_PD_R_2",
@@ -2784,12 +2552,6 @@
                 ]
             },
             {
-                "extension": [
-                    {
-                        "url": "http://hl7.org/fhir/StructureDefinition/valueset-definition",
-                        "valueString": "Duration of the R3 wave of ECG in  <lead>"
-                    }
-                ],
                 "system": "urn:iso:std:iso:11073:10101",
                 "code": "142848",
                 "display": "MDC_ECG_TIME_PD_R_3",
@@ -2809,12 +2571,6 @@
                 ]
             },
             {
-                "extension": [
-                    {
-                        "url": "http://hl7.org/fhir/StructureDefinition/valueset-definition",
-                        "valueString": "Duration of the S1 wave of ECG in  <lead>"
-                    }
-                ],
                 "system": "urn:iso:std:iso:11073:10101",
                 "code": "143104",
                 "display": "MDC_ECG_TIME_PD_S_1",
@@ -2834,12 +2590,6 @@
                 ]
             },
             {
-                "extension": [
-                    {
-                        "url": "http://hl7.org/fhir/StructureDefinition/valueset-definition",
-                        "valueString": "Duration of the S2 wave of ECG in  <lead>"
-                    }
-                ],
                 "system": "urn:iso:std:iso:11073:10101",
                 "code": "143360",
                 "display": "MDC_ECG_TIME_PD_S_2",
@@ -2859,12 +2609,6 @@
                 ]
             },
             {
-                "extension": [
-                    {
-                        "url": "http://hl7.org/fhir/StructureDefinition/valueset-definition",
-                        "valueString": "Duration of the S3 wave of ECG in  <lead>"
-                    }
-                ],
                 "system": "urn:iso:std:iso:11073:10101",
                 "code": "143616",
                 "display": "MDC_ECG_TIME_PD_S_3",
@@ -2884,12 +2628,6 @@
                 ]
             },
             {
-                "extension": [
-                    {
-                        "url": "http://hl7.org/fhir/StructureDefinition/valueset-definition",
-                        "valueString": "Amplitude of the R1 wave of ECG in specified  <lead>"
-                    }
-                ],
                 "system": "urn:iso:std:iso:11073:10101",
                 "code": "143872",
                 "display": "MDC_ECG_ELEC_POTL_R_1",
@@ -2906,12 +2644,6 @@
                 ]
             },
             {
-                "extension": [
-                    {
-                        "url": "http://hl7.org/fhir/StructureDefinition/valueset-definition",
-                        "valueString": "Amplitude of the R2 wave of ECG in specified  <lead>"
-                    }
-                ],
                 "system": "urn:iso:std:iso:11073:10101",
                 "code": "144128",
                 "display": "MDC_ECG_ELEC_POTL_R_2",
@@ -2928,12 +2660,6 @@
                 ]
             },
             {
-                "extension": [
-                    {
-                        "url": "http://hl7.org/fhir/StructureDefinition/valueset-definition",
-                        "valueString": "Amplitude of the R3 wave of ECG in specified  <lead>"
-                    }
-                ],
                 "system": "urn:iso:std:iso:11073:10101",
                 "code": "144384",
                 "display": "MDC_ECG_ELEC_POTL_R_3",
@@ -2950,12 +2676,6 @@
                 ]
             },
             {
-                "extension": [
-                    {
-                        "url": "http://hl7.org/fhir/StructureDefinition/valueset-definition",
-                        "valueString": "Amplitude of the S1 wave of ECG in specified  <lead>"
-                    }
-                ],
                 "system": "urn:iso:std:iso:11073:10101",
                 "code": "144640",
                 "display": "MDC_ECG_ELEC_POTL_S_1",
@@ -2972,12 +2692,6 @@
                 ]
             },
             {
-                "extension": [
-                    {
-                        "url": "http://hl7.org/fhir/StructureDefinition/valueset-definition",
-                        "valueString": "Amplitude of the S2 wave of ECG in specified  <lead>"
-                    }
-                ],
                 "system": "urn:iso:std:iso:11073:10101",
                 "code": "144896",
                 "display": "MDC_ECG_ELEC_POTL_S_2",
@@ -2994,12 +2708,6 @@
                 ]
             },
             {
-                "extension": [
-                    {
-                        "url": "http://hl7.org/fhir/StructureDefinition/valueset-definition",
-                        "valueString": "Amplitude of the S3 wave of ECG in specified  <lead>"
-                    }
-                ],
                 "system": "urn:iso:std:iso:11073:10101",
                 "code": "145152",
                 "display": "MDC_ECG_ELEC_POTL_S_3",
@@ -3016,12 +2724,6 @@
                 ]
             },
             {
-                "extension": [
-                    {
-                        "url": "http://hl7.org/fhir/StructureDefinition/valueset-definition",
-                        "valueString": "Amplitude at 60 ms after the end of QRS complex of ECG in specified  <lead>"
-                    }
-                ],
                 "system": "urn:iso:std:iso:11073:10101",
                 "code": "145408",
                 "display": "MDC_ECG_ELEC_POTL_ST_60",
@@ -3038,12 +2740,6 @@
                 ]
             },
             {
-                "extension": [
-                    {
-                        "url": "http://hl7.org/fhir/StructureDefinition/valueset-definition",
-                        "valueString": "Amplitude at 80 ms after the end of QRS complex of ECG in specified  <lead>"
-                    }
-                ],
                 "system": "urn:iso:std:iso:11073:10101",
                 "code": "145664",
                 "display": "MDC_ECG_ELEC_POTL_ST_80",
@@ -3060,12 +2756,6 @@
                 ]
             },
             {
-                "extension": [
-                    {
-                        "url": "http://hl7.org/fhir/StructureDefinition/valueset-definition",
-                        "valueString": "Amplitude at 20 ms after the end of QRS complex of ECG in specified  <lead>"
-                    }
-                ],
                 "system": "urn:iso:std:iso:11073:10101",
                 "code": "145920",
                 "display": "MDC_ECG_ELEC_POTL_ST_20",
@@ -3082,12 +2772,6 @@
                 ]
             },
             {
-                "extension": [
-                    {
-                        "url": "http://hl7.org/fhir/StructureDefinition/valueset-definition",
-                        "valueString": "Amplitude at 40 ms after the end of QRS complex of ECG in specified  <lead>"
-                    }
-                ],
                 "system": "urn:iso:std:iso:11073:10101",
                 "code": "146176",
                 "display": "MDC_ECG_ELEC_POTL_ST_40",
@@ -3234,12 +2918,6 @@
                 ]
             },
             {
-                "extension": [
-                    {
-                        "url": "http://hl7.org/fhir/StructureDefinition/valueset-definition",
-                        "valueString": "Angle of the electrical axis of the P wave of ECG (in frontal plane)"
-                    }
-                ],
                 "system": "urn:iso:std:iso:11073:10101",
                 "code": "147200",
                 "display": "MDC_ECG_ANGLE_P_FRONT",
@@ -3259,12 +2937,6 @@
                 ]
             },
             {
-                "extension": [
-                    {
-                        "url": "http://hl7.org/fhir/StructureDefinition/valueset-definition",
-                        "valueString": "Angle of the electrical axis of the QRS complex of ECG (in frontal plane)"
-                    }
-                ],
                 "system": "urn:iso:std:iso:11073:10101",
                 "code": "147204",
                 "display": "MDC_ECG_ANGLE_QRS_FRONT",
@@ -3284,12 +2956,6 @@
                 ]
             },
             {
-                "extension": [
-                    {
-                        "url": "http://hl7.org/fhir/StructureDefinition/valueset-definition",
-                        "valueString": "Angle of the electrical axis of the T wave of ECG (in frontal plane)"
-                    }
-                ],
                 "system": "urn:iso:std:iso:11073:10101",
                 "code": "147208",
                 "display": "MDC_ECG_ANGLE_T_FRONT",
@@ -3309,12 +2975,6 @@
                 ]
             },
             {
-                "extension": [
-                    {
-                        "url": "http://hl7.org/fhir/StructureDefinition/valueset-definition",
-                        "valueString": "Duration of the interval between two consecutive P waves of ECG (global)"
-                    }
-                ],
                 "system": "urn:iso:std:iso:11073:10101",
                 "code": "147212",
                 "display": "MDC_ECG_TIME_PD_PP_GL",
@@ -3334,12 +2994,6 @@
                 ]
             },
             {
-                "extension": [
-                    {
-                        "url": "http://hl7.org/fhir/StructureDefinition/valueset-definition",
-                        "valueString": "Duration of the interval between P onset and QRS onset of ECG (global)"
-                    }
-                ],
                 "system": "urn:iso:std:iso:11073:10101",
                 "code": "147216",
                 "display": "MDC_ECG_TIME_PD_PQ",
@@ -3372,12 +3026,6 @@
                 ]
             },
             {
-                "extension": [
-                    {
-                        "url": "http://hl7.org/fhir/StructureDefinition/valueset-definition",
-                        "valueString": "Duration of the QRS complex of ECG in  <lead>"
-                    }
-                ],
                 "system": "urn:iso:std:iso:11073:10101",
                 "code": "147228",
                 "display": "MDC_ECG_TIME_PD_QRS_GL",
@@ -3394,12 +3042,6 @@
                 ]
             },
             {
-                "extension": [
-                    {
-                        "url": "http://hl7.org/fhir/StructureDefinition/valueset-definition",
-                        "valueString": "Duration of the interval between the QRS onset and T wave offset of ECG (global)"
-                    }
-                ],
                 "system": "urn:iso:std:iso:11073:10101",
                 "code": "147232",
                 "display": "MDC_ECG_TIME_PD_QT_GL",
@@ -3419,12 +3061,6 @@
                 ]
             },
             {
-                "extension": [
-                    {
-                        "url": "http://hl7.org/fhir/StructureDefinition/valueset-definition",
-                        "valueString": "Duration of the interval between the QRS onset and T wave offset, related to heart rate 60 beats per minute of ECG (global), Bazett formula"
-                    }
-                ],
                 "system": "urn:iso:std:iso:11073:10101",
                 "code": "147236",
                 "display": "MDC_ECG_TIME_PD_QTc",
@@ -3467,12 +3103,6 @@
                 ]
             },
             {
-                "extension": [
-                    {
-                        "url": "http://hl7.org/fhir/StructureDefinition/valueset-definition",
-                        "valueString": "Length of the vector of the P wave of ECG (in frontal plane)"
-                    }
-                ],
                 "system": "urn:iso:std:iso:11073:10101",
                 "code": "147244",
                 "display": "MDC_ECG_MAG_P_FRONT",
@@ -3486,12 +3116,6 @@
                 ]
             },
             {
-                "extension": [
-                    {
-                        "url": "http://hl7.org/fhir/StructureDefinition/valueset-definition",
-                        "valueString": "Length of the vector of the QRS complex of ECG (in frontal plane)"
-                    }
-                ],
                 "system": "urn:iso:std:iso:11073:10101",
                 "code": "147248",
                 "display": "MDC_ECG_MAG_QRS_FRONT",
@@ -3505,12 +3129,6 @@
                 ]
             },
             {
-                "extension": [
-                    {
-                        "url": "http://hl7.org/fhir/StructureDefinition/valueset-definition",
-                        "valueString": "Length of the vector of the T wave of ECG (in frontal plane)"
-                    }
-                ],
                 "system": "urn:iso:std:iso:11073:10101",
                 "code": "147252",
                 "display": "MDC_ECG_MAG_T_FRONT",
@@ -3524,12 +3142,6 @@
                 ]
             },
             {
-                "extension": [
-                    {
-                        "url": "http://hl7.org/fhir/StructureDefinition/valueset-definition",
-                        "valueString": "Duration of the P wave of ECG (global)"
-                    }
-                ],
                 "system": "urn:iso:std:iso:11073:10101",
                 "code": "147256",
                 "display": "MDC_ECG_TIME_PD_P_GL",
@@ -3546,12 +3158,6 @@
                 ]
             },
             {
-                "extension": [
-                    {
-                        "url": "http://hl7.org/fhir/StructureDefinition/valueset-definition",
-                        "valueString": "Type of QRS complex of ECG observed."
-                    }
-                ],
                 "system": "urn:iso:std:iso:11073:10101",
                 "code": "147260",
                 "display": "MDC_ECG_QRS_TYPE",
@@ -3571,12 +3177,6 @@
                 ]
             },
             {
-                "extension": [
-                    {
-                        "url": "http://hl7.org/fhir/StructureDefinition/valueset-definition",
-                        "valueString": "Magnitude at the maximum vector of the P wave of ECG computed as square root of squared scalar magnitudes of X, Y, Z"
-                    }
-                ],
                 "system": "urn:iso:std:iso:11073:10101",
                 "code": "147264",
                 "display": "MDC_ECG_MAG_P_VECT",
@@ -3590,12 +3190,6 @@
                 ]
             },
             {
-                "extension": [
-                    {
-                        "url": "http://hl7.org/fhir/StructureDefinition/valueset-definition",
-                        "valueString": "Magnitude at the maximum vector of the QRS complex of ECG computed as square root of squared scalar magnitudes of X, Y, Z"
-                    }
-                ],
                 "system": "urn:iso:std:iso:11073:10101",
                 "code": "147268",
                 "display": "MDC_ECG_MAG_QRS_VECT",
@@ -3609,12 +3203,6 @@
                 ]
             },
             {
-                "extension": [
-                    {
-                        "url": "http://hl7.org/fhir/StructureDefinition/valueset-definition",
-                        "valueString": "Magnitude of the maximum vector of the T wave of ECG computed as square root of squared scalar magnitudes of X, Y, Z"
-                    }
-                ],
                 "system": "urn:iso:std:iso:11073:10101",
                 "code": "147272",
                 "display": "MDC_ECG_MAG_T_VECT",
@@ -3628,12 +3216,6 @@
                 ]
             },
             {
-                "extension": [
-                    {
-                        "url": "http://hl7.org/fhir/StructureDefinition/valueset-definition",
-                        "valueString": "Azimuth angle of the electrical axis of the P wave of ECG"
-                    }
-                ],
                 "system": "urn:iso:std:iso:11073:10101",
                 "code": "147276",
                 "display": "MDC_ECG_ANGLE_P_AZIM",
@@ -3647,12 +3229,6 @@
                 ]
             },
             {
-                "extension": [
-                    {
-                        "url": "http://hl7.org/fhir/StructureDefinition/valueset-definition",
-                        "valueString": "Azimuth of the electrical axis of the QRS complex of ECG"
-                    }
-                ],
                 "system": "urn:iso:std:iso:11073:10101",
                 "code": "147280",
                 "display": "MDC_ECG_ANGLE_QRS_AZIM",
@@ -3666,12 +3242,6 @@
                 ]
             },
             {
-                "extension": [
-                    {
-                        "url": "http://hl7.org/fhir/StructureDefinition/valueset-definition",
-                        "valueString": "Azimuth of the electrical axis of the T wave of ECG"
-                    }
-                ],
                 "system": "urn:iso:std:iso:11073:10101",
                 "code": "147284",
                 "display": "MDC_ECG_ANGLE_T_AZIM",
@@ -3685,12 +3255,6 @@
                 ]
             },
             {
-                "extension": [
-                    {
-                        "url": "http://hl7.org/fhir/StructureDefinition/valueset-definition",
-                        "valueString": "Elevation angle of the electrical axis of the P wave of ECG"
-                    }
-                ],
                 "system": "urn:iso:std:iso:11073:10101",
                 "code": "147288",
                 "display": "MDC_ECG_ANGLE_P_ELEV",
@@ -3704,12 +3268,6 @@
                 ]
             },
             {
-                "extension": [
-                    {
-                        "url": "http://hl7.org/fhir/StructureDefinition/valueset-definition",
-                        "valueString": "Elevation of the electrical axis of the QRS complex of ECG"
-                    }
-                ],
                 "system": "urn:iso:std:iso:11073:10101",
                 "code": "147292",
                 "display": "MDC_ECG_ANGLE_QRS_ELEV",
@@ -3723,12 +3281,6 @@
                 ]
             },
             {
-                "extension": [
-                    {
-                        "url": "http://hl7.org/fhir/StructureDefinition/valueset-definition",
-                        "valueString": "Elevation of the electrical axis of the T wave of ECG"
-                    }
-                ],
                 "system": "urn:iso:std:iso:11073:10101",
                 "code": "147296",
                 "display": "MDC_ECG_ANGLE_T_ELEV",
@@ -3742,12 +3294,6 @@
                 ]
             },
             {
-                "extension": [
-                    {
-                        "url": "http://hl7.org/fhir/StructureDefinition/valueset-definition",
-                        "valueString": "Magnitude of the vector at the end of QRS complex (junctional point or J point) of ECG in specified  <lead>"
-                    }
-                ],
                 "system": "urn:iso:std:iso:11073:10101",
                 "code": "147304",
                 "display": "MDC_ECG_MAG_J_VECT",
@@ -3761,12 +3307,6 @@
                 ]
             },
             {
-                "extension": [
-                    {
-                        "url": "http://hl7.org/fhir/StructureDefinition/valueset-definition",
-                        "valueString": "Azimuth of the vector at the end of QRS complex (junctional point or J point)"
-                    }
-                ],
                 "system": "urn:iso:std:iso:11073:10101",
                 "code": "147308",
                 "display": "MDC_ECG_ANGLE_J_AZIM",
@@ -3780,12 +3320,6 @@
                 ]
             },
             {
-                "extension": [
-                    {
-                        "url": "http://hl7.org/fhir/StructureDefinition/valueset-definition",
-                        "valueString": "Elevation of the vector at the end of QRS complex (junctional point or J point)"
-                    }
-                ],
                 "system": "urn:iso:std:iso:11073:10101",
                 "code": "147312",
                 "display": "MDC_ECG_ANGLE_J_ELEV",
@@ -3799,12 +3333,6 @@
                 ]
             },
             {
-                "extension": [
-                    {
-                        "url": "http://hl7.org/fhir/StructureDefinition/valueset-definition",
-                        "valueString": "Magnitude of the vector at 20 ms after the end of QRS complex of ECG in specified  <lead>"
-                    }
-                ],
                 "system": "urn:iso:std:iso:11073:10101",
                 "code": "147316",
                 "display": "MDC_ECG_MAG_J20_VECT",
@@ -3818,12 +3346,6 @@
                 ]
             },
             {
-                "extension": [
-                    {
-                        "url": "http://hl7.org/fhir/StructureDefinition/valueset-definition",
-                        "valueString": "Azimuth of the vector at 20 ms after the end of QRS complex of ECG"
-                    }
-                ],
                 "system": "urn:iso:std:iso:11073:10101",
                 "code": "147320",
                 "display": "MDC_ECG_ANGLE_J20_AZIM",
@@ -3837,12 +3359,6 @@
                 ]
             },
             {
-                "extension": [
-                    {
-                        "url": "http://hl7.org/fhir/StructureDefinition/valueset-definition",
-                        "valueString": "Elevation of the vector at 20 ms after the end of QRS complex of ECG"
-                    }
-                ],
                 "system": "urn:iso:std:iso:11073:10101",
                 "code": "147324",
                 "display": "MDC_ECG_ANGLE_J20_ELEV",
@@ -3856,12 +3372,6 @@
                 ]
             },
             {
-                "extension": [
-                    {
-                        "url": "http://hl7.org/fhir/StructureDefinition/valueset-definition",
-                        "valueString": "Magnitude of the vector at 40 ms after the end of QRS complex of ECG in specified  <lead>"
-                    }
-                ],
                 "system": "urn:iso:std:iso:11073:10101",
                 "code": "147328",
                 "display": "MDC_ECG_MAG_J40_VECT",
@@ -3875,12 +3385,6 @@
                 ]
             },
             {
-                "extension": [
-                    {
-                        "url": "http://hl7.org/fhir/StructureDefinition/valueset-definition",
-                        "valueString": "Azimuth of the vector at 40 ms after the end of QRS complex of ECG"
-                    }
-                ],
                 "system": "urn:iso:std:iso:11073:10101",
                 "code": "147332",
                 "display": "MDC_ECG_ANGLE_J40_AZIM",
@@ -3894,12 +3398,6 @@
                 ]
             },
             {
-                "extension": [
-                    {
-                        "url": "http://hl7.org/fhir/StructureDefinition/valueset-definition",
-                        "valueString": "Elevation of the vector at 40 ms after the end of QRS complex of ECG"
-                    }
-                ],
                 "system": "urn:iso:std:iso:11073:10101",
                 "code": "147336",
                 "display": "MDC_ECG_ANGLE_J40_ELEV",
@@ -3913,12 +3411,6 @@
                 ]
             },
             {
-                "extension": [
-                    {
-                        "url": "http://hl7.org/fhir/StructureDefinition/valueset-definition",
-                        "valueString": "Magnitude of the vector at 60 ms after the end of QRS complex of ECG in specified  <lead>"
-                    }
-                ],
                 "system": "urn:iso:std:iso:11073:10101",
                 "code": "147340",
                 "display": "MDC_ECG_MAG_J60_VECT",
@@ -3932,12 +3424,6 @@
                 ]
             },
             {
-                "extension": [
-                    {
-                        "url": "http://hl7.org/fhir/StructureDefinition/valueset-definition",
-                        "valueString": "Azimuth of the vector at 60 ms after the end of QRS complex of ECG"
-                    }
-                ],
                 "system": "urn:iso:std:iso:11073:10101",
                 "code": "147344",
                 "display": "MDC_ECG_ANGLE_J60_AZIM",
@@ -3951,12 +3437,6 @@
                 ]
             },
             {
-                "extension": [
-                    {
-                        "url": "http://hl7.org/fhir/StructureDefinition/valueset-definition",
-                        "valueString": "Elevation of the vector at 60 ms after the end of QRS complex of"
-                    }
-                ],
                 "system": "urn:iso:std:iso:11073:10101",
                 "code": "147348",
                 "display": "MDC_ECG_ANGLE_J60_ELEV",
@@ -3970,12 +3450,6 @@
                 ]
             },
             {
-                "extension": [
-                    {
-                        "url": "http://hl7.org/fhir/StructureDefinition/valueset-definition",
-                        "valueString": "Magnitude of the vector at 80 ms after the end of QRS complex of ECG in specified  <lead>"
-                    }
-                ],
                 "system": "urn:iso:std:iso:11073:10101",
                 "code": "147352",
                 "display": "MDC_ECG_MAG_J80_VECT",
@@ -3989,12 +3463,6 @@
                 ]
             },
             {
-                "extension": [
-                    {
-                        "url": "http://hl7.org/fhir/StructureDefinition/valueset-definition",
-                        "valueString": "Azimuth of the vector at 80 ms after the end of QRS complex of ECG"
-                    }
-                ],
                 "system": "urn:iso:std:iso:11073:10101",
                 "code": "147356",
                 "display": "MDC_ECG_ANGLE_J80_AZIM",
@@ -4008,12 +3476,6 @@
                 ]
             },
             {
-                "extension": [
-                    {
-                        "url": "http://hl7.org/fhir/StructureDefinition/valueset-definition",
-                        "valueString": "Elevation of the vector at 80 ms after the end of QRS complex of ECG"
-                    }
-                ],
                 "system": "urn:iso:std:iso:11073:10101",
                 "code": "147360",
                 "display": "MDC_ECG_ANGLE_J80_ELEV",
@@ -4027,12 +3489,6 @@
                 ]
             },
             {
-                "extension": [
-                    {
-                        "url": "http://hl7.org/fhir/StructureDefinition/valueset-definition",
-                        "valueString": "Magnitude of the vector at xx ms after the end of QRS complex of ECG in specified  <lead>"
-                    }
-                ],
                 "system": "urn:iso:std:iso:11073:10101",
                 "code": "147364",
                 "display": "MDC_ECG_MAG_Jxx_VECT",
@@ -4046,12 +3502,6 @@
                 ]
             },
             {
-                "extension": [
-                    {
-                        "url": "http://hl7.org/fhir/StructureDefinition/valueset-definition",
-                        "valueString": "Azimuth of the vector at xx ms after the end of QRS complex of ECG"
-                    }
-                ],
                 "system": "urn:iso:std:iso:11073:10101",
                 "code": "147368",
                 "display": "MDC_ECG_ANGLE_Jxx_AZIM",
@@ -4065,12 +3515,6 @@
                 ]
             },
             {
-                "extension": [
-                    {
-                        "url": "http://hl7.org/fhir/StructureDefinition/valueset-definition",
-                        "valueString": "Elevation of the vector at xx ms after the end of QRS complex of ECG"
-                    }
-                ],
                 "system": "urn:iso:std:iso:11073:10101",
                 "code": "147372",
                 "display": "MDC_ECG_ANGLE_Jxx_ELEV",
@@ -4084,12 +3528,6 @@
                 ]
             },
             {
-                "extension": [
-                    {
-                        "url": "http://hl7.org/fhir/StructureDefinition/valueset-definition",
-                        "valueString": "Definition of reference time point xx ms after the end of QRS complex in ECG for potential measurements in ST segment."
-                    }
-                ],
                 "system": "urn:iso:std:iso:11073:10101",
                 "code": "147376",
                 "display": "MDC_ECG_TIME_ST_Jxx",
@@ -4109,12 +3547,6 @@
                 ]
             },
             {
-                "extension": [
-                    {
-                        "url": "http://hl7.org/fhir/StructureDefinition/valueset-definition",
-                        "valueString": "Magnitude at the maximum vector of the P wave of ECG in frontal plane computed as square root of squared scalar magnitudes of X, Y"
-                    }
-                ],
                 "system": "urn:iso:std:iso:11073:10101",
                 "code": "147380",
                 "display": "MDC_ECG_MAG_P_VECT_FRONT",
@@ -4128,12 +3560,6 @@
                 ]
             },
             {
-                "extension": [
-                    {
-                        "url": "http://hl7.org/fhir/StructureDefinition/valueset-definition",
-                        "valueString": "Magnitude at the maximum vector of the P wave of ECG in horizontal plane computed as square root of squared scalar magnitudes of X, Z"
-                    }
-                ],
                 "system": "urn:iso:std:iso:11073:10101",
                 "code": "147384",
                 "display": "MDC_ECG_MAG_P_VECT_HORIZ",
@@ -4147,12 +3573,6 @@
                 ]
             },
             {
-                "extension": [
-                    {
-                        "url": "http://hl7.org/fhir/StructureDefinition/valueset-definition",
-                        "valueString": "Magnitude at the maximum vector of the P wave of ECG in sagital plane computed as square root of squared scalar magnitudes of Y, Z"
-                    }
-                ],
                 "system": "urn:iso:std:iso:11073:10101",
                 "code": "147388",
                 "display": "MDC_ECG_MAG_P_VECT_SAGI",
@@ -4166,12 +3586,6 @@
                 ]
             },
             {
-                "extension": [
-                    {
-                        "url": "http://hl7.org/fhir/StructureDefinition/valueset-definition",
-                        "valueString": "Magnitude at the maximum vector of the QRS complex of ECG in frontal plane computed as square root of squared scalar magnitudes of X, Y"
-                    }
-                ],
                 "system": "urn:iso:std:iso:11073:10101",
                 "code": "147392",
                 "display": "MDC_ECG_MAG_QRS_VECT_FRONT",
@@ -4185,12 +3599,6 @@
                 ]
             },
             {
-                "extension": [
-                    {
-                        "url": "http://hl7.org/fhir/StructureDefinition/valueset-definition",
-                        "valueString": "Magnitude at the maximum vector of the QRS complex of ECG in horizontal plane computed as square root of squared scalar magnitudes of X, Z"
-                    }
-                ],
                 "system": "urn:iso:std:iso:11073:10101",
                 "code": "147396",
                 "display": "MDC_ECG_MAG_QRS_VECT_HORIZ",
@@ -4204,12 +3612,6 @@
                 ]
             },
             {
-                "extension": [
-                    {
-                        "url": "http://hl7.org/fhir/StructureDefinition/valueset-definition",
-                        "valueString": "Magnitude at the maximum vector of the QRS complex of ECG in sagital plane computed as square root of squared scalar magnitudes of Y, Z"
-                    }
-                ],
                 "system": "urn:iso:std:iso:11073:10101",
                 "code": "147400",
                 "display": "MDC_ECG_MAG_QRS_VECT_SAGI",
@@ -4223,12 +3625,6 @@
                 ]
             },
             {
-                "extension": [
-                    {
-                        "url": "http://hl7.org/fhir/StructureDefinition/valueset-definition",
-                        "valueString": "Magnitude at the maximum vector of the T wave of ECG in frontal plane computed as square root of squared scalar magnitudes of X, Y"
-                    }
-                ],
                 "system": "urn:iso:std:iso:11073:10101",
                 "code": "147404",
                 "display": "MDC_ECG_MAG_T_VECT_FRONT",
@@ -4242,12 +3638,6 @@
                 ]
             },
             {
-                "extension": [
-                    {
-                        "url": "http://hl7.org/fhir/StructureDefinition/valueset-definition",
-                        "valueString": "Magnitude at the maximum vector of the T wave of ECG in horizontal plane computed as square root of squared scalar magnitudes of X, Z"
-                    }
-                ],
                 "system": "urn:iso:std:iso:11073:10101",
                 "code": "147408",
                 "display": "MDC_ECG_MAG_T_VECT_HORIZ",
@@ -4261,12 +3651,6 @@
                 ]
             },
             {
-                "extension": [
-                    {
-                        "url": "http://hl7.org/fhir/StructureDefinition/valueset-definition",
-                        "valueString": "Magnitude at the maximum vector of the T wave of ECG in sagital plane computed as square root of squared scalar magnitudes of Y, Z"
-                    }
-                ],
                 "system": "urn:iso:std:iso:11073:10101",
                 "code": "147412",
                 "display": "MDC_ECG_MAG_T_VECT_SAGI",
@@ -4340,12 +3724,6 @@
                 ]
             },
             {
-                "extension": [
-                    {
-                        "url": "http://hl7.org/fhir/StructureDefinition/valueset-definition",
-                        "valueString": "Junctional escape rhythm"
-                    }
-                ],
                 "system": "urn:iso:std:iso:11073:10101",
                 "code": "147463",
                 "display": "MDC_ECG_JUNC_RHY",
@@ -4412,12 +3790,6 @@
                 ]
             },
             {
-                "extension": [
-                    {
-                        "url": "http://hl7.org/fhir/StructureDefinition/valueset-definition",
-                        "valueString": "Irregular rhythm"
-                    }
-                ],
                 "system": "urn:iso:std:iso:11073:10101",
                 "code": "147469",
                 "display": "MDC_ECG_RHY_IRREG",
@@ -4480,12 +3852,6 @@
                 ]
             },
             {
-                "extension": [
-                    {
-                        "url": "http://hl7.org/fhir/StructureDefinition/valueset-definition",
-                        "valueString": "Sinus rhythm"
-                    }
-                ],
                 "system": "urn:iso:std:iso:11073:10101",
                 "code": "147474",
                 "display": "MDC_ECG_SINUS_RHY",
@@ -4642,12 +4008,6 @@
                 ]
             },
             {
-                "extension": [
-                    {
-                        "url": "http://hl7.org/fhir/StructureDefinition/valueset-definition",
-                        "valueString": "Intermittent bundle branch block"
-                    }
-                ],
                 "system": "urn:iso:std:iso:11073:10101",
                 "code": "147489",
                 "display": "MDC_ECG_BB_RHY_INTERMIT",
@@ -4687,12 +4047,6 @@
                 ]
             },
             {
-                "extension": [
-                    {
-                        "url": "http://hl7.org/fhir/StructureDefinition/valueset-definition",
-                        "valueString": "Bradycardia, (heart rate < 50 bpm)"
-                    }
-                ],
                 "system": "urn:iso:std:iso:11073:10101",
                 "code": "147520",
                 "display": "MDC_ECG_BRADY",
@@ -4719,12 +4073,6 @@
                 ]
             },
             {
-                "extension": [
-                    {
-                        "url": "http://hl7.org/fhir/StructureDefinition/valueset-definition",
-                        "valueString": "No QRS-complex found in predefined time period"
-                    }
-                ],
                 "system": "urn:iso:std:iso:11073:10101",
                 "code": "147528",
                 "display": "MDC_ECG_ASYSTOLE",
@@ -5101,12 +4449,6 @@
                 ]
             },
             {
-                "extension": [
-                    {
-                        "url": "http://hl7.org/fhir/StructureDefinition/valueset-definition",
-                        "valueString": "Atrial fibrillation"
-                    }
-                ],
                 "system": "urn:iso:std:iso:11073:10101",
                 "code": "147720",
                 "display": "MDC_ECG_ATR_FIB",
@@ -5123,12 +4465,6 @@
                 ]
             },
             {
-                "extension": [
-                    {
-                        "url": "http://hl7.org/fhir/StructureDefinition/valueset-definition",
-                        "valueString": "Atrial flutter"
-                    }
-                ],
                 "system": "urn:iso:std:iso:11073:10101",
                 "code": "147728",
                 "display": "MDC_ECG_ATR_FLUT",
@@ -5145,12 +4481,6 @@
                 ]
             },
             {
-                "extension": [
-                    {
-                        "url": "http://hl7.org/fhir/StructureDefinition/valueset-definition",
-                        "valueString": "Premature supraventricular contractions"
-                    }
-                ],
                 "system": "urn:iso:std:iso:11073:10101",
                 "code": "147736",
                 "display": "MDC_ECG_ATR_P_C",
@@ -5187,12 +4517,6 @@
                 ]
             },
             {
-                "extension": [
-                    {
-                        "url": "http://hl7.org/fhir/StructureDefinition/valueset-definition",
-                        "valueString": "Atrial tachycardia"
-                    }
-                ],
                 "system": "urn:iso:std:iso:11073:10101",
                 "code": "147760",
                 "display": "MDC_ECG_ATR_TACHY",
@@ -5249,12 +4573,6 @@
                 ]
             },
             {
-                "extension": [
-                    {
-                        "url": "http://hl7.org/fhir/StructureDefinition/valueset-definition",
-                        "valueString": "AV block 1."
-                    }
-                ],
                 "system": "urn:iso:std:iso:11073:10101",
                 "code": "147800",
                 "display": "MDC_ECG_AV_HEART_BLK_DEG_1",
@@ -5274,12 +4592,6 @@
                 ]
             },
             {
-                "extension": [
-                    {
-                        "url": "http://hl7.org/fhir/StructureDefinition/valueset-definition",
-                        "valueString": "AV block 2."
-                    }
-                ],
                 "system": "urn:iso:std:iso:11073:10101",
                 "code": "147808",
                 "display": "MDC_ECG_AV_HEART_BLK_DEG_2",
@@ -5299,12 +4611,6 @@
                 ]
             },
             {
-                "extension": [
-                    {
-                        "url": "http://hl7.org/fhir/StructureDefinition/valueset-definition",
-                        "valueString": "2:1 AV block"
-                    }
-                ],
                 "system": "urn:iso:std:iso:11073:10101",
                 "code": "147816",
                 "display": "MDC_ECG_AV_HEART_BLK_DEG_2_I",
@@ -5364,12 +4670,6 @@
                 ]
             },
             {
-                "extension": [
-                    {
-                        "url": "http://hl7.org/fhir/StructureDefinition/valueset-definition",
-                        "valueString": "Rate of cardiac beats"
-                    }
-                ],
                 "system": "urn:iso:std:iso:11073:10101",
                 "code": "147842",
                 "display": "MDC_ECG_HEART_RATE",
@@ -5462,12 +4762,6 @@
                 ]
             },
             {
-                "extension": [
-                    {
-                        "url": "http://hl7.org/fhir/StructureDefinition/valueset-definition",
-                        "valueString": "Junctional escape beats"
-                    }
-                ],
                 "system": "urn:iso:std:iso:11073:10101",
                 "code": "147888",
                 "display": "MDC_ECG_JUNC_ESC_BEATS",
@@ -5484,12 +4778,6 @@
                 ]
             },
             {
-                "extension": [
-                    {
-                        "url": "http://hl7.org/fhir/StructureDefinition/valueset-definition",
-                        "valueString": "Junctional tachycardia"
-                    }
-                ],
                 "system": "urn:iso:std:iso:11073:10101",
                 "code": "147896",
                 "display": "MDC_ECG_JUNC_TACHY",
@@ -5576,12 +4864,6 @@
                 ]
             },
             {
-                "extension": [
-                    {
-                        "url": "http://hl7.org/fhir/StructureDefinition/valueset-definition",
-                        "valueString": "Sinus bradycardia, (regular heart rate, sinus rhythm < 50 bpm)"
-                    }
-                ],
                 "system": "urn:iso:std:iso:11073:10101",
                 "code": "147960",
                 "display": "MDC_ECG_SINUS_BRADY",
@@ -5598,12 +4880,6 @@
                 ]
             },
             {
-                "extension": [
-                    {
-                        "url": "http://hl7.org/fhir/StructureDefinition/valueset-definition",
-                        "valueString": "Sinus tachycardia (regular heart rate, sinus rhythm < 100 bpm)"
-                    }
-                ],
                 "system": "urn:iso:std:iso:11073:10101",
                 "code": "147968",
                 "display": "MDC_ECG_SINUS_TACHY",
@@ -5750,12 +5026,6 @@
                 ]
             },
             {
-                "extension": [
-                    {
-                        "url": "http://hl7.org/fhir/StructureDefinition/valueset-definition",
-                        "valueString": "Alternate normal beats and ventricular premature beats"
-                    }
-                ],
                 "system": "urn:iso:std:iso:11073:10101",
                 "code": "148024",
                 "display": "MDC_ECG_V_BIGEM",
@@ -5772,12 +5042,6 @@
                 ]
             },
             {
-                "extension": [
-                    {
-                        "url": "http://hl7.org/fhir/StructureDefinition/valueset-definition",
-                        "valueString": "Ventricular fibrillation"
-                    }
-                ],
                 "system": "urn:iso:std:iso:11073:10101",
                 "code": "148032",
                 "display": "MDC_ECG_V_FIB",
@@ -5894,12 +5158,6 @@
                 ]
             },
             {
-                "extension": [
-                    {
-                        "url": "http://hl7.org/fhir/StructureDefinition/valueset-definition",
-                        "valueString": "Frequent PVCs"
-                    }
-                ],
                 "system": "urn:iso:std:iso:11073:10101",
                 "code": "148072",
                 "display": "MDC_ECG_V_P_C_FREQ",
@@ -5959,12 +5217,6 @@
                 ]
             },
             {
-                "extension": [
-                    {
-                        "url": "http://hl7.org/fhir/StructureDefinition/valueset-definition",
-                        "valueString": "Several consecutive supraventricular extrasystoles"
-                    }
-                ],
                 "system": "urn:iso:std:iso:11073:10101",
                 "code": "148104",
                 "display": "MDC_ECG_SV_P_C_RUN",
@@ -5991,12 +5243,6 @@
                 ]
             },
             {
-                "extension": [
-                    {
-                        "url": "http://hl7.org/fhir/StructureDefinition/valueset-definition",
-                        "valueString": "Several consecutive premature ventricular contractions"
-                    }
-                ],
                 "system": "urn:iso:std:iso:11073:10101",
                 "code": "148112",
                 "display": "MDC_ECG_V_P_C_RUN",
@@ -6033,12 +5279,6 @@
                 ]
             },
             {
-                "extension": [
-                    {
-                        "url": "http://hl7.org/fhir/StructureDefinition/valueset-definition",
-                        "valueString": "PVC R-on-T"
-                    }
-                ],
                 "system": "urn:iso:std:iso:11073:10101",
                 "code": "148128",
                 "display": "MDC_ECG_V_P_C_RonT",
@@ -6095,12 +5335,6 @@
                 ]
             },
             {
-                "extension": [
-                    {
-                        "url": "http://hl7.org/fhir/StructureDefinition/valueset-definition",
-                        "valueString": "Ventricular tachycardia"
-                    }
-                ],
                 "system": "urn:iso:std:iso:11073:10101",
                 "code": "148160",
                 "display": "MDC_ECG_V_TACHY",
@@ -6177,12 +5411,6 @@
                 ]
             },
             {
-                "extension": [
-                    {
-                        "url": "http://hl7.org/fhir/StructureDefinition/valueset-definition",
-                        "valueString": "Frequent SPVCs"
-                    }
-                ],
                 "system": "urn:iso:std:iso:11073:10101",
                 "code": "148208",
                 "display": "MDC_ECG_SV_P_C_FREQUENT",
@@ -6252,12 +5480,6 @@
                 ]
             },
             {
-                "extension": [
-                    {
-                        "url": "http://hl7.org/fhir/StructureDefinition/valueset-definition",
-                        "valueString": "Paroxysmal supraventricular tachycardia"
-                    }
-                ],
                 "system": "urn:iso:std:iso:11073:10101",
                 "code": "148256",
                 "display": "MDC_ECG_SV_TACHY_PAROX",
@@ -6274,12 +5496,6 @@
                 ]
             },
             {
-                "extension": [
-                    {
-                        "url": "http://hl7.org/fhir/StructureDefinition/valueset-definition",
-                        "valueString": "AV block 3."
-                    }
-                ],
                 "system": "urn:iso:std:iso:11073:10101",
                 "code": "148264",
                 "display": "MDC_ECG_AV_HEART_BLK_DEG_3",
@@ -6299,12 +5515,6 @@
                 ]
             },
             {
-                "extension": [
-                    {
-                        "url": "http://hl7.org/fhir/StructureDefinition/valueset-definition",
-                        "valueString": "3:1 AV block"
-                    }
-                ],
                 "system": "urn:iso:std:iso:11073:10101",
                 "code": "148272",
                 "display": "MDC_ECG_AV_HEART_BLK_DEG_3_I",
@@ -6321,12 +5531,6 @@
                 ]
             },
             {
-                "extension": [
-                    {
-                        "url": "http://hl7.org/fhir/StructureDefinition/valueset-definition",
-                        "valueString": "4:1 AV block"
-                    }
-                ],
                 "system": "urn:iso:std:iso:11073:10101",
                 "code": "148280",
                 "display": "MDC_ECG_AV_HEART_BLK_DEG_4_I",
@@ -6343,12 +5547,6 @@
                 ]
             },
             {
-                "extension": [
-                    {
-                        "url": "http://hl7.org/fhir/StructureDefinition/valueset-definition",
-                        "valueString": "Left atrial enlargement"
-                    }
-                ],
                 "system": "urn:iso:std:iso:11073:10101",
                 "code": "148296",
                 "display": "MDC_ECG_P_SINIS_ATR",
@@ -6365,12 +5563,6 @@
                 ]
             },
             {
-                "extension": [
-                    {
-                        "url": "http://hl7.org/fhir/StructureDefinition/valueset-definition",
-                        "valueString": "Right atrial enlargement"
-                    }
-                ],
                 "system": "urn:iso:std:iso:11073:10101",
                 "code": "148304",
                 "display": "MDC_ECG_P_DEXT_ATR",
@@ -6397,12 +5589,6 @@
                 ]
             },
             {
-                "extension": [
-                    {
-                        "url": "http://hl7.org/fhir/StructureDefinition/valueset-definition",
-                        "valueString": "Intraventricular conduction defect"
-                    }
-                ],
                 "system": "urn:iso:std:iso:11073:10101",
                 "code": "148320",
                 "display": "MDC_ECG_INTRA_VENT_CONDUC_DEFECT",
@@ -6419,12 +5605,6 @@
                 ]
             },
             {
-                "extension": [
-                    {
-                        "url": "http://hl7.org/fhir/StructureDefinition/valueset-definition",
-                        "valueString": "Left bundle branch block"
-                    }
-                ],
                 "system": "urn:iso:std:iso:11073:10101",
                 "code": "148328",
                 "display": "MDC_ECG_LBB_BLK_COMP",
@@ -6441,12 +5621,6 @@
                 ]
             },
             {
-                "extension": [
-                    {
-                        "url": "http://hl7.org/fhir/StructureDefinition/valueset-definition",
-                        "valueString": "Incomplete bundle branch block"
-                    }
-                ],
                 "system": "urn:iso:std:iso:11073:10101",
                 "code": "148336",
                 "display": "MDC_ECG_LBB_BLK_INCOMP",
@@ -6463,12 +5637,6 @@
                 ]
             },
             {
-                "extension": [
-                    {
-                        "url": "http://hl7.org/fhir/StructureDefinition/valueset-definition",
-                        "valueString": "Right bundle branch block"
-                    }
-                ],
                 "system": "urn:iso:std:iso:11073:10101",
                 "code": "148344",
                 "display": "MDC_ECG_RBB_BLK_COMP",
@@ -6485,12 +5653,6 @@
                 ]
             },
             {
-                "extension": [
-                    {
-                        "url": "http://hl7.org/fhir/StructureDefinition/valueset-definition",
-                        "valueString": "Incomplete right bundle branch block"
-                    }
-                ],
                 "system": "urn:iso:std:iso:11073:10101",
                 "code": "148352",
                 "display": "MDC_ECG_RBB_BLK_INCOMP",
@@ -6507,12 +5669,6 @@
                 ]
             },
             {
-                "extension": [
-                    {
-                        "url": "http://hl7.org/fhir/StructureDefinition/valueset-definition",
-                        "valueString": "Trifascular block"
-                    }
-                ],
                 "system": "urn:iso:std:iso:11073:10101",
                 "code": "148360",
                 "display": "MDC_ECG_BLK_TRIFASC",
@@ -6545,12 +5701,6 @@
                 ]
             },
             {
-                "extension": [
-                    {
-                        "url": "http://hl7.org/fhir/StructureDefinition/valueset-definition",
-                        "valueString": "Wolf-Parkinson-White Syndrom type A (certain)"
-                    }
-                ],
                 "system": "urn:iso:std:iso:11073:10101",
                 "code": "148376",
                 "display": "MDC_ECG_WPW_A",
@@ -6570,12 +5720,6 @@
                 ]
             },
             {
-                "extension": [
-                    {
-                        "url": "http://hl7.org/fhir/StructureDefinition/valueset-definition",
-                        "valueString": "Wolf-Parkinson-White Syndrom type A (probably)"
-                    }
-                ],
                 "system": "urn:iso:std:iso:11073:10101",
                 "code": "148384",
                 "display": "MDC_ECG_WPW_A_PROB",
@@ -6592,12 +5736,6 @@
                 ]
             },
             {
-                "extension": [
-                    {
-                        "url": "http://hl7.org/fhir/StructureDefinition/valueset-definition",
-                        "valueString": "Wolf-Parkinson-White Syndrom type A (possibly)"
-                    }
-                ],
                 "system": "urn:iso:std:iso:11073:10101",
                 "code": "148392",
                 "display": "MDC_ECG_WPW_A_POSSIB",
@@ -6614,12 +5752,6 @@
                 ]
             },
             {
-                "extension": [
-                    {
-                        "url": "http://hl7.org/fhir/StructureDefinition/valueset-definition",
-                        "valueString": "Wolf-Parkinson-White Syndrom type B (certain)"
-                    }
-                ],
                 "system": "urn:iso:std:iso:11073:10101",
                 "code": "148400",
                 "display": "MDC_ECG_WPW_B",
@@ -6639,12 +5771,6 @@
                 ]
             },
             {
-                "extension": [
-                    {
-                        "url": "http://hl7.org/fhir/StructureDefinition/valueset-definition",
-                        "valueString": "Wolf-Parkinson-White Syndrom type B (probably)"
-                    }
-                ],
                 "system": "urn:iso:std:iso:11073:10101",
                 "code": "148408",
                 "display": "MDC_ECG_WPW_B_PROB",
@@ -6661,12 +5787,6 @@
                 ]
             },
             {
-                "extension": [
-                    {
-                        "url": "http://hl7.org/fhir/StructureDefinition/valueset-definition",
-                        "valueString": "Wolf-Parkinson-White Syndrom type B (possibly)"
-                    }
-                ],
                 "system": "urn:iso:std:iso:11073:10101",
                 "code": "148416",
                 "display": "MDC_ECG_WPW_B_POSSIB",
@@ -6683,12 +5803,6 @@
                 ]
             },
             {
-                "extension": [
-                    {
-                        "url": "http://hl7.org/fhir/StructureDefinition/valueset-definition",
-                        "valueString": "Wolf-Parkinson-White Syndrom type unknown (certain)"
-                    }
-                ],
                 "system": "urn:iso:std:iso:11073:10101",
                 "code": "148424",
                 "display": "MDC_ECG_WPW_UNK",
@@ -6708,12 +5822,6 @@
                 ]
             },
             {
-                "extension": [
-                    {
-                        "url": "http://hl7.org/fhir/StructureDefinition/valueset-definition",
-                        "valueString": "Wolf-Parkinson-White Syndrom type unknown (probably)"
-                    }
-                ],
                 "system": "urn:iso:std:iso:11073:10101",
                 "code": "148432",
                 "display": "MDC_ECG_WPW_UNK_PROB",
@@ -6730,12 +5838,6 @@
                 ]
             },
             {
-                "extension": [
-                    {
-                        "url": "http://hl7.org/fhir/StructureDefinition/valueset-definition",
-                        "valueString": "Wolf-Parkinson-White Syndrom type unknown (possibly)"
-                    }
-                ],
                 "system": "urn:iso:std:iso:11073:10101",
                 "code": "148440",
                 "display": "MDC_ECG_WPW_UNK_POSSIB",
@@ -6752,12 +5854,6 @@
                 ]
             },
             {
-                "extension": [
-                    {
-                        "url": "http://hl7.org/fhir/StructureDefinition/valueset-definition",
-                        "valueString": "D RR < 10% of RR mean"
-                    }
-                ],
                 "system": "urn:iso:std:iso:11073:10101",
                 "code": "148464",
                 "display": "MDC_ECG_REG",
@@ -6784,12 +5880,6 @@
                 ]
             },
             {
-                "extension": [
-                    {
-                        "url": "http://hl7.org/fhir/StructureDefinition/valueset-definition",
-                        "valueString": "Irregular rhythm"
-                    }
-                ],
                 "system": "urn:iso:std:iso:11073:10101",
                 "code": "148496",
                 "display": "MDC_ECG_ARRHY",
@@ -6803,12 +5893,6 @@
                 ]
             },
             {
-                "extension": [
-                    {
-                        "url": "http://hl7.org/fhir/StructureDefinition/valueset-definition",
-                        "valueString": "Irregular atrial escape rhythm"
-                    }
-                ],
                 "system": "urn:iso:std:iso:11073:10101",
                 "code": "148504",
                 "display": "MDC_ECG_ARRHY_PQ_100",
@@ -6822,12 +5906,6 @@
                 ]
             },
             {
-                "extension": [
-                    {
-                        "url": "http://hl7.org/fhir/StructureDefinition/valueset-definition",
-                        "valueString": "Sinus rhythm"
-                    }
-                ],
                 "system": "urn:iso:std:iso:11073:10101",
                 "code": "148512",
                 "display": "MDC_ECG_SINUS_ARRHY",
@@ -6844,12 +5922,6 @@
                 ]
             },
             {
-                "extension": [
-                    {
-                        "url": "http://hl7.org/fhir/StructureDefinition/valueset-definition",
-                        "valueString": "Goes always with atrial rhythm"
-                    }
-                ],
                 "system": "urn:iso:std:iso:11073:10101",
                 "code": "148520",
                 "display": "MDC_ECG_ARRHY_ABS",
@@ -6863,12 +5935,6 @@
                 ]
             },
             {
-                "extension": [
-                    {
-                        "url": "http://hl7.org/fhir/StructureDefinition/valueset-definition",
-                        "valueString": "Sinus arrhythmia, respiratory"
-                    }
-                ],
                 "system": "urn:iso:std:iso:11073:10101",
                 "code": "148528",
                 "display": "MDC_ECG_RESP_ARRHY",
@@ -6963,12 +6029,6 @@
                 ]
             },
             {
-                "extension": [
-                    {
-                        "url": "http://hl7.org/fhir/StructureDefinition/valueset-definition",
-                        "valueString": "Normal"
-                    }
-                ],
                 "system": "urn:iso:std:iso:11073:10101",
                 "code": "148624",
                 "display": "MDC_ECG_NORMAL",
@@ -6995,12 +6055,6 @@
                 ]
             },
             {
-                "extension": [
-                    {
-                        "url": "http://hl7.org/fhir/StructureDefinition/valueset-definition",
-                        "valueString": "Right ventricular hypertrophy"
-                    }
-                ],
                 "system": "urn:iso:std:iso:11073:10101",
                 "code": "148632",
                 "display": "MDC_ECG_VENT_HYPERTROPHY_RIGHT",
@@ -7017,12 +6071,6 @@
                 ]
             },
             {
-                "extension": [
-                    {
-                        "url": "http://hl7.org/fhir/StructureDefinition/valueset-definition",
-                        "valueString": "Left ventricular hypertrophy"
-                    }
-                ],
                 "system": "urn:iso:std:iso:11073:10101",
                 "code": "148640",
                 "display": "MDC_ECG_VENT_HYPERTROPHY_LEFT",
@@ -7039,12 +6087,6 @@
                 ]
             },
             {
-                "extension": [
-                    {
-                        "url": "http://hl7.org/fhir/StructureDefinition/valueset-definition",
-                        "valueString": "Ventricular hypertrophy"
-                    }
-                ],
                 "system": "urn:iso:std:iso:11073:10101",
                 "code": "148648",
                 "display": "MDC_ECG_VENT_HYPERTROPHY",
@@ -7061,12 +6103,6 @@
                 ]
             },
             {
-                "extension": [
-                    {
-                        "url": "http://hl7.org/fhir/StructureDefinition/valueset-definition",
-                        "valueString": "Anterior infarction"
-                    }
-                ],
                 "system": "urn:iso:std:iso:11073:10101",
                 "code": "148656",
                 "display": "MDC_ECG_INFARCT_ANT",
@@ -7083,12 +6119,6 @@
                 ]
             },
             {
-                "extension": [
-                    {
-                        "url": "http://hl7.org/fhir/StructureDefinition/valueset-definition",
-                        "valueString": "Inferior infarction"
-                    }
-                ],
                 "system": "urn:iso:std:iso:11073:10101",
                 "code": "148664",
                 "display": "MDC_ECG_INFARCT_INT",
@@ -7137,12 +6167,6 @@
                 ]
             },
             {
-                "extension": [
-                    {
-                        "url": "http://hl7.org/fhir/StructureDefinition/valueset-definition",
-                        "valueString": "Repolarization abnormalities"
-                    }
-                ],
                 "system": "urn:iso:std:iso:11073:10101",
                 "code": "148688",
                 "display": "MDC_ECG_REPOLARIZ_DISTURB",
@@ -7156,12 +6180,6 @@
                 ]
             },
             {
-                "extension": [
-                    {
-                        "url": "http://hl7.org/fhir/StructureDefinition/valueset-definition",
-                        "valueString": "Infarction and hypertrophy"
-                    }
-                ],
                 "system": "urn:iso:std:iso:11073:10101",
                 "code": "148696",
                 "display": "MDC_ECG_INFARCT_HYPER",
@@ -7178,12 +6196,6 @@
                 ]
             },
             {
-                "extension": [
-                    {
-                        "url": "http://hl7.org/fhir/StructureDefinition/valueset-definition",
-                        "valueString": "Hypertrophy"
-                    }
-                ],
                 "system": "urn:iso:std:iso:11073:10101",
                 "code": "148704",
                 "display": "MDC_ECG_HYPER",
@@ -7200,12 +6212,6 @@
                 ]
             },
             {
-                "extension": [
-                    {
-                        "url": "http://hl7.org/fhir/StructureDefinition/valueset-definition",
-                        "valueString": "Infarction"
-                    }
-                ],
                 "system": "urn:iso:std:iso:11073:10101",
                 "code": "148712",
                 "display": "MDC_ECG_INFARCT",
@@ -7222,12 +6228,6 @@
                 ]
             },
             {
-                "extension": [
-                    {
-                        "url": "http://hl7.org/fhir/StructureDefinition/valueset-definition",
-                        "valueString": "Lateral infarction"
-                    }
-                ],
                 "system": "urn:iso:std:iso:11073:10101",
                 "code": "148720",
                 "display": "MDC_ECG_INFARCT_LAT",
@@ -7444,12 +6444,6 @@
                 ]
             },
             {
-                "extension": [
-                    {
-                        "url": "http://hl7.org/fhir/StructureDefinition/valueset-definition",
-                        "valueString": "Rate of blood pulse in an artery"
-                    }
-                ],
                 "system": "urn:iso:std:iso:11073:10101",
                 "code": "149514",
                 "display": "MDC_PULS_RATE",
@@ -7479,12 +6473,6 @@
                 ]
             },
             {
-                "extension": [
-                    {
-                        "url": "http://hl7.org/fhir/StructureDefinition/valueset-definition",
-                        "valueString": "Rate of blood pulse in an artery, measured invasively"
-                    }
-                ],
                 "system": "urn:iso:std:iso:11073:10101",
                 "code": "149522",
                 "display": "MDC_BLD_PULS_RATE_INV",
@@ -7534,12 +6522,6 @@
                 ]
             },
             {
-                "extension": [
-                    {
-                        "url": "http://hl7.org/fhir/StructureDefinition/valueset-definition",
-                        "valueString": "Rate of blood pulse as obtained by plethysmography"
-                    }
-                ],
                 "system": "urn:iso:std:iso:11073:10101",
                 "code": "149538",
                 "display": "MDC_PLETH_PULS_RATE",
@@ -7569,12 +6551,6 @@
                 ]
             },
             {
-                "extension": [
-                    {
-                        "url": "http://hl7.org/fhir/StructureDefinition/valueset-definition",
-                        "valueString": "Rate of blood pulse in an artery, measured not invasively"
-                    }
-                ],
                 "system": "urn:iso:std:iso:11073:10101",
                 "code": "149546",
                 "display": "MDC_PULS_RATE_NON_INV",
@@ -7614,12 +6590,6 @@
                 ]
             },
             {
-                "extension": [
-                    {
-                        "url": "http://hl7.org/fhir/StructureDefinition/valueset-definition",
-                        "valueString": "Heart rate obtained from the variation of transthoracic impedance."
-                    }
-                ],
                 "system": "urn:iso:std:iso:11073:10101",
                 "code": "149554",
                 "display": "MDC_TTHOR_HEART_RATE",
@@ -7689,12 +6659,6 @@
                 ]
             },
             {
-                "extension": [
-                    {
-                        "url": "http://hl7.org/fhir/StructureDefinition/valueset-definition",
-                        "valueString": "Heart rate obtained from an artery that is close to the surface and a pulse can be felt.  [The most common places to measure heart rate using palpation are at the wrist (radial artery) and the neck (carotid artery).]"
-                    }
-                ],
                 "system": "urn:iso:std:iso:11073:10101",
                 "code": "149562",
                 "display": "MDC_PALPATION_HEART_RATE",
@@ -7744,12 +6708,6 @@
                 ]
             },
             {
-                "extension": [
-                    {
-                        "url": "http://hl7.org/fhir/StructureDefinition/valueset-definition",
-                        "valueString": "Difference between systemic and pulmonary resistance"
-                    }
-                ],
                 "system": "urn:iso:std:iso:11073:10101",
                 "code": "149760",
                 "display": "MDC_RES_VASC_SYS_INDEX",
@@ -7769,12 +6727,6 @@
                 ]
             },
             {
-                "extension": [
-                    {
-                        "url": "http://hl7.org/fhir/StructureDefinition/valueset-definition",
-                        "valueString": "Work of left ventricle of the heart in one cardiac cycle and related to body surface area (LVSW/BSA)"
-                    }
-                ],
                 "system": "urn:iso:std:iso:11073:10101",
                 "code": "149764",
                 "display": "MDC_WK_LV_STROKE_INDEX",
@@ -7824,12 +6776,6 @@
                 ]
             },
             {
-                "extension": [
-                    {
-                        "url": "http://hl7.org/fhir/StructureDefinition/valueset-definition",
-                        "valueString": "Work of right ventricle of the heart in one cardiac cycle and related to body surface area (LVSW/BSA)"
-                    }
-                ],
                 "system": "urn:iso:std:iso:11073:10101",
                 "code": "149768",
                 "display": "MDC_PVT_WK_RV_STROKE_INDEX",
@@ -7849,12 +6795,6 @@
                 ]
             },
             {
-                "extension": [
-                    {
-                        "url": "http://hl7.org/fhir/StructureDefinition/valueset-definition",
-                        "valueString": "Quantity of blood pumped by the left ventricle into the aorta per minute and divided by the body surface area (CO/BSA)"
-                    }
-                ],
                 "system": "urn:iso:std:iso:11073:10101",
                 "code": "149772",
                 "display": "MDC_OUTPUT_CARD_INDEX",
@@ -7874,12 +6814,6 @@
                 ]
             },
             {
-                "extension": [
-                    {
-                        "url": "http://hl7.org/fhir/StructureDefinition/valueset-definition",
-                        "valueString": "Pressure of the blood"
-                    }
-                ],
                 "system": "urn:iso:std:iso:11073:10101",
                 "code": "150016",
                 "display": "MDC_PRESS_BLD",
@@ -7899,12 +6833,6 @@
                 ]
             },
             {
-                "extension": [
-                    {
-                        "url": "http://hl7.org/fhir/StructureDefinition/valueset-definition",
-                        "valueString": "Pressure of the blood at the systolic phase"
-                    }
-                ],
                 "system": "urn:iso:std:iso:11073:10101",
                 "code": "150017",
                 "display": "MDC_PRESS_BLD_SYS",
@@ -7921,12 +6849,6 @@
                 ]
             },
             {
-                "extension": [
-                    {
-                        "url": "http://hl7.org/fhir/StructureDefinition/valueset-definition",
-                        "valueString": "Pressure of the blood at the diastolic phase"
-                    }
-                ],
                 "system": "urn:iso:std:iso:11073:10101",
                 "code": "150018",
                 "display": "MDC_PRESS_BLD_DIA",
@@ -7943,12 +6865,6 @@
                 ]
             },
             {
-                "extension": [
-                    {
-                        "url": "http://hl7.org/fhir/StructureDefinition/valueset-definition",
-                        "valueString": "Pressure of the blood as computed by averaging on one cycle"
-                    }
-                ],
                 "system": "urn:iso:std:iso:11073:10101",
                 "code": "150019",
                 "display": "MDC_PRESS_BLD_MEAN",
@@ -7975,12 +6891,6 @@
                 ]
             },
             {
-                "extension": [
-                    {
-                        "url": "http://hl7.org/fhir/StructureDefinition/valueset-definition",
-                        "valueString": "Pressure of the blood, obtained noninvasively (i.e., fingertip), at the systolic phase"
-                    }
-                ],
                 "system": "urn:iso:std:iso:11073:10101",
                 "code": "150021",
                 "display": "MDC_PRESS_BLD_NONINV_SYS",
@@ -7997,12 +6907,6 @@
                 ]
             },
             {
-                "extension": [
-                    {
-                        "url": "http://hl7.org/fhir/StructureDefinition/valueset-definition",
-                        "valueString": "Pressure of the blood, obtained noninvasively (i.e., fingertip), at the diastolic phase"
-                    }
-                ],
                 "system": "urn:iso:std:iso:11073:10101",
                 "code": "150022",
                 "display": "MDC_PRESS_BLD_NONINV_DIA",
@@ -8019,12 +6923,6 @@
                 ]
             },
             {
-                "extension": [
-                    {
-                        "url": "http://hl7.org/fhir/StructureDefinition/valueset-definition",
-                        "valueString": "Pressure of the blood, obtained noninvasively (i.e., fingertip), as computed by averaging on one cycle"
-                    }
-                ],
                 "system": "urn:iso:std:iso:11073:10101",
                 "code": "150023",
                 "display": "MDC_PRESS_BLD_NONINV_MEAN",
@@ -8041,12 +6939,6 @@
                 ]
             },
             {
-                "extension": [
-                    {
-                        "url": "http://hl7.org/fhir/StructureDefinition/valueset-definition",
-                        "valueString": "Pressure of the blood recorded continuously and noninvasively (i.e., fingertip)"
-                    }
-                ],
                 "system": "urn:iso:std:iso:11073:10101",
                 "code": "150024",
                 "display": "MDC_PRESS_BLD_NONINV_CTS",
@@ -8063,12 +6955,6 @@
                 ]
             },
             {
-                "extension": [
-                    {
-                        "url": "http://hl7.org/fhir/StructureDefinition/valueset-definition",
-                        "valueString": "Pressure of the blood, obtained continuously and noninvasively (i.e., fingertip), at the systolic phase"
-                    }
-                ],
                 "system": "urn:iso:std:iso:11073:10101",
                 "code": "150025",
                 "display": "MDC_PRESS_BLD_NONINV_SYS_CTS",
@@ -8085,12 +6971,6 @@
                 ]
             },
             {
-                "extension": [
-                    {
-                        "url": "http://hl7.org/fhir/StructureDefinition/valueset-definition",
-                        "valueString": "Pressure of the blood, obtained continuously and noninvasively (i.e., fingertip), at the diastolic phase"
-                    }
-                ],
                 "system": "urn:iso:std:iso:11073:10101",
                 "code": "150026",
                 "display": "MDC_PRESS_BLD_NONINV_DIA_CTS",
@@ -8107,12 +6987,6 @@
                 ]
             },
             {
-                "extension": [
-                    {
-                        "url": "http://hl7.org/fhir/StructureDefinition/valueset-definition",
-                        "valueString": "Pressure of the blood, obtained continuously and noninvasively (i.e., fingertip), as computed by averaging on one cycle"
-                    }
-                ],
                 "system": "urn:iso:std:iso:11073:10101",
                 "code": "150027",
                 "display": "MDC_PRESS_BLD_NONINV_MEAN_CTS",
@@ -8129,12 +7003,6 @@
                 ]
             },
             {
-                "extension": [
-                    {
-                        "url": "http://hl7.org/fhir/StructureDefinition/valueset-definition",
-                        "valueString": "Pressure of the blood in the aorta"
-                    }
-                ],
                 "system": "urn:iso:std:iso:11073:10101",
                 "code": "150028",
                 "display": "MDC_PRESS_BLD_AORT",
@@ -8154,12 +7022,6 @@
                 ]
             },
             {
-                "extension": [
-                    {
-                        "url": "http://hl7.org/fhir/StructureDefinition/valueset-definition",
-                        "valueString": "Systolic pressure of the blood in the aorta"
-                    }
-                ],
                 "system": "urn:iso:std:iso:11073:10101",
                 "code": "150029",
                 "display": "MDC_PRESS_BLD_AORT_SYS",
@@ -8186,12 +7048,6 @@
                 ]
             },
             {
-                "extension": [
-                    {
-                        "url": "http://hl7.org/fhir/StructureDefinition/valueset-definition",
-                        "valueString": "Mean pressure of the blood in the aorta"
-                    }
-                ],
                 "system": "urn:iso:std:iso:11073:10101",
                 "code": "150031",
                 "display": "MDC_PRESS_BLD_AORT_MEAN",
@@ -8208,12 +7064,6 @@
                 ]
             },
             {
-                "extension": [
-                    {
-                        "url": "http://hl7.org/fhir/StructureDefinition/valueset-definition",
-                        "valueString": "Pressure of the blood in an artery"
-                    }
-                ],
                 "system": "urn:iso:std:iso:11073:10101",
                 "code": "150032",
                 "display": "MDC_PRESS_BLD_ART",
@@ -8233,12 +7083,6 @@
                 ]
             },
             {
-                "extension": [
-                    {
-                        "url": "http://hl7.org/fhir/StructureDefinition/valueset-definition",
-                        "valueString": "Systolic pressure of the blood in an artery"
-                    }
-                ],
                 "system": "urn:iso:std:iso:11073:10101",
                 "code": "150033",
                 "display": "MDC_PRESS_BLD_ART_SYS",
@@ -8255,12 +7099,6 @@
                 ]
             },
             {
-                "extension": [
-                    {
-                        "url": "http://hl7.org/fhir/StructureDefinition/valueset-definition",
-                        "valueString": "Diastolic pressure of the blood in an artery"
-                    }
-                ],
                 "system": "urn:iso:std:iso:11073:10101",
                 "code": "150034",
                 "display": "MDC_PRESS_BLD_ART_DIA",
@@ -8277,12 +7115,6 @@
                 ]
             },
             {
-                "extension": [
-                    {
-                        "url": "http://hl7.org/fhir/StructureDefinition/valueset-definition",
-                        "valueString": "Mean pressure of the blood in an artery"
-                    }
-                ],
                 "system": "urn:iso:std:iso:11073:10101",
                 "code": "150035",
                 "display": "MDC_PRESS_BLD_ART_MEAN",
@@ -8359,12 +7191,6 @@
                 ]
             },
             {
-                "extension": [
-                    {
-                        "url": "http://hl7.org/fhir/StructureDefinition/valueset-definition",
-                        "valueString": "Pressure of the blood in the pulmonary artery"
-                    }
-                ],
                 "system": "urn:iso:std:iso:11073:10101",
                 "code": "150044",
                 "display": "MDC_PRESS_BLD_ART_PULM",
@@ -8384,12 +7210,6 @@
                 ]
             },
             {
-                "extension": [
-                    {
-                        "url": "http://hl7.org/fhir/StructureDefinition/valueset-definition",
-                        "valueString": "Systolic pressure of the blood in the pulmonary artery"
-                    }
-                ],
                 "system": "urn:iso:std:iso:11073:10101",
                 "code": "150045",
                 "display": "MDC_PRESS_BLD_ART_PULM_SYS",
@@ -8406,12 +7226,6 @@
                 ]
             },
             {
-                "extension": [
-                    {
-                        "url": "http://hl7.org/fhir/StructureDefinition/valueset-definition",
-                        "valueString": "Diastolic pressure of the blood in the pulmonary artery"
-                    }
-                ],
                 "system": "urn:iso:std:iso:11073:10101",
                 "code": "150046",
                 "display": "MDC_PRESS_BLD_ART_PULM_DIA",
@@ -8428,12 +7242,6 @@
                 ]
             },
             {
-                "extension": [
-                    {
-                        "url": "http://hl7.org/fhir/StructureDefinition/valueset-definition",
-                        "valueString": "Mean pressure of the blood in the pulmonary artery"
-                    }
-                ],
                 "system": "urn:iso:std:iso:11073:10101",
                 "code": "150047",
                 "display": "MDC_PRESS_BLD_ART_PULM_MEAN",
@@ -8450,12 +7258,6 @@
                 ]
             },
             {
-                "extension": [
-                    {
-                        "url": "http://hl7.org/fhir/StructureDefinition/valueset-definition",
-                        "valueString": "Pressure of the blood measured by a catheter wedged into a small branch of the pulmonary artery"
-                    }
-                ],
                 "system": "urn:iso:std:iso:11073:10101",
                 "code": "150052",
                 "display": "MDC_PRESS_BLD_ART_PULM_WEDGE",
@@ -8478,12 +7280,6 @@
                 ]
             },
             {
-                "extension": [
-                    {
-                        "url": "http://hl7.org/fhir/StructureDefinition/valueset-definition",
-                        "valueString": "Pressure of the blood in the umbilical arteries of a fetus"
-                    }
-                ],
                 "system": "urn:iso:std:iso:11073:10101",
                 "code": "150056",
                 "display": "MDC_PRESS_BLD_ART_UMB",
@@ -8503,12 +7299,6 @@
                 ]
             },
             {
-                "extension": [
-                    {
-                        "url": "http://hl7.org/fhir/StructureDefinition/valueset-definition",
-                        "valueString": "Systolic pressure of the blood in the umbilical arteries of a fetus"
-                    }
-                ],
                 "system": "urn:iso:std:iso:11073:10101",
                 "code": "150057",
                 "display": "MDC_PRESS_BLD_ART_UMB_SYS",
@@ -8525,12 +7315,6 @@
                 ]
             },
             {
-                "extension": [
-                    {
-                        "url": "http://hl7.org/fhir/StructureDefinition/valueset-definition",
-                        "valueString": "Diastolic pressure of the blood in the umbilical arteries of a fetus"
-                    }
-                ],
                 "system": "urn:iso:std:iso:11073:10101",
                 "code": "150058",
                 "display": "MDC_PRESS_BLD_ART_UMB_DIA",
@@ -8547,12 +7331,6 @@
                 ]
             },
             {
-                "extension": [
-                    {
-                        "url": "http://hl7.org/fhir/StructureDefinition/valueset-definition",
-                        "valueString": "Mean pressure of the blood in the umbilical arteries of a fetus"
-                    }
-                ],
                 "system": "urn:iso:std:iso:11073:10101",
                 "code": "150059",
                 "display": "MDC_PRESS_BLD_ART_UMB_MEAN",
@@ -8569,12 +7347,6 @@
                 ]
             },
             {
-                "extension": [
-                    {
-                        "url": "http://hl7.org/fhir/StructureDefinition/valueset-definition",
-                        "valueString": "Pressure of the blood in an atrium of the heart"
-                    }
-                ],
                 "system": "urn:iso:std:iso:11073:10101",
                 "code": "150060",
                 "display": "MDC_PRESS_BLD_ATR",
@@ -8591,12 +7363,6 @@
                 ]
             },
             {
-                "extension": [
-                    {
-                        "url": "http://hl7.org/fhir/StructureDefinition/valueset-definition",
-                        "valueString": "Pressure of the blood in the left atrium of the heart"
-                    }
-                ],
                 "system": "urn:iso:std:iso:11073:10101",
                 "code": "150064",
                 "display": "MDC_PRESS_BLD_ATR_LEFT",
@@ -8616,12 +7382,6 @@
                 ]
             },
             {
-                "extension": [
-                    {
-                        "url": "http://hl7.org/fhir/StructureDefinition/valueset-definition",
-                        "valueString": "Systolic pressure of the blood in the left atrium of the heart"
-                    }
-                ],
                 "system": "urn:iso:std:iso:11073:10101",
                 "code": "150065",
                 "display": "MDC_PRESS_BLD_ATR_LEFT_SYS",
@@ -8638,12 +7398,6 @@
                 ]
             },
             {
-                "extension": [
-                    {
-                        "url": "http://hl7.org/fhir/StructureDefinition/valueset-definition",
-                        "valueString": "Diastolic pressure of the blood in the left atrium of the heart"
-                    }
-                ],
                 "system": "urn:iso:std:iso:11073:10101",
                 "code": "150066",
                 "display": "MDC_PRESS_BLD_ATR_LEFT_DIA",
@@ -8660,12 +7414,6 @@
                 ]
             },
             {
-                "extension": [
-                    {
-                        "url": "http://hl7.org/fhir/StructureDefinition/valueset-definition",
-                        "valueString": "Mean pressure of the blood in the left atrium of the heart"
-                    }
-                ],
                 "system": "urn:iso:std:iso:11073:10101",
                 "code": "150067",
                 "display": "MDC_PRESS_BLD_ATR_LEFT_MEAN",
@@ -8682,12 +7430,6 @@
                 ]
             },
             {
-                "extension": [
-                    {
-                        "url": "http://hl7.org/fhir/StructureDefinition/valueset-definition",
-                        "valueString": "Pressure of the blood in the right atrium of the heart"
-                    }
-                ],
                 "system": "urn:iso:std:iso:11073:10101",
                 "code": "150068",
                 "display": "MDC_PRESS_BLD_ATR_RIGHT",
@@ -8707,12 +7449,6 @@
                 ]
             },
             {
-                "extension": [
-                    {
-                        "url": "http://hl7.org/fhir/StructureDefinition/valueset-definition",
-                        "valueString": "Systolic pressure of the blood in the right atrium of the heart"
-                    }
-                ],
                 "system": "urn:iso:std:iso:11073:10101",
                 "code": "150069",
                 "display": "MDC_PRESS_BLD_ATR_RIGHT_SYS",
@@ -8729,12 +7465,6 @@
                 ]
             },
             {
-                "extension": [
-                    {
-                        "url": "http://hl7.org/fhir/StructureDefinition/valueset-definition",
-                        "valueString": "Diastolic pressure of the blood in the right atrium of the heart"
-                    }
-                ],
                 "system": "urn:iso:std:iso:11073:10101",
                 "code": "150070",
                 "display": "MDC_PRESS_BLD_ATR_RIGHT_DIA",
@@ -8751,12 +7481,6 @@
                 ]
             },
             {
-                "extension": [
-                    {
-                        "url": "http://hl7.org/fhir/StructureDefinition/valueset-definition",
-                        "valueString": "Mean pressure of the blood in the right atrium of the heart"
-                    }
-                ],
                 "system": "urn:iso:std:iso:11073:10101",
                 "code": "150071",
                 "display": "MDC_PRESS_BLD_ATR_RIGHT_MEAN",
@@ -8773,12 +7497,6 @@
                 ]
             },
             {
-                "extension": [
-                    {
-                        "url": "http://hl7.org/fhir/StructureDefinition/valueset-definition",
-                        "valueString": "Pressure of the blood in the pulmonary capillaries"
-                    }
-                ],
                 "system": "urn:iso:std:iso:11073:10101",
                 "code": "150076",
                 "display": "MDC_PRESS_BLD_PULM_CAP",
@@ -8798,12 +7516,6 @@
                 ]
             },
             {
-                "extension": [
-                    {
-                        "url": "http://hl7.org/fhir/StructureDefinition/valueset-definition",
-                        "valueString": "Systolic pressure of the blood in the pulmonary capillaries"
-                    }
-                ],
                 "system": "urn:iso:std:iso:11073:10101",
                 "code": "150077",
                 "display": "MDC_PRESS_BLD_PULM_CAP_SYS",
@@ -8820,12 +7532,6 @@
                 ]
             },
             {
-                "extension": [
-                    {
-                        "url": "http://hl7.org/fhir/StructureDefinition/valueset-definition",
-                        "valueString": "Diastolic pressure of the blood in the pulmonary capillaries"
-                    }
-                ],
                 "system": "urn:iso:std:iso:11073:10101",
                 "code": "150078",
                 "display": "MDC_PRESS_BLD_PULM_CAP_DIA",
@@ -8842,12 +7548,6 @@
                 ]
             },
             {
-                "extension": [
-                    {
-                        "url": "http://hl7.org/fhir/StructureDefinition/valueset-definition",
-                        "valueString": "Mean pressure of the blood in the pulmonary capillaries"
-                    }
-                ],
                 "system": "urn:iso:std:iso:11073:10101",
                 "code": "150079",
                 "display": "MDC_PRESS_BLD_PULM_CAP_MEAN",
@@ -8864,12 +7564,6 @@
                 ]
             },
             {
-                "extension": [
-                    {
-                        "url": "http://hl7.org/fhir/StructureDefinition/valueset-definition",
-                        "valueString": "Pressure of the blood in body veins"
-                    }
-                ],
                 "system": "urn:iso:std:iso:11073:10101",
                 "code": "150080",
                 "display": "MDC_PRESS_BLD_VEN",
@@ -8889,12 +7583,6 @@
                 ]
             },
             {
-                "extension": [
-                    {
-                        "url": "http://hl7.org/fhir/StructureDefinition/valueset-definition",
-                        "valueString": "Pressure of the blood in the thoracic venae cavae"
-                    }
-                ],
                 "system": "urn:iso:std:iso:11073:10101",
                 "code": "150084",
                 "display": "MDC_PRESS_BLD_VEN_CENT",
@@ -8914,12 +7602,6 @@
                 ]
             },
             {
-                "extension": [
-                    {
-                        "url": "http://hl7.org/fhir/StructureDefinition/valueset-definition",
-                        "valueString": "Systolic pressure of the blood in the thoracic venae cavae"
-                    }
-                ],
                 "system": "urn:iso:std:iso:11073:10101",
                 "code": "150085",
                 "display": "MDC_PRESS_BLD_VEN_CENT_SYS",
@@ -8936,12 +7618,6 @@
                 ]
             },
             {
-                "extension": [
-                    {
-                        "url": "http://hl7.org/fhir/StructureDefinition/valueset-definition",
-                        "valueString": "Diastolic pressure of the blood in the thoracic venae cavae"
-                    }
-                ],
                 "system": "urn:iso:std:iso:11073:10101",
                 "code": "150086",
                 "display": "MDC_PRESS_BLD_VEN_CENT_DIA",
@@ -8958,12 +7634,6 @@
                 ]
             },
             {
-                "extension": [
-                    {
-                        "url": "http://hl7.org/fhir/StructureDefinition/valueset-definition",
-                        "valueString": "Mean pressure of the blood in the thoracic venae cavae"
-                    }
-                ],
                 "system": "urn:iso:std:iso:11073:10101",
                 "code": "150087",
                 "display": "MDC_PRESS_BLD_VEN_CENT_MEAN",
@@ -8980,12 +7650,6 @@
                 ]
             },
             {
-                "extension": [
-                    {
-                        "url": "http://hl7.org/fhir/StructureDefinition/valueset-definition",
-                        "valueString": "Pressure of the blood in the umbilical veins of a fetus"
-                    }
-                ],
                 "system": "urn:iso:std:iso:11073:10101",
                 "code": "150088",
                 "display": "MDC_PRESS_BLD_VEN_UMB",
@@ -9005,12 +7669,6 @@
                 ]
             },
             {
-                "extension": [
-                    {
-                        "url": "http://hl7.org/fhir/StructureDefinition/valueset-definition",
-                        "valueString": "Systolic pressure of the blood in the umbilical veins of a fetus"
-                    }
-                ],
                 "system": "urn:iso:std:iso:11073:10101",
                 "code": "150089",
                 "display": "MDC_PRESS_BLD_VEN_UMB_SYS",
@@ -9027,12 +7685,6 @@
                 ]
             },
             {
-                "extension": [
-                    {
-                        "url": "http://hl7.org/fhir/StructureDefinition/valueset-definition",
-                        "valueString": "Diastolic pressure of the blood in the umbilical veins of a fetus"
-                    }
-                ],
                 "system": "urn:iso:std:iso:11073:10101",
                 "code": "150090",
                 "display": "MDC_PRESS_BLD_VEN_UMB_DIA",
@@ -9049,12 +7701,6 @@
                 ]
             },
             {
-                "extension": [
-                    {
-                        "url": "http://hl7.org/fhir/StructureDefinition/valueset-definition",
-                        "valueString": "Mean pressure of the blood in the umbilical veins of a fetus"
-                    }
-                ],
                 "system": "urn:iso:std:iso:11073:10101",
                 "code": "150091",
                 "display": "MDC_PRESS_BLD_VEN_UMB_MEAN",
@@ -9071,12 +7717,6 @@
                 ]
             },
             {
-                "extension": [
-                    {
-                        "url": "http://hl7.org/fhir/StructureDefinition/valueset-definition",
-                        "valueString": "Pressure of the blood in a ventricle of the heart"
-                    }
-                ],
                 "system": "urn:iso:std:iso:11073:10101",
                 "code": "150092",
                 "display": "MDC_PRESS_BLD_VENT",
@@ -9123,12 +7763,6 @@
                 ]
             },
             {
-                "extension": [
-                    {
-                        "url": "http://hl7.org/fhir/StructureDefinition/valueset-definition",
-                        "valueString": "Pressure of the blood in the left ventricle of the heart"
-                    }
-                ],
                 "system": "urn:iso:std:iso:11073:10101",
                 "code": "150100",
                 "display": "MDC_PRESS_BLD_VENT_LEFT",
@@ -9148,12 +7782,6 @@
                 ]
             },
             {
-                "extension": [
-                    {
-                        "url": "http://hl7.org/fhir/StructureDefinition/valueset-definition",
-                        "valueString": "Systolic pressure of the blood in the left ventricle of the heart"
-                    }
-                ],
                 "system": "urn:iso:std:iso:11073:10101",
                 "code": "150101",
                 "display": "MDC_PRESS_BLD_VENT_LEFT_SYS",
@@ -9170,12 +7798,6 @@
                 ]
             },
             {
-                "extension": [
-                    {
-                        "url": "http://hl7.org/fhir/StructureDefinition/valueset-definition",
-                        "valueString": "Diastolic pressure of the blood in the left ventricle of the heart"
-                    }
-                ],
                 "system": "urn:iso:std:iso:11073:10101",
                 "code": "150102",
                 "display": "MDC_PRESS_BLD_VENT_LEFT_DIA",
@@ -9192,12 +7814,6 @@
                 ]
             },
             {
-                "extension": [
-                    {
-                        "url": "http://hl7.org/fhir/StructureDefinition/valueset-definition",
-                        "valueString": "Mean pressure of the blood in the left ventricle of the heart"
-                    }
-                ],
                 "system": "urn:iso:std:iso:11073:10101",
                 "code": "150103",
                 "display": "MDC_PRESS_BLD_VENT_LEFT_MEAN",
@@ -9214,12 +7830,6 @@
                 ]
             },
             {
-                "extension": [
-                    {
-                        "url": "http://hl7.org/fhir/StructureDefinition/valueset-definition",
-                        "valueString": "Pressure of the blood in the right ventricle of the heart"
-                    }
-                ],
                 "system": "urn:iso:std:iso:11073:10101",
                 "code": "150104",
                 "display": "MDC_PRESS_BLD_VENT_RIGHT",
@@ -9239,12 +7849,6 @@
                 ]
             },
             {
-                "extension": [
-                    {
-                        "url": "http://hl7.org/fhir/StructureDefinition/valueset-definition",
-                        "valueString": "Systolic pressure of the blood in the right ventricle of the heart"
-                    }
-                ],
                 "system": "urn:iso:std:iso:11073:10101",
                 "code": "150105",
                 "display": "MDC_PRESS_BLD_VENT_RIGHT_SYS",
@@ -9261,12 +7865,6 @@
                 ]
             },
             {
-                "extension": [
-                    {
-                        "url": "http://hl7.org/fhir/StructureDefinition/valueset-definition",
-                        "valueString": "Diastolic pressure of the blood in the right ventricle of the heart"
-                    }
-                ],
                 "system": "urn:iso:std:iso:11073:10101",
                 "code": "150106",
                 "display": "MDC_PRESS_BLD_VENT_RIGHT_DIA",
@@ -9283,12 +7881,6 @@
                 ]
             },
             {
-                "extension": [
-                    {
-                        "url": "http://hl7.org/fhir/StructureDefinition/valueset-definition",
-                        "valueString": "Mean pressure of the blood in the right ventricle of the heart"
-                    }
-                ],
                 "system": "urn:iso:std:iso:11073:10101",
                 "code": "150107",
                 "display": "MDC_PRESS_BLD_VENT_RIGHT_MEAN",
@@ -9315,12 +7907,6 @@
                 ]
             },
             {
-                "extension": [
-                    {
-                        "url": "http://hl7.org/fhir/StructureDefinition/valueset-definition",
-                        "valueString": "Pressure in the coronary artery, NOS"
-                    }
-                ],
                 "system": "urn:iso:std:iso:11073:10101",
                 "code": "150112",
                 "display": "MDC_PRESS_BLD_CORON_ART",
@@ -9337,12 +7923,6 @@
                 ]
             },
             {
-                "extension": [
-                    {
-                        "url": "http://hl7.org/fhir/StructureDefinition/valueset-definition",
-                        "valueString": "Systolic pressure in the coronary artery, NOS"
-                    }
-                ],
                 "system": "urn:iso:std:iso:11073:10101",
                 "code": "150113",
                 "display": "MDC_PRESS_BLD_CORON_ART_SYS",
@@ -9359,12 +7939,6 @@
                 ]
             },
             {
-                "extension": [
-                    {
-                        "url": "http://hl7.org/fhir/StructureDefinition/valueset-definition",
-                        "valueString": "Diastolic pressure in the coronary artery, NOS"
-                    }
-                ],
                 "system": "urn:iso:std:iso:11073:10101",
                 "code": "150114",
                 "display": "MDC_PRESS_BLD_CORON_ART_DIA",
@@ -9381,12 +7955,6 @@
                 ]
             },
             {
-                "extension": [
-                    {
-                        "url": "http://hl7.org/fhir/StructureDefinition/valueset-definition",
-                        "valueString": "Mean pressure in the coronary artery, NOS"
-                    }
-                ],
                 "system": "urn:iso:std:iso:11073:10101",
                 "code": "150115",
                 "display": "MDC_PRESS_BLD_CORON_ART_MEAN",
@@ -9403,12 +7971,6 @@
                 ]
             },
             {
-                "extension": [
-                    {
-                        "url": "http://hl7.org/fhir/StructureDefinition/valueset-definition",
-                        "valueString": "Pressure in the left coronary artery, NOS"
-                    }
-                ],
                 "system": "urn:iso:std:iso:11073:10101",
                 "code": "150116",
                 "display": "MDC_PRESS_BLD_CORON_ART_L",
@@ -9425,12 +7987,6 @@
                 ]
             },
             {
-                "extension": [
-                    {
-                        "url": "http://hl7.org/fhir/StructureDefinition/valueset-definition",
-                        "valueString": "Systolic pressure in left coronary artery, NOS"
-                    }
-                ],
                 "system": "urn:iso:std:iso:11073:10101",
                 "code": "150117",
                 "display": "MDC_PRESS_BLD_CORON_ART_L_SYS",
@@ -9447,12 +8003,6 @@
                 ]
             },
             {
-                "extension": [
-                    {
-                        "url": "http://hl7.org/fhir/StructureDefinition/valueset-definition",
-                        "valueString": "Diastolic pressure in the left coronary artery, NOS"
-                    }
-                ],
                 "system": "urn:iso:std:iso:11073:10101",
                 "code": "150118",
                 "display": "MDC_PRESS_BLD_CORON_ART_L_DIA",
@@ -9469,12 +8019,6 @@
                 ]
             },
             {
-                "extension": [
-                    {
-                        "url": "http://hl7.org/fhir/StructureDefinition/valueset-definition",
-                        "valueString": "Mean pressure in the left coronary artery, NOS"
-                    }
-                ],
                 "system": "urn:iso:std:iso:11073:10101",
                 "code": "150119",
                 "display": "MDC_PRESS_BLD_CORON_ART_L_MEAN",
@@ -9491,12 +8035,6 @@
                 ]
             },
             {
-                "extension": [
-                    {
-                        "url": "http://hl7.org/fhir/StructureDefinition/valueset-definition",
-                        "valueString": "Pressure in the left coronary artery, anterior descending branch"
-                    }
-                ],
                 "system": "urn:iso:std:iso:11073:10101",
                 "code": "150120",
                 "display": "MDC_PRESS_BLD_CORON_ART_L_ANT_DESCEND",
@@ -9513,12 +8051,6 @@
                 ]
             },
             {
-                "extension": [
-                    {
-                        "url": "http://hl7.org/fhir/StructureDefinition/valueset-definition",
-                        "valueString": "Systolic pressure in the left coronary artery, anterior descending branch"
-                    }
-                ],
                 "system": "urn:iso:std:iso:11073:10101",
                 "code": "150121",
                 "display": "MDC_PRESS_BLD_CORON_ART_L_ANT_DESCEND_SYS",
@@ -9535,12 +8067,6 @@
                 ]
             },
             {
-                "extension": [
-                    {
-                        "url": "http://hl7.org/fhir/StructureDefinition/valueset-definition",
-                        "valueString": "Diastolic pressure in the left coronary artery, anterior descending branch"
-                    }
-                ],
                 "system": "urn:iso:std:iso:11073:10101",
                 "code": "150122",
                 "display": "MDC_PRESS_BLD_CORON_ART_L_ANT_DESCEND_DIA",
@@ -9557,12 +8083,6 @@
                 ]
             },
             {
-                "extension": [
-                    {
-                        "url": "http://hl7.org/fhir/StructureDefinition/valueset-definition",
-                        "valueString": "Mean pressure in the left coronary artery, anterior descending branch"
-                    }
-                ],
                 "system": "urn:iso:std:iso:11073:10101",
                 "code": "150123",
                 "display": "MDC_PRESS_BLD_CORON_ART_L_ANT_DESCEND_MEAN",
@@ -9579,12 +8099,6 @@
                 ]
             },
             {
-                "extension": [
-                    {
-                        "url": "http://hl7.org/fhir/StructureDefinition/valueset-definition",
-                        "valueString": "Pressure in the left coronary artery, circumflex branch"
-                    }
-                ],
                 "system": "urn:iso:std:iso:11073:10101",
                 "code": "150124",
                 "display": "MDC_PRESS_BLD_CORON_ART_L_CIRC",
@@ -9601,12 +8115,6 @@
                 ]
             },
             {
-                "extension": [
-                    {
-                        "url": "http://hl7.org/fhir/StructureDefinition/valueset-definition",
-                        "valueString": "Systolic pressure in the left coronary artery, circumflex branch"
-                    }
-                ],
                 "system": "urn:iso:std:iso:11073:10101",
                 "code": "150125",
                 "display": "MDC_PRESS_BLD_CORON_ART_L_CIRC_SYS",
@@ -9623,12 +8131,6 @@
                 ]
             },
             {
-                "extension": [
-                    {
-                        "url": "http://hl7.org/fhir/StructureDefinition/valueset-definition",
-                        "valueString": "Diastolic pressure in the left coronary artery, circumflex branch"
-                    }
-                ],
                 "system": "urn:iso:std:iso:11073:10101",
                 "code": "150126",
                 "display": "MDC_PRESS_BLD_CORON_ART_L_CIRC_DIA",
@@ -9645,12 +8147,6 @@
                 ]
             },
             {
-                "extension": [
-                    {
-                        "url": "http://hl7.org/fhir/StructureDefinition/valueset-definition",
-                        "valueString": "Mean pressure in the left coronary artery, circumflex branch"
-                    }
-                ],
                 "system": "urn:iso:std:iso:11073:10101",
                 "code": "150127",
                 "display": "MDC_PRESS_BLD_CORON_ART_L_CIRC_MEAN",
@@ -9667,12 +8163,6 @@
                 ]
             },
             {
-                "extension": [
-                    {
-                        "url": "http://hl7.org/fhir/StructureDefinition/valueset-definition",
-                        "valueString": "Pressure in the right coronary artery, NOS"
-                    }
-                ],
                 "system": "urn:iso:std:iso:11073:10101",
                 "code": "150128",
                 "display": "MDC_PRESS_BLD_CORON_ART_R",
@@ -9689,12 +8179,6 @@
                 ]
             },
             {
-                "extension": [
-                    {
-                        "url": "http://hl7.org/fhir/StructureDefinition/valueset-definition",
-                        "valueString": "Systolic pressure in the right coronary artery, NOS"
-                    }
-                ],
                 "system": "urn:iso:std:iso:11073:10101",
                 "code": "150129",
                 "display": "MDC_PRESS_BLD_CORON_ART_R_SYS",
@@ -9711,12 +8195,6 @@
                 ]
             },
             {
-                "extension": [
-                    {
-                        "url": "http://hl7.org/fhir/StructureDefinition/valueset-definition",
-                        "valueString": "Diastolic pressure of the blood in the aorta"
-                    }
-                ],
                 "system": "urn:iso:std:iso:11073:10101",
                 "code": "150130",
                 "display": "MDC_PRESS_BLD_CORON_ART_R_DIA",
@@ -9733,12 +8211,6 @@
                 ]
             },
             {
-                "extension": [
-                    {
-                        "url": "http://hl7.org/fhir/StructureDefinition/valueset-definition",
-                        "valueString": "Mean pressure in the right coronary artery, NOS"
-                    }
-                ],
                 "system": "urn:iso:std:iso:11073:10101",
                 "code": "150131",
                 "display": "MDC_PRESS_BLD_CORON_ART_R_MEAN",
@@ -9755,12 +8227,6 @@
                 ]
             },
             {
-                "extension": [
-                    {
-                        "url": "http://hl7.org/fhir/StructureDefinition/valueset-definition",
-                        "valueString": "Pressure in right coronary artery, posterior descending branch"
-                    }
-                ],
                 "system": "urn:iso:std:iso:11073:10101",
                 "code": "150132",
                 "display": "MDC_PRESS_BLD_CORON_ART_R_POST_DESCEND",
@@ -9777,12 +8243,6 @@
                 ]
             },
             {
-                "extension": [
-                    {
-                        "url": "http://hl7.org/fhir/StructureDefinition/valueset-definition",
-                        "valueString": "Systolic pressure in the right coronary artery, posterior descending branch"
-                    }
-                ],
                 "system": "urn:iso:std:iso:11073:10101",
                 "code": "150133",
                 "display": "MDC_PRESS_BLD_CORON_ART_R_POST_DESCEND_SYS",
@@ -9799,12 +8259,6 @@
                 ]
             },
             {
-                "extension": [
-                    {
-                        "url": "http://hl7.org/fhir/StructureDefinition/valueset-definition",
-                        "valueString": "Diastolic pressure in the right coronary artery, posterior descending branch"
-                    }
-                ],
                 "system": "urn:iso:std:iso:11073:10101",
                 "code": "150134",
                 "display": "MDC_PRESS_BLD_CORON_ART_R_POST_DESCEND_DIA",
@@ -9821,12 +8275,6 @@
                 ]
             },
             {
-                "extension": [
-                    {
-                        "url": "http://hl7.org/fhir/StructureDefinition/valueset-definition",
-                        "valueString": "Mean pressure in the right coronary artery, posterior descending branch"
-                    }
-                ],
                 "system": "urn:iso:std:iso:11073:10101",
                 "code": "150135",
                 "display": "MDC_PRESS_BLD_CORON_ART_R_POST_DESCEND_MEAN",
@@ -9843,12 +8291,6 @@
                 ]
             },
             {
-                "extension": [
-                    {
-                        "url": "http://hl7.org/fhir/StructureDefinition/valueset-definition",
-                        "valueString": "Pressure in the coronary artery, conus artery"
-                    }
-                ],
                 "system": "urn:iso:std:iso:11073:10101",
                 "code": "150136",
                 "display": "MDC_PRESS_BLD_CORON_ART_CONUS",
@@ -9865,12 +8307,6 @@
                 ]
             },
             {
-                "extension": [
-                    {
-                        "url": "http://hl7.org/fhir/StructureDefinition/valueset-definition",
-                        "valueString": "Systolic pressure in the coronary artery, conus artery"
-                    }
-                ],
                 "system": "urn:iso:std:iso:11073:10101",
                 "code": "150137",
                 "display": "MDC_PRESS_BLD_CORON_ART_CONUS_SYS",
@@ -9887,12 +8323,6 @@
                 ]
             },
             {
-                "extension": [
-                    {
-                        "url": "http://hl7.org/fhir/StructureDefinition/valueset-definition",
-                        "valueString": "Diastolic pressure in the coronary artery, conus artery"
-                    }
-                ],
                 "system": "urn:iso:std:iso:11073:10101",
                 "code": "150138",
                 "display": "MDC_PRESS_BLD_CORON_ART_CONUS_DIA",
@@ -9909,12 +8339,6 @@
                 ]
             },
             {
-                "extension": [
-                    {
-                        "url": "http://hl7.org/fhir/StructureDefinition/valueset-definition",
-                        "valueString": "Mean pressure in the coronary artery, conus artery"
-                    }
-                ],
                 "system": "urn:iso:std:iso:11073:10101",
                 "code": "150139",
                 "display": "MDC_PRESS_BLD_CORON_ART_CONUS_MEAN",
@@ -9931,12 +8355,6 @@
                 ]
             },
             {
-                "extension": [
-                    {
-                        "url": "http://hl7.org/fhir/StructureDefinition/valueset-definition",
-                        "valueString": "Pressure in the right coronary artery, marginal branch"
-                    }
-                ],
                 "system": "urn:iso:std:iso:11073:10101",
                 "code": "150140",
                 "display": "MDC_PRESS_BLD_CORON_ART_R_MARG",
@@ -9953,12 +8371,6 @@
                 ]
             },
             {
-                "extension": [
-                    {
-                        "url": "http://hl7.org/fhir/StructureDefinition/valueset-definition",
-                        "valueString": "Systolic pressure in the right coronary artery, marginal branch"
-                    }
-                ],
                 "system": "urn:iso:std:iso:11073:10101",
                 "code": "150141",
                 "display": "MDC_PRESS_BLD_CORON_ART_R_MARG_SYS",
@@ -9975,12 +8387,6 @@
                 ]
             },
             {
-                "extension": [
-                    {
-                        "url": "http://hl7.org/fhir/StructureDefinition/valueset-definition",
-                        "valueString": "Diastolic pressure in the right coronary artery, marginal branch"
-                    }
-                ],
                 "system": "urn:iso:std:iso:11073:10101",
                 "code": "150142",
                 "display": "MDC_PRESS_BLD_CORON_ART_R_MARG_DIA",
@@ -9997,12 +8403,6 @@
                 ]
             },
             {
-                "extension": [
-                    {
-                        "url": "http://hl7.org/fhir/StructureDefinition/valueset-definition",
-                        "valueString": "Mean pressure in the right coronary artery, marginal branch"
-                    }
-                ],
                 "system": "urn:iso:std:iso:11073:10101",
                 "code": "150143",
                 "display": "MDC_PRESS_BLD_CORON_ART_R_MARG_MEAN",
@@ -10029,12 +8429,6 @@
                 ]
             },
             {
-                "extension": [
-                    {
-                        "url": "http://hl7.org/fhir/StructureDefinition/valueset-definition",
-                        "valueString": "Begin-diastolic pressure of the blood in the left ventricle of the heart"
-                    }
-                ],
                 "system": "urn:iso:std:iso:11073:10101",
                 "code": "150146",
                 "display": "MDC_PRESS_BLD_VENT_LEFT_BEGIN_DIA",
@@ -10051,12 +8445,6 @@
                 ]
             },
             {
-                "extension": [
-                    {
-                        "url": "http://hl7.org/fhir/StructureDefinition/valueset-definition",
-                        "valueString": "Mean pressure in left ventricle during systolic phase"
-                    }
-                ],
                 "system": "urn:iso:std:iso:11073:10101",
                 "code": "150149",
                 "display": "MDC_PRESS_BLD_VENT_LEFT_SYS_MEAN",
@@ -10073,12 +8461,6 @@
                 ]
             },
             {
-                "extension": [
-                    {
-                        "url": "http://hl7.org/fhir/StructureDefinition/valueset-definition",
-                        "valueString": "Mean pressure in the left ventricle during diastolic phase"
-                    }
-                ],
                 "system": "urn:iso:std:iso:11073:10101",
                 "code": "150154",
                 "display": "MDC_PRESS_BLD_VENT_LEFT_DIA_MEAN",
@@ -10095,12 +8477,6 @@
                 ]
             },
             {
-                "extension": [
-                    {
-                        "url": "http://hl7.org/fhir/StructureDefinition/valueset-definition",
-                        "valueString": "Oxygen consumption of the body"
-                    }
-                ],
                 "system": "urn:iso:std:iso:11073:10101",
                 "code": "150272",
                 "display": "MDC_SAT_O2_CONSUMP",
@@ -10120,12 +8496,6 @@
                 ]
             },
             {
-                "extension": [
-                    {
-                        "url": "http://hl7.org/fhir/StructureDefinition/valueset-definition",
-                        "valueString": "Quantity of blood pumped by the left ventricle into the aorta per minute"
-                    }
-                ],
                 "system": "urn:iso:std:iso:11073:10101",
                 "code": "150276",
                 "display": "MDC_OUTPUT_CARD",
@@ -10145,12 +8515,6 @@
                 ]
             },
             {
-                "extension": [
-                    {
-                        "url": "http://hl7.org/fhir/StructureDefinition/valueset-definition",
-                        "valueString": "Blood flow [output] in a peripheral femoral artery"
-                    }
-                ],
                 "system": "urn:iso:std:iso:11073:10101",
                 "code": "150280",
                 "display": "MDC_OUTPUT_CARD_ART_BRANCH",
@@ -10167,12 +8531,6 @@
                 ]
             },
             {
-                "extension": [
-                    {
-                        "url": "http://hl7.org/fhir/StructureDefinition/valueset-definition",
-                        "valueString": "Blood flow [output] in a peripheral venous branch"
-                    }
-                ],
                 "system": "urn:iso:std:iso:11073:10101",
                 "code": "150284",
                 "display": "MDC_OUTPUT_CARD_VEN_BRANCH",
@@ -10189,12 +8547,6 @@
                 ]
             },
             {
-                "extension": [
-                    {
-                        "url": "http://hl7.org/fhir/StructureDefinition/valueset-definition",
-                        "valueString": "Change in the size of a part as modified by the circulation of the blood in it"
-                    }
-                ],
                 "system": "urn:iso:std:iso:11073:10101",
                 "code": "150296",
                 "display": "MDC_PLETH_VOL_BLD",
@@ -10221,12 +8573,6 @@
                 ]
             },
             {
-                "extension": [
-                    {
-                        "url": "http://hl7.org/fhir/StructureDefinition/valueset-definition",
-                        "valueString": "Pressure of the blood at the systolic phase, measured discontinuously and noninvasively (cuff)"
-                    }
-                ],
                 "system": "urn:iso:std:iso:11073:10101",
                 "code": "150301",
                 "display": "MDC_PRESS_CUFF_SYS",
@@ -10243,12 +8589,6 @@
                 ]
             },
             {
-                "extension": [
-                    {
-                        "url": "http://hl7.org/fhir/StructureDefinition/valueset-definition",
-                        "valueString": "Pressure of the blood at the diastolic phase, measured discontinuously and noninvasively (cuff)"
-                    }
-                ],
                 "system": "urn:iso:std:iso:11073:10101",
                 "code": "150302",
                 "display": "MDC_PRESS_CUFF_DIA",
@@ -10265,12 +8605,6 @@
                 ]
             },
             {
-                "extension": [
-                    {
-                        "url": "http://hl7.org/fhir/StructureDefinition/valueset-definition",
-                        "valueString": "Pressure of the blood computed as mean value between systolic and diastolic pressures, measured discontinuously and noninvasively (cuff)"
-                    }
-                ],
                 "system": "urn:iso:std:iso:11073:10101",
                 "code": "150303",
                 "display": "MDC_PRESS_CUFF_MEAN",
@@ -10287,12 +8621,6 @@
                 ]
             },
             {
-                "extension": [
-                    {
-                        "url": "http://hl7.org/fhir/StructureDefinition/valueset-definition",
-                        "valueString": "Resistance to blood flow within circulation"
-                    }
-                ],
                 "system": "urn:iso:std:iso:11073:10101",
                 "code": "150304",
                 "display": "MDC_RES_VASC",
@@ -10312,12 +8640,6 @@
                 ]
             },
             {
-                "extension": [
-                    {
-                        "url": "http://hl7.org/fhir/StructureDefinition/valueset-definition",
-                        "valueString": "Resistance to blood flow in the pulmonary vessels"
-                    }
-                ],
                 "system": "urn:iso:std:iso:11073:10101",
                 "code": "150308",
                 "display": "MDC_RES_VASC_PULM",
@@ -10337,12 +8659,6 @@
                 ]
             },
             {
-                "extension": [
-                    {
-                        "url": "http://hl7.org/fhir/StructureDefinition/valueset-definition",
-                        "valueString": "Resistance to blood flow in the systemic circulation"
-                    }
-                ],
                 "system": "urn:iso:std:iso:11073:10101",
                 "code": "150312",
                 "display": "MDC_RES_VASC_SYS",
@@ -10514,12 +8830,6 @@
                 ]
             },
             {
-                "extension": [
-                    {
-                        "url": "http://hl7.org/fhir/StructureDefinition/valueset-definition",
-                        "valueString": "Temperature of an indicator injectate (cold indicator) used to calculate cardiac output"
-                    }
-                ],
                 "system": "urn:iso:std:iso:11073:10101",
                 "code": "150376",
                 "display": "MDC_TEMP_INJ",
@@ -10579,12 +8889,6 @@
                 ]
             },
             {
-                "extension": [
-                    {
-                        "url": "http://hl7.org/fhir/StructureDefinition/valueset-definition",
-                        "valueString": "Volume of blood ejected per beat"
-                    }
-                ],
                 "system": "urn:iso:std:iso:11073:10101",
                 "code": "150404",
                 "display": "MDC_VOL_BLD_STROKE",
@@ -10604,12 +8908,6 @@
                 ]
             },
             {
-                "extension": [
-                    {
-                        "url": "http://hl7.org/fhir/StructureDefinition/valueset-definition",
-                        "valueString": "Volume of blood ejected from the left ventricle per beat"
-                    }
-                ],
                 "system": "urn:iso:std:iso:11073:10101",
                 "code": "150408",
                 "display": "MDC_VOL_BLD_VENT_LEFT_STROKE",
@@ -10629,12 +8927,6 @@
                 ]
             },
             {
-                "extension": [
-                    {
-                        "url": "http://hl7.org/fhir/StructureDefinition/valueset-definition",
-                        "valueString": "Cardiac work"
-                    }
-                ],
                 "system": "urn:iso:std:iso:11073:10101",
                 "code": "150412",
                 "display": "MDC_WK_CARD",
@@ -10654,12 +8946,6 @@
                 ]
             },
             {
-                "extension": [
-                    {
-                        "url": "http://hl7.org/fhir/StructureDefinition/valueset-definition",
-                        "valueString": "Ventricular stroke - work of left side of the heart in one cardiac cycle"
-                    }
-                ],
                 "system": "urn:iso:std:iso:11073:10101",
                 "code": "150416",
                 "display": "MDC_WK_CARD_LEFT",
@@ -10679,12 +8965,6 @@
                 ]
             },
             {
-                "extension": [
-                    {
-                        "url": "http://hl7.org/fhir/StructureDefinition/valueset-definition",
-                        "valueString": "Ventricular stroke - work of right side of the heart in one cardiac cycle"
-                    }
-                ],
                 "system": "urn:iso:std:iso:11073:10101",
                 "code": "150420",
                 "display": "MDC_WK_CARD_RIGHT",
@@ -10704,12 +8984,6 @@
                 ]
             },
             {
-                "extension": [
-                    {
-                        "url": "http://hl7.org/fhir/StructureDefinition/valueset-definition",
-                        "valueString": "Work of left ventricle of the heart in one cardiac cycle"
-                    }
-                ],
                 "system": "urn:iso:std:iso:11073:10101",
                 "code": "150428",
                 "display": "MDC_WK_LV_STROKE",
@@ -10729,12 +9003,6 @@
                 ]
             },
             {
-                "extension": [
-                    {
-                        "url": "http://hl7.org/fhir/StructureDefinition/valueset-definition",
-                        "valueString": "Work of the right ventricle of the heart"
-                    }
-                ],
                 "system": "urn:iso:std:iso:11073:10101",
                 "code": "150432",
                 "display": "MDC_WK_RV",
@@ -10754,12 +9022,6 @@
                 ]
             },
             {
-                "extension": [
-                    {
-                        "url": "http://hl7.org/fhir/StructureDefinition/valueset-definition",
-                        "valueString": "Work of right ventricle of the heart in one cardiac cycle"
-                    }
-                ],
                 "system": "urn:iso:std:iso:11073:10101",
                 "code": "150436",
                 "display": "MDC_WK_RV_STROKE",
@@ -10779,12 +9041,6 @@
                 ]
             },
             {
-                "extension": [
-                    {
-                        "url": "http://hl7.org/fhir/StructureDefinition/valueset-definition",
-                        "valueString": "Work of the left ventricle of the heart"
-                    }
-                ],
                 "system": "urn:iso:std:iso:11073:10101",
                 "code": "150440",
                 "display": "MDC_WK_LV",
@@ -10923,12 +9179,6 @@
                 ]
             },
             {
-                "extension": [
-                    {
-                        "url": "http://hl7.org/fhir/StructureDefinition/valueset-definition",
-                        "valueString": "Tissue perfusion computed as milliliters per minute of blood flow per gram of tissue"
-                    }
-                ],
                 "system": "urn:iso:std:iso:11073:10101",
                 "code": "150488",
                 "display": "MDC_BLD_PERF_INDEX",
@@ -10945,12 +9195,6 @@
                 ]
             },
             {
-                "extension": [
-                    {
-                        "url": "http://hl7.org/fhir/StructureDefinition/valueset-definition",
-                        "valueString": "Quantity of blood pumped by the left ventricle into the aorta per minute, obtained as continuous measurement"
-                    }
-                ],
                 "system": "urn:iso:std:iso:11073:10101",
                 "code": "150492",
                 "display": "MDC_OUTPUT_CARD_CTS",
@@ -10967,12 +9211,6 @@
                 ]
             },
             {
-                "extension": [
-                    {
-                        "url": "http://hl7.org/fhir/StructureDefinition/valueset-definition",
-                        "valueString": "Quantity of blood pumped by the left ventricle into the aorta per minute, obtained as not continuous measurement"
-                    }
-                ],
                 "system": "urn:iso:std:iso:11073:10101",
                 "code": "150496",
                 "display": "MDC_OUTPUT_CARD_NONCTS",
@@ -10999,12 +9237,6 @@
                 ]
             },
             {
-                "extension": [
-                    {
-                        "url": "http://hl7.org/fhir/StructureDefinition/valueset-definition",
-                        "valueString": "End-diastolic pressure of the blood in the left ventricle of the heart"
-                    }
-                ],
                 "system": "urn:iso:std:iso:11073:10101",
                 "code": "150502",
                 "display": "MDC_PRESS_BLD_VENT_LEFT_END_DIA",
@@ -11021,12 +9253,6 @@
                 ]
             },
             {
-                "extension": [
-                    {
-                        "url": "http://hl7.org/fhir/StructureDefinition/valueset-definition",
-                        "valueString": "Maximal positive value of derivative of left ventricular pressure"
-                    }
-                ],
                 "system": "urn:iso:std:iso:11073:10101",
                 "code": "150504",
                 "display": "MDC_INDEX_PRESS_VENT_L_DERIV_POS",
@@ -11043,12 +9269,6 @@
                 ]
             },
             {
-                "extension": [
-                    {
-                        "url": "http://hl7.org/fhir/StructureDefinition/valueset-definition",
-                        "valueString": "Contractility index, maximum value of derivative of left ventricular pressure divided by pressure."
-                    }
-                ],
                 "system": "urn:iso:std:iso:11073:10101",
                 "code": "150508",
                 "display": "MDC_INDEX_PRESS_VENT_L_DERIV_POS_MAX_DIV_P",
@@ -11068,12 +9288,6 @@
                 ]
             },
             {
-                "extension": [
-                    {
-                        "url": "http://hl7.org/fhir/StructureDefinition/valueset-definition",
-                        "valueString": "Maximal negative value of derivative of left ventricular pressure"
-                    }
-                ],
                 "system": "urn:iso:std:iso:11073:10101",
                 "code": "150512",
                 "display": "MDC_INDEX_PRESS_VENT_L_DERIV_NEG_MAX",
@@ -11090,12 +9304,6 @@
                 ]
             },
             {
-                "extension": [
-                    {
-                        "url": "http://hl7.org/fhir/StructureDefinition/valueset-definition",
-                        "valueString": "Mono exponential fit of left ventricular pressure from closing aorta valve until begin diastolic pressure"
-                    }
-                ],
                 "system": "urn:iso:std:iso:11073:10101",
                 "code": "150516",
                 "display": "MDC_INDEX_PRESS_VENT_L_RELAX",
@@ -11115,12 +9323,6 @@
                 ]
             },
             {
-                "extension": [
-                    {
-                        "url": "http://hl7.org/fhir/StructureDefinition/valueset-definition",
-                        "valueString": "Period between opening and closing aortic valve"
-                    }
-                ],
                 "system": "urn:iso:std:iso:11073:10101",
                 "code": "150520",
                 "display": "MDC_TIME_PD_VENT_L_AORT_VALV",
@@ -11140,12 +9342,6 @@
                 ]
             },
             {
-                "extension": [
-                    {
-                        "url": "http://hl7.org/fhir/StructureDefinition/valueset-definition",
-                        "valueString": "Period between closing and opening aortic valve"
-                    }
-                ],
                 "system": "urn:iso:std:iso:11073:10101",
                 "code": "150524",
                 "display": "MDC_TIME_PD_VENT_L_AORT_VALV_DIA_FILL",
@@ -11165,12 +9361,6 @@
                 ]
             },
             {
-                "extension": [
-                    {
-                        "url": "http://hl7.org/fhir/StructureDefinition/valueset-definition",
-                        "valueString": "Volume of the left ventricle at the end of diastolic phase (maximum volume)"
-                    }
-                ],
                 "system": "urn:iso:std:iso:11073:10101",
                 "code": "150528",
                 "display": "MDC_VOL_VENT_L_END_DIA",
@@ -11187,12 +9377,6 @@
                 ]
             },
             {
-                "extension": [
-                    {
-                        "url": "http://hl7.org/fhir/StructureDefinition/valueset-definition",
-                        "valueString": "Volume of the left ventricle at the end of systolic phase (minimum volume)"
-                    }
-                ],
                 "system": "urn:iso:std:iso:11073:10101",
                 "code": "150532",
                 "display": "MDC_VOL_VENT_L_END_SYS",
@@ -11209,12 +9393,6 @@
                 ]
             },
             {
-                "extension": [
-                    {
-                        "url": "http://hl7.org/fhir/StructureDefinition/valueset-definition",
-                        "valueString": "Blood pressure gradient across mitral valve"
-                    }
-                ],
                 "system": "urn:iso:std:iso:11073:10101",
                 "code": "150536",
                 "display": "MDC_GRAD_PRESS_BLD_MITRAL",
@@ -11234,12 +9412,6 @@
                 ]
             },
             {
-                "extension": [
-                    {
-                        "url": "http://hl7.org/fhir/StructureDefinition/valueset-definition",
-                        "valueString": "Mean blood pressure gradient across mitral valve during DFP"
-                    }
-                ],
                 "system": "urn:iso:std:iso:11073:10101",
                 "code": "150539",
                 "display": "MDC_GRAD_PRESS_BLD_MITRAL_MEAN",
@@ -11269,12 +9441,6 @@
                 ]
             },
             {
-                "extension": [
-                    {
-                        "url": "http://hl7.org/fhir/StructureDefinition/valueset-definition",
-                        "valueString": "Peak blood pressure gradient across mitral valve during DFP"
-                    }
-                ],
                 "system": "urn:iso:std:iso:11073:10101",
                 "code": "150541",
                 "display": "MDC_GRAD_PRESS_BLD_MITRAL_POS_MAX",
@@ -11294,12 +9460,6 @@
                 ]
             },
             {
-                "extension": [
-                    {
-                        "url": "http://hl7.org/fhir/StructureDefinition/valueset-definition",
-                        "valueString": "Blood pressure gradient across tricuspid valve"
-                    }
-                ],
                 "system": "urn:iso:std:iso:11073:10101",
                 "code": "150544",
                 "display": "MDC_GRAD_PRESS_BLD_TRICUSP",
@@ -11319,12 +9479,6 @@
                 ]
             },
             {
-                "extension": [
-                    {
-                        "url": "http://hl7.org/fhir/StructureDefinition/valueset-definition",
-                        "valueString": "Mean blood pressure gradient across tricuspid valve"
-                    }
-                ],
                 "system": "urn:iso:std:iso:11073:10101",
                 "code": "150547",
                 "display": "MDC_GRAD_PRESS_BLD_TRICUSP_MEAN",
@@ -11354,12 +9508,6 @@
                 ]
             },
             {
-                "extension": [
-                    {
-                        "url": "http://hl7.org/fhir/StructureDefinition/valueset-definition",
-                        "valueString": "Peak blood pressure gradient across tricuspid valve"
-                    }
-                ],
                 "system": "urn:iso:std:iso:11073:10101",
                 "code": "150549",
                 "display": "MDC_GRAD_PRESS_BLD_TRICUSP_POS_MAX",
@@ -11379,12 +9527,6 @@
                 ]
             },
             {
-                "extension": [
-                    {
-                        "url": "http://hl7.org/fhir/StructureDefinition/valueset-definition",
-                        "valueString": "Blood pressure gradient across pulmonary valve"
-                    }
-                ],
                 "system": "urn:iso:std:iso:11073:10101",
                 "code": "150552",
                 "display": "MDC_GRAD_PRESS_BLD_PULM",
@@ -11404,12 +9546,6 @@
                 ]
             },
             {
-                "extension": [
-                    {
-                        "url": "http://hl7.org/fhir/StructureDefinition/valueset-definition",
-                        "valueString": "Mean blood pressure gradient across pulmonary valve"
-                    }
-                ],
                 "system": "urn:iso:std:iso:11073:10101",
                 "code": "150555",
                 "display": "MDC_GRAD_PRESS_BLD_PULM_MEAN",
@@ -11439,12 +9575,6 @@
                 ]
             },
             {
-                "extension": [
-                    {
-                        "url": "http://hl7.org/fhir/StructureDefinition/valueset-definition",
-                        "valueString": "Peak blood pressure gradient across pulmonary valve"
-                    }
-                ],
                 "system": "urn:iso:std:iso:11073:10101",
                 "code": "150557",
                 "display": "MDC_GRAD_PRESS_BLD_PULM_POS_MAX",
@@ -11464,12 +9594,6 @@
                 ]
             },
             {
-                "extension": [
-                    {
-                        "url": "http://hl7.org/fhir/StructureDefinition/valueset-definition",
-                        "valueString": "Blood pressure gradient across aortic valve"
-                    }
-                ],
                 "system": "urn:iso:std:iso:11073:10101",
                 "code": "150560",
                 "display": "MDC_GRAD_PRESS_BLD_AORT",
@@ -11489,12 +9613,6 @@
                 ]
             },
             {
-                "extension": [
-                    {
-                        "url": "http://hl7.org/fhir/StructureDefinition/valueset-definition",
-                        "valueString": "Mean blood pressure gradient across aortic valve during SEP"
-                    }
-                ],
                 "system": "urn:iso:std:iso:11073:10101",
                 "code": "150563",
                 "display": "MDC_GRAD_PRESS_BLD_AORT_MEAN",
@@ -11524,12 +9642,6 @@
                 ]
             },
             {
-                "extension": [
-                    {
-                        "url": "http://hl7.org/fhir/StructureDefinition/valueset-definition",
-                        "valueString": "Peak blood pressure gradient across aortic valve during SEP"
-                    }
-                ],
                 "system": "urn:iso:std:iso:11073:10101",
                 "code": "150565",
                 "display": "MDC_GRAD_PRESS_BLD_AORT_POS_MAX",
@@ -11579,12 +9691,6 @@
                 ]
             },
             {
-                "extension": [
-                    {
-                        "url": "http://hl7.org/fhir/StructureDefinition/valueset-definition",
-                        "valueString": "The modality of fast-response SpO2 measurement. Rate of sampling of peripheral oxygen saturation by device."
-                    }
-                ],
                 "system": "urn:iso:std:iso:11073:10101",
                 "code": "150580",
                 "display": "MDC_MODALITY_FAST",
@@ -11631,12 +9737,6 @@
                 ]
             },
             {
-                "extension": [
-                    {
-                        "url": "http://hl7.org/fhir/StructureDefinition/valueset-definition",
-                        "valueString": "The modality of slow-response SpO2 measurement. Rate of sampling of peripheral oxygen saturation by device."
-                    }
-                ],
                 "system": "urn:iso:std:iso:11073:10101",
                 "code": "150584",
                 "display": "MDC_MODALITY_SLOW",
@@ -11683,12 +9783,6 @@
                 ]
             },
             {
-                "extension": [
-                    {
-                        "url": "http://hl7.org/fhir/StructureDefinition/valueset-definition",
-                        "valueString": "The modality of spot-check SpO2 measurement.  Peripheral oxygen saturation."
-                    }
-                ],
                 "system": "urn:iso:std:iso:11073:10101",
                 "code": "150588",
                 "display": "MDC_MODALITY_SPOT",
@@ -11735,12 +9829,6 @@
                 ]
             },
             {
-                "extension": [
-                    {
-                        "url": "http://hl7.org/fhir/StructureDefinition/valueset-definition",
-                        "valueString": "Object containing sensor or pulse oximeter-specific status flags"
-                    }
-                ],
                 "system": "urn:iso:std:iso:11073:10101",
                 "code": "150604",
                 "display": "MDC_PULS_OXIM_DEV_STATUS",
@@ -11757,12 +9845,6 @@
                 ]
             },
             {
-                "extension": [
-                    {
-                        "url": "http://hl7.org/fhir/StructureDefinition/valueset-definition",
-                        "valueString": "Object containing status flags representing several characteristics of the pulse event"
-                    }
-                ],
                 "system": "urn:iso:std:iso:11073:10101",
                 "code": "150605",
                 "display": "MDC_PULS_OXIM_PULS_CHAR",
@@ -11779,12 +9861,6 @@
                 ]
             },
             {
-                "extension": [
-                    {
-                        "url": "http://hl7.org/fhir/StructureDefinition/valueset-definition",
-                        "valueString": "Initial acceleration of blood flow in the aorta, which occurs within the first 10 to 20 milliseconds"
-                    }
-                ],
                 "system": "urn:iso:std:iso:11073:10101",
                 "code": "150612",
                 "display": "MDC_ACCELERATION_INDEX",
@@ -11834,12 +9910,6 @@
                 ]
             },
             {
-                "extension": [
-                    {
-                        "url": "http://hl7.org/fhir/StructureDefinition/valueset-definition",
-                        "valueString": "The ratio of the electrical and mechanical systole duration (PEP/LVET)."
-                    }
-                ],
                 "system": "urn:iso:std:iso:11073:10101",
                 "code": "150616",
                 "display": "MDC_SYSTOLIC_TIME_RATIO",
@@ -11889,12 +9959,6 @@
                 ]
             },
             {
-                "extension": [
-                    {
-                        "url": "http://hl7.org/fhir/StructureDefinition/valueset-definition",
-                        "valueString": "The electrical conductivity of the chest cavity, which is primarily determined by the intravascular, intraalveolar and the interstitial fluids in the thorax."
-                    }
-                ],
                 "system": "urn:iso:std:iso:11073:10101",
                 "code": "150620",
                 "display": "MDC_THORACIC_FLUID_CONTENT",
@@ -11944,12 +10008,6 @@
                 ]
             },
             {
-                "extension": [
-                    {
-                        "url": "http://hl7.org/fhir/StructureDefinition/valueset-definition",
-                        "valueString": "The time interval from opening to the closing of the aortic valve (mechanical systole)."
-                    }
-                ],
                 "system": "urn:iso:std:iso:11073:10101",
                 "code": "150624",
                 "display": "MDC_TIME_PD_VENT_L_AORT_EJCT",
@@ -11999,12 +10057,6 @@
                 ]
             },
             {
-                "extension": [
-                    {
-                        "url": "http://hl7.org/fhir/StructureDefinition/valueset-definition",
-                        "valueString": "The time interval from the beginning of electrical stimulation of the ventricles to the opening of the aortic valve (electrical systole)."
-                    }
-                ],
                 "system": "urn:iso:std:iso:11073:10101",
                 "code": "150628",
                 "display": "MDC_TIME_PD_VENT_L_AORT_PRE_EJCT",
@@ -12054,12 +10106,6 @@
                 ]
             },
             {
-                "extension": [
-                    {
-                        "url": "http://hl7.org/fhir/StructureDefinition/valueset-definition",
-                        "valueString": "Peak velocity of blood flow in the aorta."
-                    }
-                ],
                 "system": "urn:iso:std:iso:11073:10101",
                 "code": "150632",
                 "display": "MDC_VELOCITY_INDEX",
@@ -12109,12 +10155,6 @@
                 ]
             },
             {
-                "extension": [
-                    {
-                        "url": "http://hl7.org/fhir/StructureDefinition/valueset-definition",
-                        "valueString": "Left-ventricular stroke volume per heart beat, normalized for body surface area."
-                    }
-                ],
                 "system": "urn:iso:std:iso:11073:10101",
                 "code": "150636",
                 "display": "MDC_VOL_BLD_STROKE_INDEX",
@@ -12164,12 +10204,6 @@
                 ]
             },
             {
-                "extension": [
-                    {
-                        "url": "http://hl7.org/fhir/StructureDefinition/valueset-definition",
-                        "valueString": "Work performed by the left ventricle of the heart to eject the stroke volume over one minute's time, normalized for body surface area."
-                    }
-                ],
                 "system": "urn:iso:std:iso:11073:10101",
                 "code": "150640",
                 "display": "MDC_WK_LV_WORK_INDEX",
@@ -12219,12 +10253,6 @@
                 ]
             },
             {
-                "extension": [
-                    {
-                        "url": "http://hl7.org/fhir/StructureDefinition/valueset-definition",
-                        "valueString": "Work of right ventricle of the heart in one cardiac cycle and related to body surface area (RVSW/BSA)"
-                    }
-                ],
                 "system": "urn:iso:std:iso:11073:10101",
                 "code": "150644",
                 "display": "MDC_WK_RV_STROKE_INDEX",
@@ -12274,12 +10302,6 @@
                 ]
             },
             {
-                "extension": [
-                    {
-                        "url": "http://hl7.org/fhir/StructureDefinition/valueset-definition",
-                        "valueString": "Pressure of the blood in the femoral artery."
-                    }
-                ],
                 "system": "urn:iso:std:iso:11073:10101",
                 "code": "150648",
                 "display": "MDC_PRESS_BLD_ART_FEMORAL",
@@ -12296,12 +10318,6 @@
                 ]
             },
             {
-                "extension": [
-                    {
-                        "url": "http://hl7.org/fhir/StructureDefinition/valueset-definition",
-                        "valueString": "Systolic pressure of the blood in the femoral artery."
-                    }
-                ],
                 "system": "urn:iso:std:iso:11073:10101",
                 "code": "150649",
                 "display": "MDC_PRESS_BLD_ART_FEMORAL_SYS",
@@ -12318,12 +10334,6 @@
                 ]
             },
             {
-                "extension": [
-                    {
-                        "url": "http://hl7.org/fhir/StructureDefinition/valueset-definition",
-                        "valueString": "Mean pressure of the blood in the femoral artery."
-                    }
-                ],
                 "system": "urn:iso:std:iso:11073:10101",
                 "code": "150650",
                 "display": "MDC_PRESS_BLD_ART_FEMORAL_DIA",
@@ -12340,12 +10350,6 @@
                 ]
             },
             {
-                "extension": [
-                    {
-                        "url": "http://hl7.org/fhir/StructureDefinition/valueset-definition",
-                        "valueString": "Diastolic pressure of the blood in the femoral artery."
-                    }
-                ],
                 "system": "urn:iso:std:iso:11073:10101",
                 "code": "150651",
                 "display": "MDC_PRESS_BLD_ART_FEMORAL_MEAN",
@@ -12362,12 +10366,6 @@
                 ]
             },
             {
-                "extension": [
-                    {
-                        "url": "http://hl7.org/fhir/StructureDefinition/valueset-definition",
-                        "valueString": "Flow of the blood in the pulmonary capillaries."
-                    }
-                ],
                 "system": "urn:iso:std:iso:11073:10101",
                 "code": "150652",
                 "display": "MDC_FLOW_BLD_PULM_CAP",
@@ -12414,12 +10412,6 @@
                 ]
             },
             {
-                "extension": [
-                    {
-                        "url": "http://hl7.org/fhir/StructureDefinition/valueset-definition",
-                        "valueString": "Oxygenation Ratio, calculated as the ratio of PaO2 (partial pressure of arterial oxygen) divided by FiO2 (the fractional of inspired oxygen, e.g. FiO2 in air = 0.21)."
-                    }
-                ],
                 "system": "urn:iso:std:iso:11073:10101",
                 "code": "150656",
                 "display": "MDC_O2_OXYGENATION_RATIO",
@@ -12469,12 +10461,6 @@
                 ]
             },
             {
-                "extension": [
-                    {
-                        "url": "http://hl7.org/fhir/StructureDefinition/valueset-definition",
-                        "valueString": "Quantity of blood pumped by the left ventricle into the aorta per minute, specifically by using the Fick method"
-                    }
-                ],
                 "system": "urn:iso:std:iso:11073:10101",
                 "code": "150660",
                 "display": "MDC_OUTPUT_CARDIAC_FICK",
@@ -12524,12 +10510,6 @@
                 ]
             },
             {
-                "extension": [
-                    {
-                        "url": "http://hl7.org/fhir/StructureDefinition/valueset-definition",
-                        "valueString": "Estimated O2 Consumption, normalized by body surface area"
-                    }
-                ],
                 "system": "urn:iso:std:iso:11073:10101",
                 "code": "150664",
                 "display": "MDC_SAT_O2_CONSUMP_INDEX",
@@ -12576,12 +10556,6 @@
                 ]
             },
             {
-                "extension": [
-                    {
-                        "url": "http://hl7.org/fhir/StructureDefinition/valueset-definition",
-                        "valueString": "Estimated O2 Delivery, normalized by body surface area"
-                    }
-                ],
                 "system": "urn:iso:std:iso:11073:10101",
                 "code": "150668",
                 "display": "MDC_SAT_O2_DELIV_INDEX",
@@ -12628,12 +10602,6 @@
                 ]
             },
             {
-                "extension": [
-                    {
-                        "url": "http://hl7.org/fhir/StructureDefinition/valueset-definition",
-                        "valueString": "Note:  this calculated value may be considered invalid under certain conditions, e.g. SpO2 is not sufficiently correlated with PaO2."
-                    }
-                ],
                 "system": "urn:iso:std:iso:11073:10101",
                 "code": "150672",
                 "display": "MDC_SPO2_OXYGENATION_RATIO",
@@ -12683,12 +10651,6 @@
                 ]
             },
             {
-                "extension": [
-                    {
-                        "url": "http://hl7.org/fhir/StructureDefinition/valueset-definition",
-                        "valueString": "Pressure of the blood in the femoral vein."
-                    }
-                ],
                 "system": "urn:iso:std:iso:11073:10101",
                 "code": "150676",
                 "display": "MDC_PRESS_BLD_VEN_FEMORAL",
@@ -12735,12 +10697,6 @@
                 ]
             },
             {
-                "extension": [
-                    {
-                        "url": "http://hl7.org/fhir/StructureDefinition/valueset-definition",
-                        "valueString": "Pressure of the blood in the brachial artery."
-                    }
-                ],
                 "system": "urn:iso:std:iso:11073:10101",
                 "code": "150680",
                 "display": "MDC_PRESS_BLD_ART_BRACHIAL",
@@ -12803,12 +10759,6 @@
                 ]
             },
             {
-                "extension": [
-                    {
-                        "url": "http://hl7.org/fhir/StructureDefinition/valueset-definition",
-                        "valueString": "Lowest O2 Saturation allowed without alarm generation"
-                    }
-                ],
                 "system": "urn:iso:std:iso:11073:10101",
                 "code": "150685",
                 "display": "MDCX_DIALY_O2_SAT_MIN_NON_ALM",
@@ -12885,12 +10835,6 @@
                 ]
             },
             {
-                "extension": [
-                    {
-                        "url": "http://hl7.org/fhir/StructureDefinition/valueset-definition",
-                        "valueString": "Rate of breathing; method not specified"
-                    }
-                ],
                 "system": "urn:iso:std:iso:11073:10101",
                 "code": "151562",
                 "display": "MDC_RESP_RATE",
@@ -12930,12 +10874,6 @@
                 ]
             },
             {
-                "extension": [
-                    {
-                        "url": "http://hl7.org/fhir/StructureDefinition/valueset-definition",
-                        "valueString": "Rate of breathing; method: direct airway flow measurement."
-                    }
-                ],
                 "system": "urn:iso:std:iso:11073:10101",
                 "code": "151570",
                 "display": "MDC_AWAY_RESP_RATE",
@@ -13005,12 +10943,6 @@
                 ]
             },
             {
-                "extension": [
-                    {
-                        "url": "http://hl7.org/fhir/StructureDefinition/valueset-definition",
-                        "valueString": "Rate of breathing; method: transthoracic impedance variations"
-                    }
-                ],
                 "system": "urn:iso:std:iso:11073:10101",
                 "code": "151578",
                 "display": "MDC_TTHOR_RESP_RATE",
@@ -13080,12 +11012,6 @@
                 ]
             },
             {
-                "extension": [
-                    {
-                        "url": "http://hl7.org/fhir/StructureDefinition/valueset-definition",
-                        "valueString": "Rate of mechanical ventilation; method not specified"
-                    }
-                ],
                 "system": "urn:iso:std:iso:11073:10101",
                 "code": "151586",
                 "display": "MDC_VENT_RESP_RATE",
@@ -13155,12 +11081,6 @@
                 ]
             },
             {
-                "extension": [
-                    {
-                        "url": "http://hl7.org/fhir/StructureDefinition/valueset-definition",
-                        "valueString": "Rate of breathing; method: carbon dioxide measurement"
-                    }
-                ],
                 "system": "urn:iso:std:iso:11073:10101",
                 "code": "151594",
                 "display": "MDC_CO2_RESP_RATE",
@@ -13230,12 +11150,6 @@
                 ]
             },
             {
-                "extension": [
-                    {
-                        "url": "http://hl7.org/fhir/StructureDefinition/valueset-definition",
-                        "valueString": "Rate of breathing; method: non-airway pressure measurement, e.g. central venous blood pressure (CVP)."
-                    }
-                ],
                 "system": "urn:iso:std:iso:11073:10101",
                 "code": "151602",
                 "display": "MDC_PRESS_RESP_RATE",
@@ -13305,12 +11219,6 @@
                 ]
             },
             {
-                "extension": [
-                    {
-                        "url": "http://hl7.org/fhir/StructureDefinition/valueset-definition",
-                        "valueString": "Rate of mechanical ventilation; method: carbon dioxide concentration measurement.  [This refers to the CO2 respiration rate measured by the ventilator and is not the set ventilator rate nor the ventilator inflation rate; it can include unassisted spontaneous breaths as well.]"
-                    }
-                ],
                 "system": "urn:iso:std:iso:11073:10101",
                 "code": "151610",
                 "display": "MDC_VENT_CO2_RESP_RATE",
@@ -13377,12 +11285,6 @@
                 ]
             },
             {
-                "extension": [
-                    {
-                        "url": "http://hl7.org/fhir/StructureDefinition/valueset-definition",
-                        "valueString": "Rate of mechanical ventilation; method: pressure measurement"
-                    }
-                ],
                 "system": "urn:iso:std:iso:11073:10101",
                 "code": "151618",
                 "display": "MDC_VENT_PRESS_RESP_RATE",
@@ -13449,12 +11351,6 @@
                 ]
             },
             {
-                "extension": [
-                    {
-                        "url": "http://hl7.org/fhir/StructureDefinition/valueset-definition",
-                        "valueString": "Rate of mechanical ventilation, method: volume/flow relation (comment: pediatric)"
-                    }
-                ],
                 "system": "urn:iso:std:iso:11073:10101",
                 "code": "151626",
                 "display": "MDC_VENT_FLOW_RESP_RATE",
@@ -13521,12 +11417,6 @@
                 ]
             },
             {
-                "extension": [
-                    {
-                        "url": "http://hl7.org/fhir/StructureDefinition/valueset-definition",
-                        "valueString": "Number of sighs delivered per minute during mechanical ventilation"
-                    }
-                ],
                 "system": "urn:iso:std:iso:11073:10101",
                 "code": "151634",
                 "display": "MDC_VENT_SIGH_RATE",
@@ -13593,12 +11483,6 @@
                 ]
             },
             {
-                "extension": [
-                    {
-                        "url": "http://hl7.org/fhir/StructureDefinition/valueset-definition",
-                        "valueString": "Number of multiple sighs delivered per minute during mechanical ventilation"
-                    }
-                ],
                 "system": "urn:iso:std:iso:11073:10101",
                 "code": "151642",
                 "display": "MDC_VENT_SIGH_MULT_RATE",
@@ -13665,12 +11549,6 @@
                 ]
             },
             {
-                "extension": [
-                    {
-                        "url": "http://hl7.org/fhir/StructureDefinition/valueset-definition",
-                        "valueString": "Rate of breathing; method: acoustic."
-                    }
-                ],
                 "system": "urn:iso:std:iso:11073:10101",
                 "code": "151650",
                 "display": "MDC_ACOUSTIC_RESP_RATE",
@@ -13740,12 +11618,6 @@
                 ]
             },
             {
-                "extension": [
-                    {
-                        "url": "http://hl7.org/fhir/StructureDefinition/valueset-definition",
-                        "valueString": "Rate of breathing; method: SpO2 plethysmography"
-                    }
-                ],
                 "system": "urn:iso:std:iso:11073:10101",
                 "code": "151658",
                 "display": "MDC_PULS_OXIM_PLETH_RESP_RATE",
@@ -13815,12 +11687,6 @@
                 ]
             },
             {
-                "extension": [
-                    {
-                        "url": "http://hl7.org/fhir/StructureDefinition/valueset-definition",
-                        "valueString": "Spontaneous respiration rate, the rate of breaths initiated and terminated by the patient where pressure and flow/volume delivery are determined by the patient without support or assistance by a ventilator.  [This term may be used with legacy devices and systems where the precise definition of ?spontaneous? is unknown; otherwise, the  more precise term MDC_RESP_BTSD_PS_RATE should be used.]"
-                    }
-                ],
                 "system": "urn:iso:std:iso:11073:10101",
                 "code": "151666",
                 "display": "MDC_RESP_SPONT_RATE",
@@ -13890,12 +11756,6 @@
                 ]
             },
             {
-                "extension": [
-                    {
-                        "url": "http://hl7.org/fhir/StructureDefinition/valueset-definition",
-                        "valueString": "Spontaneous respiration rate, the rate of breaths or inspiratory gas flow initiated by the patient where flow and/or volume is determined by the patient and are delivered with the intention that the breath will be terminated by the patient."
-                    }
-                ],
                 "system": "urn:iso:std:iso:11073:10101",
                 "code": "151674",
                 "display": "MDC_RESP_BTSD_PS_RATE",
@@ -13945,12 +11805,6 @@
                 ]
             },
             {
-                "extension": [
-                    {
-                        "url": "http://hl7.org/fhir/StructureDefinition/valueset-definition",
-                        "valueString": "Difference in volume between maximum inspiration and maximum expiration"
-                    }
-                ],
                 "system": "urn:iso:std:iso:11073:10101",
                 "code": "151680",
                 "display": "MDC_CAPAC_VITAL",
@@ -14000,12 +11854,6 @@
                 ]
             },
             {
-                "extension": [
-                    {
-                        "url": "http://hl7.org/fhir/StructureDefinition/valueset-definition",
-                        "valueString": "Duration of the expiratory phase from the end of expiratory flow to the start of inspiratory flow"
-                    }
-                ],
                 "system": "urn:iso:std:iso:11073:10101",
                 "code": "151684",
                 "display": "MDC_VENT_TIME_PD_EXP_PAUSE",
@@ -14049,12 +11897,6 @@
                 ]
             },
             {
-                "extension": [
-                    {
-                        "url": "http://hl7.org/fhir/StructureDefinition/valueset-definition",
-                        "valueString": "Change of tidal volume per unit change of airway pressure"
-                    }
-                ],
                 "system": "urn:iso:std:iso:11073:10101",
                 "code": "151688",
                 "display": "MDC_COMPL_LUNG",
@@ -14104,12 +11946,6 @@
                 ]
             },
             {
-                "extension": [
-                    {
-                        "url": "http://hl7.org/fhir/StructureDefinition/valueset-definition",
-                        "valueString": "Change of tidal volume per unit change of transthoracic pressure"
-                    }
-                ],
                 "system": "urn:iso:std:iso:11073:10101",
                 "code": "151692",
                 "display": "MDC_COMPL_LUNG_DYN",
@@ -14159,12 +11995,6 @@
                 ]
             },
             {
-                "extension": [
-                    {
-                        "url": "http://hl7.org/fhir/StructureDefinition/valueset-definition",
-                        "valueString": "Change of tidal volume per unit change in esophageal pressure measured statically at expiration end"
-                    }
-                ],
                 "system": "urn:iso:std:iso:11073:10101",
                 "code": "151696",
                 "display": "MDC_COMPL_LUNG_STATIC",
@@ -14214,12 +12044,6 @@
                 ]
             },
             {
-                "extension": [
-                    {
-                        "url": "http://hl7.org/fhir/StructureDefinition/valueset-definition",
-                        "valueString": "Measured partial pressure of carbon dioxide in airway gas"
-                    }
-                ],
                 "system": "urn:iso:std:iso:11073:10101",
                 "code": "151700",
                 "display": "MDC_CONC_AWAY_CO2",
@@ -14269,12 +12093,6 @@
                 ]
             },
             {
-                "extension": [
-                    {
-                        "url": "http://hl7.org/fhir/StructureDefinition/valueset-definition",
-                        "valueString": "Partial pressure of carbon dioxide in airway gas measured at the end of expiration"
-                    }
-                ],
                 "system": "urn:iso:std:iso:11073:10101",
                 "code": "151708",
                 "display": "MDC_CONC_AWAY_CO2_ET",
@@ -14324,12 +12142,6 @@
                 ]
             },
             {
-                "extension": [
-                    {
-                        "url": "http://hl7.org/fhir/StructureDefinition/valueset-definition",
-                        "valueString": "Partial pressure of carbon dioxide in airway gas measured during expiration"
-                    }
-                ],
                 "system": "urn:iso:std:iso:11073:10101",
                 "code": "151712",
                 "display": "MDC_CONC_AWAY_CO2_EXP",
@@ -14379,12 +12191,6 @@
                 ]
             },
             {
-                "extension": [
-                    {
-                        "url": "http://hl7.org/fhir/StructureDefinition/valueset-definition",
-                        "valueString": "Partial pressure of carbon dioxide in airway gas measured during inspiration"
-                    }
-                ],
                 "system": "urn:iso:std:iso:11073:10101",
                 "code": "151716",
                 "display": "MDC_CONC_AWAY_CO2_INSP",
@@ -14434,12 +12240,6 @@
                 ]
             },
             {
-                "extension": [
-                    {
-                        "url": "http://hl7.org/fhir/StructureDefinition/valueset-definition",
-                        "valueString": "Concentration of oxygen in airway during mechanical ventilation"
-                    }
-                ],
                 "system": "urn:iso:std:iso:11073:10101",
                 "code": "151720",
                 "display": "MDC_VENT_CONC_AWAY_O2",
@@ -14489,12 +12289,6 @@
                 ]
             },
             {
-                "extension": [
-                    {
-                        "url": "http://hl7.org/fhir/StructureDefinition/valueset-definition",
-                        "valueString": "Partial pressure of carbon dioxide in airway gas"
-                    }
-                ],
                 "system": "urn:iso:std:iso:11073:10101",
                 "code": "151724",
                 "display": "MDC_AWAY_CO2",
@@ -14544,12 +12338,6 @@
                 ]
             },
             {
-                "extension": [
-                    {
-                        "url": "http://hl7.org/fhir/StructureDefinition/valueset-definition",
-                        "valueString": "Partial pressure of carbon dioxide in airway gas measured at end of expiration"
-                    }
-                ],
                 "system": "urn:iso:std:iso:11073:10101",
                 "code": "151728",
                 "display": "MDC_AWAY_CO2_ET",
@@ -14599,12 +12387,6 @@
                 ]
             },
             {
-                "extension": [
-                    {
-                        "url": "http://hl7.org/fhir/StructureDefinition/valueset-definition",
-                        "valueString": "Partial pressure of carbon dioxide in airway gas measured during expiration"
-                    }
-                ],
                 "system": "urn:iso:std:iso:11073:10101",
                 "code": "151732",
                 "display": "MDC_AWAY_CO2_EXP",
@@ -14654,12 +12436,6 @@
                 ]
             },
             {
-                "extension": [
-                    {
-                        "url": "http://hl7.org/fhir/StructureDefinition/valueset-definition",
-                        "valueString": "Partial pressure of carbon dioxide in airway gas measured in inspiration"
-                    }
-                ],
                 "system": "urn:iso:std:iso:11073:10101",
                 "code": "151736",
                 "display": "MDC_AWAY_CO2_INSP",
@@ -14709,12 +12485,6 @@
                 ]
             },
             {
-                "extension": [
-                    {
-                        "url": "http://hl7.org/fhir/StructureDefinition/valueset-definition",
-                        "valueString": "Partial pressure of oxygen in airway"
-                    }
-                ],
                 "system": "urn:iso:std:iso:11073:10101",
                 "code": "151740",
                 "display": "MDC_AWAY_O2",
@@ -14764,12 +12534,6 @@
                 ]
             },
             {
-                "extension": [
-                    {
-                        "url": "http://hl7.org/fhir/StructureDefinition/valueset-definition",
-                        "valueString": "Difference between inspiratory and expiratory partial pressures of oxygen in airway gas"
-                    }
-                ],
                 "system": "urn:iso:std:iso:11073:10101",
                 "code": "151744",
                 "display": "MDC_CONC_AWAY_O2_DELTA",
@@ -14822,12 +12586,6 @@
                 ]
             },
             {
-                "extension": [
-                    {
-                        "url": "http://hl7.org/fhir/StructureDefinition/valueset-definition",
-                        "valueString": "Partial pressure of oxygen in airway gas measured during expiration"
-                    }
-                ],
                 "system": "urn:iso:std:iso:11073:10101",
                 "code": "151748",
                 "display": "MDC_AWAY_O2_EXP",
@@ -14877,12 +12635,6 @@
                 ]
             },
             {
-                "extension": [
-                    {
-                        "url": "http://hl7.org/fhir/StructureDefinition/valueset-definition",
-                        "valueString": "Partial pressure of oxygen in airway gas measured in inspiration"
-                    }
-                ],
                 "system": "urn:iso:std:iso:11073:10101",
                 "code": "151752",
                 "display": "MDC_AWAY_O2_INSP",

@@ -130,7 +130,7 @@ public class Appointment extends DomainResource {
         bindingName = "AppointmentStatus",
         strength = BindingStrength.Value.REQUIRED,
         description = "The free/busy status of an appointment.",
-        valueSet = "http://hl7.org/fhir/ValueSet/appointmentstatus|4.3.0-CIBUILD"
+        valueSet = "http://hl7.org/fhir/ValueSet/appointmentstatus|4.3.0-cibuild"
     )
     @Required
     private final AppointmentStatus status;
@@ -1683,7 +1683,7 @@ public class Appointment extends DomainResource {
             bindingName = "ParticipantRequired",
             strength = BindingStrength.Value.REQUIRED,
             description = "Is the Participant required to attend the appointment.",
-            valueSet = "http://hl7.org/fhir/ValueSet/participantrequired|4.3.0-CIBUILD"
+            valueSet = "http://hl7.org/fhir/ValueSet/participantrequired|4.3.0-cibuild"
         )
         private final ParticipantRequired required;
         @Summary
@@ -1691,7 +1691,7 @@ public class Appointment extends DomainResource {
             bindingName = "ParticipationStatus",
             strength = BindingStrength.Value.REQUIRED,
             description = "The Participation status of an appointment.",
-            valueSet = "http://hl7.org/fhir/ValueSet/participationstatus|4.3.0-CIBUILD"
+            valueSet = "http://hl7.org/fhir/ValueSet/participationstatus|4.3.0-cibuild"
         )
         @Required
         private final ParticipationStatus status;

@@ -2,7 +2,7 @@
     "resourceType": "ValueSet",
     "id": "device-nametype",
     "meta": {
-        "lastUpdated": "2022-03-03T22:04:06.196Z",
+        "lastUpdated": "2022-04-23T22:21:35.043Z",
         "profile": [
             "http://hl7.org/fhir/StructureDefinition/shareablevalueset"
         ]
@@ -28,7 +28,7 @@
             "value": "urn:oid:2.16.840.1.113883.4.642.3.1083"
         }
     ],
-    "version": "4.3.0-CIBUILD",
+    "version": "4.3.0-cibuild",
     "name": "DeviceNameType",
     "title": "DeviceNameType",
     "status": "draft",
@@ -59,8 +59,8 @@
         ]
     },
     "expansion": {
-        "identifier": "urn:uuid:420338ea-9233-4d6d-8141-7e53ef5a380b",
-        "timestamp": "2022-03-03T22:05:09Z",
+        "identifier": "urn:uuid:cbf1c00e-fd32-446a-9869-897bd759ee35",
+        "timestamp": "2022-04-23T22:23:07Z",
         "total": 6,
         "parameter": [
             {
@@ -73,7 +73,7 @@
             },
             {
                 "name": "version",
-                "valueUri": "http://hl7.org/fhir/device-nametype|4.3.0-CIBUILD"
+                "valueUri": "http://hl7.org/fhir/device-nametype|4.3.0-cibuild"
             }
         ],
         "contains": [

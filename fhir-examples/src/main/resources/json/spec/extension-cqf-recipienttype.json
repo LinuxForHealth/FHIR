@@ -12,10 +12,11 @@
     }
   ],
   "url": "http://hl7.org/fhir/StructureDefinition/cqf-recipientType",
-  "version": "4.3.0-CIBUILD",
+  "version": "4.3.0-cibuild",
   "name": "recipientType",
   "title": "recipientType",
   "status": "draft",
+  "experimental": false,
   "date": "2015-05-30",
   "publisher": "Health Level Seven, Inc. - CDS WG",
   "contact": [
@@ -29,7 +30,7 @@
     }
   ],
   "description": "The type of individual that will consume the response content. This may be different from the requesting user type (e.g. if a clinician is getting disease management guidance for provision to a patient). E.g. patient, healthcare provider or specific type of healthcare provider (physician, nurse, etc.).",
-  "fhirVersion": "4.3.0-CIBUILD",
+  "fhirVersion": "4.3.0-cibuild",
   "mapping": [
     {
       "identity": "rim",

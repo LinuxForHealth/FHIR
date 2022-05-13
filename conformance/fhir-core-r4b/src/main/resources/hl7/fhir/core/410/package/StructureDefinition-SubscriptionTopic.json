@@ -2,7 +2,7 @@
     "resourceType": "StructureDefinition",
     "id": "SubscriptionTopic",
     "meta": {
-        "lastUpdated": "2022-01-01T15:17:18.597Z"
+        "lastUpdated": "2022-04-23T22:21:35.043Z"
     },
     "text": {
         "status": "empty",
@@ -31,10 +31,11 @@
         }
     ],
     "url": "http://hl7.org/fhir/StructureDefinition/SubscriptionTopic",
-    "version": "4.3.0-CIBUILD",
+    "version": "4.3.0-cibuild",
     "name": "SubscriptionTopic",
     "status": "draft",
-    "date": "2022-01-01T15:17:18Z",
+    "experimental": false,
+    "date": "2022-04-23T22:21:35Z",
     "publisher": "Health Level Seven International (FHIR Infrastructure)",
     "contact": [
         {
@@ -55,7 +56,7 @@
         }
     ],
     "description": "Describes a stream of resource state changes identified by trigger criteria and annotated with labels useful to filter projections from this topic.",
-    "fhirVersion": "4.3.0-CIBUILD",
+    "fhirVersion": "4.3.0-cibuild",
     "mapping": [
         {
             "identity": "workflow",
@@ -111,7 +112,7 @@
                         "severity": "error",
                         "human": "If the resource is contained in another resource, it SHALL be referred to from elsewhere in the resource or SHALL refer to the containing resource",
                         "expression": "contained.where(((id.exists() and ('#'+id in (%resource.descendants().reference | %resource.descendants().as(canonical) | %resource.descendants().as(uri) | %resource.descendants().as(url)))) or descendants().where(reference = '#').exists() or descendants().where(as(canonical) = '#').exists() or descendants().where(as(uri) = '#').exists()).not()).trace('unmatched', id).empty()",
-                        "xpath": "not(exists(for $resource in . return (for $contained in $resource/f:contained return $contained[not(descendant::f:*/@value='#' or (exists(f:id) and $resource//f:*/@*=concat('#', $contained/*/f:id/@value)))])))",
+                        "xpath": "not(exists(for $contained in f:contained return $contained[not(exists(parent::*/descendant::f:reference/@value=concat('#', $contained/*/f:id/@value)) or exists(descendant::f:reference[@value='#']))]))",
                         "source": "http://hl7.org/fhir/StructureDefinition/DomainResource"
                     },
                     {
@@ -381,6 +382,16 @@
                         "code": "Resource"
                     }
                 ],
+                "constraint": [
+                    {
+                        "key": "dom-r4b",
+                        "severity": "warning",
+                        "human": "Containing new R4B resources within R4 resources may cause interoperability issues if instances are shared with R4 systems",
+                        "expression": "($this is Citation or $this is Evidence or $this is EvidenceReport or $this is EvidenceVariable or $this is MedicinalProductDefinition or $this is PackagedProductDefinition or $this is AdministrableProductDefinition or $this is Ingredient or $this is ClinicalUseDefinition or $this is RegulatedAuthorization or $this is SubstanceDefinition or $this is SubscriptionStatus or $this is SubscriptionTopic) implies (%resource is Citation or %resource is Evidence or %resource is EvidenceReport or %resource is EvidenceVariable or %resource is MedicinalProductDefinition or %resource is PackagedProductDefinition or %resource is AdministrableProductDefinition or %resource is Ingredient or %resource is ClinicalUseDefinition or %resource is RegulatedAuthorization or %resource is SubstanceDefinition or %resource is SubscriptionStatus or %resource is SubscriptionTopic)",
+                        "xpath": "not(f:Citation|f:Evidence|f:EvidenceReport|f:EvidenceVariable|f:MedicinalProductDefinition|f:PackagedProductDefinition|f:AdministrableProductDefinition|f:Ingredient|f:ClinicalUseDefinition|f:RegulatedAuthorization|f:SubstanceDefinition|f:SubscriptionStatus|f:SubscriptionTopic) or not(parent::f:Citation|parent::f:Evidence|parent::f:EvidenceReport|parent::f:EvidenceVariable|parent::f:MedicinalProductDefinition|parent::f:PackagedProductDefinition|parent::f:AdministrableProductDefinition|parent::f:Ingredient|parent::f:ClinicalUseDefinition|parent::f:RegulatedAuthorization|parent::f:SubstanceDefinition|f:SubscriptionStatus|f:SubscriptionTopic)",
+                        "source": "http://hl7.org/fhir/StructureDefinition/SubscriptionTopic"
+                    }
+                ],
                 "mustSupport": false,
                 "isModifier": false,
                 "isSummary": false,
@@ -496,10 +507,10 @@
             {
                 "id": "SubscriptionTopic.url",
                 "path": "SubscriptionTopic.url",
-                "short": "Logical canonical URL to reference this SubscriptionTopic (globally unique)",
-                "definition": "An absolute URL that is used to identify this SubscriptionTopic when it is referenced in a specification, model, design or an instance. This SHALL be a URL, SHOULD be globally unique, and SHOULD be an address at which this Topic is (or will be) published. The URL SHOULD include the major version of the Topic. For more information see [Technical and Business Versions](resource.html#versions).",
-                "comment": "Can be a urn:uuid: or a urn:oid:, but real http: addresses are preferred.  This is the URI that will be used when making canonical references to this resource.",
-                "requirements": "Allows the SubscriptionTopic to be referenced by a single globally unique identifier.",
+                "short": "Canonical identifier for this subscription topic definition, represented as a URI (globally unique)",
+                "definition": "An absolute URI that is used to identify this subscription topic when it is referenced in a specification, model, design or an instance; also called its canonical identifier. This SHOULD be globally unique and SHOULD be a literal address at which at which an authoritative instance of this subscription topic is (or will be) published. This URL can be the target of a canonical reference. It SHALL remain the same when the subscription topic is stored on different servers.",
+                "comment": "Can be a urn:uuid: or a urn:oid: but real http: addresses are preferred.  Multiple instances may share the same URL if they have a distinct version.\n\nThe determination of when to create a new version of a resource (same url, new version) vs. defining a new artifact is up to the author.  Considerations for making this decision are found in [Technical and Business Versions](resource.html#versions). \n\nIn some cases, the resource can no longer be found at the stated url, but the url itself cannot change. Implementations can use the [meta.source](resource.html#meta) element to indicate where the current master source of the resource can be found.",
+                "requirements": "Allows the subscription topic to be referenced by a single globally unique identifier.",
                 "min": 1,
                 "max": "1",
                 "base": {
@@ -543,10 +554,10 @@
             {
                 "id": "SubscriptionTopic.identifier",
                 "path": "SubscriptionTopic.identifier",
-                "short": "Business Identifier for SubscriptionTopic",
-                "definition": "Business identifiers assigned to this SubscriptionTopic by the performer and/or other systems.  These identifiers remain constant as the resource is updated and propagates from server to server.",
+                "short": "Business Identifier for this subscription topic",
+                "definition": "Business identifiers assigned to this subscription topic by the performer and/or other systems.  These identifiers remain constant as the resource is updated and propagates from server to server.",
                 "comment": "Note: This is a business identifier, not a resource identifier (see [discussion](resource.html#identifiers)).  It is best practice for the identifier to only appear on a single resource instance, however business practices may occasionally dictate that multiple resource instances with the same identifier can exist - possibly even with different resource types.  For example, multiple Patient and a Person resource instance might share the same social insurance number.",
-                "requirements": "Allows identification of the SubscriptionTopic as it is known by various participating systems and in a way that remains consistent across servers.",
+                "requirements": "Allows identification of the subscription topic as it is known by various participating systems and in a way that remains consistent across servers.",
                 "min": 0,
                 "max": "*",
                 "base": {
@@ -590,9 +601,9 @@
             {
                 "id": "SubscriptionTopic.version",
                 "path": "SubscriptionTopic.version",
-                "short": "Business version of the SubscriptionTopic",
-                "definition": "The identifier that is used to identify this version of the SubscriptionTopic when it is referenced in a specification, model, design or instance. This is an arbitrary value managed by the Topic author and is not expected to be globally unique. For example, it might be a timestamp (e.g. yyyymmdd) if a managed version is not available. There is also no expectation that versions are orderable.",
-                "comment": "There may be multiple different instances of a SubscriptionTopic that have the same identifier but different versions.",
+                "short": "Business version of the subscription topic",
+                "definition": "The identifier that is used to identify this version of the subscription topic when it is referenced in a specification, model, design or instance. This is an arbitrary value managed by the Topic author and is not expected to be globally unique. For example, it might be a timestamp (e.g. yyyymmdd) if a managed version is not available. There is also no expectation that versions are orderable.",
+                "comment": "There may be multiple different instances of a subscription topic that have the same identifier but different versions.",
                 "min": 0,
                 "max": "1",
                 "base": {
@@ -636,7 +647,7 @@
             {
                 "id": "SubscriptionTopic.title",
                 "path": "SubscriptionTopic.title",
-                "short": "Name for this SubscriptionTopic (Human friendly)",
+                "short": "Name for this subscription topic (Human friendly)",
                 "definition": "A short, descriptive, user-friendly title for the SubscriptionTopic, for example, \"admission\".",
                 "alias": [
                     "Name",
@@ -772,7 +783,7 @@
                     ],
                     "strength": "required",
                     "description": "The lifecycle status of an artifact.",
-                    "valueSet": "http://hl7.org/fhir/ValueSet/publication-status|4.3.0-CIBUILD"
+                    "valueSet": "http://hl7.org/fhir/ValueSet/publication-status|4.3.0-cibuild"
                 },
                 "mapping": [
                     {
@@ -1392,7 +1403,7 @@
                         "extension": [
                             {
                                 "url": "http://hl7.org/fhir/StructureDefinition/structuredefinition-fhir-type",
-                                "valueUrl": "id"
+                                "valueUrl": "string"
                             }
                         ],
                         "code": "http://hl7.org/fhirpath/System.String"
@@ -1625,7 +1636,7 @@
                     ],
                     "strength": "required",
                     "description": "FHIR RESTful interaction used to filter a resource-based SubscriptionTopic trigger.",
-                    "valueSet": "http://hl7.org/fhir/ValueSet/interaction-trigger|4.3.0-CIBUILD"
+                    "valueSet": "http://hl7.org/fhir/ValueSet/interaction-trigger|4.3.0-cibuild"
                 }
             },
             {
@@ -1679,7 +1690,7 @@
                         "extension": [
                             {
                                 "url": "http://hl7.org/fhir/StructureDefinition/structuredefinition-fhir-type",
-                                "valueUrl": "id"
+                                "valueUrl": "string"
                             }
                         ],
                         "code": "http://hl7.org/fhirpath/System.String"
@@ -1831,7 +1842,7 @@
                 "id": "SubscriptionTopic.resourceTrigger.queryCriteria.resultForCreate",
                 "path": "SubscriptionTopic.resourceTrigger.queryCriteria.resultForCreate",
                 "short": "test-passes | test-fails",
-                "definition": "What behavior a server will exhibit if the previous state of a resource does NOT exist (e.g., prior to a create).",
+                "definition": "For \"create\" interactions, should the \"previous\" criteria count as an automatic pass or an automatic fail.",
                 "min": 0,
                 "max": "1",
                 "base": {
@@ -1866,7 +1877,7 @@
                     ],
                     "strength": "required",
                     "description": "Behavior a server can exhibit when a criteria state does not exist (e.g., state prior to a create or after a delete).",
-                    "valueSet": "http://hl7.org/fhir/ValueSet/subscriptiontopic-cr-behavior|4.3.0-CIBUILD"
+                    "valueSet": "http://hl7.org/fhir/ValueSet/subscriptiontopic-cr-behavior|4.3.0-cibuild"
                 }
             },
             {
@@ -1905,7 +1916,7 @@
                 "id": "SubscriptionTopic.resourceTrigger.queryCriteria.resultForDelete",
                 "path": "SubscriptionTopic.resourceTrigger.queryCriteria.resultForDelete",
                 "short": "test-passes | test-fails",
-                "definition": "What behavior a server will exhibit if the current state of a resource does NOT exist (e.g., after a DELETE).",
+                "definition": "For \"delete\" interactions, should the \"current\" criteria count as an automatic pass or an automatic fail.",
                 "min": 0,
                 "max": "1",
                 "base": {
@@ -1940,7 +1951,7 @@
                     ],
                     "strength": "required",
                     "description": "Behavior a server can exhibit when a criteria state does not exist (e.g., state prior to a create or after a delete).",
-                    "valueSet": "http://hl7.org/fhir/ValueSet/subscriptiontopic-cr-behavior|4.3.0-CIBUILD"
+                    "valueSet": "http://hl7.org/fhir/ValueSet/subscriptiontopic-cr-behavior|4.3.0-cibuild"
                 }
             },
             {
@@ -2063,7 +2074,7 @@
                         "extension": [
                             {
                                 "url": "http://hl7.org/fhir/StructureDefinition/structuredefinition-fhir-type",
-                                "valueUrl": "id"
+                                "valueUrl": "string"
                             }
                         ],
                         "code": "http://hl7.org/fhirpath/System.String"
@@ -2350,7 +2361,7 @@
                         "extension": [
                             {
                                 "url": "http://hl7.org/fhir/StructureDefinition/structuredefinition-fhir-type",
-                                "valueUrl": "id"
+                                "valueUrl": "string"
                             }
                         ],
                         "code": "http://hl7.org/fhirpath/System.String"
@@ -2547,14 +2558,14 @@
             {
                 "id": "SubscriptionTopic.canFilterBy.filterParameter",
                 "path": "SubscriptionTopic.canFilterBy.filterParameter",
-                "short": "Resource Search Parameter or filter parameter defined in this topic that serves as filter key",
+                "short": "Human-readable and computation-friendly name for a filter parameter usable by subscriptions on this topic, via Subscription.filterBy.filterParameter",
                 "definition": "Either the canonical URL to a search parameter (like \"http://hl7.org/fhir/SearchParameter/encounter-patient\") or topic-defined parameter (like \"hub.event\") which is a label for the filter.",
                 "comment": "Chained parameters are allowed (like \"patient.gender\") - but can not use colons or modifiers.",
-                "min": 0,
+                "min": 1,
                 "max": "1",
                 "base": {
                     "path": "SubscriptionTopic.canFilterBy.filterParameter",
-                    "min": 0,
+                    "min": 1,
                     "max": "1"
                 },
                 "type": [
@@ -2577,10 +2588,42 @@
                 "isSummary": true
             },
             {
+                "id": "SubscriptionTopic.canFilterBy.filterDefinition",
+                "path": "SubscriptionTopic.canFilterBy.filterDefinition",
+                "short": "Canonical URL for a filterParameter definition",
+                "definition": "Either the canonical URL to a search parameter (like \"http://hl7.org/fhir/SearchParameter/encounter-patient\") or the officially-defined URI for a shared filter concept (like \"http://example.org/concepts/shared-common-event\").",
+                "comment": "Chained parameters are allowed (like \"patient.gender\") - but can not use colons or modifiers.",
+                "min": 0,
+                "max": "1",
+                "base": {
+                    "path": "SubscriptionTopic.canFilterBy.filterDefinition",
+                    "min": 0,
+                    "max": "1"
+                },
+                "type": [
+                    {
+                        "code": "uri"
+                    }
+                ],
+                "constraint": [
+                    {
+                        "key": "ele-1",
+                        "severity": "error",
+                        "human": "All FHIR elements must have a @value or children",
+                        "expression": "hasValue() or (children().count() > id.count())",
+                        "xpath": "@value|f:*|h:div",
+                        "source": "http://hl7.org/fhir/StructureDefinition/Element"
+                    }
+                ],
+                "mustSupport": false,
+                "isModifier": false,
+                "isSummary": true
+            },
+            {
                 "id": "SubscriptionTopic.canFilterBy.modifier",
                 "path": "SubscriptionTopic.canFilterBy.modifier",
                 "short": "= | eq | ne | gt | lt | ge | le | sa | eb | ap | above | below | in | not-in | of-type",
-                "definition": "Allowable operators to apply when determining matches (Search Modifiers).",
+                "definition": "Allowable operators to apply when determining matches (Search Modifiers).  If the filterParameter is a SearchParameter, this list of modifiers SHALL be a strict subset of the modifiers defined on that SearchParameter.",
                 "min": 0,
                 "max": "*",
                 "base": {
@@ -2615,7 +2658,7 @@
                     ],
                     "strength": "required",
                     "description": "Operator to apply to filter label.",
-                    "valueSet": "http://hl7.org/fhir/ValueSet/subscription-search-modifier|4.3.0-CIBUILD"
+                    "valueSet": "http://hl7.org/fhir/ValueSet/subscription-search-modifier|4.3.0-cibuild"
                 },
                 "mapping": [
                     {
@@ -2681,7 +2724,7 @@
                         "extension": [
                             {
                                 "url": "http://hl7.org/fhir/StructureDefinition/structuredefinition-fhir-type",
-                                "valueUrl": "id"
+                                "valueUrl": "string"
                             }
                         ],
                         "code": "http://hl7.org/fhirpath/System.String"
@@ -2955,10 +2998,10 @@
             {
                 "id": "SubscriptionTopic.url",
                 "path": "SubscriptionTopic.url",
-                "short": "Logical canonical URL to reference this SubscriptionTopic (globally unique)",
-                "definition": "An absolute URL that is used to identify this SubscriptionTopic when it is referenced in a specification, model, design or an instance. This SHALL be a URL, SHOULD be globally unique, and SHOULD be an address at which this Topic is (or will be) published. The URL SHOULD include the major version of the Topic. For more information see [Technical and Business Versions](resource.html#versions).",
-                "comment": "Can be a urn:uuid: or a urn:oid:, but real http: addresses are preferred.  This is the URI that will be used when making canonical references to this resource.",
-                "requirements": "Allows the SubscriptionTopic to be referenced by a single globally unique identifier.",
+                "short": "Canonical identifier for this subscription topic definition, represented as a URI (globally unique)",
+                "definition": "An absolute URI that is used to identify this subscription topic when it is referenced in a specification, model, design or an instance; also called its canonical identifier. This SHOULD be globally unique and SHOULD be a literal address at which at which an authoritative instance of this subscription topic is (or will be) published. This URL can be the target of a canonical reference. It SHALL remain the same when the subscription topic is stored on different servers.",
+                "comment": "Can be a urn:uuid: or a urn:oid: but real http: addresses are preferred.  Multiple instances may share the same URL if they have a distinct version.\n\nThe determination of when to create a new version of a resource (same url, new version) vs. defining a new artifact is up to the author.  Considerations for making this decision are found in [Technical and Business Versions](resource.html#versions). \n\nIn some cases, the resource can no longer be found at the stated url, but the url itself cannot change. Implementations can use the [meta.source](resource.html#meta) element to indicate where the current master source of the resource can be found.",
+                "requirements": "Allows the subscription topic to be referenced by a single globally unique identifier.",
                 "min": 1,
                 "max": "1",
                 "type": [
@@ -2987,10 +3030,10 @@
             {
                 "id": "SubscriptionTopic.identifier",
                 "path": "SubscriptionTopic.identifier",
-                "short": "Business Identifier for SubscriptionTopic",
-                "definition": "Business identifiers assigned to this SubscriptionTopic by the performer and/or other systems.  These identifiers remain constant as the resource is updated and propagates from server to server.",
+                "short": "Business Identifier for this subscription topic",
+                "definition": "Business identifiers assigned to this subscription topic by the performer and/or other systems.  These identifiers remain constant as the resource is updated and propagates from server to server.",
                 "comment": "Note: This is a business identifier, not a resource identifier (see [discussion](resource.html#identifiers)).  It is best practice for the identifier to only appear on a single resource instance, however business practices may occasionally dictate that multiple resource instances with the same identifier can exist - possibly even with different resource types.  For example, multiple Patient and a Person resource instance might share the same social insurance number.",
-                "requirements": "Allows identification of the SubscriptionTopic as it is known by various participating systems and in a way that remains consistent across servers.",
+                "requirements": "Allows identification of the subscription topic as it is known by various participating systems and in a way that remains consistent across servers.",
                 "min": 0,
                 "max": "*",
                 "type": [
@@ -3019,9 +3062,9 @@
             {
                 "id": "SubscriptionTopic.version",
                 "path": "SubscriptionTopic.version",
-                "short": "Business version of the SubscriptionTopic",
-                "definition": "The identifier that is used to identify this version of the SubscriptionTopic when it is referenced in a specification, model, design or instance. This is an arbitrary value managed by the Topic author and is not expected to be globally unique. For example, it might be a timestamp (e.g. yyyymmdd) if a managed version is not available. There is also no expectation that versions are orderable.",
-                "comment": "There may be multiple different instances of a SubscriptionTopic that have the same identifier but different versions.",
+                "short": "Business version of the subscription topic",
+                "definition": "The identifier that is used to identify this version of the subscription topic when it is referenced in a specification, model, design or instance. This is an arbitrary value managed by the Topic author and is not expected to be globally unique. For example, it might be a timestamp (e.g. yyyymmdd) if a managed version is not available. There is also no expectation that versions are orderable.",
+                "comment": "There may be multiple different instances of a subscription topic that have the same identifier but different versions.",
                 "min": 0,
                 "max": "1",
                 "type": [
@@ -3050,7 +3093,7 @@
             {
                 "id": "SubscriptionTopic.title",
                 "path": "SubscriptionTopic.title",
-                "short": "Name for this SubscriptionTopic (Human friendly)",
+                "short": "Name for this subscription topic (Human friendly)",
                 "definition": "A short, descriptive, user-friendly title for the SubscriptionTopic, for example, \"admission\".",
                 "alias": [
                     "Name",
@@ -3141,7 +3184,7 @@
                     ],
                     "strength": "required",
                     "description": "The lifecycle status of an artifact.",
-                    "valueSet": "http://hl7.org/fhir/ValueSet/publication-status|4.3.0-CIBUILD"
+                    "valueSet": "http://hl7.org/fhir/ValueSet/publication-status|4.3.0-cibuild"
                 },
                 "mapping": [
                     {
@@ -3618,7 +3661,7 @@
                     ],
                     "strength": "required",
                     "description": "FHIR RESTful interaction used to filter a resource-based SubscriptionTopic trigger.",
-                    "valueSet": "http://hl7.org/fhir/ValueSet/interaction-trigger|4.3.0-CIBUILD"
+                    "valueSet": "http://hl7.org/fhir/ValueSet/interaction-trigger|4.3.0-cibuild"
                 }
             },
             {
@@ -3658,7 +3701,7 @@
                 "id": "SubscriptionTopic.resourceTrigger.queryCriteria.resultForCreate",
                 "path": "SubscriptionTopic.resourceTrigger.queryCriteria.resultForCreate",
                 "short": "test-passes | test-fails",
-                "definition": "What behavior a server will exhibit if the previous state of a resource does NOT exist (e.g., prior to a create).",
+                "definition": "For \"create\" interactions, should the \"previous\" criteria count as an automatic pass or an automatic fail.",
                 "min": 0,
                 "max": "1",
                 "type": [
@@ -3678,7 +3721,7 @@
                     ],
                     "strength": "required",
                     "description": "Behavior a server can exhibit when a criteria state does not exist (e.g., state prior to a create or after a delete).",
-                    "valueSet": "http://hl7.org/fhir/ValueSet/subscriptiontopic-cr-behavior|4.3.0-CIBUILD"
+                    "valueSet": "http://hl7.org/fhir/ValueSet/subscriptiontopic-cr-behavior|4.3.0-cibuild"
                 }
             },
             {
@@ -3702,7 +3745,7 @@
                 "id": "SubscriptionTopic.resourceTrigger.queryCriteria.resultForDelete",
                 "path": "SubscriptionTopic.resourceTrigger.queryCriteria.resultForDelete",
                 "short": "test-passes | test-fails",
-                "definition": "What behavior a server will exhibit if the current state of a resource does NOT exist (e.g., after a DELETE).",
+                "definition": "For \"delete\" interactions, should the \"current\" criteria count as an automatic pass or an automatic fail.",
                 "min": 0,
                 "max": "1",
                 "type": [
@@ -3722,7 +3765,7 @@
                     ],
                     "strength": "required",
                     "description": "Behavior a server can exhibit when a criteria state does not exist (e.g., state prior to a create or after a delete).",
-                    "valueSet": "http://hl7.org/fhir/ValueSet/subscriptiontopic-cr-behavior|4.3.0-CIBUILD"
+                    "valueSet": "http://hl7.org/fhir/ValueSet/subscriptiontopic-cr-behavior|4.3.0-cibuild"
                 }
             },
             {
@@ -3922,10 +3965,10 @@
             {
                 "id": "SubscriptionTopic.canFilterBy.filterParameter",
                 "path": "SubscriptionTopic.canFilterBy.filterParameter",
-                "short": "Resource Search Parameter or filter parameter defined in this topic that serves as filter key",
+                "short": "Human-readable and computation-friendly name for a filter parameter usable by subscriptions on this topic, via Subscription.filterBy.filterParameter",
                 "definition": "Either the canonical URL to a search parameter (like \"http://hl7.org/fhir/SearchParameter/encounter-patient\") or topic-defined parameter (like \"hub.event\") which is a label for the filter.",
                 "comment": "Chained parameters are allowed (like \"patient.gender\") - but can not use colons or modifiers.",
-                "min": 0,
+                "min": 1,
                 "max": "1",
                 "type": [
                     {
@@ -3937,10 +3980,27 @@
                 "isSummary": true
             },
             {
+                "id": "SubscriptionTopic.canFilterBy.filterDefinition",
+                "path": "SubscriptionTopic.canFilterBy.filterDefinition",
+                "short": "Canonical URL for a filterParameter definition",
+                "definition": "Either the canonical URL to a search parameter (like \"http://hl7.org/fhir/SearchParameter/encounter-patient\") or the officially-defined URI for a shared filter concept (like \"http://example.org/concepts/shared-common-event\").",
+                "comment": "Chained parameters are allowed (like \"patient.gender\") - but can not use colons or modifiers.",
+                "min": 0,
+                "max": "1",
+                "type": [
+                    {
+                        "code": "uri"
+                    }
+                ],
+                "mustSupport": false,
+                "isModifier": false,
+                "isSummary": true
+            },
+            {
                 "id": "SubscriptionTopic.canFilterBy.modifier",
                 "path": "SubscriptionTopic.canFilterBy.modifier",
                 "short": "= | eq | ne | gt | lt | ge | le | sa | eb | ap | above | below | in | not-in | of-type",
-                "definition": "Allowable operators to apply when determining matches (Search Modifiers).",
+                "definition": "Allowable operators to apply when determining matches (Search Modifiers).  If the filterParameter is a SearchParameter, this list of modifiers SHALL be a strict subset of the modifiers defined on that SearchParameter.",
                 "min": 0,
                 "max": "*",
                 "type": [
@@ -3960,7 +4020,7 @@
                     ],
                     "strength": "required",
                     "description": "Operator to apply to filter label.",
-                    "valueSet": "http://hl7.org/fhir/ValueSet/subscription-search-modifier|4.3.0-CIBUILD"
+                    "valueSet": "http://hl7.org/fhir/ValueSet/subscription-search-modifier|4.3.0-cibuild"
                 },
                 "mapping": [
                     {

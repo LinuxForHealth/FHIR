@@ -2,7 +2,7 @@
     "resourceType": "ValueSet",
     "id": "medicationdispense-status",
     "meta": {
-        "lastUpdated": "2022-03-03T22:04:06.196Z",
+        "lastUpdated": "2022-04-23T22:21:35.043Z",
         "profile": [
             "http://hl7.org/fhir/StructureDefinition/shareablevalueset"
         ]
@@ -28,9 +28,10 @@
             "value": "urn:oid:2.16.840.1.113883.4.642.3.1312"
         }
     ],
-    "version": "4.3.0-CIBUILD",
+    "version": "4.3.0-cibuild",
     "name": "MedicationDispense Status Codes",
     "status": "draft",
+    "experimental": false,
     "publisher": "FHIR Project team",
     "contact": [
         {
@@ -51,8 +52,8 @@
         ]
     },
     "expansion": {
-        "identifier": "urn:uuid:953f5505-7e8b-4c9c-b13b-00536f79d061",
-        "timestamp": "2022-03-03T22:05:10Z",
+        "identifier": "urn:uuid:e6f3fb64-27eb-4cba-aed9-9d766d1b77db",
+        "timestamp": "2022-04-23T22:23:08Z",
         "total": 9,
         "parameter": [
             {
@@ -65,7 +66,7 @@
             },
             {
                 "name": "version",
-                "valueUri": "http://terminology.hl7.org/CodeSystem/medicationdispense-status|4.3.0-CIBUILD"
+                "valueUri": "http://terminology.hl7.org/CodeSystem/medicationdispense-status|4.3.0-cibuild"
             }
         ],
         "contains": [

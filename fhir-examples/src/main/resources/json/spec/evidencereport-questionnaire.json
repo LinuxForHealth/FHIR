@@ -9,8 +9,8 @@
       "status": "active",
       "description": "Type options for EvidenceReport.citeAs[x]",
       "expansion": {
-        "identifier": "urn:uuid:94baa213-7f42-4ab7-9329-1ed3aeebeda7",
-        "timestamp": "2022-01-01T15:24:31+00:00",
+        "identifier": "urn:uuid:fe7c9e66-374b-4a2f-8d89-b2d091571955",
+        "timestamp": "2022-04-23T22:29:20+00:00",
         "contains": [
           {
             "system": "http://hl7.org/fhir/resource-types",
@@ -32,8 +32,8 @@
       "status": "active",
       "description": "Type options for EvidenceReport.subject.characteristic.value[x]",
       "expansion": {
-        "identifier": "urn:uuid:9ea755a1-8c4f-46e2-a785-641f323af4f0",
-        "timestamp": "2022-01-01T15:24:31+00:00",
+        "identifier": "urn:uuid:f3736110-72b2-4a6f-af92-0903600717c3",
+        "timestamp": "2022-04-23T22:29:20+00:00",
         "contains": [
           {
             "system": "http://hl7.org/fhir/resource-types",
@@ -70,8 +70,8 @@
       "status": "active",
       "description": "Type options for EvidenceReport.relatesTo.target[x]",
       "expansion": {
-        "identifier": "urn:uuid:27728a89-f40a-420c-b94b-74fcce770d22",
-        "timestamp": "2022-01-01T15:24:31+00:00",
+        "identifier": "urn:uuid:f332ae72-e2b7-4661-80c9-5f1edf9c149d",
+        "timestamp": "2022-04-23T22:29:20+00:00",
         "contains": [
           {
             "system": "http://hl7.org/fhir/data-types",
@@ -92,9 +92,10 @@
       "system": "urn:ietf:rfc:3986"
     }
   ],
-  "version": "4.3.0-CIBUILD",
+  "version": "4.3.0-cibuild",
   "status": "draft",
-  "date": "2022-01-01T15:17:18+00:00",
+  "experimental": false,
+  "date": "2022-04-23T22:21:35+00:00",
   "publisher": "Health Level Seven International (Clinical Decision Support)",
   "item": [
     {
@@ -283,10 +284,9 @@
             {
               "linkId": "EvidenceReport.language.value",
               "text": "language",
-              "type": "coding",
+              "type": "choice",
               "required": false,
-              "repeats": false,
-              "answerConstraint": "optionsOnly"
+              "repeats": false
             }
           ]
         },
@@ -494,10 +494,9 @@
             {
               "linkId": "EvidenceReport.status.value",
               "text": "status",
-              "type": "coding",
+              "type": "choice",
               "required": false,
-              "repeats": false,
-              "answerConstraint": "optionsOrType"
+              "repeats": false
             }
           ]
         },
@@ -679,10 +678,9 @@
             {
               "linkId": "EvidenceReport.citeAs[x]._type",
               "text": "type",
-              "type": "coding",
+              "type": "choice",
               "required": false,
               "repeats": false,
-              "answerConstraint": "optionsOnly",
               "answerValueSet": "#vs2",
               "item": [
                 {
@@ -774,10 +772,9 @@
             {
               "linkId": "EvidenceReport.type.coding",
               "text": "code:",
-              "type": "coding",
+              "type": "choice",
               "required": false,
-              "repeats": false,
-              "answerConstraint": "optionsOnly"
+              "repeats": false
             },
             {
               "linkId": "EvidenceReport.type.text",
@@ -1160,10 +1157,9 @@
                     {
                       "linkId": "EvidenceReport.subject.characteristic.code.coding",
                       "text": "code:",
-                      "type": "coding",
+                      "type": "choice",
                       "required": false,
-                      "repeats": false,
-                      "answerConstraint": "optionsOnly"
+                      "repeats": false
                     },
                     {
                       "linkId": "EvidenceReport.subject.characteristic.code.text",
@@ -1213,10 +1209,9 @@
                     {
                       "linkId": "EvidenceReport.subject.characteristic.value[x]._type",
                       "text": "type",
-                      "type": "coding",
+                      "type": "choice",
                       "required": false,
                       "repeats": false,
-                      "answerConstraint": "optionsOnly",
                       "answerValueSet": "#vs3",
                       "item": [
                         {
@@ -1260,10 +1255,9 @@
                             {
                               "linkId": "EvidenceReport.subject.characteristic.value[x]._null.coding",
                               "text": "code:",
-                              "type": "coding",
+                              "type": "choice",
                               "required": false,
-                              "repeats": false,
-                              "answerConstraint": "optionsOnly"
+                              "repeats": false
                             },
                             {
                               "linkId": "EvidenceReport.subject.characteristic.value[x]._null.text",
@@ -1305,10 +1299,9 @@
                             {
                               "linkId": "EvidenceReport.subject.characteristic.value[x]._null.comparator",
                               "text": "comp:",
-                              "type": "coding",
+                              "type": "choice",
                               "required": false,
-                              "repeats": false,
-                              "answerConstraint": "optionsOnly"
+                              "repeats": false
                             },
                             {
                               "linkId": "EvidenceReport.subject.characteristic.value[x]._null.value",
@@ -1893,10 +1886,9 @@
                 {
                   "linkId": "EvidenceReport.relatesTo.code.value",
                   "text": "code",
-                  "type": "coding",
+                  "type": "choice",
                   "required": false,
-                  "repeats": false,
-                  "answerConstraint": "optionsOrType"
+                  "repeats": false
                 }
               ]
             },
@@ -1939,10 +1931,9 @@
                 {
                   "linkId": "EvidenceReport.relatesTo.target[x]._type",
                   "text": "type",
-                  "type": "coding",
+                  "type": "choice",
                   "required": false,
                   "repeats": false,
-                  "answerConstraint": "optionsOnly",
                   "answerValueSet": "#vs4",
                   "item": [
                     {
@@ -2221,10 +2212,9 @@
                 {
                   "linkId": "EvidenceReport.section.focus.coding",
                   "text": "code:",
-                  "type": "coding",
+                  "type": "choice",
                   "required": false,
-                  "repeats": false,
-                  "answerConstraint": "optionsOnly"
+                  "repeats": false
                 },
                 {
                   "linkId": "EvidenceReport.section.focus.text",
@@ -2411,10 +2401,9 @@
                 {
                   "linkId": "EvidenceReport.section.mode.value",
                   "text": "mode",
-                  "type": "coding",
+                  "type": "choice",
                   "required": false,
-                  "repeats": false,
-                  "answerConstraint": "optionsOrType"
+                  "repeats": false
                 }
               ]
             },
@@ -2457,10 +2446,9 @@
                 {
                   "linkId": "EvidenceReport.section.orderedBy.coding",
                   "text": "code:",
-                  "type": "coding",
+                  "type": "choice",
                   "required": false,
-                  "repeats": false,
-                  "answerConstraint": "optionsOnly"
+                  "repeats": false
                 },
                 {
                   "linkId": "EvidenceReport.section.orderedBy.text",
@@ -2506,10 +2494,9 @@
                 {
                   "linkId": "EvidenceReport.section.entryClassifier.coding",
                   "text": "code:",
-                  "type": "coding",
+                  "type": "choice",
                   "required": false,
-                  "repeats": false,
-                  "answerConstraint": "optionsOnly"
+                  "repeats": false
                 },
                 {
                   "linkId": "EvidenceReport.section.entryClassifier.text",
@@ -2605,10 +2592,9 @@
                 {
                   "linkId": "EvidenceReport.section.entryQuantity.comparator",
                   "text": "comp:",
-                  "type": "coding",
+                  "type": "choice",
                   "required": false,
-                  "repeats": false,
-                  "answerConstraint": "optionsOnly"
+                  "repeats": false
                 },
                 {
                   "linkId": "EvidenceReport.section.entryQuantity.value",
@@ -2679,10 +2665,9 @@
                 {
                   "linkId": "EvidenceReport.section.emptyReason.coding",
                   "text": "code:",
-                  "type": "coding",
+                  "type": "choice",
                   "required": false,
-                  "repeats": false,
-                  "answerConstraint": "optionsOnly"
+                  "repeats": false
                 },
                 {
                   "linkId": "EvidenceReport.section.emptyReason.text",
@@ -2723,6 +2708,655 @@
                   "linkId": "EvidenceReport.section.section-flyover",
                   "text": "A nested sub-section within this section.",
                   "type": "display"
+                },
+                {
+                  "extension": [
+                    {
+                      "url": "http://hl7.org/fhir/StructureDefinition/questionnaire-maxOccurs",
+                      "valueInteger": 1
+                    },
+                    {
+                      "url": "http://hl7.org/fhir/StructureDefinition/questionnaire-fhirType",
+                      "valueString": "string"
+                    }
+                  ],
+                  "linkId": "EvidenceReport.section.id",
+                  "type": "group",
+                  "required": false,
+                  "repeats": true,
+                  "item": [
+                    {
+                      "extension": [
+                        {
+                          "url": "http://hl7.org/fhir/StructureDefinition/questionnaire-itemControl",
+                          "valueCodeableConcept": {
+                            "coding": [
+                              {
+                                "system": "http://hl7.org/fhir/questionnaire-item-control",
+                                "code": "flyover",
+                                "display": "Fly-over"
+                              }
+                            ]
+                          }
+                        }
+                      ],
+                      "linkId": "EvidenceReport.section.id-flyover",
+                      "text": "Unique id for the element within a resource (for internal references). This may be any string value that does not contain spaces.",
+                      "type": "display"
+                    },
+                    {
+                      "linkId": "EvidenceReport.section.id.value",
+                      "text": "Unique id for inter-element referencing",
+                      "type": "string",
+                      "required": false,
+                      "repeats": false
+                    }
+                  ]
+                },
+                {
+                  "linkId": "EvidenceReport.section.extension",
+                  "text": "Additional content defined by implementations",
+                  "type": "group",
+                  "required": false,
+                  "repeats": true,
+                  "item": [
+                    {
+                      "extension": [
+                        {
+                          "url": "http://hl7.org/fhir/StructureDefinition/questionnaire-itemControl",
+                          "valueCodeableConcept": {
+                            "coding": [
+                              {
+                                "system": "http://hl7.org/fhir/questionnaire-item-control",
+                                "code": "flyover",
+                                "display": "Fly-over"
+                              }
+                            ]
+                          }
+                        }
+                      ],
+                      "linkId": "EvidenceReport.section.extension-flyover",
+                      "text": "May be used to represent additional information that is not part of the basic definition of the element. To make the use of extensions safe and manageable, there is a strict set of governance  applied to the definition and use of extensions. Though any implementer can define an extension, there is a set of requirements that SHALL be met as part of the definition of the extension. There can be no stigma associated with the use of extensions by any application, project, or standard - regardless of the institution or jurisdiction that uses or defines the extensions.  The use of extensions is what allows the FHIR specification to retain a core level of simplicity for everyone.",
+                      "type": "display"
+                    }
+                  ]
+                },
+                {
+                  "linkId": "EvidenceReport.section.modifierExtension",
+                  "text": "Extensions that cannot be ignored even if unrecognized",
+                  "type": "group",
+                  "required": false,
+                  "repeats": true,
+                  "item": [
+                    {
+                      "extension": [
+                        {
+                          "url": "http://hl7.org/fhir/StructureDefinition/questionnaire-itemControl",
+                          "valueCodeableConcept": {
+                            "coding": [
+                              {
+                                "system": "http://hl7.org/fhir/questionnaire-item-control",
+                                "code": "flyover",
+                                "display": "Fly-over"
+                              }
+                            ]
+                          }
+                        }
+                      ],
+                      "linkId": "EvidenceReport.section.modifierExtension-flyover",
+                      "text": "May be used to represent additional information that is not part of the basic definition of the element and that modifies the understanding of the element in which it is contained and/or the understanding of the containing element\u0027s descendants. Usually modifier elements provide negation or qualification. To make the use of extensions safe and manageable, there is a strict set of governance applied to the definition and use of extensions. Though any implementer can define an extension, there is a set of requirements that SHALL be met as part of the definition of the extension. Applications processing a resource are required to check for modifier extensions.\n\nModifier extensions SHALL NOT change the meaning of any elements on Resource or DomainResource (including cannot change the meaning of modifierExtension itself). There can be no stigma associated with the use of extensions by any application, project, or standard - regardless of the institution or jurisdiction that uses or defines the extensions.  The use of extensions is what allows the FHIR specification to retain a core level of simplicity for everyone.",
+                      "type": "display"
+                    }
+                  ]
+                },
+                {
+                  "extension": [
+                    {
+                      "url": "http://hl7.org/fhir/StructureDefinition/questionnaire-maxOccurs",
+                      "valueInteger": 1
+                    },
+                    {
+                      "url": "http://hl7.org/fhir/StructureDefinition/questionnaire-fhirType",
+                      "valueString": "string"
+                    }
+                  ],
+                  "linkId": "EvidenceReport.section.title",
+                  "type": "group",
+                  "required": false,
+                  "repeats": true,
+                  "item": [
+                    {
+                      "extension": [
+                        {
+                          "url": "http://hl7.org/fhir/StructureDefinition/questionnaire-itemControl",
+                          "valueCodeableConcept": {
+                            "coding": [
+                              {
+                                "system": "http://hl7.org/fhir/questionnaire-item-control",
+                                "code": "flyover",
+                                "display": "Fly-over"
+                              }
+                            ]
+                          }
+                        }
+                      ],
+                      "linkId": "EvidenceReport.section.title-flyover",
+                      "text": "The label for this particular section.  This will be part of the rendered content for the document, and is often used to build a table of contents. The title identifies the section for a human reader. The title must be consistent with the narrative of the resource that is the target of the section.content reference. Generally, sections SHOULD have titles, but in some documents, it is unnecessary or inappropriate. Typically, this is where a section has subsections that have their own adequately distinguishing title,  or documents that only have a single section.",
+                      "type": "display"
+                    },
+                    {
+                      "linkId": "EvidenceReport.section.title.value",
+                      "text": "Label for section (e.g. for ToC)",
+                      "type": "string",
+                      "required": false,
+                      "repeats": false
+                    }
+                  ]
+                },
+                {
+                  "extension": [
+                    {
+                      "url": "http://hl7.org/fhir/StructureDefinition/questionnaire-maxOccurs",
+                      "valueInteger": 1
+                    },
+                    {
+                      "url": "http://hl7.org/fhir/StructureDefinition/questionnaire-fhirType",
+                      "valueString": "CodeableConcept"
+                    }
+                  ],
+                  "linkId": "EvidenceReport.section.focus",
+                  "text": "Classification of section (recommended)",
+                  "type": "group",
+                  "required": false,
+                  "repeats": true,
+                  "item": [
+                    {
+                      "extension": [
+                        {
+                          "url": "http://hl7.org/fhir/StructureDefinition/questionnaire-itemControl",
+                          "valueCodeableConcept": {
+                            "coding": [
+                              {
+                                "system": "http://hl7.org/fhir/questionnaire-item-control",
+                                "code": "flyover",
+                                "display": "Fly-over"
+                              }
+                            ]
+                          }
+                        }
+                      ],
+                      "linkId": "EvidenceReport.section.focus-flyover",
+                      "text": "A code identifying the kind of content contained within the section. This should be consistent with the section title. The code identifies the section for an automated processor of the document. This is particularly relevant when using profiles to control the structure of the document.   \n\nIf the section has content (instead of sub-sections), the section.code does not change the meaning or interpretation of the resource that is the content of the section in the comments for the section.code.",
+                      "type": "display"
+                    },
+                    {
+                      "linkId": "EvidenceReport.section.focus.coding",
+                      "text": "code:",
+                      "type": "choice",
+                      "required": false,
+                      "repeats": false
+                    },
+                    {
+                      "linkId": "EvidenceReport.section.focus.text",
+                      "text": "text:",
+                      "type": "string",
+                      "required": false,
+                      "repeats": false
+                    }
+                  ]
+                },
+                {
+                  "extension": [
+                    {
+                      "url": "http://hl7.org/fhir/StructureDefinition/questionnaire-maxOccurs",
+                      "valueInteger": 1
+                    },
+                    {
+                      "url": "http://hl7.org/fhir/StructureDefinition/questionnaire-fhirType",
+                      "valueString": "Reference"
+                    }
+                  ],
+                  "linkId": "EvidenceReport.section.focusReference",
+                  "type": "group",
+                  "required": false,
+                  "repeats": true,
+                  "item": [
+                    {
+                      "extension": [
+                        {
+                          "url": "http://hl7.org/fhir/StructureDefinition/questionnaire-itemControl",
+                          "valueCodeableConcept": {
+                            "coding": [
+                              {
+                                "system": "http://hl7.org/fhir/questionnaire-item-control",
+                                "code": "flyover",
+                                "display": "Fly-over"
+                              }
+                            ]
+                          }
+                        }
+                      ],
+                      "linkId": "EvidenceReport.section.focusReference-flyover",
+                      "text": "A definitional Resource identifying the kind of content contained within the section. This should be consistent with the section title.",
+                      "type": "display"
+                    },
+                    {
+                      "extension": [
+                        {
+                          "url": "http://hl7.org/fhir/StructureDefinition/questionnaire-allowedResource",
+                          "valueCode": "Resource"
+                        },
+                        {
+                          "url": "http://hl7.org/fhir/StructureDefinition/questionnaire-referenceFilter",
+                          "valueString": "subject\u003d$subj\u0026patient\u003d$subj\u0026encounter\u003d$encounter"
+                        }
+                      ],
+                      "linkId": "EvidenceReport.section.focusReference.value",
+                      "text": "Classification of section by Resource",
+                      "type": "reference",
+                      "required": false,
+                      "repeats": false
+                    }
+                  ]
+                },
+                {
+                  "extension": [
+                    {
+                      "url": "http://hl7.org/fhir/StructureDefinition/questionnaire-fhirType",
+                      "valueString": "Reference"
+                    }
+                  ],
+                  "linkId": "EvidenceReport.section.author",
+                  "type": "group",
+                  "required": false,
+                  "repeats": true,
+                  "item": [
+                    {
+                      "extension": [
+                        {
+                          "url": "http://hl7.org/fhir/StructureDefinition/questionnaire-itemControl",
+                          "valueCodeableConcept": {
+                            "coding": [
+                              {
+                                "system": "http://hl7.org/fhir/questionnaire-item-control",
+                                "code": "flyover",
+                                "display": "Fly-over"
+                              }
+                            ]
+                          }
+                        }
+                      ],
+                      "linkId": "EvidenceReport.section.author-flyover",
+                      "text": "Identifies who is responsible for the information in this section, not necessarily who typed it in.",
+                      "type": "display"
+                    },
+                    {
+                      "extension": [
+                        {
+                          "url": "http://hl7.org/fhir/StructureDefinition/questionnaire-allowedResource",
+                          "valueCode": "Person, Device, Group, Organization"
+                        },
+                        {
+                          "url": "http://hl7.org/fhir/StructureDefinition/questionnaire-referenceFilter",
+                          "valueString": "subject\u003d$subj\u0026patient\u003d$subj\u0026encounter\u003d$encounter"
+                        }
+                      ],
+                      "linkId": "EvidenceReport.section.author.value",
+                      "text": "Who and/or what authored the section",
+                      "type": "reference",
+                      "required": false,
+                      "repeats": false
+                    }
+                  ]
+                },
+                {
+                  "extension": [
+                    {
+                      "url": "http://hl7.org/fhir/StructureDefinition/questionnaire-maxOccurs",
+                      "valueInteger": 1
+                    }
+                  ],
+                  "linkId": "EvidenceReport.section.text",
+                  "text": "Text summary of the section, for human interpretation",
+                  "type": "group",
+                  "required": false,
+                  "repeats": true,
+                  "item": [
+                    {
+                      "extension": [
+                        {
+                          "url": "http://hl7.org/fhir/StructureDefinition/questionnaire-itemControl",
+                          "valueCodeableConcept": {
+                            "coding": [
+                              {
+                                "system": "http://hl7.org/fhir/questionnaire-item-control",
+                                "code": "flyover",
+                                "display": "Fly-over"
+                              }
+                            ]
+                          }
+                        }
+                      ],
+                      "linkId": "EvidenceReport.section.text-flyover",
+                      "text": "A human-readable narrative that contains the attested content of the section, used to represent the content of the resource to a human. The narrative need not encode all the structured data, but is peferred to contain sufficient detail to make it acceptable for a human to just read the narrative. Document profiles may define what content should be represented in the narrative.",
+                      "type": "display"
+                    }
+                  ]
+                },
+                {
+                  "extension": [
+                    {
+                      "url": "http://hl7.org/fhir/StructureDefinition/questionnaire-maxOccurs",
+                      "valueInteger": 1
+                    },
+                    {
+                      "url": "http://hl7.org/fhir/StructureDefinition/questionnaire-fhirType",
+                      "valueString": "code"
+                    }
+                  ],
+                  "linkId": "EvidenceReport.section.mode",
+                  "type": "group",
+                  "required": false,
+                  "repeats": true,
+                  "item": [
+                    {
+                      "extension": [
+                        {
+                          "url": "http://hl7.org/fhir/StructureDefinition/questionnaire-itemControl",
+                          "valueCodeableConcept": {
+                            "coding": [
+                              {
+                                "system": "http://hl7.org/fhir/questionnaire-item-control",
+                                "code": "flyover",
+                                "display": "Fly-over"
+                              }
+                            ]
+                          }
+                        }
+                      ],
+                      "linkId": "EvidenceReport.section.mode-flyover",
+                      "text": "How the entry list was prepared - whether it is a working list that is suitable for being maintained on an ongoing basis, or if it represents a snapshot of a list of items from another source, or whether it is a prepared list where items may be marked as added, modified or deleted. This element is labeled as a modifier because a change list must not be misunderstood as a complete list.",
+                      "type": "display"
+                    },
+                    {
+                      "linkId": "EvidenceReport.section.mode.value",
+                      "text": "mode",
+                      "type": "choice",
+                      "required": false,
+                      "repeats": false
+                    }
+                  ]
+                },
+                {
+                  "extension": [
+                    {
+                      "url": "http://hl7.org/fhir/StructureDefinition/questionnaire-maxOccurs",
+                      "valueInteger": 1
+                    },
+                    {
+                      "url": "http://hl7.org/fhir/StructureDefinition/questionnaire-fhirType",
+                      "valueString": "CodeableConcept"
+                    }
+                  ],
+                  "linkId": "EvidenceReport.section.orderedBy",
+                  "text": "Order of section entries",
+                  "type": "group",
+                  "required": false,
+                  "repeats": true,
+                  "item": [
+                    {
+                      "extension": [
+                        {
+                          "url": "http://hl7.org/fhir/StructureDefinition/questionnaire-itemControl",
+                          "valueCodeableConcept": {
+                            "coding": [
+                              {
+                                "system": "http://hl7.org/fhir/questionnaire-item-control",
+                                "code": "flyover",
+                                "display": "Fly-over"
+                              }
+                            ]
+                          }
+                        }
+                      ],
+                      "linkId": "EvidenceReport.section.orderedBy-flyover",
+                      "text": "Specifies the order applied to the items in the section entries. Applications SHOULD render ordered lists in the order provided, but MAY allow users to re-order based on their own preferences as well. If there is no order specified, the order is unknown, though there may still be some order.",
+                      "type": "display"
+                    },
+                    {
+                      "linkId": "EvidenceReport.section.orderedBy.coding",
+                      "text": "code:",
+                      "type": "choice",
+                      "required": false,
+                      "repeats": false
+                    },
+                    {
+                      "linkId": "EvidenceReport.section.orderedBy.text",
+                      "text": "text:",
+                      "type": "string",
+                      "required": false,
+                      "repeats": false
+                    }
+                  ]
+                },
+                {
+                  "extension": [
+                    {
+                      "url": "http://hl7.org/fhir/StructureDefinition/questionnaire-fhirType",
+                      "valueString": "CodeableConcept"
+                    }
+                  ],
+                  "linkId": "EvidenceReport.section.entryClassifier",
+                  "text": "Extensible classifiers as content",
+                  "type": "group",
+                  "required": false,
+                  "repeats": true,
+                  "item": [
+                    {
+                      "extension": [
+                        {
+                          "url": "http://hl7.org/fhir/StructureDefinition/questionnaire-itemControl",
+                          "valueCodeableConcept": {
+                            "coding": [
+                              {
+                                "system": "http://hl7.org/fhir/questionnaire-item-control",
+                                "code": "flyover",
+                                "display": "Fly-over"
+                              }
+                            ]
+                          }
+                        }
+                      ],
+                      "linkId": "EvidenceReport.section.entryClassifier-flyover",
+                      "text": "Specifies any type of classification of the evidence report.",
+                      "type": "display"
+                    },
+                    {
+                      "linkId": "EvidenceReport.section.entryClassifier.coding",
+                      "text": "code:",
+                      "type": "choice",
+                      "required": false,
+                      "repeats": false
+                    },
+                    {
+                      "linkId": "EvidenceReport.section.entryClassifier.text",
+                      "text": "text:",
+                      "type": "string",
+                      "required": false,
+                      "repeats": false
+                    }
+                  ]
+                },
+                {
+                  "extension": [
+                    {
+                      "url": "http://hl7.org/fhir/StructureDefinition/questionnaire-fhirType",
+                      "valueString": "Reference"
+                    }
+                  ],
+                  "linkId": "EvidenceReport.section.entryReference",
+                  "type": "group",
+                  "required": false,
+                  "repeats": true,
+                  "item": [
+                    {
+                      "extension": [
+                        {
+                          "url": "http://hl7.org/fhir/StructureDefinition/questionnaire-itemControl",
+                          "valueCodeableConcept": {
+                            "coding": [
+                              {
+                                "system": "http://hl7.org/fhir/questionnaire-item-control",
+                                "code": "flyover",
+                                "display": "Fly-over"
+                              }
+                            ]
+                          }
+                        }
+                      ],
+                      "linkId": "EvidenceReport.section.entryReference-flyover",
+                      "text": "A reference to the actual resource from which the narrative in the section is derived. If there are no entries in the list, an emptyReason SHOULD be provided.",
+                      "type": "display"
+                    },
+                    {
+                      "extension": [
+                        {
+                          "url": "http://hl7.org/fhir/StructureDefinition/questionnaire-allowedResource",
+                          "valueCode": "Resource"
+                        },
+                        {
+                          "url": "http://hl7.org/fhir/StructureDefinition/questionnaire-referenceFilter",
+                          "valueString": "subject\u003d$subj\u0026patient\u003d$subj\u0026encounter\u003d$encounter"
+                        }
+                      ],
+                      "linkId": "EvidenceReport.section.entryReference.value",
+                      "text": "Reference to resources as content",
+                      "type": "reference",
+                      "required": false,
+                      "repeats": false
+                    }
+                  ]
+                },
+                {
+                  "extension": [
+                    {
+                      "url": "http://hl7.org/fhir/StructureDefinition/questionnaire-fhirType",
+                      "valueString": "Quantity"
+                    }
+                  ],
+                  "linkId": "EvidenceReport.section.entryQuantity",
+                  "text": "Quantity as content",
+                  "type": "group",
+                  "required": false,
+                  "repeats": true,
+                  "item": [
+                    {
+                      "extension": [
+                        {
+                          "url": "http://hl7.org/fhir/StructureDefinition/questionnaire-itemControl",
+                          "valueCodeableConcept": {
+                            "coding": [
+                              {
+                                "system": "http://hl7.org/fhir/questionnaire-item-control",
+                                "code": "flyover",
+                                "display": "Fly-over"
+                              }
+                            ]
+                          }
+                        }
+                      ],
+                      "linkId": "EvidenceReport.section.entryQuantity-flyover",
+                      "text": "Quantity as content.",
+                      "type": "display"
+                    },
+                    {
+                      "linkId": "EvidenceReport.section.entryQuantity.comparator",
+                      "text": "comp:",
+                      "type": "choice",
+                      "required": false,
+                      "repeats": false
+                    },
+                    {
+                      "linkId": "EvidenceReport.section.entryQuantity.value",
+                      "text": "value:",
+                      "type": "decimal",
+                      "required": false,
+                      "repeats": false
+                    },
+                    {
+                      "linkId": "EvidenceReport.section.entryQuantity.units",
+                      "text": "units:",
+                      "type": "string",
+                      "required": false,
+                      "repeats": false
+                    },
+                    {
+                      "linkId": "EvidenceReport.section.entryQuantity.code",
+                      "text": "coded units:",
+                      "type": "string",
+                      "required": false,
+                      "repeats": false
+                    },
+                    {
+                      "linkId": "EvidenceReport.section.entryQuantity.system",
+                      "text": "units system:",
+                      "type": "string",
+                      "required": false,
+                      "repeats": false
+                    }
+                  ]
+                },
+                {
+                  "extension": [
+                    {
+                      "url": "http://hl7.org/fhir/StructureDefinition/questionnaire-maxOccurs",
+                      "valueInteger": 1
+                    },
+                    {
+                      "url": "http://hl7.org/fhir/StructureDefinition/questionnaire-fhirType",
+                      "valueString": "CodeableConcept"
+                    }
+                  ],
+                  "linkId": "EvidenceReport.section.emptyReason",
+                  "text": "Why the section is empty",
+                  "type": "group",
+                  "required": false,
+                  "repeats": true,
+                  "item": [
+                    {
+                      "extension": [
+                        {
+                          "url": "http://hl7.org/fhir/StructureDefinition/questionnaire-itemControl",
+                          "valueCodeableConcept": {
+                            "coding": [
+                              {
+                                "system": "http://hl7.org/fhir/questionnaire-item-control",
+                                "code": "flyover",
+                                "display": "Fly-over"
+                              }
+                            ]
+                          }
+                        }
+                      ],
+                      "linkId": "EvidenceReport.section.emptyReason-flyover",
+                      "text": "If the section is empty, why the list is empty. An empty section typically has some text explaining the empty reason. The various reasons for an empty section make a significant interpretation to its interpretation. Note that this code is for use when the entire section content has been suppressed, and not for when individual items are omitted - implementers may consider using a text note or a flag on an entry in these cases.",
+                      "type": "display"
+                    },
+                    {
+                      "linkId": "EvidenceReport.section.emptyReason.coding",
+                      "text": "code:",
+                      "type": "choice",
+                      "required": false,
+                      "repeats": false
+                    },
+                    {
+                      "linkId": "EvidenceReport.section.emptyReason.text",
+                      "text": "text:",
+                      "type": "string",
+                      "required": false,
+                      "repeats": false
+                    }
+                  ]
                 }
               ]
             }

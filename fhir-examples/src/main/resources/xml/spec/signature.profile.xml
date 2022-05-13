@@ -201,10 +201,11 @@
     <valueCode value="trial-use"/>
   </extension>
   <url value="http://hl7.org/fhir/StructureDefinition/Signature"/>
-  <version value="4.3.0-CIBUILD"/>
+  <version value="4.3.0-cibuild"/>
   <name value="Signature"/>
   <status value="draft"/>
-  <date value="2022-01-01T15:17:18+00:00"/>
+  <experimental value="false"/>
+  <date value="2022-04-23T22:21:35+00:00"/>
   <publisher value="HL7 FHIR Standard"/>
   <contact>
     <telecom>
@@ -214,7 +215,7 @@
   </contact>
   <description value="Base StructureDefinition for Signature Type: A signature along with supporting context. The signature may be a digital signature that is cryptographic in nature, or some other signature acceptable to the domain. This other signature may be as simple as a graphical image representing a hand-written signature, or a signature ceremony Different signature approaches have different utilities."/>
   <purpose value="There are a number of places where content must be signed in healthcare."/>
-  <fhirVersion value="4.3.0-CIBUILD"/>
+  <fhirVersion value="4.3.0-cibuild"/>
   <mapping>
     <identity value="rim"/>
     <uri value="http://hl7.org/v3"/>
@@ -272,7 +273,6 @@
         <min value="0"/>
         <max value="1"/>
       </base>
-    <!-- Note: special primitive values have a FHIRPath system type. e.g. this is compiler magic (j) -->
       <type>
         <extension url="http://hl7.org/fhir/StructureDefinition/structuredefinition-fhir-type">
           <valueUrl value="string"/>
@@ -432,7 +432,7 @@
       <path value="Signature.onBehalfOf"/>
       <short value="The party represented"/>
       <definition value="A reference to an application-usable description of the identity that is represented by the signature."/>
-      <comment value="The party that can&#39;t sign. For example a child."/>
+      <comment value="The party that can't sign. For example a child."/>
       <requirements value="used when the signature is on behalf of a non-signer."/>
       <min value="0"/>
       <max value="1"/>
@@ -498,7 +498,7 @@
         </extension>
         <strength value="required"/>
         <description value="BCP 13 (RFCs 2045, 2046, 2047, 4288, 4289 and 2049)"/>
-        <valueSet value="http://hl7.org/fhir/ValueSet/mimetypes|4.3.0-CIBUILD"/>
+        <valueSet value="http://hl7.org/fhir/ValueSet/mimetypes|4.3.0-cibuild"/>
       </binding>
     </element>
     <element id="Signature.sigFormat">
@@ -537,7 +537,7 @@
         </extension>
         <strength value="required"/>
         <description value="BCP 13 (RFCs 2045, 2046, 2047, 4288, 4289 and 2049)"/>
-        <valueSet value="http://hl7.org/fhir/ValueSet/mimetypes|4.3.0-CIBUILD"/>
+        <valueSet value="http://hl7.org/fhir/ValueSet/mimetypes|4.3.0-cibuild"/>
       </binding>
     </element>
     <element id="Signature.data">
@@ -639,7 +639,7 @@
       <path value="Signature.onBehalfOf"/>
       <short value="The party represented"/>
       <definition value="A reference to an application-usable description of the identity that is represented by the signature."/>
-      <comment value="The party that can&#39;t sign. For example a child."/>
+      <comment value="The party that can't sign. For example a child."/>
       <requirements value="used when the signature is on behalf of a non-signer."/>
       <min value="0"/>
       <max value="1"/>
@@ -676,7 +676,7 @@
         </extension>
         <strength value="required"/>
         <description value="BCP 13 (RFCs 2045, 2046, 2047, 4288, 4289 and 2049)"/>
-        <valueSet value="http://hl7.org/fhir/ValueSet/mimetypes|4.3.0-CIBUILD"/>
+        <valueSet value="http://hl7.org/fhir/ValueSet/mimetypes|4.3.0-cibuild"/>
       </binding>
     </element>
     <element id="Signature.sigFormat">
@@ -700,7 +700,7 @@
         </extension>
         <strength value="required"/>
         <description value="BCP 13 (RFCs 2045, 2046, 2047, 4288, 4289 and 2049)"/>
-        <valueSet value="http://hl7.org/fhir/ValueSet/mimetypes|4.3.0-CIBUILD"/>
+        <valueSet value="http://hl7.org/fhir/ValueSet/mimetypes|4.3.0-cibuild"/>
       </binding>
     </element>
     <element id="Signature.data">

@@ -12,14 +12,15 @@
         }
     ],
     "url": "http://hl7.org/fhir/StructureDefinition/resource-pertainsToGoal",
-    "version": "4.3.0-CIBUILD",
+    "version": "4.3.0-cibuild",
     "name": "pertainsToGoal",
     "title": "pertains to goal",
     "status": "draft",
+    "experimental": false,
     "date": "2021-01-17T07:06:13+11:00",
     "publisher": "HL7",
     "description": "Indicates that the resource is related to either the measurement, achievement or progress towards the referenced goal.  For example, a Procedure to exercise pertainsToGoal of losing weight.",
-    "fhirVersion": "4.3.0-CIBUILD",
+    "fhirVersion": "4.3.0-cibuild",
     "mapping": [
         {
             "identity": "rim",

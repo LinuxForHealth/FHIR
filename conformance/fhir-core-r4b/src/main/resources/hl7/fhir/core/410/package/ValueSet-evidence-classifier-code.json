@@ -2,7 +2,7 @@
     "resourceType": "ValueSet",
     "id": "evidence-classifier-code",
     "meta": {
-        "lastUpdated": "2022-03-04T09:04:06.196+11:00",
+        "lastUpdated": "2022-04-24T09:21:35.043+11:00",
         "profile": [
             "http://hl7.org/fhir/StructureDefinition/shareablevalueset"
         ]
@@ -28,7 +28,7 @@
             "value": "urn:oid:2.16.840.1.113883.4.642.3.0"
         }
     ],
-    "version": "4.3.0-CIBUILD",
+    "version": "4.3.0-cibuild",
     "name": "EvidenceClassifier",
     "title": "EvidenceClassifier",
     "status": "draft",
@@ -59,8 +59,8 @@
         ]
     },
     "expansion": {
-        "identifier": "urn:uuid:5f53ba37-426c-4fc1-9e83-090041d88834",
-        "timestamp": "2022-03-03T22:05:30Z",
+        "identifier": "urn:uuid:5ce36587-0f0b-4c2d-a077-9753e26dd2ef",
+        "timestamp": "2022-04-23T22:23:26Z",
         "total": 31,
         "parameter": [
             {
@@ -73,7 +73,7 @@
             },
             {
                 "name": "version",
-                "valueUri": "http://terminology.hl7.org/CodeSystem/evidence-classifier-code|4.3.0-CIBUILD"
+                "valueUri": "http://terminology.hl7.org/CodeSystem/evidence-classifier-code|4.3.0-cibuild"
             }
         ],
         "contains": [

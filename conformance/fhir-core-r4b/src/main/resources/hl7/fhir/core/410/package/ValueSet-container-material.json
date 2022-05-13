@@ -2,7 +2,7 @@
     "resourceType": "ValueSet",
     "id": "container-material",
     "meta": {
-        "lastUpdated": "2022-03-03T22:04:06.196Z",
+        "lastUpdated": "2022-04-23T22:21:35.043Z",
         "profile": [
             "http://hl7.org/fhir/StructureDefinition/shareablevalueset"
         ]
@@ -28,7 +28,7 @@
             "value": "urn:oid:2.16.840.1.113883.4.642.3.1400"
         }
     ],
-    "version": "4.3.0-CIBUILD",
+    "version": "4.3.0-cibuild",
     "name": "ContainerMaterials",
     "title": "Types of material for specimen containers",
     "status": "draft",
@@ -68,11 +68,12 @@
         ]
     },
     "expansion": {
-        "identifier": "urn:uuid:f8883344-e55c-4735-9d5b-289bc6d7b39e",
-        "timestamp": "2021-11-17T05:28:48.257Z",
+        "identifier": "urn:uuid:0a096dea-e74d-4503-b453-982c2befc2e7",
+        "timestamp": "2022-04-23T22:23:26Z",
+        "total": 3,
         "parameter": [
             {
-                "name": "limitedExpansion",
+                "name": "excludeNested",
                 "valueBoolean": true
             },
             {
@@ -80,57 +81,42 @@
                 "valueBoolean": true
             },
             {
-                "name": "excludeNested",
+                "name": "limitedExpansion",
                 "valueBoolean": true
             },
             {
                 "name": "version",
-                "valueUri": "http://snomed.info/sct|http://snomed.info/sct/900000000000207008/version/20200131"
+                "valueUri": "http://snomed.info/sct|http://snomed.info/sct/900000000000207008/version/20200731"
             }
         ],
         "contains": [
             {
                 "system": "http://snomed.info/sct",
                 "code": "32039001",
-                "display": "Glass",
+                "display": "glass",
                 "designation": [
                     {
-                        "value": "Glass"
-                    },
-                    {
-                        "value": "Glass (substance)"
+                        "value": "glass"
                     }
                 ]
             },
             {
                 "system": "http://snomed.info/sct",
                 "code": "61088005",
-                "display": "Plastic",
+                "display": "plastic",
                 "designation": [
                     {
-                        "value": "Plastic"
-                    },
-                    {
-                        "value": "Plastic compound"
-                    },
-                    {
-                        "value": "Plastic substance"
-                    },
-                    {
-                        "value": "Plastic (substance)"
+                        "value": "plastic"
                     }
                 ]
             },
             {
                 "system": "http://snomed.info/sct",
                 "code": "425620007",
-                "display": "Metal (substance)",
+                "display": "metal",
                 "designation": [
                     {
-                        "value": "Metal (substance)"
-                    },
-                    {
-                        "value": "Metal"
+                        "value": "metal"
                     }
                 ]
             }

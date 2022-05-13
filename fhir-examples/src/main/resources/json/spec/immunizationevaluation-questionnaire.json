@@ -9,8 +9,8 @@
       "status": "active",
       "description": "Type options for ImmunizationEvaluation.doseNumber[x]",
       "expansion": {
-        "identifier": "urn:uuid:8fc5c28d-3e66-441b-882f-31140908c04f",
-        "timestamp": "2022-01-01T15:24:43+00:00",
+        "identifier": "urn:uuid:9b078485-b6cc-436d-97d7-45d4eefff466",
+        "timestamp": "2022-04-23T22:29:33+00:00",
         "contains": [
           {
             "system": "http://hl7.org/fhir/data-types",
@@ -32,8 +32,8 @@
       "status": "active",
       "description": "Type options for ImmunizationEvaluation.seriesDoses[x]",
       "expansion": {
-        "identifier": "urn:uuid:4d5983e4-2acd-4a15-82b7-3c2b139906b9",
-        "timestamp": "2022-01-01T15:24:43+00:00",
+        "identifier": "urn:uuid:c530557d-7db2-40f8-b509-202a19a18bb4",
+        "timestamp": "2022-04-23T22:29:33+00:00",
         "contains": [
           {
             "system": "http://hl7.org/fhir/data-types",
@@ -54,9 +54,10 @@
       "system": "urn:ietf:rfc:3986"
     }
   ],
-  "version": "4.3.0-CIBUILD",
+  "version": "4.3.0-cibuild",
   "status": "draft",
-  "date": "2022-01-01T15:17:18+00:00",
+  "experimental": false,
+  "date": "2022-04-23T22:21:35+00:00",
   "publisher": "Health Level Seven International (Public Health and Emergency Response)",
   "item": [
     {
@@ -245,10 +246,9 @@
             {
               "linkId": "ImmunizationEvaluation.language.value",
               "text": "language",
-              "type": "coding",
+              "type": "choice",
               "required": false,
-              "repeats": false,
-              "answerConstraint": "optionsOnly"
+              "repeats": false
             }
           ]
         },
@@ -467,10 +467,9 @@
             {
               "linkId": "ImmunizationEvaluation.status.value",
               "text": "status",
-              "type": "coding",
+              "type": "choice",
               "required": false,
-              "repeats": false,
-              "answerConstraint": "optionsOrType"
+              "repeats": false
             }
           ]
         },
@@ -673,10 +672,9 @@
             {
               "linkId": "ImmunizationEvaluation.targetDisease.coding",
               "text": "code:",
-              "type": "coding",
+              "type": "choice",
               "required": false,
-              "repeats": false,
-              "answerConstraint": "optionsOnly"
+              "repeats": false
             },
             {
               "linkId": "ImmunizationEvaluation.targetDisease.text",
@@ -788,10 +786,9 @@
             {
               "linkId": "ImmunizationEvaluation.doseStatus.coding",
               "text": "code:",
-              "type": "coding",
+              "type": "choice",
               "required": false,
-              "repeats": false,
-              "answerConstraint": "optionsOnly"
+              "repeats": false
             },
             {
               "linkId": "ImmunizationEvaluation.doseStatus.text",
@@ -837,10 +834,9 @@
             {
               "linkId": "ImmunizationEvaluation.doseStatusReason.coding",
               "text": "code:",
-              "type": "coding",
+              "type": "choice",
               "required": false,
-              "repeats": false,
-              "answerConstraint": "optionsOnly"
+              "repeats": false
             },
             {
               "linkId": "ImmunizationEvaluation.doseStatusReason.text",
@@ -974,10 +970,9 @@
             {
               "linkId": "ImmunizationEvaluation.doseNumber[x]._type",
               "text": "type",
-              "type": "coding",
+              "type": "choice",
               "required": false,
               "repeats": false,
-              "answerConstraint": "optionsOnly",
               "answerValueSet": "#vs2",
               "item": [
                 {
@@ -1055,10 +1050,9 @@
             {
               "linkId": "ImmunizationEvaluation.seriesDoses[x]._type",
               "text": "type",
-              "type": "coding",
+              "type": "choice",
               "required": false,
               "repeats": false,
-              "answerConstraint": "optionsOnly",
               "answerValueSet": "#vs3",
               "item": [
                 {

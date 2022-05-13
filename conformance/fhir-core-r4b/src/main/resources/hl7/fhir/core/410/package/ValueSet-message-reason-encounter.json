@@ -2,7 +2,7 @@
     "resourceType": "ValueSet",
     "id": "message-reason-encounter",
     "meta": {
-        "lastUpdated": "2022-03-03T22:04:06.196Z",
+        "lastUpdated": "2022-04-23T22:21:35.043Z",
         "profile": [
             "http://hl7.org/fhir/StructureDefinition/shareablevalueset"
         ]
@@ -28,7 +28,7 @@
             "value": "urn:oid:2.16.840.1.113883.4.642.3.378"
         }
     ],
-    "version": "4.3.0-CIBUILD",
+    "version": "4.3.0-cibuild",
     "name": "ExampleMessageReasonCodes",
     "title": "Example Message Reason Codes",
     "status": "draft",
@@ -53,8 +53,8 @@
         ]
     },
     "expansion": {
-        "identifier": "urn:uuid:d0de99e9-2c6d-4691-ba9e-93d5c893183e",
-        "timestamp": "2022-03-03T22:05:31Z",
+        "identifier": "urn:uuid:d4800e06-1eb5-48c9-933d-d010b3329bf2",
+        "timestamp": "2022-04-23T22:23:26Z",
         "total": 6,
         "parameter": [
             {
@@ -67,7 +67,7 @@
             },
             {
                 "name": "version",
-                "valueUri": "http://terminology.hl7.org/CodeSystem/message-reasons-encounter|4.3.0-CIBUILD"
+                "valueUri": "http://terminology.hl7.org/CodeSystem/message-reasons-encounter|4.3.0-cibuild"
             }
         ],
         "contains": [

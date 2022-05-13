@@ -12,10 +12,11 @@
     }
   ],
   "url": "http://hl7.org/fhir/StructureDefinition/Dosage",
-  "version": "4.3.0-CIBUILD",
+  "version": "4.3.0-cibuild",
   "name": "Dosage",
   "status": "draft",
-  "date": "2022-01-01T15:17:18+00:00",
+  "experimental": false,
+  "date": "2022-04-23T22:21:35+00:00",
   "publisher": "HL7 FHIR Standard",
   "contact": [
     {
@@ -28,7 +29,7 @@
     }
   ],
   "description": "Base StructureDefinition for Dosage Type: Indicates how the medication is/was taken or should be taken by the patient.",
-  "fhirVersion": "4.3.0-CIBUILD",
+  "fhirVersion": "4.3.0-cibuild",
   "mapping": [
     {
       "identity": "rim",

@@ -12,9 +12,10 @@
     }
   ],
   "url": "http://hl7.org/fhir/StructureDefinition/humanname-fathers-family",
-  "version": "4.3.0-CIBUILD",
+  "version": "4.3.0-cibuild",
   "name": "fathers-family",
   "status": "draft",
+  "experimental": false,
   "date": "2015-11-22",
   "publisher": "Health Level Seven, Inc. - FHIR Core WG",
   "contact": [
@@ -28,7 +29,7 @@
     }
   ],
   "description": "The portion of the family name that is derived from the person\u0027s father.",
-  "fhirVersion": "4.3.0-CIBUILD",
+  "fhirVersion": "4.3.0-cibuild",
   "mapping": [
     {
       "identity": "v2",

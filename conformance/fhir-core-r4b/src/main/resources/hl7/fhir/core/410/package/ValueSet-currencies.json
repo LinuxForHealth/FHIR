@@ -2,7 +2,7 @@
     "resourceType": "ValueSet",
     "id": "currencies",
     "meta": {
-        "lastUpdated": "2022-03-03T22:04:06.196Z",
+        "lastUpdated": "2022-04-23T22:21:35.043Z",
         "profile": [
             "http://hl7.org/fhir/StructureDefinition/shareablevalueset"
         ]
@@ -32,12 +32,12 @@
             "value": "urn:oid:2.16.840.1.113883.4.642.3.1025"
         }
     ],
-    "version": "4.3.0-CIBUILD",
+    "version": "4.3.0-cibuild",
     "name": "Currencies",
     "title": "CurrencyCode",
     "status": "active",
     "experimental": false,
-    "date": "2022-03-03T22:04:06Z",
+    "date": "2022-04-23T22:21:35Z",
     "publisher": "HL7 International - FHIR-Infrastructure",
     "contact": [
         {
@@ -58,11 +58,12 @@
         ]
     },
     "expansion": {
-        "identifier": "urn:uuid:4a867e54-c302-4103-b33f-24ffccc9fe63",
-        "timestamp": "2021-11-17T05:27:57.77Z",
+        "identifier": "urn:uuid:305a4ce2-09d7-4d98-91cd-b8a15984c5a4",
+        "timestamp": "2022-04-23T22:23:08Z",
+        "total": 182,
         "parameter": [
             {
-                "name": "limitedExpansion",
+                "name": "excludeNested",
                 "valueBoolean": true
             },
             {
@@ -70,7 +71,7 @@
                 "valueBoolean": true
             },
             {
-                "name": "excludeNested",
+                "name": "limitedExpansion",
                 "valueBoolean": true
             }
         ],
@@ -1258,10 +1259,10 @@
             {
                 "system": "urn:iso:std:iso:4217",
                 "code": "PLN",
-                "display": "Polish zEoty",
+                "display": "Polish złoty",
                 "designation": [
                     {
-                        "value": "Polish zEoty"
+                        "value": "Polish złoty"
                     }
                 ]
             },

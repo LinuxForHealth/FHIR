@@ -12,13 +12,14 @@
     }
   ],
   "url": "http://hl7.org/fhir/StructureDefinition/valueset-deprecated",
-  "version": "4.3.0-CIBUILD",
+  "version": "4.3.0-cibuild",
   "name": "deprecated",
   "status": "draft",
+  "experimental": false,
   "date": "2021-01-17T07:06:13+11:00",
   "publisher": "HL7",
   "description": "if ture, indicates that the concept is deprecated from the value set - that is, it should not be used, and is planned to be withdrawn.",
-  "fhirVersion": "4.3.0-CIBUILD",
+  "fhirVersion": "4.3.0-cibuild",
   "mapping": [
     {
       "identity": "rim",

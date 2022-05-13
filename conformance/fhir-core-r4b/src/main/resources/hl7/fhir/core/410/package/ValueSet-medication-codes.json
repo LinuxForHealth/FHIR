@@ -2,7 +2,7 @@
     "resourceType": "ValueSet",
     "id": "medication-codes",
     "meta": {
-        "lastUpdated": "2022-03-03T22:04:06.196Z",
+        "lastUpdated": "2022-04-23T22:21:35.043Z",
         "profile": [
             "http://hl7.org/fhir/StructureDefinition/shareablevalueset"
         ]
@@ -28,7 +28,7 @@
             "value": "urn:oid:2.16.840.1.113883.4.642.3.375"
         }
     ],
-    "version": "4.3.0-CIBUILD",
+    "version": "4.3.0-cibuild",
     "name": "SNOMEDCTMedicationCodes",
     "title": "SNOMED CT Medication Codes",
     "status": "draft",
@@ -71,11 +71,12 @@
                 "valueBoolean": true
             }
         ],
-        "identifier": "urn:uuid:760aa905-a08b-48af-991e-aba3d703e746",
-        "timestamp": "2021-11-17T05:28:38.069Z",
+        "identifier": "urn:uuid:f93f583d-a863-42bf-98bd-c402f202ba8e",
+        "timestamp": "2022-04-23T22:23:26Z",
+        "total": 1000,
         "parameter": [
             {
-                "name": "limitedExpansion",
+                "name": "excludeNested",
                 "valueBoolean": true
             },
             {
@@ -83,12 +84,12 @@
                 "valueBoolean": true
             },
             {
-                "name": "excludeNested",
+                "name": "limitedExpansion",
                 "valueBoolean": true
             },
             {
                 "name": "version",
-                "valueUri": "http://snomed.info/sct|http://snomed.info/sct/900000000000207008/version/20200131"
+                "valueUri": "http://snomed.info/sct|http://snomed.info/sct/900000000000207008/version/20200731"
             }
         ],
         "contains": [
@@ -1267,19 +1268,6 @@
             },
             {
                 "system": "http://snomed.info/sct",
-                "code": "8571001",
-                "display": "Medicinal product acting as vasoconstrictor (product)",
-                "designation": [
-                    {
-                        "value": "Medicinal product acting as vasoconstrictor (product)"
-                    },
-                    {
-                        "value": "Vasoconstrictor agent"
-                    }
-                ]
-            },
-            {
-                "system": "http://snomed.info/sct",
                 "code": "8658008",
                 "display": "Product containing human serum albumin (medicinal product)",
                 "designation": [
@@ -1424,6 +1412,9 @@
                     },
                     {
                         "value": "Product containing Cytomegalovirus antibody (medicinal product)"
+                    },
+                    {
+                        "value": "Cytomegalovirus immunoglobulin-containing product"
                     }
                 ]
             },
@@ -2324,13 +2315,13 @@
             {
                 "system": "http://snomed.info/sct",
                 "code": "16832004",
-                "display": "Conjugated estrogens-containing product",
+                "display": "Product containing conjugated estrogen (medicinal product)",
                 "designation": [
                     {
-                        "value": "Conjugated estrogens-containing product"
+                        "value": "Product containing conjugated estrogen (medicinal product)"
                     },
                     {
-                        "value": "Product containing conjugated estrogens (medicinal product)"
+                        "value": "Conjugated estrogen-containing product"
                     }
                 ]
             },
@@ -3362,9 +3353,6 @@
                     },
                     {
                         "value": "Hexestrol-containing product"
-                    },
-                    {
-                        "value": "Hexoestrol-containing product"
                     }
                 ]
             },
@@ -4889,6 +4877,19 @@
             },
             {
                 "system": "http://snomed.info/sct",
+                "code": "37146000",
+                "display": "Typhus vaccine",
+                "designation": [
+                    {
+                        "value": "Typhus vaccine"
+                    },
+                    {
+                        "value": "Typhus vaccine (medicinal product)"
+                    }
+                ]
+            },
+            {
+                "system": "http://snomed.info/sct",
                 "code": "37306000",
                 "display": "Product containing vidarabine (medicinal product)",
                 "designation": [
@@ -5095,19 +5096,6 @@
                     },
                     {
                         "value": "Phendimetrazine-containing product"
-                    }
-                ]
-            },
-            {
-                "system": "http://snomed.info/sct",
-                "code": "39252001",
-                "display": "Water balance agent",
-                "designation": [
-                    {
-                        "value": "Water balance agent"
-                    },
-                    {
-                        "value": "Water balance agent (product)"
                     }
                 ]
             },
@@ -6632,9 +6620,6 @@
                         "value": "Product containing benzestrol (medicinal product)"
                     },
                     {
-                        "value": "Benzoestrol-containing product"
-                    },
-                    {
                         "value": "Benzestrol-containing product"
                     }
                 ]
@@ -6714,22 +6699,6 @@
                     },
                     {
                         "value": "Methadone-containing product"
-                    }
-                ]
-            },
-            {
-                "system": "http://snomed.info/sct",
-                "code": "51779009",
-                "display": "Product containing cephalosporin and antibiotic (product)",
-                "designation": [
-                    {
-                        "value": "Product containing cephalosporin and antibiotic (product)"
-                    },
-                    {
-                        "value": "Product containing cephalosporin and antibiotic"
-                    },
-                    {
-                        "value": "Cephalosporin antibiotic product"
                     }
                 ]
             },
@@ -7247,22 +7216,6 @@
             },
             {
                 "system": "http://snomed.info/sct",
-                "code": "55784007",
-                "display": "Natural hormone preparation",
-                "designation": [
-                    {
-                        "value": "Natural hormone preparation"
-                    },
-                    {
-                        "value": "Natural endocrine substance preparation"
-                    },
-                    {
-                        "value": "Natural hormone preparation (product)"
-                    }
-                ]
-            },
-            {
-                "system": "http://snomed.info/sct",
                 "code": "55830003",
                 "display": "Product containing human menopausal gonadotropin (medicinal product)",
                 "designation": [
@@ -7670,6 +7623,19 @@
                     },
                     {
                         "value": "Medicinal product acting as antiparkinson agent (product)"
+                    }
+                ]
+            },
+            {
+                "system": "http://snomed.info/sct",
+                "code": "58098008",
+                "display": "Clostridium tetani toxoid antigen adsorbed-containing vaccine product",
+                "designation": [
+                    {
+                        "value": "Clostridium tetani toxoid antigen adsorbed-containing vaccine product"
+                    },
+                    {
+                        "value": "Vaccine product containing Clostridium tetani toxoid antigen adsorbed (medicinal product)"
                     }
                 ]
             },
@@ -8983,6 +8949,19 @@
             },
             {
                 "system": "http://snomed.info/sct",
+                "code": "68208009",
+                "display": "Vaccine product containing Clostridium tetani toxoid adsorbed and Corynebacterium diphtheriae toxoid antigens (medicinal product)",
+                "designation": [
+                    {
+                        "value": "Vaccine product containing Clostridium tetani toxoid adsorbed and Corynebacterium diphtheriae toxoid antigens (medicinal product)"
+                    },
+                    {
+                        "value": "Clostridium tetani toxoid adsorbed and Corynebacterium diphtheriae toxoid antigens-containing vaccine product"
+                    }
+                ]
+            },
+            {
+                "system": "http://snomed.info/sct",
                 "code": "68395000",
                 "display": "Product containing calcium chloride (medicinal product)",
                 "designation": [
@@ -9846,13 +9825,16 @@
             {
                 "system": "http://snomed.info/sct",
                 "code": "73647000",
-                "display": "Product containing dipivefrin (medicinal product)",
+                "display": "Dipivefrin-containing product",
                 "designation": [
                     {
-                        "value": "Product containing dipivefrin (medicinal product)"
+                        "value": "Dipivefrin-containing product"
                     },
                     {
-                        "value": "Dipivefrin-containing product"
+                        "value": "Product containing dipivefrine (medicinal product)"
+                    },
+                    {
+                        "value": "Dipivefrine-containing product"
                     }
                 ]
             },
@@ -10859,9 +10841,6 @@
                     },
                     {
                         "value": "Ethylestrenol-containing product"
-                    },
-                    {
-                        "value": "Ethyloestrenol-containing product"
                     }
                 ]
             },
@@ -13476,6 +13455,19 @@
                     },
                     {
                         "value": "Simvastatin-containing product"
+                    }
+                ]
+            },
+            {
+                "system": "http://snomed.info/sct",
+                "code": "96305006",
+                "display": "Product containing pravastatin (medicinal product)",
+                "designation": [
+                    {
+                        "value": "Product containing pravastatin (medicinal product)"
+                    },
+                    {
+                        "value": "Pravastatin-containing product"
                     }
                 ]
             }

@@ -9,8 +9,8 @@
       "status": "active",
       "description": "Type options for Ingredient.substance.strength.presentation[x]",
       "expansion": {
-        "identifier": "urn:uuid:8b4804a6-ef40-445a-9f03-ec42119ae990",
-        "timestamp": "2022-01-01T15:24:45+00:00",
+        "identifier": "urn:uuid:999e355c-a5d8-4a91-a831-051cc27f38ae",
+        "timestamp": "2022-04-23T22:29:36+00:00",
         "contains": [
           {
             "system": "http://hl7.org/fhir/data-types",
@@ -32,8 +32,8 @@
       "status": "active",
       "description": "Type options for Ingredient.substance.strength.concentration[x]",
       "expansion": {
-        "identifier": "urn:uuid:cab1b787-34da-49d3-b866-7c6c03bc709a",
-        "timestamp": "2022-01-01T15:24:45+00:00",
+        "identifier": "urn:uuid:a6996056-85a6-4e35-bc66-2e82a1519b4e",
+        "timestamp": "2022-04-23T22:29:36+00:00",
         "contains": [
           {
             "system": "http://hl7.org/fhir/data-types",
@@ -55,8 +55,8 @@
       "status": "active",
       "description": "Type options for Ingredient.substance.strength.referenceStrength.strength[x]",
       "expansion": {
-        "identifier": "urn:uuid:b19a4528-5b6b-4b23-ba1c-998ad9700008",
-        "timestamp": "2022-01-01T15:24:45+00:00",
+        "identifier": "urn:uuid:559b0c7c-b8cb-48b1-bbf4-6323d20d474b",
+        "timestamp": "2022-04-23T22:29:36+00:00",
         "contains": [
           {
             "system": "http://hl7.org/fhir/data-types",
@@ -77,9 +77,10 @@
       "system": "urn:ietf:rfc:3986"
     }
   ],
-  "version": "4.3.0-CIBUILD",
+  "version": "4.3.0-cibuild",
   "status": "draft",
-  "date": "2022-01-01T15:17:18+00:00",
+  "experimental": false,
+  "date": "2022-04-23T22:21:35+00:00",
   "publisher": "Health Level Seven International (Biomedical Research and Regulation)",
   "item": [
     {
@@ -268,10 +269,9 @@
             {
               "linkId": "Ingredient.language.value",
               "text": "language",
-              "type": "coding",
+              "type": "choice",
               "required": false,
-              "repeats": false,
-              "answerConstraint": "optionsOnly"
+              "repeats": false
             }
           ]
         },
@@ -494,10 +494,9 @@
             {
               "linkId": "Ingredient.status.value",
               "text": "status",
-              "type": "coding",
+              "type": "choice",
               "required": false,
-              "repeats": false,
-              "answerConstraint": "optionsOrType"
+              "repeats": false
             }
           ]
         },
@@ -567,7 +566,7 @@
             }
           ],
           "linkId": "Ingredient.role",
-          "text": "A classification of the ingredient identifying its purpose within the product, e.g. active, inactive",
+          "text": "Purpose of the ingredient within the product, e.g. active, inactive",
           "type": "group",
           "required": true,
           "repeats": true,
@@ -594,10 +593,9 @@
             {
               "linkId": "Ingredient.role.coding",
               "text": "code:",
-              "type": "coding",
+              "type": "choice",
               "required": false,
-              "repeats": false,
-              "answerConstraint": "optionsOnly"
+              "repeats": false
             },
             {
               "linkId": "Ingredient.role.text",
@@ -616,7 +614,7 @@
             }
           ],
           "linkId": "Ingredient.function",
-          "text": "A classification of the ingredient identifying its precise purpose(s) in the drug product. This extends the Ingredient.role to add more detail. Example: Antioxidant, Alkalizing Agent",
+          "text": "Precise action within the drug product, e.g. antioxidant, alkalizing agent",
           "type": "group",
           "required": false,
           "repeats": true,
@@ -637,16 +635,15 @@
                 }
               ],
               "linkId": "Ingredient.function-flyover",
-              "text": "A classification of the ingredient identifying its precise purpose(s) in the drug product. This extends the Ingredient.role to add more detail. Example: Antioxidant, Alkalizing Agent.",
+              "text": "A classification of the ingredient identifying its precise purpose(s) in the drug product. This extends the Ingredient.role to add more detail. Example: antioxidant, alkalizing agent.",
               "type": "display"
             },
             {
               "linkId": "Ingredient.function.coding",
               "text": "code:",
-              "type": "coding",
+              "type": "choice",
               "required": false,
-              "repeats": false,
-              "answerConstraint": "optionsOnly"
+              "repeats": false
             },
             {
               "linkId": "Ingredient.function.text",
@@ -689,7 +686,7 @@
                 }
               ],
               "linkId": "Ingredient.allergenicIndicator-flyover",
-              "text": "If the ingredient is a known or suspected allergen.",
+              "text": "If the ingredient is a known or suspected allergen. Note that this is a property of the substance, so if a reference to a SubstanceDefinition is used to decribe that (rather than just a code), the allergen information should go there, not here.",
               "type": "display"
             },
             {
@@ -724,7 +721,7 @@
                 }
               ],
               "linkId": "Ingredient.manufacturer-flyover",
-              "text": "An organization that manufactures this ingredient.",
+              "text": "The organization(s) that manufacture this ingredient. Can be used to indicate:         1) Organizations we are aware of that manufacture this ingredient         2) Specific Manufacturer(s) currently being used         3) Set of organisations allowed to manufacture this ingredient for this product         Users must be clear on the application of context relevant to their use case.",
               "type": "display"
             },
             {
@@ -835,7 +832,7 @@
                 },
                 {
                   "url": "http://hl7.org/fhir/StructureDefinition/questionnaire-fhirType",
-                  "valueString": "Coding"
+                  "valueString": "code"
                 }
               ],
               "linkId": "Ingredient.manufacturer.role",
@@ -864,11 +861,10 @@
                 },
                 {
                   "linkId": "Ingredient.manufacturer.role.value",
-                  "text": "The way in which this manufacturer is associated with the ingredient. For example whether it is a possible one (others allowed), or an exclusive authorized one for this ingredient. Note that this is not the manufacturing process role",
-                  "type": "coding",
+                  "text": "role",
+                  "type": "choice",
                   "required": false,
-                  "repeats": false,
-                  "answerConstraint": "optionsOrType"
+                  "repeats": false
                 }
               ]
             },
@@ -1101,14 +1097,14 @@
                     }
                   ],
                   "linkId": "Ingredient.substance.code-flyover",
-                  "text": "A code or full resource that represents the ingredient substance.",
+                  "text": "A code or full resource that represents the ingredient\u0027s substance.",
                   "type": "display"
                 }
               ]
             },
             {
               "linkId": "Ingredient.substance.strength",
-              "text": "The quantity of substance in the unit of presentation, or in the volume (or mass) of the single pharmaceutical product or manufactured item",
+              "text": "The quantity of substance, per presentation, or per volume or mass, and type of quantity",
               "type": "group",
               "required": false,
               "repeats": true,
@@ -1129,7 +1125,7 @@
                     }
                   ],
                   "linkId": "Ingredient.substance.strength-flyover",
-                  "text": "The quantity of substance in the unit of presentation, or in the volume (or mass) of the single pharmaceutical product or manufactured item.",
+                  "text": "The quantity of substance in the unit of presentation, or in the volume (or mass) of the single pharmaceutical product or manufactured item. The allowed repetitions do not represent different strengths, but are different representations - mathematically equivalent - of a single strength.",
                   "type": "display"
                 },
                 {
@@ -1240,7 +1236,7 @@
                     }
                   ],
                   "linkId": "Ingredient.substance.strength.presentation[x]",
-                  "text": "The quantity of substance in the unit of presentation, or in the volume (or mass) of the single pharmaceutical product or manufactured item",
+                  "text": "The quantity of substance in the unit of presentation",
                   "type": "group",
                   "required": false,
                   "repeats": true,
@@ -1261,16 +1257,15 @@
                         }
                       ],
                       "linkId": "Ingredient.substance.strength.presentation[x]-flyover",
-                      "text": "The quantity of substance in the unit of presentation, or in the volume (or mass) of the single pharmaceutical product or manufactured item.",
+                      "text": "The quantity of substance in the unit of presentation, or in the volume (or mass) of the single pharmaceutical product or manufactured item. Unit of presentation refers to the quantity that the item occurs in e.g. a strength per tablet size, perhaps \u0027per 20mg\u0027 (the size of the tablet). It is not generally normalized as a unitary unit, which would be \u0027per mg\u0027).",
                       "type": "display"
                     },
                     {
                       "linkId": "Ingredient.substance.strength.presentation[x]._type",
                       "text": "type",
-                      "type": "coding",
+                      "type": "choice",
                       "required": false,
                       "repeats": false,
-                      "answerConstraint": "optionsOnly",
                       "answerValueSet": "#vs2",
                       "item": [
                         {
@@ -1448,10 +1443,9 @@
                                 {
                                   "linkId": "RatioRange.lowNumerator.comparator",
                                   "text": "comp:",
-                                  "type": "coding",
+                                  "type": "choice",
                                   "required": false,
-                                  "repeats": false,
-                                  "answerConstraint": "optionsOnly"
+                                  "repeats": false
                                 },
                                 {
                                   "linkId": "RatioRange.lowNumerator.value",
@@ -1522,10 +1516,9 @@
                                 {
                                   "linkId": "RatioRange.highNumerator.comparator",
                                   "text": "comp:",
-                                  "type": "coding",
+                                  "type": "choice",
                                   "required": false,
-                                  "repeats": false,
-                                  "answerConstraint": "optionsOnly"
+                                  "repeats": false
                                 },
                                 {
                                   "linkId": "RatioRange.highNumerator.value",
@@ -1596,10 +1589,9 @@
                                 {
                                   "linkId": "RatioRange.denominator.comparator",
                                   "text": "comp:",
-                                  "type": "coding",
+                                  "type": "choice",
                                   "required": false,
-                                  "repeats": false,
-                                  "answerConstraint": "optionsOnly"
+                                  "repeats": false
                                 },
                                 {
                                   "linkId": "RatioRange.denominator.value",
@@ -1648,7 +1640,7 @@
                       "valueString": "string"
                     }
                   ],
-                  "linkId": "Ingredient.substance.strength.presentationText",
+                  "linkId": "Ingredient.substance.strength.textPresentation",
                   "type": "group",
                   "required": false,
                   "repeats": true,
@@ -1668,13 +1660,13 @@
                           }
                         }
                       ],
-                      "linkId": "Ingredient.substance.strength.presentationText-flyover",
+                      "linkId": "Ingredient.substance.strength.textPresentation-flyover",
                       "text": "A textual represention of either the whole of the presentation strength or a part of it - with the rest being in Strength.presentation as a ratio.",
                       "type": "display"
                     },
                     {
-                      "linkId": "Ingredient.substance.strength.presentationText.value",
-                      "text": "A textual represention of either the whole of the presentation strength or a part of it - with the rest being in Strength.presentation as a ratio",
+                      "linkId": "Ingredient.substance.strength.textPresentation.value",
+                      "text": "Text of either the whole presentation strength or a part of it (rest being in Strength.presentation as a ratio)",
                       "type": "string",
                       "required": false,
                       "repeats": false
@@ -1716,10 +1708,9 @@
                     {
                       "linkId": "Ingredient.substance.strength.concentration[x]._type",
                       "text": "type",
-                      "type": "coding",
+                      "type": "choice",
                       "required": false,
                       "repeats": false,
-                      "answerConstraint": "optionsOnly",
                       "answerValueSet": "#vs3",
                       "item": [
                         {
@@ -1897,10 +1888,9 @@
                                 {
                                   "linkId": "RatioRange.lowNumerator.comparator",
                                   "text": "comp:",
-                                  "type": "coding",
+                                  "type": "choice",
                                   "required": false,
-                                  "repeats": false,
-                                  "answerConstraint": "optionsOnly"
+                                  "repeats": false
                                 },
                                 {
                                   "linkId": "RatioRange.lowNumerator.value",
@@ -1971,10 +1961,9 @@
                                 {
                                   "linkId": "RatioRange.highNumerator.comparator",
                                   "text": "comp:",
-                                  "type": "coding",
+                                  "type": "choice",
                                   "required": false,
-                                  "repeats": false,
-                                  "answerConstraint": "optionsOnly"
+                                  "repeats": false
                                 },
                                 {
                                   "linkId": "RatioRange.highNumerator.value",
@@ -2045,10 +2034,9 @@
                                 {
                                   "linkId": "RatioRange.denominator.comparator",
                                   "text": "comp:",
-                                  "type": "coding",
+                                  "type": "choice",
                                   "required": false,
-                                  "repeats": false,
-                                  "answerConstraint": "optionsOnly"
+                                  "repeats": false
                                 },
                                 {
                                   "linkId": "RatioRange.denominator.value",
@@ -2097,7 +2085,7 @@
                       "valueString": "string"
                     }
                   ],
-                  "linkId": "Ingredient.substance.strength.concentrationText",
+                  "linkId": "Ingredient.substance.strength.textConcentration",
                   "type": "group",
                   "required": false,
                   "repeats": true,
@@ -2117,13 +2105,13 @@
                           }
                         }
                       ],
-                      "linkId": "Ingredient.substance.strength.concentrationText-flyover",
+                      "linkId": "Ingredient.substance.strength.textConcentration-flyover",
                       "text": "A textual represention of either the whole of the concentration strength or a part of it - with the rest being in Strength.concentration as a ratio.",
                       "type": "display"
                     },
                     {
-                      "linkId": "Ingredient.substance.strength.concentrationText.value",
-                      "text": "A textual represention of either the whole of the concentration strength or a part of it - with the rest being in Strength.concentration as a ratio",
+                      "linkId": "Ingredient.substance.strength.textConcentration.value",
+                      "text": "Text of either the whole concentration strength or a part of it (rest being in Strength.concentration as a ratio)",
                       "type": "string",
                       "required": false,
                       "repeats": false
@@ -2162,12 +2150,12 @@
                         }
                       ],
                       "linkId": "Ingredient.substance.strength.measurementPoint-flyover",
-                      "text": "For when strength is measured at a particular point or distance.",
+                      "text": "For when strength is measured at a particular point or distance. There are products where strength is measured at a particular point. For example, the strength of the ingredient in some inhalers is measured at a particular position relative to the point of aerosolization.",
                       "type": "display"
                     },
                     {
                       "linkId": "Ingredient.substance.strength.measurementPoint.value",
-                      "text": "For when strength is measured at a particular point or distance",
+                      "text": "When strength is measured at a particular point or distance",
                       "type": "string",
                       "required": false,
                       "repeats": false
@@ -2182,7 +2170,7 @@
                     }
                   ],
                   "linkId": "Ingredient.substance.strength.country",
-                  "text": "The country or countries for which the strength range applies",
+                  "text": "Where the strength range applies",
                   "type": "group",
                   "required": false,
                   "repeats": true,
@@ -2209,10 +2197,9 @@
                     {
                       "linkId": "Ingredient.substance.strength.country.coding",
                       "text": "code:",
-                      "type": "coding",
+                      "type": "choice",
                       "required": false,
-                      "repeats": false,
-                      "answerConstraint": "optionsOnly"
+                      "repeats": false
                     },
                     {
                       "linkId": "Ingredient.substance.strength.country.text",
@@ -2246,7 +2233,7 @@
                         }
                       ],
                       "linkId": "Ingredient.substance.strength.referenceStrength-flyover",
-                      "text": "Strength expressed in terms of a reference substance.",
+                      "text": "Strength expressed in terms of a reference substance. For when the ingredient strength is additionally expressed as equivalent to the strength of some other closely related substance (e.g. salt vs. base). Reference strength represents the strength (quantitative composition) of the active moiety of the active substance. There are situations when the active substance and active moiety are different, therefore both a strength and a reference strength are needed.",
                       "type": "display"
                     },
                     {
@@ -2422,10 +2409,9 @@
                         {
                           "linkId": "Ingredient.substance.strength.referenceStrength.strength[x]._type",
                           "text": "type",
-                          "type": "coding",
+                          "type": "choice",
                           "required": false,
                           "repeats": false,
-                          "answerConstraint": "optionsOnly",
                           "answerValueSet": "#vs4",
                           "item": [
                             {
@@ -2603,10 +2589,9 @@
                                     {
                                       "linkId": "RatioRange.lowNumerator.comparator",
                                       "text": "comp:",
-                                      "type": "coding",
+                                      "type": "choice",
                                       "required": false,
-                                      "repeats": false,
-                                      "answerConstraint": "optionsOnly"
+                                      "repeats": false
                                     },
                                     {
                                       "linkId": "RatioRange.lowNumerator.value",
@@ -2677,10 +2662,9 @@
                                     {
                                       "linkId": "RatioRange.highNumerator.comparator",
                                       "text": "comp:",
-                                      "type": "coding",
+                                      "type": "choice",
                                       "required": false,
-                                      "repeats": false,
-                                      "answerConstraint": "optionsOnly"
+                                      "repeats": false
                                     },
                                     {
                                       "linkId": "RatioRange.highNumerator.value",
@@ -2751,10 +2735,9 @@
                                     {
                                       "linkId": "RatioRange.denominator.comparator",
                                       "text": "comp:",
-                                      "type": "coding",
+                                      "type": "choice",
                                       "required": false,
-                                      "repeats": false,
-                                      "answerConstraint": "optionsOnly"
+                                      "repeats": false
                                     },
                                     {
                                       "linkId": "RatioRange.denominator.value",
@@ -2829,7 +2812,7 @@
                         },
                         {
                           "linkId": "Ingredient.substance.strength.referenceStrength.measurementPoint.value",
-                          "text": "For when strength is measured at a particular point or distance",
+                          "text": "When strength is measured at a particular point or distance",
                           "type": "string",
                           "required": false,
                           "repeats": false
@@ -2844,7 +2827,7 @@
                         }
                       ],
                       "linkId": "Ingredient.substance.strength.referenceStrength.country",
-                      "text": "The country or countries for which the strength range applies",
+                      "text": "Where the strength range applies",
                       "type": "group",
                       "required": false,
                       "repeats": true,
@@ -2871,10 +2854,9 @@
                         {
                           "linkId": "Ingredient.substance.strength.referenceStrength.country.coding",
                           "text": "code:",
-                          "type": "coding",
+                          "type": "choice",
                           "required": false,
-                          "repeats": false,
-                          "answerConstraint": "optionsOnly"
+                          "repeats": false
                         },
                         {
                           "linkId": "Ingredient.substance.strength.referenceStrength.country.text",

@@ -128,7 +128,7 @@ public class Task extends DomainResource {
         bindingName = "TaskStatus",
         strength = BindingStrength.Value.REQUIRED,
         description = "The current status of the task.",
-        valueSet = "http://hl7.org/fhir/ValueSet/task-status|4.3.0-CIBUILD"
+        valueSet = "http://hl7.org/fhir/ValueSet/task-status|4.3.0-cibuild"
     )
     @Required
     private final TaskStatus status;
@@ -151,7 +151,7 @@ public class Task extends DomainResource {
         bindingName = "TaskIntent",
         strength = BindingStrength.Value.REQUIRED,
         description = "Distinguishes whether the task is a proposal, plan or full order.",
-        valueSet = "http://hl7.org/fhir/ValueSet/task-intent|4.3.0-CIBUILD"
+        valueSet = "http://hl7.org/fhir/ValueSet/task-intent|4.3.0-cibuild"
     )
     @Required
     private final TaskIntent intent;
@@ -159,7 +159,7 @@ public class Task extends DomainResource {
         bindingName = "TaskPriority",
         strength = BindingStrength.Value.REQUIRED,
         description = "The priority of a task (may affect service level applied to the task).",
-        valueSet = "http://hl7.org/fhir/ValueSet/request-priority|4.3.0-CIBUILD"
+        valueSet = "http://hl7.org/fhir/ValueSet/request-priority|4.3.0-cibuild"
     )
     private final TaskPriority priority;
     @Summary

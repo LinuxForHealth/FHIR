@@ -2,7 +2,7 @@
     "resourceType": "ValueSet",
     "id": "food-type",
     "meta": {
-        "lastUpdated": "2022-03-03T22:04:06.196Z",
+        "lastUpdated": "2022-04-23T22:21:35.043Z",
         "profile": [
             "http://hl7.org/fhir/StructureDefinition/shareablevalueset"
         ]
@@ -28,7 +28,7 @@
             "value": "urn:oid:2.16.840.1.113883.4.642.3.384"
         }
     ],
-    "version": "4.3.0-CIBUILD",
+    "version": "4.3.0-cibuild",
     "name": "FoodTypeCodes",
     "title": "Food Type Codes",
     "status": "draft",
@@ -71,11 +71,12 @@
                 "valueBoolean": true
             }
         ],
-        "identifier": "urn:uuid:8cf7d360-1762-407d-92a0-3a547bba994f",
-        "timestamp": "2021-11-17T05:28:47.75Z",
+        "identifier": "urn:uuid:90c4f6e8-35d8-4fe4-80b4-2fad687e2f0b",
+        "timestamp": "2022-04-23T22:23:26Z",
+        "total": 1000,
         "parameter": [
             {
-                "name": "limitedExpansion",
+                "name": "excludeNested",
                 "valueBoolean": true
             },
             {
@@ -83,12 +84,12 @@
                 "valueBoolean": true
             },
             {
-                "name": "excludeNested",
+                "name": "limitedExpansion",
                 "valueBoolean": true
             },
             {
                 "name": "version",
-                "valueUri": "http://snomed.info/sct|http://snomed.info/sct/900000000000207008/version/20200131"
+                "valueUri": "http://snomed.info/sct|http://snomed.info/sct/900000000000207008/version/20200731"
             }
         ],
         "contains": [
@@ -3867,19 +3868,13 @@
             {
                 "system": "http://snomed.info/sct",
                 "code": "226760005",
-                "display": "Dairy foods",
+                "display": "Dairy food",
                 "designation": [
                     {
-                        "value": "Dairy foods"
+                        "value": "Dairy food"
                     },
                     {
-                        "value": "Milk cheese and egg"
-                    },
-                    {
-                        "value": "Dairy foods (substance)"
-                    },
-                    {
-                        "value": "Dairy products"
+                        "value": "Dairy food (substance)"
                     }
                 ]
             },
@@ -8735,13 +8730,13 @@
             {
                 "system": "http://snomed.info/sct",
                 "code": "227150003",
-                "display": "Mussels",
+                "display": "Mussel",
                 "designation": [
                     {
-                        "value": "Mussels"
+                        "value": "Mussel"
                     },
                     {
-                        "value": "Mussels (substance)"
+                        "value": "Mussel (substance)"
                     }
                 ]
             },
@@ -10609,19 +10604,19 @@
             {
                 "system": "http://snomed.info/sct",
                 "code": "227313005",
-                "display": "Pulse vegetables",
+                "display": "Legume",
                 "designation": [
                     {
-                        "value": "Pulse vegetables"
+                        "value": "Legume"
                     },
                     {
-                        "value": "Beans peas and lentils"
+                        "value": "Pulse vegetable"
                     },
                     {
-                        "value": "Pulse vegetables (substance)"
+                        "value": "Pulse vegetable (substance)"
                     },
                     {
-                        "value": "Legumes"
+                        "value": "Bean pea and lentil"
                     }
                 ]
             },

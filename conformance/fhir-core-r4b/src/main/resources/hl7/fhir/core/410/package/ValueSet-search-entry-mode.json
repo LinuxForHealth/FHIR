@@ -2,7 +2,7 @@
     "resourceType": "ValueSet",
     "id": "search-entry-mode",
     "meta": {
-        "lastUpdated": "2022-03-04T09:04:06.196+11:00",
+        "lastUpdated": "2022-04-24T09:21:35.043+11:00",
         "profile": [
             "http://hl7.org/fhir/StructureDefinition/shareablevalueset"
         ]
@@ -32,7 +32,7 @@
             "value": "urn:oid:2.16.840.1.113883.4.642.3.622"
         }
     ],
-    "version": "4.3.0-CIBUILD",
+    "version": "4.3.0-cibuild",
     "name": "SearchEntryMode",
     "title": "SearchEntryMode",
     "status": "active",
@@ -63,8 +63,8 @@
         ]
     },
     "expansion": {
-        "identifier": "urn:uuid:1b6f01ce-e85b-4513-a6bb-a83c75afb5e2",
-        "timestamp": "2022-03-03T22:05:09Z",
+        "identifier": "urn:uuid:effdbf5f-a0e2-46e1-8231-33a713dfa9d4",
+        "timestamp": "2022-04-23T22:23:07Z",
         "total": 3,
         "parameter": [
             {
@@ -77,7 +77,7 @@
             },
             {
                 "name": "version",
-                "valueUri": "http://hl7.org/fhir/search-entry-mode|4.3.0-CIBUILD"
+                "valueUri": "http://hl7.org/fhir/search-entry-mode|4.3.0-cibuild"
             }
         ],
         "contains": [

@@ -28,7 +28,7 @@ public class Money extends Element {
     @Binding(
         bindingName = "CurrencyCode",
         strength = BindingStrength.Value.REQUIRED,
-        valueSet = "http://hl7.org/fhir/ValueSet/currencies|4.3.0-CIBUILD"
+        valueSet = "http://hl7.org/fhir/ValueSet/currencies|4.3.0-cibuild"
     )
     private final Code currency;
 

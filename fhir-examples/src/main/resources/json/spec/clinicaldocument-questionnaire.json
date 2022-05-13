@@ -9,8 +9,8 @@
       "status": "active",
       "description": "Type options for Composition.relatesTo.target[x]",
       "expansion": {
-        "identifier": "urn:uuid:cc8427cc-9ca4-47de-8241-367ca2795609",
-        "timestamp": "2022-01-01T15:24:04+00:00",
+        "identifier": "urn:uuid:5f29bb5f-4b52-4d77-8ca0-2b471178bf96",
+        "timestamp": "2022-04-23T22:28:53+00:00",
         "contains": [
           {
             "system": "http://hl7.org/fhir/data-types",
@@ -31,8 +31,9 @@
       "system": "urn:ietf:rfc:3986"
     }
   ],
-  "version": "4.3.0-CIBUILD",
+  "version": "4.3.0-cibuild",
   "status": "draft",
+  "experimental": false,
   "date": "2015-03-17T00:00:00+00:00",
   "publisher": "Health Level Seven, Inc. - Structured Documents WG",
   "item": [
@@ -227,10 +228,9 @@
             {
               "linkId": "Composition.language.value",
               "text": "language",
-              "type": "coding",
+              "type": "choice",
               "required": false,
-              "repeats": false,
-              "answerConstraint": "optionsOnly"
+              "repeats": false
             }
           ]
         },
@@ -453,10 +453,9 @@
             {
               "linkId": "Composition.status.value",
               "text": "status",
-              "type": "coding",
+              "type": "choice",
               "required": false,
-              "repeats": false,
-              "answerConstraint": "optionsOrType"
+              "repeats": false
             }
           ]
         },
@@ -503,10 +502,9 @@
             {
               "linkId": "Composition.type.coding",
               "text": "code:",
-              "type": "coding",
+              "type": "choice",
               "required": false,
-              "repeats": false,
-              "answerConstraint": "optionsOnly"
+              "repeats": false
             },
             {
               "linkId": "Composition.type.text",
@@ -552,10 +550,9 @@
             {
               "linkId": "Composition.category.coding",
               "text": "code:",
-              "type": "coding",
+              "type": "choice",
               "required": false,
-              "repeats": false,
-              "answerConstraint": "optionsOnly"
+              "repeats": false
             },
             {
               "linkId": "Composition.category.text",
@@ -862,10 +859,9 @@
             {
               "linkId": "Composition.confidentiality.value",
               "text": "confidentiality",
-              "type": "coding",
+              "type": "choice",
               "required": false,
-              "repeats": false,
-              "answerConstraint": "optionsOrType"
+              "repeats": false
             }
           ]
         },
@@ -1042,10 +1038,9 @@
                 {
                   "linkId": "Composition.attester.mode.value",
                   "text": "mode",
-                  "type": "coding",
+                  "type": "choice",
                   "required": false,
-                  "repeats": false,
-                  "answerConstraint": "optionsOrType"
+                  "repeats": false
                 }
               ]
             },
@@ -1376,10 +1371,9 @@
                 {
                   "linkId": "Composition.relatesTo.code.value",
                   "text": "code",
-                  "type": "coding",
+                  "type": "choice",
                   "required": false,
-                  "repeats": false,
-                  "answerConstraint": "optionsOrType"
+                  "repeats": false
                 }
               ]
             },
@@ -1422,10 +1416,9 @@
                 {
                   "linkId": "Composition.relatesTo.target[x]._type",
                   "text": "type",
-                  "type": "coding",
+                  "type": "choice",
                   "required": false,
                   "repeats": false,
-                  "answerConstraint": "optionsOnly",
                   "answerValueSet": "#vs2",
                   "item": [
                     {
@@ -1661,10 +1654,9 @@
                 {
                   "linkId": "Composition.event.code.coding",
                   "text": "code:",
-                  "type": "coding",
+                  "type": "choice",
                   "required": false,
-                  "repeats": false,
-                  "answerConstraint": "optionsOnly"
+                  "repeats": false
                 },
                 {
                   "linkId": "Composition.event.code.text",
@@ -1988,10 +1980,9 @@
                 {
                   "linkId": "Composition.section.code.coding",
                   "text": "code:",
-                  "type": "coding",
+                  "type": "choice",
                   "required": false,
-                  "repeats": false,
-                  "answerConstraint": "optionsOnly"
+                  "repeats": false
                 },
                 {
                   "linkId": "Composition.section.code.text",
@@ -2178,10 +2169,9 @@
                 {
                   "linkId": "Composition.section.mode.value",
                   "text": "mode",
-                  "type": "coding",
+                  "type": "choice",
                   "required": false,
-                  "repeats": false,
-                  "answerConstraint": "optionsOrType"
+                  "repeats": false
                 }
               ]
             },
@@ -2224,10 +2214,9 @@
                 {
                   "linkId": "Composition.section.orderedBy.coding",
                   "text": "code:",
-                  "type": "coding",
+                  "type": "choice",
                   "required": false,
-                  "repeats": false,
-                  "answerConstraint": "optionsOnly"
+                  "repeats": false
                 },
                 {
                   "linkId": "Composition.section.orderedBy.text",
@@ -2327,10 +2316,9 @@
                 {
                   "linkId": "Composition.section.emptyReason.coding",
                   "text": "code:",
-                  "type": "coding",
+                  "type": "choice",
                   "required": false,
-                  "repeats": false,
-                  "answerConstraint": "optionsOnly"
+                  "repeats": false
                 },
                 {
                   "linkId": "Composition.section.emptyReason.text",

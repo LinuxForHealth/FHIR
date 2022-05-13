@@ -12,10 +12,11 @@
     }
   ],
   "url": "http://hl7.org/fhir/StructureDefinition/structuredefinition-security-category",
-  "version": "4.3.0-CIBUILD",
+  "version": "4.3.0-cibuild",
   "name": "security-category",
   "title": "Security Category",
   "status": "draft",
+  "experimental": false,
   "date": "2014-01-31",
   "publisher": "Health Level Seven, Inc. - [WG Name] WG",
   "contact": [
@@ -29,7 +30,7 @@
     }
   ],
   "description": "Provides general guidance around the kind of access Control to Read, Search, Create, Update, or Delete the resource.",
-  "fhirVersion": "4.3.0-CIBUILD",
+  "fhirVersion": "4.3.0-cibuild",
   "mapping": [
     {
       "identity": "rim",

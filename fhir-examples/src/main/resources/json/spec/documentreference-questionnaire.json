@@ -6,9 +6,10 @@
       "system": "urn:ietf:rfc:3986"
     }
   ],
-  "version": "4.3.0-CIBUILD",
+  "version": "4.3.0-cibuild",
   "status": "draft",
-  "date": "2022-01-01T15:17:18+00:00",
+  "experimental": false,
+  "date": "2022-04-23T22:21:35+00:00",
   "publisher": "Health Level Seven International (Structured Documents)",
   "item": [
     {
@@ -202,10 +203,9 @@
             {
               "linkId": "DocumentReference.language.value",
               "text": "language",
-              "type": "coding",
+              "type": "choice",
               "required": false,
-              "repeats": false,
-              "answerConstraint": "optionsOnly"
+              "repeats": false
             }
           ]
         },
@@ -483,10 +483,9 @@
             {
               "linkId": "DocumentReference.status.value",
               "text": "status",
-              "type": "coding",
+              "type": "choice",
               "required": false,
-              "repeats": false,
-              "answerConstraint": "optionsOrType"
+              "repeats": false
             }
           ]
         },
@@ -528,10 +527,9 @@
             {
               "linkId": "DocumentReference.docStatus.value",
               "text": "doc status",
-              "type": "coding",
+              "type": "choice",
               "required": false,
-              "repeats": false,
-              "answerConstraint": "optionsOrType"
+              "repeats": false
             }
           ]
         },
@@ -574,10 +572,9 @@
             {
               "linkId": "DocumentReference.type.coding",
               "text": "code:",
-              "type": "coding",
+              "type": "choice",
               "required": false,
-              "repeats": false,
-              "answerConstraint": "optionsOnly"
+              "repeats": false
             },
             {
               "linkId": "DocumentReference.type.text",
@@ -623,10 +620,9 @@
             {
               "linkId": "DocumentReference.category.coding",
               "text": "code:",
-              "type": "coding",
+              "type": "choice",
               "required": false,
-              "repeats": false,
-              "answerConstraint": "optionsOnly"
+              "repeats": false
             },
             {
               "linkId": "DocumentReference.category.text",
@@ -1066,10 +1062,9 @@
                 {
                   "linkId": "DocumentReference.relatesTo.code.value",
                   "text": "code",
-                  "type": "coding",
+                  "type": "choice",
                   "required": false,
-                  "repeats": false,
-                  "answerConstraint": "optionsOrType"
+                  "repeats": false
                 }
               ]
             },
@@ -1212,10 +1207,9 @@
             {
               "linkId": "DocumentReference.securityLabel.coding",
               "text": "code:",
-              "type": "coding",
+              "type": "choice",
               "required": false,
-              "repeats": false,
-              "answerConstraint": "optionsOnly"
+              "repeats": false
             },
             {
               "linkId": "DocumentReference.securityLabel.text",
@@ -1438,10 +1432,9 @@
                 {
                   "linkId": "DocumentReference.content.format.value",
                   "text": "Format/content rules for the document",
-                  "type": "coding",
+                  "type": "choice",
                   "required": false,
-                  "repeats": false,
-                  "answerConstraint": "optionsOnly"
+                  "repeats": false
                 }
               ]
             }
@@ -1669,10 +1662,9 @@
                 {
                   "linkId": "DocumentReference.context.event.coding",
                   "text": "code:",
-                  "type": "coding",
+                  "type": "choice",
                   "required": false,
-                  "repeats": false,
-                  "answerConstraint": "optionsOnly"
+                  "repeats": false
                 },
                 {
                   "linkId": "DocumentReference.context.event.text",
@@ -1774,10 +1766,9 @@
                 {
                   "linkId": "DocumentReference.context.facilityType.coding",
                   "text": "code:",
-                  "type": "coding",
+                  "type": "choice",
                   "required": false,
-                  "repeats": false,
-                  "answerConstraint": "optionsOnly"
+                  "repeats": false
                 },
                 {
                   "linkId": "DocumentReference.context.facilityType.text",
@@ -1827,10 +1818,9 @@
                 {
                   "linkId": "DocumentReference.context.practiceSetting.coding",
                   "text": "code:",
-                  "type": "coding",
+                  "type": "choice",
                   "required": false,
-                  "repeats": false,
-                  "answerConstraint": "optionsOnly"
+                  "repeats": false
                 },
                 {
                   "linkId": "DocumentReference.context.practiceSetting.text",

@@ -2,7 +2,7 @@
     "resourceType": "ValueSet",
     "id": "dicm-405-mediatype",
     "meta": {
-        "lastUpdated": "2022-03-03T22:04:06.196Z",
+        "lastUpdated": "2022-04-23T22:21:35.043Z",
         "profile": [
             "http://hl7.org/fhir/StructureDefinition/shareablevalueset"
         ]
@@ -28,10 +28,11 @@
             "value": "urn:oid:1.2.840.10008.6.​1.​908"
         }
     ],
-    "version": "4.3.0-CIBUILD",
+    "version": "4.3.0-cibuild",
     "name": "MediaTypeCode",
     "title": "Media Type Code",
     "status": "active",
+    "experimental": false,
     "date": "2010-08-26",
     "publisher": "NEMA/DICOM",
     "description": "Media Type Code",
@@ -76,11 +77,12 @@
         ]
     },
     "expansion": {
-        "identifier": "urn:uuid:d6052675-f9f9-47dd-a6af-791a2c8cd182",
-        "timestamp": "2021-12-06T18:56:00.517Z",
+        "identifier": "urn:uuid:8b808d32-71e8-4472-bc60-2211b50b6100",
+        "timestamp": "2022-04-23T22:23:26Z",
+        "total": 10,
         "parameter": [
             {
-                "name": "limitedExpansion",
+                "name": "excludeNested",
                 "valueBoolean": true
             },
             {
@@ -88,22 +90,16 @@
                 "valueBoolean": true
             },
             {
-                "name": "excludeNested",
+                "name": "limitedExpansion",
                 "valueBoolean": true
             },
             {
                 "name": "version",
-                "valueUri": "http://dicom.nema.org/resources/ontology/DCM|01"
+                "valueUri": "http://dicom.nema.org/resources/ontology/DCM|2022.1.20220124"
             }
         ],
         "contains": [
             {
-                "extension": [
-                    {
-                        "url": "http://hl7.org/fhir/StructureDefinition/valueset-definition",
-                        "valueString": "A device that connects using the USB hard drive interface. These may be USB-Sticks, portable hard drives, and other technologies"
-                    }
-                ],
                 "system": "http://dicom.nema.org/resources/ontology/DCM",
                 "code": "110030",
                 "display": "USB Disk Emulation",
@@ -114,12 +110,6 @@
                 ]
             },
             {
-                "extension": [
-                    {
-                        "url": "http://hl7.org/fhir/StructureDefinition/valueset-definition",
-                        "valueString": "Email and email attachments used as a media for data transport"
-                    }
-                ],
                 "system": "http://dicom.nema.org/resources/ontology/DCM",
                 "code": "110031",
                 "display": "Email",
@@ -130,12 +120,6 @@
                 ]
             },
             {
-                "extension": [
-                    {
-                        "url": "http://hl7.org/fhir/StructureDefinition/valueset-definition",
-                        "valueString": "CD-R, CD-ROM, and CD-RW media used for data transport"
-                    }
-                ],
                 "system": "http://dicom.nema.org/resources/ontology/DCM",
                 "code": "110032",
                 "display": "CD",
@@ -146,12 +130,6 @@
                 ]
             },
             {
-                "extension": [
-                    {
-                        "url": "http://hl7.org/fhir/StructureDefinition/valueset-definition",
-                        "valueString": "DVD, DVD-RAM, and other DVD formatted media used for data transport"
-                    }
-                ],
                 "system": "http://dicom.nema.org/resources/ontology/DCM",
                 "code": "110033",
                 "display": "DVD",
@@ -162,12 +140,6 @@
                 ]
             },
             {
-                "extension": [
-                    {
-                        "url": "http://hl7.org/fhir/StructureDefinition/valueset-definition",
-                        "valueString": "Media that comply with the Compact Flash standard"
-                    }
-                ],
                 "system": "http://dicom.nema.org/resources/ontology/DCM",
                 "code": "110034",
                 "display": "Compact Flash",
@@ -178,12 +150,6 @@
                 ]
             },
             {
-                "extension": [
-                    {
-                        "url": "http://hl7.org/fhir/StructureDefinition/valueset-definition",
-                        "valueString": "Media that comply with the Multi-media Card standard"
-                    }
-                ],
                 "system": "http://dicom.nema.org/resources/ontology/DCM",
                 "code": "110035",
                 "display": "Multi-media Card",
@@ -194,12 +160,6 @@
                 ]
             },
             {
-                "extension": [
-                    {
-                        "url": "http://hl7.org/fhir/StructureDefinition/valueset-definition",
-                        "valueString": "Media that comply with the Secure Digital Card standard"
-                    }
-                ],
                 "system": "http://dicom.nema.org/resources/ontology/DCM",
                 "code": "110036",
                 "display": "Secure Digital Card",
@@ -210,12 +170,6 @@
                 ]
             },
             {
-                "extension": [
-                    {
-                        "url": "http://hl7.org/fhir/StructureDefinition/valueset-definition",
-                        "valueString": "URI Identifier for network or other resource, see RFC 3968"
-                    }
-                ],
                 "system": "http://dicom.nema.org/resources/ontology/DCM",
                 "code": "110037",
                 "display": "URI",
@@ -226,12 +180,6 @@
                 ]
             },
             {
-                "extension": [
-                    {
-                        "url": "http://hl7.org/fhir/StructureDefinition/valueset-definition",
-                        "valueString": "Film type of output"
-                    }
-                ],
                 "system": "http://dicom.nema.org/resources/ontology/DCM",
                 "code": "110010",
                 "display": "Film",
@@ -242,12 +190,6 @@
                 ]
             },
             {
-                "extension": [
-                    {
-                        "url": "http://hl7.org/fhir/StructureDefinition/valueset-definition",
-                        "valueString": "Any paper or similar document"
-                    }
-                ],
                 "system": "http://dicom.nema.org/resources/ontology/DCM",
                 "code": "110038",
                 "display": "Paper Document",

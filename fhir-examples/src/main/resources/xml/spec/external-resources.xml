@@ -3,7 +3,7 @@
 <Bundle xmlns="http://hl7.org/fhir">
   <id value="externals"/>
   <meta>
-    <lastUpdated value="2022-01-01T15:17:18.597+00:00"/>
+    <lastUpdated value="2022-04-23T22:21:35.043+00:00"/>
   </meta>
   <type value="collection"/>
   <entry>
@@ -55,7 +55,7 @@
             <value value="JohnMoehrke@gmail.com"/>
           </telecom>
         </contact>
-        <description value="The IHE FormatCode code set is defined to be the set of FormatCode(s) defined by IHE http://wiki.ihe.net/index.php?title=IHE_Format_Codes. This code set additionally includes format codes defined by the HL7 CDA http://wiki.hl7.org/index.php?title=CDA_Format_Codes_for_IHE_XDS. The set was listed in HITSP C80 Table 2-153 Format Code Value Set Definition. The use of the FormatCode specifies the technical format of the document. The FormatCode is a further specialization more detailed than the mime-type. The FormatCode provides sufficient information to allow any potential document consumer to know if it can process and/or display by identifying a document encoding, structure and template. The actual list of codes is intended to be extensible. "/>
+        <description value="The IHE FormatCode code set is defined to be the set of FormatCode(s) defined by IHE http://wiki.ihe.net/index.php?title=IHE_Format_Codes. This code set additionally includes format codes defined by the HL7 CDA http://wiki.hl7.org/index.php?title=CDA_Format_Codes_for_IHE_XDS. The set was listed in HITSP C80 Table 2-153 Format Code Value Set Definition. The use of the FormatCode specifies the technical format of the document. The FormatCode is a further specialization more detailed than the mime-type. The FormatCode provides sufficient information to allow any potential document consumer to know if it can process and/or display by identifying a document encoding, structure and template. The actual list of codes is intended to be extensible."/>
         <copyright value="IHE http://www.ihe.net/Governance/#Intellectual_Property"/>
         <caseSensitive value="true"/>
         <content value="complete"/>
@@ -357,184 +357,6 @@
           <display value="For documents following C-CDA 2.1 constraints using a non structured body."/>
         </concept>
       </CodeSystem>
-    </resource>
-  </entry>
-  <entry>
-    <link>
-      <relation value="via"/>
-      <url value="http://dicom.nema.org/medical/dicom/current/output/chtml/part16/sect_CID_29.html"/>
-    </link>
-    <fullUrl value="http://hl7.org/fhir/ValueSet/dicom-cid-29-AcquisitionModality"/>
-    <resource>
-      <ValueSet>
-        <id value="dicom-cid-29-AcquisitionModality"/>
-        <url value="http://dicom.nema.org/medical/dicom/current/output/chtml/part16/sect_CID_29.html"/>
-        <identifier>
-          <system value="urn:ietf:rfc:3986"/>
-          <value value="urn:oid:1.2.840.10008.6.1.19"/>
-        </identifier>
-        <version value="20121129"/>
-        <name value="AcquisitionModality"/>
-        <status value="active"/>
-        <experimental value="false"/>
-        <date value="2018-02-15"/>
-        <publisher value="NEMA MITA DICOM"/>
-        <description value="Transitive closure of CID 29 AcquisitionModality"/>
-        <copyright value="© 2018 NEMA"/>
-        <compose>
-          <include>
-            <system value="http://dicom.nema.org/resources/ontology/DCM"/>
-            <concept>
-              <code value="OPV"/>
-              <display value="Ophthalmic Visual Field"/>
-            </concept>
-            <concept>
-              <code value="DX"/>
-              <display value="Digital Radiography"/>
-            </concept>
-            <concept>
-              <code value="OPT"/>
-              <display value="Ophthalmic Tomography"/>
-            </concept>
-            <concept>
-              <code value="BMD"/>
-              <display value="Bone Mineral Densitometry"/>
-            </concept>
-            <concept>
-              <code value="MG"/>
-              <display value="Mammography"/>
-            </concept>
-            <concept>
-              <code value="SM"/>
-              <display value="Slide Microscopy"/>
-            </concept>
-            <concept>
-              <code value="US"/>
-              <display value="Ultrasound"/>
-            </concept>
-            <concept>
-              <code value="OP"/>
-              <display value="Ophthalmic Photography"/>
-            </concept>
-            <concept>
-              <code value="IVOCT"/>
-              <display value="Intravascular Optical Coherence Tomography"/>
-            </concept>
-            <concept>
-              <code value="MR"/>
-              <display value="Magnetic Resonance"/>
-            </concept>
-            <concept>
-              <code value="ECG"/>
-              <display value="Electrocardiography"/>
-            </concept>
-            <concept>
-              <code value="GM"/>
-              <display value="General Microscopy"/>
-            </concept>
-            <concept>
-              <code value="IO"/>
-              <display value="Intra-oral Radiography"/>
-            </concept>
-            <concept>
-              <code value="XA"/>
-              <display value="X-Ray Angiography"/>
-            </concept>
-            <concept>
-              <code value="XC"/>
-              <display value="External-camera Photography"/>
-            </concept>
-            <concept>
-              <code value="VA"/>
-              <display value="Visual Acuity"/>
-            </concept>
-            <concept>
-              <code value="IVUS"/>
-              <display value="Intravascular Ultrasound"/>
-            </concept>
-            <concept>
-              <code value="CR"/>
-              <display value="Computed Radiography"/>
-            </concept>
-            <concept>
-              <code value="ES"/>
-              <display value="Endoscopy"/>
-            </concept>
-            <concept>
-              <code value="AR"/>
-              <display value="Autorefraction"/>
-            </concept>
-            <concept>
-              <code value="CT"/>
-              <display value="Computed Tomography"/>
-            </concept>
-            <concept>
-              <code value="OSS"/>
-              <display value="Optical Surface Scanner"/>
-            </concept>
-            <concept>
-              <code value="LEN"/>
-              <display value="Lensometry"/>
-            </concept>
-            <concept>
-              <code value="RG"/>
-              <display value="Radiographic imaging"/>
-            </concept>
-            <concept>
-              <code value="RF"/>
-              <display value="Radiofluoroscopy"/>
-            </concept>
-            <concept>
-              <code value="KER"/>
-              <display value="Keratometry"/>
-            </concept>
-            <concept>
-              <code value="HD"/>
-              <display value="Hemodynamic Waveform"/>
-            </concept>
-            <concept>
-              <code value="OAM"/>
-              <display value="Ophthalmic Axial Measurements"/>
-            </concept>
-            <concept>
-              <code value="NM"/>
-              <display value="Nuclear Medicine"/>
-            </concept>
-            <concept>
-              <code value="OCT"/>
-              <display value="Optical Coherence Tomography"/>
-            </concept>
-            <concept>
-              <code value="BDUS"/>
-              <display value="Ultrasound Bone Densitometry"/>
-            </concept>
-            <concept>
-              <code value="PT"/>
-              <display value="Positron emission tomography"/>
-            </concept>
-            <concept>
-              <code value="EPS"/>
-              <display value="Cardiac Electrophysiology"/>
-            </concept>
-            <concept>
-              <code value="PX"/>
-              <display value="Panoramic X-Ray"/>
-            </concept>
-            <concept>
-              <code value="SRF"/>
-              <display value="Subjective Refraction"/>
-            </concept>
-            <concept>
-              <code value="OPM"/>
-              <display value="Ophthalmic Mapping"/>
-            </concept>
-            <concept>
-              <code value="OPR"/>
-              <display value="Ophthalmic Refraction"/>
-            </concept>
-          </include>
-        </compose>
-      </ValueSet>
     </resource>
   </entry>
 </Bundle>

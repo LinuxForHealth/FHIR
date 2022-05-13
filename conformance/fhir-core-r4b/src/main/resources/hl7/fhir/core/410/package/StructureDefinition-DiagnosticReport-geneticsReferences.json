@@ -12,9 +12,10 @@
         }
     ],
     "url": "http://hl7.org/fhir/StructureDefinition/DiagnosticReport-geneticsReferences",
-    "version": "4.3.0-CIBUILD",
+    "version": "4.3.0-cibuild",
     "name": "References",
     "status": "draft",
+    "experimental": false,
     "date": "2015-10-09",
     "publisher": "Health Level Seven International (Clinical Genomics)",
     "contact": [
@@ -28,7 +29,7 @@
         }
     ],
     "description": "Additional bibliographic reference information about genetics, medications, clinical trials, etc. associated with knowledge-based information on genetics/genetic condition.",
-    "fhirVersion": "4.3.0-CIBUILD",
+    "fhirVersion": "4.3.0-cibuild",
     "mapping": [
         {
             "identity": "rim",
@@ -883,9 +884,6 @@
                         "code": "CodeableConcept"
                     },
                     {
-                        "code": "CodeableReference"
-                    },
-                    {
                         "code": "Coding"
                     },
                     {
@@ -920,9 +918,6 @@
                     },
                     {
                         "code": "Ratio"
-                    },
-                    {
-                        "code": "RatioRange"
                     },
                     {
                         "code": "Reference"

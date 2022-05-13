@@ -12,9 +12,10 @@
     }
   ],
   "url": "http://hl7.org/fhir/StructureDefinition/questionnaire-unit",
-  "version": "4.3.0-CIBUILD",
+  "version": "4.3.0-cibuild",
   "name": "unit",
   "status": "draft",
+  "experimental": false,
   "date": "2013-07-04",
   "publisher": "HL7",
   "contact": [
@@ -28,7 +29,7 @@
     }
   ],
   "description": "Provides a computable unit of measure associated with numeric questions to support subsequent computation on responses. This is for use on items of type integer and decimal, and it\u0027s purpose is to support converting the integer or decimal answer into a Quantity when extracting the data into a resource.",
-  "fhirVersion": "4.3.0-CIBUILD",
+  "fhirVersion": "4.3.0-cibuild",
   "mapping": [
     {
       "identity": "rim",

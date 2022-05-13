@@ -2,7 +2,7 @@
     "resourceType": "ValueSet",
     "id": "claim-careteamrole",
     "meta": {
-        "lastUpdated": "2022-03-03T22:04:06.196Z",
+        "lastUpdated": "2022-04-23T22:21:35.043Z",
         "profile": [
             "http://hl7.org/fhir/StructureDefinition/shareablevalueset"
         ]
@@ -28,7 +28,7 @@
             "value": "urn:oid:2.16.840.1.113883.4.642.3.586"
         }
     ],
-    "version": "4.3.0-CIBUILD",
+    "version": "4.3.0-cibuild",
     "name": "ClaimCareTeamRoleCodes",
     "title": "Claim Care Team Role Codes",
     "status": "draft",
@@ -54,8 +54,8 @@
         ]
     },
     "expansion": {
-        "identifier": "urn:uuid:a83ba83b-6b57-4d98-bf10-3d04412eea33",
-        "timestamp": "2022-03-03T22:05:31Z",
+        "identifier": "urn:uuid:d8b80cfe-44dc-47fd-b4a1-c9980ce13a46",
+        "timestamp": "2022-04-23T22:23:26Z",
         "total": 4,
         "parameter": [
             {
@@ -68,7 +68,7 @@
             },
             {
                 "name": "version",
-                "valueUri": "http://terminology.hl7.org/CodeSystem/claimcareteamrole|4.3.0-CIBUILD"
+                "valueUri": "http://terminology.hl7.org/CodeSystem/claimcareteamrole|4.3.0-cibuild"
             }
         ],
         "contains": [

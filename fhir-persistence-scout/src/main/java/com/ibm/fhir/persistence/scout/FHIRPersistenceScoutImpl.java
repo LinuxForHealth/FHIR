@@ -56,6 +56,7 @@ import com.ibm.fhir.path.evaluator.FHIRPathEvaluator;
 import com.ibm.fhir.path.evaluator.FHIRPathEvaluator.EvaluationContext;
 import com.ibm.fhir.persistence.FHIRPersistence;
 import com.ibm.fhir.persistence.FHIRPersistenceTransaction;
+import com.ibm.fhir.persistence.HistorySortOrder;
 import com.ibm.fhir.persistence.MultiResourceResult;
 import com.ibm.fhir.persistence.ResourceChangeLogRecord;
 import com.ibm.fhir.persistence.ResourcePayload;
@@ -63,7 +64,7 @@ import com.ibm.fhir.persistence.SingleResourceResult;
 import com.ibm.fhir.persistence.context.FHIRPersistenceContext;
 import com.ibm.fhir.persistence.exception.FHIRPersistenceException;
 import com.ibm.fhir.persistence.exception.FHIRPersistenceNotSupportedException;
-import com.ibm.fhir.persistence.payload.PayloadKey;
+import com.ibm.fhir.persistence.payload.PayloadPersistenceResponse;
 import com.ibm.fhir.persistence.scout.SearchParameters.ParameterBlock;
 import com.ibm.fhir.persistence.scout.SearchParameters.StrValue;
 import com.ibm.fhir.persistence.scout.SearchParameters.StrValueList;
@@ -245,19 +246,6 @@ public class FHIRPersistenceScoutImpl implements FHIRPersistence {
 
     @Override
     public <T extends Resource> SingleResourceResult<T> update(FHIRPersistenceContext context, String logicalId, T resource) throws FHIRPersistenceException {
-        // TODO Auto-generated method stub
-        return null;
-    }
-
-    @Override
-    public <T extends Resource> MultiResourceResult<T> history(FHIRPersistenceContext context, Class<T> resourceType, String logicalId)
-        throws FHIRPersistenceException {
-        // TODO Auto-generated method stub
-        return null;
-    }
-
-    @Override
-    public MultiResourceResult<Resource> search(FHIRPersistenceContext context, Class<? extends Resource> resourceType) throws FHIRPersistenceException {
         // TODO Auto-generated method stub
         return null;
     }
@@ -496,7 +484,37 @@ public class FHIRPersistenceScoutImpl implements FHIRPersistence {
     }
 
     @Override
-    public Future<PayloadKey> storePayload(Resource resource, String logicalId, int newVersionNumber)
+    public List<Resource> readResourcesForRecords(List<ResourceChangeLogRecord> records)
+            throws FHIRPersistenceException {
+        // TODO Auto-generated method stub
+        return null;
+    }
+
+    @Override
+    public List<ResourceChangeLogRecord> changes(int resourceCount, java.time.Instant sinceLastModified,
+            java.time.Instant beforeLastModified, Long changeIdMarker, List<String> resourceTypeNames,
+            boolean excludeTransactionTimeoutWindow, HistorySortOrder historySortOrder)
+            throws FHIRPersistenceException {
+        // TODO Auto-generated method stub
+        return null;
+    }
+
+    @Override
+    public PayloadPersistenceResponse storePayload(Resource resource, String logicalId, int newVersionNumber,
+            String resourcePayloadKey) throws FHIRPersistenceException {
+        // TODO Auto-generated method stub
+        return null;
+    }
+
+    @Override
+    public MultiResourceResult history(FHIRPersistenceContext context, Class<? extends Resource> resourceType,
+            String logicalId) throws FHIRPersistenceException {
+        // TODO Auto-generated method stub
+        return null;
+    }
+
+    @Override
+    public MultiResourceResult search(FHIRPersistenceContext context, Class<? extends Resource> resourceType)
             throws FHIRPersistenceException {
         // TODO Auto-generated method stub
         return null;

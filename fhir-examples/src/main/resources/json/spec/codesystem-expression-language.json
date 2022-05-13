@@ -2,11 +2,11 @@
   "resourceType": "CodeSystem",
   "id": "expression-language",
   "meta": {
-    "lastUpdated": "2022-01-01T15:17:18.597+00:00"
+    "lastUpdated": "2022-04-23T22:21:35.043+00:00"
   },
   "text": {
     "status": "generated",
-    "div": "\u003cdiv xmlns\u003d\"http://www.w3.org/1999/xhtml\"\u003e\u003cp\u003eThis code system http://hl7.org/fhir/expression-language defines the following codes:\u003c/p\u003e\u003ctable class\u003d\"codes\"\u003e\u003ctr\u003e\u003ctd style\u003d\"white-space:nowrap\"\u003e\u003cb\u003eCode\u003c/b\u003e\u003c/td\u003e\u003ctd\u003e\u003cb\u003eDisplay\u003c/b\u003e\u003c/td\u003e\u003ctd\u003e\u003cb\u003eDefinition\u003c/b\u003e\u003c/td\u003e\u003c/tr\u003e\u003ctr\u003e\u003ctd style\u003d\"white-space:nowrap\"\u003etext/cql\u003ca name\u003d\"expression-language-text.47cql\"\u003e \u003c/a\u003e\u003c/td\u003e\u003ctd\u003eCQL\u003c/td\u003e\u003ctd\u003eClinical Quality Language.\u003c/td\u003e\u003c/tr\u003e\u003ctr\u003e\u003ctd style\u003d\"white-space:nowrap\"\u003etext/fhirpath\u003ca name\u003d\"expression-language-text.47fhirpath\"\u003e \u003c/a\u003e\u003c/td\u003e\u003ctd\u003eFHIRPath\u003c/td\u003e\u003ctd\u003eFHIRPath.\u003c/td\u003e\u003c/tr\u003e\u003ctr\u003e\u003ctd style\u003d\"white-space:nowrap\"\u003eapplication/x-fhir-query\u003ca name\u003d\"expression-language-application.47x-fhir-query\"\u003e \u003c/a\u003e\u003c/td\u003e\u003ctd\u003eFHIR Query\u003c/td\u003e\u003ctd\u003eFHIR\u0027s RESTful query syntax - typically independent of base URL.\u003c/td\u003e\u003c/tr\u003e\u003c/table\u003e\u003c/div\u003e"
+    "div": "\u003cdiv xmlns\u003d\"http://www.w3.org/1999/xhtml\"\u003e\u003cp\u003eThis code system http://hl7.org/fhir/expression-language defines the following codes:\u003c/p\u003e\u003ctable class\u003d\"codes\"\u003e\u003ctr\u003e\u003ctd style\u003d\"white-space:nowrap\"\u003e\u003cb\u003eCode\u003c/b\u003e\u003c/td\u003e\u003ctd\u003e\u003cb\u003eDisplay\u003c/b\u003e\u003c/td\u003e\u003ctd\u003e\u003cb\u003eDefinition\u003c/b\u003e\u003c/td\u003e\u003c/tr\u003e\u003ctr\u003e\u003ctd style\u003d\"white-space:nowrap\"\u003etext/cql\u003ca name\u003d\"expression-language-text.47cql\"\u003e \u003c/a\u003e\u003c/td\u003e\u003ctd\u003eCQL\u003c/td\u003e\u003ctd\u003eClinical Quality Language.\u003c/td\u003e\u003c/tr\u003e\u003ctr\u003e\u003ctd style\u003d\"white-space:nowrap\"\u003etext/fhirpath\u003ca name\u003d\"expression-language-text.47fhirpath\"\u003e \u003c/a\u003e\u003c/td\u003e\u003ctd\u003eFHIRPath\u003c/td\u003e\u003ctd\u003eFHIRPath.\u003c/td\u003e\u003c/tr\u003e\u003ctr\u003e\u003ctd style\u003d\"white-space:nowrap\"\u003eapplication/x-fhir-query\u003ca name\u003d\"expression-language-application.47x-fhir-query\"\u003e \u003c/a\u003e\u003c/td\u003e\u003ctd\u003eFHIR Query\u003c/td\u003e\u003ctd\u003eFHIR\u0027s RESTful query syntax - typically independent of base URL.\u003c/td\u003e\u003c/tr\u003e\u003ctr\u003e\u003ctd style\u003d\"white-space:nowrap\"\u003etext/cql-identifier\u003ca name\u003d\"expression-language-text.47cql-identifier\"\u003e \u003c/a\u003e\u003c/td\u003e\u003ctd\u003eCQL Identifier\u003c/td\u003e\u003ctd\u003eA valid Clinical Quality Language identifier.\u003c/td\u003e\u003c/tr\u003e\u003ctr\u003e\u003ctd style\u003d\"white-space:nowrap\"\u003etext/cql-expression\u003ca name\u003d\"expression-language-text.47cql-expression\"\u003e \u003c/a\u003e\u003c/td\u003e\u003ctd\u003eCQL Expression\u003c/td\u003e\u003ctd\u003eA Clinical Quality Language expression.\u003c/td\u003e\u003c/tr\u003e\u003c/table\u003e\u003c/div\u003e"
   },
   "extension": [
     {
@@ -29,12 +29,12 @@
       "value": "urn:oid:2.16.840.1.113883.4.642.1.106"
     }
   ],
-  "version": "4.3.0-CIBUILD",
+  "version": "4.3.0-cibuild",
   "name": "ExpressionLanguage",
   "title": "ExpressionLanguage",
   "status": "draft",
   "experimental": false,
-  "date": "2022-01-01T15:17:18+00:00",
+  "date": "2022-04-23T22:21:35+00:00",
   "publisher": "HL7 (FHIR Project)",
   "contact": [
     {
@@ -69,6 +69,16 @@
       "code": "application/x-fhir-query",
       "display": "FHIR Query",
       "definition": "FHIR\u0027s RESTful query syntax - typically independent of base URL."
+    },
+    {
+      "code": "text/cql-identifier",
+      "display": "CQL Identifier",
+      "definition": "A valid Clinical Quality Language identifier."
+    },
+    {
+      "code": "text/cql-expression",
+      "display": "CQL Expression",
+      "definition": "A Clinical Quality Language expression."
     }
   ]
 }

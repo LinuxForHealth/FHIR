@@ -2,7 +2,7 @@
     "resourceType": "ValueSet",
     "id": "signature-type",
     "meta": {
-        "lastUpdated": "2022-03-03T22:04:06.196Z",
+        "lastUpdated": "2022-04-23T22:21:35.043Z",
         "profile": [
             "http://hl7.org/fhir/StructureDefinition/shareablevalueset"
         ]
@@ -20,12 +20,12 @@
             "value": "urn:oid:1.2.840.10065.1.12"
         }
     ],
-    "version": "4.3.0-CIBUILD",
+    "version": "4.3.0-cibuild",
     "name": "SignatureTypeCodes",
     "title": "Signature Type Codes",
     "status": "draft",
     "experimental": false,
-    "date": "2022-03-03T22:04:06Z",
+    "date": "2022-04-23T22:21:35Z",
     "publisher": "ASTM",
     "contact": [
         {
@@ -48,8 +48,8 @@
         ]
     },
     "expansion": {
-        "identifier": "urn:uuid:422cdfa1-10c8-4626-ba93-febd17df8c0f",
-        "timestamp": "2022-03-03T22:05:31Z",
+        "identifier": "urn:uuid:d59e0804-c2f4-4a3d-9331-cb26790b7b7f",
+        "timestamp": "2022-04-23T22:23:26Z",
         "total": 18,
         "parameter": [
             {
@@ -62,7 +62,7 @@
             },
             {
                 "name": "version",
-                "valueUri": "urn:iso-astm:E1762-95:2013|4.3.0-CIBUILD"
+                "valueUri": "urn:iso-astm:E1762-95:2013|4.3.0-cibuild"
             }
         ],
         "contains": [

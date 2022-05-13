@@ -2,7 +2,7 @@
     "resourceType": "ValueSet",
     "id": "characteristic-method",
     "meta": {
-        "lastUpdated": "2022-03-04T09:04:06.196+11:00",
+        "lastUpdated": "2022-04-24T09:21:35.043+11:00",
         "profile": [
             "http://hl7.org/fhir/StructureDefinition/shareablevalueset"
         ]
@@ -28,7 +28,7 @@
             "value": "urn:oid:2.16.840.1.113883.4.642.3.1452"
         }
     ],
-    "version": "4.3.0-CIBUILD",
+    "version": "4.3.0-cibuild",
     "name": "CharacteristicMethod",
     "title": "CharacteristicMethod",
     "status": "draft",
@@ -59,8 +59,8 @@
         ]
     },
     "expansion": {
-        "identifier": "urn:uuid:25b9dd15-24d8-4786-aa0c-865877caa823",
-        "timestamp": "2022-03-03T22:05:31Z",
+        "identifier": "urn:uuid:d1c83d9b-ada2-4895-a319-0aaa86090ba6",
+        "timestamp": "2022-04-23T22:23:26Z",
         "total": 1,
         "parameter": [
             {
@@ -73,7 +73,7 @@
             },
             {
                 "name": "version",
-                "valueUri": "http://terminology.hl7.org/CodeSystem/characteristic-method|4.3.0-CIBUILD"
+                "valueUri": "http://terminology.hl7.org/CodeSystem/characteristic-method|4.3.0-cibuild"
             }
         ],
         "contains": [

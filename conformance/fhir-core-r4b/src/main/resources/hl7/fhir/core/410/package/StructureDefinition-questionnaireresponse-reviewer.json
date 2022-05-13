@@ -12,10 +12,11 @@
         }
     ],
     "url": "http://hl7.org/fhir/StructureDefinition/questionnaireresponse-reviewer",
-    "version": "4.3.0-CIBUILD",
+    "version": "4.3.0-cibuild",
     "name": "reviewer",
     "title": "Reviewer",
     "status": "draft",
+    "experimental": false,
     "date": "2013-07-04",
     "publisher": "HL7",
     "contact": [
@@ -29,7 +30,7 @@
         }
     ],
     "description": "Individual responsible for ensuring that the questionnaire response have been completed appropriately and signs off on the content.",
-    "fhirVersion": "4.3.0-CIBUILD",
+    "fhirVersion": "4.3.0-cibuild",
     "mapping": [
         {
             "identity": "rim",

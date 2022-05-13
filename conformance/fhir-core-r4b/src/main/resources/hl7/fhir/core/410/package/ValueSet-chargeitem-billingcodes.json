@@ -2,7 +2,7 @@
     "resourceType": "ValueSet",
     "id": "chargeitem-billingcodes",
     "meta": {
-        "lastUpdated": "2022-03-04T09:04:06.196+11:00",
+        "lastUpdated": "2022-04-24T09:21:35.043+11:00",
         "profile": [
             "http://hl7.org/fhir/StructureDefinition/shareablevalueset"
         ]
@@ -28,7 +28,7 @@
             "value": "urn:oid:2.16.840.1.113883.4.642.3.848"
         }
     ],
-    "version": "4.3.0-CIBUILD",
+    "version": "4.3.0-cibuild",
     "name": "ChargeItemCode",
     "title": "ChargeItemCode",
     "status": "draft",
@@ -59,8 +59,8 @@
         ]
     },
     "expansion": {
-        "identifier": "urn:uuid:8f190ffa-8cc3-4257-b713-86d484a8e5f7",
-        "timestamp": "2022-03-03T22:05:31Z",
+        "identifier": "urn:uuid:6e1fa84a-6583-44f5-ae29-d6c74e00b2b5",
+        "timestamp": "2022-04-23T22:23:26Z",
         "total": 3,
         "parameter": [
             {
@@ -73,7 +73,7 @@
             },
             {
                 "name": "version",
-                "valueUri": "http://terminology.hl7.org/CodeSystem/chargeitem-billingcodes|4.3.0-CIBUILD"
+                "valueUri": "http://terminology.hl7.org/CodeSystem/chargeitem-billingcodes|4.3.0-cibuild"
             }
         ],
         "contains": [

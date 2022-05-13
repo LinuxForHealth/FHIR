@@ -13,6 +13,7 @@
   <url value="http://hl7.org/fhir/terminology-server"/>
   <name value="Terminology Service Capability Statement"/>
   <status value="draft"/>
+  <experimental value="true"/>
   <date value="2015-07-05"/>
   <publisher value="HL7, Inc"/>
   <contact>
@@ -27,7 +28,7 @@
   <software>
     <name value="ACME Terminology Server"/>
   </software>
-  <fhirVersion value="4.3.0-CIBUILD"/>
+  <fhirVersion value="4.3.0-cibuild"/>
   <format value="json"/>
   <format value="xml"/>
   <rest>

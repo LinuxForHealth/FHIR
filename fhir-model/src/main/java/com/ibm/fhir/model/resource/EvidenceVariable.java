@@ -66,7 +66,7 @@ import com.ibm.fhir.model.visitor.Visitor;
     level = "Warning",
     location = "(base)",
     description = "Name should be usable as an identifier for the module by machine processing applications such as code generation",
-    expression = "name.matches('[A-Z]([A-Za-z0-9_]){0,254}')",
+    expression = "name.exists() implies name.matches('[A-Z]([A-Za-z0-9_]){0,254}')",
     source = "http://hl7.org/fhir/StructureDefinition/EvidenceVariable"
 )
 @Generated("com.ibm.fhir.tools.CodeGenerator")
@@ -89,7 +89,7 @@ public class EvidenceVariable extends DomainResource {
         bindingName = "PublicationStatus",
         strength = BindingStrength.Value.REQUIRED,
         description = "The lifecycle status of an artifact.",
-        valueSet = "http://hl7.org/fhir/ValueSet/publication-status|4.3.0-CIBUILD"
+        valueSet = "http://hl7.org/fhir/ValueSet/publication-status|4.3.0-cibuild"
     )
     @Required
     private final PublicationStatus status;
@@ -114,7 +114,7 @@ public class EvidenceVariable extends DomainResource {
         bindingName = "CharacteristicCombination",
         strength = BindingStrength.Value.REQUIRED,
         description = "Logical grouping of characteristics.",
-        valueSet = "http://hl7.org/fhir/ValueSet/characteristic-combination|4.3.0-CIBUILD"
+        valueSet = "http://hl7.org/fhir/ValueSet/characteristic-combination|4.3.0-cibuild"
     )
     private final CharacteristicCombination characteristicCombination;
     @Summary
@@ -124,7 +124,7 @@ public class EvidenceVariable extends DomainResource {
         bindingName = "EvidenceVariableHandling",
         strength = BindingStrength.Value.REQUIRED,
         description = "The handling of the variable in statistical analysis for exposures or outcomes (E.g. Dichotomous, Continuous, Descriptive).",
-        valueSet = "http://hl7.org/fhir/ValueSet/variable-handling|4.3.0-CIBUILD"
+        valueSet = "http://hl7.org/fhir/ValueSet/variable-handling|4.3.0-cibuild"
     )
     private final EvidenceVariableHandling handling;
     private final List<Category> category;
@@ -1669,7 +1669,7 @@ public class EvidenceVariable extends DomainResource {
             bindingName = "GroupMeasure",
             strength = BindingStrength.Value.REQUIRED,
             description = "Possible group measure aggregates (E.g. Mean, Median).",
-            valueSet = "http://hl7.org/fhir/ValueSet/group-measure|4.3.0-CIBUILD"
+            valueSet = "http://hl7.org/fhir/ValueSet/group-measure|4.3.0-cibuild"
         )
         private final GroupMeasure groupMeasure;
 

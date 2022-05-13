@@ -2,17 +2,18 @@
     "resourceType": "ValueSet",
     "id": "all-time-units",
     "meta": {
-        "lastUpdated": "2022-01-01T15:17:18.597Z"
+        "lastUpdated": "2022-04-23T22:21:35.043Z"
     },
     "text": {
         "status": "empty",
         "div": "<div xmlns=\"http://www.w3.org/1999/xhtml\">Redacted for size</div>"
     },
     "url": "http://hl7.org/fhir/ValueSet/all-time-units",
-    "version": "4.3.0-CIBUILD",
+    "version": "4.3.0-cibuild",
     "name": "AllUCUMExpressionForTime",
     "title": "All UCUM Expression for Time",
     "status": "draft",
+    "experimental": false,
     "publisher": "FHIR Project team",
     "contact": [
         {

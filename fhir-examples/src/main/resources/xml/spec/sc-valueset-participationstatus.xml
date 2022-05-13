@@ -10,7 +10,7 @@
         <a href="valueset-participationstatus.html">http://hl7.org/fhir/ValueSet/participationstatus</a> to 
         <a href="valueset-resource-status.html">http://hl7.org/fhir/ValueSet/resource-status</a>
       </p>
-      <p>DRAFT. Published on Jan 16, 2021 8:06:13 PM by HL7 (FHIR Project) (
+      <p>DRAFT. Published on 2021-01-16T20:06:13Z by HL7 (FHIR Project) (
         <a href="http://hl7.org/fhir">http://hl7.org/fhir</a>, 
         <a href="mailto:fhir@lists.hl7.org">fhir@lists.hl7.org</a>). 
       </p>
@@ -29,6 +29,12 @@
           </td>
           <td>
             <b>Destination Code</b>
+          </td>
+        </tr>
+        <tr>
+          <td colspan="3">Mapping from 
+            <a href="codesystem-participationstatus.html">ParticipationStatus</a> to 
+            <a href="codesystem-resource-status.html">Canonical Status Codes for FHIR Resources</a>
           </td>
         </tr>
         <tr>
@@ -63,10 +69,11 @@
     </div>
   </text>
   <url value="http://hl7.org/fhir/ConceptMap/sc-participationstatus"/>
-  <version value="4.3.0-CIBUILD"/>
+  <version value="4.3.0-cibuild"/>
   <name value="ParticipationStatusCanonicalMap"/>
   <title value="Canonical Mapping for &quot;ParticipationStatus&quot;"/>
   <status value="draft"/>
+  <experimental value="false"/>
   <date value="2021-01-16T20:06:13+00:00"/>
   <publisher value="HL7 (FHIR Project)"/>
   <contact>
@@ -89,28 +96,28 @@
       <code value="tentative"/>
       <target>
         <code value="draft"/>
-        <relationship value="equivalent"/>
+        <equivalence value="equivalent"/>
       </target>
     </element>
     <element>
       <code value="declined"/>
       <target>
         <code value="declined"/>
-        <relationship value="equivalent"/>
+        <equivalence value="equivalent"/>
       </target>
     </element>
     <element>
       <code value="accepted"/>
       <target>
         <code value="accepted"/>
-        <relationship value="equivalent"/>
+        <equivalence value="equivalent"/>
       </target>
     </element>
     <element>
       <code value="needs-action"/>
       <target>
         <code value="failed"/>
-        <relationship value="equivalent"/>
+        <equivalence value="equivalent"/>
       </target>
     </element>
   </group>

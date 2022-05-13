@@ -2,7 +2,7 @@
     "resourceType": "ValueSet",
     "id": "contract-status",
     "meta": {
-        "lastUpdated": "2022-03-03T22:04:06.196Z",
+        "lastUpdated": "2022-04-23T22:21:35.043Z",
         "profile": [
             "http://hl7.org/fhir/StructureDefinition/shareablevalueset"
         ]
@@ -28,7 +28,7 @@
             "value": "urn:oid:2.16.840.1.113883.4.642.3.743"
         }
     ],
-    "version": "4.3.0-CIBUILD",
+    "version": "4.3.0-cibuild",
     "name": "ContractResourceStatusCodes",
     "title": "Contract Resource Status Codes",
     "status": "draft",
@@ -54,8 +54,8 @@
         ]
     },
     "expansion": {
-        "identifier": "urn:uuid:a153c73e-b667-413e-a2ac-60138b766eaa",
-        "timestamp": "2022-03-03T22:05:09Z",
+        "identifier": "urn:uuid:fca2cdd3-9e17-4e84-80b8-eb70dad68fde",
+        "timestamp": "2022-04-23T22:23:07Z",
         "total": 15,
         "parameter": [
             {
@@ -68,7 +68,7 @@
             },
             {
                 "name": "version",
-                "valueUri": "http://hl7.org/fhir/contract-status|4.3.0-CIBUILD"
+                "valueUri": "http://hl7.org/fhir/contract-status|4.3.0-cibuild"
             }
         ],
         "contains": [

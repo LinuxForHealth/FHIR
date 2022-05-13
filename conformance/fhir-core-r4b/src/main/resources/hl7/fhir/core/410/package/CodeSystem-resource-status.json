@@ -2,7 +2,7 @@
     "resourceType": "CodeSystem",
     "id": "resource-status",
     "meta": {
-        "lastUpdated": "2022-01-01T15:17:18.597Z"
+        "lastUpdated": "2022-04-23T22:21:35.043Z"
     },
     "text": {
         "status": "empty",
@@ -23,9 +23,10 @@
         }
     ],
     "url": "http://hl7.org/fhir/resource-status",
-    "version": "4.3.0-CIBUILD",
+    "version": "4.3.0-cibuild",
     "name": "Canonical Status Codes for FHIR Resources",
     "status": "draft",
+    "experimental": false,
     "publisher": "FHIR Project",
     "description": "The master set of status codes used throughout FHIR. All status codes are mapped to one of these codes.",
     "caseSensitive": true,

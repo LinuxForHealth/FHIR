@@ -12,9 +12,10 @@
         }
     ],
     "url": "http://hl7.org/fhir/StructureDefinition/entryFormat",
-    "version": "4.3.0-CIBUILD",
+    "version": "4.3.0-cibuild",
     "name": "entryFormat",
     "status": "draft",
+    "experimental": false,
     "date": "2014-04-27",
     "publisher": "Health Level Seven International (FHIR Infrastructure)",
     "contact": [
@@ -28,7 +29,7 @@
         }
     ],
     "description": "Additional instructions for the user to guide their input (i.e. a human readable version of a regular expression like \"nnn-nnn-nnn\"). In most UIs this is the placeholder (or 'ghost') text placed directly inside the edit controls and that disappear when the control gets the focus.",
-    "fhirVersion": "4.3.0-CIBUILD",
+    "fhirVersion": "4.3.0-cibuild",
     "mapping": [
         {
             "identity": "v2",

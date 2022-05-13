@@ -12,13 +12,14 @@
         }
     ],
     "url": "http://hl7.org/fhir/StructureDefinition/valueset-effectiveDate",
-    "version": "4.3.0-CIBUILD",
+    "version": "4.3.0-cibuild",
     "name": "effectiveDate",
     "status": "draft",
+    "experimental": false,
     "date": "2021-01-17T07:06:13+11:00",
     "publisher": "HL7",
     "description": "This is the first date-time when the value set version becomes active, so this value is present on Inactive value set versions as well. The start Date_time is expected to be as of 0001 UTC of the Effective Date.",
-    "fhirVersion": "4.3.0-CIBUILD",
+    "fhirVersion": "4.3.0-cibuild",
     "mapping": [
         {
             "identity": "rim",

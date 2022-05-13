@@ -2,7 +2,7 @@
     "resourceType": "ValueSet",
     "id": "medication-as-needed-reason",
     "meta": {
-        "lastUpdated": "2022-03-03T22:04:06.196Z",
+        "lastUpdated": "2022-04-23T22:21:35.043Z",
         "profile": [
             "http://hl7.org/fhir/StructureDefinition/shareablevalueset"
         ]
@@ -28,12 +28,12 @@
             "value": "urn:oid:2.16.840.1.113883.4.642.3.96"
         }
     ],
-    "version": "4.3.0-CIBUILD",
+    "version": "4.3.0-cibuild",
     "name": "SNOMEDCTMedicationAsNeededReasonCodes",
     "title": "SNOMED CT Medication As Needed Reason Codes",
     "status": "draft",
     "experimental": true,
-    "date": "2022-03-03T22:04:06Z",
+    "date": "2022-04-23T22:21:35Z",
     "publisher": "FHIR Project team",
     "contact": [
         {
@@ -72,11 +72,12 @@
                 "valueBoolean": true
             }
         ],
-        "identifier": "urn:uuid:e988b36c-05f4-4772-934c-f321253eb2ab",
-        "timestamp": "2021-11-17T05:28:15.075Z",
+        "identifier": "urn:uuid:7ddbfb1a-77e6-4f1c-b112-d952843c4053",
+        "timestamp": "2022-04-23T22:23:26Z",
+        "total": 1000,
         "parameter": [
             {
-                "name": "limitedExpansion",
+                "name": "excludeNested",
                 "valueBoolean": true
             },
             {
@@ -84,12 +85,12 @@
                 "valueBoolean": true
             },
             {
-                "name": "excludeNested",
+                "name": "limitedExpansion",
                 "valueBoolean": true
             },
             {
                 "name": "version",
-                "valueUri": "http://snomed.info/sct|http://snomed.info/sct/900000000000207008/version/20200131"
+                "valueUri": "http://snomed.info/sct|http://snomed.info/sct/900000000000207008/version/20200731"
             }
         ],
         "contains": [
@@ -809,9 +810,6 @@
                 "designation": [
                     {
                         "value": "Paraffinoma of skin"
-                    },
-                    {
-                        "value": "Lipid granuloma of skin caused by mineral oil"
                     },
                     {
                         "value": "Paraffinoma of skin (disorder)"
@@ -2029,19 +2027,6 @@
             },
             {
                 "system": "http://snomed.info/sct",
-                "code": "663008",
-                "display": "Pulmonary embolism following molar AND/OR ectopic pregnancy",
-                "designation": [
-                    {
-                        "value": "Pulmonary embolism following molar AND/OR ectopic pregnancy"
-                    },
-                    {
-                        "value": "Pulmonary embolism following molar AND/OR ectopic pregnancy (disorder)"
-                    }
-                ]
-            },
-            {
-                "system": "http://snomed.info/sct",
                 "code": "664002",
                 "display": "Delayed ovulation",
                 "designation": [
@@ -2100,19 +2085,6 @@
             },
             {
                 "system": "http://snomed.info/sct",
-                "code": "685002",
-                "display": "Acquired telangiectasia of small AND/OR large intestines",
-                "designation": [
-                    {
-                        "value": "Acquired telangiectasia of small AND/OR large intestines"
-                    },
-                    {
-                        "value": "Acquired telangiectasia of small AND/OR large intestines (disorder)"
-                    }
-                ]
-            },
-            {
-                "system": "http://snomed.info/sct",
                 "code": "701003",
                 "display": "Adult osteochondritis of spine",
                 "designation": [
@@ -2143,11 +2115,8 @@
             {
                 "system": "http://snomed.info/sct",
                 "code": "714002",
-                "display": "Abrasion AND/OR friction burn of toe with infection",
+                "display": "Abrasion and/or friction burn of toe with infection (disorder)",
                 "designation": [
-                    {
-                        "value": "Abrasion AND/OR friction burn of toe with infection"
-                    },
                     {
                         "value": "Abrasion and/or friction burn of toe with infection (disorder)"
                     },
@@ -2827,9 +2796,6 @@
                 "designation": [
                     {
                         "value": "Chorioretinal infarction"
-                    },
-                    {
-                        "value": "Hollenhorst's syndrome"
                     },
                     {
                         "value": "Chorioretinal infarction (disorder)"
@@ -4591,19 +4557,6 @@
                     },
                     {
                         "value": "Necrotizing glomerulonephritis (disorder)"
-                    }
-                ]
-            },
-            {
-                "system": "http://snomed.info/sct",
-                "code": "1430001",
-                "display": "Intracranial hemorrhage following injury without open intracranial wound AND with prolonged loss of consciousness (more than 24 hours) without return to pre-existing level",
-                "designation": [
-                    {
-                        "value": "Intracranial hemorrhage following injury without open intracranial wound AND with prolonged loss of consciousness (more than 24 hours) without return to pre-existing level"
-                    },
-                    {
-                        "value": "Intracranial hemorrhage following injury without open intracranial wound AND with prolonged loss of consciousness (more than 24 hours) without return to pre-existing level (disorder)"
                     }
                 ]
             },
@@ -8758,6 +8711,12 @@
                     },
                     {
                         "value": "Senter syndrome (disorder)"
+                    },
+                    {
+                        "value": "Autosomal dominant keratitis, ichthyosis, deafness syndrome"
+                    },
+                    {
+                        "value": "Autosomal dominant KID (keratitis, ichthyosis, deafness) syndrome"
                     }
                 ]
             },
@@ -9419,11 +9378,8 @@
             {
                 "system": "http://snomed.info/sct",
                 "code": "2825006",
-                "display": "Abrasion AND/OR friction burn of gum without infection",
+                "display": "Gingival abrasion",
                 "designation": [
-                    {
-                        "value": "Abrasion AND/OR friction burn of gum without infection"
-                    },
                     {
                         "value": "Gingival abrasion"
                     },
@@ -9484,19 +9440,6 @@
             },
             {
                 "system": "http://snomed.info/sct",
-                "code": "2831009",
-                "display": "Pyloric antral vascular ectasia",
-                "designation": [
-                    {
-                        "value": "Pyloric antral vascular ectasia"
-                    },
-                    {
-                        "value": "Pyloric antral vascular ectasia (disorder)"
-                    }
-                ]
-            },
-            {
-                "system": "http://snomed.info/sct",
                 "code": "2835000",
                 "display": "Traumatic cardiac hemolytic anemia",
                 "designation": [
@@ -9543,22 +9486,6 @@
                     },
                     {
                         "value": "Piblokto (disorder)"
-                    }
-                ]
-            },
-            {
-                "system": "http://snomed.info/sct",
-                "code": "2840008",
-                "display": "Open fracture of vault of skull with cerebral laceration AND/OR contusion",
-                "designation": [
-                    {
-                        "value": "Open fracture of vault of skull with cerebral laceration AND/OR contusion"
-                    },
-                    {
-                        "value": "Cerebral laceration AND/OR contusion co-occurrent and due to open fracture of vault of skull"
-                    },
-                    {
-                        "value": "Cerebral laceration AND/OR contusion co-occurrent and due to open fracture of vault of skull (disorder)"
                     }
                 ]
             },
@@ -9859,19 +9786,6 @@
                     },
                     {
                         "value": "Antiasthmatic poisoning"
-                    }
-                ]
-            },
-            {
-                "system": "http://snomed.info/sct",
-                "code": "2940009",
-                "display": "Intrabasal vesicular dermatitis",
-                "designation": [
-                    {
-                        "value": "Intrabasal vesicular dermatitis"
-                    },
-                    {
-                        "value": "Intrabasal vesicular dermatitis (disorder)"
                     }
                 ]
             },
@@ -11468,6 +11382,12 @@
                     },
                     {
                         "value": "Myotonia (finding)"
+                    },
+                    {
+                        "value": "Tonic spasm of muscle"
+                    },
+                    {
+                        "value": "Myotonus"
                     }
                 ]
             },
@@ -12576,19 +12496,6 @@
             },
             {
                 "system": "http://snomed.info/sct",
-                "code": "3736001",
-                "display": "Open wound of thumbnail with tendon involvement",
-                "designation": [
-                    {
-                        "value": "Open wound of thumbnail with tendon involvement"
-                    },
-                    {
-                        "value": "Open wound of thumbnail with tendon involvement (disorder)"
-                    }
-                ]
-            },
-            {
-                "system": "http://snomed.info/sct",
                 "code": "3738000",
                 "display": "Viral hepatitis",
                 "designation": [
@@ -12954,25 +12861,6 @@
             },
             {
                 "system": "http://snomed.info/sct",
-                "code": "3873005",
-                "display": "Failed attempted abortion with acute yellow atrophy of liver",
-                "designation": [
-                    {
-                        "value": "Failed attempted abortion with acute yellow atrophy of liver"
-                    },
-                    {
-                        "value": "Failed attempted abortion with acute necrosis of liver"
-                    },
-                    {
-                        "value": "Failed attempted abortion with acute yellow atrophy of liver (disorder)"
-                    },
-                    {
-                        "value": "Failed attempted termination of pregnancy with acute necrosis of liver"
-                    }
-                ]
-            },
-            {
-                "system": "http://snomed.info/sct",
                 "code": "3885002",
                 "display": "ABO isoimmunization affecting pregnancy",
                 "designation": [
@@ -13154,9 +13042,6 @@
                         "value": "Steroid sulfatase deficiency"
                     },
                     {
-                        "value": "X-linked ichthyosis"
-                    },
-                    {
                         "value": "Placental sulfatase deficiency"
                     },
                     {
@@ -13164,9 +13049,6 @@
                     },
                     {
                         "value": "X-linked placental steryl-sulfatase deficiency"
-                    },
-                    {
-                        "value": "XRI - X-linked recessive ichthyosis"
                     },
                     {
                         "value": "Placental sulfatase deficiency (X-linked steryl-sulfatase deficiency) in a female (disorder)"
@@ -13562,6 +13444,9 @@
                     },
                     {
                         "value": "Palinphrasia (finding)"
+                    },
+                    {
+                        "value": "Involuntary repetition of words and phrases."
                     }
                 ]
             },
@@ -14153,7 +14038,7 @@
                         "value": "Listeriosis (disorder)"
                     },
                     {
-                        "value": "Listeria infection"
+                        "value": "Listeria monocytogenes infection"
                     }
                 ]
             },
@@ -14173,19 +14058,6 @@
                     },
                     {
                         "value": "18q partial monosomy syndrome (disorder)"
-                    }
-                ]
-            },
-            {
-                "system": "http://snomed.info/sct",
-                "code": "4244005",
-                "display": "Urticaria neonatorum",
-                "designation": [
-                    {
-                        "value": "Urticaria neonatorum"
-                    },
-                    {
-                        "value": "Urticaria neonatorum (disorder)"
                     }
                 ]
             },
@@ -14212,19 +14084,6 @@
                     },
                     {
                         "value": "Poor peripheral circulation (disorder)"
-                    }
-                ]
-            },
-            {
-                "system": "http://snomed.info/sct",
-                "code": "4251001",
-                "display": "Internal eye sign",
-                "designation": [
-                    {
-                        "value": "Internal eye sign"
-                    },
-                    {
-                        "value": "Internal eye sign (finding)"
                     }
                 ]
             },
@@ -14493,19 +14352,6 @@
                     },
                     {
                         "value": "11q partial monosomy syndrome (disorder)"
-                    }
-                ]
-            },
-            {
-                "system": "http://snomed.info/sct",
-                "code": "4332009",
-                "display": "Subarachnoid hemorrhage following injury without open intracranial wound AND with concussion",
-                "designation": [
-                    {
-                        "value": "Subarachnoid hemorrhage following injury without open intracranial wound AND with concussion"
-                    },
-                    {
-                        "value": "Subarachnoid hemorrhage following injury without open intracranial wound AND with concussion (disorder)"
                     }
                 ]
             },
@@ -15742,6 +15588,200 @@
                     },
                     {
                         "value": "Myxedema heart disease (disorder)"
+                    }
+                ]
+            },
+            {
+                "system": "http://snomed.info/sct",
+                "code": "4645000",
+                "display": "Senile brain amyloidosis",
+                "designation": [
+                    {
+                        "value": "Senile brain amyloidosis"
+                    },
+                    {
+                        "value": "AS beta protein amyloidosis"
+                    },
+                    {
+                        "value": "Senile brain amyloidosis (disorder)"
+                    }
+                ]
+            },
+            {
+                "system": "http://snomed.info/sct",
+                "code": "4646004",
+                "display": "Impairment level: one eye: profound impairment: other eye: not specified",
+                "designation": [
+                    {
+                        "value": "Impairment level: one eye: profound impairment: other eye: not specified"
+                    },
+                    {
+                        "value": "Impairment level: one eye: profound impairment: other eye: not specified (disorder)"
+                    }
+                ]
+            },
+            {
+                "system": "http://snomed.info/sct",
+                "code": "4654002",
+                "display": "Posteruptive color change of tooth",
+                "designation": [
+                    {
+                        "value": "Posteruptive color change of tooth"
+                    },
+                    {
+                        "value": "Posteruptive staining of tooth"
+                    },
+                    {
+                        "value": "Posteruptive discoloration of tooth"
+                    },
+                    {
+                        "value": "Posteruptive color change of tooth (disorder)"
+                    }
+                ]
+            },
+            {
+                "system": "http://snomed.info/sct",
+                "code": "4659007",
+                "display": "Acne fulminans",
+                "designation": [
+                    {
+                        "value": "Acne fulminans"
+                    },
+                    {
+                        "value": "Acne fulminans (disorder)"
+                    }
+                ]
+            },
+            {
+                "system": "http://snomed.info/sct",
+                "code": "4661003",
+                "display": "Calculus of bile duct with obstruction",
+                "designation": [
+                    {
+                        "value": "Calculus of bile duct with obstruction"
+                    },
+                    {
+                        "value": "Calculus of bile duct with obstruction (disorder)"
+                    }
+                ]
+            },
+            {
+                "system": "http://snomed.info/sct",
+                "code": "4665007",
+                "display": "Costal respiration",
+                "designation": [
+                    {
+                        "value": "Costal respiration"
+                    },
+                    {
+                        "value": "Thoracic respiration"
+                    },
+                    {
+                        "value": "Thoracic breathing"
+                    },
+                    {
+                        "value": "Thoracic breathing (finding)"
+                    },
+                    {
+                        "value": "Breathes with chest"
+                    }
+                ]
+            },
+            {
+                "system": "http://snomed.info/sct",
+                "code": "4667004",
+                "display": "Female infertility due to structural congenital anomaly of vagina",
+                "designation": [
+                    {
+                        "value": "Female infertility due to structural congenital anomaly of vagina"
+                    },
+                    {
+                        "value": "Female infertility due to structural congenital anomaly of vagina (disorder)"
+                    }
+                ]
+            },
+            {
+                "system": "http://snomed.info/sct",
+                "code": "4669001",
+                "display": "Pinta, primary lesion",
+                "designation": [
+                    {
+                        "value": "Pinta, primary lesion"
+                    },
+                    {
+                        "value": "Primary chancre of pinta"
+                    },
+                    {
+                        "value": "Primary papule of pinta"
+                    },
+                    {
+                        "value": "Chancre of pinta"
+                    },
+                    {
+                        "value": "Primary pinta lesion"
+                    },
+                    {
+                        "value": "Pinta, primary lesion (disorder)"
+                    }
+                ]
+            },
+            {
+                "system": "http://snomed.info/sct",
+                "code": "4673003",
+                "display": "Open fracture of lateral malleolus",
+                "designation": [
+                    {
+                        "value": "Open fracture of lateral malleolus"
+                    },
+                    {
+                        "value": "Open fracture of lateral malleolus (disorder)"
+                    },
+                    {
+                        "value": "Open fracture ankle, lateral malleolus"
+                    }
+                ]
+            },
+            {
+                "system": "http://snomed.info/sct",
+                "code": "4676006",
+                "display": "SLE glomerulonephritis syndrome, WHO class II",
+                "designation": [
+                    {
+                        "value": "SLE glomerulonephritis syndrome, WHO class II"
+                    },
+                    {
+                        "value": "SLE with mesangial proliferative glomerulonephritis"
+                    },
+                    {
+                        "value": "Lupus nephritis - WHO Class II"
+                    },
+                    {
+                        "value": "Systemic lupus erythematosus glomerulonephritis syndrome, World Health Organization (WHO) class II"
+                    },
+                    {
+                        "value": "Systemic lupus erythematosus glomerulonephritis syndrome, World Health Organization class II"
+                    },
+                    {
+                        "value": "Systemic lupus erythematosus glomerulonephritis syndrome, World Health Organization class II (disorder)"
+                    }
+                ]
+            },
+            {
+                "system": "http://snomed.info/sct",
+                "code": "4688008",
+                "display": "Poisoning by griseofulvin",
+                "designation": [
+                    {
+                        "value": "Poisoning by griseofulvin"
+                    },
+                    {
+                        "value": "Griseofulvin poisoning"
+                    },
+                    {
+                        "value": "Poisoning caused by griseofulvin"
+                    },
+                    {
+                        "value": "Poisoning caused by griseofulvin (disorder)"
                     }
                 ]
             }

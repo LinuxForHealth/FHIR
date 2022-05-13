@@ -2,7 +2,7 @@
     "resourceType": "ValueSet",
     "id": "conditional-delete-status",
     "meta": {
-        "lastUpdated": "2022-03-04T09:04:06.196+11:00",
+        "lastUpdated": "2022-04-24T09:21:35.043+11:00",
         "profile": [
             "http://hl7.org/fhir/StructureDefinition/shareablevalueset"
         ]
@@ -32,7 +32,7 @@
             "value": "urn:oid:2.16.840.1.113883.4.642.3.194"
         }
     ],
-    "version": "4.3.0-CIBUILD",
+    "version": "4.3.0-cibuild",
     "name": "ConditionalDeleteStatus",
     "title": "ConditionalDeleteStatus",
     "status": "active",
@@ -63,8 +63,8 @@
         ]
     },
     "expansion": {
-        "identifier": "urn:uuid:d62041cb-93f6-45e3-a9bb-89fb426da8d5",
-        "timestamp": "2022-03-03T22:05:09Z",
+        "identifier": "urn:uuid:eaf12168-1cbd-4b14-a6ad-8337232c4355",
+        "timestamp": "2022-04-23T22:23:07Z",
         "total": 3,
         "parameter": [
             {
@@ -77,7 +77,7 @@
             },
             {
                 "name": "version",
-                "valueUri": "http://hl7.org/fhir/conditional-delete-status|4.3.0-CIBUILD"
+                "valueUri": "http://hl7.org/fhir/conditional-delete-status|4.3.0-cibuild"
             }
         ],
         "contains": [

@@ -40,8 +40,8 @@
         ]
     },
     "expansion": {
-        "identifier": "urn:uuid:d0ff030d-8107-4a99-ae0e-305c855e1788",
-        "timestamp": "2022-03-03T22:05:30Z",
+        "identifier": "urn:uuid:6ded1a43-7be8-42a7-ad50-d25e28ee70dc",
+        "timestamp": "2022-04-23T22:23:26Z",
         "total": 26,
         "parameter": [
             {
@@ -80,6 +80,7 @@
             },
             {
                 "system": "http://terminology.hl7.org/CodeSystem/v3-ActCode",
+                "inactive": true,
                 "code": "FFS",
                 "display": "fee for service"
             },

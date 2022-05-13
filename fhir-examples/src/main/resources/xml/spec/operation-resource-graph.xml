@@ -5,8 +5,8 @@
   <text>
     <status value="extensions"/>
     <div xmlns="http://www.w3.org/1999/xhtml">
-      <h2>graph</h2>
-      <p>OPERATION: graph</p>
+      <h2>Graph</h2>
+      <p>OPERATION: Graph</p>
       <p>The official URL for this operation definition is: </p>
       <pre>http://hl7.org/fhir/OperationDefinition/Resource-graph</pre>
       <div>
@@ -79,12 +79,13 @@
     <valueCode value="trial-use"/>
   </extension>
   <url value="http://hl7.org/fhir/OperationDefinition/Resource-graph"/>
-  <version value="4.3.0-CIBUILD"/>
-  <name value="graph"/>
+  <version value="4.3.0-cibuild"/>
+  <name value="Graph"/>
   <title value="Return a graph of resources"/>
   <status value="draft"/>
   <kind value="operation"/>
-  <date value="2022-01-01T15:17:18+00:00"/>
+  <experimental value="false"/>
+  <date value="2022-04-23T22:21:35+00:00"/>
   <publisher value="HL7 (FHIR Project)"/>
   <contact>
     <telecom>

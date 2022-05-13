@@ -6,9 +6,10 @@
       "system": "urn:ietf:rfc:3986"
     }
   ],
-  "version": "4.3.0-CIBUILD",
+  "version": "4.3.0-cibuild",
   "status": "draft",
-  "date": "2022-01-01T15:17:18+00:00",
+  "experimental": false,
+  "date": "2022-04-23T22:21:35+00:00",
   "publisher": "Health Level Seven International (Clinical Genomics)",
   "item": [
     {
@@ -197,10 +198,9 @@
             {
               "linkId": "MolecularSequence.language.value",
               "text": "language",
-              "type": "coding",
+              "type": "choice",
               "required": false,
-              "repeats": false,
-              "answerConstraint": "optionsOnly"
+              "repeats": false
             }
           ]
         },
@@ -415,10 +415,9 @@
             {
               "linkId": "MolecularSequence.type.value",
               "text": "type",
-              "type": "coding",
+              "type": "choice",
               "required": false,
-              "repeats": false,
-              "answerConstraint": "optionsOrType"
+              "repeats": false
             }
           ]
         },
@@ -725,10 +724,9 @@
             {
               "linkId": "MolecularSequence.quantity.comparator",
               "text": "comp:",
-              "type": "coding",
+              "type": "choice",
               "required": false,
-              "repeats": false,
-              "answerConstraint": "optionsOnly"
+              "repeats": false
             },
             {
               "linkId": "MolecularSequence.quantity.value",
@@ -931,10 +929,9 @@
                 {
                   "linkId": "MolecularSequence.referenceSeq.chromosome.coding",
                   "text": "code:",
-                  "type": "coding",
+                  "type": "choice",
                   "required": false,
-                  "repeats": false,
-                  "answerConstraint": "optionsOnly"
+                  "repeats": false
                 },
                 {
                   "linkId": "MolecularSequence.referenceSeq.chromosome.text",
@@ -1027,10 +1024,9 @@
                 {
                   "linkId": "MolecularSequence.referenceSeq.orientation.value",
                   "text": "orientation",
-                  "type": "coding",
+                  "type": "choice",
                   "required": false,
-                  "repeats": false,
-                  "answerConstraint": "optionsOrType"
+                  "repeats": false
                 }
               ]
             },
@@ -1073,10 +1069,9 @@
                 {
                   "linkId": "MolecularSequence.referenceSeq.referenceSeqId.coding",
                   "text": "code:",
-                  "type": "coding",
+                  "type": "choice",
                   "required": false,
-                  "repeats": false,
-                  "answerConstraint": "optionsOnly"
+                  "repeats": false
                 },
                 {
                   "linkId": "MolecularSequence.referenceSeq.referenceSeqId.text",
@@ -1223,10 +1218,9 @@
                 {
                   "linkId": "MolecularSequence.referenceSeq.strand.value",
                   "text": "strand",
-                  "type": "coding",
+                  "type": "choice",
                   "required": false,
-                  "repeats": false,
-                  "answerConstraint": "optionsOrType"
+                  "repeats": false
                 }
               ]
             },
@@ -1934,10 +1928,9 @@
                 {
                   "linkId": "MolecularSequence.quality.type.value",
                   "text": "type",
-                  "type": "coding",
+                  "type": "choice",
                   "required": false,
-                  "repeats": false,
-                  "answerConstraint": "optionsOrType"
+                  "repeats": false
                 }
               ]
             },
@@ -1980,10 +1973,9 @@
                 {
                   "linkId": "MolecularSequence.quality.standardSequence.coding",
                   "text": "code:",
-                  "type": "coding",
+                  "type": "choice",
                   "required": false,
-                  "repeats": false,
-                  "answerConstraint": "optionsOnly"
+                  "repeats": false
                 },
                 {
                   "linkId": "MolecularSequence.quality.standardSequence.text",
@@ -2121,10 +2113,9 @@
                 {
                   "linkId": "MolecularSequence.quality.score.comparator",
                   "text": "comp:",
-                  "type": "coding",
+                  "type": "choice",
                   "required": false,
-                  "repeats": false,
-                  "answerConstraint": "optionsOnly"
+                  "repeats": false
                 },
                 {
                   "linkId": "MolecularSequence.quality.score.value",
@@ -2195,10 +2186,9 @@
                 {
                   "linkId": "MolecularSequence.quality.method.coding",
                   "text": "code:",
-                  "type": "coding",
+                  "type": "choice",
                   "required": false,
-                  "repeats": false,
-                  "answerConstraint": "optionsOnly"
+                  "repeats": false
                 },
                 {
                   "linkId": "MolecularSequence.quality.method.text",
@@ -3189,10 +3179,9 @@
                 {
                   "linkId": "MolecularSequence.repository.type.value",
                   "text": "type",
-                  "type": "coding",
+                  "type": "choice",
                   "required": false,
-                  "repeats": false,
-                  "answerConstraint": "optionsOrType"
+                  "repeats": false
                 }
               ]
             },
@@ -3633,10 +3622,9 @@
                 {
                   "linkId": "MolecularSequence.structureVariant.variantType.coding",
                   "text": "code:",
-                  "type": "coding",
+                  "type": "choice",
                   "required": false,
-                  "repeats": false,
-                  "answerConstraint": "optionsOrType"
+                  "repeats": false
                 },
                 {
                   "linkId": "MolecularSequence.structureVariant.variantType.text",

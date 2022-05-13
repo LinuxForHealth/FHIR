@@ -12,10 +12,11 @@
         }
     ],
     "url": "http://hl7.org/fhir/StructureDefinition/structuredefinition-applicable-version",
-    "version": "4.3.0-CIBUILD",
+    "version": "4.3.0-cibuild",
     "name": "applicable-version",
     "title": "Applicable Version",
     "status": "draft",
+    "experimental": false,
     "date": "2014-01-31",
     "publisher": "Health Level Seven, Inc. - [WG Name] WG",
     "contact": [
@@ -29,7 +30,7 @@
         }
     ],
     "description": "An additional version that this profile apples to, other than the version explicitly stated in StructureDefinition.fhirVersion.",
-    "fhirVersion": "4.3.0-CIBUILD",
+    "fhirVersion": "4.3.0-cibuild",
     "mapping": [
         {
             "identity": "rim",

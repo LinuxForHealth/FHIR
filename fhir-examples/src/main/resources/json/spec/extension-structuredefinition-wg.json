@@ -12,9 +12,10 @@
     }
   ],
   "url": "http://hl7.org/fhir/StructureDefinition/structuredefinition-wg",
-  "version": "4.3.0-CIBUILD",
+  "version": "4.3.0-cibuild",
   "name": "wg",
   "status": "draft",
+  "experimental": false,
   "date": "2014-01-31",
   "publisher": "Health Level Seven, Inc. - [WG Name] WG",
   "contact": [
@@ -28,7 +29,7 @@
     }
   ],
   "description": "The work group that owns and maintains this resource.",
-  "fhirVersion": "4.3.0-CIBUILD",
+  "fhirVersion": "4.3.0-cibuild",
   "mapping": [
     {
       "identity": "rim",
@@ -247,7 +248,7 @@
           ],
           "strength": "required",
           "description": "An HL7 administrative unit that owns artifacts in the FHIR specification.",
-          "valueSet": "http://hl7.org/fhir/ValueSet/hl7-work-group"
+          "valueSet": "http://terminology.hl7.org/ValueSet/hl7-work-group"
         },
         "mapping": [
           {
@@ -301,7 +302,7 @@
           ],
           "strength": "required",
           "description": "An HL7 administrative unit that owns artifacts in the FHIR specification.",
-          "valueSet": "http://hl7.org/fhir/ValueSet/hl7-work-group"
+          "valueSet": "http://terminology.hl7.org/ValueSet/hl7-work-group"
         }
       }
     ]

@@ -2,7 +2,7 @@
     "resourceType": "ValueSet",
     "id": "immunization-status",
     "meta": {
-        "lastUpdated": "2022-03-03T22:04:06.196Z",
+        "lastUpdated": "2022-04-23T22:21:35.043Z",
         "profile": [
             "http://hl7.org/fhir/StructureDefinition/shareablevalueset"
         ]
@@ -28,10 +28,11 @@
             "value": "urn:oid:2.16.840.1.113883.4.642.3.295"
         }
     ],
-    "version": "4.3.0-CIBUILD",
+    "version": "4.3.0-cibuild",
     "name": "ImmunizationStatusCodes",
     "title": "Immunization Status Codes",
     "status": "draft",
+    "experimental": false,
     "publisher": "FHIR Project team",
     "contact": [
         {
@@ -63,8 +64,8 @@
         ]
     },
     "expansion": {
-        "identifier": "urn:uuid:78f193e0-962c-4405-b7b8-5ac9a22db722",
-        "timestamp": "2022-03-03T22:05:09Z",
+        "identifier": "urn:uuid:c482267c-7e7d-4373-98fb-26df89874daa",
+        "timestamp": "2022-04-23T22:23:07Z",
         "total": 3,
         "parameter": [
             {
@@ -77,7 +78,7 @@
             },
             {
                 "name": "version",
-                "valueUri": "http://hl7.org/fhir/event-status|4.3.0-CIBUILD"
+                "valueUri": "http://hl7.org/fhir/event-status|4.3.0-cibuild"
             }
         ],
         "contains": [

@@ -2,15 +2,15 @@
     "resourceType": "StructureDefinition",
     "id": "de-CodeableReference.concept",
     "meta": {
-        "lastUpdated": "2022-01-01T15:17:18.597Z"
+        "lastUpdated": "2022-04-23T22:21:35.043Z"
     },
     "url": "http://hl7.org/fhir/StructureDefinition/de-CodeableReference.concept",
-    "version": "4.3.0-CIBUILD",
+    "version": "4.3.0-cibuild",
     "name": "CodeableReference.concept",
     "title": "CodeableReference.concept",
     "status": "draft",
     "experimental": true,
-    "date": "2022-01-01T15:17:18Z",
+    "date": "2022-04-23T22:21:35Z",
     "publisher": "HL7 FHIR Standard",
     "contact": [
         {
@@ -24,7 +24,7 @@
     ],
     "description": "Data Element for CodeableReference.concept",
     "purpose": "Data Elements are defined for each element to assist in questionnaire construction etc",
-    "fhirVersion": "4.3.0-CIBUILD",
+    "fhirVersion": "4.3.0-cibuild",
     "mapping": [
         {
             "identity": "rim",
@@ -43,7 +43,7 @@
                 "id": "CodeableReference.concept",
                 "path": "CodeableReference.concept",
                 "short": "Reference to a concept (by class)",
-                "definition": "A reference to a concept - e.g. the information is identified by it's general classto the degree of precision found in the terminology.",
+                "definition": "A reference to a concept - e.g. the information is identified by its general class to the degree of precision found in the terminology.",
                 "min": 0,
                 "max": "1",
                 "base": {

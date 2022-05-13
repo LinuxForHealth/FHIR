@@ -2,7 +2,7 @@
     "resourceType": "StructureDefinition",
     "id": "MedicinalProductDefinition",
     "meta": {
-        "lastUpdated": "2022-01-01T15:17:18.597Z"
+        "lastUpdated": "2022-04-23T22:21:35.043Z"
     },
     "text": {
         "status": "empty",
@@ -31,10 +31,11 @@
         }
     ],
     "url": "http://hl7.org/fhir/StructureDefinition/MedicinalProductDefinition",
-    "version": "4.3.0-CIBUILD",
+    "version": "4.3.0-cibuild",
     "name": "MedicinalProductDefinition",
     "status": "draft",
-    "date": "2022-01-01T15:17:18Z",
+    "experimental": false,
+    "date": "2022-04-23T22:21:35Z",
     "publisher": "Health Level Seven International (Biomedical Research and Regulation)",
     "contact": [
         {
@@ -54,8 +55,8 @@
             ]
         }
     ],
-    "description": "Detailed definition of a medicinal product, typically for uses other than direct patient care (e.g. regulatory use, drug catalogs).",
-    "fhirVersion": "4.3.0-CIBUILD",
+    "description": "Detailed definition of a medicinal product, typically for uses other than direct patient care (e.g. regulatory use, drug catalogs, to support prescribing, adverse events management etc.).",
+    "fhirVersion": "4.3.0-cibuild",
     "mapping": [
         {
             "identity": "idmp",
@@ -83,8 +84,8 @@
             {
                 "id": "MedicinalProductDefinition",
                 "path": "MedicinalProductDefinition",
-                "short": "Detailed definition of a medicinal product, typically for uses other than direct patient care (e.g. regulatory use, drug catalogs)",
-                "definition": "Detailed definition of a medicinal product, typically for uses other than direct patient care (e.g. regulatory use, drug catalogs).",
+                "short": "Detailed definition of a medicinal product",
+                "definition": "A medicinal product, being a substance or combination of substances that is intended to treat, prevent or diagnose a disease, or to restore, correct or modify physiological functions by exerting a pharmacological, immunological or metabolic action. This resource is intended to define and detail such products and their properties, for uses other than direct patient care (e.g. regulatory use, or drug catalogs).",
                 "min": 0,
                 "max": "*",
                 "base": {
@@ -106,7 +107,7 @@
                         "severity": "error",
                         "human": "If the resource is contained in another resource, it SHALL be referred to from elsewhere in the resource or SHALL refer to the containing resource",
                         "expression": "contained.where(((id.exists() and ('#'+id in (%resource.descendants().reference | %resource.descendants().as(canonical) | %resource.descendants().as(uri) | %resource.descendants().as(url)))) or descendants().where(reference = '#').exists() or descendants().where(as(canonical) = '#').exists() or descendants().where(as(uri) = '#').exists()).not()).trace('unmatched', id).empty()",
-                        "xpath": "not(exists(for $resource in . return (for $contained in $resource/f:contained return $contained[not(descendant::f:*/@value='#' or (exists(f:id) and $resource//f:*/@*=concat('#', $contained/*/f:id/@value)))])))",
+                        "xpath": "not(exists(for $contained in f:contained return $contained[not(exists(parent::*/descendant::f:reference/@value=concat('#', $contained/*/f:id/@value)) or exists(descendant::f:reference[@value='#']))]))",
                         "source": "http://hl7.org/fhir/StructureDefinition/DomainResource"
                     },
                     {
@@ -372,6 +373,16 @@
                         "code": "Resource"
                     }
                 ],
+                "constraint": [
+                    {
+                        "key": "dom-r4b",
+                        "severity": "warning",
+                        "human": "Containing new R4B resources within R4 resources may cause interoperability issues if instances are shared with R4 systems",
+                        "expression": "($this is Citation or $this is Evidence or $this is EvidenceReport or $this is EvidenceVariable or $this is MedicinalProductDefinition or $this is PackagedProductDefinition or $this is AdministrableProductDefinition or $this is Ingredient or $this is ClinicalUseDefinition or $this is RegulatedAuthorization or $this is SubstanceDefinition or $this is SubscriptionStatus or $this is SubscriptionTopic) implies (%resource is Citation or %resource is Evidence or %resource is EvidenceReport or %resource is EvidenceVariable or %resource is MedicinalProductDefinition or %resource is PackagedProductDefinition or %resource is AdministrableProductDefinition or %resource is Ingredient or %resource is ClinicalUseDefinition or %resource is RegulatedAuthorization or %resource is SubstanceDefinition or %resource is SubscriptionStatus or %resource is SubscriptionTopic)",
+                        "xpath": "not(f:Citation|f:Evidence|f:EvidenceReport|f:EvidenceVariable|f:MedicinalProductDefinition|f:PackagedProductDefinition|f:AdministrableProductDefinition|f:Ingredient|f:ClinicalUseDefinition|f:RegulatedAuthorization|f:SubstanceDefinition|f:SubscriptionStatus|f:SubscriptionTopic) or not(parent::f:Citation|parent::f:Evidence|parent::f:EvidenceReport|parent::f:EvidenceVariable|parent::f:MedicinalProductDefinition|parent::f:PackagedProductDefinition|parent::f:AdministrableProductDefinition|parent::f:Ingredient|parent::f:ClinicalUseDefinition|parent::f:RegulatedAuthorization|parent::f:SubstanceDefinition|f:SubscriptionStatus|f:SubscriptionTopic)",
+                        "source": "http://hl7.org/fhir/StructureDefinition/MedicinalProductDefinition"
+                    }
+                ],
                 "mustSupport": false,
                 "isModifier": false,
                 "isSummary": false,
@@ -488,7 +499,7 @@
                 "id": "MedicinalProductDefinition.identifier",
                 "path": "MedicinalProductDefinition.identifier",
                 "short": "Business identifier for this product. Could be an MPID",
-                "definition": "Business identifier for this product. Could be an MPID.",
+                "definition": "Business identifier for this product. Could be an MPID. When in development or being regulated, products are typically referenced by official identifiers, assigned by a manufacturer or regulator, and unique to a product (which, when compared to a product instance being prescribed, is actually a product type). See also MedicinalProductDefinition.code.",
                 "alias": [
                     "MPID"
                 ],
@@ -623,7 +634,7 @@
             {
                 "id": "MedicinalProductDefinition.version",
                 "path": "MedicinalProductDefinition.version",
-                "short": "A business identifier relating to a specific version of the product, this is commonly used to support revisions to an existing product",
+                "short": "A business identifier relating to a specific version of the product",
                 "definition": "A business identifier relating to a specific version of the product, this is commonly used to support revisions to an existing product.",
                 "min": 0,
                 "max": "1",
@@ -660,7 +671,7 @@
             {
                 "id": "MedicinalProductDefinition.status",
                 "path": "MedicinalProductDefinition.status",
-                "short": "The status within the lifecycle of this product record. A high-level status, this is not intended to duplicate details carried elsewhere such as legal status, or authorization status",
+                "short": "The status within the lifecycle of this product record",
                 "definition": "The status within the lifecycle of this product record. A high-level status, this is not intended to duplicate details carried elsewhere such as legal status, or authorization status.",
                 "min": 0,
                 "max": "1",
@@ -700,7 +711,7 @@
                         }
                     ],
                     "strength": "preferred",
-                    "description": "Identifies the level of importance to be assigned to actioning the request.",
+                    "description": "The lifecycle status of an artifact.",
                     "valueSet": "http://hl7.org/fhir/ValueSet/publication-status"
                 },
                 "mapping": [
@@ -788,7 +799,7 @@
                 "id": "MedicinalProductDefinition.combinedPharmaceuticalDoseForm",
                 "path": "MedicinalProductDefinition.combinedPharmaceuticalDoseForm",
                 "short": "The dose form for a single part product, or combined form of a multiple part product",
-                "definition": "The dose form for a single part product, or combined form of a multiple part product.",
+                "definition": "The dose form for a single part product, or combined form of a multiple part product. This is one concept that describes all the components. It does not represent the form with components physically mixed, if that might be necessary, for which see (AdministrableProductDefinition.administrableDoseForm).",
                 "min": 0,
                 "max": "1",
                 "base": {
@@ -835,8 +846,8 @@
             {
                 "id": "MedicinalProductDefinition.route",
                 "path": "MedicinalProductDefinition.route",
-                "short": "The path by which the product is taken into or makes contact with the body. In some regions this is referred to as the licenced or approved route. See also AdministrableProductDefinition resource",
-                "definition": "The path by which the product is taken into or makes contact with the body. In some regions this is referred to as the licenced or approved route. See also AdministrableProductDefinition resource.",
+                "short": "The path by which the product is taken into or makes contact with the body",
+                "definition": "The path by which the product is taken into or makes contact with the body. In some regions this is referred to as the licenced or approved route. See also AdministrableProductDefinition resource. MedicinalProductDefinition.route is the same concept as AdministrableProductDefinition.routeOfAdministration.code, and they cannot be used together.",
                 "min": 0,
                 "max": "*",
                 "base": {
@@ -883,7 +894,7 @@
             {
                 "id": "MedicinalProductDefinition.indication",
                 "path": "MedicinalProductDefinition.indication",
-                "short": "Description of indication(s) for this product, used when structured indications are not required. In cases where structured indications are required, they are captured using the ClinicalUseDefinition resource. An indication is a medical situation for which using the product is appropriate",
+                "short": "Description of indication(s) for this product, used when structured indications are not required",
                 "definition": "Description of indication(s) for this product, used when structured indications are not required. In cases where structured indications are required, they are captured using the ClinicalUseDefinition resource. An indication is a medical situation for which using the product is appropriate.",
                 "min": 0,
                 "max": "1",
@@ -969,7 +980,7 @@
                 "id": "MedicinalProductDefinition.additionalMonitoringIndicator",
                 "path": "MedicinalProductDefinition.additionalMonitoringIndicator",
                 "short": "Whether the Medicinal Product is subject to additional monitoring for regulatory reasons",
-                "definition": "Whether the Medicinal Product is subject to additional monitoring for regulatory reasons.",
+                "definition": "Whether the Medicinal Product is subject to additional monitoring for regulatory reasons, such as heightened reporting requirements.",
                 "min": 0,
                 "max": "1",
                 "base": {
@@ -995,6 +1006,17 @@
                 "mustSupport": false,
                 "isModifier": false,
                 "isSummary": true,
+                "binding": {
+                    "extension": [
+                        {
+                            "url": "http://hl7.org/fhir/StructureDefinition/elementdefinition-bindingName",
+                            "valueString": "AdditionalMonitoring"
+                        }
+                    ],
+                    "strength": "example",
+                    "description": "Extra measures defined for a Medicinal Product, such as heightened reporting requirements (e.g. Black Triangle Monitoring).",
+                    "valueSet": "http://hl7.org/fhir/ValueSet/medicinal-product-additional-monitoring"
+                },
                 "mapping": [
                     {
                         "identity": "idmp",
@@ -1006,7 +1028,7 @@
                 "id": "MedicinalProductDefinition.specialMeasures",
                 "path": "MedicinalProductDefinition.specialMeasures",
                 "short": "Whether the Medicinal Product is subject to special measures for regulatory reasons",
-                "definition": "Whether the Medicinal Product is subject to special measures for regulatory reasons.",
+                "definition": "Whether the Medicinal Product is subject to special measures for regulatory reasons, such as a requirement to conduct post-authorisation studies.",
                 "min": 0,
                 "max": "*",
                 "base": {
@@ -1032,6 +1054,17 @@
                 "mustSupport": false,
                 "isModifier": false,
                 "isSummary": true,
+                "binding": {
+                    "extension": [
+                        {
+                            "url": "http://hl7.org/fhir/StructureDefinition/elementdefinition-bindingName",
+                            "valueString": "SpecialMeasures"
+                        }
+                    ],
+                    "strength": "example",
+                    "description": "Extra measures defined for a Medicinal Product, such as a requirement to conduct post-authorisation studies.",
+                    "valueSet": "http://hl7.org/fhir/ValueSet/medicinal-product-special-measures"
+                },
                 "mapping": [
                     {
                         "identity": "idmp",
@@ -1043,7 +1076,7 @@
                 "id": "MedicinalProductDefinition.pediatricUseIndicator",
                 "path": "MedicinalProductDefinition.pediatricUseIndicator",
                 "short": "If authorised for use in children",
-                "definition": "If authorised for use in children.",
+                "definition": "If authorised for use in children, or infants, neonates etc.",
                 "min": 0,
                 "max": "1",
                 "base": {
@@ -1069,6 +1102,17 @@
                 "mustSupport": false,
                 "isModifier": false,
                 "isSummary": true,
+                "binding": {
+                    "extension": [
+                        {
+                            "url": "http://hl7.org/fhir/StructureDefinition/elementdefinition-bindingName",
+                            "valueString": "PediatricUse"
+                        }
+                    ],
+                    "strength": "example",
+                    "description": "Suitability for age groups, in particular children.",
+                    "valueSet": "http://hl7.org/fhir/ValueSet/medicinal-product-pediatric-use"
+                },
                 "mapping": [
                     {
                         "identity": "idmp",
@@ -1080,7 +1124,7 @@
                 "id": "MedicinalProductDefinition.classification",
                 "path": "MedicinalProductDefinition.classification",
                 "short": "Allows the product to be classified by various systems",
-                "definition": "Allows the product to be classified by various systems.",
+                "definition": "Allows the product to be classified by various systems, commonly WHO ATC.",
                 "min": 0,
                 "max": "*",
                 "base": {
@@ -1106,6 +1150,17 @@
                 "mustSupport": false,
                 "isModifier": false,
                 "isSummary": true,
+                "binding": {
+                    "extension": [
+                        {
+                            "url": "http://hl7.org/fhir/StructureDefinition/elementdefinition-bindingName",
+                            "valueString": "ProductClassification"
+                        }
+                    ],
+                    "strength": "example",
+                    "description": "This value set includes codes from the Anatomical Therapeutic Chemical Classification System - provided as an exemplar value set.",
+                    "valueSet": "http://hl7.org/fhir/ValueSet/product-classification-codes"
+                },
                 "mapping": [
                     {
                         "identity": "idmp",
@@ -1117,7 +1172,7 @@
                 "id": "MedicinalProductDefinition.marketingStatus",
                 "path": "MedicinalProductDefinition.marketingStatus",
                 "short": "Marketing status of the medicinal product, in contrast to marketing authorization",
-                "definition": "Marketing status of the medicinal product, in contrast to marketing authorization.",
+                "definition": "Marketing status of the medicinal product, in contrast to marketing authorization. This refers to the product being actually 'on the market' as opposed to being allowed to be on the market (which is an authorization).",
                 "min": 0,
                 "max": "*",
                 "base": {
@@ -1153,8 +1208,8 @@
             {
                 "id": "MedicinalProductDefinition.packagedMedicinalProduct",
                 "path": "MedicinalProductDefinition.packagedMedicinalProduct",
-                "short": "Package representation for the product",
-                "definition": "Package representation for the product. See also the PackagedProductDefinition resource.",
+                "short": "Package type for the product",
+                "definition": "Package type for the product. See also the PackagedProductDefinition resource.",
                 "min": 0,
                 "max": "*",
                 "base": {
@@ -1201,7 +1256,7 @@
             {
                 "id": "MedicinalProductDefinition.ingredient",
                 "path": "MedicinalProductDefinition.ingredient",
-                "short": "The ingredients of this medicinal product - when not detailed in other resources. This is only needed if the ingredients are not specified by incoming references from the Ingredient resource, or indirectly via incoming AdministrableProductDefinition, PackagedProductDefinition or ManufacturedItemDefinition references. In cases where those levels of detail are not used, the ingredients may be specified directly here as codes",
+                "short": "The ingredients of this medicinal product - when not detailed in other resources",
                 "definition": "The ingredients of this medicinal product - when not detailed in other resources. This is only needed if the ingredients are not specified by incoming references from the Ingredient resource, or indirectly via incoming AdministrableProductDefinition, PackagedProductDefinition or ManufacturedItemDefinition references. In cases where those levels of detail are not used, the ingredients may be specified directly here as codes.",
                 "min": 0,
                 "max": "*",
@@ -1228,6 +1283,17 @@
                 "mustSupport": false,
                 "isModifier": false,
                 "isSummary": true,
+                "binding": {
+                    "extension": [
+                        {
+                            "url": "http://hl7.org/fhir/StructureDefinition/elementdefinition-bindingName",
+                            "valueString": "SNOMEDCTSubstanceCodes"
+                        }
+                    ],
+                    "strength": "example",
+                    "description": "This value set includes all substance codes from SNOMED CT - provided as an exemplar value set.",
+                    "valueSet": "http://hl7.org/fhir/ValueSet/substance-codes"
+                },
                 "mapping": [
                     {
                         "identity": "idmp",
@@ -1238,8 +1304,8 @@
             {
                 "id": "MedicinalProductDefinition.impurity",
                 "path": "MedicinalProductDefinition.impurity",
-                "short": "Any component of the drug product which is not the chemical entity defined as the drug substance or an excipient in the drug product. This includes process-related impurities and contaminants, product-related impurities including degradation products",
-                "definition": "Any component of the drug product which is not the chemical entity defined as the drug substance or an excipient in the drug product. This includes process-related impurities and contaminants, product-related impurities including degradation products.",
+                "short": "Any component of the drug product which is not the chemical entity defined as the drug substance, or an excipient in the drug product",
+                "definition": "Any component of the drug product which is not the chemical entity defined as the drug substance, or an excipient in the drug product. This includes process-related impurities and contaminants, product-related impurities including degradation products.",
                 "min": 0,
                 "max": "*",
                 "base": {
@@ -1268,6 +1334,17 @@
                 "mustSupport": false,
                 "isModifier": false,
                 "isSummary": true,
+                "binding": {
+                    "extension": [
+                        {
+                            "url": "http://hl7.org/fhir/StructureDefinition/elementdefinition-bindingName",
+                            "valueString": "SNOMEDCTSubstanceCodes"
+                        }
+                    ],
+                    "strength": "example",
+                    "description": "This value set includes all substance codes from SNOMED CT - provided as an exemplar value set.",
+                    "valueSet": "http://hl7.org/fhir/ValueSet/substance-codes"
+                },
                 "mapping": [
                     {
                         "identity": "idmp",
@@ -1278,7 +1355,7 @@
             {
                 "id": "MedicinalProductDefinition.attachedDocument",
                 "path": "MedicinalProductDefinition.attachedDocument",
-                "short": "Additional information or supporting documentation about the medicinal product",
+                "short": "Additional documentation about the medicinal product",
                 "definition": "Additional information or supporting documentation about the medicinal product.",
                 "min": 0,
                 "max": "*",
@@ -1412,7 +1489,7 @@
                         "extension": [
                             {
                                 "url": "http://hl7.org/fhir/StructureDefinition/structuredefinition-fhir-type",
-                                "valueUrl": "id"
+                                "valueUrl": "string"
                             }
                         ],
                         "code": "http://hl7.org/fhirpath/System.String"
@@ -1558,6 +1635,17 @@
                 "mustSupport": false,
                 "isModifier": false,
                 "isSummary": true,
+                "binding": {
+                    "extension": [
+                        {
+                            "url": "http://hl7.org/fhir/StructureDefinition/elementdefinition-bindingName",
+                            "valueString": "ProductContactType"
+                        }
+                    ],
+                    "strength": "example",
+                    "description": "Extra measures defined for a Medicinal Product, such as heightened reporting requirements.",
+                    "valueSet": "http://hl7.org/fhir/ValueSet/medicinal-product-contact-type"
+                },
                 "mapping": [
                     {
                         "identity": "idmp",
@@ -1650,7 +1738,7 @@
                 "id": "MedicinalProductDefinition.code",
                 "path": "MedicinalProductDefinition.code",
                 "short": "A code that this product is known by, within some formal terminology",
-                "definition": "A code that this product is known by, usually within some formal terminology. Products (types of medications) tend to be known by identifiers during development and within regulatory process. However when they are prescribed they tend to be identified by codes. The same product may be have multiple codes, applied to it by multiple organizations.",
+                "definition": "A code that this product is known by, usually within some formal terminology, perhaps assigned by a third party (i.e. not the manufacturer or regulator). Products (types of medications) tend to be known by identifiers during development and within regulatory process. However when they are prescribed they tend to be identified by codes. The same product may be have multiple codes, applied to it by multiple organizations.",
                 "min": 0,
                 "max": "*",
                 "base": {
@@ -1751,7 +1839,7 @@
                         "extension": [
                             {
                                 "url": "http://hl7.org/fhir/StructureDefinition/structuredefinition-fhir-type",
-                                "valueUrl": "id"
+                                "valueUrl": "string"
                             }
                         ],
                         "code": "http://hl7.org/fhirpath/System.String"
@@ -1934,6 +2022,17 @@
                 "mustSupport": false,
                 "isModifier": false,
                 "isSummary": true,
+                "binding": {
+                    "extension": [
+                        {
+                            "url": "http://hl7.org/fhir/StructureDefinition/elementdefinition-bindingName",
+                            "valueString": "ProductNameType"
+                        }
+                    ],
+                    "strength": "example",
+                    "description": "Type of a name for a Medicinal Product.",
+                    "valueSet": "http://hl7.org/fhir/ValueSet/medicinal-product-name-type"
+                },
                 "mapping": [
                     {
                         "identity": "idmp",
@@ -1998,7 +2097,7 @@
                         "extension": [
                             {
                                 "url": "http://hl7.org/fhir/StructureDefinition/structuredefinition-fhir-type",
-                                "valueUrl": "id"
+                                "valueUrl": "string"
                             }
                         ],
                         "code": "http://hl7.org/fhirpath/System.String"
@@ -2181,6 +2280,17 @@
                 "mustSupport": false,
                 "isModifier": false,
                 "isSummary": true,
+                "binding": {
+                    "extension": [
+                        {
+                            "url": "http://hl7.org/fhir/StructureDefinition/elementdefinition-bindingName",
+                            "valueString": "ProductNamePartType"
+                        }
+                    ],
+                    "strength": "example",
+                    "description": "Type of part of a name for a Medicinal Product.",
+                    "valueSet": "http://hl7.org/fhir/ValueSet/medicinal-product-name-part-type"
+                },
                 "mapping": [
                     {
                         "identity": "idmp",
@@ -2191,8 +2301,8 @@
             {
                 "id": "MedicinalProductDefinition.name.countryLanguage",
                 "path": "MedicinalProductDefinition.name.countryLanguage",
-                "short": "Country where the name applies",
-                "definition": "Country where the name applies.",
+                "short": "Country and jurisdiction where the name applies",
+                "definition": "Country and jurisdiction where the name applies, and associated language.",
                 "min": 0,
                 "max": "*",
                 "base": {
@@ -2245,7 +2355,7 @@
                         "extension": [
                             {
                                 "url": "http://hl7.org/fhir/StructureDefinition/structuredefinition-fhir-type",
-                                "valueUrl": "id"
+                                "valueUrl": "string"
                             }
                         ],
                         "code": "http://hl7.org/fhirpath/System.String"
@@ -2391,6 +2501,21 @@
                 "mustSupport": false,
                 "isModifier": false,
                 "isSummary": true,
+                "binding": {
+                    "extension": [
+                        {
+                            "url": "http://hl7.org/fhir/StructureDefinition/elementdefinition-bindingName",
+                            "valueString": "Country"
+                        },
+                        {
+                            "url": "http://hl7.org/fhir/StructureDefinition/elementdefinition-isCommonBinding",
+                            "valueBoolean": true
+                        }
+                    ],
+                    "strength": "example",
+                    "description": "Jurisdiction codes",
+                    "valueSet": "http://hl7.org/fhir/ValueSet/country"
+                },
                 "mapping": [
                     {
                         "identity": "idmp",
@@ -2402,7 +2527,7 @@
                 "id": "MedicinalProductDefinition.name.countryLanguage.jurisdiction",
                 "path": "MedicinalProductDefinition.name.countryLanguage.jurisdiction",
                 "short": "Jurisdiction code for where this name applies",
-                "definition": "Jurisdiction code for where this name applies.",
+                "definition": "Jurisdiction code for where this name applies. A jurisdiction may be a sub- or supra-national entity (e.g. a state or a geographic region).",
                 "min": 0,
                 "max": "1",
                 "base": {
@@ -2428,6 +2553,21 @@
                 "mustSupport": false,
                 "isModifier": false,
                 "isSummary": true,
+                "binding": {
+                    "extension": [
+                        {
+                            "url": "http://hl7.org/fhir/StructureDefinition/elementdefinition-bindingName",
+                            "valueString": "Jurisdiction"
+                        },
+                        {
+                            "url": "http://hl7.org/fhir/StructureDefinition/elementdefinition-isCommonBinding",
+                            "valueBoolean": true
+                        }
+                    ],
+                    "strength": "example",
+                    "description": "Jurisdiction codes",
+                    "valueSet": "http://hl7.org/fhir/ValueSet/jurisdiction"
+                },
                 "mapping": [
                     {
                         "identity": "idmp",
@@ -2465,6 +2605,25 @@
                 "mustSupport": false,
                 "isModifier": false,
                 "isSummary": true,
+                "binding": {
+                    "extension": [
+                        {
+                            "url": "http://hl7.org/fhir/StructureDefinition/elementdefinition-maxValueSet",
+                            "valueCanonical": "http://hl7.org/fhir/ValueSet/all-languages"
+                        },
+                        {
+                            "url": "http://hl7.org/fhir/StructureDefinition/elementdefinition-bindingName",
+                            "valueString": "Language"
+                        },
+                        {
+                            "url": "http://hl7.org/fhir/StructureDefinition/elementdefinition-isCommonBinding",
+                            "valueBoolean": true
+                        }
+                    ],
+                    "strength": "preferred",
+                    "description": "IETF language tag",
+                    "valueSet": "http://hl7.org/fhir/ValueSet/languages"
+                },
                 "mapping": [
                     {
                         "identity": "idmp",
@@ -2476,7 +2635,7 @@
                 "id": "MedicinalProductDefinition.crossReference",
                 "path": "MedicinalProductDefinition.crossReference",
                 "short": "Reference to another product, e.g. for linking authorised to investigational product",
-                "definition": "Reference to another product, e.g. for linking authorised to investigational product.",
+                "definition": "Reference to another product, e.g. for linking authorised to investigational product, or a virtual product.",
                 "min": 0,
                 "max": "*",
                 "base": {
@@ -2529,7 +2688,7 @@
                         "extension": [
                             {
                                 "url": "http://hl7.org/fhir/StructureDefinition/structuredefinition-fhir-type",
-                                "valueUrl": "id"
+                                "valueUrl": "string"
                             }
                         ],
                         "code": "http://hl7.org/fhirpath/System.String"
@@ -2688,8 +2847,8 @@
             {
                 "id": "MedicinalProductDefinition.crossReference.type",
                 "path": "MedicinalProductDefinition.crossReference.type",
-                "short": "The type of relationship, for instance branded to generic, product to development product (investigational), parallel import version",
-                "definition": "The type of relationship, for instance branded to generic, product to development product (investigational), parallel import version.",
+                "short": "The type of relationship, for instance branded to generic or virtual to actual product",
+                "definition": "The type of relationship, for instance branded to generic, virtual to actual product, product to development product (investigational), parallel import version.",
                 "min": 0,
                 "max": "1",
                 "base": {
@@ -2715,6 +2874,17 @@
                 "mustSupport": false,
                 "isModifier": false,
                 "isSummary": true,
+                "binding": {
+                    "extension": [
+                        {
+                            "url": "http://hl7.org/fhir/StructureDefinition/elementdefinition-bindingName",
+                            "valueString": "ProductCrossReferenceType"
+                        }
+                    ],
+                    "strength": "example",
+                    "description": "Extra measures defined for a Medicinal Product, such as heightened reporting requirements.",
+                    "valueSet": "http://hl7.org/fhir/ValueSet/medicinal-product-cross-reference-type"
+                },
                 "mapping": [
                     {
                         "identity": "idmp",
@@ -2725,7 +2895,7 @@
             {
                 "id": "MedicinalProductDefinition.operation",
                 "path": "MedicinalProductDefinition.operation",
-                "short": "A manufacturing or administrative process or step associated with (or performed on) the medicinal product",
+                "short": "A manufacturing or administrative process for the medicinal product",
                 "definition": "A manufacturing or administrative process or step associated with (or performed on) the medicinal product.",
                 "min": 0,
                 "max": "*",
@@ -2779,7 +2949,7 @@
                         "extension": [
                             {
                                 "url": "http://hl7.org/fhir/StructureDefinition/structuredefinition-fhir-type",
-                                "valueUrl": "id"
+                                "valueUrl": "string"
                             }
                         ],
                         "code": "http://hl7.org/fhirpath/System.String"
@@ -2898,7 +3068,7 @@
             {
                 "id": "MedicinalProductDefinition.operation.type",
                 "path": "MedicinalProductDefinition.operation.type",
-                "short": "The type of manufacturing operation e.g. manufacturing itself, re-packaging. For the authorization of this, a RegulatedAuthorization would point to the same plan or activity referenced here",
+                "short": "The type of manufacturing operation e.g. manufacturing itself, re-packaging",
                 "definition": "The type of manufacturing operation e.g. manufacturing itself, re-packaging. For the authorization of this, a RegulatedAuthorization would point to the same plan or activity referenced here.",
                 "min": 0,
                 "max": "1",
@@ -2976,7 +3146,7 @@
             {
                 "id": "MedicinalProductDefinition.operation.organization",
                 "path": "MedicinalProductDefinition.operation.organization",
-                "short": "The organization or establishment responsible for (or associated with) the particular process or step, examples include the manufacturer, importer, agent",
+                "short": "The organization responsible for the particular process, e.g. the manufacturer or importer",
                 "definition": "The organization or establishment responsible for (or associated with) the particular process or step, examples include the manufacturer, importer, agent.",
                 "min": 0,
                 "max": "*",
@@ -3016,7 +3186,7 @@
             {
                 "id": "MedicinalProductDefinition.operation.confidentialityIndicator",
                 "path": "MedicinalProductDefinition.operation.confidentialityIndicator",
-                "short": "Specifies whether this particular business or manufacturing process is considered proprietary or confidential",
+                "short": "Specifies whether this process is considered proprietary or confidential",
                 "definition": "Specifies whether this particular business or manufacturing process is considered proprietary or confidential.",
                 "min": 0,
                 "max": "1",
@@ -3043,6 +3213,17 @@
                 "mustSupport": false,
                 "isModifier": false,
                 "isSummary": true,
+                "binding": {
+                    "extension": [
+                        {
+                            "url": "http://hl7.org/fhir/StructureDefinition/elementdefinition-bindingName",
+                            "valueString": "ProductConfidentiality"
+                        }
+                    ],
+                    "strength": "example",
+                    "description": "Confidentiality rating, e.g. commercial sensitivity for a Medicinal Product.",
+                    "valueSet": "http://hl7.org/fhir/ValueSet/medicinal-product-confidentiality"
+                },
                 "mapping": [
                     {
                         "identity": "idmp",
@@ -3053,7 +3234,7 @@
             {
                 "id": "MedicinalProductDefinition.characteristic",
                 "path": "MedicinalProductDefinition.characteristic",
-                "short": "Allows the key product features to be recorded, such as \"sugar free\", \"modified release\", \"parallel import\"",
+                "short": "Key product features such as \"sugar free\", \"modified release\"",
                 "definition": "Allows the key product features to be recorded, such as \"sugar free\", \"modified release\", \"parallel import\".",
                 "min": 0,
                 "max": "*",
@@ -3107,7 +3288,7 @@
                         "extension": [
                             {
                                 "url": "http://hl7.org/fhir/StructureDefinition/structuredefinition-fhir-type",
-                                "valueUrl": "id"
+                                "valueUrl": "string"
                             }
                         ],
                         "code": "http://hl7.org/fhirpath/System.String"
@@ -3253,6 +3434,17 @@
                 "mustSupport": false,
                 "isModifier": false,
                 "isSummary": true,
+                "binding": {
+                    "extension": [
+                        {
+                            "url": "http://hl7.org/fhir/StructureDefinition/elementdefinition-bindingName",
+                            "valueString": "ProductCharacteristic"
+                        }
+                    ],
+                    "strength": "example",
+                    "description": "This value set includes all observable entity codes from SNOMED CT - provided as an exemplar value set.",
+                    "valueSet": "http://hl7.org/fhir/ValueSet/product-characteristic-codes"
+                },
                 "mapping": [
                     {
                         "identity": "idmp",
@@ -3316,8 +3508,8 @@
             {
                 "id": "MedicinalProductDefinition",
                 "path": "MedicinalProductDefinition",
-                "short": "Detailed definition of a medicinal product, typically for uses other than direct patient care (e.g. regulatory use, drug catalogs)",
-                "definition": "Detailed definition of a medicinal product, typically for uses other than direct patient care (e.g. regulatory use, drug catalogs).",
+                "short": "Detailed definition of a medicinal product",
+                "definition": "A medicinal product, being a substance or combination of substances that is intended to treat, prevent or diagnose a disease, or to restore, correct or modify physiological functions by exerting a pharmacological, immunological or metabolic action. This resource is intended to define and detail such products and their properties, for uses other than direct patient care (e.g. regulatory use, or drug catalogs).",
                 "min": 0,
                 "max": "*",
                 "mustSupport": false,
@@ -3337,7 +3529,7 @@
                 "id": "MedicinalProductDefinition.identifier",
                 "path": "MedicinalProductDefinition.identifier",
                 "short": "Business identifier for this product. Could be an MPID",
-                "definition": "Business identifier for this product. Could be an MPID.",
+                "definition": "Business identifier for this product. Could be an MPID. When in development or being regulated, products are typically referenced by official identifiers, assigned by a manufacturer or regulator, and unique to a product (which, when compared to a product instance being prescribed, is actually a product type). See also MedicinalProductDefinition.code.",
                 "alias": [
                     "MPID"
                 ],
@@ -3427,7 +3619,7 @@
             {
                 "id": "MedicinalProductDefinition.version",
                 "path": "MedicinalProductDefinition.version",
-                "short": "A business identifier relating to a specific version of the product, this is commonly used to support revisions to an existing product",
+                "short": "A business identifier relating to a specific version of the product",
                 "definition": "A business identifier relating to a specific version of the product, this is commonly used to support revisions to an existing product.",
                 "min": 0,
                 "max": "1",
@@ -3449,7 +3641,7 @@
             {
                 "id": "MedicinalProductDefinition.status",
                 "path": "MedicinalProductDefinition.status",
-                "short": "The status within the lifecycle of this product record. A high-level status, this is not intended to duplicate details carried elsewhere such as legal status, or authorization status",
+                "short": "The status within the lifecycle of this product record",
                 "definition": "The status within the lifecycle of this product record. A high-level status, this is not intended to duplicate details carried elsewhere such as legal status, or authorization status.",
                 "min": 0,
                 "max": "1",
@@ -3474,7 +3666,7 @@
                         }
                     ],
                     "strength": "preferred",
-                    "description": "Identifies the level of importance to be assigned to actioning the request.",
+                    "description": "The lifecycle status of an artifact.",
                     "valueSet": "http://hl7.org/fhir/ValueSet/publication-status"
                 },
                 "mapping": [
@@ -3532,7 +3724,7 @@
                 "id": "MedicinalProductDefinition.combinedPharmaceuticalDoseForm",
                 "path": "MedicinalProductDefinition.combinedPharmaceuticalDoseForm",
                 "short": "The dose form for a single part product, or combined form of a multiple part product",
-                "definition": "The dose form for a single part product, or combined form of a multiple part product.",
+                "definition": "The dose form for a single part product, or combined form of a multiple part product. This is one concept that describes all the components. It does not represent the form with components physically mixed, if that might be necessary, for which see (AdministrableProductDefinition.administrableDoseForm).",
                 "min": 0,
                 "max": "1",
                 "type": [
@@ -3564,8 +3756,8 @@
             {
                 "id": "MedicinalProductDefinition.route",
                 "path": "MedicinalProductDefinition.route",
-                "short": "The path by which the product is taken into or makes contact with the body. In some regions this is referred to as the licenced or approved route. See also AdministrableProductDefinition resource",
-                "definition": "The path by which the product is taken into or makes contact with the body. In some regions this is referred to as the licenced or approved route. See also AdministrableProductDefinition resource.",
+                "short": "The path by which the product is taken into or makes contact with the body",
+                "definition": "The path by which the product is taken into or makes contact with the body. In some regions this is referred to as the licenced or approved route. See also AdministrableProductDefinition resource. MedicinalProductDefinition.route is the same concept as AdministrableProductDefinition.routeOfAdministration.code, and they cannot be used together.",
                 "min": 0,
                 "max": "*",
                 "type": [
@@ -3597,7 +3789,7 @@
             {
                 "id": "MedicinalProductDefinition.indication",
                 "path": "MedicinalProductDefinition.indication",
-                "short": "Description of indication(s) for this product, used when structured indications are not required. In cases where structured indications are required, they are captured using the ClinicalUseDefinition resource. An indication is a medical situation for which using the product is appropriate",
+                "short": "Description of indication(s) for this product, used when structured indications are not required",
                 "definition": "Description of indication(s) for this product, used when structured indications are not required. In cases where structured indications are required, they are captured using the ClinicalUseDefinition resource. An indication is a medical situation for which using the product is appropriate.",
                 "min": 0,
                 "max": "1",
@@ -3653,7 +3845,7 @@
                 "id": "MedicinalProductDefinition.additionalMonitoringIndicator",
                 "path": "MedicinalProductDefinition.additionalMonitoringIndicator",
                 "short": "Whether the Medicinal Product is subject to additional monitoring for regulatory reasons",
-                "definition": "Whether the Medicinal Product is subject to additional monitoring for regulatory reasons.",
+                "definition": "Whether the Medicinal Product is subject to additional monitoring for regulatory reasons, such as heightened reporting requirements.",
                 "min": 0,
                 "max": "1",
                 "type": [
@@ -3664,6 +3856,17 @@
                 "mustSupport": false,
                 "isModifier": false,
                 "isSummary": true,
+                "binding": {
+                    "extension": [
+                        {
+                            "url": "http://hl7.org/fhir/StructureDefinition/elementdefinition-bindingName",
+                            "valueString": "AdditionalMonitoring"
+                        }
+                    ],
+                    "strength": "example",
+                    "description": "Extra measures defined for a Medicinal Product, such as heightened reporting requirements (e.g. Black Triangle Monitoring).",
+                    "valueSet": "http://hl7.org/fhir/ValueSet/medicinal-product-additional-monitoring"
+                },
                 "mapping": [
                     {
                         "identity": "idmp",
@@ -3675,7 +3878,7 @@
                 "id": "MedicinalProductDefinition.specialMeasures",
                 "path": "MedicinalProductDefinition.specialMeasures",
                 "short": "Whether the Medicinal Product is subject to special measures for regulatory reasons",
-                "definition": "Whether the Medicinal Product is subject to special measures for regulatory reasons.",
+                "definition": "Whether the Medicinal Product is subject to special measures for regulatory reasons, such as a requirement to conduct post-authorisation studies.",
                 "min": 0,
                 "max": "*",
                 "type": [
@@ -3686,6 +3889,17 @@
                 "mustSupport": false,
                 "isModifier": false,
                 "isSummary": true,
+                "binding": {
+                    "extension": [
+                        {
+                            "url": "http://hl7.org/fhir/StructureDefinition/elementdefinition-bindingName",
+                            "valueString": "SpecialMeasures"
+                        }
+                    ],
+                    "strength": "example",
+                    "description": "Extra measures defined for a Medicinal Product, such as a requirement to conduct post-authorisation studies.",
+                    "valueSet": "http://hl7.org/fhir/ValueSet/medicinal-product-special-measures"
+                },
                 "mapping": [
                     {
                         "identity": "idmp",
@@ -3697,7 +3911,7 @@
                 "id": "MedicinalProductDefinition.pediatricUseIndicator",
                 "path": "MedicinalProductDefinition.pediatricUseIndicator",
                 "short": "If authorised for use in children",
-                "definition": "If authorised for use in children.",
+                "definition": "If authorised for use in children, or infants, neonates etc.",
                 "min": 0,
                 "max": "1",
                 "type": [
@@ -3708,6 +3922,17 @@
                 "mustSupport": false,
                 "isModifier": false,
                 "isSummary": true,
+                "binding": {
+                    "extension": [
+                        {
+                            "url": "http://hl7.org/fhir/StructureDefinition/elementdefinition-bindingName",
+                            "valueString": "PediatricUse"
+                        }
+                    ],
+                    "strength": "example",
+                    "description": "Suitability for age groups, in particular children.",
+                    "valueSet": "http://hl7.org/fhir/ValueSet/medicinal-product-pediatric-use"
+                },
                 "mapping": [
                     {
                         "identity": "idmp",
@@ -3719,7 +3944,7 @@
                 "id": "MedicinalProductDefinition.classification",
                 "path": "MedicinalProductDefinition.classification",
                 "short": "Allows the product to be classified by various systems",
-                "definition": "Allows the product to be classified by various systems.",
+                "definition": "Allows the product to be classified by various systems, commonly WHO ATC.",
                 "min": 0,
                 "max": "*",
                 "type": [
@@ -3730,6 +3955,17 @@
                 "mustSupport": false,
                 "isModifier": false,
                 "isSummary": true,
+                "binding": {
+                    "extension": [
+                        {
+                            "url": "http://hl7.org/fhir/StructureDefinition/elementdefinition-bindingName",
+                            "valueString": "ProductClassification"
+                        }
+                    ],
+                    "strength": "example",
+                    "description": "This value set includes codes from the Anatomical Therapeutic Chemical Classification System - provided as an exemplar value set.",
+                    "valueSet": "http://hl7.org/fhir/ValueSet/product-classification-codes"
+                },
                 "mapping": [
                     {
                         "identity": "idmp",
@@ -3741,7 +3977,7 @@
                 "id": "MedicinalProductDefinition.marketingStatus",
                 "path": "MedicinalProductDefinition.marketingStatus",
                 "short": "Marketing status of the medicinal product, in contrast to marketing authorization",
-                "definition": "Marketing status of the medicinal product, in contrast to marketing authorization.",
+                "definition": "Marketing status of the medicinal product, in contrast to marketing authorization. This refers to the product being actually 'on the market' as opposed to being allowed to be on the market (which is an authorization).",
                 "min": 0,
                 "max": "*",
                 "type": [
@@ -3762,8 +3998,8 @@
             {
                 "id": "MedicinalProductDefinition.packagedMedicinalProduct",
                 "path": "MedicinalProductDefinition.packagedMedicinalProduct",
-                "short": "Package representation for the product",
-                "definition": "Package representation for the product. See also the PackagedProductDefinition resource.",
+                "short": "Package type for the product",
+                "definition": "Package type for the product. See also the PackagedProductDefinition resource.",
                 "min": 0,
                 "max": "*",
                 "type": [
@@ -3795,7 +4031,7 @@
             {
                 "id": "MedicinalProductDefinition.ingredient",
                 "path": "MedicinalProductDefinition.ingredient",
-                "short": "The ingredients of this medicinal product - when not detailed in other resources. This is only needed if the ingredients are not specified by incoming references from the Ingredient resource, or indirectly via incoming AdministrableProductDefinition, PackagedProductDefinition or ManufacturedItemDefinition references. In cases where those levels of detail are not used, the ingredients may be specified directly here as codes",
+                "short": "The ingredients of this medicinal product - when not detailed in other resources",
                 "definition": "The ingredients of this medicinal product - when not detailed in other resources. This is only needed if the ingredients are not specified by incoming references from the Ingredient resource, or indirectly via incoming AdministrableProductDefinition, PackagedProductDefinition or ManufacturedItemDefinition references. In cases where those levels of detail are not used, the ingredients may be specified directly here as codes.",
                 "min": 0,
                 "max": "*",
@@ -3807,6 +4043,17 @@
                 "mustSupport": false,
                 "isModifier": false,
                 "isSummary": true,
+                "binding": {
+                    "extension": [
+                        {
+                            "url": "http://hl7.org/fhir/StructureDefinition/elementdefinition-bindingName",
+                            "valueString": "SNOMEDCTSubstanceCodes"
+                        }
+                    ],
+                    "strength": "example",
+                    "description": "This value set includes all substance codes from SNOMED CT - provided as an exemplar value set.",
+                    "valueSet": "http://hl7.org/fhir/ValueSet/substance-codes"
+                },
                 "mapping": [
                     {
                         "identity": "idmp",
@@ -3817,8 +4064,8 @@
             {
                 "id": "MedicinalProductDefinition.impurity",
                 "path": "MedicinalProductDefinition.impurity",
-                "short": "Any component of the drug product which is not the chemical entity defined as the drug substance or an excipient in the drug product. This includes process-related impurities and contaminants, product-related impurities including degradation products",
-                "definition": "Any component of the drug product which is not the chemical entity defined as the drug substance or an excipient in the drug product. This includes process-related impurities and contaminants, product-related impurities including degradation products.",
+                "short": "Any component of the drug product which is not the chemical entity defined as the drug substance, or an excipient in the drug product",
+                "definition": "Any component of the drug product which is not the chemical entity defined as the drug substance, or an excipient in the drug product. This includes process-related impurities and contaminants, product-related impurities including degradation products.",
                 "min": 0,
                 "max": "*",
                 "type": [
@@ -3832,6 +4079,17 @@
                 "mustSupport": false,
                 "isModifier": false,
                 "isSummary": true,
+                "binding": {
+                    "extension": [
+                        {
+                            "url": "http://hl7.org/fhir/StructureDefinition/elementdefinition-bindingName",
+                            "valueString": "SNOMEDCTSubstanceCodes"
+                        }
+                    ],
+                    "strength": "example",
+                    "description": "This value set includes all substance codes from SNOMED CT - provided as an exemplar value set.",
+                    "valueSet": "http://hl7.org/fhir/ValueSet/substance-codes"
+                },
                 "mapping": [
                     {
                         "identity": "idmp",
@@ -3842,7 +4100,7 @@
             {
                 "id": "MedicinalProductDefinition.attachedDocument",
                 "path": "MedicinalProductDefinition.attachedDocument",
-                "short": "Additional information or supporting documentation about the medicinal product",
+                "short": "Additional documentation about the medicinal product",
                 "definition": "Additional information or supporting documentation about the medicinal product.",
                 "min": 0,
                 "max": "*",
@@ -3926,6 +4184,17 @@
                 "mustSupport": false,
                 "isModifier": false,
                 "isSummary": true,
+                "binding": {
+                    "extension": [
+                        {
+                            "url": "http://hl7.org/fhir/StructureDefinition/elementdefinition-bindingName",
+                            "valueString": "ProductContactType"
+                        }
+                    ],
+                    "strength": "example",
+                    "description": "Extra measures defined for a Medicinal Product, such as heightened reporting requirements.",
+                    "valueSet": "http://hl7.org/fhir/ValueSet/medicinal-product-contact-type"
+                },
                 "mapping": [
                     {
                         "identity": "idmp",
@@ -3988,7 +4257,7 @@
                 "id": "MedicinalProductDefinition.code",
                 "path": "MedicinalProductDefinition.code",
                 "short": "A code that this product is known by, within some formal terminology",
-                "definition": "A code that this product is known by, usually within some formal terminology. Products (types of medications) tend to be known by identifiers during development and within regulatory process. However when they are prescribed they tend to be identified by codes. The same product may be have multiple codes, applied to it by multiple organizations.",
+                "definition": "A code that this product is known by, usually within some formal terminology, perhaps assigned by a third party (i.e. not the manufacturer or regulator). Products (types of medications) tend to be known by identifiers during development and within regulatory process. However when they are prescribed they tend to be identified by codes. The same product may be have multiple codes, applied to it by multiple organizations.",
                 "min": 0,
                 "max": "*",
                 "type": [
@@ -4076,6 +4345,17 @@
                 "mustSupport": false,
                 "isModifier": false,
                 "isSummary": true,
+                "binding": {
+                    "extension": [
+                        {
+                            "url": "http://hl7.org/fhir/StructureDefinition/elementdefinition-bindingName",
+                            "valueString": "ProductNameType"
+                        }
+                    ],
+                    "strength": "example",
+                    "description": "Type of a name for a Medicinal Product.",
+                    "valueSet": "http://hl7.org/fhir/ValueSet/medicinal-product-name-type"
+                },
                 "mapping": [
                     {
                         "identity": "idmp",
@@ -4142,6 +4422,17 @@
                 "mustSupport": false,
                 "isModifier": false,
                 "isSummary": true,
+                "binding": {
+                    "extension": [
+                        {
+                            "url": "http://hl7.org/fhir/StructureDefinition/elementdefinition-bindingName",
+                            "valueString": "ProductNamePartType"
+                        }
+                    ],
+                    "strength": "example",
+                    "description": "Type of part of a name for a Medicinal Product.",
+                    "valueSet": "http://hl7.org/fhir/ValueSet/medicinal-product-name-part-type"
+                },
                 "mapping": [
                     {
                         "identity": "idmp",
@@ -4152,8 +4443,8 @@
             {
                 "id": "MedicinalProductDefinition.name.countryLanguage",
                 "path": "MedicinalProductDefinition.name.countryLanguage",
-                "short": "Country where the name applies",
-                "definition": "Country where the name applies.",
+                "short": "Country and jurisdiction where the name applies",
+                "definition": "Country and jurisdiction where the name applies, and associated language.",
                 "min": 0,
                 "max": "*",
                 "type": [
@@ -4186,6 +4477,21 @@
                 "mustSupport": false,
                 "isModifier": false,
                 "isSummary": true,
+                "binding": {
+                    "extension": [
+                        {
+                            "url": "http://hl7.org/fhir/StructureDefinition/elementdefinition-bindingName",
+                            "valueString": "Country"
+                        },
+                        {
+                            "url": "http://hl7.org/fhir/StructureDefinition/elementdefinition-isCommonBinding",
+                            "valueBoolean": true
+                        }
+                    ],
+                    "strength": "example",
+                    "description": "Jurisdiction codes",
+                    "valueSet": "http://hl7.org/fhir/ValueSet/country"
+                },
                 "mapping": [
                     {
                         "identity": "idmp",
@@ -4197,7 +4503,7 @@
                 "id": "MedicinalProductDefinition.name.countryLanguage.jurisdiction",
                 "path": "MedicinalProductDefinition.name.countryLanguage.jurisdiction",
                 "short": "Jurisdiction code for where this name applies",
-                "definition": "Jurisdiction code for where this name applies.",
+                "definition": "Jurisdiction code for where this name applies. A jurisdiction may be a sub- or supra-national entity (e.g. a state or a geographic region).",
                 "min": 0,
                 "max": "1",
                 "type": [
@@ -4208,6 +4514,21 @@
                 "mustSupport": false,
                 "isModifier": false,
                 "isSummary": true,
+                "binding": {
+                    "extension": [
+                        {
+                            "url": "http://hl7.org/fhir/StructureDefinition/elementdefinition-bindingName",
+                            "valueString": "Jurisdiction"
+                        },
+                        {
+                            "url": "http://hl7.org/fhir/StructureDefinition/elementdefinition-isCommonBinding",
+                            "valueBoolean": true
+                        }
+                    ],
+                    "strength": "example",
+                    "description": "Jurisdiction codes",
+                    "valueSet": "http://hl7.org/fhir/ValueSet/jurisdiction"
+                },
                 "mapping": [
                     {
                         "identity": "idmp",
@@ -4230,6 +4551,25 @@
                 "mustSupport": false,
                 "isModifier": false,
                 "isSummary": true,
+                "binding": {
+                    "extension": [
+                        {
+                            "url": "http://hl7.org/fhir/StructureDefinition/elementdefinition-maxValueSet",
+                            "valueCanonical": "http://hl7.org/fhir/ValueSet/all-languages"
+                        },
+                        {
+                            "url": "http://hl7.org/fhir/StructureDefinition/elementdefinition-bindingName",
+                            "valueString": "Language"
+                        },
+                        {
+                            "url": "http://hl7.org/fhir/StructureDefinition/elementdefinition-isCommonBinding",
+                            "valueBoolean": true
+                        }
+                    ],
+                    "strength": "preferred",
+                    "description": "IETF language tag",
+                    "valueSet": "http://hl7.org/fhir/ValueSet/languages"
+                },
                 "mapping": [
                     {
                         "identity": "idmp",
@@ -4241,7 +4581,7 @@
                 "id": "MedicinalProductDefinition.crossReference",
                 "path": "MedicinalProductDefinition.crossReference",
                 "short": "Reference to another product, e.g. for linking authorised to investigational product",
-                "definition": "Reference to another product, e.g. for linking authorised to investigational product.",
+                "definition": "Reference to another product, e.g. for linking authorised to investigational product, or a virtual product.",
                 "min": 0,
                 "max": "*",
                 "type": [
@@ -4287,8 +4627,8 @@
             {
                 "id": "MedicinalProductDefinition.crossReference.type",
                 "path": "MedicinalProductDefinition.crossReference.type",
-                "short": "The type of relationship, for instance branded to generic, product to development product (investigational), parallel import version",
-                "definition": "The type of relationship, for instance branded to generic, product to development product (investigational), parallel import version.",
+                "short": "The type of relationship, for instance branded to generic or virtual to actual product",
+                "definition": "The type of relationship, for instance branded to generic, virtual to actual product, product to development product (investigational), parallel import version.",
                 "min": 0,
                 "max": "1",
                 "type": [
@@ -4299,6 +4639,17 @@
                 "mustSupport": false,
                 "isModifier": false,
                 "isSummary": true,
+                "binding": {
+                    "extension": [
+                        {
+                            "url": "http://hl7.org/fhir/StructureDefinition/elementdefinition-bindingName",
+                            "valueString": "ProductCrossReferenceType"
+                        }
+                    ],
+                    "strength": "example",
+                    "description": "Extra measures defined for a Medicinal Product, such as heightened reporting requirements.",
+                    "valueSet": "http://hl7.org/fhir/ValueSet/medicinal-product-cross-reference-type"
+                },
                 "mapping": [
                     {
                         "identity": "idmp",
@@ -4309,7 +4660,7 @@
             {
                 "id": "MedicinalProductDefinition.operation",
                 "path": "MedicinalProductDefinition.operation",
-                "short": "A manufacturing or administrative process or step associated with (or performed on) the medicinal product",
+                "short": "A manufacturing or administrative process for the medicinal product",
                 "definition": "A manufacturing or administrative process or step associated with (or performed on) the medicinal product.",
                 "min": 0,
                 "max": "*",
@@ -4331,7 +4682,7 @@
             {
                 "id": "MedicinalProductDefinition.operation.type",
                 "path": "MedicinalProductDefinition.operation.type",
-                "short": "The type of manufacturing operation e.g. manufacturing itself, re-packaging. For the authorization of this, a RegulatedAuthorization would point to the same plan or activity referenced here",
+                "short": "The type of manufacturing operation e.g. manufacturing itself, re-packaging",
                 "definition": "The type of manufacturing operation e.g. manufacturing itself, re-packaging. For the authorization of this, a RegulatedAuthorization would point to the same plan or activity referenced here.",
                 "min": 0,
                 "max": "1",
@@ -4379,7 +4730,7 @@
             {
                 "id": "MedicinalProductDefinition.operation.organization",
                 "path": "MedicinalProductDefinition.operation.organization",
-                "short": "The organization or establishment responsible for (or associated with) the particular process or step, examples include the manufacturer, importer, agent",
+                "short": "The organization responsible for the particular process, e.g. the manufacturer or importer",
                 "definition": "The organization or establishment responsible for (or associated with) the particular process or step, examples include the manufacturer, importer, agent.",
                 "min": 0,
                 "max": "*",
@@ -4404,7 +4755,7 @@
             {
                 "id": "MedicinalProductDefinition.operation.confidentialityIndicator",
                 "path": "MedicinalProductDefinition.operation.confidentialityIndicator",
-                "short": "Specifies whether this particular business or manufacturing process is considered proprietary or confidential",
+                "short": "Specifies whether this process is considered proprietary or confidential",
                 "definition": "Specifies whether this particular business or manufacturing process is considered proprietary or confidential.",
                 "min": 0,
                 "max": "1",
@@ -4416,6 +4767,17 @@
                 "mustSupport": false,
                 "isModifier": false,
                 "isSummary": true,
+                "binding": {
+                    "extension": [
+                        {
+                            "url": "http://hl7.org/fhir/StructureDefinition/elementdefinition-bindingName",
+                            "valueString": "ProductConfidentiality"
+                        }
+                    ],
+                    "strength": "example",
+                    "description": "Confidentiality rating, e.g. commercial sensitivity for a Medicinal Product.",
+                    "valueSet": "http://hl7.org/fhir/ValueSet/medicinal-product-confidentiality"
+                },
                 "mapping": [
                     {
                         "identity": "idmp",
@@ -4426,7 +4788,7 @@
             {
                 "id": "MedicinalProductDefinition.characteristic",
                 "path": "MedicinalProductDefinition.characteristic",
-                "short": "Allows the key product features to be recorded, such as \"sugar free\", \"modified release\", \"parallel import\"",
+                "short": "Key product features such as \"sugar free\", \"modified release\"",
                 "definition": "Allows the key product features to be recorded, such as \"sugar free\", \"modified release\", \"parallel import\".",
                 "min": 0,
                 "max": "*",
@@ -4460,6 +4822,17 @@
                 "mustSupport": false,
                 "isModifier": false,
                 "isSummary": true,
+                "binding": {
+                    "extension": [
+                        {
+                            "url": "http://hl7.org/fhir/StructureDefinition/elementdefinition-bindingName",
+                            "valueString": "ProductCharacteristic"
+                        }
+                    ],
+                    "strength": "example",
+                    "description": "This value set includes all observable entity codes from SNOMED CT - provided as an exemplar value set.",
+                    "valueSet": "http://hl7.org/fhir/ValueSet/product-characteristic-codes"
+                },
                 "mapping": [
                     {
                         "identity": "idmp",

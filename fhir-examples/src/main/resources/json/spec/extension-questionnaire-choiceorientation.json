@@ -12,9 +12,10 @@
     }
   ],
   "url": "http://hl7.org/fhir/StructureDefinition/questionnaire-choiceOrientation",
-  "version": "4.3.0-CIBUILD",
+  "version": "4.3.0-cibuild",
   "name": "choiceOrientation",
   "status": "draft",
+  "experimental": false,
   "date": "2013-07-04",
   "publisher": "HL7",
   "contact": [
@@ -28,7 +29,7 @@
     }
   ],
   "description": "Identifies the desired orientation when rendering a list of choices (typically radio-box or check-box lists).",
-  "fhirVersion": "4.3.0-CIBUILD",
+  "fhirVersion": "4.3.0-cibuild",
   "mapping": [
     {
       "identity": "rim",
@@ -254,7 +255,7 @@
           ],
           "strength": "required",
           "description": "Direction in which lists of possible answers should be displayed.",
-          "valueSet": "http://hl7.org/fhir/ValueSet/choice-list-orientation"
+          "valueSet": "http://terminology.hl7.org/ValueSet/choice-list-orientation"
         },
         "mapping": [
           {
@@ -308,7 +309,7 @@
           ],
           "strength": "required",
           "description": "Direction in which lists of possible answers should be displayed.",
-          "valueSet": "http://hl7.org/fhir/ValueSet/choice-list-orientation"
+          "valueSet": "http://terminology.hl7.org/ValueSet/choice-list-orientation"
         }
       }
     ]

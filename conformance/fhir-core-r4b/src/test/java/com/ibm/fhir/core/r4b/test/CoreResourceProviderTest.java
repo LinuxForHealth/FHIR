@@ -1,5 +1,5 @@
 /*
- * (C) Copyright IBM Corp. 2019, 2020
+ * (C) Copyright IBM Corp. 2019, 2022
  *
  * SPDX-License-Identifier: Apache-2.0
  */
@@ -17,6 +17,6 @@ public class CoreResourceProviderTest {
     @Test
     public void testR4BSpecResourceProvider() {
         FHIRRegistryResourceProvider provider = new Core410ResourceProvider();
-        Assert.assertEquals(provider.getRegistryResources().size(), 3698);
+        Assert.assertEquals(provider.getRegistryResources().size(), 3756);
     }
 }

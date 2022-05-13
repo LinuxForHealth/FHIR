@@ -65,7 +65,7 @@ public class CareTeam extends DomainResource {
         bindingName = "CareTeamStatus",
         strength = BindingStrength.Value.REQUIRED,
         description = "Indicates the status of the care team.",
-        valueSet = "http://hl7.org/fhir/ValueSet/care-team-status|4.3.0-CIBUILD"
+        valueSet = "http://hl7.org/fhir/ValueSet/care-team-status|4.3.0-cibuild"
     )
     private final CareTeamStatus status;
     @Summary

@@ -2,7 +2,7 @@
     "resourceType": "ValueSet",
     "id": "encounter-discharge-disposition",
     "meta": {
-        "lastUpdated": "2022-03-03T22:04:06.196Z",
+        "lastUpdated": "2022-04-23T22:21:35.043Z",
         "profile": [
             "http://hl7.org/fhir/StructureDefinition/shareablevalueset"
         ]
@@ -28,7 +28,7 @@
             "value": "urn:oid:2.16.840.1.113883.4.642.3.259"
         }
     ],
-    "version": "4.3.0-CIBUILD",
+    "version": "4.3.0-cibuild",
     "name": "DischargeDisposition",
     "status": "draft",
     "experimental": true,
@@ -52,8 +52,8 @@
         ]
     },
     "expansion": {
-        "identifier": "urn:uuid:e255d3af-5815-4a2a-8f14-3d50db2bcfaf",
-        "timestamp": "2022-03-03T22:05:31Z",
+        "identifier": "urn:uuid:d8728aae-bbf4-4f91-a9f6-f9ea747b23fa",
+        "timestamp": "2022-04-23T22:23:26Z",
         "total": 11,
         "parameter": [
             {
@@ -66,7 +66,7 @@
             },
             {
                 "name": "version",
-                "valueUri": "http://terminology.hl7.org/CodeSystem/discharge-disposition|4.3.0-CIBUILD"
+                "valueUri": "http://terminology.hl7.org/CodeSystem/discharge-disposition|4.3.0-cibuild"
             }
         ],
         "contains": [

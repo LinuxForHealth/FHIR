@@ -2,7 +2,7 @@
     "resourceType": "StructureDefinition",
     "id": "CodeableReference",
     "meta": {
-        "lastUpdated": "2022-01-01T15:17:18.597Z"
+        "lastUpdated": "2022-04-23T22:21:35.043Z"
     },
     "text": {
         "status": "empty",
@@ -15,10 +15,11 @@
         }
     ],
     "url": "http://hl7.org/fhir/StructureDefinition/CodeableReference",
-    "version": "4.3.0-CIBUILD",
+    "version": "4.3.0-cibuild",
     "name": "CodeableReference",
     "status": "draft",
-    "date": "2022-01-01T15:17:18Z",
+    "experimental": false,
+    "date": "2022-04-23T22:21:35Z",
     "publisher": "HL7 FHIR Standard",
     "contact": [
         {
@@ -30,9 +31,9 @@
             ]
         }
     ],
-    "description": "Base StructureDefinition for CodeableReference Type: A reference to a resource (by instance), or instead, a reference to a cencept defined in a terminology or ontology (by class).",
+    "description": "Base StructureDefinition for CodeableReference Type: A reference to a resource (by instance), or instead, a reference to a concept defined in a terminology or ontology (by class).",
     "purpose": "This is a common pattern in record keeping - a reference may be made to a specific condition, observation, plan, or definition, or a reference may be made to a general concept defined in a knowledge base somewhere.",
-    "fhirVersion": "4.3.0-CIBUILD",
+    "fhirVersion": "4.3.0-cibuild",
     "mapping": [
         {
             "identity": "rim",
@@ -43,7 +44,7 @@
     "kind": "complex-type",
     "abstract": false,
     "type": "CodeableReference",
-    "baseDefinition": "http://hl7.org/fhir/StructureDefinition/DataType",
+    "baseDefinition": "http://hl7.org/fhir/StructureDefinition/Element",
     "derivation": "specialization",
     "snapshot": {
         "element": [
@@ -57,7 +58,7 @@
                 ],
                 "path": "CodeableReference",
                 "short": "Reference to a resource or a concept",
-                "definition": "A reference to a resource (by instance), or instead, a reference to a cencept defined in a terminology or ontology (by class).",
+                "definition": "A reference to a resource (by instance), or instead, a reference to a concept defined in a terminology or ontology (by class).",
                 "min": 0,
                 "max": "*",
                 "base": {
@@ -65,13 +66,16 @@
                     "min": 0,
                     "max": "*"
                 },
+                "condition": [
+                    "ele-1"
+                ],
                 "constraint": [
                     {
                         "key": "ele-1",
                         "severity": "error",
-                        "human": "All FHIR elements must have a @value or children",
-                        "expression": "hasValue() or (children().count() > id.count())",
-                        "xpath": "@value|f:*|h:div",
+                        "human": "All FHIR elements must have a @value or children unless an empty Parameters resource",
+                        "expression": "hasValue() or (children().count() > id.count()) or $this is Parameters",
+                        "xpath": "@value|f:*|h:div|self::f:Parameters",
                         "source": "http://hl7.org/fhir/StructureDefinition/Element"
                     }
                 ],
@@ -181,7 +185,7 @@
                 "id": "CodeableReference.concept",
                 "path": "CodeableReference.concept",
                 "short": "Reference to a concept (by class)",
-                "definition": "A reference to a concept - e.g. the information is identified by it's general classto the degree of precision found in the terminology.",
+                "definition": "A reference to a concept - e.g. the information is identified by its general class to the degree of precision found in the terminology.",
                 "min": 0,
                 "max": "1",
                 "base": {
@@ -263,7 +267,7 @@
                 ],
                 "path": "CodeableReference",
                 "short": "Reference to a resource or a concept",
-                "definition": "A reference to a resource (by instance), or instead, a reference to a cencept defined in a terminology or ontology (by class).",
+                "definition": "A reference to a resource (by instance), or instead, a reference to a concept defined in a terminology or ontology (by class).",
                 "min": 0,
                 "max": "*"
             },
@@ -271,7 +275,7 @@
                 "id": "CodeableReference.concept",
                 "path": "CodeableReference.concept",
                 "short": "Reference to a concept (by class)",
-                "definition": "A reference to a concept - e.g. the information is identified by it's general classto the degree of precision found in the terminology.",
+                "definition": "A reference to a concept - e.g. the information is identified by its general class to the degree of precision found in the terminology.",
                 "min": 0,
                 "max": "1",
                 "type": [

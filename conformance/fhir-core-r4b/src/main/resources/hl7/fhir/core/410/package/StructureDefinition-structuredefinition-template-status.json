@@ -12,9 +12,10 @@
         }
     ],
     "url": "http://hl7.org/fhir/StructureDefinition/structuredefinition-template-status",
-    "version": "4.3.0-CIBUILD",
+    "version": "4.3.0-cibuild",
     "name": "template-status",
     "status": "draft",
+    "experimental": false,
     "date": "2014-01-31",
     "publisher": "Health Level Seven, Inc. - [WG Name] WG",
     "contact": [
@@ -28,7 +29,7 @@
         }
     ],
     "description": "Status code taken from [HL7 template specification](http://www.hl7.org/implement/standards/product_brief.cfm?product_id=377) - allows for alignment with the template DSTU, and has more authoring status codes.",
-    "fhirVersion": "4.3.0-CIBUILD",
+    "fhirVersion": "4.3.0-cibuild",
     "mapping": [
         {
             "identity": "rim",

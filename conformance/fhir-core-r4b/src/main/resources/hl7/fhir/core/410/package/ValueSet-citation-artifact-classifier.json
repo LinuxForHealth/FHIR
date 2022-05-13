@@ -2,7 +2,7 @@
     "resourceType": "ValueSet",
     "id": "citation-artifact-classifier",
     "meta": {
-        "lastUpdated": "2022-03-04T09:04:06.196+11:00",
+        "lastUpdated": "2022-04-24T09:21:35.043+11:00",
         "profile": [
             "http://hl7.org/fhir/StructureDefinition/shareablevalueset"
         ]
@@ -13,16 +13,12 @@
             "valueCode": "cds"
         },
         {
-            "url": "http://hl7.org/fhir/StructureDefinition/structuredefinition-standards-activity",
+            "url": "http://hl7.org/fhir/StructureDefinition/structuredefinition-standards-status",
             "valueCode": "trial-use"
         },
         {
             "url": "http://hl7.org/fhir/StructureDefinition/structuredefinition-fmm",
             "valueInteger": 1
-        },
-        {
-            "url": "http://hl7.org/fhir/StructureDefinition/structuredefinition-standards-status",
-            "valueCode": "draft"
         }
     ],
     "url": "http://hl7.org/fhir/ValueSet/citation-artifact-classifier",
@@ -32,7 +28,7 @@
             "value": "urn:oid:2.16.840.1.113883.4.642.3.0"
         }
     ],
-    "version": "4.3.0-CIBUILD",
+    "version": "4.3.0-cibuild",
     "name": "CitationArtifactClassifier",
     "title": "CitationArtifactClassifier",
     "status": "draft",
@@ -63,8 +59,8 @@
         ]
     },
     "expansion": {
-        "identifier": "urn:uuid:9e7e2395-70e6-4a9d-9009-9873482d21af",
-        "timestamp": "2022-03-03T22:05:30Z",
+        "identifier": "urn:uuid:7335f22f-17e0-4a42-97bb-1d0c0577c4c2",
+        "timestamp": "2022-04-23T22:23:26Z",
         "total": 24,
         "parameter": [
             {
@@ -77,7 +73,7 @@
             },
             {
                 "name": "version",
-                "valueUri": "http://terminology.hl7.org/CodeSystem/citation-artifact-classifier|4.3.0-CIBUILD"
+                "valueUri": "http://terminology.hl7.org/CodeSystem/citation-artifact-classifier|4.3.0-cibuild"
             }
         ],
         "contains": [

@@ -36,8 +36,8 @@
         ]
     },
     "expansion": {
-        "identifier": "urn:uuid:aaa2fe9b-caf4-41e6-9948-2923b6a48879",
-        "timestamp": "2022-03-03T22:05:30Z",
+        "identifier": "urn:uuid:0543545f-919f-4fe7-a2c7-8f0ac68619b5",
+        "timestamp": "2022-04-23T22:23:26Z",
         "total": 1,
         "parameter": [
             {
@@ -55,24 +55,15 @@
         ],
         "contains": [
             {
-                "extension": [
-                    {
-                        "extension": [
-                            {
-                                "url": "lang",
-                                "valueCode": "de"
-                            },
-                            {
-                                "url": "content",
-                                "valueString": "Wiederaufnahme"
-                            }
-                        ],
-                        "url": "http://hl7.org/fhir/StructureDefinition/translation"
-                    }
-                ],
                 "system": "http://terminology.hl7.org/CodeSystem/v2-0092",
                 "code": "R",
-                "display": "Re-admission"
+                "display": "Re-admission",
+                "designation": [
+                    {
+                        "language": "de",
+                        "value": "Wiederaufnahme"
+                    }
+                ]
             }
         ]
     }

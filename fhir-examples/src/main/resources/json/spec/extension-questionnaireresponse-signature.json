@@ -12,9 +12,10 @@
     }
   ],
   "url": "http://hl7.org/fhir/StructureDefinition/questionnaireresponse-signature",
-  "version": "4.3.0-CIBUILD",
+  "version": "4.3.0-cibuild",
   "name": "signature",
   "status": "draft",
+  "experimental": false,
   "date": "2013-07-04",
   "publisher": "HL7",
   "contact": [
@@ -28,7 +29,7 @@
     }
   ],
   "description": "Represents a wet or electronic signature for either the form overall or for the question or item it\u0027s associated with.",
-  "fhirVersion": "4.3.0-CIBUILD",
+  "fhirVersion": "4.3.0-cibuild",
   "mapping": [
     {
       "identity": "rim",

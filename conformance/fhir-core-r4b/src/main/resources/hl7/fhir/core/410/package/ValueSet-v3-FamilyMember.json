@@ -30,8 +30,8 @@
         ]
     },
     "expansion": {
-        "identifier": "urn:uuid:651cb1e7-950f-405a-a833-b66bcd715809",
-        "timestamp": "2022-03-03T22:05:30Z",
+        "identifier": "urn:uuid:c5977960-9c79-44f0-938a-e22c97df0d3b",
+        "timestamp": "2022-04-23T22:23:26Z",
         "total": 107,
         "parameter": [
             {
@@ -305,6 +305,7 @@
             },
             {
                 "system": "http://terminology.hl7.org/CodeSystem/v3-RoleCode",
+                "inactive": true,
                 "code": "MTHINLOAW",
                 "display": "mother-in-law"
             },
@@ -325,6 +326,7 @@
             },
             {
                 "system": "http://terminology.hl7.org/CodeSystem/v3-RoleCode",
+                "inactive": true,
                 "code": "SISLINLAW",
                 "display": "sister-in-law"
             },

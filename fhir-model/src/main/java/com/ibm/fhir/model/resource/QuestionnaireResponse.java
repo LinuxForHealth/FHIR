@@ -82,7 +82,7 @@ public class QuestionnaireResponse extends DomainResource {
         bindingName = "QuestionnaireResponseStatus",
         strength = BindingStrength.Value.REQUIRED,
         description = "Lifecycle status of the questionnaire response.",
-        valueSet = "http://hl7.org/fhir/ValueSet/questionnaire-answers-status|4.3.0-CIBUILD"
+        valueSet = "http://hl7.org/fhir/ValueSet/questionnaire-answers-status|4.3.0-cibuild"
     )
     @Required
     private final QuestionnaireResponseStatus status;

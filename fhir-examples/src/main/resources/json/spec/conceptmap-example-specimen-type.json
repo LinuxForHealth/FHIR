@@ -124,8 +124,7 @@
           "code": "ASERU",
           "target": [
             {
-              "equivalence": "unmatched",
-              "comment": "pending"
+              "equivalence": "unmatched"
             }
           ]
         },
@@ -149,8 +148,7 @@
           "code": "ATTE",
           "target": [
             {
-              "equivalence": "unmatched",
-              "comment": "TBD"
+              "equivalence": "unmatched"
             }
           ]
         },
@@ -158,8 +156,7 @@
           "code": "AUTOC",
           "target": [
             {
-              "equivalence": "unmatched",
-              "comment": "TBD"
+              "equivalence": "unmatched"
             }
           ]
         },
@@ -167,8 +164,7 @@
           "code": "AUTP",
           "target": [
             {
-              "equivalence": "unmatched",
-              "comment": "This really is not a specimen per se - it is the state of the subject from whom the specimen is collected, so it should be used as a  specimen type modifier ONLY!. Often this is indicated with a special medical record number or other notation on the patient. needs to have specimen type (e.g. SPM-4) and source site (SPM.8) and spatial orientation (SPM.9)"
+              "equivalence": "unmatched"
             }
           ]
         },
@@ -185,15 +181,7 @@
           "code": "BCYST",
           "target": [
             {
-              "equivalence": "unmatched",
-              "comment": "submitted (PLR155) with parent of  167874004^knee joint synovial fluid (specimen), with specimen source topography 32361000^Popliteal fossa structure (body structure)",
-              "product": [
-                {
-                  "property": "http://snomed.info/id/3006873018",
-                  "system": "http://snomed.info/sct",
-                  "value": "32361000"
-                }
-              ]
+              "equivalence": "unmatched"
             }
           ]
         },
@@ -201,8 +189,7 @@
           "code": "BITE",
           "target": [
             {
-              "equivalence": "unmatched",
-              "comment": "Submit for new term with parent 119365002"
+              "equivalence": "unmatched"
             }
           ]
         },
@@ -272,8 +259,7 @@
           "code": "BOWL",
           "target": [
             {
-              "equivalence": "unmatched",
-              "comment": "Don\u0027t use this term for human samples - use Stool instead. animal would use small intestinal contents, large intestinal contents"
+              "equivalence": "unmatched"
             }
           ]
         },
@@ -427,8 +413,7 @@
           "code": "CBITE",
           "target": [
             {
-              "equivalence": "unmatched",
-              "comment": "Submit for new term with parent 119365002"
+              "equivalence": "unmatched"
             }
           ]
         },
@@ -503,8 +488,7 @@
           "code": "CSCR",
           "target": [
             {
-              "equivalence": "unmatched",
-              "comment": "submit for new term with parent 119365002^Specimen from wound (specimen)"
+              "equivalence": "unmatched"
             }
           ]
         },
@@ -512,8 +496,7 @@
           "code": "CSERU",
           "target": [
             {
-              "equivalence": "unmatched",
-              "comment": "pending"
+              "equivalence": "unmatched"
             }
           ]
         },
@@ -523,7 +506,7 @@
             {
               "code": "258507003",
               "equivalence": "equivalent",
-              "comment": "Prefer to have aspirate of the pus oozing out from cleaned insertion site - if swab is all that can be obtained, then swab after cleaning, otherwise you may get a contaminated specimen and a falsely identified infected central line. Do not just swab the reddened area - that will just collect skin flora       ",
+              "comment": "Prefer to have aspirate of the pus oozing out from cleaned insertion site - if swab is all that can be obtained, then swab after cleaning, otherwise you may get a contaminated specimen and a falsely identified infected central line. Do not just swab the reddened area - that will just collect skin flora",
               "product": [
                 {
                   "property": "TypeModifier",
@@ -561,8 +544,7 @@
           "code": "CSVR",
           "target": [
             {
-              "equivalence": "unmatched",
-              "comment": "TBD - may use blood and SPM-6"
+              "equivalence": "unmatched"
             }
           ]
         },
@@ -631,8 +613,7 @@
           "code": "DBITE",
           "target": [
             {
-              "equivalence": "unmatched",
-              "comment": "Submit for new term with parent 119365002"
+              "equivalence": "unmatched"
             }
           ]
         },
@@ -658,8 +639,7 @@
           "code": "DEION",
           "target": [
             {
-              "equivalence": "unmatched",
-              "comment": "TBD"
+              "equivalence": "unmatched"
             }
           ]
         },
@@ -774,8 +754,7 @@
           "code": "EEYE",
           "target": [
             {
-              "equivalence": "unmatched",
-              "comment": "TBD"
+              "equivalence": "unmatched"
             }
           ]
         },
@@ -783,8 +762,7 @@
           "code": "EFF",
           "target": [
             {
-              "equivalence": "unmatched",
-              "comment": "TBD"
+              "equivalence": "unmatched"
             }
           ]
         },
@@ -837,8 +815,7 @@
           "code": "EOTH",
           "target": [
             {
-              "equivalence": "unmatched",
-              "comment": "TBD"
+              "equivalence": "unmatched"
             }
           ]
         },
@@ -846,8 +823,7 @@
           "code": "ESOI",
           "target": [
             {
-              "equivalence": "unmatched",
-              "comment": "TBD"
+              "equivalence": "unmatched"
             }
           ]
         },
@@ -855,8 +831,7 @@
           "code": "ESOS",
           "target": [
             {
-              "equivalence": "unmatched",
-              "comment": "TBD"
+              "equivalence": "unmatched"
             }
           ]
         },
@@ -916,8 +891,7 @@
           "code": "EWHI",
           "target": [
             {
-              "equivalence": "unmatched",
-              "comment": "TBD"
+              "equivalence": "unmatched"
             }
           ]
         },
@@ -934,8 +908,7 @@
           "code": "EXS",
           "target": [
             {
-              "equivalence": "unmatched",
-              "comment": "TBD"
+              "equivalence": "unmatched"
             }
           ]
         },
@@ -952,8 +925,7 @@
           "code": "FAW",
           "target": [
             {
-              "equivalence": "unmatched",
-              "comment": "TBD"
+              "equivalence": "unmatched"
             }
           ]
         },
@@ -1011,8 +983,7 @@
           "code": "FLT",
           "target": [
             {
-              "equivalence": "unmatched",
-              "comment": "TBD"
+              "equivalence": "unmatched"
             }
           ]
         },
@@ -1240,8 +1211,7 @@
           "code": "GSOL",
           "target": [
             {
-              "equivalence": "unmatched",
-              "comment": "TBD"
+              "equivalence": "unmatched"
             }
           ]
         },
@@ -1270,8 +1240,7 @@
           "code": "GT",
           "target": [
             {
-              "equivalence": "unmatched",
-              "comment": "TBD"
+              "equivalence": "unmatched"
             }
           ]
         },
@@ -1306,8 +1275,7 @@
           "code": "HBITE",
           "target": [
             {
-              "equivalence": "unmatched",
-              "comment": "Submit for new term with parent 119365002"
+              "equivalence": "unmatched"
             }
           ]
         },
@@ -1402,8 +1370,7 @@
           "code": "IBITE",
           "target": [
             {
-              "equivalence": "unmatched",
-              "comment": "Submit for new term with parent 119365002"
+              "equivalence": "unmatched"
             }
           ]
         },
@@ -1456,8 +1423,7 @@
           "code": "ILLEG",
           "target": [
             {
-              "equivalence": "unmatched",
-              "comment": "TBD"
+              "equivalence": "unmatched"
             }
           ]
         },
@@ -1483,8 +1449,7 @@
           "code": "INFIL",
           "target": [
             {
-              "equivalence": "unmatched",
-              "comment": "This describes a morphologic abnormality, not a sample"
+              "equivalence": "unmatched"
             }
           ]
         },
@@ -1520,8 +1485,7 @@
           "code": "IUD",
           "target": [
             {
-              "equivalence": "unmatched",
-              "comment": "pending"
+              "equivalence": "unmatched"
             }
           ]
         },
@@ -1720,8 +1684,7 @@
           "code": "LENS2",
           "target": [
             {
-              "equivalence": "unmatched",
-              "comment": "TBD"
+              "equivalence": "unmatched"
             }
           ]
         },
@@ -1748,8 +1711,7 @@
           "code": "LIQO",
           "target": [
             {
-              "equivalence": "unmatched",
-              "comment": "TBD"
+              "equivalence": "unmatched"
             }
           ]
         },
@@ -1856,8 +1818,7 @@
           "code": "NEDL",
           "target": [
             {
-              "equivalence": "unmatched",
-              "comment": "TBD"
+              "equivalence": "unmatched"
             }
           ]
         },
@@ -1931,8 +1892,7 @@
           "code": "NODUL",
           "target": [
             {
-              "equivalence": "unmatched",
-              "comment": "pending"
+              "equivalence": "unmatched"
             }
           ]
         },
@@ -1958,15 +1918,7 @@
           "code": "ORL",
           "target": [
             {
-              "equivalence": "unmatched",
-              "comment": "be more precise use ulcer, tumor, vesicle",
-              "product": [
-                {
-                  "property": "http://snomed.info/id/3006873018",
-                  "system": "http://snomed.info/sct",
-                  "value": "74262004"
-                }
-              ]
+              "equivalence": "unmatched"
             }
           ]
         },
@@ -1983,8 +1935,7 @@
           "code": "PACEM",
           "target": [
             {
-              "equivalence": "unmatched",
-              "comment": "TBD"
+              "equivalence": "unmatched"
             }
           ]
         },
@@ -2010,8 +1961,7 @@
           "code": "PDTS",
           "target": [
             {
-              "equivalence": "unmatched",
-              "comment": "submitted for code"
+              "equivalence": "unmatched"
             }
           ]
         },
@@ -2035,15 +1985,7 @@
           "code": "PENIL",
           "target": [
             {
-              "equivalence": "unmatched",
-              "comment": "need to know what kind of lesion, so map to: UlcerTissue_penile, VesicleFluid_penile, Wound_penile, Mass tissue_penile, Necrotic tissue_penile, AbscessAspirate_penile, Anything else?",
-              "product": [
-                {
-                  "property": "http://snomed.info/id/3006873018",
-                  "system": "http://snomed.info/sct",
-                  "value": "18911002"
-                }
-              ]
+              "equivalence": "unmatched"
             }
           ]
         },
@@ -2207,8 +2149,7 @@
           "code": "POPLV",
           "target": [
             {
-              "equivalence": "unmatched",
-              "comment": "TBD"
+              "equivalence": "unmatched"
             }
           ]
         },
@@ -2319,8 +2260,7 @@
           "code": "QC3",
           "target": [
             {
-              "equivalence": "unmatched",
-              "comment": "TBD"
+              "equivalence": "unmatched"
             }
           ]
         },
@@ -2337,8 +2277,7 @@
           "code": "RBITE",
           "target": [
             {
-              "equivalence": "unmatched",
-              "comment": "Submit for new term with parent: 119365002"
+              "equivalence": "unmatched"
             }
           ]
         },
@@ -2537,8 +2476,7 @@
           "code": "SHUNT",
           "target": [
             {
-              "equivalence": "unmatched",
-              "comment": "TBD"
+              "equivalence": "unmatched"
             }
           ]
         },
@@ -2546,8 +2484,7 @@
           "code": "SITE",
           "target": [
             {
-              "equivalence": "unmatched",
-              "comment": "TBD"
+              "equivalence": "unmatched"
             }
           ]
         },
@@ -2634,8 +2571,7 @@
           "code": "SPS",
           "target": [
             {
-              "equivalence": "unmatched",
-              "comment": "TBD"
+              "equivalence": "unmatched"
             }
           ]
         },
@@ -2670,8 +2606,7 @@
           "code": "SPUT1",
           "target": [
             {
-              "equivalence": "unmatched",
-              "comment": "TBD"
+              "equivalence": "unmatched"
             }
           ]
         },
@@ -2697,8 +2632,7 @@
           "code": "STER",
           "target": [
             {
-              "equivalence": "unmatched",
-              "comment": "TBD"
+              "equivalence": "unmatched"
             }
           ]
         },
@@ -2796,8 +2730,7 @@
           "code": "SUTUR",
           "target": [
             {
-              "equivalence": "unmatched",
-              "comment": "TBD"
+              "equivalence": "unmatched"
             }
           ]
         },
@@ -2948,8 +2881,7 @@
           "code": "TZANC",
           "target": [
             {
-              "equivalence": "unmatched",
-              "comment": "This is the name of a lab test. A skin sample is examined for viral inclusions."
+              "equivalence": "unmatched"
             }
           ]
         },
@@ -3051,8 +2983,7 @@
           "code": "URINP",
           "target": [
             {
-              "equivalence": "unmatched",
-              "comment": "TBD"
+              "equivalence": "unmatched"
             }
           ]
         },
@@ -3069,20 +3000,7 @@
           "code": "USCOP",
           "target": [
             {
-              "equivalence": "unmatched",
-              "comment": "NEW specimenTERM 7",
-              "product": [
-                {
-                  "property": "http://snomed.info/id/246380002",
-                  "system": "http://snomed.info/sct",
-                  "value": "176178006"
-                },
-                {
-                  "property": "http://snomed.info/id/3006873018",
-                  "system": "http://snomed.info/sct",
-                  "value": "89837001"
-                }
-              ]
+              "equivalence": "unmatched"
             }
           ]
         },
@@ -3164,8 +3082,7 @@
           "code": "WB",
           "target": [
             {
-              "equivalence": "unmatched",
-              "comment": "Bloodbanking term ONLY now map to blood and the respective preservative"
+              "equivalence": "unmatched"
             }
           ]
         },
@@ -3182,8 +3099,7 @@
           "code": "WICK",
           "target": [
             {
-              "equivalence": "unmatched",
-              "comment": "TBD"
+              "equivalence": "unmatched"
             }
           ]
         },
@@ -3261,8 +3177,7 @@
           "code": "WWO",
           "target": [
             {
-              "equivalence": "unmatched",
-              "comment": "TBD"
+              "equivalence": "unmatched"
             }
           ]
         },
@@ -3270,8 +3185,7 @@
           "code": "WWT",
           "target": [
             {
-              "equivalence": "unmatched",
-              "comment": "TBD"
+              "equivalence": "unmatched"
             }
           ]
         },
@@ -3279,25 +3193,7 @@
           "code": "CSITE",
           "target": [
             {
-              "equivalence": "unmatched",
-              "comment": "Prefer to have aspirate of the pus oozing out from cleaned insertion site - if swab is all that can be obtained, then swab after cleaning, otherwise you may get a contaminated specimen and a falsely identified infected central line. Do not just swab the reddened area - that will just collect skin flora",
-              "product": [
-                {
-                  "property": "TypeModifier",
-                  "system": "http://snomed.info/sct",
-                  "value": "119295008"
-                },
-                {
-                  "property": "http://snomed.info/id/246380002",
-                  "system": "http://snomed.info/sct",
-                  "value": "386144009"
-                },
-                {
-                  "property": "http://snomed.info/id/3006873018",
-                  "system": "http://snomed.info/sct",
-                  "value": "14766002"
-                }
-              ]
+              "equivalence": "unmatched"
             }
           ]
         },
@@ -3305,15 +3201,7 @@
           "code": "CLIPP",
           "target": [
             {
-              "equivalence": "unmatched",
-              "comment": "Be more specific use either: 119326000^hair specimen, or 119327009^nail specimen",
-              "product": [
-                {
-                  "property": "TypeModifier",
-                  "system": "http://snomed.info/sct",
-                  "value": "119326000"
-                }
-              ]
+              "equivalence": "unmatched"
             }
           ]
         },
@@ -3321,20 +3209,7 @@
           "code": "SHU",
           "target": [
             {
-              "equivalence": "unmatched",
-              "comment": "assume swab from shunt site for mapping here - clean surface of skin prior to expressing the shunt site - preferred is aspiration with sterile syringe should use SPM.8 to specify body approximate match location of shunt site",
-              "product": [
-                {
-                  "property": "TypeModifier",
-                  "system": "http://snomed.info/sct",
-                  "value": "438660002"
-                },
-                {
-                  "property": "http://snomed.info/id/246380002",
-                  "system": "http://snomed.info/sct",
-                  "value": "257351008"
-                }
-              ]
+              "equivalence": "unmatched"
             }
           ]
         }

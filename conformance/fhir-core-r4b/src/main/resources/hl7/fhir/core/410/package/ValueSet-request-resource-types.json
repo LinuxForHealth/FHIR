@@ -2,7 +2,7 @@
     "resourceType": "ValueSet",
     "id": "request-resource-types",
     "meta": {
-        "lastUpdated": "2022-03-03T22:04:06.196Z",
+        "lastUpdated": "2022-04-23T22:21:35.043Z",
         "profile": [
             "http://hl7.org/fhir/StructureDefinition/shareablevalueset"
         ]
@@ -28,12 +28,12 @@
             "value": "urn:oid:2.16.840.1.113883.4.642.3.1058"
         }
     ],
-    "version": "4.3.0-CIBUILD",
+    "version": "4.3.0-cibuild",
     "name": "RequestResourceType",
     "title": "RequestResourceType",
     "status": "draft",
     "experimental": false,
-    "date": "2022-03-03T22:04:06Z",
+    "date": "2022-04-23T22:21:35Z",
     "publisher": "HL7 (FHIR Project)",
     "contact": [
         {
@@ -59,8 +59,8 @@
         ]
     },
     "expansion": {
-        "identifier": "urn:uuid:cad735e2-5925-47e0-bc2e-b1cf8f936f28",
-        "timestamp": "2022-03-03T22:05:09Z",
+        "identifier": "urn:uuid:9d0e3d47-5391-4517-8ac5-709a43cf16c3",
+        "timestamp": "2022-04-23T22:23:07Z",
         "total": 15,
         "parameter": [
             {
@@ -73,7 +73,7 @@
             },
             {
                 "name": "version",
-                "valueUri": "http://hl7.org/fhir/request-resource-types|4.3.0-CIBUILD"
+                "valueUri": "http://hl7.org/fhir/request-resource-types|4.3.0-cibuild"
             }
         ],
         "contains": [

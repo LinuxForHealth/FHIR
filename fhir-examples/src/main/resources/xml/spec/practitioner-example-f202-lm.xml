@@ -7,7 +7,7 @@
       <display value="test health data"/>
     </security>
   </meta>
-  <text><status value="generated"/><div xmlns="http://www.w3.org/1999/xhtml"><p><b>Generated Narrative</b></p><div><p>Resource "f202" </p></div><p><b>identifier</b>: UZI-nummer: 12345678902 (OFFICIAL), BIG-nummer: 12345678902 (OFFICIAL)</p><p><b>active</b>: true</p><p><b>name</b>: Luigi Maas(OFFICIAL)</p><p><b>telecom</b>: <a>+31715269111</a></p><p><b>address</b>: Walvisbaai 3 C4 - Automatisering Den helder 2333ZA NLD (WORK)</p><p><b>gender</b>: male</p><p><b>birthDate</b>: 1960-06-12</p></div></text><identifier><!--  The identifier for the person as this practitioner (fictive)  -->
+  <text><status value="generated"/><div xmlns="http://www.w3.org/1999/xhtml"><p><b>Generated Narrative</b></p><div style="display: inline-block; background-color: #d9e0e7; padding: 6px; margin: 4px; border: 1px solid #8da1b4; border-radius: 5px; line-height: 60%"><p style="margin-bottom: 0px">Resource "f202" </p></div><p><b>identifier</b>: UZI-nummer: 12345678902 (OFFICIAL), BIG-nummer: 12345678902 (OFFICIAL)</p><p><b>active</b>: true</p><p><b>name</b>: Luigi Maas(OFFICIAL)</p><p><b>telecom</b>: <a href="tel:+31715269111">+31715269111</a></p><p><b>address</b>: Walvisbaai 3 C4 - Automatisering Den helder 2333ZA NLD (WORK)</p><p><b>gender</b>: male</p><p><b>birthDate</b>: 1960-06-12</p></div></text><identifier><!--  The identifier for the person as this practitioner (fictive)  -->
     <use value="official"/>
         <type><text value="UZI-nummer"/></type>
         <system value="urn:oid:2.16.528.1.1007.3.1"/>

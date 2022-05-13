@@ -146,6 +146,13 @@ public class FHIRVersion extends Code {
     public static final FHIRVersion VERSION_3_0_1 = FHIRVersion.builder().value(Value.VERSION_3_0_1).build();
 
     /**
+     * 3.0.2
+     * 
+     * <p>FHIR Release 3 (STU) with 2 technical errata.
+     */
+    public static final FHIRVersion VERSION_3_0_2 = FHIRVersion.builder().value(Value.VERSION_3_0_2).build();
+
+    /**
      * 3.3.0
      * 
      * <p>R4 Ballot #1.
@@ -181,7 +188,7 @@ public class FHIRVersion extends Code {
     public static final FHIRVersion VERSION_4_1_0 = FHIRVersion.builder().value(Value.VERSION_4_1_0).build();
 
     /**
-     * 4.3.0-CIBUILD
+     * 4.3.0-cibuild
      * 
      * <p>FHIR Release 4B CI-Build.
      */
@@ -241,6 +248,8 @@ public class FHIRVersion extends Code {
             return VERSION_3_0_0;
         case VERSION_3_0_1:
             return VERSION_3_0_1;
+        case VERSION_3_0_2:
+            return VERSION_3_0_2;
         case VERSION_3_3_0:
             return VERSION_3_3_0;
         case VERSION_3_5_0:
@@ -512,6 +521,13 @@ public class FHIRVersion extends Code {
         VERSION_3_0_1("3.0.1"),
 
         /**
+         * 3.0.2
+         * 
+         * <p>FHIR Release 3 (STU) with 2 technical errata.
+         */
+        VERSION_3_0_2("3.0.2"),
+
+        /**
          * 3.3.0
          * 
          * <p>R4 Ballot #1.
@@ -547,11 +563,11 @@ public class FHIRVersion extends Code {
         VERSION_4_1_0("4.1.0"),
 
         /**
-         * 4.3.0-CIBUILD
+         * 4.3.0-cibuild
          * 
          * <p>FHIR Release 4B CI-Build.
          */
-        VERSION_4_3_0_CIBUILD("4.3.0-CIBUILD");
+        VERSION_4_3_0_CIBUILD("4.3.0-cibuild");
 
         private final java.lang.String value;
 
@@ -618,6 +634,8 @@ public class FHIRVersion extends Code {
                 return VERSION_3_0_0;
             case "3.0.1":
                 return VERSION_3_0_1;
+            case "3.0.2":
+                return VERSION_3_0_2;
             case "3.3.0":
                 return VERSION_3_3_0;
             case "3.5.0":
@@ -628,7 +646,7 @@ public class FHIRVersion extends Code {
                 return VERSION_4_0_1;
             case "4.1.0":
                 return VERSION_4_1_0;
-            case "4.3.0-CIBUILD":
+            case "4.3.0-cibuild":
                 return VERSION_4_3_0_CIBUILD;
             default:
                 throw new IllegalArgumentException(value);

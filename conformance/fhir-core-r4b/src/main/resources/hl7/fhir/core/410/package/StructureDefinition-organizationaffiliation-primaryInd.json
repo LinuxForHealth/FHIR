@@ -12,14 +12,15 @@
         }
     ],
     "url": "http://hl7.org/fhir/StructureDefinition/organizationaffiliation-primaryInd",
-    "version": "4.3.0-CIBUILD",
+    "version": "4.3.0-cibuild",
     "name": "primaryInd",
     "title": "primaryInd",
     "status": "draft",
+    "experimental": false,
     "date": "2021-01-17T07:06:13+11:00",
     "publisher": "HL7",
     "description": "Flag indicating if the specialty is the primary specialty of the provider. Normally, a practitioner will have one primary specialty, but in some cases more than one can be primary.",
-    "fhirVersion": "4.3.0-CIBUILD",
+    "fhirVersion": "4.3.0-cibuild",
     "mapping": [
         {
             "identity": "rim",

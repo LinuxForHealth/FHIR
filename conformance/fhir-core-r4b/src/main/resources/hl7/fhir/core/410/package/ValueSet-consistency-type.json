@@ -2,7 +2,7 @@
     "resourceType": "ValueSet",
     "id": "consistency-type",
     "meta": {
-        "lastUpdated": "2022-03-03T22:04:06.196Z",
+        "lastUpdated": "2022-04-23T22:21:35.043Z",
         "profile": [
             "http://hl7.org/fhir/StructureDefinition/shareablevalueset"
         ]
@@ -28,7 +28,7 @@
             "value": "urn:oid:2.16.840.1.113883.4.642.3.389"
         }
     ],
-    "version": "4.3.0-CIBUILD",
+    "version": "4.3.0-cibuild",
     "name": "FluidConsistencyTypeCodes",
     "title": "Fluid Consistency Type Codes",
     "status": "draft",
@@ -73,11 +73,12 @@
         ]
     },
     "expansion": {
-        "identifier": "urn:uuid:569d05cd-82e1-4445-84ba-a8f5c7c33893",
-        "timestamp": "2021-11-17T05:28:25.611Z",
+        "identifier": "urn:uuid:5bd75733-5079-42c1-9a71-be3fff6972cf",
+        "timestamp": "2022-04-23T22:23:26Z",
+        "total": 4,
         "parameter": [
             {
-                "name": "limitedExpansion",
+                "name": "excludeNested",
                 "valueBoolean": true
             },
             {
@@ -85,76 +86,52 @@
                 "valueBoolean": true
             },
             {
-                "name": "excludeNested",
+                "name": "limitedExpansion",
                 "valueBoolean": true
             },
             {
                 "name": "version",
-                "valueUri": "http://snomed.info/sct|http://snomed.info/sct/731000124108/version/20210901"
+                "valueUri": "http://snomed.info/sct|http://snomed.info/sct/731000124108/version/20220301"
             }
         ],
         "contains": [
             {
                 "system": "http://snomed.info/sct",
                 "code": "439031000124108",
-                "display": "Dietary liquid consistency - honey thick liquid (regime/therapy)",
+                "display": "honey thick liquid",
                 "designation": [
                     {
-                        "value": "Dietary liquid consistency - honey thick liquid (regime/therapy)"
-                    },
-                    {
-                        "value": "Dietary liquid consistency - honey thick liquid"
-                    },
-                    {
-                        "value": "Liquids included in the diet are provided at a viscosity of 351-1750 centipoise (cP)."
+                        "value": "honey thick liquid"
                     }
                 ]
             },
             {
                 "system": "http://snomed.info/sct",
                 "code": "439021000124105",
-                "display": "Dietary liquid consistency - nectar thick liquid (regime/therapy)",
+                "display": "nectar thick liquid",
                 "designation": [
                     {
-                        "value": "Dietary liquid consistency - nectar thick liquid (regime/therapy)"
-                    },
-                    {
-                        "value": "Dietary liquid consistency - nectar thick liquid"
-                    },
-                    {
-                        "value": "Liquids included in the diet are provided at a viscosity of 51-350 centipoise (cP)."
+                        "value": "nectar thick liquid"
                     }
                 ]
             },
             {
                 "system": "http://snomed.info/sct",
                 "code": "439041000124103",
-                "display": "Dietary liquid consistency - spoon thick liquid (regime/therapy)",
+                "display": "spoon thick liquid",
                 "designation": [
                     {
-                        "value": "Dietary liquid consistency - spoon thick liquid (regime/therapy)"
-                    },
-                    {
-                        "value": "Dietary liquid consistency - spoon thick liquid"
-                    },
-                    {
-                        "value": "Liquids included in the diet are provided at a viscosity of > 1750 centipoise (cP)."
+                        "value": "spoon thick liquid"
                     }
                 ]
             },
             {
                 "system": "http://snomed.info/sct",
                 "code": "439081000124109",
-                "display": "Dietary liquid consistency - thin liquid (regime/therapy)",
+                "display": "thin liquid",
                 "designation": [
                     {
-                        "value": "Dietary liquid consistency - thin liquid (regime/therapy)"
-                    },
-                    {
-                        "value": "Dietary liquid consistency - thin liquid"
-                    },
-                    {
-                        "value": "Liquids included in the diet are provided at a viscosity of 1-50 centipoise (cP)."
+                        "value": "thin liquid"
                     }
                 ]
             }

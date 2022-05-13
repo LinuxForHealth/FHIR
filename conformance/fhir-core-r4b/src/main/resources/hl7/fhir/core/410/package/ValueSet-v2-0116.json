@@ -36,8 +36,8 @@
         ]
     },
     "expansion": {
-        "identifier": "urn:uuid:14eea3d7-9239-4d5b-ad9d-d16c876eacc5",
-        "timestamp": "2022-03-03T22:05:30Z",
+        "identifier": "urn:uuid:049c6c8c-f783-4991-87d9-48bd2a2c370f",
+        "timestamp": "2022-04-23T22:23:26Z",
         "total": 6,
         "parameter": [
             {
@@ -55,124 +55,70 @@
         ],
         "contains": [
             {
-                "extension": [
-                    {
-                        "extension": [
-                            {
-                                "url": "lang",
-                                "valueCode": "de"
-                            },
-                            {
-                                "url": "content",
-                                "valueString": "Nicht verfügbar"
-                            }
-                        ],
-                        "url": "http://hl7.org/fhir/StructureDefinition/translation"
-                    }
-                ],
                 "system": "http://terminology.hl7.org/CodeSystem/v2-0116",
                 "code": "C",
-                "display": "Closed"
+                "display": "Closed",
+                "designation": [
+                    {
+                        "language": "de",
+                        "value": "Nicht verfügbar"
+                    }
+                ]
             },
             {
-                "extension": [
-                    {
-                        "extension": [
-                            {
-                                "url": "lang",
-                                "valueCode": "de"
-                            },
-                            {
-                                "url": "content",
-                                "valueString": "Reinigung"
-                            }
-                        ],
-                        "url": "http://hl7.org/fhir/StructureDefinition/translation"
-                    }
-                ],
                 "system": "http://terminology.hl7.org/CodeSystem/v2-0116",
                 "code": "H",
-                "display": "Housekeeping"
+                "display": "Housekeeping",
+                "designation": [
+                    {
+                        "language": "de",
+                        "value": "Reinigung"
+                    }
+                ]
             },
             {
-                "extension": [
-                    {
-                        "extension": [
-                            {
-                                "url": "lang",
-                                "valueCode": "de"
-                            },
-                            {
-                                "url": "content",
-                                "valueString": "belegt"
-                            }
-                        ],
-                        "url": "http://hl7.org/fhir/StructureDefinition/translation"
-                    }
-                ],
                 "system": "http://terminology.hl7.org/CodeSystem/v2-0116",
                 "code": "O",
-                "display": "Occupied"
+                "display": "Occupied",
+                "designation": [
+                    {
+                        "language": "de",
+                        "value": "belegt"
+                    }
+                ]
             },
             {
-                "extension": [
-                    {
-                        "extension": [
-                            {
-                                "url": "lang",
-                                "valueCode": "de"
-                            },
-                            {
-                                "url": "content",
-                                "valueString": "Frei"
-                            }
-                        ],
-                        "url": "http://hl7.org/fhir/StructureDefinition/translation"
-                    }
-                ],
                 "system": "http://terminology.hl7.org/CodeSystem/v2-0116",
                 "code": "U",
-                "display": "Unoccupied"
+                "display": "Unoccupied",
+                "designation": [
+                    {
+                        "language": "de",
+                        "value": "Frei"
+                    }
+                ]
             },
             {
-                "extension": [
-                    {
-                        "extension": [
-                            {
-                                "url": "lang",
-                                "valueCode": "de"
-                            },
-                            {
-                                "url": "content",
-                                "valueString": "Kontaminiert"
-                            }
-                        ],
-                        "url": "http://hl7.org/fhir/StructureDefinition/translation"
-                    }
-                ],
                 "system": "http://terminology.hl7.org/CodeSystem/v2-0116",
                 "code": "K",
-                "display": "Contaminated"
+                "display": "Contaminated",
+                "designation": [
+                    {
+                        "language": "de",
+                        "value": "Kontaminiert"
+                    }
+                ]
             },
             {
-                "extension": [
-                    {
-                        "extension": [
-                            {
-                                "url": "lang",
-                                "valueCode": "de"
-                            },
-                            {
-                                "url": "content",
-                                "valueString": "Isoliert"
-                            }
-                        ],
-                        "url": "http://hl7.org/fhir/StructureDefinition/translation"
-                    }
-                ],
                 "system": "http://terminology.hl7.org/CodeSystem/v2-0116",
                 "code": "I",
-                "display": "Isolated"
+                "display": "Isolated",
+                "designation": [
+                    {
+                        "language": "de",
+                        "value": "Isoliert"
+                    }
+                ]
             }
         ]
     }

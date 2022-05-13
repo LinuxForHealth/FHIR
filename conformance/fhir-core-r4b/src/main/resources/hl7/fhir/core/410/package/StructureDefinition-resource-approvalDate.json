@@ -12,14 +12,15 @@
         }
     ],
     "url": "http://hl7.org/fhir/StructureDefinition/resource-approvalDate",
-    "version": "4.3.0-CIBUILD",
+    "version": "4.3.0-cibuild",
     "name": "approvalDate",
     "title": "Approval Date",
     "status": "draft",
+    "experimental": false,
     "date": "2021-01-17T07:06:13+11:00",
     "publisher": "HL7",
     "description": "The date on which the asset content was approved by the publisher. Approval happens once when the content is officially approved for usage.",
-    "fhirVersion": "4.3.0-CIBUILD",
+    "fhirVersion": "4.3.0-cibuild",
     "mapping": [
         {
             "identity": "rim",

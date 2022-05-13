@@ -12,10 +12,11 @@
         }
     ],
     "url": "http://hl7.org/fhir/StructureDefinition/familymemberhistory-abatement",
-    "version": "4.3.0-CIBUILD",
+    "version": "4.3.0-cibuild",
     "name": "abatement",
     "title": "abatement",
     "status": "draft",
+    "experimental": false,
     "date": "2015-02-21",
     "publisher": "Health Level Seven, Inc. - FHIR WG",
     "contact": [
@@ -29,7 +30,7 @@
         }
     ],
     "description": "The approximate date, age, or flag indicating that the condition of the family member resolved. The abatement should only be specified if the condition is stated in the positive sense, i.e., the didNotHave flag is false.",
-    "fhirVersion": "4.3.0-CIBUILD",
+    "fhirVersion": "4.3.0-cibuild",
     "mapping": [
         {
             "identity": "rim",

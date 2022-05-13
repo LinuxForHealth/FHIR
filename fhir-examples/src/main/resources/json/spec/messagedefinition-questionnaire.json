@@ -9,8 +9,8 @@
       "status": "active",
       "description": "Type options for MessageDefinition.event[x]",
       "expansion": {
-        "identifier": "urn:uuid:3e93273e-f043-40fb-95be-8e878c0a6754",
-        "timestamp": "2022-01-01T15:25:10+00:00",
+        "identifier": "urn:uuid:77957ec0-5d12-491b-896a-cd025e6e79cc",
+        "timestamp": "2022-04-23T22:30:02+00:00",
         "contains": [
           {
             "system": "http://hl7.org/fhir/data-types",
@@ -31,9 +31,10 @@
       "system": "urn:ietf:rfc:3986"
     }
   ],
-  "version": "4.3.0-CIBUILD",
+  "version": "4.3.0-cibuild",
   "status": "draft",
-  "date": "2022-01-01T15:17:18+00:00",
+  "experimental": false,
+  "date": "2022-04-23T22:21:35+00:00",
   "publisher": "Health Level Seven International (Infrastructure And Messaging)",
   "item": [
     {
@@ -227,10 +228,9 @@
             {
               "linkId": "MessageDefinition.language.value",
               "text": "language",
-              "type": "coding",
+              "type": "choice",
               "required": false,
-              "repeats": false,
-              "answerConstraint": "optionsOnly"
+              "repeats": false
             }
           ]
         },
@@ -665,10 +665,9 @@
             {
               "linkId": "MessageDefinition.status.value",
               "text": "status",
-              "type": "coding",
+              "type": "choice",
               "required": false,
-              "repeats": false,
-              "answerConstraint": "optionsOrType"
+              "repeats": false
             }
           ]
         },
@@ -953,10 +952,9 @@
             {
               "linkId": "MessageDefinition.jurisdiction.coding",
               "text": "code:",
-              "type": "coding",
+              "type": "choice",
               "required": false,
-              "repeats": false,
-              "answerConstraint": "optionsOnly"
+              "repeats": false
             },
             {
               "linkId": "MessageDefinition.jurisdiction.text",
@@ -1178,10 +1176,9 @@
             {
               "linkId": "MessageDefinition.event[x]._type",
               "text": "type",
-              "type": "coding",
+              "type": "choice",
               "required": false,
               "repeats": false,
-              "answerConstraint": "optionsOnly",
               "answerValueSet": "#vs2",
               "item": [
                 {
@@ -1196,10 +1193,9 @@
                   "item": [
                     {
                       "linkId": "MessageDefinition.event[x]._null.value",
-                      "type": "coding",
+                      "type": "choice",
                       "required": false,
-                      "repeats": false,
-                      "answerConstraint": "optionsOnly"
+                      "repeats": false
                     }
                   ]
                 },
@@ -1263,10 +1259,9 @@
             {
               "linkId": "MessageDefinition.category.value",
               "text": "category",
-              "type": "coding",
+              "type": "choice",
               "required": false,
-              "repeats": false,
-              "answerConstraint": "optionsOrType"
+              "repeats": false
             }
           ]
         },
@@ -1438,10 +1433,9 @@
                 {
                   "linkId": "MessageDefinition.focus.code.value",
                   "text": "code",
-                  "type": "coding",
+                  "type": "choice",
                   "required": false,
-                  "repeats": false,
-                  "answerConstraint": "optionsOrType"
+                  "repeats": false
                 }
               ]
             },
@@ -1621,10 +1615,9 @@
             {
               "linkId": "MessageDefinition.responseRequired.value",
               "text": "response required",
-              "type": "coding",
+              "type": "choice",
               "required": false,
-              "repeats": false,
-              "answerConstraint": "optionsOrType"
+              "repeats": false
             }
           ]
         },

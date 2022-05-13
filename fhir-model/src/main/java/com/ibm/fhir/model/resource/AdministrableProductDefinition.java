@@ -16,6 +16,7 @@ import javax.annotation.Generated;
 
 import com.ibm.fhir.model.annotation.Binding;
 import com.ibm.fhir.model.annotation.Choice;
+import com.ibm.fhir.model.annotation.Constraint;
 import com.ibm.fhir.model.annotation.Maturity;
 import com.ibm.fhir.model.annotation.ReferenceTarget;
 import com.ibm.fhir.model.annotation.Required;
@@ -53,6 +54,14 @@ import com.ibm.fhir.model.visitor.Visitor;
     level = 1,
     status = StandardsStatus.Value.TRIAL_USE
 )
+@Constraint(
+    id = "apd-1",
+    level = "Rule",
+    location = "(base)",
+    description = "RouteOfAdministration cannot be used when the 'formOf' product already uses MedicinalProductDefinition.route (and vice versa)",
+    expression = "(AdministrableProductDefinition.routeOfAdministration.code.count() + AdministrableProductDefinition.formOf.resolve().route.count())  < 2",
+    source = "http://hl7.org/fhir/StructureDefinition/AdministrableProductDefinition"
+)
 @Generated("com.ibm.fhir.tools.CodeGenerator")
 public class AdministrableProductDefinition extends DomainResource {
     @Summary
@@ -62,7 +71,7 @@ public class AdministrableProductDefinition extends DomainResource {
         bindingName = "PublicationStatus",
         strength = BindingStrength.Value.REQUIRED,
         description = "The lifecycle status of an artifact.",
-        valueSet = "http://hl7.org/fhir/ValueSet/publication-status|4.3.0-CIBUILD"
+        valueSet = "http://hl7.org/fhir/ValueSet/publication-status|4.3.0-cibuild"
     )
     @Required
     private final PublicationStatus status;
@@ -70,13 +79,31 @@ public class AdministrableProductDefinition extends DomainResource {
     @ReferenceTarget({ "MedicinalProductDefinition" })
     private final List<Reference> formOf;
     @Summary
+    @Binding(
+        bindingName = "AdministrableDoseForm",
+        strength = BindingStrength.Value.EXAMPLE,
+        description = "Dose form for a medication, in the form suitable for administering to the patient, after mixing, where necessary.",
+        valueSet = "http://hl7.org/fhir/ValueSet/administrable-dose-form"
+    )
     private final CodeableConcept administrableDoseForm;
     @Summary
+    @Binding(
+        bindingName = "UnitOfPresentation",
+        strength = BindingStrength.Value.EXAMPLE,
+        description = "The presentation type in which an administrable medicinal product is given to a patient.",
+        valueSet = "http://hl7.org/fhir/ValueSet/unit-of-presentation"
+    )
     private final CodeableConcept unitOfPresentation;
     @Summary
     @ReferenceTarget({ "ManufacturedItemDefinition" })
     private final List<Reference> producedFrom;
     @Summary
+    @Binding(
+        bindingName = "SNOMEDCTSubstanceCodes",
+        strength = BindingStrength.Value.EXAMPLE,
+        description = "This value set includes all substance codes from SNOMED CT - provided as an exemplar value set.",
+        valueSet = "http://hl7.org/fhir/ValueSet/substance-codes"
+    )
     private final List<CodeableConcept> ingredient;
     @Summary
     @ReferenceTarget({ "DeviceDefinition" })
@@ -122,12 +149,11 @@ public class AdministrableProductDefinition extends DomainResource {
     }
 
     /**
-     * The medicinal product that this is a prepared administrable form of. This element is not a reference to the item(s) 
-     * that make up this administrable form (for which see AdministrableProductDefinition.producedFrom). It is medicinal 
-     * product as a whole, which may have several components (as well as packaging, devices etc.), that are given to the 
-     * patient in this final administrable form. A single medicinal product may have several different administrable products 
-     * (e.g. a tablet and a cream), and these could have different administrable forms (e.g. tablet as oral solid, or tablet 
-     * crushed).
+     * References a product from which one or more of the constituent parts of that product can be prepared and used as 
+     * described by this administrable product. If this administrable product describes the administration of a crushed 
+     * tablet, the 'formOf' would be the product representing a distribution containing tablets and possibly also a cream. 
+     * This is distinct from the 'producedFrom' which refers to the specific components of the product that are used in this 
+     * preparation, rather than the product as a whole.
      * 
      * @return
      *     An unmodifiable list containing immutable objects of type {@link Reference} that may be empty.
@@ -161,12 +187,11 @@ public class AdministrableProductDefinition extends DomainResource {
     }
 
     /**
-     * The constituent manufactured item(s) that this administrable product is produced from. Either a single item, or 
-     * several that are mixed before administration (e.g. a power item and a solvent item, to make a consumable solution). 
-     * Note the items this is produced from are not raw ingredients (see AdministrableProductDefinition.ingredient), but 
-     * manufactured medication items (ManufacturedItemDefinitions), which may be combined or prepared and transformed for 
-     * patient use. The constituent items that this administrable form is produced from are all part of the product (for 
-     * which see AdministrableProductDefinition.formOf).
+     * Indicates the specific manufactured items that are part of the 'formOf' product that are used in the preparation of 
+     * this specific administrable form. In some cases, an administrable form might use all of the items from the overall 
+     * product (or there might only be one item), while in other cases, an administrable form might use only a subset of the 
+     * items available in the overall product. For example, an administrable form might involve combining a liquid and a 
+     * powder available as part of an overall product, but not involve applying the also supplied cream.
      * 
      * @return
      *     An unmodifiable list containing immutable objects of type {@link Reference} that may be empty.
@@ -200,7 +225,7 @@ public class AdministrableProductDefinition extends DomainResource {
     }
 
     /**
-     * Characteristics e.g. a products onset of action.
+     * Characteristics e.g. a product's onset of action.
      * 
      * @return
      *     An unmodifiable list containing immutable objects of type {@link Property} that may be empty.
@@ -211,7 +236,8 @@ public class AdministrableProductDefinition extends DomainResource {
 
     /**
      * The path by which the product is taken into or makes contact with the body. In some regions this is referred to as the 
-     * licenced or approved route.
+     * licenced or approved route. RouteOfAdministration cannot be used when the 'formOf' product already uses 
+     * MedicinalProductDefinition.route (and vice versa).
      * 
      * @return
      *     An unmodifiable list containing immutable objects of type {@link RouteOfAdministration} that is non-empty.
@@ -616,12 +642,11 @@ public class AdministrableProductDefinition extends DomainResource {
         }
 
         /**
-         * The medicinal product that this is a prepared administrable form of. This element is not a reference to the item(s) 
-         * that make up this administrable form (for which see AdministrableProductDefinition.producedFrom). It is medicinal 
-         * product as a whole, which may have several components (as well as packaging, devices etc.), that are given to the 
-         * patient in this final administrable form. A single medicinal product may have several different administrable products 
-         * (e.g. a tablet and a cream), and these could have different administrable forms (e.g. tablet as oral solid, or tablet 
-         * crushed).
+         * References a product from which one or more of the constituent parts of that product can be prepared and used as 
+         * described by this administrable product. If this administrable product describes the administration of a crushed 
+         * tablet, the 'formOf' would be the product representing a distribution containing tablets and possibly also a cream. 
+         * This is distinct from the 'producedFrom' which refers to the specific components of the product that are used in this 
+         * preparation, rather than the product as a whole.
          * 
          * <p>Adds new element(s) to the existing list.
          * If any of the elements are null, calling {@link #build()} will fail.
@@ -632,12 +657,8 @@ public class AdministrableProductDefinition extends DomainResource {
          * </ul>
          * 
          * @param formOf
-         *     The medicinal product that this is a prepared administrable form of. This element is not a reference to the item(s) 
-         *     that make up this administrable form (for which see AdministrableProductDefinition.producedFrom). It is medicinal 
-         *     product as a whole, which may have several components (as well as packaging, devices etc.), that are given to the 
-         *     patient in this final administrable form. A single medicinal product may have several different administrable products 
-         *     (e.g. a tablet and a cream), and these could have different administrable forms (e.g. tablet as oral solid, or tablet 
-         *     crushed)
+         *     References a product from which one or more of the constituent parts of that product can be prepared and used as 
+         *     described by this administrable product
          * 
          * @return
          *     A reference to this Builder instance
@@ -650,12 +671,11 @@ public class AdministrableProductDefinition extends DomainResource {
         }
 
         /**
-         * The medicinal product that this is a prepared administrable form of. This element is not a reference to the item(s) 
-         * that make up this administrable form (for which see AdministrableProductDefinition.producedFrom). It is medicinal 
-         * product as a whole, which may have several components (as well as packaging, devices etc.), that are given to the 
-         * patient in this final administrable form. A single medicinal product may have several different administrable products 
-         * (e.g. a tablet and a cream), and these could have different administrable forms (e.g. tablet as oral solid, or tablet 
-         * crushed).
+         * References a product from which one or more of the constituent parts of that product can be prepared and used as 
+         * described by this administrable product. If this administrable product describes the administration of a crushed 
+         * tablet, the 'formOf' would be the product representing a distribution containing tablets and possibly also a cream. 
+         * This is distinct from the 'producedFrom' which refers to the specific components of the product that are used in this 
+         * preparation, rather than the product as a whole.
          * 
          * <p>Replaces the existing list with a new one containing elements from the Collection.
          * If any of the elements are null, calling {@link #build()} will fail.
@@ -666,12 +686,8 @@ public class AdministrableProductDefinition extends DomainResource {
          * </ul>
          * 
          * @param formOf
-         *     The medicinal product that this is a prepared administrable form of. This element is not a reference to the item(s) 
-         *     that make up this administrable form (for which see AdministrableProductDefinition.producedFrom). It is medicinal 
-         *     product as a whole, which may have several components (as well as packaging, devices etc.), that are given to the 
-         *     patient in this final administrable form. A single medicinal product may have several different administrable products 
-         *     (e.g. a tablet and a cream), and these could have different administrable forms (e.g. tablet as oral solid, or tablet 
-         *     crushed)
+         *     References a product from which one or more of the constituent parts of that product can be prepared and used as 
+         *     described by this administrable product
          * 
          * @return
          *     A reference to this Builder instance
@@ -691,10 +707,7 @@ public class AdministrableProductDefinition extends DomainResource {
          * 'solvent for solution for injection').
          * 
          * @param administrableDoseForm
-         *     The dose form of the final product after necessary reconstitution or processing. Contrasts to the manufactured dose 
-         *     form (see ManufacturedItemDefinition). If the manufactured form was 'powder for solution for injection', the 
-         *     administrable dose form could be 'solution for injection' (once mixed with another item having manufactured form 
-         *     'solvent for solution for injection')
+         *     The dose form of the final product after necessary reconstitution or processing
          * 
          * @return
          *     A reference to this Builder instance
@@ -709,8 +722,7 @@ public class AdministrableProductDefinition extends DomainResource {
          * puff'), or for a liquid - 'vial' (as in 'contains 5 ml per vial').
          * 
          * @param unitOfPresentation
-         *     The presentation type in which this item is given to a patient. e.g. for a spray - 'puff' (as in 'contains 100 mcg per 
-         *     puff'), or for a liquid - 'vial' (as in 'contains 5 ml per vial')
+         *     The presentation type in which this item is given to a patient. e.g. for a spray - 'puff'
          * 
          * @return
          *     A reference to this Builder instance
@@ -721,12 +733,11 @@ public class AdministrableProductDefinition extends DomainResource {
         }
 
         /**
-         * The constituent manufactured item(s) that this administrable product is produced from. Either a single item, or 
-         * several that are mixed before administration (e.g. a power item and a solvent item, to make a consumable solution). 
-         * Note the items this is produced from are not raw ingredients (see AdministrableProductDefinition.ingredient), but 
-         * manufactured medication items (ManufacturedItemDefinitions), which may be combined or prepared and transformed for 
-         * patient use. The constituent items that this administrable form is produced from are all part of the product (for 
-         * which see AdministrableProductDefinition.formOf).
+         * Indicates the specific manufactured items that are part of the 'formOf' product that are used in the preparation of 
+         * this specific administrable form. In some cases, an administrable form might use all of the items from the overall 
+         * product (or there might only be one item), while in other cases, an administrable form might use only a subset of the 
+         * items available in the overall product. For example, an administrable form might involve combining a liquid and a 
+         * powder available as part of an overall product, but not involve applying the also supplied cream.
          * 
          * <p>Adds new element(s) to the existing list.
          * If any of the elements are null, calling {@link #build()} will fail.
@@ -737,12 +748,8 @@ public class AdministrableProductDefinition extends DomainResource {
          * </ul>
          * 
          * @param producedFrom
-         *     The constituent manufactured item(s) that this administrable product is produced from. Either a single item, or 
-         *     several that are mixed before administration (e.g. a power item and a solvent item, to make a consumable solution). 
-         *     Note the items this is produced from are not raw ingredients (see AdministrableProductDefinition.ingredient), but 
-         *     manufactured medication items (ManufacturedItemDefinitions), which may be combined or prepared and transformed for 
-         *     patient use. The constituent items that this administrable form is produced from are all part of the product (for 
-         *     which see AdministrableProductDefinition.formOf)
+         *     Indicates the specific manufactured items that are part of the 'formOf' product that are used in the preparation of 
+         *     this specific administrable form
          * 
          * @return
          *     A reference to this Builder instance
@@ -755,12 +762,11 @@ public class AdministrableProductDefinition extends DomainResource {
         }
 
         /**
-         * The constituent manufactured item(s) that this administrable product is produced from. Either a single item, or 
-         * several that are mixed before administration (e.g. a power item and a solvent item, to make a consumable solution). 
-         * Note the items this is produced from are not raw ingredients (see AdministrableProductDefinition.ingredient), but 
-         * manufactured medication items (ManufacturedItemDefinitions), which may be combined or prepared and transformed for 
-         * patient use. The constituent items that this administrable form is produced from are all part of the product (for 
-         * which see AdministrableProductDefinition.formOf).
+         * Indicates the specific manufactured items that are part of the 'formOf' product that are used in the preparation of 
+         * this specific administrable form. In some cases, an administrable form might use all of the items from the overall 
+         * product (or there might only be one item), while in other cases, an administrable form might use only a subset of the 
+         * items available in the overall product. For example, an administrable form might involve combining a liquid and a 
+         * powder available as part of an overall product, but not involve applying the also supplied cream.
          * 
          * <p>Replaces the existing list with a new one containing elements from the Collection.
          * If any of the elements are null, calling {@link #build()} will fail.
@@ -771,12 +777,8 @@ public class AdministrableProductDefinition extends DomainResource {
          * </ul>
          * 
          * @param producedFrom
-         *     The constituent manufactured item(s) that this administrable product is produced from. Either a single item, or 
-         *     several that are mixed before administration (e.g. a power item and a solvent item, to make a consumable solution). 
-         *     Note the items this is produced from are not raw ingredients (see AdministrableProductDefinition.ingredient), but 
-         *     manufactured medication items (ManufacturedItemDefinitions), which may be combined or prepared and transformed for 
-         *     patient use. The constituent items that this administrable form is produced from are all part of the product (for 
-         *     which see AdministrableProductDefinition.formOf)
+         *     Indicates the specific manufactured items that are part of the 'formOf' product that are used in the preparation of 
+         *     this specific administrable form
          * 
          * @return
          *     A reference to this Builder instance
@@ -800,9 +802,7 @@ public class AdministrableProductDefinition extends DomainResource {
          * 
          * @param ingredient
          *     The ingredients of this administrable medicinal product. This is only needed if the ingredients are not specified 
-         *     either using ManufacturedItemDefiniton (via AdministrableProductDefinition.producedFrom) to state which component 
-         *     items are used to make this, or using by incoming references from the Ingredient resource, to state in detail which 
-         *     substances exist within this. This element allows a basic coded ingredient to be used
+         *     either using ManufacturedItemDefiniton, or using by incoming references from the Ingredient resource
          * 
          * @return
          *     A reference to this Builder instance
@@ -825,9 +825,7 @@ public class AdministrableProductDefinition extends DomainResource {
          * 
          * @param ingredient
          *     The ingredients of this administrable medicinal product. This is only needed if the ingredients are not specified 
-         *     either using ManufacturedItemDefiniton (via AdministrableProductDefinition.producedFrom) to state which component 
-         *     items are used to make this, or using by incoming references from the Ingredient resource, to state in detail which 
-         *     substances exist within this. This element allows a basic coded ingredient to be used
+         *     either using ManufacturedItemDefiniton, or using by incoming references from the Ingredient resource
          * 
          * @return
          *     A reference to this Builder instance
@@ -851,7 +849,7 @@ public class AdministrableProductDefinition extends DomainResource {
          * 
          * @param device
          *     A device that is integral to the medicinal product, in effect being considered as an "ingredient" of the medicinal 
-         *     product. This is not intended for devices that are just co-packaged
+         *     product
          * 
          * @return
          *     A reference to this Builder instance
@@ -862,13 +860,13 @@ public class AdministrableProductDefinition extends DomainResource {
         }
 
         /**
-         * Characteristics e.g. a products onset of action.
+         * Characteristics e.g. a product's onset of action.
          * 
          * <p>Adds new element(s) to the existing list.
          * If any of the elements are null, calling {@link #build()} will fail.
          * 
          * @param property
-         *     Characteristics e.g. a products onset of action
+         *     Characteristics e.g. a product's onset of action
          * 
          * @return
          *     A reference to this Builder instance
@@ -881,13 +879,13 @@ public class AdministrableProductDefinition extends DomainResource {
         }
 
         /**
-         * Characteristics e.g. a products onset of action.
+         * Characteristics e.g. a product's onset of action.
          * 
          * <p>Replaces the existing list with a new one containing elements from the Collection.
          * If any of the elements are null, calling {@link #build()} will fail.
          * 
          * @param property
-         *     Characteristics e.g. a products onset of action
+         *     Characteristics e.g. a product's onset of action
          * 
          * @return
          *     A reference to this Builder instance
@@ -902,7 +900,8 @@ public class AdministrableProductDefinition extends DomainResource {
 
         /**
          * The path by which the product is taken into or makes contact with the body. In some regions this is referred to as the 
-         * licenced or approved route.
+         * licenced or approved route. RouteOfAdministration cannot be used when the 'formOf' product already uses 
+         * MedicinalProductDefinition.route (and vice versa).
          * 
          * <p>Adds new element(s) to the existing list.
          * If any of the elements are null, calling {@link #build()} will fail.
@@ -910,8 +909,7 @@ public class AdministrableProductDefinition extends DomainResource {
          * <p>This element is required.
          * 
          * @param routeOfAdministration
-         *     The path by which the product is taken into or makes contact with the body. In some regions this is referred to as the 
-         *     licenced or approved route
+         *     The path by which the product is taken into or makes contact with the body
          * 
          * @return
          *     A reference to this Builder instance
@@ -925,7 +923,8 @@ public class AdministrableProductDefinition extends DomainResource {
 
         /**
          * The path by which the product is taken into or makes contact with the body. In some regions this is referred to as the 
-         * licenced or approved route.
+         * licenced or approved route. RouteOfAdministration cannot be used when the 'formOf' product already uses 
+         * MedicinalProductDefinition.route (and vice versa).
          * 
          * <p>Replaces the existing list with a new one containing elements from the Collection.
          * If any of the elements are null, calling {@link #build()} will fail.
@@ -933,8 +932,7 @@ public class AdministrableProductDefinition extends DomainResource {
          * <p>This element is required.
          * 
          * @param routeOfAdministration
-         *     The path by which the product is taken into or makes contact with the body. In some regions this is referred to as the 
-         *     licenced or approved route
+         *     The path by which the product is taken into or makes contact with the body
          * 
          * @return
          *     A reference to this Builder instance
@@ -1001,16 +999,28 @@ public class AdministrableProductDefinition extends DomainResource {
     }
 
     /**
-     * Characteristics e.g. a products onset of action.
+     * Characteristics e.g. a product's onset of action.
      */
     public static class Property extends BackboneElement {
         @Summary
+        @Binding(
+            bindingName = "SNOMEDCTCharacteristicCodes",
+            strength = BindingStrength.Value.EXAMPLE,
+            description = "This value set includes all observable entity codes from SNOMED CT - provided as an exemplar value set.",
+            valueSet = "http://hl7.org/fhir/ValueSet/product-characteristic-codes"
+        )
         @Required
         private final CodeableConcept type;
         @Summary
         @Choice({ CodeableConcept.class, Quantity.class, Date.class, Boolean.class, Attachment.class })
         private final Element value;
         @Summary
+        @Binding(
+            bindingName = "PublicationStatus",
+            strength = BindingStrength.Value.REQUIRED,
+            description = "The lifecycle status of an artifact.",
+            valueSet = "http://hl7.org/fhir/ValueSet/publication-status|4.3.0-cibuild"
+        )
         private final CodeableConcept status;
 
         private Property(Builder builder) {
@@ -1352,6 +1362,7 @@ public class AdministrableProductDefinition extends DomainResource {
                 super.validate(property);
                 ValidationSupport.requireNonNull(property.type, "type");
                 ValidationSupport.choiceElement(property.value, "value", CodeableConcept.class, Quantity.class, Date.class, Boolean.class, Attachment.class);
+                ValidationSupport.checkValueSetBinding(property.status, "status", "http://hl7.org/fhir/ValueSet/publication-status", "http://hl7.org/fhir/publication-status", "draft", "active", "retired", "unknown");
                 ValidationSupport.requireValueOrChildren(property);
             }
 
@@ -1367,10 +1378,17 @@ public class AdministrableProductDefinition extends DomainResource {
 
     /**
      * The path by which the product is taken into or makes contact with the body. In some regions this is referred to as the 
-     * licenced or approved route.
+     * licenced or approved route. RouteOfAdministration cannot be used when the 'formOf' product already uses 
+     * MedicinalProductDefinition.route (and vice versa).
      */
     public static class RouteOfAdministration extends BackboneElement {
         @Summary
+        @Binding(
+            bindingName = "SNOMEDCTRouteCodes",
+            strength = BindingStrength.Value.EXAMPLE,
+            description = "A code specifying the route or physiological path of administration of a therapeutic agent into or onto a patient's body.",
+            valueSet = "http://hl7.org/fhir/ValueSet/route-codes"
+        )
         @Required
         private final CodeableConcept code;
         @Summary
@@ -1419,7 +1437,7 @@ public class AdministrableProductDefinition extends DomainResource {
         }
 
         /**
-         * The maximum single dose that can be administered, can be specified using a numerical value and its unit of measurement.
+         * The maximum single dose that can be administered, specified using a numerical value and its unit of measurement.
          * 
          * @return
          *     An immutable object of type {@link Quantity} that may be null.
@@ -1449,7 +1467,7 @@ public class AdministrableProductDefinition extends DomainResource {
         }
 
         /**
-         * The maximum treatment period during which an Investigational Medicinal Product can be administered.
+         * The maximum treatment period during which the product can be administered.
          * 
          * @return
          *     An immutable object of type {@link Duration} that may be null.
@@ -1699,8 +1717,7 @@ public class AdministrableProductDefinition extends DomainResource {
              * measurement.
              * 
              * @param firstDose
-             *     The first dose (dose quantity) administered can be specified for the product, using a numerical value and its unit of 
-             *     measurement
+             *     The first dose (dose quantity) administered can be specified for the product
              * 
              * @return
              *     A reference to this Builder instance
@@ -1711,10 +1728,10 @@ public class AdministrableProductDefinition extends DomainResource {
             }
 
             /**
-             * The maximum single dose that can be administered, can be specified using a numerical value and its unit of measurement.
+             * The maximum single dose that can be administered, specified using a numerical value and its unit of measurement.
              * 
              * @param maxSingleDose
-             *     The maximum single dose that can be administered, can be specified using a numerical value and its unit of measurement
+             *     The maximum single dose that can be administered
              * 
              * @return
              *     A reference to this Builder instance
@@ -1728,7 +1745,7 @@ public class AdministrableProductDefinition extends DomainResource {
              * The maximum dose per day (maximum dose quantity to be administered in any one 24-h period) that can be administered.
              * 
              * @param maxDosePerDay
-             *     The maximum dose per day (maximum dose quantity to be administered in any one 24-h period) that can be administered
+             *     The maximum dose quantity to be administered in any one 24-h period
              * 
              * @return
              *     A reference to this Builder instance
@@ -1753,10 +1770,10 @@ public class AdministrableProductDefinition extends DomainResource {
             }
 
             /**
-             * The maximum treatment period during which an Investigational Medicinal Product can be administered.
+             * The maximum treatment period during which the product can be administered.
              * 
              * @param maxTreatmentPeriod
-             *     The maximum treatment period during which an Investigational Medicinal Product can be administered
+             *     The maximum treatment period during which the product can be administered
              * 
              * @return
              *     A reference to this Builder instance
@@ -1852,6 +1869,12 @@ public class AdministrableProductDefinition extends DomainResource {
          */
         public static class TargetSpecies extends BackboneElement {
             @Summary
+            @Binding(
+                bindingName = "TargetSpecies",
+                strength = BindingStrength.Value.EXAMPLE,
+                description = "A tissue type of an animal.",
+                valueSet = "http://hl7.org/fhir/ValueSet/target-species"
+            )
             @Required
             private final CodeableConcept code;
             @Summary
@@ -2165,6 +2188,12 @@ public class AdministrableProductDefinition extends DomainResource {
              */
             public static class WithdrawalPeriod extends BackboneElement {
                 @Summary
+                @Binding(
+                    bindingName = "AnimalTissueType",
+                    strength = BindingStrength.Value.EXAMPLE,
+                    description = "A tissue type of an animal.",
+                    valueSet = "http://hl7.org/fhir/ValueSet/animal-tissue-type"
+                )
                 @Required
                 private final CodeableConcept tissue;
                 @Summary
@@ -2181,7 +2210,7 @@ public class AdministrableProductDefinition extends DomainResource {
                 }
 
                 /**
-                 * Coded expression for the type of tissue for which the withdrawal period applues, e.g. meat, milk.
+                 * Coded expression for the type of tissue for which the withdrawal period applies, e.g. meat, milk.
                  * 
                  * @return
                  *     An immutable object of type {@link CodeableConcept} that is non-null.
@@ -2401,12 +2430,12 @@ public class AdministrableProductDefinition extends DomainResource {
                     }
 
                     /**
-                     * Coded expression for the type of tissue for which the withdrawal period applues, e.g. meat, milk.
+                     * Coded expression for the type of tissue for which the withdrawal period applies, e.g. meat, milk.
                      * 
                      * <p>This element is required.
                      * 
                      * @param tissue
-                     *     Coded expression for the type of tissue for which the withdrawal period applues, e.g. meat, milk
+                     *     The type of tissue for which the withdrawal period applies, e.g. meat, milk
                      * 
                      * @return
                      *     A reference to this Builder instance

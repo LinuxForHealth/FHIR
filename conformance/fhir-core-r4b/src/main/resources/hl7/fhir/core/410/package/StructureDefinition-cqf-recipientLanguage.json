@@ -12,10 +12,11 @@
         }
     ],
     "url": "http://hl7.org/fhir/StructureDefinition/cqf-recipientLanguage",
-    "version": "4.3.0-CIBUILD",
+    "version": "4.3.0-cibuild",
     "name": "recipientLanguage",
     "title": "recipientLanguage",
     "status": "draft",
+    "experimental": false,
     "date": "2015-05-30",
     "publisher": "Health Level Seven, Inc. - CDS WG",
     "contact": [
@@ -29,7 +30,7 @@
         }
     ],
     "description": "Preferred language of the person that will consume the content.",
-    "fhirVersion": "4.3.0-CIBUILD",
+    "fhirVersion": "4.3.0-cibuild",
     "mapping": [
         {
             "identity": "rim",

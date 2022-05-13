@@ -2,7 +2,7 @@
     "resourceType": "ValueSet",
     "id": "care-plan-intent",
     "meta": {
-        "lastUpdated": "2022-03-03T22:04:06.196Z",
+        "lastUpdated": "2022-04-23T22:21:35.043Z",
         "profile": [
             "http://hl7.org/fhir/StructureDefinition/shareablevalueset"
         ]
@@ -28,10 +28,11 @@
             "value": "urn:oid:2.16.840.1.113883.4.642.3.150"
         }
     ],
-    "version": "4.3.0-CIBUILD",
+    "version": "4.3.0-cibuild",
     "name": "CarePlanIntent",
     "title": "Care Plan Intent",
     "status": "draft",
+    "experimental": false,
     "publisher": "HL7 International - Patient Care WG",
     "contact": [
         {
@@ -66,8 +67,8 @@
         ]
     },
     "expansion": {
-        "identifier": "urn:uuid:867b8765-7f09-4c27-8df1-69296aa115fb",
-        "timestamp": "2022-03-03T22:05:09Z",
+        "identifier": "urn:uuid:d7c32a36-a18f-4bed-975f-af2cd3502e67",
+        "timestamp": "2022-04-23T22:23:07Z",
         "total": 4,
         "parameter": [
             {
@@ -80,7 +81,7 @@
             },
             {
                 "name": "version",
-                "valueUri": "http://hl7.org/fhir/request-intent|4.3.0-CIBUILD"
+                "valueUri": "http://hl7.org/fhir/request-intent|4.3.0-cibuild"
             }
         ],
         "contains": [

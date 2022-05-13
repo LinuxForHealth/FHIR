@@ -57,7 +57,7 @@ import com.ibm.fhir.model.visitor.Visitor;
     level = "Warning",
     location = "(base)",
     description = "Name should be usable as an identifier for the module by machine processing applications such as code generation",
-    expression = "name.matches('[A-Z]([A-Za-z0-9_]){0,254}')",
+    expression = "name.exists() implies name.matches('[A-Z]([A-Za-z0-9_]){0,254}')",
     source = "http://hl7.org/fhir/StructureDefinition/TerminologyCapabilities"
 )
 @Constraint(
@@ -124,7 +124,7 @@ public class TerminologyCapabilities extends DomainResource {
         bindingName = "PublicationStatus",
         strength = BindingStrength.Value.REQUIRED,
         description = "The lifecycle status of an artifact.",
-        valueSet = "http://hl7.org/fhir/ValueSet/publication-status|4.3.0-CIBUILD"
+        valueSet = "http://hl7.org/fhir/ValueSet/publication-status|4.3.0-cibuild"
     )
     @Required
     private final PublicationStatus status;
@@ -156,7 +156,7 @@ public class TerminologyCapabilities extends DomainResource {
         bindingName = "CapabilityStatementKind",
         strength = BindingStrength.Value.REQUIRED,
         description = "How a capability statement is intended to be used.",
-        valueSet = "http://hl7.org/fhir/ValueSet/capability-statement-kind|4.3.0-CIBUILD"
+        valueSet = "http://hl7.org/fhir/ValueSet/capability-statement-kind|4.3.0-cibuild"
     )
     @Required
     private final CapabilityStatementKind kind;
@@ -172,7 +172,7 @@ public class TerminologyCapabilities extends DomainResource {
         bindingName = "CodeSearchSupport",
         strength = BindingStrength.Value.REQUIRED,
         description = "The degree to which the server supports the code search parameter on ValueSet, if it is supported.",
-        valueSet = "http://hl7.org/fhir/ValueSet/code-search-support|4.3.0-CIBUILD"
+        valueSet = "http://hl7.org/fhir/ValueSet/code-search-support|4.3.0-cibuild"
     )
     private final CodeSearchSupport codeSearch;
     private final ValidateCode validateCode;

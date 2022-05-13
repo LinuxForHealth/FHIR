@@ -2,7 +2,7 @@
     "resourceType": "StructureDefinition",
     "id": "SubstanceDefinition",
     "meta": {
-        "lastUpdated": "2022-01-01T15:17:18.597Z"
+        "lastUpdated": "2022-04-23T22:21:35.043Z"
     },
     "text": {
         "status": "empty",
@@ -31,10 +31,11 @@
         }
     ],
     "url": "http://hl7.org/fhir/StructureDefinition/SubstanceDefinition",
-    "version": "4.3.0-CIBUILD",
+    "version": "4.3.0-cibuild",
     "name": "SubstanceDefinition",
     "status": "draft",
-    "date": "2022-01-01T15:17:18Z",
+    "experimental": false,
+    "date": "2022-04-23T22:21:35Z",
     "publisher": "Health Level Seven International (Biomedical Research and Regulation)",
     "contact": [
         {
@@ -55,7 +56,7 @@
         }
     ],
     "description": "The detailed description of a substance, typically at a level beyond what is used for prescribing.",
-    "fhirVersion": "4.3.0-CIBUILD",
+    "fhirVersion": "4.3.0-cibuild",
     "mapping": [
         {
             "identity": "idmp",
@@ -106,7 +107,7 @@
                         "severity": "error",
                         "human": "If the resource is contained in another resource, it SHALL be referred to from elsewhere in the resource or SHALL refer to the containing resource",
                         "expression": "contained.where(((id.exists() and ('#'+id in (%resource.descendants().reference | %resource.descendants().as(canonical) | %resource.descendants().as(uri) | %resource.descendants().as(url)))) or descendants().where(reference = '#').exists() or descendants().where(as(canonical) = '#').exists() or descendants().where(as(uri) = '#').exists()).not()).trace('unmatched', id).empty()",
-                        "xpath": "not(exists(for $resource in . return (for $contained in $resource/f:contained return $contained[not(descendant::f:*/@value='#' or (exists(f:id) and $resource//f:*/@*=concat('#', $contained/*/f:id/@value)))])))",
+                        "xpath": "not(exists(for $contained in f:contained return $contained[not(exists(parent::*/descendant::f:reference/@value=concat('#', $contained/*/f:id/@value)) or exists(descendant::f:reference[@value='#']))]))",
                         "source": "http://hl7.org/fhir/StructureDefinition/DomainResource"
                     },
                     {
@@ -372,6 +373,16 @@
                         "code": "Resource"
                     }
                 ],
+                "constraint": [
+                    {
+                        "key": "dom-r4b",
+                        "severity": "warning",
+                        "human": "Containing new R4B resources within R4 resources may cause interoperability issues if instances are shared with R4 systems",
+                        "expression": "($this is Citation or $this is Evidence or $this is EvidenceReport or $this is EvidenceVariable or $this is MedicinalProductDefinition or $this is PackagedProductDefinition or $this is AdministrableProductDefinition or $this is Ingredient or $this is ClinicalUseDefinition or $this is RegulatedAuthorization or $this is SubstanceDefinition or $this is SubscriptionStatus or $this is SubscriptionTopic) implies (%resource is Citation or %resource is Evidence or %resource is EvidenceReport or %resource is EvidenceVariable or %resource is MedicinalProductDefinition or %resource is PackagedProductDefinition or %resource is AdministrableProductDefinition or %resource is Ingredient or %resource is ClinicalUseDefinition or %resource is RegulatedAuthorization or %resource is SubstanceDefinition or %resource is SubscriptionStatus or %resource is SubscriptionTopic)",
+                        "xpath": "not(f:Citation|f:Evidence|f:EvidenceReport|f:EvidenceVariable|f:MedicinalProductDefinition|f:PackagedProductDefinition|f:AdministrableProductDefinition|f:Ingredient|f:ClinicalUseDefinition|f:RegulatedAuthorization|f:SubstanceDefinition|f:SubscriptionStatus|f:SubscriptionTopic) or not(parent::f:Citation|parent::f:Evidence|parent::f:EvidenceReport|parent::f:EvidenceVariable|parent::f:MedicinalProductDefinition|parent::f:PackagedProductDefinition|parent::f:AdministrableProductDefinition|parent::f:Ingredient|parent::f:ClinicalUseDefinition|parent::f:RegulatedAuthorization|parent::f:SubstanceDefinition|f:SubscriptionStatus|f:SubscriptionTopic)",
+                        "source": "http://hl7.org/fhir/StructureDefinition/SubstanceDefinition"
+                    }
+                ],
                 "mustSupport": false,
                 "isModifier": false,
                 "isSummary": false,
@@ -524,8 +535,8 @@
             {
                 "id": "SubstanceDefinition.version",
                 "path": "SubstanceDefinition.version",
-                "short": "A business level identifier of the substance",
-                "definition": "A business level identifier of the substance.",
+                "short": "A business level version identifier of the substance",
+                "definition": "A business level version identifier of the substance.",
                 "min": 0,
                 "max": "1",
                 "base": {
@@ -561,8 +572,8 @@
             {
                 "id": "SubstanceDefinition.status",
                 "path": "SubstanceDefinition.status",
-                "short": "Status of substance within the catalogue e.g. approved",
-                "definition": "Status of substance within the catalogue e.g. approved.",
+                "short": "Status of substance within the catalogue e.g. active, retired",
+                "definition": "Status of substance within the catalogue e.g. active, retired.",
                 "min": 0,
                 "max": "1",
                 "base": {
@@ -588,17 +599,32 @@
                 "mustSupport": false,
                 "isModifier": false,
                 "isSummary": true,
+                "binding": {
+                    "extension": [
+                        {
+                            "url": "http://hl7.org/fhir/StructureDefinition/elementdefinition-bindingName",
+                            "valueString": "PublicationStatus"
+                        },
+                        {
+                            "url": "http://hl7.org/fhir/StructureDefinition/elementdefinition-isCommonBinding",
+                            "valueBoolean": true
+                        }
+                    ],
+                    "strength": "preferred",
+                    "description": "The lifecycle status of an artifact.",
+                    "valueSet": "http://hl7.org/fhir/ValueSet/publication-status"
+                },
                 "mapping": [
                     {
                         "identity": "idmp",
-                        "map": "Substance_Classification.Domain"
+                        "map": "n/a"
                     }
                 ]
             },
             {
                 "id": "SubstanceDefinition.classification",
                 "path": "SubstanceDefinition.classification",
-                "short": "A high level categorization, e.g. polymer or nucleic acid, or food, chemical, biological, or a lower level such as the general types of polymer (linear or branch chain) or type of impurity (process related or contaminant)",
+                "short": "A categorization, high level e.g. polymer or nucleic acid, or food, chemical, biological, or lower e.g. polymer linear or branch chain, or type of impurity",
                 "definition": "A high level categorization, e.g. polymer or nucleic acid, or food, chemical, biological, or a lower level such as the general types of polymer (linear or branch chain) or type of impurity (process related or contaminant).",
                 "min": 0,
                 "max": "*",
@@ -635,8 +661,8 @@
             {
                 "id": "SubstanceDefinition.domain",
                 "path": "SubstanceDefinition.domain",
-                "short": "If the substance applies to only human or veterinary use",
-                "definition": "If the substance applies to only human or veterinary use.",
+                "short": "If the substance applies to human or veterinary use",
+                "definition": "If the substance applies to human or veterinary use.",
                 "min": 0,
                 "max": "1",
                 "base": {
@@ -662,6 +688,17 @@
                 "mustSupport": false,
                 "isModifier": false,
                 "isSummary": true,
+                "binding": {
+                    "extension": [
+                        {
+                            "url": "http://hl7.org/fhir/StructureDefinition/elementdefinition-bindingName",
+                            "valueString": "MedicinalProductType"
+                        }
+                    ],
+                    "strength": "example",
+                    "description": "Applicable domain for this product (e.g. human, veterinary).",
+                    "valueSet": "http://hl7.org/fhir/ValueSet/medicinal-product-domain"
+                },
                 "mapping": [
                     {
                         "identity": "idmp",
@@ -672,7 +709,7 @@
             {
                 "id": "SubstanceDefinition.grade",
                 "path": "SubstanceDefinition.grade",
-                "short": "The quality standard, established benchmark, to which substance complies (e.g. USP/NF, Ph. Eur, JP, BP, Company Standard)",
+                "short": "The quality standard, established benchmark, to which substance complies (e.g. USP/NF, BP)",
                 "definition": "The quality standard, established benchmark, to which substance complies (e.g. USP/NF, Ph. Eur, JP, BP, Company Standard).",
                 "min": 0,
                 "max": "*",
@@ -699,6 +736,17 @@
                 "mustSupport": false,
                 "isModifier": false,
                 "isSummary": true,
+                "binding": {
+                    "extension": [
+                        {
+                            "url": "http://hl7.org/fhir/StructureDefinition/elementdefinition-bindingName",
+                            "valueString": "SubstanceGrade"
+                        }
+                    ],
+                    "strength": "example",
+                    "description": "The quality standard, established benchmark, to which a substance complies",
+                    "valueSet": "http://hl7.org/fhir/ValueSet/substance-grade"
+                },
                 "mapping": [
                     {
                         "identity": "idmp",
@@ -823,8 +871,8 @@
             {
                 "id": "SubstanceDefinition.manufacturer",
                 "path": "SubstanceDefinition.manufacturer",
-                "short": "A company that makes this substance",
-                "definition": "A company that makes this substance.",
+                "short": "The entity that creates, makes, produces or fabricates the substance",
+                "definition": "The entity that creates, makes, produces or fabricates the substance. This is a set of potential manufacturers but is not necessarily comprehensive.",
                 "min": 0,
                 "max": "*",
                 "base": {
@@ -863,8 +911,8 @@
             {
                 "id": "SubstanceDefinition.supplier",
                 "path": "SubstanceDefinition.supplier",
-                "short": "A company that supplies this substance",
-                "definition": "A company that supplies this substance.",
+                "short": "An entity that is the source for the substance. It may be different from the manufacturer",
+                "definition": "An entity that is the source for the substance. It may be different from the manufacturer. Supplier is synonymous to a distributor.",
                 "min": 0,
                 "max": "*",
                 "base": {
@@ -957,7 +1005,7 @@
                         "extension": [
                             {
                                 "url": "http://hl7.org/fhir/StructureDefinition/structuredefinition-fhir-type",
-                                "valueUrl": "id"
+                                "valueUrl": "string"
                             }
                         ],
                         "code": "http://hl7.org/fhirpath/System.String"
@@ -1214,6 +1262,17 @@
                 "mustSupport": false,
                 "isModifier": false,
                 "isSummary": true,
+                "binding": {
+                    "extension": [
+                        {
+                            "url": "http://hl7.org/fhir/StructureDefinition/elementdefinition-bindingName",
+                            "valueString": "SubstanceStereochemistry"
+                        }
+                    ],
+                    "strength": "example",
+                    "description": "The optical rotation type of a substance.",
+                    "valueSet": "http://hl7.org/fhir/ValueSet/substance-stereochemistry"
+                },
                 "mapping": [
                     {
                         "identity": "idmp",
@@ -1251,6 +1310,17 @@
                 "mustSupport": false,
                 "isModifier": false,
                 "isSummary": true,
+                "binding": {
+                    "extension": [
+                        {
+                            "url": "http://hl7.org/fhir/StructureDefinition/elementdefinition-bindingName",
+                            "valueString": "SubstanceOpticalActivity"
+                        }
+                    ],
+                    "strength": "example",
+                    "description": "The optical rotation type of a substance.",
+                    "valueSet": "http://hl7.org/fhir/ValueSet/substance-optical-activity"
+                },
                 "mapping": [
                     {
                         "identity": "idmp",
@@ -1261,7 +1331,7 @@
             {
                 "id": "SubstanceDefinition.moiety.molecularFormula",
                 "path": "SubstanceDefinition.moiety.molecularFormula",
-                "short": "Molecular formula for this moiety of this substance, typically using the Hill system",
+                "short": "Molecular formula for this moiety (e.g. with the Hill system)",
                 "definition": "Molecular formula for this moiety of this substance, typically using the Hill system.",
                 "min": 0,
                 "max": "1",
@@ -1336,14 +1406,14 @@
                 ]
             },
             {
-                "id": "SubstanceDefinition.moiety.amountType",
-                "path": "SubstanceDefinition.moiety.amountType",
+                "id": "SubstanceDefinition.moiety.measurementType",
+                "path": "SubstanceDefinition.moiety.measurementType",
                 "short": "The measurement type of the quantitative value",
-                "definition": "The measurement type of the quantitative value.",
+                "definition": "The measurement type of the quantitative value. In capturing the actual relative amounts of substances or molecular fragments it may be necessary to indicate whether the amount refers to, for example, a mole ratio or weight ratio.",
                 "min": 0,
                 "max": "1",
                 "base": {
-                    "path": "SubstanceDefinition.moiety.amountType",
+                    "path": "SubstanceDefinition.moiety.measurementType",
                     "min": 0,
                     "max": "1"
                 },
@@ -1365,6 +1435,17 @@
                 "mustSupport": false,
                 "isModifier": false,
                 "isSummary": true,
+                "binding": {
+                    "extension": [
+                        {
+                            "url": "http://hl7.org/fhir/StructureDefinition/elementdefinition-bindingName",
+                            "valueString": "SubstanceAmountType"
+                        }
+                    ],
+                    "strength": "example",
+                    "description": "The relationship between two substance types.",
+                    "valueSet": "http://hl7.org/fhir/ValueSet/substance-amount-type"
+                },
                 "mapping": [
                     {
                         "identity": "idmp",
@@ -1429,7 +1510,7 @@
                         "extension": [
                             {
                                 "url": "http://hl7.org/fhir/StructureDefinition/structuredefinition-fhir-type",
-                                "valueUrl": "id"
+                                "valueUrl": "string"
                             }
                         ],
                         "code": "http://hl7.org/fhirpath/System.String"
@@ -1548,8 +1629,8 @@
             {
                 "id": "SubstanceDefinition.property.type",
                 "path": "SubstanceDefinition.property.type",
-                "short": "A code expressing the type of characteristic",
-                "definition": "A code expressing the type of characteristic.",
+                "short": "A code expressing the type of property",
+                "definition": "A code expressing the type of property.",
                 "min": 1,
                 "max": "1",
                 "base": {
@@ -1575,6 +1656,17 @@
                 "mustSupport": false,
                 "isModifier": false,
                 "isSummary": true,
+                "binding": {
+                    "extension": [
+                        {
+                            "url": "http://hl7.org/fhir/StructureDefinition/elementdefinition-bindingName",
+                            "valueString": "SNOMEDCTCharacteristicCodes"
+                        }
+                    ],
+                    "strength": "example",
+                    "description": "This value set includes all observable entity codes from SNOMED CT - provided as an exemplar value set.",
+                    "valueSet": "http://hl7.org/fhir/ValueSet/product-characteristic-codes"
+                },
                 "mapping": [
                     {
                         "identity": "idmp",
@@ -1585,8 +1677,8 @@
             {
                 "id": "SubstanceDefinition.property.value[x]",
                 "path": "SubstanceDefinition.property.value[x]",
-                "short": "A value for the characteristic",
-                "definition": "A value for the characteristic.",
+                "short": "A value for the property",
+                "definition": "A value for the property.",
                 "min": 0,
                 "max": "1",
                 "base": {
@@ -1634,7 +1726,7 @@
             {
                 "id": "SubstanceDefinition.molecularWeight",
                 "path": "SubstanceDefinition.molecularWeight",
-                "short": "The molecular weight or weight range (for proteins, polymers or nucleic acids)",
+                "short": "The molecular weight or weight range",
                 "definition": "The molecular weight or weight range (for proteins, polymers or nucleic acids).",
                 "min": 0,
                 "max": "*",
@@ -1682,7 +1774,7 @@
                         "extension": [
                             {
                                 "url": "http://hl7.org/fhir/StructureDefinition/structuredefinition-fhir-type",
-                                "valueUrl": "id"
+                                "valueUrl": "string"
                             }
                         ],
                         "code": "http://hl7.org/fhirpath/System.String"
@@ -1801,7 +1893,7 @@
             {
                 "id": "SubstanceDefinition.molecularWeight.method",
                 "path": "SubstanceDefinition.molecularWeight.method",
-                "short": "The method by which the molecular weight was determined",
+                "short": "The method by which the weight was determined",
                 "definition": "The method by which the molecular weight was determined.",
                 "min": 0,
                 "max": "1",
@@ -1828,6 +1920,17 @@
                 "mustSupport": false,
                 "isModifier": false,
                 "isSummary": true,
+                "binding": {
+                    "extension": [
+                        {
+                            "url": "http://hl7.org/fhir/StructureDefinition/elementdefinition-bindingName",
+                            "valueString": "SubstanceWeightMethod"
+                        }
+                    ],
+                    "strength": "example",
+                    "description": "The method by which the substance weight was measured.",
+                    "valueSet": "http://hl7.org/fhir/ValueSet/substance-weight-method"
+                },
                 "mapping": [
                     {
                         "identity": "idmp",
@@ -1838,7 +1941,7 @@
             {
                 "id": "SubstanceDefinition.molecularWeight.type",
                 "path": "SubstanceDefinition.molecularWeight.type",
-                "short": "Type of molecular weight such as exact, average (also known as. number average), weight average",
+                "short": "Type of molecular weight e.g. exact, average, weight average",
                 "definition": "Type of molecular weight such as exact, average (also known as. number average), weight average.",
                 "min": 0,
                 "max": "1",
@@ -1865,6 +1968,17 @@
                 "mustSupport": false,
                 "isModifier": false,
                 "isSummary": true,
+                "binding": {
+                    "extension": [
+                        {
+                            "url": "http://hl7.org/fhir/StructureDefinition/elementdefinition-bindingName",
+                            "valueString": "SubstanceWeightType"
+                        }
+                    ],
+                    "strength": "example",
+                    "description": "The type of substance weight measurement.",
+                    "valueSet": "http://hl7.org/fhir/ValueSet/substance-weight-type"
+                },
                 "mapping": [
                     {
                         "identity": "idmp",
@@ -1875,7 +1989,7 @@
             {
                 "id": "SubstanceDefinition.molecularWeight.amount",
                 "path": "SubstanceDefinition.molecularWeight.amount",
-                "short": "Used to capture quantitative values for a variety of elements. If only limits are given, the arithmetic mean would be the average. If only a single definite value for a given element is given, it would be captured in this field",
+                "short": "Used to capture quantitative values for a variety of elements",
                 "definition": "Used to capture quantitative values for a variety of elements. If only limits are given, the arithmetic mean would be the average. If only a single definite value for a given element is given, it would be captured in this field.",
                 "min": 1,
                 "max": "1",
@@ -1966,7 +2080,7 @@
                         "extension": [
                             {
                                 "url": "http://hl7.org/fhir/StructureDefinition/structuredefinition-fhir-type",
-                                "valueUrl": "id"
+                                "valueUrl": "string"
                             }
                         ],
                         "code": "http://hl7.org/fhirpath/System.String"
@@ -2112,6 +2226,17 @@
                 "mustSupport": false,
                 "isModifier": false,
                 "isSummary": true,
+                "binding": {
+                    "extension": [
+                        {
+                            "url": "http://hl7.org/fhir/StructureDefinition/elementdefinition-bindingName",
+                            "valueString": "SubstanceStereochemistry"
+                        }
+                    ],
+                    "strength": "example",
+                    "description": "The optical rotation type of a substance.",
+                    "valueSet": "http://hl7.org/fhir/ValueSet/substance-stereochemistry"
+                },
                 "mapping": [
                     {
                         "identity": "idmp",
@@ -2149,6 +2274,17 @@
                 "mustSupport": false,
                 "isModifier": false,
                 "isSummary": true,
+                "binding": {
+                    "extension": [
+                        {
+                            "url": "http://hl7.org/fhir/StructureDefinition/elementdefinition-bindingName",
+                            "valueString": "SubstanceOpticalActivity"
+                        }
+                    ],
+                    "strength": "example",
+                    "description": "The optical rotation type of a substance.",
+                    "valueSet": "http://hl7.org/fhir/ValueSet/substance-optical-activity"
+                },
                 "mapping": [
                     {
                         "identity": "idmp",
@@ -2159,7 +2295,7 @@
             {
                 "id": "SubstanceDefinition.structure.molecularFormula",
                 "path": "SubstanceDefinition.structure.molecularFormula",
-                "short": "Molecular formula of this substance, typically using the Hill system",
+                "short": "Molecular formula (e.g. using the Hill system)",
                 "definition": "Molecular formula of this substance, typically using the Hill system.",
                 "min": 0,
                 "max": "1",
@@ -2196,7 +2332,7 @@
             {
                 "id": "SubstanceDefinition.structure.molecularFormulaByMoiety",
                 "path": "SubstanceDefinition.structure.molecularFormulaByMoiety",
-                "short": "Specified per moiety according to the Hill system, i.e. first C, then H, then alphabetical, each moiety separated by a dot",
+                "short": "Specified per moiety according to the Hill system",
                 "definition": "Specified per moiety according to the Hill system, i.e. first C, then H, then alphabetical, each moiety separated by a dot.",
                 "min": 0,
                 "max": "1",
@@ -2233,7 +2369,7 @@
             {
                 "id": "SubstanceDefinition.structure.molecularWeight",
                 "path": "SubstanceDefinition.structure.molecularWeight",
-                "short": "The molecular weight or weight range (for proteins, polymers or nucleic acids)",
+                "short": "The molecular weight or weight range",
                 "definition": "The molecular weight or weight range (for proteins, polymers or nucleic acids).",
                 "min": 0,
                 "max": "1",
@@ -2266,7 +2402,7 @@
             {
                 "id": "SubstanceDefinition.structure.technique",
                 "path": "SubstanceDefinition.structure.technique",
-                "short": "The method used to elucidate the structure or characterization of the drug substance. Examples: X-ray, HPLC, NMR, Peptide mapping, Ligand binding assay",
+                "short": "The method used to find the structure e.g. X-ray, NMR",
                 "definition": "The method used to elucidate the structure or characterization of the drug substance. Examples: X-ray, HPLC, NMR, Peptide mapping, Ligand binding assay.",
                 "min": 0,
                 "max": "*",
@@ -2293,6 +2429,17 @@
                 "mustSupport": false,
                 "isModifier": false,
                 "isSummary": true,
+                "binding": {
+                    "extension": [
+                        {
+                            "url": "http://hl7.org/fhir/StructureDefinition/elementdefinition-bindingName",
+                            "valueString": "SubstanceStructureTechnique"
+                        }
+                    ],
+                    "strength": "example",
+                    "description": "The method used to elucidate the structure or characterization of the drug substance.",
+                    "valueSet": "http://hl7.org/fhir/ValueSet/substance-structure-technique"
+                },
                 "mapping": [
                     {
                         "identity": "idmp",
@@ -2303,8 +2450,8 @@
             {
                 "id": "SubstanceDefinition.structure.sourceDocument",
                 "path": "SubstanceDefinition.structure.sourceDocument",
-                "short": "Supporting literature about the source of information",
-                "definition": "Supporting literature about the source of information.",
+                "short": "Source of information for the structure",
+                "definition": "The source of information about the structure.",
                 "min": 0,
                 "max": "*",
                 "base": {
@@ -2397,7 +2544,7 @@
                         "extension": [
                             {
                                 "url": "http://hl7.org/fhir/StructureDefinition/structuredefinition-fhir-type",
-                                "valueUrl": "id"
+                                "valueUrl": "string"
                             }
                         ],
                         "code": "http://hl7.org/fhirpath/System.String"
@@ -2516,8 +2663,8 @@
             {
                 "id": "SubstanceDefinition.structure.representation.type",
                 "path": "SubstanceDefinition.structure.representation.type",
-                "short": "The kind of structural representation (e.g. full, partial) or the technique used to derive the analytical characterization of the substance (e.g. x-ray, HPLC, NMR, peptide mapping, ligand binding assay, etc.)",
-                "definition": "The kind of structural representation (e.g. full, partial) or the technique used to derive the analytical characterization of the substance (e.g. x-ray, HPLC, NMR, peptide mapping, ligand binding assay, etc.).",
+                "short": "The kind of structural representation (e.g. full, partial)",
+                "definition": "The kind of structural representation (e.g. full, partial).",
                 "min": 0,
                 "max": "1",
                 "base": {
@@ -2543,6 +2690,17 @@
                 "mustSupport": false,
                 "isModifier": false,
                 "isSummary": true,
+                "binding": {
+                    "extension": [
+                        {
+                            "url": "http://hl7.org/fhir/StructureDefinition/elementdefinition-bindingName",
+                            "valueString": "SubstanceRepresentationType"
+                        }
+                    ],
+                    "strength": "example",
+                    "description": "A format of a substance representation.",
+                    "valueSet": "http://hl7.org/fhir/ValueSet/substance-representation-type"
+                },
                 "mapping": [
                     {
                         "identity": "idmp",
@@ -2590,7 +2748,7 @@
             {
                 "id": "SubstanceDefinition.structure.representation.format",
                 "path": "SubstanceDefinition.structure.representation.format",
-                "short": "The format of the representation e.g. InChI, SMILES, MOLFILE, CDX, SDF, PDB, mmCIF. The logical content type rather than the physical file format of a document",
+                "short": "The format of the representation e.g. InChI, SMILES, MOLFILE (note: not the physical file format)",
                 "definition": "The format of the representation e.g. InChI, SMILES, MOLFILE, CDX, SDF, PDB, mmCIF. The logical content type rather than the physical file format of a document.",
                 "min": 0,
                 "max": "1",
@@ -2617,6 +2775,17 @@
                 "mustSupport": false,
                 "isModifier": false,
                 "isSummary": true,
+                "binding": {
+                    "extension": [
+                        {
+                            "url": "http://hl7.org/fhir/StructureDefinition/elementdefinition-bindingName",
+                            "valueString": "SubstanceRepresentationFormat"
+                        }
+                    ],
+                    "strength": "example",
+                    "description": "A format of a substance representation.",
+                    "valueSet": "http://hl7.org/fhir/ValueSet/substance-representation-format"
+                },
                 "mapping": [
                     {
                         "identity": "idmp",
@@ -2627,7 +2796,7 @@
             {
                 "id": "SubstanceDefinition.structure.representation.document",
                 "path": "SubstanceDefinition.structure.representation.document",
-                "short": "An attached file with the structural representation or characterization e.g. a molecular structure graphic of the substance, a JCAMP or AnIML file",
+                "short": "An attachment with the structural representation e.g. a structure graphic or AnIML file",
                 "definition": "An attached file with the structural representation or characterization e.g. a molecular structure graphic of the substance, a JCAMP or AnIML file.",
                 "min": 0,
                 "max": "1",
@@ -2721,7 +2890,7 @@
                         "extension": [
                             {
                                 "url": "http://hl7.org/fhir/StructureDefinition/structuredefinition-fhir-type",
-                                "valueUrl": "id"
+                                "valueUrl": "string"
                             }
                         ],
                         "code": "http://hl7.org/fhirpath/System.String"
@@ -2904,6 +3073,21 @@
                 "mustSupport": false,
                 "isModifier": false,
                 "isSummary": true,
+                "binding": {
+                    "extension": [
+                        {
+                            "url": "http://hl7.org/fhir/StructureDefinition/elementdefinition-bindingName",
+                            "valueString": "PublicationStatus"
+                        },
+                        {
+                            "url": "http://hl7.org/fhir/StructureDefinition/elementdefinition-isCommonBinding",
+                            "valueBoolean": true
+                        }
+                    ],
+                    "strength": "preferred",
+                    "description": "The lifecycle status of an artifact.",
+                    "valueSet": "http://hl7.org/fhir/ValueSet/publication-status"
+                },
                 "mapping": [
                     {
                         "identity": "idmp",
@@ -2914,8 +3098,8 @@
             {
                 "id": "SubstanceDefinition.code.statusDate",
                 "path": "SubstanceDefinition.code.statusDate",
-                "short": "The date at which the code status is changed as part of the terminology maintenance",
-                "definition": "The date at which the code status is changed as part of the terminology maintenance.",
+                "short": "The date at which the code status was changed",
+                "definition": "The date at which the code status was changed as part of the terminology maintenance.",
                 "min": 0,
                 "max": "1",
                 "base": {
@@ -2951,7 +3135,7 @@
             {
                 "id": "SubstanceDefinition.code.note",
                 "path": "SubstanceDefinition.code.note",
-                "short": "Any comment can be provided in this field, if necessary",
+                "short": "Any comment can be provided in this field",
                 "definition": "Any comment can be provided in this field, if necessary.",
                 "min": 0,
                 "max": "*",
@@ -3082,7 +3266,7 @@
                         "extension": [
                             {
                                 "url": "http://hl7.org/fhir/StructureDefinition/structuredefinition-fhir-type",
-                                "valueUrl": "id"
+                                "valueUrl": "string"
                             }
                         ],
                         "code": "http://hl7.org/fhirpath/System.String"
@@ -3238,7 +3422,7 @@
             {
                 "id": "SubstanceDefinition.name.type",
                 "path": "SubstanceDefinition.name.type",
-                "short": "Name type, for example 'systematic',  'scientific, 'brand'",
+                "short": "Name type e.g. 'systematic',  'scientific, 'brand'",
                 "definition": "Name type, for example 'systematic',  'scientific, 'brand'.",
                 "min": 0,
                 "max": "1",
@@ -3265,6 +3449,17 @@
                 "mustSupport": false,
                 "isModifier": false,
                 "isSummary": true,
+                "binding": {
+                    "extension": [
+                        {
+                            "url": "http://hl7.org/fhir/StructureDefinition/elementdefinition-bindingName",
+                            "valueString": "SubstanceNameType"
+                        }
+                    ],
+                    "strength": "example",
+                    "description": "The type of a name given to a substance.",
+                    "valueSet": "http://hl7.org/fhir/ValueSet/substance-name-type"
+                },
                 "mapping": [
                     {
                         "identity": "idmp",
@@ -3275,7 +3470,7 @@
             {
                 "id": "SubstanceDefinition.name.status",
                 "path": "SubstanceDefinition.name.status",
-                "short": "The status of the name, for example 'current', 'proposed'",
+                "short": "The status of the name e.g. 'current', 'proposed'",
                 "definition": "The status of the name, for example 'current', 'proposed'.",
                 "min": 0,
                 "max": "1",
@@ -3302,6 +3497,21 @@
                 "mustSupport": false,
                 "isModifier": false,
                 "isSummary": true,
+                "binding": {
+                    "extension": [
+                        {
+                            "url": "http://hl7.org/fhir/StructureDefinition/elementdefinition-bindingName",
+                            "valueString": "PublicationStatus"
+                        },
+                        {
+                            "url": "http://hl7.org/fhir/StructureDefinition/elementdefinition-isCommonBinding",
+                            "valueBoolean": true
+                        }
+                    ],
+                    "strength": "preferred",
+                    "description": "The lifecycle status of an artifact.",
+                    "valueSet": "http://hl7.org/fhir/ValueSet/publication-status"
+                },
                 "mapping": [
                     {
                         "identity": "idmp",
@@ -3326,6 +3536,7 @@
                         "code": "boolean"
                     }
                 ],
+                "meaningWhenMissing": "If this value is not present, there is no statement being made about whether this is the preferred name or not. No inference can be made",
                 "constraint": [
                     {
                         "key": "ele-1",
@@ -3376,6 +3587,25 @@
                 "mustSupport": false,
                 "isModifier": false,
                 "isSummary": true,
+                "binding": {
+                    "extension": [
+                        {
+                            "url": "http://hl7.org/fhir/StructureDefinition/elementdefinition-maxValueSet",
+                            "valueCanonical": "http://hl7.org/fhir/ValueSet/all-languages"
+                        },
+                        {
+                            "url": "http://hl7.org/fhir/StructureDefinition/elementdefinition-bindingName",
+                            "valueString": "Language"
+                        },
+                        {
+                            "url": "http://hl7.org/fhir/StructureDefinition/elementdefinition-isCommonBinding",
+                            "valueBoolean": true
+                        }
+                    ],
+                    "strength": "preferred",
+                    "description": "IETF language tag",
+                    "valueSet": "http://hl7.org/fhir/ValueSet/languages"
+                },
                 "mapping": [
                     {
                         "identity": "idmp",
@@ -3386,7 +3616,7 @@
             {
                 "id": "SubstanceDefinition.name.domain",
                 "path": "SubstanceDefinition.name.domain",
-                "short": "The use context of this name for example if there is a different name a drug active ingredient as opposed to a food colour additive",
+                "short": "The use context of this name e.g. as an active ingredient or as a food colour additive",
                 "definition": "The use context of this name for example if there is a different name a drug active ingredient as opposed to a food colour additive.",
                 "min": 0,
                 "max": "*",
@@ -3413,6 +3643,17 @@
                 "mustSupport": false,
                 "isModifier": false,
                 "isSummary": true,
+                "binding": {
+                    "extension": [
+                        {
+                            "url": "http://hl7.org/fhir/StructureDefinition/elementdefinition-bindingName",
+                            "valueString": "SubstanceNameDomain"
+                        }
+                    ],
+                    "strength": "example",
+                    "description": "The use context of a substance name for example if there is a different name when used as a drug active ingredient as opposed to a food colour additive.",
+                    "valueSet": "http://hl7.org/fhir/ValueSet/substance-name-domain"
+                },
                 "mapping": [
                     {
                         "identity": "idmp",
@@ -3450,6 +3691,21 @@
                 "mustSupport": false,
                 "isModifier": false,
                 "isSummary": true,
+                "binding": {
+                    "extension": [
+                        {
+                            "url": "http://hl7.org/fhir/StructureDefinition/elementdefinition-bindingName",
+                            "valueString": "Jurisdiction"
+                        },
+                        {
+                            "url": "http://hl7.org/fhir/StructureDefinition/elementdefinition-isCommonBinding",
+                            "valueBoolean": true
+                        }
+                    ],
+                    "strength": "example",
+                    "description": "Jurisdiction codes",
+                    "valueSet": "http://hl7.org/fhir/ValueSet/jurisdiction"
+                },
                 "mapping": [
                     {
                         "identity": "idmp",
@@ -3580,7 +3836,7 @@
                         "extension": [
                             {
                                 "url": "http://hl7.org/fhir/StructureDefinition/structuredefinition-fhir-type",
-                                "valueUrl": "id"
+                                "valueUrl": "string"
                             }
                         ],
                         "code": "http://hl7.org/fhirpath/System.String"
@@ -3726,6 +3982,17 @@
                 "mustSupport": false,
                 "isModifier": false,
                 "isSummary": true,
+                "binding": {
+                    "extension": [
+                        {
+                            "url": "http://hl7.org/fhir/StructureDefinition/elementdefinition-bindingName",
+                            "valueString": "SubstanceNameAuthority"
+                        }
+                    ],
+                    "strength": "preferred",
+                    "description": "An authority that officates substance names.",
+                    "valueSet": "http://hl7.org/fhir/ValueSet/substance-name-authority"
+                },
                 "mapping": [
                     {
                         "identity": "idmp",
@@ -3736,8 +4003,8 @@
             {
                 "id": "SubstanceDefinition.name.official.status",
                 "path": "SubstanceDefinition.name.official.status",
-                "short": "The status of the official name, for example 'provisional', 'approved'",
-                "definition": "The status of the official name, for example 'provisional', 'approved'.",
+                "short": "The status of the official name, for example 'draft', 'active'",
+                "definition": "The status of the official name, for example 'draft', 'active', 'retired'.",
                 "min": 0,
                 "max": "1",
                 "base": {
@@ -3763,6 +4030,21 @@
                 "mustSupport": false,
                 "isModifier": false,
                 "isSummary": true,
+                "binding": {
+                    "extension": [
+                        {
+                            "url": "http://hl7.org/fhir/StructureDefinition/elementdefinition-bindingName",
+                            "valueString": "PublicationStatus"
+                        },
+                        {
+                            "url": "http://hl7.org/fhir/StructureDefinition/elementdefinition-isCommonBinding",
+                            "valueBoolean": true
+                        }
+                    ],
+                    "strength": "preferred",
+                    "description": "The lifecycle status of an artifact.",
+                    "valueSet": "http://hl7.org/fhir/ValueSet/publication-status"
+                },
                 "mapping": [
                     {
                         "identity": "idmp",
@@ -3774,7 +4056,7 @@
                 "id": "SubstanceDefinition.name.official.date",
                 "path": "SubstanceDefinition.name.official.date",
                 "short": "Date of official name change",
-                "definition": "Date of official name change.",
+                "definition": "Date of the official name change.",
                 "min": 0,
                 "max": "1",
                 "base": {
@@ -3850,7 +4132,7 @@
             {
                 "id": "SubstanceDefinition.relationship",
                 "path": "SubstanceDefinition.relationship",
-                "short": "A link between this substance and another, with details of the relationship",
+                "short": "A link between this substance and another",
                 "definition": "A link between this substance and another, with details of the relationship.",
                 "min": 0,
                 "max": "*",
@@ -3904,7 +4186,7 @@
                         "extension": [
                             {
                                 "url": "http://hl7.org/fhir/StructureDefinition/structuredefinition-fhir-type",
-                                "valueUrl": "id"
+                                "valueUrl": "string"
                             }
                         ],
                         "code": "http://hl7.org/fhirpath/System.String"
@@ -4023,7 +4305,7 @@
             {
                 "id": "SubstanceDefinition.relationship.substanceDefinition[x]",
                 "path": "SubstanceDefinition.relationship.substanceDefinition[x]",
-                "short": "A pointer to another substance, as a resource or just a representational code",
+                "short": "A pointer to another substance, as a resource or a representational code",
                 "definition": "A pointer to another substance, as a resource or just a representational code.",
                 "min": 0,
                 "max": "1",
@@ -4066,7 +4348,7 @@
             {
                 "id": "SubstanceDefinition.relationship.type",
                 "path": "SubstanceDefinition.relationship.type",
-                "short": "For example \"salt to parent\", \"active moiety\", \"starting material\", \"polymorph\", \"impurity of\"",
+                "short": "For example \"salt to parent\", \"active moiety\"",
                 "definition": "For example \"salt to parent\", \"active moiety\", \"starting material\", \"polymorph\", \"impurity of\".",
                 "min": 1,
                 "max": "1",
@@ -4093,6 +4375,17 @@
                 "mustSupport": false,
                 "isModifier": false,
                 "isSummary": true,
+                "binding": {
+                    "extension": [
+                        {
+                            "url": "http://hl7.org/fhir/StructureDefinition/elementdefinition-bindingName",
+                            "valueString": "SubstanceRelationshipType"
+                        }
+                    ],
+                    "strength": "example",
+                    "description": "The relationship between two substance types.",
+                    "valueSet": "http://hl7.org/fhir/ValueSet/substance-relationship-type"
+                },
                 "mapping": [
                     {
                         "identity": "idmp",
@@ -4103,7 +4396,7 @@
             {
                 "id": "SubstanceDefinition.relationship.isDefining",
                 "path": "SubstanceDefinition.relationship.isDefining",
-                "short": "For example where an enzyme strongly bonds with a particular substance, this is a defining relationship for that enzyme, out of several possible substance relationships",
+                "short": "For example where an enzyme strongly bonds with a particular substance, this is a defining relationship for that enzyme, out of several possible relationships",
                 "definition": "For example where an enzyme strongly bonds with a particular substance, this is a defining relationship for that enzyme, out of several possible substance relationships.",
                 "min": 0,
                 "max": "1",
@@ -4117,6 +4410,7 @@
                         "code": "boolean"
                     }
                 ],
+                "meaningWhenMissing": "If this value is not present, there is no statement being made about whether this is a defining relationship or not. No inference can be made",
                 "constraint": [
                     {
                         "key": "ele-1",
@@ -4140,7 +4434,7 @@
             {
                 "id": "SubstanceDefinition.relationship.amount[x]",
                 "path": "SubstanceDefinition.relationship.amount[x]",
-                "short": "A numeric factor for the relationship, for instance to express that the salt of a substance has some percentage of the active substance in relation to some other",
+                "short": "A numeric factor for the relationship, e.g. that a substance salt has some percentage of active substance in relation to some other",
                 "definition": "A numeric factor for the relationship, for instance to express that the salt of a substance has some percentage of the active substance in relation to some other.",
                 "min": 0,
                 "max": "1",
@@ -4181,14 +4475,14 @@
                 ]
             },
             {
-                "id": "SubstanceDefinition.relationship.amountRatioHighLimit",
-                "path": "SubstanceDefinition.relationship.amountRatioHighLimit",
+                "id": "SubstanceDefinition.relationship.ratioHighLimitAmount",
+                "path": "SubstanceDefinition.relationship.ratioHighLimitAmount",
                 "short": "For use when the numeric has an uncertain range",
                 "definition": "For use when the numeric has an uncertain range.",
                 "min": 0,
                 "max": "1",
                 "base": {
-                    "path": "SubstanceDefinition.relationship.amountRatioHighLimit",
+                    "path": "SubstanceDefinition.relationship.ratioHighLimitAmount",
                     "min": 0,
                     "max": "1"
                 },
@@ -4218,14 +4512,14 @@
                 ]
             },
             {
-                "id": "SubstanceDefinition.relationship.amountType",
-                "path": "SubstanceDefinition.relationship.amountType",
+                "id": "SubstanceDefinition.relationship.comparator",
+                "path": "SubstanceDefinition.relationship.comparator",
                 "short": "An operator for the amount, for example \"average\", \"approximately\", \"less than\"",
                 "definition": "An operator for the amount, for example \"average\", \"approximately\", \"less than\".",
                 "min": 0,
                 "max": "1",
                 "base": {
-                    "path": "SubstanceDefinition.relationship.amountType",
+                    "path": "SubstanceDefinition.relationship.comparator",
                     "min": 0,
                     "max": "1"
                 },
@@ -4247,6 +4541,17 @@
                 "mustSupport": false,
                 "isModifier": false,
                 "isSummary": true,
+                "binding": {
+                    "extension": [
+                        {
+                            "url": "http://hl7.org/fhir/StructureDefinition/elementdefinition-bindingName",
+                            "valueString": "SubstanceAmountType"
+                        }
+                    ],
+                    "strength": "example",
+                    "description": "The relationship between two substance types.",
+                    "valueSet": "http://hl7.org/fhir/ValueSet/substance-amount-type"
+                },
                 "mapping": [
                     {
                         "identity": "idmp",
@@ -4297,7 +4602,7 @@
             {
                 "id": "SubstanceDefinition.sourceMaterial",
                 "path": "SubstanceDefinition.sourceMaterial",
-                "short": "Material or taxonomic/anatomical source for the substance",
+                "short": "Material or taxonomic/anatomical source",
                 "definition": "Material or taxonomic/anatomical source for the substance.",
                 "min": 0,
                 "max": "1",
@@ -4351,7 +4656,7 @@
                         "extension": [
                             {
                                 "url": "http://hl7.org/fhir/StructureDefinition/structuredefinition-fhir-type",
-                                "valueUrl": "id"
+                                "valueUrl": "string"
                             }
                         ],
                         "code": "http://hl7.org/fhirpath/System.String"
@@ -4470,7 +4775,7 @@
             {
                 "id": "SubstanceDefinition.sourceMaterial.type",
                 "path": "SubstanceDefinition.sourceMaterial.type",
-                "short": "A classification that provides the origin of the raw material. Example: cat hair would be an Animal source type",
+                "short": "Classification of the origin of the raw material. e.g. cat hair is an Animal source type",
                 "definition": "A classification that provides the origin of the raw material. Example: cat hair would be an Animal source type.",
                 "min": 0,
                 "max": "1",
@@ -4497,6 +4802,17 @@
                 "mustSupport": false,
                 "isModifier": false,
                 "isSummary": true,
+                "binding": {
+                    "extension": [
+                        {
+                            "url": "http://hl7.org/fhir/StructureDefinition/elementdefinition-bindingName",
+                            "valueString": "SourceMaterialType"
+                        }
+                    ],
+                    "strength": "example",
+                    "description": "A classification that provides the origin of the substance raw material.",
+                    "valueSet": "http://hl7.org/fhir/ValueSet/substance-source-material-type"
+                },
                 "mapping": [
                     {
                         "identity": "idmp",
@@ -4507,7 +4823,7 @@
             {
                 "id": "SubstanceDefinition.sourceMaterial.genus",
                 "path": "SubstanceDefinition.sourceMaterial.genus",
-                "short": "The genus of an organism, typically referring to the Latin epithet of the genus element of the plant/animal scientific name",
+                "short": "The genus of an organism e.g. the Latin epithet of the plant/animal scientific name",
                 "definition": "The genus of an organism, typically referring to the Latin epithet of the genus element of the plant/animal scientific name.",
                 "min": 0,
                 "max": "1",
@@ -4534,6 +4850,17 @@
                 "mustSupport": false,
                 "isModifier": false,
                 "isSummary": true,
+                "binding": {
+                    "extension": [
+                        {
+                            "url": "http://hl7.org/fhir/StructureDefinition/elementdefinition-bindingName",
+                            "valueString": "SourceMaterialGenus"
+                        }
+                    ],
+                    "strength": "example",
+                    "description": "The genus of an organism, typically referring to the Latin epithet of the genus element of the plant/animal scientific name.",
+                    "valueSet": "http://hl7.org/fhir/ValueSet/substance-source-material-genus"
+                },
                 "mapping": [
                     {
                         "identity": "idmp",
@@ -4544,7 +4871,7 @@
             {
                 "id": "SubstanceDefinition.sourceMaterial.species",
                 "path": "SubstanceDefinition.sourceMaterial.species",
-                "short": "The species of an organism, typically referring to the Latin epithet of the species of the plant/animal",
+                "short": "The species of an organism e.g. the Latin epithet of the species of the plant/animal",
                 "definition": "The species of an organism, typically referring to the Latin epithet of the species of the plant/animal.",
                 "min": 0,
                 "max": "1",
@@ -4571,6 +4898,17 @@
                 "mustSupport": false,
                 "isModifier": false,
                 "isSummary": true,
+                "binding": {
+                    "extension": [
+                        {
+                            "url": "http://hl7.org/fhir/StructureDefinition/elementdefinition-bindingName",
+                            "valueString": "SourceMaterialSpecies"
+                        }
+                    ],
+                    "strength": "example",
+                    "description": "A species of origin a substance raw material.",
+                    "valueSet": "http://hl7.org/fhir/ValueSet/substance-source-material-species"
+                },
                 "mapping": [
                     {
                         "identity": "idmp",
@@ -4608,6 +4946,17 @@
                 "mustSupport": false,
                 "isModifier": false,
                 "isSummary": true,
+                "binding": {
+                    "extension": [
+                        {
+                            "url": "http://hl7.org/fhir/StructureDefinition/elementdefinition-bindingName",
+                            "valueString": "SourceMaterialPart"
+                        }
+                    ],
+                    "strength": "example",
+                    "description": "An anatomical origin of the source material within an organism.",
+                    "valueSet": "http://hl7.org/fhir/ValueSet/substance-source-material-part"
+                },
                 "mapping": [
                     {
                         "identity": "idmp",
@@ -4645,6 +4994,21 @@
                 "mustSupport": false,
                 "isModifier": false,
                 "isSummary": true,
+                "binding": {
+                    "extension": [
+                        {
+                            "url": "http://hl7.org/fhir/StructureDefinition/elementdefinition-bindingName",
+                            "valueString": "Country"
+                        },
+                        {
+                            "url": "http://hl7.org/fhir/StructureDefinition/elementdefinition-isCommonBinding",
+                            "valueBoolean": true
+                        }
+                    ],
+                    "strength": "required",
+                    "description": "Jurisdiction codes",
+                    "valueSet": "http://hl7.org/fhir/ValueSet/country|4.3.0-cibuild"
+                },
                 "mapping": [
                     {
                         "identity": "idmp",
@@ -4701,8 +5065,8 @@
             {
                 "id": "SubstanceDefinition.version",
                 "path": "SubstanceDefinition.version",
-                "short": "A business level identifier of the substance",
-                "definition": "A business level identifier of the substance.",
+                "short": "A business level version identifier of the substance",
+                "definition": "A business level version identifier of the substance.",
                 "min": 0,
                 "max": "1",
                 "type": [
@@ -4723,8 +5087,8 @@
             {
                 "id": "SubstanceDefinition.status",
                 "path": "SubstanceDefinition.status",
-                "short": "Status of substance within the catalogue e.g. approved",
-                "definition": "Status of substance within the catalogue e.g. approved.",
+                "short": "Status of substance within the catalogue e.g. active, retired",
+                "definition": "Status of substance within the catalogue e.g. active, retired.",
                 "min": 0,
                 "max": "1",
                 "type": [
@@ -4735,17 +5099,32 @@
                 "mustSupport": false,
                 "isModifier": false,
                 "isSummary": true,
+                "binding": {
+                    "extension": [
+                        {
+                            "url": "http://hl7.org/fhir/StructureDefinition/elementdefinition-bindingName",
+                            "valueString": "PublicationStatus"
+                        },
+                        {
+                            "url": "http://hl7.org/fhir/StructureDefinition/elementdefinition-isCommonBinding",
+                            "valueBoolean": true
+                        }
+                    ],
+                    "strength": "preferred",
+                    "description": "The lifecycle status of an artifact.",
+                    "valueSet": "http://hl7.org/fhir/ValueSet/publication-status"
+                },
                 "mapping": [
                     {
                         "identity": "idmp",
-                        "map": "Substance_Classification.Domain"
+                        "map": "n/a"
                     }
                 ]
             },
             {
                 "id": "SubstanceDefinition.classification",
                 "path": "SubstanceDefinition.classification",
-                "short": "A high level categorization, e.g. polymer or nucleic acid, or food, chemical, biological, or a lower level such as the general types of polymer (linear or branch chain) or type of impurity (process related or contaminant)",
+                "short": "A categorization, high level e.g. polymer or nucleic acid, or food, chemical, biological, or lower e.g. polymer linear or branch chain, or type of impurity",
                 "definition": "A high level categorization, e.g. polymer or nucleic acid, or food, chemical, biological, or a lower level such as the general types of polymer (linear or branch chain) or type of impurity (process related or contaminant).",
                 "min": 0,
                 "max": "*",
@@ -4767,8 +5146,8 @@
             {
                 "id": "SubstanceDefinition.domain",
                 "path": "SubstanceDefinition.domain",
-                "short": "If the substance applies to only human or veterinary use",
-                "definition": "If the substance applies to only human or veterinary use.",
+                "short": "If the substance applies to human or veterinary use",
+                "definition": "If the substance applies to human or veterinary use.",
                 "min": 0,
                 "max": "1",
                 "type": [
@@ -4779,6 +5158,17 @@
                 "mustSupport": false,
                 "isModifier": false,
                 "isSummary": true,
+                "binding": {
+                    "extension": [
+                        {
+                            "url": "http://hl7.org/fhir/StructureDefinition/elementdefinition-bindingName",
+                            "valueString": "MedicinalProductType"
+                        }
+                    ],
+                    "strength": "example",
+                    "description": "Applicable domain for this product (e.g. human, veterinary).",
+                    "valueSet": "http://hl7.org/fhir/ValueSet/medicinal-product-domain"
+                },
                 "mapping": [
                     {
                         "identity": "idmp",
@@ -4789,7 +5179,7 @@
             {
                 "id": "SubstanceDefinition.grade",
                 "path": "SubstanceDefinition.grade",
-                "short": "The quality standard, established benchmark, to which substance complies (e.g. USP/NF, Ph. Eur, JP, BP, Company Standard)",
+                "short": "The quality standard, established benchmark, to which substance complies (e.g. USP/NF, BP)",
                 "definition": "The quality standard, established benchmark, to which substance complies (e.g. USP/NF, Ph. Eur, JP, BP, Company Standard).",
                 "min": 0,
                 "max": "*",
@@ -4801,6 +5191,17 @@
                 "mustSupport": false,
                 "isModifier": false,
                 "isSummary": true,
+                "binding": {
+                    "extension": [
+                        {
+                            "url": "http://hl7.org/fhir/StructureDefinition/elementdefinition-bindingName",
+                            "valueString": "SubstanceGrade"
+                        }
+                    ],
+                    "strength": "example",
+                    "description": "The quality standard, established benchmark, to which a substance complies",
+                    "valueSet": "http://hl7.org/fhir/ValueSet/substance-grade"
+                },
                 "mapping": [
                     {
                         "identity": "idmp",
@@ -4880,8 +5281,8 @@
             {
                 "id": "SubstanceDefinition.manufacturer",
                 "path": "SubstanceDefinition.manufacturer",
-                "short": "A company that makes this substance",
-                "definition": "A company that makes this substance.",
+                "short": "The entity that creates, makes, produces or fabricates the substance",
+                "definition": "The entity that creates, makes, produces or fabricates the substance. This is a set of potential manufacturers but is not necessarily comprehensive.",
                 "min": 0,
                 "max": "*",
                 "type": [
@@ -4905,8 +5306,8 @@
             {
                 "id": "SubstanceDefinition.supplier",
                 "path": "SubstanceDefinition.supplier",
-                "short": "A company that supplies this substance",
-                "definition": "A company that supplies this substance.",
+                "short": "An entity that is the source for the substance. It may be different from the manufacturer",
+                "definition": "An entity that is the source for the substance. It may be different from the manufacturer. Supplier is synonymous to a distributor.",
                 "min": 0,
                 "max": "*",
                 "type": [
@@ -5030,6 +5431,17 @@
                 "mustSupport": false,
                 "isModifier": false,
                 "isSummary": true,
+                "binding": {
+                    "extension": [
+                        {
+                            "url": "http://hl7.org/fhir/StructureDefinition/elementdefinition-bindingName",
+                            "valueString": "SubstanceStereochemistry"
+                        }
+                    ],
+                    "strength": "example",
+                    "description": "The optical rotation type of a substance.",
+                    "valueSet": "http://hl7.org/fhir/ValueSet/substance-stereochemistry"
+                },
                 "mapping": [
                     {
                         "identity": "idmp",
@@ -5052,6 +5464,17 @@
                 "mustSupport": false,
                 "isModifier": false,
                 "isSummary": true,
+                "binding": {
+                    "extension": [
+                        {
+                            "url": "http://hl7.org/fhir/StructureDefinition/elementdefinition-bindingName",
+                            "valueString": "SubstanceOpticalActivity"
+                        }
+                    ],
+                    "strength": "example",
+                    "description": "The optical rotation type of a substance.",
+                    "valueSet": "http://hl7.org/fhir/ValueSet/substance-optical-activity"
+                },
                 "mapping": [
                     {
                         "identity": "idmp",
@@ -5062,7 +5485,7 @@
             {
                 "id": "SubstanceDefinition.moiety.molecularFormula",
                 "path": "SubstanceDefinition.moiety.molecularFormula",
-                "short": "Molecular formula for this moiety of this substance, typically using the Hill system",
+                "short": "Molecular formula for this moiety (e.g. with the Hill system)",
                 "definition": "Molecular formula for this moiety of this substance, typically using the Hill system.",
                 "min": 0,
                 "max": "1",
@@ -5107,10 +5530,10 @@
                 ]
             },
             {
-                "id": "SubstanceDefinition.moiety.amountType",
-                "path": "SubstanceDefinition.moiety.amountType",
+                "id": "SubstanceDefinition.moiety.measurementType",
+                "path": "SubstanceDefinition.moiety.measurementType",
                 "short": "The measurement type of the quantitative value",
-                "definition": "The measurement type of the quantitative value.",
+                "definition": "The measurement type of the quantitative value. In capturing the actual relative amounts of substances or molecular fragments it may be necessary to indicate whether the amount refers to, for example, a mole ratio or weight ratio.",
                 "min": 0,
                 "max": "1",
                 "type": [
@@ -5121,6 +5544,17 @@
                 "mustSupport": false,
                 "isModifier": false,
                 "isSummary": true,
+                "binding": {
+                    "extension": [
+                        {
+                            "url": "http://hl7.org/fhir/StructureDefinition/elementdefinition-bindingName",
+                            "valueString": "SubstanceAmountType"
+                        }
+                    ],
+                    "strength": "example",
+                    "description": "The relationship between two substance types.",
+                    "valueSet": "http://hl7.org/fhir/ValueSet/substance-amount-type"
+                },
                 "mapping": [
                     {
                         "identity": "idmp",
@@ -5153,8 +5587,8 @@
             {
                 "id": "SubstanceDefinition.property.type",
                 "path": "SubstanceDefinition.property.type",
-                "short": "A code expressing the type of characteristic",
-                "definition": "A code expressing the type of characteristic.",
+                "short": "A code expressing the type of property",
+                "definition": "A code expressing the type of property.",
                 "min": 1,
                 "max": "1",
                 "type": [
@@ -5165,6 +5599,17 @@
                 "mustSupport": false,
                 "isModifier": false,
                 "isSummary": true,
+                "binding": {
+                    "extension": [
+                        {
+                            "url": "http://hl7.org/fhir/StructureDefinition/elementdefinition-bindingName",
+                            "valueString": "SNOMEDCTCharacteristicCodes"
+                        }
+                    ],
+                    "strength": "example",
+                    "description": "This value set includes all observable entity codes from SNOMED CT - provided as an exemplar value set.",
+                    "valueSet": "http://hl7.org/fhir/ValueSet/product-characteristic-codes"
+                },
                 "mapping": [
                     {
                         "identity": "idmp",
@@ -5175,8 +5620,8 @@
             {
                 "id": "SubstanceDefinition.property.value[x]",
                 "path": "SubstanceDefinition.property.value[x]",
-                "short": "A value for the characteristic",
-                "definition": "A value for the characteristic.",
+                "short": "A value for the property",
+                "definition": "A value for the property.",
                 "min": 0,
                 "max": "1",
                 "type": [
@@ -5209,7 +5654,7 @@
             {
                 "id": "SubstanceDefinition.molecularWeight",
                 "path": "SubstanceDefinition.molecularWeight",
-                "short": "The molecular weight or weight range (for proteins, polymers or nucleic acids)",
+                "short": "The molecular weight or weight range",
                 "definition": "The molecular weight or weight range (for proteins, polymers or nucleic acids).",
                 "min": 0,
                 "max": "*",
@@ -5225,7 +5670,7 @@
             {
                 "id": "SubstanceDefinition.molecularWeight.method",
                 "path": "SubstanceDefinition.molecularWeight.method",
-                "short": "The method by which the molecular weight was determined",
+                "short": "The method by which the weight was determined",
                 "definition": "The method by which the molecular weight was determined.",
                 "min": 0,
                 "max": "1",
@@ -5237,6 +5682,17 @@
                 "mustSupport": false,
                 "isModifier": false,
                 "isSummary": true,
+                "binding": {
+                    "extension": [
+                        {
+                            "url": "http://hl7.org/fhir/StructureDefinition/elementdefinition-bindingName",
+                            "valueString": "SubstanceWeightMethod"
+                        }
+                    ],
+                    "strength": "example",
+                    "description": "The method by which the substance weight was measured.",
+                    "valueSet": "http://hl7.org/fhir/ValueSet/substance-weight-method"
+                },
                 "mapping": [
                     {
                         "identity": "idmp",
@@ -5247,7 +5703,7 @@
             {
                 "id": "SubstanceDefinition.molecularWeight.type",
                 "path": "SubstanceDefinition.molecularWeight.type",
-                "short": "Type of molecular weight such as exact, average (also known as. number average), weight average",
+                "short": "Type of molecular weight e.g. exact, average, weight average",
                 "definition": "Type of molecular weight such as exact, average (also known as. number average), weight average.",
                 "min": 0,
                 "max": "1",
@@ -5259,6 +5715,17 @@
                 "mustSupport": false,
                 "isModifier": false,
                 "isSummary": true,
+                "binding": {
+                    "extension": [
+                        {
+                            "url": "http://hl7.org/fhir/StructureDefinition/elementdefinition-bindingName",
+                            "valueString": "SubstanceWeightType"
+                        }
+                    ],
+                    "strength": "example",
+                    "description": "The type of substance weight measurement.",
+                    "valueSet": "http://hl7.org/fhir/ValueSet/substance-weight-type"
+                },
                 "mapping": [
                     {
                         "identity": "idmp",
@@ -5269,7 +5736,7 @@
             {
                 "id": "SubstanceDefinition.molecularWeight.amount",
                 "path": "SubstanceDefinition.molecularWeight.amount",
-                "short": "Used to capture quantitative values for a variety of elements. If only limits are given, the arithmetic mean would be the average. If only a single definite value for a given element is given, it would be captured in this field",
+                "short": "Used to capture quantitative values for a variety of elements",
                 "definition": "Used to capture quantitative values for a variety of elements. If only limits are given, the arithmetic mean would be the average. If only a single definite value for a given element is given, it would be captured in this field.",
                 "min": 1,
                 "max": "1",
@@ -5325,6 +5792,17 @@
                 "mustSupport": false,
                 "isModifier": false,
                 "isSummary": true,
+                "binding": {
+                    "extension": [
+                        {
+                            "url": "http://hl7.org/fhir/StructureDefinition/elementdefinition-bindingName",
+                            "valueString": "SubstanceStereochemistry"
+                        }
+                    ],
+                    "strength": "example",
+                    "description": "The optical rotation type of a substance.",
+                    "valueSet": "http://hl7.org/fhir/ValueSet/substance-stereochemistry"
+                },
                 "mapping": [
                     {
                         "identity": "idmp",
@@ -5347,6 +5825,17 @@
                 "mustSupport": false,
                 "isModifier": false,
                 "isSummary": true,
+                "binding": {
+                    "extension": [
+                        {
+                            "url": "http://hl7.org/fhir/StructureDefinition/elementdefinition-bindingName",
+                            "valueString": "SubstanceOpticalActivity"
+                        }
+                    ],
+                    "strength": "example",
+                    "description": "The optical rotation type of a substance.",
+                    "valueSet": "http://hl7.org/fhir/ValueSet/substance-optical-activity"
+                },
                 "mapping": [
                     {
                         "identity": "idmp",
@@ -5357,7 +5846,7 @@
             {
                 "id": "SubstanceDefinition.structure.molecularFormula",
                 "path": "SubstanceDefinition.structure.molecularFormula",
-                "short": "Molecular formula of this substance, typically using the Hill system",
+                "short": "Molecular formula (e.g. using the Hill system)",
                 "definition": "Molecular formula of this substance, typically using the Hill system.",
                 "min": 0,
                 "max": "1",
@@ -5379,7 +5868,7 @@
             {
                 "id": "SubstanceDefinition.structure.molecularFormulaByMoiety",
                 "path": "SubstanceDefinition.structure.molecularFormulaByMoiety",
-                "short": "Specified per moiety according to the Hill system, i.e. first C, then H, then alphabetical, each moiety separated by a dot",
+                "short": "Specified per moiety according to the Hill system",
                 "definition": "Specified per moiety according to the Hill system, i.e. first C, then H, then alphabetical, each moiety separated by a dot.",
                 "min": 0,
                 "max": "1",
@@ -5401,7 +5890,7 @@
             {
                 "id": "SubstanceDefinition.structure.molecularWeight",
                 "path": "SubstanceDefinition.structure.molecularWeight",
-                "short": "The molecular weight or weight range (for proteins, polymers or nucleic acids)",
+                "short": "The molecular weight or weight range",
                 "definition": "The molecular weight or weight range (for proteins, polymers or nucleic acids).",
                 "min": 0,
                 "max": "1",
@@ -5419,7 +5908,7 @@
             {
                 "id": "SubstanceDefinition.structure.technique",
                 "path": "SubstanceDefinition.structure.technique",
-                "short": "The method used to elucidate the structure or characterization of the drug substance. Examples: X-ray, HPLC, NMR, Peptide mapping, Ligand binding assay",
+                "short": "The method used to find the structure e.g. X-ray, NMR",
                 "definition": "The method used to elucidate the structure or characterization of the drug substance. Examples: X-ray, HPLC, NMR, Peptide mapping, Ligand binding assay.",
                 "min": 0,
                 "max": "*",
@@ -5431,6 +5920,17 @@
                 "mustSupport": false,
                 "isModifier": false,
                 "isSummary": true,
+                "binding": {
+                    "extension": [
+                        {
+                            "url": "http://hl7.org/fhir/StructureDefinition/elementdefinition-bindingName",
+                            "valueString": "SubstanceStructureTechnique"
+                        }
+                    ],
+                    "strength": "example",
+                    "description": "The method used to elucidate the structure or characterization of the drug substance.",
+                    "valueSet": "http://hl7.org/fhir/ValueSet/substance-structure-technique"
+                },
                 "mapping": [
                     {
                         "identity": "idmp",
@@ -5441,8 +5941,8 @@
             {
                 "id": "SubstanceDefinition.structure.sourceDocument",
                 "path": "SubstanceDefinition.structure.sourceDocument",
-                "short": "Supporting literature about the source of information",
-                "definition": "Supporting literature about the source of information.",
+                "short": "Source of information for the structure",
+                "definition": "The source of information about the structure.",
                 "min": 0,
                 "max": "*",
                 "type": [
@@ -5488,8 +5988,8 @@
             {
                 "id": "SubstanceDefinition.structure.representation.type",
                 "path": "SubstanceDefinition.structure.representation.type",
-                "short": "The kind of structural representation (e.g. full, partial) or the technique used to derive the analytical characterization of the substance (e.g. x-ray, HPLC, NMR, peptide mapping, ligand binding assay, etc.)",
-                "definition": "The kind of structural representation (e.g. full, partial) or the technique used to derive the analytical characterization of the substance (e.g. x-ray, HPLC, NMR, peptide mapping, ligand binding assay, etc.).",
+                "short": "The kind of structural representation (e.g. full, partial)",
+                "definition": "The kind of structural representation (e.g. full, partial).",
                 "min": 0,
                 "max": "1",
                 "type": [
@@ -5500,6 +6000,17 @@
                 "mustSupport": false,
                 "isModifier": false,
                 "isSummary": true,
+                "binding": {
+                    "extension": [
+                        {
+                            "url": "http://hl7.org/fhir/StructureDefinition/elementdefinition-bindingName",
+                            "valueString": "SubstanceRepresentationType"
+                        }
+                    ],
+                    "strength": "example",
+                    "description": "A format of a substance representation.",
+                    "valueSet": "http://hl7.org/fhir/ValueSet/substance-representation-type"
+                },
                 "mapping": [
                     {
                         "identity": "idmp",
@@ -5532,7 +6043,7 @@
             {
                 "id": "SubstanceDefinition.structure.representation.format",
                 "path": "SubstanceDefinition.structure.representation.format",
-                "short": "The format of the representation e.g. InChI, SMILES, MOLFILE, CDX, SDF, PDB, mmCIF. The logical content type rather than the physical file format of a document",
+                "short": "The format of the representation e.g. InChI, SMILES, MOLFILE (note: not the physical file format)",
                 "definition": "The format of the representation e.g. InChI, SMILES, MOLFILE, CDX, SDF, PDB, mmCIF. The logical content type rather than the physical file format of a document.",
                 "min": 0,
                 "max": "1",
@@ -5544,6 +6055,17 @@
                 "mustSupport": false,
                 "isModifier": false,
                 "isSummary": true,
+                "binding": {
+                    "extension": [
+                        {
+                            "url": "http://hl7.org/fhir/StructureDefinition/elementdefinition-bindingName",
+                            "valueString": "SubstanceRepresentationFormat"
+                        }
+                    ],
+                    "strength": "example",
+                    "description": "A format of a substance representation.",
+                    "valueSet": "http://hl7.org/fhir/ValueSet/substance-representation-format"
+                },
                 "mapping": [
                     {
                         "identity": "idmp",
@@ -5554,7 +6076,7 @@
             {
                 "id": "SubstanceDefinition.structure.representation.document",
                 "path": "SubstanceDefinition.structure.representation.document",
-                "short": "An attached file with the structural representation or characterization e.g. a molecular structure graphic of the substance, a JCAMP or AnIML file",
+                "short": "An attachment with the structural representation e.g. a structure graphic or AnIML file",
                 "definition": "An attached file with the structural representation or characterization e.g. a molecular structure graphic of the substance, a JCAMP or AnIML file.",
                 "min": 0,
                 "max": "1",
@@ -5635,6 +6157,21 @@
                 "mustSupport": false,
                 "isModifier": false,
                 "isSummary": true,
+                "binding": {
+                    "extension": [
+                        {
+                            "url": "http://hl7.org/fhir/StructureDefinition/elementdefinition-bindingName",
+                            "valueString": "PublicationStatus"
+                        },
+                        {
+                            "url": "http://hl7.org/fhir/StructureDefinition/elementdefinition-isCommonBinding",
+                            "valueBoolean": true
+                        }
+                    ],
+                    "strength": "preferred",
+                    "description": "The lifecycle status of an artifact.",
+                    "valueSet": "http://hl7.org/fhir/ValueSet/publication-status"
+                },
                 "mapping": [
                     {
                         "identity": "idmp",
@@ -5645,8 +6182,8 @@
             {
                 "id": "SubstanceDefinition.code.statusDate",
                 "path": "SubstanceDefinition.code.statusDate",
-                "short": "The date at which the code status is changed as part of the terminology maintenance",
-                "definition": "The date at which the code status is changed as part of the terminology maintenance.",
+                "short": "The date at which the code status was changed",
+                "definition": "The date at which the code status was changed as part of the terminology maintenance.",
                 "min": 0,
                 "max": "1",
                 "type": [
@@ -5667,7 +6204,7 @@
             {
                 "id": "SubstanceDefinition.code.note",
                 "path": "SubstanceDefinition.code.note",
-                "short": "Any comment can be provided in this field, if necessary",
+                "short": "Any comment can be provided in this field",
                 "definition": "Any comment can be provided in this field, if necessary.",
                 "min": 0,
                 "max": "*",
@@ -5758,7 +6295,7 @@
             {
                 "id": "SubstanceDefinition.name.type",
                 "path": "SubstanceDefinition.name.type",
-                "short": "Name type, for example 'systematic',  'scientific, 'brand'",
+                "short": "Name type e.g. 'systematic',  'scientific, 'brand'",
                 "definition": "Name type, for example 'systematic',  'scientific, 'brand'.",
                 "min": 0,
                 "max": "1",
@@ -5770,6 +6307,17 @@
                 "mustSupport": false,
                 "isModifier": false,
                 "isSummary": true,
+                "binding": {
+                    "extension": [
+                        {
+                            "url": "http://hl7.org/fhir/StructureDefinition/elementdefinition-bindingName",
+                            "valueString": "SubstanceNameType"
+                        }
+                    ],
+                    "strength": "example",
+                    "description": "The type of a name given to a substance.",
+                    "valueSet": "http://hl7.org/fhir/ValueSet/substance-name-type"
+                },
                 "mapping": [
                     {
                         "identity": "idmp",
@@ -5780,7 +6328,7 @@
             {
                 "id": "SubstanceDefinition.name.status",
                 "path": "SubstanceDefinition.name.status",
-                "short": "The status of the name, for example 'current', 'proposed'",
+                "short": "The status of the name e.g. 'current', 'proposed'",
                 "definition": "The status of the name, for example 'current', 'proposed'.",
                 "min": 0,
                 "max": "1",
@@ -5792,6 +6340,21 @@
                 "mustSupport": false,
                 "isModifier": false,
                 "isSummary": true,
+                "binding": {
+                    "extension": [
+                        {
+                            "url": "http://hl7.org/fhir/StructureDefinition/elementdefinition-bindingName",
+                            "valueString": "PublicationStatus"
+                        },
+                        {
+                            "url": "http://hl7.org/fhir/StructureDefinition/elementdefinition-isCommonBinding",
+                            "valueBoolean": true
+                        }
+                    ],
+                    "strength": "preferred",
+                    "description": "The lifecycle status of an artifact.",
+                    "valueSet": "http://hl7.org/fhir/ValueSet/publication-status"
+                },
                 "mapping": [
                     {
                         "identity": "idmp",
@@ -5811,6 +6374,7 @@
                         "code": "boolean"
                     }
                 ],
+                "meaningWhenMissing": "If this value is not present, there is no statement being made about whether this is the preferred name or not. No inference can be made",
                 "mustSupport": false,
                 "isModifier": false,
                 "isSummary": true,
@@ -5836,6 +6400,25 @@
                 "mustSupport": false,
                 "isModifier": false,
                 "isSummary": true,
+                "binding": {
+                    "extension": [
+                        {
+                            "url": "http://hl7.org/fhir/StructureDefinition/elementdefinition-maxValueSet",
+                            "valueCanonical": "http://hl7.org/fhir/ValueSet/all-languages"
+                        },
+                        {
+                            "url": "http://hl7.org/fhir/StructureDefinition/elementdefinition-bindingName",
+                            "valueString": "Language"
+                        },
+                        {
+                            "url": "http://hl7.org/fhir/StructureDefinition/elementdefinition-isCommonBinding",
+                            "valueBoolean": true
+                        }
+                    ],
+                    "strength": "preferred",
+                    "description": "IETF language tag",
+                    "valueSet": "http://hl7.org/fhir/ValueSet/languages"
+                },
                 "mapping": [
                     {
                         "identity": "idmp",
@@ -5846,7 +6429,7 @@
             {
                 "id": "SubstanceDefinition.name.domain",
                 "path": "SubstanceDefinition.name.domain",
-                "short": "The use context of this name for example if there is a different name a drug active ingredient as opposed to a food colour additive",
+                "short": "The use context of this name e.g. as an active ingredient or as a food colour additive",
                 "definition": "The use context of this name for example if there is a different name a drug active ingredient as opposed to a food colour additive.",
                 "min": 0,
                 "max": "*",
@@ -5858,6 +6441,17 @@
                 "mustSupport": false,
                 "isModifier": false,
                 "isSummary": true,
+                "binding": {
+                    "extension": [
+                        {
+                            "url": "http://hl7.org/fhir/StructureDefinition/elementdefinition-bindingName",
+                            "valueString": "SubstanceNameDomain"
+                        }
+                    ],
+                    "strength": "example",
+                    "description": "The use context of a substance name for example if there is a different name when used as a drug active ingredient as opposed to a food colour additive.",
+                    "valueSet": "http://hl7.org/fhir/ValueSet/substance-name-domain"
+                },
                 "mapping": [
                     {
                         "identity": "idmp",
@@ -5880,6 +6474,21 @@
                 "mustSupport": false,
                 "isModifier": false,
                 "isSummary": true,
+                "binding": {
+                    "extension": [
+                        {
+                            "url": "http://hl7.org/fhir/StructureDefinition/elementdefinition-bindingName",
+                            "valueString": "Jurisdiction"
+                        },
+                        {
+                            "url": "http://hl7.org/fhir/StructureDefinition/elementdefinition-isCommonBinding",
+                            "valueBoolean": true
+                        }
+                    ],
+                    "strength": "example",
+                    "description": "Jurisdiction codes",
+                    "valueSet": "http://hl7.org/fhir/ValueSet/jurisdiction"
+                },
                 "mapping": [
                     {
                         "identity": "idmp",
@@ -5960,6 +6569,17 @@
                 "mustSupport": false,
                 "isModifier": false,
                 "isSummary": true,
+                "binding": {
+                    "extension": [
+                        {
+                            "url": "http://hl7.org/fhir/StructureDefinition/elementdefinition-bindingName",
+                            "valueString": "SubstanceNameAuthority"
+                        }
+                    ],
+                    "strength": "preferred",
+                    "description": "An authority that officates substance names.",
+                    "valueSet": "http://hl7.org/fhir/ValueSet/substance-name-authority"
+                },
                 "mapping": [
                     {
                         "identity": "idmp",
@@ -5970,8 +6590,8 @@
             {
                 "id": "SubstanceDefinition.name.official.status",
                 "path": "SubstanceDefinition.name.official.status",
-                "short": "The status of the official name, for example 'provisional', 'approved'",
-                "definition": "The status of the official name, for example 'provisional', 'approved'.",
+                "short": "The status of the official name, for example 'draft', 'active'",
+                "definition": "The status of the official name, for example 'draft', 'active', 'retired'.",
                 "min": 0,
                 "max": "1",
                 "type": [
@@ -5982,6 +6602,21 @@
                 "mustSupport": false,
                 "isModifier": false,
                 "isSummary": true,
+                "binding": {
+                    "extension": [
+                        {
+                            "url": "http://hl7.org/fhir/StructureDefinition/elementdefinition-bindingName",
+                            "valueString": "PublicationStatus"
+                        },
+                        {
+                            "url": "http://hl7.org/fhir/StructureDefinition/elementdefinition-isCommonBinding",
+                            "valueBoolean": true
+                        }
+                    ],
+                    "strength": "preferred",
+                    "description": "The lifecycle status of an artifact.",
+                    "valueSet": "http://hl7.org/fhir/ValueSet/publication-status"
+                },
                 "mapping": [
                     {
                         "identity": "idmp",
@@ -5993,7 +6628,7 @@
                 "id": "SubstanceDefinition.name.official.date",
                 "path": "SubstanceDefinition.name.official.date",
                 "short": "Date of official name change",
-                "definition": "Date of official name change.",
+                "definition": "Date of the official name change.",
                 "min": 0,
                 "max": "1",
                 "type": [
@@ -6039,7 +6674,7 @@
             {
                 "id": "SubstanceDefinition.relationship",
                 "path": "SubstanceDefinition.relationship",
-                "short": "A link between this substance and another, with details of the relationship",
+                "short": "A link between this substance and another",
                 "definition": "A link between this substance and another, with details of the relationship.",
                 "min": 0,
                 "max": "*",
@@ -6061,7 +6696,7 @@
             {
                 "id": "SubstanceDefinition.relationship.substanceDefinition[x]",
                 "path": "SubstanceDefinition.relationship.substanceDefinition[x]",
-                "short": "A pointer to another substance, as a resource or just a representational code",
+                "short": "A pointer to another substance, as a resource or a representational code",
                 "definition": "A pointer to another substance, as a resource or just a representational code.",
                 "min": 0,
                 "max": "1",
@@ -6089,7 +6724,7 @@
             {
                 "id": "SubstanceDefinition.relationship.type",
                 "path": "SubstanceDefinition.relationship.type",
-                "short": "For example \"salt to parent\", \"active moiety\", \"starting material\", \"polymorph\", \"impurity of\"",
+                "short": "For example \"salt to parent\", \"active moiety\"",
                 "definition": "For example \"salt to parent\", \"active moiety\", \"starting material\", \"polymorph\", \"impurity of\".",
                 "min": 1,
                 "max": "1",
@@ -6101,6 +6736,17 @@
                 "mustSupport": false,
                 "isModifier": false,
                 "isSummary": true,
+                "binding": {
+                    "extension": [
+                        {
+                            "url": "http://hl7.org/fhir/StructureDefinition/elementdefinition-bindingName",
+                            "valueString": "SubstanceRelationshipType"
+                        }
+                    ],
+                    "strength": "example",
+                    "description": "The relationship between two substance types.",
+                    "valueSet": "http://hl7.org/fhir/ValueSet/substance-relationship-type"
+                },
                 "mapping": [
                     {
                         "identity": "idmp",
@@ -6111,7 +6757,7 @@
             {
                 "id": "SubstanceDefinition.relationship.isDefining",
                 "path": "SubstanceDefinition.relationship.isDefining",
-                "short": "For example where an enzyme strongly bonds with a particular substance, this is a defining relationship for that enzyme, out of several possible substance relationships",
+                "short": "For example where an enzyme strongly bonds with a particular substance, this is a defining relationship for that enzyme, out of several possible relationships",
                 "definition": "For example where an enzyme strongly bonds with a particular substance, this is a defining relationship for that enzyme, out of several possible substance relationships.",
                 "min": 0,
                 "max": "1",
@@ -6120,6 +6766,7 @@
                         "code": "boolean"
                     }
                 ],
+                "meaningWhenMissing": "If this value is not present, there is no statement being made about whether this is a defining relationship or not. No inference can be made",
                 "mustSupport": false,
                 "isModifier": false,
                 "isSummary": true,
@@ -6133,7 +6780,7 @@
             {
                 "id": "SubstanceDefinition.relationship.amount[x]",
                 "path": "SubstanceDefinition.relationship.amount[x]",
-                "short": "A numeric factor for the relationship, for instance to express that the salt of a substance has some percentage of the active substance in relation to some other",
+                "short": "A numeric factor for the relationship, e.g. that a substance salt has some percentage of active substance in relation to some other",
                 "definition": "A numeric factor for the relationship, for instance to express that the salt of a substance has some percentage of the active substance in relation to some other.",
                 "min": 0,
                 "max": "1",
@@ -6159,8 +6806,8 @@
                 ]
             },
             {
-                "id": "SubstanceDefinition.relationship.amountRatioHighLimit",
-                "path": "SubstanceDefinition.relationship.amountRatioHighLimit",
+                "id": "SubstanceDefinition.relationship.ratioHighLimitAmount",
+                "path": "SubstanceDefinition.relationship.ratioHighLimitAmount",
                 "short": "For use when the numeric has an uncertain range",
                 "definition": "For use when the numeric has an uncertain range.",
                 "min": 0,
@@ -6181,8 +6828,8 @@
                 ]
             },
             {
-                "id": "SubstanceDefinition.relationship.amountType",
-                "path": "SubstanceDefinition.relationship.amountType",
+                "id": "SubstanceDefinition.relationship.comparator",
+                "path": "SubstanceDefinition.relationship.comparator",
                 "short": "An operator for the amount, for example \"average\", \"approximately\", \"less than\"",
                 "definition": "An operator for the amount, for example \"average\", \"approximately\", \"less than\".",
                 "min": 0,
@@ -6195,6 +6842,17 @@
                 "mustSupport": false,
                 "isModifier": false,
                 "isSummary": true,
+                "binding": {
+                    "extension": [
+                        {
+                            "url": "http://hl7.org/fhir/StructureDefinition/elementdefinition-bindingName",
+                            "valueString": "SubstanceAmountType"
+                        }
+                    ],
+                    "strength": "example",
+                    "description": "The relationship between two substance types.",
+                    "valueSet": "http://hl7.org/fhir/ValueSet/substance-amount-type"
+                },
                 "mapping": [
                     {
                         "identity": "idmp",
@@ -6230,7 +6888,7 @@
             {
                 "id": "SubstanceDefinition.sourceMaterial",
                 "path": "SubstanceDefinition.sourceMaterial",
-                "short": "Material or taxonomic/anatomical source for the substance",
+                "short": "Material or taxonomic/anatomical source",
                 "definition": "Material or taxonomic/anatomical source for the substance.",
                 "min": 0,
                 "max": "1",
@@ -6252,7 +6910,7 @@
             {
                 "id": "SubstanceDefinition.sourceMaterial.type",
                 "path": "SubstanceDefinition.sourceMaterial.type",
-                "short": "A classification that provides the origin of the raw material. Example: cat hair would be an Animal source type",
+                "short": "Classification of the origin of the raw material. e.g. cat hair is an Animal source type",
                 "definition": "A classification that provides the origin of the raw material. Example: cat hair would be an Animal source type.",
                 "min": 0,
                 "max": "1",
@@ -6264,6 +6922,17 @@
                 "mustSupport": false,
                 "isModifier": false,
                 "isSummary": true,
+                "binding": {
+                    "extension": [
+                        {
+                            "url": "http://hl7.org/fhir/StructureDefinition/elementdefinition-bindingName",
+                            "valueString": "SourceMaterialType"
+                        }
+                    ],
+                    "strength": "example",
+                    "description": "A classification that provides the origin of the substance raw material.",
+                    "valueSet": "http://hl7.org/fhir/ValueSet/substance-source-material-type"
+                },
                 "mapping": [
                     {
                         "identity": "idmp",
@@ -6274,7 +6943,7 @@
             {
                 "id": "SubstanceDefinition.sourceMaterial.genus",
                 "path": "SubstanceDefinition.sourceMaterial.genus",
-                "short": "The genus of an organism, typically referring to the Latin epithet of the genus element of the plant/animal scientific name",
+                "short": "The genus of an organism e.g. the Latin epithet of the plant/animal scientific name",
                 "definition": "The genus of an organism, typically referring to the Latin epithet of the genus element of the plant/animal scientific name.",
                 "min": 0,
                 "max": "1",
@@ -6286,6 +6955,17 @@
                 "mustSupport": false,
                 "isModifier": false,
                 "isSummary": true,
+                "binding": {
+                    "extension": [
+                        {
+                            "url": "http://hl7.org/fhir/StructureDefinition/elementdefinition-bindingName",
+                            "valueString": "SourceMaterialGenus"
+                        }
+                    ],
+                    "strength": "example",
+                    "description": "The genus of an organism, typically referring to the Latin epithet of the genus element of the plant/animal scientific name.",
+                    "valueSet": "http://hl7.org/fhir/ValueSet/substance-source-material-genus"
+                },
                 "mapping": [
                     {
                         "identity": "idmp",
@@ -6296,7 +6976,7 @@
             {
                 "id": "SubstanceDefinition.sourceMaterial.species",
                 "path": "SubstanceDefinition.sourceMaterial.species",
-                "short": "The species of an organism, typically referring to the Latin epithet of the species of the plant/animal",
+                "short": "The species of an organism e.g. the Latin epithet of the species of the plant/animal",
                 "definition": "The species of an organism, typically referring to the Latin epithet of the species of the plant/animal.",
                 "min": 0,
                 "max": "1",
@@ -6308,6 +6988,17 @@
                 "mustSupport": false,
                 "isModifier": false,
                 "isSummary": true,
+                "binding": {
+                    "extension": [
+                        {
+                            "url": "http://hl7.org/fhir/StructureDefinition/elementdefinition-bindingName",
+                            "valueString": "SourceMaterialSpecies"
+                        }
+                    ],
+                    "strength": "example",
+                    "description": "A species of origin a substance raw material.",
+                    "valueSet": "http://hl7.org/fhir/ValueSet/substance-source-material-species"
+                },
                 "mapping": [
                     {
                         "identity": "idmp",
@@ -6330,6 +7021,17 @@
                 "mustSupport": false,
                 "isModifier": false,
                 "isSummary": true,
+                "binding": {
+                    "extension": [
+                        {
+                            "url": "http://hl7.org/fhir/StructureDefinition/elementdefinition-bindingName",
+                            "valueString": "SourceMaterialPart"
+                        }
+                    ],
+                    "strength": "example",
+                    "description": "An anatomical origin of the source material within an organism.",
+                    "valueSet": "http://hl7.org/fhir/ValueSet/substance-source-material-part"
+                },
                 "mapping": [
                     {
                         "identity": "idmp",
@@ -6352,6 +7054,21 @@
                 "mustSupport": false,
                 "isModifier": false,
                 "isSummary": true,
+                "binding": {
+                    "extension": [
+                        {
+                            "url": "http://hl7.org/fhir/StructureDefinition/elementdefinition-bindingName",
+                            "valueString": "Country"
+                        },
+                        {
+                            "url": "http://hl7.org/fhir/StructureDefinition/elementdefinition-isCommonBinding",
+                            "valueBoolean": true
+                        }
+                    ],
+                    "strength": "required",
+                    "description": "Jurisdiction codes",
+                    "valueSet": "http://hl7.org/fhir/ValueSet/country|4.3.0-cibuild"
+                },
                 "mapping": [
                     {
                         "identity": "idmp",

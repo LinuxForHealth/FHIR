@@ -2,7 +2,7 @@
     "resourceType": "ValueSet",
     "id": "goal-start-event",
     "meta": {
-        "lastUpdated": "2022-03-03T22:04:06.196Z",
+        "lastUpdated": "2022-04-23T22:21:35.043Z",
         "profile": [
             "http://hl7.org/fhir/StructureDefinition/shareablevalueset"
         ]
@@ -28,7 +28,7 @@
             "value": "urn:oid:2.16.840.1.113883.4.642.3.279"
         }
     ],
-    "version": "4.3.0-CIBUILD",
+    "version": "4.3.0-cibuild",
     "name": "GoalStartEvent",
     "status": "draft",
     "experimental": true,
@@ -71,11 +71,12 @@
         ]
     },
     "expansion": {
-        "identifier": "urn:uuid:a6e2b5d9-64c8-4711-aaf3-c83ffdb247e3",
-        "timestamp": "2021-11-17T05:28:43.249Z",
+        "identifier": "urn:uuid:22f6c57c-8135-4199-82c2-d4f455caf7f3",
+        "timestamp": "2022-04-23T22:23:26Z",
+        "total": 4,
         "parameter": [
             {
-                "name": "limitedExpansion",
+                "name": "excludeNested",
                 "valueBoolean": true
             },
             {
@@ -83,31 +84,22 @@
                 "valueBoolean": true
             },
             {
-                "name": "excludeNested",
+                "name": "limitedExpansion",
                 "valueBoolean": true
             },
             {
                 "name": "version",
-                "valueUri": "http://snomed.info/sct|http://snomed.info/sct/900000000000207008/version/20200131"
+                "valueUri": "http://snomed.info/sct|http://snomed.info/sct/900000000000207008/version/20200731"
             }
         ],
         "contains": [
             {
                 "system": "http://snomed.info/sct",
                 "code": "32485007",
-                "display": "Hospital admission",
+                "display": "Admission to hospital",
                 "designation": [
                     {
-                        "value": "Hospital admission"
-                    },
-                    {
-                        "value": "Hospital admission (procedure)"
-                    },
-                    {
                         "value": "Admission to hospital"
-                    },
-                    {
-                        "value": "Performance of the steps necessary to admit a patient to a hospital"
                     }
                 ]
             },
@@ -118,9 +110,6 @@
                 "designation": [
                     {
                         "value": "Discharge from hospital"
-                    },
-                    {
-                        "value": "Discharge from hospital (procedure)"
                     }
                 ]
             },
@@ -131,40 +120,16 @@
                 "designation": [
                     {
                         "value": "Completion time of procedure"
-                    },
-                    {
-                        "value": "Procedure end time"
-                    },
-                    {
-                        "value": "Completion time of procedure (observable entity)"
-                    },
-                    {
-                        "value": "Time when all instrument and sponge counts are completed and verified as correct, all post procedure radiological studies to be done in procedure room are completed, all dressings and drains are secured, and the physician or surgeons have completed all procedure related activities on the patient."
                     }
                 ]
             },
             {
                 "system": "http://snomed.info/sct",
                 "code": "386216000",
-                "display": "Human parturition, function (observable entity)",
+                "display": "Childbirth",
                 "designation": [
                     {
-                        "value": "Human parturition, function (observable entity)"
-                    },
-                    {
-                        "value": "Human parturition, function"
-                    },
-                    {
-                        "value": "Parturition"
-                    },
-                    {
                         "value": "Childbirth"
-                    },
-                    {
-                        "value": "Pregnancy delivered"
-                    },
-                    {
-                        "value": "Delivery"
                     }
                 ]
             }

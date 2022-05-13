@@ -12,9 +12,10 @@
         }
     ],
     "url": "http://hl7.org/fhir/StructureDefinition/questionnaire-hidden",
-    "version": "4.3.0-CIBUILD",
+    "version": "4.3.0-cibuild",
     "name": "hidden",
     "status": "draft",
+    "experimental": false,
     "date": "2013-07-04",
     "publisher": "HL7",
     "contact": [
@@ -28,7 +29,7 @@
         }
     ],
     "description": "If true, indicates that the extended item should not be displayed to the user.",
-    "fhirVersion": "4.3.0-CIBUILD",
+    "fhirVersion": "4.3.0-cibuild",
     "mapping": [
         {
             "identity": "rim",

@@ -118,7 +118,7 @@ public class SubscriptionTopic extends DomainResource {
         bindingName = "PublicationStatus",
         strength = BindingStrength.Value.REQUIRED,
         description = "The lifecycle status of an artifact.",
-        valueSet = "http://hl7.org/fhir/ValueSet/publication-status|4.3.0-CIBUILD"
+        valueSet = "http://hl7.org/fhir/ValueSet/publication-status|4.3.0-cibuild"
     )
     @Required
     private final PublicationStatus status;
@@ -183,10 +183,11 @@ public class SubscriptionTopic extends DomainResource {
     }
 
     /**
-     * An absolute URL that is used to identify this SubscriptionTopic when it is referenced in a specification, model, 
-     * design or an instance. This SHALL be a URL, SHOULD be globally unique, and SHOULD be an address at which this Topic is 
-     * (or will be) published. The URL SHOULD include the major version of the Topic. For more information see [Technical and 
-     * Business Versions](resource.html#versions).
+     * An absolute URI that is used to identify this subscription topic when it is referenced in a specification, model, 
+     * design or an instance; also called its canonical identifier. This SHOULD be globally unique and SHOULD be a literal 
+     * address at which at which an authoritative instance of this subscription topic is (or will be) published. This URL can 
+     * be the target of a canonical reference. It SHALL remain the same when the subscription topic is stored on different 
+     * servers.
      * 
      * @return
      *     An immutable object of type {@link Uri} that is non-null.
@@ -196,7 +197,7 @@ public class SubscriptionTopic extends DomainResource {
     }
 
     /**
-     * Business identifiers assigned to this SubscriptionTopic by the performer and/or other systems. These identifiers 
+     * Business identifiers assigned to this subscription topic by the performer and/or other systems. These identifiers 
      * remain constant as the resource is updated and propagates from server to server.
      * 
      * @return
@@ -207,7 +208,7 @@ public class SubscriptionTopic extends DomainResource {
     }
 
     /**
-     * The identifier that is used to identify this version of the SubscriptionTopic when it is referenced in a 
+     * The identifier that is used to identify this version of the subscription topic when it is referenced in a 
      * specification, model, design or instance. This is an arbitrary value managed by the Topic author and is not expected 
      * to be globally unique. For example, it might be a timestamp (e.g. yyyymmdd) if a managed version is not available. 
      * There is also no expectation that versions are orderable.
@@ -820,15 +821,16 @@ public class SubscriptionTopic extends DomainResource {
         }
 
         /**
-         * An absolute URL that is used to identify this SubscriptionTopic when it is referenced in a specification, model, 
-         * design or an instance. This SHALL be a URL, SHOULD be globally unique, and SHOULD be an address at which this Topic is 
-         * (or will be) published. The URL SHOULD include the major version of the Topic. For more information see [Technical and 
-         * Business Versions](resource.html#versions).
+         * An absolute URI that is used to identify this subscription topic when it is referenced in a specification, model, 
+         * design or an instance; also called its canonical identifier. This SHOULD be globally unique and SHOULD be a literal 
+         * address at which at which an authoritative instance of this subscription topic is (or will be) published. This URL can 
+         * be the target of a canonical reference. It SHALL remain the same when the subscription topic is stored on different 
+         * servers.
          * 
          * <p>This element is required.
          * 
          * @param url
-         *     Logical canonical URL to reference this SubscriptionTopic (globally unique)
+         *     Canonical identifier for this subscription topic definition, represented as a URI (globally unique)
          * 
          * @return
          *     A reference to this Builder instance
@@ -839,14 +841,14 @@ public class SubscriptionTopic extends DomainResource {
         }
 
         /**
-         * Business identifiers assigned to this SubscriptionTopic by the performer and/or other systems. These identifiers 
+         * Business identifiers assigned to this subscription topic by the performer and/or other systems. These identifiers 
          * remain constant as the resource is updated and propagates from server to server.
          * 
          * <p>Adds new element(s) to the existing list.
          * If any of the elements are null, calling {@link #build()} will fail.
          * 
          * @param identifier
-         *     Business Identifier for SubscriptionTopic
+         *     Business Identifier for this subscription topic
          * 
          * @return
          *     A reference to this Builder instance
@@ -859,14 +861,14 @@ public class SubscriptionTopic extends DomainResource {
         }
 
         /**
-         * Business identifiers assigned to this SubscriptionTopic by the performer and/or other systems. These identifiers 
+         * Business identifiers assigned to this subscription topic by the performer and/or other systems. These identifiers 
          * remain constant as the resource is updated and propagates from server to server.
          * 
          * <p>Replaces the existing list with a new one containing elements from the Collection.
          * If any of the elements are null, calling {@link #build()} will fail.
          * 
          * @param identifier
-         *     Business Identifier for SubscriptionTopic
+         *     Business Identifier for this subscription topic
          * 
          * @return
          *     A reference to this Builder instance
@@ -883,7 +885,7 @@ public class SubscriptionTopic extends DomainResource {
          * Convenience method for setting {@code version}.
          * 
          * @param version
-         *     Business version of the SubscriptionTopic
+         *     Business version of the subscription topic
          * 
          * @return
          *     A reference to this Builder instance
@@ -896,13 +898,13 @@ public class SubscriptionTopic extends DomainResource {
         }
 
         /**
-         * The identifier that is used to identify this version of the SubscriptionTopic when it is referenced in a 
+         * The identifier that is used to identify this version of the subscription topic when it is referenced in a 
          * specification, model, design or instance. This is an arbitrary value managed by the Topic author and is not expected 
          * to be globally unique. For example, it might be a timestamp (e.g. yyyymmdd) if a managed version is not available. 
          * There is also no expectation that versions are orderable.
          * 
          * @param version
-         *     Business version of the SubscriptionTopic
+         *     Business version of the subscription topic
          * 
          * @return
          *     A reference to this Builder instance
@@ -916,7 +918,7 @@ public class SubscriptionTopic extends DomainResource {
          * Convenience method for setting {@code title}.
          * 
          * @param title
-         *     Name for this SubscriptionTopic (Human friendly)
+         *     Name for this subscription topic (Human friendly)
          * 
          * @return
          *     A reference to this Builder instance
@@ -932,7 +934,7 @@ public class SubscriptionTopic extends DomainResource {
          * A short, descriptive, user-friendly title for the SubscriptionTopic, for example, "admission".
          * 
          * @param title
-         *     Name for this SubscriptionTopic (Human friendly)
+         *     Name for this subscription topic (Human friendly)
          * 
          * @return
          *     A reference to this Builder instance
@@ -1563,7 +1565,7 @@ public class SubscriptionTopic extends DomainResource {
             bindingName = "MethodCode",
             strength = BindingStrength.Value.REQUIRED,
             description = "FHIR RESTful interaction used to filter a resource-based SubscriptionTopic trigger.",
-            valueSet = "http://hl7.org/fhir/ValueSet/interaction-trigger|4.3.0-CIBUILD"
+            valueSet = "http://hl7.org/fhir/ValueSet/interaction-trigger|4.3.0-cibuild"
         )
         private final List<MethodCode> supportedInteraction;
         @Summary
@@ -2008,7 +2010,7 @@ public class SubscriptionTopic extends DomainResource {
                 bindingName = "CriteriaNotExistsBehavior",
                 strength = BindingStrength.Value.REQUIRED,
                 description = "Behavior a server can exhibit when a criteria state does not exist (e.g., state prior to a create or after a delete).",
-                valueSet = "http://hl7.org/fhir/ValueSet/subscriptiontopic-cr-behavior|4.3.0-CIBUILD"
+                valueSet = "http://hl7.org/fhir/ValueSet/subscriptiontopic-cr-behavior|4.3.0-cibuild"
             )
             private final CriteriaNotExistsBehavior resultForCreate;
             @Summary
@@ -2018,7 +2020,7 @@ public class SubscriptionTopic extends DomainResource {
                 bindingName = "CriteriaNotExistsBehavior",
                 strength = BindingStrength.Value.REQUIRED,
                 description = "Behavior a server can exhibit when a criteria state does not exist (e.g., state prior to a create or after a delete).",
-                valueSet = "http://hl7.org/fhir/ValueSet/subscriptiontopic-cr-behavior|4.3.0-CIBUILD"
+                valueSet = "http://hl7.org/fhir/ValueSet/subscriptiontopic-cr-behavior|4.3.0-cibuild"
             )
             private final CriteriaNotExistsBehavior resultForDelete;
             @Summary
@@ -2044,7 +2046,7 @@ public class SubscriptionTopic extends DomainResource {
             }
 
             /**
-             * What behavior a server will exhibit if the previous state of a resource does NOT exist (e.g., prior to a create).
+             * For "create" interactions, should the "previous" criteria count as an automatic pass or an automatic fail.
              * 
              * @return
              *     An immutable object of type {@link CriteriaNotExistsBehavior} that may be null.
@@ -2064,7 +2066,7 @@ public class SubscriptionTopic extends DomainResource {
             }
 
             /**
-             * What behavior a server will exhibit if the current state of a resource does NOT exist (e.g., after a DELETE).
+             * For "delete" interactions, should the "current" criteria count as an automatic pass or an automatic fail.
              * 
              * @return
              *     An immutable object of type {@link CriteriaNotExistsBehavior} that may be null.
@@ -2315,7 +2317,7 @@ public class SubscriptionTopic extends DomainResource {
                 }
 
                 /**
-                 * What behavior a server will exhibit if the previous state of a resource does NOT exist (e.g., prior to a create).
+                 * For "create" interactions, should the "previous" criteria count as an automatic pass or an automatic fail.
                  * 
                  * @param resultForCreate
                  *     test-passes | test-fails
@@ -2359,7 +2361,7 @@ public class SubscriptionTopic extends DomainResource {
                 }
 
                 /**
-                 * What behavior a server will exhibit if the current state of a resource does NOT exist (e.g., after a DELETE).
+                 * For "delete" interactions, should the "current" criteria count as an automatic pass or an automatic fail.
                  * 
                  * @param resultForDelete
                  *     test-passes | test-fails
@@ -2802,13 +2804,16 @@ public class SubscriptionTopic extends DomainResource {
         )
         private final Uri resource;
         @Summary
+        @Required
         private final String filterParameter;
+        @Summary
+        private final Uri filterDefinition;
         @Summary
         @Binding(
             bindingName = "SubscriptionTopicFilterBySearchModifier",
             strength = BindingStrength.Value.REQUIRED,
             description = "Operator to apply to filter label.",
-            valueSet = "http://hl7.org/fhir/ValueSet/subscription-search-modifier|4.3.0-CIBUILD"
+            valueSet = "http://hl7.org/fhir/ValueSet/subscription-search-modifier|4.3.0-cibuild"
         )
         private final List<SubscriptionTopicFilterBySearchModifier> modifier;
 
@@ -2817,6 +2822,7 @@ public class SubscriptionTopic extends DomainResource {
             description = builder.description;
             resource = builder.resource;
             filterParameter = builder.filterParameter;
+            filterDefinition = builder.filterDefinition;
             modifier = Collections.unmodifiableList(builder.modifier);
         }
 
@@ -2847,14 +2853,26 @@ public class SubscriptionTopic extends DomainResource {
          * defined parameter (like "hub.event") which is a label for the filter.
          * 
          * @return
-         *     An immutable object of type {@link String} that may be null.
+         *     An immutable object of type {@link String} that is non-null.
          */
         public String getFilterParameter() {
             return filterParameter;
         }
 
         /**
-         * Allowable operators to apply when determining matches (Search Modifiers).
+         * Either the canonical URL to a search parameter (like "http://hl7.org/fhir/SearchParameter/encounter-patient") or the 
+         * officially-defined URI for a shared filter concept (like "http://example.org/concepts/shared-common-event").
+         * 
+         * @return
+         *     An immutable object of type {@link Uri} that may be null.
+         */
+        public Uri getFilterDefinition() {
+            return filterDefinition;
+        }
+
+        /**
+         * Allowable operators to apply when determining matches (Search Modifiers). If the filterParameter is a SearchParameter, 
+         * this list of modifiers SHALL be a strict subset of the modifiers defined on that SearchParameter.
          * 
          * @return
          *     An unmodifiable list containing immutable objects of type {@link SubscriptionTopicFilterBySearchModifier} that may be 
@@ -2870,6 +2888,7 @@ public class SubscriptionTopic extends DomainResource {
                 (description != null) || 
                 (resource != null) || 
                 (filterParameter != null) || 
+                (filterDefinition != null) || 
                 !modifier.isEmpty();
         }
 
@@ -2885,6 +2904,7 @@ public class SubscriptionTopic extends DomainResource {
                     accept(description, "description", visitor);
                     accept(resource, "resource", visitor);
                     accept(filterParameter, "filterParameter", visitor);
+                    accept(filterDefinition, "filterDefinition", visitor);
                     accept(modifier, "modifier", visitor, SubscriptionTopicFilterBySearchModifier.class);
                 }
                 visitor.visitEnd(elementName, elementIndex, this);
@@ -2910,6 +2930,7 @@ public class SubscriptionTopic extends DomainResource {
                 Objects.equals(description, other.description) && 
                 Objects.equals(resource, other.resource) && 
                 Objects.equals(filterParameter, other.filterParameter) && 
+                Objects.equals(filterDefinition, other.filterDefinition) && 
                 Objects.equals(modifier, other.modifier);
         }
 
@@ -2923,6 +2944,7 @@ public class SubscriptionTopic extends DomainResource {
                     description, 
                     resource, 
                     filterParameter, 
+                    filterDefinition, 
                     modifier);
                 hashCode = result;
             }
@@ -2942,6 +2964,7 @@ public class SubscriptionTopic extends DomainResource {
             private Markdown description;
             private Uri resource;
             private String filterParameter;
+            private Uri filterDefinition;
             private List<SubscriptionTopicFilterBySearchModifier> modifier = new ArrayList<>();
 
             private Builder() {
@@ -3092,8 +3115,11 @@ public class SubscriptionTopic extends DomainResource {
             /**
              * Convenience method for setting {@code filterParameter}.
              * 
+             * <p>This element is required.
+             * 
              * @param filterParameter
-             *     Resource Search Parameter or filter parameter defined in this topic that serves as filter key
+             *     Human-readable and computation-friendly name for a filter parameter usable by subscriptions on this topic, via 
+             *     Subscription.filterBy.filterParameter
              * 
              * @return
              *     A reference to this Builder instance
@@ -3109,8 +3135,11 @@ public class SubscriptionTopic extends DomainResource {
              * Either the canonical URL to a search parameter (like "http://hl7.org/fhir/SearchParameter/encounter-patient") or topic-
              * defined parameter (like "hub.event") which is a label for the filter.
              * 
+             * <p>This element is required.
+             * 
              * @param filterParameter
-             *     Resource Search Parameter or filter parameter defined in this topic that serves as filter key
+             *     Human-readable and computation-friendly name for a filter parameter usable by subscriptions on this topic, via 
+             *     Subscription.filterBy.filterParameter
              * 
              * @return
              *     A reference to this Builder instance
@@ -3121,7 +3150,23 @@ public class SubscriptionTopic extends DomainResource {
             }
 
             /**
-             * Allowable operators to apply when determining matches (Search Modifiers).
+             * Either the canonical URL to a search parameter (like "http://hl7.org/fhir/SearchParameter/encounter-patient") or the 
+             * officially-defined URI for a shared filter concept (like "http://example.org/concepts/shared-common-event").
+             * 
+             * @param filterDefinition
+             *     Canonical URL for a filterParameter definition
+             * 
+             * @return
+             *     A reference to this Builder instance
+             */
+            public Builder filterDefinition(Uri filterDefinition) {
+                this.filterDefinition = filterDefinition;
+                return this;
+            }
+
+            /**
+             * Allowable operators to apply when determining matches (Search Modifiers). If the filterParameter is a SearchParameter, 
+             * this list of modifiers SHALL be a strict subset of the modifiers defined on that SearchParameter.
              * 
              * <p>Adds new element(s) to the existing list.
              * If any of the elements are null, calling {@link #build()} will fail.
@@ -3140,7 +3185,8 @@ public class SubscriptionTopic extends DomainResource {
             }
 
             /**
-             * Allowable operators to apply when determining matches (Search Modifiers).
+             * Allowable operators to apply when determining matches (Search Modifiers). If the filterParameter is a SearchParameter, 
+             * this list of modifiers SHALL be a strict subset of the modifiers defined on that SearchParameter.
              * 
              * <p>Replaces the existing list with a new one containing elements from the Collection.
              * If any of the elements are null, calling {@link #build()} will fail.
@@ -3162,6 +3208,11 @@ public class SubscriptionTopic extends DomainResource {
             /**
              * Build the {@link CanFilterBy}
              * 
+             * <p>Required elements:
+             * <ul>
+             * <li>filterParameter</li>
+             * </ul>
+             * 
              * @return
              *     An immutable object of type {@link CanFilterBy}
              * @throws IllegalStateException
@@ -3178,6 +3229,7 @@ public class SubscriptionTopic extends DomainResource {
 
             protected void validate(CanFilterBy canFilterBy) {
                 super.validate(canFilterBy);
+                ValidationSupport.requireNonNull(canFilterBy.filterParameter, "filterParameter");
                 ValidationSupport.checkList(canFilterBy.modifier, "modifier", SubscriptionTopicFilterBySearchModifier.class);
                 ValidationSupport.requireValueOrChildren(canFilterBy);
             }
@@ -3187,6 +3239,7 @@ public class SubscriptionTopic extends DomainResource {
                 description = canFilterBy.description;
                 resource = canFilterBy.resource;
                 filterParameter = canFilterBy.filterParameter;
+                filterDefinition = canFilterBy.filterDefinition;
                 modifier.addAll(canFilterBy.modifier);
                 return this;
             }

@@ -3,13 +3,14 @@
   "id": "sc-encounter-status",
   "text": {
     "status": "extensions",
-    "div": "\u003cdiv xmlns\u003d\"http://www.w3.org/1999/xhtml\"\u003e\u003ch2\u003eEncounterStatusCanonicalMap (http://hl7.org/fhir/ConceptMap/sc-encounter-status)\u003c/h2\u003e\u003cp\u003eMapping from \u003ca href\u003d\"valueset-encounter-status.html\"\u003ehttp://hl7.org/fhir/ValueSet/encounter-status\u003c/a\u003e to \u003ca href\u003d\"valueset-resource-status.html\"\u003ehttp://hl7.org/fhir/ValueSet/resource-status\u003c/a\u003e\u003c/p\u003e\u003cp\u003eDRAFT. Published on Jan 16, 2021 8:06:13 PM by HL7 (FHIR Project) (\u003ca href\u003d\"http://hl7.org/fhir\"\u003ehttp://hl7.org/fhir\u003c/a\u003e, \u003ca href\u003d\"mailto:fhir@lists.hl7.org\"\u003efhir@lists.hl7.org\u003c/a\u003e). \u003c/p\u003e\u003cdiv\u003e\u003cp\u003eCanonical Mapping for \u0026quot;Current state of the encounter.\u0026quot;\u003c/p\u003e\n\u003c/div\u003e\u003cbr/\u003e\u003ctable class\u003d\"grid\"\u003e\u003ctr\u003e\u003ctd\u003e\u003cb\u003eSource Code\u003c/b\u003e\u003c/td\u003e\u003ctd\u003e\u003cb\u003eRelationship\u003c/b\u003e\u003c/td\u003e\u003ctd\u003e\u003cb\u003eDestination Code\u003c/b\u003e\u003c/td\u003e\u003c/tr\u003e\u003ctr\u003e\u003ctd\u003eentered-in-error\u003c/td\u003e\u003ctd\u003e\u003ca href\u003d\"codesystem-concept-map-equivalence.html#equivalent\"\u003eis equivalent to\u003c/a\u003e\u003c/td\u003e\u003ctd\u003eerror\u003c/td\u003e\u003c/tr\u003e\u003ctr\u003e\u003ctd\u003eplanned\u003c/td\u003e\u003ctd\u003e\u003ca href\u003d\"codesystem-concept-map-equivalence.html#equivalent\"\u003eis equivalent to\u003c/a\u003e\u003c/td\u003e\u003ctd\u003eplanned\u003c/td\u003e\u003c/tr\u003e\u003ctr\u003e\u003ctd\u003etriaged\u003c/td\u003e\u003ctd\u003e\u003ca href\u003d\"codesystem-concept-map-equivalence.html#equivalent\"\u003eis equivalent to\u003c/a\u003e\u003c/td\u003e\u003ctd\u003eaccepted\u003c/td\u003e\u003c/tr\u003e\u003ctr\u003e\u003ctd\u003earrived\u003c/td\u003e\u003ctd\u003e\u003ca href\u003d\"codesystem-concept-map-equivalence.html#equivalent\"\u003eis equivalent to\u003c/a\u003e\u003c/td\u003e\u003ctd\u003earrived\u003c/td\u003e\u003c/tr\u003e\u003ctr\u003e\u003ctd\u003ein-progress\u003c/td\u003e\u003ctd\u003e\u003ca href\u003d\"codesystem-concept-map-equivalence.html#equivalent\"\u003eis equivalent to\u003c/a\u003e\u003c/td\u003e\u003ctd\u003eactive\u003c/td\u003e\u003c/tr\u003e\u003ctr\u003e\u003ctd\u003eonleave\u003c/td\u003e\u003ctd\u003e\u003ca href\u003d\"codesystem-concept-map-equivalence.html#equivalent\"\u003eis equivalent to\u003c/a\u003e\u003c/td\u003e\u003ctd\u003esuspended\u003c/td\u003e\u003c/tr\u003e\u003ctr\u003e\u003ctd\u003efinished\u003c/td\u003e\u003ctd\u003e\u003ca href\u003d\"codesystem-concept-map-equivalence.html#equivalent\"\u003eis equivalent to\u003c/a\u003e\u003c/td\u003e\u003ctd\u003ecomplete\u003c/td\u003e\u003c/tr\u003e\u003ctr\u003e\u003ctd\u003ecancelled\u003c/td\u003e\u003ctd\u003e\u003ca href\u003d\"codesystem-concept-map-equivalence.html#equivalent\"\u003eis equivalent to\u003c/a\u003e\u003c/td\u003e\u003ctd\u003eabandoned\u003c/td\u003e\u003c/tr\u003e\u003ctr\u003e\u003ctd\u003eunknown\u003c/td\u003e\u003ctd\u003e\u003ca href\u003d\"codesystem-concept-map-equivalence.html#equivalent\"\u003eis equivalent to\u003c/a\u003e\u003c/td\u003e\u003ctd\u003eunknown\u003c/td\u003e\u003c/tr\u003e\u003c/table\u003e\u003c/div\u003e"
+    "div": "\u003cdiv xmlns\u003d\"http://www.w3.org/1999/xhtml\"\u003e\u003ch2\u003eEncounterStatusCanonicalMap (http://hl7.org/fhir/ConceptMap/sc-encounter-status)\u003c/h2\u003e\u003cp\u003eMapping from \u003ca href\u003d\"valueset-encounter-status.html\"\u003ehttp://hl7.org/fhir/ValueSet/encounter-status\u003c/a\u003e to \u003ca href\u003d\"valueset-resource-status.html\"\u003ehttp://hl7.org/fhir/ValueSet/resource-status\u003c/a\u003e\u003c/p\u003e\u003cp\u003eDRAFT. Published on 2021-01-16T20:06:13Z by HL7 (FHIR Project) (\u003ca href\u003d\"http://hl7.org/fhir\"\u003ehttp://hl7.org/fhir\u003c/a\u003e, \u003ca href\u003d\"mailto:fhir@lists.hl7.org\"\u003efhir@lists.hl7.org\u003c/a\u003e). \u003c/p\u003e\u003cdiv\u003e\u003cp\u003eCanonical Mapping for \u0026quot;Current state of the encounter.\u0026quot;\u003c/p\u003e\n\u003c/div\u003e\u003cbr/\u003e\u003ctable class\u003d\"grid\"\u003e\u003ctr\u003e\u003ctd\u003e\u003cb\u003eSource Code\u003c/b\u003e\u003c/td\u003e\u003ctd\u003e\u003cb\u003eRelationship\u003c/b\u003e\u003c/td\u003e\u003ctd\u003e\u003cb\u003eDestination Code\u003c/b\u003e\u003c/td\u003e\u003c/tr\u003e\u003ctr\u003e\u003ctd colspan\u003d\"3\"\u003eMapping from \u003ca href\u003d\"codesystem-encounter-status.html\"\u003eEncounterStatus\u003c/a\u003e to \u003ca href\u003d\"codesystem-resource-status.html\"\u003eCanonical Status Codes for FHIR Resources\u003c/a\u003e\u003c/td\u003e\u003c/tr\u003e\u003ctr\u003e\u003ctd\u003eentered-in-error\u003c/td\u003e\u003ctd\u003e\u003ca href\u003d\"codesystem-concept-map-equivalence.html#equivalent\"\u003eis equivalent to\u003c/a\u003e\u003c/td\u003e\u003ctd\u003eerror\u003c/td\u003e\u003c/tr\u003e\u003ctr\u003e\u003ctd\u003eplanned\u003c/td\u003e\u003ctd\u003e\u003ca href\u003d\"codesystem-concept-map-equivalence.html#equivalent\"\u003eis equivalent to\u003c/a\u003e\u003c/td\u003e\u003ctd\u003eplanned\u003c/td\u003e\u003c/tr\u003e\u003ctr\u003e\u003ctd\u003etriaged\u003c/td\u003e\u003ctd\u003e\u003ca href\u003d\"codesystem-concept-map-equivalence.html#equivalent\"\u003eis equivalent to\u003c/a\u003e\u003c/td\u003e\u003ctd\u003eaccepted\u003c/td\u003e\u003c/tr\u003e\u003ctr\u003e\u003ctd\u003earrived\u003c/td\u003e\u003ctd\u003e\u003ca href\u003d\"codesystem-concept-map-equivalence.html#equivalent\"\u003eis equivalent to\u003c/a\u003e\u003c/td\u003e\u003ctd\u003earrived\u003c/td\u003e\u003c/tr\u003e\u003ctr\u003e\u003ctd\u003ein-progress\u003c/td\u003e\u003ctd\u003e\u003ca href\u003d\"codesystem-concept-map-equivalence.html#equivalent\"\u003eis equivalent to\u003c/a\u003e\u003c/td\u003e\u003ctd\u003eactive\u003c/td\u003e\u003c/tr\u003e\u003ctr\u003e\u003ctd\u003eonleave\u003c/td\u003e\u003ctd\u003e\u003ca href\u003d\"codesystem-concept-map-equivalence.html#equivalent\"\u003eis equivalent to\u003c/a\u003e\u003c/td\u003e\u003ctd\u003esuspended\u003c/td\u003e\u003c/tr\u003e\u003ctr\u003e\u003ctd\u003efinished\u003c/td\u003e\u003ctd\u003e\u003ca href\u003d\"codesystem-concept-map-equivalence.html#equivalent\"\u003eis equivalent to\u003c/a\u003e\u003c/td\u003e\u003ctd\u003ecomplete\u003c/td\u003e\u003c/tr\u003e\u003ctr\u003e\u003ctd\u003ecancelled\u003c/td\u003e\u003ctd\u003e\u003ca href\u003d\"codesystem-concept-map-equivalence.html#equivalent\"\u003eis equivalent to\u003c/a\u003e\u003c/td\u003e\u003ctd\u003eabandoned\u003c/td\u003e\u003c/tr\u003e\u003ctr\u003e\u003ctd\u003eunknown\u003c/td\u003e\u003ctd\u003e\u003ca href\u003d\"codesystem-concept-map-equivalence.html#equivalent\"\u003eis equivalent to\u003c/a\u003e\u003c/td\u003e\u003ctd\u003eunknown\u003c/td\u003e\u003c/tr\u003e\u003c/table\u003e\u003c/div\u003e"
   },
   "url": "http://hl7.org/fhir/ConceptMap/sc-encounter-status",
-  "version": "4.3.0-CIBUILD",
+  "version": "4.3.0-cibuild",
   "name": "EncounterStatusCanonicalMap",
   "title": "Canonical Mapping for \"EncounterStatus\"",
   "status": "draft",
+  "experimental": false,
   "date": "2021-01-16T20:06:13+00:00",
   "publisher": "HL7 (FHIR Project)",
   "contact": [
@@ -39,7 +40,7 @@
           "target": [
             {
               "code": "error",
-              "relationship": "equivalent"
+              "equivalence": "equivalent"
             }
           ]
         },
@@ -48,7 +49,7 @@
           "target": [
             {
               "code": "planned",
-              "relationship": "equivalent"
+              "equivalence": "equivalent"
             }
           ]
         },
@@ -57,7 +58,7 @@
           "target": [
             {
               "code": "accepted",
-              "relationship": "equivalent"
+              "equivalence": "equivalent"
             }
           ]
         },
@@ -66,7 +67,7 @@
           "target": [
             {
               "code": "arrived",
-              "relationship": "equivalent"
+              "equivalence": "equivalent"
             }
           ]
         },
@@ -75,7 +76,7 @@
           "target": [
             {
               "code": "active",
-              "relationship": "equivalent"
+              "equivalence": "equivalent"
             }
           ]
         },
@@ -84,7 +85,7 @@
           "target": [
             {
               "code": "suspended",
-              "relationship": "equivalent"
+              "equivalence": "equivalent"
             }
           ]
         },
@@ -93,7 +94,7 @@
           "target": [
             {
               "code": "complete",
-              "relationship": "equivalent"
+              "equivalence": "equivalent"
             }
           ]
         },
@@ -102,7 +103,7 @@
           "target": [
             {
               "code": "abandoned",
-              "relationship": "equivalent"
+              "equivalence": "equivalent"
             }
           ]
         },
@@ -111,7 +112,7 @@
           "target": [
             {
               "code": "unknown",
-              "relationship": "equivalent"
+              "equivalence": "equivalent"
             }
           ]
         }

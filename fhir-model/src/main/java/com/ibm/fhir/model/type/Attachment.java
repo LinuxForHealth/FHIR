@@ -45,7 +45,7 @@ public class Attachment extends Element {
         bindingName = "MimeType",
         strength = BindingStrength.Value.REQUIRED,
         description = "BCP 13 (RFCs 2045, 2046, 2047, 4288, 4289 and 2049)",
-        valueSet = "http://hl7.org/fhir/ValueSet/mimetypes|4.3.0-CIBUILD"
+        valueSet = "http://hl7.org/fhir/ValueSet/mimetypes|4.3.0-cibuild"
     )
     private final Code contentType;
     @Summary

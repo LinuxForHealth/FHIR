@@ -12,10 +12,11 @@
         }
     ],
     "url": "http://hl7.org/fhir/StructureDefinition/goal-acceptance",
-    "version": "4.3.0-CIBUILD",
+    "version": "4.3.0-cibuild",
     "name": "acceptance",
     "title": "Goal acceptance",
     "status": "draft",
+    "experimental": false,
     "date": "2014-12-07",
     "publisher": "Health Level Seven, Inc. - FHIR WG",
     "contact": [
@@ -29,7 +30,7 @@
         }
     ],
     "description": "Information about the acceptance and relative priority assigned to the goal by the patient, practitioners and other stake-holders.",
-    "fhirVersion": "4.3.0-CIBUILD",
+    "fhirVersion": "4.3.0-cibuild",
     "mapping": [
         {
             "identity": "rim",
@@ -568,7 +569,7 @@
                     ],
                     "strength": "required",
                     "description": "Codes indicating whether the goal has been accepted by a stakeholder.",
-                    "valueSet": "http://hl7.org/fhir/ValueSet/goal-acceptance-status"
+                    "valueSet": "http://terminology.hl7.org/ValueSet/goal-acceptance-status"
                 },
                 "mapping": [
                     {
@@ -904,9 +905,6 @@
                         "code": "CodeableConcept"
                     },
                     {
-                        "code": "CodeableReference"
-                    },
-                    {
                         "code": "Coding"
                     },
                     {
@@ -941,9 +939,6 @@
                     },
                     {
                         "code": "Ratio"
-                    },
-                    {
-                        "code": "RatioRange"
                     },
                     {
                         "code": "Reference"
@@ -1114,7 +1109,7 @@
                     ],
                     "strength": "required",
                     "description": "Codes indicating whether the goal has been accepted by a stakeholder.",
-                    "valueSet": "http://hl7.org/fhir/ValueSet/goal-acceptance-status"
+                    "valueSet": "http://terminology.hl7.org/ValueSet/goal-acceptance-status"
                 }
             },
             {

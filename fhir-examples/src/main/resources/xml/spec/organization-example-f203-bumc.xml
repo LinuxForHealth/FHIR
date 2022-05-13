@@ -7,7 +7,7 @@
       <display value="test health data"/>
     </security>
   </meta>
-  <text><status value="generated"/><div xmlns="http://www.w3.org/1999/xhtml"><p><b>Generated Narrative</b></p><div><p>Resource "f203" </p></div><p><b>identifier</b>: Zorginstelling naam: Blijdorp MC (OFFICIAL)</p><p><b>active</b>: true</p><p><b>type</b>: Academic Medical Center <span> (<a>SNOMED CT</a>#405608006; <a>OrganizationType</a>#prov)</span></p><p><b>name</b>: Blijdorp Medisch Centrum (BUMC)</p><p><b>telecom</b>: <a>+31107040704</a></p><p><b>address</b>: apenrots 230 Blijdorp 3056BE NLD (WORK)</p></div></text><identifier>
+  <text><status value="generated"/><div xmlns="http://www.w3.org/1999/xhtml"><p><b>Generated Narrative</b></p><div style="display: inline-block; background-color: #d9e0e7; padding: 6px; margin: 4px; border: 1px solid #8da1b4; border-radius: 5px; line-height: 60%"><p style="margin-bottom: 0px">Resource "f203" </p></div><p><b>identifier</b>: Zorginstelling naam: Blijdorp MC (OFFICIAL)</p><p><b>active</b>: true</p><p><b>type</b>: Academic Medical Center <span style="background: LightGoldenRodYellow; margin: 4px; border: 1px solid khaki"> (<a href="https://browser.ihtsdotools.org/">SNOMED CT</a>#405608006; <a href="codesystem-organization-type.html">OrganizationType</a>#prov)</span></p><p><b>name</b>: Blijdorp Medisch Centrum (BUMC)</p><p><b>telecom</b>: <a href="tel:+31107040704">+31107040704</a></p><p><b>address</b>: apenrots 230 Blijdorp 3056BE NLD (WORK)</p></div></text><identifier>
   <!--   Identifier for the BMC   -->
     <use value="official"/>
     <type>

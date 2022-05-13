@@ -2,7 +2,7 @@
     "resourceType": "ValueSet",
     "id": "article-url-type",
     "meta": {
-        "lastUpdated": "2022-03-04T09:04:06.196+11:00",
+        "lastUpdated": "2022-04-24T09:21:35.043+11:00",
         "profile": [
             "http://hl7.org/fhir/StructureDefinition/shareablevalueset"
         ]
@@ -28,7 +28,7 @@
             "value": "urn:oid:2.16.840.1.113883.4.642.3.1490"
         }
     ],
-    "version": "4.3.0-CIBUILD",
+    "version": "4.3.0-cibuild",
     "name": "ArticleUrlType",
     "title": "ArticleUrlType",
     "status": "draft",
@@ -59,8 +59,8 @@
         ]
     },
     "expansion": {
-        "identifier": "urn:uuid:1721bd84-7fa3-49cc-829d-dcace35fc1cd",
-        "timestamp": "2022-03-03T22:05:30Z",
+        "identifier": "urn:uuid:79c44712-300e-4beb-b5a8-46626d285a90",
+        "timestamp": "2022-04-23T22:23:26Z",
         "total": 16,
         "parameter": [
             {
@@ -73,7 +73,7 @@
             },
             {
                 "name": "version",
-                "valueUri": "http://terminology.hl7.org/CodeSystem/article-url-type|4.3.0-CIBUILD"
+                "valueUri": "http://terminology.hl7.org/CodeSystem/article-url-type|4.3.0-cibuild"
             }
         ],
         "contains": [

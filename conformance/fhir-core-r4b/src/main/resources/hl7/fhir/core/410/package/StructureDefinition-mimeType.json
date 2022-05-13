@@ -12,9 +12,10 @@
         }
     ],
     "url": "http://hl7.org/fhir/StructureDefinition/mimeType",
-    "version": "4.3.0-CIBUILD",
+    "version": "4.3.0-cibuild",
     "name": "mimeType",
     "status": "draft",
+    "experimental": false,
     "date": "2014-04-27",
     "publisher": "Health Level Seven International (FHIR Infrastructure)",
     "contact": [
@@ -28,7 +29,7 @@
         }
     ],
     "description": "Identifies the kind(s) of attachment allowed to be sent for an element.",
-    "fhirVersion": "4.3.0-CIBUILD",
+    "fhirVersion": "4.3.0-cibuild",
     "mapping": [
         {
             "identity": "v2",
@@ -270,7 +271,7 @@
                     ],
                     "strength": "required",
                     "description": "BCP 13 (RFCs 2045, 2046, 2047, 4288, 4289 and 2049)",
-                    "valueSet": "http://hl7.org/fhir/ValueSet/mimetypes|4.3.0-CIBUILD"
+                    "valueSet": "http://hl7.org/fhir/ValueSet/mimetypes|4.3.0-cibuild"
                 },
                 "mapping": [
                     {
@@ -338,7 +339,7 @@
                     ],
                     "strength": "required",
                     "description": "BCP 13 (RFCs 2045, 2046, 2047, 4288, 4289 and 2049)",
-                    "valueSet": "http://hl7.org/fhir/ValueSet/mimetypes|4.3.0-CIBUILD"
+                    "valueSet": "http://hl7.org/fhir/ValueSet/mimetypes|4.3.0-cibuild"
                 }
             }
         ]

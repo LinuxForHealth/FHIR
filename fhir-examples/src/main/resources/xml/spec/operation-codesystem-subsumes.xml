@@ -5,8 +5,8 @@
   <text>
     <status value="extensions"/>
     <div xmlns="http://www.w3.org/1999/xhtml">
-      <h2>subsumes</h2>
-      <p>OPERATION: subsumes</p>
+      <h2>Subsumes</h2>
+      <p>OPERATION: Subsumes</p>
       <p>The official URL for this operation definition is: </p>
       <pre>http://hl7.org/fhir/OperationDefinition/CodeSystem-subsumes</pre>
       <div>
@@ -139,7 +139,7 @@
             <a href="datatypes.html#code">code</a>
           </td>
           <td>
-            <a href="valueset-concept-subsumption-outcome.html">http://hl7.org/fhir/ValueSet/concept-subsumption-outcome|4.3.0-CIBUILD</a> (Required)
+            <a href="valueset-concept-subsumption-outcome.html">http://hl7.org/fhir/ValueSet/concept-subsumption-outcome|4.3.0-cibuild</a> (Required)
           </td>
           <td>
             <div>
@@ -159,12 +159,13 @@
     <valueCode value="normative"/>
   </extension>
   <url value="http://hl7.org/fhir/OperationDefinition/CodeSystem-subsumes"/>
-  <version value="4.3.0-CIBUILD"/>
-  <name value="subsumes"/>
+  <version value="4.3.0-cibuild"/>
+  <name value="Subsumes"/>
   <title value="Subsumption Testing"/>
   <status value="active"/>
   <kind value="operation"/>
-  <date value="2022-01-01T15:17:18+00:00"/>
+  <experimental value="false"/>
+  <date value="2022-04-23T22:21:35+00:00"/>
   <publisher value="HL7 (FHIR Project)"/>
   <contact>
     <telecom>
@@ -243,7 +244,7 @@
         <valueString value="ConceptSubsumptionOutcome"/>
       </extension>
       <strength value="required"/>
-      <valueSet value="http://hl7.org/fhir/ValueSet/concept-subsumption-outcome|4.3.0-CIBUILD"/>
+      <valueSet value="http://hl7.org/fhir/ValueSet/concept-subsumption-outcome|4.3.0-cibuild"/>
     </binding>
   </parameter>
 </OperationDefinition>

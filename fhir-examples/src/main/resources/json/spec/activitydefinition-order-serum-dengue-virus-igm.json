@@ -7,6 +7,7 @@
   },
   "url": "http://example.org/ActivityDefinition/serum-dengue-virus-igm",
   "status": "draft",
+  "experimental": true,
   "description": "Order Serum Dengue Virus IgM",
   "relatedArtifact": [
     {
@@ -19,6 +20,9 @@
     "text": "Serum Dengue Virus IgM"
   },
   "timingTiming": {
+    "event": [
+      null
+    ],
     "_event": [
       {
         "extension": [

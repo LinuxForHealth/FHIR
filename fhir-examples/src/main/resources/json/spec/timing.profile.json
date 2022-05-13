@@ -16,10 +16,11 @@
     }
   ],
   "url": "http://hl7.org/fhir/StructureDefinition/Timing",
-  "version": "4.3.0-CIBUILD",
+  "version": "4.3.0-cibuild",
   "name": "Timing",
   "status": "active",
-  "date": "2022-01-01T15:17:18+00:00",
+  "experimental": false,
+  "date": "2022-04-23T22:21:35+00:00",
   "publisher": "HL7 FHIR Standard",
   "contact": [
     {
@@ -33,7 +34,7 @@
   ],
   "description": "Base StructureDefinition for Timing Type: Specifies an event that may occur multiple times. Timing schedules are used to record when things are planned, expected or requested to occur. The most common usage is in dosage instructions for medications. They are also used when planning care of various kinds, and may be used for reporting the schedule to which past regular activities were carried out.",
   "purpose": "Need to able to track proposed timing schedules. There are several different ways to do this: one or more specified times, a simple rules like three times a day, or  before/after meals.",
-  "fhirVersion": "4.3.0-CIBUILD",
+  "fhirVersion": "4.3.0-cibuild",
   "mapping": [
     {
       "identity": "v2",
@@ -721,7 +722,7 @@
             }
           ],
           "strength": "required",
-          "valueSet": "http://hl7.org/fhir/ValueSet/units-of-time|4.3.0-CIBUILD"
+          "valueSet": "http://hl7.org/fhir/ValueSet/units-of-time|4.3.0-cibuild"
         },
         "mapping": [
           {
@@ -916,7 +917,7 @@
             }
           ],
           "strength": "required",
-          "valueSet": "http://hl7.org/fhir/ValueSet/units-of-time|4.3.0-CIBUILD"
+          "valueSet": "http://hl7.org/fhir/ValueSet/units-of-time|4.3.0-cibuild"
         },
         "mapping": [
           {
@@ -963,7 +964,7 @@
             }
           ],
           "strength": "required",
-          "valueSet": "http://hl7.org/fhir/ValueSet/days-of-week|4.3.0-CIBUILD"
+          "valueSet": "http://hl7.org/fhir/ValueSet/days-of-week|4.3.0-cibuild"
         },
         "mapping": [
           {
@@ -1052,7 +1053,7 @@
             }
           ],
           "strength": "required",
-          "valueSet": "http://hl7.org/fhir/ValueSet/event-timing|4.3.0-CIBUILD"
+          "valueSet": "http://hl7.org/fhir/ValueSet/event-timing|4.3.0-cibuild"
         },
         "mapping": [
           {
@@ -1434,7 +1435,7 @@
             }
           ],
           "strength": "required",
-          "valueSet": "http://hl7.org/fhir/ValueSet/units-of-time|4.3.0-CIBUILD"
+          "valueSet": "http://hl7.org/fhir/ValueSet/units-of-time|4.3.0-cibuild"
         },
         "mapping": [
           {
@@ -1549,7 +1550,7 @@
             }
           ],
           "strength": "required",
-          "valueSet": "http://hl7.org/fhir/ValueSet/units-of-time|4.3.0-CIBUILD"
+          "valueSet": "http://hl7.org/fhir/ValueSet/units-of-time|4.3.0-cibuild"
         },
         "mapping": [
           {
@@ -1580,7 +1581,7 @@
             }
           ],
           "strength": "required",
-          "valueSet": "http://hl7.org/fhir/ValueSet/days-of-week|4.3.0-CIBUILD"
+          "valueSet": "http://hl7.org/fhir/ValueSet/days-of-week|4.3.0-cibuild"
         },
         "mapping": [
           {
@@ -1637,7 +1638,7 @@
             }
           ],
           "strength": "required",
-          "valueSet": "http://hl7.org/fhir/ValueSet/event-timing|4.3.0-CIBUILD"
+          "valueSet": "http://hl7.org/fhir/ValueSet/event-timing|4.3.0-cibuild"
         },
         "mapping": [
           {

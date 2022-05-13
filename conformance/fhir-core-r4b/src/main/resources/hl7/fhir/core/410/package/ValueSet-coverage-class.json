@@ -2,7 +2,7 @@
     "resourceType": "ValueSet",
     "id": "coverage-class",
     "meta": {
-        "lastUpdated": "2022-03-03T22:04:06.196Z",
+        "lastUpdated": "2022-04-23T22:21:35.043Z",
         "profile": [
             "http://hl7.org/fhir/StructureDefinition/shareablevalueset"
         ]
@@ -28,10 +28,11 @@
             "value": "urn:oid:2.16.840.1.113883.4.642.3.1009"
         }
     ],
-    "version": "4.3.0-CIBUILD",
+    "version": "4.3.0-cibuild",
     "name": "CoverageClassCodes",
     "title": "Coverage Class Codes",
     "status": "draft",
+    "experimental": false,
     "publisher": "Financial Management",
     "contact": [
         {
@@ -53,8 +54,8 @@
         ]
     },
     "expansion": {
-        "identifier": "urn:uuid:5d5b9218-5e94-413f-a003-e704f4718a69",
-        "timestamp": "2022-03-03T22:05:31Z",
+        "identifier": "urn:uuid:136083a8-a3f4-43b4-855e-ba20ef913405",
+        "timestamp": "2022-04-23T22:23:26Z",
         "total": 11,
         "parameter": [
             {
@@ -67,7 +68,7 @@
             },
             {
                 "name": "version",
-                "valueUri": "http://terminology.hl7.org/CodeSystem/coverage-class|4.3.0-CIBUILD"
+                "valueUri": "http://terminology.hl7.org/CodeSystem/coverage-class|4.3.0-cibuild"
             }
         ],
         "contains": [

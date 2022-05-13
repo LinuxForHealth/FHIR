@@ -16,6 +16,7 @@ import javax.annotation.Generated;
 
 import com.ibm.fhir.model.annotation.Binding;
 import com.ibm.fhir.model.annotation.Choice;
+import com.ibm.fhir.model.annotation.Constraint;
 import com.ibm.fhir.model.annotation.Maturity;
 import com.ibm.fhir.model.annotation.ReferenceTarget;
 import com.ibm.fhir.model.annotation.Required;
@@ -25,7 +26,6 @@ import com.ibm.fhir.model.type.Boolean;
 import com.ibm.fhir.model.type.Code;
 import com.ibm.fhir.model.type.CodeableConcept;
 import com.ibm.fhir.model.type.CodeableReference;
-import com.ibm.fhir.model.type.Coding;
 import com.ibm.fhir.model.type.Element;
 import com.ibm.fhir.model.type.Extension;
 import com.ibm.fhir.model.type.Identifier;
@@ -37,6 +37,7 @@ import com.ibm.fhir.model.type.Reference;
 import com.ibm.fhir.model.type.String;
 import com.ibm.fhir.model.type.Uri;
 import com.ibm.fhir.model.type.code.BindingStrength;
+import com.ibm.fhir.model.type.code.IngredientManufacturerRole;
 import com.ibm.fhir.model.type.code.PublicationStatus;
 import com.ibm.fhir.model.type.code.StandardsStatus;
 import com.ibm.fhir.model.util.ValidationSupport;
@@ -51,6 +52,14 @@ import com.ibm.fhir.model.visitor.Visitor;
     level = 1,
     status = StandardsStatus.Value.TRIAL_USE
 )
+@Constraint(
+    id = "ing-1",
+    level = "Rule",
+    location = "(base)",
+    description = "If an ingredient is noted as an allergen (allergenicIndicator) then its substance should be a code. If the substance is a SubstanceDefinition, then the allegen information should be documented in that resource",
+    expression = "(Ingredient.allergenicIndicator.where(value='true').count() + Ingredient.substance.code.reference.count())  < 2",
+    source = "http://hl7.org/fhir/StructureDefinition/Ingredient"
+)
 @Generated("com.ibm.fhir.tools.CodeGenerator")
 public class Ingredient extends DomainResource {
     @Summary
@@ -60,7 +69,7 @@ public class Ingredient extends DomainResource {
         bindingName = "PublicationStatus",
         strength = BindingStrength.Value.REQUIRED,
         description = "The lifecycle status of an artifact.",
-        valueSet = "http://hl7.org/fhir/ValueSet/publication-status|4.3.0-CIBUILD"
+        valueSet = "http://hl7.org/fhir/ValueSet/publication-status|4.3.0-cibuild"
     )
     @Required
     private final PublicationStatus status;
@@ -68,9 +77,21 @@ public class Ingredient extends DomainResource {
     @ReferenceTarget({ "MedicinalProductDefinition", "AdministrableProductDefinition", "ManufacturedItemDefinition" })
     private final List<Reference> _for;
     @Summary
+    @Binding(
+        bindingName = "IngredientRole",
+        strength = BindingStrength.Value.EXAMPLE,
+        description = "A classification of the ingredient identifying its purpose within the product, e.g. active, inactive.",
+        valueSet = "http://hl7.org/fhir/ValueSet/ingredient-role"
+    )
     @Required
     private final CodeableConcept role;
     @Summary
+    @Binding(
+        bindingName = "IngredientFunction",
+        strength = BindingStrength.Value.EXAMPLE,
+        description = "A classification of the ingredient identifying its precise purpose(s) in the drug product (beyond e.g. active/inactive).",
+        valueSet = "http://hl7.org/fhir/ValueSet/ingredient-function"
+    )
     private final List<CodeableConcept> function;
     @Summary
     private final Boolean allergenicIndicator;
@@ -135,7 +156,7 @@ public class Ingredient extends DomainResource {
 
     /**
      * A classification of the ingredient identifying its precise purpose(s) in the drug product. This extends the Ingredient.
-     * role to add more detail. Example: Antioxidant, Alkalizing Agent.
+     * role to add more detail. Example: antioxidant, alkalizing agent.
      * 
      * @return
      *     An unmodifiable list containing immutable objects of type {@link CodeableConcept} that may be empty.
@@ -145,7 +166,9 @@ public class Ingredient extends DomainResource {
     }
 
     /**
-     * If the ingredient is a known or suspected allergen.
+     * If the ingredient is a known or suspected allergen. Note that this is a property of the substance, so if a reference 
+     * to a SubstanceDefinition is used to decribe that (rather than just a code), the allergen information should go there, 
+     * not here.
      * 
      * @return
      *     An immutable object of type {@link Boolean} that may be null.
@@ -155,7 +178,10 @@ public class Ingredient extends DomainResource {
     }
 
     /**
-     * An organization that manufactures this ingredient.
+     * The organization(s) that manufacture this ingredient. Can be used to indicate: 1) Organizations we are aware of that 
+     * manufacture this ingredient 2) Specific Manufacturer(s) currently being used 3) Set of organisations allowed to 
+     * manufacture this ingredient for this product Users must be clear on the application of context relevant to their use 
+     * case.
      * 
      * @return
      *     An unmodifiable list containing immutable objects of type {@link Manufacturer} that may be empty.
@@ -594,7 +620,7 @@ public class Ingredient extends DomainResource {
          * <p>This element is required.
          * 
          * @param role
-         *     A classification of the ingredient identifying its purpose within the product, e.g. active, inactive
+         *     Purpose of the ingredient within the product, e.g. active, inactive
          * 
          * @return
          *     A reference to this Builder instance
@@ -606,14 +632,13 @@ public class Ingredient extends DomainResource {
 
         /**
          * A classification of the ingredient identifying its precise purpose(s) in the drug product. This extends the Ingredient.
-         * role to add more detail. Example: Antioxidant, Alkalizing Agent.
+         * role to add more detail. Example: antioxidant, alkalizing agent.
          * 
          * <p>Adds new element(s) to the existing list.
          * If any of the elements are null, calling {@link #build()} will fail.
          * 
          * @param function
-         *     A classification of the ingredient identifying its precise purpose(s) in the drug product. This extends the Ingredient.
-         *     role to add more detail. Example: Antioxidant, Alkalizing Agent
+         *     Precise action within the drug product, e.g. antioxidant, alkalizing agent
          * 
          * @return
          *     A reference to this Builder instance
@@ -627,14 +652,13 @@ public class Ingredient extends DomainResource {
 
         /**
          * A classification of the ingredient identifying its precise purpose(s) in the drug product. This extends the Ingredient.
-         * role to add more detail. Example: Antioxidant, Alkalizing Agent.
+         * role to add more detail. Example: antioxidant, alkalizing agent.
          * 
          * <p>Replaces the existing list with a new one containing elements from the Collection.
          * If any of the elements are null, calling {@link #build()} will fail.
          * 
          * @param function
-         *     A classification of the ingredient identifying its precise purpose(s) in the drug product. This extends the Ingredient.
-         *     role to add more detail. Example: Antioxidant, Alkalizing Agent
+         *     Precise action within the drug product, e.g. antioxidant, alkalizing agent
          * 
          * @return
          *     A reference to this Builder instance
@@ -664,7 +688,9 @@ public class Ingredient extends DomainResource {
         }
 
         /**
-         * If the ingredient is a known or suspected allergen.
+         * If the ingredient is a known or suspected allergen. Note that this is a property of the substance, so if a reference 
+         * to a SubstanceDefinition is used to decribe that (rather than just a code), the allergen information should go there, 
+         * not here.
          * 
          * @param allergenicIndicator
          *     If the ingredient is a known or suspected allergen
@@ -678,7 +704,10 @@ public class Ingredient extends DomainResource {
         }
 
         /**
-         * An organization that manufactures this ingredient.
+         * The organization(s) that manufacture this ingredient. Can be used to indicate: 1) Organizations we are aware of that 
+         * manufacture this ingredient 2) Specific Manufacturer(s) currently being used 3) Set of organisations allowed to 
+         * manufacture this ingredient for this product Users must be clear on the application of context relevant to their use 
+         * case.
          * 
          * <p>Adds new element(s) to the existing list.
          * If any of the elements are null, calling {@link #build()} will fail.
@@ -697,7 +726,10 @@ public class Ingredient extends DomainResource {
         }
 
         /**
-         * An organization that manufactures this ingredient.
+         * The organization(s) that manufacture this ingredient. Can be used to indicate: 1) Organizations we are aware of that 
+         * manufacture this ingredient 2) Specific Manufacturer(s) currently being used 3) Set of organisations allowed to 
+         * manufacture this ingredient for this product Users must be clear on the application of context relevant to their use 
+         * case.
          * 
          * <p>Replaces the existing list with a new one containing elements from the Collection.
          * If any of the elements are null, calling {@link #build()} will fail.
@@ -782,7 +814,10 @@ public class Ingredient extends DomainResource {
     }
 
     /**
-     * An organization that manufactures this ingredient.
+     * The organization(s) that manufacture this ingredient. Can be used to indicate: 1) Organizations we are aware of that 
+     * manufacture this ingredient 2) Specific Manufacturer(s) currently being used 3) Set of organisations allowed to 
+     * manufacture this ingredient for this product Users must be clear on the application of context relevant to their use 
+     * case.
      */
     public static class Manufacturer extends BackboneElement {
         @Summary
@@ -790,9 +825,9 @@ public class Ingredient extends DomainResource {
             bindingName = "IngredientManufacturerRole",
             strength = BindingStrength.Value.REQUIRED,
             description = "The way in which this manufacturer is associated with the ingredient.",
-            valueSet = "http://hl7.org/fhir/ValueSet/ingredient-manufacturer-role|4.3.0-CIBUILD"
+            valueSet = "http://hl7.org/fhir/ValueSet/ingredient-manufacturer-role|4.3.0-cibuild"
         )
-        private final Coding role;
+        private final IngredientManufacturerRole role;
         @Summary
         @ReferenceTarget({ "Organization" })
         @Required
@@ -809,9 +844,9 @@ public class Ingredient extends DomainResource {
          * allowed), or an exclusive authorized one for this ingredient. Note that this is not the manufacturing process role.
          * 
          * @return
-         *     An immutable object of type {@link Coding} that may be null.
+         *     An immutable object of type {@link IngredientManufacturerRole} that may be null.
          */
-        public Coding getRole() {
+        public IngredientManufacturerRole getRole() {
             return role;
         }
 
@@ -892,7 +927,7 @@ public class Ingredient extends DomainResource {
         }
 
         public static class Builder extends BackboneElement.Builder {
-            private Coding role;
+            private IngredientManufacturerRole role;
             private Reference manufacturer;
 
             private Builder() {
@@ -1015,13 +1050,12 @@ public class Ingredient extends DomainResource {
              * allowed), or an exclusive authorized one for this ingredient. Note that this is not the manufacturing process role.
              * 
              * @param role
-             *     The way in which this manufacturer is associated with the ingredient. For example whether it is a possible one (others 
-             *     allowed), or an exclusive authorized one for this ingredient. Note that this is not the manufacturing process role
+             *     allowed | possible | actual
              * 
              * @return
              *     A reference to this Builder instance
              */
-            public Builder role(Coding role) {
+            public Builder role(IngredientManufacturerRole role) {
                 this.role = role;
                 return this;
             }
@@ -1090,6 +1124,12 @@ public class Ingredient extends DomainResource {
      */
     public static class Substance extends BackboneElement {
         @Summary
+        @Binding(
+            bindingName = "SNOMEDCTSubstanceCodes",
+            strength = BindingStrength.Value.EXAMPLE,
+            description = "This value set includes all substance codes from SNOMED CT - provided as an exemplar value set.",
+            valueSet = "http://hl7.org/fhir/ValueSet/substance-codes"
+        )
         @Required
         private final CodeableReference code;
         @Summary
@@ -1102,7 +1142,7 @@ public class Ingredient extends DomainResource {
         }
 
         /**
-         * A code or full resource that represents the ingredient substance.
+         * A code or full resource that represents the ingredient's substance.
          * 
          * @return
          *     An immutable object of type {@link CodeableReference} that is non-null.
@@ -1113,7 +1153,8 @@ public class Ingredient extends DomainResource {
 
         /**
          * The quantity of substance in the unit of presentation, or in the volume (or mass) of the single pharmaceutical product 
-         * or manufactured item.
+         * or manufactured item. The allowed repetitions do not represent different strengths, but are different representations 
+         * - mathematically equivalent - of a single strength.
          * 
          * @return
          *     An unmodifiable list containing immutable objects of type {@link Strength} that may be empty.
@@ -1308,7 +1349,7 @@ public class Ingredient extends DomainResource {
             }
 
             /**
-             * A code or full resource that represents the ingredient substance.
+             * A code or full resource that represents the ingredient's substance.
              * 
              * <p>This element is required.
              * 
@@ -1325,14 +1366,14 @@ public class Ingredient extends DomainResource {
 
             /**
              * The quantity of substance in the unit of presentation, or in the volume (or mass) of the single pharmaceutical product 
-             * or manufactured item.
+             * or manufactured item. The allowed repetitions do not represent different strengths, but are different representations 
+             * - mathematically equivalent - of a single strength.
              * 
              * <p>Adds new element(s) to the existing list.
              * If any of the elements are null, calling {@link #build()} will fail.
              * 
              * @param strength
-             *     The quantity of substance in the unit of presentation, or in the volume (or mass) of the single pharmaceutical product 
-             *     or manufactured item
+             *     The quantity of substance, per presentation, or per volume or mass, and type of quantity
              * 
              * @return
              *     A reference to this Builder instance
@@ -1346,14 +1387,14 @@ public class Ingredient extends DomainResource {
 
             /**
              * The quantity of substance in the unit of presentation, or in the volume (or mass) of the single pharmaceutical product 
-             * or manufactured item.
+             * or manufactured item. The allowed repetitions do not represent different strengths, but are different representations 
+             * - mathematically equivalent - of a single strength.
              * 
              * <p>Replaces the existing list with a new one containing elements from the Collection.
              * If any of the elements are null, calling {@link #build()} will fail.
              * 
              * @param strength
-             *     The quantity of substance in the unit of presentation, or in the volume (or mass) of the single pharmaceutical product 
-             *     or manufactured item
+             *     The quantity of substance, per presentation, or per volume or mass, and type of quantity
              * 
              * @return
              *     A reference to this Builder instance
@@ -1405,22 +1446,29 @@ public class Ingredient extends DomainResource {
 
         /**
          * The quantity of substance in the unit of presentation, or in the volume (or mass) of the single pharmaceutical product 
-         * or manufactured item.
+         * or manufactured item. The allowed repetitions do not represent different strengths, but are different representations 
+         * - mathematically equivalent - of a single strength.
          */
         public static class Strength extends BackboneElement {
             @Summary
             @Choice({ Ratio.class, RatioRange.class })
             private final Element presentation;
             @Summary
-            private final String presentationText;
+            private final String textPresentation;
             @Summary
             @Choice({ Ratio.class, RatioRange.class })
             private final Element concentration;
             @Summary
-            private final String concentrationText;
+            private final String textConcentration;
             @Summary
             private final String measurementPoint;
             @Summary
+            @Binding(
+                bindingName = "Country",
+                strength = BindingStrength.Value.EXAMPLE,
+                description = "Jurisdiction codes",
+                valueSet = "http://hl7.org/fhir/ValueSet/country"
+            )
             private final List<CodeableConcept> country;
             @Summary
             private final List<ReferenceStrength> referenceStrength;
@@ -1428,9 +1476,9 @@ public class Ingredient extends DomainResource {
             private Strength(Builder builder) {
                 super(builder);
                 presentation = builder.presentation;
-                presentationText = builder.presentationText;
+                textPresentation = builder.textPresentation;
                 concentration = builder.concentration;
-                concentrationText = builder.concentrationText;
+                textConcentration = builder.textConcentration;
                 measurementPoint = builder.measurementPoint;
                 country = Collections.unmodifiableList(builder.country);
                 referenceStrength = Collections.unmodifiableList(builder.referenceStrength);
@@ -1438,7 +1486,9 @@ public class Ingredient extends DomainResource {
 
             /**
              * The quantity of substance in the unit of presentation, or in the volume (or mass) of the single pharmaceutical product 
-             * or manufactured item.
+             * or manufactured item. Unit of presentation refers to the quantity that the item occurs in e.g. a strength per tablet 
+             * size, perhaps 'per 20mg' (the size of the tablet). It is not generally normalized as a unitary unit, which would be 
+             * 'per mg').
              * 
              * @return
              *     An immutable object of type {@link Ratio} or {@link RatioRange} that may be null.
@@ -1454,8 +1504,8 @@ public class Ingredient extends DomainResource {
              * @return
              *     An immutable object of type {@link String} that may be null.
              */
-            public String getPresentationText() {
-                return presentationText;
+            public String getTextPresentation() {
+                return textPresentation;
             }
 
             /**
@@ -1475,12 +1525,14 @@ public class Ingredient extends DomainResource {
              * @return
              *     An immutable object of type {@link String} that may be null.
              */
-            public String getConcentrationText() {
-                return concentrationText;
+            public String getTextConcentration() {
+                return textConcentration;
             }
 
             /**
-             * For when strength is measured at a particular point or distance.
+             * For when strength is measured at a particular point or distance. There are products where strength is measured at a 
+             * particular point. For example, the strength of the ingredient in some inhalers is measured at a particular position 
+             * relative to the point of aerosolization.
              * 
              * @return
              *     An immutable object of type {@link String} that may be null.
@@ -1500,7 +1552,10 @@ public class Ingredient extends DomainResource {
             }
 
             /**
-             * Strength expressed in terms of a reference substance.
+             * Strength expressed in terms of a reference substance. For when the ingredient strength is additionally expressed as 
+             * equivalent to the strength of some other closely related substance (e.g. salt vs. base). Reference strength represents 
+             * the strength (quantitative composition) of the active moiety of the active substance. There are situations when the 
+             * active substance and active moiety are different, therefore both a strength and a reference strength are needed.
              * 
              * @return
              *     An unmodifiable list containing immutable objects of type {@link ReferenceStrength} that may be empty.
@@ -1513,9 +1568,9 @@ public class Ingredient extends DomainResource {
             public boolean hasChildren() {
                 return super.hasChildren() || 
                     (presentation != null) || 
-                    (presentationText != null) || 
+                    (textPresentation != null) || 
                     (concentration != null) || 
-                    (concentrationText != null) || 
+                    (textConcentration != null) || 
                     (measurementPoint != null) || 
                     !country.isEmpty() || 
                     !referenceStrength.isEmpty();
@@ -1531,9 +1586,9 @@ public class Ingredient extends DomainResource {
                         accept(extension, "extension", visitor, Extension.class);
                         accept(modifierExtension, "modifierExtension", visitor, Extension.class);
                         accept(presentation, "presentation", visitor);
-                        accept(presentationText, "presentationText", visitor);
+                        accept(textPresentation, "textPresentation", visitor);
                         accept(concentration, "concentration", visitor);
-                        accept(concentrationText, "concentrationText", visitor);
+                        accept(textConcentration, "textConcentration", visitor);
                         accept(measurementPoint, "measurementPoint", visitor);
                         accept(country, "country", visitor, CodeableConcept.class);
                         accept(referenceStrength, "referenceStrength", visitor, ReferenceStrength.class);
@@ -1559,9 +1614,9 @@ public class Ingredient extends DomainResource {
                     Objects.equals(extension, other.extension) && 
                     Objects.equals(modifierExtension, other.modifierExtension) && 
                     Objects.equals(presentation, other.presentation) && 
-                    Objects.equals(presentationText, other.presentationText) && 
+                    Objects.equals(textPresentation, other.textPresentation) && 
                     Objects.equals(concentration, other.concentration) && 
-                    Objects.equals(concentrationText, other.concentrationText) && 
+                    Objects.equals(textConcentration, other.textConcentration) && 
                     Objects.equals(measurementPoint, other.measurementPoint) && 
                     Objects.equals(country, other.country) && 
                     Objects.equals(referenceStrength, other.referenceStrength);
@@ -1575,9 +1630,9 @@ public class Ingredient extends DomainResource {
                         extension, 
                         modifierExtension, 
                         presentation, 
-                        presentationText, 
+                        textPresentation, 
                         concentration, 
-                        concentrationText, 
+                        textConcentration, 
                         measurementPoint, 
                         country, 
                         referenceStrength);
@@ -1597,9 +1652,9 @@ public class Ingredient extends DomainResource {
 
             public static class Builder extends BackboneElement.Builder {
                 private Element presentation;
-                private String presentationText;
+                private String textPresentation;
                 private Element concentration;
-                private String concentrationText;
+                private String textConcentration;
                 private String measurementPoint;
                 private List<CodeableConcept> country = new ArrayList<>();
                 private List<ReferenceStrength> referenceStrength = new ArrayList<>();
@@ -1721,7 +1776,9 @@ public class Ingredient extends DomainResource {
 
                 /**
                  * The quantity of substance in the unit of presentation, or in the volume (or mass) of the single pharmaceutical product 
-                 * or manufactured item.
+                 * or manufactured item. Unit of presentation refers to the quantity that the item occurs in e.g. a strength per tablet 
+                 * size, perhaps 'per 20mg' (the size of the tablet). It is not generally normalized as a unitary unit, which would be 
+                 * 'per mg').
                  * 
                  * <p>This is a choice element with the following allowed types:
                  * <ul>
@@ -1730,8 +1787,7 @@ public class Ingredient extends DomainResource {
                  * </ul>
                  * 
                  * @param presentation
-                 *     The quantity of substance in the unit of presentation, or in the volume (or mass) of the single pharmaceutical product 
-                 *     or manufactured item
+                 *     The quantity of substance in the unit of presentation
                  * 
                  * @return
                  *     A reference to this Builder instance
@@ -1742,19 +1798,18 @@ public class Ingredient extends DomainResource {
                 }
 
                 /**
-                 * Convenience method for setting {@code presentationText}.
+                 * Convenience method for setting {@code textPresentation}.
                  * 
-                 * @param presentationText
-                 *     A textual represention of either the whole of the presentation strength or a part of it - with the rest being in 
-                 *     Strength.presentation as a ratio
+                 * @param textPresentation
+                 *     Text of either the whole presentation strength or a part of it (rest being in Strength.presentation as a ratio)
                  * 
                  * @return
                  *     A reference to this Builder instance
                  * 
-                 * @see #presentationText(com.ibm.fhir.model.type.String)
+                 * @see #textPresentation(com.ibm.fhir.model.type.String)
                  */
-                public Builder presentationText(java.lang.String presentationText) {
-                    this.presentationText = (presentationText == null) ? null : String.of(presentationText);
+                public Builder textPresentation(java.lang.String textPresentation) {
+                    this.textPresentation = (textPresentation == null) ? null : String.of(textPresentation);
                     return this;
                 }
 
@@ -1762,15 +1817,14 @@ public class Ingredient extends DomainResource {
                  * A textual represention of either the whole of the presentation strength or a part of it - with the rest being in 
                  * Strength.presentation as a ratio.
                  * 
-                 * @param presentationText
-                 *     A textual represention of either the whole of the presentation strength or a part of it - with the rest being in 
-                 *     Strength.presentation as a ratio
+                 * @param textPresentation
+                 *     Text of either the whole presentation strength or a part of it (rest being in Strength.presentation as a ratio)
                  * 
                  * @return
                  *     A reference to this Builder instance
                  */
-                public Builder presentationText(String presentationText) {
-                    this.presentationText = presentationText;
+                public Builder textPresentation(String textPresentation) {
+                    this.textPresentation = textPresentation;
                     return this;
                 }
 
@@ -1795,19 +1849,18 @@ public class Ingredient extends DomainResource {
                 }
 
                 /**
-                 * Convenience method for setting {@code concentrationText}.
+                 * Convenience method for setting {@code textConcentration}.
                  * 
-                 * @param concentrationText
-                 *     A textual represention of either the whole of the concentration strength or a part of it - with the rest being in 
-                 *     Strength.concentration as a ratio
+                 * @param textConcentration
+                 *     Text of either the whole concentration strength or a part of it (rest being in Strength.concentration as a ratio)
                  * 
                  * @return
                  *     A reference to this Builder instance
                  * 
-                 * @see #concentrationText(com.ibm.fhir.model.type.String)
+                 * @see #textConcentration(com.ibm.fhir.model.type.String)
                  */
-                public Builder concentrationText(java.lang.String concentrationText) {
-                    this.concentrationText = (concentrationText == null) ? null : String.of(concentrationText);
+                public Builder textConcentration(java.lang.String textConcentration) {
+                    this.textConcentration = (textConcentration == null) ? null : String.of(textConcentration);
                     return this;
                 }
 
@@ -1815,15 +1868,14 @@ public class Ingredient extends DomainResource {
                  * A textual represention of either the whole of the concentration strength or a part of it - with the rest being in 
                  * Strength.concentration as a ratio.
                  * 
-                 * @param concentrationText
-                 *     A textual represention of either the whole of the concentration strength or a part of it - with the rest being in 
-                 *     Strength.concentration as a ratio
+                 * @param textConcentration
+                 *     Text of either the whole concentration strength or a part of it (rest being in Strength.concentration as a ratio)
                  * 
                  * @return
                  *     A reference to this Builder instance
                  */
-                public Builder concentrationText(String concentrationText) {
-                    this.concentrationText = concentrationText;
+                public Builder textConcentration(String textConcentration) {
+                    this.textConcentration = textConcentration;
                     return this;
                 }
 
@@ -1831,7 +1883,7 @@ public class Ingredient extends DomainResource {
                  * Convenience method for setting {@code measurementPoint}.
                  * 
                  * @param measurementPoint
-                 *     For when strength is measured at a particular point or distance
+                 *     When strength is measured at a particular point or distance
                  * 
                  * @return
                  *     A reference to this Builder instance
@@ -1844,10 +1896,12 @@ public class Ingredient extends DomainResource {
                 }
 
                 /**
-                 * For when strength is measured at a particular point or distance.
+                 * For when strength is measured at a particular point or distance. There are products where strength is measured at a 
+                 * particular point. For example, the strength of the ingredient in some inhalers is measured at a particular position 
+                 * relative to the point of aerosolization.
                  * 
                  * @param measurementPoint
-                 *     For when strength is measured at a particular point or distance
+                 *     When strength is measured at a particular point or distance
                  * 
                  * @return
                  *     A reference to this Builder instance
@@ -1864,7 +1918,7 @@ public class Ingredient extends DomainResource {
                  * If any of the elements are null, calling {@link #build()} will fail.
                  * 
                  * @param country
-                 *     The country or countries for which the strength range applies
+                 *     Where the strength range applies
                  * 
                  * @return
                  *     A reference to this Builder instance
@@ -1883,7 +1937,7 @@ public class Ingredient extends DomainResource {
                  * If any of the elements are null, calling {@link #build()} will fail.
                  * 
                  * @param country
-                 *     The country or countries for which the strength range applies
+                 *     Where the strength range applies
                  * 
                  * @return
                  *     A reference to this Builder instance
@@ -1897,7 +1951,10 @@ public class Ingredient extends DomainResource {
                 }
 
                 /**
-                 * Strength expressed in terms of a reference substance.
+                 * Strength expressed in terms of a reference substance. For when the ingredient strength is additionally expressed as 
+                 * equivalent to the strength of some other closely related substance (e.g. salt vs. base). Reference strength represents 
+                 * the strength (quantitative composition) of the active moiety of the active substance. There are situations when the 
+                 * active substance and active moiety are different, therefore both a strength and a reference strength are needed.
                  * 
                  * <p>Adds new element(s) to the existing list.
                  * If any of the elements are null, calling {@link #build()} will fail.
@@ -1916,7 +1973,10 @@ public class Ingredient extends DomainResource {
                 }
 
                 /**
-                 * Strength expressed in terms of a reference substance.
+                 * Strength expressed in terms of a reference substance. For when the ingredient strength is additionally expressed as 
+                 * equivalent to the strength of some other closely related substance (e.g. salt vs. base). Reference strength represents 
+                 * the strength (quantitative composition) of the active moiety of the active substance. There are situations when the 
+                 * active substance and active moiety are different, therefore both a strength and a reference strength are needed.
                  * 
                  * <p>Replaces the existing list with a new one containing elements from the Collection.
                  * If any of the elements are null, calling {@link #build()} will fail.
@@ -1964,9 +2024,9 @@ public class Ingredient extends DomainResource {
                 protected Builder from(Strength strength) {
                     super.from(strength);
                     presentation = strength.presentation;
-                    presentationText = strength.presentationText;
+                    textPresentation = strength.textPresentation;
                     concentration = strength.concentration;
-                    concentrationText = strength.concentrationText;
+                    textConcentration = strength.textConcentration;
                     measurementPoint = strength.measurementPoint;
                     country.addAll(strength.country);
                     referenceStrength.addAll(strength.referenceStrength);
@@ -1975,10 +2035,19 @@ public class Ingredient extends DomainResource {
             }
 
             /**
-             * Strength expressed in terms of a reference substance.
+             * Strength expressed in terms of a reference substance. For when the ingredient strength is additionally expressed as 
+             * equivalent to the strength of some other closely related substance (e.g. salt vs. base). Reference strength represents 
+             * the strength (quantitative composition) of the active moiety of the active substance. There are situations when the 
+             * active substance and active moiety are different, therefore both a strength and a reference strength are needed.
              */
             public static class ReferenceStrength extends BackboneElement {
                 @Summary
+                @Binding(
+                    bindingName = "SNOMEDCTSubstanceCodes",
+                    strength = BindingStrength.Value.EXAMPLE,
+                    description = "This value set includes all substance codes from SNOMED CT - provided as an exemplar value set.",
+                    valueSet = "http://hl7.org/fhir/ValueSet/substance-codes"
+                )
                 private final CodeableReference substance;
                 @Summary
                 @Choice({ Ratio.class, RatioRange.class })
@@ -1987,6 +2056,12 @@ public class Ingredient extends DomainResource {
                 @Summary
                 private final String measurementPoint;
                 @Summary
+                @Binding(
+                    bindingName = "Country",
+                    strength = BindingStrength.Value.EXAMPLE,
+                    description = "Jurisdiction codes",
+                    valueSet = "http://hl7.org/fhir/ValueSet/country"
+                )
                 private final List<CodeableConcept> country;
 
                 private ReferenceStrength(Builder builder) {
@@ -2272,7 +2347,7 @@ public class Ingredient extends DomainResource {
                      * Convenience method for setting {@code measurementPoint}.
                      * 
                      * @param measurementPoint
-                     *     For when strength is measured at a particular point or distance
+                     *     When strength is measured at a particular point or distance
                      * 
                      * @return
                      *     A reference to this Builder instance
@@ -2288,7 +2363,7 @@ public class Ingredient extends DomainResource {
                      * For when strength is measured at a particular point or distance.
                      * 
                      * @param measurementPoint
-                     *     For when strength is measured at a particular point or distance
+                     *     When strength is measured at a particular point or distance
                      * 
                      * @return
                      *     A reference to this Builder instance
@@ -2305,7 +2380,7 @@ public class Ingredient extends DomainResource {
                      * If any of the elements are null, calling {@link #build()} will fail.
                      * 
                      * @param country
-                     *     The country or countries for which the strength range applies
+                     *     Where the strength range applies
                      * 
                      * @return
                      *     A reference to this Builder instance
@@ -2324,7 +2399,7 @@ public class Ingredient extends DomainResource {
                      * If any of the elements are null, calling {@link #build()} will fail.
                      * 
                      * @param country
-                     *     The country or countries for which the strength range applies
+                     *     Where the strength range applies
                      * 
                      * @return
                      *     A reference to this Builder instance

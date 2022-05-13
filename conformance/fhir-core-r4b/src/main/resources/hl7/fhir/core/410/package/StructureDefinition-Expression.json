@@ -2,7 +2,7 @@
     "resourceType": "StructureDefinition",
     "id": "Expression",
     "meta": {
-        "lastUpdated": "2022-01-01T15:17:18.597Z"
+        "lastUpdated": "2022-04-23T22:21:35.043Z"
     },
     "text": {
         "status": "empty",
@@ -15,10 +15,11 @@
         }
     ],
     "url": "http://hl7.org/fhir/StructureDefinition/Expression",
-    "version": "4.3.0-CIBUILD",
+    "version": "4.3.0-cibuild",
     "name": "Expression",
     "status": "draft",
-    "date": "2022-01-01T15:17:18Z",
+    "experimental": false,
+    "date": "2022-04-23T22:21:35Z",
     "publisher": "HL7 FHIR Standard",
     "contact": [
         {
@@ -31,7 +32,7 @@
         }
     ],
     "description": "Base StructureDefinition for Expression Type: A expression that is evaluated in a specified context and returns a value. The context of use of the expression must specify the context in which the expression is evaluated, and how the result of the expression is used.",
-    "fhirVersion": "4.3.0-CIBUILD",
+    "fhirVersion": "4.3.0-cibuild",
     "mapping": [
         {
             "identity": "rim",
@@ -250,7 +251,7 @@
             {
                 "id": "Expression.language",
                 "path": "Expression.language",
-                "short": "text/cql | text/fhirpath | application/x-fhir-query | etc.",
+                "short": "text/cql | text/fhirpath | application/x-fhir-query | text/cql-identifier | text/cql-expression | etc.",
                 "definition": "The media type of the language for the expression.",
                 "min": 1,
                 "max": "1",
@@ -284,7 +285,7 @@
                         },
                         {
                             "url": "http://hl7.org/fhir/StructureDefinition/elementdefinition-maxValueSet",
-                            "valueCanonical": "http://www.rfc-editor.org/bcp/bcp13.txt"
+                            "valueCanonical": "http://hl7.org/fhir/ValueSet/mimetypes"
                         },
                         {
                             "url": "http://hl7.org/fhir/StructureDefinition/elementdefinition-bindingName",
@@ -415,7 +416,7 @@
             {
                 "id": "Expression.language",
                 "path": "Expression.language",
-                "short": "text/cql | text/fhirpath | application/x-fhir-query | etc.",
+                "short": "text/cql | text/fhirpath | application/x-fhir-query | text/cql-identifier | text/cql-expression | etc.",
                 "definition": "The media type of the language for the expression.",
                 "min": 1,
                 "max": "1",
@@ -433,7 +434,7 @@
                         },
                         {
                             "url": "http://hl7.org/fhir/StructureDefinition/elementdefinition-maxValueSet",
-                            "valueCanonical": "http://www.rfc-editor.org/bcp/bcp13.txt"
+                            "valueCanonical": "http://hl7.org/fhir/ValueSet/mimetypes"
                         },
                         {
                             "url": "http://hl7.org/fhir/StructureDefinition/elementdefinition-bindingName",

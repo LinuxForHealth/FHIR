@@ -2,7 +2,7 @@
     "resourceType": "ValueSet",
     "id": "designation-use",
     "meta": {
-        "lastUpdated": "2022-03-03T22:04:06.196Z",
+        "lastUpdated": "2022-04-23T22:21:35.043Z",
         "profile": [
             "http://hl7.org/fhir/StructureDefinition/shareablevalueset"
         ]
@@ -36,7 +36,7 @@
             "value": "urn:oid:2.16.840.1.113883.4.642.3.264"
         }
     ],
-    "version": "4.3.0-CIBUILD",
+    "version": "4.3.0-cibuild",
     "name": "DesignationUse",
     "title": "Designation Use",
     "status": "active",
@@ -60,11 +60,12 @@
         ]
     },
     "expansion": {
-        "identifier": "urn:uuid:ec7ca749-2bdf-4494-bd9f-ba563c0cdbee",
-        "timestamp": "2021-11-17T05:28:26.182Z",
+        "identifier": "urn:uuid:06c82425-211b-48a3-a5dc-365f34299a85",
+        "timestamp": "2022-04-23T22:23:26Z",
+        "total": 2,
         "parameter": [
             {
-                "name": "limitedExpansion",
+                "name": "excludeNested",
                 "valueBoolean": true
             },
             {
@@ -72,12 +73,12 @@
                 "valueBoolean": true
             },
             {
-                "name": "excludeNested",
+                "name": "limitedExpansion",
                 "valueBoolean": true
             },
             {
                 "name": "version",
-                "valueUri": "http://snomed.info/sct|http://snomed.info/sct/900000000000207008/version/20200131"
+                "valueUri": "http://snomed.info/sct|http://snomed.info/sct/900000000000207008/version/20200731"
             }
         ],
         "contains": [

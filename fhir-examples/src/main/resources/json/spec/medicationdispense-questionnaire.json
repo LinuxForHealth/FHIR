@@ -9,8 +9,8 @@
       "status": "active",
       "description": "Type options for MedicationDispense.statusReason[x]",
       "expansion": {
-        "identifier": "urn:uuid:819f7480-0234-4ee9-8ff9-be7d849b6fd1",
-        "timestamp": "2022-01-01T15:25:02+00:00",
+        "identifier": "urn:uuid:a7c5062c-585b-4d01-9818-04c4c36d6d8b",
+        "timestamp": "2022-04-23T22:29:54+00:00",
         "contains": [
           {
             "system": "http://hl7.org/fhir/data-types",
@@ -32,8 +32,8 @@
       "status": "active",
       "description": "Type options for MedicationDispense.medication[x]",
       "expansion": {
-        "identifier": "urn:uuid:0a0c8341-7805-44b8-809b-25405724d1dd",
-        "timestamp": "2022-01-01T15:25:02+00:00",
+        "identifier": "urn:uuid:4fe758ca-cdf4-49ed-9276-be008b6d6b9d",
+        "timestamp": "2022-04-23T22:29:54+00:00",
         "contains": [
           {
             "system": "http://hl7.org/fhir/data-types",
@@ -54,9 +54,10 @@
       "system": "urn:ietf:rfc:3986"
     }
   ],
-  "version": "4.3.0-CIBUILD",
+  "version": "4.3.0-cibuild",
   "status": "draft",
-  "date": "2022-01-01T15:17:18+00:00",
+  "experimental": false,
+  "date": "2022-04-23T22:21:35+00:00",
   "publisher": "Health Level Seven International (Pharmacy)",
   "item": [
     {
@@ -245,10 +246,9 @@
             {
               "linkId": "MedicationDispense.language.value",
               "text": "language",
-              "type": "coding",
+              "type": "choice",
               "required": false,
-              "repeats": false,
-              "answerConstraint": "optionsOnly"
+              "repeats": false
             }
           ]
         },
@@ -517,10 +517,9 @@
             {
               "linkId": "MedicationDispense.status.value",
               "text": "status",
-              "type": "coding",
+              "type": "choice",
               "required": false,
-              "repeats": false,
-              "answerConstraint": "optionsOrType"
+              "repeats": false
             }
           ]
         },
@@ -559,10 +558,9 @@
             {
               "linkId": "MedicationDispense.statusReason[x]._type",
               "text": "type",
-              "type": "coding",
+              "type": "choice",
               "required": false,
               "repeats": false,
-              "answerConstraint": "optionsOnly",
               "answerValueSet": "#vs2",
               "item": [
                 {
@@ -578,10 +576,9 @@
                     {
                       "linkId": "MedicationDispense.statusReason[x]._null.coding",
                       "text": "code:",
-                      "type": "coding",
+                      "type": "choice",
                       "required": false,
-                      "repeats": false,
-                      "answerConstraint": "optionsOnly"
+                      "repeats": false
                     },
                     {
                       "linkId": "MedicationDispense.statusReason[x]._null.text",
@@ -663,10 +660,9 @@
             {
               "linkId": "MedicationDispense.category.coding",
               "text": "code:",
-              "type": "coding",
+              "type": "choice",
               "required": false,
-              "repeats": false,
-              "answerConstraint": "optionsOnly"
+              "repeats": false
             },
             {
               "linkId": "MedicationDispense.category.text",
@@ -716,10 +712,9 @@
             {
               "linkId": "MedicationDispense.medication[x]._type",
               "text": "type",
-              "type": "coding",
+              "type": "choice",
               "required": false,
               "repeats": false,
-              "answerConstraint": "optionsOnly",
               "answerValueSet": "#vs3",
               "item": [
                 {
@@ -735,10 +730,9 @@
                     {
                       "linkId": "MedicationDispense.medication[x]._null.coding",
                       "text": "code:",
-                      "type": "coding",
+                      "type": "choice",
                       "required": false,
-                      "repeats": false,
-                      "answerConstraint": "optionsOnly"
+                      "repeats": false
                     },
                     {
                       "linkId": "MedicationDispense.medication[x]._null.text",
@@ -1104,10 +1098,9 @@
                 {
                   "linkId": "MedicationDispense.performer.function.coding",
                   "text": "code:",
-                  "type": "coding",
+                  "type": "choice",
                   "required": false,
-                  "repeats": false,
-                  "answerConstraint": "optionsOnly"
+                  "repeats": false
                 },
                 {
                   "linkId": "MedicationDispense.performer.function.text",
@@ -1321,10 +1314,9 @@
             {
               "linkId": "MedicationDispense.type.coding",
               "text": "code:",
-              "type": "coding",
+              "type": "choice",
               "required": false,
-              "repeats": false,
-              "answerConstraint": "optionsOnly"
+              "repeats": false
             },
             {
               "linkId": "MedicationDispense.type.text",
@@ -1374,10 +1366,9 @@
             {
               "linkId": "MedicationDispense.quantity.comparator",
               "text": "comp:",
-              "type": "coding",
+              "type": "choice",
               "required": false,
-              "repeats": false,
-              "answerConstraint": "optionsOnly"
+              "repeats": false
             },
             {
               "linkId": "MedicationDispense.quantity.value",
@@ -1448,10 +1439,9 @@
             {
               "linkId": "MedicationDispense.daysSupply.comparator",
               "text": "comp:",
-              "type": "coding",
+              "type": "choice",
               "required": false,
-              "repeats": false,
-              "answerConstraint": "optionsOnly"
+              "repeats": false
             },
             {
               "linkId": "MedicationDispense.daysSupply.value",
@@ -1961,10 +1951,9 @@
                 {
                   "linkId": "MedicationDispense.substitution.type.coding",
                   "text": "code:",
-                  "type": "coding",
+                  "type": "choice",
                   "required": false,
-                  "repeats": false,
-                  "answerConstraint": "optionsOnly"
+                  "repeats": false
                 },
                 {
                   "linkId": "MedicationDispense.substitution.type.text",
@@ -2010,10 +1999,9 @@
                 {
                   "linkId": "MedicationDispense.substitution.reason.coding",
                   "text": "code:",
-                  "type": "coding",
+                  "type": "choice",
                   "required": false,
-                  "repeats": false,
-                  "answerConstraint": "optionsOnly"
+                  "repeats": false
                 },
                 {
                   "linkId": "MedicationDispense.substitution.reason.text",

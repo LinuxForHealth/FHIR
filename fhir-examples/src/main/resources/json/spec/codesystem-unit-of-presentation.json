@@ -1,0 +1,286 @@
+{
+  "resourceType": "CodeSystem",
+  "id": "unit-of-presentation",
+  "meta": {
+    "lastUpdated": "2022-04-24T09:21:35.043+11:00",
+    "profile": [
+      "http://hl7.org/fhir/StructureDefinition/shareablecodesystem"
+    ]
+  },
+  "text": {
+    "status": "generated",
+    "div": "\u003cdiv xmlns\u003d\"http://www.w3.org/1999/xhtml\"\u003e\u003cp\u003eThis code system http://hl7.org/fhir/unit-of-presentation defines the following codes:\u003c/p\u003e\u003ctable class\u003d\"codes\"\u003e\u003ctr\u003e\u003ctd style\u003d\"white-space:nowrap\"\u003e\u003cb\u003eCode\u003c/b\u003e\u003c/td\u003e\u003ctd\u003e\u003cb\u003eDisplay\u003c/b\u003e\u003c/td\u003e\u003c/tr\u003e\u003ctr\u003e\u003ctd style\u003d\"white-space:nowrap\"\u003e200000002108\u003ca name\u003d\"unit-of-presentation-200000002108\"\u003e \u003c/a\u003e\u003c/td\u003e\u003ctd\u003eBarrel\u003c/td\u003e\u003c/tr\u003e\u003ctr\u003e\u003ctd style\u003d\"white-space:nowrap\"\u003e200000002109\u003ca name\u003d\"unit-of-presentation-200000002109\"\u003e \u003c/a\u003e\u003c/td\u003e\u003ctd\u003eBlister\u003c/td\u003e\u003c/tr\u003e\u003ctr\u003e\u003ctd style\u003d\"white-space:nowrap\"\u003e200000002110\u003ca name\u003d\"unit-of-presentation-200000002110\"\u003e \u003c/a\u003e\u003c/td\u003e\u003ctd\u003eBlock\u003c/td\u003e\u003c/tr\u003e\u003ctr\u003e\u003ctd style\u003d\"white-space:nowrap\"\u003e200000002111\u003ca name\u003d\"unit-of-presentation-200000002111\"\u003e \u003c/a\u003e\u003c/td\u003e\u003ctd\u003eBottle\u003c/td\u003e\u003c/tr\u003e\u003ctr\u003e\u003ctd style\u003d\"white-space:nowrap\"\u003e200000002112\u003ca name\u003d\"unit-of-presentation-200000002112\"\u003e \u003c/a\u003e\u003c/td\u003e\u003ctd\u003eCachet\u003c/td\u003e\u003c/tr\u003e\u003ctr\u003e\u003ctd style\u003d\"white-space:nowrap\"\u003e200000002113\u003ca name\u003d\"unit-of-presentation-200000002113\"\u003e \u003c/a\u003e\u003c/td\u003e\u003ctd\u003eCapsule\u003c/td\u003e\u003c/tr\u003e\u003ctr\u003e\u003ctd style\u003d\"white-space:nowrap\"\u003e200000002114\u003ca name\u003d\"unit-of-presentation-200000002114\"\u003e \u003c/a\u003e\u003c/td\u003e\u003ctd\u003eCartridge\u003c/td\u003e\u003c/tr\u003e\u003ctr\u003e\u003ctd style\u003d\"white-space:nowrap\"\u003e200000002115\u003ca name\u003d\"unit-of-presentation-200000002115\"\u003e \u003c/a\u003e\u003c/td\u003e\u003ctd\u003eCollar\u003c/td\u003e\u003c/tr\u003e\u003ctr\u003e\u003ctd style\u003d\"white-space:nowrap\"\u003e200000002116\u003ca name\u003d\"unit-of-presentation-200000002116\"\u003e \u003c/a\u003e\u003c/td\u003e\u003ctd\u003eContainer\u003c/td\u003e\u003c/tr\u003e\u003ctr\u003e\u003ctd style\u003d\"white-space:nowrap\"\u003e200000002117\u003ca name\u003d\"unit-of-presentation-200000002117\"\u003e \u003c/a\u003e\u003c/td\u003e\u003ctd\u003eCup\u003c/td\u003e\u003c/tr\u003e\u003ctr\u003e\u003ctd style\u003d\"white-space:nowrap\"\u003e200000002118\u003ca name\u003d\"unit-of-presentation-200000002118\"\u003e \u003c/a\u003e\u003c/td\u003e\u003ctd\u003eCylinder\u003c/td\u003e\u003c/tr\u003e\u003ctr\u003e\u003ctd style\u003d\"white-space:nowrap\"\u003e200000002119\u003ca name\u003d\"unit-of-presentation-200000002119\"\u003e \u003c/a\u003e\u003c/td\u003e\u003ctd\u003eDart\u003c/td\u003e\u003c/tr\u003e\u003ctr\u003e\u003ctd style\u003d\"white-space:nowrap\"\u003e200000002120\u003ca name\u003d\"unit-of-presentation-200000002120\"\u003e \u003c/a\u003e\u003c/td\u003e\u003ctd\u003eDressing\u003c/td\u003e\u003c/tr\u003e\u003ctr\u003e\u003ctd style\u003d\"white-space:nowrap\"\u003e200000002121\u003ca name\u003d\"unit-of-presentation-200000002121\"\u003e \u003c/a\u003e\u003c/td\u003e\u003ctd\u003eDrop\u003c/td\u003e\u003c/tr\u003e\u003ctr\u003e\u003ctd style\u003d\"white-space:nowrap\"\u003e200000002122\u003ca name\u003d\"unit-of-presentation-200000002122\"\u003e \u003c/a\u003e\u003c/td\u003e\u003ctd\u003eFilm\u003c/td\u003e\u003c/tr\u003e\u003ctr\u003e\u003ctd style\u003d\"white-space:nowrap\"\u003e200000002123\u003ca name\u003d\"unit-of-presentation-200000002123\"\u003e \u003c/a\u003e\u003c/td\u003e\u003ctd\u003eChewing gum\u003c/td\u003e\u003c/tr\u003e\u003ctr\u003e\u003ctd style\u003d\"white-space:nowrap\"\u003e200000002124\u003ca name\u003d\"unit-of-presentation-200000002124\"\u003e \u003c/a\u003e\u003c/td\u003e\u003ctd\u003eImplant\u003c/td\u003e\u003c/tr\u003e\u003ctr\u003e\u003ctd style\u003d\"white-space:nowrap\"\u003e200000002125\u003ca name\u003d\"unit-of-presentation-200000002125\"\u003e \u003c/a\u003e\u003c/td\u003e\u003ctd\u003eInhaler\u003c/td\u003e\u003c/tr\u003e\u003ctr\u003e\u003ctd style\u003d\"white-space:nowrap\"\u003e200000002126\u003ca name\u003d\"unit-of-presentation-200000002126\"\u003e \u003c/a\u003e\u003c/td\u003e\u003ctd\u003eInsert\u003c/td\u003e\u003c/tr\u003e\u003ctr\u003e\u003ctd style\u003d\"white-space:nowrap\"\u003e200000002127\u003ca name\u003d\"unit-of-presentation-200000002127\"\u003e \u003c/a\u003e\u003c/td\u003e\u003ctd\u003eJar\u003c/td\u003e\u003c/tr\u003e\u003ctr\u003e\u003ctd style\u003d\"white-space:nowrap\"\u003e200000002128\u003ca name\u003d\"unit-of-presentation-200000002128\"\u003e \u003c/a\u003e\u003c/td\u003e\u003ctd\u003eLozenge\u003c/td\u003e\u003c/tr\u003e\u003ctr\u003e\u003ctd style\u003d\"white-space:nowrap\"\u003e200000002129\u003ca name\u003d\"unit-of-presentation-200000002129\"\u003e \u003c/a\u003e\u003c/td\u003e\u003ctd\u003eLyophilisate\u003c/td\u003e\u003c/tr\u003e\u003ctr\u003e\u003ctd style\u003d\"white-space:nowrap\"\u003e200000002130\u003ca name\u003d\"unit-of-presentation-200000002130\"\u003e \u003c/a\u003e\u003c/td\u003e\u003ctd\u003eMatrix\u003c/td\u003e\u003c/tr\u003e\u003ctr\u003e\u003ctd style\u003d\"white-space:nowrap\"\u003e200000002131\u003ca name\u003d\"unit-of-presentation-200000002131\"\u003e \u003c/a\u003e\u003c/td\u003e\u003ctd\u003ePad\u003c/td\u003e\u003c/tr\u003e\u003ctr\u003e\u003ctd style\u003d\"white-space:nowrap\"\u003e200000002132\u003ca name\u003d\"unit-of-presentation-200000002132\"\u003e \u003c/a\u003e\u003c/td\u003e\u003ctd\u003ePaper\u003c/td\u003e\u003c/tr\u003e\u003ctr\u003e\u003ctd style\u003d\"white-space:nowrap\"\u003e200000002133\u003ca name\u003d\"unit-of-presentation-200000002133\"\u003e \u003c/a\u003e\u003c/td\u003e\u003ctd\u003ePastille\u003c/td\u003e\u003c/tr\u003e\u003ctr\u003e\u003ctd style\u003d\"white-space:nowrap\"\u003e200000002134\u003ca name\u003d\"unit-of-presentation-200000002134\"\u003e \u003c/a\u003e\u003c/td\u003e\u003ctd\u003ePatch\u003c/td\u003e\u003c/tr\u003e\u003ctr\u003e\u003ctd style\u003d\"white-space:nowrap\"\u003e200000002135\u003ca name\u003d\"unit-of-presentation-200000002135\"\u003e \u003c/a\u003e\u003c/td\u003e\u003ctd\u003ePen\u003c/td\u003e\u003c/tr\u003e\u003ctr\u003e\u003ctd style\u003d\"white-space:nowrap\"\u003e200000002136\u003ca name\u003d\"unit-of-presentation-200000002136\"\u003e \u003c/a\u003e\u003c/td\u003e\u003ctd\u003ePendant\u003c/td\u003e\u003c/tr\u003e\u003ctr\u003e\u003ctd style\u003d\"white-space:nowrap\"\u003e200000002137\u003ca name\u003d\"unit-of-presentation-200000002137\"\u003e \u003c/a\u003e\u003c/td\u003e\u003ctd\u003ePessary\u003c/td\u003e\u003c/tr\u003e\u003ctr\u003e\u003ctd style\u003d\"white-space:nowrap\"\u003e200000002138\u003ca name\u003d\"unit-of-presentation-200000002138\"\u003e \u003c/a\u003e\u003c/td\u003e\u003ctd\u003ePillule\u003c/td\u003e\u003c/tr\u003e\u003ctr\u003e\u003ctd style\u003d\"white-space:nowrap\"\u003e200000002139\u003ca name\u003d\"unit-of-presentation-200000002139\"\u003e \u003c/a\u003e\u003c/td\u003e\u003ctd\u003ePipette\u003c/td\u003e\u003c/tr\u003e\u003ctr\u003e\u003ctd style\u003d\"white-space:nowrap\"\u003e200000002140\u003ca name\u003d\"unit-of-presentation-200000002140\"\u003e \u003c/a\u003e\u003c/td\u003e\u003ctd\u003ePlaster\u003c/td\u003e\u003c/tr\u003e\u003ctr\u003e\u003ctd style\u003d\"white-space:nowrap\"\u003e200000002141\u003ca name\u003d\"unit-of-presentation-200000002141\"\u003e \u003c/a\u003e\u003c/td\u003e\u003ctd\u003ePlug\u003c/td\u003e\u003c/tr\u003e\u003ctr\u003e\u003ctd style\u003d\"white-space:nowrap\"\u003e200000002142\u003ca name\u003d\"unit-of-presentation-200000002142\"\u003e \u003c/a\u003e\u003c/td\u003e\u003ctd\u003ePouch\u003c/td\u003e\u003c/tr\u003e\u003ctr\u003e\u003ctd style\u003d\"white-space:nowrap\"\u003e200000002143\u003ca name\u003d\"unit-of-presentation-200000002143\"\u003e \u003c/a\u003e\u003c/td\u003e\u003ctd\u003eSachet\u003c/td\u003e\u003c/tr\u003e\u003ctr\u003e\u003ctd style\u003d\"white-space:nowrap\"\u003e200000002144\u003ca name\u003d\"unit-of-presentation-200000002144\"\u003e \u003c/a\u003e\u003c/td\u003e\u003ctd\u003eSponge\u003c/td\u003e\u003c/tr\u003e\u003ctr\u003e\u003ctd style\u003d\"white-space:nowrap\"\u003e200000002145\u003ca name\u003d\"unit-of-presentation-200000002145\"\u003e \u003c/a\u003e\u003c/td\u003e\u003ctd\u003eSpoonful\u003c/td\u003e\u003c/tr\u003e\u003ctr\u003e\u003ctd style\u003d\"white-space:nowrap\"\u003e200000002146\u003ca name\u003d\"unit-of-presentation-200000002146\"\u003e \u003c/a\u003e\u003c/td\u003e\u003ctd\u003eStick\u003c/td\u003e\u003c/tr\u003e\u003ctr\u003e\u003ctd style\u003d\"white-space:nowrap\"\u003e200000002147\u003ca name\u003d\"unit-of-presentation-200000002147\"\u003e \u003c/a\u003e\u003c/td\u003e\u003ctd\u003eStraw\u003c/td\u003e\u003c/tr\u003e\u003ctr\u003e\u003ctd style\u003d\"white-space:nowrap\"\u003e200000002148\u003ca name\u003d\"unit-of-presentation-200000002148\"\u003e \u003c/a\u003e\u003c/td\u003e\u003ctd\u003eStrip\u003c/td\u003e\u003c/tr\u003e\u003ctr\u003e\u003ctd style\u003d\"white-space:nowrap\"\u003e200000002149\u003ca name\u003d\"unit-of-presentation-200000002149\"\u003e \u003c/a\u003e\u003c/td\u003e\u003ctd\u003eSuppository\u003c/td\u003e\u003c/tr\u003e\u003ctr\u003e\u003ctd style\u003d\"white-space:nowrap\"\u003e200000002150\u003ca name\u003d\"unit-of-presentation-200000002150\"\u003e \u003c/a\u003e\u003c/td\u003e\u003ctd\u003eSyringe\u003c/td\u003e\u003c/tr\u003e\u003ctr\u003e\u003ctd style\u003d\"white-space:nowrap\"\u003e200000002151\u003ca name\u003d\"unit-of-presentation-200000002151\"\u003e \u003c/a\u003e\u003c/td\u003e\u003ctd\u003eSystem\u003c/td\u003e\u003c/tr\u003e\u003ctr\u003e\u003ctd style\u003d\"white-space:nowrap\"\u003e200000002152\u003ca name\u003d\"unit-of-presentation-200000002152\"\u003e \u003c/a\u003e\u003c/td\u003e\u003ctd\u003eTablet\u003c/td\u003e\u003c/tr\u003e\u003ctr\u003e\u003ctd style\u003d\"white-space:nowrap\"\u003e200000002153\u003ca name\u003d\"unit-of-presentation-200000002153\"\u003e \u003c/a\u003e\u003c/td\u003e\u003ctd\u003eTag\u003c/td\u003e\u003c/tr\u003e\u003ctr\u003e\u003ctd style\u003d\"white-space:nowrap\"\u003e200000002154\u003ca name\u003d\"unit-of-presentation-200000002154\"\u003e \u003c/a\u003e\u003c/td\u003e\u003ctd\u003eTampon\u003c/td\u003e\u003c/tr\u003e\u003ctr\u003e\u003ctd style\u003d\"white-space:nowrap\"\u003e200000002155\u003ca name\u003d\"unit-of-presentation-200000002155\"\u003e \u003c/a\u003e\u003c/td\u003e\u003ctd\u003eThread\u003c/td\u003e\u003c/tr\u003e\u003ctr\u003e\u003ctd style\u003d\"white-space:nowrap\"\u003e200000002156\u003ca name\u003d\"unit-of-presentation-200000002156\"\u003e \u003c/a\u003e\u003c/td\u003e\u003ctd\u003eTube\u003c/td\u003e\u003c/tr\u003e\u003ctr\u003e\u003ctd style\u003d\"white-space:nowrap\"\u003e200000002157\u003ca name\u003d\"unit-of-presentation-200000002157\"\u003e \u003c/a\u003e\u003c/td\u003e\u003ctd\u003eVessel\u003c/td\u003e\u003c/tr\u003e\u003ctr\u003e\u003ctd style\u003d\"white-space:nowrap\"\u003e200000002158\u003ca name\u003d\"unit-of-presentation-200000002158\"\u003e \u003c/a\u003e\u003c/td\u003e\u003ctd\u003eVial\u003c/td\u003e\u003c/tr\u003e\u003ctr\u003e\u003ctd style\u003d\"white-space:nowrap\"\u003e200000002159\u003ca name\u003d\"unit-of-presentation-200000002159\"\u003e \u003c/a\u003e\u003c/td\u003e\u003ctd\u003ePuff\u003c/td\u003e\u003c/tr\u003e\u003ctr\u003e\u003ctd style\u003d\"white-space:nowrap\"\u003e200000002163\u003ca name\u003d\"unit-of-presentation-200000002163\"\u003e \u003c/a\u003e\u003c/td\u003e\u003ctd\u003eActuation\u003c/td\u003e\u003c/tr\u003e\u003ctr\u003e\u003ctd style\u003d\"white-space:nowrap\"\u003e200000002164\u003ca name\u003d\"unit-of-presentation-200000002164\"\u003e \u003c/a\u003e\u003c/td\u003e\u003ctd\u003eAmpoule\u003c/td\u003e\u003c/tr\u003e\u003ctr\u003e\u003ctd style\u003d\"white-space:nowrap\"\u003e200000002165\u003ca name\u003d\"unit-of-presentation-200000002165\"\u003e \u003c/a\u003e\u003c/td\u003e\u003ctd\u003eApplicator\u003c/td\u003e\u003c/tr\u003e\u003ctr\u003e\u003ctd style\u003d\"white-space:nowrap\"\u003e200000002166\u003ca name\u003d\"unit-of-presentation-200000002166\"\u003e \u003c/a\u003e\u003c/td\u003e\u003ctd\u003eBag\u003c/td\u003e\u003c/tr\u003e\u003c/table\u003e\u003c/div\u003e"
+  },
+  "extension": [
+    {
+      "url": "http://hl7.org/fhir/StructureDefinition/structuredefinition-wg",
+      "valueCode": "brr"
+    },
+    {
+      "url": "http://hl7.org/fhir/StructureDefinition/structuredefinition-standards-status",
+      "valueCode": "trial-use"
+    },
+    {
+      "url": "http://hl7.org/fhir/StructureDefinition/structuredefinition-fmm",
+      "valueInteger": 1
+    }
+  ],
+  "url": "http://hl7.org/fhir/unit-of-presentation",
+  "identifier": [
+    {
+      "system": "urn:ietf:rfc:3986",
+      "value": "urn:oid:2.16.840.1.113883.4.642.1.1587"
+    }
+  ],
+  "version": "4.3.0-cibuild",
+  "name": "UnitOfPresentation",
+  "title": "UnitOfPresentation",
+  "status": "draft",
+  "experimental": false,
+  "date": "2021-01-05T10:01:24+11:00",
+  "publisher": "HL7 (FHIR Project)",
+  "contact": [
+    {
+      "telecom": [
+        {
+          "system": "url",
+          "value": "http://hl7.org/fhir"
+        },
+        {
+          "system": "email",
+          "value": "fhir@lists.hl7.org"
+        }
+      ]
+    }
+  ],
+  "description": "The presentation type in which an administrable medicinal product is given to a patient.",
+  "caseSensitive": true,
+  "valueSet": "http://hl7.org/fhir/ValueSet/unit-of-presentation",
+  "content": "complete",
+  "concept": [
+    {
+      "code": "200000002108",
+      "display": "Barrel"
+    },
+    {
+      "code": "200000002109",
+      "display": "Blister"
+    },
+    {
+      "code": "200000002110",
+      "display": "Block"
+    },
+    {
+      "code": "200000002111",
+      "display": "Bottle"
+    },
+    {
+      "code": "200000002112",
+      "display": "Cachet"
+    },
+    {
+      "code": "200000002113",
+      "display": "Capsule"
+    },
+    {
+      "code": "200000002114",
+      "display": "Cartridge"
+    },
+    {
+      "code": "200000002115",
+      "display": "Collar"
+    },
+    {
+      "code": "200000002116",
+      "display": "Container"
+    },
+    {
+      "code": "200000002117",
+      "display": "Cup"
+    },
+    {
+      "code": "200000002118",
+      "display": "Cylinder"
+    },
+    {
+      "code": "200000002119",
+      "display": "Dart"
+    },
+    {
+      "code": "200000002120",
+      "display": "Dressing"
+    },
+    {
+      "code": "200000002121",
+      "display": "Drop"
+    },
+    {
+      "code": "200000002122",
+      "display": "Film"
+    },
+    {
+      "code": "200000002123",
+      "display": "Chewing gum"
+    },
+    {
+      "code": "200000002124",
+      "display": "Implant"
+    },
+    {
+      "code": "200000002125",
+      "display": "Inhaler"
+    },
+    {
+      "code": "200000002126",
+      "display": "Insert"
+    },
+    {
+      "code": "200000002127",
+      "display": "Jar"
+    },
+    {
+      "code": "200000002128",
+      "display": "Lozenge"
+    },
+    {
+      "code": "200000002129",
+      "display": "Lyophilisate"
+    },
+    {
+      "code": "200000002130",
+      "display": "Matrix"
+    },
+    {
+      "code": "200000002131",
+      "display": "Pad"
+    },
+    {
+      "code": "200000002132",
+      "display": "Paper"
+    },
+    {
+      "code": "200000002133",
+      "display": "Pastille"
+    },
+    {
+      "code": "200000002134",
+      "display": "Patch"
+    },
+    {
+      "code": "200000002135",
+      "display": "Pen"
+    },
+    {
+      "code": "200000002136",
+      "display": "Pendant"
+    },
+    {
+      "code": "200000002137",
+      "display": "Pessary"
+    },
+    {
+      "code": "200000002138",
+      "display": "Pillule"
+    },
+    {
+      "code": "200000002139",
+      "display": "Pipette"
+    },
+    {
+      "code": "200000002140",
+      "display": "Plaster"
+    },
+    {
+      "code": "200000002141",
+      "display": "Plug"
+    },
+    {
+      "code": "200000002142",
+      "display": "Pouch"
+    },
+    {
+      "code": "200000002143",
+      "display": "Sachet"
+    },
+    {
+      "code": "200000002144",
+      "display": "Sponge"
+    },
+    {
+      "code": "200000002145",
+      "display": "Spoonful"
+    },
+    {
+      "code": "200000002146",
+      "display": "Stick"
+    },
+    {
+      "code": "200000002147",
+      "display": "Straw"
+    },
+    {
+      "code": "200000002148",
+      "display": "Strip"
+    },
+    {
+      "code": "200000002149",
+      "display": "Suppository"
+    },
+    {
+      "code": "200000002150",
+      "display": "Syringe"
+    },
+    {
+      "code": "200000002151",
+      "display": "System"
+    },
+    {
+      "code": "200000002152",
+      "display": "Tablet"
+    },
+    {
+      "code": "200000002153",
+      "display": "Tag"
+    },
+    {
+      "code": "200000002154",
+      "display": "Tampon"
+    },
+    {
+      "code": "200000002155",
+      "display": "Thread"
+    },
+    {
+      "code": "200000002156",
+      "display": "Tube"
+    },
+    {
+      "code": "200000002157",
+      "display": "Vessel"
+    },
+    {
+      "code": "200000002158",
+      "display": "Vial"
+    },
+    {
+      "code": "200000002159",
+      "display": "Puff"
+    },
+    {
+      "code": "200000002163",
+      "display": "Actuation"
+    },
+    {
+      "code": "200000002164",
+      "display": "Ampoule"
+    },
+    {
+      "code": "200000002165",
+      "display": "Applicator"
+    },
+    {
+      "code": "200000002166",
+      "display": "Bag"
+    }
+  ]
+}

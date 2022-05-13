@@ -2,7 +2,7 @@
     "resourceType": "OperationDefinition",
     "id": "Measure-submit-data",
     "meta": {
-        "lastUpdated": "2022-01-01T15:17:18.597Z"
+        "lastUpdated": "2022-04-23T22:21:35.043Z"
     },
     "text": {
         "status": "empty",
@@ -19,12 +19,13 @@
         }
     ],
     "url": "http://hl7.org/fhir/OperationDefinition/Measure-submit-data",
-    "version": "4.3.0-CIBUILD",
-    "name": "submit-data",
+    "version": "4.3.0-cibuild",
+    "name": "SubmitData",
     "title": "Submit Data",
     "status": "draft",
     "kind": "operation",
-    "date": "2022-01-01T15:17:18Z",
+    "experimental": false,
+    "date": "2022-04-23T22:21:35Z",
     "publisher": "HL7 (FHIR Project)",
     "contact": [
         {

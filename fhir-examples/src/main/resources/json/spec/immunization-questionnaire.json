@@ -9,8 +9,8 @@
       "status": "active",
       "description": "Type options for Immunization.occurrence[x]",
       "expansion": {
-        "identifier": "urn:uuid:f768570f-e4a7-4592-9fc9-e83bf746d105",
-        "timestamp": "2022-01-01T15:24:42+00:00",
+        "identifier": "urn:uuid:002179e5-c1f0-4ecd-96ba-da8cb337e62f",
+        "timestamp": "2022-04-23T22:29:32+00:00",
         "contains": [
           {
             "system": "http://hl7.org/fhir/data-types",
@@ -32,8 +32,8 @@
       "status": "active",
       "description": "Type options for Immunization.protocolApplied.doseNumber[x]",
       "expansion": {
-        "identifier": "urn:uuid:36afc1f9-e547-4627-8793-674f0984bba2",
-        "timestamp": "2022-01-01T15:24:42+00:00",
+        "identifier": "urn:uuid:7c6a20f9-a932-41a2-ab05-1879b0376ecf",
+        "timestamp": "2022-04-23T22:29:32+00:00",
         "contains": [
           {
             "system": "http://hl7.org/fhir/data-types",
@@ -55,8 +55,8 @@
       "status": "active",
       "description": "Type options for Immunization.protocolApplied.seriesDoses[x]",
       "expansion": {
-        "identifier": "urn:uuid:d25a79a8-c96c-4622-934a-4f63255c6a5e",
-        "timestamp": "2022-01-01T15:24:42+00:00",
+        "identifier": "urn:uuid:85cce376-8df7-427a-a4b9-7ccd4ec57d5f",
+        "timestamp": "2022-04-23T22:29:32+00:00",
         "contains": [
           {
             "system": "http://hl7.org/fhir/data-types",
@@ -77,9 +77,10 @@
       "system": "urn:ietf:rfc:3986"
     }
   ],
-  "version": "4.3.0-CIBUILD",
+  "version": "4.3.0-cibuild",
   "status": "draft",
-  "date": "2022-01-01T15:17:18+00:00",
+  "experimental": false,
+  "date": "2022-04-23T22:21:35+00:00",
   "publisher": "Health Level Seven International (Public Health and Emergency Response)",
   "item": [
     {
@@ -268,10 +269,9 @@
             {
               "linkId": "Immunization.language.value",
               "text": "language",
-              "type": "coding",
+              "type": "choice",
               "required": false,
-              "repeats": false,
-              "answerConstraint": "optionsOnly"
+              "repeats": false
             }
           ]
         },
@@ -490,10 +490,9 @@
             {
               "linkId": "Immunization.status.value",
               "text": "status",
-              "type": "coding",
+              "type": "choice",
               "required": false,
-              "repeats": false,
-              "answerConstraint": "optionsOrType"
+              "repeats": false
             }
           ]
         },
@@ -536,10 +535,9 @@
             {
               "linkId": "Immunization.statusReason.coding",
               "text": "code:",
-              "type": "coding",
+              "type": "choice",
               "required": false,
-              "repeats": false,
-              "answerConstraint": "optionsOnly"
+              "repeats": false
             },
             {
               "linkId": "Immunization.statusReason.text",
@@ -593,10 +591,9 @@
             {
               "linkId": "Immunization.vaccineCode.coding",
               "text": "code:",
-              "type": "coding",
+              "type": "choice",
               "required": false,
-              "repeats": false,
-              "answerConstraint": "optionsOnly"
+              "repeats": false
             },
             {
               "linkId": "Immunization.vaccineCode.text",
@@ -758,10 +755,9 @@
             {
               "linkId": "Immunization.occurrence[x]._type",
               "text": "type",
-              "type": "coding",
+              "type": "choice",
               "required": false,
               "repeats": false,
-              "answerConstraint": "optionsOnly",
               "answerValueSet": "#vs2",
               "item": [
                 {
@@ -931,10 +927,9 @@
             {
               "linkId": "Immunization.reportOrigin.coding",
               "text": "code:",
-              "type": "coding",
+              "type": "choice",
               "required": false,
-              "repeats": false,
-              "answerConstraint": "optionsOnly"
+              "repeats": false
             },
             {
               "linkId": "Immunization.reportOrigin.text",
@@ -1180,10 +1175,9 @@
             {
               "linkId": "Immunization.site.coding",
               "text": "code:",
-              "type": "coding",
+              "type": "choice",
               "required": false,
-              "repeats": false,
-              "answerConstraint": "optionsOnly"
+              "repeats": false
             },
             {
               "linkId": "Immunization.site.text",
@@ -1233,10 +1227,9 @@
             {
               "linkId": "Immunization.route.coding",
               "text": "code:",
-              "type": "coding",
+              "type": "choice",
               "required": false,
-              "repeats": false,
-              "answerConstraint": "optionsOnly"
+              "repeats": false
             },
             {
               "linkId": "Immunization.route.text",
@@ -1286,10 +1279,9 @@
             {
               "linkId": "Immunization.doseQuantity.comparator",
               "text": "comp:",
-              "type": "coding",
+              "type": "choice",
               "required": false,
-              "repeats": false,
-              "answerConstraint": "optionsOnly"
+              "repeats": false
             },
             {
               "linkId": "Immunization.doseQuantity.value",
@@ -1486,10 +1478,9 @@
                 {
                   "linkId": "Immunization.performer.function.coding",
                   "text": "code:",
-                  "type": "coding",
+                  "type": "choice",
                   "required": false,
-                  "repeats": false,
-                  "answerConstraint": "optionsOnly"
+                  "repeats": false
                 },
                 {
                   "linkId": "Immunization.performer.function.text",
@@ -1629,10 +1620,9 @@
             {
               "linkId": "Immunization.reasonCode.coding",
               "text": "code:",
-              "type": "coding",
+              "type": "choice",
               "required": false,
-              "repeats": false,
-              "answerConstraint": "optionsOnly"
+              "repeats": false
             },
             {
               "linkId": "Immunization.reasonCode.text",
@@ -1772,10 +1762,9 @@
             {
               "linkId": "Immunization.subpotentReason.coding",
               "text": "code:",
-              "type": "coding",
+              "type": "choice",
               "required": false,
-              "repeats": false,
-              "answerConstraint": "optionsOnly"
+              "repeats": false
             },
             {
               "linkId": "Immunization.subpotentReason.text",
@@ -2125,10 +2114,9 @@
             {
               "linkId": "Immunization.programEligibility.coding",
               "text": "code:",
-              "type": "coding",
+              "type": "choice",
               "required": false,
-              "repeats": false,
-              "answerConstraint": "optionsOnly"
+              "repeats": false
             },
             {
               "linkId": "Immunization.programEligibility.text",
@@ -2178,10 +2166,9 @@
             {
               "linkId": "Immunization.fundingSource.coding",
               "text": "code:",
-              "type": "coding",
+              "type": "choice",
               "required": false,
-              "repeats": false,
-              "answerConstraint": "optionsOnly"
+              "repeats": false
             },
             {
               "linkId": "Immunization.fundingSource.text",
@@ -2726,10 +2713,9 @@
                 {
                   "linkId": "Immunization.protocolApplied.targetDisease.coding",
                   "text": "code:",
-                  "type": "coding",
+                  "type": "choice",
                   "required": false,
-                  "repeats": false,
-                  "answerConstraint": "optionsOnly"
+                  "repeats": false
                 },
                 {
                   "linkId": "Immunization.protocolApplied.targetDisease.text",
@@ -2779,10 +2765,9 @@
                 {
                   "linkId": "Immunization.protocolApplied.doseNumber[x]._type",
                   "text": "type",
-                  "type": "coding",
+                  "type": "choice",
                   "required": false,
                   "repeats": false,
-                  "answerConstraint": "optionsOnly",
                   "answerValueSet": "#vs3",
                   "item": [
                     {
@@ -2860,10 +2845,9 @@
                 {
                   "linkId": "Immunization.protocolApplied.seriesDoses[x]._type",
                   "text": "type",
-                  "type": "coding",
+                  "type": "choice",
                   "required": false,
                   "repeats": false,
-                  "answerConstraint": "optionsOnly",
                   "answerValueSet": "#vs4",
                   "item": [
                     {

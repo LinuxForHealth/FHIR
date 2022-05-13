@@ -2,7 +2,7 @@
     "resourceType": "ValueSet",
     "id": "age-units",
     "meta": {
-        "lastUpdated": "2022-03-03T22:04:06.196Z",
+        "lastUpdated": "2022-04-23T22:21:35.043Z",
         "profile": [
             "http://hl7.org/fhir/StructureDefinition/shareablevalueset"
         ]
@@ -28,12 +28,12 @@
             "value": "urn:oid:2.16.840.1.113883.4.642.3.19"
         }
     ],
-    "version": "4.3.0-CIBUILD",
+    "version": "4.3.0-cibuild",
     "name": "CommonUCUMCodesForAge",
     "title": "Common UCUM Codes for Age",
     "status": "draft",
     "experimental": false,
-    "date": "2022-03-03T22:04:06Z",
+    "date": "2022-04-23T22:21:35Z",
     "publisher": "FHIR Project team",
     "contact": [
         {
@@ -81,11 +81,12 @@
         ]
     },
     "expansion": {
-        "identifier": "urn:uuid:22b17aad-f3ca-4957-85ed-183c06dced42",
-        "timestamp": "2021-11-17T05:28:24.684Z",
+        "identifier": "urn:uuid:fd2375e2-691d-4689-a219-7044fd2098ed",
+        "timestamp": "2022-04-23T22:23:07Z",
+        "total": 6,
         "parameter": [
             {
-                "name": "limitedExpansion",
+                "name": "excludeNested",
                 "valueBoolean": true
             },
             {
@@ -93,7 +94,7 @@
                 "valueBoolean": true
             },
             {
-                "name": "excludeNested",
+                "name": "limitedExpansion",
                 "valueBoolean": true
             },
             {
@@ -105,60 +106,60 @@
             {
                 "system": "http://unitsofmeasure.org",
                 "code": "min",
-                "display": "min",
+                "display": "Minute",
                 "designation": [
                     {
-                        "value": "min"
+                        "value": "Minute"
                     }
                 ]
             },
             {
                 "system": "http://unitsofmeasure.org",
                 "code": "h",
-                "display": "h",
+                "display": "Hour",
                 "designation": [
                     {
-                        "value": "h"
+                        "value": "Hour"
                     }
                 ]
             },
             {
                 "system": "http://unitsofmeasure.org",
                 "code": "d",
-                "display": "d",
+                "display": "Day",
                 "designation": [
                     {
-                        "value": "d"
+                        "value": "Day"
                     }
                 ]
             },
             {
                 "system": "http://unitsofmeasure.org",
                 "code": "wk",
-                "display": "wk",
+                "display": "Week",
                 "designation": [
                     {
-                        "value": "wk"
+                        "value": "Week"
                     }
                 ]
             },
             {
                 "system": "http://unitsofmeasure.org",
                 "code": "mo",
-                "display": "mo",
+                "display": "Month",
                 "designation": [
                     {
-                        "value": "mo"
+                        "value": "Month"
                     }
                 ]
             },
             {
                 "system": "http://unitsofmeasure.org",
                 "code": "a",
-                "display": "a",
+                "display": "Year",
                 "designation": [
                     {
-                        "value": "a"
+                        "value": "Year"
                     }
                 ]
             }

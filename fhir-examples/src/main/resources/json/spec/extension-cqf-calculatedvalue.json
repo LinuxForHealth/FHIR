@@ -12,10 +12,11 @@
     }
   ],
   "url": "http://hl7.org/fhir/StructureDefinition/cqf-calculatedValue",
-  "version": "4.3.0-CIBUILD",
+  "version": "4.3.0-cibuild",
   "name": "calculatedValue",
   "title": "calculatedValue",
   "status": "draft",
+  "experimental": false,
   "date": "2015-05-30",
   "publisher": "Health Level Seven, Inc. - CDS WG",
   "contact": [
@@ -29,7 +30,7 @@
     }
   ],
   "description": "The name of an expression in a referenced library that determines a calculated value.",
-  "fhirVersion": "4.3.0-CIBUILD",
+  "fhirVersion": "4.3.0-cibuild",
   "mapping": [
     {
       "identity": "rim",

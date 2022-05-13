@@ -12,10 +12,11 @@
     }
   ],
   "url": "http://hl7.org/fhir/StructureDefinition/translation",
-  "version": "4.3.0-CIBUILD",
+  "version": "4.3.0-cibuild",
   "name": "Translation",
   "title": "Translation",
   "status": "draft",
+  "experimental": false,
   "date": "2013-12-05",
   "publisher": "Health Level Seven International (FHIR Infrastructure)",
   "contact": [
@@ -29,7 +30,7 @@
     }
   ],
   "description": "Language translation from base language of resource to another language.",
-  "fhirVersion": "4.3.0-CIBUILD",
+  "fhirVersion": "4.3.0-cibuild",
   "mapping": [
     {
       "identity": "rim",
@@ -721,9 +722,6 @@
             "code": "CodeableConcept"
           },
           {
-            "code": "CodeableReference"
-          },
-          {
             "code": "Coding"
           },
           {
@@ -758,9 +756,6 @@
           },
           {
             "code": "Ratio"
-          },
-          {
-            "code": "RatioRange"
           },
           {
             "code": "Reference"

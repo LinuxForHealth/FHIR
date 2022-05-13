@@ -12,10 +12,11 @@
         }
     ],
     "url": "http://hl7.org/fhir/StructureDefinition/condition-occurredFollowing",
-    "version": "4.3.0-CIBUILD",
+    "version": "4.3.0-cibuild",
     "name": "occurredFollowing",
     "title": "occurredFollowing",
     "status": "draft",
+    "experimental": false,
     "date": "2015-02-21",
     "publisher": "Health Level Seven, Inc. - FHIR WG",
     "contact": [
@@ -29,7 +30,7 @@
         }
     ],
     "description": "Further conditions, problems, diagnoses, procedures or events or the substance that preceded this Condition.",
-    "fhirVersion": "4.3.0-CIBUILD",
+    "fhirVersion": "4.3.0-cibuild",
     "mapping": [
         {
             "identity": "rim",

@@ -2,7 +2,7 @@
     "resourceType": "ValueSet",
     "id": "package-material",
     "meta": {
-        "lastUpdated": "2022-03-04T09:04:06.196+11:00",
+        "lastUpdated": "2022-04-24T09:21:35.043+11:00",
         "profile": [
             "http://hl7.org/fhir/StructureDefinition/shareablevalueset"
         ]
@@ -28,7 +28,7 @@
             "value": "urn:oid:2.16.840.1.113883.4.642.3.1674"
         }
     ],
-    "version": "4.3.0-CIBUILD",
+    "version": "4.3.0-cibuild",
     "name": "PackageMaterial",
     "title": "PackageMaterial",
     "status": "draft",
@@ -59,8 +59,8 @@
         ]
     },
     "expansion": {
-        "identifier": "urn:uuid:1baf5170-2bab-4a63-a1d9-2003228b7c67",
-        "timestamp": "2022-03-03T22:05:31Z",
+        "identifier": "urn:uuid:3fa912ba-8d52-45b2-b414-fc0931f4d9bc",
+        "timestamp": "2022-04-23T22:23:26Z",
         "total": 43,
         "parameter": [
             {
@@ -73,7 +73,7 @@
             },
             {
                 "name": "version",
-                "valueUri": "http://hl7.org/fhir/package-material|4.3.0-CIBUILD"
+                "valueUri": "http://hl7.org/fhir/package-material|4.3.0-cibuild"
             }
         ],
         "contains": [

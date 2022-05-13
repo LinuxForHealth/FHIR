@@ -22,10 +22,11 @@
     <valueCode value="4.0.0"/>
   </extension>
   <url value="http://hl7.org/fhir/StructureDefinition/SimpleQuantity"/>
-  <version value="4.3.0-CIBUILD"/>
+  <version value="4.3.0-cibuild"/>
   <name value="SimpleQuantity"/>
   <status value="active"/>
-  <date value="2022-01-01T15:17:18+00:00"/>
+  <experimental value="false"/>
+  <date value="2022-04-23T22:21:35+00:00"/>
   <publisher value="HL7 FHIR Standard"/>
   <contact>
     <telecom>
@@ -34,7 +35,7 @@
     </telecom>
   </contact>
   <description value="A fixed quantity (no comparator)"/>
-  <fhirVersion value="4.3.0-CIBUILD"/>
+  <fhirVersion value="4.3.0-cibuild"/>
   <mapping>
     <identity value="v2"/>
     <uri value="http://hl7.org/v2"/>
@@ -244,7 +245,7 @@
           <valueString value="QuantityComparator"/>
         </extension>
         <strength value="required"/>
-        <valueSet value="http://hl7.org/fhir/ValueSet/quantity-comparator|4.3.0-CIBUILD"/>
+        <valueSet value="http://hl7.org/fhir/ValueSet/quantity-comparator|4.3.0-cibuild"/>
       </binding>
       <mapping>
         <identity value="v2"/>

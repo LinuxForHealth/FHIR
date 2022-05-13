@@ -9,7 +9,7 @@
       <display value="test health data"/>
     </security>
   </meta>
-  <text><status value="extensions"/><div xmlns="http://www.w3.org/1999/xhtml"><p><b>Generated Narrative</b></p><div><p>Resource "infant-fetal" </p></div><p><b>Mother's Maiden Name</b>: Organa</p><p><b>identifier</b>: Medical record number: MRN657865757378</p><p><b>gender</b>: male</p><h3>Contacts</h3><table><tr><td>-</td><td><b>Relationship</b></td><td><b>Name</b></td><td><b>Telecom</b></td></tr><tr><td>*</td><td>Mother <span> (<a>SNOMED CT</a>#72705000; <a>contactRole2</a>#N; <a>RoleCode</a>#MTH)</span></td><td>Leia Organa (MAIDEN)</td><td><a>+31201234567</a></td></tr></table></div></text><extension url="http://hl7.org/fhir/StructureDefinition/patient-mothersMaidenName">
+  <text><status value="generated"/><div xmlns="http://www.w3.org/1999/xhtml"><p><b>Anonymous Patient</b> male, DoB Unknown ( Medical record number: MRN657865757378)</p></div></text><extension url="http://hl7.org/fhir/StructureDefinition/patient-mothersMaidenName">
 		<valueString value="Organa"/>
 	</extension>
 	<identifier>

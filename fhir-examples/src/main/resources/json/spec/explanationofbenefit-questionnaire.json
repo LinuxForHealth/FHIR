@@ -9,8 +9,8 @@
       "status": "active",
       "description": "Type options for ExplanationOfBenefit.supportingInfo.timing[x]",
       "expansion": {
-        "identifier": "urn:uuid:2026bf59-931f-47b9-9ee1-1654c75dc7f4",
-        "timestamp": "2022-01-01T15:24:34+00:00",
+        "identifier": "urn:uuid:08ae85de-cbf1-4756-9e34-e5da7f2d8264",
+        "timestamp": "2022-04-23T22:29:24+00:00",
         "contains": [
           {
             "system": "http://hl7.org/fhir/data-types",
@@ -32,8 +32,8 @@
       "status": "active",
       "description": "Type options for ExplanationOfBenefit.supportingInfo.value[x]",
       "expansion": {
-        "identifier": "urn:uuid:84b7f8af-5e6f-4ef2-b672-cf05b140855c",
-        "timestamp": "2022-01-01T15:24:34+00:00",
+        "identifier": "urn:uuid:0933372b-c615-4370-976e-2aef271a3c9f",
+        "timestamp": "2022-04-23T22:29:24+00:00",
         "contains": [
           {
             "system": "http://hl7.org/fhir/data-types",
@@ -70,8 +70,8 @@
       "status": "active",
       "description": "Type options for ExplanationOfBenefit.diagnosis.diagnosis[x]",
       "expansion": {
-        "identifier": "urn:uuid:e1769c01-fa1c-4bc3-b415-d1664eeb2699",
-        "timestamp": "2022-01-01T15:24:34+00:00",
+        "identifier": "urn:uuid:4fd82e9e-799b-4412-a442-0e526bc85430",
+        "timestamp": "2022-04-23T22:29:24+00:00",
         "contains": [
           {
             "system": "http://hl7.org/fhir/data-types",
@@ -93,8 +93,8 @@
       "status": "active",
       "description": "Type options for ExplanationOfBenefit.procedure.procedure[x]",
       "expansion": {
-        "identifier": "urn:uuid:38664166-fff4-453e-844f-52bd6c2c0cc3",
-        "timestamp": "2022-01-01T15:24:34+00:00",
+        "identifier": "urn:uuid:f88a1aa3-5555-417a-872c-444644124d7b",
+        "timestamp": "2022-04-23T22:29:24+00:00",
         "contains": [
           {
             "system": "http://hl7.org/fhir/data-types",
@@ -116,8 +116,8 @@
       "status": "active",
       "description": "Type options for ExplanationOfBenefit.accident.location[x]",
       "expansion": {
-        "identifier": "urn:uuid:325801c4-6b96-491a-8c06-65b9ee4850e6",
-        "timestamp": "2022-01-01T15:24:34+00:00",
+        "identifier": "urn:uuid:efe8a010-7bc5-41c8-8e52-a10e6e7b0990",
+        "timestamp": "2022-04-23T22:29:24+00:00",
         "contains": [
           {
             "system": "http://hl7.org/fhir/data-types",
@@ -139,8 +139,8 @@
       "status": "active",
       "description": "Type options for ExplanationOfBenefit.item.serviced[x]",
       "expansion": {
-        "identifier": "urn:uuid:6ecb5505-6a48-4805-b4b0-3317696ceebe",
-        "timestamp": "2022-01-01T15:24:34+00:00",
+        "identifier": "urn:uuid:03c43619-a408-4bab-a5b2-fd04a51e5169",
+        "timestamp": "2022-04-23T22:29:24+00:00",
         "contains": [
           {
             "system": "http://hl7.org/fhir/data-types",
@@ -162,8 +162,8 @@
       "status": "active",
       "description": "Type options for ExplanationOfBenefit.item.location[x]",
       "expansion": {
-        "identifier": "urn:uuid:9164c15d-73e6-4a3d-bf38-5261dfa1ef6e",
-        "timestamp": "2022-01-01T15:24:34+00:00",
+        "identifier": "urn:uuid:137e0dc3-44cd-4a3b-9a9d-50fa7969e587",
+        "timestamp": "2022-04-23T22:29:24+00:00",
         "contains": [
           {
             "system": "http://hl7.org/fhir/data-types",
@@ -190,8 +190,8 @@
       "status": "active",
       "description": "Type options for ExplanationOfBenefit.addItem.serviced[x]",
       "expansion": {
-        "identifier": "urn:uuid:d70c4657-d59a-4569-af16-f54458f216be",
-        "timestamp": "2022-01-01T15:24:34+00:00",
+        "identifier": "urn:uuid:aeceb2be-530c-4ff9-8c7e-1f1a81c81c54",
+        "timestamp": "2022-04-23T22:29:24+00:00",
         "contains": [
           {
             "system": "http://hl7.org/fhir/data-types",
@@ -213,8 +213,8 @@
       "status": "active",
       "description": "Type options for ExplanationOfBenefit.addItem.location[x]",
       "expansion": {
-        "identifier": "urn:uuid:23bec692-56b8-40b8-ba06-ca5243a2340c",
-        "timestamp": "2022-01-01T15:24:34+00:00",
+        "identifier": "urn:uuid:d6bcd3ea-48b5-4314-9af6-78acb2428b86",
+        "timestamp": "2022-04-23T22:29:24+00:00",
         "contains": [
           {
             "system": "http://hl7.org/fhir/data-types",
@@ -241,8 +241,8 @@
       "status": "active",
       "description": "Type options for ExplanationOfBenefit.benefitBalance.financial.allowed[x]",
       "expansion": {
-        "identifier": "urn:uuid:f56c9594-abcd-4fc0-a761-05fec90f789e",
-        "timestamp": "2022-01-01T15:24:34+00:00",
+        "identifier": "urn:uuid:50290633-f6c8-498f-9885-0706d9853353",
+        "timestamp": "2022-04-23T22:29:24+00:00",
         "contains": [
           {
             "system": "http://hl7.org/fhir/data-types",
@@ -269,8 +269,8 @@
       "status": "active",
       "description": "Type options for ExplanationOfBenefit.benefitBalance.financial.used[x]",
       "expansion": {
-        "identifier": "urn:uuid:89a954af-c4e9-4f89-9ef6-ef37f510ad8b",
-        "timestamp": "2022-01-01T15:24:34+00:00",
+        "identifier": "urn:uuid:7675274d-6a00-4c6e-945e-bbb3c78e6566",
+        "timestamp": "2022-04-23T22:29:24+00:00",
         "contains": [
           {
             "system": "http://hl7.org/fhir/data-types",
@@ -291,9 +291,10 @@
       "system": "urn:ietf:rfc:3986"
     }
   ],
-  "version": "4.3.0-CIBUILD",
+  "version": "4.3.0-cibuild",
   "status": "draft",
-  "date": "2022-01-01T15:17:18+00:00",
+  "experimental": false,
+  "date": "2022-04-23T22:21:35+00:00",
   "publisher": "Health Level Seven International (Financial Management)",
   "item": [
     {
@@ -482,10 +483,9 @@
             {
               "linkId": "ExplanationOfBenefit.language.value",
               "text": "language",
-              "type": "coding",
+              "type": "choice",
               "required": false,
-              "repeats": false,
-              "answerConstraint": "optionsOnly"
+              "repeats": false
             }
           ]
         },
@@ -704,10 +704,9 @@
             {
               "linkId": "ExplanationOfBenefit.status.value",
               "text": "status",
-              "type": "coding",
+              "type": "choice",
               "required": false,
-              "repeats": false,
-              "answerConstraint": "optionsOrType"
+              "repeats": false
             }
           ]
         },
@@ -754,10 +753,9 @@
             {
               "linkId": "ExplanationOfBenefit.type.coding",
               "text": "code:",
-              "type": "coding",
+              "type": "choice",
               "required": false,
-              "repeats": false,
-              "answerConstraint": "optionsOnly"
+              "repeats": false
             },
             {
               "linkId": "ExplanationOfBenefit.type.text",
@@ -807,10 +805,9 @@
             {
               "linkId": "ExplanationOfBenefit.subType.coding",
               "text": "code:",
-              "type": "coding",
+              "type": "choice",
               "required": false,
-              "repeats": false,
-              "answerConstraint": "optionsOnly"
+              "repeats": false
             },
             {
               "linkId": "ExplanationOfBenefit.subType.text",
@@ -863,10 +860,9 @@
             {
               "linkId": "ExplanationOfBenefit.use.value",
               "text": "use",
-              "type": "coding",
+              "type": "choice",
               "required": false,
-              "repeats": false,
-              "answerConstraint": "optionsOrType"
+              "repeats": false
             }
           ]
         },
@@ -1237,10 +1233,9 @@
             {
               "linkId": "ExplanationOfBenefit.priority.coding",
               "text": "code:",
-              "type": "coding",
+              "type": "choice",
               "required": false,
-              "repeats": false,
-              "answerConstraint": "optionsOnly"
+              "repeats": false
             },
             {
               "linkId": "ExplanationOfBenefit.priority.text",
@@ -1290,10 +1285,9 @@
             {
               "linkId": "ExplanationOfBenefit.fundsReserveRequested.coding",
               "text": "code:",
-              "type": "coding",
+              "type": "choice",
               "required": false,
-              "repeats": false,
-              "answerConstraint": "optionsOnly"
+              "repeats": false
             },
             {
               "linkId": "ExplanationOfBenefit.fundsReserveRequested.text",
@@ -1343,10 +1337,9 @@
             {
               "linkId": "ExplanationOfBenefit.fundsReserve.coding",
               "text": "code:",
-              "type": "coding",
+              "type": "choice",
               "required": false,
-              "repeats": false,
-              "answerConstraint": "optionsOnly"
+              "repeats": false
             },
             {
               "linkId": "ExplanationOfBenefit.fundsReserve.text",
@@ -1581,10 +1574,9 @@
                 {
                   "linkId": "ExplanationOfBenefit.related.relationship.coding",
                   "text": "code:",
-                  "type": "coding",
+                  "type": "choice",
                   "required": false,
-                  "repeats": false,
-                  "answerConstraint": "optionsOnly"
+                  "repeats": false
                 },
                 {
                   "linkId": "ExplanationOfBenefit.related.relationship.text",
@@ -1940,10 +1932,9 @@
                 {
                   "linkId": "ExplanationOfBenefit.payee.type.coding",
                   "text": "code:",
-                  "type": "coding",
+                  "type": "choice",
                   "required": false,
-                  "repeats": false,
-                  "answerConstraint": "optionsOnly"
+                  "repeats": false
                 },
                 {
                   "linkId": "ExplanationOfBenefit.payee.type.text",
@@ -2268,10 +2259,9 @@
             {
               "linkId": "ExplanationOfBenefit.outcome.value",
               "text": "outcome",
-              "type": "coding",
+              "type": "choice",
               "required": false,
-              "repeats": false,
-              "answerConstraint": "optionsOrType"
+              "repeats": false
             }
           ]
         },
@@ -2722,10 +2712,9 @@
                 {
                   "linkId": "ExplanationOfBenefit.careTeam.role.coding",
                   "text": "code:",
-                  "type": "coding",
+                  "type": "choice",
                   "required": false,
-                  "repeats": false,
-                  "answerConstraint": "optionsOnly"
+                  "repeats": false
                 },
                 {
                   "linkId": "ExplanationOfBenefit.careTeam.role.text",
@@ -2775,10 +2764,9 @@
                 {
                   "linkId": "ExplanationOfBenefit.careTeam.qualification.coding",
                   "text": "code:",
-                  "type": "coding",
+                  "type": "choice",
                   "required": false,
-                  "repeats": false,
-                  "answerConstraint": "optionsOnly"
+                  "repeats": false
                 },
                 {
                   "linkId": "ExplanationOfBenefit.careTeam.qualification.text",
@@ -3013,10 +3001,9 @@
                 {
                   "linkId": "ExplanationOfBenefit.supportingInfo.category.coding",
                   "text": "code:",
-                  "type": "coding",
+                  "type": "choice",
                   "required": false,
-                  "repeats": false,
-                  "answerConstraint": "optionsOnly"
+                  "repeats": false
                 },
                 {
                   "linkId": "ExplanationOfBenefit.supportingInfo.category.text",
@@ -3066,10 +3053,9 @@
                 {
                   "linkId": "ExplanationOfBenefit.supportingInfo.code.coding",
                   "text": "code:",
-                  "type": "coding",
+                  "type": "choice",
                   "required": false,
-                  "repeats": false,
-                  "answerConstraint": "optionsOnly"
+                  "repeats": false
                 },
                 {
                   "linkId": "ExplanationOfBenefit.supportingInfo.code.text",
@@ -3115,10 +3101,9 @@
                 {
                   "linkId": "ExplanationOfBenefit.supportingInfo.timing[x]._type",
                   "text": "type",
-                  "type": "coding",
+                  "type": "choice",
                   "required": false,
                   "repeats": false,
-                  "answerConstraint": "optionsOnly",
                   "answerValueSet": "#vs2",
                   "item": [
                     {
@@ -3204,10 +3189,9 @@
                 {
                   "linkId": "ExplanationOfBenefit.supportingInfo.value[x]._type",
                   "text": "type",
-                  "type": "coding",
+                  "type": "choice",
                   "required": false,
                   "repeats": false,
-                  "answerConstraint": "optionsOnly",
                   "answerValueSet": "#vs3",
                   "item": [
                     {
@@ -3259,10 +3243,9 @@
                         {
                           "linkId": "ExplanationOfBenefit.supportingInfo.value[x]._null.comparator",
                           "text": "comp:",
-                          "type": "coding",
+                          "type": "choice",
                           "required": false,
-                          "repeats": false,
-                          "answerConstraint": "optionsOnly"
+                          "repeats": false
                         },
                         {
                           "linkId": "ExplanationOfBenefit.supportingInfo.value[x]._null.value",
@@ -3374,10 +3357,9 @@
                 {
                   "linkId": "ExplanationOfBenefit.supportingInfo.reason.value",
                   "text": "Explanation for the information",
-                  "type": "coding",
+                  "type": "choice",
                   "required": false,
-                  "repeats": false,
-                  "answerConstraint": "optionsOnly"
+                  "repeats": false
                 }
               ]
             }
@@ -3596,10 +3578,9 @@
                 {
                   "linkId": "ExplanationOfBenefit.diagnosis.diagnosis[x]._type",
                   "text": "type",
-                  "type": "coding",
+                  "type": "choice",
                   "required": false,
                   "repeats": false,
-                  "answerConstraint": "optionsOnly",
                   "answerValueSet": "#vs4",
                   "item": [
                     {
@@ -3615,10 +3596,9 @@
                         {
                           "linkId": "ExplanationOfBenefit.diagnosis.diagnosis[x]._null.coding",
                           "text": "code:",
-                          "type": "coding",
+                          "type": "choice",
                           "required": false,
-                          "repeats": false,
-                          "answerConstraint": "optionsOnly"
+                          "repeats": false
                         },
                         {
                           "linkId": "ExplanationOfBenefit.diagnosis.diagnosis[x]._null.text",
@@ -3696,10 +3676,9 @@
                 {
                   "linkId": "ExplanationOfBenefit.diagnosis.type.coding",
                   "text": "code:",
-                  "type": "coding",
+                  "type": "choice",
                   "required": false,
-                  "repeats": false,
-                  "answerConstraint": "optionsOnly"
+                  "repeats": false
                 },
                 {
                   "linkId": "ExplanationOfBenefit.diagnosis.type.text",
@@ -3749,10 +3728,9 @@
                 {
                   "linkId": "ExplanationOfBenefit.diagnosis.onAdmission.coding",
                   "text": "code:",
-                  "type": "coding",
+                  "type": "choice",
                   "required": false,
-                  "repeats": false,
-                  "answerConstraint": "optionsOnly"
+                  "repeats": false
                 },
                 {
                   "linkId": "ExplanationOfBenefit.diagnosis.onAdmission.text",
@@ -3802,10 +3780,9 @@
                 {
                   "linkId": "ExplanationOfBenefit.diagnosis.packageCode.coding",
                   "text": "code:",
-                  "type": "coding",
+                  "type": "choice",
                   "required": false,
-                  "repeats": false,
-                  "answerConstraint": "optionsOnly"
+                  "repeats": false
                 },
                 {
                   "linkId": "ExplanationOfBenefit.diagnosis.packageCode.text",
@@ -4027,10 +4004,9 @@
                 {
                   "linkId": "ExplanationOfBenefit.procedure.type.coding",
                   "text": "code:",
-                  "type": "coding",
+                  "type": "choice",
                   "required": false,
-                  "repeats": false,
-                  "answerConstraint": "optionsOnly"
+                  "repeats": false
                 },
                 {
                   "linkId": "ExplanationOfBenefit.procedure.type.text",
@@ -4124,10 +4100,9 @@
                 {
                   "linkId": "ExplanationOfBenefit.procedure.procedure[x]._type",
                   "text": "type",
-                  "type": "coding",
+                  "type": "choice",
                   "required": false,
                   "repeats": false,
-                  "answerConstraint": "optionsOnly",
                   "answerValueSet": "#vs5",
                   "item": [
                     {
@@ -4143,10 +4118,9 @@
                         {
                           "linkId": "ExplanationOfBenefit.procedure.procedure[x]._null.coding",
                           "text": "code:",
-                          "type": "coding",
+                          "type": "choice",
                           "required": false,
-                          "repeats": false,
-                          "answerConstraint": "optionsOnly"
+                          "repeats": false
                         },
                         {
                           "linkId": "ExplanationOfBenefit.procedure.procedure[x]._null.text",
@@ -4785,10 +4759,9 @@
                 {
                   "linkId": "ExplanationOfBenefit.accident.type.coding",
                   "text": "code:",
-                  "type": "coding",
+                  "type": "choice",
                   "required": false,
-                  "repeats": false,
-                  "answerConstraint": "optionsOnly"
+                  "repeats": false
                 },
                 {
                   "linkId": "ExplanationOfBenefit.accident.type.text",
@@ -4834,10 +4807,9 @@
                 {
                   "linkId": "ExplanationOfBenefit.accident.location[x]._type",
                   "text": "type",
-                  "type": "coding",
+                  "type": "choice",
                   "required": false,
                   "repeats": false,
-                  "answerConstraint": "optionsOnly",
                   "answerValueSet": "#vs6",
                   "item": [
                     {
@@ -4895,10 +4867,9 @@
                         {
                           "linkId": "ExplanationOfBenefit.accident.location[x]._null.use",
                           "text": "use:",
-                          "type": "coding",
+                          "type": "choice",
                           "required": false,
-                          "repeats": false,
-                          "answerConstraint": "optionsOnly"
+                          "repeats": false
                         }
                       ]
                     },
@@ -5309,10 +5280,9 @@
                 {
                   "linkId": "ExplanationOfBenefit.item.revenue.coding",
                   "text": "code:",
-                  "type": "coding",
+                  "type": "choice",
                   "required": false,
-                  "repeats": false,
-                  "answerConstraint": "optionsOnly"
+                  "repeats": false
                 },
                 {
                   "linkId": "ExplanationOfBenefit.item.revenue.text",
@@ -5362,10 +5332,9 @@
                 {
                   "linkId": "ExplanationOfBenefit.item.category.coding",
                   "text": "code:",
-                  "type": "coding",
+                  "type": "choice",
                   "required": false,
-                  "repeats": false,
-                  "answerConstraint": "optionsOnly"
+                  "repeats": false
                 },
                 {
                   "linkId": "ExplanationOfBenefit.item.category.text",
@@ -5419,10 +5388,9 @@
                 {
                   "linkId": "ExplanationOfBenefit.item.productOrService.coding",
                   "text": "code:",
-                  "type": "coding",
+                  "type": "choice",
                   "required": false,
-                  "repeats": false,
-                  "answerConstraint": "optionsOnly"
+                  "repeats": false
                 },
                 {
                   "linkId": "ExplanationOfBenefit.item.productOrService.text",
@@ -5468,10 +5436,9 @@
                 {
                   "linkId": "ExplanationOfBenefit.item.modifier.coding",
                   "text": "code:",
-                  "type": "coding",
+                  "type": "choice",
                   "required": false,
-                  "repeats": false,
-                  "answerConstraint": "optionsOnly"
+                  "repeats": false
                 },
                 {
                   "linkId": "ExplanationOfBenefit.item.modifier.text",
@@ -5517,10 +5484,9 @@
                 {
                   "linkId": "ExplanationOfBenefit.item.programCode.coding",
                   "text": "code:",
-                  "type": "coding",
+                  "type": "choice",
                   "required": false,
-                  "repeats": false,
-                  "answerConstraint": "optionsOnly"
+                  "repeats": false
                 },
                 {
                   "linkId": "ExplanationOfBenefit.item.programCode.text",
@@ -5566,10 +5532,9 @@
                 {
                   "linkId": "ExplanationOfBenefit.item.serviced[x]._type",
                   "text": "type",
-                  "type": "coding",
+                  "type": "choice",
                   "required": false,
                   "repeats": false,
-                  "answerConstraint": "optionsOnly",
                   "answerValueSet": "#vs7",
                   "item": [
                     {
@@ -5655,10 +5620,9 @@
                 {
                   "linkId": "ExplanationOfBenefit.item.location[x]._type",
                   "text": "type",
-                  "type": "coding",
+                  "type": "choice",
                   "required": false,
                   "repeats": false,
-                  "answerConstraint": "optionsOnly",
                   "answerValueSet": "#vs8",
                   "item": [
                     {
@@ -5674,10 +5638,9 @@
                         {
                           "linkId": "ExplanationOfBenefit.item.location[x]._null.coding",
                           "text": "code:",
-                          "type": "coding",
+                          "type": "choice",
                           "required": false,
-                          "repeats": false,
-                          "answerConstraint": "optionsOnly"
+                          "repeats": false
                         },
                         {
                           "linkId": "ExplanationOfBenefit.item.location[x]._null.text",
@@ -5743,10 +5706,9 @@
                         {
                           "linkId": "ExplanationOfBenefit.item.location[x]._null.use",
                           "text": "use:",
-                          "type": "coding",
+                          "type": "choice",
                           "required": false,
-                          "repeats": false,
-                          "answerConstraint": "optionsOnly"
+                          "repeats": false
                         }
                       ]
                     },
@@ -5821,10 +5783,9 @@
                 {
                   "linkId": "ExplanationOfBenefit.item.quantity.comparator",
                   "text": "comp:",
-                  "type": "coding",
+                  "type": "choice",
                   "required": false,
-                  "repeats": false,
-                  "answerConstraint": "optionsOnly"
+                  "repeats": false
                 },
                 {
                   "linkId": "ExplanationOfBenefit.item.quantity.value",
@@ -5895,10 +5856,9 @@
                 {
                   "linkId": "ExplanationOfBenefit.item.unitPrice.comparator",
                   "text": "comp:",
-                  "type": "coding",
+                  "type": "choice",
                   "required": false,
-                  "repeats": false,
-                  "answerConstraint": "optionsOnly"
+                  "repeats": false
                 },
                 {
                   "linkId": "ExplanationOfBenefit.item.unitPrice.value",
@@ -6013,10 +5973,9 @@
                 {
                   "linkId": "ExplanationOfBenefit.item.net.comparator",
                   "text": "comp:",
-                  "type": "coding",
+                  "type": "choice",
                   "required": false,
-                  "repeats": false,
-                  "answerConstraint": "optionsOnly"
+                  "repeats": false
                 },
                 {
                   "linkId": "ExplanationOfBenefit.item.net.value",
@@ -6137,10 +6096,9 @@
                 {
                   "linkId": "ExplanationOfBenefit.item.bodySite.coding",
                   "text": "code:",
-                  "type": "coding",
+                  "type": "choice",
                   "required": false,
-                  "repeats": false,
-                  "answerConstraint": "optionsOnly"
+                  "repeats": false
                 },
                 {
                   "linkId": "ExplanationOfBenefit.item.bodySite.text",
@@ -6186,10 +6144,9 @@
                 {
                   "linkId": "ExplanationOfBenefit.item.subSite.coding",
                   "text": "code:",
-                  "type": "coding",
+                  "type": "choice",
                   "required": false,
-                  "repeats": false,
-                  "answerConstraint": "optionsOnly"
+                  "repeats": false
                 },
                 {
                   "linkId": "ExplanationOfBenefit.item.subSite.text",
@@ -6459,10 +6416,9 @@
                     {
                       "linkId": "ExplanationOfBenefit.item.adjudication.category.coding",
                       "text": "code:",
-                      "type": "coding",
+                      "type": "choice",
                       "required": false,
-                      "repeats": false,
-                      "answerConstraint": "optionsOnly"
+                      "repeats": false
                     },
                     {
                       "linkId": "ExplanationOfBenefit.item.adjudication.category.text",
@@ -6512,10 +6468,9 @@
                     {
                       "linkId": "ExplanationOfBenefit.item.adjudication.reason.coding",
                       "text": "code:",
-                      "type": "coding",
+                      "type": "choice",
                       "required": false,
-                      "repeats": false,
-                      "answerConstraint": "optionsOnly"
+                      "repeats": false
                     },
                     {
                       "linkId": "ExplanationOfBenefit.item.adjudication.reason.text",
@@ -6565,10 +6520,9 @@
                     {
                       "linkId": "ExplanationOfBenefit.item.adjudication.amount.comparator",
                       "text": "comp:",
-                      "type": "coding",
+                      "type": "choice",
                       "required": false,
-                      "repeats": false,
-                      "answerConstraint": "optionsOnly"
+                      "repeats": false
                     },
                     {
                       "linkId": "ExplanationOfBenefit.item.adjudication.amount.value",
@@ -6859,10 +6813,9 @@
                     {
                       "linkId": "ExplanationOfBenefit.item.detail.revenue.coding",
                       "text": "code:",
-                      "type": "coding",
+                      "type": "choice",
                       "required": false,
-                      "repeats": false,
-                      "answerConstraint": "optionsOnly"
+                      "repeats": false
                     },
                     {
                       "linkId": "ExplanationOfBenefit.item.detail.revenue.text",
@@ -6912,10 +6865,9 @@
                     {
                       "linkId": "ExplanationOfBenefit.item.detail.category.coding",
                       "text": "code:",
-                      "type": "coding",
+                      "type": "choice",
                       "required": false,
-                      "repeats": false,
-                      "answerConstraint": "optionsOnly"
+                      "repeats": false
                     },
                     {
                       "linkId": "ExplanationOfBenefit.item.detail.category.text",
@@ -6969,10 +6921,9 @@
                     {
                       "linkId": "ExplanationOfBenefit.item.detail.productOrService.coding",
                       "text": "code:",
-                      "type": "coding",
+                      "type": "choice",
                       "required": false,
-                      "repeats": false,
-                      "answerConstraint": "optionsOnly"
+                      "repeats": false
                     },
                     {
                       "linkId": "ExplanationOfBenefit.item.detail.productOrService.text",
@@ -7018,10 +6969,9 @@
                     {
                       "linkId": "ExplanationOfBenefit.item.detail.modifier.coding",
                       "text": "code:",
-                      "type": "coding",
+                      "type": "choice",
                       "required": false,
-                      "repeats": false,
-                      "answerConstraint": "optionsOnly"
+                      "repeats": false
                     },
                     {
                       "linkId": "ExplanationOfBenefit.item.detail.modifier.text",
@@ -7067,10 +7017,9 @@
                     {
                       "linkId": "ExplanationOfBenefit.item.detail.programCode.coding",
                       "text": "code:",
-                      "type": "coding",
+                      "type": "choice",
                       "required": false,
-                      "repeats": false,
-                      "answerConstraint": "optionsOnly"
+                      "repeats": false
                     },
                     {
                       "linkId": "ExplanationOfBenefit.item.detail.programCode.text",
@@ -7120,10 +7069,9 @@
                     {
                       "linkId": "ExplanationOfBenefit.item.detail.quantity.comparator",
                       "text": "comp:",
-                      "type": "coding",
+                      "type": "choice",
                       "required": false,
-                      "repeats": false,
-                      "answerConstraint": "optionsOnly"
+                      "repeats": false
                     },
                     {
                       "linkId": "ExplanationOfBenefit.item.detail.quantity.value",
@@ -7194,10 +7142,9 @@
                     {
                       "linkId": "ExplanationOfBenefit.item.detail.unitPrice.comparator",
                       "text": "comp:",
-                      "type": "coding",
+                      "type": "choice",
                       "required": false,
-                      "repeats": false,
-                      "answerConstraint": "optionsOnly"
+                      "repeats": false
                     },
                     {
                       "linkId": "ExplanationOfBenefit.item.detail.unitPrice.value",
@@ -7312,10 +7259,9 @@
                     {
                       "linkId": "ExplanationOfBenefit.item.detail.net.comparator",
                       "text": "comp:",
-                      "type": "coding",
+                      "type": "choice",
                       "required": false,
-                      "repeats": false,
-                      "answerConstraint": "optionsOnly"
+                      "repeats": false
                     },
                     {
                       "linkId": "ExplanationOfBenefit.item.detail.net.value",
@@ -7462,6 +7408,331 @@
                       "linkId": "ExplanationOfBenefit.item.detail.adjudication-flyover",
                       "text": "The adjudication results.",
                       "type": "display"
+                    },
+                    {
+                      "extension": [
+                        {
+                          "url": "http://hl7.org/fhir/StructureDefinition/questionnaire-maxOccurs",
+                          "valueInteger": 1
+                        },
+                        {
+                          "url": "http://hl7.org/fhir/StructureDefinition/questionnaire-fhirType",
+                          "valueString": "string"
+                        }
+                      ],
+                      "linkId": "ExplanationOfBenefit.item.adjudication.id",
+                      "type": "group",
+                      "required": false,
+                      "repeats": true,
+                      "item": [
+                        {
+                          "extension": [
+                            {
+                              "url": "http://hl7.org/fhir/StructureDefinition/questionnaire-itemControl",
+                              "valueCodeableConcept": {
+                                "coding": [
+                                  {
+                                    "system": "http://hl7.org/fhir/questionnaire-item-control",
+                                    "code": "flyover",
+                                    "display": "Fly-over"
+                                  }
+                                ]
+                              }
+                            }
+                          ],
+                          "linkId": "ExplanationOfBenefit.item.adjudication.id-flyover",
+                          "text": "Unique id for the element within a resource (for internal references). This may be any string value that does not contain spaces.",
+                          "type": "display"
+                        },
+                        {
+                          "linkId": "ExplanationOfBenefit.item.adjudication.id.value",
+                          "text": "Unique id for inter-element referencing",
+                          "type": "string",
+                          "required": false,
+                          "repeats": false
+                        }
+                      ]
+                    },
+                    {
+                      "linkId": "ExplanationOfBenefit.item.adjudication.extension",
+                      "text": "Additional content defined by implementations",
+                      "type": "group",
+                      "required": false,
+                      "repeats": true,
+                      "item": [
+                        {
+                          "extension": [
+                            {
+                              "url": "http://hl7.org/fhir/StructureDefinition/questionnaire-itemControl",
+                              "valueCodeableConcept": {
+                                "coding": [
+                                  {
+                                    "system": "http://hl7.org/fhir/questionnaire-item-control",
+                                    "code": "flyover",
+                                    "display": "Fly-over"
+                                  }
+                                ]
+                              }
+                            }
+                          ],
+                          "linkId": "ExplanationOfBenefit.item.adjudication.extension-flyover",
+                          "text": "May be used to represent additional information that is not part of the basic definition of the element. To make the use of extensions safe and manageable, there is a strict set of governance  applied to the definition and use of extensions. Though any implementer can define an extension, there is a set of requirements that SHALL be met as part of the definition of the extension. There can be no stigma associated with the use of extensions by any application, project, or standard - regardless of the institution or jurisdiction that uses or defines the extensions.  The use of extensions is what allows the FHIR specification to retain a core level of simplicity for everyone.",
+                          "type": "display"
+                        }
+                      ]
+                    },
+                    {
+                      "linkId": "ExplanationOfBenefit.item.adjudication.modifierExtension",
+                      "text": "Extensions that cannot be ignored even if unrecognized",
+                      "type": "group",
+                      "required": false,
+                      "repeats": true,
+                      "item": [
+                        {
+                          "extension": [
+                            {
+                              "url": "http://hl7.org/fhir/StructureDefinition/questionnaire-itemControl",
+                              "valueCodeableConcept": {
+                                "coding": [
+                                  {
+                                    "system": "http://hl7.org/fhir/questionnaire-item-control",
+                                    "code": "flyover",
+                                    "display": "Fly-over"
+                                  }
+                                ]
+                              }
+                            }
+                          ],
+                          "linkId": "ExplanationOfBenefit.item.adjudication.modifierExtension-flyover",
+                          "text": "May be used to represent additional information that is not part of the basic definition of the element and that modifies the understanding of the element in which it is contained and/or the understanding of the containing element\u0027s descendants. Usually modifier elements provide negation or qualification. To make the use of extensions safe and manageable, there is a strict set of governance applied to the definition and use of extensions. Though any implementer can define an extension, there is a set of requirements that SHALL be met as part of the definition of the extension. Applications processing a resource are required to check for modifier extensions.\n\nModifier extensions SHALL NOT change the meaning of any elements on Resource or DomainResource (including cannot change the meaning of modifierExtension itself). There can be no stigma associated with the use of extensions by any application, project, or standard - regardless of the institution or jurisdiction that uses or defines the extensions.  The use of extensions is what allows the FHIR specification to retain a core level of simplicity for everyone.",
+                          "type": "display"
+                        }
+                      ]
+                    },
+                    {
+                      "extension": [
+                        {
+                          "url": "http://hl7.org/fhir/StructureDefinition/questionnaire-minOccurs",
+                          "valueInteger": 1
+                        },
+                        {
+                          "url": "http://hl7.org/fhir/StructureDefinition/questionnaire-maxOccurs",
+                          "valueInteger": 1
+                        },
+                        {
+                          "url": "http://hl7.org/fhir/StructureDefinition/questionnaire-fhirType",
+                          "valueString": "CodeableConcept"
+                        }
+                      ],
+                      "linkId": "ExplanationOfBenefit.item.adjudication.category",
+                      "text": "Type of adjudication information",
+                      "type": "group",
+                      "required": true,
+                      "repeats": true,
+                      "item": [
+                        {
+                          "extension": [
+                            {
+                              "url": "http://hl7.org/fhir/StructureDefinition/questionnaire-itemControl",
+                              "valueCodeableConcept": {
+                                "coding": [
+                                  {
+                                    "system": "http://hl7.org/fhir/questionnaire-item-control",
+                                    "code": "flyover",
+                                    "display": "Fly-over"
+                                  }
+                                ]
+                              }
+                            }
+                          ],
+                          "linkId": "ExplanationOfBenefit.item.adjudication.category-flyover",
+                          "text": "A code to indicate the information type of this adjudication record. Information types may include: the value submitted, maximum values or percentages allowed or payable under the plan, amounts that the patient is responsible for in-aggregate or pertaining to this item, amounts paid by other coverages, and the benefit payable for this item. For example, codes indicating: Co-Pay, deductible, eligible, benefit, tax, etc.",
+                          "type": "display"
+                        },
+                        {
+                          "linkId": "ExplanationOfBenefit.item.adjudication.category.coding",
+                          "text": "code:",
+                          "type": "choice",
+                          "required": false,
+                          "repeats": false
+                        },
+                        {
+                          "linkId": "ExplanationOfBenefit.item.adjudication.category.text",
+                          "text": "text:",
+                          "type": "string",
+                          "required": false,
+                          "repeats": false
+                        }
+                      ]
+                    },
+                    {
+                      "extension": [
+                        {
+                          "url": "http://hl7.org/fhir/StructureDefinition/questionnaire-maxOccurs",
+                          "valueInteger": 1
+                        },
+                        {
+                          "url": "http://hl7.org/fhir/StructureDefinition/questionnaire-fhirType",
+                          "valueString": "CodeableConcept"
+                        }
+                      ],
+                      "linkId": "ExplanationOfBenefit.item.adjudication.reason",
+                      "text": "Explanation of adjudication outcome",
+                      "type": "group",
+                      "required": false,
+                      "repeats": true,
+                      "item": [
+                        {
+                          "extension": [
+                            {
+                              "url": "http://hl7.org/fhir/StructureDefinition/questionnaire-itemControl",
+                              "valueCodeableConcept": {
+                                "coding": [
+                                  {
+                                    "system": "http://hl7.org/fhir/questionnaire-item-control",
+                                    "code": "flyover",
+                                    "display": "Fly-over"
+                                  }
+                                ]
+                              }
+                            }
+                          ],
+                          "linkId": "ExplanationOfBenefit.item.adjudication.reason-flyover",
+                          "text": "A code supporting the understanding of the adjudication result and explaining variance from expected amount. For example, may indicate that the funds for this benefit type have been exhausted.",
+                          "type": "display"
+                        },
+                        {
+                          "linkId": "ExplanationOfBenefit.item.adjudication.reason.coding",
+                          "text": "code:",
+                          "type": "choice",
+                          "required": false,
+                          "repeats": false
+                        },
+                        {
+                          "linkId": "ExplanationOfBenefit.item.adjudication.reason.text",
+                          "text": "text:",
+                          "type": "string",
+                          "required": false,
+                          "repeats": false
+                        }
+                      ]
+                    },
+                    {
+                      "extension": [
+                        {
+                          "url": "http://hl7.org/fhir/StructureDefinition/questionnaire-maxOccurs",
+                          "valueInteger": 1
+                        },
+                        {
+                          "url": "http://hl7.org/fhir/StructureDefinition/questionnaire-fhirType",
+                          "valueString": "Quantity"
+                        }
+                      ],
+                      "linkId": "ExplanationOfBenefit.item.adjudication.amount",
+                      "text": "Monetary amount",
+                      "type": "group",
+                      "required": false,
+                      "repeats": true,
+                      "item": [
+                        {
+                          "extension": [
+                            {
+                              "url": "http://hl7.org/fhir/StructureDefinition/questionnaire-itemControl",
+                              "valueCodeableConcept": {
+                                "coding": [
+                                  {
+                                    "system": "http://hl7.org/fhir/questionnaire-item-control",
+                                    "code": "flyover",
+                                    "display": "Fly-over"
+                                  }
+                                ]
+                              }
+                            }
+                          ],
+                          "linkId": "ExplanationOfBenefit.item.adjudication.amount-flyover",
+                          "text": "Monetary amount associated with the category. For example, amount submitted, eligible amount, co-payment, and benefit payable.",
+                          "type": "display"
+                        },
+                        {
+                          "linkId": "ExplanationOfBenefit.item.adjudication.amount.comparator",
+                          "text": "comp:",
+                          "type": "choice",
+                          "required": false,
+                          "repeats": false
+                        },
+                        {
+                          "linkId": "ExplanationOfBenefit.item.adjudication.amount.value",
+                          "text": "value:",
+                          "type": "decimal",
+                          "required": false,
+                          "repeats": false
+                        },
+                        {
+                          "linkId": "ExplanationOfBenefit.item.adjudication.amount.units",
+                          "text": "units:",
+                          "type": "string",
+                          "required": false,
+                          "repeats": false
+                        },
+                        {
+                          "linkId": "ExplanationOfBenefit.item.adjudication.amount.code",
+                          "text": "coded units:",
+                          "type": "string",
+                          "required": false,
+                          "repeats": false
+                        },
+                        {
+                          "linkId": "ExplanationOfBenefit.item.adjudication.amount.system",
+                          "text": "units system:",
+                          "type": "string",
+                          "required": false,
+                          "repeats": false
+                        }
+                      ]
+                    },
+                    {
+                      "extension": [
+                        {
+                          "url": "http://hl7.org/fhir/StructureDefinition/questionnaire-maxOccurs",
+                          "valueInteger": 1
+                        },
+                        {
+                          "url": "http://hl7.org/fhir/StructureDefinition/questionnaire-fhirType",
+                          "valueString": "decimal"
+                        }
+                      ],
+                      "linkId": "ExplanationOfBenefit.item.adjudication.value",
+                      "type": "group",
+                      "required": false,
+                      "repeats": true,
+                      "item": [
+                        {
+                          "extension": [
+                            {
+                              "url": "http://hl7.org/fhir/StructureDefinition/questionnaire-itemControl",
+                              "valueCodeableConcept": {
+                                "coding": [
+                                  {
+                                    "system": "http://hl7.org/fhir/questionnaire-item-control",
+                                    "code": "flyover",
+                                    "display": "Fly-over"
+                                  }
+                                ]
+                              }
+                            }
+                          ],
+                          "linkId": "ExplanationOfBenefit.item.adjudication.value-flyover",
+                          "text": "A non-monetary value associated with the category. Mutually exclusive to the amount element above. For example: eligible percentage or co-payment percentage.",
+                          "type": "display"
+                        },
+                        {
+                          "linkId": "ExplanationOfBenefit.item.adjudication.value.value",
+                          "text": "Non-monitary value",
+                          "type": "decimal",
+                          "required": false,
+                          "repeats": false
+                        }
+                      ]
                     }
                   ]
                 },
@@ -7678,10 +7949,9 @@
                         {
                           "linkId": "ExplanationOfBenefit.item.detail.subDetail.revenue.coding",
                           "text": "code:",
-                          "type": "coding",
+                          "type": "choice",
                           "required": false,
-                          "repeats": false,
-                          "answerConstraint": "optionsOnly"
+                          "repeats": false
                         },
                         {
                           "linkId": "ExplanationOfBenefit.item.detail.subDetail.revenue.text",
@@ -7731,10 +8001,9 @@
                         {
                           "linkId": "ExplanationOfBenefit.item.detail.subDetail.category.coding",
                           "text": "code:",
-                          "type": "coding",
+                          "type": "choice",
                           "required": false,
-                          "repeats": false,
-                          "answerConstraint": "optionsOnly"
+                          "repeats": false
                         },
                         {
                           "linkId": "ExplanationOfBenefit.item.detail.subDetail.category.text",
@@ -7788,10 +8057,9 @@
                         {
                           "linkId": "ExplanationOfBenefit.item.detail.subDetail.productOrService.coding",
                           "text": "code:",
-                          "type": "coding",
+                          "type": "choice",
                           "required": false,
-                          "repeats": false,
-                          "answerConstraint": "optionsOnly"
+                          "repeats": false
                         },
                         {
                           "linkId": "ExplanationOfBenefit.item.detail.subDetail.productOrService.text",
@@ -7837,10 +8105,9 @@
                         {
                           "linkId": "ExplanationOfBenefit.item.detail.subDetail.modifier.coding",
                           "text": "code:",
-                          "type": "coding",
+                          "type": "choice",
                           "required": false,
-                          "repeats": false,
-                          "answerConstraint": "optionsOnly"
+                          "repeats": false
                         },
                         {
                           "linkId": "ExplanationOfBenefit.item.detail.subDetail.modifier.text",
@@ -7886,10 +8153,9 @@
                         {
                           "linkId": "ExplanationOfBenefit.item.detail.subDetail.programCode.coding",
                           "text": "code:",
-                          "type": "coding",
+                          "type": "choice",
                           "required": false,
-                          "repeats": false,
-                          "answerConstraint": "optionsOnly"
+                          "repeats": false
                         },
                         {
                           "linkId": "ExplanationOfBenefit.item.detail.subDetail.programCode.text",
@@ -7939,10 +8205,9 @@
                         {
                           "linkId": "ExplanationOfBenefit.item.detail.subDetail.quantity.comparator",
                           "text": "comp:",
-                          "type": "coding",
+                          "type": "choice",
                           "required": false,
-                          "repeats": false,
-                          "answerConstraint": "optionsOnly"
+                          "repeats": false
                         },
                         {
                           "linkId": "ExplanationOfBenefit.item.detail.subDetail.quantity.value",
@@ -8013,10 +8278,9 @@
                         {
                           "linkId": "ExplanationOfBenefit.item.detail.subDetail.unitPrice.comparator",
                           "text": "comp:",
-                          "type": "coding",
+                          "type": "choice",
                           "required": false,
-                          "repeats": false,
-                          "answerConstraint": "optionsOnly"
+                          "repeats": false
                         },
                         {
                           "linkId": "ExplanationOfBenefit.item.detail.subDetail.unitPrice.value",
@@ -8131,10 +8395,9 @@
                         {
                           "linkId": "ExplanationOfBenefit.item.detail.subDetail.net.comparator",
                           "text": "comp:",
-                          "type": "coding",
+                          "type": "choice",
                           "required": false,
-                          "repeats": false,
-                          "answerConstraint": "optionsOnly"
+                          "repeats": false
                         },
                         {
                           "linkId": "ExplanationOfBenefit.item.detail.subDetail.net.value",
@@ -8281,6 +8544,331 @@
                           "linkId": "ExplanationOfBenefit.item.detail.subDetail.adjudication-flyover",
                           "text": "The adjudication results.",
                           "type": "display"
+                        },
+                        {
+                          "extension": [
+                            {
+                              "url": "http://hl7.org/fhir/StructureDefinition/questionnaire-maxOccurs",
+                              "valueInteger": 1
+                            },
+                            {
+                              "url": "http://hl7.org/fhir/StructureDefinition/questionnaire-fhirType",
+                              "valueString": "string"
+                            }
+                          ],
+                          "linkId": "ExplanationOfBenefit.item.adjudication.id",
+                          "type": "group",
+                          "required": false,
+                          "repeats": true,
+                          "item": [
+                            {
+                              "extension": [
+                                {
+                                  "url": "http://hl7.org/fhir/StructureDefinition/questionnaire-itemControl",
+                                  "valueCodeableConcept": {
+                                    "coding": [
+                                      {
+                                        "system": "http://hl7.org/fhir/questionnaire-item-control",
+                                        "code": "flyover",
+                                        "display": "Fly-over"
+                                      }
+                                    ]
+                                  }
+                                }
+                              ],
+                              "linkId": "ExplanationOfBenefit.item.adjudication.id-flyover",
+                              "text": "Unique id for the element within a resource (for internal references). This may be any string value that does not contain spaces.",
+                              "type": "display"
+                            },
+                            {
+                              "linkId": "ExplanationOfBenefit.item.adjudication.id.value",
+                              "text": "Unique id for inter-element referencing",
+                              "type": "string",
+                              "required": false,
+                              "repeats": false
+                            }
+                          ]
+                        },
+                        {
+                          "linkId": "ExplanationOfBenefit.item.adjudication.extension",
+                          "text": "Additional content defined by implementations",
+                          "type": "group",
+                          "required": false,
+                          "repeats": true,
+                          "item": [
+                            {
+                              "extension": [
+                                {
+                                  "url": "http://hl7.org/fhir/StructureDefinition/questionnaire-itemControl",
+                                  "valueCodeableConcept": {
+                                    "coding": [
+                                      {
+                                        "system": "http://hl7.org/fhir/questionnaire-item-control",
+                                        "code": "flyover",
+                                        "display": "Fly-over"
+                                      }
+                                    ]
+                                  }
+                                }
+                              ],
+                              "linkId": "ExplanationOfBenefit.item.adjudication.extension-flyover",
+                              "text": "May be used to represent additional information that is not part of the basic definition of the element. To make the use of extensions safe and manageable, there is a strict set of governance  applied to the definition and use of extensions. Though any implementer can define an extension, there is a set of requirements that SHALL be met as part of the definition of the extension. There can be no stigma associated with the use of extensions by any application, project, or standard - regardless of the institution or jurisdiction that uses or defines the extensions.  The use of extensions is what allows the FHIR specification to retain a core level of simplicity for everyone.",
+                              "type": "display"
+                            }
+                          ]
+                        },
+                        {
+                          "linkId": "ExplanationOfBenefit.item.adjudication.modifierExtension",
+                          "text": "Extensions that cannot be ignored even if unrecognized",
+                          "type": "group",
+                          "required": false,
+                          "repeats": true,
+                          "item": [
+                            {
+                              "extension": [
+                                {
+                                  "url": "http://hl7.org/fhir/StructureDefinition/questionnaire-itemControl",
+                                  "valueCodeableConcept": {
+                                    "coding": [
+                                      {
+                                        "system": "http://hl7.org/fhir/questionnaire-item-control",
+                                        "code": "flyover",
+                                        "display": "Fly-over"
+                                      }
+                                    ]
+                                  }
+                                }
+                              ],
+                              "linkId": "ExplanationOfBenefit.item.adjudication.modifierExtension-flyover",
+                              "text": "May be used to represent additional information that is not part of the basic definition of the element and that modifies the understanding of the element in which it is contained and/or the understanding of the containing element\u0027s descendants. Usually modifier elements provide negation or qualification. To make the use of extensions safe and manageable, there is a strict set of governance applied to the definition and use of extensions. Though any implementer can define an extension, there is a set of requirements that SHALL be met as part of the definition of the extension. Applications processing a resource are required to check for modifier extensions.\n\nModifier extensions SHALL NOT change the meaning of any elements on Resource or DomainResource (including cannot change the meaning of modifierExtension itself). There can be no stigma associated with the use of extensions by any application, project, or standard - regardless of the institution or jurisdiction that uses or defines the extensions.  The use of extensions is what allows the FHIR specification to retain a core level of simplicity for everyone.",
+                              "type": "display"
+                            }
+                          ]
+                        },
+                        {
+                          "extension": [
+                            {
+                              "url": "http://hl7.org/fhir/StructureDefinition/questionnaire-minOccurs",
+                              "valueInteger": 1
+                            },
+                            {
+                              "url": "http://hl7.org/fhir/StructureDefinition/questionnaire-maxOccurs",
+                              "valueInteger": 1
+                            },
+                            {
+                              "url": "http://hl7.org/fhir/StructureDefinition/questionnaire-fhirType",
+                              "valueString": "CodeableConcept"
+                            }
+                          ],
+                          "linkId": "ExplanationOfBenefit.item.adjudication.category",
+                          "text": "Type of adjudication information",
+                          "type": "group",
+                          "required": true,
+                          "repeats": true,
+                          "item": [
+                            {
+                              "extension": [
+                                {
+                                  "url": "http://hl7.org/fhir/StructureDefinition/questionnaire-itemControl",
+                                  "valueCodeableConcept": {
+                                    "coding": [
+                                      {
+                                        "system": "http://hl7.org/fhir/questionnaire-item-control",
+                                        "code": "flyover",
+                                        "display": "Fly-over"
+                                      }
+                                    ]
+                                  }
+                                }
+                              ],
+                              "linkId": "ExplanationOfBenefit.item.adjudication.category-flyover",
+                              "text": "A code to indicate the information type of this adjudication record. Information types may include: the value submitted, maximum values or percentages allowed or payable under the plan, amounts that the patient is responsible for in-aggregate or pertaining to this item, amounts paid by other coverages, and the benefit payable for this item. For example, codes indicating: Co-Pay, deductible, eligible, benefit, tax, etc.",
+                              "type": "display"
+                            },
+                            {
+                              "linkId": "ExplanationOfBenefit.item.adjudication.category.coding",
+                              "text": "code:",
+                              "type": "choice",
+                              "required": false,
+                              "repeats": false
+                            },
+                            {
+                              "linkId": "ExplanationOfBenefit.item.adjudication.category.text",
+                              "text": "text:",
+                              "type": "string",
+                              "required": false,
+                              "repeats": false
+                            }
+                          ]
+                        },
+                        {
+                          "extension": [
+                            {
+                              "url": "http://hl7.org/fhir/StructureDefinition/questionnaire-maxOccurs",
+                              "valueInteger": 1
+                            },
+                            {
+                              "url": "http://hl7.org/fhir/StructureDefinition/questionnaire-fhirType",
+                              "valueString": "CodeableConcept"
+                            }
+                          ],
+                          "linkId": "ExplanationOfBenefit.item.adjudication.reason",
+                          "text": "Explanation of adjudication outcome",
+                          "type": "group",
+                          "required": false,
+                          "repeats": true,
+                          "item": [
+                            {
+                              "extension": [
+                                {
+                                  "url": "http://hl7.org/fhir/StructureDefinition/questionnaire-itemControl",
+                                  "valueCodeableConcept": {
+                                    "coding": [
+                                      {
+                                        "system": "http://hl7.org/fhir/questionnaire-item-control",
+                                        "code": "flyover",
+                                        "display": "Fly-over"
+                                      }
+                                    ]
+                                  }
+                                }
+                              ],
+                              "linkId": "ExplanationOfBenefit.item.adjudication.reason-flyover",
+                              "text": "A code supporting the understanding of the adjudication result and explaining variance from expected amount. For example, may indicate that the funds for this benefit type have been exhausted.",
+                              "type": "display"
+                            },
+                            {
+                              "linkId": "ExplanationOfBenefit.item.adjudication.reason.coding",
+                              "text": "code:",
+                              "type": "choice",
+                              "required": false,
+                              "repeats": false
+                            },
+                            {
+                              "linkId": "ExplanationOfBenefit.item.adjudication.reason.text",
+                              "text": "text:",
+                              "type": "string",
+                              "required": false,
+                              "repeats": false
+                            }
+                          ]
+                        },
+                        {
+                          "extension": [
+                            {
+                              "url": "http://hl7.org/fhir/StructureDefinition/questionnaire-maxOccurs",
+                              "valueInteger": 1
+                            },
+                            {
+                              "url": "http://hl7.org/fhir/StructureDefinition/questionnaire-fhirType",
+                              "valueString": "Quantity"
+                            }
+                          ],
+                          "linkId": "ExplanationOfBenefit.item.adjudication.amount",
+                          "text": "Monetary amount",
+                          "type": "group",
+                          "required": false,
+                          "repeats": true,
+                          "item": [
+                            {
+                              "extension": [
+                                {
+                                  "url": "http://hl7.org/fhir/StructureDefinition/questionnaire-itemControl",
+                                  "valueCodeableConcept": {
+                                    "coding": [
+                                      {
+                                        "system": "http://hl7.org/fhir/questionnaire-item-control",
+                                        "code": "flyover",
+                                        "display": "Fly-over"
+                                      }
+                                    ]
+                                  }
+                                }
+                              ],
+                              "linkId": "ExplanationOfBenefit.item.adjudication.amount-flyover",
+                              "text": "Monetary amount associated with the category. For example, amount submitted, eligible amount, co-payment, and benefit payable.",
+                              "type": "display"
+                            },
+                            {
+                              "linkId": "ExplanationOfBenefit.item.adjudication.amount.comparator",
+                              "text": "comp:",
+                              "type": "choice",
+                              "required": false,
+                              "repeats": false
+                            },
+                            {
+                              "linkId": "ExplanationOfBenefit.item.adjudication.amount.value",
+                              "text": "value:",
+                              "type": "decimal",
+                              "required": false,
+                              "repeats": false
+                            },
+                            {
+                              "linkId": "ExplanationOfBenefit.item.adjudication.amount.units",
+                              "text": "units:",
+                              "type": "string",
+                              "required": false,
+                              "repeats": false
+                            },
+                            {
+                              "linkId": "ExplanationOfBenefit.item.adjudication.amount.code",
+                              "text": "coded units:",
+                              "type": "string",
+                              "required": false,
+                              "repeats": false
+                            },
+                            {
+                              "linkId": "ExplanationOfBenefit.item.adjudication.amount.system",
+                              "text": "units system:",
+                              "type": "string",
+                              "required": false,
+                              "repeats": false
+                            }
+                          ]
+                        },
+                        {
+                          "extension": [
+                            {
+                              "url": "http://hl7.org/fhir/StructureDefinition/questionnaire-maxOccurs",
+                              "valueInteger": 1
+                            },
+                            {
+                              "url": "http://hl7.org/fhir/StructureDefinition/questionnaire-fhirType",
+                              "valueString": "decimal"
+                            }
+                          ],
+                          "linkId": "ExplanationOfBenefit.item.adjudication.value",
+                          "type": "group",
+                          "required": false,
+                          "repeats": true,
+                          "item": [
+                            {
+                              "extension": [
+                                {
+                                  "url": "http://hl7.org/fhir/StructureDefinition/questionnaire-itemControl",
+                                  "valueCodeableConcept": {
+                                    "coding": [
+                                      {
+                                        "system": "http://hl7.org/fhir/questionnaire-item-control",
+                                        "code": "flyover",
+                                        "display": "Fly-over"
+                                      }
+                                    ]
+                                  }
+                                }
+                              ],
+                              "linkId": "ExplanationOfBenefit.item.adjudication.value-flyover",
+                              "text": "A non-monetary value associated with the category. Mutually exclusive to the amount element above. For example: eligible percentage or co-payment percentage.",
+                              "type": "display"
+                            },
+                            {
+                              "linkId": "ExplanationOfBenefit.item.adjudication.value.value",
+                              "text": "Non-monitary value",
+                              "type": "decimal",
+                              "required": false,
+                              "repeats": false
+                            }
+                          ]
                         }
                       ]
                     }
@@ -8629,10 +9217,9 @@
                 {
                   "linkId": "ExplanationOfBenefit.addItem.productOrService.coding",
                   "text": "code:",
-                  "type": "coding",
+                  "type": "choice",
                   "required": false,
-                  "repeats": false,
-                  "answerConstraint": "optionsOnly"
+                  "repeats": false
                 },
                 {
                   "linkId": "ExplanationOfBenefit.addItem.productOrService.text",
@@ -8678,10 +9265,9 @@
                 {
                   "linkId": "ExplanationOfBenefit.addItem.modifier.coding",
                   "text": "code:",
-                  "type": "coding",
+                  "type": "choice",
                   "required": false,
-                  "repeats": false,
-                  "answerConstraint": "optionsOnly"
+                  "repeats": false
                 },
                 {
                   "linkId": "ExplanationOfBenefit.addItem.modifier.text",
@@ -8727,10 +9313,9 @@
                 {
                   "linkId": "ExplanationOfBenefit.addItem.programCode.coding",
                   "text": "code:",
-                  "type": "coding",
+                  "type": "choice",
                   "required": false,
-                  "repeats": false,
-                  "answerConstraint": "optionsOnly"
+                  "repeats": false
                 },
                 {
                   "linkId": "ExplanationOfBenefit.addItem.programCode.text",
@@ -8776,10 +9361,9 @@
                 {
                   "linkId": "ExplanationOfBenefit.addItem.serviced[x]._type",
                   "text": "type",
-                  "type": "coding",
+                  "type": "choice",
                   "required": false,
                   "repeats": false,
-                  "answerConstraint": "optionsOnly",
                   "answerValueSet": "#vs9",
                   "item": [
                     {
@@ -8865,10 +9449,9 @@
                 {
                   "linkId": "ExplanationOfBenefit.addItem.location[x]._type",
                   "text": "type",
-                  "type": "coding",
+                  "type": "choice",
                   "required": false,
                   "repeats": false,
-                  "answerConstraint": "optionsOnly",
                   "answerValueSet": "#vs10",
                   "item": [
                     {
@@ -8884,10 +9467,9 @@
                         {
                           "linkId": "ExplanationOfBenefit.addItem.location[x]._null.coding",
                           "text": "code:",
-                          "type": "coding",
+                          "type": "choice",
                           "required": false,
-                          "repeats": false,
-                          "answerConstraint": "optionsOnly"
+                          "repeats": false
                         },
                         {
                           "linkId": "ExplanationOfBenefit.addItem.location[x]._null.text",
@@ -8953,10 +9535,9 @@
                         {
                           "linkId": "ExplanationOfBenefit.addItem.location[x]._null.use",
                           "text": "use:",
-                          "type": "coding",
+                          "type": "choice",
                           "required": false,
-                          "repeats": false,
-                          "answerConstraint": "optionsOnly"
+                          "repeats": false
                         }
                       ]
                     },
@@ -9031,10 +9612,9 @@
                 {
                   "linkId": "ExplanationOfBenefit.addItem.quantity.comparator",
                   "text": "comp:",
-                  "type": "coding",
+                  "type": "choice",
                   "required": false,
-                  "repeats": false,
-                  "answerConstraint": "optionsOnly"
+                  "repeats": false
                 },
                 {
                   "linkId": "ExplanationOfBenefit.addItem.quantity.value",
@@ -9105,10 +9685,9 @@
                 {
                   "linkId": "ExplanationOfBenefit.addItem.unitPrice.comparator",
                   "text": "comp:",
-                  "type": "coding",
+                  "type": "choice",
                   "required": false,
-                  "repeats": false,
-                  "answerConstraint": "optionsOnly"
+                  "repeats": false
                 },
                 {
                   "linkId": "ExplanationOfBenefit.addItem.unitPrice.value",
@@ -9223,10 +9802,9 @@
                 {
                   "linkId": "ExplanationOfBenefit.addItem.net.comparator",
                   "text": "comp:",
-                  "type": "coding",
+                  "type": "choice",
                   "required": false,
-                  "repeats": false,
-                  "answerConstraint": "optionsOnly"
+                  "repeats": false
                 },
                 {
                   "linkId": "ExplanationOfBenefit.addItem.net.value",
@@ -9297,10 +9875,9 @@
                 {
                   "linkId": "ExplanationOfBenefit.addItem.bodySite.coding",
                   "text": "code:",
-                  "type": "coding",
+                  "type": "choice",
                   "required": false,
-                  "repeats": false,
-                  "answerConstraint": "optionsOnly"
+                  "repeats": false
                 },
                 {
                   "linkId": "ExplanationOfBenefit.addItem.bodySite.text",
@@ -9346,10 +9923,9 @@
                 {
                   "linkId": "ExplanationOfBenefit.addItem.subSite.coding",
                   "text": "code:",
-                  "type": "coding",
+                  "type": "choice",
                   "required": false,
-                  "repeats": false,
-                  "answerConstraint": "optionsOnly"
+                  "repeats": false
                 },
                 {
                   "linkId": "ExplanationOfBenefit.addItem.subSite.text",
@@ -9425,6 +10001,331 @@
                   "linkId": "ExplanationOfBenefit.addItem.adjudication-flyover",
                   "text": "The adjudication results.",
                   "type": "display"
+                },
+                {
+                  "extension": [
+                    {
+                      "url": "http://hl7.org/fhir/StructureDefinition/questionnaire-maxOccurs",
+                      "valueInteger": 1
+                    },
+                    {
+                      "url": "http://hl7.org/fhir/StructureDefinition/questionnaire-fhirType",
+                      "valueString": "string"
+                    }
+                  ],
+                  "linkId": "ExplanationOfBenefit.item.adjudication.id",
+                  "type": "group",
+                  "required": false,
+                  "repeats": true,
+                  "item": [
+                    {
+                      "extension": [
+                        {
+                          "url": "http://hl7.org/fhir/StructureDefinition/questionnaire-itemControl",
+                          "valueCodeableConcept": {
+                            "coding": [
+                              {
+                                "system": "http://hl7.org/fhir/questionnaire-item-control",
+                                "code": "flyover",
+                                "display": "Fly-over"
+                              }
+                            ]
+                          }
+                        }
+                      ],
+                      "linkId": "ExplanationOfBenefit.item.adjudication.id-flyover",
+                      "text": "Unique id for the element within a resource (for internal references). This may be any string value that does not contain spaces.",
+                      "type": "display"
+                    },
+                    {
+                      "linkId": "ExplanationOfBenefit.item.adjudication.id.value",
+                      "text": "Unique id for inter-element referencing",
+                      "type": "string",
+                      "required": false,
+                      "repeats": false
+                    }
+                  ]
+                },
+                {
+                  "linkId": "ExplanationOfBenefit.item.adjudication.extension",
+                  "text": "Additional content defined by implementations",
+                  "type": "group",
+                  "required": false,
+                  "repeats": true,
+                  "item": [
+                    {
+                      "extension": [
+                        {
+                          "url": "http://hl7.org/fhir/StructureDefinition/questionnaire-itemControl",
+                          "valueCodeableConcept": {
+                            "coding": [
+                              {
+                                "system": "http://hl7.org/fhir/questionnaire-item-control",
+                                "code": "flyover",
+                                "display": "Fly-over"
+                              }
+                            ]
+                          }
+                        }
+                      ],
+                      "linkId": "ExplanationOfBenefit.item.adjudication.extension-flyover",
+                      "text": "May be used to represent additional information that is not part of the basic definition of the element. To make the use of extensions safe and manageable, there is a strict set of governance  applied to the definition and use of extensions. Though any implementer can define an extension, there is a set of requirements that SHALL be met as part of the definition of the extension. There can be no stigma associated with the use of extensions by any application, project, or standard - regardless of the institution or jurisdiction that uses or defines the extensions.  The use of extensions is what allows the FHIR specification to retain a core level of simplicity for everyone.",
+                      "type": "display"
+                    }
+                  ]
+                },
+                {
+                  "linkId": "ExplanationOfBenefit.item.adjudication.modifierExtension",
+                  "text": "Extensions that cannot be ignored even if unrecognized",
+                  "type": "group",
+                  "required": false,
+                  "repeats": true,
+                  "item": [
+                    {
+                      "extension": [
+                        {
+                          "url": "http://hl7.org/fhir/StructureDefinition/questionnaire-itemControl",
+                          "valueCodeableConcept": {
+                            "coding": [
+                              {
+                                "system": "http://hl7.org/fhir/questionnaire-item-control",
+                                "code": "flyover",
+                                "display": "Fly-over"
+                              }
+                            ]
+                          }
+                        }
+                      ],
+                      "linkId": "ExplanationOfBenefit.item.adjudication.modifierExtension-flyover",
+                      "text": "May be used to represent additional information that is not part of the basic definition of the element and that modifies the understanding of the element in which it is contained and/or the understanding of the containing element\u0027s descendants. Usually modifier elements provide negation or qualification. To make the use of extensions safe and manageable, there is a strict set of governance applied to the definition and use of extensions. Though any implementer can define an extension, there is a set of requirements that SHALL be met as part of the definition of the extension. Applications processing a resource are required to check for modifier extensions.\n\nModifier extensions SHALL NOT change the meaning of any elements on Resource or DomainResource (including cannot change the meaning of modifierExtension itself). There can be no stigma associated with the use of extensions by any application, project, or standard - regardless of the institution or jurisdiction that uses or defines the extensions.  The use of extensions is what allows the FHIR specification to retain a core level of simplicity for everyone.",
+                      "type": "display"
+                    }
+                  ]
+                },
+                {
+                  "extension": [
+                    {
+                      "url": "http://hl7.org/fhir/StructureDefinition/questionnaire-minOccurs",
+                      "valueInteger": 1
+                    },
+                    {
+                      "url": "http://hl7.org/fhir/StructureDefinition/questionnaire-maxOccurs",
+                      "valueInteger": 1
+                    },
+                    {
+                      "url": "http://hl7.org/fhir/StructureDefinition/questionnaire-fhirType",
+                      "valueString": "CodeableConcept"
+                    }
+                  ],
+                  "linkId": "ExplanationOfBenefit.item.adjudication.category",
+                  "text": "Type of adjudication information",
+                  "type": "group",
+                  "required": true,
+                  "repeats": true,
+                  "item": [
+                    {
+                      "extension": [
+                        {
+                          "url": "http://hl7.org/fhir/StructureDefinition/questionnaire-itemControl",
+                          "valueCodeableConcept": {
+                            "coding": [
+                              {
+                                "system": "http://hl7.org/fhir/questionnaire-item-control",
+                                "code": "flyover",
+                                "display": "Fly-over"
+                              }
+                            ]
+                          }
+                        }
+                      ],
+                      "linkId": "ExplanationOfBenefit.item.adjudication.category-flyover",
+                      "text": "A code to indicate the information type of this adjudication record. Information types may include: the value submitted, maximum values or percentages allowed or payable under the plan, amounts that the patient is responsible for in-aggregate or pertaining to this item, amounts paid by other coverages, and the benefit payable for this item. For example, codes indicating: Co-Pay, deductible, eligible, benefit, tax, etc.",
+                      "type": "display"
+                    },
+                    {
+                      "linkId": "ExplanationOfBenefit.item.adjudication.category.coding",
+                      "text": "code:",
+                      "type": "choice",
+                      "required": false,
+                      "repeats": false
+                    },
+                    {
+                      "linkId": "ExplanationOfBenefit.item.adjudication.category.text",
+                      "text": "text:",
+                      "type": "string",
+                      "required": false,
+                      "repeats": false
+                    }
+                  ]
+                },
+                {
+                  "extension": [
+                    {
+                      "url": "http://hl7.org/fhir/StructureDefinition/questionnaire-maxOccurs",
+                      "valueInteger": 1
+                    },
+                    {
+                      "url": "http://hl7.org/fhir/StructureDefinition/questionnaire-fhirType",
+                      "valueString": "CodeableConcept"
+                    }
+                  ],
+                  "linkId": "ExplanationOfBenefit.item.adjudication.reason",
+                  "text": "Explanation of adjudication outcome",
+                  "type": "group",
+                  "required": false,
+                  "repeats": true,
+                  "item": [
+                    {
+                      "extension": [
+                        {
+                          "url": "http://hl7.org/fhir/StructureDefinition/questionnaire-itemControl",
+                          "valueCodeableConcept": {
+                            "coding": [
+                              {
+                                "system": "http://hl7.org/fhir/questionnaire-item-control",
+                                "code": "flyover",
+                                "display": "Fly-over"
+                              }
+                            ]
+                          }
+                        }
+                      ],
+                      "linkId": "ExplanationOfBenefit.item.adjudication.reason-flyover",
+                      "text": "A code supporting the understanding of the adjudication result and explaining variance from expected amount. For example, may indicate that the funds for this benefit type have been exhausted.",
+                      "type": "display"
+                    },
+                    {
+                      "linkId": "ExplanationOfBenefit.item.adjudication.reason.coding",
+                      "text": "code:",
+                      "type": "choice",
+                      "required": false,
+                      "repeats": false
+                    },
+                    {
+                      "linkId": "ExplanationOfBenefit.item.adjudication.reason.text",
+                      "text": "text:",
+                      "type": "string",
+                      "required": false,
+                      "repeats": false
+                    }
+                  ]
+                },
+                {
+                  "extension": [
+                    {
+                      "url": "http://hl7.org/fhir/StructureDefinition/questionnaire-maxOccurs",
+                      "valueInteger": 1
+                    },
+                    {
+                      "url": "http://hl7.org/fhir/StructureDefinition/questionnaire-fhirType",
+                      "valueString": "Quantity"
+                    }
+                  ],
+                  "linkId": "ExplanationOfBenefit.item.adjudication.amount",
+                  "text": "Monetary amount",
+                  "type": "group",
+                  "required": false,
+                  "repeats": true,
+                  "item": [
+                    {
+                      "extension": [
+                        {
+                          "url": "http://hl7.org/fhir/StructureDefinition/questionnaire-itemControl",
+                          "valueCodeableConcept": {
+                            "coding": [
+                              {
+                                "system": "http://hl7.org/fhir/questionnaire-item-control",
+                                "code": "flyover",
+                                "display": "Fly-over"
+                              }
+                            ]
+                          }
+                        }
+                      ],
+                      "linkId": "ExplanationOfBenefit.item.adjudication.amount-flyover",
+                      "text": "Monetary amount associated with the category. For example, amount submitted, eligible amount, co-payment, and benefit payable.",
+                      "type": "display"
+                    },
+                    {
+                      "linkId": "ExplanationOfBenefit.item.adjudication.amount.comparator",
+                      "text": "comp:",
+                      "type": "choice",
+                      "required": false,
+                      "repeats": false
+                    },
+                    {
+                      "linkId": "ExplanationOfBenefit.item.adjudication.amount.value",
+                      "text": "value:",
+                      "type": "decimal",
+                      "required": false,
+                      "repeats": false
+                    },
+                    {
+                      "linkId": "ExplanationOfBenefit.item.adjudication.amount.units",
+                      "text": "units:",
+                      "type": "string",
+                      "required": false,
+                      "repeats": false
+                    },
+                    {
+                      "linkId": "ExplanationOfBenefit.item.adjudication.amount.code",
+                      "text": "coded units:",
+                      "type": "string",
+                      "required": false,
+                      "repeats": false
+                    },
+                    {
+                      "linkId": "ExplanationOfBenefit.item.adjudication.amount.system",
+                      "text": "units system:",
+                      "type": "string",
+                      "required": false,
+                      "repeats": false
+                    }
+                  ]
+                },
+                {
+                  "extension": [
+                    {
+                      "url": "http://hl7.org/fhir/StructureDefinition/questionnaire-maxOccurs",
+                      "valueInteger": 1
+                    },
+                    {
+                      "url": "http://hl7.org/fhir/StructureDefinition/questionnaire-fhirType",
+                      "valueString": "decimal"
+                    }
+                  ],
+                  "linkId": "ExplanationOfBenefit.item.adjudication.value",
+                  "type": "group",
+                  "required": false,
+                  "repeats": true,
+                  "item": [
+                    {
+                      "extension": [
+                        {
+                          "url": "http://hl7.org/fhir/StructureDefinition/questionnaire-itemControl",
+                          "valueCodeableConcept": {
+                            "coding": [
+                              {
+                                "system": "http://hl7.org/fhir/questionnaire-item-control",
+                                "code": "flyover",
+                                "display": "Fly-over"
+                              }
+                            ]
+                          }
+                        }
+                      ],
+                      "linkId": "ExplanationOfBenefit.item.adjudication.value-flyover",
+                      "text": "A non-monetary value associated with the category. Mutually exclusive to the amount element above. For example: eligible percentage or co-payment percentage.",
+                      "type": "display"
+                    },
+                    {
+                      "linkId": "ExplanationOfBenefit.item.adjudication.value.value",
+                      "text": "Non-monitary value",
+                      "type": "decimal",
+                      "required": false,
+                      "repeats": false
+                    }
+                  ]
                 }
               ]
             },
@@ -9597,10 +10498,9 @@
                     {
                       "linkId": "ExplanationOfBenefit.addItem.detail.productOrService.coding",
                       "text": "code:",
-                      "type": "coding",
+                      "type": "choice",
                       "required": false,
-                      "repeats": false,
-                      "answerConstraint": "optionsOnly"
+                      "repeats": false
                     },
                     {
                       "linkId": "ExplanationOfBenefit.addItem.detail.productOrService.text",
@@ -9646,10 +10546,9 @@
                     {
                       "linkId": "ExplanationOfBenefit.addItem.detail.modifier.coding",
                       "text": "code:",
-                      "type": "coding",
+                      "type": "choice",
                       "required": false,
-                      "repeats": false,
-                      "answerConstraint": "optionsOnly"
+                      "repeats": false
                     },
                     {
                       "linkId": "ExplanationOfBenefit.addItem.detail.modifier.text",
@@ -9699,10 +10598,9 @@
                     {
                       "linkId": "ExplanationOfBenefit.addItem.detail.quantity.comparator",
                       "text": "comp:",
-                      "type": "coding",
+                      "type": "choice",
                       "required": false,
-                      "repeats": false,
-                      "answerConstraint": "optionsOnly"
+                      "repeats": false
                     },
                     {
                       "linkId": "ExplanationOfBenefit.addItem.detail.quantity.value",
@@ -9773,10 +10671,9 @@
                     {
                       "linkId": "ExplanationOfBenefit.addItem.detail.unitPrice.comparator",
                       "text": "comp:",
-                      "type": "coding",
+                      "type": "choice",
                       "required": false,
-                      "repeats": false,
-                      "answerConstraint": "optionsOnly"
+                      "repeats": false
                     },
                     {
                       "linkId": "ExplanationOfBenefit.addItem.detail.unitPrice.value",
@@ -9891,10 +10788,9 @@
                     {
                       "linkId": "ExplanationOfBenefit.addItem.detail.net.comparator",
                       "text": "comp:",
-                      "type": "coding",
+                      "type": "choice",
                       "required": false,
-                      "repeats": false,
-                      "answerConstraint": "optionsOnly"
+                      "repeats": false
                     },
                     {
                       "linkId": "ExplanationOfBenefit.addItem.detail.net.value",
@@ -9991,6 +10887,331 @@
                       "linkId": "ExplanationOfBenefit.addItem.detail.adjudication-flyover",
                       "text": "The adjudication results.",
                       "type": "display"
+                    },
+                    {
+                      "extension": [
+                        {
+                          "url": "http://hl7.org/fhir/StructureDefinition/questionnaire-maxOccurs",
+                          "valueInteger": 1
+                        },
+                        {
+                          "url": "http://hl7.org/fhir/StructureDefinition/questionnaire-fhirType",
+                          "valueString": "string"
+                        }
+                      ],
+                      "linkId": "ExplanationOfBenefit.item.adjudication.id",
+                      "type": "group",
+                      "required": false,
+                      "repeats": true,
+                      "item": [
+                        {
+                          "extension": [
+                            {
+                              "url": "http://hl7.org/fhir/StructureDefinition/questionnaire-itemControl",
+                              "valueCodeableConcept": {
+                                "coding": [
+                                  {
+                                    "system": "http://hl7.org/fhir/questionnaire-item-control",
+                                    "code": "flyover",
+                                    "display": "Fly-over"
+                                  }
+                                ]
+                              }
+                            }
+                          ],
+                          "linkId": "ExplanationOfBenefit.item.adjudication.id-flyover",
+                          "text": "Unique id for the element within a resource (for internal references). This may be any string value that does not contain spaces.",
+                          "type": "display"
+                        },
+                        {
+                          "linkId": "ExplanationOfBenefit.item.adjudication.id.value",
+                          "text": "Unique id for inter-element referencing",
+                          "type": "string",
+                          "required": false,
+                          "repeats": false
+                        }
+                      ]
+                    },
+                    {
+                      "linkId": "ExplanationOfBenefit.item.adjudication.extension",
+                      "text": "Additional content defined by implementations",
+                      "type": "group",
+                      "required": false,
+                      "repeats": true,
+                      "item": [
+                        {
+                          "extension": [
+                            {
+                              "url": "http://hl7.org/fhir/StructureDefinition/questionnaire-itemControl",
+                              "valueCodeableConcept": {
+                                "coding": [
+                                  {
+                                    "system": "http://hl7.org/fhir/questionnaire-item-control",
+                                    "code": "flyover",
+                                    "display": "Fly-over"
+                                  }
+                                ]
+                              }
+                            }
+                          ],
+                          "linkId": "ExplanationOfBenefit.item.adjudication.extension-flyover",
+                          "text": "May be used to represent additional information that is not part of the basic definition of the element. To make the use of extensions safe and manageable, there is a strict set of governance  applied to the definition and use of extensions. Though any implementer can define an extension, there is a set of requirements that SHALL be met as part of the definition of the extension. There can be no stigma associated with the use of extensions by any application, project, or standard - regardless of the institution or jurisdiction that uses or defines the extensions.  The use of extensions is what allows the FHIR specification to retain a core level of simplicity for everyone.",
+                          "type": "display"
+                        }
+                      ]
+                    },
+                    {
+                      "linkId": "ExplanationOfBenefit.item.adjudication.modifierExtension",
+                      "text": "Extensions that cannot be ignored even if unrecognized",
+                      "type": "group",
+                      "required": false,
+                      "repeats": true,
+                      "item": [
+                        {
+                          "extension": [
+                            {
+                              "url": "http://hl7.org/fhir/StructureDefinition/questionnaire-itemControl",
+                              "valueCodeableConcept": {
+                                "coding": [
+                                  {
+                                    "system": "http://hl7.org/fhir/questionnaire-item-control",
+                                    "code": "flyover",
+                                    "display": "Fly-over"
+                                  }
+                                ]
+                              }
+                            }
+                          ],
+                          "linkId": "ExplanationOfBenefit.item.adjudication.modifierExtension-flyover",
+                          "text": "May be used to represent additional information that is not part of the basic definition of the element and that modifies the understanding of the element in which it is contained and/or the understanding of the containing element\u0027s descendants. Usually modifier elements provide negation or qualification. To make the use of extensions safe and manageable, there is a strict set of governance applied to the definition and use of extensions. Though any implementer can define an extension, there is a set of requirements that SHALL be met as part of the definition of the extension. Applications processing a resource are required to check for modifier extensions.\n\nModifier extensions SHALL NOT change the meaning of any elements on Resource or DomainResource (including cannot change the meaning of modifierExtension itself). There can be no stigma associated with the use of extensions by any application, project, or standard - regardless of the institution or jurisdiction that uses or defines the extensions.  The use of extensions is what allows the FHIR specification to retain a core level of simplicity for everyone.",
+                          "type": "display"
+                        }
+                      ]
+                    },
+                    {
+                      "extension": [
+                        {
+                          "url": "http://hl7.org/fhir/StructureDefinition/questionnaire-minOccurs",
+                          "valueInteger": 1
+                        },
+                        {
+                          "url": "http://hl7.org/fhir/StructureDefinition/questionnaire-maxOccurs",
+                          "valueInteger": 1
+                        },
+                        {
+                          "url": "http://hl7.org/fhir/StructureDefinition/questionnaire-fhirType",
+                          "valueString": "CodeableConcept"
+                        }
+                      ],
+                      "linkId": "ExplanationOfBenefit.item.adjudication.category",
+                      "text": "Type of adjudication information",
+                      "type": "group",
+                      "required": true,
+                      "repeats": true,
+                      "item": [
+                        {
+                          "extension": [
+                            {
+                              "url": "http://hl7.org/fhir/StructureDefinition/questionnaire-itemControl",
+                              "valueCodeableConcept": {
+                                "coding": [
+                                  {
+                                    "system": "http://hl7.org/fhir/questionnaire-item-control",
+                                    "code": "flyover",
+                                    "display": "Fly-over"
+                                  }
+                                ]
+                              }
+                            }
+                          ],
+                          "linkId": "ExplanationOfBenefit.item.adjudication.category-flyover",
+                          "text": "A code to indicate the information type of this adjudication record. Information types may include: the value submitted, maximum values or percentages allowed or payable under the plan, amounts that the patient is responsible for in-aggregate or pertaining to this item, amounts paid by other coverages, and the benefit payable for this item. For example, codes indicating: Co-Pay, deductible, eligible, benefit, tax, etc.",
+                          "type": "display"
+                        },
+                        {
+                          "linkId": "ExplanationOfBenefit.item.adjudication.category.coding",
+                          "text": "code:",
+                          "type": "choice",
+                          "required": false,
+                          "repeats": false
+                        },
+                        {
+                          "linkId": "ExplanationOfBenefit.item.adjudication.category.text",
+                          "text": "text:",
+                          "type": "string",
+                          "required": false,
+                          "repeats": false
+                        }
+                      ]
+                    },
+                    {
+                      "extension": [
+                        {
+                          "url": "http://hl7.org/fhir/StructureDefinition/questionnaire-maxOccurs",
+                          "valueInteger": 1
+                        },
+                        {
+                          "url": "http://hl7.org/fhir/StructureDefinition/questionnaire-fhirType",
+                          "valueString": "CodeableConcept"
+                        }
+                      ],
+                      "linkId": "ExplanationOfBenefit.item.adjudication.reason",
+                      "text": "Explanation of adjudication outcome",
+                      "type": "group",
+                      "required": false,
+                      "repeats": true,
+                      "item": [
+                        {
+                          "extension": [
+                            {
+                              "url": "http://hl7.org/fhir/StructureDefinition/questionnaire-itemControl",
+                              "valueCodeableConcept": {
+                                "coding": [
+                                  {
+                                    "system": "http://hl7.org/fhir/questionnaire-item-control",
+                                    "code": "flyover",
+                                    "display": "Fly-over"
+                                  }
+                                ]
+                              }
+                            }
+                          ],
+                          "linkId": "ExplanationOfBenefit.item.adjudication.reason-flyover",
+                          "text": "A code supporting the understanding of the adjudication result and explaining variance from expected amount. For example, may indicate that the funds for this benefit type have been exhausted.",
+                          "type": "display"
+                        },
+                        {
+                          "linkId": "ExplanationOfBenefit.item.adjudication.reason.coding",
+                          "text": "code:",
+                          "type": "choice",
+                          "required": false,
+                          "repeats": false
+                        },
+                        {
+                          "linkId": "ExplanationOfBenefit.item.adjudication.reason.text",
+                          "text": "text:",
+                          "type": "string",
+                          "required": false,
+                          "repeats": false
+                        }
+                      ]
+                    },
+                    {
+                      "extension": [
+                        {
+                          "url": "http://hl7.org/fhir/StructureDefinition/questionnaire-maxOccurs",
+                          "valueInteger": 1
+                        },
+                        {
+                          "url": "http://hl7.org/fhir/StructureDefinition/questionnaire-fhirType",
+                          "valueString": "Quantity"
+                        }
+                      ],
+                      "linkId": "ExplanationOfBenefit.item.adjudication.amount",
+                      "text": "Monetary amount",
+                      "type": "group",
+                      "required": false,
+                      "repeats": true,
+                      "item": [
+                        {
+                          "extension": [
+                            {
+                              "url": "http://hl7.org/fhir/StructureDefinition/questionnaire-itemControl",
+                              "valueCodeableConcept": {
+                                "coding": [
+                                  {
+                                    "system": "http://hl7.org/fhir/questionnaire-item-control",
+                                    "code": "flyover",
+                                    "display": "Fly-over"
+                                  }
+                                ]
+                              }
+                            }
+                          ],
+                          "linkId": "ExplanationOfBenefit.item.adjudication.amount-flyover",
+                          "text": "Monetary amount associated with the category. For example, amount submitted, eligible amount, co-payment, and benefit payable.",
+                          "type": "display"
+                        },
+                        {
+                          "linkId": "ExplanationOfBenefit.item.adjudication.amount.comparator",
+                          "text": "comp:",
+                          "type": "choice",
+                          "required": false,
+                          "repeats": false
+                        },
+                        {
+                          "linkId": "ExplanationOfBenefit.item.adjudication.amount.value",
+                          "text": "value:",
+                          "type": "decimal",
+                          "required": false,
+                          "repeats": false
+                        },
+                        {
+                          "linkId": "ExplanationOfBenefit.item.adjudication.amount.units",
+                          "text": "units:",
+                          "type": "string",
+                          "required": false,
+                          "repeats": false
+                        },
+                        {
+                          "linkId": "ExplanationOfBenefit.item.adjudication.amount.code",
+                          "text": "coded units:",
+                          "type": "string",
+                          "required": false,
+                          "repeats": false
+                        },
+                        {
+                          "linkId": "ExplanationOfBenefit.item.adjudication.amount.system",
+                          "text": "units system:",
+                          "type": "string",
+                          "required": false,
+                          "repeats": false
+                        }
+                      ]
+                    },
+                    {
+                      "extension": [
+                        {
+                          "url": "http://hl7.org/fhir/StructureDefinition/questionnaire-maxOccurs",
+                          "valueInteger": 1
+                        },
+                        {
+                          "url": "http://hl7.org/fhir/StructureDefinition/questionnaire-fhirType",
+                          "valueString": "decimal"
+                        }
+                      ],
+                      "linkId": "ExplanationOfBenefit.item.adjudication.value",
+                      "type": "group",
+                      "required": false,
+                      "repeats": true,
+                      "item": [
+                        {
+                          "extension": [
+                            {
+                              "url": "http://hl7.org/fhir/StructureDefinition/questionnaire-itemControl",
+                              "valueCodeableConcept": {
+                                "coding": [
+                                  {
+                                    "system": "http://hl7.org/fhir/questionnaire-item-control",
+                                    "code": "flyover",
+                                    "display": "Fly-over"
+                                  }
+                                ]
+                              }
+                            }
+                          ],
+                          "linkId": "ExplanationOfBenefit.item.adjudication.value-flyover",
+                          "text": "A non-monetary value associated with the category. Mutually exclusive to the amount element above. For example: eligible percentage or co-payment percentage.",
+                          "type": "display"
+                        },
+                        {
+                          "linkId": "ExplanationOfBenefit.item.adjudication.value.value",
+                          "text": "Non-monitary value",
+                          "type": "decimal",
+                          "required": false,
+                          "repeats": false
+                        }
+                      ]
                     }
                   ]
                 },
@@ -10163,10 +11384,9 @@
                         {
                           "linkId": "ExplanationOfBenefit.addItem.detail.subDetail.productOrService.coding",
                           "text": "code:",
-                          "type": "coding",
+                          "type": "choice",
                           "required": false,
-                          "repeats": false,
-                          "answerConstraint": "optionsOnly"
+                          "repeats": false
                         },
                         {
                           "linkId": "ExplanationOfBenefit.addItem.detail.subDetail.productOrService.text",
@@ -10212,10 +11432,9 @@
                         {
                           "linkId": "ExplanationOfBenefit.addItem.detail.subDetail.modifier.coding",
                           "text": "code:",
-                          "type": "coding",
+                          "type": "choice",
                           "required": false,
-                          "repeats": false,
-                          "answerConstraint": "optionsOnly"
+                          "repeats": false
                         },
                         {
                           "linkId": "ExplanationOfBenefit.addItem.detail.subDetail.modifier.text",
@@ -10265,10 +11484,9 @@
                         {
                           "linkId": "ExplanationOfBenefit.addItem.detail.subDetail.quantity.comparator",
                           "text": "comp:",
-                          "type": "coding",
+                          "type": "choice",
                           "required": false,
-                          "repeats": false,
-                          "answerConstraint": "optionsOnly"
+                          "repeats": false
                         },
                         {
                           "linkId": "ExplanationOfBenefit.addItem.detail.subDetail.quantity.value",
@@ -10339,10 +11557,9 @@
                         {
                           "linkId": "ExplanationOfBenefit.addItem.detail.subDetail.unitPrice.comparator",
                           "text": "comp:",
-                          "type": "coding",
+                          "type": "choice",
                           "required": false,
-                          "repeats": false,
-                          "answerConstraint": "optionsOnly"
+                          "repeats": false
                         },
                         {
                           "linkId": "ExplanationOfBenefit.addItem.detail.subDetail.unitPrice.value",
@@ -10457,10 +11674,9 @@
                         {
                           "linkId": "ExplanationOfBenefit.addItem.detail.subDetail.net.comparator",
                           "text": "comp:",
-                          "type": "coding",
+                          "type": "choice",
                           "required": false,
-                          "repeats": false,
-                          "answerConstraint": "optionsOnly"
+                          "repeats": false
                         },
                         {
                           "linkId": "ExplanationOfBenefit.addItem.detail.subDetail.net.value",
@@ -10557,6 +11773,331 @@
                           "linkId": "ExplanationOfBenefit.addItem.detail.subDetail.adjudication-flyover",
                           "text": "The adjudication results.",
                           "type": "display"
+                        },
+                        {
+                          "extension": [
+                            {
+                              "url": "http://hl7.org/fhir/StructureDefinition/questionnaire-maxOccurs",
+                              "valueInteger": 1
+                            },
+                            {
+                              "url": "http://hl7.org/fhir/StructureDefinition/questionnaire-fhirType",
+                              "valueString": "string"
+                            }
+                          ],
+                          "linkId": "ExplanationOfBenefit.item.adjudication.id",
+                          "type": "group",
+                          "required": false,
+                          "repeats": true,
+                          "item": [
+                            {
+                              "extension": [
+                                {
+                                  "url": "http://hl7.org/fhir/StructureDefinition/questionnaire-itemControl",
+                                  "valueCodeableConcept": {
+                                    "coding": [
+                                      {
+                                        "system": "http://hl7.org/fhir/questionnaire-item-control",
+                                        "code": "flyover",
+                                        "display": "Fly-over"
+                                      }
+                                    ]
+                                  }
+                                }
+                              ],
+                              "linkId": "ExplanationOfBenefit.item.adjudication.id-flyover",
+                              "text": "Unique id for the element within a resource (for internal references). This may be any string value that does not contain spaces.",
+                              "type": "display"
+                            },
+                            {
+                              "linkId": "ExplanationOfBenefit.item.adjudication.id.value",
+                              "text": "Unique id for inter-element referencing",
+                              "type": "string",
+                              "required": false,
+                              "repeats": false
+                            }
+                          ]
+                        },
+                        {
+                          "linkId": "ExplanationOfBenefit.item.adjudication.extension",
+                          "text": "Additional content defined by implementations",
+                          "type": "group",
+                          "required": false,
+                          "repeats": true,
+                          "item": [
+                            {
+                              "extension": [
+                                {
+                                  "url": "http://hl7.org/fhir/StructureDefinition/questionnaire-itemControl",
+                                  "valueCodeableConcept": {
+                                    "coding": [
+                                      {
+                                        "system": "http://hl7.org/fhir/questionnaire-item-control",
+                                        "code": "flyover",
+                                        "display": "Fly-over"
+                                      }
+                                    ]
+                                  }
+                                }
+                              ],
+                              "linkId": "ExplanationOfBenefit.item.adjudication.extension-flyover",
+                              "text": "May be used to represent additional information that is not part of the basic definition of the element. To make the use of extensions safe and manageable, there is a strict set of governance  applied to the definition and use of extensions. Though any implementer can define an extension, there is a set of requirements that SHALL be met as part of the definition of the extension. There can be no stigma associated with the use of extensions by any application, project, or standard - regardless of the institution or jurisdiction that uses or defines the extensions.  The use of extensions is what allows the FHIR specification to retain a core level of simplicity for everyone.",
+                              "type": "display"
+                            }
+                          ]
+                        },
+                        {
+                          "linkId": "ExplanationOfBenefit.item.adjudication.modifierExtension",
+                          "text": "Extensions that cannot be ignored even if unrecognized",
+                          "type": "group",
+                          "required": false,
+                          "repeats": true,
+                          "item": [
+                            {
+                              "extension": [
+                                {
+                                  "url": "http://hl7.org/fhir/StructureDefinition/questionnaire-itemControl",
+                                  "valueCodeableConcept": {
+                                    "coding": [
+                                      {
+                                        "system": "http://hl7.org/fhir/questionnaire-item-control",
+                                        "code": "flyover",
+                                        "display": "Fly-over"
+                                      }
+                                    ]
+                                  }
+                                }
+                              ],
+                              "linkId": "ExplanationOfBenefit.item.adjudication.modifierExtension-flyover",
+                              "text": "May be used to represent additional information that is not part of the basic definition of the element and that modifies the understanding of the element in which it is contained and/or the understanding of the containing element\u0027s descendants. Usually modifier elements provide negation or qualification. To make the use of extensions safe and manageable, there is a strict set of governance applied to the definition and use of extensions. Though any implementer can define an extension, there is a set of requirements that SHALL be met as part of the definition of the extension. Applications processing a resource are required to check for modifier extensions.\n\nModifier extensions SHALL NOT change the meaning of any elements on Resource or DomainResource (including cannot change the meaning of modifierExtension itself). There can be no stigma associated with the use of extensions by any application, project, or standard - regardless of the institution or jurisdiction that uses or defines the extensions.  The use of extensions is what allows the FHIR specification to retain a core level of simplicity for everyone.",
+                              "type": "display"
+                            }
+                          ]
+                        },
+                        {
+                          "extension": [
+                            {
+                              "url": "http://hl7.org/fhir/StructureDefinition/questionnaire-minOccurs",
+                              "valueInteger": 1
+                            },
+                            {
+                              "url": "http://hl7.org/fhir/StructureDefinition/questionnaire-maxOccurs",
+                              "valueInteger": 1
+                            },
+                            {
+                              "url": "http://hl7.org/fhir/StructureDefinition/questionnaire-fhirType",
+                              "valueString": "CodeableConcept"
+                            }
+                          ],
+                          "linkId": "ExplanationOfBenefit.item.adjudication.category",
+                          "text": "Type of adjudication information",
+                          "type": "group",
+                          "required": true,
+                          "repeats": true,
+                          "item": [
+                            {
+                              "extension": [
+                                {
+                                  "url": "http://hl7.org/fhir/StructureDefinition/questionnaire-itemControl",
+                                  "valueCodeableConcept": {
+                                    "coding": [
+                                      {
+                                        "system": "http://hl7.org/fhir/questionnaire-item-control",
+                                        "code": "flyover",
+                                        "display": "Fly-over"
+                                      }
+                                    ]
+                                  }
+                                }
+                              ],
+                              "linkId": "ExplanationOfBenefit.item.adjudication.category-flyover",
+                              "text": "A code to indicate the information type of this adjudication record. Information types may include: the value submitted, maximum values or percentages allowed or payable under the plan, amounts that the patient is responsible for in-aggregate or pertaining to this item, amounts paid by other coverages, and the benefit payable for this item. For example, codes indicating: Co-Pay, deductible, eligible, benefit, tax, etc.",
+                              "type": "display"
+                            },
+                            {
+                              "linkId": "ExplanationOfBenefit.item.adjudication.category.coding",
+                              "text": "code:",
+                              "type": "choice",
+                              "required": false,
+                              "repeats": false
+                            },
+                            {
+                              "linkId": "ExplanationOfBenefit.item.adjudication.category.text",
+                              "text": "text:",
+                              "type": "string",
+                              "required": false,
+                              "repeats": false
+                            }
+                          ]
+                        },
+                        {
+                          "extension": [
+                            {
+                              "url": "http://hl7.org/fhir/StructureDefinition/questionnaire-maxOccurs",
+                              "valueInteger": 1
+                            },
+                            {
+                              "url": "http://hl7.org/fhir/StructureDefinition/questionnaire-fhirType",
+                              "valueString": "CodeableConcept"
+                            }
+                          ],
+                          "linkId": "ExplanationOfBenefit.item.adjudication.reason",
+                          "text": "Explanation of adjudication outcome",
+                          "type": "group",
+                          "required": false,
+                          "repeats": true,
+                          "item": [
+                            {
+                              "extension": [
+                                {
+                                  "url": "http://hl7.org/fhir/StructureDefinition/questionnaire-itemControl",
+                                  "valueCodeableConcept": {
+                                    "coding": [
+                                      {
+                                        "system": "http://hl7.org/fhir/questionnaire-item-control",
+                                        "code": "flyover",
+                                        "display": "Fly-over"
+                                      }
+                                    ]
+                                  }
+                                }
+                              ],
+                              "linkId": "ExplanationOfBenefit.item.adjudication.reason-flyover",
+                              "text": "A code supporting the understanding of the adjudication result and explaining variance from expected amount. For example, may indicate that the funds for this benefit type have been exhausted.",
+                              "type": "display"
+                            },
+                            {
+                              "linkId": "ExplanationOfBenefit.item.adjudication.reason.coding",
+                              "text": "code:",
+                              "type": "choice",
+                              "required": false,
+                              "repeats": false
+                            },
+                            {
+                              "linkId": "ExplanationOfBenefit.item.adjudication.reason.text",
+                              "text": "text:",
+                              "type": "string",
+                              "required": false,
+                              "repeats": false
+                            }
+                          ]
+                        },
+                        {
+                          "extension": [
+                            {
+                              "url": "http://hl7.org/fhir/StructureDefinition/questionnaire-maxOccurs",
+                              "valueInteger": 1
+                            },
+                            {
+                              "url": "http://hl7.org/fhir/StructureDefinition/questionnaire-fhirType",
+                              "valueString": "Quantity"
+                            }
+                          ],
+                          "linkId": "ExplanationOfBenefit.item.adjudication.amount",
+                          "text": "Monetary amount",
+                          "type": "group",
+                          "required": false,
+                          "repeats": true,
+                          "item": [
+                            {
+                              "extension": [
+                                {
+                                  "url": "http://hl7.org/fhir/StructureDefinition/questionnaire-itemControl",
+                                  "valueCodeableConcept": {
+                                    "coding": [
+                                      {
+                                        "system": "http://hl7.org/fhir/questionnaire-item-control",
+                                        "code": "flyover",
+                                        "display": "Fly-over"
+                                      }
+                                    ]
+                                  }
+                                }
+                              ],
+                              "linkId": "ExplanationOfBenefit.item.adjudication.amount-flyover",
+                              "text": "Monetary amount associated with the category. For example, amount submitted, eligible amount, co-payment, and benefit payable.",
+                              "type": "display"
+                            },
+                            {
+                              "linkId": "ExplanationOfBenefit.item.adjudication.amount.comparator",
+                              "text": "comp:",
+                              "type": "choice",
+                              "required": false,
+                              "repeats": false
+                            },
+                            {
+                              "linkId": "ExplanationOfBenefit.item.adjudication.amount.value",
+                              "text": "value:",
+                              "type": "decimal",
+                              "required": false,
+                              "repeats": false
+                            },
+                            {
+                              "linkId": "ExplanationOfBenefit.item.adjudication.amount.units",
+                              "text": "units:",
+                              "type": "string",
+                              "required": false,
+                              "repeats": false
+                            },
+                            {
+                              "linkId": "ExplanationOfBenefit.item.adjudication.amount.code",
+                              "text": "coded units:",
+                              "type": "string",
+                              "required": false,
+                              "repeats": false
+                            },
+                            {
+                              "linkId": "ExplanationOfBenefit.item.adjudication.amount.system",
+                              "text": "units system:",
+                              "type": "string",
+                              "required": false,
+                              "repeats": false
+                            }
+                          ]
+                        },
+                        {
+                          "extension": [
+                            {
+                              "url": "http://hl7.org/fhir/StructureDefinition/questionnaire-maxOccurs",
+                              "valueInteger": 1
+                            },
+                            {
+                              "url": "http://hl7.org/fhir/StructureDefinition/questionnaire-fhirType",
+                              "valueString": "decimal"
+                            }
+                          ],
+                          "linkId": "ExplanationOfBenefit.item.adjudication.value",
+                          "type": "group",
+                          "required": false,
+                          "repeats": true,
+                          "item": [
+                            {
+                              "extension": [
+                                {
+                                  "url": "http://hl7.org/fhir/StructureDefinition/questionnaire-itemControl",
+                                  "valueCodeableConcept": {
+                                    "coding": [
+                                      {
+                                        "system": "http://hl7.org/fhir/questionnaire-item-control",
+                                        "code": "flyover",
+                                        "display": "Fly-over"
+                                      }
+                                    ]
+                                  }
+                                }
+                              ],
+                              "linkId": "ExplanationOfBenefit.item.adjudication.value-flyover",
+                              "text": "A non-monetary value associated with the category. Mutually exclusive to the amount element above. For example: eligible percentage or co-payment percentage.",
+                              "type": "display"
+                            },
+                            {
+                              "linkId": "ExplanationOfBenefit.item.adjudication.value.value",
+                              "text": "Non-monitary value",
+                              "type": "decimal",
+                              "required": false,
+                              "repeats": false
+                            }
+                          ]
                         }
                       ]
                     }
@@ -10591,6 +12132,331 @@
               "linkId": "ExplanationOfBenefit.adjudication-flyover",
               "text": "The adjudication results which are presented at the header level rather than at the line-item or add-item levels.",
               "type": "display"
+            },
+            {
+              "extension": [
+                {
+                  "url": "http://hl7.org/fhir/StructureDefinition/questionnaire-maxOccurs",
+                  "valueInteger": 1
+                },
+                {
+                  "url": "http://hl7.org/fhir/StructureDefinition/questionnaire-fhirType",
+                  "valueString": "string"
+                }
+              ],
+              "linkId": "ExplanationOfBenefit.item.adjudication.id",
+              "type": "group",
+              "required": false,
+              "repeats": true,
+              "item": [
+                {
+                  "extension": [
+                    {
+                      "url": "http://hl7.org/fhir/StructureDefinition/questionnaire-itemControl",
+                      "valueCodeableConcept": {
+                        "coding": [
+                          {
+                            "system": "http://hl7.org/fhir/questionnaire-item-control",
+                            "code": "flyover",
+                            "display": "Fly-over"
+                          }
+                        ]
+                      }
+                    }
+                  ],
+                  "linkId": "ExplanationOfBenefit.item.adjudication.id-flyover",
+                  "text": "Unique id for the element within a resource (for internal references). This may be any string value that does not contain spaces.",
+                  "type": "display"
+                },
+                {
+                  "linkId": "ExplanationOfBenefit.item.adjudication.id.value",
+                  "text": "Unique id for inter-element referencing",
+                  "type": "string",
+                  "required": false,
+                  "repeats": false
+                }
+              ]
+            },
+            {
+              "linkId": "ExplanationOfBenefit.item.adjudication.extension",
+              "text": "Additional content defined by implementations",
+              "type": "group",
+              "required": false,
+              "repeats": true,
+              "item": [
+                {
+                  "extension": [
+                    {
+                      "url": "http://hl7.org/fhir/StructureDefinition/questionnaire-itemControl",
+                      "valueCodeableConcept": {
+                        "coding": [
+                          {
+                            "system": "http://hl7.org/fhir/questionnaire-item-control",
+                            "code": "flyover",
+                            "display": "Fly-over"
+                          }
+                        ]
+                      }
+                    }
+                  ],
+                  "linkId": "ExplanationOfBenefit.item.adjudication.extension-flyover",
+                  "text": "May be used to represent additional information that is not part of the basic definition of the element. To make the use of extensions safe and manageable, there is a strict set of governance  applied to the definition and use of extensions. Though any implementer can define an extension, there is a set of requirements that SHALL be met as part of the definition of the extension. There can be no stigma associated with the use of extensions by any application, project, or standard - regardless of the institution or jurisdiction that uses or defines the extensions.  The use of extensions is what allows the FHIR specification to retain a core level of simplicity for everyone.",
+                  "type": "display"
+                }
+              ]
+            },
+            {
+              "linkId": "ExplanationOfBenefit.item.adjudication.modifierExtension",
+              "text": "Extensions that cannot be ignored even if unrecognized",
+              "type": "group",
+              "required": false,
+              "repeats": true,
+              "item": [
+                {
+                  "extension": [
+                    {
+                      "url": "http://hl7.org/fhir/StructureDefinition/questionnaire-itemControl",
+                      "valueCodeableConcept": {
+                        "coding": [
+                          {
+                            "system": "http://hl7.org/fhir/questionnaire-item-control",
+                            "code": "flyover",
+                            "display": "Fly-over"
+                          }
+                        ]
+                      }
+                    }
+                  ],
+                  "linkId": "ExplanationOfBenefit.item.adjudication.modifierExtension-flyover",
+                  "text": "May be used to represent additional information that is not part of the basic definition of the element and that modifies the understanding of the element in which it is contained and/or the understanding of the containing element\u0027s descendants. Usually modifier elements provide negation or qualification. To make the use of extensions safe and manageable, there is a strict set of governance applied to the definition and use of extensions. Though any implementer can define an extension, there is a set of requirements that SHALL be met as part of the definition of the extension. Applications processing a resource are required to check for modifier extensions.\n\nModifier extensions SHALL NOT change the meaning of any elements on Resource or DomainResource (including cannot change the meaning of modifierExtension itself). There can be no stigma associated with the use of extensions by any application, project, or standard - regardless of the institution or jurisdiction that uses or defines the extensions.  The use of extensions is what allows the FHIR specification to retain a core level of simplicity for everyone.",
+                  "type": "display"
+                }
+              ]
+            },
+            {
+              "extension": [
+                {
+                  "url": "http://hl7.org/fhir/StructureDefinition/questionnaire-minOccurs",
+                  "valueInteger": 1
+                },
+                {
+                  "url": "http://hl7.org/fhir/StructureDefinition/questionnaire-maxOccurs",
+                  "valueInteger": 1
+                },
+                {
+                  "url": "http://hl7.org/fhir/StructureDefinition/questionnaire-fhirType",
+                  "valueString": "CodeableConcept"
+                }
+              ],
+              "linkId": "ExplanationOfBenefit.item.adjudication.category",
+              "text": "Type of adjudication information",
+              "type": "group",
+              "required": true,
+              "repeats": true,
+              "item": [
+                {
+                  "extension": [
+                    {
+                      "url": "http://hl7.org/fhir/StructureDefinition/questionnaire-itemControl",
+                      "valueCodeableConcept": {
+                        "coding": [
+                          {
+                            "system": "http://hl7.org/fhir/questionnaire-item-control",
+                            "code": "flyover",
+                            "display": "Fly-over"
+                          }
+                        ]
+                      }
+                    }
+                  ],
+                  "linkId": "ExplanationOfBenefit.item.adjudication.category-flyover",
+                  "text": "A code to indicate the information type of this adjudication record. Information types may include: the value submitted, maximum values or percentages allowed or payable under the plan, amounts that the patient is responsible for in-aggregate or pertaining to this item, amounts paid by other coverages, and the benefit payable for this item. For example, codes indicating: Co-Pay, deductible, eligible, benefit, tax, etc.",
+                  "type": "display"
+                },
+                {
+                  "linkId": "ExplanationOfBenefit.item.adjudication.category.coding",
+                  "text": "code:",
+                  "type": "choice",
+                  "required": false,
+                  "repeats": false
+                },
+                {
+                  "linkId": "ExplanationOfBenefit.item.adjudication.category.text",
+                  "text": "text:",
+                  "type": "string",
+                  "required": false,
+                  "repeats": false
+                }
+              ]
+            },
+            {
+              "extension": [
+                {
+                  "url": "http://hl7.org/fhir/StructureDefinition/questionnaire-maxOccurs",
+                  "valueInteger": 1
+                },
+                {
+                  "url": "http://hl7.org/fhir/StructureDefinition/questionnaire-fhirType",
+                  "valueString": "CodeableConcept"
+                }
+              ],
+              "linkId": "ExplanationOfBenefit.item.adjudication.reason",
+              "text": "Explanation of adjudication outcome",
+              "type": "group",
+              "required": false,
+              "repeats": true,
+              "item": [
+                {
+                  "extension": [
+                    {
+                      "url": "http://hl7.org/fhir/StructureDefinition/questionnaire-itemControl",
+                      "valueCodeableConcept": {
+                        "coding": [
+                          {
+                            "system": "http://hl7.org/fhir/questionnaire-item-control",
+                            "code": "flyover",
+                            "display": "Fly-over"
+                          }
+                        ]
+                      }
+                    }
+                  ],
+                  "linkId": "ExplanationOfBenefit.item.adjudication.reason-flyover",
+                  "text": "A code supporting the understanding of the adjudication result and explaining variance from expected amount. For example, may indicate that the funds for this benefit type have been exhausted.",
+                  "type": "display"
+                },
+                {
+                  "linkId": "ExplanationOfBenefit.item.adjudication.reason.coding",
+                  "text": "code:",
+                  "type": "choice",
+                  "required": false,
+                  "repeats": false
+                },
+                {
+                  "linkId": "ExplanationOfBenefit.item.adjudication.reason.text",
+                  "text": "text:",
+                  "type": "string",
+                  "required": false,
+                  "repeats": false
+                }
+              ]
+            },
+            {
+              "extension": [
+                {
+                  "url": "http://hl7.org/fhir/StructureDefinition/questionnaire-maxOccurs",
+                  "valueInteger": 1
+                },
+                {
+                  "url": "http://hl7.org/fhir/StructureDefinition/questionnaire-fhirType",
+                  "valueString": "Quantity"
+                }
+              ],
+              "linkId": "ExplanationOfBenefit.item.adjudication.amount",
+              "text": "Monetary amount",
+              "type": "group",
+              "required": false,
+              "repeats": true,
+              "item": [
+                {
+                  "extension": [
+                    {
+                      "url": "http://hl7.org/fhir/StructureDefinition/questionnaire-itemControl",
+                      "valueCodeableConcept": {
+                        "coding": [
+                          {
+                            "system": "http://hl7.org/fhir/questionnaire-item-control",
+                            "code": "flyover",
+                            "display": "Fly-over"
+                          }
+                        ]
+                      }
+                    }
+                  ],
+                  "linkId": "ExplanationOfBenefit.item.adjudication.amount-flyover",
+                  "text": "Monetary amount associated with the category. For example, amount submitted, eligible amount, co-payment, and benefit payable.",
+                  "type": "display"
+                },
+                {
+                  "linkId": "ExplanationOfBenefit.item.adjudication.amount.comparator",
+                  "text": "comp:",
+                  "type": "choice",
+                  "required": false,
+                  "repeats": false
+                },
+                {
+                  "linkId": "ExplanationOfBenefit.item.adjudication.amount.value",
+                  "text": "value:",
+                  "type": "decimal",
+                  "required": false,
+                  "repeats": false
+                },
+                {
+                  "linkId": "ExplanationOfBenefit.item.adjudication.amount.units",
+                  "text": "units:",
+                  "type": "string",
+                  "required": false,
+                  "repeats": false
+                },
+                {
+                  "linkId": "ExplanationOfBenefit.item.adjudication.amount.code",
+                  "text": "coded units:",
+                  "type": "string",
+                  "required": false,
+                  "repeats": false
+                },
+                {
+                  "linkId": "ExplanationOfBenefit.item.adjudication.amount.system",
+                  "text": "units system:",
+                  "type": "string",
+                  "required": false,
+                  "repeats": false
+                }
+              ]
+            },
+            {
+              "extension": [
+                {
+                  "url": "http://hl7.org/fhir/StructureDefinition/questionnaire-maxOccurs",
+                  "valueInteger": 1
+                },
+                {
+                  "url": "http://hl7.org/fhir/StructureDefinition/questionnaire-fhirType",
+                  "valueString": "decimal"
+                }
+              ],
+              "linkId": "ExplanationOfBenefit.item.adjudication.value",
+              "type": "group",
+              "required": false,
+              "repeats": true,
+              "item": [
+                {
+                  "extension": [
+                    {
+                      "url": "http://hl7.org/fhir/StructureDefinition/questionnaire-itemControl",
+                      "valueCodeableConcept": {
+                        "coding": [
+                          {
+                            "system": "http://hl7.org/fhir/questionnaire-item-control",
+                            "code": "flyover",
+                            "display": "Fly-over"
+                          }
+                        ]
+                      }
+                    }
+                  ],
+                  "linkId": "ExplanationOfBenefit.item.adjudication.value-flyover",
+                  "text": "A non-monetary value associated with the category. Mutually exclusive to the amount element above. For example: eligible percentage or co-payment percentage.",
+                  "type": "display"
+                },
+                {
+                  "linkId": "ExplanationOfBenefit.item.adjudication.value.value",
+                  "text": "Non-monitary value",
+                  "type": "decimal",
+                  "required": false,
+                  "repeats": false
+                }
+              ]
             }
           ]
         },
@@ -10768,10 +12634,9 @@
                 {
                   "linkId": "ExplanationOfBenefit.total.category.coding",
                   "text": "code:",
-                  "type": "coding",
+                  "type": "choice",
                   "required": false,
-                  "repeats": false,
-                  "answerConstraint": "optionsOnly"
+                  "repeats": false
                 },
                 {
                   "linkId": "ExplanationOfBenefit.total.category.text",
@@ -10825,10 +12690,9 @@
                 {
                   "linkId": "ExplanationOfBenefit.total.amount.comparator",
                   "text": "comp:",
-                  "type": "coding",
+                  "type": "choice",
                   "required": false,
-                  "repeats": false,
-                  "answerConstraint": "optionsOnly"
+                  "repeats": false
                 },
                 {
                   "linkId": "ExplanationOfBenefit.total.amount.value",
@@ -11033,10 +12897,9 @@
                 {
                   "linkId": "ExplanationOfBenefit.payment.type.coding",
                   "text": "code:",
-                  "type": "coding",
+                  "type": "choice",
                   "required": false,
-                  "repeats": false,
-                  "answerConstraint": "optionsOnly"
+                  "repeats": false
                 },
                 {
                   "linkId": "ExplanationOfBenefit.payment.type.text",
@@ -11086,10 +12949,9 @@
                 {
                   "linkId": "ExplanationOfBenefit.payment.adjustment.comparator",
                   "text": "comp:",
-                  "type": "coding",
+                  "type": "choice",
                   "required": false,
-                  "repeats": false,
-                  "answerConstraint": "optionsOnly"
+                  "repeats": false
                 },
                 {
                   "linkId": "ExplanationOfBenefit.payment.adjustment.value",
@@ -11160,10 +13022,9 @@
                 {
                   "linkId": "ExplanationOfBenefit.payment.adjustmentReason.coding",
                   "text": "code:",
-                  "type": "coding",
+                  "type": "choice",
                   "required": false,
-                  "repeats": false,
-                  "answerConstraint": "optionsOnly"
+                  "repeats": false
                 },
                 {
                   "linkId": "ExplanationOfBenefit.payment.adjustmentReason.text",
@@ -11257,10 +13118,9 @@
                 {
                   "linkId": "ExplanationOfBenefit.payment.amount.comparator",
                   "text": "comp:",
-                  "type": "coding",
+                  "type": "choice",
                   "required": false,
-                  "repeats": false,
-                  "answerConstraint": "optionsOnly"
+                  "repeats": false
                 },
                 {
                   "linkId": "ExplanationOfBenefit.payment.amount.value",
@@ -11392,10 +13252,9 @@
             {
               "linkId": "ExplanationOfBenefit.formCode.coding",
               "text": "code:",
-              "type": "coding",
+              "type": "choice",
               "required": false,
-              "repeats": false,
-              "answerConstraint": "optionsOnly"
+              "repeats": false
             },
             {
               "linkId": "ExplanationOfBenefit.formCode.text",
@@ -11652,10 +13511,9 @@
                 {
                   "linkId": "ExplanationOfBenefit.processNote.type.value",
                   "text": "type",
-                  "type": "coding",
+                  "type": "choice",
                   "required": false,
-                  "repeats": false,
-                  "answerConstraint": "optionsOrType"
+                  "repeats": false
                 }
               ]
             },
@@ -11742,10 +13600,9 @@
                 {
                   "linkId": "ExplanationOfBenefit.processNote.language.coding",
                   "text": "code:",
-                  "type": "coding",
+                  "type": "choice",
                   "required": false,
-                  "repeats": false,
-                  "answerConstraint": "optionsOnly"
+                  "repeats": false
                 },
                 {
                   "linkId": "ExplanationOfBenefit.processNote.language.text",
@@ -11979,10 +13836,9 @@
                 {
                   "linkId": "ExplanationOfBenefit.benefitBalance.category.coding",
                   "text": "code:",
-                  "type": "coding",
+                  "type": "choice",
                   "required": false,
-                  "repeats": false,
-                  "answerConstraint": "optionsOnly"
+                  "repeats": false
                 },
                 {
                   "linkId": "ExplanationOfBenefit.benefitBalance.category.text",
@@ -12164,10 +14020,9 @@
                 {
                   "linkId": "ExplanationOfBenefit.benefitBalance.network.coding",
                   "text": "code:",
-                  "type": "coding",
+                  "type": "choice",
                   "required": false,
-                  "repeats": false,
-                  "answerConstraint": "optionsOnly"
+                  "repeats": false
                 },
                 {
                   "linkId": "ExplanationOfBenefit.benefitBalance.network.text",
@@ -12217,10 +14072,9 @@
                 {
                   "linkId": "ExplanationOfBenefit.benefitBalance.unit.coding",
                   "text": "code:",
-                  "type": "coding",
+                  "type": "choice",
                   "required": false,
-                  "repeats": false,
-                  "answerConstraint": "optionsOnly"
+                  "repeats": false
                 },
                 {
                   "linkId": "ExplanationOfBenefit.benefitBalance.unit.text",
@@ -12270,10 +14124,9 @@
                 {
                   "linkId": "ExplanationOfBenefit.benefitBalance.term.coding",
                   "text": "code:",
-                  "type": "coding",
+                  "type": "choice",
                   "required": false,
-                  "repeats": false,
-                  "answerConstraint": "optionsOnly"
+                  "repeats": false
                 },
                 {
                   "linkId": "ExplanationOfBenefit.benefitBalance.term.text",
@@ -12453,10 +14306,9 @@
                     {
                       "linkId": "ExplanationOfBenefit.benefitBalance.financial.type.coding",
                       "text": "code:",
-                      "type": "coding",
+                      "type": "choice",
                       "required": false,
-                      "repeats": false,
-                      "answerConstraint": "optionsOnly"
+                      "repeats": false
                     },
                     {
                       "linkId": "ExplanationOfBenefit.benefitBalance.financial.type.text",
@@ -12502,10 +14354,9 @@
                     {
                       "linkId": "ExplanationOfBenefit.benefitBalance.financial.allowed[x]._type",
                       "text": "type",
-                      "type": "coding",
+                      "type": "choice",
                       "required": false,
                       "repeats": false,
-                      "answerConstraint": "optionsOnly",
                       "answerValueSet": "#vs11",
                       "item": [
                         {
@@ -12557,10 +14408,9 @@
                             {
                               "linkId": "ExplanationOfBenefit.benefitBalance.financial.allowed[x]._null.comparator",
                               "text": "comp:",
-                              "type": "coding",
+                              "type": "choice",
                               "required": false,
-                              "repeats": false,
-                              "answerConstraint": "optionsOnly"
+                              "repeats": false
                             },
                             {
                               "linkId": "ExplanationOfBenefit.benefitBalance.financial.allowed[x]._null.value",
@@ -12631,10 +14481,9 @@
                     {
                       "linkId": "ExplanationOfBenefit.benefitBalance.financial.used[x]._type",
                       "text": "type",
-                      "type": "coding",
+                      "type": "choice",
                       "required": false,
                       "repeats": false,
-                      "answerConstraint": "optionsOnly",
                       "answerValueSet": "#vs12",
                       "item": [
                         {
@@ -12668,10 +14517,9 @@
                             {
                               "linkId": "ExplanationOfBenefit.benefitBalance.financial.used[x]._null.comparator",
                               "text": "comp:",
-                              "type": "coding",
+                              "type": "choice",
                               "required": false,
-                              "repeats": false,
-                              "answerConstraint": "optionsOnly"
+                              "repeats": false
                             },
                             {
                               "linkId": "ExplanationOfBenefit.benefitBalance.financial.used[x]._null.value",

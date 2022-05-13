@@ -2,7 +2,7 @@
     "resourceType": "ValueSet",
     "id": "enteral-route",
     "meta": {
-        "lastUpdated": "2022-03-03T22:04:06.196Z",
+        "lastUpdated": "2022-04-23T22:21:35.043Z",
         "profile": [
             "http://hl7.org/fhir/StructureDefinition/shareablevalueset"
         ]
@@ -28,10 +28,11 @@
             "value": "urn:oid:2.16.840.1.113883.4.642.3.394"
         }
     ],
-    "version": "4.3.0-CIBUILD",
+    "version": "4.3.0-cibuild",
     "name": "EnteralRouteCodes",
     "title": "Enteral Route Codes",
     "status": "draft",
+    "experimental": false,
     "publisher": "FHIR NutritionOrder team",
     "contact": [
         {
@@ -81,8 +82,8 @@
         ]
     },
     "expansion": {
-        "identifier": "urn:uuid:10c6b68d-9bb8-4f2d-98d4-4bc998854a3a",
-        "timestamp": "2022-03-03T22:05:31Z",
+        "identifier": "urn:uuid:2d07ee57-d9a5-459c-ae68-5f620041a245",
+        "timestamp": "2022-04-23T22:23:26Z",
         "total": 9,
         "parameter": [
             {

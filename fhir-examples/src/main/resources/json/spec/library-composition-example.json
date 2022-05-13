@@ -15,6 +15,7 @@
   "version": "1.0.0",
   "title": "Zika Artifacts",
   "status": "draft",
+  "experimental": true,
   "type": {
     "coding": [
       {
@@ -56,7 +57,10 @@
     },
     {
       "type": "derived-from",
-      "url": "https://www.cdc.gov/mmwr/volumes/65/wr/mm6539e1.htm?s_cid\u003dmm6539e1_w"
+      "url": "https://www.cdc.gov/mmwr/volumes/65/wr/mm6539e1.htm?s_cid\u003dmm6539e1_w",
+      "document": {
+        "url": "https://www.cdc.gov/mmwr/volumes/65/wr/mm6539e1.htm?s_cid\u003dmm6539e1_w"
+      }
     }
   ],
   "meta": {

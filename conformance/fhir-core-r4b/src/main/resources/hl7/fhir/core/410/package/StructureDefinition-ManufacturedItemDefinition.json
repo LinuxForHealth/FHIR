@@ -2,7 +2,7 @@
     "resourceType": "StructureDefinition",
     "id": "ManufacturedItemDefinition",
     "meta": {
-        "lastUpdated": "2022-01-01T15:17:18.597Z"
+        "lastUpdated": "2022-04-23T22:21:35.043Z"
     },
     "text": {
         "status": "empty",
@@ -31,10 +31,11 @@
         }
     ],
     "url": "http://hl7.org/fhir/StructureDefinition/ManufacturedItemDefinition",
-    "version": "4.3.0-CIBUILD",
+    "version": "4.3.0-cibuild",
     "name": "ManufacturedItemDefinition",
     "status": "draft",
-    "date": "2022-01-01T15:17:18Z",
+    "experimental": false,
+    "date": "2022-04-23T22:21:35Z",
     "publisher": "Health Level Seven International (Biomedical Research and Regulation)",
     "contact": [
         {
@@ -55,7 +56,7 @@
         }
     ],
     "description": "The definition and characteristics of a medicinal manufactured item, such as a tablet or capsule, as contained in a packaged medicinal product.",
-    "fhirVersion": "4.3.0-CIBUILD",
+    "fhirVersion": "4.3.0-cibuild",
     "mapping": [
         {
             "identity": "idmp",
@@ -106,7 +107,7 @@
                         "severity": "error",
                         "human": "If the resource is contained in another resource, it SHALL be referred to from elsewhere in the resource or SHALL refer to the containing resource",
                         "expression": "contained.where(((id.exists() and ('#'+id in (%resource.descendants().reference | %resource.descendants().as(canonical) | %resource.descendants().as(uri) | %resource.descendants().as(url)))) or descendants().where(reference = '#').exists() or descendants().where(as(canonical) = '#').exists() or descendants().where(as(uri) = '#').exists()).not()).trace('unmatched', id).empty()",
-                        "xpath": "not(exists(for $resource in . return (for $contained in $resource/f:contained return $contained[not(descendant::f:*/@value='#' or (exists(f:id) and $resource//f:*/@*=concat('#', $contained/*/f:id/@value)))])))",
+                        "xpath": "not(exists(for $contained in f:contained return $contained[not(exists(parent::*/descendant::f:reference/@value=concat('#', $contained/*/f:id/@value)) or exists(descendant::f:reference[@value='#']))]))",
                         "source": "http://hl7.org/fhir/StructureDefinition/DomainResource"
                     },
                     {
@@ -372,6 +373,16 @@
                         "code": "Resource"
                     }
                 ],
+                "constraint": [
+                    {
+                        "key": "dom-r4b",
+                        "severity": "warning",
+                        "human": "Containing new R4B resources within R4 resources may cause interoperability issues if instances are shared with R4 systems",
+                        "expression": "($this is Citation or $this is Evidence or $this is EvidenceReport or $this is EvidenceVariable or $this is MedicinalProductDefinition or $this is PackagedProductDefinition or $this is AdministrableProductDefinition or $this is Ingredient or $this is ClinicalUseDefinition or $this is RegulatedAuthorization or $this is SubstanceDefinition or $this is SubscriptionStatus or $this is SubscriptionTopic) implies (%resource is Citation or %resource is Evidence or %resource is EvidenceReport or %resource is EvidenceVariable or %resource is MedicinalProductDefinition or %resource is PackagedProductDefinition or %resource is AdministrableProductDefinition or %resource is Ingredient or %resource is ClinicalUseDefinition or %resource is RegulatedAuthorization or %resource is SubstanceDefinition or %resource is SubscriptionStatus or %resource is SubscriptionTopic)",
+                        "xpath": "not(f:Citation|f:Evidence|f:EvidenceReport|f:EvidenceVariable|f:MedicinalProductDefinition|f:PackagedProductDefinition|f:AdministrableProductDefinition|f:Ingredient|f:ClinicalUseDefinition|f:RegulatedAuthorization|f:SubstanceDefinition|f:SubscriptionStatus|f:SubscriptionTopic) or not(parent::f:Citation|parent::f:Evidence|parent::f:EvidenceReport|parent::f:EvidenceVariable|parent::f:MedicinalProductDefinition|parent::f:PackagedProductDefinition|parent::f:AdministrableProductDefinition|parent::f:Ingredient|parent::f:ClinicalUseDefinition|parent::f:RegulatedAuthorization|parent::f:SubstanceDefinition|f:SubscriptionStatus|f:SubscriptionTopic)",
+                        "source": "http://hl7.org/fhir/StructureDefinition/ManufacturedItemDefinition"
+                    }
+                ],
                 "mustSupport": false,
                 "isModifier": false,
                 "isSummary": false,
@@ -566,7 +577,7 @@
                     ],
                     "strength": "required",
                     "description": "The lifecycle status of an artifact.",
-                    "valueSet": "http://hl7.org/fhir/ValueSet/publication-status|4.3.0-CIBUILD"
+                    "valueSet": "http://hl7.org/fhir/ValueSet/publication-status|4.3.0-cibuild"
                 },
                 "mapping": [
                     {
@@ -578,7 +589,7 @@
             {
                 "id": "ManufacturedItemDefinition.manufacturedDoseForm",
                 "path": "ManufacturedItemDefinition.manufacturedDoseForm",
-                "short": "Dose form as manufactured and before any transformation into the pharmaceutical product",
+                "short": "Dose form as manufactured (before any necessary transformation)",
                 "definition": "Dose form as manufactured and before any transformation into the pharmaceutical product.",
                 "min": 1,
                 "max": "1",
@@ -605,6 +616,17 @@
                 "mustSupport": false,
                 "isModifier": false,
                 "isSummary": true,
+                "binding": {
+                    "extension": [
+                        {
+                            "url": "http://hl7.org/fhir/StructureDefinition/elementdefinition-bindingName",
+                            "valueString": "ManufacturedDoseForm"
+                        }
+                    ],
+                    "strength": "example",
+                    "description": "Dose form for a medication, in the form suitable for administering to the patient, after mixing, where necessary.",
+                    "valueSet": "http://hl7.org/fhir/ValueSet/manufactured-dose-form"
+                },
                 "mapping": [
                     {
                         "identity": "idmp",
@@ -615,7 +637,7 @@
             {
                 "id": "ManufacturedItemDefinition.unitOfPresentation",
                 "path": "ManufacturedItemDefinition.unitOfPresentation",
-                "short": "The “real world” units in which the quantity of the manufactured item is described",
+                "short": "The “real world” units in which the quantity of the item is described",
                 "definition": "The “real world” units in which the quantity of the manufactured item is described.",
                 "min": 0,
                 "max": "1",
@@ -642,6 +664,17 @@
                 "mustSupport": false,
                 "isModifier": false,
                 "isSummary": true,
+                "binding": {
+                    "extension": [
+                        {
+                            "url": "http://hl7.org/fhir/StructureDefinition/elementdefinition-bindingName",
+                            "valueString": "UnitOfPresentation"
+                        }
+                    ],
+                    "strength": "example",
+                    "description": "The presentation type in which an administrable medicinal product is given to a patient.",
+                    "valueSet": "http://hl7.org/fhir/ValueSet/unit-of-presentation"
+                },
                 "mapping": [
                     {
                         "identity": "idmp",
@@ -692,7 +725,7 @@
             {
                 "id": "ManufacturedItemDefinition.ingredient",
                 "path": "ManufacturedItemDefinition.ingredient",
-                "short": "The ingredients of this manufactured item. This is only needed if the ingredients are not specified by incoming references from the Ingredient resource",
+                "short": "The ingredients of this manufactured item. Only needed if these are not specified by incoming references from the Ingredient resource",
                 "definition": "The ingredients of this manufactured item. This is only needed if the ingredients are not specified by incoming references from the Ingredient resource.",
                 "min": 0,
                 "max": "*",
@@ -719,6 +752,17 @@
                 "mustSupport": false,
                 "isModifier": false,
                 "isSummary": true,
+                "binding": {
+                    "extension": [
+                        {
+                            "url": "http://hl7.org/fhir/StructureDefinition/elementdefinition-bindingName",
+                            "valueString": "SNOMEDCTSubstanceCodes"
+                        }
+                    ],
+                    "strength": "example",
+                    "description": "This value set includes all substance codes from SNOMED CT - provided as an exemplar value set.",
+                    "valueSet": "http://hl7.org/fhir/ValueSet/substance-codes"
+                },
                 "mapping": [
                     {
                         "identity": "idmp",
@@ -783,7 +827,7 @@
                         "extension": [
                             {
                                 "url": "http://hl7.org/fhir/StructureDefinition/structuredefinition-fhir-type",
-                                "valueUrl": "id"
+                                "valueUrl": "string"
                             }
                         ],
                         "code": "http://hl7.org/fhirpath/System.String"
@@ -929,6 +973,17 @@
                 "mustSupport": false,
                 "isModifier": false,
                 "isSummary": true,
+                "binding": {
+                    "extension": [
+                        {
+                            "url": "http://hl7.org/fhir/StructureDefinition/elementdefinition-bindingName",
+                            "valueString": "SNOMEDCTCharacteristicCodes"
+                        }
+                    ],
+                    "strength": "example",
+                    "description": "This value set includes all observable entity codes from SNOMED CT - provided as an exemplar value set.",
+                    "valueSet": "http://hl7.org/fhir/ValueSet/product-characteristic-codes"
+                },
                 "mapping": [
                     {
                         "identity": "idmp",
@@ -1061,7 +1116,7 @@
                     ],
                     "strength": "required",
                     "description": "The lifecycle status of an artifact.",
-                    "valueSet": "http://hl7.org/fhir/ValueSet/publication-status|4.3.0-CIBUILD"
+                    "valueSet": "http://hl7.org/fhir/ValueSet/publication-status|4.3.0-cibuild"
                 },
                 "mapping": [
                     {
@@ -1073,7 +1128,7 @@
             {
                 "id": "ManufacturedItemDefinition.manufacturedDoseForm",
                 "path": "ManufacturedItemDefinition.manufacturedDoseForm",
-                "short": "Dose form as manufactured and before any transformation into the pharmaceutical product",
+                "short": "Dose form as manufactured (before any necessary transformation)",
                 "definition": "Dose form as manufactured and before any transformation into the pharmaceutical product.",
                 "min": 1,
                 "max": "1",
@@ -1085,6 +1140,17 @@
                 "mustSupport": false,
                 "isModifier": false,
                 "isSummary": true,
+                "binding": {
+                    "extension": [
+                        {
+                            "url": "http://hl7.org/fhir/StructureDefinition/elementdefinition-bindingName",
+                            "valueString": "ManufacturedDoseForm"
+                        }
+                    ],
+                    "strength": "example",
+                    "description": "Dose form for a medication, in the form suitable for administering to the patient, after mixing, where necessary.",
+                    "valueSet": "http://hl7.org/fhir/ValueSet/manufactured-dose-form"
+                },
                 "mapping": [
                     {
                         "identity": "idmp",
@@ -1095,7 +1161,7 @@
             {
                 "id": "ManufacturedItemDefinition.unitOfPresentation",
                 "path": "ManufacturedItemDefinition.unitOfPresentation",
-                "short": "The “real world” units in which the quantity of the manufactured item is described",
+                "short": "The “real world” units in which the quantity of the item is described",
                 "definition": "The “real world” units in which the quantity of the manufactured item is described.",
                 "min": 0,
                 "max": "1",
@@ -1107,6 +1173,17 @@
                 "mustSupport": false,
                 "isModifier": false,
                 "isSummary": true,
+                "binding": {
+                    "extension": [
+                        {
+                            "url": "http://hl7.org/fhir/StructureDefinition/elementdefinition-bindingName",
+                            "valueString": "UnitOfPresentation"
+                        }
+                    ],
+                    "strength": "example",
+                    "description": "The presentation type in which an administrable medicinal product is given to a patient.",
+                    "valueSet": "http://hl7.org/fhir/ValueSet/unit-of-presentation"
+                },
                 "mapping": [
                     {
                         "identity": "idmp",
@@ -1142,7 +1219,7 @@
             {
                 "id": "ManufacturedItemDefinition.ingredient",
                 "path": "ManufacturedItemDefinition.ingredient",
-                "short": "The ingredients of this manufactured item. This is only needed if the ingredients are not specified by incoming references from the Ingredient resource",
+                "short": "The ingredients of this manufactured item. Only needed if these are not specified by incoming references from the Ingredient resource",
                 "definition": "The ingredients of this manufactured item. This is only needed if the ingredients are not specified by incoming references from the Ingredient resource.",
                 "min": 0,
                 "max": "*",
@@ -1154,6 +1231,17 @@
                 "mustSupport": false,
                 "isModifier": false,
                 "isSummary": true,
+                "binding": {
+                    "extension": [
+                        {
+                            "url": "http://hl7.org/fhir/StructureDefinition/elementdefinition-bindingName",
+                            "valueString": "SNOMEDCTSubstanceCodes"
+                        }
+                    ],
+                    "strength": "example",
+                    "description": "This value set includes all substance codes from SNOMED CT - provided as an exemplar value set.",
+                    "valueSet": "http://hl7.org/fhir/ValueSet/substance-codes"
+                },
                 "mapping": [
                     {
                         "identity": "idmp",
@@ -1198,6 +1286,17 @@
                 "mustSupport": false,
                 "isModifier": false,
                 "isSummary": true,
+                "binding": {
+                    "extension": [
+                        {
+                            "url": "http://hl7.org/fhir/StructureDefinition/elementdefinition-bindingName",
+                            "valueString": "SNOMEDCTCharacteristicCodes"
+                        }
+                    ],
+                    "strength": "example",
+                    "description": "This value set includes all observable entity codes from SNOMED CT - provided as an exemplar value set.",
+                    "valueSet": "http://hl7.org/fhir/ValueSet/product-characteristic-codes"
+                },
                 "mapping": [
                     {
                         "identity": "idmp",

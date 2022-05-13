@@ -16,10 +16,11 @@
     }
   ],
   "url": "http://hl7.org/fhir/StructureDefinition/Period",
-  "version": "4.3.0-CIBUILD",
+  "version": "4.3.0-cibuild",
   "name": "Period",
   "status": "active",
-  "date": "2022-01-01T15:17:18+00:00",
+  "experimental": false,
+  "date": "2022-04-23T22:21:35+00:00",
   "publisher": "HL7 FHIR Standard",
   "contact": [
     {
@@ -32,7 +33,7 @@
     }
   ],
   "description": "Base StructureDefinition for Period Type: A time period defined by a start and end date and optionally time.",
-  "fhirVersion": "4.3.0-CIBUILD",
+  "fhirVersion": "4.3.0-cibuild",
   "mapping": [
     {
       "identity": "v2",

@@ -2,7 +2,7 @@
     "resourceType": "ValueSet",
     "id": "measure-data-usage",
     "meta": {
-        "lastUpdated": "2022-03-04T09:04:06.196+11:00",
+        "lastUpdated": "2022-04-24T09:21:35.043+11:00",
         "profile": [
             "http://hl7.org/fhir/StructureDefinition/shareablevalueset"
         ]
@@ -28,7 +28,7 @@
             "value": "urn:oid:2.16.840.1.113883.4.642.3.771"
         }
     ],
-    "version": "4.3.0-CIBUILD",
+    "version": "4.3.0-cibuild",
     "name": "MeasureDataUsage",
     "title": "MeasureDataUsage",
     "status": "draft",
@@ -59,8 +59,8 @@
         ]
     },
     "expansion": {
-        "identifier": "urn:uuid:5a67b067-f4c1-4be8-b231-6f9d8940c004",
-        "timestamp": "2022-03-03T22:05:31Z",
+        "identifier": "urn:uuid:4cc60d77-a7f4-49f4-94a1-3c084cf9a25f",
+        "timestamp": "2022-04-23T22:23:26Z",
         "total": 2,
         "parameter": [
             {
@@ -73,7 +73,7 @@
             },
             {
                 "name": "version",
-                "valueUri": "http://terminology.hl7.org/CodeSystem/measure-data-usage|4.3.0-CIBUILD"
+                "valueUri": "http://terminology.hl7.org/CodeSystem/measure-data-usage|4.3.0-cibuild"
             }
         ],
         "contains": [

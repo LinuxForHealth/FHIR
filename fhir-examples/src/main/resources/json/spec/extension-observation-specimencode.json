@@ -12,10 +12,11 @@
     }
   ],
   "url": "http://hl7.org/fhir/StructureDefinition/observation-specimenCode",
-  "version": "4.3.0-CIBUILD",
+  "version": "4.3.0-cibuild",
   "name": "specimenCode",
   "title": "Specimen Code",
   "status": "draft",
+  "experimental": false,
   "date": "2015-03-02",
   "publisher": "Health Level Seven, Inc. - OO WG",
   "contact": [
@@ -29,7 +30,7 @@
     }
   ],
   "description": "A code representing the the type of specimen used for this observation.  Should only be used if not implicit in the code found in `Observation.code`.",
-  "fhirVersion": "4.3.0-CIBUILD",
+  "fhirVersion": "4.3.0-cibuild",
   "mapping": [
     {
       "identity": "rim",

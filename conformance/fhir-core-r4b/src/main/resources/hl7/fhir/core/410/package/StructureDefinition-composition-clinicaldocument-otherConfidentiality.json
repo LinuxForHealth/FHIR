@@ -12,9 +12,10 @@
         }
     ],
     "url": "http://hl7.org/fhir/StructureDefinition/composition-clinicaldocument-otherConfidentiality",
-    "version": "4.3.0-CIBUILD",
+    "version": "4.3.0-cibuild",
     "name": "otherConfidentiality",
     "status": "draft",
+    "experimental": false,
     "date": "2015-03-17",
     "publisher": "Health Level Seven, Inc. - Structured Documents WG",
     "contact": [
@@ -28,7 +29,7 @@
         }
     ],
     "description": "Carries additional confidentiality codes beyond the base fixed code specified in the CDA document.",
-    "fhirVersion": "4.3.0-CIBUILD",
+    "fhirVersion": "4.3.0-cibuild",
     "mapping": [
         {
             "identity": "rim",

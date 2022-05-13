@@ -2,7 +2,7 @@
     "resourceType": "ValueSet",
     "id": "organization-type",
     "meta": {
-        "lastUpdated": "2022-03-03T22:04:06.196Z",
+        "lastUpdated": "2022-04-23T22:21:35.043Z",
         "profile": [
             "http://hl7.org/fhir/StructureDefinition/shareablevalueset"
         ]
@@ -28,7 +28,7 @@
             "value": "urn:oid:2.16.840.1.113883.4.642.3.414"
         }
     ],
-    "version": "4.3.0-CIBUILD",
+    "version": "4.3.0-cibuild",
     "name": "OrganizationType",
     "status": "draft",
     "experimental": true,
@@ -52,8 +52,8 @@
         ]
     },
     "expansion": {
-        "identifier": "urn:uuid:71872e98-f88d-47b8-a5fe-80c339461069",
-        "timestamp": "2022-03-03T22:05:31Z",
+        "identifier": "urn:uuid:09756ba2-ef08-4765-bf77-af9465a391fd",
+        "timestamp": "2022-04-23T22:23:26Z",
         "total": 12,
         "parameter": [
             {
@@ -66,7 +66,7 @@
             },
             {
                 "name": "version",
-                "valueUri": "http://terminology.hl7.org/CodeSystem/organization-type|4.3.0-CIBUILD"
+                "valueUri": "http://terminology.hl7.org/CodeSystem/organization-type|4.3.0-cibuild"
             }
         ],
         "contains": [

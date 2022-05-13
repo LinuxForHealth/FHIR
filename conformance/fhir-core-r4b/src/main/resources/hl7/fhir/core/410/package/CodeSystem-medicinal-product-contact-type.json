@@ -1,0 +1,87 @@
+{
+    "resourceType": "CodeSystem",
+    "id": "medicinal-product-contact-type",
+    "meta": {
+        "lastUpdated": "2022-04-24T09:21:35.043+11:00",
+        "profile": [
+            "http://hl7.org/fhir/StructureDefinition/shareablecodesystem"
+        ]
+    },
+    "text": {
+        "status": "empty",
+        "div": "<div xmlns=\"http://www.w3.org/1999/xhtml\">Redacted for size</div>"
+    },
+    "extension": [
+        {
+            "url": "http://hl7.org/fhir/StructureDefinition/structuredefinition-wg",
+            "valueCode": "brr"
+        },
+        {
+            "url": "http://hl7.org/fhir/StructureDefinition/structuredefinition-standards-status",
+            "valueCode": "trial-use"
+        },
+        {
+            "url": "http://hl7.org/fhir/StructureDefinition/structuredefinition-fmm",
+            "valueInteger": 1
+        }
+    ],
+    "url": "http://hl7.org/fhir/medicinal-product-contact-type",
+    "identifier": [
+        {
+            "system": "urn:ietf:rfc:3986",
+            "value": "urn:oid:2.16.840.1.113883.4.642.1.1573"
+        }
+    ],
+    "version": "4.3.0-cibuild",
+    "name": "ProductContactType",
+    "title": "ProductContactType",
+    "status": "draft",
+    "experimental": false,
+    "date": "2021-01-05T10:01:24+11:00",
+    "publisher": "HL7 (FHIR Project)",
+    "contact": [
+        {
+            "telecom": [
+                {
+                    "system": "url",
+                    "value": "http://hl7.org/fhir"
+                },
+                {
+                    "system": "email",
+                    "value": "fhir@lists.hl7.org"
+                }
+            ]
+        }
+    ],
+    "description": "Contact type for a Medicinal Product.",
+    "caseSensitive": true,
+    "valueSet": "http://hl7.org/fhir/ValueSet/medicinal-product-contact-type",
+    "content": "complete",
+    "concept": [
+        {
+            "code": "ProposedMAH",
+            "display": "Proposed Marketing Authorisation Holder/Person",
+            "definition": "Proposed Marketing Authorisation Holder/Person"
+        },
+        {
+            "code": "ProcedureContactDuring",
+            "display": "Person/Company authorised for Communication during procedure",
+            "definition": "Person/Company authorised for Communication on behalf of the Applicant during the Procedure"
+        },
+        {
+            "code": "ProcedureContactAfter",
+            "display": "Person/Company authorised for Communication after procedure",
+            "definition": "Person/Company authorised for Communication between MAH and Authorities after Authorisation"
+        },
+        {
+            "code": "QPPV",
+            "display": "Qualified Person Responsible for Pharmacovigilance",
+            "definition": "Qualified Person Responsible for Pharmacovigilance"
+        },
+        {
+            "code": "PVEnquiries",
+            "display": "Pharmacovigilance Enquiry Information",
+            "definition": "Pharmacovigilance Enquiry Information"
+        }
+    ]
+}

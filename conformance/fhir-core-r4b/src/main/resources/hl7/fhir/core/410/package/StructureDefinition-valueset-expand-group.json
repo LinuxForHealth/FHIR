@@ -12,13 +12,14 @@
         }
     ],
     "url": "http://hl7.org/fhir/StructureDefinition/valueset-expand-group",
-    "version": "4.3.0-CIBUILD",
+    "version": "4.3.0-cibuild",
     "name": "expand-group",
     "status": "draft",
+    "experimental": false,
     "date": "2021-01-17T07:06:13+11:00",
     "publisher": "HL7",
     "description": "This extension declares a group of concepts that is generated into the ValueSet.expansion.contains hierarchy when the expansion is generated for a UI. THere is no inherent assigned meaning to the hierarchy; it is used to help the user navigate the concepts. Each group has a display and/or a code, and a list of members, which are either concepts in the value set, or other groups (by code).",
-    "fhirVersion": "4.3.0-CIBUILD",
+    "fhirVersion": "4.3.0-cibuild",
     "mapping": [
         {
             "identity": "rim",
@@ -861,9 +862,6 @@
                         "code": "CodeableConcept"
                     },
                     {
-                        "code": "CodeableReference"
-                    },
-                    {
                         "code": "Coding"
                     },
                     {
@@ -898,9 +896,6 @@
                     },
                     {
                         "code": "Ratio"
-                    },
-                    {
-                        "code": "RatioRange"
                     },
                     {
                         "code": "Reference"

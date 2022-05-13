@@ -2,7 +2,7 @@
     "resourceType": "ValueSet",
     "id": "interaction-effect",
     "meta": {
-        "lastUpdated": "2022-03-04T09:04:06.196+11:00",
+        "lastUpdated": "2022-04-24T09:21:35.043+11:00",
         "profile": [
             "http://hl7.org/fhir/StructureDefinition/shareablevalueset"
         ]
@@ -28,7 +28,7 @@
             "value": "urn:oid:2.16.840.1.113883.4.642.3.1658"
         }
     ],
-    "version": "4.3.0-CIBUILD",
+    "version": "4.3.0-cibuild",
     "name": "InteractionEffect",
     "title": "InteractionEffect",
     "status": "draft",
@@ -77,11 +77,12 @@
                 "valueBoolean": true
             }
         ],
-        "identifier": "urn:uuid:0c48f3d9-02f6-400b-a8d9-baca9858c0b5",
-        "timestamp": "2022-01-17T22:46:28.594Z",
+        "identifier": "urn:uuid:4aede175-bbc8-4780-acf8-57086b32bb8c",
+        "timestamp": "2022-04-23T22:23:26Z",
+        "total": 1000,
         "parameter": [
             {
-                "name": "limitedExpansion",
+                "name": "excludeNested",
                 "valueBoolean": true
             },
             {
@@ -89,7 +90,7 @@
                 "valueBoolean": true
             },
             {
-                "name": "excludeNested",
+                "name": "limitedExpansion",
                 "valueBoolean": true
             },
             {

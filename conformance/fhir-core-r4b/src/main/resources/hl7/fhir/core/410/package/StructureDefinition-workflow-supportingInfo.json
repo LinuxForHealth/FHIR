@@ -12,10 +12,11 @@
         }
     ],
     "url": "http://hl7.org/fhir/StructureDefinition/workflow-supportingInfo",
-    "version": "4.3.0-CIBUILD",
+    "version": "4.3.0-cibuild",
     "name": "supportingInfo",
     "title": "Supporting Information",
     "status": "draft",
+    "experimental": false,
     "date": "2017-12-06",
     "publisher": "Health Level Seven, Inc. - FHIR WG",
     "contact": [
@@ -29,7 +30,7 @@
         }
     ],
     "description": "Other resources *from the patient record* that may be relevant to the event.  The information from these resources was either used to create the instance or is provided to help with its interpretation.  This extension **should not** be used if more specific  inline elements  or extensions are available.  For example, use `Observation.hasMember`  instead of supportingInformation for  representing the members of an Observation panel.",
-    "fhirVersion": "4.3.0-CIBUILD",
+    "fhirVersion": "4.3.0-cibuild",
     "mapping": [
         {
             "identity": "rim",

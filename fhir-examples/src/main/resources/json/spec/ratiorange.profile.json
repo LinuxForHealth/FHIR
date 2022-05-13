@@ -12,10 +12,11 @@
     }
   ],
   "url": "http://hl7.org/fhir/StructureDefinition/RatioRange",
-  "version": "4.3.0-CIBUILD",
+  "version": "4.3.0-cibuild",
   "name": "RatioRange",
   "status": "draft",
-  "date": "2022-01-01T15:17:18+00:00",
+  "experimental": false,
+  "date": "2022-04-23T22:21:35+00:00",
   "publisher": "HL7 FHIR Standard",
   "contact": [
     {
@@ -29,7 +30,7 @@
   ],
   "description": "Base StructureDefinition for RatioRange Type: A range of ratios expressed as a low and high numerator and a denominator.",
   "purpose": "Need to be able to specify ranges of ratios.",
-  "fhirVersion": "4.3.0-CIBUILD",
+  "fhirVersion": "4.3.0-cibuild",
   "mapping": [
     {
       "identity": "v2",
@@ -45,7 +46,7 @@
   "kind": "complex-type",
   "abstract": false,
   "type": "RatioRange",
-  "baseDefinition": "http://hl7.org/fhir/StructureDefinition/DataType",
+  "baseDefinition": "http://hl7.org/fhir/StructureDefinition/Element",
   "derivation": "specialization",
   "snapshot": {
     "element": [
@@ -68,13 +69,16 @@
           "min": 0,
           "max": "*"
         },
+        "condition": [
+          "ele-1"
+        ],
         "constraint": [
           {
             "key": "ele-1",
             "severity": "error",
-            "human": "All FHIR elements must have a @value or children",
-            "expression": "hasValue() or (children().count() \u003e id.count())",
-            "xpath": "@value|f:*|h:div",
+            "human": "All FHIR elements must have a @value or children unless an empty Parameters resource",
+            "expression": "hasValue() or (children().count() \u003e id.count()) or $this is Parameters",
+            "xpath": "@value|f:*|h:div|self::f:Parameters",
             "source": "http://hl7.org/fhir/StructureDefinition/Element"
           },
           {

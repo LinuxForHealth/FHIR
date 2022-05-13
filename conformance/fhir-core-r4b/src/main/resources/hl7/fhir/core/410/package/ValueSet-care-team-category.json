@@ -2,7 +2,7 @@
     "resourceType": "ValueSet",
     "id": "care-team-category",
     "meta": {
-        "lastUpdated": "2022-03-03T22:04:06.196Z",
+        "lastUpdated": "2022-04-23T22:21:35.043Z",
         "profile": [
             "http://hl7.org/fhir/StructureDefinition/shareablevalueset"
         ]
@@ -28,7 +28,7 @@
             "value": "urn:oid:2.16.840.1.113883.4.642.3.155"
         }
     ],
-    "version": "4.3.0-CIBUILD",
+    "version": "4.3.0-cibuild",
     "name": "CareTeamCategory",
     "title": "Care Team category",
     "status": "draft",
@@ -121,8 +121,8 @@
         ]
     },
     "expansion": {
-        "identifier": "urn:uuid:36cbffaa-86ca-4ef3-8e1d-7ae6f08b8674",
-        "timestamp": "2022-03-03T22:05:30Z",
+        "identifier": "urn:uuid:0c429aed-fa46-48d5-bf04-6b6f4d308fb4",
+        "timestamp": "2022-04-23T22:23:26Z",
         "parameter": [
             {
                 "name": "excludeNested",

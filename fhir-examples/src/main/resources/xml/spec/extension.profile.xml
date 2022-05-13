@@ -98,10 +98,11 @@
     <valueCode value="4.0.0"/>
   </extension>
   <url value="http://hl7.org/fhir/StructureDefinition/Extension"/>
-  <version value="4.3.0-CIBUILD"/>
+  <version value="4.3.0-cibuild"/>
   <name value="Extension"/>
   <status value="active"/>
-  <date value="2022-01-01T15:17:18+00:00"/>
+  <experimental value="false"/>
+  <date value="2022-04-23T22:21:35+00:00"/>
   <publisher value="HL7 FHIR Standard"/>
   <contact>
     <telecom>
@@ -111,7 +112,7 @@
   </contact>
   <description value="Base StructureDefinition for Extension Type: Optional Extension Element - found in all resources."/>
   <purpose value="The ability to add extensions in a structured way is what keeps FHIR resources simple."/>
-  <fhirVersion value="4.3.0-CIBUILD"/>
+  <fhirVersion value="4.3.0-cibuild"/>
   <mapping>
     <identity value="rim"/>
     <uri value="http://hl7.org/v3"/>
@@ -154,7 +155,7 @@
         <severity value="error"/>
         <human value="Must have either extensions or value[x], not both"/>
         <expression value="extension.exists() != value.exists()"/>
-        <xpath value="exists(f:extension)!=exists(f:*[starts-with(local-name(.), &#39;value&#39;)])"/>
+        <xpath value="exists(f:extension)!=exists(f:*[starts-with(local-name(.), 'value')])"/>
         <source value="http://hl7.org/fhir/StructureDefinition/Extension"/>
       </constraint>
       <isModifier value="false"/>
@@ -179,7 +180,6 @@
         <min value="0"/>
         <max value="1"/>
       </base>
-    <!-- Note: special primitive values have a FHIRPath system type. e.g. this is compiler magic (j) -->
       <type>
         <extension url="http://hl7.org/fhir/StructureDefinition/structuredefinition-fhir-type">
           <valueUrl value="string"/>
@@ -254,7 +254,6 @@
         <min value="1"/>
         <max value="1"/>
       </base>
-    <!-- Note: special primitive values have a FHIRPath system type. e.g. this is compiler magic (j) -->
       <type>
         <extension url="http://hl7.org/fhir/StructureDefinition/structuredefinition-fhir-type">
           <valueUrl value="uri"/>
@@ -352,9 +351,6 @@
         <code value="CodeableConcept"/>
       </type>
       <type>
-        <code value="CodeableReference"/>
-      </type>
-      <type>
         <code value="Coding"/>
       </type>
       <type>
@@ -389,9 +385,6 @@
       </type>
       <type>
         <code value="Ratio"/>
-      </type>
-      <type>
-        <code value="RatioRange"/>
       </type>
       <type>
         <code value="Reference"/>
@@ -469,7 +462,7 @@
         <severity value="error"/>
         <human value="Must have either extensions or value[x], not both"/>
         <expression value="extension.exists() != value.exists()"/>
-        <xpath value="exists(f:extension)!=exists(f:*[starts-with(local-name(.), &#39;value&#39;)])"/>
+        <xpath value="exists(f:extension)!=exists(f:*[starts-with(local-name(.), 'value')])"/>
         <source value="http://hl7.org/fhir/StructureDefinition/Extension"/>
       </constraint>
       <mapping>
@@ -485,7 +478,6 @@
       <comment value="The definition may point directly to a computable or human-readable definition of the extensibility codes, or it may be a logical URI as declared in some other specification. The definition SHALL be a URI for the Structure Definition defining the extension."/>
       <min value="1"/>
       <max value="1"/>
-    <!-- Note: special primitive values have a FHIRPath system type. e.g. this is compiler magic (j) -->
       <type>
         <extension url="http://hl7.org/fhir/StructureDefinition/structuredefinition-fhir-type">
           <valueUrl value="uri"/>
@@ -576,9 +568,6 @@
         <code value="CodeableConcept"/>
       </type>
       <type>
-        <code value="CodeableReference"/>
-      </type>
-      <type>
         <code value="Coding"/>
       </type>
       <type>
@@ -613,9 +602,6 @@
       </type>
       <type>
         <code value="Ratio"/>
-      </type>
-      <type>
-        <code value="RatioRange"/>
       </type>
       <type>
         <code value="Reference"/>

@@ -2,7 +2,7 @@
     "resourceType": "ValueSet",
     "id": "metric-calibration-type",
     "meta": {
-        "lastUpdated": "2022-03-04T09:04:06.196+11:00",
+        "lastUpdated": "2022-04-24T09:21:35.043+11:00",
         "profile": [
             "http://hl7.org/fhir/StructureDefinition/shareablevalueset"
         ]
@@ -28,7 +28,7 @@
             "value": "urn:oid:2.16.840.1.113883.4.642.3.650"
         }
     ],
-    "version": "4.3.0-CIBUILD",
+    "version": "4.3.0-cibuild",
     "name": "DeviceMetricCalibrationType",
     "title": "DeviceMetricCalibrationType",
     "status": "draft",
@@ -59,8 +59,8 @@
         ]
     },
     "expansion": {
-        "identifier": "urn:uuid:9825b89f-77b3-449d-a353-38d71534076e",
-        "timestamp": "2022-03-03T22:05:09Z",
+        "identifier": "urn:uuid:fae006c6-cf07-4d59-b83a-99f9c063c119",
+        "timestamp": "2022-04-23T22:23:07Z",
         "total": 4,
         "parameter": [
             {
@@ -73,7 +73,7 @@
             },
             {
                 "name": "version",
-                "valueUri": "http://hl7.org/fhir/metric-calibration-type|4.3.0-CIBUILD"
+                "valueUri": "http://hl7.org/fhir/metric-calibration-type|4.3.0-cibuild"
             }
         ],
         "contains": [

@@ -1,119 +1,124 @@
 <SubscriptionStatus xmlns="http://hl7.org/fhir">
   <meta>
-    <versionId value="Wj5SAhjlGV"/>
-    <lastUpdated value="2021-12-10T02:40:13.724122-05:00"/>
-    <source value="nN8HOwpMr0"/>
-    <profile value="CQ0s1aeFXP"/>
+    <versionId value="Ep2R5hetrM"/>
+    <lastUpdated value="2022-05-13T14:23:04.393756-04:00"/>
+    <source value="idHvOmmeIj"/>
+    <profile value="f_J0E7yGZb"/>
     <security>
-      <system value="XIFBWHkIYQ"/>
-      <version value="YUYUjST8v5"/>
-      <code value="Hz3rn_pW9S"/>
-      <display value="a2Neq6g1Ow"/>
+      <system value="O7fVS8yZPS"/>
+      <version value="BKvaK5hiBk"/>
+      <code value="7aKqsJVS7w"/>
+      <display value="7Hk95kx4gx"/>
       <userSelected value="true"/>
     </security>
     <tag>
-      <system value="wd8xfNLbSY"/>
-      <version value="HsH6lSkA6j"/>
-      <code value="wipTdXkV1Z"/>
-      <display value="7H4pCEkTH9"/>
+      <system value="ZmDGP9PTqz"/>
+      <version value="0cbO9v9rWT"/>
+      <code value="9WNE_GLmRZ"/>
+      <display value="iTTTD5rBSX"/>
       <userSelected value="true"/>
     </tag>
     <tag>
       <code value="ibm/complete-mock"/>
     </tag>
   </meta>
-  <implicitRules value="zl_n8H0lui"/>
+  <implicitRules value="uChuIwmgZb"/>
   <language value="en-US"/>
   <text>
     <status value="extensions"/>
     <div xmlns="http://www.w3.org/1999/xhtml"></div>
   </text>
-  <status value="error"/>
-  <type value="heartbeat"/>
-  <eventsSinceSubscriptionStart value="AfSJHNpjDo"/>
-  <eventsInNotification value="1824920804"/>
+  <status value="off"/>
+  <type value="query-status"/>
+  <eventsSinceSubscriptionStart value="WkRptxhk1t"/>
   <notificationEvent>
-    <eventNumber value="1B1Mfg4ov9"/>
-    <timestamp value="2021-12-10T02:40:13.729258-05:00"/>
+    <eventNumber value="oGJVGix7Zn"/>
+    <timestamp value="2022-05-13T14:23:04.396669-04:00"/>
     <focus>
-      <reference value="Basic/UAGiy4RPYH"/>
+      <reference value="Basic/jHaRpQqyRP"/>
       <type value="Basic"/>
       <identifier>
-        <use value="usual"/>
+        <use value="old"/>
         <type>
           <coding>
-            <system value="NhN6ShMsZQ"/>
-            <version value="npbEGSTaUv"/>
-            <code value="jksxS0_JaI"/>
-            <display value="DzddGbbQLa"/>
+            <system value="NzeV_tby_b"/>
+            <version value="tWnjxkyKnB"/>
+            <code value="o_vKs6MoJS"/>
+            <display value="dosdJZNh9H"/>
             <userSelected value="true"/>
           </coding>
-          <text value="wdcP1AVEgS"/>
+          <text value="gsQ_zEjvAI"/>
         </type>
-        <system value="bReiZkSXmQ"/>
-        <value value="Sv4ADfv03O"/>
+        <system value="k1n7nkcTJA"/>
+        <value value="LxPWA3BL6L"/>
         <period>
-          <start value="2021-12-10T02:40:13.727139-05:00"/>
+          <extension url="http://hl7.org/fhir/StructureDefinition/data-absent-reason">
+            <valueCode value="unknown"/>
+          </extension>
         </period>
       </identifier>
-      <display value="CIKVbrOO7T"/>
+      <display value="KXICWiUrdg"/>
     </focus>
     <additionalContext>
-      <reference value="Basic/JDruHaPi7-"/>
+      <reference value="Basic/vBGPb1Ca1k"/>
       <type value="Basic"/>
       <identifier>
-        <use value="secondary"/>
+        <use value="old"/>
         <type>
           <coding>
-            <system value="HkzR3hexfA"/>
-            <version value="YFeoLlAzTv"/>
-            <code value="iTcEPcR2rS"/>
-            <display value="0G5bBDXDLb"/>
+            <system value="HAF6wLE_fP"/>
+            <version value="HvReekTTwQ"/>
+            <code value="lDv91Cq4KY"/>
+            <display value="PnM2SUoPQb"/>
             <userSelected value="true"/>
           </coding>
-          <text value="DPiJUORCfw"/>
+          <text value="rTqUOAq7pR"/>
         </type>
-        <system value="0L5_v7W2EH"/>
-        <value value="Y_IsDEaFnn"/>
+        <system value="n0J3mQHGAD"/>
+        <value value="jBeCvZWa22"/>
         <period>
-          <start value="2021-12-10T02:40:13.728538-05:00"/>
+          <extension url="http://hl7.org/fhir/StructureDefinition/data-absent-reason">
+            <valueCode value="unknown"/>
+          </extension>
         </period>
       </identifier>
-      <display value="zT1wABlsre"/>
+      <display value="QY5IRGP8ZX"/>
     </additionalContext>
   </notificationEvent>
   <subscription>
-    <reference value="Subscription/a9JJULvKU8"/>
+    <reference value="Subscription/XTBcbv-TQa"/>
     <type value="Subscription"/>
     <identifier>
-      <use value="old"/>
+      <use value="temp"/>
       <type>
         <coding>
-          <system value="g10OpBwkuA"/>
-          <version value="VJTrkdyqgi"/>
-          <code value="PqjImZsxBY"/>
-          <display value="knrVrymUk1"/>
+          <system value="VynD3tdsB_"/>
+          <version value="I4hlrgpAI1"/>
+          <code value="1soqtGY5kS"/>
+          <display value="SSKNNZMK2I"/>
           <userSelected value="true"/>
         </coding>
-        <text value="y4tdKtrF8Y"/>
+        <text value="3iU_mM8Pvk"/>
       </type>
-      <system value="037ODCvoKe"/>
-      <value value="vY8czvJo89"/>
+      <system value="qPdKZOYEXt"/>
+      <value value="vOmiKqHLL9"/>
       <period>
-        <start value="2021-12-10T02:40:13.729563-05:00"/>
+        <extension url="http://hl7.org/fhir/StructureDefinition/data-absent-reason">
+          <valueCode value="unknown"/>
+        </extension>
       </period>
     </identifier>
-    <display value="DKS4XPNjiB"/>
+    <display value="mblqeZTUW1"/>
   </subscription>
-  <topic value="ArznqutuUY"/>
+  <topic value="qL9iUOhyOu"/>
   <error>
     <coding>
-      <system value="IJ1mmZN6IH"/>
-      <version value="foBukJqhbV"/>
-      <code value="B7gTUpvneu"/>
-      <display value="Fciy7L2JlR"/>
+      <system value="1b1gl0XxHP"/>
+      <version value="iIANqcLz8v"/>
+      <code value="5pbhrOCAct"/>
+      <display value="scDkmY11ms"/>
       <userSelected value="true"/>
     </coding>
-    <text value="4CeE06FMmB"/>
+    <text value="HIIVyUgs18"/>
   </error>
 </SubscriptionStatus>

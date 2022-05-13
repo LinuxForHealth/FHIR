@@ -2,7 +2,7 @@
     "resourceType": "StructureDefinition",
     "id": "Quantity",
     "meta": {
-        "lastUpdated": "2022-01-01T15:17:18.597Z"
+        "lastUpdated": "2022-04-23T22:21:35.043Z"
     },
     "text": {
         "status": "empty",
@@ -19,10 +19,11 @@
         }
     ],
     "url": "http://hl7.org/fhir/StructureDefinition/Quantity",
-    "version": "4.3.0-CIBUILD",
+    "version": "4.3.0-cibuild",
     "name": "Quantity",
     "status": "active",
-    "date": "2022-01-01T15:17:18Z",
+    "experimental": false,
+    "date": "2022-04-23T22:21:35Z",
     "publisher": "HL7 FHIR Standard",
     "contact": [
         {
@@ -36,7 +37,7 @@
     ],
     "description": "Base StructureDefinition for Quantity Type: A measured amount (or an amount that can potentially be measured). Note that measured amounts include amounts that are not precisely quantified, including amounts involving arbitrary units and floating currencies.",
     "purpose": "Need to able to capture all sorts of measured values, even if the measured value are not precisely quantified. Values include exact measures such as 3.51g, customary units such as 3 tablets, and currencies such as $100.32USD.",
-    "fhirVersion": "4.3.0-CIBUILD",
+    "fhirVersion": "4.3.0-cibuild",
     "mapping": [
         {
             "identity": "v2",
@@ -296,7 +297,7 @@
                         }
                     ],
                     "strength": "required",
-                    "valueSet": "http://hl7.org/fhir/ValueSet/quantity-comparator|4.3.0-CIBUILD"
+                    "valueSet": "http://hl7.org/fhir/ValueSet/quantity-comparator|4.3.0-cibuild"
                 },
                 "mapping": [
                     {
@@ -550,7 +551,7 @@
                         }
                     ],
                     "strength": "required",
-                    "valueSet": "http://hl7.org/fhir/ValueSet/quantity-comparator|4.3.0-CIBUILD"
+                    "valueSet": "http://hl7.org/fhir/ValueSet/quantity-comparator|4.3.0-cibuild"
                 },
                 "mapping": [
                     {

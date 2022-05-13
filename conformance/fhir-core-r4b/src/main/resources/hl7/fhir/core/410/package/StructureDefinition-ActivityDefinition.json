@@ -2,7 +2,7 @@
     "resourceType": "StructureDefinition",
     "id": "ActivityDefinition",
     "meta": {
-        "lastUpdated": "2022-01-01T15:17:18.597Z"
+        "lastUpdated": "2022-04-23T22:21:35.043Z"
     },
     "text": {
         "status": "empty",
@@ -31,10 +31,11 @@
         }
     ],
     "url": "http://hl7.org/fhir/StructureDefinition/ActivityDefinition",
-    "version": "4.3.0-CIBUILD",
+    "version": "4.3.0-cibuild",
     "name": "ActivityDefinition",
     "status": "draft",
-    "date": "2022-01-01T15:17:18Z",
+    "experimental": false,
+    "date": "2022-04-23T22:21:35Z",
     "publisher": "Health Level Seven International (Clinical Decision Support)",
     "contact": [
         {
@@ -55,7 +56,7 @@
         }
     ],
     "description": "This resource allows for the definition of some activity to be performed, independent of a particular patient, practitioner, or other performance context.",
-    "fhirVersion": "4.3.0-CIBUILD",
+    "fhirVersion": "4.3.0-cibuild",
     "mapping": [
         {
             "identity": "workflow",
@@ -102,7 +103,7 @@
                         "key": "cnl-0",
                         "severity": "warning",
                         "human": "Name should be usable as an identifier for the module by machine processing applications such as code generation",
-                        "expression": "name.matches('[A-Z]([A-Za-z0-9_]){0,254}')",
+                        "expression": "name.exists() implies name.matches('[A-Z]([A-Za-z0-9_]){0,254}')",
                         "xpath": "not(exists(f:name/@value)) or matches(f:name/@value, '[A-Z]([A-Za-z0-9_]){0,254}')",
                         "source": "http://hl7.org/fhir/StructureDefinition/ActivityDefinition"
                     },
@@ -119,7 +120,7 @@
                         "severity": "error",
                         "human": "If the resource is contained in another resource, it SHALL be referred to from elsewhere in the resource or SHALL refer to the containing resource",
                         "expression": "contained.where(((id.exists() and ('#'+id in (%resource.descendants().reference | %resource.descendants().as(canonical) | %resource.descendants().as(uri) | %resource.descendants().as(url)))) or descendants().where(reference = '#').exists() or descendants().where(as(canonical) = '#').exists() or descendants().where(as(uri) = '#').exists()).not()).trace('unmatched', id).empty()",
-                        "xpath": "not(exists(for $resource in . return (for $contained in $resource/f:contained return $contained[not(descendant::f:*/@value='#' or (exists(f:id) and $resource//f:*/@*=concat('#', $contained/*/f:id/@value)))])))",
+                        "xpath": "not(exists(for $contained in f:contained return $contained[not(exists(parent::*/descendant::f:reference/@value=concat('#', $contained/*/f:id/@value)) or exists(descendant::f:reference[@value='#']))]))",
                         "source": "http://hl7.org/fhir/StructureDefinition/DomainResource"
                     },
                     {
@@ -387,6 +388,16 @@
                 "type": [
                     {
                         "code": "Resource"
+                    }
+                ],
+                "constraint": [
+                    {
+                        "key": "dom-r4b",
+                        "severity": "warning",
+                        "human": "Containing new R4B resources within R4 resources may cause interoperability issues if instances are shared with R4 systems",
+                        "expression": "($this is Citation or $this is Evidence or $this is EvidenceReport or $this is EvidenceVariable or $this is MedicinalProductDefinition or $this is PackagedProductDefinition or $this is AdministrableProductDefinition or $this is Ingredient or $this is ClinicalUseDefinition or $this is RegulatedAuthorization or $this is SubstanceDefinition or $this is SubscriptionStatus or $this is SubscriptionTopic) implies (%resource is Citation or %resource is Evidence or %resource is EvidenceReport or %resource is EvidenceVariable or %resource is MedicinalProductDefinition or %resource is PackagedProductDefinition or %resource is AdministrableProductDefinition or %resource is Ingredient or %resource is ClinicalUseDefinition or %resource is RegulatedAuthorization or %resource is SubstanceDefinition or %resource is SubscriptionStatus or %resource is SubscriptionTopic)",
+                        "xpath": "not(f:Citation|f:Evidence|f:EvidenceReport|f:EvidenceVariable|f:MedicinalProductDefinition|f:PackagedProductDefinition|f:AdministrableProductDefinition|f:Ingredient|f:ClinicalUseDefinition|f:RegulatedAuthorization|f:SubstanceDefinition|f:SubscriptionStatus|f:SubscriptionTopic) or not(parent::f:Citation|parent::f:Evidence|parent::f:EvidenceReport|parent::f:EvidenceVariable|parent::f:MedicinalProductDefinition|parent::f:PackagedProductDefinition|parent::f:AdministrableProductDefinition|parent::f:Ingredient|parent::f:ClinicalUseDefinition|parent::f:RegulatedAuthorization|parent::f:SubstanceDefinition|f:SubscriptionStatus|f:SubscriptionTopic)",
+                        "source": "http://hl7.org/fhir/StructureDefinition/ActivityDefinition"
                     }
                 ],
                 "mustSupport": false,
@@ -811,7 +822,7 @@
                     ],
                     "strength": "required",
                     "description": "The lifecycle status of an artifact.",
-                    "valueSet": "http://hl7.org/fhir/ValueSet/publication-status|4.3.0-CIBUILD"
+                    "valueSet": "http://hl7.org/fhir/ValueSet/publication-status|4.3.0-cibuild"
                 },
                 "mapping": [
                     {
@@ -880,6 +891,7 @@
                 "path": "ActivityDefinition.subject[x]",
                 "short": "Type of individual the activity definition is intended for",
                 "definition": "A code, group definition, or canonical reference that describes  or identifies the intended subject of the activity being defined.  Canonical references are allowed to support the definition of protocols for drug and substance quality specifications, and is allowed to reference a MedicinalProductDefinition, SubstanceDefinition, AdministrableProductDefinition, ManufacturedItemDefinition, or PackagedProductDefinition resource.",
+                "comment": "Note that the choice of canonical for the subject element was introduced in R4B to support pharmaceutical quality use cases. To ensure as much backwards-compatibility as possible, it is recommended to only use the new canonical type with these use cases.",
                 "min": 0,
                 "max": "1",
                 "base": {
@@ -1814,7 +1826,7 @@
                     ],
                     "strength": "required",
                     "description": "The kind of activity the definition is describing.",
-                    "valueSet": "http://hl7.org/fhir/ValueSet/request-resource-types|4.3.0-CIBUILD"
+                    "valueSet": "http://hl7.org/fhir/ValueSet/request-resource-types|4.3.0-cibuild"
                 },
                 "mapping": [
                     {
@@ -1953,7 +1965,7 @@
                     ],
                     "strength": "required",
                     "description": "Codes indicating the degree of authority/intentionality associated with a request.",
-                    "valueSet": "http://hl7.org/fhir/ValueSet/request-intent|4.3.0-CIBUILD"
+                    "valueSet": "http://hl7.org/fhir/ValueSet/request-intent|4.3.0-cibuild"
                 },
                 "mapping": [
                     {
@@ -2001,7 +2013,7 @@
                     ],
                     "strength": "required",
                     "description": "Identifies the level of importance to be assigned to actioning the request.",
-                    "valueSet": "http://hl7.org/fhir/ValueSet/request-priority|4.3.0-CIBUILD"
+                    "valueSet": "http://hl7.org/fhir/ValueSet/request-priority|4.3.0-cibuild"
                 },
                 "mapping": [
                     {
@@ -2204,7 +2216,7 @@
                         "extension": [
                             {
                                 "url": "http://hl7.org/fhir/StructureDefinition/structuredefinition-fhir-type",
-                                "valueUrl": "id"
+                                "valueUrl": "string"
                             }
                         ],
                         "code": "http://hl7.org/fhirpath/System.String"
@@ -2359,7 +2371,7 @@
                     ],
                     "strength": "required",
                     "description": "The type of participant in the activity.",
-                    "valueSet": "http://hl7.org/fhir/ValueSet/action-participant-type|4.3.0-CIBUILD"
+                    "valueSet": "http://hl7.org/fhir/ValueSet/action-participant-type|4.3.0-cibuild"
                 },
                 "mapping": [
                     {
@@ -2824,7 +2836,7 @@
                         "extension": [
                             {
                                 "url": "http://hl7.org/fhir/StructureDefinition/structuredefinition-fhir-type",
-                                "valueUrl": "id"
+                                "valueUrl": "string"
                             }
                         ],
                         "code": "http://hl7.org/fhirpath/System.String"
@@ -3032,7 +3044,7 @@
                         "key": "cnl-0",
                         "severity": "warning",
                         "human": "Name should be usable as an identifier for the module by machine processing applications such as code generation",
-                        "expression": "name.matches('[A-Z]([A-Za-z0-9_]){0,254}')",
+                        "expression": "name.exists() implies name.matches('[A-Z]([A-Za-z0-9_]){0,254}')",
                         "xpath": "not(exists(f:name/@value)) or matches(f:name/@value, '[A-Z]([A-Za-z0-9_]){0,254}')",
                         "source": "http://hl7.org/fhir/StructureDefinition/ActivityDefinition"
                     }
@@ -3259,7 +3271,7 @@
                     ],
                     "strength": "required",
                     "description": "The lifecycle status of an artifact.",
-                    "valueSet": "http://hl7.org/fhir/ValueSet/publication-status|4.3.0-CIBUILD"
+                    "valueSet": "http://hl7.org/fhir/ValueSet/publication-status|4.3.0-cibuild"
                 },
                 "mapping": [
                     {
@@ -3313,6 +3325,7 @@
                 "path": "ActivityDefinition.subject[x]",
                 "short": "Type of individual the activity definition is intended for",
                 "definition": "A code, group definition, or canonical reference that describes  or identifies the intended subject of the activity being defined.  Canonical references are allowed to support the definition of protocols for drug and substance quality specifications, and is allowed to reference a MedicinalProductDefinition, SubstanceDefinition, AdministrableProductDefinition, ManufacturedItemDefinition, or PackagedProductDefinition resource.",
+                "comment": "Note that the choice of canonical for the subject element was introduced in R4B to support pharmaceutical quality use cases. To ensure as much backwards-compatibility as possible, it is recommended to only use the new canonical type with these use cases.",
                 "min": 0,
                 "max": "1",
                 "type": [
@@ -3932,7 +3945,7 @@
                     ],
                     "strength": "required",
                     "description": "The kind of activity the definition is describing.",
-                    "valueSet": "http://hl7.org/fhir/ValueSet/request-resource-types|4.3.0-CIBUILD"
+                    "valueSet": "http://hl7.org/fhir/ValueSet/request-resource-types|4.3.0-cibuild"
                 },
                 "mapping": [
                     {
@@ -4026,7 +4039,7 @@
                     ],
                     "strength": "required",
                     "description": "Codes indicating the degree of authority/intentionality associated with a request.",
-                    "valueSet": "http://hl7.org/fhir/ValueSet/request-intent|4.3.0-CIBUILD"
+                    "valueSet": "http://hl7.org/fhir/ValueSet/request-intent|4.3.0-cibuild"
                 },
                 "mapping": [
                     {
@@ -4059,7 +4072,7 @@
                     ],
                     "strength": "required",
                     "description": "Identifies the level of importance to be assigned to actioning the request.",
-                    "valueSet": "http://hl7.org/fhir/ValueSet/request-priority|4.3.0-CIBUILD"
+                    "valueSet": "http://hl7.org/fhir/ValueSet/request-priority|4.3.0-cibuild"
                 },
                 "mapping": [
                     {
@@ -4206,7 +4219,7 @@
                     ],
                     "strength": "required",
                     "description": "The type of participant in the activity.",
-                    "valueSet": "http://hl7.org/fhir/ValueSet/action-participant-type|4.3.0-CIBUILD"
+                    "valueSet": "http://hl7.org/fhir/ValueSet/action-participant-type|4.3.0-cibuild"
                 },
                 "mapping": [
                     {

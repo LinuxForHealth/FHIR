@@ -12,9 +12,10 @@
     }
   ],
   "url": "http://hl7.org/fhir/StructureDefinition/questionnaire-fhirType",
-  "version": "4.3.0-CIBUILD",
+  "version": "4.3.0-cibuild",
   "name": "fhirType",
   "status": "draft",
+  "experimental": false,
   "date": "2013-07-04",
   "publisher": "HL7",
   "contact": [
@@ -28,7 +29,7 @@
     }
   ],
   "description": "For questionnaires generated from FHIR profiles, indicates the FHIR data type or resource type that corresponds to this node.",
-  "fhirVersion": "4.3.0-CIBUILD",
+  "fhirVersion": "4.3.0-cibuild",
   "mapping": [
     {
       "identity": "v2",

@@ -2,7 +2,7 @@
     "resourceType": "StructureDefinition",
     "id": "Narrative",
     "meta": {
-        "lastUpdated": "2022-01-01T15:17:18.597Z"
+        "lastUpdated": "2022-04-23T22:21:35.043Z"
     },
     "text": {
         "status": "empty",
@@ -19,10 +19,11 @@
         }
     ],
     "url": "http://hl7.org/fhir/StructureDefinition/Narrative",
-    "version": "4.3.0-CIBUILD",
+    "version": "4.3.0-cibuild",
     "name": "Narrative",
     "status": "active",
-    "date": "2022-01-01T15:17:18Z",
+    "experimental": false,
+    "date": "2022-04-23T22:21:35Z",
     "publisher": "HL7 FHIR Standard",
     "contact": [
         {
@@ -35,7 +36,7 @@
         }
     ],
     "description": "Base StructureDefinition for Narrative Type: A human-readable summary of the resource conveying the essential clinical and business information for the resource.",
-    "fhirVersion": "4.3.0-CIBUILD",
+    "fhirVersion": "4.3.0-cibuild",
     "mapping": [
         {
             "identity": "rim",
@@ -232,7 +233,7 @@
                         }
                     ],
                     "strength": "required",
-                    "valueSet": "http://hl7.org/fhir/ValueSet/narrative-status|4.3.0-CIBUILD"
+                    "valueSet": "http://hl7.org/fhir/ValueSet/narrative-status|4.3.0-cibuild"
                 },
                 "mapping": [
                     {
@@ -346,7 +347,7 @@
                         }
                     ],
                     "strength": "required",
-                    "valueSet": "http://hl7.org/fhir/ValueSet/narrative-status|4.3.0-CIBUILD"
+                    "valueSet": "http://hl7.org/fhir/ValueSet/narrative-status|4.3.0-cibuild"
                 },
                 "mapping": [
                     {

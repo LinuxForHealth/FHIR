@@ -2,7 +2,7 @@
     "resourceType": "ValueSet",
     "id": "combined-dose-form",
     "meta": {
-        "lastUpdated": "2022-03-04T09:04:06.196+11:00",
+        "lastUpdated": "2022-04-24T09:21:35.043+11:00",
         "profile": [
             "http://hl7.org/fhir/StructureDefinition/shareablevalueset"
         ]
@@ -28,7 +28,7 @@
             "value": "urn:oid:2.16.840.1.113883.4.642.3.1554"
         }
     ],
-    "version": "4.3.0-CIBUILD",
+    "version": "4.3.0-cibuild",
     "name": "CombinedDoseForm",
     "title": "CombinedDoseForm",
     "status": "draft",
@@ -59,8 +59,8 @@
         ]
     },
     "expansion": {
-        "identifier": "urn:uuid:68320c07-761a-44e7-918f-1faeb921cb2c",
-        "timestamp": "2022-03-03T22:05:31Z",
+        "identifier": "urn:uuid:30b9b8e7-765d-4973-a4c8-18b3234a9e49",
+        "timestamp": "2022-04-23T22:23:26Z",
         "total": 77,
         "parameter": [
             {
@@ -73,7 +73,7 @@
             },
             {
                 "name": "version",
-                "valueUri": "http://hl7.org/fhir/combined-dose-form|4.3.0-CIBUILD"
+                "valueUri": "http://hl7.org/fhir/combined-dose-form|4.3.0-cibuild"
             }
         ],
         "contains": [

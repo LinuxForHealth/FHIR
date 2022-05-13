@@ -1,0 +1,149 @@
+{
+    "resourceType": "CodeSystem",
+    "id": "regulated-authorization-case-type",
+    "meta": {
+        "lastUpdated": "2022-04-24T09:21:35.043+11:00",
+        "profile": [
+            "http://hl7.org/fhir/StructureDefinition/shareablecodesystem"
+        ]
+    },
+    "text": {
+        "status": "empty",
+        "div": "<div xmlns=\"http://www.w3.org/1999/xhtml\">Redacted for size</div>"
+    },
+    "extension": [
+        {
+            "url": "http://hl7.org/fhir/StructureDefinition/structuredefinition-wg",
+            "valueCode": "brr"
+        },
+        {
+            "url": "http://hl7.org/fhir/StructureDefinition/structuredefinition-standards-status",
+            "valueCode": "trial-use"
+        },
+        {
+            "url": "http://hl7.org/fhir/StructureDefinition/structuredefinition-fmm",
+            "valueInteger": 1
+        }
+    ],
+    "url": "http://hl7.org/fhir/regulated-authorization-case-type",
+    "identifier": [
+        {
+            "system": "urn:ietf:rfc:3986",
+            "value": "urn:oid:2.16.840.1.113883.4.642.1.1645"
+        }
+    ],
+    "version": "4.3.0-cibuild",
+    "name": "RegulatedAuthorizationCaseType",
+    "title": "RegulatedAuthorizationCaseType",
+    "status": "draft",
+    "experimental": false,
+    "date": "2021-01-05T10:01:24+11:00",
+    "publisher": "HL7 (FHIR Project)",
+    "contact": [
+        {
+            "telecom": [
+                {
+                    "system": "url",
+                    "value": "http://hl7.org/fhir"
+                },
+                {
+                    "system": "email",
+                    "value": "fhir@lists.hl7.org"
+                }
+            ]
+        }
+    ],
+    "caseSensitive": true,
+    "valueSet": "http://hl7.org/fhir/ValueSet/regulated-authorization-case-type",
+    "content": "complete",
+    "concept": [
+        {
+            "code": "InitialMAA",
+            "display": "Initial Marketing Authorisation Application"
+        },
+        {
+            "code": "Variation",
+            "display": "Variation"
+        },
+        {
+            "code": "LineExtension",
+            "display": "Line Extension"
+        },
+        {
+            "code": "PSUR",
+            "display": "Periodic Safety Update Report"
+        },
+        {
+            "code": "Renewal",
+            "display": "Renewal"
+        },
+        {
+            "code": "Follow-up",
+            "display": "Follow-up Measure"
+        },
+        {
+            "code": "100000155699",
+            "display": "Specific Obligation"
+        },
+        {
+            "code": "AnnualReassessment",
+            "display": "Annual Reassessment"
+        },
+        {
+            "code": "UrgentSafetyRestriction",
+            "display": "Urgent Safety Restriction"
+        },
+        {
+            "code": "PaediatricSubmission",
+            "display": "Paediatric Submission"
+        },
+        {
+            "code": "TransferMA",
+            "display": "Transfer of a marketing authorisation"
+        },
+        {
+            "code": "LiftingSuspension",
+            "display": "Lifting of a Suspension"
+        },
+        {
+            "code": "Withdrawal",
+            "display": "Withdrawal"
+        },
+        {
+            "code": "Reformatting",
+            "display": "Reformatting"
+        },
+        {
+            "code": "RMP",
+            "display": "Risk Management Plan"
+        },
+        {
+            "code": "ReviewSuspension",
+            "display": "Review of a Suspension of MA"
+        },
+        {
+            "code": "SupplementalInformation",
+            "display": "Supplemental Information"
+        },
+        {
+            "code": "RepeatUse",
+            "display": "Repeat Use Procedure"
+        },
+        {
+            "code": "SignalDetection",
+            "display": "Signal detection"
+        },
+        {
+            "code": "FLU",
+            "display": "FLU STRAIN UPDATE"
+        },
+        {
+            "code": "PANDEMIC",
+            "display": "PANDEMIC UPDATE"
+        },
+        {
+            "code": "Orphan",
+            "display": "Orphan Designation Application"
+        }
+    ]
+}

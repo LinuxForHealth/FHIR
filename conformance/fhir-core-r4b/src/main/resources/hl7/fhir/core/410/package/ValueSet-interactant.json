@@ -2,7 +2,7 @@
     "resourceType": "ValueSet",
     "id": "interactant",
     "meta": {
-        "lastUpdated": "2022-03-04T09:04:06.196+11:00",
+        "lastUpdated": "2022-04-24T09:21:35.043+11:00",
         "profile": [
             "http://hl7.org/fhir/StructureDefinition/shareablevalueset"
         ]
@@ -28,7 +28,7 @@
             "value": "urn:oid:2.16.840.1.113883.4.642.3.1668"
         }
     ],
-    "version": "4.3.0-CIBUILD",
+    "version": "4.3.0-cibuild",
     "name": "Interactant",
     "title": "Interactant",
     "status": "draft",
@@ -77,11 +77,12 @@
                 "valueBoolean": true
             }
         ],
-        "identifier": "urn:uuid:f108ee94-da7a-4c8c-9d09-de92e2c12369",
-        "timestamp": "2021-11-17T05:28:21.001Z",
+        "identifier": "urn:uuid:806dbfa2-a0e8-4722-b6f2-9b68edc3569e",
+        "timestamp": "2022-04-23T22:23:26Z",
+        "total": 1000,
         "parameter": [
             {
-                "name": "limitedExpansion",
+                "name": "excludeNested",
                 "valueBoolean": true
             },
             {
@@ -89,12 +90,12 @@
                 "valueBoolean": true
             },
             {
-                "name": "excludeNested",
+                "name": "limitedExpansion",
                 "valueBoolean": true
             },
             {
                 "name": "version",
-                "valueUri": "http://snomed.info/sct|http://snomed.info/sct/900000000000207008/version/20200131"
+                "valueUri": "http://snomed.info/sct|http://snomed.info/sct/900000000000207008/version/20200731"
             }
         ],
         "contains": [

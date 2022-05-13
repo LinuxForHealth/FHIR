@@ -12,10 +12,11 @@
     }
   ],
   "url": "http://hl7.org/fhir/StructureDefinition/capabilitystatement-prohibited",
-  "version": "4.3.0-CIBUILD",
+  "version": "4.3.0-cibuild",
   "name": "prohibited",
   "title": "Conformance prohibition",
   "status": "draft",
+  "experimental": false,
   "date": "2014-04-12",
   "publisher": "Health Level Seven, Inc. - [WG Name] WG",
   "contact": [
@@ -29,7 +30,7 @@
     }
   ],
   "description": "If set to true, indicates that support for the specified behavior would make a system non-conformant with the specification.",
-  "fhirVersion": "4.3.0-CIBUILD",
+  "fhirVersion": "4.3.0-cibuild",
   "mapping": [
     {
       "identity": "v2",

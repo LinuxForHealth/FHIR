@@ -7,7 +7,599 @@
       <display value="test health data"/>
     </security>
   </meta>
-  <text><status value="generated"/><div xmlns="http://www.w3.org/1999/xhtml"><p><b>Generated Narrative</b></p><div><p>Resource "testscript-example-multisystem" </p></div><p><b>url</b>: <code>http://hl7.org/fhir/TestScript/testscript-example-multisystem</code></p><p><b>identifier</b>: id: urn:oid:1.3.6.1.4.1.21367.2005.3.7.9878</p><p><b>version</b>: 1.0</p><p><b>name</b>: testscript-example-multisystem</p><p><b>title</b>: Multisystem Test Script</p><p><b>status</b>: draft</p><p><b>experimental</b>: true</p><p><b>date</b>: 2017-01-18</p><p><b>publisher</b>: HL7</p><p><b>contact</b>: Support: <a>support@HL7.org</a></p><p><b>description</b>: TestScript example resource showing use of origin and destination for multisystem support. The single origin will execute a Patient read against the two destination systems using user defined dynamic variables. The test engine will wait at each operation action with a defined origin and destination for the origin test system to send the expected FHIR operation to the destination test system. Once the expected request and response is observed, the test engine will continue with the test execution.</p><p><b>jurisdiction</b>: United States of America (the) <span> (unknown#US)</span></p><p><b>purpose</b>: Patient Read Operation</p><p><b>copyright</b>: © HL7.org 2011+</p><h3>Origins</h3><table><tr><td>-</td><td><b>Index</b></td><td><b>Profile</b></td></tr><tr><td>*</td><td>1</td><td>FHIR-Client (Details: [not stated] code FHIR-Client = 'FHIR-Client', stated as 'null')</td></tr></table><blockquote><p><b>destination</b></p><p><b>index</b>: 1</p><p><b>profile</b>: FHIR-Server (Details: [not stated] code FHIR-Server = 'FHIR-Server', stated as 'null')</p></blockquote><blockquote><p><b>destination</b></p><p><b>index</b>: 2</p><p><b>profile</b>: FHIR-Server (Details: [not stated] code FHIR-Server = 'FHIR-Server', stated as 'null')</p></blockquote><blockquote><p><b>metadata</b></p><h3>Links</h3><table><tr><td>-</td><td><b>Url</b></td><td><b>Description</b></td></tr><tr><td>*</td><td><a>http://hl7.org/fhir/patient.html</a></td><td>Demographics and other administrative information about an individual or animal receiving care or other health-related services.</td></tr></table><blockquote><p><b>capability</b></p><p><b>required</b>: true</p><p><b>validated</b>: false</p><p><b>description</b>: Patient Read Operation</p><p><b>origin</b>: 1</p><p><b>destination</b>: 1</p><p><b>link</b>: <a>http://hl7.org/fhir/http.html#read</a></p><p><b>capabilities</b>: <a>http://hl7.org/fhir/CapabilityStatement/example</a></p></blockquote><blockquote><p><b>capability</b></p><p><b>required</b>: true</p><p><b>validated</b>: false</p><p><b>description</b>: Patient Read Operation</p><p><b>origin</b>: 1</p><p><b>destination</b>: 2</p><p><b>link</b>: <a>http://hl7.org/fhir/http.html#read</a></p><p><b>capabilities</b>: <a>http://hl7.org/fhir/CapabilityStatement/example</a></p></blockquote></blockquote><blockquote><p><b>variable</b></p><p><b>name</b>: Dest1PatientResourceId</p><p><b>defaultValue</b>: example</p></blockquote><blockquote><p><b>variable</b></p><p><b>name</b>: Dest2PatientResourceId</p><p><b>defaultValue</b>: example</p></blockquote><blockquote><p><b>test</b></p><p><b>name</b>: ReadPatient-Destination1</p><p><b>description</b>: Read a Patient from the first destination test system using the user defined dynamic variable ${Dest1PatientResourceId}. Perform basic validation.</p><blockquote><p><b>action</b></p></blockquote><blockquote><p><b>action</b></p></blockquote><blockquote><p><b>action</b></p></blockquote><blockquote><p><b>action</b></p></blockquote><blockquote><p><b>action</b></p></blockquote><blockquote><p><b>action</b></p></blockquote></blockquote><blockquote><p><b>test</b></p><p><b>name</b>: ReadPatient-Destination2</p><p><b>description</b>: Read a Patient from the second destination test system using the user defined dynamic variable ${Dest2PatientResourceId}. Perform basic validation.</p><blockquote><p><b>action</b></p></blockquote><blockquote><p><b>action</b></p></blockquote><blockquote><p><b>action</b></p></blockquote><blockquote><p><b>action</b></p></blockquote><blockquote><p><b>action</b></p></blockquote></blockquote></div></text><url value="http://hl7.org/fhir/TestScript/testscript-example-multisystem"/>
+  <text>
+    <status value="generated"/>
+    <div xmlns="http://www.w3.org/1999/xhtml">
+      <p>
+        <b>Generated Narrative</b>
+      </p>
+      <div style="display: inline-block; background-color: #d9e0e7; padding: 6px; margin: 4px; border: 1px solid #8da1b4; border-radius: 5px; line-height: 60%">
+        <p style="margin-bottom: 0px">Resource "testscript-example-multisystem" </p>
+      </div>
+      <p>
+        <b>url</b>: 
+        <code>http://hl7.org/fhir/TestScript/testscript-example-multisystem</code>
+      </p>
+      <p>
+        <b>identifier</b>: id: urn:oid:1.3.6.1.4.1.21367.2005.3.7.9878
+      </p>
+      <p>
+        <b>version</b>: 1.0
+      </p>
+      <p>
+        <b>name</b>: testscript-example-multisystem
+      </p>
+      <p>
+        <b>title</b>: Multisystem Test Script
+      </p>
+      <p>
+        <b>status</b>: draft
+      </p>
+      <p>
+        <b>experimental</b>: true
+      </p>
+      <p>
+        <b>date</b>: 2017-01-18
+      </p>
+      <p>
+        <b>publisher</b>: HL7
+      </p>
+      <p>
+        <b>contact</b>: Support: 
+        <a href="mailto:support@HL7.org">support@HL7.org</a>
+      </p>
+      <p>
+        <b>description</b>: TestScript example resource showing use of origin and destination for multisystem support. The single origin will execute a Patient read against the two destination systems using user defined dynamic variables. The test engine will wait at each operation action with a defined origin and destination for the origin test system to send the expected FHIR operation to the destination test system. Once the expected request and response is observed, the test engine will continue with the test execution.
+      </p>
+      <p>
+        <b>jurisdiction</b>: United States of America (the) 
+        <span style="background: LightGoldenRodYellow; margin: 4px; border: 1px solid khaki"> (unknown#US)</span>
+      </p>
+      <p>
+        <b>purpose</b>: Patient Read Operation
+      </p>
+      <p>
+        <b>copyright</b>: © HL7.org 2011+
+      </p>
+      <h3>Origins</h3>
+      <table class="grid">
+        <tr>
+          <td>-</td>
+          <td>
+            <b>Index</b>
+          </td>
+          <td>
+            <b>Profile</b>
+          </td>
+        </tr>
+        <tr>
+          <td>*</td>
+          <td>1</td>
+          <td>FHIR-Client (Details: [not stated] code FHIR-Client = 'FHIR-Client', stated as 'null')</td>
+        </tr>
+      </table>
+      <blockquote>
+        <p>
+          <b>destination</b>
+        </p>
+        <p>
+          <b>index</b>: 1
+        </p>
+        <p>
+          <b>profile</b>: FHIR-Server (Details: [not stated] code FHIR-Server = 'FHIR-Server', stated as 'null')
+        </p>
+      </blockquote>
+      <blockquote>
+        <p>
+          <b>destination</b>
+        </p>
+        <p>
+          <b>index</b>: 2
+        </p>
+        <p>
+          <b>profile</b>: FHIR-Server (Details: [not stated] code FHIR-Server = 'FHIR-Server', stated as 'null')
+        </p>
+      </blockquote>
+      <blockquote>
+        <p>
+          <b>metadata</b>
+        </p>
+        <h3>Links</h3>
+        <table class="grid">
+          <tr>
+            <td>-</td>
+            <td>
+              <b>Url</b>
+            </td>
+            <td>
+              <b>Description</b>
+            </td>
+          </tr>
+          <tr>
+            <td>*</td>
+            <td>
+              <a href="http://hl7.org/fhir/patient.html">http://hl7.org/fhir/patient.html</a>
+            </td>
+            <td>Demographics and other administrative information about an individual or animal receiving care or other health-related services.</td>
+          </tr>
+        </table>
+        <blockquote>
+          <p>
+            <b>capability</b>
+          </p>
+          <p>
+            <b>required</b>: true
+          </p>
+          <p>
+            <b>validated</b>: false
+          </p>
+          <p>
+            <b>description</b>: Patient Read Operation
+          </p>
+          <p>
+            <b>origin</b>: 1
+          </p>
+          <p>
+            <b>destination</b>: 1
+          </p>
+          <p>
+            <b>link</b>: 
+            <a href="http://hl7.org/fhir/http.html#read">http://hl7.org/fhir/http.html#read</a>
+          </p>
+          <p>
+            <b>capabilities</b>: 
+            <a href="http://hl7.org/fhir/CapabilityStatement/example">http://hl7.org/fhir/CapabilityStatement/example</a>
+          </p>
+        </blockquote>
+        <blockquote>
+          <p>
+            <b>capability</b>
+          </p>
+          <p>
+            <b>required</b>: true
+          </p>
+          <p>
+            <b>validated</b>: false
+          </p>
+          <p>
+            <b>description</b>: Patient Read Operation
+          </p>
+          <p>
+            <b>origin</b>: 1
+          </p>
+          <p>
+            <b>destination</b>: 2
+          </p>
+          <p>
+            <b>link</b>: 
+            <a href="http://hl7.org/fhir/http.html#read">http://hl7.org/fhir/http.html#read</a>
+          </p>
+          <p>
+            <b>capabilities</b>: 
+            <a href="http://hl7.org/fhir/CapabilityStatement/example">http://hl7.org/fhir/CapabilityStatement/example</a>
+          </p>
+        </blockquote>
+      </blockquote>
+      <blockquote>
+        <p>
+          <b>variable</b>
+        </p>
+        <p>
+          <b>name</b>: Dest1PatientResourceId
+        </p>
+        <p>
+          <b>defaultValue</b>: example
+        </p>
+      </blockquote>
+      <blockquote>
+        <p>
+          <b>variable</b>
+        </p>
+        <p>
+          <b>name</b>: Dest2PatientResourceId
+        </p>
+        <p>
+          <b>defaultValue</b>: example
+        </p>
+      </blockquote>
+      <blockquote>
+        <p>
+          <b>test</b>
+        </p>
+        <p>
+          <b>name</b>: ReadPatient-Destination1
+        </p>
+        <p>
+          <b>description</b>: Read a Patient from the first destination test system using the user defined dynamic variable ${Dest1PatientResourceId}. Perform basic validation.
+        </p>
+        <blockquote>
+          <p>
+            <b>action</b>
+          </p>
+          <h3>Operations</h3>
+          <table class="grid">
+            <tr>
+              <td>-</td>
+              <td>
+                <b>Type</b>
+              </td>
+              <td>
+                <b>Resource</b>
+              </td>
+              <td>
+                <b>Description</b>
+              </td>
+              <td>
+                <b>Accept</b>
+              </td>
+              <td>
+                <b>ContentType</b>
+              </td>
+              <td>
+                <b>Destination</b>
+              </td>
+              <td>
+                <b>EncodeRequestUrl</b>
+              </td>
+              <td>
+                <b>Origin</b>
+              </td>
+              <td>
+                <b>Params</b>
+              </td>
+              <td>
+                <b>RequestId</b>
+              </td>
+            </tr>
+            <tr>
+              <td>*</td>
+              <td>Read (Details: http://terminology.hl7.org/CodeSystem/testscript-operation-codes code read = 'Read', stated as 'null')</td>
+              <td>Patient</td>
+              <td>Read a Patient from the first destination test system and perform basic validation.</td>
+              <td>xml</td>
+              <td>xml</td>
+              <td>1</td>
+              <td>true</td>
+              <td>1</td>
+              <td>/${Dest1PatientResourceId}</td>
+              <td>request-read-patient-01</td>
+            </tr>
+          </table>
+        </blockquote>
+        <blockquote>
+          <p>
+            <b>action</b>
+          </p>
+          <h3>Asserts</h3>
+          <table class="grid">
+            <tr>
+              <td>-</td>
+              <td>
+                <b>Description</b>
+              </td>
+              <td>
+                <b>RequestMethod</b>
+              </td>
+              <td>
+                <b>WarningOnly</b>
+              </td>
+            </tr>
+            <tr>
+              <td>*</td>
+              <td>Confirm that the request method GET was sent by the client system under test.</td>
+              <td>get</td>
+              <td>false</td>
+            </tr>
+          </table>
+        </blockquote>
+        <blockquote>
+          <p>
+            <b>action</b>
+          </p>
+          <h3>Asserts</h3>
+          <table class="grid">
+            <tr>
+              <td>-</td>
+              <td>
+                <b>Description</b>
+              </td>
+              <td>
+                <b>Direction</b>
+              </td>
+              <td>
+                <b>HeaderField</b>
+              </td>
+              <td>
+                <b>Operator</b>
+              </td>
+              <td>
+                <b>Value</b>
+              </td>
+              <td>
+                <b>WarningOnly</b>
+              </td>
+            </tr>
+            <tr>
+              <td>*</td>
+              <td>Confirm that the client requested an Accept of xml.</td>
+              <td>request</td>
+              <td>Accept</td>
+              <td>contains</td>
+              <td>xml</td>
+              <td>false</td>
+            </tr>
+          </table>
+        </blockquote>
+        <blockquote>
+          <p>
+            <b>action</b>
+          </p>
+          <h3>Asserts</h3>
+          <table class="grid">
+            <tr>
+              <td>-</td>
+              <td>
+                <b>Description</b>
+              </td>
+              <td>
+                <b>Direction</b>
+              </td>
+              <td>
+                <b>Response</b>
+              </td>
+              <td>
+                <b>WarningOnly</b>
+              </td>
+            </tr>
+            <tr>
+              <td>*</td>
+              <td>Confirm that the returned HTTP status is 200(OK).</td>
+              <td>response</td>
+              <td>okay</td>
+              <td>false</td>
+            </tr>
+          </table>
+        </blockquote>
+        <blockquote>
+          <p>
+            <b>action</b>
+          </p>
+          <h3>Asserts</h3>
+          <table class="grid">
+            <tr>
+              <td>-</td>
+              <td>
+                <b>Description</b>
+              </td>
+              <td>
+                <b>Direction</b>
+              </td>
+              <td>
+                <b>ContentType</b>
+              </td>
+              <td>
+                <b>WarningOnly</b>
+              </td>
+            </tr>
+            <tr>
+              <td>*</td>
+              <td>Confirm that the returned format is XML.</td>
+              <td>response</td>
+              <td>xml</td>
+              <td>false</td>
+            </tr>
+          </table>
+        </blockquote>
+        <blockquote>
+          <p>
+            <b>action</b>
+          </p>
+          <h3>Asserts</h3>
+          <table class="grid">
+            <tr>
+              <td>-</td>
+              <td>
+                <b>Description</b>
+              </td>
+              <td>
+                <b>Direction</b>
+              </td>
+              <td>
+                <b>Resource</b>
+              </td>
+              <td>
+                <b>WarningOnly</b>
+              </td>
+            </tr>
+            <tr>
+              <td>*</td>
+              <td>Confirm that the returned resource type is Patient.</td>
+              <td>response</td>
+              <td>Patient</td>
+              <td>false</td>
+            </tr>
+          </table>
+        </blockquote>
+      </blockquote>
+      <blockquote>
+        <p>
+          <b>test</b>
+        </p>
+        <p>
+          <b>name</b>: ReadPatient-Destination2
+        </p>
+        <p>
+          <b>description</b>: Read a Patient from the second destination test system using the user defined dynamic variable ${Dest2PatientResourceId}. Perform basic validation.
+        </p>
+        <blockquote>
+          <p>
+            <b>action</b>
+          </p>
+          <blockquote>
+            <p>
+              <b>operation</b>
+            </p>
+            <p>
+              <b>type</b>: Read (Details: http://terminology.hl7.org/CodeSystem/testscript-operation-codes code read = 'Read', stated as 'null')
+            </p>
+            <p>
+              <b>resource</b>: Patient
+            </p>
+            <p>
+              <b>description</b>: Read a Patient from the second destination test system and perform basic validation.
+            </p>
+            <p>
+              <b>accept</b>: xml
+            </p>
+            <p>
+              <b>contentType</b>: xml
+            </p>
+            <p>
+              <b>destination</b>: 2
+            </p>
+            <p>
+              <b>encodeRequestUrl</b>: true
+            </p>
+            <p>
+              <b>origin</b>: 1
+            </p>
+            <p>
+              <b>params</b>: /${Dest2PatientResourceId}
+            </p>
+          </blockquote>
+        </blockquote>
+        <blockquote>
+          <p>
+            <b>action</b>
+          </p>
+          <h3>Asserts</h3>
+          <table class="grid">
+            <tr>
+              <td>-</td>
+              <td>
+                <b>Description</b>
+              </td>
+              <td>
+                <b>Direction</b>
+              </td>
+              <td>
+                <b>HeaderField</b>
+              </td>
+              <td>
+                <b>Operator</b>
+              </td>
+              <td>
+                <b>Value</b>
+              </td>
+              <td>
+                <b>WarningOnly</b>
+              </td>
+            </tr>
+            <tr>
+              <td>*</td>
+              <td>Confirm that the client requested an Accept of xml.</td>
+              <td>request</td>
+              <td>Accept</td>
+              <td>contains</td>
+              <td>xml</td>
+              <td>false</td>
+            </tr>
+          </table>
+        </blockquote>
+        <blockquote>
+          <p>
+            <b>action</b>
+          </p>
+          <h3>Asserts</h3>
+          <table class="grid">
+            <tr>
+              <td>-</td>
+              <td>
+                <b>Description</b>
+              </td>
+              <td>
+                <b>Direction</b>
+              </td>
+              <td>
+                <b>Response</b>
+              </td>
+              <td>
+                <b>WarningOnly</b>
+              </td>
+            </tr>
+            <tr>
+              <td>*</td>
+              <td>Confirm that the returned HTTP status is 200(OK).</td>
+              <td>response</td>
+              <td>okay</td>
+              <td>false</td>
+            </tr>
+          </table>
+        </blockquote>
+        <blockquote>
+          <p>
+            <b>action</b>
+          </p>
+          <h3>Asserts</h3>
+          <table class="grid">
+            <tr>
+              <td>-</td>
+              <td>
+                <b>Description</b>
+              </td>
+              <td>
+                <b>Direction</b>
+              </td>
+              <td>
+                <b>ContentType</b>
+              </td>
+              <td>
+                <b>WarningOnly</b>
+              </td>
+            </tr>
+            <tr>
+              <td>*</td>
+              <td>Confirm that the returned format is XML.</td>
+              <td>response</td>
+              <td>xml</td>
+              <td>false</td>
+            </tr>
+          </table>
+        </blockquote>
+        <blockquote>
+          <p>
+            <b>action</b>
+          </p>
+          <h3>Asserts</h3>
+          <table class="grid">
+            <tr>
+              <td>-</td>
+              <td>
+                <b>Description</b>
+              </td>
+              <td>
+                <b>Direction</b>
+              </td>
+              <td>
+                <b>Resource</b>
+              </td>
+              <td>
+                <b>WarningOnly</b>
+              </td>
+            </tr>
+            <tr>
+              <td>*</td>
+              <td>Confirm that the returned resource type is Patient.</td>
+              <td>response</td>
+              <td>Patient</td>
+              <td>false</td>
+            </tr>
+          </table>
+        </blockquote>
+      </blockquote>
+    </div>
+  </text>
+  <url value="http://hl7.org/fhir/TestScript/testscript-example-multisystem"/>
   <identifier>
     <system value="urn:ietf:rfc:3986"/>
     <value value="urn:oid:1.3.6.1.4.1.21367.2005.3.7.9878"/>

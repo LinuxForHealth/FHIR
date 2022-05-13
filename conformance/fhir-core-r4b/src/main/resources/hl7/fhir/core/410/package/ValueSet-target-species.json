@@ -2,7 +2,7 @@
     "resourceType": "ValueSet",
     "id": "target-species",
     "meta": {
-        "lastUpdated": "2022-03-04T09:04:06.196+11:00",
+        "lastUpdated": "2022-04-24T09:21:35.043+11:00",
         "profile": [
             "http://hl7.org/fhir/StructureDefinition/shareablevalueset"
         ]
@@ -28,7 +28,7 @@
             "value": "urn:oid:2.16.840.1.113883.4.642.3.1588"
         }
     ],
-    "version": "4.3.0-CIBUILD",
+    "version": "4.3.0-cibuild",
     "name": "TargetSpecies",
     "title": "TargetSpecies",
     "status": "draft",
@@ -59,8 +59,8 @@
         ]
     },
     "expansion": {
-        "identifier": "urn:uuid:131d7a79-c835-493e-be51-80a3b45f9db2",
-        "timestamp": "2022-03-03T22:05:31Z",
+        "identifier": "urn:uuid:5492b0a4-cda8-4529-a8da-51c991f18210",
+        "timestamp": "2022-04-23T22:23:26Z",
         "total": 200,
         "parameter": [
             {
@@ -73,7 +73,7 @@
             },
             {
                 "name": "version",
-                "valueUri": "http://hl7.org/fhir/target-species|4.3.0-CIBUILD"
+                "valueUri": "http://hl7.org/fhir/target-species|4.3.0-cibuild"
             }
         ],
         "contains": [

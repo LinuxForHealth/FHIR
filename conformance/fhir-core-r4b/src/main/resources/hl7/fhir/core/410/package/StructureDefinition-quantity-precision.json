@@ -12,9 +12,10 @@
         }
     ],
     "url": "http://hl7.org/fhir/StructureDefinition/quantity-precision",
-    "version": "4.3.0-CIBUILD",
+    "version": "4.3.0-cibuild",
     "name": "precision",
     "status": "draft",
+    "experimental": false,
     "date": "2015-02-28",
     "publisher": "Health Level Seven, Inc. - FHIR Core WG",
     "contact": [
@@ -28,7 +29,7 @@
         }
     ],
     "description": "Explicit precision of the number. This is the number of significant decimal places after the decimal point, irrespective of how many are actually present in the explicitly represented decimal.",
-    "fhirVersion": "4.3.0-CIBUILD",
+    "fhirVersion": "4.3.0-cibuild",
     "mapping": [
         {
             "identity": "v2",

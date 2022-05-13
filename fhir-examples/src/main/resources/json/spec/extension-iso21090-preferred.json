@@ -12,9 +12,10 @@
     }
   ],
   "url": "http://hl7.org/fhir/StructureDefinition/iso21090-preferred",
-  "version": "4.3.0-CIBUILD",
+  "version": "4.3.0-cibuild",
   "name": "preferred",
   "status": "draft",
+  "experimental": false,
   "date": "2012-06-24",
   "publisher": "Health Level Seven International (Modeling and Methodology)",
   "contact": [
@@ -28,7 +29,7 @@
     }
   ],
   "description": "Flag denoting whether parent item is preferred - e.g., a preferred address or telephone number.",
-  "fhirVersion": "4.3.0-CIBUILD",
+  "fhirVersion": "4.3.0-cibuild",
   "mapping": [
     {
       "identity": "rim",

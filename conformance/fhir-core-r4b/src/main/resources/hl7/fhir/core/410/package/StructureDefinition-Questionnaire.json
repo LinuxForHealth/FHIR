@@ -2,7 +2,7 @@
     "resourceType": "StructureDefinition",
     "id": "Questionnaire",
     "meta": {
-        "lastUpdated": "2022-01-01T15:17:18.597Z"
+        "lastUpdated": "2022-04-23T22:21:35.043Z"
     },
     "text": {
         "status": "empty",
@@ -31,10 +31,11 @@
         }
     ],
     "url": "http://hl7.org/fhir/StructureDefinition/Questionnaire",
-    "version": "4.3.0-CIBUILD",
+    "version": "4.3.0-cibuild",
     "name": "Questionnaire",
     "status": "draft",
-    "date": "2022-01-01T15:17:18Z",
+    "experimental": false,
+    "date": "2022-04-23T22:21:35Z",
     "publisher": "Health Level Seven International (FHIR Infrastructure)",
     "contact": [
         {
@@ -56,7 +57,7 @@
     ],
     "description": "A structured set of questions intended to guide the collection of answers from end-users. Questionnaires provide detailed control over order, presentation, phraseology and grouping to allow coherent, consistent data collection.",
     "purpose": "To support structured, hierarchical registration of data gathered using digital forms and other questionnaires.  Questionnaires provide greater control over presentation and allow capture of data in a domain-independent way (i.e. capturing information that would otherwise require multiple distinct types of resources).",
-    "fhirVersion": "4.3.0-CIBUILD",
+    "fhirVersion": "4.3.0-cibuild",
     "mapping": [
         {
             "identity": "workflow",
@@ -122,7 +123,7 @@
                         "severity": "error",
                         "human": "If the resource is contained in another resource, it SHALL be referred to from elsewhere in the resource or SHALL refer to the containing resource",
                         "expression": "contained.where(((id.exists() and ('#'+id in (%resource.descendants().reference | %resource.descendants().as(canonical) | %resource.descendants().as(uri) | %resource.descendants().as(url)))) or descendants().where(reference = '#').exists() or descendants().where(as(canonical) = '#').exists() or descendants().where(as(uri) = '#').exists()).not()).trace('unmatched', id).empty()",
-                        "xpath": "not(exists(for $resource in . return (for $contained in $resource/f:contained return $contained[not(descendant::f:*/@value='#' or (exists(f:id) and $resource//f:*/@*=concat('#', $contained/*/f:id/@value)))])))",
+                        "xpath": "not(exists(for $contained in f:contained return $contained[not(exists(parent::*/descendant::f:reference/@value=concat('#', $contained/*/f:id/@value)) or exists(descendant::f:reference[@value='#']))]))",
                         "source": "http://hl7.org/fhir/StructureDefinition/DomainResource"
                     },
                     {
@@ -163,7 +164,7 @@
                         "key": "que-0",
                         "severity": "warning",
                         "human": "Name should be usable as an identifier for the module by machine processing applications such as code generation",
-                        "expression": "name.matches('[A-Z]([A-Za-z0-9_]){0,254}')",
+                        "expression": "name.exists() implies name.matches('[A-Z]([A-Za-z0-9_]){0,254}')",
                         "xpath": "not(exists(f:name/@value)) or matches(f:name/@value, '[A-Z]([A-Za-z0-9_]){0,254}')",
                         "source": "http://hl7.org/fhir/StructureDefinition/Questionnaire"
                     },
@@ -406,6 +407,16 @@
                 "type": [
                     {
                         "code": "Resource"
+                    }
+                ],
+                "constraint": [
+                    {
+                        "key": "dom-r4b",
+                        "severity": "warning",
+                        "human": "Containing new R4B resources within R4 resources may cause interoperability issues if instances are shared with R4 systems",
+                        "expression": "($this is Citation or $this is Evidence or $this is EvidenceReport or $this is EvidenceVariable or $this is MedicinalProductDefinition or $this is PackagedProductDefinition or $this is AdministrableProductDefinition or $this is Ingredient or $this is ClinicalUseDefinition or $this is RegulatedAuthorization or $this is SubstanceDefinition or $this is SubscriptionStatus or $this is SubscriptionTopic) implies (%resource is Citation or %resource is Evidence or %resource is EvidenceReport or %resource is EvidenceVariable or %resource is MedicinalProductDefinition or %resource is PackagedProductDefinition or %resource is AdministrableProductDefinition or %resource is Ingredient or %resource is ClinicalUseDefinition or %resource is RegulatedAuthorization or %resource is SubstanceDefinition or %resource is SubscriptionStatus or %resource is SubscriptionTopic)",
+                        "xpath": "not(f:Citation|f:Evidence|f:EvidenceReport|f:EvidenceVariable|f:MedicinalProductDefinition|f:PackagedProductDefinition|f:AdministrableProductDefinition|f:Ingredient|f:ClinicalUseDefinition|f:RegulatedAuthorization|f:SubstanceDefinition|f:SubscriptionStatus|f:SubscriptionTopic) or not(parent::f:Citation|parent::f:Evidence|parent::f:EvidenceReport|parent::f:EvidenceVariable|parent::f:MedicinalProductDefinition|parent::f:PackagedProductDefinition|parent::f:AdministrableProductDefinition|parent::f:Ingredient|parent::f:ClinicalUseDefinition|parent::f:RegulatedAuthorization|parent::f:SubstanceDefinition|f:SubscriptionStatus|f:SubscriptionTopic)",
+                        "source": "http://hl7.org/fhir/StructureDefinition/Questionnaire"
                     }
                 ],
                 "mustSupport": false,
@@ -835,7 +846,7 @@
                     ],
                     "strength": "required",
                     "description": "The lifecycle status of an artifact.",
-                    "valueSet": "http://hl7.org/fhir/ValueSet/publication-status|4.3.0-CIBUILD"
+                    "valueSet": "http://hl7.org/fhir/ValueSet/publication-status|4.3.0-cibuild"
                 },
                 "mapping": [
                     {
@@ -943,7 +954,7 @@
                     ],
                     "strength": "required",
                     "description": "One of the resource types defined as part of this version of FHIR.",
-                    "valueSet": "http://hl7.org/fhir/ValueSet/resource-types|4.3.0-CIBUILD"
+                    "valueSet": "http://hl7.org/fhir/ValueSet/resource-types|4.3.0-cibuild"
                 },
                 "mapping": [
                     {
@@ -1556,11 +1567,27 @@
                         "source": "http://hl7.org/fhir/StructureDefinition/Element"
                     },
                     {
-                        "key": "que-1",
+                        "key": "que-1a",
                         "severity": "error",
-                        "human": "Group items must have nested items, display items cannot have nested items",
-                        "expression": "(type='group' implies item.empty().not()) and (type.trace('type')='display' implies item.trace('item').empty())",
-                        "xpath": "not((f:type/@value='group' and not(f:item)) or (f:type/@value='display' and f:item))",
+                        "human": "Group items must have nested items when Questionanire is complete",
+                        "expression": "(type='group' and %resource.status='complete') implies item.empty().not()",
+                        "xpath": "not(f:type/@value='group' and ancestor::f:Questionnaire/f:status/@value='complete' and not(exists(f:item)))",
+                        "source": "http://hl7.org/fhir/StructureDefinition/Questionnaire"
+                    },
+                    {
+                        "key": "que-1b",
+                        "severity": "warning",
+                        "human": "Groups should have items",
+                        "expression": "type='group' implies item.empty().not()",
+                        "xpath": "not(f:type/@value='group' and not(exists(f:item)))",
+                        "source": "http://hl7.org/fhir/StructureDefinition/Questionnaire"
+                    },
+                    {
+                        "key": "que-1c",
+                        "severity": "error",
+                        "human": "Display items cannot have child items",
+                        "expression": "type='display' implies item.empty()",
+                        "xpath": "not(f:type/@value='display' and exists(f:item))",
                         "source": "http://hl7.org/fhir/StructureDefinition/Questionnaire"
                     },
                     {
@@ -1584,7 +1611,7 @@
                         "severity": "error",
                         "human": "Only 'choice' and 'open-choice' items can have answerValueSet",
                         "expression": "(type ='choice' or type = 'open-choice' or type = 'decimal' or type = 'integer' or type = 'date' or type = 'dateTime' or type = 'time' or type = 'string' or type = 'quantity') or (answerValueSet.empty() and answerOption.empty())",
-                        "xpath": "f:type/@value=('choice','open-choice','decimal','integer','date','dateTime','time','string','quantity',') or not(f:answerOption or f:answerValueSet)",
+                        "xpath": "f:type/@value=('choice','open-choice','decimal','integer','date','dateTime','time','string','quantity') or not(f:answerOption or f:answerValueSet)",
                         "source": "http://hl7.org/fhir/StructureDefinition/Questionnaire"
                     },
                     {
@@ -1632,7 +1659,7 @@
                         "severity": "error",
                         "human": "If there are more than one enableWhen, enableBehavior must be specified",
                         "expression": "enableWhen.count() > 1 implies enableBehavior.exists()",
-                        "xpath": "not(f:answerOption) or not(count(f:*[starts-with(local-name(.), 'initial')]))",
+                        "xpath": "not(count(f:enableWhen) > 1) or exists(f:enableBehavior)",
                         "source": "http://hl7.org/fhir/StructureDefinition/Questionnaire"
                     },
                     {
@@ -1674,7 +1701,7 @@
                         "extension": [
                             {
                                 "url": "http://hl7.org/fhir/StructureDefinition/structuredefinition-fhir-type",
-                                "valueUrl": "id"
+                                "valueUrl": "string"
                             }
                         ],
                         "code": "http://hl7.org/fhirpath/System.String"
@@ -2042,7 +2069,7 @@
                     ],
                     "strength": "required",
                     "description": "Distinguishes groups from questions and display text and indicates data type for questions.",
-                    "valueSet": "http://hl7.org/fhir/ValueSet/item-type|4.3.0-CIBUILD"
+                    "valueSet": "http://hl7.org/fhir/ValueSet/item-type|4.3.0-cibuild"
                 },
                 "mapping": [
                     {
@@ -2119,7 +2146,7 @@
                         "extension": [
                             {
                                 "url": "http://hl7.org/fhir/StructureDefinition/structuredefinition-fhir-type",
-                                "valueUrl": "id"
+                                "valueUrl": "string"
                             }
                         ],
                         "code": "http://hl7.org/fhirpath/System.String"
@@ -2312,7 +2339,7 @@
                     ],
                     "strength": "required",
                     "description": "The criteria by which a question is enabled.",
-                    "valueSet": "http://hl7.org/fhir/ValueSet/questionnaire-enable-operator|4.3.0-CIBUILD"
+                    "valueSet": "http://hl7.org/fhir/ValueSet/questionnaire-enable-operator|4.3.0-cibuild"
                 },
                 "mapping": [
                     {
@@ -2445,7 +2472,7 @@
                     ],
                     "strength": "required",
                     "description": "Controls how multiple enableWhen values are interpreted -  whether all or any must be true.",
-                    "valueSet": "http://hl7.org/fhir/ValueSet/questionnaire-enable-behavior|4.3.0-CIBUILD"
+                    "valueSet": "http://hl7.org/fhir/ValueSet/questionnaire-enable-behavior|4.3.0-cibuild"
                 },
                 "mapping": [
                     {
@@ -2733,7 +2760,7 @@
                         "extension": [
                             {
                                 "url": "http://hl7.org/fhir/StructureDefinition/structuredefinition-fhir-type",
-                                "valueUrl": "id"
+                                "valueUrl": "string"
                             }
                         ],
                         "code": "http://hl7.org/fhirpath/System.String"
@@ -3018,7 +3045,7 @@
                         "extension": [
                             {
                                 "url": "http://hl7.org/fhir/StructureDefinition/structuredefinition-fhir-type",
-                                "valueUrl": "id"
+                                "valueUrl": "string"
                             }
                         ],
                         "code": "http://hl7.org/fhirpath/System.String"
@@ -3235,7 +3262,9 @@
                 },
                 "contentReference": "#Questionnaire.item",
                 "condition": [
-                    "que-1"
+                    "que-1a",
+                    "que-1b",
+                    "que-1c"
                 ],
                 "constraint": [
                     {
@@ -3286,7 +3315,7 @@
                         "key": "que-0",
                         "severity": "warning",
                         "human": "Name should be usable as an identifier for the module by machine processing applications such as code generation",
-                        "expression": "name.matches('[A-Z]([A-Za-z0-9_]){0,254}')",
+                        "expression": "name.exists() implies name.matches('[A-Z]([A-Za-z0-9_]){0,254}')",
                         "xpath": "not(exists(f:name/@value)) or matches(f:name/@value, '[A-Z]([A-Za-z0-9_]){0,254}')",
                         "source": "http://hl7.org/fhir/StructureDefinition/Questionnaire"
                     }
@@ -3518,7 +3547,7 @@
                     ],
                     "strength": "required",
                     "description": "The lifecycle status of an artifact.",
-                    "valueSet": "http://hl7.org/fhir/ValueSet/publication-status|4.3.0-CIBUILD"
+                    "valueSet": "http://hl7.org/fhir/ValueSet/publication-status|4.3.0-cibuild"
                 },
                 "mapping": [
                     {
@@ -3596,7 +3625,7 @@
                     ],
                     "strength": "required",
                     "description": "One of the resource types defined as part of this version of FHIR.",
-                    "valueSet": "http://hl7.org/fhir/ValueSet/resource-types|4.3.0-CIBUILD"
+                    "valueSet": "http://hl7.org/fhir/ValueSet/resource-types|4.3.0-cibuild"
                 },
                 "mapping": [
                     {
@@ -4044,7 +4073,7 @@
                         "severity": "error",
                         "human": "Only 'choice' and 'open-choice' items can have answerValueSet",
                         "expression": "(type ='choice' or type = 'open-choice' or type = 'decimal' or type = 'integer' or type = 'date' or type = 'dateTime' or type = 'time' or type = 'string' or type = 'quantity') or (answerValueSet.empty() and answerOption.empty())",
-                        "xpath": "f:type/@value=('choice','open-choice','decimal','integer','date','dateTime','time','string','quantity',') or not(f:answerOption or f:answerValueSet)",
+                        "xpath": "f:type/@value=('choice','open-choice','decimal','integer','date','dateTime','time','string','quantity') or not(f:answerOption or f:answerValueSet)",
                         "source": "http://hl7.org/fhir/StructureDefinition/Questionnaire"
                     },
                     {
@@ -4064,19 +4093,35 @@
                         "source": "http://hl7.org/fhir/StructureDefinition/Questionnaire"
                     },
                     {
+                        "key": "que-1c",
+                        "severity": "error",
+                        "human": "Display items cannot have child items",
+                        "expression": "type='display' implies item.empty()",
+                        "xpath": "not(f:type/@value='display' and exists(f:item))",
+                        "source": "http://hl7.org/fhir/StructureDefinition/Questionnaire"
+                    },
+                    {
+                        "key": "que-1a",
+                        "severity": "error",
+                        "human": "Group items must have nested items when Questionanire is complete",
+                        "expression": "(type='group' and %resource.status='complete') implies item.empty().not()",
+                        "xpath": "not(f:type/@value='group' and ancestor::f:Questionnaire/f:status/@value='complete' and not(exists(f:item)))",
+                        "source": "http://hl7.org/fhir/StructureDefinition/Questionnaire"
+                    },
+                    {
+                        "key": "que-1b",
+                        "severity": "warning",
+                        "human": "Groups should have items",
+                        "expression": "type='group' implies item.empty().not()",
+                        "xpath": "not(f:type/@value='group' and not(exists(f:item)))",
+                        "source": "http://hl7.org/fhir/StructureDefinition/Questionnaire"
+                    },
+                    {
                         "key": "que-10",
                         "severity": "error",
                         "human": "Maximum length can only be declared for simple question types",
                         "expression": "(type in ('boolean' | 'decimal' | 'integer' | 'string' | 'text' | 'url' | 'open-choice')) or maxLength.empty()",
                         "xpath": "f:type/@value=('boolean', 'decimal', 'integer', 'open-choice', 'string', 'text', 'url') or not(f:maxLength)",
-                        "source": "http://hl7.org/fhir/StructureDefinition/Questionnaire"
-                    },
-                    {
-                        "key": "que-1",
-                        "severity": "error",
-                        "human": "Group items must have nested items, display items cannot have nested items",
-                        "expression": "(type='group' implies item.empty().not()) and (type.trace('type')='display' implies item.trace('item').empty())",
-                        "xpath": "not((f:type/@value='group' and not(f:item)) or (f:type/@value='display' and f:item))",
                         "source": "http://hl7.org/fhir/StructureDefinition/Questionnaire"
                     },
                     {
@@ -4100,7 +4145,7 @@
                         "severity": "error",
                         "human": "If there are more than one enableWhen, enableBehavior must be specified",
                         "expression": "enableWhen.count() > 1 implies enableBehavior.exists()",
-                        "xpath": "not(f:answerOption) or not(count(f:*[starts-with(local-name(.), 'initial')]))",
+                        "xpath": "not(count(f:enableWhen) > 1) or exists(f:enableBehavior)",
                         "source": "http://hl7.org/fhir/StructureDefinition/Questionnaire"
                     }
                 ],
@@ -4276,7 +4321,7 @@
                     ],
                     "strength": "required",
                     "description": "Distinguishes groups from questions and display text and indicates data type for questions.",
-                    "valueSet": "http://hl7.org/fhir/ValueSet/item-type|4.3.0-CIBUILD"
+                    "valueSet": "http://hl7.org/fhir/ValueSet/item-type|4.3.0-cibuild"
                 },
                 "mapping": [
                     {
@@ -4367,7 +4412,7 @@
                     ],
                     "strength": "required",
                     "description": "The criteria by which a question is enabled.",
-                    "valueSet": "http://hl7.org/fhir/ValueSet/questionnaire-enable-operator|4.3.0-CIBUILD"
+                    "valueSet": "http://hl7.org/fhir/ValueSet/questionnaire-enable-operator|4.3.0-cibuild"
                 },
                 "mapping": [
                     {
@@ -4470,7 +4515,7 @@
                     ],
                     "strength": "required",
                     "description": "Controls how multiple enableWhen values are interpreted -  whether all or any must be true.",
-                    "valueSet": "http://hl7.org/fhir/ValueSet/questionnaire-enable-behavior|4.3.0-CIBUILD"
+                    "valueSet": "http://hl7.org/fhir/ValueSet/questionnaire-enable-behavior|4.3.0-cibuild"
                 },
                 "mapping": [
                     {
@@ -4833,7 +4878,9 @@
                 "max": "*",
                 "contentReference": "#Questionnaire.item",
                 "condition": [
-                    "que-1"
+                    "que-1a",
+                    "que-1b",
+                    "que-1c"
                 ],
                 "mustSupport": false,
                 "isModifier": false,

@@ -12,13 +12,14 @@
         }
     ],
     "url": "http://hl7.org/fhir/StructureDefinition/codesystem-map",
-    "version": "4.3.0-CIBUILD",
+    "version": "4.3.0-cibuild",
     "name": "map",
     "status": "draft",
+    "experimental": false,
     "date": "2021-01-17T07:06:13+11:00",
     "publisher": "HL7",
     "description": "A reference to a concept map that is relevant for the interpretation of this value set.",
-    "fhirVersion": "4.3.0-CIBUILD",
+    "fhirVersion": "4.3.0-cibuild",
     "mapping": [
         {
             "identity": "rim",

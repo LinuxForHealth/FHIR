@@ -12,10 +12,11 @@
         }
     ],
     "url": "http://hl7.org/fhir/StructureDefinition/bodySite",
-    "version": "4.3.0-CIBUILD",
+    "version": "4.3.0-cibuild",
     "name": "BodyStructure Reference",
     "title": "Body Site",
     "status": "draft",
+    "experimental": false,
     "date": "2013-12-05",
     "publisher": "Health Level Seven International (FHIR Infrastructure)",
     "contact": [
@@ -29,7 +30,7 @@
         }
     ],
     "description": "Record details about the anatomical location of a specimen or body part. This resource may be used when a coded concept does not provide the necessary detail needed for the use case.",
-    "fhirVersion": "4.3.0-CIBUILD",
+    "fhirVersion": "4.3.0-cibuild",
     "mapping": [
         {
             "identity": "rim",

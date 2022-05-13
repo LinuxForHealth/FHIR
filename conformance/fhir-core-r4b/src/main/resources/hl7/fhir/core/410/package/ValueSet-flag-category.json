@@ -2,7 +2,7 @@
     "resourceType": "ValueSet",
     "id": "flag-category",
     "meta": {
-        "lastUpdated": "2022-03-03T22:04:06.196Z",
+        "lastUpdated": "2022-04-23T22:21:35.043Z",
         "profile": [
             "http://hl7.org/fhir/StructureDefinition/shareablevalueset"
         ]
@@ -28,7 +28,7 @@
             "value": "urn:oid:2.16.840.1.113883.4.642.3.122"
         }
     ],
-    "version": "4.3.0-CIBUILD",
+    "version": "4.3.0-cibuild",
     "name": "FlagCategory",
     "title": "Flag Category",
     "status": "draft",
@@ -53,8 +53,8 @@
         ]
     },
     "expansion": {
-        "identifier": "urn:uuid:9077eabe-840f-48bd-9148-e3eeab8e2ef6",
-        "timestamp": "2022-03-03T22:05:30Z",
+        "identifier": "urn:uuid:309a422f-fb9a-4a34-b8a1-fa569b01c31c",
+        "timestamp": "2022-04-23T22:23:26Z",
         "total": 10,
         "parameter": [
             {
@@ -67,7 +67,7 @@
             },
             {
                 "name": "version",
-                "valueUri": "http://terminology.hl7.org/CodeSystem/flag-category|4.3.0-CIBUILD"
+                "valueUri": "http://terminology.hl7.org/CodeSystem/flag-category|4.3.0-cibuild"
             }
         ],
         "contains": [

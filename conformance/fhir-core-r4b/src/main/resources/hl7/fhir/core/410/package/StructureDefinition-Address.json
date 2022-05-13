@@ -2,7 +2,7 @@
     "resourceType": "StructureDefinition",
     "id": "Address",
     "meta": {
-        "lastUpdated": "2022-01-01T15:17:18.597Z"
+        "lastUpdated": "2022-04-23T22:21:35.043Z"
     },
     "text": {
         "status": "empty",
@@ -19,10 +19,11 @@
         }
     ],
     "url": "http://hl7.org/fhir/StructureDefinition/Address",
-    "version": "4.3.0-CIBUILD",
+    "version": "4.3.0-cibuild",
     "name": "Address",
     "status": "active",
-    "date": "2022-01-01T15:17:18Z",
+    "experimental": false,
+    "date": "2022-04-23T22:21:35Z",
     "publisher": "HL7 FHIR Standard",
     "contact": [
         {
@@ -36,7 +37,7 @@
     ],
     "description": "Base StructureDefinition for Address Type: An address expressed using postal conventions (as opposed to GPS or other location definition formats).  This data type may be used to convey addresses for use in delivering mail as well as for visiting locations which might not be valid for mail delivery.  There are a variety of postal address formats defined around the world.",
     "purpose": "Need to be able to record postal addresses, along with notes about their use.",
-    "fhirVersion": "4.3.0-CIBUILD",
+    "fhirVersion": "4.3.0-cibuild",
     "mapping": [
         {
             "identity": "v2",
@@ -267,7 +268,7 @@
                     ],
                     "strength": "required",
                     "description": "The use of an address (home / work / etc.).",
-                    "valueSet": "http://hl7.org/fhir/ValueSet/address-use|4.3.0-CIBUILD"
+                    "valueSet": "http://hl7.org/fhir/ValueSet/address-use|4.3.0-cibuild"
                 },
                 "mapping": [
                     {
@@ -333,7 +334,7 @@
                     ],
                     "strength": "required",
                     "description": "The type of an address (physical / postal).",
-                    "valueSet": "http://hl7.org/fhir/ValueSet/address-type|4.3.0-CIBUILD"
+                    "valueSet": "http://hl7.org/fhir/ValueSet/address-type|4.3.0-cibuild"
                 },
                 "mapping": [
                     {
@@ -849,7 +850,7 @@
                     ],
                     "strength": "required",
                     "description": "The use of an address (home / work / etc.).",
-                    "valueSet": "http://hl7.org/fhir/ValueSet/address-use|4.3.0-CIBUILD"
+                    "valueSet": "http://hl7.org/fhir/ValueSet/address-use|4.3.0-cibuild"
                 },
                 "mapping": [
                     {
@@ -899,7 +900,7 @@
                     ],
                     "strength": "required",
                     "description": "The type of an address (physical / postal).",
-                    "valueSet": "http://hl7.org/fhir/ValueSet/address-type|4.3.0-CIBUILD"
+                    "valueSet": "http://hl7.org/fhir/ValueSet/address-type|4.3.0-cibuild"
                 },
                 "mapping": [
                     {

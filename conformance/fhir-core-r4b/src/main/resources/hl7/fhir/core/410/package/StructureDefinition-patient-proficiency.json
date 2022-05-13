@@ -12,14 +12,15 @@
         }
     ],
     "url": "http://hl7.org/fhir/StructureDefinition/patient-proficiency",
-    "version": "4.3.0-CIBUILD",
+    "version": "4.3.0-cibuild",
     "name": "proficiency",
     "title": "proficiency",
     "status": "draft",
+    "experimental": false,
     "date": "2021-01-17T07:06:13+11:00",
     "publisher": "HL7",
     "description": "Proficiency level of the communication.",
-    "fhirVersion": "4.3.0-CIBUILD",
+    "fhirVersion": "4.3.0-cibuild",
     "mapping": [
         {
             "identity": "rim",
@@ -700,9 +701,6 @@
                         "code": "CodeableConcept"
                     },
                     {
-                        "code": "CodeableReference"
-                    },
-                    {
                         "code": "Coding"
                     },
                     {
@@ -737,9 +735,6 @@
                     },
                     {
                         "code": "Ratio"
-                    },
-                    {
-                        "code": "RatioRange"
                     },
                     {
                         "code": "Reference"

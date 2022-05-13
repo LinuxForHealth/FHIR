@@ -2,7 +2,7 @@
     "resourceType": "ValueSet",
     "id": "duration-units",
     "meta": {
-        "lastUpdated": "2022-03-03T22:04:06.196Z",
+        "lastUpdated": "2022-04-23T22:21:35.043Z",
         "profile": [
             "http://hl7.org/fhir/StructureDefinition/shareablevalueset"
         ]
@@ -32,12 +32,12 @@
             "value": "urn:oid:2.16.840.1.113883.4.642.3.61"
         }
     ],
-    "version": "4.3.0-CIBUILD",
+    "version": "4.3.0-cibuild",
     "name": "CommonUCUMCodesForDuration",
     "title": "Common UCUM Codes for Duration",
     "status": "active",
     "experimental": false,
-    "date": "2022-03-03T22:04:06Z",
+    "date": "2022-04-23T22:21:35Z",
     "publisher": "FHIR Project team",
     "contact": [
         {
@@ -93,11 +93,12 @@
         ]
     },
     "expansion": {
-        "identifier": "urn:uuid:63f08b6d-d78f-44f4-bd11-301ec776076a",
-        "timestamp": "2021-11-17T05:28:34.746Z",
+        "identifier": "urn:uuid:b59af079-c506-42fa-8eaa-ab95ffbc1533",
+        "timestamp": "2022-04-23T22:23:26Z",
+        "total": 8,
         "parameter": [
             {
-                "name": "limitedExpansion",
+                "name": "excludeNested",
                 "valueBoolean": true
             },
             {
@@ -105,7 +106,7 @@
                 "valueBoolean": true
             },
             {
-                "name": "excludeNested",
+                "name": "limitedExpansion",
                 "valueBoolean": true
             },
             {
@@ -117,80 +118,80 @@
             {
                 "system": "http://unitsofmeasure.org",
                 "code": "ms",
-                "display": "ms",
+                "display": "milliseconds",
                 "designation": [
                     {
-                        "value": "ms"
+                        "value": "milliseconds"
                     }
                 ]
             },
             {
                 "system": "http://unitsofmeasure.org",
                 "code": "s",
-                "display": "s",
+                "display": "seconds",
                 "designation": [
                     {
-                        "value": "s"
+                        "value": "seconds"
                     }
                 ]
             },
             {
                 "system": "http://unitsofmeasure.org",
                 "code": "min",
-                "display": "min",
+                "display": "minutes",
                 "designation": [
                     {
-                        "value": "min"
+                        "value": "minutes"
                     }
                 ]
             },
             {
                 "system": "http://unitsofmeasure.org",
                 "code": "h",
-                "display": "h",
+                "display": "hours",
                 "designation": [
                     {
-                        "value": "h"
+                        "value": "hours"
                     }
                 ]
             },
             {
                 "system": "http://unitsofmeasure.org",
                 "code": "d",
-                "display": "d",
+                "display": "days",
                 "designation": [
                     {
-                        "value": "d"
+                        "value": "days"
                     }
                 ]
             },
             {
                 "system": "http://unitsofmeasure.org",
                 "code": "wk",
-                "display": "wk",
+                "display": "weeks",
                 "designation": [
                     {
-                        "value": "wk"
+                        "value": "weeks"
                     }
                 ]
             },
             {
                 "system": "http://unitsofmeasure.org",
                 "code": "mo",
-                "display": "mo",
+                "display": "months",
                 "designation": [
                     {
-                        "value": "mo"
+                        "value": "months"
                     }
                 ]
             },
             {
                 "system": "http://unitsofmeasure.org",
                 "code": "a",
-                "display": "a",
+                "display": "years",
                 "designation": [
                     {
-                        "value": "a"
+                        "value": "years"
                     }
                 ]
             }

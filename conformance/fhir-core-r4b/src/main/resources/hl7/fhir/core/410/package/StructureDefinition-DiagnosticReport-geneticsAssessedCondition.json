@@ -12,9 +12,10 @@
         }
     ],
     "url": "http://hl7.org/fhir/StructureDefinition/DiagnosticReport-geneticsAssessedCondition",
-    "version": "4.3.0-CIBUILD",
+    "version": "4.3.0-cibuild",
     "name": "AssessedCondition",
     "status": "draft",
+    "experimental": false,
     "date": "2015-10-09",
     "publisher": "Health Level Seven International (Clinical Genomics)",
     "contact": [
@@ -28,7 +29,7 @@
         }
     ],
     "description": "Used to denote condition context for genetic testing, which may influence reported variants and interpretation for large genomic testing panels e.g. lung cancer or familial breast cancer.",
-    "fhirVersion": "4.3.0-CIBUILD",
+    "fhirVersion": "4.3.0-cibuild",
     "mapping": [
         {
             "identity": "v2",

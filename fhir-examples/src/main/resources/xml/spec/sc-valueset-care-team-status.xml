@@ -10,7 +10,7 @@
         <a href="valueset-care-team-status.html">http://hl7.org/fhir/ValueSet/care-team-status</a> to 
         <a href="valueset-resource-status.html">http://hl7.org/fhir/ValueSet/resource-status</a>
       </p>
-      <p>DRAFT. Published on Jan 16, 2021 8:06:13 PM by HL7 (FHIR Project) (
+      <p>DRAFT. Published on 2021-01-16T20:06:13Z by HL7 (FHIR Project) (
         <a href="http://hl7.org/fhir">http://hl7.org/fhir</a>, 
         <a href="mailto:fhir@lists.hl7.org">fhir@lists.hl7.org</a>). 
       </p>
@@ -29,6 +29,12 @@
           </td>
           <td>
             <b>Destination Code</b>
+          </td>
+        </tr>
+        <tr>
+          <td colspan="3">Mapping from 
+            <a href="codesystem-care-team-status.html">CareTeamStatus</a> to 
+            <a href="codesystem-resource-status.html">Canonical Status Codes for FHIR Resources</a>
           </td>
         </tr>
         <tr>
@@ -70,10 +76,11 @@
     </div>
   </text>
   <url value="http://hl7.org/fhir/ConceptMap/sc-care-team-status"/>
-  <version value="4.3.0-CIBUILD"/>
+  <version value="4.3.0-cibuild"/>
   <name value="CareTeamStatusCanonicalMap"/>
   <title value="Canonical Mapping for &quot;CareTeamStatus&quot;"/>
   <status value="draft"/>
+  <experimental value="false"/>
   <date value="2021-01-16T20:06:13+00:00"/>
   <publisher value="HL7 (FHIR Project)"/>
   <contact>
@@ -96,35 +103,35 @@
       <code value="entered-in-error"/>
       <target>
         <code value="error"/>
-        <relationship value="equivalent"/>
+        <equivalence value="equivalent"/>
       </target>
     </element>
     <element>
       <code value="proposed"/>
       <target>
         <code value="proposed"/>
-        <relationship value="equivalent"/>
+        <equivalence value="equivalent"/>
       </target>
     </element>
     <element>
       <code value="active"/>
       <target>
         <code value="active"/>
-        <relationship value="equivalent"/>
+        <equivalence value="equivalent"/>
       </target>
     </element>
     <element>
       <code value="suspended"/>
       <target>
         <code value="suspended"/>
-        <relationship value="equivalent"/>
+        <equivalence value="equivalent"/>
       </target>
     </element>
     <element>
       <code value="inactive"/>
       <target>
         <code value="inactive"/>
-        <relationship value="equivalent"/>
+        <equivalence value="equivalent"/>
       </target>
     </element>
   </group>

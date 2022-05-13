@@ -12,10 +12,11 @@
         }
     ],
     "url": "http://hl7.org/fhir/StructureDefinition/workflow-instantiatesUri",
-    "version": "4.3.0-CIBUILD",
+    "version": "4.3.0-cibuild",
     "name": "instantiatesUri",
     "title": "Definition",
     "status": "draft",
+    "experimental": false,
     "date": "2017-12-06",
     "publisher": "Health Level Seven, Inc. - FHIR WG",
     "contact": [
@@ -29,7 +30,7 @@
         }
     ],
     "description": "The URL pointing to an externally maintained protocol, guideline, orderset or other definition that is adhered to in whole or in part by the event or request resource.",
-    "fhirVersion": "4.3.0-CIBUILD",
+    "fhirVersion": "4.3.0-cibuild",
     "mapping": [
         {
             "identity": "workflow",

@@ -12,9 +12,10 @@
         }
     ],
     "url": "http://hl7.org/fhir/StructureDefinition/timing-exact",
-    "version": "4.3.0-CIBUILD",
+    "version": "4.3.0-cibuild",
     "name": "exact",
     "status": "draft",
+    "experimental": false,
     "date": "2015-02-28",
     "publisher": "Health Level Seven, Inc. - MnM WG",
     "contact": [
@@ -28,7 +29,7 @@
         }
     ],
     "description": "If true, indicates that the specified times, frequencies, periods are expected to be adhered to as precisely as possible.  If false, indicates that a typical degree of variability based on institutional and/or patient convenience is acceptable.",
-    "fhirVersion": "4.3.0-CIBUILD",
+    "fhirVersion": "4.3.0-cibuild",
     "mapping": [
         {
             "identity": "v2",

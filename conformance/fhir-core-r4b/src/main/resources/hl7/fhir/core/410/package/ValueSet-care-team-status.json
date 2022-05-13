@@ -2,7 +2,7 @@
     "resourceType": "ValueSet",
     "id": "care-team-status",
     "meta": {
-        "lastUpdated": "2022-03-04T09:04:06.196+11:00",
+        "lastUpdated": "2022-04-24T09:21:35.043+11:00",
         "profile": [
             "http://hl7.org/fhir/StructureDefinition/shareablevalueset"
         ]
@@ -28,7 +28,7 @@
             "value": "urn:oid:2.16.840.1.113883.4.642.3.153"
         }
     ],
-    "version": "4.3.0-CIBUILD",
+    "version": "4.3.0-cibuild",
     "name": "CareTeamStatus",
     "title": "CareTeamStatus",
     "status": "draft",
@@ -59,8 +59,8 @@
         ]
     },
     "expansion": {
-        "identifier": "urn:uuid:9e007e21-6d5d-4930-81b6-04fbb464e6d2",
-        "timestamp": "2022-03-03T22:05:09Z",
+        "identifier": "urn:uuid:445bf7f7-e0ea-491a-be24-e152ef70abab",
+        "timestamp": "2022-04-23T22:23:07Z",
         "total": 5,
         "parameter": [
             {
@@ -73,7 +73,7 @@
             },
             {
                 "name": "version",
-                "valueUri": "http://hl7.org/fhir/care-team-status|4.3.0-CIBUILD"
+                "valueUri": "http://hl7.org/fhir/care-team-status|4.3.0-cibuild"
             }
         ],
         "contains": [

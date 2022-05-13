@@ -12,9 +12,10 @@
         }
     ],
     "url": "http://hl7.org/fhir/StructureDefinition/elementdefinition-question",
-    "version": "4.3.0-CIBUILD",
+    "version": "4.3.0-cibuild",
     "name": "question",
     "status": "draft",
+    "experimental": false,
     "date": "2015-02-28",
     "publisher": "Health Level Seven, Inc. - FHIR Core WG",
     "contact": [
@@ -28,7 +29,7 @@
         }
     ],
     "description": "The default/suggested phrasing to use when prompting a human to capture the data element in question form (e.g. In a survey).",
-    "fhirVersion": "4.3.0-CIBUILD",
+    "fhirVersion": "4.3.0-cibuild",
     "mapping": [
         {
             "identity": "rim",

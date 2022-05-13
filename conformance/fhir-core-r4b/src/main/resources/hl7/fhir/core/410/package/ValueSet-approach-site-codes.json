@@ -2,7 +2,7 @@
     "resourceType": "ValueSet",
     "id": "approach-site-codes",
     "meta": {
-        "lastUpdated": "2022-03-03T22:04:06.196Z",
+        "lastUpdated": "2022-04-23T22:21:35.043Z",
         "profile": [
             "http://hl7.org/fhir/StructureDefinition/shareablevalueset"
         ]
@@ -28,7 +28,7 @@
             "value": "urn:oid:2.16.840.1.113883.4.642.3.346"
         }
     ],
-    "version": "4.3.0-CIBUILD",
+    "version": "4.3.0-cibuild",
     "name": "SNOMEDCTAnatomicalStructureForAdministrationSiteCodes",
     "title": "SNOMED CT Anatomical Structure for Administration Site Codes",
     "status": "draft",
@@ -71,11 +71,12 @@
                 "valueBoolean": true
             }
         ],
-        "identifier": "urn:uuid:6d154326-3e6d-44ed-95dd-16df26a51a65",
-        "timestamp": "2021-11-17T05:28:43.439Z",
+        "identifier": "urn:uuid:d0e25d20-cb4e-4f38-91a6-6c3aa501f8d9",
+        "timestamp": "2022-04-23T22:23:26Z",
+        "total": 1000,
         "parameter": [
             {
-                "name": "limitedExpansion",
+                "name": "excludeNested",
                 "valueBoolean": true
             },
             {
@@ -83,12 +84,12 @@
                 "valueBoolean": true
             },
             {
-                "name": "excludeNested",
+                "name": "limitedExpansion",
                 "valueBoolean": true
             },
             {
                 "name": "version",
-                "valueUri": "http://snomed.info/sct|http://snomed.info/sct/900000000000207008/version/20200131"
+                "valueUri": "http://snomed.info/sct|http://snomed.info/sct/900000000000207008/version/20200731"
             }
         ],
         "contains": [
@@ -3510,12 +3511,6 @@
                     },
                     {
                         "value": "Structure of metencephalon of fetus (body structure)"
-                    },
-                    {
-                        "value": "Metencephalon of foetus"
-                    },
-                    {
-                        "value": "Structure of metencephalon of foetus"
                     }
                 ]
             },
@@ -3646,9 +3641,6 @@
                         "value": "Structure of mandibular left first premolar tooth"
                     },
                     {
-                        "value": "Structure of mandibular left first premolar tooth (body structure)"
-                    },
-                    {
                         "value": "Universal designation 21"
                     },
                     {
@@ -3668,6 +3660,12 @@
                     },
                     {
                         "value": "Lower left first bicuspid"
+                    },
+                    {
+                        "value": "Structure of permanent mandibular left first premolar tooth (body structure)"
+                    },
+                    {
+                        "value": "Structure of permanent mandibular left first premolar tooth"
                     }
                 ]
             },
@@ -8382,24 +8380,6 @@
                     },
                     {
                         "value": "Structure of maxillary right first molar tooth (body structure)"
-                    },
-                    {
-                        "value": "Permanent upper right 6 tooth"
-                    },
-                    {
-                        "value": "Permanent upper right first molar tooth"
-                    },
-                    {
-                        "value": "UR6 - Permanent upper right 6 tooth"
-                    },
-                    {
-                        "value": "ISO designation 16"
-                    },
-                    {
-                        "value": "Universal designation 3"
-                    },
-                    {
-                        "value": "Haderup designation 6+"
                     }
                 ]
             },
@@ -8906,19 +8886,6 @@
                     },
                     {
                         "value": "Structure of tegmental portion of pons (body structure)"
-                    }
-                ]
-            },
-            {
-                "system": "http://snomed.info/sct",
-                "code": "5542003",
-                "display": "Crista marginalis of tooth",
-                "designation": [
-                    {
-                        "value": "Crista marginalis of tooth"
-                    },
-                    {
-                        "value": "Crista marginalis of tooth (body structure)"
                     }
                 ]
             },
@@ -11724,24 +11691,6 @@
                     },
                     {
                         "value": "Structure of maxillary right second molar tooth (body structure)"
-                    },
-                    {
-                        "value": "Haderup designation 7+"
-                    },
-                    {
-                        "value": "ISO designation 17"
-                    },
-                    {
-                        "value": "Universal designation 2"
-                    },
-                    {
-                        "value": "Permanent upper right second molar tooth"
-                    },
-                    {
-                        "value": "UR7 - Permanent upper right 7 tooth"
-                    },
-                    {
-                        "value": "Permanent upper right 7 tooth"
                     }
                 ]
             },
@@ -14487,9 +14436,6 @@
                         "value": "Structure of mandibular right second premolar tooth"
                     },
                     {
-                        "value": "Structure of mandibular right second premolar tooth (body structure)"
-                    },
-                    {
                         "value": "Permanent lower right 5 tooth"
                     },
                     {
@@ -14509,6 +14455,12 @@
                     },
                     {
                         "value": "Lower right second bicuspid"
+                    },
+                    {
+                        "value": "Structure of permanent mandibular right second premolar tooth (body structure)"
+                    },
+                    {
+                        "value": "Structure of permanent mandibular right second premolar tooth"
                     }
                 ]
             },
@@ -16704,6 +16656,22 @@
                     },
                     {
                         "value": "Structure of parotid lymph node (body structure)"
+                    }
+                ]
+            },
+            {
+                "system": "http://snomed.info/sct",
+                "code": "10245000",
+                "display": "Abductor digiti minimi muscle of foot",
+                "designation": [
+                    {
+                        "value": "Abductor digiti minimi muscle of foot"
+                    },
+                    {
+                        "value": "Structure of abductor digiti minimi muscle of foot"
+                    },
+                    {
+                        "value": "Structure of abductor digiti minimi muscle of foot (body structure)"
                     }
                 ]
             }

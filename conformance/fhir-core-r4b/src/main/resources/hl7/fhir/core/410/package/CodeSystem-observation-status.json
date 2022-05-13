@@ -2,7 +2,7 @@
     "resourceType": "CodeSystem",
     "id": "observation-status",
     "meta": {
-        "lastUpdated": "2022-01-02T02:17:18.597+11:00",
+        "lastUpdated": "2022-04-24T09:21:35.043+11:00",
         "profile": [
             "http://hl7.org/fhir/StructureDefinition/shareablecodesystem"
         ]
@@ -14,7 +14,7 @@
     "extension": [
         {
             "url": "http://hl7.org/fhir/StructureDefinition/structuredefinition-wg",
-            "valueCode": "cds"
+            "valueCode": "oo"
         },
         {
             "url": "http://hl7.org/fhir/StructureDefinition/structuredefinition-standards-status",
@@ -36,7 +36,7 @@
             "value": "urn:oid:2.16.840.1.113883.4.642.4.401"
         }
     ],
-    "version": "4.3.0-CIBUILD",
+    "version": "4.3.0-cibuild",
     "name": "ObservationStatus",
     "title": "ObservationStatus",
     "status": "active",

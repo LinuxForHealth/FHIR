@@ -2,7 +2,7 @@
     "resourceType": "ValueSet",
     "id": "encounter-admit-source",
     "meta": {
-        "lastUpdated": "2022-03-03T22:04:06.196Z",
+        "lastUpdated": "2022-04-23T22:21:35.043Z",
         "profile": [
             "http://hl7.org/fhir/StructureDefinition/shareablevalueset"
         ]
@@ -20,9 +20,10 @@
             "value": "urn:oid:2.16.840.1.113883.4.642.3.257"
         }
     ],
-    "version": "4.3.0-CIBUILD",
+    "version": "4.3.0-cibuild",
     "name": "AdmitSource",
     "status": "draft",
+    "experimental": false,
     "publisher": "FHIR Project team",
     "contact": [
         {
@@ -43,8 +44,8 @@
         ]
     },
     "expansion": {
-        "identifier": "urn:uuid:4bdb2244-ee42-45d5-a830-3451f21c34f0",
-        "timestamp": "2022-03-03T22:05:31Z",
+        "identifier": "urn:uuid:ee970da5-63f5-48a4-a2d3-997400254777",
+        "timestamp": "2022-04-23T22:23:26Z",
         "total": 10,
         "parameter": [
             {
@@ -57,7 +58,7 @@
             },
             {
                 "name": "version",
-                "valueUri": "http://terminology.hl7.org/CodeSystem/admit-source|4.3.0-CIBUILD"
+                "valueUri": "http://terminology.hl7.org/CodeSystem/admit-source|4.3.0-cibuild"
             }
         ],
         "contains": [

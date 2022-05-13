@@ -59,7 +59,7 @@ public class TriggerDefinition extends Element {
     @Binding(
         bindingName = "TriggerType",
         strength = BindingStrength.Value.REQUIRED,
-        valueSet = "http://hl7.org/fhir/ValueSet/trigger-type|4.3.0-CIBUILD"
+        valueSet = "http://hl7.org/fhir/ValueSet/trigger-type|4.3.0-cibuild"
     )
     @Required
     private final TriggerType type;

@@ -2,7 +2,7 @@
     "resourceType": "ValueSet",
     "id": "variable-handling",
     "meta": {
-        "lastUpdated": "2022-03-04T09:04:06.196+11:00",
+        "lastUpdated": "2022-04-24T09:21:35.043+11:00",
         "profile": [
             "http://hl7.org/fhir/StructureDefinition/shareablevalueset"
         ]
@@ -10,7 +10,7 @@
     "extension": [
         {
             "url": "http://hl7.org/fhir/StructureDefinition/structuredefinition-wg",
-            "valueCode": "fhir"
+            "valueCode": "cds"
         },
         {
             "url": "http://hl7.org/fhir/StructureDefinition/structuredefinition-standards-status",
@@ -28,7 +28,7 @@
             "value": "urn:oid:2.16.840.1.113883.4.642.3.0"
         }
     ],
-    "version": "4.3.0-CIBUILD",
+    "version": "4.3.0-cibuild",
     "name": "EvidenceVariableHandling",
     "title": "EvidenceVariableHandling",
     "status": "draft",
@@ -59,8 +59,8 @@
         ]
     },
     "expansion": {
-        "identifier": "urn:uuid:93cc8b80-03ba-45e6-923e-5d2533a8029d",
-        "timestamp": "2022-03-03T22:05:09Z",
+        "identifier": "urn:uuid:9e76f2b7-e41e-4a00-b794-a27ef0f21bff",
+        "timestamp": "2022-04-23T22:23:07Z",
         "total": 4,
         "parameter": [
             {
@@ -73,7 +73,7 @@
             },
             {
                 "name": "version",
-                "valueUri": "http://hl7.org/fhir/variable-handling|4.3.0-CIBUILD"
+                "valueUri": "http://hl7.org/fhir/variable-handling|4.3.0-cibuild"
             }
         ],
         "contains": [

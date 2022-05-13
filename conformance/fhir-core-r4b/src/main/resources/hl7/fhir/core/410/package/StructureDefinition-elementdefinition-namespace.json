@@ -12,9 +12,10 @@
         }
     ],
     "url": "http://hl7.org/fhir/StructureDefinition/elementdefinition-namespace",
-    "version": "4.3.0-CIBUILD",
+    "version": "4.3.0-cibuild",
     "name": "namespace",
     "status": "draft",
+    "experimental": false,
     "date": "2015-02-28",
     "publisher": "Health Level Seven, Inc. - FHIR Core WG",
     "contact": [
@@ -28,7 +29,7 @@
         }
     ],
     "description": "Use this extension to indicate tha the element has an XML namespace different to http://hl7.org/fhir.",
-    "fhirVersion": "4.3.0-CIBUILD",
+    "fhirVersion": "4.3.0-cibuild",
     "mapping": [
         {
             "identity": "rim",

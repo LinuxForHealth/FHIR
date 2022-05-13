@@ -5,12 +5,96 @@
     {
       "resourceType": "ValueSet",
       "id": "vs2",
+      "name": "Type options for PackagedProductDefinition.package.shelfLifeStorage.period[x]",
+      "status": "active",
+      "description": "Type options for PackagedProductDefinition.package.shelfLifeStorage.period[x]",
+      "expansion": {
+        "identifier": "urn:uuid:5e4301e5-f338-4fec-b00d-55bdcbcc2eed",
+        "timestamp": "2022-04-23T22:30:21+00:00",
+        "contains": [
+          {
+            "system": "http://hl7.org/fhir/data-types",
+            "code": "Duration",
+            "display": "Duration"
+          },
+          {
+            "system": "http://hl7.org/fhir/data-types",
+            "code": "string",
+            "display": "string"
+          }
+        ]
+      }
+    },
+    {
+      "resourceType": "ValueSet",
+      "id": "vs3",
       "name": "Type options for PackagedProductDefinition.package.property.value[x]",
       "status": "active",
       "description": "Type options for PackagedProductDefinition.package.property.value[x]",
       "expansion": {
-        "identifier": "urn:uuid:80c4d848-dfd9-4440-9c36-9fa68209791a",
-        "timestamp": "2022-01-01T15:25:29+00:00",
+        "identifier": "urn:uuid:183a3f47-3bc9-4743-b827-2d18280ee184",
+        "timestamp": "2022-04-23T22:30:21+00:00",
+        "contains": [
+          {
+            "system": "http://hl7.org/fhir/data-types",
+            "code": "CodeableConcept",
+            "display": "CodeableConcept"
+          },
+          {
+            "system": "http://hl7.org/fhir/data-types",
+            "code": "Quantity",
+            "display": "Quantity"
+          },
+          {
+            "system": "http://hl7.org/fhir/data-types",
+            "code": "date",
+            "display": "date"
+          },
+          {
+            "system": "http://hl7.org/fhir/data-types",
+            "code": "boolean",
+            "display": "boolean"
+          },
+          {
+            "system": "http://hl7.org/fhir/data-types",
+            "code": "Attachment",
+            "display": "Attachment"
+          }
+        ]
+      }
+    },
+    {
+      "resourceType": "ValueSet",
+      "id": "vs4",
+      "name": "Type options for PackagedProductDefinition.package.shelfLifeStorage.period[x]",
+      "status": "active",
+      "description": "Type options for PackagedProductDefinition.package.shelfLifeStorage.period[x]",
+      "expansion": {
+        "identifier": "urn:uuid:c5b4618e-04f0-415f-9b60-eed93bb3e82d",
+        "timestamp": "2022-04-23T22:30:21+00:00",
+        "contains": [
+          {
+            "system": "http://hl7.org/fhir/data-types",
+            "code": "Duration",
+            "display": "Duration"
+          },
+          {
+            "system": "http://hl7.org/fhir/data-types",
+            "code": "string",
+            "display": "string"
+          }
+        ]
+      }
+    },
+    {
+      "resourceType": "ValueSet",
+      "id": "vs5",
+      "name": "Type options for PackagedProductDefinition.package.property.value[x]",
+      "status": "active",
+      "description": "Type options for PackagedProductDefinition.package.property.value[x]",
+      "expansion": {
+        "identifier": "urn:uuid:e957487f-318e-4832-a816-c4c18ec9278c",
+        "timestamp": "2022-04-23T22:30:21+00:00",
         "contains": [
           {
             "system": "http://hl7.org/fhir/data-types",
@@ -46,9 +130,10 @@
       "system": "urn:ietf:rfc:3986"
     }
   ],
-  "version": "4.3.0-CIBUILD",
+  "version": "4.3.0-cibuild",
   "status": "draft",
-  "date": "2022-01-01T15:17:18+00:00",
+  "experimental": false,
+  "date": "2022-04-23T22:21:35+00:00",
   "publisher": "Health Level Seven International (Biomedical Research and Regulation)",
   "item": [
     {
@@ -237,10 +322,9 @@
             {
               "linkId": "PackagedProductDefinition.language.value",
               "text": "language",
-              "type": "coding",
+              "type": "choice",
               "required": false,
-              "repeats": false,
-              "answerConstraint": "optionsOnly"
+              "repeats": false
             }
           ]
         },
@@ -370,7 +454,7 @@
             }
           ],
           "linkId": "PackagedProductDefinition.identifier",
-          "text": "Unique identifier",
+          "text": "A unique identifier for this package as whole",
           "type": "group",
           "required": false,
           "repeats": true,
@@ -391,7 +475,7 @@
                 }
               ],
               "linkId": "PackagedProductDefinition.identifier-flyover",
-              "text": "Unique identifier.",
+              "text": "A unique identifier for this package as whole. Unique instance identifiers assigned to a package by manufacturers, regulators, drug catalogue custodians or other organizations.",
               "type": "display"
             },
             {
@@ -454,7 +538,7 @@
             },
             {
               "linkId": "PackagedProductDefinition.name.value",
-              "text": "A name for this package. Typically what it would be listed as in a drug formulary or catalogue, inventory etc",
+              "text": "A name for this package. Typically as listed in a drug formulary, catalogue, inventory etc",
               "type": "string",
               "required": false,
               "repeats": false
@@ -473,7 +557,7 @@
             }
           ],
           "linkId": "PackagedProductDefinition.type",
-          "text": "A high level category e.g. medicinal product, raw material, shipping/transport container, etc",
+          "text": "A high level category e.g. medicinal product, raw material, shipping container etc",
           "type": "group",
           "required": false,
           "repeats": true,
@@ -500,10 +584,9 @@
             {
               "linkId": "PackagedProductDefinition.type.coding",
               "text": "code:",
-              "type": "coding",
+              "type": "choice",
               "required": false,
-              "repeats": false,
-              "answerConstraint": "optionsOnly"
+              "repeats": false
             },
             {
               "linkId": "PackagedProductDefinition.type.text",
@@ -576,7 +659,7 @@
             }
           ],
           "linkId": "PackagedProductDefinition.status",
-          "text": "The status within the lifecycle of this item. A high level status, this is not intended to duplicate details carried elsewhere such as legal status, or authorization or marketing status",
+          "text": "The status within the lifecycle of this item. High level - not intended to duplicate details elsewhere e.g. legal status, or authorization/marketing status",
           "type": "group",
           "required": false,
           "repeats": true,
@@ -603,10 +686,9 @@
             {
               "linkId": "PackagedProductDefinition.status.coding",
               "text": "code:",
-              "type": "coding",
+              "type": "choice",
               "required": false,
-              "repeats": false,
-              "answerConstraint": "optionsOnly"
+              "repeats": false
             },
             {
               "linkId": "PackagedProductDefinition.status.text",
@@ -669,7 +751,7 @@
             }
           ],
           "linkId": "PackagedProductDefinition.containedItemQuantity",
-          "text": "A total of the amount of items in the package, per item type. This can be considered as the pack size. This attribute differs from containedItem.amount in that it can give a single aggregated count of all tablet types in a pack, even when these are different manufactured items. For example a pill pack of 21 tablets plus 7 sugar tablets, can be denoted here as \u002728 tablets\u0027. This attribute is repeatable so that the different item types in one pack type can be counted (e.g. a count of vials and count of syringes). Each repeat must have different units, so that it is clear what the different sets of counted items are, and it is not intended to allow different counts of similar items (e.g. not \u00272 tubes and 3 tubes\u0027). Repeats are not to be used to represent different pack sizes (e.g. 20 pack vs. 50 pack) - which would be different instances of this resource",
+          "text": "A total of the complete count of contained items of a particular type/form, independent of sub-packaging or organization. This can be considered as the pack size",
           "type": "group",
           "required": false,
           "repeats": true,
@@ -690,16 +772,15 @@
                 }
               ],
               "linkId": "PackagedProductDefinition.containedItemQuantity-flyover",
-              "text": "A total of the amount of items in the package, per item type. This can be considered as the pack size. This attribute differs from containedItem.amount in that it can give a single aggregated count of all tablet types in a pack, even when these are different manufactured items. For example a pill pack of 21 tablets plus 7 sugar tablets, can be denoted here as \u002728 tablets\u0027. This attribute is repeatable so that the different item types in one pack type can be counted (e.g. a count of vials and count of syringes). Each repeat must have different units, so that it is clear what the different sets of counted items are, and it is not intended to allow different counts of similar items (e.g. not \u00272 tubes and 3 tubes\u0027). Repeats are not to be used to represent different pack sizes (e.g. 20 pack vs. 50 pack) - which would be different instances of this resource.",
+              "text": "A total of the complete count of contained items of a particular type/form, independent of sub-packaging or organization. This can be considered as the pack size. This attribute differs from containedItem.amount in that it can give a single aggregated count of all tablet types in a pack, even when these are different manufactured items. For example a pill pack of 21 tablets plus 7 sugar tablets, can be denoted here as \u002728 tablets\u0027. This attribute is repeatable so that the different item types in one pack type can be counted (e.g. a count of vials and count of syringes). Each repeat must have different units, so that it is clear what the different sets of counted items are, and it is not intended to allow different counts of similar items (e.g. not \u00272 tubes and 3 tubes\u0027). Repeats are not to be used to represent different pack sizes (e.g. 20 pack vs. 50 pack) - which would be different instances of this resource.",
               "type": "display"
             },
             {
               "linkId": "PackagedProductDefinition.containedItemQuantity.comparator",
               "text": "comp:",
-              "type": "coding",
+              "type": "choice",
               "required": false,
-              "repeats": false,
-              "answerConstraint": "optionsOnly"
+              "repeats": false
             },
             {
               "linkId": "PackagedProductDefinition.containedItemQuantity.value",
@@ -934,16 +1015,15 @@
                     }
                   ],
                   "linkId": "PackagedProductDefinition.legalStatusOfSupply.code-flyover",
-                  "text": "The actual status of supply. In what situation this package type may be supplied for use.",
+                  "text": "The actual status of supply. Conveys in what situation this package type may be supplied for use.",
                   "type": "display"
                 },
                 {
                   "linkId": "PackagedProductDefinition.legalStatusOfSupply.code.coding",
                   "text": "code:",
-                  "type": "coding",
+                  "type": "choice",
                   "required": false,
-                  "repeats": false,
-                  "answerConstraint": "optionsOnly"
+                  "repeats": false
                 },
                 {
                   "linkId": "PackagedProductDefinition.legalStatusOfSupply.code.text",
@@ -966,7 +1046,7 @@
                 }
               ],
               "linkId": "PackagedProductDefinition.legalStatusOfSupply.jurisdiction",
-              "text": "The place where the legal status of supply applies. When not specified, this indicates it is unknown in this context",
+              "text": "The place where the legal status of supply applies",
               "type": "group",
               "required": false,
               "repeats": true,
@@ -993,10 +1073,9 @@
                 {
                   "linkId": "PackagedProductDefinition.legalStatusOfSupply.jurisdiction.coding",
                   "text": "code:",
-                  "type": "coding",
+                  "type": "choice",
                   "required": false,
-                  "repeats": false,
-                  "answerConstraint": "optionsOnly"
+                  "repeats": false
                 },
                 {
                   "linkId": "PackagedProductDefinition.legalStatusOfSupply.jurisdiction.text",
@@ -1011,7 +1090,7 @@
         },
         {
           "linkId": "PackagedProductDefinition.marketingStatus",
-          "text": "Marketing information",
+          "text": "Allows specifying that an item is on the market for sale, or that it is not available, and the dates and locations associated",
           "type": "group",
           "required": false,
           "repeats": true,
@@ -1032,7 +1111,7 @@
                 }
               ],
               "linkId": "PackagedProductDefinition.marketingStatus-flyover",
-              "text": "Marketing information.",
+              "text": "Allows specifying that an item is on the market for sale, or that it is not available, and the dates and locations associated.",
               "type": "display"
             }
           ]
@@ -1045,7 +1124,7 @@
             }
           ],
           "linkId": "PackagedProductDefinition.characteristic",
-          "text": "Allows the key features to be recorded, such as \"hospital pack\", \"nurse prescribable\", \"calendar pack\"",
+          "text": "Allows the key features to be recorded, such as \"hospital pack\", \"nurse prescribable\"",
           "type": "group",
           "required": false,
           "repeats": true,
@@ -1072,10 +1151,9 @@
             {
               "linkId": "PackagedProductDefinition.characteristic.coding",
               "text": "code:",
-              "type": "coding",
+              "type": "choice",
               "required": false,
-              "repeats": false,
-              "answerConstraint": "optionsOnly"
+              "repeats": false
             },
             {
               "linkId": "PackagedProductDefinition.characteristic.text",
@@ -1123,7 +1201,7 @@
             },
             {
               "linkId": "PackagedProductDefinition.copackagedIndicator.value",
-              "text": "States whether a drug product is supplied with another item such as a diluent or adjuvant",
+              "text": "If the drug product is supplied with another item such as a diluent or adjuvant",
               "type": "boolean",
               "required": false,
               "repeats": false
@@ -1173,7 +1251,7 @@
                 }
               ],
               "linkId": "PackagedProductDefinition.manufacturer.value",
-              "text": "Manufacturer of this package type. When there are multiple it means these are all possible manufacturers",
+              "text": "Manufacturer of this package type (multiple means these are all possible manufacturers)",
               "type": "reference",
               "required": false,
               "repeats": false
@@ -1188,7 +1266,7 @@
             }
           ],
           "linkId": "PackagedProductDefinition.package",
-          "text": "A packaging item, as a container for medically related items, possibly with other packaging items within, or a packaging component, such as bottle cap (which is not a device or a medication manufactured item)",
+          "text": "A packaging item, as a container for medically related items, possibly with other packaging items within, or a packaging component, such as bottle cap",
           "type": "group",
           "required": false,
           "repeats": false,
@@ -1320,7 +1398,7 @@
                 }
               ],
               "linkId": "PackagedProductDefinition.package.identifier",
-              "text": "Including possibly Data Carrier Identifier",
+              "text": "An identifier that is specific to this particular part of the packaging. Including possibly a Data Carrier Identifier",
               "type": "group",
               "required": false,
               "repeats": true,
@@ -1341,7 +1419,7 @@
                     }
                   ],
                   "linkId": "PackagedProductDefinition.package.identifier-flyover",
-                  "text": "Including possibly Data Carrier Identifier.",
+                  "text": "An identifier that is specific to this particular part of the packaging. Including possibly Data Carrier Identifier (a GS1 barcode).",
                   "type": "display"
                 },
                 {
@@ -1406,10 +1484,9 @@
                 {
                   "linkId": "PackagedProductDefinition.package.type.coding",
                   "text": "code:",
-                  "type": "coding",
+                  "type": "choice",
                   "required": false,
-                  "repeats": false,
-                  "answerConstraint": "optionsOnly"
+                  "repeats": false
                 },
                 {
                   "linkId": "PackagedProductDefinition.package.type.text",
@@ -1457,7 +1534,7 @@
                 },
                 {
                   "linkId": "PackagedProductDefinition.package.quantity.value",
-                  "text": "The quantity of this level of packaging in the package that contains it. If specified, the outermost level is always 1",
+                  "text": "The quantity of this level of packaging in the package that contains it (with the outermost level being 1)",
                   "type": "integer",
                   "required": false,
                   "repeats": false
@@ -1499,10 +1576,9 @@
                 {
                   "linkId": "PackagedProductDefinition.package.material.coding",
                   "text": "code:",
-                  "type": "coding",
+                  "type": "choice",
                   "required": false,
-                  "repeats": false,
-                  "answerConstraint": "optionsOnly"
+                  "repeats": false
                 },
                 {
                   "linkId": "PackagedProductDefinition.package.material.text",
@@ -1521,7 +1597,7 @@
                 }
               ],
               "linkId": "PackagedProductDefinition.package.alternateMaterial",
-              "text": "A possible alternate material for the packaging",
+              "text": "A possible alternate material for this part of the packaging, that is allowed to be used instead of the usual material",
               "type": "group",
               "required": false,
               "repeats": true,
@@ -1542,16 +1618,15 @@
                     }
                   ],
                   "linkId": "PackagedProductDefinition.package.alternateMaterial-flyover",
-                  "text": "A possible alternate material for the packaging.",
+                  "text": "A possible alternate material for this part of the packaging, that is allowed to be used instead of the usual material (e.g. different types of plastic for a blister sleeve).",
                   "type": "display"
                 },
                 {
                   "linkId": "PackagedProductDefinition.package.alternateMaterial.coding",
                   "text": "code:",
-                  "type": "coding",
+                  "type": "choice",
                   "required": false,
-                  "repeats": false,
-                  "answerConstraint": "optionsOnly"
+                  "repeats": false
                 },
                 {
                   "linkId": "PackagedProductDefinition.package.alternateMaterial.text",
@@ -1587,6 +1662,315 @@
                   "linkId": "PackagedProductDefinition.package.shelfLifeStorage-flyover",
                   "text": "Shelf Life and storage information.",
                   "type": "display"
+                },
+                {
+                  "extension": [
+                    {
+                      "url": "http://hl7.org/fhir/StructureDefinition/questionnaire-maxOccurs",
+                      "valueInteger": 1
+                    },
+                    {
+                      "url": "http://hl7.org/fhir/StructureDefinition/questionnaire-fhirType",
+                      "valueString": "string"
+                    }
+                  ],
+                  "linkId": "PackagedProductDefinition.package.shelfLifeStorage.id",
+                  "type": "group",
+                  "required": false,
+                  "repeats": true,
+                  "item": [
+                    {
+                      "extension": [
+                        {
+                          "url": "http://hl7.org/fhir/StructureDefinition/questionnaire-itemControl",
+                          "valueCodeableConcept": {
+                            "coding": [
+                              {
+                                "system": "http://hl7.org/fhir/questionnaire-item-control",
+                                "code": "flyover",
+                                "display": "Fly-over"
+                              }
+                            ]
+                          }
+                        }
+                      ],
+                      "linkId": "PackagedProductDefinition.package.shelfLifeStorage.id-flyover",
+                      "text": "Unique id for the element within a resource (for internal references). This may be any string value that does not contain spaces.",
+                      "type": "display"
+                    },
+                    {
+                      "linkId": "PackagedProductDefinition.package.shelfLifeStorage.id.value",
+                      "text": "Unique id for inter-element referencing",
+                      "type": "string",
+                      "required": false,
+                      "repeats": false
+                    }
+                  ]
+                },
+                {
+                  "linkId": "PackagedProductDefinition.package.shelfLifeStorage.extension",
+                  "text": "Additional content defined by implementations",
+                  "type": "group",
+                  "required": false,
+                  "repeats": true,
+                  "item": [
+                    {
+                      "extension": [
+                        {
+                          "url": "http://hl7.org/fhir/StructureDefinition/questionnaire-itemControl",
+                          "valueCodeableConcept": {
+                            "coding": [
+                              {
+                                "system": "http://hl7.org/fhir/questionnaire-item-control",
+                                "code": "flyover",
+                                "display": "Fly-over"
+                              }
+                            ]
+                          }
+                        }
+                      ],
+                      "linkId": "PackagedProductDefinition.package.shelfLifeStorage.extension-flyover",
+                      "text": "May be used to represent additional information that is not part of the basic definition of the element. To make the use of extensions safe and manageable, there is a strict set of governance  applied to the definition and use of extensions. Though any implementer can define an extension, there is a set of requirements that SHALL be met as part of the definition of the extension. There can be no stigma associated with the use of extensions by any application, project, or standard - regardless of the institution or jurisdiction that uses or defines the extensions.  The use of extensions is what allows the FHIR specification to retain a core level of simplicity for everyone.",
+                      "type": "display"
+                    }
+                  ]
+                },
+                {
+                  "linkId": "PackagedProductDefinition.package.shelfLifeStorage.modifierExtension",
+                  "text": "Extensions that cannot be ignored even if unrecognized",
+                  "type": "group",
+                  "required": false,
+                  "repeats": true,
+                  "item": [
+                    {
+                      "extension": [
+                        {
+                          "url": "http://hl7.org/fhir/StructureDefinition/questionnaire-itemControl",
+                          "valueCodeableConcept": {
+                            "coding": [
+                              {
+                                "system": "http://hl7.org/fhir/questionnaire-item-control",
+                                "code": "flyover",
+                                "display": "Fly-over"
+                              }
+                            ]
+                          }
+                        }
+                      ],
+                      "linkId": "PackagedProductDefinition.package.shelfLifeStorage.modifierExtension-flyover",
+                      "text": "May be used to represent additional information that is not part of the basic definition of the element and that modifies the understanding of the element in which it is contained and/or the understanding of the containing element\u0027s descendants. Usually modifier elements provide negation or qualification. To make the use of extensions safe and manageable, there is a strict set of governance applied to the definition and use of extensions. Though any implementer can define an extension, there is a set of requirements that SHALL be met as part of the definition of the extension. Applications processing a resource are required to check for modifier extensions.\n\nModifier extensions SHALL NOT change the meaning of any elements on Resource or DomainResource (including cannot change the meaning of modifierExtension itself). There can be no stigma associated with the use of extensions by any application, project, or standard - regardless of the institution or jurisdiction that uses or defines the extensions.  The use of extensions is what allows the FHIR specification to retain a core level of simplicity for everyone.",
+                      "type": "display"
+                    }
+                  ]
+                },
+                {
+                  "extension": [
+                    {
+                      "url": "http://hl7.org/fhir/StructureDefinition/questionnaire-maxOccurs",
+                      "valueInteger": 1
+                    },
+                    {
+                      "url": "http://hl7.org/fhir/StructureDefinition/questionnaire-fhirType",
+                      "valueString": "CodeableConcept"
+                    }
+                  ],
+                  "linkId": "PackagedProductDefinition.package.shelfLifeStorage.type",
+                  "text": "This describes the shelf life, taking into account various scenarios such as shelf life of the packaged Medicinal Product itself, shelf life after transformation where necessary and shelf life after the first opening of a bottle, etc. The shelf life type shall be specified using an appropriate controlled vocabulary The controlled term and the controlled term identifier shall be specified",
+                  "type": "group",
+                  "required": false,
+                  "repeats": true,
+                  "item": [
+                    {
+                      "extension": [
+                        {
+                          "url": "http://hl7.org/fhir/StructureDefinition/questionnaire-itemControl",
+                          "valueCodeableConcept": {
+                            "coding": [
+                              {
+                                "system": "http://hl7.org/fhir/questionnaire-item-control",
+                                "code": "flyover",
+                                "display": "Fly-over"
+                              }
+                            ]
+                          }
+                        }
+                      ],
+                      "linkId": "PackagedProductDefinition.package.shelfLifeStorage.type-flyover",
+                      "text": "This describes the shelf life, taking into account various scenarios such as shelf life of the packaged Medicinal Product itself, shelf life after transformation where necessary and shelf life after the first opening of a bottle, etc. The shelf life type shall be specified using an appropriate controlled vocabulary The controlled term and the controlled term identifier shall be specified.",
+                      "type": "display"
+                    },
+                    {
+                      "linkId": "PackagedProductDefinition.package.shelfLifeStorage.type.coding",
+                      "text": "code:",
+                      "type": "choice",
+                      "required": false,
+                      "repeats": false
+                    },
+                    {
+                      "linkId": "PackagedProductDefinition.package.shelfLifeStorage.type.text",
+                      "text": "text:",
+                      "type": "string",
+                      "required": false,
+                      "repeats": false
+                    }
+                  ]
+                },
+                {
+                  "extension": [
+                    {
+                      "url": "http://hl7.org/fhir/StructureDefinition/questionnaire-maxOccurs",
+                      "valueInteger": 1
+                    }
+                  ],
+                  "linkId": "PackagedProductDefinition.package.shelfLifeStorage.period[x]",
+                  "text": "The shelf life time period can be specified using a numerical value for the period of time and its unit of time measurement The unit of measurement shall be specified in accordance with ISO 11240 and the resulting terminology The symbol and the symbol identifier shall be used",
+                  "type": "group",
+                  "required": false,
+                  "repeats": true,
+                  "item": [
+                    {
+                      "extension": [
+                        {
+                          "url": "http://hl7.org/fhir/StructureDefinition/questionnaire-itemControl",
+                          "valueCodeableConcept": {
+                            "coding": [
+                              {
+                                "system": "http://hl7.org/fhir/questionnaire-item-control",
+                                "code": "flyover",
+                                "display": "Fly-over"
+                              }
+                            ]
+                          }
+                        }
+                      ],
+                      "linkId": "PackagedProductDefinition.package.shelfLifeStorage.period[x]-flyover",
+                      "text": "The shelf life time period can be specified using a numerical value for the period of time and its unit of time measurement The unit of measurement shall be specified in accordance with ISO 11240 and the resulting terminology The symbol and the symbol identifier shall be used.",
+                      "type": "display"
+                    },
+                    {
+                      "linkId": "PackagedProductDefinition.package.shelfLifeStorage.period[x]._type",
+                      "text": "type",
+                      "type": "choice",
+                      "required": false,
+                      "repeats": false,
+                      "answerValueSet": "#vs2",
+                      "item": [
+                        {
+                          "extension": [
+                            {
+                              "url": "http://hl7.org/fhir/StructureDefinition/questionnaire-fhirType",
+                              "valueString": "Quantity"
+                            }
+                          ],
+                          "linkId": "PackagedProductDefinition.package.shelfLifeStorage.period[x]._null",
+                          "type": "group",
+                          "item": [
+                            {
+                              "linkId": "PackagedProductDefinition.package.shelfLifeStorage.period[x]._null.comparator",
+                              "text": "comp:",
+                              "type": "choice",
+                              "required": false,
+                              "repeats": false
+                            },
+                            {
+                              "linkId": "PackagedProductDefinition.package.shelfLifeStorage.period[x]._null.value",
+                              "text": "value:",
+                              "type": "decimal",
+                              "required": false,
+                              "repeats": false
+                            },
+                            {
+                              "linkId": "PackagedProductDefinition.package.shelfLifeStorage.period[x]._null.units",
+                              "text": "units:",
+                              "type": "string",
+                              "required": false,
+                              "repeats": false
+                            },
+                            {
+                              "linkId": "PackagedProductDefinition.package.shelfLifeStorage.period[x]._null.code",
+                              "text": "coded units:",
+                              "type": "string",
+                              "required": false,
+                              "repeats": false
+                            },
+                            {
+                              "linkId": "PackagedProductDefinition.package.shelfLifeStorage.period[x]._null.system",
+                              "text": "units system:",
+                              "type": "string",
+                              "required": false,
+                              "repeats": false
+                            }
+                          ]
+                        },
+                        {
+                          "extension": [
+                            {
+                              "url": "http://hl7.org/fhir/StructureDefinition/questionnaire-fhirType",
+                              "valueString": "string"
+                            }
+                          ],
+                          "linkId": "PackagedProductDefinition.package.shelfLifeStorage.period[x]._null",
+                          "type": "group",
+                          "item": [
+                            {
+                              "linkId": "PackagedProductDefinition.package.shelfLifeStorage.period[x]._null.value",
+                              "type": "string",
+                              "required": false,
+                              "repeats": false
+                            }
+                          ]
+                        }
+                      ]
+                    }
+                  ]
+                },
+                {
+                  "extension": [
+                    {
+                      "url": "http://hl7.org/fhir/StructureDefinition/questionnaire-fhirType",
+                      "valueString": "CodeableConcept"
+                    }
+                  ],
+                  "linkId": "PackagedProductDefinition.package.shelfLifeStorage.specialPrecautionsForStorage",
+                  "text": "Special precautions for storage, if any, can be specified using an appropriate controlled vocabulary. The controlled term and the controlled term identifier shall be specified",
+                  "type": "group",
+                  "required": false,
+                  "repeats": true,
+                  "item": [
+                    {
+                      "extension": [
+                        {
+                          "url": "http://hl7.org/fhir/StructureDefinition/questionnaire-itemControl",
+                          "valueCodeableConcept": {
+                            "coding": [
+                              {
+                                "system": "http://hl7.org/fhir/questionnaire-item-control",
+                                "code": "flyover",
+                                "display": "Fly-over"
+                              }
+                            ]
+                          }
+                        }
+                      ],
+                      "linkId": "PackagedProductDefinition.package.shelfLifeStorage.specialPrecautionsForStorage-flyover",
+                      "text": "Special precautions for storage, if any, can be specified using an appropriate controlled vocabulary. The controlled term and the controlled term identifier shall be specified.",
+                      "type": "display"
+                    },
+                    {
+                      "linkId": "PackagedProductDefinition.package.shelfLifeStorage.specialPrecautionsForStorage.coding",
+                      "text": "code:",
+                      "type": "choice",
+                      "required": false,
+                      "repeats": false
+                    },
+                    {
+                      "linkId": "PackagedProductDefinition.package.shelfLifeStorage.specialPrecautionsForStorage.text",
+                      "text": "text:",
+                      "type": "string",
+                      "required": false,
+                      "repeats": false
+                    }
+                  ]
                 }
               ]
             },
@@ -1633,7 +2017,7 @@
                     }
                   ],
                   "linkId": "PackagedProductDefinition.package.manufacturer.value",
-                  "text": "Manufacturer of this package Item. When there are multiple it means these are all possible manufacturers",
+                  "text": "Manufacturer of this package Item (multiple means these are all possible manufacturers)",
                   "type": "reference",
                   "required": false,
                   "repeats": false
@@ -1809,10 +2193,9 @@
                     {
                       "linkId": "PackagedProductDefinition.package.property.type.coding",
                       "text": "code:",
-                      "type": "coding",
+                      "type": "choice",
                       "required": false,
-                      "repeats": false,
-                      "answerConstraint": "optionsOnly"
+                      "repeats": false
                     },
                     {
                       "linkId": "PackagedProductDefinition.package.property.type.text",
@@ -1858,11 +2241,10 @@
                     {
                       "linkId": "PackagedProductDefinition.package.property.value[x]._type",
                       "text": "type",
-                      "type": "coding",
+                      "type": "choice",
                       "required": false,
                       "repeats": false,
-                      "answerConstraint": "optionsOnly",
-                      "answerValueSet": "#vs2",
+                      "answerValueSet": "#vs3",
                       "item": [
                         {
                           "extension": [
@@ -1877,10 +2259,9 @@
                             {
                               "linkId": "PackagedProductDefinition.package.property.value[x]._null.coding",
                               "text": "code:",
-                              "type": "coding",
+                              "type": "choice",
                               "required": false,
-                              "repeats": false,
-                              "answerConstraint": "optionsOnly"
+                              "repeats": false
                             },
                             {
                               "linkId": "PackagedProductDefinition.package.property.value[x]._null.text",
@@ -1904,10 +2285,9 @@
                             {
                               "linkId": "PackagedProductDefinition.package.property.value[x]._null.comparator",
                               "text": "comp:",
-                              "type": "coding",
+                              "type": "choice",
                               "required": false,
-                              "repeats": false,
-                              "answerConstraint": "optionsOnly"
+                              "repeats": false
                             },
                             {
                               "linkId": "PackagedProductDefinition.package.property.value[x]._null.value",
@@ -2129,7 +2509,7 @@
                     }
                   ],
                   "linkId": "PackagedProductDefinition.package.containedItem.item",
-                  "text": "The actual item(s) of medication, as manufactured, or a device (typically, but not necessarily, a co-packaged one), or other medically related item (such as food, biologicals, raw materials, medical fluids, gases etc.), as contained in the package. This also allows another whole packaged product to be included, which is solely for the case where a package of other entire packages is wanted - such as a wholesale or distribution pack (for layers within one package, use PackagedProductDefinition.package.package)",
+                  "text": "The actual item(s) of medication, as manufactured, or a device, or other medically related item (food, biologicals, raw materials, medical fluids, gases etc.), as contained in the package",
                   "type": "group",
                   "required": true,
                   "repeats": false,
@@ -2194,10 +2574,9 @@
                     {
                       "linkId": "PackagedProductDefinition.package.containedItem.amount.comparator",
                       "text": "comp:",
-                      "type": "coding",
+                      "type": "choice",
                       "required": false,
-                      "repeats": false,
-                      "answerConstraint": "optionsOnly"
+                      "repeats": false
                     },
                     {
                       "linkId": "PackagedProductDefinition.package.containedItem.amount.value",
@@ -2233,7 +2612,7 @@
             },
             {
               "linkId": "PackagedProductDefinition.package.package",
-              "text": "Allows containers (and parts of containers) within containers, still a single packaged product. See also PackagedProductDefinition.package.containedItem.item(PackagedProductDefinition)",
+              "text": "Allows containers (and parts of containers) within containers, still a single packaged product",
               "type": "group",
               "required": false,
               "repeats": true,
@@ -2256,6 +2635,1326 @@
                   "linkId": "PackagedProductDefinition.package.package-flyover",
                   "text": "Allows containers (and parts of containers) parwithin containers, still a single packaged product.  See also PackagedProductDefinition.package.containedItem.item(PackagedProductDefinition).",
                   "type": "display"
+                },
+                {
+                  "extension": [
+                    {
+                      "url": "http://hl7.org/fhir/StructureDefinition/questionnaire-maxOccurs",
+                      "valueInteger": 1
+                    },
+                    {
+                      "url": "http://hl7.org/fhir/StructureDefinition/questionnaire-fhirType",
+                      "valueString": "string"
+                    }
+                  ],
+                  "linkId": "PackagedProductDefinition.package.id",
+                  "type": "group",
+                  "required": false,
+                  "repeats": true,
+                  "item": [
+                    {
+                      "extension": [
+                        {
+                          "url": "http://hl7.org/fhir/StructureDefinition/questionnaire-itemControl",
+                          "valueCodeableConcept": {
+                            "coding": [
+                              {
+                                "system": "http://hl7.org/fhir/questionnaire-item-control",
+                                "code": "flyover",
+                                "display": "Fly-over"
+                              }
+                            ]
+                          }
+                        }
+                      ],
+                      "linkId": "PackagedProductDefinition.package.id-flyover",
+                      "text": "Unique id for the element within a resource (for internal references). This may be any string value that does not contain spaces.",
+                      "type": "display"
+                    },
+                    {
+                      "linkId": "PackagedProductDefinition.package.id.value",
+                      "text": "Unique id for inter-element referencing",
+                      "type": "string",
+                      "required": false,
+                      "repeats": false
+                    }
+                  ]
+                },
+                {
+                  "linkId": "PackagedProductDefinition.package.extension",
+                  "text": "Additional content defined by implementations",
+                  "type": "group",
+                  "required": false,
+                  "repeats": true,
+                  "item": [
+                    {
+                      "extension": [
+                        {
+                          "url": "http://hl7.org/fhir/StructureDefinition/questionnaire-itemControl",
+                          "valueCodeableConcept": {
+                            "coding": [
+                              {
+                                "system": "http://hl7.org/fhir/questionnaire-item-control",
+                                "code": "flyover",
+                                "display": "Fly-over"
+                              }
+                            ]
+                          }
+                        }
+                      ],
+                      "linkId": "PackagedProductDefinition.package.extension-flyover",
+                      "text": "May be used to represent additional information that is not part of the basic definition of the element. To make the use of extensions safe and manageable, there is a strict set of governance  applied to the definition and use of extensions. Though any implementer can define an extension, there is a set of requirements that SHALL be met as part of the definition of the extension. There can be no stigma associated with the use of extensions by any application, project, or standard - regardless of the institution or jurisdiction that uses or defines the extensions.  The use of extensions is what allows the FHIR specification to retain a core level of simplicity for everyone.",
+                      "type": "display"
+                    }
+                  ]
+                },
+                {
+                  "linkId": "PackagedProductDefinition.package.modifierExtension",
+                  "text": "Extensions that cannot be ignored even if unrecognized",
+                  "type": "group",
+                  "required": false,
+                  "repeats": true,
+                  "item": [
+                    {
+                      "extension": [
+                        {
+                          "url": "http://hl7.org/fhir/StructureDefinition/questionnaire-itemControl",
+                          "valueCodeableConcept": {
+                            "coding": [
+                              {
+                                "system": "http://hl7.org/fhir/questionnaire-item-control",
+                                "code": "flyover",
+                                "display": "Fly-over"
+                              }
+                            ]
+                          }
+                        }
+                      ],
+                      "linkId": "PackagedProductDefinition.package.modifierExtension-flyover",
+                      "text": "May be used to represent additional information that is not part of the basic definition of the element and that modifies the understanding of the element in which it is contained and/or the understanding of the containing element\u0027s descendants. Usually modifier elements provide negation or qualification. To make the use of extensions safe and manageable, there is a strict set of governance applied to the definition and use of extensions. Though any implementer can define an extension, there is a set of requirements that SHALL be met as part of the definition of the extension. Applications processing a resource are required to check for modifier extensions.\n\nModifier extensions SHALL NOT change the meaning of any elements on Resource or DomainResource (including cannot change the meaning of modifierExtension itself). There can be no stigma associated with the use of extensions by any application, project, or standard - regardless of the institution or jurisdiction that uses or defines the extensions.  The use of extensions is what allows the FHIR specification to retain a core level of simplicity for everyone.",
+                      "type": "display"
+                    }
+                  ]
+                },
+                {
+                  "extension": [
+                    {
+                      "url": "http://hl7.org/fhir/StructureDefinition/questionnaire-fhirType",
+                      "valueString": "Identifier"
+                    }
+                  ],
+                  "linkId": "PackagedProductDefinition.package.identifier",
+                  "text": "An identifier that is specific to this particular part of the packaging. Including possibly a Data Carrier Identifier",
+                  "type": "group",
+                  "required": false,
+                  "repeats": true,
+                  "item": [
+                    {
+                      "extension": [
+                        {
+                          "url": "http://hl7.org/fhir/StructureDefinition/questionnaire-itemControl",
+                          "valueCodeableConcept": {
+                            "coding": [
+                              {
+                                "system": "http://hl7.org/fhir/questionnaire-item-control",
+                                "code": "flyover",
+                                "display": "Fly-over"
+                              }
+                            ]
+                          }
+                        }
+                      ],
+                      "linkId": "PackagedProductDefinition.package.identifier-flyover",
+                      "text": "An identifier that is specific to this particular part of the packaging. Including possibly Data Carrier Identifier (a GS1 barcode).",
+                      "type": "display"
+                    },
+                    {
+                      "linkId": "PackagedProductDefinition.package.identifier.label",
+                      "text": "label:",
+                      "type": "string",
+                      "required": false,
+                      "repeats": false
+                    },
+                    {
+                      "linkId": "PackagedProductDefinition.package.identifier.system",
+                      "text": "system:",
+                      "type": "string",
+                      "required": false,
+                      "repeats": false
+                    },
+                    {
+                      "linkId": "PackagedProductDefinition.package.identifier.value",
+                      "text": "value:",
+                      "type": "string",
+                      "required": false,
+                      "repeats": false
+                    }
+                  ]
+                },
+                {
+                  "extension": [
+                    {
+                      "url": "http://hl7.org/fhir/StructureDefinition/questionnaire-maxOccurs",
+                      "valueInteger": 1
+                    },
+                    {
+                      "url": "http://hl7.org/fhir/StructureDefinition/questionnaire-fhirType",
+                      "valueString": "CodeableConcept"
+                    }
+                  ],
+                  "linkId": "PackagedProductDefinition.package.type",
+                  "text": "The physical type of the container of the items",
+                  "type": "group",
+                  "required": false,
+                  "repeats": true,
+                  "item": [
+                    {
+                      "extension": [
+                        {
+                          "url": "http://hl7.org/fhir/StructureDefinition/questionnaire-itemControl",
+                          "valueCodeableConcept": {
+                            "coding": [
+                              {
+                                "system": "http://hl7.org/fhir/questionnaire-item-control",
+                                "code": "flyover",
+                                "display": "Fly-over"
+                              }
+                            ]
+                          }
+                        }
+                      ],
+                      "linkId": "PackagedProductDefinition.package.type-flyover",
+                      "text": "The physical type of the container of the items.",
+                      "type": "display"
+                    },
+                    {
+                      "linkId": "PackagedProductDefinition.package.type.coding",
+                      "text": "code:",
+                      "type": "choice",
+                      "required": false,
+                      "repeats": false
+                    },
+                    {
+                      "linkId": "PackagedProductDefinition.package.type.text",
+                      "text": "text:",
+                      "type": "string",
+                      "required": false,
+                      "repeats": false
+                    }
+                  ]
+                },
+                {
+                  "extension": [
+                    {
+                      "url": "http://hl7.org/fhir/StructureDefinition/questionnaire-maxOccurs",
+                      "valueInteger": 1
+                    },
+                    {
+                      "url": "http://hl7.org/fhir/StructureDefinition/questionnaire-fhirType",
+                      "valueString": "integer"
+                    }
+                  ],
+                  "linkId": "PackagedProductDefinition.package.quantity",
+                  "type": "group",
+                  "required": false,
+                  "repeats": true,
+                  "item": [
+                    {
+                      "extension": [
+                        {
+                          "url": "http://hl7.org/fhir/StructureDefinition/questionnaire-itemControl",
+                          "valueCodeableConcept": {
+                            "coding": [
+                              {
+                                "system": "http://hl7.org/fhir/questionnaire-item-control",
+                                "code": "flyover",
+                                "display": "Fly-over"
+                              }
+                            ]
+                          }
+                        }
+                      ],
+                      "linkId": "PackagedProductDefinition.package.quantity-flyover",
+                      "text": "The quantity of this level of packaging in the package that contains it. If specified, the outermost level is always 1.",
+                      "type": "display"
+                    },
+                    {
+                      "linkId": "PackagedProductDefinition.package.quantity.value",
+                      "text": "The quantity of this level of packaging in the package that contains it (with the outermost level being 1)",
+                      "type": "integer",
+                      "required": false,
+                      "repeats": false
+                    }
+                  ]
+                },
+                {
+                  "extension": [
+                    {
+                      "url": "http://hl7.org/fhir/StructureDefinition/questionnaire-fhirType",
+                      "valueString": "CodeableConcept"
+                    }
+                  ],
+                  "linkId": "PackagedProductDefinition.package.material",
+                  "text": "Material type of the package item",
+                  "type": "group",
+                  "required": false,
+                  "repeats": true,
+                  "item": [
+                    {
+                      "extension": [
+                        {
+                          "url": "http://hl7.org/fhir/StructureDefinition/questionnaire-itemControl",
+                          "valueCodeableConcept": {
+                            "coding": [
+                              {
+                                "system": "http://hl7.org/fhir/questionnaire-item-control",
+                                "code": "flyover",
+                                "display": "Fly-over"
+                              }
+                            ]
+                          }
+                        }
+                      ],
+                      "linkId": "PackagedProductDefinition.package.material-flyover",
+                      "text": "Material type of the package item.",
+                      "type": "display"
+                    },
+                    {
+                      "linkId": "PackagedProductDefinition.package.material.coding",
+                      "text": "code:",
+                      "type": "choice",
+                      "required": false,
+                      "repeats": false
+                    },
+                    {
+                      "linkId": "PackagedProductDefinition.package.material.text",
+                      "text": "text:",
+                      "type": "string",
+                      "required": false,
+                      "repeats": false
+                    }
+                  ]
+                },
+                {
+                  "extension": [
+                    {
+                      "url": "http://hl7.org/fhir/StructureDefinition/questionnaire-fhirType",
+                      "valueString": "CodeableConcept"
+                    }
+                  ],
+                  "linkId": "PackagedProductDefinition.package.alternateMaterial",
+                  "text": "A possible alternate material for this part of the packaging, that is allowed to be used instead of the usual material",
+                  "type": "group",
+                  "required": false,
+                  "repeats": true,
+                  "item": [
+                    {
+                      "extension": [
+                        {
+                          "url": "http://hl7.org/fhir/StructureDefinition/questionnaire-itemControl",
+                          "valueCodeableConcept": {
+                            "coding": [
+                              {
+                                "system": "http://hl7.org/fhir/questionnaire-item-control",
+                                "code": "flyover",
+                                "display": "Fly-over"
+                              }
+                            ]
+                          }
+                        }
+                      ],
+                      "linkId": "PackagedProductDefinition.package.alternateMaterial-flyover",
+                      "text": "A possible alternate material for this part of the packaging, that is allowed to be used instead of the usual material (e.g. different types of plastic for a blister sleeve).",
+                      "type": "display"
+                    },
+                    {
+                      "linkId": "PackagedProductDefinition.package.alternateMaterial.coding",
+                      "text": "code:",
+                      "type": "choice",
+                      "required": false,
+                      "repeats": false
+                    },
+                    {
+                      "linkId": "PackagedProductDefinition.package.alternateMaterial.text",
+                      "text": "text:",
+                      "type": "string",
+                      "required": false,
+                      "repeats": false
+                    }
+                  ]
+                },
+                {
+                  "linkId": "PackagedProductDefinition.package.shelfLifeStorage",
+                  "text": "Shelf Life and storage information",
+                  "type": "group",
+                  "required": false,
+                  "repeats": true,
+                  "item": [
+                    {
+                      "extension": [
+                        {
+                          "url": "http://hl7.org/fhir/StructureDefinition/questionnaire-itemControl",
+                          "valueCodeableConcept": {
+                            "coding": [
+                              {
+                                "system": "http://hl7.org/fhir/questionnaire-item-control",
+                                "code": "flyover",
+                                "display": "Fly-over"
+                              }
+                            ]
+                          }
+                        }
+                      ],
+                      "linkId": "PackagedProductDefinition.package.shelfLifeStorage-flyover",
+                      "text": "Shelf Life and storage information.",
+                      "type": "display"
+                    },
+                    {
+                      "extension": [
+                        {
+                          "url": "http://hl7.org/fhir/StructureDefinition/questionnaire-maxOccurs",
+                          "valueInteger": 1
+                        },
+                        {
+                          "url": "http://hl7.org/fhir/StructureDefinition/questionnaire-fhirType",
+                          "valueString": "string"
+                        }
+                      ],
+                      "linkId": "PackagedProductDefinition.package.shelfLifeStorage.id",
+                      "type": "group",
+                      "required": false,
+                      "repeats": true,
+                      "item": [
+                        {
+                          "extension": [
+                            {
+                              "url": "http://hl7.org/fhir/StructureDefinition/questionnaire-itemControl",
+                              "valueCodeableConcept": {
+                                "coding": [
+                                  {
+                                    "system": "http://hl7.org/fhir/questionnaire-item-control",
+                                    "code": "flyover",
+                                    "display": "Fly-over"
+                                  }
+                                ]
+                              }
+                            }
+                          ],
+                          "linkId": "PackagedProductDefinition.package.shelfLifeStorage.id-flyover",
+                          "text": "Unique id for the element within a resource (for internal references). This may be any string value that does not contain spaces.",
+                          "type": "display"
+                        },
+                        {
+                          "linkId": "PackagedProductDefinition.package.shelfLifeStorage.id.value",
+                          "text": "Unique id for inter-element referencing",
+                          "type": "string",
+                          "required": false,
+                          "repeats": false
+                        }
+                      ]
+                    },
+                    {
+                      "linkId": "PackagedProductDefinition.package.shelfLifeStorage.extension",
+                      "text": "Additional content defined by implementations",
+                      "type": "group",
+                      "required": false,
+                      "repeats": true,
+                      "item": [
+                        {
+                          "extension": [
+                            {
+                              "url": "http://hl7.org/fhir/StructureDefinition/questionnaire-itemControl",
+                              "valueCodeableConcept": {
+                                "coding": [
+                                  {
+                                    "system": "http://hl7.org/fhir/questionnaire-item-control",
+                                    "code": "flyover",
+                                    "display": "Fly-over"
+                                  }
+                                ]
+                              }
+                            }
+                          ],
+                          "linkId": "PackagedProductDefinition.package.shelfLifeStorage.extension-flyover",
+                          "text": "May be used to represent additional information that is not part of the basic definition of the element. To make the use of extensions safe and manageable, there is a strict set of governance  applied to the definition and use of extensions. Though any implementer can define an extension, there is a set of requirements that SHALL be met as part of the definition of the extension. There can be no stigma associated with the use of extensions by any application, project, or standard - regardless of the institution or jurisdiction that uses or defines the extensions.  The use of extensions is what allows the FHIR specification to retain a core level of simplicity for everyone.",
+                          "type": "display"
+                        }
+                      ]
+                    },
+                    {
+                      "linkId": "PackagedProductDefinition.package.shelfLifeStorage.modifierExtension",
+                      "text": "Extensions that cannot be ignored even if unrecognized",
+                      "type": "group",
+                      "required": false,
+                      "repeats": true,
+                      "item": [
+                        {
+                          "extension": [
+                            {
+                              "url": "http://hl7.org/fhir/StructureDefinition/questionnaire-itemControl",
+                              "valueCodeableConcept": {
+                                "coding": [
+                                  {
+                                    "system": "http://hl7.org/fhir/questionnaire-item-control",
+                                    "code": "flyover",
+                                    "display": "Fly-over"
+                                  }
+                                ]
+                              }
+                            }
+                          ],
+                          "linkId": "PackagedProductDefinition.package.shelfLifeStorage.modifierExtension-flyover",
+                          "text": "May be used to represent additional information that is not part of the basic definition of the element and that modifies the understanding of the element in which it is contained and/or the understanding of the containing element\u0027s descendants. Usually modifier elements provide negation or qualification. To make the use of extensions safe and manageable, there is a strict set of governance applied to the definition and use of extensions. Though any implementer can define an extension, there is a set of requirements that SHALL be met as part of the definition of the extension. Applications processing a resource are required to check for modifier extensions.\n\nModifier extensions SHALL NOT change the meaning of any elements on Resource or DomainResource (including cannot change the meaning of modifierExtension itself). There can be no stigma associated with the use of extensions by any application, project, or standard - regardless of the institution or jurisdiction that uses or defines the extensions.  The use of extensions is what allows the FHIR specification to retain a core level of simplicity for everyone.",
+                          "type": "display"
+                        }
+                      ]
+                    },
+                    {
+                      "extension": [
+                        {
+                          "url": "http://hl7.org/fhir/StructureDefinition/questionnaire-maxOccurs",
+                          "valueInteger": 1
+                        },
+                        {
+                          "url": "http://hl7.org/fhir/StructureDefinition/questionnaire-fhirType",
+                          "valueString": "CodeableConcept"
+                        }
+                      ],
+                      "linkId": "PackagedProductDefinition.package.shelfLifeStorage.type",
+                      "text": "This describes the shelf life, taking into account various scenarios such as shelf life of the packaged Medicinal Product itself, shelf life after transformation where necessary and shelf life after the first opening of a bottle, etc. The shelf life type shall be specified using an appropriate controlled vocabulary The controlled term and the controlled term identifier shall be specified",
+                      "type": "group",
+                      "required": false,
+                      "repeats": true,
+                      "item": [
+                        {
+                          "extension": [
+                            {
+                              "url": "http://hl7.org/fhir/StructureDefinition/questionnaire-itemControl",
+                              "valueCodeableConcept": {
+                                "coding": [
+                                  {
+                                    "system": "http://hl7.org/fhir/questionnaire-item-control",
+                                    "code": "flyover",
+                                    "display": "Fly-over"
+                                  }
+                                ]
+                              }
+                            }
+                          ],
+                          "linkId": "PackagedProductDefinition.package.shelfLifeStorage.type-flyover",
+                          "text": "This describes the shelf life, taking into account various scenarios such as shelf life of the packaged Medicinal Product itself, shelf life after transformation where necessary and shelf life after the first opening of a bottle, etc. The shelf life type shall be specified using an appropriate controlled vocabulary The controlled term and the controlled term identifier shall be specified.",
+                          "type": "display"
+                        },
+                        {
+                          "linkId": "PackagedProductDefinition.package.shelfLifeStorage.type.coding",
+                          "text": "code:",
+                          "type": "choice",
+                          "required": false,
+                          "repeats": false
+                        },
+                        {
+                          "linkId": "PackagedProductDefinition.package.shelfLifeStorage.type.text",
+                          "text": "text:",
+                          "type": "string",
+                          "required": false,
+                          "repeats": false
+                        }
+                      ]
+                    },
+                    {
+                      "extension": [
+                        {
+                          "url": "http://hl7.org/fhir/StructureDefinition/questionnaire-maxOccurs",
+                          "valueInteger": 1
+                        }
+                      ],
+                      "linkId": "PackagedProductDefinition.package.shelfLifeStorage.period[x]",
+                      "text": "The shelf life time period can be specified using a numerical value for the period of time and its unit of time measurement The unit of measurement shall be specified in accordance with ISO 11240 and the resulting terminology The symbol and the symbol identifier shall be used",
+                      "type": "group",
+                      "required": false,
+                      "repeats": true,
+                      "item": [
+                        {
+                          "extension": [
+                            {
+                              "url": "http://hl7.org/fhir/StructureDefinition/questionnaire-itemControl",
+                              "valueCodeableConcept": {
+                                "coding": [
+                                  {
+                                    "system": "http://hl7.org/fhir/questionnaire-item-control",
+                                    "code": "flyover",
+                                    "display": "Fly-over"
+                                  }
+                                ]
+                              }
+                            }
+                          ],
+                          "linkId": "PackagedProductDefinition.package.shelfLifeStorage.period[x]-flyover",
+                          "text": "The shelf life time period can be specified using a numerical value for the period of time and its unit of time measurement The unit of measurement shall be specified in accordance with ISO 11240 and the resulting terminology The symbol and the symbol identifier shall be used.",
+                          "type": "display"
+                        },
+                        {
+                          "linkId": "PackagedProductDefinition.package.shelfLifeStorage.period[x]._type",
+                          "text": "type",
+                          "type": "choice",
+                          "required": false,
+                          "repeats": false,
+                          "answerValueSet": "#vs4",
+                          "item": [
+                            {
+                              "extension": [
+                                {
+                                  "url": "http://hl7.org/fhir/StructureDefinition/questionnaire-fhirType",
+                                  "valueString": "Quantity"
+                                }
+                              ],
+                              "linkId": "PackagedProductDefinition.package.shelfLifeStorage.period[x]._null",
+                              "type": "group",
+                              "item": [
+                                {
+                                  "linkId": "PackagedProductDefinition.package.shelfLifeStorage.period[x]._null.comparator",
+                                  "text": "comp:",
+                                  "type": "choice",
+                                  "required": false,
+                                  "repeats": false
+                                },
+                                {
+                                  "linkId": "PackagedProductDefinition.package.shelfLifeStorage.period[x]._null.value",
+                                  "text": "value:",
+                                  "type": "decimal",
+                                  "required": false,
+                                  "repeats": false
+                                },
+                                {
+                                  "linkId": "PackagedProductDefinition.package.shelfLifeStorage.period[x]._null.units",
+                                  "text": "units:",
+                                  "type": "string",
+                                  "required": false,
+                                  "repeats": false
+                                },
+                                {
+                                  "linkId": "PackagedProductDefinition.package.shelfLifeStorage.period[x]._null.code",
+                                  "text": "coded units:",
+                                  "type": "string",
+                                  "required": false,
+                                  "repeats": false
+                                },
+                                {
+                                  "linkId": "PackagedProductDefinition.package.shelfLifeStorage.period[x]._null.system",
+                                  "text": "units system:",
+                                  "type": "string",
+                                  "required": false,
+                                  "repeats": false
+                                }
+                              ]
+                            },
+                            {
+                              "extension": [
+                                {
+                                  "url": "http://hl7.org/fhir/StructureDefinition/questionnaire-fhirType",
+                                  "valueString": "string"
+                                }
+                              ],
+                              "linkId": "PackagedProductDefinition.package.shelfLifeStorage.period[x]._null",
+                              "type": "group",
+                              "item": [
+                                {
+                                  "linkId": "PackagedProductDefinition.package.shelfLifeStorage.period[x]._null.value",
+                                  "type": "string",
+                                  "required": false,
+                                  "repeats": false
+                                }
+                              ]
+                            }
+                          ]
+                        }
+                      ]
+                    },
+                    {
+                      "extension": [
+                        {
+                          "url": "http://hl7.org/fhir/StructureDefinition/questionnaire-fhirType",
+                          "valueString": "CodeableConcept"
+                        }
+                      ],
+                      "linkId": "PackagedProductDefinition.package.shelfLifeStorage.specialPrecautionsForStorage",
+                      "text": "Special precautions for storage, if any, can be specified using an appropriate controlled vocabulary. The controlled term and the controlled term identifier shall be specified",
+                      "type": "group",
+                      "required": false,
+                      "repeats": true,
+                      "item": [
+                        {
+                          "extension": [
+                            {
+                              "url": "http://hl7.org/fhir/StructureDefinition/questionnaire-itemControl",
+                              "valueCodeableConcept": {
+                                "coding": [
+                                  {
+                                    "system": "http://hl7.org/fhir/questionnaire-item-control",
+                                    "code": "flyover",
+                                    "display": "Fly-over"
+                                  }
+                                ]
+                              }
+                            }
+                          ],
+                          "linkId": "PackagedProductDefinition.package.shelfLifeStorage.specialPrecautionsForStorage-flyover",
+                          "text": "Special precautions for storage, if any, can be specified using an appropriate controlled vocabulary. The controlled term and the controlled term identifier shall be specified.",
+                          "type": "display"
+                        },
+                        {
+                          "linkId": "PackagedProductDefinition.package.shelfLifeStorage.specialPrecautionsForStorage.coding",
+                          "text": "code:",
+                          "type": "choice",
+                          "required": false,
+                          "repeats": false
+                        },
+                        {
+                          "linkId": "PackagedProductDefinition.package.shelfLifeStorage.specialPrecautionsForStorage.text",
+                          "text": "text:",
+                          "type": "string",
+                          "required": false,
+                          "repeats": false
+                        }
+                      ]
+                    }
+                  ]
+                },
+                {
+                  "extension": [
+                    {
+                      "url": "http://hl7.org/fhir/StructureDefinition/questionnaire-fhirType",
+                      "valueString": "Reference"
+                    }
+                  ],
+                  "linkId": "PackagedProductDefinition.package.manufacturer",
+                  "type": "group",
+                  "required": false,
+                  "repeats": true,
+                  "item": [
+                    {
+                      "extension": [
+                        {
+                          "url": "http://hl7.org/fhir/StructureDefinition/questionnaire-itemControl",
+                          "valueCodeableConcept": {
+                            "coding": [
+                              {
+                                "system": "http://hl7.org/fhir/questionnaire-item-control",
+                                "code": "flyover",
+                                "display": "Fly-over"
+                              }
+                            ]
+                          }
+                        }
+                      ],
+                      "linkId": "PackagedProductDefinition.package.manufacturer-flyover",
+                      "text": "Manufacturer of this package Item. When there are multiple it means these are all possible manufacturers.",
+                      "type": "display"
+                    },
+                    {
+                      "extension": [
+                        {
+                          "url": "http://hl7.org/fhir/StructureDefinition/questionnaire-allowedResource",
+                          "valueCode": "Organization"
+                        },
+                        {
+                          "url": "http://hl7.org/fhir/StructureDefinition/questionnaire-referenceFilter",
+                          "valueString": "subject\u003d$subj\u0026patient\u003d$subj\u0026encounter\u003d$encounter"
+                        }
+                      ],
+                      "linkId": "PackagedProductDefinition.package.manufacturer.value",
+                      "text": "Manufacturer of this package Item (multiple means these are all possible manufacturers)",
+                      "type": "reference",
+                      "required": false,
+                      "repeats": false
+                    }
+                  ]
+                },
+                {
+                  "linkId": "PackagedProductDefinition.package.property",
+                  "text": "General characteristics of this item",
+                  "type": "group",
+                  "required": false,
+                  "repeats": true,
+                  "item": [
+                    {
+                      "extension": [
+                        {
+                          "url": "http://hl7.org/fhir/StructureDefinition/questionnaire-itemControl",
+                          "valueCodeableConcept": {
+                            "coding": [
+                              {
+                                "system": "http://hl7.org/fhir/questionnaire-item-control",
+                                "code": "flyover",
+                                "display": "Fly-over"
+                              }
+                            ]
+                          }
+                        }
+                      ],
+                      "linkId": "PackagedProductDefinition.package.property-flyover",
+                      "text": "General characteristics of this item.",
+                      "type": "display"
+                    },
+                    {
+                      "extension": [
+                        {
+                          "url": "http://hl7.org/fhir/StructureDefinition/questionnaire-maxOccurs",
+                          "valueInteger": 1
+                        },
+                        {
+                          "url": "http://hl7.org/fhir/StructureDefinition/questionnaire-fhirType",
+                          "valueString": "string"
+                        }
+                      ],
+                      "linkId": "PackagedProductDefinition.package.property.id",
+                      "type": "group",
+                      "required": false,
+                      "repeats": true,
+                      "item": [
+                        {
+                          "extension": [
+                            {
+                              "url": "http://hl7.org/fhir/StructureDefinition/questionnaire-itemControl",
+                              "valueCodeableConcept": {
+                                "coding": [
+                                  {
+                                    "system": "http://hl7.org/fhir/questionnaire-item-control",
+                                    "code": "flyover",
+                                    "display": "Fly-over"
+                                  }
+                                ]
+                              }
+                            }
+                          ],
+                          "linkId": "PackagedProductDefinition.package.property.id-flyover",
+                          "text": "Unique id for the element within a resource (for internal references). This may be any string value that does not contain spaces.",
+                          "type": "display"
+                        },
+                        {
+                          "linkId": "PackagedProductDefinition.package.property.id.value",
+                          "text": "Unique id for inter-element referencing",
+                          "type": "string",
+                          "required": false,
+                          "repeats": false
+                        }
+                      ]
+                    },
+                    {
+                      "linkId": "PackagedProductDefinition.package.property.extension",
+                      "text": "Additional content defined by implementations",
+                      "type": "group",
+                      "required": false,
+                      "repeats": true,
+                      "item": [
+                        {
+                          "extension": [
+                            {
+                              "url": "http://hl7.org/fhir/StructureDefinition/questionnaire-itemControl",
+                              "valueCodeableConcept": {
+                                "coding": [
+                                  {
+                                    "system": "http://hl7.org/fhir/questionnaire-item-control",
+                                    "code": "flyover",
+                                    "display": "Fly-over"
+                                  }
+                                ]
+                              }
+                            }
+                          ],
+                          "linkId": "PackagedProductDefinition.package.property.extension-flyover",
+                          "text": "May be used to represent additional information that is not part of the basic definition of the element. To make the use of extensions safe and manageable, there is a strict set of governance  applied to the definition and use of extensions. Though any implementer can define an extension, there is a set of requirements that SHALL be met as part of the definition of the extension. There can be no stigma associated with the use of extensions by any application, project, or standard - regardless of the institution or jurisdiction that uses or defines the extensions.  The use of extensions is what allows the FHIR specification to retain a core level of simplicity for everyone.",
+                          "type": "display"
+                        }
+                      ]
+                    },
+                    {
+                      "linkId": "PackagedProductDefinition.package.property.modifierExtension",
+                      "text": "Extensions that cannot be ignored even if unrecognized",
+                      "type": "group",
+                      "required": false,
+                      "repeats": true,
+                      "item": [
+                        {
+                          "extension": [
+                            {
+                              "url": "http://hl7.org/fhir/StructureDefinition/questionnaire-itemControl",
+                              "valueCodeableConcept": {
+                                "coding": [
+                                  {
+                                    "system": "http://hl7.org/fhir/questionnaire-item-control",
+                                    "code": "flyover",
+                                    "display": "Fly-over"
+                                  }
+                                ]
+                              }
+                            }
+                          ],
+                          "linkId": "PackagedProductDefinition.package.property.modifierExtension-flyover",
+                          "text": "May be used to represent additional information that is not part of the basic definition of the element and that modifies the understanding of the element in which it is contained and/or the understanding of the containing element\u0027s descendants. Usually modifier elements provide negation or qualification. To make the use of extensions safe and manageable, there is a strict set of governance applied to the definition and use of extensions. Though any implementer can define an extension, there is a set of requirements that SHALL be met as part of the definition of the extension. Applications processing a resource are required to check for modifier extensions.\n\nModifier extensions SHALL NOT change the meaning of any elements on Resource or DomainResource (including cannot change the meaning of modifierExtension itself). There can be no stigma associated with the use of extensions by any application, project, or standard - regardless of the institution or jurisdiction that uses or defines the extensions.  The use of extensions is what allows the FHIR specification to retain a core level of simplicity for everyone.",
+                          "type": "display"
+                        }
+                      ]
+                    },
+                    {
+                      "extension": [
+                        {
+                          "url": "http://hl7.org/fhir/StructureDefinition/questionnaire-minOccurs",
+                          "valueInteger": 1
+                        },
+                        {
+                          "url": "http://hl7.org/fhir/StructureDefinition/questionnaire-maxOccurs",
+                          "valueInteger": 1
+                        },
+                        {
+                          "url": "http://hl7.org/fhir/StructureDefinition/questionnaire-fhirType",
+                          "valueString": "CodeableConcept"
+                        }
+                      ],
+                      "linkId": "PackagedProductDefinition.package.property.type",
+                      "text": "A code expressing the type of characteristic",
+                      "type": "group",
+                      "required": true,
+                      "repeats": true,
+                      "item": [
+                        {
+                          "extension": [
+                            {
+                              "url": "http://hl7.org/fhir/StructureDefinition/questionnaire-itemControl",
+                              "valueCodeableConcept": {
+                                "coding": [
+                                  {
+                                    "system": "http://hl7.org/fhir/questionnaire-item-control",
+                                    "code": "flyover",
+                                    "display": "Fly-over"
+                                  }
+                                ]
+                              }
+                            }
+                          ],
+                          "linkId": "PackagedProductDefinition.package.property.type-flyover",
+                          "text": "A code expressing the type of characteristic.",
+                          "type": "display"
+                        },
+                        {
+                          "linkId": "PackagedProductDefinition.package.property.type.coding",
+                          "text": "code:",
+                          "type": "choice",
+                          "required": false,
+                          "repeats": false
+                        },
+                        {
+                          "linkId": "PackagedProductDefinition.package.property.type.text",
+                          "text": "text:",
+                          "type": "string",
+                          "required": false,
+                          "repeats": false
+                        }
+                      ]
+                    },
+                    {
+                      "extension": [
+                        {
+                          "url": "http://hl7.org/fhir/StructureDefinition/questionnaire-maxOccurs",
+                          "valueInteger": 1
+                        }
+                      ],
+                      "linkId": "PackagedProductDefinition.package.property.value[x]",
+                      "text": "A value for the characteristic",
+                      "type": "group",
+                      "required": false,
+                      "repeats": true,
+                      "item": [
+                        {
+                          "extension": [
+                            {
+                              "url": "http://hl7.org/fhir/StructureDefinition/questionnaire-itemControl",
+                              "valueCodeableConcept": {
+                                "coding": [
+                                  {
+                                    "system": "http://hl7.org/fhir/questionnaire-item-control",
+                                    "code": "flyover",
+                                    "display": "Fly-over"
+                                  }
+                                ]
+                              }
+                            }
+                          ],
+                          "linkId": "PackagedProductDefinition.package.property.value[x]-flyover",
+                          "text": "A value for the characteristic.",
+                          "type": "display"
+                        },
+                        {
+                          "linkId": "PackagedProductDefinition.package.property.value[x]._type",
+                          "text": "type",
+                          "type": "choice",
+                          "required": false,
+                          "repeats": false,
+                          "answerValueSet": "#vs5",
+                          "item": [
+                            {
+                              "extension": [
+                                {
+                                  "url": "http://hl7.org/fhir/StructureDefinition/questionnaire-fhirType",
+                                  "valueString": "CodeableConcept"
+                                }
+                              ],
+                              "linkId": "PackagedProductDefinition.package.property.value[x]._null",
+                              "type": "group",
+                              "item": [
+                                {
+                                  "linkId": "PackagedProductDefinition.package.property.value[x]._null.coding",
+                                  "text": "code:",
+                                  "type": "choice",
+                                  "required": false,
+                                  "repeats": false
+                                },
+                                {
+                                  "linkId": "PackagedProductDefinition.package.property.value[x]._null.text",
+                                  "text": "text:",
+                                  "type": "string",
+                                  "required": false,
+                                  "repeats": false
+                                }
+                              ]
+                            },
+                            {
+                              "extension": [
+                                {
+                                  "url": "http://hl7.org/fhir/StructureDefinition/questionnaire-fhirType",
+                                  "valueString": "Quantity"
+                                }
+                              ],
+                              "linkId": "PackagedProductDefinition.package.property.value[x]._null",
+                              "type": "group",
+                              "item": [
+                                {
+                                  "linkId": "PackagedProductDefinition.package.property.value[x]._null.comparator",
+                                  "text": "comp:",
+                                  "type": "choice",
+                                  "required": false,
+                                  "repeats": false
+                                },
+                                {
+                                  "linkId": "PackagedProductDefinition.package.property.value[x]._null.value",
+                                  "text": "value:",
+                                  "type": "decimal",
+                                  "required": false,
+                                  "repeats": false
+                                },
+                                {
+                                  "linkId": "PackagedProductDefinition.package.property.value[x]._null.units",
+                                  "text": "units:",
+                                  "type": "string",
+                                  "required": false,
+                                  "repeats": false
+                                },
+                                {
+                                  "linkId": "PackagedProductDefinition.package.property.value[x]._null.code",
+                                  "text": "coded units:",
+                                  "type": "string",
+                                  "required": false,
+                                  "repeats": false
+                                },
+                                {
+                                  "linkId": "PackagedProductDefinition.package.property.value[x]._null.system",
+                                  "text": "units system:",
+                                  "type": "string",
+                                  "required": false,
+                                  "repeats": false
+                                }
+                              ]
+                            },
+                            {
+                              "extension": [
+                                {
+                                  "url": "http://hl7.org/fhir/StructureDefinition/questionnaire-fhirType",
+                                  "valueString": "datetime"
+                                }
+                              ],
+                              "linkId": "PackagedProductDefinition.package.property.value[x]._null",
+                              "type": "group",
+                              "item": [
+                                {
+                                  "linkId": "PackagedProductDefinition.package.property.value[x]._null.value",
+                                  "type": "dateTime",
+                                  "required": false,
+                                  "repeats": false
+                                }
+                              ]
+                            },
+                            {
+                              "extension": [
+                                {
+                                  "url": "http://hl7.org/fhir/StructureDefinition/questionnaire-fhirType",
+                                  "valueString": "boolean"
+                                }
+                              ],
+                              "linkId": "PackagedProductDefinition.package.property.value[x]._null",
+                              "type": "group",
+                              "item": [
+                                {
+                                  "linkId": "PackagedProductDefinition.package.property.value[x]._null.value",
+                                  "type": "boolean",
+                                  "required": false,
+                                  "repeats": false
+                                }
+                              ]
+                            },
+                            {
+                              "extension": [
+                                {
+                                  "url": "http://hl7.org/fhir/StructureDefinition/questionnaire-fhirType",
+                                  "valueString": "Attachment"
+                                }
+                              ],
+                              "linkId": "PackagedProductDefinition.package.property.value[x]._null",
+                              "type": "group"
+                            }
+                          ]
+                        }
+                      ]
+                    }
+                  ]
+                },
+                {
+                  "linkId": "PackagedProductDefinition.package.containedItem",
+                  "text": "The item(s) within the packaging",
+                  "type": "group",
+                  "required": false,
+                  "repeats": true,
+                  "item": [
+                    {
+                      "extension": [
+                        {
+                          "url": "http://hl7.org/fhir/StructureDefinition/questionnaire-itemControl",
+                          "valueCodeableConcept": {
+                            "coding": [
+                              {
+                                "system": "http://hl7.org/fhir/questionnaire-item-control",
+                                "code": "flyover",
+                                "display": "Fly-over"
+                              }
+                            ]
+                          }
+                        }
+                      ],
+                      "linkId": "PackagedProductDefinition.package.containedItem-flyover",
+                      "text": "The item(s) within the packaging.",
+                      "type": "display"
+                    },
+                    {
+                      "extension": [
+                        {
+                          "url": "http://hl7.org/fhir/StructureDefinition/questionnaire-maxOccurs",
+                          "valueInteger": 1
+                        },
+                        {
+                          "url": "http://hl7.org/fhir/StructureDefinition/questionnaire-fhirType",
+                          "valueString": "string"
+                        }
+                      ],
+                      "linkId": "PackagedProductDefinition.package.containedItem.id",
+                      "type": "group",
+                      "required": false,
+                      "repeats": true,
+                      "item": [
+                        {
+                          "extension": [
+                            {
+                              "url": "http://hl7.org/fhir/StructureDefinition/questionnaire-itemControl",
+                              "valueCodeableConcept": {
+                                "coding": [
+                                  {
+                                    "system": "http://hl7.org/fhir/questionnaire-item-control",
+                                    "code": "flyover",
+                                    "display": "Fly-over"
+                                  }
+                                ]
+                              }
+                            }
+                          ],
+                          "linkId": "PackagedProductDefinition.package.containedItem.id-flyover",
+                          "text": "Unique id for the element within a resource (for internal references). This may be any string value that does not contain spaces.",
+                          "type": "display"
+                        },
+                        {
+                          "linkId": "PackagedProductDefinition.package.containedItem.id.value",
+                          "text": "Unique id for inter-element referencing",
+                          "type": "string",
+                          "required": false,
+                          "repeats": false
+                        }
+                      ]
+                    },
+                    {
+                      "linkId": "PackagedProductDefinition.package.containedItem.extension",
+                      "text": "Additional content defined by implementations",
+                      "type": "group",
+                      "required": false,
+                      "repeats": true,
+                      "item": [
+                        {
+                          "extension": [
+                            {
+                              "url": "http://hl7.org/fhir/StructureDefinition/questionnaire-itemControl",
+                              "valueCodeableConcept": {
+                                "coding": [
+                                  {
+                                    "system": "http://hl7.org/fhir/questionnaire-item-control",
+                                    "code": "flyover",
+                                    "display": "Fly-over"
+                                  }
+                                ]
+                              }
+                            }
+                          ],
+                          "linkId": "PackagedProductDefinition.package.containedItem.extension-flyover",
+                          "text": "May be used to represent additional information that is not part of the basic definition of the element. To make the use of extensions safe and manageable, there is a strict set of governance  applied to the definition and use of extensions. Though any implementer can define an extension, there is a set of requirements that SHALL be met as part of the definition of the extension. There can be no stigma associated with the use of extensions by any application, project, or standard - regardless of the institution or jurisdiction that uses or defines the extensions.  The use of extensions is what allows the FHIR specification to retain a core level of simplicity for everyone.",
+                          "type": "display"
+                        }
+                      ]
+                    },
+                    {
+                      "linkId": "PackagedProductDefinition.package.containedItem.modifierExtension",
+                      "text": "Extensions that cannot be ignored even if unrecognized",
+                      "type": "group",
+                      "required": false,
+                      "repeats": true,
+                      "item": [
+                        {
+                          "extension": [
+                            {
+                              "url": "http://hl7.org/fhir/StructureDefinition/questionnaire-itemControl",
+                              "valueCodeableConcept": {
+                                "coding": [
+                                  {
+                                    "system": "http://hl7.org/fhir/questionnaire-item-control",
+                                    "code": "flyover",
+                                    "display": "Fly-over"
+                                  }
+                                ]
+                              }
+                            }
+                          ],
+                          "linkId": "PackagedProductDefinition.package.containedItem.modifierExtension-flyover",
+                          "text": "May be used to represent additional information that is not part of the basic definition of the element and that modifies the understanding of the element in which it is contained and/or the understanding of the containing element\u0027s descendants. Usually modifier elements provide negation or qualification. To make the use of extensions safe and manageable, there is a strict set of governance applied to the definition and use of extensions. Though any implementer can define an extension, there is a set of requirements that SHALL be met as part of the definition of the extension. Applications processing a resource are required to check for modifier extensions.\n\nModifier extensions SHALL NOT change the meaning of any elements on Resource or DomainResource (including cannot change the meaning of modifierExtension itself). There can be no stigma associated with the use of extensions by any application, project, or standard - regardless of the institution or jurisdiction that uses or defines the extensions.  The use of extensions is what allows the FHIR specification to retain a core level of simplicity for everyone.",
+                          "type": "display"
+                        }
+                      ]
+                    },
+                    {
+                      "extension": [
+                        {
+                          "url": "http://hl7.org/fhir/StructureDefinition/questionnaire-minOccurs",
+                          "valueInteger": 1
+                        },
+                        {
+                          "url": "http://hl7.org/fhir/StructureDefinition/questionnaire-maxOccurs",
+                          "valueInteger": 1
+                        }
+                      ],
+                      "linkId": "PackagedProductDefinition.package.containedItem.item",
+                      "text": "The actual item(s) of medication, as manufactured, or a device, or other medically related item (food, biologicals, raw materials, medical fluids, gases etc.), as contained in the package",
+                      "type": "group",
+                      "required": true,
+                      "repeats": false,
+                      "item": [
+                        {
+                          "extension": [
+                            {
+                              "url": "http://hl7.org/fhir/StructureDefinition/questionnaire-itemControl",
+                              "valueCodeableConcept": {
+                                "coding": [
+                                  {
+                                    "system": "http://hl7.org/fhir/questionnaire-item-control",
+                                    "code": "flyover",
+                                    "display": "Fly-over"
+                                  }
+                                ]
+                              }
+                            }
+                          ],
+                          "linkId": "PackagedProductDefinition.package.containedItem.item-flyover",
+                          "text": "The actual item(s) of medication, as manufactured, or a device (typically, but not necessarily, a co-packaged one), or other medically related item (such as food, biologicals, raw materials, medical fluids, gases etc.), as contained in the package. This also allows another whole packaged product to be included, which is solely for the case where a package of other entire packages is wanted - such as a wholesale or distribution pack (for layers within one package, use PackagedProductDefinition.package.package).",
+                          "type": "display"
+                        }
+                      ]
+                    },
+                    {
+                      "extension": [
+                        {
+                          "url": "http://hl7.org/fhir/StructureDefinition/questionnaire-maxOccurs",
+                          "valueInteger": 1
+                        },
+                        {
+                          "url": "http://hl7.org/fhir/StructureDefinition/questionnaire-fhirType",
+                          "valueString": "Quantity"
+                        }
+                      ],
+                      "linkId": "PackagedProductDefinition.package.containedItem.amount",
+                      "text": "The number of this type of item within this packaging",
+                      "type": "group",
+                      "required": false,
+                      "repeats": true,
+                      "item": [
+                        {
+                          "extension": [
+                            {
+                              "url": "http://hl7.org/fhir/StructureDefinition/questionnaire-itemControl",
+                              "valueCodeableConcept": {
+                                "coding": [
+                                  {
+                                    "system": "http://hl7.org/fhir/questionnaire-item-control",
+                                    "code": "flyover",
+                                    "display": "Fly-over"
+                                  }
+                                ]
+                              }
+                            }
+                          ],
+                          "linkId": "PackagedProductDefinition.package.containedItem.amount-flyover",
+                          "text": "The number of this type of item within this packaging.",
+                          "type": "display"
+                        },
+                        {
+                          "linkId": "PackagedProductDefinition.package.containedItem.amount.comparator",
+                          "text": "comp:",
+                          "type": "choice",
+                          "required": false,
+                          "repeats": false
+                        },
+                        {
+                          "linkId": "PackagedProductDefinition.package.containedItem.amount.value",
+                          "text": "value:",
+                          "type": "decimal",
+                          "required": false,
+                          "repeats": false
+                        },
+                        {
+                          "linkId": "PackagedProductDefinition.package.containedItem.amount.units",
+                          "text": "units:",
+                          "type": "string",
+                          "required": false,
+                          "repeats": false
+                        },
+                        {
+                          "linkId": "PackagedProductDefinition.package.containedItem.amount.code",
+                          "text": "coded units:",
+                          "type": "string",
+                          "required": false,
+                          "repeats": false
+                        },
+                        {
+                          "linkId": "PackagedProductDefinition.package.containedItem.amount.system",
+                          "text": "units system:",
+                          "type": "string",
+                          "required": false,
+                          "repeats": false
+                        }
+                      ]
+                    }
+                  ]
                 }
               ]
             }

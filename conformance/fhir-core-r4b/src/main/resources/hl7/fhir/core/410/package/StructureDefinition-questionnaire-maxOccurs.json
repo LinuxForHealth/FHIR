@@ -12,9 +12,10 @@
         }
     ],
     "url": "http://hl7.org/fhir/StructureDefinition/questionnaire-maxOccurs",
-    "version": "4.3.0-CIBUILD",
+    "version": "4.3.0-cibuild",
     "name": "maxOccurs",
     "status": "draft",
+    "experimental": false,
     "date": "2013-07-04",
     "publisher": "HL7",
     "contact": [
@@ -28,7 +29,7 @@
         }
     ],
     "description": "The maximum number of times the group must appear, or the maximum number of answers for a question - when greater than 1 and not unlimited.",
-    "fhirVersion": "4.3.0-CIBUILD",
+    "fhirVersion": "4.3.0-cibuild",
     "mapping": [
         {
             "identity": "rim",

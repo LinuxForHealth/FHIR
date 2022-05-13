@@ -48,8 +48,10 @@ import com.ibm.fhir.model.util.ValidationSupport;
 import com.ibm.fhir.model.visitor.Visitor;
 
 /**
- * Detailed definition of a medicinal product, typically for uses other than direct patient care (e.g. regulatory use, 
- * drug catalogs).
+ * A medicinal product, being a substance or combination of substances that is intended to treat, prevent or diagnose a 
+ * disease, or to restore, correct or modify physiological functions by exerting a pharmacological, immunological or 
+ * metabolic action. This resource is intended to define and detail such products and their properties, for uses other 
+ * than direct patient care (e.g. regulatory use, or drug catalogs).
  * 
  * <p>Maturity level: FMM1 (Trial Use)
  */
@@ -63,6 +65,15 @@ import com.ibm.fhir.model.visitor.Visitor;
     location = "(base)",
     description = "SHOULD contain a code from value set http://hl7.org/fhir/ValueSet/publication-status",
     expression = "status.exists() implies (status.memberOf('http://hl7.org/fhir/ValueSet/publication-status', 'preferred'))",
+    source = "http://hl7.org/fhir/StructureDefinition/MedicinalProductDefinition",
+    generated = true
+)
+@Constraint(
+    id = "medicinalProductDefinition-1",
+    level = "Warning",
+    location = "name.countryLanguage.language",
+    description = "SHOULD contain a code from value set http://hl7.org/fhir/ValueSet/languages",
+    expression = "$this.memberOf('http://hl7.org/fhir/ValueSet/languages', 'preferred')",
     source = "http://hl7.org/fhir/StructureDefinition/MedicinalProductDefinition",
     generated = true
 )
@@ -92,7 +103,7 @@ public class MedicinalProductDefinition extends DomainResource {
     @Binding(
         bindingName = "PublicationStatus",
         strength = BindingStrength.Value.PREFERRED,
-        description = "Identifies the level of importance to be assigned to actioning the request.",
+        description = "The lifecycle status of an artifact.",
         valueSet = "http://hl7.org/fhir/ValueSet/publication-status"
     )
     private final CodeableConcept status;
@@ -127,12 +138,36 @@ public class MedicinalProductDefinition extends DomainResource {
     )
     private final CodeableConcept legalStatusOfSupply;
     @Summary
+    @Binding(
+        bindingName = "AdditionalMonitoring",
+        strength = BindingStrength.Value.EXAMPLE,
+        description = "Extra measures defined for a Medicinal Product, such as heightened reporting requirements (e.g. Black Triangle Monitoring).",
+        valueSet = "http://hl7.org/fhir/ValueSet/medicinal-product-additional-monitoring"
+    )
     private final CodeableConcept additionalMonitoringIndicator;
     @Summary
+    @Binding(
+        bindingName = "SpecialMeasures",
+        strength = BindingStrength.Value.EXAMPLE,
+        description = "Extra measures defined for a Medicinal Product, such as a requirement to conduct post-authorisation studies.",
+        valueSet = "http://hl7.org/fhir/ValueSet/medicinal-product-special-measures"
+    )
     private final List<CodeableConcept> specialMeasures;
     @Summary
+    @Binding(
+        bindingName = "PediatricUse",
+        strength = BindingStrength.Value.EXAMPLE,
+        description = "Suitability for age groups, in particular children.",
+        valueSet = "http://hl7.org/fhir/ValueSet/medicinal-product-pediatric-use"
+    )
     private final CodeableConcept pediatricUseIndicator;
     @Summary
+    @Binding(
+        bindingName = "ProductClassification",
+        strength = BindingStrength.Value.EXAMPLE,
+        description = "This value set includes codes from the Anatomical Therapeutic Chemical Classification System - provided as an exemplar value set.",
+        valueSet = "http://hl7.org/fhir/ValueSet/product-classification-codes"
+    )
     private final List<CodeableConcept> classification;
     @Summary
     private final List<MarketingStatus> marketingStatus;
@@ -145,8 +180,20 @@ public class MedicinalProductDefinition extends DomainResource {
     )
     private final List<CodeableConcept> packagedMedicinalProduct;
     @Summary
+    @Binding(
+        bindingName = "SNOMEDCTSubstanceCodes",
+        strength = BindingStrength.Value.EXAMPLE,
+        description = "This value set includes all substance codes from SNOMED CT - provided as an exemplar value set.",
+        valueSet = "http://hl7.org/fhir/ValueSet/substance-codes"
+    )
     private final List<CodeableConcept> ingredient;
     @Summary
+    @Binding(
+        bindingName = "SNOMEDCTSubstanceCodes",
+        strength = BindingStrength.Value.EXAMPLE,
+        description = "This value set includes all substance codes from SNOMED CT - provided as an exemplar value set.",
+        valueSet = "http://hl7.org/fhir/ValueSet/substance-codes"
+    )
     private final List<CodeableReference> impurity;
     @Summary
     @ReferenceTarget({ "DocumentReference" })
@@ -210,7 +257,9 @@ public class MedicinalProductDefinition extends DomainResource {
     }
 
     /**
-     * Business identifier for this product. Could be an MPID.
+     * Business identifier for this product. Could be an MPID. When in development or being regulated, products are typically 
+     * referenced by official identifiers, assigned by a manufacturer or regulator, and unique to a product (which, when 
+     * compared to a product instance being prescribed, is actually a product type). See also MedicinalProductDefinition.code.
      * 
      * @return
      *     An unmodifiable list containing immutable objects of type {@link Identifier} that may be empty.
@@ -282,7 +331,9 @@ public class MedicinalProductDefinition extends DomainResource {
     }
 
     /**
-     * The dose form for a single part product, or combined form of a multiple part product.
+     * The dose form for a single part product, or combined form of a multiple part product. This is one concept that 
+     * describes all the components. It does not represent the form with components physically mixed, if that might be 
+     * necessary, for which see (AdministrableProductDefinition.administrableDoseForm).
      * 
      * @return
      *     An immutable object of type {@link CodeableConcept} that may be null.
@@ -293,7 +344,8 @@ public class MedicinalProductDefinition extends DomainResource {
 
     /**
      * The path by which the product is taken into or makes contact with the body. In some regions this is referred to as the 
-     * licenced or approved route. See also AdministrableProductDefinition resource.
+     * licenced or approved route. See also AdministrableProductDefinition resource. MedicinalProductDefinition.route is the 
+     * same concept as AdministrableProductDefinition.routeOfAdministration.code, and they cannot be used together.
      * 
      * @return
      *     An unmodifiable list containing immutable objects of type {@link CodeableConcept} that may be empty.
@@ -325,7 +377,8 @@ public class MedicinalProductDefinition extends DomainResource {
     }
 
     /**
-     * Whether the Medicinal Product is subject to additional monitoring for regulatory reasons.
+     * Whether the Medicinal Product is subject to additional monitoring for regulatory reasons, such as heightened reporting 
+     * requirements.
      * 
      * @return
      *     An immutable object of type {@link CodeableConcept} that may be null.
@@ -335,7 +388,8 @@ public class MedicinalProductDefinition extends DomainResource {
     }
 
     /**
-     * Whether the Medicinal Product is subject to special measures for regulatory reasons.
+     * Whether the Medicinal Product is subject to special measures for regulatory reasons, such as a requirement to conduct 
+     * post-authorisation studies.
      * 
      * @return
      *     An unmodifiable list containing immutable objects of type {@link CodeableConcept} that may be empty.
@@ -345,7 +399,7 @@ public class MedicinalProductDefinition extends DomainResource {
     }
 
     /**
-     * If authorised for use in children.
+     * If authorised for use in children, or infants, neonates etc.
      * 
      * @return
      *     An immutable object of type {@link CodeableConcept} that may be null.
@@ -355,7 +409,7 @@ public class MedicinalProductDefinition extends DomainResource {
     }
 
     /**
-     * Allows the product to be classified by various systems.
+     * Allows the product to be classified by various systems, commonly WHO ATC.
      * 
      * @return
      *     An unmodifiable list containing immutable objects of type {@link CodeableConcept} that may be empty.
@@ -365,7 +419,8 @@ public class MedicinalProductDefinition extends DomainResource {
     }
 
     /**
-     * Marketing status of the medicinal product, in contrast to marketing authorization.
+     * Marketing status of the medicinal product, in contrast to marketing authorization. This refers to the product being 
+     * actually 'on the market' as opposed to being allowed to be on the market (which is an authorization).
      * 
      * @return
      *     An unmodifiable list containing immutable objects of type {@link MarketingStatus} that may be empty.
@@ -375,7 +430,7 @@ public class MedicinalProductDefinition extends DomainResource {
     }
 
     /**
-     * Package representation for the product. See also the PackagedProductDefinition resource.
+     * Package type for the product. See also the PackagedProductDefinition resource.
      * 
      * @return
      *     An unmodifiable list containing immutable objects of type {@link CodeableConcept} that may be empty.
@@ -398,7 +453,7 @@ public class MedicinalProductDefinition extends DomainResource {
     }
 
     /**
-     * Any component of the drug product which is not the chemical entity defined as the drug substance or an excipient in 
+     * Any component of the drug product which is not the chemical entity defined as the drug substance, or an excipient in 
      * the drug product. This includes process-related impurities and contaminants, product-related impurities including 
      * degradation products.
      * 
@@ -452,9 +507,10 @@ public class MedicinalProductDefinition extends DomainResource {
     }
 
     /**
-     * A code that this product is known by, usually within some formal terminology. Products (types of medications) tend to 
-     * be known by identifiers during development and within regulatory process. However when they are prescribed they tend 
-     * to be identified by codes. The same product may be have multiple codes, applied to it by multiple organizations.
+     * A code that this product is known by, usually within some formal terminology, perhaps assigned by a third party (i.e. 
+     * not the manufacturer or regulator). Products (types of medications) tend to be known by identifiers during development 
+     * and within regulatory process. However when they are prescribed they tend to be identified by codes. The same product 
+     * may be have multiple codes, applied to it by multiple organizations.
      * 
      * @return
      *     An unmodifiable list containing immutable objects of type {@link Coding} that may be empty.
@@ -474,7 +530,7 @@ public class MedicinalProductDefinition extends DomainResource {
     }
 
     /**
-     * Reference to another product, e.g. for linking authorised to investigational product.
+     * Reference to another product, e.g. for linking authorised to investigational product, or a virtual product.
      * 
      * @return
      *     An unmodifiable list containing immutable objects of type {@link CrossReference} that may be empty.
@@ -934,7 +990,9 @@ public class MedicinalProductDefinition extends DomainResource {
         }
 
         /**
-         * Business identifier for this product. Could be an MPID.
+         * Business identifier for this product. Could be an MPID. When in development or being regulated, products are typically 
+         * referenced by official identifiers, assigned by a manufacturer or regulator, and unique to a product (which, when 
+         * compared to a product instance being prescribed, is actually a product type). See also MedicinalProductDefinition.code.
          * 
          * <p>Adds new element(s) to the existing list.
          * If any of the elements are null, calling {@link #build()} will fail.
@@ -953,7 +1011,9 @@ public class MedicinalProductDefinition extends DomainResource {
         }
 
         /**
-         * Business identifier for this product. Could be an MPID.
+         * Business identifier for this product. Could be an MPID. When in development or being regulated, products are typically 
+         * referenced by official identifiers, assigned by a manufacturer or regulator, and unique to a product (which, when 
+         * compared to a product instance being prescribed, is actually a product type). See also MedicinalProductDefinition.code.
          * 
          * <p>Replaces the existing list with a new one containing elements from the Collection.
          * If any of the elements are null, calling {@link #build()} will fail.
@@ -1004,8 +1064,7 @@ public class MedicinalProductDefinition extends DomainResource {
          * Convenience method for setting {@code version}.
          * 
          * @param version
-         *     A business identifier relating to a specific version of the product, this is commonly used to support revisions to an 
-         *     existing product
+         *     A business identifier relating to a specific version of the product
          * 
          * @return
          *     A reference to this Builder instance
@@ -1022,8 +1081,7 @@ public class MedicinalProductDefinition extends DomainResource {
          * existing product.
          * 
          * @param version
-         *     A business identifier relating to a specific version of the product, this is commonly used to support revisions to an 
-         *     existing product
+         *     A business identifier relating to a specific version of the product
          * 
          * @return
          *     A reference to this Builder instance
@@ -1038,8 +1096,7 @@ public class MedicinalProductDefinition extends DomainResource {
          * carried elsewhere such as legal status, or authorization status.
          * 
          * @param status
-         *     The status within the lifecycle of this product record. A high-level status, this is not intended to duplicate details 
-         *     carried elsewhere such as legal status, or authorization status
+         *     The status within the lifecycle of this product record
          * 
          * @return
          *     A reference to this Builder instance
@@ -1078,7 +1135,9 @@ public class MedicinalProductDefinition extends DomainResource {
         }
 
         /**
-         * The dose form for a single part product, or combined form of a multiple part product.
+         * The dose form for a single part product, or combined form of a multiple part product. This is one concept that 
+         * describes all the components. It does not represent the form with components physically mixed, if that might be 
+         * necessary, for which see (AdministrableProductDefinition.administrableDoseForm).
          * 
          * @param combinedPharmaceuticalDoseForm
          *     The dose form for a single part product, or combined form of a multiple part product
@@ -1093,14 +1152,14 @@ public class MedicinalProductDefinition extends DomainResource {
 
         /**
          * The path by which the product is taken into or makes contact with the body. In some regions this is referred to as the 
-         * licenced or approved route. See also AdministrableProductDefinition resource.
+         * licenced or approved route. See also AdministrableProductDefinition resource. MedicinalProductDefinition.route is the 
+         * same concept as AdministrableProductDefinition.routeOfAdministration.code, and they cannot be used together.
          * 
          * <p>Adds new element(s) to the existing list.
          * If any of the elements are null, calling {@link #build()} will fail.
          * 
          * @param route
-         *     The path by which the product is taken into or makes contact with the body. In some regions this is referred to as the 
-         *     licenced or approved route. See also AdministrableProductDefinition resource
+         *     The path by which the product is taken into or makes contact with the body
          * 
          * @return
          *     A reference to this Builder instance
@@ -1114,14 +1173,14 @@ public class MedicinalProductDefinition extends DomainResource {
 
         /**
          * The path by which the product is taken into or makes contact with the body. In some regions this is referred to as the 
-         * licenced or approved route. See also AdministrableProductDefinition resource.
+         * licenced or approved route. See also AdministrableProductDefinition resource. MedicinalProductDefinition.route is the 
+         * same concept as AdministrableProductDefinition.routeOfAdministration.code, and they cannot be used together.
          * 
          * <p>Replaces the existing list with a new one containing elements from the Collection.
          * If any of the elements are null, calling {@link #build()} will fail.
          * 
          * @param route
-         *     The path by which the product is taken into or makes contact with the body. In some regions this is referred to as the 
-         *     licenced or approved route. See also AdministrableProductDefinition resource
+         *     The path by which the product is taken into or makes contact with the body
          * 
          * @return
          *     A reference to this Builder instance
@@ -1140,9 +1199,7 @@ public class MedicinalProductDefinition extends DomainResource {
          * medical situation for which using the product is appropriate.
          * 
          * @param indication
-         *     Description of indication(s) for this product, used when structured indications are not required. In cases where 
-         *     structured indications are required, they are captured using the ClinicalUseDefinition resource. An indication is a 
-         *     medical situation for which using the product is appropriate
+         *     Description of indication(s) for this product, used when structured indications are not required
          * 
          * @return
          *     A reference to this Builder instance
@@ -1167,7 +1224,8 @@ public class MedicinalProductDefinition extends DomainResource {
         }
 
         /**
-         * Whether the Medicinal Product is subject to additional monitoring for regulatory reasons.
+         * Whether the Medicinal Product is subject to additional monitoring for regulatory reasons, such as heightened reporting 
+         * requirements.
          * 
          * @param additionalMonitoringIndicator
          *     Whether the Medicinal Product is subject to additional monitoring for regulatory reasons
@@ -1181,7 +1239,8 @@ public class MedicinalProductDefinition extends DomainResource {
         }
 
         /**
-         * Whether the Medicinal Product is subject to special measures for regulatory reasons.
+         * Whether the Medicinal Product is subject to special measures for regulatory reasons, such as a requirement to conduct 
+         * post-authorisation studies.
          * 
          * <p>Adds new element(s) to the existing list.
          * If any of the elements are null, calling {@link #build()} will fail.
@@ -1200,7 +1259,8 @@ public class MedicinalProductDefinition extends DomainResource {
         }
 
         /**
-         * Whether the Medicinal Product is subject to special measures for regulatory reasons.
+         * Whether the Medicinal Product is subject to special measures for regulatory reasons, such as a requirement to conduct 
+         * post-authorisation studies.
          * 
          * <p>Replaces the existing list with a new one containing elements from the Collection.
          * If any of the elements are null, calling {@link #build()} will fail.
@@ -1220,7 +1280,7 @@ public class MedicinalProductDefinition extends DomainResource {
         }
 
         /**
-         * If authorised for use in children.
+         * If authorised for use in children, or infants, neonates etc.
          * 
          * @param pediatricUseIndicator
          *     If authorised for use in children
@@ -1234,7 +1294,7 @@ public class MedicinalProductDefinition extends DomainResource {
         }
 
         /**
-         * Allows the product to be classified by various systems.
+         * Allows the product to be classified by various systems, commonly WHO ATC.
          * 
          * <p>Adds new element(s) to the existing list.
          * If any of the elements are null, calling {@link #build()} will fail.
@@ -1253,7 +1313,7 @@ public class MedicinalProductDefinition extends DomainResource {
         }
 
         /**
-         * Allows the product to be classified by various systems.
+         * Allows the product to be classified by various systems, commonly WHO ATC.
          * 
          * <p>Replaces the existing list with a new one containing elements from the Collection.
          * If any of the elements are null, calling {@link #build()} will fail.
@@ -1273,7 +1333,8 @@ public class MedicinalProductDefinition extends DomainResource {
         }
 
         /**
-         * Marketing status of the medicinal product, in contrast to marketing authorization.
+         * Marketing status of the medicinal product, in contrast to marketing authorization. This refers to the product being 
+         * actually 'on the market' as opposed to being allowed to be on the market (which is an authorization).
          * 
          * <p>Adds new element(s) to the existing list.
          * If any of the elements are null, calling {@link #build()} will fail.
@@ -1292,7 +1353,8 @@ public class MedicinalProductDefinition extends DomainResource {
         }
 
         /**
-         * Marketing status of the medicinal product, in contrast to marketing authorization.
+         * Marketing status of the medicinal product, in contrast to marketing authorization. This refers to the product being 
+         * actually 'on the market' as opposed to being allowed to be on the market (which is an authorization).
          * 
          * <p>Replaces the existing list with a new one containing elements from the Collection.
          * If any of the elements are null, calling {@link #build()} will fail.
@@ -1312,13 +1374,13 @@ public class MedicinalProductDefinition extends DomainResource {
         }
 
         /**
-         * Package representation for the product. See also the PackagedProductDefinition resource.
+         * Package type for the product. See also the PackagedProductDefinition resource.
          * 
          * <p>Adds new element(s) to the existing list.
          * If any of the elements are null, calling {@link #build()} will fail.
          * 
          * @param packagedMedicinalProduct
-         *     Package representation for the product
+         *     Package type for the product
          * 
          * @return
          *     A reference to this Builder instance
@@ -1331,13 +1393,13 @@ public class MedicinalProductDefinition extends DomainResource {
         }
 
         /**
-         * Package representation for the product. See also the PackagedProductDefinition resource.
+         * Package type for the product. See also the PackagedProductDefinition resource.
          * 
          * <p>Replaces the existing list with a new one containing elements from the Collection.
          * If any of the elements are null, calling {@link #build()} will fail.
          * 
          * @param packagedMedicinalProduct
-         *     Package representation for the product
+         *     Package type for the product
          * 
          * @return
          *     A reference to this Builder instance
@@ -1360,10 +1422,7 @@ public class MedicinalProductDefinition extends DomainResource {
          * If any of the elements are null, calling {@link #build()} will fail.
          * 
          * @param ingredient
-         *     The ingredients of this medicinal product - when not detailed in other resources. This is only needed if the 
-         *     ingredients are not specified by incoming references from the Ingredient resource, or indirectly via incoming 
-         *     AdministrableProductDefinition, PackagedProductDefinition or ManufacturedItemDefinition references. In cases where 
-         *     those levels of detail are not used, the ingredients may be specified directly here as codes
+         *     The ingredients of this medicinal product - when not detailed in other resources
          * 
          * @return
          *     A reference to this Builder instance
@@ -1385,10 +1444,7 @@ public class MedicinalProductDefinition extends DomainResource {
          * If any of the elements are null, calling {@link #build()} will fail.
          * 
          * @param ingredient
-         *     The ingredients of this medicinal product - when not detailed in other resources. This is only needed if the 
-         *     ingredients are not specified by incoming references from the Ingredient resource, or indirectly via incoming 
-         *     AdministrableProductDefinition, PackagedProductDefinition or ManufacturedItemDefinition references. In cases where 
-         *     those levels of detail are not used, the ingredients may be specified directly here as codes
+         *     The ingredients of this medicinal product - when not detailed in other resources
          * 
          * @return
          *     A reference to this Builder instance
@@ -1402,7 +1458,7 @@ public class MedicinalProductDefinition extends DomainResource {
         }
 
         /**
-         * Any component of the drug product which is not the chemical entity defined as the drug substance or an excipient in 
+         * Any component of the drug product which is not the chemical entity defined as the drug substance, or an excipient in 
          * the drug product. This includes process-related impurities and contaminants, product-related impurities including 
          * degradation products.
          * 
@@ -1410,9 +1466,8 @@ public class MedicinalProductDefinition extends DomainResource {
          * If any of the elements are null, calling {@link #build()} will fail.
          * 
          * @param impurity
-         *     Any component of the drug product which is not the chemical entity defined as the drug substance or an excipient in 
-         *     the drug product. This includes process-related impurities and contaminants, product-related impurities including 
-         *     degradation products
+         *     Any component of the drug product which is not the chemical entity defined as the drug substance, or an excipient in 
+         *     the drug product
          * 
          * @return
          *     A reference to this Builder instance
@@ -1425,7 +1480,7 @@ public class MedicinalProductDefinition extends DomainResource {
         }
 
         /**
-         * Any component of the drug product which is not the chemical entity defined as the drug substance or an excipient in 
+         * Any component of the drug product which is not the chemical entity defined as the drug substance, or an excipient in 
          * the drug product. This includes process-related impurities and contaminants, product-related impurities including 
          * degradation products.
          * 
@@ -1433,9 +1488,8 @@ public class MedicinalProductDefinition extends DomainResource {
          * If any of the elements are null, calling {@link #build()} will fail.
          * 
          * @param impurity
-         *     Any component of the drug product which is not the chemical entity defined as the drug substance or an excipient in 
-         *     the drug product. This includes process-related impurities and contaminants, product-related impurities including 
-         *     degradation products
+         *     Any component of the drug product which is not the chemical entity defined as the drug substance, or an excipient in 
+         *     the drug product
          * 
          * @return
          *     A reference to this Builder instance
@@ -1460,7 +1514,7 @@ public class MedicinalProductDefinition extends DomainResource {
          * </ul>
          * 
          * @param attachedDocument
-         *     Additional information or supporting documentation about the medicinal product
+         *     Additional documentation about the medicinal product
          * 
          * @return
          *     A reference to this Builder instance
@@ -1484,7 +1538,7 @@ public class MedicinalProductDefinition extends DomainResource {
          * </ul>
          * 
          * @param attachedDocument
-         *     Additional information or supporting documentation about the medicinal product
+         *     Additional documentation about the medicinal product
          * 
          * @return
          *     A reference to this Builder instance
@@ -1639,9 +1693,10 @@ public class MedicinalProductDefinition extends DomainResource {
         }
 
         /**
-         * A code that this product is known by, usually within some formal terminology. Products (types of medications) tend to 
-         * be known by identifiers during development and within regulatory process. However when they are prescribed they tend 
-         * to be identified by codes. The same product may be have multiple codes, applied to it by multiple organizations.
+         * A code that this product is known by, usually within some formal terminology, perhaps assigned by a third party (i.e. 
+         * not the manufacturer or regulator). Products (types of medications) tend to be known by identifiers during development 
+         * and within regulatory process. However when they are prescribed they tend to be identified by codes. The same product 
+         * may be have multiple codes, applied to it by multiple organizations.
          * 
          * <p>Adds new element(s) to the existing list.
          * If any of the elements are null, calling {@link #build()} will fail.
@@ -1660,9 +1715,10 @@ public class MedicinalProductDefinition extends DomainResource {
         }
 
         /**
-         * A code that this product is known by, usually within some formal terminology. Products (types of medications) tend to 
-         * be known by identifiers during development and within regulatory process. However when they are prescribed they tend 
-         * to be identified by codes. The same product may be have multiple codes, applied to it by multiple organizations.
+         * A code that this product is known by, usually within some formal terminology, perhaps assigned by a third party (i.e. 
+         * not the manufacturer or regulator). Products (types of medications) tend to be known by identifiers during development 
+         * and within regulatory process. However when they are prescribed they tend to be identified by codes. The same product 
+         * may be have multiple codes, applied to it by multiple organizations.
          * 
          * <p>Replaces the existing list with a new one containing elements from the Collection.
          * If any of the elements are null, calling {@link #build()} will fail.
@@ -1725,7 +1781,7 @@ public class MedicinalProductDefinition extends DomainResource {
         }
 
         /**
-         * Reference to another product, e.g. for linking authorised to investigational product.
+         * Reference to another product, e.g. for linking authorised to investigational product, or a virtual product.
          * 
          * <p>Adds new element(s) to the existing list.
          * If any of the elements are null, calling {@link #build()} will fail.
@@ -1744,7 +1800,7 @@ public class MedicinalProductDefinition extends DomainResource {
         }
 
         /**
-         * Reference to another product, e.g. for linking authorised to investigational product.
+         * Reference to another product, e.g. for linking authorised to investigational product, or a virtual product.
          * 
          * <p>Replaces the existing list with a new one containing elements from the Collection.
          * If any of the elements are null, calling {@link #build()} will fail.
@@ -1770,7 +1826,7 @@ public class MedicinalProductDefinition extends DomainResource {
          * If any of the elements are null, calling {@link #build()} will fail.
          * 
          * @param operation
-         *     A manufacturing or administrative process or step associated with (or performed on) the medicinal product
+         *     A manufacturing or administrative process for the medicinal product
          * 
          * @return
          *     A reference to this Builder instance
@@ -1789,7 +1845,7 @@ public class MedicinalProductDefinition extends DomainResource {
          * If any of the elements are null, calling {@link #build()} will fail.
          * 
          * @param operation
-         *     A manufacturing or administrative process or step associated with (or performed on) the medicinal product
+         *     A manufacturing or administrative process for the medicinal product
          * 
          * @return
          *     A reference to this Builder instance
@@ -1809,7 +1865,7 @@ public class MedicinalProductDefinition extends DomainResource {
          * If any of the elements are null, calling {@link #build()} will fail.
          * 
          * @param characteristic
-         *     Allows the key product features to be recorded, such as "sugar free", "modified release", "parallel import"
+         *     Key product features such as "sugar free", "modified release"
          * 
          * @return
          *     A reference to this Builder instance
@@ -1828,7 +1884,7 @@ public class MedicinalProductDefinition extends DomainResource {
          * If any of the elements are null, calling {@link #build()} will fail.
          * 
          * @param characteristic
-         *     Allows the key product features to be recorded, such as "sugar free", "modified release", "parallel import"
+         *     Key product features such as "sugar free", "modified release"
          * 
          * @return
          *     A reference to this Builder instance
@@ -1926,6 +1982,12 @@ public class MedicinalProductDefinition extends DomainResource {
      */
     public static class Contact extends BackboneElement {
         @Summary
+        @Binding(
+            bindingName = "ProductContactType",
+            strength = BindingStrength.Value.EXAMPLE,
+            description = "Extra measures defined for a Medicinal Product, such as heightened reporting requirements.",
+            valueSet = "http://hl7.org/fhir/ValueSet/medicinal-product-contact-type"
+        )
         private final CodeableConcept type;
         @Summary
         @ReferenceTarget({ "Organization", "PractitionerRole" })
@@ -2225,6 +2287,12 @@ public class MedicinalProductDefinition extends DomainResource {
         @Required
         private final String productName;
         @Summary
+        @Binding(
+            bindingName = "ProductNameType",
+            strength = BindingStrength.Value.EXAMPLE,
+            description = "Type of a name for a Medicinal Product.",
+            valueSet = "http://hl7.org/fhir/ValueSet/medicinal-product-name-type"
+        )
         private final CodeableConcept type;
         @Summary
         private final List<NamePart> namePart;
@@ -2270,7 +2338,7 @@ public class MedicinalProductDefinition extends DomainResource {
         }
 
         /**
-         * Country where the name applies.
+         * Country and jurisdiction where the name applies, and associated language.
          * 
          * @return
          *     An unmodifiable list containing immutable objects of type {@link CountryLanguage} that may be empty.
@@ -2562,13 +2630,13 @@ public class MedicinalProductDefinition extends DomainResource {
             }
 
             /**
-             * Country where the name applies.
+             * Country and jurisdiction where the name applies, and associated language.
              * 
              * <p>Adds new element(s) to the existing list.
              * If any of the elements are null, calling {@link #build()} will fail.
              * 
              * @param countryLanguage
-             *     Country where the name applies
+             *     Country and jurisdiction where the name applies
              * 
              * @return
              *     A reference to this Builder instance
@@ -2581,13 +2649,13 @@ public class MedicinalProductDefinition extends DomainResource {
             }
 
             /**
-             * Country where the name applies.
+             * Country and jurisdiction where the name applies, and associated language.
              * 
              * <p>Replaces the existing list with a new one containing elements from the Collection.
              * If any of the elements are null, calling {@link #build()} will fail.
              * 
              * @param countryLanguage
-             *     Country where the name applies
+             *     Country and jurisdiction where the name applies
              * 
              * @return
              *     A reference to this Builder instance
@@ -2648,6 +2716,12 @@ public class MedicinalProductDefinition extends DomainResource {
             @Required
             private final String part;
             @Summary
+            @Binding(
+                bindingName = "ProductNamePartType",
+                strength = BindingStrength.Value.EXAMPLE,
+                description = "Type of part of a name for a Medicinal Product.",
+                valueSet = "http://hl7.org/fhir/ValueSet/medicinal-product-name-part-type"
+            )
             @Required
             private final CodeableConcept type;
 
@@ -2952,15 +3026,34 @@ public class MedicinalProductDefinition extends DomainResource {
         }
 
         /**
-         * Country where the name applies.
+         * Country and jurisdiction where the name applies, and associated language.
          */
         public static class CountryLanguage extends BackboneElement {
             @Summary
+            @Binding(
+                bindingName = "Country",
+                strength = BindingStrength.Value.EXAMPLE,
+                description = "Jurisdiction codes",
+                valueSet = "http://hl7.org/fhir/ValueSet/country"
+            )
             @Required
             private final CodeableConcept country;
             @Summary
+            @Binding(
+                bindingName = "Jurisdiction",
+                strength = BindingStrength.Value.EXAMPLE,
+                description = "Jurisdiction codes",
+                valueSet = "http://hl7.org/fhir/ValueSet/jurisdiction"
+            )
             private final CodeableConcept jurisdiction;
             @Summary
+            @Binding(
+                bindingName = "Language",
+                strength = BindingStrength.Value.PREFERRED,
+                description = "IETF language tag",
+                valueSet = "http://hl7.org/fhir/ValueSet/languages",
+                maxValueSet = "http://hl7.org/fhir/ValueSet/all-languages"
+            )
             @Required
             private final CodeableConcept language;
 
@@ -2982,7 +3075,8 @@ public class MedicinalProductDefinition extends DomainResource {
             }
 
             /**
-             * Jurisdiction code for where this name applies.
+             * Jurisdiction code for where this name applies. A jurisdiction may be a sub- or supra-national entity (e.g. a state or 
+             * a geographic region).
              * 
              * @return
              *     An immutable object of type {@link CodeableConcept} that may be null.
@@ -3208,7 +3302,8 @@ public class MedicinalProductDefinition extends DomainResource {
                 }
 
                 /**
-                 * Jurisdiction code for where this name applies.
+                 * Jurisdiction code for where this name applies. A jurisdiction may be a sub- or supra-national entity (e.g. a state or 
+                 * a geographic region).
                  * 
                  * @param jurisdiction
                  *     Jurisdiction code for where this name applies
@@ -3264,6 +3359,7 @@ public class MedicinalProductDefinition extends DomainResource {
                     super.validate(countryLanguage);
                     ValidationSupport.requireNonNull(countryLanguage.country, "country");
                     ValidationSupport.requireNonNull(countryLanguage.language, "language");
+                    ValidationSupport.checkValueSetBinding(countryLanguage.language, "language", "http://hl7.org/fhir/ValueSet/all-languages", "urn:ietf:bcp:47");
                     ValidationSupport.requireValueOrChildren(countryLanguage);
                 }
 
@@ -3279,13 +3375,19 @@ public class MedicinalProductDefinition extends DomainResource {
     }
 
     /**
-     * Reference to another product, e.g. for linking authorised to investigational product.
+     * Reference to another product, e.g. for linking authorised to investigational product, or a virtual product.
      */
     public static class CrossReference extends BackboneElement {
         @Summary
         @Required
         private final CodeableReference product;
         @Summary
+        @Binding(
+            bindingName = "ProductCrossReferenceType",
+            strength = BindingStrength.Value.EXAMPLE,
+            description = "Extra measures defined for a Medicinal Product, such as heightened reporting requirements.",
+            valueSet = "http://hl7.org/fhir/ValueSet/medicinal-product-cross-reference-type"
+        )
         private final CodeableConcept type;
 
         private CrossReference(Builder builder) {
@@ -3305,8 +3407,8 @@ public class MedicinalProductDefinition extends DomainResource {
         }
 
         /**
-         * The type of relationship, for instance branded to generic, product to development product (investigational), parallel 
-         * import version.
+         * The type of relationship, for instance branded to generic, virtual to actual product, product to development product 
+         * (investigational), parallel import version.
          * 
          * @return
          *     An immutable object of type {@link CodeableConcept} that may be null.
@@ -3517,12 +3619,11 @@ public class MedicinalProductDefinition extends DomainResource {
             }
 
             /**
-             * The type of relationship, for instance branded to generic, product to development product (investigational), parallel 
-             * import version.
+             * The type of relationship, for instance branded to generic, virtual to actual product, product to development product 
+             * (investigational), parallel import version.
              * 
              * @param type
-             *     The type of relationship, for instance branded to generic, product to development product (investigational), parallel 
-             *     import version
+             *     The type of relationship, for instance branded to generic or virtual to actual product
              * 
              * @return
              *     A reference to this Builder instance
@@ -3581,6 +3682,12 @@ public class MedicinalProductDefinition extends DomainResource {
         @ReferenceTarget({ "Organization" })
         private final List<Reference> organization;
         @Summary
+        @Binding(
+            bindingName = "ProductConfidentiality",
+            strength = BindingStrength.Value.EXAMPLE,
+            description = "Confidentiality rating, e.g. commercial sensitivity for a Medicinal Product.",
+            valueSet = "http://hl7.org/fhir/ValueSet/medicinal-product-confidentiality"
+        )
         private final CodeableConcept confidentialityIndicator;
 
         private Operation(Builder builder) {
@@ -3833,8 +3940,7 @@ public class MedicinalProductDefinition extends DomainResource {
              * RegulatedAuthorization would point to the same plan or activity referenced here.
              * 
              * @param type
-             *     The type of manufacturing operation e.g. manufacturing itself, re-packaging. For the authorization of this, a 
-             *     RegulatedAuthorization would point to the same plan or activity referenced here
+             *     The type of manufacturing operation e.g. manufacturing itself, re-packaging
              * 
              * @return
              *     A reference to this Builder instance
@@ -3871,8 +3977,7 @@ public class MedicinalProductDefinition extends DomainResource {
              * </ul>
              * 
              * @param organization
-             *     The organization or establishment responsible for (or associated with) the particular process or step, examples 
-             *     include the manufacturer, importer, agent
+             *     The organization responsible for the particular process, e.g. the manufacturer or importer
              * 
              * @return
              *     A reference to this Builder instance
@@ -3897,8 +4002,7 @@ public class MedicinalProductDefinition extends DomainResource {
              * </ul>
              * 
              * @param organization
-             *     The organization or establishment responsible for (or associated with) the particular process or step, examples 
-             *     include the manufacturer, importer, agent
+             *     The organization responsible for the particular process, e.g. the manufacturer or importer
              * 
              * @return
              *     A reference to this Builder instance
@@ -3915,7 +4019,7 @@ public class MedicinalProductDefinition extends DomainResource {
              * Specifies whether this particular business or manufacturing process is considered proprietary or confidential.
              * 
              * @param confidentialityIndicator
-             *     Specifies whether this particular business or manufacturing process is considered proprietary or confidential
+             *     Specifies whether this process is considered proprietary or confidential
              * 
              * @return
              *     A reference to this Builder instance
@@ -3965,6 +4069,12 @@ public class MedicinalProductDefinition extends DomainResource {
      */
     public static class Characteristic extends BackboneElement {
         @Summary
+        @Binding(
+            bindingName = "ProductCharacteristic",
+            strength = BindingStrength.Value.EXAMPLE,
+            description = "This value set includes all observable entity codes from SNOMED CT - provided as an exemplar value set.",
+            valueSet = "http://hl7.org/fhir/ValueSet/product-characteristic-codes"
+        )
         @Required
         private final CodeableConcept type;
         @Summary

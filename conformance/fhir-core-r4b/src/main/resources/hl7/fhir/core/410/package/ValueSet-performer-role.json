@@ -2,7 +2,7 @@
     "resourceType": "ValueSet",
     "id": "performer-role",
     "meta": {
-        "lastUpdated": "2022-03-03T22:04:06.196Z",
+        "lastUpdated": "2022-04-23T22:21:35.043Z",
         "profile": [
             "http://hl7.org/fhir/StructureDefinition/shareablevalueset"
         ]
@@ -28,7 +28,7 @@
             "value": "urn:oid:2.16.840.1.113883.4.642.3.433"
         }
     ],
-    "version": "4.3.0-CIBUILD",
+    "version": "4.3.0-cibuild",
     "name": "ProcedurePerformerRoleCodes",
     "title": "Procedure Performer Role Codes",
     "status": "draft",
@@ -67,11 +67,12 @@
                 "valueBoolean": true
             }
         ],
-        "identifier": "urn:uuid:01f677e7-966c-45b0-93f1-685d9ad9563d",
-        "timestamp": "2021-11-17T05:28:36.17Z",
+        "identifier": "urn:uuid:c5c36328-b6bd-4430-a24b-6b86efb13fb2",
+        "timestamp": "2022-04-23T22:23:26Z",
+        "total": 490,
         "parameter": [
             {
-                "name": "limitedExpansion",
+                "name": "excludeNested",
                 "valueBoolean": true
             },
             {
@@ -79,12 +80,12 @@
                 "valueBoolean": true
             },
             {
-                "name": "excludeNested",
+                "name": "limitedExpansion",
                 "valueBoolean": true
             },
             {
                 "name": "version",
-                "valueUri": "http://snomed.info/sct|http://snomed.info/sct/900000000000207008/version/20200131"
+                "valueUri": "http://snomed.info/sct|http://snomed.info/sct/900000000000207008/version/20200731"
             }
         ],
         "contains": [
@@ -1350,19 +1351,6 @@
             },
             {
                 "system": "http://snomed.info/sct",
-                "code": "83189004",
-                "display": "Other professional nurse (occupation)",
-                "designation": [
-                    {
-                        "value": "Other professional nurse (occupation)"
-                    },
-                    {
-                        "value": "Other professional nurse"
-                    }
-                ]
-            },
-            {
-                "system": "http://snomed.info/sct",
                 "code": "83273008",
                 "display": "Anatomic pathologist",
                 "designation": [
@@ -1416,22 +1404,6 @@
                     },
                     {
                         "value": "Consultant anesthetist"
-                    }
-                ]
-            },
-            {
-                "system": "http://snomed.info/sct",
-                "code": "88475002",
-                "display": "Other dietitians and public health nutritionists",
-                "designation": [
-                    {
-                        "value": "Other dietitians and public health nutritionists"
-                    },
-                    {
-                        "value": "Other dietitian/public health nutritionist (occupation)"
-                    },
-                    {
-                        "value": "Other dietitian/public health nutritionist"
                     }
                 ]
             },
@@ -1585,19 +1557,6 @@
                     },
                     {
                         "value": "Philologist, translator/interpreter"
-                    }
-                ]
-            },
-            {
-                "system": "http://snomed.info/sct",
-                "code": "112247003",
-                "display": "Medical doctor",
-                "designation": [
-                    {
-                        "value": "Medical doctor"
-                    },
-                    {
-                        "value": "Medical doctor (occupation)"
                     }
                 ]
             },
@@ -2966,19 +2925,6 @@
             },
             {
                 "system": "http://snomed.info/sct",
-                "code": "224561008",
-                "display": "Theatre nurse",
-                "designation": [
-                    {
-                        "value": "Theatre nurse"
-                    },
-                    {
-                        "value": "Theatre nurse (occupation)"
-                    }
-                ]
-            },
-            {
-                "system": "http://snomed.info/sct",
                 "code": "224562001",
                 "display": "Pediatric nurse",
                 "designation": [
@@ -4302,6 +4248,9 @@
                     },
                     {
                         "value": "Physician (occupation)"
+                    },
+                    {
+                        "value": "Medical doctor"
                     }
                 ]
             },
@@ -6286,6 +6235,12 @@
                     },
                     {
                         "value": "Perioperative nurse"
+                    },
+                    {
+                        "value": "Theater nurse"
+                    },
+                    {
+                        "value": "Operating room nurse"
                     }
                 ]
             },
@@ -6951,6 +6906,32 @@
             },
             {
                 "system": "http://snomed.info/sct",
+                "code": "840583002",
+                "display": "Allied health assistant (occupation)",
+                "designation": [
+                    {
+                        "value": "Allied health assistant (occupation)"
+                    },
+                    {
+                        "value": "Allied health assistant"
+                    }
+                ]
+            },
+            {
+                "system": "http://snomed.info/sct",
+                "code": "840584008",
+                "display": "Allied health student",
+                "designation": [
+                    {
+                        "value": "Allied health student"
+                    },
+                    {
+                        "value": "Allied health student (occupation)"
+                    }
+                ]
+            },
+            {
+                "system": "http://snomed.info/sct",
                 "code": "3981000175106",
                 "display": "Nurse complex case manager",
                 "designation": [
@@ -6959,6 +6940,61 @@
                     },
                     {
                         "value": "Nurse complex case manager (occupation)"
+                    }
+                ]
+            },
+            {
+                "system": "http://snomed.info/sct",
+                "code": "25941000087102",
+                "display": "Adult gerontology primary care nurse practitioner (occupation)",
+                "designation": [
+                    {
+                        "value": "Adult gerontology primary care nurse practitioner (occupation)"
+                    },
+                    {
+                        "value": "Adult gerontology primary care nurse practitioner"
+                    }
+                ]
+            },
+            {
+                "system": "http://snomed.info/sct",
+                "code": "26031000087100",
+                "display": "Pediatric nurse practitioner (occupation)",
+                "designation": [
+                    {
+                        "value": "Pediatric nurse practitioner (occupation)"
+                    },
+                    {
+                        "value": "Pediatric nurse practitioner"
+                    }
+                ]
+            },
+            {
+                "system": "http://snomed.info/sct",
+                "code": "26071000087103",
+                "display": "PHCNP - primary health care nurse practitioner",
+                "designation": [
+                    {
+                        "value": "PHCNP - primary health care nurse practitioner"
+                    },
+                    {
+                        "value": "Primary health care nurse practitioner (occupation)"
+                    },
+                    {
+                        "value": "Primary health care nurse practitioner"
+                    }
+                ]
+            },
+            {
+                "system": "http://snomed.info/sct",
+                "code": "26091000087104",
+                "display": "Public health nurse practitioner",
+                "designation": [
+                    {
+                        "value": "Public health nurse practitioner"
+                    },
+                    {
+                        "value": "Public health nurse practitioner (occupation)"
                     }
                 ]
             },

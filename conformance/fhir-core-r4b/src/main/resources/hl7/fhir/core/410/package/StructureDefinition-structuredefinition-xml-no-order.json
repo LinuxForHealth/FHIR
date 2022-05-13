@@ -12,10 +12,11 @@
         }
     ],
     "url": "http://hl7.org/fhir/StructureDefinition/structuredefinition-xml-no-order",
-    "version": "4.3.0-CIBUILD",
+    "version": "4.3.0-cibuild",
     "name": "xml-no-order",
     "title": "No Order in XML",
     "status": "draft",
+    "experimental": false,
     "date": "2014-01-31",
     "publisher": "Health Level Seven, Inc. - [WG Name] WG",
     "contact": [
@@ -29,7 +30,7 @@
         }
     ],
     "description": "Whether elements can come in any order in XML.",
-    "fhirVersion": "4.3.0-CIBUILD",
+    "fhirVersion": "4.3.0-cibuild",
     "mapping": [
         {
             "identity": "rim",

@@ -2,7 +2,7 @@
     "resourceType": "StructureDefinition",
     "id": "AdministrableProductDefinition",
     "meta": {
-        "lastUpdated": "2022-01-01T15:17:18.597Z"
+        "lastUpdated": "2022-04-23T22:21:35.043Z"
     },
     "text": {
         "status": "empty",
@@ -31,10 +31,11 @@
         }
     ],
     "url": "http://hl7.org/fhir/StructureDefinition/AdministrableProductDefinition",
-    "version": "4.3.0-CIBUILD",
+    "version": "4.3.0-cibuild",
     "name": "AdministrableProductDefinition",
     "status": "draft",
-    "date": "2022-01-01T15:17:18Z",
+    "experimental": false,
+    "date": "2022-04-23T22:21:35Z",
     "publisher": "Health Level Seven International (Biomedical Research and Regulation)",
     "contact": [
         {
@@ -55,7 +56,7 @@
         }
     ],
     "description": "A medicinal product in the final form which is suitable for administering to a patient (after any mixing of multiple components, dissolution etc. has been performed).",
-    "fhirVersion": "4.3.0-CIBUILD",
+    "fhirVersion": "4.3.0-cibuild",
     "mapping": [
         {
             "identity": "idmp",
@@ -83,7 +84,7 @@
             {
                 "id": "AdministrableProductDefinition",
                 "path": "AdministrableProductDefinition",
-                "short": "A medicinal product in the final form which is suitable for administering to a patient (after any mixing of multiple components, dissolution etc. has been performed)",
+                "short": "A medicinal product in the final form, suitable for administration - after any mixing of multiple components",
                 "definition": "A medicinal product in the final form which is suitable for administering to a patient (after any mixing of multiple components, dissolution etc. has been performed).",
                 "alias": [
                     "Pharmaceutical Product"
@@ -97,6 +98,14 @@
                 },
                 "constraint": [
                     {
+                        "key": "apd-1",
+                        "severity": "error",
+                        "human": "RouteOfAdministration cannot be used when the 'formOf' product already uses MedicinalProductDefinition.route (and vice versa)",
+                        "expression": "(AdministrableProductDefinition.routeOfAdministration.code.count() + AdministrableProductDefinition.formOf.resolve().route.count())  < 2",
+                        "xpath": "count(f:AdministrableProductDefinition/f:routeOfAdministration/f:code|//f:MedicinalProductDefinition[f:id/@value=current()/ancestor::f:AdministrableProductDefinition/f:formOf/f:reference/@value]/f:route) < 2",
+                        "source": "http://hl7.org/fhir/StructureDefinition/AdministrableProductDefinition"
+                    },
+                    {
                         "key": "dom-2",
                         "severity": "error",
                         "human": "If the resource is contained in another resource, it SHALL NOT contain nested Resources",
@@ -109,7 +118,7 @@
                         "severity": "error",
                         "human": "If the resource is contained in another resource, it SHALL be referred to from elsewhere in the resource or SHALL refer to the containing resource",
                         "expression": "contained.where(((id.exists() and ('#'+id in (%resource.descendants().reference | %resource.descendants().as(canonical) | %resource.descendants().as(uri) | %resource.descendants().as(url)))) or descendants().where(reference = '#').exists() or descendants().where(as(canonical) = '#').exists() or descendants().where(as(uri) = '#').exists()).not()).trace('unmatched', id).empty()",
-                        "xpath": "not(exists(for $resource in . return (for $contained in $resource/f:contained return $contained[not(descendant::f:*/@value='#' or (exists(f:id) and $resource//f:*/@*=concat('#', $contained/*/f:id/@value)))])))",
+                        "xpath": "not(exists(for $contained in f:contained return $contained[not(exists(parent::*/descendant::f:reference/@value=concat('#', $contained/*/f:id/@value)) or exists(descendant::f:reference[@value='#']))]))",
                         "source": "http://hl7.org/fhir/StructureDefinition/DomainResource"
                     },
                     {
@@ -375,6 +384,16 @@
                         "code": "Resource"
                     }
                 ],
+                "constraint": [
+                    {
+                        "key": "dom-r4b",
+                        "severity": "warning",
+                        "human": "Containing new R4B resources within R4 resources may cause interoperability issues if instances are shared with R4 systems",
+                        "expression": "($this is Citation or $this is Evidence or $this is EvidenceReport or $this is EvidenceVariable or $this is MedicinalProductDefinition or $this is PackagedProductDefinition or $this is AdministrableProductDefinition or $this is Ingredient or $this is ClinicalUseDefinition or $this is RegulatedAuthorization or $this is SubstanceDefinition or $this is SubscriptionStatus or $this is SubscriptionTopic) implies (%resource is Citation or %resource is Evidence or %resource is EvidenceReport or %resource is EvidenceVariable or %resource is MedicinalProductDefinition or %resource is PackagedProductDefinition or %resource is AdministrableProductDefinition or %resource is Ingredient or %resource is ClinicalUseDefinition or %resource is RegulatedAuthorization or %resource is SubstanceDefinition or %resource is SubscriptionStatus or %resource is SubscriptionTopic)",
+                        "xpath": "not(f:Citation|f:Evidence|f:EvidenceReport|f:EvidenceVariable|f:MedicinalProductDefinition|f:PackagedProductDefinition|f:AdministrableProductDefinition|f:Ingredient|f:ClinicalUseDefinition|f:RegulatedAuthorization|f:SubstanceDefinition|f:SubscriptionStatus|f:SubscriptionTopic) or not(parent::f:Citation|parent::f:Evidence|parent::f:EvidenceReport|parent::f:EvidenceVariable|parent::f:MedicinalProductDefinition|parent::f:PackagedProductDefinition|parent::f:AdministrableProductDefinition|parent::f:Ingredient|parent::f:ClinicalUseDefinition|parent::f:RegulatedAuthorization|parent::f:SubstanceDefinition|f:SubscriptionStatus|f:SubscriptionTopic)",
+                        "source": "http://hl7.org/fhir/StructureDefinition/AdministrableProductDefinition"
+                    }
+                ],
                 "mustSupport": false,
                 "isModifier": false,
                 "isSummary": false,
@@ -569,7 +588,7 @@
                     ],
                     "strength": "required",
                     "description": "The lifecycle status of an artifact.",
-                    "valueSet": "http://hl7.org/fhir/ValueSet/publication-status|4.3.0-CIBUILD"
+                    "valueSet": "http://hl7.org/fhir/ValueSet/publication-status|4.3.0-cibuild"
                 },
                 "mapping": [
                     {
@@ -581,8 +600,8 @@
             {
                 "id": "AdministrableProductDefinition.formOf",
                 "path": "AdministrableProductDefinition.formOf",
-                "short": "The medicinal product that this is a prepared administrable form of. This element is not a reference to the item(s) that make up this administrable form (for which see AdministrableProductDefinition.producedFrom). It is medicinal product as a whole, which may have several components (as well as packaging, devices etc.), that are given to the patient in this final administrable form. A single medicinal product may have several different administrable products (e.g. a tablet and a cream), and these could have different administrable forms (e.g. tablet as oral solid, or tablet crushed)",
-                "definition": "The medicinal product that this is a prepared administrable form of. This element is not a reference to the item(s) that make up this administrable form (for which see AdministrableProductDefinition.producedFrom). It is medicinal product as a whole, which may have several components (as well as packaging, devices etc.), that are given to the patient in this final administrable form. A single medicinal product may have several different administrable products (e.g. a tablet and a cream), and these could have different administrable forms (e.g. tablet as oral solid, or tablet crushed).",
+                "short": "References a product from which one or more of the constituent parts of that product can be prepared and used as described by this administrable product",
+                "definition": "References a product from which one or more of the constituent parts of that product can be prepared and used as described by this administrable product.  If this administrable product describes the administration of a crushed tablet, the 'formOf' would be the product representing a distribution containing tablets and possibly also a cream.  This is distinct from the 'producedFrom' which refers to the specific components of the product that are used in this preparation, rather than the product as a whole.",
                 "min": 0,
                 "max": "*",
                 "base": {
@@ -621,7 +640,7 @@
             {
                 "id": "AdministrableProductDefinition.administrableDoseForm",
                 "path": "AdministrableProductDefinition.administrableDoseForm",
-                "short": "The dose form of the final product after necessary reconstitution or processing. Contrasts to the manufactured dose form (see ManufacturedItemDefinition). If the manufactured form was 'powder for solution for injection', the administrable dose form could be 'solution for injection' (once mixed with another item having manufactured form 'solvent for solution for injection')",
+                "short": "The dose form of the final product after necessary reconstitution or processing",
                 "definition": "The dose form of the final product after necessary reconstitution or processing. Contrasts to the manufactured dose form (see ManufacturedItemDefinition). If the manufactured form was 'powder for solution for injection', the administrable dose form could be 'solution for injection' (once mixed with another item having manufactured form 'solvent for solution for injection').",
                 "min": 0,
                 "max": "1",
@@ -648,6 +667,17 @@
                 "mustSupport": false,
                 "isModifier": false,
                 "isSummary": true,
+                "binding": {
+                    "extension": [
+                        {
+                            "url": "http://hl7.org/fhir/StructureDefinition/elementdefinition-bindingName",
+                            "valueString": "AdministrableDoseForm"
+                        }
+                    ],
+                    "strength": "example",
+                    "description": "Dose form for a medication, in the form suitable for administering to the patient, after mixing, where necessary.",
+                    "valueSet": "http://hl7.org/fhir/ValueSet/administrable-dose-form"
+                },
                 "mapping": [
                     {
                         "identity": "idmp",
@@ -658,7 +688,7 @@
             {
                 "id": "AdministrableProductDefinition.unitOfPresentation",
                 "path": "AdministrableProductDefinition.unitOfPresentation",
-                "short": "The presentation type in which this item is given to a patient. e.g. for a spray - 'puff' (as in 'contains 100 mcg per puff'), or for a liquid - 'vial' (as in 'contains 5 ml per vial')",
+                "short": "The presentation type in which this item is given to a patient. e.g. for a spray - 'puff'",
                 "definition": "The presentation type in which this item is given to a patient. e.g. for a spray - 'puff' (as in 'contains 100 mcg per puff'), or for a liquid - 'vial' (as in 'contains 5 ml per vial').",
                 "min": 0,
                 "max": "1",
@@ -685,6 +715,17 @@
                 "mustSupport": false,
                 "isModifier": false,
                 "isSummary": true,
+                "binding": {
+                    "extension": [
+                        {
+                            "url": "http://hl7.org/fhir/StructureDefinition/elementdefinition-bindingName",
+                            "valueString": "UnitOfPresentation"
+                        }
+                    ],
+                    "strength": "example",
+                    "description": "The presentation type in which an administrable medicinal product is given to a patient.",
+                    "valueSet": "http://hl7.org/fhir/ValueSet/unit-of-presentation"
+                },
                 "mapping": [
                     {
                         "identity": "idmp",
@@ -695,8 +736,8 @@
             {
                 "id": "AdministrableProductDefinition.producedFrom",
                 "path": "AdministrableProductDefinition.producedFrom",
-                "short": "The constituent manufactured item(s) that this administrable product is produced from. Either a single item, or several that are mixed before administration (e.g. a power item and a solvent item, to make a consumable solution). Note the items this is produced from are not raw ingredients (see AdministrableProductDefinition.ingredient), but manufactured medication items (ManufacturedItemDefinitions), which may be combined or prepared and transformed for patient use. The constituent items that this administrable form is produced from are all part of the product (for which see AdministrableProductDefinition.formOf)",
-                "definition": "The constituent manufactured item(s) that this administrable product is produced from. Either a single item, or several that are mixed before administration (e.g. a power item and a solvent item, to make a consumable solution). Note the items this is produced from are not raw ingredients (see AdministrableProductDefinition.ingredient), but manufactured medication items (ManufacturedItemDefinitions), which may be combined or prepared and transformed for patient use. The constituent items that this administrable form is produced from are all part of the product (for which see AdministrableProductDefinition.formOf).",
+                "short": "Indicates the specific manufactured items that are part of the 'formOf' product that are used in the preparation of this specific administrable form",
+                "definition": "Indicates the specific manufactured items that are part of the 'formOf' product that are used in the preparation of this specific administrable form.  In some cases, an administrable form might use all of the items from the overall product (or there might only be one item), while in other cases, an administrable form might use only a subset of the items available in the overall product.  For example, an administrable form might involve combining a liquid and a powder available as part of an overall product, but not involve applying the also supplied cream.",
                 "min": 0,
                 "max": "*",
                 "base": {
@@ -735,7 +776,7 @@
             {
                 "id": "AdministrableProductDefinition.ingredient",
                 "path": "AdministrableProductDefinition.ingredient",
-                "short": "The ingredients of this administrable medicinal product. This is only needed if the ingredients are not specified either using ManufacturedItemDefiniton (via AdministrableProductDefinition.producedFrom) to state which component items are used to make this, or using by incoming references from the Ingredient resource, to state in detail which substances exist within this. This element allows a basic coded ingredient to be used",
+                "short": "The ingredients of this administrable medicinal product. This is only needed if the ingredients are not specified either using ManufacturedItemDefiniton, or using by incoming references from the Ingredient resource",
                 "definition": "The ingredients of this administrable medicinal product. This is only needed if the ingredients are not specified either using ManufacturedItemDefiniton (via AdministrableProductDefinition.producedFrom) to state which component items are used to make this, or using by incoming references from the Ingredient resource, to state in detail which substances exist within this. This element allows a basic coded ingredient to be used.",
                 "min": 0,
                 "max": "*",
@@ -762,6 +803,17 @@
                 "mustSupport": false,
                 "isModifier": false,
                 "isSummary": true,
+                "binding": {
+                    "extension": [
+                        {
+                            "url": "http://hl7.org/fhir/StructureDefinition/elementdefinition-bindingName",
+                            "valueString": "SNOMEDCTSubstanceCodes"
+                        }
+                    ],
+                    "strength": "example",
+                    "description": "This value set includes all substance codes from SNOMED CT - provided as an exemplar value set.",
+                    "valueSet": "http://hl7.org/fhir/ValueSet/substance-codes"
+                },
                 "mapping": [
                     {
                         "identity": "idmp",
@@ -772,7 +824,7 @@
             {
                 "id": "AdministrableProductDefinition.device",
                 "path": "AdministrableProductDefinition.device",
-                "short": "A device that is integral to the medicinal product, in effect being considered as an \"ingredient\" of the medicinal product. This is not intended for devices that are just co-packaged",
+                "short": "A device that is integral to the medicinal product, in effect being considered as an \"ingredient\" of the medicinal product",
                 "definition": "A device that is integral to the medicinal product, in effect being considered as an \"ingredient\" of the medicinal product. This is not intended for devices that are just co-packaged.",
                 "min": 0,
                 "max": "1",
@@ -812,8 +864,8 @@
             {
                 "id": "AdministrableProductDefinition.property",
                 "path": "AdministrableProductDefinition.property",
-                "short": "Characteristics e.g. a products onset of action",
-                "definition": "Characteristics e.g. a products onset of action.",
+                "short": "Characteristics e.g. a product's onset of action",
+                "definition": "Characteristics e.g. a product's onset of action.",
                 "min": 0,
                 "max": "*",
                 "base": {
@@ -866,7 +918,7 @@
                         "extension": [
                             {
                                 "url": "http://hl7.org/fhir/StructureDefinition/structuredefinition-fhir-type",
-                                "valueUrl": "id"
+                                "valueUrl": "string"
                             }
                         ],
                         "code": "http://hl7.org/fhirpath/System.String"
@@ -1012,6 +1064,17 @@
                 "mustSupport": false,
                 "isModifier": false,
                 "isSummary": true,
+                "binding": {
+                    "extension": [
+                        {
+                            "url": "http://hl7.org/fhir/StructureDefinition/elementdefinition-bindingName",
+                            "valueString": "SNOMEDCTCharacteristicCodes"
+                        }
+                    ],
+                    "strength": "example",
+                    "description": "This value set includes all observable entity codes from SNOMED CT - provided as an exemplar value set.",
+                    "valueSet": "http://hl7.org/fhir/ValueSet/product-characteristic-codes"
+                },
                 "mapping": [
                     {
                         "identity": "idmp",
@@ -1098,6 +1161,21 @@
                 "mustSupport": false,
                 "isModifier": false,
                 "isSummary": true,
+                "binding": {
+                    "extension": [
+                        {
+                            "url": "http://hl7.org/fhir/StructureDefinition/elementdefinition-bindingName",
+                            "valueString": "PublicationStatus"
+                        },
+                        {
+                            "url": "http://hl7.org/fhir/StructureDefinition/elementdefinition-isCommonBinding",
+                            "valueBoolean": true
+                        }
+                    ],
+                    "strength": "required",
+                    "description": "The lifecycle status of an artifact.",
+                    "valueSet": "http://hl7.org/fhir/ValueSet/publication-status|4.3.0-cibuild"
+                },
                 "mapping": [
                     {
                         "identity": "idmp",
@@ -1108,8 +1186,8 @@
             {
                 "id": "AdministrableProductDefinition.routeOfAdministration",
                 "path": "AdministrableProductDefinition.routeOfAdministration",
-                "short": "The path by which the product is taken into or makes contact with the body. In some regions this is referred to as the licenced or approved route",
-                "definition": "The path by which the product is taken into or makes contact with the body. In some regions this is referred to as the licenced or approved route.",
+                "short": "The path by which the product is taken into or makes contact with the body",
+                "definition": "The path by which the product is taken into or makes contact with the body. In some regions this is referred to as the licenced or approved route. RouteOfAdministration cannot be used when the 'formOf' product already uses MedicinalProductDefinition.route (and vice versa).",
                 "min": 1,
                 "max": "*",
                 "base": {
@@ -1162,7 +1240,7 @@
                         "extension": [
                             {
                                 "url": "http://hl7.org/fhir/StructureDefinition/structuredefinition-fhir-type",
-                                "valueUrl": "id"
+                                "valueUrl": "string"
                             }
                         ],
                         "code": "http://hl7.org/fhirpath/System.String"
@@ -1308,6 +1386,17 @@
                 "mustSupport": false,
                 "isModifier": false,
                 "isSummary": true,
+                "binding": {
+                    "extension": [
+                        {
+                            "url": "http://hl7.org/fhir/StructureDefinition/elementdefinition-bindingName",
+                            "valueString": "SNOMEDCTRouteCodes"
+                        }
+                    ],
+                    "strength": "example",
+                    "description": "A code specifying the route or physiological path of administration of a therapeutic agent into or onto a patient's body.",
+                    "valueSet": "http://hl7.org/fhir/ValueSet/route-codes"
+                },
                 "mapping": [
                     {
                         "identity": "idmp",
@@ -1318,7 +1407,7 @@
             {
                 "id": "AdministrableProductDefinition.routeOfAdministration.firstDose",
                 "path": "AdministrableProductDefinition.routeOfAdministration.firstDose",
-                "short": "The first dose (dose quantity) administered can be specified for the product, using a numerical value and its unit of measurement",
+                "short": "The first dose (dose quantity) administered can be specified for the product",
                 "definition": "The first dose (dose quantity) administered can be specified for the product, using a numerical value and its unit of measurement.",
                 "min": 0,
                 "max": "1",
@@ -1355,8 +1444,8 @@
             {
                 "id": "AdministrableProductDefinition.routeOfAdministration.maxSingleDose",
                 "path": "AdministrableProductDefinition.routeOfAdministration.maxSingleDose",
-                "short": "The maximum single dose that can be administered, can be specified using a numerical value and its unit of measurement",
-                "definition": "The maximum single dose that can be administered, can be specified using a numerical value and its unit of measurement.",
+                "short": "The maximum single dose that can be administered",
+                "definition": "The maximum single dose that can be administered, specified using a numerical value and its unit of measurement.",
                 "min": 0,
                 "max": "1",
                 "base": {
@@ -1392,7 +1481,7 @@
             {
                 "id": "AdministrableProductDefinition.routeOfAdministration.maxDosePerDay",
                 "path": "AdministrableProductDefinition.routeOfAdministration.maxDosePerDay",
-                "short": "The maximum dose per day (maximum dose quantity to be administered in any one 24-h period) that can be administered",
+                "short": "The maximum dose quantity to be administered in any one 24-h period",
                 "definition": "The maximum dose per day (maximum dose quantity to be administered in any one 24-h period) that can be administered.",
                 "min": 0,
                 "max": "1",
@@ -1466,8 +1555,8 @@
             {
                 "id": "AdministrableProductDefinition.routeOfAdministration.maxTreatmentPeriod",
                 "path": "AdministrableProductDefinition.routeOfAdministration.maxTreatmentPeriod",
-                "short": "The maximum treatment period during which an Investigational Medicinal Product can be administered",
-                "definition": "The maximum treatment period during which an Investigational Medicinal Product can be administered.",
+                "short": "The maximum treatment period during which the product can be administered",
+                "definition": "The maximum treatment period during which the product can be administered.",
                 "min": 0,
                 "max": "1",
                 "base": {
@@ -1557,7 +1646,7 @@
                         "extension": [
                             {
                                 "url": "http://hl7.org/fhir/StructureDefinition/structuredefinition-fhir-type",
-                                "valueUrl": "id"
+                                "valueUrl": "string"
                             }
                         ],
                         "code": "http://hl7.org/fhirpath/System.String"
@@ -1703,6 +1792,17 @@
                 "mustSupport": false,
                 "isModifier": false,
                 "isSummary": true,
+                "binding": {
+                    "extension": [
+                        {
+                            "url": "http://hl7.org/fhir/StructureDefinition/elementdefinition-bindingName",
+                            "valueString": "TargetSpecies"
+                        }
+                    ],
+                    "strength": "example",
+                    "description": "A tissue type of an animal.",
+                    "valueSet": "http://hl7.org/fhir/ValueSet/target-species"
+                },
                 "mapping": [
                     {
                         "identity": "idmp",
@@ -1767,7 +1867,7 @@
                         "extension": [
                             {
                                 "url": "http://hl7.org/fhir/StructureDefinition/structuredefinition-fhir-type",
-                                "valueUrl": "id"
+                                "valueUrl": "string"
                             }
                         ],
                         "code": "http://hl7.org/fhirpath/System.String"
@@ -1886,8 +1986,8 @@
             {
                 "id": "AdministrableProductDefinition.routeOfAdministration.targetSpecies.withdrawalPeriod.tissue",
                 "path": "AdministrableProductDefinition.routeOfAdministration.targetSpecies.withdrawalPeriod.tissue",
-                "short": "Coded expression for the type of tissue for which the withdrawal period applues, e.g. meat, milk",
-                "definition": "Coded expression for the type of tissue for which the withdrawal period applues, e.g. meat, milk.",
+                "short": "The type of tissue for which the withdrawal period applies, e.g. meat, milk",
+                "definition": "Coded expression for the type of tissue for which the withdrawal period applies, e.g. meat, milk.",
                 "min": 1,
                 "max": "1",
                 "base": {
@@ -1913,6 +2013,17 @@
                 "mustSupport": false,
                 "isModifier": false,
                 "isSummary": true,
+                "binding": {
+                    "extension": [
+                        {
+                            "url": "http://hl7.org/fhir/StructureDefinition/elementdefinition-bindingName",
+                            "valueString": "AnimalTissueType"
+                        }
+                    ],
+                    "strength": "example",
+                    "description": "A tissue type of an animal.",
+                    "valueSet": "http://hl7.org/fhir/ValueSet/animal-tissue-type"
+                },
                 "mapping": [
                     {
                         "identity": "idmp",
@@ -2001,13 +2112,23 @@
             {
                 "id": "AdministrableProductDefinition",
                 "path": "AdministrableProductDefinition",
-                "short": "A medicinal product in the final form which is suitable for administering to a patient (after any mixing of multiple components, dissolution etc. has been performed)",
+                "short": "A medicinal product in the final form, suitable for administration - after any mixing of multiple components",
                 "definition": "A medicinal product in the final form which is suitable for administering to a patient (after any mixing of multiple components, dissolution etc. has been performed).",
                 "alias": [
                     "Pharmaceutical Product"
                 ],
                 "min": 0,
                 "max": "*",
+                "constraint": [
+                    {
+                        "key": "apd-1",
+                        "severity": "error",
+                        "human": "RouteOfAdministration cannot be used when the 'formOf' product already uses MedicinalProductDefinition.route (and vice versa)",
+                        "expression": "(AdministrableProductDefinition.routeOfAdministration.code.count() + AdministrableProductDefinition.formOf.resolve().route.count())  < 2",
+                        "xpath": "count(f:AdministrableProductDefinition/f:routeOfAdministration/f:code|//f:MedicinalProductDefinition[f:id/@value=current()/ancestor::f:AdministrableProductDefinition/f:formOf/f:reference/@value]/f:route) < 2",
+                        "source": "http://hl7.org/fhir/StructureDefinition/AdministrableProductDefinition"
+                    }
+                ],
                 "mustSupport": false,
                 "isModifier": false,
                 "mapping": [
@@ -2073,7 +2194,7 @@
                     ],
                     "strength": "required",
                     "description": "The lifecycle status of an artifact.",
-                    "valueSet": "http://hl7.org/fhir/ValueSet/publication-status|4.3.0-CIBUILD"
+                    "valueSet": "http://hl7.org/fhir/ValueSet/publication-status|4.3.0-cibuild"
                 },
                 "mapping": [
                     {
@@ -2085,8 +2206,8 @@
             {
                 "id": "AdministrableProductDefinition.formOf",
                 "path": "AdministrableProductDefinition.formOf",
-                "short": "The medicinal product that this is a prepared administrable form of. This element is not a reference to the item(s) that make up this administrable form (for which see AdministrableProductDefinition.producedFrom). It is medicinal product as a whole, which may have several components (as well as packaging, devices etc.), that are given to the patient in this final administrable form. A single medicinal product may have several different administrable products (e.g. a tablet and a cream), and these could have different administrable forms (e.g. tablet as oral solid, or tablet crushed)",
-                "definition": "The medicinal product that this is a prepared administrable form of. This element is not a reference to the item(s) that make up this administrable form (for which see AdministrableProductDefinition.producedFrom). It is medicinal product as a whole, which may have several components (as well as packaging, devices etc.), that are given to the patient in this final administrable form. A single medicinal product may have several different administrable products (e.g. a tablet and a cream), and these could have different administrable forms (e.g. tablet as oral solid, or tablet crushed).",
+                "short": "References a product from which one or more of the constituent parts of that product can be prepared and used as described by this administrable product",
+                "definition": "References a product from which one or more of the constituent parts of that product can be prepared and used as described by this administrable product.  If this administrable product describes the administration of a crushed tablet, the 'formOf' would be the product representing a distribution containing tablets and possibly also a cream.  This is distinct from the 'producedFrom' which refers to the specific components of the product that are used in this preparation, rather than the product as a whole.",
                 "min": 0,
                 "max": "*",
                 "type": [
@@ -2110,7 +2231,7 @@
             {
                 "id": "AdministrableProductDefinition.administrableDoseForm",
                 "path": "AdministrableProductDefinition.administrableDoseForm",
-                "short": "The dose form of the final product after necessary reconstitution or processing. Contrasts to the manufactured dose form (see ManufacturedItemDefinition). If the manufactured form was 'powder for solution for injection', the administrable dose form could be 'solution for injection' (once mixed with another item having manufactured form 'solvent for solution for injection')",
+                "short": "The dose form of the final product after necessary reconstitution or processing",
                 "definition": "The dose form of the final product after necessary reconstitution or processing. Contrasts to the manufactured dose form (see ManufacturedItemDefinition). If the manufactured form was 'powder for solution for injection', the administrable dose form could be 'solution for injection' (once mixed with another item having manufactured form 'solvent for solution for injection').",
                 "min": 0,
                 "max": "1",
@@ -2122,6 +2243,17 @@
                 "mustSupport": false,
                 "isModifier": false,
                 "isSummary": true,
+                "binding": {
+                    "extension": [
+                        {
+                            "url": "http://hl7.org/fhir/StructureDefinition/elementdefinition-bindingName",
+                            "valueString": "AdministrableDoseForm"
+                        }
+                    ],
+                    "strength": "example",
+                    "description": "Dose form for a medication, in the form suitable for administering to the patient, after mixing, where necessary.",
+                    "valueSet": "http://hl7.org/fhir/ValueSet/administrable-dose-form"
+                },
                 "mapping": [
                     {
                         "identity": "idmp",
@@ -2132,7 +2264,7 @@
             {
                 "id": "AdministrableProductDefinition.unitOfPresentation",
                 "path": "AdministrableProductDefinition.unitOfPresentation",
-                "short": "The presentation type in which this item is given to a patient. e.g. for a spray - 'puff' (as in 'contains 100 mcg per puff'), or for a liquid - 'vial' (as in 'contains 5 ml per vial')",
+                "short": "The presentation type in which this item is given to a patient. e.g. for a spray - 'puff'",
                 "definition": "The presentation type in which this item is given to a patient. e.g. for a spray - 'puff' (as in 'contains 100 mcg per puff'), or for a liquid - 'vial' (as in 'contains 5 ml per vial').",
                 "min": 0,
                 "max": "1",
@@ -2144,6 +2276,17 @@
                 "mustSupport": false,
                 "isModifier": false,
                 "isSummary": true,
+                "binding": {
+                    "extension": [
+                        {
+                            "url": "http://hl7.org/fhir/StructureDefinition/elementdefinition-bindingName",
+                            "valueString": "UnitOfPresentation"
+                        }
+                    ],
+                    "strength": "example",
+                    "description": "The presentation type in which an administrable medicinal product is given to a patient.",
+                    "valueSet": "http://hl7.org/fhir/ValueSet/unit-of-presentation"
+                },
                 "mapping": [
                     {
                         "identity": "idmp",
@@ -2154,8 +2297,8 @@
             {
                 "id": "AdministrableProductDefinition.producedFrom",
                 "path": "AdministrableProductDefinition.producedFrom",
-                "short": "The constituent manufactured item(s) that this administrable product is produced from. Either a single item, or several that are mixed before administration (e.g. a power item and a solvent item, to make a consumable solution). Note the items this is produced from are not raw ingredients (see AdministrableProductDefinition.ingredient), but manufactured medication items (ManufacturedItemDefinitions), which may be combined or prepared and transformed for patient use. The constituent items that this administrable form is produced from are all part of the product (for which see AdministrableProductDefinition.formOf)",
-                "definition": "The constituent manufactured item(s) that this administrable product is produced from. Either a single item, or several that are mixed before administration (e.g. a power item and a solvent item, to make a consumable solution). Note the items this is produced from are not raw ingredients (see AdministrableProductDefinition.ingredient), but manufactured medication items (ManufacturedItemDefinitions), which may be combined or prepared and transformed for patient use. The constituent items that this administrable form is produced from are all part of the product (for which see AdministrableProductDefinition.formOf).",
+                "short": "Indicates the specific manufactured items that are part of the 'formOf' product that are used in the preparation of this specific administrable form",
+                "definition": "Indicates the specific manufactured items that are part of the 'formOf' product that are used in the preparation of this specific administrable form.  In some cases, an administrable form might use all of the items from the overall product (or there might only be one item), while in other cases, an administrable form might use only a subset of the items available in the overall product.  For example, an administrable form might involve combining a liquid and a powder available as part of an overall product, but not involve applying the also supplied cream.",
                 "min": 0,
                 "max": "*",
                 "type": [
@@ -2179,7 +2322,7 @@
             {
                 "id": "AdministrableProductDefinition.ingredient",
                 "path": "AdministrableProductDefinition.ingredient",
-                "short": "The ingredients of this administrable medicinal product. This is only needed if the ingredients are not specified either using ManufacturedItemDefiniton (via AdministrableProductDefinition.producedFrom) to state which component items are used to make this, or using by incoming references from the Ingredient resource, to state in detail which substances exist within this. This element allows a basic coded ingredient to be used",
+                "short": "The ingredients of this administrable medicinal product. This is only needed if the ingredients are not specified either using ManufacturedItemDefiniton, or using by incoming references from the Ingredient resource",
                 "definition": "The ingredients of this administrable medicinal product. This is only needed if the ingredients are not specified either using ManufacturedItemDefiniton (via AdministrableProductDefinition.producedFrom) to state which component items are used to make this, or using by incoming references from the Ingredient resource, to state in detail which substances exist within this. This element allows a basic coded ingredient to be used.",
                 "min": 0,
                 "max": "*",
@@ -2191,6 +2334,17 @@
                 "mustSupport": false,
                 "isModifier": false,
                 "isSummary": true,
+                "binding": {
+                    "extension": [
+                        {
+                            "url": "http://hl7.org/fhir/StructureDefinition/elementdefinition-bindingName",
+                            "valueString": "SNOMEDCTSubstanceCodes"
+                        }
+                    ],
+                    "strength": "example",
+                    "description": "This value set includes all substance codes from SNOMED CT - provided as an exemplar value set.",
+                    "valueSet": "http://hl7.org/fhir/ValueSet/substance-codes"
+                },
                 "mapping": [
                     {
                         "identity": "idmp",
@@ -2201,7 +2355,7 @@
             {
                 "id": "AdministrableProductDefinition.device",
                 "path": "AdministrableProductDefinition.device",
-                "short": "A device that is integral to the medicinal product, in effect being considered as an \"ingredient\" of the medicinal product. This is not intended for devices that are just co-packaged",
+                "short": "A device that is integral to the medicinal product, in effect being considered as an \"ingredient\" of the medicinal product",
                 "definition": "A device that is integral to the medicinal product, in effect being considered as an \"ingredient\" of the medicinal product. This is not intended for devices that are just co-packaged.",
                 "min": 0,
                 "max": "1",
@@ -2226,8 +2380,8 @@
             {
                 "id": "AdministrableProductDefinition.property",
                 "path": "AdministrableProductDefinition.property",
-                "short": "Characteristics e.g. a products onset of action",
-                "definition": "Characteristics e.g. a products onset of action.",
+                "short": "Characteristics e.g. a product's onset of action",
+                "definition": "Characteristics e.g. a product's onset of action.",
                 "min": 0,
                 "max": "*",
                 "type": [
@@ -2260,6 +2414,17 @@
                 "mustSupport": false,
                 "isModifier": false,
                 "isSummary": true,
+                "binding": {
+                    "extension": [
+                        {
+                            "url": "http://hl7.org/fhir/StructureDefinition/elementdefinition-bindingName",
+                            "valueString": "SNOMEDCTCharacteristicCodes"
+                        }
+                    ],
+                    "strength": "example",
+                    "description": "This value set includes all observable entity codes from SNOMED CT - provided as an exemplar value set.",
+                    "valueSet": "http://hl7.org/fhir/ValueSet/product-characteristic-codes"
+                },
                 "mapping": [
                     {
                         "identity": "idmp",
@@ -2316,6 +2481,21 @@
                 "mustSupport": false,
                 "isModifier": false,
                 "isSummary": true,
+                "binding": {
+                    "extension": [
+                        {
+                            "url": "http://hl7.org/fhir/StructureDefinition/elementdefinition-bindingName",
+                            "valueString": "PublicationStatus"
+                        },
+                        {
+                            "url": "http://hl7.org/fhir/StructureDefinition/elementdefinition-isCommonBinding",
+                            "valueBoolean": true
+                        }
+                    ],
+                    "strength": "required",
+                    "description": "The lifecycle status of an artifact.",
+                    "valueSet": "http://hl7.org/fhir/ValueSet/publication-status|4.3.0-cibuild"
+                },
                 "mapping": [
                     {
                         "identity": "idmp",
@@ -2326,8 +2506,8 @@
             {
                 "id": "AdministrableProductDefinition.routeOfAdministration",
                 "path": "AdministrableProductDefinition.routeOfAdministration",
-                "short": "The path by which the product is taken into or makes contact with the body. In some regions this is referred to as the licenced or approved route",
-                "definition": "The path by which the product is taken into or makes contact with the body. In some regions this is referred to as the licenced or approved route.",
+                "short": "The path by which the product is taken into or makes contact with the body",
+                "definition": "The path by which the product is taken into or makes contact with the body. In some regions this is referred to as the licenced or approved route. RouteOfAdministration cannot be used when the 'formOf' product already uses MedicinalProductDefinition.route (and vice versa).",
                 "min": 1,
                 "max": "*",
                 "type": [
@@ -2360,6 +2540,17 @@
                 "mustSupport": false,
                 "isModifier": false,
                 "isSummary": true,
+                "binding": {
+                    "extension": [
+                        {
+                            "url": "http://hl7.org/fhir/StructureDefinition/elementdefinition-bindingName",
+                            "valueString": "SNOMEDCTRouteCodes"
+                        }
+                    ],
+                    "strength": "example",
+                    "description": "A code specifying the route or physiological path of administration of a therapeutic agent into or onto a patient's body.",
+                    "valueSet": "http://hl7.org/fhir/ValueSet/route-codes"
+                },
                 "mapping": [
                     {
                         "identity": "idmp",
@@ -2370,7 +2561,7 @@
             {
                 "id": "AdministrableProductDefinition.routeOfAdministration.firstDose",
                 "path": "AdministrableProductDefinition.routeOfAdministration.firstDose",
-                "short": "The first dose (dose quantity) administered can be specified for the product, using a numerical value and its unit of measurement",
+                "short": "The first dose (dose quantity) administered can be specified for the product",
                 "definition": "The first dose (dose quantity) administered can be specified for the product, using a numerical value and its unit of measurement.",
                 "min": 0,
                 "max": "1",
@@ -2392,8 +2583,8 @@
             {
                 "id": "AdministrableProductDefinition.routeOfAdministration.maxSingleDose",
                 "path": "AdministrableProductDefinition.routeOfAdministration.maxSingleDose",
-                "short": "The maximum single dose that can be administered, can be specified using a numerical value and its unit of measurement",
-                "definition": "The maximum single dose that can be administered, can be specified using a numerical value and its unit of measurement.",
+                "short": "The maximum single dose that can be administered",
+                "definition": "The maximum single dose that can be administered, specified using a numerical value and its unit of measurement.",
                 "min": 0,
                 "max": "1",
                 "type": [
@@ -2414,7 +2605,7 @@
             {
                 "id": "AdministrableProductDefinition.routeOfAdministration.maxDosePerDay",
                 "path": "AdministrableProductDefinition.routeOfAdministration.maxDosePerDay",
-                "short": "The maximum dose per day (maximum dose quantity to be administered in any one 24-h period) that can be administered",
+                "short": "The maximum dose quantity to be administered in any one 24-h period",
                 "definition": "The maximum dose per day (maximum dose quantity to be administered in any one 24-h period) that can be administered.",
                 "min": 0,
                 "max": "1",
@@ -2458,8 +2649,8 @@
             {
                 "id": "AdministrableProductDefinition.routeOfAdministration.maxTreatmentPeriod",
                 "path": "AdministrableProductDefinition.routeOfAdministration.maxTreatmentPeriod",
-                "short": "The maximum treatment period during which an Investigational Medicinal Product can be administered",
-                "definition": "The maximum treatment period during which an Investigational Medicinal Product can be administered.",
+                "short": "The maximum treatment period during which the product can be administered",
+                "definition": "The maximum treatment period during which the product can be administered.",
                 "min": 0,
                 "max": "1",
                 "type": [
@@ -2514,6 +2705,17 @@
                 "mustSupport": false,
                 "isModifier": false,
                 "isSummary": true,
+                "binding": {
+                    "extension": [
+                        {
+                            "url": "http://hl7.org/fhir/StructureDefinition/elementdefinition-bindingName",
+                            "valueString": "TargetSpecies"
+                        }
+                    ],
+                    "strength": "example",
+                    "description": "A tissue type of an animal.",
+                    "valueSet": "http://hl7.org/fhir/ValueSet/target-species"
+                },
                 "mapping": [
                     {
                         "identity": "idmp",
@@ -2546,8 +2748,8 @@
             {
                 "id": "AdministrableProductDefinition.routeOfAdministration.targetSpecies.withdrawalPeriod.tissue",
                 "path": "AdministrableProductDefinition.routeOfAdministration.targetSpecies.withdrawalPeriod.tissue",
-                "short": "Coded expression for the type of tissue for which the withdrawal period applues, e.g. meat, milk",
-                "definition": "Coded expression for the type of tissue for which the withdrawal period applues, e.g. meat, milk.",
+                "short": "The type of tissue for which the withdrawal period applies, e.g. meat, milk",
+                "definition": "Coded expression for the type of tissue for which the withdrawal period applies, e.g. meat, milk.",
                 "min": 1,
                 "max": "1",
                 "type": [
@@ -2558,6 +2760,17 @@
                 "mustSupport": false,
                 "isModifier": false,
                 "isSummary": true,
+                "binding": {
+                    "extension": [
+                        {
+                            "url": "http://hl7.org/fhir/StructureDefinition/elementdefinition-bindingName",
+                            "valueString": "AnimalTissueType"
+                        }
+                    ],
+                    "strength": "example",
+                    "description": "A tissue type of an animal.",
+                    "valueSet": "http://hl7.org/fhir/ValueSet/animal-tissue-type"
+                },
                 "mapping": [
                     {
                         "identity": "idmp",

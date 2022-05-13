@@ -12,9 +12,10 @@
         }
     ],
     "url": "http://hl7.org/fhir/StructureDefinition/no-binding",
-    "version": "4.3.0-CIBUILD",
+    "version": "4.3.0-cibuild",
     "name": "http://hl7.org/fhir/StructureDefinition/no-binding",
     "status": "draft",
+    "experimental": false,
     "date": "2015-02-28",
     "publisher": "Health Level Seven, Inc. - FHIR Core WG",
     "contact": [
@@ -28,7 +29,7 @@
         }
     ],
     "description": "Marks that a particular element definition is one that is not expected/allowed to have a binding, even though it has types that may be bound to value sets.",
-    "fhirVersion": "4.3.0-CIBUILD",
+    "fhirVersion": "4.3.0-cibuild",
     "mapping": [
         {
             "identity": "rim",

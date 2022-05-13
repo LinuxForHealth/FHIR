@@ -2,7 +2,7 @@
     "resourceType": "ValueSet",
     "id": "immunization-recommendation-date-criterion",
     "meta": {
-        "lastUpdated": "2022-03-03T22:04:06.196Z",
+        "lastUpdated": "2022-04-23T22:21:35.043Z",
         "profile": [
             "http://hl7.org/fhir/StructureDefinition/shareablevalueset"
         ]
@@ -28,7 +28,7 @@
             "value": "urn:oid:2.16.840.1.113883.4.642.3.308"
         }
     ],
-    "version": "4.3.0-CIBUILD",
+    "version": "4.3.0-cibuild",
     "name": "ImmunizationRecommendationDateCriterionCodes",
     "title": "Immunization Recommendation Date Criterion Codes",
     "status": "draft",
@@ -68,11 +68,12 @@
         ]
     },
     "expansion": {
-        "identifier": "urn:uuid:00fc4fad-8491-472c-b546-e1f46aac314d",
-        "timestamp": "2021-11-17T05:28:48.651Z",
+        "identifier": "urn:uuid:a8a193c0-6bc5-46b8-84ba-dd475a50149f",
+        "timestamp": "2022-04-23T22:23:26Z",
+        "total": 4,
         "parameter": [
             {
-                "name": "limitedExpansion",
+                "name": "excludeNested",
                 "valueBoolean": true
             },
             {
@@ -80,12 +81,12 @@
                 "valueBoolean": true
             },
             {
-                "name": "excludeNested",
+                "name": "limitedExpansion",
                 "valueBoolean": true
             },
             {
                 "name": "version",
-                "valueUri": "http://loinc.org|2.71"
+                "valueUri": "http://loinc.org|2.72"
             }
         ],
         "contains": [

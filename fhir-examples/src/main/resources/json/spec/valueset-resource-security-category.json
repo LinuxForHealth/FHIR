@@ -2,7 +2,7 @@
   "resourceType": "ValueSet",
   "id": "resource-security-category",
   "meta": {
-    "lastUpdated": "2022-01-01T15:17:18.597+00:00",
+    "lastUpdated": "2022-04-23T22:21:35.043+00:00",
     "profile": [
       "http://hl7.org/fhir/StructureDefinition/shareablevalueset"
     ]
@@ -24,9 +24,12 @@
       "value": "urn:oid:2.16.840.1.113883.4.642.3.1403"
     }
   ],
-  "version": "4.3.0-CIBUILD",
+  "version": "4.3.0-cibuild",
   "name": "ResourceSecurityCategory",
-  "description": "Description Needed Here",
+  "title": "Resource security category value set",
+  "status": "active",
+  "experimental": false,
+  "description": "Codes indicating how resources behave from a security perspective",
   "compose": {
     "include": [
       {

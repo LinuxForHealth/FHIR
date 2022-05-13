@@ -12,10 +12,11 @@
     }
   ],
   "url": "http://hl7.org/fhir/StructureDefinition/operationoutcome-authority",
-  "version": "4.3.0-CIBUILD",
+  "version": "4.3.0-cibuild",
   "name": "authority",
   "title": "Rule Reference",
   "status": "draft",
+  "experimental": false,
   "date": "2014-01-31",
   "publisher": "Health Level Seven, Inc. - [WG Name] WG",
   "contact": [
@@ -29,7 +30,7 @@
     }
   ],
   "description": "A reference to where the rule is defined (based on the authoritative URLs in the applicable conformance resources).",
-  "fhirVersion": "4.3.0-CIBUILD",
+  "fhirVersion": "4.3.0-cibuild",
   "mapping": [
     {
       "identity": "rim",

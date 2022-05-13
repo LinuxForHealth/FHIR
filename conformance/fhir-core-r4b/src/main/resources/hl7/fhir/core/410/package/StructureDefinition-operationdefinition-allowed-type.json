@@ -12,10 +12,11 @@
         }
     ],
     "url": "http://hl7.org/fhir/StructureDefinition/operationdefinition-allowed-type",
-    "version": "4.3.0-CIBUILD",
+    "version": "4.3.0-cibuild",
     "name": "allowed-type",
     "title": "Allowed Type",
     "status": "draft",
+    "experimental": false,
     "date": "2014-01-31",
     "publisher": "Health Level Seven, Inc. - [WG Name] WG",
     "contact": [
@@ -29,7 +30,7 @@
         }
     ],
     "description": "When the base type is an abstract type (e.g. Resource or Element) then this extension defines which concrete types are allowed to be used for a parameter. In the absence of this extension, any type is allowed.",
-    "fhirVersion": "4.3.0-CIBUILD",
+    "fhirVersion": "4.3.0-cibuild",
     "mapping": [
         {
             "identity": "rim",

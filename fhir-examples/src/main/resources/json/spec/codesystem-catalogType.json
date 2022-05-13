@@ -1,0 +1,49 @@
+{
+  "resourceType": "CodeSystem",
+  "id": "catalogType",
+  "meta": {
+    "lastUpdated": "2022-04-23T22:21:35.043+00:00",
+    "profile": [
+      "http://hl7.org/fhir/StructureDefinition/shareablecodesystem"
+    ]
+  },
+  "text": {
+    "status": "generated",
+    "div": "\u003cdiv xmlns\u003d\"http://www.w3.org/1999/xhtml\"\u003e\u003cp\u003eThis code system http://hl7.org/fhir/catalogType defines the following codes:\u003c/p\u003e\u003ctable class\u003d\"codes\"\u003e\u003ctr\u003e\u003ctd style\u003d\"white-space:nowrap\"\u003e\u003cb\u003eCode\u003c/b\u003e\u003c/td\u003e\u003ctd\u003e\u003cb\u003eDisplay\u003c/b\u003e\u003c/td\u003e\u003ctd\u003e\u003cb\u003eDefinition\u003c/b\u003e\u003c/td\u003e\u003c/tr\u003e\u003ctr\u003e\u003ctd style\u003d\"white-space:nowrap\"\u003emedication\u003ca name\u003d\"catalogType-medication\"\u003e \u003c/a\u003e\u003c/td\u003e\u003ctd\u003eMedication Catalog\u003c/td\u003e\u003ctd\u003eMedication Catalog.\u003c/td\u003e\u003c/tr\u003e\u003ctr\u003e\u003ctd style\u003d\"white-space:nowrap\"\u003edevice\u003ca name\u003d\"catalogType-device\"\u003e \u003c/a\u003e\u003c/td\u003e\u003ctd\u003eDevice Catalog\u003c/td\u003e\u003ctd\u003eDevice Catalog.\u003c/td\u003e\u003c/tr\u003e\u003ctr\u003e\u003ctd style\u003d\"white-space:nowrap\"\u003eprotocol\u003ca name\u003d\"catalogType-protocol\"\u003e \u003c/a\u003e\u003c/td\u003e\u003ctd\u003eProtocol List\u003c/td\u003e\u003ctd\u003eProtocol List.\u003c/td\u003e\u003c/tr\u003e\u003c/table\u003e\u003c/div\u003e"
+  },
+  "extension": [
+    {
+      "url": "http://hl7.org/fhir/StructureDefinition/structuredefinition-wg",
+      "valueCode": "sd"
+    }
+  ],
+  "url": "http://hl7.org/fhir/catalogType",
+  "identifier": [
+    {
+      "system": "urn:ietf:rfc:3986",
+      "value": "urn:oid:2.16.840.1.113883.4.642.1.969"
+    }
+  ],
+  "version": "4.3.0-cibuild",
+  "name": "CatalogType",
+  "experimental": false,
+  "caseSensitive": true,
+  "content": "complete",
+  "concept": [
+    {
+      "code": "medication",
+      "display": "Medication Catalog",
+      "definition": "Medication Catalog."
+    },
+    {
+      "code": "device",
+      "display": "Device Catalog",
+      "definition": "Device Catalog."
+    },
+    {
+      "code": "protocol",
+      "display": "Protocol List",
+      "definition": "Protocol List."
+    }
+  ]
+}

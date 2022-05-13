@@ -2,7 +2,7 @@
     "resourceType": "ValueSet",
     "id": "assert-direction-codes",
     "meta": {
-        "lastUpdated": "2022-03-04T09:04:06.196+11:00",
+        "lastUpdated": "2022-04-24T09:21:35.043+11:00",
         "profile": [
             "http://hl7.org/fhir/StructureDefinition/shareablevalueset"
         ]
@@ -28,7 +28,7 @@
             "value": "urn:oid:2.16.840.1.113883.4.642.3.706"
         }
     ],
-    "version": "4.3.0-CIBUILD",
+    "version": "4.3.0-cibuild",
     "name": "AssertionDirectionType",
     "title": "AssertionDirectionType",
     "status": "draft",
@@ -59,8 +59,8 @@
         ]
     },
     "expansion": {
-        "identifier": "urn:uuid:10599c44-2cf4-4304-81ac-942c4c45a4e7",
-        "timestamp": "2022-03-03T22:05:09Z",
+        "identifier": "urn:uuid:e70df520-47c0-4f36-aaee-4b7f7a61683c",
+        "timestamp": "2022-04-23T22:23:07Z",
         "total": 2,
         "parameter": [
             {
@@ -73,7 +73,7 @@
             },
             {
                 "name": "version",
-                "valueUri": "http://hl7.org/fhir/assert-direction-codes|4.3.0-CIBUILD"
+                "valueUri": "http://hl7.org/fhir/assert-direction-codes|4.3.0-cibuild"
             }
         ],
         "contains": [

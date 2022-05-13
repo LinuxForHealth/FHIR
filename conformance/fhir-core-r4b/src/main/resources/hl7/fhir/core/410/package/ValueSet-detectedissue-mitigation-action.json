@@ -2,7 +2,7 @@
     "resourceType": "ValueSet",
     "id": "detectedissue-mitigation-action",
     "meta": {
-        "lastUpdated": "2022-03-03T22:04:06.196Z",
+        "lastUpdated": "2022-04-23T22:21:35.043Z",
         "profile": [
             "http://hl7.org/fhir/StructureDefinition/shareablevalueset"
         ]
@@ -20,10 +20,11 @@
             "value": "urn:oid:2.16.840.1.113883.4.642.3.205"
         }
     ],
-    "version": "4.3.0-CIBUILD",
+    "version": "4.3.0-cibuild",
     "name": "DetectedIssueMitigationAction",
     "title": "Detected Issue Mitigation Action",
     "status": "draft",
+    "experimental": false,
     "publisher": "FHIR Project team",
     "contact": [
         {
@@ -51,8 +52,8 @@
         ]
     },
     "expansion": {
-        "identifier": "urn:uuid:1ef47d9a-2f29-4432-bd00-3348673547ac",
-        "timestamp": "2022-03-03T22:05:30Z",
+        "identifier": "urn:uuid:c8126586-5f1d-4ed1-8f03-1693ba86e031",
+        "timestamp": "2022-04-23T22:23:26Z",
         "total": 28,
         "parameter": [
             {
@@ -210,6 +211,7 @@
             {
                 "system": "http://terminology.hl7.org/CodeSystem/v3-ActCode",
                 "abstract": true,
+                "inactive": true,
                 "code": "_ActFinancialDetectedIssueManagementCode",
                 "display": "ActFinancialDetectedIssueManagementCode"
             }

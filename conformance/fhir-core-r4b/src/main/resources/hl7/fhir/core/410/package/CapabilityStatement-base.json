@@ -2,18 +2,18 @@
     "resourceType": "CapabilityStatement",
     "id": "base",
     "meta": {
-        "lastUpdated": "2022-01-01T15:17:18.597Z"
+        "lastUpdated": "2022-04-23T22:21:35.043Z"
     },
     "text": {
         "status": "empty",
         "div": "<div xmlns=\"http://www.w3.org/1999/xhtml\">Redacted for size</div>"
     },
     "url": "http://hl7.org/fhir/CapabilityStatement/base",
-    "version": "4.3.0-CIBUILD",
+    "version": "4.3.0-cibuild",
     "name": "Base FHIR Capability Statement (Full)",
     "status": "draft",
     "experimental": true,
-    "date": "2022-01-01T15:17:18Z",
+    "date": "2022-04-23T22:21:35Z",
     "publisher": "FHIR Project Team",
     "contact": [
         {
@@ -30,7 +30,7 @@
     "software": {
         "name": "Insert your software name here..."
     },
-    "fhirVersion": "4.3.0-CIBUILD",
+    "fhirVersion": "4.3.0-cibuild",
     "format": [
         "xml",
         "json"
@@ -13541,7 +13541,7 @@
                             "name": "deceased",
                             "definition": "http://hl7.org/fhir/SearchParameter/Patient-deceased",
                             "type": "token",
-                            "documentation": "This patient has been marked as deceased, or as a death date entered"
+                            "documentation": "This patient has been marked as deceased, or has a death date entered"
                         },
                         {
                             "name": "address-state",
@@ -19249,22 +19249,10 @@
                     "documentation": "Managing search into contained resources"
                 },
                 {
-                    "name": "_list",
-                    "definition": "http://hl7.org/fhir/SearchParameter/Resource-list",
-                    "type": "string",
-                    "documentation": "All resources in nominated list (by id, Type/id, url or one of the magic List types)"
-                },
-                {
                     "name": "_query",
                     "definition": "http://hl7.org/fhir/SearchParameter/Resource-query",
                     "type": "token",
                     "documentation": "A custom search profile that describes a specific defined query operation"
-                },
-                {
-                    "name": "_profile",
-                    "definition": "http://hl7.org/fhir/SearchParameter/Resource-profile",
-                    "type": "uri",
-                    "documentation": "Profiles this resource claims to conform to"
                 },
                 {
                     "name": "_lastUpdated",
@@ -19273,16 +19261,46 @@
                     "documentation": "When the resource version last changed"
                 },
                 {
+                    "name": "_security",
+                    "definition": "http://hl7.org/fhir/SearchParameter/Resource-security",
+                    "type": "token",
+                    "documentation": "Security Labels applied to this resource"
+                },
+                {
+                    "name": "_type",
+                    "definition": "http://hl7.org/fhir/SearchParameter/Resource-type",
+                    "type": "token",
+                    "documentation": "Used when a search is performed in a context which doesn't limit the search to indicate which types are being searched. See the FHIR search page for further discussion"
+                },
+                {
+                    "name": "_filter",
+                    "definition": "http://hl7.org/fhir/SearchParameter/Resource-filter",
+                    "type": "token",
+                    "documentation": "Filter search parameter which supports a more sophisticated grammar for searching. See [documentation](search_filter.html) for further details"
+                },
+                {
+                    "name": "_list",
+                    "definition": "http://hl7.org/fhir/SearchParameter/Resource-list",
+                    "type": "string",
+                    "documentation": "All resources in nominated list (by id, Type/id, url or one of the magic List types)"
+                },
+                {
+                    "name": "_profile",
+                    "definition": "http://hl7.org/fhir/SearchParameter/Resource-profile",
+                    "type": "uri",
+                    "documentation": "Profiles this resource claims to conform to"
+                },
+                {
                     "name": "_tag",
                     "definition": "http://hl7.org/fhir/SearchParameter/Resource-tag",
                     "type": "token",
                     "documentation": "Tags applied to this resource"
                 },
                 {
-                    "name": "_security",
-                    "definition": "http://hl7.org/fhir/SearchParameter/Resource-security",
-                    "type": "token",
-                    "documentation": "Security Labels applied to this resource"
+                    "name": "_has",
+                    "definition": "http://hl7.org/fhir/SearchParameter/Resource-has",
+                    "type": "string",
+                    "documentation": "Provides limited support for reverse chaining - that is, selecting resources based on the properties of resources that refer to them (instead of chaining where resources can be selected based on the properties of resources that they refer to). See the FHIR search page for further documentation"
                 },
                 {
                     "name": "_source",
@@ -19301,6 +19319,12 @@
                     "definition": "http://hl7.org/fhir/SearchParameter/Resource-content",
                     "type": "string",
                     "documentation": "Search on the entire content of the resource"
+                },
+                {
+                    "name": "_text",
+                    "definition": "http://hl7.org/fhir/SearchParameter/Resource-text",
+                    "type": "string",
+                    "documentation": "Search on the narrative text (html) of the resource"
                 },
                 {
                     "name": "something",

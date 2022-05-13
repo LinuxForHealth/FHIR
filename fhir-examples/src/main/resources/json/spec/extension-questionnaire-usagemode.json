@@ -12,9 +12,10 @@
     }
   ],
   "url": "http://hl7.org/fhir/StructureDefinition/questionnaire-usageMode",
-  "version": "4.3.0-CIBUILD",
+  "version": "4.3.0-cibuild",
   "name": "usageMode",
   "status": "draft",
+  "experimental": false,
   "date": "2013-07-04",
   "publisher": "HL7",
   "contact": [
@@ -28,7 +29,7 @@
     }
   ],
   "description": "Identifies that the specified element should only appear in certain \"modes\" of operation.",
-  "fhirVersion": "4.3.0-CIBUILD",
+  "fhirVersion": "4.3.0-cibuild",
   "mapping": [
     {
       "identity": "rim",
@@ -256,7 +257,7 @@
           ],
           "strength": "required",
           "description": "Identifies the modes of usage of a questionnaire that should enable a particular questionnaire item.",
-          "valueSet": "http://hl7.org/fhir/ValueSet/questionnaire-usage-mode"
+          "valueSet": "http://terminology.hl7.org/CodeSystem/questionnaire-usage-mode"
         },
         "mapping": [
           {
@@ -315,7 +316,7 @@
           ],
           "strength": "required",
           "description": "Identifies the modes of usage of a questionnaire that should enable a particular questionnaire item.",
-          "valueSet": "http://hl7.org/fhir/ValueSet/questionnaire-usage-mode"
+          "valueSet": "http://terminology.hl7.org/CodeSystem/questionnaire-usage-mode"
         }
       }
     ]

@@ -12,9 +12,10 @@
         }
     ],
     "url": "http://hl7.org/fhir/StructureDefinition/composition-clinicaldocument-versionNumber",
-    "version": "4.3.0-CIBUILD",
+    "version": "4.3.0-cibuild",
     "name": "versionNumber",
     "status": "draft",
+    "experimental": false,
     "date": "2015-03-17",
     "publisher": "Health Level Seven, Inc. - Structured Documents WG",
     "contact": [
@@ -28,7 +29,7 @@
         }
     ],
     "description": "Version specific identifier for the composition, assigned when each version is created/updated.",
-    "fhirVersion": "4.3.0-CIBUILD",
+    "fhirVersion": "4.3.0-cibuild",
     "mapping": [
         {
             "identity": "rim",

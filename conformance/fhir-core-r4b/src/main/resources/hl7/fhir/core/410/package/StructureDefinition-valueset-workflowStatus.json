@@ -12,13 +12,14 @@
         }
     ],
     "url": "http://hl7.org/fhir/StructureDefinition/valueset-workflowStatus",
-    "version": "4.3.0-CIBUILD",
+    "version": "4.3.0-cibuild",
     "name": "workflowStatus",
     "status": "draft",
+    "experimental": false,
     "date": "2021-01-17T07:06:13+11:00",
     "publisher": "HL7",
     "description": "Workflow Status is used to represent details of the value set development process while in a single Activity Status.",
-    "fhirVersion": "4.3.0-CIBUILD",
+    "fhirVersion": "4.3.0-cibuild",
     "mapping": [
         {
             "identity": "rim",

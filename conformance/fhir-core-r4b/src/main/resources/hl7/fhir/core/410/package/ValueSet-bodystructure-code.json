@@ -2,7 +2,7 @@
     "resourceType": "ValueSet",
     "id": "bodystructure-code",
     "meta": {
-        "lastUpdated": "2022-03-03T22:04:06.196Z",
+        "lastUpdated": "2022-04-23T22:21:35.043Z",
         "profile": [
             "http://hl7.org/fhir/StructureDefinition/shareablevalueset"
         ]
@@ -28,7 +28,7 @@
             "value": "urn:oid:2.16.840.1.113883.4.642.3.142"
         }
     ],
-    "version": "4.3.0-CIBUILD",
+    "version": "4.3.0-cibuild",
     "name": "SNOMEDCTMorphologicAbnormalities",
     "title": "SNOMED CT Morphologic Abnormalities",
     "status": "draft",
@@ -71,11 +71,12 @@
                 "valueBoolean": true
             }
         ],
-        "identifier": "urn:uuid:7faf87a1-e46c-4f19-967c-e1ff3d9ab3ae",
-        "timestamp": "2021-11-17T05:28:31.605Z",
+        "identifier": "urn:uuid:db99b1e8-aed3-46dc-8218-39068c1746ac",
+        "timestamp": "2022-04-23T22:23:26Z",
+        "total": 1000,
         "parameter": [
             {
-                "name": "limitedExpansion",
+                "name": "excludeNested",
                 "valueBoolean": true
             },
             {
@@ -83,12 +84,12 @@
                 "valueBoolean": true
             },
             {
-                "name": "excludeNested",
+                "name": "limitedExpansion",
                 "valueBoolean": true
             },
             {
                 "name": "version",
-                "valueUri": "http://snomed.info/sct|http://snomed.info/sct/900000000000207008/version/20200131"
+                "valueUri": "http://snomed.info/sct|http://snomed.info/sct/900000000000207008/version/20200731"
             }
         ],
         "contains": [
@@ -1250,22 +1251,6 @@
             },
             {
                 "system": "http://snomed.info/sct",
-                "code": "2784001",
-                "display": "Traction injury",
-                "designation": [
-                    {
-                        "value": "Traction injury"
-                    },
-                    {
-                        "value": "Stretch injury"
-                    },
-                    {
-                        "value": "Traction injury (morphologic abnormality)"
-                    }
-                ]
-            },
-            {
-                "system": "http://snomed.info/sct",
                 "code": "2881000",
                 "display": "Anisokaryosis",
                 "designation": [
@@ -1671,22 +1656,6 @@
                     },
                     {
                         "value": "Mucoepidermoid carcinoma (morphologic abnormality)"
-                    }
-                ]
-            },
-            {
-                "system": "http://snomed.info/sct",
-                "code": "4118000",
-                "display": "Multilobular chondroma and osteoma",
-                "designation": [
-                    {
-                        "value": "Multilobular chondroma and osteoma"
-                    },
-                    {
-                        "value": "Chondroma rodens"
-                    },
-                    {
-                        "value": "Multilobular chondroma and osteoma (morphologic abnormality)"
                     }
                 ]
             },
@@ -2367,19 +2336,6 @@
             },
             {
                 "system": "http://snomed.info/sct",
-                "code": "5409002",
-                "display": "Traumatic eviscerated structure",
-                "designation": [
-                    {
-                        "value": "Traumatic eviscerated structure"
-                    },
-                    {
-                        "value": "Traumatic eviscerated structure (morphologic abnormality)"
-                    }
-                ]
-            },
-            {
-                "system": "http://snomed.info/sct",
                 "code": "5468008",
                 "display": "Fracture, multiple",
                 "designation": [
@@ -2580,19 +2536,6 @@
                     },
                     {
                         "value": "Mucous membrane eruption (morphologic abnormality)"
-                    }
-                ]
-            },
-            {
-                "system": "http://snomed.info/sct",
-                "code": "5901005",
-                "display": "Multiple internal injuries",
-                "designation": [
-                    {
-                        "value": "Multiple internal injuries"
-                    },
-                    {
-                        "value": "Multiple internal injuries (morphologic abnormality)"
                     }
                 ]
             },
@@ -3132,6 +3075,9 @@
                     },
                     {
                         "value": "Decidual cast (morphologic abnormality)"
+                    },
+                    {
+                        "value": "Endometrial cast"
                     }
                 ]
             },
@@ -5316,6 +5262,9 @@
                     },
                     {
                         "value": "Polar spongioblastoma (morphologic abnormality)"
+                    },
+                    {
+                        "value": "Primitive polar spongioblastoma"
                     }
                 ]
             },
@@ -7523,22 +7472,6 @@
             },
             {
                 "system": "http://snomed.info/sct",
-                "code": "19104009",
-                "display": "Spontaneous closed dislocation",
-                "designation": [
-                    {
-                        "value": "Spontaneous closed dislocation"
-                    },
-                    {
-                        "value": "Pathological closed dislocation"
-                    },
-                    {
-                        "value": "Spontaneous closed dislocation (morphologic abnormality)"
-                    }
-                ]
-            },
-            {
-                "system": "http://snomed.info/sct",
                 "code": "19128006",
                 "display": "Hyperorthokeratosis",
                 "designation": [
@@ -8226,19 +8159,6 @@
             },
             {
                 "system": "http://snomed.info/sct",
-                "code": "20175003",
-                "display": "Postmortem fracture",
-                "designation": [
-                    {
-                        "value": "Postmortem fracture"
-                    },
-                    {
-                        "value": "Postmortem fracture (morphologic abnormality)"
-                    }
-                ]
-            },
-            {
-                "system": "http://snomed.info/sct",
                 "code": "20182004",
                 "display": "Myocytolysis",
                 "designation": [
@@ -8335,6 +8255,9 @@
                     },
                     {
                         "value": "Squamous intraepithelial neoplasia, high grade"
+                    },
+                    {
+                        "value": "High grade squamous intraepithelial lesion"
                     }
                 ]
             },
@@ -10264,19 +10187,6 @@
                     },
                     {
                         "value": "Spindle cell melanoma - type A"
-                    }
-                ]
-            },
-            {
-                "system": "http://snomed.info/sct",
-                "code": "24726002",
-                "display": "Internal traumatic fistula",
-                "designation": [
-                    {
-                        "value": "Internal traumatic fistula"
-                    },
-                    {
-                        "value": "Internal traumatic fistula (morphologic abnormality)"
                     }
                 ]
             },
@@ -12815,19 +12725,6 @@
             },
             {
                 "system": "http://snomed.info/sct",
-                "code": "30619009",
-                "display": "Antemortem injury",
-                "designation": [
-                    {
-                        "value": "Antemortem injury"
-                    },
-                    {
-                        "value": "Antemortem injury (morphologic abnormality)"
-                    }
-                ]
-            },
-            {
-                "system": "http://snomed.info/sct",
                 "code": "30649006",
                 "display": "Basal cell tumor",
                 "designation": [
@@ -13153,11 +13050,8 @@
             {
                 "system": "http://snomed.info/sct",
                 "code": "31131002",
-                "display": "Vipoma",
+                "display": "Vipoma, malignant",
                 "designation": [
-                    {
-                        "value": "Vipoma"
-                    },
                     {
                         "value": "Vipoma, malignant"
                     },
@@ -14291,10 +14185,10 @@
                         "value": "Dislocation of multiple joints"
                     },
                     {
-                        "value": "Traumatic dislocation of multiple joints (morphologic abnormality)"
+                        "value": "Traumatic dislocation of multiple joints"
                     },
                     {
-                        "value": "Traumatic dislocation of multiple joints"
+                        "value": "Dislocation of multiple joints (morphologic abnormality)"
                     }
                 ]
             },
@@ -15111,12 +15005,6 @@
                         "value": "Lipoid granuloma"
                     },
                     {
-                        "value": "Fibroxanthogranuloma"
-                    },
-                    {
-                        "value": "Xanthogranuloma"
-                    },
-                    {
                         "value": "Oleogranuloma"
                     },
                     {
@@ -15696,9 +15584,6 @@
                         "value": "Bony sclerosis"
                     },
                     {
-                        "value": "Eburnation"
-                    },
-                    {
                         "value": "Bony sclerosis (morphologic abnormality)"
                     }
                 ]
@@ -15853,19 +15738,6 @@
                     },
                     {
                         "value": "Congenital abnormal roundness (morphologic abnormality)"
-                    }
-                ]
-            },
-            {
-                "system": "http://snomed.info/sct",
-                "code": "38026009",
-                "display": "Pattern specific contusion",
-                "designation": [
-                    {
-                        "value": "Pattern specific contusion"
-                    },
-                    {
-                        "value": "Pattern specific contusion (morphologic abnormality)"
                     }
                 ]
             },
@@ -16188,6 +16060,135 @@
                     },
                     {
                         "value": "Atherosclerosis (morphologic abnormality)"
+                    }
+                ]
+            },
+            {
+                "system": "http://snomed.info/sct",
+                "code": "38785003",
+                "display": "Air leakage",
+                "designation": [
+                    {
+                        "value": "Air leakage"
+                    },
+                    {
+                        "value": "Air leakage (morphologic abnormality)"
+                    }
+                ]
+            },
+            {
+                "system": "http://snomed.info/sct",
+                "code": "38843008",
+                "display": "Abnormal melanin pigmentation",
+                "designation": [
+                    {
+                        "value": "Abnormal melanin pigmentation"
+                    },
+                    {
+                        "value": "Abnormal melanin pigmentation (morphologic abnormality)"
+                    }
+                ]
+            },
+            {
+                "system": "http://snomed.info/sct",
+                "code": "38931008",
+                "display": "Recent operative site",
+                "designation": [
+                    {
+                        "value": "Recent operative site"
+                    },
+                    {
+                        "value": "Recent operative site (morphologic abnormality)"
+                    }
+                ]
+            },
+            {
+                "system": "http://snomed.info/sct",
+                "code": "38958001",
+                "display": "Mixed cell adenocarcinoma",
+                "designation": [
+                    {
+                        "value": "Mixed cell adenocarcinoma"
+                    },
+                    {
+                        "value": "Mixed cell adenocarcinoma (morphologic abnormality)"
+                    }
+                ]
+            },
+            {
+                "system": "http://snomed.info/sct",
+                "code": "38969003",
+                "display": "Precancerous melanosis",
+                "designation": [
+                    {
+                        "value": "Precancerous melanosis"
+                    },
+                    {
+                        "value": "Precancerous melanosis (morphologic abnormality)"
+                    }
+                ]
+            },
+            {
+                "system": "http://snomed.info/sct",
+                "code": "39000009",
+                "display": "Hemangiosarcoma",
+                "designation": [
+                    {
+                        "value": "Hemangiosarcoma"
+                    },
+                    {
+                        "value": "Hemangiosarcoma (morphologic abnormality)"
+                    }
+                ]
+            },
+            {
+                "system": "http://snomed.info/sct",
+                "code": "39005004",
+                "display": "Medulloepithelioma",
+                "designation": [
+                    {
+                        "value": "Medulloepithelioma"
+                    },
+                    {
+                        "value": "Diktyoma"
+                    },
+                    {
+                        "value": "Diktyoma, malignant"
+                    },
+                    {
+                        "value": "Medulloepithelioma (morphologic abnormality)"
+                    }
+                ]
+            },
+            {
+                "system": "http://snomed.info/sct",
+                "code": "39035006",
+                "display": "Atypical squamous cells of uncertain significance",
+                "designation": [
+                    {
+                        "value": "Atypical squamous cells of uncertain significance"
+                    },
+                    {
+                        "value": "ASCUS"
+                    },
+                    {
+                        "value": "Atypical squamous cells of undetermined significance"
+                    },
+                    {
+                        "value": "Atypical squamous cells of undetermined significance (morphologic abnormality)"
+                    }
+                ]
+            },
+            {
+                "system": "http://snomed.info/sct",
+                "code": "39037003",
+                "display": "Target fibers",
+                "designation": [
+                    {
+                        "value": "Target fibers"
+                    },
+                    {
+                        "value": "Target fibers (morphologic abnormality)"
                     }
                 ]
             }

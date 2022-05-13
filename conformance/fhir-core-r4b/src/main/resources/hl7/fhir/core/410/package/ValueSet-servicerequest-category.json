@@ -2,7 +2,7 @@
     "resourceType": "ValueSet",
     "id": "servicerequest-category",
     "meta": {
-        "lastUpdated": "2022-03-03T22:04:06.196Z",
+        "lastUpdated": "2022-04-23T22:21:35.043Z",
         "profile": [
             "http://hl7.org/fhir/StructureDefinition/shareablevalueset"
         ]
@@ -28,7 +28,7 @@
             "value": "urn:oid:2.16.840.1.113883.4.642.3.434"
         }
     ],
-    "version": "4.3.0-CIBUILD",
+    "version": "4.3.0-cibuild",
     "name": "ServiceRequestCategoryCodes",
     "title": "Service Request Category Codes",
     "status": "draft",
@@ -76,11 +76,12 @@
         ]
     },
     "expansion": {
-        "identifier": "urn:uuid:b50d2979-11d8-4a82-bc56-bd60511f79dc",
-        "timestamp": "2021-11-17T05:28:18.352Z",
+        "identifier": "urn:uuid:955a92aa-170d-43be-ae5c-a2a054a00672",
+        "timestamp": "2022-04-23T22:23:26Z",
+        "total": 5,
         "parameter": [
             {
-                "name": "limitedExpansion",
+                "name": "excludeNested",
                 "valueBoolean": true
             },
             {
@@ -88,12 +89,12 @@
                 "valueBoolean": true
             },
             {
-                "name": "excludeNested",
+                "name": "limitedExpansion",
                 "valueBoolean": true
             },
             {
                 "name": "version",
-                "valueUri": "http://snomed.info/sct|http://snomed.info/sct/900000000000207008/version/20200131"
+                "valueUri": "http://snomed.info/sct|http://snomed.info/sct/900000000000207008/version/20200731"
             }
         ],
         "contains": [
@@ -104,44 +105,26 @@
                 "designation": [
                     {
                         "value": "Laboratory procedure"
-                    },
-                    {
-                        "value": "Laboratory procedure (procedure)"
-                    },
-                    {
-                        "value": "Laboratory procedures"
                     }
                 ]
             },
             {
                 "system": "http://snomed.info/sct",
                 "code": "363679005",
-                "display": "Imaging (procedure)",
+                "display": "Imaging",
                 "designation": [
                     {
-                        "value": "Imaging (procedure)"
-                    },
-                    {
                         "value": "Imaging"
-                    },
-                    {
-                        "value": "Clinical imaging"
                     }
                 ]
             },
             {
                 "system": "http://snomed.info/sct",
                 "code": "409063005",
-                "display": "Counseling",
+                "display": "Counselling",
                 "designation": [
                     {
-                        "value": "Counseling"
-                    },
-                    {
-                        "value": "Counseling (procedure)"
-                    },
-                    {
-                        "value": "Psychosocial procedure that involves listening, reflecting, etc. to facilitate recognition of course of action / solution."
+                        "value": "Counselling"
                     }
                 ]
             },
@@ -152,49 +135,16 @@
                 "designation": [
                     {
                         "value": "Education"
-                    },
-                    {
-                        "value": "Educating"
-                    },
-                    {
-                        "value": "Education procedure"
-                    },
-                    {
-                        "value": "Education (procedure)"
-                    },
-                    {
-                        "value": "Instruction"
-                    },
-                    {
-                        "value": "Teaching"
-                    },
-                    {
-                        "value": "Procedure that is synonymous with those activities such as teaching, demonstration, instruction, explanation, and advice that aim to increase knowledge and skills, change behaviors, assist coping and increase adherence to treatment."
                     }
                 ]
             },
             {
                 "system": "http://snomed.info/sct",
                 "code": "387713003",
-                "display": "Surgical procedure (procedure)",
+                "display": "Surgical procedure",
                 "designation": [
                     {
-                        "value": "Surgical procedure (procedure)"
-                    },
-                    {
                         "value": "Surgical procedure"
-                    },
-                    {
-                        "value": "Operation"
-                    },
-                    {
-                        "value": "Surgical procedures"
-                    },
-                    {
-                        "value": "Operative procedure"
-                    },
-                    {
-                        "value": "Planned structural alteration of the body, usually requiring disruption of a body surface (usually skin or mucosa)"
                     }
                 ]
             }

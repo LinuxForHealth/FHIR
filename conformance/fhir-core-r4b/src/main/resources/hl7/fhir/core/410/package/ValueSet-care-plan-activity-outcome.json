@@ -2,7 +2,7 @@
     "resourceType": "ValueSet",
     "id": "care-plan-activity-outcome",
     "meta": {
-        "lastUpdated": "2022-03-03T22:04:06.196Z",
+        "lastUpdated": "2022-04-23T22:21:35.043Z",
         "profile": [
             "http://hl7.org/fhir/StructureDefinition/shareablevalueset"
         ]
@@ -28,7 +28,7 @@
             "value": "urn:oid:2.16.840.1.113883.4.642.3.149"
         }
     ],
-    "version": "4.3.0-CIBUILD",
+    "version": "4.3.0-cibuild",
     "name": "CarePlanActivityOutcome",
     "title": "Care Plan Activity Outcome",
     "status": "draft",
@@ -67,11 +67,12 @@
                 "valueBoolean": true
             }
         ],
-        "identifier": "urn:uuid:9f389db8-e051-4c45-aad7-b09eeb20e81f",
-        "timestamp": "2021-11-17T05:28:39.262Z",
+        "identifier": "urn:uuid:8eeb88bd-06e8-47a1-8e4e-9b4388c1909d",
+        "timestamp": "2022-04-23T22:23:26Z",
+        "total": 42,
         "parameter": [
             {
-                "name": "limitedExpansion",
+                "name": "excludeNested",
                 "valueBoolean": true
             },
             {
@@ -79,12 +80,12 @@
                 "valueBoolean": true
             },
             {
-                "name": "excludeNested",
+                "name": "limitedExpansion",
                 "valueBoolean": true
             },
             {
                 "name": "version",
-                "valueUri": "http://snomed.info/sct|http://snomed.info/sct/900000000000207008/version/20200131"
+                "valueUri": "http://snomed.info/sct|http://snomed.info/sct/900000000000207008/version/20200731"
             }
         ],
         "contains": [
@@ -98,22 +99,6 @@
                     },
                     {
                         "value": "Healthcare knowledge finding"
-                    }
-                ]
-            },
-            {
-                "system": "http://snomed.info/sct",
-                "code": "54777007",
-                "display": "Deficient knowledge (finding)",
-                "designation": [
-                    {
-                        "value": "Deficient knowledge (finding)"
-                    },
-                    {
-                        "value": "Deficient knowledge"
-                    },
-                    {
-                        "value": "Knowledge deficit"
                     }
                 ]
             },

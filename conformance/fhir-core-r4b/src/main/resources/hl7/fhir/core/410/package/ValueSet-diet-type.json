@@ -2,7 +2,7 @@
     "resourceType": "ValueSet",
     "id": "diet-type",
     "meta": {
-        "lastUpdated": "2022-03-03T22:04:06.196Z",
+        "lastUpdated": "2022-04-23T22:21:35.043Z",
         "profile": [
             "http://hl7.org/fhir/StructureDefinition/shareablevalueset"
         ]
@@ -28,7 +28,7 @@
             "value": "urn:oid:2.16.840.1.113883.4.642.3.385"
         }
     ],
-    "version": "4.3.0-CIBUILD",
+    "version": "4.3.0-cibuild",
     "name": "DietCodes",
     "title": "Diet Codes",
     "status": "draft",
@@ -44,7 +44,7 @@
             ]
         }
     ],
-    "description": "Codes that can be used to indicate the type of food being ordered for a patient. This value set is provided as a suggestive example. It includes codes from [SNOMED CT](http://snomed.info/sct) where concept is-a 182922004 (Dietary regime (regime/therapy)) ",
+    "description": "Codes that can be used to indicate the type of food being ordered for a patient. This value set is provided as a suggestive example. It includes codes from [SNOMED CT](http://snomed.info/sct) where concept is-a 182922004 (Dietary regime (regime/therapy))",
     "copyright": "This resource includes content from SNOMED Clinical Terms® (SNOMED CT®) which is copyright of the International Health Terminology Standards Development Organisation (IHTSDO). Implementers of these specifications must have the appropriate SNOMED CT Affiliate license - for more information contact http://www.snomed.org/snomed-ct/get-snomed-ct or info@snomed.org",
     "compose": {
         "include": [
@@ -67,11 +67,12 @@
                 "valueBoolean": true
             }
         ],
-        "identifier": "urn:uuid:7365f14a-cdd3-43a6-8651-8e275c2890df",
-        "timestamp": "2021-11-17T05:28:35.079Z",
+        "identifier": "urn:uuid:5b7d0b31-6392-4231-9638-1b9497eae27f",
+        "timestamp": "2022-04-23T22:23:26Z",
+        "total": 218,
         "parameter": [
             {
-                "name": "limitedExpansion",
+                "name": "excludeNested",
                 "valueBoolean": true
             },
             {
@@ -79,12 +80,12 @@
                 "valueBoolean": true
             },
             {
-                "name": "excludeNested",
+                "name": "limitedExpansion",
                 "valueBoolean": true
             },
             {
                 "name": "version",
-                "valueUri": "http://snomed.info/sct|http://snomed.info/sct/900000000000207008/version/20200131"
+                "valueUri": "http://snomed.info/sct|http://snomed.info/sct/900000000000207008/version/20200731"
             }
         ],
         "contains": [
@@ -272,9 +273,6 @@
                     },
                     {
                         "value": "Nasal tube feeding (regime/therapy)"
-                    },
-                    {
-                        "value": "Enteral tube feeding"
                     }
                 ]
             },
@@ -684,6 +682,22 @@
                     },
                     {
                         "value": "Fasting (regime/therapy)"
+                    }
+                ]
+            },
+            {
+                "system": "http://snomed.info/sct",
+                "code": "870254008",
+                "display": "CHILD-1 - Cardiovascular Health Integrated Lifestyle Diet",
+                "designation": [
+                    {
+                        "value": "CHILD-1 - Cardiovascular Health Integrated Lifestyle Diet"
+                    },
+                    {
+                        "value": "Cardiovascular Health Integrated Lifestyle Diet"
+                    },
+                    {
+                        "value": "Cardiovascular Health Integrated Lifestyle Diet (regime/therapy)"
                     }
                 ]
             },

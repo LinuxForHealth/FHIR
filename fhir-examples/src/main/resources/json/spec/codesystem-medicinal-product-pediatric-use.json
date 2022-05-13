@@ -1,0 +1,132 @@
+{
+  "resourceType": "CodeSystem",
+  "id": "medicinal-product-pediatric-use",
+  "meta": {
+    "lastUpdated": "2022-04-24T09:21:35.043+11:00",
+    "profile": [
+      "http://hl7.org/fhir/StructureDefinition/shareablecodesystem"
+    ]
+  },
+  "text": {
+    "status": "generated",
+    "div": "\u003cdiv xmlns\u003d\"http://www.w3.org/1999/xhtml\"\u003e\u003cp\u003eThis code system http://hl7.org/fhir/medicinal-product-pediatric-use defines the following codes:\u003c/p\u003e\u003ctable class\u003d\"codes\"\u003e\u003ctr\u003e\u003ctd style\u003d\"white-space:nowrap\"\u003e\u003cb\u003eCode\u003c/b\u003e\u003c/td\u003e\u003ctd\u003e\u003cb\u003eDisplay\u003c/b\u003e\u003c/td\u003e\u003ctd\u003e\u003cb\u003eDefinition\u003c/b\u003e\u003c/td\u003e\u003c/tr\u003e\u003ctr\u003e\u003ctd style\u003d\"white-space:nowrap\"\u003eInUtero\u003ca name\u003d\"medicinal-product-pediatric-use-InUtero\"\u003e \u003c/a\u003e\u003c/td\u003e\u003ctd\u003eIn utero\u003c/td\u003e\u003ctd\u003eIn utero\u003c/td\u003e\u003c/tr\u003e\u003ctr\u003e\u003ctd style\u003d\"white-space:nowrap\"\u003ePretermNewborn\u003ca name\u003d\"medicinal-product-pediatric-use-PretermNewborn\"\u003e \u003c/a\u003e\u003c/td\u003e\u003ctd\u003ePreterm newborn infants (0 – 27 days)\u003c/td\u003e\u003ctd\u003ePreterm newborn infants (0 – 27 days)\u003c/td\u003e\u003c/tr\u003e\u003ctr\u003e\u003ctd style\u003d\"white-space:nowrap\"\u003eTermNewborn\u003ca name\u003d\"medicinal-product-pediatric-use-TermNewborn\"\u003e \u003c/a\u003e\u003c/td\u003e\u003ctd\u003eTerm newborn infants (0 – 27 days)\u003c/td\u003e\u003ctd\u003eTerm newborn infants (0 – 27 days)\u003c/td\u003e\u003c/tr\u003e\u003ctr\u003e\u003ctd style\u003d\"white-space:nowrap\"\u003eInfants\u003ca name\u003d\"medicinal-product-pediatric-use-Infants\"\u003e \u003c/a\u003e\u003c/td\u003e\u003ctd\u003eInfants and toddlers (28 days – 23 months)\u003c/td\u003e\u003ctd\u003eInfants and toddlers (28 days – 23 months)\u003c/td\u003e\u003c/tr\u003e\u003ctr\u003e\u003ctd style\u003d\"white-space:nowrap\"\u003eChildren\u003ca name\u003d\"medicinal-product-pediatric-use-Children\"\u003e \u003c/a\u003e\u003c/td\u003e\u003ctd\u003eChildren (2 to \u0026lt; 12 years)\u003c/td\u003e\u003ctd\u003eChildren (2 to \u0026lt; 12 years)\u003c/td\u003e\u003c/tr\u003e\u003ctr\u003e\u003ctd style\u003d\"white-space:nowrap\"\u003eAdolescents\u003ca name\u003d\"medicinal-product-pediatric-use-Adolescents\"\u003e \u003c/a\u003e\u003c/td\u003e\u003ctd\u003eAdolescents (12 to \u0026lt; 18 years)\u003c/td\u003e\u003ctd\u003eAdolescents (12 to \u0026lt; 18 years)\u003c/td\u003e\u003c/tr\u003e\u003ctr\u003e\u003ctd style\u003d\"white-space:nowrap\"\u003eAdults\u003ca name\u003d\"medicinal-product-pediatric-use-Adults\"\u003e \u003c/a\u003e\u003c/td\u003e\u003ctd\u003eAdults (18 to \u0026lt; 65 years)\u003c/td\u003e\u003ctd\u003eAdults (18 to \u0026lt; 65 years)\u003c/td\u003e\u003c/tr\u003e\u003ctr\u003e\u003ctd style\u003d\"white-space:nowrap\"\u003eElderly\u003ca name\u003d\"medicinal-product-pediatric-use-Elderly\"\u003e \u003c/a\u003e\u003c/td\u003e\u003ctd\u003eElderly (≥ 65 years)\u003c/td\u003e\u003ctd\u003eElderly (≥ 65 years)\u003c/td\u003e\u003c/tr\u003e\u003ctr\u003e\u003ctd style\u003d\"white-space:nowrap\"\u003eNeonate\u003ca name\u003d\"medicinal-product-pediatric-use-Neonate\"\u003e \u003c/a\u003e\u003c/td\u003e\u003ctd\u003eNeonate\u003c/td\u003e\u003ctd\u003eNeonate\u003c/td\u003e\u003c/tr\u003e\u003ctr\u003e\u003ctd style\u003d\"white-space:nowrap\"\u003ePediatricPopulation\u003ca name\u003d\"medicinal-product-pediatric-use-PediatricPopulation\"\u003e \u003c/a\u003e\u003c/td\u003e\u003ctd\u003ePediatric Population (\u0026lt; 18 years)\u003c/td\u003e\u003ctd\u003ePediatric Population (\u0026lt; 18 years)\u003c/td\u003e\u003c/tr\u003e\u003ctr\u003e\u003ctd style\u003d\"white-space:nowrap\"\u003eAll\u003ca name\u003d\"medicinal-product-pediatric-use-All\"\u003e \u003c/a\u003e\u003c/td\u003e\u003ctd\u003eAll\u003c/td\u003e\u003ctd\u003eAll\u003c/td\u003e\u003c/tr\u003e\u003ctr\u003e\u003ctd style\u003d\"white-space:nowrap\"\u003ePrepubertal\u003ca name\u003d\"medicinal-product-pediatric-use-Prepubertal\"\u003e \u003c/a\u003e\u003c/td\u003e\u003ctd\u003ePrepubertal children (2 years to onset of puberty)\u003c/td\u003e\u003ctd\u003ePrepubertal children (2 years to onset of puberty)\u003c/td\u003e\u003c/tr\u003e\u003ctr\u003e\u003ctd style\u003d\"white-space:nowrap\"\u003eAdultsAndElderly\u003ca name\u003d\"medicinal-product-pediatric-use-AdultsAndElderly\"\u003e \u003c/a\u003e\u003c/td\u003e\u003ctd\u003eAdult and elderly population (\u0026gt; 18 years)\u003c/td\u003e\u003ctd\u003eAdult and elderly population (\u0026gt; 18 years)\u003c/td\u003e\u003c/tr\u003e\u003ctr\u003e\u003ctd style\u003d\"white-space:nowrap\"\u003ePubertalAndPostpubertal\u003ca name\u003d\"medicinal-product-pediatric-use-PubertalAndPostpubertal\"\u003e \u003c/a\u003e\u003c/td\u003e\u003ctd\u003ePubertal and postpubertal adolescents (onset of puberty to \u0026lt; 18 years)\u003c/td\u003e\u003ctd\u003ePubertal and postpubertal adolescents (onset of puberty to \u0026lt; 18 years)\u003c/td\u003e\u003c/tr\u003e\u003c/table\u003e\u003c/div\u003e"
+  },
+  "extension": [
+    {
+      "url": "http://hl7.org/fhir/StructureDefinition/structuredefinition-wg",
+      "valueCode": "brr"
+    },
+    {
+      "url": "http://hl7.org/fhir/StructureDefinition/structuredefinition-standards-status",
+      "valueCode": "trial-use"
+    },
+    {
+      "url": "http://hl7.org/fhir/StructureDefinition/structuredefinition-fmm",
+      "valueInteger": 1
+    }
+  ],
+  "url": "http://hl7.org/fhir/medicinal-product-pediatric-use",
+  "identifier": [
+    {
+      "system": "urn:ietf:rfc:3986",
+      "value": "urn:oid:2.16.840.1.113883.4.642.1.1577"
+    }
+  ],
+  "version": "4.3.0-cibuild",
+  "name": "PediatricUse",
+  "title": "PediatricUse",
+  "status": "draft",
+  "experimental": false,
+  "date": "2021-01-05T10:01:24+11:00",
+  "publisher": "HL7 (FHIR Project)",
+  "contact": [
+    {
+      "telecom": [
+        {
+          "system": "url",
+          "value": "http://hl7.org/fhir"
+        },
+        {
+          "system": "email",
+          "value": "fhir@lists.hl7.org"
+        }
+      ]
+    }
+  ],
+  "description": "Suitability for age groups, in particular children.",
+  "caseSensitive": true,
+  "valueSet": "http://hl7.org/fhir/ValueSet/medicinal-product-pediatric-use",
+  "content": "complete",
+  "concept": [
+    {
+      "code": "InUtero",
+      "display": "In utero",
+      "definition": "In utero"
+    },
+    {
+      "code": "PretermNewborn",
+      "display": "Preterm newborn infants (0 – 27 days)",
+      "definition": "Preterm newborn infants (0 – 27 days)"
+    },
+    {
+      "code": "TermNewborn",
+      "display": "Term newborn infants (0 – 27 days)",
+      "definition": "Term newborn infants (0 – 27 days)"
+    },
+    {
+      "code": "Infants",
+      "display": "Infants and toddlers (28 days – 23 months)",
+      "definition": "Infants and toddlers (28 days – 23 months)"
+    },
+    {
+      "code": "Children",
+      "display": "Children (2 to \u003c 12 years)",
+      "definition": "Children (2 to \u003c 12 years)"
+    },
+    {
+      "code": "Adolescents",
+      "display": "Adolescents (12 to \u003c 18 years)",
+      "definition": "Adolescents (12 to \u003c 18 years)"
+    },
+    {
+      "code": "Adults",
+      "display": "Adults (18 to \u003c 65 years)",
+      "definition": "Adults (18 to \u003c 65 years)"
+    },
+    {
+      "code": "Elderly",
+      "display": "Elderly (≥ 65 years)",
+      "definition": "Elderly (≥ 65 years)"
+    },
+    {
+      "code": "Neonate",
+      "display": "Neonate",
+      "definition": "Neonate"
+    },
+    {
+      "code": "PediatricPopulation",
+      "display": "Pediatric Population (\u003c 18 years)",
+      "definition": "Pediatric Population (\u003c 18 years)"
+    },
+    {
+      "code": "All",
+      "display": "All",
+      "definition": "All"
+    },
+    {
+      "code": "Prepubertal",
+      "display": "Prepubertal children (2 years to onset of puberty)",
+      "definition": "Prepubertal children (2 years to onset of puberty)"
+    },
+    {
+      "code": "AdultsAndElderly",
+      "display": "Adult and elderly population (\u003e 18 years)",
+      "definition": "Adult and elderly population (\u003e 18 years)"
+    },
+    {
+      "code": "PubertalAndPostpubertal",
+      "display": "Pubertal and postpubertal adolescents (onset of puberty to \u003c 18 years)",
+      "definition": "Pubertal and postpubertal adolescents (onset of puberty to \u003c 18 years)"
+    }
+  ]
+}

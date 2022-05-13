@@ -9,8 +9,8 @@
       "status": "active",
       "description": "Type options for MedicationAdministration.medication[x]",
       "expansion": {
-        "identifier": "urn:uuid:0c9b763a-20df-4c7d-b922-8b9bda917fc8",
-        "timestamp": "2022-01-01T15:25:01+00:00",
+        "identifier": "urn:uuid:3b10c1b2-1b8e-4d55-844f-14c3da2b5cb7",
+        "timestamp": "2022-04-23T22:29:53+00:00",
         "contains": [
           {
             "system": "http://hl7.org/fhir/data-types",
@@ -32,8 +32,8 @@
       "status": "active",
       "description": "Type options for MedicationAdministration.effective[x]",
       "expansion": {
-        "identifier": "urn:uuid:9d838144-87c1-40de-8735-374849d12c34",
-        "timestamp": "2022-01-01T15:25:01+00:00",
+        "identifier": "urn:uuid:c5dfe3c2-91a1-479e-b4ac-3e2b0c1fe43b",
+        "timestamp": "2022-04-23T22:29:53+00:00",
         "contains": [
           {
             "system": "http://hl7.org/fhir/data-types",
@@ -55,8 +55,8 @@
       "status": "active",
       "description": "Type options for MedicationAdministration.dosage.rate[x]",
       "expansion": {
-        "identifier": "urn:uuid:e3545cb1-547d-46bd-9ebb-0f3131815258",
-        "timestamp": "2022-01-01T15:25:01+00:00",
+        "identifier": "urn:uuid:648d9af5-080e-42e3-b032-46204899444d",
+        "timestamp": "2022-04-23T22:29:53+00:00",
         "contains": [
           {
             "system": "http://hl7.org/fhir/data-types",
@@ -77,9 +77,10 @@
       "system": "urn:ietf:rfc:3986"
     }
   ],
-  "version": "4.3.0-CIBUILD",
+  "version": "4.3.0-cibuild",
   "status": "draft",
-  "date": "2022-01-01T15:17:18+00:00",
+  "experimental": false,
+  "date": "2022-04-23T22:21:35+00:00",
   "publisher": "Health Level Seven International (Pharmacy)",
   "item": [
     {
@@ -268,10 +269,9 @@
             {
               "linkId": "MedicationAdministration.language.value",
               "text": "language",
-              "type": "coding",
+              "type": "choice",
               "required": false,
-              "repeats": false,
-              "answerConstraint": "optionsOnly"
+              "repeats": false
             }
           ]
         },
@@ -580,10 +580,9 @@
             {
               "linkId": "MedicationAdministration.status.value",
               "text": "status",
-              "type": "coding",
+              "type": "choice",
               "required": false,
-              "repeats": false,
-              "answerConstraint": "optionsOrType"
+              "repeats": false
             }
           ]
         },
@@ -622,10 +621,9 @@
             {
               "linkId": "MedicationAdministration.statusReason.coding",
               "text": "code:",
-              "type": "coding",
+              "type": "choice",
               "required": false,
-              "repeats": false,
-              "answerConstraint": "optionsOnly"
+              "repeats": false
             },
             {
               "linkId": "MedicationAdministration.statusReason.text",
@@ -675,10 +673,9 @@
             {
               "linkId": "MedicationAdministration.category.coding",
               "text": "code:",
-              "type": "coding",
+              "type": "choice",
               "required": false,
-              "repeats": false,
-              "answerConstraint": "optionsOnly"
+              "repeats": false
             },
             {
               "linkId": "MedicationAdministration.category.text",
@@ -728,10 +725,9 @@
             {
               "linkId": "MedicationAdministration.medication[x]._type",
               "text": "type",
-              "type": "coding",
+              "type": "choice",
               "required": false,
               "repeats": false,
-              "answerConstraint": "optionsOnly",
               "answerValueSet": "#vs2",
               "item": [
                 {
@@ -747,10 +743,9 @@
                     {
                       "linkId": "MedicationAdministration.medication[x]._null.coding",
                       "text": "code:",
-                      "type": "coding",
+                      "type": "choice",
                       "required": false,
-                      "repeats": false,
-                      "answerConstraint": "optionsOnly"
+                      "repeats": false
                     },
                     {
                       "linkId": "MedicationAdministration.medication[x]._null.text",
@@ -994,10 +989,9 @@
             {
               "linkId": "MedicationAdministration.effective[x]._type",
               "text": "type",
-              "type": "coding",
+              "type": "choice",
               "required": false,
               "repeats": false,
-              "answerConstraint": "optionsOnly",
               "answerValueSet": "#vs3",
               "item": [
                 {
@@ -1213,10 +1207,9 @@
                 {
                   "linkId": "MedicationAdministration.performer.function.coding",
                   "text": "code:",
-                  "type": "coding",
+                  "type": "choice",
                   "required": false,
-                  "repeats": false,
-                  "answerConstraint": "optionsOnly"
+                  "repeats": false
                 },
                 {
                   "linkId": "MedicationAdministration.performer.function.text",
@@ -1322,10 +1315,9 @@
             {
               "linkId": "MedicationAdministration.reasonCode.coding",
               "text": "code:",
-              "type": "coding",
+              "type": "choice",
               "required": false,
-              "repeats": false,
-              "answerConstraint": "optionsOnly"
+              "repeats": false
             },
             {
               "linkId": "MedicationAdministration.reasonCode.text",
@@ -1739,10 +1731,9 @@
                 {
                   "linkId": "MedicationAdministration.dosage.site.coding",
                   "text": "code:",
-                  "type": "coding",
+                  "type": "choice",
                   "required": false,
-                  "repeats": false,
-                  "answerConstraint": "optionsOnly"
+                  "repeats": false
                 },
                 {
                   "linkId": "MedicationAdministration.dosage.site.text",
@@ -1792,10 +1783,9 @@
                 {
                   "linkId": "MedicationAdministration.dosage.route.coding",
                   "text": "code:",
-                  "type": "coding",
+                  "type": "choice",
                   "required": false,
-                  "repeats": false,
-                  "answerConstraint": "optionsOnly"
+                  "repeats": false
                 },
                 {
                   "linkId": "MedicationAdministration.dosage.route.text",
@@ -1845,10 +1835,9 @@
                 {
                   "linkId": "MedicationAdministration.dosage.method.coding",
                   "text": "code:",
-                  "type": "coding",
+                  "type": "choice",
                   "required": false,
-                  "repeats": false,
-                  "answerConstraint": "optionsOnly"
+                  "repeats": false
                 },
                 {
                   "linkId": "MedicationAdministration.dosage.method.text",
@@ -1898,10 +1887,9 @@
                 {
                   "linkId": "MedicationAdministration.dosage.dose.comparator",
                   "text": "comp:",
-                  "type": "coding",
+                  "type": "choice",
                   "required": false,
-                  "repeats": false,
-                  "answerConstraint": "optionsOnly"
+                  "repeats": false
                 },
                 {
                   "linkId": "MedicationAdministration.dosage.dose.value",
@@ -1968,10 +1956,9 @@
                 {
                   "linkId": "MedicationAdministration.dosage.rate[x]._type",
                   "text": "type",
-                  "type": "coding",
+                  "type": "choice",
                   "required": false,
                   "repeats": false,
-                  "answerConstraint": "optionsOnly",
                   "answerValueSet": "#vs4",
                   "item": [
                     {
@@ -2020,10 +2007,9 @@
                         {
                           "linkId": "MedicationAdministration.dosage.rate[x]._null.comparator",
                           "text": "comp:",
-                          "type": "coding",
+                          "type": "choice",
                           "required": false,
-                          "repeats": false,
-                          "answerConstraint": "optionsOnly"
+                          "repeats": false
                         },
                         {
                           "linkId": "MedicationAdministration.dosage.rate[x]._null.value",

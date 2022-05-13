@@ -2,7 +2,7 @@
     "resourceType": "StructureDefinition",
     "id": "SearchParameter",
     "meta": {
-        "lastUpdated": "2022-01-01T15:17:18.597Z"
+        "lastUpdated": "2022-04-23T22:21:35.043Z"
     },
     "text": {
         "status": "empty",
@@ -31,10 +31,11 @@
         }
     ],
     "url": "http://hl7.org/fhir/StructureDefinition/SearchParameter",
-    "version": "4.3.0-CIBUILD",
+    "version": "4.3.0-cibuild",
     "name": "SearchParameter",
     "status": "draft",
-    "date": "2022-01-01T15:17:18Z",
+    "experimental": false,
+    "date": "2022-04-23T22:21:35Z",
     "publisher": "Health Level Seven International (FHIR Infrastructure)",
     "contact": [
         {
@@ -55,7 +56,7 @@
         }
     ],
     "description": "A search parameter that defines a named search item that can be used to search/filter on a resource.",
-    "fhirVersion": "4.3.0-CIBUILD",
+    "fhirVersion": "4.3.0-cibuild",
     "mapping": [
         {
             "identity": "v2",
@@ -117,7 +118,7 @@
                         "severity": "error",
                         "human": "If the resource is contained in another resource, it SHALL be referred to from elsewhere in the resource or SHALL refer to the containing resource",
                         "expression": "contained.where(((id.exists() and ('#'+id in (%resource.descendants().reference | %resource.descendants().as(canonical) | %resource.descendants().as(uri) | %resource.descendants().as(url)))) or descendants().where(reference = '#').exists() or descendants().where(as(canonical) = '#').exists() or descendants().where(as(uri) = '#').exists()).not()).trace('unmatched', id).empty()",
-                        "xpath": "not(exists(for $resource in . return (for $contained in $resource/f:contained return $contained[not(descendant::f:*/@value='#' or (exists(f:id) and $resource//f:*/@*=concat('#', $contained/*/f:id/@value)))])))",
+                        "xpath": "not(exists(for $contained in f:contained return $contained[not(exists(parent::*/descendant::f:reference/@value=concat('#', $contained/*/f:id/@value)) or exists(descendant::f:reference[@value='#']))]))",
                         "source": "http://hl7.org/fhir/StructureDefinition/DomainResource"
                     },
                     {
@@ -158,7 +159,7 @@
                         "key": "spd-0",
                         "severity": "warning",
                         "human": "Name should be usable as an identifier for the module by machine processing applications such as code generation",
-                        "expression": "name.matches('[A-Z]([A-Za-z0-9_]){0,254}')",
+                        "expression": "name.exists() implies name.matches('[A-Z]([A-Za-z0-9_]){0,254}')",
                         "xpath": "not(exists(f:name/@value)) or matches(f:name/@value, '[A-Z]([A-Za-z0-9_]){0,254}')",
                         "source": "http://hl7.org/fhir/StructureDefinition/SearchParameter"
                     },
@@ -409,6 +410,16 @@
                 "type": [
                     {
                         "code": "Resource"
+                    }
+                ],
+                "constraint": [
+                    {
+                        "key": "dom-r4b",
+                        "severity": "warning",
+                        "human": "Containing new R4B resources within R4 resources may cause interoperability issues if instances are shared with R4 systems",
+                        "expression": "($this is Citation or $this is Evidence or $this is EvidenceReport or $this is EvidenceVariable or $this is MedicinalProductDefinition or $this is PackagedProductDefinition or $this is AdministrableProductDefinition or $this is Ingredient or $this is ClinicalUseDefinition or $this is RegulatedAuthorization or $this is SubstanceDefinition or $this is SubscriptionStatus or $this is SubscriptionTopic) implies (%resource is Citation or %resource is Evidence or %resource is EvidenceReport or %resource is EvidenceVariable or %resource is MedicinalProductDefinition or %resource is PackagedProductDefinition or %resource is AdministrableProductDefinition or %resource is Ingredient or %resource is ClinicalUseDefinition or %resource is RegulatedAuthorization or %resource is SubstanceDefinition or %resource is SubscriptionStatus or %resource is SubscriptionTopic)",
+                        "xpath": "not(f:Citation|f:Evidence|f:EvidenceReport|f:EvidenceVariable|f:MedicinalProductDefinition|f:PackagedProductDefinition|f:AdministrableProductDefinition|f:Ingredient|f:ClinicalUseDefinition|f:RegulatedAuthorization|f:SubstanceDefinition|f:SubscriptionStatus|f:SubscriptionTopic) or not(parent::f:Citation|parent::f:Evidence|parent::f:EvidenceReport|parent::f:EvidenceVariable|parent::f:MedicinalProductDefinition|parent::f:PackagedProductDefinition|parent::f:AdministrableProductDefinition|parent::f:Ingredient|parent::f:ClinicalUseDefinition|parent::f:RegulatedAuthorization|parent::f:SubstanceDefinition|f:SubscriptionStatus|f:SubscriptionTopic)",
+                        "source": "http://hl7.org/fhir/StructureDefinition/SearchParameter"
                     }
                 ],
                 "mustSupport": false,
@@ -721,7 +732,7 @@
                     ],
                     "strength": "required",
                     "description": "The lifecycle status of an artifact.",
-                    "valueSet": "http://hl7.org/fhir/ValueSet/publication-status|4.3.0-CIBUILD"
+                    "valueSet": "http://hl7.org/fhir/ValueSet/publication-status|4.3.0-cibuild"
                 },
                 "mapping": [
                     {
@@ -1161,7 +1172,7 @@
                     ],
                     "strength": "required",
                     "description": "One of the resource types defined as part of this version of FHIR.",
-                    "valueSet": "http://hl7.org/fhir/ValueSet/resource-types|4.3.0-CIBUILD"
+                    "valueSet": "http://hl7.org/fhir/ValueSet/resource-types|4.3.0-cibuild"
                 }
             },
             {
@@ -1207,7 +1218,7 @@
                     ],
                     "strength": "required",
                     "description": "Data types allowed to be used for search parameters.",
-                    "valueSet": "http://hl7.org/fhir/ValueSet/search-param-type|4.3.0-CIBUILD"
+                    "valueSet": "http://hl7.org/fhir/ValueSet/search-param-type|4.3.0-cibuild"
                 }
             },
             {
@@ -1322,7 +1333,7 @@
                     ],
                     "strength": "required",
                     "description": "How a search parameter relates to the set of elements returned by evaluating its xpath query.",
-                    "valueSet": "http://hl7.org/fhir/ValueSet/search-xpath-usage|4.3.0-CIBUILD"
+                    "valueSet": "http://hl7.org/fhir/ValueSet/search-xpath-usage|4.3.0-cibuild"
                 }
             },
             {
@@ -1368,7 +1379,7 @@
                     ],
                     "strength": "required",
                     "description": "One of the resource types defined as part of this version of FHIR.",
-                    "valueSet": "http://hl7.org/fhir/ValueSet/resource-types|4.3.0-CIBUILD"
+                    "valueSet": "http://hl7.org/fhir/ValueSet/resource-types|4.3.0-cibuild"
                 }
             },
             {
@@ -1473,7 +1484,7 @@
                     ],
                     "strength": "required",
                     "description": "What Search Comparator Codes are supported in search.",
-                    "valueSet": "http://hl7.org/fhir/ValueSet/search-comparator|4.3.0-CIBUILD"
+                    "valueSet": "http://hl7.org/fhir/ValueSet/search-comparator|4.3.0-cibuild"
                 }
             },
             {
@@ -1515,7 +1526,7 @@
                     ],
                     "strength": "required",
                     "description": "A supported modifier for a search parameter.",
-                    "valueSet": "http://hl7.org/fhir/ValueSet/search-modifier-code|4.3.0-CIBUILD"
+                    "valueSet": "http://hl7.org/fhir/ValueSet/search-modifier-code|4.3.0-cibuild"
                 }
             },
             {
@@ -1601,7 +1612,7 @@
                         "extension": [
                             {
                                 "url": "http://hl7.org/fhir/StructureDefinition/structuredefinition-fhir-type",
-                                "valueUrl": "id"
+                                "valueUrl": "string"
                             }
                         ],
                         "code": "http://hl7.org/fhirpath/System.String"
@@ -1800,7 +1811,7 @@
                         "key": "spd-0",
                         "severity": "warning",
                         "human": "Name should be usable as an identifier for the module by machine processing applications such as code generation",
-                        "expression": "name.matches('[A-Z]([A-Za-z0-9_]){0,254}')",
+                        "expression": "name.exists() implies name.matches('[A-Z]([A-Za-z0-9_]){0,254}')",
                         "xpath": "not(exists(f:name/@value)) or matches(f:name/@value, '[A-Z]([A-Za-z0-9_]){0,254}')",
                         "source": "http://hl7.org/fhir/StructureDefinition/SearchParameter"
                     },
@@ -1961,7 +1972,7 @@
                     ],
                     "strength": "required",
                     "description": "The lifecycle status of an artifact.",
-                    "valueSet": "http://hl7.org/fhir/ValueSet/publication-status|4.3.0-CIBUILD"
+                    "valueSet": "http://hl7.org/fhir/ValueSet/publication-status|4.3.0-cibuild"
                 },
                 "mapping": [
                     {
@@ -2251,7 +2262,7 @@
                     ],
                     "strength": "required",
                     "description": "One of the resource types defined as part of this version of FHIR.",
-                    "valueSet": "http://hl7.org/fhir/ValueSet/resource-types|4.3.0-CIBUILD"
+                    "valueSet": "http://hl7.org/fhir/ValueSet/resource-types|4.3.0-cibuild"
                 }
             },
             {
@@ -2282,7 +2293,7 @@
                     ],
                     "strength": "required",
                     "description": "Data types allowed to be used for search parameters.",
-                    "valueSet": "http://hl7.org/fhir/ValueSet/search-param-type|4.3.0-CIBUILD"
+                    "valueSet": "http://hl7.org/fhir/ValueSet/search-param-type|4.3.0-cibuild"
                 }
             },
             {
@@ -2352,7 +2363,7 @@
                     ],
                     "strength": "required",
                     "description": "How a search parameter relates to the set of elements returned by evaluating its xpath query.",
-                    "valueSet": "http://hl7.org/fhir/ValueSet/search-xpath-usage|4.3.0-CIBUILD"
+                    "valueSet": "http://hl7.org/fhir/ValueSet/search-xpath-usage|4.3.0-cibuild"
                 }
             },
             {
@@ -2383,7 +2394,7 @@
                     ],
                     "strength": "required",
                     "description": "One of the resource types defined as part of this version of FHIR.",
-                    "valueSet": "http://hl7.org/fhir/ValueSet/resource-types|4.3.0-CIBUILD"
+                    "valueSet": "http://hl7.org/fhir/ValueSet/resource-types|4.3.0-cibuild"
                 }
             },
             {
@@ -2443,7 +2454,7 @@
                     ],
                     "strength": "required",
                     "description": "What Search Comparator Codes are supported in search.",
-                    "valueSet": "http://hl7.org/fhir/ValueSet/search-comparator|4.3.0-CIBUILD"
+                    "valueSet": "http://hl7.org/fhir/ValueSet/search-comparator|4.3.0-cibuild"
                 }
             },
             {
@@ -2470,7 +2481,7 @@
                     ],
                     "strength": "required",
                     "description": "A supported modifier for a search parameter.",
-                    "valueSet": "http://hl7.org/fhir/ValueSet/search-modifier-code|4.3.0-CIBUILD"
+                    "valueSet": "http://hl7.org/fhir/ValueSet/search-modifier-code|4.3.0-cibuild"
                 }
             },
             {

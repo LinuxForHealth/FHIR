@@ -9,8 +9,8 @@
       "status": "active",
       "description": "Type options for Condition.onset[x]",
       "expansion": {
-        "identifier": "urn:uuid:aecac799-5fd6-47fe-82fb-dd44428fb545",
-        "timestamp": "2022-01-01T15:24:07+00:00",
+        "identifier": "urn:uuid:390e7918-180f-4ed8-8691-f4706a39e00e",
+        "timestamp": "2022-04-23T22:28:55+00:00",
         "contains": [
           {
             "system": "http://hl7.org/fhir/data-types",
@@ -47,8 +47,8 @@
       "status": "active",
       "description": "Type options for Condition.abatement[x]",
       "expansion": {
-        "identifier": "urn:uuid:4666b612-dc0e-4945-8488-dcc084a24819",
-        "timestamp": "2022-01-01T15:24:07+00:00",
+        "identifier": "urn:uuid:59215ce2-c4ed-464a-ab74-78daf4caf1b4",
+        "timestamp": "2022-04-23T22:28:55+00:00",
         "contains": [
           {
             "system": "http://hl7.org/fhir/data-types",
@@ -84,9 +84,10 @@
       "system": "urn:ietf:rfc:3986"
     }
   ],
-  "version": "4.3.0-CIBUILD",
+  "version": "4.3.0-cibuild",
   "status": "draft",
-  "date": "2022-01-01T15:17:18+00:00",
+  "experimental": false,
+  "date": "2022-04-23T22:21:35+00:00",
   "publisher": "Health Level Seven International (Patient Care)",
   "item": [
     {
@@ -275,10 +276,9 @@
             {
               "linkId": "Condition.language.value",
               "text": "language",
-              "type": "coding",
+              "type": "choice",
               "required": false,
-              "repeats": false,
-              "answerConstraint": "optionsOnly"
+              "repeats": false
             }
           ]
         },
@@ -494,10 +494,9 @@
             {
               "linkId": "Condition.clinicalStatus.coding",
               "text": "code:",
-              "type": "coding",
+              "type": "choice",
               "required": false,
-              "repeats": false,
-              "answerConstraint": "optionsOrType"
+              "repeats": false
             },
             {
               "linkId": "Condition.clinicalStatus.text",
@@ -547,10 +546,9 @@
             {
               "linkId": "Condition.verificationStatus.coding",
               "text": "code:",
-              "type": "coding",
+              "type": "choice",
               "required": false,
-              "repeats": false,
-              "answerConstraint": "optionsOrType"
+              "repeats": false
             },
             {
               "linkId": "Condition.verificationStatus.text",
@@ -596,10 +594,9 @@
             {
               "linkId": "Condition.category.coding",
               "text": "code:",
-              "type": "coding",
+              "type": "choice",
               "required": false,
-              "repeats": false,
-              "answerConstraint": "optionsOnly"
+              "repeats": false
             },
             {
               "linkId": "Condition.category.text",
@@ -649,10 +646,9 @@
             {
               "linkId": "Condition.severity.coding",
               "text": "code:",
-              "type": "coding",
+              "type": "choice",
               "required": false,
-              "repeats": false,
-              "answerConstraint": "optionsOnly"
+              "repeats": false
             },
             {
               "linkId": "Condition.severity.text",
@@ -702,10 +698,9 @@
             {
               "linkId": "Condition.code.coding",
               "text": "code:",
-              "type": "coding",
+              "type": "choice",
               "required": false,
-              "repeats": false,
-              "answerConstraint": "optionsOnly"
+              "repeats": false
             },
             {
               "linkId": "Condition.code.text",
@@ -751,10 +746,9 @@
             {
               "linkId": "Condition.bodySite.coding",
               "text": "code:",
-              "type": "coding",
+              "type": "choice",
               "required": false,
-              "repeats": false,
-              "answerConstraint": "optionsOnly"
+              "repeats": false
             },
             {
               "linkId": "Condition.bodySite.text",
@@ -912,10 +906,9 @@
             {
               "linkId": "Condition.onset[x]._type",
               "text": "type",
-              "type": "coding",
+              "type": "choice",
               "required": false,
               "repeats": false,
-              "answerConstraint": "optionsOnly",
               "answerValueSet": "#vs2",
               "item": [
                 {
@@ -949,10 +942,9 @@
                     {
                       "linkId": "Condition.onset[x]._null.comparator",
                       "text": "comp:",
-                      "type": "coding",
+                      "type": "choice",
                       "required": false,
-                      "repeats": false,
-                      "answerConstraint": "optionsOnly"
+                      "repeats": false
                     },
                     {
                       "linkId": "Condition.onset[x]._null.value",
@@ -1100,10 +1092,9 @@
             {
               "linkId": "Condition.abatement[x]._type",
               "text": "type",
-              "type": "coding",
+              "type": "choice",
               "required": false,
               "repeats": false,
-              "answerConstraint": "optionsOnly",
               "answerValueSet": "#vs3",
               "item": [
                 {
@@ -1137,10 +1128,9 @@
                     {
                       "linkId": "Condition.abatement[x]._null.comparator",
                       "text": "comp:",
-                      "type": "coding",
+                      "type": "choice",
                       "required": false,
-                      "repeats": false,
-                      "answerConstraint": "optionsOnly"
+                      "repeats": false
                     },
                     {
                       "linkId": "Condition.abatement[x]._null.value",
@@ -1570,10 +1560,9 @@
                 {
                   "linkId": "Condition.stage.summary.coding",
                   "text": "code:",
-                  "type": "coding",
+                  "type": "choice",
                   "required": false,
-                  "repeats": false,
-                  "answerConstraint": "optionsOnly"
+                  "repeats": false
                 },
                 {
                   "linkId": "Condition.stage.summary.text",
@@ -1673,10 +1662,9 @@
                 {
                   "linkId": "Condition.stage.type.coding",
                   "text": "code:",
-                  "type": "coding",
+                  "type": "choice",
                   "required": false,
-                  "repeats": false,
-                  "answerConstraint": "optionsOnly"
+                  "repeats": false
                 },
                 {
                   "linkId": "Condition.stage.type.text",
@@ -1855,10 +1843,9 @@
                 {
                   "linkId": "Condition.evidence.code.coding",
                   "text": "code:",
-                  "type": "coding",
+                  "type": "choice",
                   "required": false,
-                  "repeats": false,
-                  "answerConstraint": "optionsOnly"
+                  "repeats": false
                 },
                 {
                   "linkId": "Condition.evidence.code.text",

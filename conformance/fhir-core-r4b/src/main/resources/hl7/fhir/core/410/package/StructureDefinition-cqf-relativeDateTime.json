@@ -12,9 +12,10 @@
         }
     ],
     "url": "http://hl7.org/fhir/StructureDefinition/cqf-relativeDateTime",
-    "version": "4.3.0-CIBUILD",
+    "version": "4.3.0-cibuild",
     "name": "relativeDateTime",
     "status": "draft",
+    "experimental": false,
     "date": "2015-05-30",
     "publisher": "Health Level Seven, Inc. - CDS WG",
     "contact": [
@@ -28,7 +29,7 @@
         }
     ],
     "description": "A date/time value that is determined based on a duration offset from a target event.",
-    "fhirVersion": "4.3.0-CIBUILD",
+    "fhirVersion": "4.3.0-cibuild",
     "mapping": [
         {
             "identity": "rim",
@@ -754,7 +755,7 @@
                         }
                     ],
                     "strength": "required",
-                    "valueSet": "http://hl7.org/fhir/ValueSet/action-relationship-type|4.3.0-CIBUILD"
+                    "valueSet": "http://hl7.org/fhir/ValueSet/action-relationship-type|4.3.0-cibuild"
                 },
                 "mapping": [
                     {
@@ -1078,9 +1079,6 @@
                         "code": "CodeableConcept"
                     },
                     {
-                        "code": "CodeableReference"
-                    },
-                    {
                         "code": "Coding"
                     },
                     {
@@ -1115,9 +1113,6 @@
                     },
                     {
                         "code": "Ratio"
-                    },
-                    {
-                        "code": "RatioRange"
                     },
                     {
                         "code": "Reference"
@@ -1325,7 +1320,7 @@
                         }
                     ],
                     "strength": "required",
-                    "valueSet": "http://hl7.org/fhir/ValueSet/action-relationship-type|4.3.0-CIBUILD"
+                    "valueSet": "http://hl7.org/fhir/ValueSet/action-relationship-type|4.3.0-cibuild"
                 }
             },
             {

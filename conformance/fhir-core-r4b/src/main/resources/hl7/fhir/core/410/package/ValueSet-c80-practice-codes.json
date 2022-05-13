@@ -2,7 +2,7 @@
     "resourceType": "ValueSet",
     "id": "c80-practice-codes",
     "meta": {
-        "lastUpdated": "2022-03-03T22:04:06.196Z",
+        "lastUpdated": "2022-04-23T22:21:35.043Z",
         "profile": [
             "http://hl7.org/fhir/StructureDefinition/shareablevalueset"
         ]
@@ -28,7 +28,7 @@
             "value": "urn:oid:2.16.840.1.113883.3.88.12.80.72"
         }
     ],
-    "version": "4.3.0-CIBUILD",
+    "version": "4.3.0-cibuild",
     "name": "PracticeSettingCodeValueSet",
     "title": "Practice Setting Code Value Set",
     "status": "active",
@@ -514,11 +514,12 @@
         ]
     },
     "expansion": {
-        "identifier": "urn:uuid:08717458-4768-4cd9-8876-b9df1395929a",
-        "timestamp": "2021-12-06T18:55:41.048Z",
+        "identifier": "urn:uuid:dc051685-e510-45a2-bbd9-7a343f243278",
+        "timestamp": "2022-04-23T22:23:26Z",
+        "total": 115,
         "parameter": [
             {
-                "name": "limitedExpansion",
+                "name": "excludeNested",
                 "valueBoolean": true
             },
             {
@@ -526,28 +527,22 @@
                 "valueBoolean": true
             },
             {
-                "name": "excludeNested",
+                "name": "limitedExpansion",
                 "valueBoolean": true
             },
             {
                 "name": "version",
-                "valueUri": "http://snomed.info/sct|http://snomed.info/sct/900000000000207008/version/20200131"
+                "valueUri": "http://snomed.info/sct|http://snomed.info/sct/900000000000207008/version/20200731"
             }
         ],
         "contains": [
             {
                 "system": "http://snomed.info/sct",
                 "code": "408467006",
-                "display": "Adult mental illness - specialty (qualifier value)",
+                "display": "Adult mental illness",
                 "designation": [
                     {
-                        "value": "Adult mental illness - specialty (qualifier value)"
-                    },
-                    {
-                        "value": "Adult mental illness - specialty"
-                    },
-                    {
-                        "value": "Adult psychiatry"
+                        "value": "Adult mental illness"
                     }
                 ]
             },
@@ -558,23 +553,14 @@
                 "designation": [
                     {
                         "value": "Anesthetics"
-                    },
-                    {
-                        "value": "Anesthesiology"
-                    },
-                    {
-                        "value": "Anesthetics (qualifier value)"
                     }
                 ]
             },
             {
                 "system": "http://snomed.info/sct",
                 "code": "394578005",
-                "display": "Audiological medicine (qualifier value)",
+                "display": "Audiological medicine",
                 "designation": [
-                    {
-                        "value": "Audiological medicine (qualifier value)"
-                    },
                     {
                         "value": "Audiological medicine"
                     }
@@ -583,40 +569,28 @@
             {
                 "system": "http://snomed.info/sct",
                 "code": "421661004",
-                "display": "Blood banking and transfusion medicine (specialty) (qualifier value)",
+                "display": "Blood banking and transfusion medicine",
                 "designation": [
                     {
-                        "value": "Blood banking and transfusion medicine (specialty) (qualifier value)"
-                    },
-                    {
-                        "value": "Blood banking and transfusion medicine (specialty)"
+                        "value": "Blood banking and transfusion medicine"
                     }
                 ]
             },
             {
                 "system": "http://snomed.info/sct",
                 "code": "408462000",
-                "display": "Burns care (qualifier value)",
+                "display": "Burns care",
                 "designation": [
                     {
-                        "value": "Burns care (qualifier value)"
-                    },
-                    {
                         "value": "Burns care"
-                    },
-                    {
-                        "value": "Burns management"
                     }
                 ]
             },
             {
                 "system": "http://snomed.info/sct",
                 "code": "394579002",
-                "display": "Cardiology (qualifier value)",
+                "display": "Cardiology",
                 "designation": [
-                    {
-                        "value": "Cardiology (qualifier value)"
-                    },
                     {
                         "value": "Cardiology"
                     }
@@ -625,11 +599,8 @@
             {
                 "system": "http://snomed.info/sct",
                 "code": "394804000",
-                "display": "Clinical cytogenetics and molecular genetics (qualifier value)",
+                "display": "Clinical cytogenetics and molecular genetics",
                 "designation": [
-                    {
-                        "value": "Clinical cytogenetics and molecular genetics (qualifier value)"
-                    },
                     {
                         "value": "Clinical cytogenetics and molecular genetics"
                     }
@@ -638,11 +609,8 @@
             {
                 "system": "http://snomed.info/sct",
                 "code": "394580004",
-                "display": "Clinical genetics (qualifier value)",
+                "display": "Clinical genetics",
                 "designation": [
-                    {
-                        "value": "Clinical genetics (qualifier value)"
-                    },
                     {
                         "value": "Clinical genetics"
                     }
@@ -655,20 +623,14 @@
                 "designation": [
                     {
                         "value": "Clinical hematology"
-                    },
-                    {
-                        "value": "Clinical hematology (qualifier value)"
                     }
                 ]
             },
             {
                 "system": "http://snomed.info/sct",
                 "code": "408480009",
-                "display": "Clinical immunology (qualifier value)",
+                "display": "Clinical immunology",
                 "designation": [
-                    {
-                        "value": "Clinical immunology (qualifier value)"
-                    },
                     {
                         "value": "Clinical immunology"
                     }
@@ -677,11 +639,8 @@
             {
                 "system": "http://snomed.info/sct",
                 "code": "408454008",
-                "display": "Clinical microbiology (qualifier value)",
+                "display": "Clinical microbiology",
                 "designation": [
-                    {
-                        "value": "Clinical microbiology (qualifier value)"
-                    },
                     {
                         "value": "Clinical microbiology"
                     }
@@ -690,11 +649,8 @@
             {
                 "system": "http://snomed.info/sct",
                 "code": "394809005",
-                "display": "Clinical neuro-physiology (qualifier value)",
+                "display": "Clinical neuro-physiology",
                 "designation": [
-                    {
-                        "value": "Clinical neuro-physiology (qualifier value)"
-                    },
                     {
                         "value": "Clinical neuro-physiology"
                     }
@@ -703,11 +659,8 @@
             {
                 "system": "http://snomed.info/sct",
                 "code": "394592004",
-                "display": "Clinical oncology (qualifier value)",
+                "display": "Clinical oncology",
                 "designation": [
-                    {
-                        "value": "Clinical oncology (qualifier value)"
-                    },
                     {
                         "value": "Clinical oncology"
                     }
@@ -716,11 +669,8 @@
             {
                 "system": "http://snomed.info/sct",
                 "code": "394600006",
-                "display": "Clinical pharmacology (qualifier value)",
+                "display": "Clinical pharmacology",
                 "designation": [
-                    {
-                        "value": "Clinical pharmacology (qualifier value)"
-                    },
                     {
                         "value": "Clinical pharmacology"
                     }
@@ -729,11 +679,8 @@
             {
                 "system": "http://snomed.info/sct",
                 "code": "394601005",
-                "display": "Clinical physiology (qualifier value)",
+                "display": "Clinical physiology",
                 "designation": [
-                    {
-                        "value": "Clinical physiology (qualifier value)"
-                    },
                     {
                         "value": "Clinical physiology"
                     }
@@ -742,11 +689,8 @@
             {
                 "system": "http://snomed.info/sct",
                 "code": "394581000",
-                "display": "Community medicine (qualifier value)",
+                "display": "Community medicine",
                 "designation": [
-                    {
-                        "value": "Community medicine (qualifier value)"
-                    },
                     {
                         "value": "Community medicine"
                     }
@@ -755,11 +699,8 @@
             {
                 "system": "http://snomed.info/sct",
                 "code": "408478003",
-                "display": "Critical care medicine (qualifier value)",
+                "display": "Critical care medicine",
                 "designation": [
-                    {
-                        "value": "Critical care medicine (qualifier value)"
-                    },
                     {
                         "value": "Critical care medicine"
                     }
@@ -768,11 +709,8 @@
             {
                 "system": "http://snomed.info/sct",
                 "code": "394812008",
-                "display": "Dental medicine specialties (qualifier value)",
+                "display": "Dental medicine specialties",
                 "designation": [
-                    {
-                        "value": "Dental medicine specialties (qualifier value)"
-                    },
                     {
                         "value": "Dental medicine specialties"
                     }
@@ -781,24 +719,18 @@
             {
                 "system": "http://snomed.info/sct",
                 "code": "408444009",
-                "display": "General dental practice (qualifier value)",
+                "display": "Dental-General dental practice",
                 "designation": [
                     {
-                        "value": "General dental practice (qualifier value)"
-                    },
-                    {
-                        "value": "General dental practice"
+                        "value": "Dental-General dental practice"
                     }
                 ]
             },
             {
                 "system": "http://snomed.info/sct",
                 "code": "394582007",
-                "display": "Dermatology (qualifier value)",
+                "display": "Dermatology",
                 "designation": [
-                    {
-                        "value": "Dermatology (qualifier value)"
-                    },
                     {
                         "value": "Dermatology"
                     }
@@ -807,11 +739,8 @@
             {
                 "system": "http://snomed.info/sct",
                 "code": "408475000",
-                "display": "Diabetic medicine (qualifier value)",
+                "display": "Diabetic medicine",
                 "designation": [
-                    {
-                        "value": "Diabetic medicine (qualifier value)"
-                    },
                     {
                         "value": "Diabetic medicine"
                     }
@@ -820,11 +749,8 @@
             {
                 "system": "http://snomed.info/sct",
                 "code": "410005002",
-                "display": "Dive medicine (qualifier value)",
+                "display": "Dive medicine",
                 "designation": [
-                    {
-                        "value": "Dive medicine (qualifier value)"
-                    },
                     {
                         "value": "Dive medicine"
                     }
@@ -833,11 +759,8 @@
             {
                 "system": "http://snomed.info/sct",
                 "code": "394583002",
-                "display": "Endocrinology (qualifier value)",
+                "display": "Endocrinology",
                 "designation": [
-                    {
-                        "value": "Endocrinology (qualifier value)"
-                    },
                     {
                         "value": "Endocrinology"
                     }
@@ -846,43 +769,28 @@
             {
                 "system": "http://snomed.info/sct",
                 "code": "419772000",
-                "display": "Family practice (qualifier value)",
+                "display": "Family practice",
                 "designation": [
                     {
-                        "value": "Family practice (qualifier value)"
-                    },
-                    {
                         "value": "Family practice"
-                    },
-                    {
-                        "value": "Family medicine"
                     }
                 ]
             },
             {
                 "system": "http://snomed.info/sct",
                 "code": "394584008",
-                "display": "Gastroenterology (qualifier value)",
+                "display": "Gastroenterology",
                 "designation": [
                     {
-                        "value": "Gastroenterology (qualifier value)"
-                    },
-                    {
                         "value": "Gastroenterology"
-                    },
-                    {
-                        "value": "GE - Gastroenterology"
                     }
                 ]
             },
             {
                 "system": "http://snomed.info/sct",
                 "code": "408443003",
-                "display": "General medical practice (qualifier value)",
+                "display": "General medical practice",
                 "designation": [
-                    {
-                        "value": "General medical practice (qualifier value)"
-                    },
                     {
                         "value": "General medical practice"
                     }
@@ -891,11 +799,8 @@
             {
                 "system": "http://snomed.info/sct",
                 "code": "394802001",
-                "display": "General medicine (qualifier value)",
+                "display": "General medicine",
                 "designation": [
-                    {
-                        "value": "General medicine (qualifier value)"
-                    },
                     {
                         "value": "General medicine"
                     }
@@ -904,37 +809,28 @@
             {
                 "system": "http://snomed.info/sct",
                 "code": "394915009",
-                "display": "General pathology (specialty) (qualifier value)",
+                "display": "General pathology",
                 "designation": [
                     {
-                        "value": "General pathology (specialty) (qualifier value)"
-                    },
-                    {
-                        "value": "General pathology (specialty)"
+                        "value": "General pathology"
                     }
                 ]
             },
             {
                 "system": "http://snomed.info/sct",
                 "code": "394814009",
-                "display": "General practice (specialty) (qualifier value)",
+                "display": "General practice",
                 "designation": [
                     {
-                        "value": "General practice (specialty) (qualifier value)"
-                    },
-                    {
-                        "value": "General practice (specialty)"
+                        "value": "General practice"
                     }
                 ]
             },
             {
                 "system": "http://snomed.info/sct",
                 "code": "394808002",
-                "display": "Genito-urinary medicine (qualifier value)",
+                "display": "Genito-urinary medicine",
                 "designation": [
-                    {
-                        "value": "Genito-urinary medicine (qualifier value)"
-                    },
                     {
                         "value": "Genito-urinary medicine"
                     }
@@ -943,11 +839,8 @@
             {
                 "system": "http://snomed.info/sct",
                 "code": "394811001",
-                "display": "Geriatric medicine (qualifier value)",
+                "display": "Geriatric medicine",
                 "designation": [
-                    {
-                        "value": "Geriatric medicine (qualifier value)"
-                    },
                     {
                         "value": "Geriatric medicine"
                     }
@@ -960,9 +853,6 @@
                 "designation": [
                     {
                         "value": "Gynecological oncology"
-                    },
-                    {
-                        "value": "Gynecological oncology (qualifier value)"
                     }
                 ]
             },
@@ -973,36 +863,24 @@
                 "designation": [
                     {
                         "value": "Gynecology"
-                    },
-                    {
-                        "value": "Gynecology (qualifier value)"
                     }
                 ]
             },
             {
                 "system": "http://snomed.info/sct",
                 "code": "394916005",
-                "display": "Hematopathology (specialty) (qualifier value)",
+                "display": "Hematopathology",
                 "designation": [
                     {
-                        "value": "Hematopathology (specialty) (qualifier value)"
-                    },
-                    {
                         "value": "Hematopathology"
-                    },
-                    {
-                        "value": "Hematopathology (specialty)"
                     }
                 ]
             },
             {
                 "system": "http://snomed.info/sct",
                 "code": "408472002",
-                "display": "Hepatology (qualifier value)",
+                "display": "Hepatology",
                 "designation": [
-                    {
-                        "value": "Hepatology (qualifier value)"
-                    },
                     {
                         "value": "Hepatology"
                     }
@@ -1011,27 +889,18 @@
             {
                 "system": "http://snomed.info/sct",
                 "code": "394597005",
-                "display": "Histopathology (qualifier value)",
+                "display": "Histopathology",
                 "designation": [
                     {
-                        "value": "Histopathology (qualifier value)"
-                    },
-                    {
                         "value": "Histopathology"
-                    },
-                    {
-                        "value": "Histology specialty"
                     }
                 ]
             },
             {
                 "system": "http://snomed.info/sct",
                 "code": "394598000",
-                "display": "Immunopathology (qualifier value)",
+                "display": "Immunopathology",
                 "designation": [
-                    {
-                        "value": "Immunopathology (qualifier value)"
-                    },
                     {
                         "value": "Immunopathology"
                     }
@@ -1040,24 +909,18 @@
             {
                 "system": "http://snomed.info/sct",
                 "code": "394807007",
-                "display": "Infectious diseases (specialty) (qualifier value)",
+                "display": "Infectious diseases",
                 "designation": [
                     {
-                        "value": "Infectious diseases (specialty) (qualifier value)"
-                    },
-                    {
-                        "value": "Infectious diseases (specialty)"
+                        "value": "Infectious diseases"
                     }
                 ]
             },
             {
                 "system": "http://snomed.info/sct",
                 "code": "419192003",
-                "display": "Internal medicine (qualifier value)",
+                "display": "Internal medicine",
                 "designation": [
-                    {
-                        "value": "Internal medicine (qualifier value)"
-                    },
                     {
                         "value": "Internal medicine"
                     }
@@ -1066,14 +929,8 @@
             {
                 "system": "http://snomed.info/sct",
                 "code": "408468001",
-                "display": "Learning disability - specialty (qualifier value)",
+                "display": "Learning disability",
                 "designation": [
-                    {
-                        "value": "Learning disability - specialty (qualifier value)"
-                    },
-                    {
-                        "value": "Learning disability - specialty"
-                    },
                     {
                         "value": "Learning disability"
                     }
@@ -1082,11 +939,8 @@
             {
                 "system": "http://snomed.info/sct",
                 "code": "394593009",
-                "display": "Medical oncology (qualifier value)",
+                "display": "Medical oncology",
                 "designation": [
-                    {
-                        "value": "Medical oncology (qualifier value)"
-                    },
                     {
                         "value": "Medical oncology"
                     }
@@ -1095,11 +949,8 @@
             {
                 "system": "http://snomed.info/sct",
                 "code": "394813003",
-                "display": "Medical ophthalmology (qualifier value)",
+                "display": "Medical ophthalmology",
                 "designation": [
-                    {
-                        "value": "Medical ophthalmology (qualifier value)"
-                    },
                     {
                         "value": "Medical ophthalmology"
                     }
@@ -1108,11 +959,8 @@
             {
                 "system": "http://snomed.info/sct",
                 "code": "410001006",
-                "display": "Military medicine (qualifier value)",
+                "display": "Military medicine",
                 "designation": [
-                    {
-                        "value": "Military medicine (qualifier value)"
-                    },
                     {
                         "value": "Military medicine"
                     }
@@ -1121,27 +969,18 @@
             {
                 "system": "http://snomed.info/sct",
                 "code": "394589003",
-                "display": "Nephrology (qualifier value)",
+                "display": "Nephrology",
                 "designation": [
                     {
-                        "value": "Nephrology (qualifier value)"
-                    },
-                    {
                         "value": "Nephrology"
-                    },
-                    {
-                        "value": "Renal medicine"
                     }
                 ]
             },
             {
                 "system": "http://snomed.info/sct",
                 "code": "394591006",
-                "display": "Neurology (qualifier value)",
+                "display": "Neurology",
                 "designation": [
-                    {
-                        "value": "Neurology (qualifier value)"
-                    },
                     {
                         "value": "Neurology"
                     }
@@ -1150,11 +989,8 @@
             {
                 "system": "http://snomed.info/sct",
                 "code": "394599008",
-                "display": "Neuropathology (qualifier value)",
+                "display": "Neuropathology",
                 "designation": [
-                    {
-                        "value": "Neuropathology (qualifier value)"
-                    },
                     {
                         "value": "Neuropathology"
                     }
@@ -1163,14 +999,8 @@
             {
                 "system": "http://snomed.info/sct",
                 "code": "394649004",
-                "display": "Nuclear medicine - specialty (qualifier value)",
+                "display": "Nuclear medicine",
                 "designation": [
-                    {
-                        "value": "Nuclear medicine - specialty (qualifier value)"
-                    },
-                    {
-                        "value": "Nuclear medicine - specialty"
-                    },
                     {
                         "value": "Nuclear medicine"
                     }
@@ -1179,16 +1009,10 @@
             {
                 "system": "http://snomed.info/sct",
                 "code": "408470005",
-                "display": "Obstetrics (qualifier value)",
+                "display": "Obstetrics",
                 "designation": [
                     {
-                        "value": "Obstetrics (qualifier value)"
-                    },
-                    {
                         "value": "Obstetrics"
-                    },
-                    {
-                        "value": "Maternity care"
                     }
                 ]
             },
@@ -1199,20 +1023,14 @@
                 "designation": [
                     {
                         "value": "Obstetrics and gynecology"
-                    },
-                    {
-                        "value": "Obstetrics and gynecology (qualifier value)"
                     }
                 ]
             },
             {
                 "system": "http://snomed.info/sct",
                 "code": "394821009",
-                "display": "Occupational medicine (qualifier value)",
+                "display": "Occupational medicine",
                 "designation": [
-                    {
-                        "value": "Occupational medicine (qualifier value)"
-                    },
                     {
                         "value": "Occupational medicine"
                     }
@@ -1221,30 +1039,18 @@
             {
                 "system": "http://snomed.info/sct",
                 "code": "422191005",
-                "display": "Ophthalmic surgery (qualifier value)",
+                "display": "Ophthalmic surgery",
                 "designation": [
                     {
-                        "value": "Ophthalmic surgery (qualifier value)"
-                    },
-                    {
                         "value": "Ophthalmic surgery"
-                    },
-                    {
-                        "value": "Ocular surgery"
-                    },
-                    {
-                        "value": "Eye surgery"
                     }
                 ]
             },
             {
                 "system": "http://snomed.info/sct",
                 "code": "394594003",
-                "display": "Ophthalmology (qualifier value)",
+                "display": "Ophthalmology",
                 "designation": [
-                    {
-                        "value": "Ophthalmology (qualifier value)"
-                    },
                     {
                         "value": "Ophthalmology"
                     }
@@ -1253,27 +1059,18 @@
             {
                 "system": "http://snomed.info/sct",
                 "code": "416304004",
-                "display": "Osteopathic manipulative medicine (qualifier value)",
+                "display": "Osteopathic manipulative medicine",
                 "designation": [
                     {
-                        "value": "Osteopathic manipulative medicine (qualifier value)"
-                    },
-                    {
                         "value": "Osteopathic manipulative medicine"
-                    },
-                    {
-                        "value": "The application of osteopathic philosophy, structural diagnosis and use of osteopathic manipulative treatment (OMT) in the diagnosis and management of the patient."
                     }
                 ]
             },
             {
                 "system": "http://snomed.info/sct",
                 "code": "418960008",
-                "display": "Otolaryngology (qualifier value)",
+                "display": "Otolaryngology",
                 "designation": [
-                    {
-                        "value": "Otolaryngology (qualifier value)"
-                    },
                     {
                         "value": "Otolaryngology"
                     }
@@ -1282,24 +1079,18 @@
             {
                 "system": "http://snomed.info/sct",
                 "code": "394882004",
-                "display": "Pain management (specialty) (qualifier value)",
+                "display": "Pain management",
                 "designation": [
                     {
-                        "value": "Pain management (specialty) (qualifier value)"
-                    },
-                    {
-                        "value": "Pain management (specialty)"
+                        "value": "Pain management"
                     }
                 ]
             },
             {
                 "system": "http://snomed.info/sct",
                 "code": "394806003",
-                "display": "Palliative medicine (qualifier value)",
+                "display": "Palliative medicine",
                 "designation": [
-                    {
-                        "value": "Palliative medicine (qualifier value)"
-                    },
                     {
                         "value": "Palliative medicine"
                     }
@@ -1308,13 +1099,10 @@
             {
                 "system": "http://snomed.info/sct",
                 "code": "394588006",
-                "display": "Child and adolescent psychiatry (qualifier value)",
+                "display": "Pediatric (Child and adolescent) psychiatry",
                 "designation": [
                     {
-                        "value": "Child and adolescent psychiatry (qualifier value)"
-                    },
-                    {
-                        "value": "Child and adolescent psychiatry"
+                        "value": "Pediatric (Child and adolescent) psychiatry"
                     }
                 ]
             },
@@ -1325,9 +1113,6 @@
                 "designation": [
                     {
                         "value": "Pediatric cardiology"
-                    },
-                    {
-                        "value": "Pediatric cardiology (qualifier value)"
                     }
                 ]
             },
@@ -1338,9 +1123,6 @@
                 "designation": [
                     {
                         "value": "Pediatric dentistry"
-                    },
-                    {
-                        "value": "Pediatric dentistry (qualifier value)"
                     }
                 ]
             },
@@ -1351,9 +1133,6 @@
                 "designation": [
                     {
                         "value": "Pediatric endocrinology"
-                    },
-                    {
-                        "value": "Pediatric endocrinology (qualifier value)"
                     }
                 ]
             },
@@ -1364,9 +1143,6 @@
                 "designation": [
                     {
                         "value": "Pediatric gastroenterology"
-                    },
-                    {
-                        "value": "Pediatric gastroenterology (qualifier value)"
                     }
                 ]
             },
@@ -1377,20 +1153,14 @@
                 "designation": [
                     {
                         "value": "Pediatric genetics"
-                    },
-                    {
-                        "value": "Pediatric genetics (qualifier value)"
                     }
                 ]
             },
             {
                 "system": "http://snomed.info/sct",
                 "code": "418652005",
-                "display": "Pediatric hematology (qualifier value)",
+                "display": "Pediatric hematology",
                 "designation": [
-                    {
-                        "value": "Pediatric hematology (qualifier value)"
-                    },
                     {
                         "value": "Pediatric hematology"
                     }
@@ -1399,11 +1169,8 @@
             {
                 "system": "http://snomed.info/sct",
                 "code": "418535003",
-                "display": "Pediatric immunology (qualifier value)",
+                "display": "Pediatric immunology",
                 "designation": [
-                    {
-                        "value": "Pediatric immunology (qualifier value)"
-                    },
                     {
                         "value": "Pediatric immunology"
                     }
@@ -1412,11 +1179,8 @@
             {
                 "system": "http://snomed.info/sct",
                 "code": "418862001",
-                "display": "Pediatric infectious diseases (qualifier value)",
+                "display": "Pediatric infectious diseases",
                 "designation": [
-                    {
-                        "value": "Pediatric infectious diseases (qualifier value)"
-                    },
                     {
                         "value": "Pediatric infectious diseases"
                     }
@@ -1425,11 +1189,8 @@
             {
                 "system": "http://snomed.info/sct",
                 "code": "419365004",
-                "display": "Pediatric nephrology (qualifier value)",
+                "display": "Pediatric nephrology",
                 "designation": [
-                    {
-                        "value": "Pediatric nephrology (qualifier value)"
-                    },
                     {
                         "value": "Pediatric nephrology"
                     }
@@ -1438,11 +1199,8 @@
             {
                 "system": "http://snomed.info/sct",
                 "code": "418002000",
-                "display": "Pediatric oncology (qualifier value)",
+                "display": "Pediatric oncology",
                 "designation": [
-                    {
-                        "value": "Pediatric oncology (qualifier value)"
-                    },
                     {
                         "value": "Pediatric oncology"
                     }
@@ -1455,25 +1213,16 @@
                 "designation": [
                     {
                         "value": "Pediatric ophthalmology"
-                    },
-                    {
-                        "value": "Pediatric ophthalmology (qualifier value)"
                     }
                 ]
             },
             {
                 "system": "http://snomed.info/sct",
                 "code": "419170002",
-                "display": "Pediatric pulmonology (qualifier value)",
+                "display": "Pediatric pulmonology",
                 "designation": [
                     {
-                        "value": "Pediatric pulmonology (qualifier value)"
-                    },
-                    {
                         "value": "Pediatric pulmonology"
-                    },
-                    {
-                        "value": "Pediatric chest medicine"
                     }
                 ]
             },
@@ -1484,9 +1233,6 @@
                 "designation": [
                     {
                         "value": "Pediatric rheumatology"
-                    },
-                    {
-                        "value": "Pediatric rheumatology (qualifier value)"
                     }
                 ]
             },
@@ -1497,33 +1243,24 @@
                 "designation": [
                     {
                         "value": "Pediatric surgery"
-                    },
-                    {
-                        "value": "Pediatric surgery (qualifier value)"
                     }
                 ]
             },
             {
                 "system": "http://snomed.info/sct",
                 "code": "420112009",
-                "display": "Pediatric bone marrow transplantation (qualifier value)",
+                "display": "Pediatric surgery-bone marrow transplantation",
                 "designation": [
                     {
-                        "value": "Pediatric bone marrow transplantation (qualifier value)"
-                    },
-                    {
-                        "value": "Pediatric bone marrow transplantation"
+                        "value": "Pediatric surgery-bone marrow transplantation"
                     }
                 ]
             },
             {
                 "system": "http://snomed.info/sct",
                 "code": "409968004",
-                "display": "Preventive medicine (qualifier value)",
+                "display": "Preventive medicine",
                 "designation": [
-                    {
-                        "value": "Preventive medicine (qualifier value)"
-                    },
                     {
                         "value": "Preventive medicine"
                     }
@@ -1532,11 +1269,8 @@
             {
                 "system": "http://snomed.info/sct",
                 "code": "394587001",
-                "display": "Psychiatry (qualifier value)",
+                "display": "Psychiatry",
                 "designation": [
-                    {
-                        "value": "Psychiatry (qualifier value)"
-                    },
                     {
                         "value": "Psychiatry"
                     }
@@ -1545,24 +1279,18 @@
             {
                 "system": "http://snomed.info/sct",
                 "code": "394913002",
-                "display": "Psychotherapy (specialty) (qualifier value)",
+                "display": "Psychotherapy",
                 "designation": [
                     {
-                        "value": "Psychotherapy (specialty) (qualifier value)"
-                    },
-                    {
-                        "value": "Psychotherapy (specialty)"
+                        "value": "Psychotherapy"
                     }
                 ]
             },
             {
                 "system": "http://snomed.info/sct",
                 "code": "408440000",
-                "display": "Public health medicine (qualifier value)",
+                "display": "Public health medicine",
                 "designation": [
-                    {
-                        "value": "Public health medicine (qualifier value)"
-                    },
                     {
                         "value": "Public health medicine"
                     }
@@ -1571,49 +1299,28 @@
             {
                 "system": "http://snomed.info/sct",
                 "code": "418112009",
-                "display": "Pulmonary medicine (qualifier value)",
+                "display": "Pulmonary medicine",
                 "designation": [
                     {
-                        "value": "Pulmonary medicine (qualifier value)"
-                    },
-                    {
                         "value": "Pulmonary medicine"
-                    },
-                    {
-                        "value": "Chest medicine"
                     }
                 ]
             },
             {
                 "system": "http://snomed.info/sct",
                 "code": "419815003",
-                "display": "Radiation oncology (qualifier value)",
+                "display": "Radiation oncology",
                 "designation": [
                     {
-                        "value": "Radiation oncology (qualifier value)"
-                    },
-                    {
                         "value": "Radiation oncology"
-                    },
-                    {
-                        "value": "Radiotherapy"
-                    },
-                    {
-                        "value": "Therapeutic radiology"
                     }
                 ]
             },
             {
                 "system": "http://snomed.info/sct",
                 "code": "394914008",
-                "display": "Radiology - specialty (qualifier value)",
+                "display": "Radiology",
                 "designation": [
-                    {
-                        "value": "Radiology - specialty (qualifier value)"
-                    },
-                    {
-                        "value": "Radiology - specialty"
-                    },
                     {
                         "value": "Radiology"
                     }
@@ -1622,30 +1329,18 @@
             {
                 "system": "http://snomed.info/sct",
                 "code": "408455009",
-                "display": "Interventional radiology - specialty (qualifier value)",
+                "display": "Radiology-Interventional radiology",
                 "designation": [
                     {
-                        "value": "Interventional radiology - specialty (qualifier value)"
-                    },
-                    {
-                        "value": "Interventional radiology - specialty"
-                    },
-                    {
-                        "value": "Interventional radiology"
+                        "value": "Radiology-Interventional radiology"
                     }
                 ]
             },
             {
                 "system": "http://snomed.info/sct",
                 "code": "394602003",
-                "display": "Rehabilitation - specialty (qualifier value)",
+                "display": "Rehabilitation",
                 "designation": [
-                    {
-                        "value": "Rehabilitation - specialty (qualifier value)"
-                    },
-                    {
-                        "value": "Rehabilitation - specialty"
-                    },
                     {
                         "value": "Rehabilitation"
                     }
@@ -1654,14 +1349,8 @@
             {
                 "system": "http://snomed.info/sct",
                 "code": "408447002",
-                "display": "Respite care - specialty (qualifier value)",
+                "display": "Respite care",
                 "designation": [
-                    {
-                        "value": "Respite care - specialty (qualifier value)"
-                    },
-                    {
-                        "value": "Respite care - specialty"
-                    },
                     {
                         "value": "Respite care"
                     }
@@ -1670,11 +1359,8 @@
             {
                 "system": "http://snomed.info/sct",
                 "code": "394810000",
-                "display": "Rheumatology (qualifier value)",
+                "display": "Rheumatology",
                 "designation": [
-                    {
-                        "value": "Rheumatology (qualifier value)"
-                    },
                     {
                         "value": "Rheumatology"
                     }
@@ -1683,14 +1369,8 @@
             {
                 "system": "http://snomed.info/sct",
                 "code": "408450004",
-                "display": "Sleep studies - specialty (qualifier value)",
+                "display": "Sleep studies",
                 "designation": [
-                    {
-                        "value": "Sleep studies - specialty (qualifier value)"
-                    },
-                    {
-                        "value": "Sleep studies - specialty"
-                    },
                     {
                         "value": "Sleep studies"
                     }
@@ -1699,318 +1379,228 @@
             {
                 "system": "http://snomed.info/sct",
                 "code": "408476004",
-                "display": "Bone and marrow transplantation (qualifier value)",
+                "display": "Surgery-Bone and marrow transplantation",
                 "designation": [
                     {
-                        "value": "Bone and marrow transplantation (qualifier value)"
-                    },
-                    {
-                        "value": "Bone and marrow transplantation"
+                        "value": "Surgery-Bone and marrow transplantation"
                     }
                 ]
             },
             {
                 "system": "http://snomed.info/sct",
                 "code": "408469009",
-                "display": "Breast surgery (qualifier value)",
+                "display": "Surgery-Breast surgery",
                 "designation": [
                     {
-                        "value": "Breast surgery (qualifier value)"
-                    },
-                    {
-                        "value": "Breast surgery"
+                        "value": "Surgery-Breast surgery"
                     }
                 ]
             },
             {
                 "system": "http://snomed.info/sct",
                 "code": "408466002",
-                "display": "Cardiac surgery (qualifier value)",
+                "display": "Surgery-Cardiac surgery",
                 "designation": [
                     {
-                        "value": "Cardiac surgery (qualifier value)"
-                    },
-                    {
-                        "value": "Cardiac surgery"
+                        "value": "Surgery-Cardiac surgery"
                     }
                 ]
             },
             {
                 "system": "http://snomed.info/sct",
                 "code": "408471009",
-                "display": "Cardiothoracic transplantation (qualifier value)",
+                "display": "Surgery-Cardiothoracic transplantation",
                 "designation": [
                     {
-                        "value": "Cardiothoracic transplantation (qualifier value)"
-                    },
-                    {
-                        "value": "Cardiothoracic transplantation"
+                        "value": "Surgery-Cardiothoracic transplantation"
                     }
                 ]
             },
             {
                 "system": "http://snomed.info/sct",
                 "code": "408464004",
-                "display": "Colorectal surgery (qualifier value)",
+                "display": "Surgery-Colorectal surgery",
                 "designation": [
                     {
-                        "value": "Colorectal surgery (qualifier value)"
-                    },
-                    {
-                        "value": "Colorectal surgery"
+                        "value": "Surgery-Colorectal surgery"
                     }
                 ]
             },
             {
                 "system": "http://snomed.info/sct",
                 "code": "408441001",
-                "display": "Endodontics - specialty (qualifier value)",
+                "display": "Surgery-Dental-Endodontics",
                 "designation": [
                     {
-                        "value": "Endodontics - specialty (qualifier value)"
-                    },
-                    {
-                        "value": "Endodontics - specialty"
-                    },
-                    {
-                        "value": "Endodontics"
+                        "value": "Surgery-Dental-Endodontics"
                     }
                 ]
             },
             {
                 "system": "http://snomed.info/sct",
                 "code": "408465003",
-                "display": "Oral and maxillofacial surgery (qualifier value)",
+                "display": "Surgery-Dental-Oral and maxillofacial surgery",
                 "designation": [
                     {
-                        "value": "Oral and maxillofacial surgery (qualifier value)"
-                    },
-                    {
-                        "value": "Oral and maxillofacial surgery"
-                    },
-                    {
-                        "value": "Dental and maxillofacial surgery"
+                        "value": "Surgery-Dental-Oral and maxillofacial surgery"
                     }
                 ]
             },
             {
                 "system": "http://snomed.info/sct",
                 "code": "394605001",
-                "display": "Oral surgery (qualifier value)",
+                "display": "Surgery-Dental-Oral surgery",
                 "designation": [
                     {
-                        "value": "Oral surgery (qualifier value)"
-                    },
-                    {
-                        "value": "Oral surgery"
+                        "value": "Surgery-Dental-Oral surgery"
                     }
                 ]
             },
             {
                 "system": "http://snomed.info/sct",
                 "code": "394608004",
-                "display": "Orthodontics (qualifier value)",
+                "display": "Surgery-Dental-Orthodontics",
                 "designation": [
                     {
-                        "value": "Orthodontics (qualifier value)"
-                    },
-                    {
-                        "value": "Orthodontics"
+                        "value": "Surgery-Dental-Orthodontics"
                     }
                 ]
             },
             {
                 "system": "http://snomed.info/sct",
                 "code": "408461007",
-                "display": "Periodontics (qualifier value)",
+                "display": "Surgery-Dental-Periodontal surgery",
                 "designation": [
                     {
-                        "value": "Periodontics (qualifier value)"
-                    },
-                    {
-                        "value": "Periodontics"
-                    },
-                    {
-                        "value": "Periodontology"
+                        "value": "Surgery-Dental-Periodontal surgery"
                     }
                 ]
             },
             {
                 "system": "http://snomed.info/sct",
                 "code": "408460008",
-                "display": "Prosthodontics (qualifier value)",
+                "display": "Surgery-Dental-Prosthetic dentistry (Prosthodontics)",
                 "designation": [
                     {
-                        "value": "Prosthodontics (qualifier value)"
-                    },
-                    {
-                        "value": "Prosthodontics"
-                    },
-                    {
-                        "value": "Prosthetic dentistry"
+                        "value": "Surgery-Dental-Prosthetic dentistry (Prosthodontics)"
                     }
                 ]
             },
             {
                 "system": "http://snomed.info/sct",
                 "code": "394606000",
-                "display": "Restorative dentistry (qualifier value)",
+                "display": "Surgery-Dentistry-Restorative dentistry",
                 "designation": [
                     {
-                        "value": "Restorative dentistry (qualifier value)"
-                    },
-                    {
-                        "value": "Restorative dentistry"
+                        "value": "Surgery-Dentistry-Restorative dentistry"
                     }
                 ]
             },
             {
                 "system": "http://snomed.info/sct",
                 "code": "408449004",
-                "display": "Surgical dentistry (qualifier value)",
+                "display": "Surgery-Dentistry--surgical",
                 "designation": [
                     {
-                        "value": "Surgical dentistry (qualifier value)"
-                    },
-                    {
-                        "value": "Surgical dentistry"
+                        "value": "Surgery-Dentistry--surgical"
                     }
                 ]
             },
             {
                 "system": "http://snomed.info/sct",
                 "code": "418018006",
-                "display": "Dermatologic surgery (qualifier value)",
+                "display": "Surgery-Dermatologic surgery",
                 "designation": [
                     {
-                        "value": "Dermatologic surgery (qualifier value)"
-                    },
-                    {
-                        "value": "Dermatologic surgery"
+                        "value": "Surgery-Dermatologic surgery"
                     }
                 ]
             },
             {
                 "system": "http://snomed.info/sct",
                 "code": "394604002",
-                "display": "Ear, nose and throat surgery (qualifier value)",
+                "display": "Surgery-Ear, nose and throat surgery",
                 "designation": [
                     {
-                        "value": "Ear, nose and throat surgery (qualifier value)"
-                    },
-                    {
-                        "value": "Ear, nose and throat surgery"
-                    },
-                    {
-                        "value": "ENT"
+                        "value": "Surgery-Ear, nose and throat surgery"
                     }
                 ]
             },
             {
                 "system": "http://snomed.info/sct",
                 "code": "394609007",
-                "display": "General surgery (qualifier value)",
+                "display": "Surgery-general",
                 "designation": [
                     {
-                        "value": "General surgery (qualifier value)"
-                    },
-                    {
-                        "value": "General surgery"
+                        "value": "Surgery-general"
                     }
                 ]
             },
             {
                 "system": "http://snomed.info/sct",
                 "code": "408474001",
-                "display": "Hepatobiliary and pancreatic surgery (qualifier value)",
+                "display": "Surgery-Hepatobiliary and pancreatic surgery",
                 "designation": [
                     {
-                        "value": "Hepatobiliary and pancreatic surgery (qualifier value)"
-                    },
-                    {
-                        "value": "Hepatobiliary and pancreatic surgery"
+                        "value": "Surgery-Hepatobiliary and pancreatic surgery"
                     }
                 ]
             },
             {
                 "system": "http://snomed.info/sct",
                 "code": "394610002",
-                "display": "Neurosurgery (qualifier value)",
+                "display": "Surgery-Neurosurgery",
                 "designation": [
                     {
-                        "value": "Neurosurgery (qualifier value)"
-                    },
-                    {
-                        "value": "Neurosurgery"
+                        "value": "Surgery-Neurosurgery"
                     }
                 ]
             },
             {
                 "system": "http://snomed.info/sct",
                 "code": "394611003",
-                "display": "Plastic surgery - specialty",
+                "display": "Surgery-Plastic surgery",
                 "designation": [
                     {
-                        "value": "Plastic surgery - specialty"
-                    },
-                    {
-                        "value": "Plastic surgery"
-                    },
-                    {
-                        "value": "Plastic surgery - specialty (qualifier value)"
+                        "value": "Surgery-Plastic surgery"
                     }
                 ]
             },
             {
                 "system": "http://snomed.info/sct",
                 "code": "408477008",
-                "display": "Transplantation surgery (qualifier value)",
+                "display": "Surgery-Transplantation surgery",
                 "designation": [
                     {
-                        "value": "Transplantation surgery (qualifier value)"
-                    },
-                    {
-                        "value": "Transplantation surgery"
+                        "value": "Surgery-Transplantation surgery"
                     }
                 ]
             },
             {
                 "system": "http://snomed.info/sct",
                 "code": "394801008",
-                "display": "Trauma & orthopedics",
+                "display": "Surgery-Trauma and orthopedics",
                 "designation": [
                     {
-                        "value": "Trauma & orthopedics"
-                    },
-                    {
-                        "value": "Trauma and orthopedics (qualifier value)"
-                    },
-                    {
-                        "value": "Trauma and orthopedics"
+                        "value": "Surgery-Trauma and orthopedics"
                     }
                 ]
             },
             {
                 "system": "http://snomed.info/sct",
                 "code": "408463005",
-                "display": "Vascular surgery (qualifier value)",
+                "display": "Surgery-Vascular",
                 "designation": [
                     {
-                        "value": "Vascular surgery (qualifier value)"
-                    },
-                    {
-                        "value": "Vascular surgery"
+                        "value": "Surgery-Vascular"
                     }
                 ]
             },
             {
                 "system": "http://snomed.info/sct",
                 "code": "419321007",
-                "display": "Surgical oncology (qualifier value)",
+                "display": "Surgical oncology",
                 "designation": [
-                    {
-                        "value": "Surgical oncology (qualifier value)"
-                    },
                     {
                         "value": "Surgical oncology"
                     }
@@ -2019,24 +1609,18 @@
             {
                 "system": "http://snomed.info/sct",
                 "code": "394576009",
-                "display": "Accident & emergency (qualifier value)",
+                "display": "Surgical-Accident & emergency",
                 "designation": [
                     {
-                        "value": "Accident & emergency (qualifier value)"
-                    },
-                    {
-                        "value": "Accident & emergency"
+                        "value": "Surgical-Accident & emergency"
                     }
                 ]
             },
             {
                 "system": "http://snomed.info/sct",
                 "code": "394590007",
-                "display": "Thoracic medicine (qualifier value)",
+                "display": "Thoracic medicine",
                 "designation": [
-                    {
-                        "value": "Thoracic medicine (qualifier value)"
-                    },
                     {
                         "value": "Thoracic medicine"
                     }
@@ -2045,11 +1629,8 @@
             {
                 "system": "http://snomed.info/sct",
                 "code": "409967009",
-                "display": "Toxicology (qualifier value)",
+                "display": "Toxicology",
                 "designation": [
-                    {
-                        "value": "Toxicology (qualifier value)"
-                    },
                     {
                         "value": "Toxicology"
                     }
@@ -2058,11 +1639,8 @@
             {
                 "system": "http://snomed.info/sct",
                 "code": "408448007",
-                "display": "Tropical medicine (qualifier value)",
+                "display": "Tropical medicine",
                 "designation": [
-                    {
-                        "value": "Tropical medicine (qualifier value)"
-                    },
                     {
                         "value": "Tropical medicine"
                     }
@@ -2071,11 +1649,8 @@
             {
                 "system": "http://snomed.info/sct",
                 "code": "419043006",
-                "display": "Urological oncology (qualifier value)",
+                "display": "Urological oncology",
                 "designation": [
-                    {
-                        "value": "Urological oncology (qualifier value)"
-                    },
                     {
                         "value": "Urological oncology"
                     }
@@ -2084,11 +1659,8 @@
             {
                 "system": "http://snomed.info/sct",
                 "code": "394612005",
-                "display": "Urology (qualifier value)",
+                "display": "Urology",
                 "designation": [
-                    {
-                        "value": "Urology (qualifier value)"
-                    },
                     {
                         "value": "Urology"
                     }
@@ -2097,32 +1669,20 @@
             {
                 "system": "http://snomed.info/sct",
                 "code": "394733009",
-                "display": "Medical specialties",
+                "display": "Medical specialty--OTHER--NOT LISTED",
                 "designation": [
                     {
-                        "value": "Medical specialties"
-                    },
-                    {
-                        "value": "Medical specialty (qualifier value)"
-                    },
-                    {
-                        "value": "Medical specialty"
+                        "value": "Medical specialty--OTHER--NOT LISTED"
                     }
                 ]
             },
             {
                 "system": "http://snomed.info/sct",
                 "code": "394732004",
-                "display": "Surgical specialties",
+                "display": "Surgical specialty--OTHER-NOT LISTED",
                 "designation": [
                     {
-                        "value": "Surgical specialties"
-                    },
-                    {
-                        "value": "Surgical specialty (qualifier value)"
-                    },
-                    {
-                        "value": "Surgical specialty"
+                        "value": "Surgical specialty--OTHER-NOT LISTED"
                     }
                 ]
             }

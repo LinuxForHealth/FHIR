@@ -2,7 +2,7 @@
     "resourceType": "CodeSystem",
     "id": "concept-properties",
     "meta": {
-        "lastUpdated": "2022-01-01T15:17:18.597Z"
+        "lastUpdated": "2022-04-23T22:21:35.043Z"
     },
     "text": {
         "status": "empty",
@@ -23,9 +23,10 @@
         }
     ],
     "url": "http://hl7.org/fhir/concept-properties",
-    "version": "4.3.0-CIBUILD",
+    "version": "4.3.0-cibuild",
     "name": "FHIR Defined Concept Properties",
     "status": "draft",
+    "experimental": false,
     "publisher": "FHIR Project",
     "description": "A set of common concept properties for use on coded systems throughout the FHIR eco-system.",
     "caseSensitive": true,

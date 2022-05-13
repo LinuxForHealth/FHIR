@@ -12,9 +12,10 @@
         }
     ],
     "url": "http://hl7.org/fhir/StructureDefinition/questionnaire-signatureRequired",
-    "version": "4.3.0-CIBUILD",
+    "version": "4.3.0-cibuild",
     "name": "signatureRequired",
     "status": "draft",
+    "experimental": false,
     "date": "2013-07-04",
     "publisher": "HL7",
     "contact": [
@@ -28,7 +29,7 @@
         }
     ],
     "description": "Indicates that a signature (of the specified type) is needed when completing the QuestionnaireResponse.",
-    "fhirVersion": "4.3.0-CIBUILD",
+    "fhirVersion": "4.3.0-cibuild",
     "mapping": [
         {
             "identity": "rim",

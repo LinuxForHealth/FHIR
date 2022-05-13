@@ -9,8 +9,8 @@
       "status": "active",
       "description": "Type options for PlanDefinition.subject[x]",
       "expansion": {
-        "identifier": "urn:uuid:b24431c4-ec5c-43dd-9e74-cb61754b717a",
-        "timestamp": "2022-01-01T15:25:36+00:00",
+        "identifier": "urn:uuid:5afbe12c-c0b5-4694-8e7b-6d217dd3b560",
+        "timestamp": "2022-04-23T22:30:28+00:00",
         "contains": [
           {
             "system": "http://hl7.org/fhir/data-types",
@@ -57,8 +57,8 @@
       "status": "active",
       "description": "Type options for PlanDefinition.goal.target.detail[x]",
       "expansion": {
-        "identifier": "urn:uuid:6b17124e-3253-430a-b3f9-fd000916631e",
-        "timestamp": "2022-01-01T15:25:36+00:00",
+        "identifier": "urn:uuid:c540b4c4-c11b-46a8-8526-8fadd16ddae3",
+        "timestamp": "2022-04-23T22:30:28+00:00",
         "contains": [
           {
             "system": "http://hl7.org/fhir/data-types",
@@ -85,8 +85,8 @@
       "status": "active",
       "description": "Type options for PlanDefinition.action.subject[x]",
       "expansion": {
-        "identifier": "urn:uuid:ef69f8cf-86e1-44df-b8af-7abcd79ed76c",
-        "timestamp": "2022-01-01T15:25:36+00:00",
+        "identifier": "urn:uuid:87461ed1-a615-4c82-bda2-513a3fa4e808",
+        "timestamp": "2022-04-23T22:30:28+00:00",
         "contains": [
           {
             "system": "http://hl7.org/fhir/data-types",
@@ -108,8 +108,8 @@
       "status": "active",
       "description": "Type options for PlanDefinition.action.relatedAction.offset[x]",
       "expansion": {
-        "identifier": "urn:uuid:fed6c516-925c-48c3-8327-9241b3a4a941",
-        "timestamp": "2022-01-01T15:25:36+00:00",
+        "identifier": "urn:uuid:0757d919-6d2e-4e53-9588-15e735aef832",
+        "timestamp": "2022-04-23T22:30:28+00:00",
         "contains": [
           {
             "system": "http://hl7.org/fhir/data-types",
@@ -131,8 +131,8 @@
       "status": "active",
       "description": "Type options for PlanDefinition.action.timing[x]",
       "expansion": {
-        "identifier": "urn:uuid:638321b5-dafe-43bc-a755-b83a784be8c1",
-        "timestamp": "2022-01-01T15:25:36+00:00",
+        "identifier": "urn:uuid:1d23a812-60ba-41c7-9e84-5af93443c14b",
+        "timestamp": "2022-04-23T22:30:28+00:00",
         "contains": [
           {
             "system": "http://hl7.org/fhir/data-types",
@@ -174,8 +174,8 @@
       "status": "active",
       "description": "Type options for PlanDefinition.action.definition[x]",
       "expansion": {
-        "identifier": "urn:uuid:39471527-1dd3-4db1-9de5-01731e59715b",
-        "timestamp": "2022-01-01T15:25:36+00:00",
+        "identifier": "urn:uuid:146671fd-edad-4310-973d-96742b146592",
+        "timestamp": "2022-04-23T22:30:28+00:00",
         "contains": [
           {
             "system": "http://hl7.org/fhir/resource-types",
@@ -206,8 +206,9 @@
       "system": "urn:ietf:rfc:3986"
     }
   ],
-  "version": "4.3.0-CIBUILD",
+  "version": "4.3.0-cibuild",
   "status": "draft",
+  "experimental": false,
   "date": "2020-12-28T05:55:11+00:00",
   "publisher": "HL7",
   "item": [
@@ -407,10 +408,9 @@
             {
               "linkId": "PlanDefinition.language.value",
               "text": "language",
-              "type": "coding",
+              "type": "choice",
               "required": false,
-              "repeats": false,
-              "answerConstraint": "optionsOnly"
+              "repeats": false
             }
           ]
         },
@@ -564,7 +564,7 @@
                 }
               ],
               "linkId": "PlanDefinition.url-flyover",
-              "text": "An absolute URI that is used to identify this plan definition when it is referenced in a specification, model, design or an instance; also called its canonical identifier. This SHOULD be globally unique and SHOULD be a literal address at which at which an authoritative instance of this plan definition is (or will be) published. This URL can be the target of a canonical reference. It SHALL remain the same when the plan definition is stored on different servers. Can be a urn:uuid: or a urn:oid: but real http: addresses are preferred.  Multiple instances may share the same URL if they have a distinct version.\n\nThe determination of when to create a new version of a resource (same url, new version) vs. defining a new artifact is up to the author.  Considerations for making this decision are found in [Technical and Business Versions](http://hl7.org/fhir/2021Mar/resource.html#versions). \n\nIn some cases, the resource can no longer be found at the stated url, but the url itself cannot change. Implementations can use the [meta.source](http://hl7.org/fhir/2021Mar/resource.html#meta) element to indicate where the current master source of the resource can be found.",
+              "text": "An absolute URI that is used to identify this plan definition when it is referenced in a specification, model, design or an instance; also called its canonical identifier. This SHOULD be globally unique and SHOULD be a literal address at which at which an authoritative instance of this plan definition is (or will be) published. This URL can be the target of a canonical reference. It SHALL remain the same when the plan definition is stored on different servers. Can be a urn:uuid: or a urn:oid: but real http: addresses are preferred.  Multiple instances may share the same URL if they have a distinct version.\n\nThe determination of when to create a new version of a resource (same url, new version) vs. defining a new artifact is up to the author.  Considerations for making this decision are found in [Technical and Business Versions](resource.html#versions). \n\nIn some cases, the resource can no longer be found at the stated url, but the url itself cannot change. Implementations can use the [meta.source](resource.html#meta) element to indicate where the current master source of the resource can be found.",
               "type": "display"
             },
             {
@@ -846,10 +846,9 @@
             {
               "linkId": "PlanDefinition.type.coding",
               "text": "code:",
-              "type": "coding",
+              "type": "choice",
               "required": false,
-              "repeats": false,
-              "answerConstraint": "optionsOnly"
+              "repeats": false
             },
             {
               "linkId": "PlanDefinition.type.text",
@@ -902,10 +901,9 @@
             {
               "linkId": "PlanDefinition.status.value",
               "text": "status",
-              "type": "coding",
+              "type": "choice",
               "required": false,
-              "repeats": false,
-              "answerConstraint": "optionsOrType"
+              "repeats": false
             }
           ]
         },
@@ -982,16 +980,15 @@
                 }
               ],
               "linkId": "PlanDefinition.subject[x]-flyover",
-              "text": "A code, group definition, or canonical reference that describes  or identifies the intended subject of the plan definition. Canonical references are allowed to support the definition of protocols for drug and substance quality specifications, and is allowed to reference a MedicinalProductDefinition, SubstanceDefinition, AdministrableProductDefinition, ManufacturedItemDefinition, or PackagedProductDefinition resource.",
+              "text": "A code, group definition, or canonical reference that describes  or identifies the intended subject of the plan definition. Canonical references are allowed to support the definition of protocols for drug and substance quality specifications, and is allowed to reference a MedicinalProductDefinition, SubstanceDefinition, AdministrableProductDefinition, ManufacturedItemDefinition, or PackagedProductDefinition resource. Note that the choice of canonical for the subject element was introduced in R4B to support pharmaceutical quality use cases. To ensure as much backwards-compatibility as possible, it is recommended to only use the new canonical type with these use cases.",
               "type": "display"
             },
             {
               "linkId": "PlanDefinition.subject[x]._type",
               "text": "type",
-              "type": "coding",
+              "type": "choice",
               "required": false,
               "repeats": false,
-              "answerConstraint": "optionsOnly",
               "answerValueSet": "#vs2",
               "item": [
                 {
@@ -1007,10 +1004,9 @@
                     {
                       "linkId": "PlanDefinition.subject[x]._null.coding",
                       "text": "code:",
-                      "type": "coding",
+                      "type": "choice",
                       "required": false,
-                      "repeats": false,
-                      "answerConstraint": "optionsOnly"
+                      "repeats": false
                     },
                     {
                       "linkId": "PlanDefinition.subject[x]._null.text",
@@ -1304,10 +1300,9 @@
             {
               "linkId": "PlanDefinition.jurisdiction.coding",
               "text": "code:",
-              "type": "coding",
+              "type": "choice",
               "required": false,
-              "repeats": false,
-              "answerConstraint": "optionsOnly"
+              "repeats": false
             },
             {
               "linkId": "PlanDefinition.jurisdiction.text",
@@ -1625,10 +1620,9 @@
             {
               "linkId": "PlanDefinition.topic.coding",
               "text": "code:",
-              "type": "coding",
+              "type": "choice",
               "required": false,
-              "repeats": false,
-              "answerConstraint": "optionsOnly"
+              "repeats": false
             },
             {
               "linkId": "PlanDefinition.topic.text",
@@ -1997,10 +1991,9 @@
                 {
                   "linkId": "PlanDefinition.goal.category.coding",
                   "text": "code:",
-                  "type": "coding",
+                  "type": "choice",
                   "required": false,
-                  "repeats": false,
-                  "answerConstraint": "optionsOnly"
+                  "repeats": false
                 },
                 {
                   "linkId": "PlanDefinition.goal.category.text",
@@ -2054,10 +2047,9 @@
                 {
                   "linkId": "PlanDefinition.goal.description.coding",
                   "text": "code:",
-                  "type": "coding",
+                  "type": "choice",
                   "required": false,
-                  "repeats": false,
-                  "answerConstraint": "optionsOnly"
+                  "repeats": false
                 },
                 {
                   "linkId": "PlanDefinition.goal.description.text",
@@ -2107,10 +2099,9 @@
                 {
                   "linkId": "PlanDefinition.goal.priority.coding",
                   "text": "code:",
-                  "type": "coding",
+                  "type": "choice",
                   "required": false,
-                  "repeats": false,
-                  "answerConstraint": "optionsOnly"
+                  "repeats": false
                 },
                 {
                   "linkId": "PlanDefinition.goal.priority.text",
@@ -2160,10 +2151,9 @@
                 {
                   "linkId": "PlanDefinition.goal.start.coding",
                   "text": "code:",
-                  "type": "coding",
+                  "type": "choice",
                   "required": false,
-                  "repeats": false,
-                  "answerConstraint": "optionsOnly"
+                  "repeats": false
                 },
                 {
                   "linkId": "PlanDefinition.goal.start.text",
@@ -2209,10 +2199,9 @@
                 {
                   "linkId": "PlanDefinition.goal.addresses.coding",
                   "text": "code:",
-                  "type": "coding",
+                  "type": "choice",
                   "required": false,
-                  "repeats": false,
-                  "answerConstraint": "optionsOnly"
+                  "repeats": false
                 },
                 {
                   "linkId": "PlanDefinition.goal.addresses.text",
@@ -2416,10 +2405,9 @@
                     {
                       "linkId": "PlanDefinition.goal.target.measure.coding",
                       "text": "code:",
-                      "type": "coding",
+                      "type": "choice",
                       "required": false,
-                      "repeats": false,
-                      "answerConstraint": "optionsOnly"
+                      "repeats": false
                     },
                     {
                       "linkId": "PlanDefinition.goal.target.measure.text",
@@ -2465,10 +2453,9 @@
                     {
                       "linkId": "PlanDefinition.goal.target.detail[x]._type",
                       "text": "type",
-                      "type": "coding",
+                      "type": "choice",
                       "required": false,
                       "repeats": false,
-                      "answerConstraint": "optionsOnly",
                       "answerValueSet": "#vs3",
                       "item": [
                         {
@@ -2484,10 +2471,9 @@
                             {
                               "linkId": "PlanDefinition.goal.target.detail[x]._null.comparator",
                               "text": "comp:",
-                              "type": "coding",
+                              "type": "choice",
                               "required": false,
-                              "repeats": false,
-                              "answerConstraint": "optionsOnly"
+                              "repeats": false
                             },
                             {
                               "linkId": "PlanDefinition.goal.target.detail[x]._null.value",
@@ -2565,10 +2551,9 @@
                             {
                               "linkId": "PlanDefinition.goal.target.detail[x]._null.coding",
                               "text": "code:",
-                              "type": "coding",
+                              "type": "choice",
                               "required": false,
-                              "repeats": false,
-                              "answerConstraint": "optionsOnly"
+                              "repeats": false
                             },
                             {
                               "linkId": "PlanDefinition.goal.target.detail[x]._null.text",
@@ -2622,10 +2607,9 @@
                     {
                       "linkId": "PlanDefinition.goal.target.due.comparator",
                       "text": "comp:",
-                      "type": "coding",
+                      "type": "choice",
                       "required": false,
-                      "repeats": false,
-                      "answerConstraint": "optionsOnly"
+                      "repeats": false
                     },
                     {
                       "linkId": "PlanDefinition.goal.target.due.value",
@@ -3006,10 +2990,9 @@
                 {
                   "linkId": "PlanDefinition.action.priority.value",
                   "text": "priority",
-                  "type": "coding",
+                  "type": "choice",
                   "required": false,
-                  "repeats": false,
-                  "answerConstraint": "optionsOrType"
+                  "repeats": false
                 }
               ]
             },
@@ -3048,10 +3031,9 @@
                 {
                   "linkId": "PlanDefinition.action.code.coding",
                   "text": "code:",
-                  "type": "coding",
+                  "type": "choice",
                   "required": false,
-                  "repeats": false,
-                  "answerConstraint": "optionsOnly"
+                  "repeats": false
                 },
                 {
                   "linkId": "PlanDefinition.action.code.text",
@@ -3097,10 +3079,9 @@
                 {
                   "linkId": "PlanDefinition.action.reason.coding",
                   "text": "code:",
-                  "type": "coding",
+                  "type": "choice",
                   "required": false,
-                  "repeats": false,
-                  "answerConstraint": "optionsOnly"
+                  "repeats": false
                 },
                 {
                   "linkId": "PlanDefinition.action.reason.text",
@@ -3214,10 +3195,9 @@
                 {
                   "linkId": "PlanDefinition.action.subject[x]._type",
                   "text": "type",
-                  "type": "coding",
+                  "type": "choice",
                   "required": false,
                   "repeats": false,
-                  "answerConstraint": "optionsOnly",
                   "answerValueSet": "#vs4",
                   "item": [
                     {
@@ -3233,10 +3213,9 @@
                         {
                           "linkId": "PlanDefinition.action.subject[x]._null.coding",
                           "text": "code:",
-                          "type": "coding",
+                          "type": "choice",
                           "required": false,
-                          "repeats": false,
-                          "answerConstraint": "optionsOnly"
+                          "repeats": false
                         },
                         {
                           "linkId": "PlanDefinition.action.subject[x]._null.text",
@@ -3498,10 +3477,9 @@
                     {
                       "linkId": "PlanDefinition.action.condition.kind.value",
                       "text": "kind",
-                      "type": "coding",
+                      "type": "choice",
                       "required": false,
-                      "repeats": false,
-                      "answerConstraint": "optionsOrType"
+                      "repeats": false
                     }
                   ]
                 },
@@ -3823,10 +3801,9 @@
                     {
                       "linkId": "PlanDefinition.action.relatedAction.relationship.value",
                       "text": "relationship",
-                      "type": "coding",
+                      "type": "choice",
                       "required": false,
-                      "repeats": false,
-                      "answerConstraint": "optionsOrType"
+                      "repeats": false
                     }
                   ]
                 },
@@ -3865,10 +3842,9 @@
                     {
                       "linkId": "PlanDefinition.action.relatedAction.offset[x]._type",
                       "text": "type",
-                      "type": "coding",
+                      "type": "choice",
                       "required": false,
                       "repeats": false,
-                      "answerConstraint": "optionsOnly",
                       "answerValueSet": "#vs5",
                       "item": [
                         {
@@ -3884,10 +3860,9 @@
                             {
                               "linkId": "PlanDefinition.action.relatedAction.offset[x]._null.comparator",
                               "text": "comp:",
-                              "type": "coding",
+                              "type": "choice",
                               "required": false,
-                              "repeats": false,
-                              "answerConstraint": "optionsOnly"
+                              "repeats": false
                             },
                             {
                               "linkId": "PlanDefinition.action.relatedAction.offset[x]._null.value",
@@ -3993,10 +3968,9 @@
                 {
                   "linkId": "PlanDefinition.action.timing[x]._type",
                   "text": "type",
-                  "type": "coding",
+                  "type": "choice",
                   "required": false,
                   "repeats": false,
-                  "answerConstraint": "optionsOnly",
                   "answerValueSet": "#vs6",
                   "item": [
                     {
@@ -4030,10 +4004,9 @@
                         {
                           "linkId": "PlanDefinition.action.timing[x]._null.comparator",
                           "text": "comp:",
-                          "type": "coding",
+                          "type": "choice",
                           "required": false,
-                          "repeats": false,
-                          "answerConstraint": "optionsOnly"
+                          "repeats": false
                         },
                         {
                           "linkId": "PlanDefinition.action.timing[x]._null.value",
@@ -4104,10 +4077,9 @@
                         {
                           "linkId": "PlanDefinition.action.timing[x]._null.comparator",
                           "text": "comp:",
-                          "type": "coding",
+                          "type": "choice",
                           "required": false,
-                          "repeats": false,
-                          "answerConstraint": "optionsOnly"
+                          "repeats": false
                         },
                         {
                           "linkId": "PlanDefinition.action.timing[x]._null.value",
@@ -4391,10 +4363,9 @@
                     {
                       "linkId": "PlanDefinition.action.participant.type.value",
                       "text": "type",
-                      "type": "coding",
+                      "type": "choice",
                       "required": false,
-                      "repeats": false,
-                      "answerConstraint": "optionsOrType"
+                      "repeats": false
                     }
                   ]
                 },
@@ -4437,10 +4408,9 @@
                     {
                       "linkId": "PlanDefinition.action.participant.role.coding",
                       "text": "code:",
-                      "type": "coding",
+                      "type": "choice",
                       "required": false,
-                      "repeats": false,
-                      "answerConstraint": "optionsOnly"
+                      "repeats": false
                     },
                     {
                       "linkId": "PlanDefinition.action.participant.role.text",
@@ -4492,10 +4462,9 @@
                 {
                   "linkId": "PlanDefinition.action.type.coding",
                   "text": "code:",
-                  "type": "coding",
+                  "type": "choice",
                   "required": false,
-                  "repeats": false,
-                  "answerConstraint": "optionsOnly"
+                  "repeats": false
                 },
                 {
                   "linkId": "PlanDefinition.action.type.text",
@@ -4544,10 +4513,9 @@
                 {
                   "linkId": "PlanDefinition.action.groupingBehavior.value",
                   "text": "grouping behavior",
-                  "type": "coding",
+                  "type": "choice",
                   "required": false,
-                  "repeats": false,
-                  "answerConstraint": "optionsOrType"
+                  "repeats": false
                 }
               ]
             },
@@ -4589,10 +4557,9 @@
                 {
                   "linkId": "PlanDefinition.action.selectionBehavior.value",
                   "text": "selection behavior",
-                  "type": "coding",
+                  "type": "choice",
                   "required": false,
-                  "repeats": false,
-                  "answerConstraint": "optionsOrType"
+                  "repeats": false
                 }
               ]
             },
@@ -4634,10 +4601,9 @@
                 {
                   "linkId": "PlanDefinition.action.requiredBehavior.value",
                   "text": "required behavior",
-                  "type": "coding",
+                  "type": "choice",
                   "required": false,
-                  "repeats": false,
-                  "answerConstraint": "optionsOrType"
+                  "repeats": false
                 }
               ]
             },
@@ -4679,10 +4645,9 @@
                 {
                   "linkId": "PlanDefinition.action.precheckBehavior.value",
                   "text": "precheck behavior",
-                  "type": "coding",
+                  "type": "choice",
                   "required": false,
-                  "repeats": false,
-                  "answerConstraint": "optionsOrType"
+                  "repeats": false
                 }
               ]
             },
@@ -4724,10 +4689,9 @@
                 {
                   "linkId": "PlanDefinition.action.cardinalityBehavior.value",
                   "text": "cardinality behavior",
-                  "type": "coding",
+                  "type": "choice",
                   "required": false,
-                  "repeats": false,
-                  "answerConstraint": "optionsOrType"
+                  "repeats": false
                 }
               ]
             },
@@ -4766,10 +4730,9 @@
                 {
                   "linkId": "PlanDefinition.action.definition[x]._type",
                   "text": "type",
-                  "type": "coding",
+                  "type": "choice",
                   "required": false,
                   "repeats": false,
-                  "answerConstraint": "optionsOnly",
                   "answerValueSet": "#vs7",
                   "item": [
                     {
@@ -5019,7 +4982,7 @@
                         }
                       ],
                       "linkId": "PlanDefinition.action.dynamicValue.path-flyover",
-                      "text": "The path to the element to be customized. This is the path on the resource that will hold the result of the calculation defined by the expression. The specified path SHALL be a FHIRPath resolveable on the specified target type of the ActivityDefinition, and SHALL consist only of identifiers, constant indexers, and a restricted subset of functions. The path is allowed to contain qualifiers (.) to traverse sub-elements, as well as indexers ([x]) to traverse multiple-cardinality sub-elements (see the [Simple FHIRPath Profile](http://hl7.org/fhir/2021Mar/fhirpath.html#simple) for full details). To specify the path to the current action being realized, the %action environment variable is available in this path. For example, to specify the description element of the target action, the path would be %action.description. The path attribute contains a [Simple FHIRPath Subset](http://hl7.org/fhir/2021Mar/fhirpath.html#simple) that allows path traversal, but not calculation.",
+                      "text": "The path to the element to be customized. This is the path on the resource that will hold the result of the calculation defined by the expression. The specified path SHALL be a FHIRPath resolveable on the specified target type of the ActivityDefinition, and SHALL consist only of identifiers, constant indexers, and a restricted subset of functions. The path is allowed to contain qualifiers (.) to traverse sub-elements, as well as indexers ([x]) to traverse multiple-cardinality sub-elements (see the [Simple FHIRPath Profile](fhirpath.html#simple) for full details). To specify the path to the current action being realized, the %action environment variable is available in this path. For example, to specify the description element of the target action, the path would be %action.description. The path attribute contains a [Simple FHIRPath Subset](fhirpath.html#simple) that allows path traversal, but not calculation.",
                       "type": "display"
                     },
                     {

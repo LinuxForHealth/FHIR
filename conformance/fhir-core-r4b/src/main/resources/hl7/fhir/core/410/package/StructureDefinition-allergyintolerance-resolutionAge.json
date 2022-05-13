@@ -12,10 +12,11 @@
         }
     ],
     "url": "http://hl7.org/fhir/StructureDefinition/allergyintolerance-resolutionAge",
-    "version": "4.3.0-CIBUILD",
+    "version": "4.3.0-cibuild",
     "name": "resolutionAge",
     "title": "resolutionAge",
     "status": "draft",
+    "experimental": false,
     "date": "2015-02-21",
     "publisher": "Health Level Seven, Inc. - FHIR WG",
     "contact": [
@@ -29,7 +30,7 @@
         }
     ],
     "description": "The estimated patient age at which the allergy or intolerance resolved. Should be specified only if the status is resolved.",
-    "fhirVersion": "4.3.0-CIBUILD",
+    "fhirVersion": "4.3.0-cibuild",
     "mapping": [
         {
             "identity": "rim",

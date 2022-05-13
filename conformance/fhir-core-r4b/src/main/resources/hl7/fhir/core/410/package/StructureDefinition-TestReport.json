@@ -2,7 +2,7 @@
     "resourceType": "StructureDefinition",
     "id": "TestReport",
     "meta": {
-        "lastUpdated": "2022-01-01T15:17:18.597Z"
+        "lastUpdated": "2022-04-23T22:21:35.043Z"
     },
     "text": {
         "status": "empty",
@@ -31,10 +31,11 @@
         }
     ],
     "url": "http://hl7.org/fhir/StructureDefinition/TestReport",
-    "version": "4.3.0-CIBUILD",
+    "version": "4.3.0-cibuild",
     "name": "TestReport",
     "status": "draft",
-    "date": "2022-01-01T15:17:18Z",
+    "experimental": false,
+    "date": "2022-04-23T22:21:35Z",
     "publisher": "Health Level Seven International (FHIR Infrastructure)",
     "contact": [
         {
@@ -55,7 +56,7 @@
         }
     ],
     "description": "A summary of information based on the results of executing a TestScript.",
-    "fhirVersion": "4.3.0-CIBUILD",
+    "fhirVersion": "4.3.0-cibuild",
     "mapping": [
         {
             "identity": "rim",
@@ -106,7 +107,7 @@
                         "severity": "error",
                         "human": "If the resource is contained in another resource, it SHALL be referred to from elsewhere in the resource or SHALL refer to the containing resource",
                         "expression": "contained.where(((id.exists() and ('#'+id in (%resource.descendants().reference | %resource.descendants().as(canonical) | %resource.descendants().as(uri) | %resource.descendants().as(url)))) or descendants().where(reference = '#').exists() or descendants().where(as(canonical) = '#').exists() or descendants().where(as(uri) = '#').exists()).not()).trace('unmatched', id).empty()",
-                        "xpath": "not(exists(for $resource in . return (for $contained in $resource/f:contained return $contained[not(descendant::f:*/@value='#' or (exists(f:id) and $resource//f:*/@*=concat('#', $contained/*/f:id/@value)))])))",
+                        "xpath": "not(exists(for $contained in f:contained return $contained[not(exists(parent::*/descendant::f:reference/@value=concat('#', $contained/*/f:id/@value)) or exists(descendant::f:reference[@value='#']))]))",
                         "source": "http://hl7.org/fhir/StructureDefinition/DomainResource"
                     },
                     {
@@ -376,6 +377,16 @@
                         "code": "Resource"
                     }
                 ],
+                "constraint": [
+                    {
+                        "key": "dom-r4b",
+                        "severity": "warning",
+                        "human": "Containing new R4B resources within R4 resources may cause interoperability issues if instances are shared with R4 systems",
+                        "expression": "($this is Citation or $this is Evidence or $this is EvidenceReport or $this is EvidenceVariable or $this is MedicinalProductDefinition or $this is PackagedProductDefinition or $this is AdministrableProductDefinition or $this is Ingredient or $this is ClinicalUseDefinition or $this is RegulatedAuthorization or $this is SubstanceDefinition or $this is SubscriptionStatus or $this is SubscriptionTopic) implies (%resource is Citation or %resource is Evidence or %resource is EvidenceReport or %resource is EvidenceVariable or %resource is MedicinalProductDefinition or %resource is PackagedProductDefinition or %resource is AdministrableProductDefinition or %resource is Ingredient or %resource is ClinicalUseDefinition or %resource is RegulatedAuthorization or %resource is SubstanceDefinition or %resource is SubscriptionStatus or %resource is SubscriptionTopic)",
+                        "xpath": "not(f:Citation|f:Evidence|f:EvidenceReport|f:EvidenceVariable|f:MedicinalProductDefinition|f:PackagedProductDefinition|f:AdministrableProductDefinition|f:Ingredient|f:ClinicalUseDefinition|f:RegulatedAuthorization|f:SubstanceDefinition|f:SubscriptionStatus|f:SubscriptionTopic) or not(parent::f:Citation|parent::f:Evidence|parent::f:EvidenceReport|parent::f:EvidenceVariable|parent::f:MedicinalProductDefinition|parent::f:PackagedProductDefinition|parent::f:AdministrableProductDefinition|parent::f:Ingredient|parent::f:ClinicalUseDefinition|parent::f:RegulatedAuthorization|parent::f:SubstanceDefinition|f:SubscriptionStatus|f:SubscriptionTopic)",
+                        "source": "http://hl7.org/fhir/StructureDefinition/TestReport"
+                    }
+                ],
                 "mustSupport": false,
                 "isModifier": false,
                 "isSummary": false,
@@ -604,7 +615,7 @@
                     ],
                     "strength": "required",
                     "description": "The current status of the test script execution.",
-                    "valueSet": "http://hl7.org/fhir/ValueSet/report-status-codes|4.3.0-CIBUILD"
+                    "valueSet": "http://hl7.org/fhir/ValueSet/report-status-codes|4.3.0-cibuild"
                 },
                 "mapping": [
                     {
@@ -687,7 +698,7 @@
                     ],
                     "strength": "required",
                     "description": "The overall execution result of the TestScript.",
-                    "valueSet": "http://hl7.org/fhir/ValueSet/report-result-codes|4.3.0-CIBUILD"
+                    "valueSet": "http://hl7.org/fhir/ValueSet/report-result-codes|4.3.0-cibuild"
                 }
             },
             {
@@ -847,7 +858,7 @@
                         "extension": [
                             {
                                 "url": "http://hl7.org/fhir/StructureDefinition/structuredefinition-fhir-type",
-                                "valueUrl": "id"
+                                "valueUrl": "string"
                             }
                         ],
                         "code": "http://hl7.org/fhirpath/System.String"
@@ -1002,7 +1013,7 @@
                     ],
                     "strength": "required",
                     "description": "The type of participant.",
-                    "valueSet": "http://hl7.org/fhir/ValueSet/report-participant-type|4.3.0-CIBUILD"
+                    "valueSet": "http://hl7.org/fhir/ValueSet/report-participant-type|4.3.0-cibuild"
                 }
             },
             {
@@ -1118,7 +1129,7 @@
                         "extension": [
                             {
                                 "url": "http://hl7.org/fhir/StructureDefinition/structuredefinition-fhir-type",
-                                "valueUrl": "id"
+                                "valueUrl": "string"
                             }
                         ],
                         "code": "http://hl7.org/fhirpath/System.String"
@@ -1300,7 +1311,7 @@
                         "extension": [
                             {
                                 "url": "http://hl7.org/fhir/StructureDefinition/structuredefinition-fhir-type",
-                                "valueUrl": "id"
+                                "valueUrl": "string"
                             }
                         ],
                         "code": "http://hl7.org/fhirpath/System.String"
@@ -1467,7 +1478,7 @@
                         "extension": [
                             {
                                 "url": "http://hl7.org/fhir/StructureDefinition/structuredefinition-fhir-type",
-                                "valueUrl": "id"
+                                "valueUrl": "string"
                             }
                         ],
                         "code": "http://hl7.org/fhirpath/System.String"
@@ -1622,7 +1633,7 @@
                     ],
                     "strength": "required",
                     "description": "The result of the execution of an individual action.",
-                    "valueSet": "http://hl7.org/fhir/ValueSet/report-action-result-codes|4.3.0-CIBUILD"
+                    "valueSet": "http://hl7.org/fhir/ValueSet/report-action-result-codes|4.3.0-cibuild"
                 }
             },
             {
@@ -1738,7 +1749,7 @@
                         "extension": [
                             {
                                 "url": "http://hl7.org/fhir/StructureDefinition/structuredefinition-fhir-type",
-                                "valueUrl": "id"
+                                "valueUrl": "string"
                             }
                         ],
                         "code": "http://hl7.org/fhirpath/System.String"
@@ -1893,7 +1904,7 @@
                     ],
                     "strength": "required",
                     "description": "The result of the execution of an individual action.",
-                    "valueSet": "http://hl7.org/fhir/ValueSet/report-action-result-codes|4.3.0-CIBUILD"
+                    "valueSet": "http://hl7.org/fhir/ValueSet/report-action-result-codes|4.3.0-cibuild"
                 }
             },
             {
@@ -2009,7 +2020,7 @@
                         "extension": [
                             {
                                 "url": "http://hl7.org/fhir/StructureDefinition/structuredefinition-fhir-type",
-                                "valueUrl": "id"
+                                "valueUrl": "string"
                             }
                         ],
                         "code": "http://hl7.org/fhirpath/System.String"
@@ -2253,7 +2264,7 @@
                         "extension": [
                             {
                                 "url": "http://hl7.org/fhir/StructureDefinition/structuredefinition-fhir-type",
-                                "valueUrl": "id"
+                                "valueUrl": "string"
                             }
                         ],
                         "code": "http://hl7.org/fhirpath/System.String"
@@ -2474,7 +2485,7 @@
                         "extension": [
                             {
                                 "url": "http://hl7.org/fhir/StructureDefinition/structuredefinition-fhir-type",
-                                "valueUrl": "id"
+                                "valueUrl": "string"
                             }
                         ],
                         "code": "http://hl7.org/fhirpath/System.String"
@@ -2648,7 +2659,7 @@
                         "extension": [
                             {
                                 "url": "http://hl7.org/fhir/StructureDefinition/structuredefinition-fhir-type",
-                                "valueUrl": "id"
+                                "valueUrl": "string"
                             }
                         ],
                         "code": "http://hl7.org/fhirpath/System.String"
@@ -2890,7 +2901,7 @@
                     ],
                     "strength": "required",
                     "description": "The current status of the test script execution.",
-                    "valueSet": "http://hl7.org/fhir/ValueSet/report-status-codes|4.3.0-CIBUILD"
+                    "valueSet": "http://hl7.org/fhir/ValueSet/report-status-codes|4.3.0-cibuild"
                 },
                 "mapping": [
                     {
@@ -2943,7 +2954,7 @@
                     ],
                     "strength": "required",
                     "description": "The overall execution result of the TestScript.",
-                    "valueSet": "http://hl7.org/fhir/ValueSet/report-result-codes|4.3.0-CIBUILD"
+                    "valueSet": "http://hl7.org/fhir/ValueSet/report-result-codes|4.3.0-cibuild"
                 }
             },
             {
@@ -3047,7 +3058,7 @@
                     ],
                     "strength": "required",
                     "description": "The type of participant.",
-                    "valueSet": "http://hl7.org/fhir/ValueSet/report-participant-type|4.3.0-CIBUILD"
+                    "valueSet": "http://hl7.org/fhir/ValueSet/report-participant-type|4.3.0-cibuild"
                 }
             },
             {
@@ -3171,7 +3182,7 @@
                     ],
                     "strength": "required",
                     "description": "The result of the execution of an individual action.",
-                    "valueSet": "http://hl7.org/fhir/ValueSet/report-action-result-codes|4.3.0-CIBUILD"
+                    "valueSet": "http://hl7.org/fhir/ValueSet/report-action-result-codes|4.3.0-cibuild"
                 }
             },
             {
@@ -3246,7 +3257,7 @@
                     ],
                     "strength": "required",
                     "description": "The result of the execution of an individual action.",
-                    "valueSet": "http://hl7.org/fhir/ValueSet/report-action-result-codes|4.3.0-CIBUILD"
+                    "valueSet": "http://hl7.org/fhir/ValueSet/report-action-result-codes|4.3.0-cibuild"
                 }
             },
             {

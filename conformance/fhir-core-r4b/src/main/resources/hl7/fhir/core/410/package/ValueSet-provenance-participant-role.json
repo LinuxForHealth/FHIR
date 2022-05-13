@@ -2,7 +2,7 @@
     "resourceType": "ValueSet",
     "id": "provenance-participant-role",
     "meta": {
-        "lastUpdated": "2022-03-03T22:04:06.196Z",
+        "lastUpdated": "2022-04-23T22:21:35.043Z",
         "profile": [
             "http://hl7.org/fhir/StructureDefinition/shareablevalueset"
         ]
@@ -32,7 +32,7 @@
             "value": "urn:oid:2.16.840.1.113883.4.642.3.1305"
         }
     ],
-    "version": "4.3.0-CIBUILD",
+    "version": "4.3.0-cibuild",
     "name": "ProvenanceParticipantRole",
     "status": "draft",
     "experimental": true,
@@ -65,8 +65,8 @@
         ]
     },
     "expansion": {
-        "identifier": "urn:uuid:79e2157d-eddc-4021-aded-dcc0d38781b1",
-        "timestamp": "2022-03-03T22:05:31Z",
+        "identifier": "urn:uuid:bfb8cdbd-2447-42be-980c-8ff0bb92c6a4",
+        "timestamp": "2022-04-23T22:23:26Z",
         "total": 10,
         "parameter": [
             {
@@ -79,7 +79,7 @@
             },
             {
                 "name": "version",
-                "valueUri": "http://hl7.org/fhir/provenance-participant-role|4.3.0-CIBUILD"
+                "valueUri": "http://hl7.org/fhir/provenance-participant-role|4.3.0-cibuild"
             }
         ],
         "contains": [

@@ -2,8 +2,8 @@
   "resourceType": "Patient",
   "id": "infant-twin-2",
   "text": {
-    "status": "extensions",
-    "div": "\u003cdiv xmlns\u003d\"http://www.w3.org/1999/xhtml\"\u003e\u003cp\u003e\u003cb\u003eGenerated Narrative\u003c/b\u003e\u003c/p\u003e\u003cdiv\u003e\u003cp\u003eResource \u0026quot;infant-twin-2\u0026quot; \u003c/p\u003e\u003c/div\u003e\u003cp\u003e\u003cb\u003eMother\u0027s Maiden Name\u003c/b\u003e: Organa\u003c/p\u003e\u003cp\u003e\u003cb\u003eidentifier\u003c/b\u003e: Medical record number: MRN7465676978, id: 7465676978\u003c/p\u003e\u003cp\u003e\u003cb\u003ename\u003c/b\u003e: Jacen Solo (OFFICIAL)\u003c/p\u003e\u003cp\u003e\u003cb\u003egender\u003c/b\u003e: male\u003c/p\u003e\u003cp\u003e\u003cb\u003ebirthDate\u003c/b\u003e: 2017-05-15\u003c/p\u003e\u003cp\u003e\u003cb\u003emultipleBirth\u003c/b\u003e: 2\u003c/p\u003e\u003ch3\u003eContacts\u003c/h3\u003e\u003ctable\u003e\u003ctr\u003e\u003ctd\u003e-\u003c/td\u003e\u003ctd\u003e\u003cb\u003eRelationship\u003c/b\u003e\u003c/td\u003e\u003ctd\u003e\u003cb\u003eName\u003c/b\u003e\u003c/td\u003e\u003ctd\u003e\u003cb\u003eTelecom\u003c/b\u003e\u003c/td\u003e\u003c/tr\u003e\u003ctr\u003e\u003ctd\u003e*\u003c/td\u003e\u003ctd\u003eMother \u003cspan\u003e (\u003ca\u003eSNOMED CT\u003c/a\u003e#72705000; \u003ca\u003econtactRole2\u003c/a\u003e#N; \u003ca\u003eRoleCode\u003c/a\u003e#MTH)\u003c/span\u003e\u003c/td\u003e\u003ctd\u003eLeia Organa (MAIDEN)\u003c/td\u003e\u003ctd\u003e\u003ca\u003e+31201234567\u003c/a\u003e\u003c/td\u003e\u003c/tr\u003e\u003c/table\u003e\u003c/div\u003e"
+    "status": "generated",
+    "div": "\u003cdiv xmlns\u003d\"http://www.w3.org/1999/xhtml\"\u003e\u003cp\u003e\u003cb\u003eJacen Solo (OFFICIAL)\u003c/b\u003e male, DoB: 2017-05-15 ( Medical record number: MRN7465676978)\u003c/p\u003e\u003c/div\u003e"
   },
   "extension": [
     {

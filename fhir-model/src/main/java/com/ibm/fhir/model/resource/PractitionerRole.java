@@ -1178,7 +1178,7 @@ public class PractitionerRole extends DomainResource {
             bindingName = "DaysOfWeek",
             strength = BindingStrength.Value.REQUIRED,
             description = "The days of the week.",
-            valueSet = "http://hl7.org/fhir/ValueSet/days-of-week|4.3.0-CIBUILD"
+            valueSet = "http://hl7.org/fhir/ValueSet/days-of-week|4.3.0-cibuild"
         )
         private final List<DaysOfWeek> daysOfWeek;
         private final Boolean allDay;

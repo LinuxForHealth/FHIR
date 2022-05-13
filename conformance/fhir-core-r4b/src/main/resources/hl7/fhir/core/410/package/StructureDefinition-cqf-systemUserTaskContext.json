@@ -12,10 +12,11 @@
         }
     ],
     "url": "http://hl7.org/fhir/StructureDefinition/cqf-systemUserTaskContext",
-    "version": "4.3.0-CIBUILD",
+    "version": "4.3.0-cibuild",
     "name": "systemUserTaskContext",
     "title": "systemUserTaskContext",
     "status": "draft",
+    "experimental": false,
     "date": "2015-05-30",
     "publisher": "Health Level Seven, Inc. - CDS WG",
     "contact": [
@@ -29,7 +30,7 @@
         }
     ],
     "description": "The task the system user is performing, e.g. laboratory results review, medication list review, etc. This information can be used to tailor decision support outputs, such as recommended information resources.",
-    "fhirVersion": "4.3.0-CIBUILD",
+    "fhirVersion": "4.3.0-cibuild",
     "mapping": [
         {
             "identity": "rim",

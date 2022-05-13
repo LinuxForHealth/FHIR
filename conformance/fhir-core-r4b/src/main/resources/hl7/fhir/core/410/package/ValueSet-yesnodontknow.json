@@ -2,7 +2,7 @@
     "resourceType": "ValueSet",
     "id": "yesnodontknow",
     "meta": {
-        "lastUpdated": "2022-01-01T15:17:18.597Z"
+        "lastUpdated": "2022-04-23T22:21:35.043Z"
     },
     "text": {
         "status": "empty",
@@ -15,9 +15,10 @@
         }
     ],
     "url": "http://hl7.org/fhir/ValueSet/yesnodontknow",
-    "version": "4.3.0-CIBUILD",
+    "version": "4.3.0-cibuild",
     "name": "Yes/No/Don't Know",
     "status": "draft",
+    "experimental": true,
     "description": "For Capturing simple yes-no-don't know answers",
     "compose": {
         "include": [

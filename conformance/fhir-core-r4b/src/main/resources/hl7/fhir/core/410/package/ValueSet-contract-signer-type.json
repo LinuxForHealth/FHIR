@@ -2,7 +2,7 @@
     "resourceType": "ValueSet",
     "id": "contract-signer-type",
     "meta": {
-        "lastUpdated": "2022-03-03T22:04:06.196Z",
+        "lastUpdated": "2022-04-23T22:21:35.043Z",
         "profile": [
             "http://hl7.org/fhir/StructureDefinition/shareablevalueset"
         ]
@@ -24,10 +24,11 @@
             "value": "urn:oid:2.16.840.1.113883.4.642.3.737"
         }
     ],
-    "version": "4.3.0-CIBUILD",
+    "version": "4.3.0-cibuild",
     "name": "ContractSignerTypeCodes",
     "title": "Contract Signer Type Codes",
     "status": "draft",
+    "experimental": false,
     "publisher": "Financial Management",
     "description": "This value set includes sample Contract Signer Type codes.",
     "copyright": "This is an example set based on ASTM Standard, E1762-95 (2013) HL7 RoleClass OID 2.16.840.1.113883.5.110, HL7 Role Code 2.16.840.1.113883.5.111, HL7 ParticipationType OID: 2.16.840.1.113883.5.90, HL7 ParticipationFunction codes at OID: 2.16.840.1.113883.5.88, and HL7 Security and Privacy Domain Analysis Model roles classes.",
@@ -39,8 +40,8 @@
         ]
     },
     "expansion": {
-        "identifier": "urn:uuid:f44ad3fe-3ae6-4a86-9b5b-4a25885a50aa",
-        "timestamp": "2022-03-03T22:05:31Z",
+        "identifier": "urn:uuid:d0fe304e-3102-4436-a0a6-71c1c864058d",
+        "timestamp": "2022-04-23T22:23:26Z",
         "total": 48,
         "parameter": [
             {

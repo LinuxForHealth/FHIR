@@ -9,8 +9,8 @@
       "status": "active",
       "description": "Type options for NutritionOrder.enteralFormula.administration.rate[x]",
       "expansion": {
-        "identifier": "urn:uuid:2ddf9d28-8e10-4f35-9af5-98ba2a0c781c",
-        "timestamp": "2022-01-01T15:25:14+00:00",
+        "identifier": "urn:uuid:97ac9bf8-b3e6-47da-98bc-dfa655d2b52f",
+        "timestamp": "2022-04-23T22:30:06+00:00",
         "contains": [
           {
             "system": "http://hl7.org/fhir/resource-types",
@@ -31,9 +31,10 @@
       "system": "urn:ietf:rfc:3986"
     }
   ],
-  "version": "4.3.0-CIBUILD",
+  "version": "4.3.0-cibuild",
   "status": "draft",
-  "date": "2022-01-01T15:17:18+00:00",
+  "experimental": false,
+  "date": "2022-04-23T22:21:35+00:00",
   "publisher": "Health Level Seven International (Orders and Observations)",
   "item": [
     {
@@ -227,10 +228,9 @@
             {
               "linkId": "NutritionOrder.language.value",
               "text": "language",
-              "type": "coding",
+              "type": "choice",
               "required": false,
-              "repeats": false,
-              "answerConstraint": "optionsOnly"
+              "repeats": false
             }
           ]
         },
@@ -569,10 +569,9 @@
             {
               "linkId": "NutritionOrder.status.value",
               "text": "status",
-              "type": "coding",
+              "type": "choice",
               "required": false,
-              "repeats": false,
-              "answerConstraint": "optionsOrType"
+              "repeats": false
             }
           ]
         },
@@ -618,10 +617,9 @@
             {
               "linkId": "NutritionOrder.intent.value",
               "text": "intent",
-              "type": "coding",
+              "type": "choice",
               "required": false,
-              "repeats": false,
-              "answerConstraint": "optionsOrType"
+              "repeats": false
             }
           ]
         },
@@ -924,10 +922,9 @@
             {
               "linkId": "NutritionOrder.foodPreferenceModifier.coding",
               "text": "code:",
-              "type": "coding",
+              "type": "choice",
               "required": false,
-              "repeats": false,
-              "answerConstraint": "optionsOnly"
+              "repeats": false
             },
             {
               "linkId": "NutritionOrder.foodPreferenceModifier.text",
@@ -973,10 +970,9 @@
             {
               "linkId": "NutritionOrder.excludeFoodModifier.coding",
               "text": "code:",
-              "type": "coding",
+              "type": "choice",
               "required": false,
-              "repeats": false,
-              "answerConstraint": "optionsOnly"
+              "repeats": false
             },
             {
               "linkId": "NutritionOrder.excludeFoodModifier.text",
@@ -1154,10 +1150,9 @@
                 {
                   "linkId": "NutritionOrder.oralDiet.type.coding",
                   "text": "code:",
-                  "type": "coding",
+                  "type": "choice",
                   "required": false,
-                  "repeats": false,
-                  "answerConstraint": "optionsOnly"
+                  "repeats": false
                 },
                 {
                   "linkId": "NutritionOrder.oralDiet.type.text",
@@ -1402,10 +1397,9 @@
                     {
                       "linkId": "NutritionOrder.oralDiet.nutrient.modifier.coding",
                       "text": "code:",
-                      "type": "coding",
+                      "type": "choice",
                       "required": false,
-                      "repeats": false,
-                      "answerConstraint": "optionsOnly"
+                      "repeats": false
                     },
                     {
                       "linkId": "NutritionOrder.oralDiet.nutrient.modifier.text",
@@ -1455,10 +1449,9 @@
                     {
                       "linkId": "NutritionOrder.oralDiet.nutrient.amount.comparator",
                       "text": "comp:",
-                      "type": "coding",
+                      "type": "choice",
                       "required": false,
-                      "repeats": false,
-                      "answerConstraint": "optionsOnly"
+                      "repeats": false
                     },
                     {
                       "linkId": "NutritionOrder.oralDiet.nutrient.amount.value",
@@ -1657,10 +1650,9 @@
                     {
                       "linkId": "NutritionOrder.oralDiet.texture.modifier.coding",
                       "text": "code:",
-                      "type": "coding",
+                      "type": "choice",
                       "required": false,
-                      "repeats": false,
-                      "answerConstraint": "optionsOnly"
+                      "repeats": false
                     },
                     {
                       "linkId": "NutritionOrder.oralDiet.texture.modifier.text",
@@ -1710,10 +1702,9 @@
                     {
                       "linkId": "NutritionOrder.oralDiet.texture.foodType.coding",
                       "text": "code:",
-                      "type": "coding",
+                      "type": "choice",
                       "required": false,
-                      "repeats": false,
-                      "answerConstraint": "optionsOnly"
+                      "repeats": false
                     },
                     {
                       "linkId": "NutritionOrder.oralDiet.texture.foodType.text",
@@ -1761,10 +1752,9 @@
                 {
                   "linkId": "NutritionOrder.oralDiet.fluidConsistencyType.coding",
                   "text": "code:",
-                  "type": "coding",
+                  "type": "choice",
                   "required": false,
-                  "repeats": false,
-                  "answerConstraint": "optionsOnly"
+                  "repeats": false
                 },
                 {
                   "linkId": "NutritionOrder.oralDiet.fluidConsistencyType.text",
@@ -1986,10 +1976,9 @@
                 {
                   "linkId": "NutritionOrder.supplement.type.coding",
                   "text": "code:",
-                  "type": "coding",
+                  "type": "choice",
                   "required": false,
-                  "repeats": false,
-                  "answerConstraint": "optionsOnly"
+                  "repeats": false
                 },
                 {
                   "linkId": "NutritionOrder.supplement.type.text",
@@ -2152,10 +2141,9 @@
                 {
                   "linkId": "NutritionOrder.supplement.quantity.comparator",
                   "text": "comp:",
-                  "type": "coding",
+                  "type": "choice",
                   "required": false,
-                  "repeats": false,
-                  "answerConstraint": "optionsOnly"
+                  "repeats": false
                 },
                 {
                   "linkId": "NutritionOrder.supplement.quantity.value",
@@ -2404,10 +2392,9 @@
                 {
                   "linkId": "NutritionOrder.enteralFormula.baseFormulaType.coding",
                   "text": "code:",
-                  "type": "coding",
+                  "type": "choice",
                   "required": false,
-                  "repeats": false,
-                  "answerConstraint": "optionsOnly"
+                  "repeats": false
                 },
                 {
                   "linkId": "NutritionOrder.enteralFormula.baseFormulaType.text",
@@ -2501,10 +2488,9 @@
                 {
                   "linkId": "NutritionOrder.enteralFormula.additiveType.coding",
                   "text": "code:",
-                  "type": "coding",
+                  "type": "choice",
                   "required": false,
-                  "repeats": false,
-                  "answerConstraint": "optionsOnly"
+                  "repeats": false
                 },
                 {
                   "linkId": "NutritionOrder.enteralFormula.additiveType.text",
@@ -2598,10 +2584,9 @@
                 {
                   "linkId": "NutritionOrder.enteralFormula.caloricDensity.comparator",
                   "text": "comp:",
-                  "type": "coding",
+                  "type": "choice",
                   "required": false,
-                  "repeats": false,
-                  "answerConstraint": "optionsOnly"
+                  "repeats": false
                 },
                 {
                   "linkId": "NutritionOrder.enteralFormula.caloricDensity.value",
@@ -2672,10 +2657,9 @@
                 {
                   "linkId": "NutritionOrder.enteralFormula.routeofAdministration.coding",
                   "text": "code:",
-                  "type": "coding",
+                  "type": "choice",
                   "required": false,
-                  "repeats": false,
-                  "answerConstraint": "optionsOnly"
+                  "repeats": false
                 },
                 {
                   "linkId": "NutritionOrder.enteralFormula.routeofAdministration.text",
@@ -2929,10 +2913,9 @@
                     {
                       "linkId": "NutritionOrder.enteralFormula.administration.quantity.comparator",
                       "text": "comp:",
-                      "type": "coding",
+                      "type": "choice",
                       "required": false,
-                      "repeats": false,
-                      "answerConstraint": "optionsOnly"
+                      "repeats": false
                     },
                     {
                       "linkId": "NutritionOrder.enteralFormula.administration.quantity.value",
@@ -2999,10 +2982,9 @@
                     {
                       "linkId": "NutritionOrder.enteralFormula.administration.rate[x]._type",
                       "text": "type",
-                      "type": "coding",
+                      "type": "choice",
                       "required": false,
                       "repeats": false,
-                      "answerConstraint": "optionsOnly",
                       "answerValueSet": "#vs2",
                       "item": [
                         {
@@ -3018,10 +3000,9 @@
                             {
                               "linkId": "NutritionOrder.enteralFormula.administration.rate[x]._null.comparator",
                               "text": "comp:",
-                              "type": "coding",
+                              "type": "choice",
                               "required": false,
-                              "repeats": false,
-                              "answerConstraint": "optionsOnly"
+                              "repeats": false
                             },
                             {
                               "linkId": "NutritionOrder.enteralFormula.administration.rate[x]._null.value",
@@ -3131,10 +3112,9 @@
                 {
                   "linkId": "NutritionOrder.enteralFormula.maxVolumeToDeliver.comparator",
                   "text": "comp:",
-                  "type": "coding",
+                  "type": "choice",
                   "required": false,
-                  "repeats": false,
-                  "answerConstraint": "optionsOnly"
+                  "repeats": false
                 },
                 {
                   "linkId": "NutritionOrder.enteralFormula.maxVolumeToDeliver.value",

@@ -36,8 +36,8 @@
         ]
     },
     "expansion": {
-        "identifier": "urn:uuid:eecb727d-9a70-4b22-9aeb-5d5516ca2add",
-        "timestamp": "2022-03-03T22:05:30Z",
+        "identifier": "urn:uuid:bdb54972-c482-4b83-90a6-2a92be74e6c0",
+        "timestamp": "2022-04-23T22:23:26Z",
         "total": 315,
         "parameter": [
             {
@@ -55,44 +55,26 @@
         ],
         "contains": [
             {
-                "extension": [
-                    {
-                        "extension": [
-                            {
-                                "url": "lang",
-                                "valueCode": "de"
-                            },
-                            {
-                                "url": "content",
-                                "valueString": "Abszeß"
-                            }
-                        ],
-                        "url": "http://hl7.org/fhir/StructureDefinition/translation"
-                    }
-                ],
                 "system": "http://terminology.hl7.org/CodeSystem/v2-0487",
                 "code": "ABS",
-                "display": "Abscess"
+                "display": "Abscess",
+                "designation": [
+                    {
+                        "language": "de",
+                        "value": "Abszeß"
+                    }
+                ]
             },
             {
-                "extension": [
-                    {
-                        "extension": [
-                            {
-                                "url": "lang",
-                                "valueCode": "de"
-                            },
-                            {
-                                "url": "content",
-                                "valueString": "keine Werte vorgeschlagen"
-                            }
-                        ],
-                        "url": "http://hl7.org/fhir/StructureDefinition/translation"
-                    }
-                ],
                 "system": "http://terminology.hl7.org/CodeSystem/v2-0487",
                 "code": "...",
-                "display": "No suggested values"
+                "display": "No suggested values",
+                "designation": [
+                    {
+                        "language": "de",
+                        "value": "keine Werte vorgeschlagen"
+                    }
+                ]
             },
             {
                 "system": "http://terminology.hl7.org/CodeSystem/v2-0487",

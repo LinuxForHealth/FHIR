@@ -12,9 +12,10 @@
     }
   ],
   "url": "http://hl7.org/fhir/StructureDefinition/elementdefinition-equivalence",
-  "version": "4.3.0-CIBUILD",
+  "version": "4.3.0-cibuild",
   "name": "equivalence",
   "status": "draft",
+  "experimental": false,
   "date": "2015-02-28",
   "publisher": "Health Level Seven, Inc. - FHIR Core WG",
   "contact": [
@@ -28,7 +29,7 @@
     }
   ],
   "description": "The level of equivalence between the element containing the mapping and the element mapped to.",
-  "fhirVersion": "4.3.0-CIBUILD",
+  "fhirVersion": "4.3.0-cibuild",
   "mapping": [
     {
       "identity": "rim",
@@ -255,7 +256,7 @@
             }
           ],
           "strength": "required",
-          "valueSet": "http://hl7.org/fhir/ValueSet/concept-map-equivalence|4.3.0-CIBUILD"
+          "valueSet": "http://hl7.org/fhir/ValueSet/concept-map-equivalence|4.3.0-cibuild"
         },
         "mapping": [
           {
@@ -317,7 +318,7 @@
             }
           ],
           "strength": "required",
-          "valueSet": "http://hl7.org/fhir/ValueSet/concept-map-equivalence|4.3.0-CIBUILD"
+          "valueSet": "http://hl7.org/fhir/ValueSet/concept-map-equivalence|4.3.0-cibuild"
         }
       }
     ]

@@ -2,7 +2,7 @@
     "resourceType": "ValueSet",
     "id": "specimen-collection",
     "meta": {
-        "lastUpdated": "2022-03-03T22:04:06.196Z",
+        "lastUpdated": "2022-04-23T22:21:35.043Z",
         "profile": [
             "http://hl7.org/fhir/StructureDefinition/shareablevalueset"
         ]
@@ -28,7 +28,7 @@
             "value": "urn:oid:2.16.840.1.113883.4.642.3.1398"
         }
     ],
-    "version": "4.3.0-CIBUILD",
+    "version": "4.3.0-cibuild",
     "name": "SpecimenCollection",
     "title": "Specimen collection methods",
     "status": "draft",
@@ -96,11 +96,12 @@
         ]
     },
     "expansion": {
-        "identifier": "urn:uuid:0935adeb-e781-4587-b985-3a3e8e20a7fe",
-        "timestamp": "2021-11-17T05:28:26.285Z",
+        "identifier": "urn:uuid:69f92835-f862-4016-b3c9-805fda9407b9",
+        "timestamp": "2022-04-23T22:23:26Z",
+        "total": 10,
         "parameter": [
             {
-                "name": "limitedExpansion",
+                "name": "excludeNested",
                 "valueBoolean": true
             },
             {
@@ -108,12 +109,12 @@
                 "valueBoolean": true
             },
             {
-                "name": "excludeNested",
+                "name": "limitedExpansion",
                 "valueBoolean": true
             },
             {
                 "name": "version",
-                "valueUri": "http://snomed.info/sct|http://snomed.info/sct/900000000000207008/version/20200131"
+                "valueUri": "http://snomed.info/sct|http://snomed.info/sct/900000000000207008/version/20200731"
             }
         ],
         "contains": [
@@ -124,9 +125,6 @@
                 "designation": [
                     {
                         "value": "Aspiration - action"
-                    },
-                    {
-                        "value": "Aspiration - action (qualifier value)"
                     }
                 ]
             },
@@ -137,12 +135,6 @@
                 "designation": [
                     {
                         "value": "Biopsy - action"
-                    },
-                    {
-                        "value": "Biopsy - action (qualifier value)"
-                    },
-                    {
-                        "value": "BX - Biopsy"
                     }
                 ]
             },
@@ -153,9 +145,6 @@
                 "designation": [
                     {
                         "value": "Puncture - action"
-                    },
-                    {
-                        "value": "Puncture - action (qualifier value)"
                     }
                 ]
             },
@@ -166,9 +155,6 @@
                 "designation": [
                     {
                         "value": "Excision - action"
-                    },
-                    {
-                        "value": "Excision - action (qualifier value)"
                     }
                 ]
             },
@@ -179,9 +165,6 @@
                 "designation": [
                     {
                         "value": "Scraping - action"
-                    },
-                    {
-                        "value": "Scraping - action (qualifier value)"
                     }
                 ]
             },
@@ -192,12 +175,6 @@
                 "designation": [
                     {
                         "value": "Urine specimen collection, clean catch"
-                    },
-                    {
-                        "value": "Collection of clean catch urine specimen"
-                    },
-                    {
-                        "value": "Urine specimen collection, clean catch (procedure)"
                     }
                 ]
             },
@@ -208,9 +185,6 @@
                 "designation": [
                     {
                         "value": "Timed urine collection"
-                    },
-                    {
-                        "value": "Timed urine collection (procedure)"
                     }
                 ]
             },
@@ -221,29 +195,14 @@
                 "designation": [
                     {
                         "value": "Urine specimen collection, catheterized"
-                    },
-                    {
-                        "value": "CSU - Collection of catheter specimen of urine"
-                    },
-                    {
-                        "value": "Collecting catheter specimen of urine"
-                    },
-                    {
-                        "value": "Collection of catheter specimen of urine"
-                    },
-                    {
-                        "value": "Urine specimen collection, catheterized (procedure)"
                     }
                 ]
             },
             {
                 "system": "http://snomed.info/sct",
                 "code": "386089008",
-                "display": "Collection of coughed sputum (procedure)",
+                "display": "Collection of coughed sputum",
                 "designation": [
-                    {
-                        "value": "Collection of coughed sputum (procedure)"
-                    },
                     {
                         "value": "Collection of coughed sputum"
                     }
@@ -252,19 +211,10 @@
             {
                 "system": "http://snomed.info/sct",
                 "code": "278450005",
-                "display": "Finger stick",
+                "display": "Finger-prick sampling",
                 "designation": [
                     {
-                        "value": "Finger stick"
-                    },
-                    {
-                        "value": "Finger puncture"
-                    },
-                    {
                         "value": "Finger-prick sampling"
-                    },
-                    {
-                        "value": "Finger-prick sampling (procedure)"
                     }
                 ]
             }

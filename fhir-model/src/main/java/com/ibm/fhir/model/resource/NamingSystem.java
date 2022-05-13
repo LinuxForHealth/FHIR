@@ -56,7 +56,7 @@ import com.ibm.fhir.model.visitor.Visitor;
     level = "Warning",
     location = "(base)",
     description = "Name should be usable as an identifier for the module by machine processing applications such as code generation",
-    expression = "name.matches('[A-Z]([A-Za-z0-9_]){0,254}')",
+    expression = "name.exists() implies name.matches('[A-Z]([A-Za-z0-9_]){0,254}')",
     source = "http://hl7.org/fhir/StructureDefinition/NamingSystem"
 )
 @Constraint(
@@ -103,7 +103,7 @@ public class NamingSystem extends DomainResource {
         bindingName = "PublicationStatus",
         strength = BindingStrength.Value.REQUIRED,
         description = "The lifecycle status of an artifact.",
-        valueSet = "http://hl7.org/fhir/ValueSet/publication-status|4.3.0-CIBUILD"
+        valueSet = "http://hl7.org/fhir/ValueSet/publication-status|4.3.0-cibuild"
     )
     @Required
     private final PublicationStatus status;
@@ -112,7 +112,7 @@ public class NamingSystem extends DomainResource {
         bindingName = "NamingSystemType",
         strength = BindingStrength.Value.REQUIRED,
         description = "Identifies the purpose of the naming system.",
-        valueSet = "http://hl7.org/fhir/ValueSet/namingsystem-type|4.3.0-CIBUILD"
+        valueSet = "http://hl7.org/fhir/ValueSet/namingsystem-type|4.3.0-cibuild"
     )
     @Required
     private final NamingSystemType kind;
@@ -1093,7 +1093,7 @@ public class NamingSystem extends DomainResource {
             bindingName = "NamingSystemIdentifierType",
             strength = BindingStrength.Value.REQUIRED,
             description = "Identifies the style of unique identifier used to identify a namespace.",
-            valueSet = "http://hl7.org/fhir/ValueSet/namingsystem-identifier-type|4.3.0-CIBUILD"
+            valueSet = "http://hl7.org/fhir/ValueSet/namingsystem-identifier-type|4.3.0-cibuild"
         )
         @Required
         private final NamingSystemIdentifierType type;

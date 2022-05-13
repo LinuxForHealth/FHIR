@@ -22,6 +22,9 @@
         "text": "Referral to service (procedure)"
       },
       "timingTiming": {
+        "event": [
+          null
+        ],
         "_event": [
           {
             "extension": [
@@ -131,6 +134,16 @@
         {
           "itemReference": {
             "reference": "#citalopramSubstance"
+          },
+          "strength": {
+            "numerator": {
+              "value": 20,
+              "unit": "mg"
+            },
+            "denominator": {
+              "value": 1,
+              "unit": "{tbl}"
+            }
           }
         }
       ]
@@ -333,7 +346,10 @@
     {
       "type": "derived-from",
       "display": "Practice Guideline for the Treatment of Patients with Major Depressive Disorder",
-      "url": "http://psychiatryonline.org/pb/assets/raw/sitewide/practice_guidelines/guidelines/mdd.pdf"
+      "url": "http://psychiatryonline.org/pb/assets/raw/sitewide/practice_guidelines/guidelines/mdd.pdf",
+      "document": {
+        "url": "http://psychiatryonline.org/pb/assets/raw/sitewide/practice_guidelines/guidelines/mdd.pdf"
+      }
     },
     {
       "type": "composed-of",
@@ -423,6 +439,7 @@
               "documentation": [
                 {
                   "type": "citation",
+                  "url": "http://psychiatryonline.org/pb/assets/raw/sitewide/practice_guidelines/guidelines/mdd.pdf",
                   "document": {
                     "extension": [
                       {
@@ -452,6 +469,7 @@
                   "documentation": [
                     {
                       "type": "citation",
+                      "url": "http://dailymed.nlm.nih.gov/dailymed/drugInfo.cfm?setid\u003d6daeb45c-451d-b135-bf8f-2d6dff4b6b01",
                       "document": {
                         "contentType": "text/html",
                         "url": "http://dailymed.nlm.nih.gov/dailymed/drugInfo.cfm?setid\u003d6daeb45c-451d-b135-bf8f-2d6dff4b6b01",

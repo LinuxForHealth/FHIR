@@ -9,8 +9,8 @@
       "status": "active",
       "description": "Type options for Questionnaire.item.enableWhen.answer[x]",
       "expansion": {
-        "identifier": "urn:uuid:f2ce95f2-3f03-4173-9146-fc8236d95a0a",
-        "timestamp": "2022-01-01T15:25:42+00:00",
+        "identifier": "urn:uuid:38e0261a-e3e7-4f52-ae4b-8588261c2b76",
+        "timestamp": "2022-04-23T22:30:34+00:00",
         "contains": [
           {
             "system": "http://hl7.org/fhir/data-types",
@@ -72,8 +72,8 @@
       "status": "active",
       "description": "Type options for Questionnaire.item.answerOption.value[x]",
       "expansion": {
-        "identifier": "urn:uuid:89cd4552-7400-4050-9022-3cb7f7b121b3",
-        "timestamp": "2022-01-01T15:25:42+00:00",
+        "identifier": "urn:uuid:50933d15-96e2-4d2f-b54d-de24630d0640",
+        "timestamp": "2022-04-23T22:30:34+00:00",
         "contains": [
           {
             "system": "http://hl7.org/fhir/data-types",
@@ -115,8 +115,8 @@
       "status": "active",
       "description": "Type options for Questionnaire.item.initial.value[x]",
       "expansion": {
-        "identifier": "urn:uuid:0f3012f1-d11b-46fe-8b5c-6a956b527edd",
-        "timestamp": "2022-01-01T15:25:42+00:00",
+        "identifier": "urn:uuid:5f153176-d5ec-46b1-9b33-05fa7bfe0aa7",
+        "timestamp": "2022-04-23T22:30:34+00:00",
         "contains": [
           {
             "system": "http://hl7.org/fhir/data-types",
@@ -187,8 +187,9 @@
       "system": "urn:ietf:rfc:3986"
     }
   ],
-  "version": "4.3.0-CIBUILD",
+  "version": "4.3.0-cibuild",
   "status": "draft",
+  "experimental": false,
   "date": "2015-05-30T00:00:00+00:00",
   "publisher": "Health Level Seven, Inc. - CDS WG",
   "item": [
@@ -378,10 +379,9 @@
             {
               "linkId": "Questionnaire.language.value",
               "text": "language",
-              "type": "coding",
+              "type": "choice",
               "required": false,
-              "repeats": false,
-              "answerConstraint": "optionsOnly"
+              "repeats": false
             }
           ]
         },
@@ -816,10 +816,9 @@
             {
               "linkId": "Questionnaire.status.value",
               "text": "status",
-              "type": "coding",
+              "type": "choice",
               "required": false,
-              "repeats": false,
-              "answerConstraint": "optionsOrType"
+              "repeats": false
             }
           ]
         },
@@ -901,10 +900,9 @@
             {
               "linkId": "Questionnaire.subjectType.value",
               "text": "subject type",
-              "type": "coding",
+              "type": "choice",
               "required": false,
-              "repeats": false,
-              "answerConstraint": "optionsOrType"
+              "repeats": false
             }
           ]
         },
@@ -1141,10 +1139,9 @@
             {
               "linkId": "Questionnaire.jurisdiction.coding",
               "text": "code:",
-              "type": "coding",
+              "type": "choice",
               "required": false,
-              "repeats": false,
-              "answerConstraint": "optionsOnly"
+              "repeats": false
             },
             {
               "linkId": "Questionnaire.jurisdiction.text",
@@ -1417,10 +1414,9 @@
             {
               "linkId": "Questionnaire.code.value",
               "text": "Concept that represents the overall questionnaire",
-              "type": "coding",
+              "type": "choice",
               "required": false,
-              "repeats": false,
-              "answerConstraint": "optionsOnly"
+              "repeats": false
             }
           ]
         },
@@ -1635,7 +1631,7 @@
                     }
                   ],
                   "linkId": "Questionnaire.item.definition-flyover",
-                  "text": "This element is a URI that refers to an [ElementDefinition](http://hl7.org/fhir/2021Mar/elementdefinition.html) that provides information about this item, including information that might otherwise be included in the instance of the Questionnaire resource. A detailed description of the construction of the URI is shown in Comments, below. If this element is present then the following element values MAY be derived from the Element Definition if the corresponding elements of this Questionnaire resource instance have no value:\n\n* code (ElementDefinition.code) \n* type (ElementDefinition.type) \n* required (ElementDefinition.min) \n* repeats (ElementDefinition.max) \n* maxLength (ElementDefinition.maxLength) \n* answerValueSet (ElementDefinition.binding)\n* options (ElementDefinition.binding). The uri refers to an ElementDefinition in a [StructureDefinition](http://hl7.org/fhir/2021Mar/structuredefinition.html#) and always starts with the [canonical URL](http://hl7.org/fhir/2021Mar/references.html#canonical) for the target resource. When referring to a StructureDefinition, a fragment identifier is used to specify the element definition by its id [Element.id](http://hl7.org/fhir/2021Mar/element-definitions.html#Element.id). E.g. http://hl7.org/fhir/StructureDefinition/Observation#Observation.value[x]. In the absence of a fragment identifier, the first/root element definition in the target is the matching element definition.",
+                  "text": "This element is a URI that refers to an [ElementDefinition](elementdefinition.html) that provides information about this item, including information that might otherwise be included in the instance of the Questionnaire resource. A detailed description of the construction of the URI is shown in Comments, below. If this element is present then the following element values MAY be derived from the Element Definition if the corresponding elements of this Questionnaire resource instance have no value:\n\n* code (ElementDefinition.code) \n* type (ElementDefinition.type) \n* required (ElementDefinition.min) \n* repeats (ElementDefinition.max) \n* maxLength (ElementDefinition.maxLength) \n* answerValueSet (ElementDefinition.binding)\n* options (ElementDefinition.binding). The uri refers to an ElementDefinition in a [StructureDefinition](structuredefinition.html#) and always starts with the [canonical URL](references.html#canonical) for the target resource. When referring to a StructureDefinition, a fragment identifier is used to specify the element definition by its id [Element.id](element-definitions.html#Element.id). E.g. http://hl7.org/fhir/StructureDefinition/Observation#Observation.value[x]. In the absence of a fragment identifier, the first/root element definition in the target is the matching element definition.",
                   "type": "display"
                 },
                 {
@@ -1681,10 +1677,9 @@
                 {
                   "linkId": "Questionnaire.item.code.value",
                   "text": "Corresponding concept for this item in a terminology",
-                  "type": "coding",
+                  "type": "choice",
                   "required": false,
-                  "repeats": false,
-                  "answerConstraint": "optionsOnly"
+                  "repeats": false
                 }
               ]
             },
@@ -1818,10 +1813,9 @@
                 {
                   "linkId": "Questionnaire.item.type.value",
                   "text": "type",
-                  "type": "coding",
+                  "type": "choice",
                   "required": false,
-                  "repeats": false,
-                  "answerConstraint": "optionsOrType"
+                  "repeats": false
                 }
               ]
             },
@@ -2046,10 +2040,9 @@
                     {
                       "linkId": "Questionnaire.item.enableWhen.operator.value",
                       "text": "operator",
-                      "type": "coding",
+                      "type": "choice",
                       "required": false,
-                      "repeats": false,
-                      "answerConstraint": "optionsOrType"
+                      "repeats": false
                     }
                   ]
                 },
@@ -2092,10 +2085,9 @@
                     {
                       "linkId": "Questionnaire.item.enableWhen.answer[x]._type",
                       "text": "type",
-                      "type": "coding",
+                      "type": "choice",
                       "required": false,
                       "repeats": false,
-                      "answerConstraint": "optionsOnly",
                       "answerValueSet": "#vs2",
                       "item": [
                         {
@@ -2236,10 +2228,9 @@
                           "item": [
                             {
                               "linkId": "Questionnaire.item.enableWhen.answer[x]._null.value",
-                              "type": "coding",
+                              "type": "choice",
                               "required": false,
-                              "repeats": false,
-                              "answerConstraint": "optionsOnly"
+                              "repeats": false
                             }
                           ]
                         },
@@ -2256,10 +2247,9 @@
                             {
                               "linkId": "Questionnaire.item.enableWhen.answer[x]._null.comparator",
                               "text": "comp:",
-                              "type": "coding",
+                              "type": "choice",
                               "required": false,
-                              "repeats": false,
-                              "answerConstraint": "optionsOnly"
+                              "repeats": false
                             },
                             {
                               "linkId": "Questionnaire.item.enableWhen.answer[x]._null.value",
@@ -2363,10 +2353,9 @@
                 {
                   "linkId": "Questionnaire.item.enableBehavior.value",
                   "text": "enable behavior",
-                  "type": "coding",
+                  "type": "choice",
                   "required": false,
-                  "repeats": false,
-                  "answerConstraint": "optionsOrType"
+                  "repeats": false
                 }
               ]
             },
@@ -2578,7 +2567,7 @@
                     }
                   ],
                   "linkId": "Questionnaire.item.answerValueSet-flyover",
-                  "text": "A reference to a value set containing a list of codes representing permitted answers for a \"choice\" or \"open-choice\" question. LOINC defines many useful value sets for questionnaire responses. See [LOINC Answer Lists](http://hl7.org/fhir/2021Mar/loinc.html#alist). The value may come from the ElementDefinition referred to by .definition.",
+                  "text": "A reference to a value set containing a list of codes representing permitted answers for a \"choice\" or \"open-choice\" question. LOINC defines many useful value sets for questionnaire responses. See [LOINC Answer Lists](loinc.html#alist). The value may come from the ElementDefinition referred to by .definition.",
                   "type": "display"
                 },
                 {
@@ -2760,10 +2749,9 @@
                     {
                       "linkId": "Questionnaire.item.answerOption.value[x]._type",
                       "text": "type",
-                      "type": "coding",
+                      "type": "choice",
                       "required": false,
                       "repeats": false,
-                      "answerConstraint": "optionsOnly",
                       "answerValueSet": "#vs3",
                       "item": [
                         {
@@ -2850,10 +2838,9 @@
                           "item": [
                             {
                               "linkId": "Questionnaire.item.answerOption.value[x]._null.value",
-                              "type": "coding",
+                              "type": "choice",
                               "required": false,
-                              "repeats": false,
-                              "answerConstraint": "optionsOnly"
+                              "repeats": false
                             }
                           ]
                         },
@@ -3105,10 +3092,9 @@
                     {
                       "linkId": "Questionnaire.item.initial.value[x]._type",
                       "text": "type",
-                      "type": "coding",
+                      "type": "choice",
                       "required": false,
                       "repeats": false,
-                      "answerConstraint": "optionsOnly",
                       "answerValueSet": "#vs4",
                       "item": [
                         {
@@ -3277,10 +3263,9 @@
                           "item": [
                             {
                               "linkId": "Questionnaire.item.initial.value[x]._null.value",
-                              "type": "coding",
+                              "type": "choice",
                               "required": false,
-                              "repeats": false,
-                              "answerConstraint": "optionsOnly"
+                              "repeats": false
                             }
                           ]
                         },
@@ -3297,10 +3282,9 @@
                             {
                               "linkId": "Questionnaire.item.initial.value[x]._null.comparator",
                               "text": "comp:",
-                              "type": "coding",
+                              "type": "choice",
                               "required": false,
-                              "repeats": false,
-                              "answerConstraint": "optionsOnly"
+                              "repeats": false
                             },
                             {
                               "linkId": "Questionnaire.item.initial.value[x]._null.value",

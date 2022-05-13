@@ -2,7 +2,7 @@
     "resourceType": "ValueSet",
     "id": "consent-state-codes",
     "meta": {
-        "lastUpdated": "2022-03-04T09:04:06.196+11:00",
+        "lastUpdated": "2022-04-24T09:21:35.043+11:00",
         "profile": [
             "http://hl7.org/fhir/StructureDefinition/shareablevalueset"
         ]
@@ -28,7 +28,7 @@
             "value": "urn:oid:2.16.840.1.113883.4.642.3.755"
         }
     ],
-    "version": "4.3.0-CIBUILD",
+    "version": "4.3.0-cibuild",
     "name": "ConsentState",
     "title": "ConsentState",
     "status": "draft",
@@ -59,8 +59,8 @@
         ]
     },
     "expansion": {
-        "identifier": "urn:uuid:66c1940b-02cd-465c-bc0c-728f77461002",
-        "timestamp": "2022-03-03T22:05:09Z",
+        "identifier": "urn:uuid:4de9f6d6-b316-4635-8fb3-51f66b61a01d",
+        "timestamp": "2022-04-23T22:23:07Z",
         "total": 6,
         "parameter": [
             {
@@ -73,7 +73,7 @@
             },
             {
                 "name": "version",
-                "valueUri": "http://hl7.org/fhir/consent-state-codes|4.3.0-CIBUILD"
+                "valueUri": "http://hl7.org/fhir/consent-state-codes|4.3.0-cibuild"
             }
         ],
         "contains": [

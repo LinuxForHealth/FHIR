@@ -2,7 +2,7 @@
     "resourceType": "ValueSet",
     "id": "modified-foodtype",
     "meta": {
-        "lastUpdated": "2022-03-03T22:04:06.196Z",
+        "lastUpdated": "2022-04-23T22:21:35.043Z",
         "profile": [
             "http://hl7.org/fhir/StructureDefinition/shareablevalueset"
         ]
@@ -28,7 +28,7 @@
             "value": "urn:oid:2.16.840.1.113883.4.642.3.388"
         }
     ],
-    "version": "4.3.0-CIBUILD",
+    "version": "4.3.0-cibuild",
     "name": "TextureModifiedFoodTypeCodes",
     "title": "Texture Modified Food Type Codes",
     "status": "draft",
@@ -112,11 +112,12 @@
         ]
     },
     "expansion": {
-        "identifier": "urn:uuid:545180d2-dd54-4f7f-ad50-260ff93aeadd",
-        "timestamp": "2021-11-17T05:28:24.733Z",
+        "identifier": "urn:uuid:c70c4389-8d11-479c-9bf6-ae4961d8a1e5",
+        "timestamp": "2022-04-23T22:23:26Z",
+        "total": 14,
         "parameter": [
             {
-                "name": "limitedExpansion",
+                "name": "excludeNested",
                 "valueBoolean": true
             },
             {
@@ -124,25 +125,22 @@
                 "valueBoolean": true
             },
             {
-                "name": "excludeNested",
+                "name": "limitedExpansion",
                 "valueBoolean": true
             },
             {
                 "name": "version",
-                "valueUri": "http://snomed.info/sct|http://snomed.info/sct/900000000000207008/version/20200131"
+                "valueUri": "http://snomed.info/sct|http://snomed.info/sct/900000000000207008/version/20200731"
             }
         ],
         "contains": [
             {
                 "system": "http://snomed.info/sct",
                 "code": "255620007",
-                "display": "Food (substance)",
+                "display": "Foods",
                 "designation": [
                     {
-                        "value": "Food (substance)"
-                    },
-                    {
-                        "value": "Food"
+                        "value": "Foods"
                     }
                 ]
             },
@@ -153,22 +151,16 @@
                 "designation": [
                     {
                         "value": "Meat"
-                    },
-                    {
-                        "value": "Meat (substance)"
                     }
                 ]
             },
             {
                 "system": "http://snomed.info/sct",
                 "code": "22836000",
-                "display": "Vegetable",
+                "display": "Vegetables",
                 "designation": [
                     {
-                        "value": "Vegetable"
-                    },
-                    {
-                        "value": "Vegetable (substance)"
+                        "value": "Vegetables"
                     }
                 ]
             },
@@ -179,9 +171,6 @@
                 "designation": [
                     {
                         "value": "Fruit"
-                    },
-                    {
-                        "value": "Fruit (substance)"
                     }
                 ]
             },
@@ -192,67 +181,46 @@
                 "designation": [
                     {
                         "value": "Dairy foods"
-                    },
-                    {
-                        "value": "Milk cheese and egg"
-                    },
-                    {
-                        "value": "Dairy foods (substance)"
-                    },
-                    {
-                        "value": "Dairy products"
                     }
                 ]
             },
             {
                 "system": "http://snomed.info/sct",
                 "code": "226887002",
-                "display": "Fat and oil",
+                "display": "Dietary Fats and Oils",
                 "designation": [
                     {
-                        "value": "Fat and oil"
-                    },
-                    {
-                        "value": "Fat and oil (substance)"
+                        "value": "Dietary Fats and Oils"
                     }
                 ]
             },
             {
                 "system": "http://snomed.info/sct",
                 "code": "102263004",
-                "display": "Eggs (edible)",
+                "display": "Eggs",
                 "designation": [
                     {
-                        "value": "Eggs (edible)"
-                    },
-                    {
-                        "value": "Eggs (edible) (substance)"
+                        "value": "Eggs"
                     }
                 ]
             },
             {
                 "system": "http://snomed.info/sct",
                 "code": "74242007",
-                "display": "Food starch",
+                "display": "Food Starch",
                 "designation": [
                     {
-                        "value": "Food starch"
-                    },
-                    {
-                        "value": "Food starch (substance)"
+                        "value": "Food Starch"
                     }
                 ]
             },
             {
                 "system": "http://snomed.info/sct",
                 "code": "227415002",
-                "display": "Fruit nuts and seeds",
+                "display": "Fruit Nuts and Seeds",
                 "designation": [
                     {
-                        "value": "Fruit nuts and seeds"
-                    },
-                    {
-                        "value": "Fruit nuts and seeds (substance)"
+                        "value": "Fruit Nuts and Seeds"
                     }
                 ]
             },
@@ -263,22 +231,16 @@
                 "designation": [
                     {
                         "value": "Grain"
-                    },
-                    {
-                        "value": "Grain (substance)"
                     }
                 ]
             },
             {
                 "system": "http://snomed.info/sct",
                 "code": "227518002",
-                "display": "Sauces seasonings and soups",
+                "display": "Sauce seasonings and soups",
                 "designation": [
                     {
-                        "value": "Sauces seasonings and soups"
-                    },
-                    {
-                        "value": "Sauces seasonings and soups (substance)"
+                        "value": "Sauce seasonings and soups"
                     }
                 ]
             },
@@ -289,9 +251,6 @@
                 "designation": [
                     {
                         "value": "Seafood"
-                    },
-                    {
-                        "value": "Seafood (substance)"
                     }
                 ]
             },
@@ -302,22 +261,16 @@
                 "designation": [
                     {
                         "value": "Starchy food"
-                    },
-                    {
-                        "value": "Starchy food (substance)"
                     }
                 ]
             },
             {
                 "system": "http://snomed.info/sct",
                 "code": "227210005",
-                "display": "Vegetables pulses herbs and spices",
+                "display": "Vegetables plus herbs and spices",
                 "designation": [
                     {
-                        "value": "Vegetables pulses herbs and spices"
-                    },
-                    {
-                        "value": "Vegetables pulses herbs and spices (substance)"
+                        "value": "Vegetables plus herbs and spices"
                     }
                 ]
             }

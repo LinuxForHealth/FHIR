@@ -7,7 +7,7 @@
       <display value="test health data"/>
     </security>
   </meta>
-  <text><status value="generated"/><div xmlns="http://www.w3.org/1999/xhtml"><h2><span>Abdominal Ultrasound</span> (<span>Radiology</span>) </h2><table><tr><td>Subject</td><td><b>Jim </b> ?? 1974-12-25 ( Medical record number: 12345 (USUAL))</td></tr><tr><td>When For</td><td>2012-12-01T12:00:00+01:00</td></tr><tr><td>Reported</td><td>2012-12-01T12:00:00+01:00</td></tr></table><p><b>Report Details</b></p><p>Unremarkable study</p></div></text><status value="final"/><!--   No identifier or request details were available   --><category><!--   The request was honored by the Department of Radiology   --><coding>
+  <text><status value="generated"/><div xmlns="http://www.w3.org/1999/xhtml"><h2><span title="Codes: {http://snomed.info/sct 45036003}">Abdominal Ultrasound</span> (<span title="Codes: {http://snomed.info/sct 394914008}, {http://terminology.hl7.org/CodeSystem/v2-0074 RAD}">Radiology</span>) </h2><table class="grid"><tr><td>Subject</td><td><b>Jim </b> male, DoB: 1974-12-25 ( Medical record number: 12345 (USUAL))</td></tr><tr><td>When For</td><td>2012-12-01T12:00:00+01:00</td></tr><tr><td>Reported</td><td>2012-12-01T12:00:00+01:00</td></tr></table><p><b>Report Details</b></p><p>Unremarkable study</p></div></text><status value="final"/><!--   No identifier or request details were available   --><category><!--   The request was honored by the Department of Radiology   --><coding>
 			<system value="http://snomed.info/sct"/>
 			<code value="394914008"/>
 			<display value="Radiology"/>

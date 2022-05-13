@@ -99,11 +99,11 @@
           <td style="vertical-align: top; text-align : left; background-color: #F7F7F7; border: 0px #F0F0F0 solid; padding:0px 4px 0px 4px" class="hierarchy">
             <a href="datatypes.html#code">code</a>
           </td>
-          <td style="vertical-align: top; text-align : left; background-color: #F7F7F7; border: 0px #F0F0F0 solid; padding:0px 4px 0px 4px" class="hierarchy">text/cql | text/fhirpath | application/x-fhir-query | etc.
+          <td style="vertical-align: top; text-align : left; background-color: #F7F7F7; border: 0px #F0F0F0 solid; padding:0px 4px 0px 4px" class="hierarchy">text/cql | text/fhirpath | application/x-fhir-query | text/cql-identifier | text/cql-expression | etc.
             <br/>
             <a href="valueset-expression-language.html" title="The media type of the expression language.">ExpressionLanguage</a> (
             <a href="terminologies.html#extensible" title="To be conformant, the concept in this element SHALL be from the specified value set if any of the codes within the value set can apply to the concept being communicated.  If the value set does not cover the concept (based on human review), alternate codings (or, data type allowing, text) may be included instead.">Extensible</a> but limited to 
-            <a href="http://www.rfc-editor.org/bcp/bcp13.txt">http://www.rfc-editor.org/bcp/bcp13.txt</a>)
+            <a href="http://hl7.org/fhir/ValueSet/mimetypes">http://hl7.org/fhir/ValueSet/mimetypes</a>)
           </td>
         </tr>
 
@@ -156,10 +156,11 @@
     <valueCode value="trial-use"/>
   </extension>
   <url value="http://hl7.org/fhir/StructureDefinition/Expression"/>
-  <version value="4.3.0-CIBUILD"/>
+  <version value="4.3.0-cibuild"/>
   <name value="Expression"/>
   <status value="draft"/>
-  <date value="2022-01-01T15:17:18+00:00"/>
+  <experimental value="false"/>
+  <date value="2022-04-23T22:21:35+00:00"/>
   <publisher value="HL7 FHIR Standard"/>
   <contact>
     <telecom>
@@ -168,7 +169,7 @@
     </telecom>
   </contact>
   <description value="Base StructureDefinition for Expression Type: A expression that is evaluated in a specified context and returns a value. The context of use of the expression must specify the context in which the expression is evaluated, and how the result of the expression is used."/>
-  <fhirVersion value="4.3.0-CIBUILD"/>
+  <fhirVersion value="4.3.0-cibuild"/>
   <mapping>
     <identity value="rim"/>
     <uri value="http://hl7.org/v3"/>
@@ -229,7 +230,6 @@
         <min value="0"/>
         <max value="1"/>
       </base>
-    <!-- Note: special primitive values have a FHIRPath system type. e.g. this is compiler magic (j) -->
       <type>
         <extension url="http://hl7.org/fhir/StructureDefinition/structuredefinition-fhir-type">
           <valueUrl value="string"/>
@@ -343,7 +343,7 @@
     </element>
     <element id="Expression.language">
       <path value="Expression.language"/>
-      <short value="text/cql | text/fhirpath | application/x-fhir-query | etc."/>
+      <short value="text/cql | text/fhirpath | application/x-fhir-query | text/cql-identifier | text/cql-expression | etc."/>
       <definition value="The media type of the language for the expression."/>
       <min value="1"/>
       <max value="1"/>
@@ -370,7 +370,7 @@
           <valueString value="The media type of the expression language."/>
         </extension>
         <extension url="http://hl7.org/fhir/StructureDefinition/elementdefinition-maxValueSet">
-          <valueCanonical value="http://www.rfc-editor.org/bcp/bcp13.txt"/>
+          <valueCanonical value="http://hl7.org/fhir/ValueSet/mimetypes"/>
         </extension>
         <extension url="http://hl7.org/fhir/StructureDefinition/elementdefinition-bindingName">
           <valueString value="ExpressionLanguage"/>
@@ -474,7 +474,7 @@
     </element>
     <element id="Expression.language">
       <path value="Expression.language"/>
-      <short value="text/cql | text/fhirpath | application/x-fhir-query | etc."/>
+      <short value="text/cql | text/fhirpath | application/x-fhir-query | text/cql-identifier | text/cql-expression | etc."/>
       <definition value="The media type of the language for the expression."/>
       <min value="1"/>
       <max value="1"/>
@@ -487,7 +487,7 @@
           <valueString value="The media type of the expression language."/>
         </extension>
         <extension url="http://hl7.org/fhir/StructureDefinition/elementdefinition-maxValueSet">
-          <valueCanonical value="http://www.rfc-editor.org/bcp/bcp13.txt"/>
+          <valueCanonical value="http://hl7.org/fhir/ValueSet/mimetypes"/>
         </extension>
         <extension url="http://hl7.org/fhir/StructureDefinition/elementdefinition-bindingName">
           <valueString value="ExpressionLanguage"/>

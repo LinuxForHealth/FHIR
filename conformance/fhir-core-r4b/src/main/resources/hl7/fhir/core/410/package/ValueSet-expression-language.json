@@ -2,7 +2,7 @@
     "resourceType": "ValueSet",
     "id": "expression-language",
     "meta": {
-        "lastUpdated": "2022-03-03T22:04:06.196Z",
+        "lastUpdated": "2022-04-23T22:21:35.043Z",
         "profile": [
             "http://hl7.org/fhir/StructureDefinition/shareablevalueset"
         ]
@@ -28,12 +28,12 @@
             "value": "urn:oid:2.16.840.1.113883.4.642.3.105"
         }
     ],
-    "version": "4.3.0-CIBUILD",
+    "version": "4.3.0-cibuild",
     "name": "ExpressionLanguage",
     "title": "ExpressionLanguage",
     "status": "draft",
     "experimental": false,
-    "date": "2022-03-03T22:04:06Z",
+    "date": "2022-04-23T22:21:35Z",
     "publisher": "HL7 (FHIR Project)",
     "contact": [
         {
@@ -59,9 +59,9 @@
         ]
     },
     "expansion": {
-        "identifier": "urn:uuid:e37bb5d3-8992-4670-a3c4-80e04aaa10b6",
-        "timestamp": "2022-03-03T22:05:09Z",
-        "total": 3,
+        "identifier": "urn:uuid:a0e309ea-1539-4c04-b589-e3bd059166b6",
+        "timestamp": "2022-04-23T22:23:07Z",
+        "total": 5,
         "parameter": [
             {
                 "name": "excludeNested",
@@ -73,7 +73,7 @@
             },
             {
                 "name": "version",
-                "valueUri": "http://hl7.org/fhir/expression-language|4.3.0-CIBUILD"
+                "valueUri": "http://hl7.org/fhir/expression-language|4.3.0-cibuild"
             }
         ],
         "contains": [
@@ -91,6 +91,16 @@
                 "system": "http://hl7.org/fhir/expression-language",
                 "code": "application/x-fhir-query",
                 "display": "FHIR Query"
+            },
+            {
+                "system": "http://hl7.org/fhir/expression-language",
+                "code": "text/cql-identifier",
+                "display": "CQL Identifier"
+            },
+            {
+                "system": "http://hl7.org/fhir/expression-language",
+                "code": "text/cql-expression",
+                "display": "CQL Expression"
             }
         ]
     }

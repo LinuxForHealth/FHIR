@@ -2,7 +2,7 @@
     "resourceType": "ValueSet",
     "id": "additional-instruction-codes",
     "meta": {
-        "lastUpdated": "2022-03-03T22:04:06.196Z",
+        "lastUpdated": "2022-04-23T22:21:35.043Z",
         "profile": [
             "http://hl7.org/fhir/StructureDefinition/shareablevalueset"
         ]
@@ -28,12 +28,12 @@
             "value": "urn:oid:2.16.840.1.113883.4.642.3.95"
         }
     ],
-    "version": "4.3.0-CIBUILD",
+    "version": "4.3.0-cibuild",
     "name": "SNOMEDCTAdditionalDosageInstructions",
     "title": "SNOMED CT Additional Dosage Instructions",
     "status": "draft",
     "experimental": true,
-    "date": "2022-03-03T22:04:06Z",
+    "date": "2022-04-23T22:21:35Z",
     "publisher": "FHIR Project team",
     "contact": [
         {
@@ -68,11 +68,12 @@
                 "valueBoolean": true
             }
         ],
-        "identifier": "urn:uuid:00f0d05d-4b4b-4dff-b3ed-2cdc02bc6d0e",
-        "timestamp": "2021-11-17T05:28:24.573Z",
+        "identifier": "urn:uuid:f5d4b817-d6e5-4ba3-b70c-62efbe66660b",
+        "timestamp": "2022-04-23T22:23:26Z",
+        "total": 41,
         "parameter": [
             {
-                "name": "limitedExpansion",
+                "name": "excludeNested",
                 "valueBoolean": true
             },
             {
@@ -80,12 +81,12 @@
                 "valueBoolean": true
             },
             {
-                "name": "excludeNested",
+                "name": "limitedExpansion",
                 "valueBoolean": true
             },
             {
                 "name": "version",
-                "valueUri": "http://snomed.info/sct|http://snomed.info/sct/900000000000207008/version/20200131"
+                "valueUri": "http://snomed.info/sct|http://snomed.info/sct/900000000000207008/version/20200731"
             }
         ],
         "contains": [

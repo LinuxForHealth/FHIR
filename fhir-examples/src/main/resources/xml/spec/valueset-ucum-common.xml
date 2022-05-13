@@ -13,8 +13,9 @@
   <url value="http://hl7.org/fhir/ValueSet/ucum-common"/>
   <name value="Common UCUM units"/>
   <status value="draft"/>
+  <experimental value="true"/>
   <publisher value="FHIR Project"/>
-  <description value="Commonly encountered UCUM units (for purposes of helping populate look ups."/>
+  <description value="Commonly encountered UCUM units (for purposes of helping populate look ups)."/>
   <copyright value="UCUM is Copyright © 1999-2013 Regenstrief Institute, Inc. and The UCUM Organization, Indianapolis, IN. All rights reserved. See http://unitsofmeasure.org/trac//wiki/TermsOfUse for details."/>
   <compose>
     <include>

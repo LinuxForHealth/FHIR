@@ -39,8 +39,8 @@
         ]
     },
     "expansion": {
-        "identifier": "urn:uuid:debf746e-814d-4250-851a-035d6d852c8f",
-        "timestamp": "2022-03-03T22:05:30Z",
+        "identifier": "urn:uuid:d3e98980-2575-4621-ba2f-bd79d08b74b5",
+        "timestamp": "2022-04-23T22:23:26Z",
         "total": 1300,
         "parameter": [
             {
@@ -111,6 +111,7 @@
             {
                 "system": "http://terminology.hl7.org/CodeSystem/v3-ActCode",
                 "abstract": true,
+                "inactive": true,
                 "code": "_CreditCard",
                 "display": "CreditCard"
             },
@@ -256,6 +257,7 @@
             },
             {
                 "system": "http://terminology.hl7.org/CodeSystem/v3-ActCode",
+                "inactive": true,
                 "code": "FFS",
                 "display": "fee for service"
             },
@@ -1003,6 +1005,7 @@
             {
                 "system": "http://terminology.hl7.org/CodeSystem/v3-ActCode",
                 "abstract": true,
+                "inactive": true,
                 "code": "_ECGControlVariable",
                 "display": "ECGControlVariable"
             },
@@ -1031,16 +1034,19 @@
             {
                 "system": "http://terminology.hl7.org/CodeSystem/v3-ActCode",
                 "abstract": true,
+                "inactive": true,
                 "code": "_ActCoverageEligibilityConfirmationCode",
                 "display": "ActCoverageEligibilityConfirmationCode"
             },
             {
                 "system": "http://terminology.hl7.org/CodeSystem/v3-ActCode",
+                "inactive": true,
                 "code": "ELG",
                 "display": "Eligible"
             },
             {
                 "system": "http://terminology.hl7.org/CodeSystem/v3-ActCode",
+                "inactive": true,
                 "code": "NELG",
                 "display": "Not Eligible"
             },
@@ -1094,12 +1100,14 @@
             {
                 "system": "http://terminology.hl7.org/CodeSystem/v3-ActCode",
                 "abstract": true,
+                "inactive": true,
                 "code": "_ActCoveredPartyLimitCode",
                 "display": "ActCoveredPartyLimitCode"
             },
             {
                 "system": "http://terminology.hl7.org/CodeSystem/v3-ActCode",
                 "abstract": true,
+                "inactive": true,
                 "code": "_ActCoveragePartyLimitGroupCode",
                 "display": "ActCoveragePartyLimitGroupCode"
             },
@@ -1534,6 +1542,7 @@
             {
                 "system": "http://terminology.hl7.org/CodeSystem/v3-ActCode",
                 "abstract": true,
+                "inactive": true,
                 "code": "_ActFinancialDetectedIssueManagementCode",
                 "display": "ActFinancialDetectedIssueManagementCode"
             },
@@ -1673,6 +1682,7 @@
             {
                 "system": "http://terminology.hl7.org/CodeSystem/v3-ActCode",
                 "abstract": true,
+                "inactive": true,
                 "code": "_ActPatientSafetyIncidentCode",
                 "display": "ActPatientSafetyIncidentCode"
             },
@@ -1955,6 +1965,7 @@
             {
                 "system": "http://terminology.hl7.org/CodeSystem/v3-ActCode",
                 "abstract": true,
+                "inactive": true,
                 "code": "_ActInvoicePaymentCode",
                 "display": "ActInvoiceAdjudicationPaymentGroupCode"
             },
@@ -2056,6 +2067,7 @@
             },
             {
                 "system": "http://terminology.hl7.org/CodeSystem/v3-ActCode",
+                "inactive": true,
                 "code": "COINS",
                 "display": "co-insurance"
             },
@@ -2218,42 +2230,49 @@
             {
                 "system": "http://terminology.hl7.org/CodeSystem/v3-ActCode",
                 "abstract": true,
+                "inactive": true,
                 "code": "_HCPCSAccommodationCode",
                 "display": "HCPCSAccommodationCode"
             },
             {
                 "system": "http://terminology.hl7.org/CodeSystem/v3-ActCode",
                 "abstract": true,
+                "inactive": true,
                 "code": "_ActInvoiceDetailClinicalServiceCode",
                 "display": "ActInvoiceDetailClinicalServiceCode"
             },
             {
                 "system": "http://terminology.hl7.org/CodeSystem/v3-ActCode",
                 "abstract": true,
+                "inactive": true,
                 "code": "_CPT5",
                 "display": "CPT5"
             },
             {
                 "system": "http://terminology.hl7.org/CodeSystem/v3-ActCode",
                 "abstract": true,
+                "inactive": true,
                 "code": "_HCPCS",
                 "display": "HCPCS"
             },
             {
                 "system": "http://terminology.hl7.org/CodeSystem/v3-ActCode",
                 "abstract": true,
+                "inactive": true,
                 "code": "_ICD10PCS",
                 "display": "ICD10PCS"
             },
             {
                 "system": "http://terminology.hl7.org/CodeSystem/v3-ActCode",
                 "abstract": true,
+                "inactive": true,
                 "code": "_ICD9PCS",
                 "display": "ICD9PCS"
             },
             {
                 "system": "http://terminology.hl7.org/CodeSystem/v3-ActCode",
                 "abstract": true,
+                "inactive": true,
                 "code": "_ActInvoiceDetailOralHealthProcedureCode",
                 "display": "ActInvoiceDetailOralHealthProcedureCode"
             },
@@ -2317,6 +2336,7 @@
             },
             {
                 "system": "http://terminology.hl7.org/CodeSystem/v3-ActCode",
+                "inactive": true,
                 "code": "CP",
                 "display": "clinical product invoice"
             },
@@ -2327,6 +2347,7 @@
             },
             {
                 "system": "http://terminology.hl7.org/CodeSystem/v3-ActCode",
+                "inactive": true,
                 "code": "CS",
                 "display": "clinical service invoice"
             },
@@ -2352,6 +2373,7 @@
             },
             {
                 "system": "http://terminology.hl7.org/CodeSystem/v3-ActCode",
+                "inactive": true,
                 "code": "PA",
                 "display": "preferred accommodation invoice"
             },
@@ -2362,6 +2384,7 @@
             },
             {
                 "system": "http://terminology.hl7.org/CodeSystem/v3-ActCode",
+                "inactive": true,
                 "code": "RXC",
                 "display": "Rx compound invoice"
             },
@@ -2372,6 +2395,7 @@
             },
             {
                 "system": "http://terminology.hl7.org/CodeSystem/v3-ActCode",
+                "inactive": true,
                 "code": "RXD",
                 "display": "Rx dispense invoice"
             },
@@ -2404,6 +2428,7 @@
             },
             {
                 "system": "http://terminology.hl7.org/CodeSystem/v3-ActCode",
+                "inactive": true,
                 "code": "ADCNPPELAT",
                 "display": "adjud. nullified prior-period electronic amount"
             },
@@ -2414,6 +2439,7 @@
             },
             {
                 "system": "http://terminology.hl7.org/CodeSystem/v3-ActCode",
+                "inactive": true,
                 "code": "ADCNPPELCT",
                 "display": "adjud. nullified prior-period electronic count"
             },
@@ -2424,6 +2450,7 @@
             },
             {
                 "system": "http://terminology.hl7.org/CodeSystem/v3-ActCode",
+                "inactive": true,
                 "code": "ADCNPPMNAT",
                 "display": "adjud. nullified prior-period manual amount"
             },
@@ -2434,6 +2461,7 @@
             },
             {
                 "system": "http://terminology.hl7.org/CodeSystem/v3-ActCode",
+                "inactive": true,
                 "code": "ADCNPPMNCT",
                 "display": "adjud. nullified prior-period manual count"
             },
@@ -2444,6 +2472,7 @@
             },
             {
                 "system": "http://terminology.hl7.org/CodeSystem/v3-ActCode",
+                "inactive": true,
                 "code": "ADCNSPELAT",
                 "display": "adjud. nullified same-period electronic amount"
             },
@@ -2454,6 +2483,7 @@
             },
             {
                 "system": "http://terminology.hl7.org/CodeSystem/v3-ActCode",
+                "inactive": true,
                 "code": "ADCNSPELCT",
                 "display": "adjud. nullified same-period electronic count"
             },
@@ -2464,6 +2494,7 @@
             },
             {
                 "system": "http://terminology.hl7.org/CodeSystem/v3-ActCode",
+                "inactive": true,
                 "code": "ADCNSPMNAT",
                 "display": "adjud. nullified same-period manual amount"
             },
@@ -2474,6 +2505,7 @@
             },
             {
                 "system": "http://terminology.hl7.org/CodeSystem/v3-ActCode",
+                "inactive": true,
                 "code": "ADCNSPMNCT",
                 "display": "adjud. nullified same-period manual count"
             },
@@ -2610,6 +2642,7 @@
             },
             {
                 "system": "http://terminology.hl7.org/CodeSystem/v3-ActCode",
+                "inactive": true,
                 "code": "PDCNPPELAT",
                 "display": "paid nullified prior-period electronic amount"
             },
@@ -2620,6 +2653,7 @@
             },
             {
                 "system": "http://terminology.hl7.org/CodeSystem/v3-ActCode",
+                "inactive": true,
                 "code": "PDCNPPELCT",
                 "display": "paid nullified prior-period electronic count"
             },
@@ -2630,6 +2664,7 @@
             },
             {
                 "system": "http://terminology.hl7.org/CodeSystem/v3-ActCode",
+                "inactive": true,
                 "code": "PDCNPPMNAT",
                 "display": "paid nullified prior-period manual amount"
             },
@@ -2640,6 +2675,7 @@
             },
             {
                 "system": "http://terminology.hl7.org/CodeSystem/v3-ActCode",
+                "inactive": true,
                 "code": "PDCNPPMNCT",
                 "display": "paid nullified prior-period manual count"
             },
@@ -2650,6 +2686,7 @@
             },
             {
                 "system": "http://terminology.hl7.org/CodeSystem/v3-ActCode",
+                "inactive": true,
                 "code": "PDCNSPELAT",
                 "display": "paid nullified same-period electronic amount"
             },
@@ -2660,6 +2697,7 @@
             },
             {
                 "system": "http://terminology.hl7.org/CodeSystem/v3-ActCode",
+                "inactive": true,
                 "code": "PDCNSPELCT",
                 "display": "paid nullified same-period electronic count"
             },
@@ -2670,6 +2708,7 @@
             },
             {
                 "system": "http://terminology.hl7.org/CodeSystem/v3-ActCode",
+                "inactive": true,
                 "code": "PDCNSPMNAT",
                 "display": "paid nullified same-period manual amount"
             },
@@ -2680,6 +2719,7 @@
             },
             {
                 "system": "http://terminology.hl7.org/CodeSystem/v3-ActCode",
+                "inactive": true,
                 "code": "PDCNSPMNCT",
                 "display": "paid nullified same-period manual count"
             },
@@ -2776,6 +2816,7 @@
             },
             {
                 "system": "http://terminology.hl7.org/CodeSystem/v3-ActCode",
+                "inactive": true,
                 "code": "SBBLAT",
                 "display": "submitted billed electronic amount"
             },
@@ -2786,6 +2827,7 @@
             },
             {
                 "system": "http://terminology.hl7.org/CodeSystem/v3-ActCode",
+                "inactive": true,
                 "code": "SBBLCT",
                 "display": "submitted billed electronic count"
             },
@@ -2796,6 +2838,7 @@
             },
             {
                 "system": "http://terminology.hl7.org/CodeSystem/v3-ActCode",
+                "inactive": true,
                 "code": "SBCNAT",
                 "display": "submitted nullified electronic amount"
             },
@@ -2806,6 +2849,7 @@
             },
             {
                 "system": "http://terminology.hl7.org/CodeSystem/v3-ActCode",
+                "inactive": true,
                 "code": "SBCNCT",
                 "display": "submitted cancelled electronic count"
             },
@@ -2816,6 +2860,7 @@
             },
             {
                 "system": "http://terminology.hl7.org/CodeSystem/v3-ActCode",
+                "inactive": true,
                 "code": "SBPDAT",
                 "display": "submitted pending electronic amount"
             },
@@ -2826,6 +2871,7 @@
             },
             {
                 "system": "http://terminology.hl7.org/CodeSystem/v3-ActCode",
+                "inactive": true,
                 "code": "SBPDCT",
                 "display": "submitted pending electronic count"
             },
@@ -3007,6 +3053,7 @@
             {
                 "system": "http://terminology.hl7.org/CodeSystem/v3-ActCode",
                 "abstract": true,
+                "inactive": true,
                 "code": "_ActProcedureCategoryList",
                 "display": "ActProcedureCategoryList"
             },
@@ -3024,6 +3071,7 @@
             {
                 "system": "http://terminology.hl7.org/CodeSystem/v3-ActCode",
                 "abstract": true,
+                "inactive": true,
                 "code": "_DEADrugSchedule",
                 "display": "DEADrugSchedule"
             },
@@ -3675,6 +3723,7 @@
             },
             {
                 "system": "http://terminology.hl7.org/CodeSystem/v3-ActCode",
+                "inactive": true,
                 "code": "a) HIPAAConsent",
                 "display": "HIPAA Consent"
             },
@@ -3807,6 +3856,7 @@
             },
             {
                 "system": "http://terminology.hl7.org/CodeSystem/v3-ActCode",
+                "inactive": true,
                 "code": "SICKLE",
                 "display": "sickle cell"
             },
@@ -4368,6 +4418,7 @@
             },
             {
                 "system": "http://terminology.hl7.org/CodeSystem/v3-ActCode",
+                "inactive": true,
                 "code": "NORDSLCD",
                 "display": "no redisclosure without consent directive"
             },
@@ -4517,11 +4568,13 @@
             },
             {
                 "system": "http://terminology.hl7.org/CodeSystem/v3-ActCode",
+                "inactive": true,
                 "code": "BOOSTER",
                 "display": "Booster Immunization"
             },
             {
                 "system": "http://terminology.hl7.org/CodeSystem/v3-ActCode",
+                "inactive": true,
                 "code": "INITIMMUNIZ",
                 "display": "Initial Immunization"
             },
@@ -4735,6 +4788,7 @@
             },
             {
                 "system": "http://terminology.hl7.org/CodeSystem/v3-ActCode",
+                "inactive": true,
                 "code": "OnFoot",
                 "display": "pedestrian transport"
             },
@@ -4750,6 +4804,7 @@
             },
             {
                 "system": "http://terminology.hl7.org/CodeSystem/v3-ActCode",
+                "inactive": true,
                 "code": "Fixed-wingAmbulance",
                 "display": "fixed-wing ambulance transport"
             },
@@ -4760,6 +4815,7 @@
             },
             {
                 "system": "http://terminology.hl7.org/CodeSystem/v3-ActCode",
+                "inactive": true,
                 "code": "GroundAmbulance",
                 "display": "ground ambulance transport"
             },
@@ -4770,11 +4826,13 @@
             },
             {
                 "system": "http://terminology.hl7.org/CodeSystem/v3-ActCode",
+                "inactive": true,
                 "code": "HelicopterAmbulance",
                 "display": "helicopter ambulance transport"
             },
             {
                 "system": "http://terminology.hl7.org/CodeSystem/v3-ActCode",
+                "inactive": true,
                 "code": "Ambulance",
                 "display": "ambulance transport"
             },
@@ -4785,6 +4843,7 @@
             },
             {
                 "system": "http://terminology.hl7.org/CodeSystem/v3-ActCode",
+                "inactive": true,
                 "code": "LawEnforcementVehicle",
                 "display": "law enforcement transport"
             },
@@ -4795,6 +4854,7 @@
             },
             {
                 "system": "http://terminology.hl7.org/CodeSystem/v3-ActCode",
+                "inactive": true,
                 "code": "PrivateTransport",
                 "display": "private transport"
             },
@@ -4805,6 +4865,7 @@
             },
             {
                 "system": "http://terminology.hl7.org/CodeSystem/v3-ActCode",
+                "inactive": true,
                 "code": "PublicTransport",
                 "display": "public transport"
             },
@@ -4944,6 +5005,7 @@
             {
                 "system": "http://terminology.hl7.org/CodeSystem/v3-ActCode",
                 "abstract": true,
+                "inactive": true,
                 "code": "_ECGAnnotationType",
                 "display": "ECGAnnotationType"
             },
@@ -5362,6 +5424,7 @@
             {
                 "system": "http://terminology.hl7.org/CodeSystem/v3-ActCode",
                 "abstract": true,
+                "inactive": true,
                 "code": "_ECGObservationSequenceType",
                 "display": "ECGObservationSequenceType"
             },
@@ -5541,6 +5604,7 @@
             },
             {
                 "system": "http://terminology.hl7.org/CodeSystem/v3-ActCode",
+                "inactive": true,
                 "code": "_ObservationDiagnosisTypes",
                 "display": "ObservationDiagnosisTypes"
             },
@@ -5632,24 +5696,15 @@
                 "display": "Poly-orderer Alert"
             },
             {
-                "extension": [
-                    {
-                        "extension": [
-                            {
-                                "url": "lang",
-                                "valueCode": "en"
-                            },
-                            {
-                                "url": "content",
-                                "valueString": "Poly-pharmacy Alert"
-                            }
-                        ],
-                        "url": "http://hl7.org/fhir/StructureDefinition/translation"
-                    }
-                ],
                 "system": "http://terminology.hl7.org/CodeSystem/v3-ActCode",
                 "code": "PLYPHRM",
-                "display": "Poly-supplier Alert"
+                "display": "Poly-supplier Alert",
+                "designation": [
+                    {
+                        "language": "en",
+                        "value": "Poly-pharmacy Alert"
+                    }
+                ]
             },
             {
                 "system": "http://terminology.hl7.org/CodeSystem/v3-ActCode",
@@ -6022,12 +6077,14 @@
             {
                 "system": "http://terminology.hl7.org/CodeSystem/v3-ActCode",
                 "abstract": true,
+                "inactive": true,
                 "code": "_DrugActionDetectedIssueCode",
                 "display": "DrugActionDetectedIssueCode"
             },
             {
                 "system": "http://terminology.hl7.org/CodeSystem/v3-ActCode",
                 "abstract": true,
+                "inactive": true,
                 "code": "_TimingDetectedIssueCode",
                 "display": "TimingDetectedIssueCode"
             },
@@ -6125,6 +6182,7 @@
             {
                 "system": "http://terminology.hl7.org/CodeSystem/v3-ActCode",
                 "abstract": true,
+                "inactive": true,
                 "code": "_ActFinancialDetectedIssueCode",
                 "display": "ActFinancialDetectedIssueCode"
             },
@@ -6217,125 +6275,147 @@
             {
                 "system": "http://terminology.hl7.org/CodeSystem/v3-ActCode",
                 "abstract": true,
+                "inactive": true,
                 "code": "_ActPrivilegeCategorizationType",
                 "display": "ActPrivilegeCategorizationType"
             },
             {
                 "system": "http://terminology.hl7.org/CodeSystem/v3-ActCode",
                 "abstract": true,
+                "inactive": true,
                 "code": "_AdverseSubstanceAdministrationEventActionTakenType",
                 "display": "AdverseSubstanceAdministrationEventActionTakenType"
             },
             {
                 "system": "http://terminology.hl7.org/CodeSystem/v3-ActCode",
                 "abstract": true,
+                "inactive": true,
                 "code": "_CommonClinicalObservationType",
                 "display": "CommonClinicalObservationType"
             },
             {
                 "system": "http://terminology.hl7.org/CodeSystem/v3-ActCode",
                 "abstract": true,
+                "inactive": true,
                 "code": "_FDALabelData",
                 "display": "FDALabelData"
             },
             {
                 "system": "http://terminology.hl7.org/CodeSystem/v3-ActCode",
+                "inactive": true,
                 "code": "FDACOATING",
                 "display": "coating"
             },
             {
                 "system": "http://terminology.hl7.org/CodeSystem/v3-ActCode",
+                "inactive": true,
                 "code": "FDACOLOR",
                 "display": "color"
             },
             {
                 "system": "http://terminology.hl7.org/CodeSystem/v3-ActCode",
+                "inactive": true,
                 "code": "FDAIMPRINTCD",
                 "display": "imprint code"
             },
             {
                 "system": "http://terminology.hl7.org/CodeSystem/v3-ActCode",
+                "inactive": true,
                 "code": "FDALOGO",
                 "display": "logo"
             },
             {
                 "system": "http://terminology.hl7.org/CodeSystem/v3-ActCode",
+                "inactive": true,
                 "code": "FDASCORING",
                 "display": "scoring"
             },
             {
                 "system": "http://terminology.hl7.org/CodeSystem/v3-ActCode",
+                "inactive": true,
                 "code": "FDASHAPE",
                 "display": "shape"
             },
             {
                 "system": "http://terminology.hl7.org/CodeSystem/v3-ActCode",
+                "inactive": true,
                 "code": "FDASIZE",
                 "display": "size"
             },
             {
                 "system": "http://terminology.hl7.org/CodeSystem/v3-ActCode",
                 "abstract": true,
+                "inactive": true,
                 "code": "_ObservationAllergyTestCode",
                 "display": "observation allergy test"
             },
             {
                 "system": "http://terminology.hl7.org/CodeSystem/v3-ActCode",
                 "abstract": true,
+                "inactive": true,
                 "code": "_ObservationAllergyTestType",
                 "display": "ObservationAllergyTestType"
             },
             {
                 "system": "http://terminology.hl7.org/CodeSystem/v3-ActCode",
                 "abstract": true,
+                "inactive": true,
                 "code": "_ObservationCausalityAssessmentType",
                 "display": "observation causality assessment"
             },
             {
                 "system": "http://terminology.hl7.org/CodeSystem/v3-ActCode",
                 "abstract": true,
+                "inactive": true,
                 "code": "_ObservationDosageDefinitionPreconditionType",
                 "display": "observation dosage definition precondition type"
             },
             {
                 "system": "http://terminology.hl7.org/CodeSystem/v3-ActCode",
                 "abstract": true,
+                "inactive": true,
                 "code": "_ObservationGenomicFamilyHistoryType",
                 "display": "ObservationGenomicFamilyHistoryType"
             },
             {
                 "system": "http://terminology.hl7.org/CodeSystem/v3-ActCode",
                 "abstract": true,
+                "inactive": true,
                 "code": "_ObservationIndicationType",
                 "display": "ObservationIndicationType"
             },
             {
                 "system": "http://terminology.hl7.org/CodeSystem/v3-ActCode",
                 "abstract": true,
+                "inactive": true,
                 "code": "_ObservationIssueTriggerMeasuredObservationType",
                 "display": "ObservationIssueTriggerMeasuredObservationType"
             },
             {
                 "system": "http://terminology.hl7.org/CodeSystem/v3-ActCode",
                 "abstract": true,
+                "inactive": true,
                 "code": "_ObservationQueryMatchType",
                 "display": "ObservationQueryMatchType"
             },
             {
                 "system": "http://terminology.hl7.org/CodeSystem/v3-ActCode",
                 "abstract": true,
+                "inactive": true,
                 "code": "_ObservationVisionPrescriptionType",
                 "display": "ObservationVisionPrescriptionType"
             },
             {
                 "system": "http://terminology.hl7.org/CodeSystem/v3-ActCode",
                 "abstract": true,
+                "inactive": true,
                 "code": "_PatientCharacteristicObservationType",
                 "display": "PatientCharacteristicObservationType"
             },
             {
                 "system": "http://terminology.hl7.org/CodeSystem/v3-ActCode",
                 "abstract": true,
+                "inactive": true,
                 "code": "_SimpleMeasurableClinicalObservationType",
                 "display": "SimpleMeasurableClinicalObservationType"
             },
@@ -6591,159 +6671,187 @@
             {
                 "system": "http://terminology.hl7.org/CodeSystem/v3-ActCode",
                 "abstract": true,
+                "inactive": true,
                 "code": "_ActAdjudicationInformationCode",
                 "display": "ActAdjudicationInformationCode"
             },
             {
                 "system": "http://terminology.hl7.org/CodeSystem/v3-ActCode",
                 "abstract": true,
+                "inactive": true,
                 "code": "_ActBillableTreatmentPlanCode",
                 "display": "ActBillableTreatmentPlanCode"
             },
             {
                 "system": "http://terminology.hl7.org/CodeSystem/v3-ActCode",
                 "abstract": true,
+                "inactive": true,
                 "code": "_ActCognitiveProfessionalServiceCode",
                 "display": "ActCognitiveProfessionalServiceCode"
             },
             {
                 "system": "http://terminology.hl7.org/CodeSystem/v3-ActCode",
                 "abstract": true,
+                "inactive": true,
                 "code": "_ActIdentityDocumentCode",
                 "display": "ActIdentityDocumentCode"
             },
             {
                 "system": "http://terminology.hl7.org/CodeSystem/v3-ActCode",
                 "abstract": true,
+                "inactive": true,
                 "code": "_ActOrderCode",
                 "display": "ActOrderCode"
             },
             {
                 "system": "http://terminology.hl7.org/CodeSystem/v3-ActCode",
                 "abstract": true,
+                "inactive": true,
                 "code": "_ActPrivilegeCategorization",
                 "display": "ActPrivilegeCategorization"
             },
             {
                 "system": "http://terminology.hl7.org/CodeSystem/v3-ActCode",
                 "abstract": true,
+                "inactive": true,
                 "code": "_ActProcedureCode",
                 "display": "ActProcedureCode"
             },
             {
                 "system": "http://terminology.hl7.org/CodeSystem/v3-ActCode",
                 "abstract": true,
+                "inactive": true,
                 "code": "_ActBillableServiceCode",
                 "display": "ActBillableServiceCode"
             },
             {
                 "system": "http://terminology.hl7.org/CodeSystem/v3-ActCode",
                 "abstract": true,
+                "inactive": true,
                 "code": "_ActMedicalBillableServiceCode",
                 "display": "ActMedicalBillableServiceCode"
             },
             {
                 "system": "http://terminology.hl7.org/CodeSystem/v3-ActCode",
                 "abstract": true,
+                "inactive": true,
                 "code": "_ActNonMedicalBillableServiceCode",
                 "display": "ActNonMedicalBillableServiceCode"
             },
             {
                 "system": "http://terminology.hl7.org/CodeSystem/v3-ActCode",
                 "abstract": true,
+                "inactive": true,
                 "code": "_ActOralHealthProcedureCode",
                 "display": "ActOralHealthProcedureCode"
             },
             {
                 "system": "http://terminology.hl7.org/CodeSystem/v3-ActCode",
                 "abstract": true,
+                "inactive": true,
                 "code": "_ActRegistryCode",
                 "display": "ActRegistryCode"
             },
             {
                 "system": "http://terminology.hl7.org/CodeSystem/v3-ActCode",
                 "abstract": true,
+                "inactive": true,
                 "code": "_ActSecurityObjectCode",
                 "display": "ActSecurityObjectCode"
             },
             {
                 "system": "http://terminology.hl7.org/CodeSystem/v3-ActCode",
                 "abstract": true,
+                "inactive": true,
                 "code": "_AdvanceBeneficiaryNoticeType",
                 "display": "AdvanceBeneficiaryNoticeType"
             },
             {
                 "system": "http://terminology.hl7.org/CodeSystem/v3-ActCode",
                 "abstract": true,
+                "inactive": true,
                 "code": "_CPT4",
                 "display": "CPT4"
             },
             {
                 "system": "http://terminology.hl7.org/CodeSystem/v3-ActCode",
                 "abstract": true,
+                "inactive": true,
                 "code": "_ExternallyDefinedActCodes",
                 "display": "ExternallyDefinedActCodes"
             },
             {
                 "system": "http://terminology.hl7.org/CodeSystem/v3-ActCode",
                 "abstract": true,
+                "inactive": true,
                 "code": "_HL7DefinedActCodes",
                 "display": "HL7DefinedActCodes"
             },
             {
                 "system": "http://terminology.hl7.org/CodeSystem/v3-ActCode",
                 "abstract": true,
+                "inactive": true,
                 "code": "_ActDetectedIssueCode",
                 "display": "ActDetectedIssueCode"
             },
             {
                 "system": "http://terminology.hl7.org/CodeSystem/v3-ActCode",
                 "abstract": true,
+                "inactive": true,
                 "code": "_HL7TriggerEventCode",
                 "display": "HL7TriggerEventCode"
             },
             {
                 "system": "http://terminology.hl7.org/CodeSystem/v3-ActCode",
                 "abstract": true,
+                "inactive": true,
                 "code": "_SubstanceAdministrationActCode",
                 "display": "SubstanceAdministrationActCode"
             },
             {
                 "system": "http://terminology.hl7.org/CodeSystem/v3-ActCode",
                 "abstract": true,
+                "inactive": true,
                 "code": "_IndividualCaseSafetyReportCriteria",
                 "display": "IndividualCaseSafetyReportCriteria"
             },
             {
                 "system": "http://terminology.hl7.org/CodeSystem/v3-ActCode",
                 "abstract": true,
+                "inactive": true,
                 "code": "_IndividualCaseSafetyReportProductCharacteristic",
                 "display": "IndividualCaseSafetyReportProductCharacteristic"
             },
             {
                 "system": "http://terminology.hl7.org/CodeSystem/v3-ActCode",
                 "abstract": true,
+                "inactive": true,
                 "code": "_ObservationActAgeGroupType",
                 "display": "ObservationActAgeGroupType"
             },
             {
                 "system": "http://terminology.hl7.org/CodeSystem/v3-ActCode",
+                "inactive": true,
                 "code": "COPAY"
             },
             {
                 "system": "http://terminology.hl7.org/CodeSystem/v3-ActCode",
+                "inactive": true,
                 "code": "DEDUCT"
             },
             {
                 "system": "http://terminology.hl7.org/CodeSystem/v3-ActCode",
+                "inactive": true,
                 "code": "DOSEIND"
             },
             {
                 "system": "http://terminology.hl7.org/CodeSystem/v3-ActCode",
+                "inactive": true,
                 "code": "PRA"
             },
             {
                 "system": "http://terminology.hl7.org/CodeSystem/v3-ActCode",
+                "inactive": true,
                 "code": "STORE",
                 "display": "Storage"
             }

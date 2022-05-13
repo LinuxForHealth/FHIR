@@ -2,7 +2,7 @@
     "resourceType": "ValueSet",
     "id": "procedure-code",
     "meta": {
-        "lastUpdated": "2022-03-03T22:04:06.196Z",
+        "lastUpdated": "2022-04-23T22:21:35.043Z",
         "profile": [
             "http://hl7.org/fhir/StructureDefinition/shareablevalueset"
         ]
@@ -28,7 +28,7 @@
             "value": "urn:oid:2.16.840.1.113883.4.642.3.427"
         }
     ],
-    "version": "4.3.0-CIBUILD",
+    "version": "4.3.0-cibuild",
     "name": "ProcedureCodes(SNOMEDCT)",
     "title": "Procedure Codes (SNOMED CT)",
     "status": "draft",
@@ -71,11 +71,12 @@
                 "valueBoolean": true
             }
         ],
-        "identifier": "urn:uuid:d225e1fd-6268-4c16-b9c3-78e112fe506c",
-        "timestamp": "2021-11-17T05:28:15.619Z",
+        "identifier": "urn:uuid:952e9e52-5969-4143-811d-e1cad89eebe5",
+        "timestamp": "2022-04-23T22:23:26Z",
+        "total": 1000,
         "parameter": [
             {
-                "name": "limitedExpansion",
+                "name": "excludeNested",
                 "valueBoolean": true
             },
             {
@@ -83,12 +84,12 @@
                 "valueBoolean": true
             },
             {
-                "name": "excludeNested",
+                "name": "limitedExpansion",
                 "valueBoolean": true
             },
             {
                 "name": "version",
-                "valueUri": "http://snomed.info/sct|http://snomed.info/sct/900000000000207008/version/20200131"
+                "valueUri": "http://snomed.info/sct|http://snomed.info/sct/900000000000207008/version/20200731"
             }
         ],
         "contains": [
@@ -976,19 +977,6 @@
             },
             {
                 "system": "http://snomed.info/sct",
-                "code": "570001",
-                "display": "Vaccination for arthropod-borne viral encephalitis",
-                "designation": [
-                    {
-                        "value": "Vaccination for arthropod-borne viral encephalitis"
-                    },
-                    {
-                        "value": "Vaccination for arthropod-borne viral encephalitis (procedure)"
-                    }
-                ]
-            },
-            {
-                "system": "http://snomed.info/sct",
                 "code": "574005",
                 "display": "Benzodiazepine measurement",
                 "designation": [
@@ -997,22 +985,6 @@
                     },
                     {
                         "value": "Benzodiazepine measurement (procedure)"
-                    }
-                ]
-            },
-            {
-                "system": "http://snomed.info/sct",
-                "code": "603006",
-                "display": "Synchondrotomy",
-                "designation": [
-                    {
-                        "value": "Synchondrotomy"
-                    },
-                    {
-                        "value": "Division of any synchondrosis (procedure)"
-                    },
-                    {
-                        "value": "Division of any synchondrosis"
                     }
                 ]
             },
@@ -4025,25 +3997,6 @@
             },
             {
                 "system": "http://snomed.info/sct",
-                "code": "1906007",
-                "display": "Insertion of prosthesis or prosthetic device of arm, bioelectric or cineplastic",
-                "designation": [
-                    {
-                        "value": "Insertion of prosthesis or prosthetic device of arm, bioelectric or cineplastic"
-                    },
-                    {
-                        "value": "Implantation of prosthetic device of arm"
-                    },
-                    {
-                        "value": "Insertion of prosthesis or prosthetic device of upper extremity"
-                    },
-                    {
-                        "value": "Insertion of prosthesis or prosthetic device of arm, bioelectric or cineplastic (procedure)"
-                    }
-                ]
-            },
-            {
-                "system": "http://snomed.info/sct",
                 "code": "1907003",
                 "display": "Bifurcation of bone",
                 "designation": [
@@ -4909,9 +4862,6 @@
                         "value": "Reduction of closed patellar dislocation"
                     },
                     {
-                        "value": "Closed reduction of dislocation of patella"
-                    },
-                    {
                         "value": "Reduction of closed patellar dislocation (procedure)"
                     }
                 ]
@@ -5183,9 +5133,6 @@
                     },
                     {
                         "value": "Nurse to nurse communication"
-                    },
-                    {
-                        "value": "Nurse contact"
                     }
                 ]
             },
@@ -5990,6 +5937,9 @@
                     },
                     {
                         "value": "Cervical myelography (procedure)"
+                    },
+                    {
+                        "value": "Cervical myelogram"
                     }
                 ]
             },
@@ -6028,11 +5978,8 @@
             {
                 "system": "http://snomed.info/sct",
                 "code": "2857007",
-                "display": "Pinealectomy",
+                "display": "Complete pinealectomy",
                 "designation": [
-                    {
-                        "value": "Pinealectomy"
-                    },
                     {
                         "value": "Complete pinealectomy"
                     },
@@ -6607,9 +6554,6 @@
                     },
                     {
                         "value": "Reinsertion"
-                    },
-                    {
-                        "value": "Replacement"
                     },
                     {
                         "value": "Reimplantation (procedure)"
@@ -7361,19 +7305,13 @@
                         "value": "Aortocoronary artery bypass graft with saphenous vein graft (procedure)"
                     },
                     {
-                        "value": "CVG - Coronary vein graft"
-                    },
-                    {
-                        "value": "ACVG - Aortocoronary vein graft"
-                    },
-                    {
                         "value": "ACSVG - Aortocoronary saphenous vein graft"
                     },
                     {
                         "value": "ACSVBG - Aortocoronary saphenous vein bypass graft"
                     },
                     {
-                        "value": "CAVG - Coronary artery vein graft"
+                        "value": "Coronary artery bypass graft with saphenous vein graft"
                     }
                 ]
             },
@@ -11263,16 +11201,10 @@
                         "value": "Orthovoltage radiation therapy"
                     },
                     {
-                        "value": "DXT - Radiotherapy"
-                    },
-                    {
                         "value": "Conventional X-ray therapy"
                     },
                     {
                         "value": "Orthovoltage X-ray therapy"
-                    },
-                    {
-                        "value": "Deep X-ray therapy"
                     },
                     {
                         "value": "Kilovoltage X-ray therapy"
@@ -11676,22 +11608,6 @@
                     },
                     {
                         "value": "Select picture audiometry (procedure)"
-                    }
-                ]
-            },
-            {
-                "system": "http://snomed.info/sct",
-                "code": "5482008",
-                "display": "Serologic test for Blastomyces",
-                "designation": [
-                    {
-                        "value": "Serologic test for Blastomyces"
-                    },
-                    {
-                        "value": "Blastomyces antibody assay"
-                    },
-                    {
-                        "value": "Serologic test for Blastomyces (procedure)"
                     }
                 ]
             },
@@ -14151,9 +14067,6 @@
                         "value": "Insertion of infusion pump beneath skin"
                     },
                     {
-                        "value": "Implantation of infusion pump beneath skin"
-                    },
-                    {
                         "value": "Insertion of infusion pump beneath skin (procedure)"
                     }
                 ]
@@ -14799,6 +14712,67 @@
                     },
                     {
                         "value": "Biopsy of soft tissue of wrist, superficial (procedure)"
+                    }
+                ]
+            },
+            {
+                "system": "http://snomed.info/sct",
+                "code": "6801000",
+                "display": "Resection of mesentery",
+                "designation": [
+                    {
+                        "value": "Resection of mesentery"
+                    },
+                    {
+                        "value": "Mesenterectomy"
+                    },
+                    {
+                        "value": "Resection of mesentery (procedure)"
+                    }
+                ]
+            },
+            {
+                "system": "http://snomed.info/sct",
+                "code": "6812000",
+                "display": "Mohs' chemosurgery, fixed tissue technique",
+                "designation": [
+                    {
+                        "value": "Mohs' chemosurgery, fixed tissue technique"
+                    },
+                    {
+                        "value": "Mohs' chemosurgery, fixed tissue technique (procedure)"
+                    }
+                ]
+            },
+            {
+                "system": "http://snomed.info/sct",
+                "code": "6818001",
+                "display": "Excision of buccal mucosa",
+                "designation": [
+                    {
+                        "value": "Excision of buccal mucosa"
+                    },
+                    {
+                        "value": "Excision of buccal mucosa (procedure)"
+                    }
+                ]
+            },
+            {
+                "system": "http://snomed.info/sct",
+                "code": "6832004",
+                "display": "Atherectomy",
+                "designation": [
+                    {
+                        "value": "Atherectomy"
+                    },
+                    {
+                        "value": "Removal of atherosclerotic plaque from artery"
+                    },
+                    {
+                        "value": "Atherectomy (procedure)"
+                    },
+                    {
+                        "value": "Atherectomy of artery"
                     }
                 ]
             }

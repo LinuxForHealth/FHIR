@@ -1,0 +1,470 @@
+{
+  "resourceType": "CodeSystem",
+  "id": "packaging-type",
+  "meta": {
+    "lastUpdated": "2022-04-24T09:21:35.043+11:00",
+    "profile": [
+      "http://hl7.org/fhir/StructureDefinition/shareablecodesystem"
+    ]
+  },
+  "text": {
+    "status": "generated",
+    "div": "\u003cdiv xmlns\u003d\"http://www.w3.org/1999/xhtml\"\u003e\u003cp\u003eThis code system http://hl7.org/fhir/packaging-type defines the following codes:\u003c/p\u003e\u003ctable class\u003d\"codes\"\u003e\u003ctr\u003e\u003ctd style\u003d\"white-space:nowrap\"\u003e\u003cb\u003eCode\u003c/b\u003e\u003c/td\u003e\u003ctd\u003e\u003cb\u003eDisplay\u003c/b\u003e\u003c/td\u003e\u003c/tr\u003e\u003ctr\u003e\u003ctd style\u003d\"white-space:nowrap\"\u003e100000073490\u003ca name\u003d\"packaging-type-100000073490\"\u003e \u003c/a\u003e\u003c/td\u003e\u003ctd\u003eAmpoule\u003c/td\u003e\u003c/tr\u003e\u003ctr\u003e\u003ctd style\u003d\"white-space:nowrap\"\u003e100000073491\u003ca name\u003d\"packaging-type-100000073491\"\u003e \u003c/a\u003e\u003c/td\u003e\u003ctd\u003eApplicator\u003c/td\u003e\u003c/tr\u003e\u003ctr\u003e\u003ctd style\u003d\"white-space:nowrap\"\u003e100000073492\u003ca name\u003d\"packaging-type-100000073492\"\u003e \u003c/a\u003e\u003c/td\u003e\u003ctd\u003eAutomatic injection device\u003c/td\u003e\u003c/tr\u003e\u003ctr\u003e\u003ctd style\u003d\"white-space:nowrap\"\u003e100000073493\u003ca name\u003d\"packaging-type-100000073493\"\u003e \u003c/a\u003e\u003c/td\u003e\u003ctd\u003eBag\u003c/td\u003e\u003c/tr\u003e\u003ctr\u003e\u003ctd style\u003d\"white-space:nowrap\"\u003e100000073494\u003ca name\u003d\"packaging-type-100000073494\"\u003e \u003c/a\u003e\u003c/td\u003e\u003ctd\u003eBalling gun\u003c/td\u003e\u003c/tr\u003e\u003ctr\u003e\u003ctd style\u003d\"white-space:nowrap\"\u003e100000073495\u003ca name\u003d\"packaging-type-100000073495\"\u003e \u003c/a\u003e\u003c/td\u003e\u003ctd\u003eBarrel\u003c/td\u003e\u003c/tr\u003e\u003ctr\u003e\u003ctd style\u003d\"white-space:nowrap\"\u003e100000073496\u003ca name\u003d\"packaging-type-100000073496\"\u003e \u003c/a\u003e\u003c/td\u003e\u003ctd\u003eBlister\u003c/td\u003e\u003c/tr\u003e\u003ctr\u003e\u003ctd style\u003d\"white-space:nowrap\"\u003e100000073497\u003ca name\u003d\"packaging-type-100000073497\"\u003e \u003c/a\u003e\u003c/td\u003e\u003ctd\u003eBottle\u003c/td\u003e\u003c/tr\u003e\u003ctr\u003e\u003ctd style\u003d\"white-space:nowrap\"\u003e100000073498\u003ca name\u003d\"packaging-type-100000073498\"\u003e \u003c/a\u003e\u003c/td\u003e\u003ctd\u003eBox\u003c/td\u003e\u003c/tr\u003e\u003ctr\u003e\u003ctd style\u003d\"white-space:nowrap\"\u003e100000073499\u003ca name\u003d\"packaging-type-100000073499\"\u003e \u003c/a\u003e\u003c/td\u003e\u003ctd\u003eBrush\u003c/td\u003e\u003c/tr\u003e\u003ctr\u003e\u003ctd style\u003d\"white-space:nowrap\"\u003e100000073500\u003ca name\u003d\"packaging-type-100000073500\"\u003e \u003c/a\u003e\u003c/td\u003e\u003ctd\u003eBrush applicator\u003c/td\u003e\u003c/tr\u003e\u003ctr\u003e\u003ctd style\u003d\"white-space:nowrap\"\u003e100000073501\u003ca name\u003d\"packaging-type-100000073501\"\u003e \u003c/a\u003e\u003c/td\u003e\u003ctd\u003eCannula\u003c/td\u003e\u003c/tr\u003e\u003ctr\u003e\u003ctd style\u003d\"white-space:nowrap\"\u003e100000073502\u003ca name\u003d\"packaging-type-100000073502\"\u003e \u003c/a\u003e\u003c/td\u003e\u003ctd\u003eCap\u003c/td\u003e\u003c/tr\u003e\u003ctr\u003e\u003ctd style\u003d\"white-space:nowrap\"\u003e100000073503\u003ca name\u003d\"packaging-type-100000073503\"\u003e \u003c/a\u003e\u003c/td\u003e\u003ctd\u003eCartridge\u003c/td\u003e\u003c/tr\u003e\u003ctr\u003e\u003ctd style\u003d\"white-space:nowrap\"\u003e100000073504\u003ca name\u003d\"packaging-type-100000073504\"\u003e \u003c/a\u003e\u003c/td\u003e\u003ctd\u003eChild-resistant closure\u003c/td\u003e\u003c/tr\u003e\u003ctr\u003e\u003ctd style\u003d\"white-space:nowrap\"\u003e100000073505\u003ca name\u003d\"packaging-type-100000073505\"\u003e \u003c/a\u003e\u003c/td\u003e\u003ctd\u003eCup\u003c/td\u003e\u003c/tr\u003e\u003ctr\u003e\u003ctd style\u003d\"white-space:nowrap\"\u003e100000073506\u003ca name\u003d\"packaging-type-100000073506\"\u003e \u003c/a\u003e\u003c/td\u003e\u003ctd\u003eDabbing applicator\u003c/td\u003e\u003c/tr\u003e\u003ctr\u003e\u003ctd style\u003d\"white-space:nowrap\"\u003e100000073507\u003ca name\u003d\"packaging-type-100000073507\"\u003e \u003c/a\u003e\u003c/td\u003e\u003ctd\u003eDart\u003c/td\u003e\u003c/tr\u003e\u003ctr\u003e\u003ctd style\u003d\"white-space:nowrap\"\u003e100000073508\u003ca name\u003d\"packaging-type-100000073508\"\u003e \u003c/a\u003e\u003c/td\u003e\u003ctd\u003eDredging applicator\u003c/td\u003e\u003c/tr\u003e\u003ctr\u003e\u003ctd style\u003d\"white-space:nowrap\"\u003e100000073509\u003ca name\u003d\"packaging-type-100000073509\"\u003e \u003c/a\u003e\u003c/td\u003e\u003ctd\u003eDredging container\u003c/td\u003e\u003c/tr\u003e\u003ctr\u003e\u003ctd style\u003d\"white-space:nowrap\"\u003e100000073510\u003ca name\u003d\"packaging-type-100000073510\"\u003e \u003c/a\u003e\u003c/td\u003e\u003ctd\u003eDrench gun\u003c/td\u003e\u003c/tr\u003e\u003ctr\u003e\u003ctd style\u003d\"white-space:nowrap\"\u003e100000073511\u003ca name\u003d\"packaging-type-100000073511\"\u003e \u003c/a\u003e\u003c/td\u003e\u003ctd\u003eDropper applicator\u003c/td\u003e\u003c/tr\u003e\u003ctr\u003e\u003ctd style\u003d\"white-space:nowrap\"\u003e100000073512\u003ca name\u003d\"packaging-type-100000073512\"\u003e \u003c/a\u003e\u003c/td\u003e\u003ctd\u003eDropper container\u003c/td\u003e\u003c/tr\u003e\u003ctr\u003e\u003ctd style\u003d\"white-space:nowrap\"\u003e100000073513\u003ca name\u003d\"packaging-type-100000073513\"\u003e \u003c/a\u003e\u003c/td\u003e\u003ctd\u003eFixed cryogenic vessel\u003c/td\u003e\u003c/tr\u003e\u003ctr\u003e\u003ctd style\u003d\"white-space:nowrap\"\u003e100000073514\u003ca name\u003d\"packaging-type-100000073514\"\u003e \u003c/a\u003e\u003c/td\u003e\u003ctd\u003eGas cylinder\u003c/td\u003e\u003c/tr\u003e\u003ctr\u003e\u003ctd style\u003d\"white-space:nowrap\"\u003e100000073515\u003ca name\u003d\"packaging-type-100000073515\"\u003e \u003c/a\u003e\u003c/td\u003e\u003ctd\u003eHigh pressure transdermal delivery device\u003c/td\u003e\u003c/tr\u003e\u003ctr\u003e\u003ctd style\u003d\"white-space:nowrap\"\u003e100000073516\u003ca name\u003d\"packaging-type-100000073516\"\u003e \u003c/a\u003e\u003c/td\u003e\u003ctd\u003eImplanter\u003c/td\u003e\u003c/tr\u003e\u003ctr\u003e\u003ctd style\u003d\"white-space:nowrap\"\u003e100000073517\u003ca name\u003d\"packaging-type-100000073517\"\u003e \u003c/a\u003e\u003c/td\u003e\u003ctd\u003eInhaler\u003c/td\u003e\u003c/tr\u003e\u003ctr\u003e\u003ctd style\u003d\"white-space:nowrap\"\u003e100000073518\u003ca name\u003d\"packaging-type-100000073518\"\u003e \u003c/a\u003e\u003c/td\u003e\u003ctd\u003eIn-ovo injection device\u003c/td\u003e\u003c/tr\u003e\u003ctr\u003e\u003ctd style\u003d\"white-space:nowrap\"\u003e100000073519\u003ca name\u003d\"packaging-type-100000073519\"\u003e \u003c/a\u003e\u003c/td\u003e\u003ctd\u003eInjection needle\u003c/td\u003e\u003c/tr\u003e\u003ctr\u003e\u003ctd style\u003d\"white-space:nowrap\"\u003e100000073520\u003ca name\u003d\"packaging-type-100000073520\"\u003e \u003c/a\u003e\u003c/td\u003e\u003ctd\u003eInjection syringe\u003c/td\u003e\u003c/tr\u003e\u003ctr\u003e\u003ctd style\u003d\"white-space:nowrap\"\u003e100000073521\u003ca name\u003d\"packaging-type-100000073521\"\u003e \u003c/a\u003e\u003c/td\u003e\u003ctd\u003eInternal graduated calibration chamber\u003c/td\u003e\u003c/tr\u003e\u003ctr\u003e\u003ctd style\u003d\"white-space:nowrap\"\u003e100000073522\u003ca name\u003d\"packaging-type-100000073522\"\u003e \u003c/a\u003e\u003c/td\u003e\u003ctd\u003eIntramammary syringe\u003c/td\u003e\u003c/tr\u003e\u003ctr\u003e\u003ctd style\u003d\"white-space:nowrap\"\u003e100000073523\u003ca name\u003d\"packaging-type-100000073523\"\u003e \u003c/a\u003e\u003c/td\u003e\u003ctd\u003eJar\u003c/td\u003e\u003c/tr\u003e\u003ctr\u003e\u003ctd style\u003d\"white-space:nowrap\"\u003e100000073524\u003ca name\u003d\"packaging-type-100000073524\"\u003e \u003c/a\u003e\u003c/td\u003e\u003ctd\u003eMeasuring device\u003c/td\u003e\u003c/tr\u003e\u003ctr\u003e\u003ctd style\u003d\"white-space:nowrap\"\u003e100000073525\u003ca name\u003d\"packaging-type-100000073525\"\u003e \u003c/a\u003e\u003c/td\u003e\u003ctd\u003eMeasuring spoon\u003c/td\u003e\u003c/tr\u003e\u003ctr\u003e\u003ctd style\u003d\"white-space:nowrap\"\u003e100000073526\u003ca name\u003d\"packaging-type-100000073526\"\u003e \u003c/a\u003e\u003c/td\u003e\u003ctd\u003eMetering pump\u003c/td\u003e\u003c/tr\u003e\u003ctr\u003e\u003ctd style\u003d\"white-space:nowrap\"\u003e100000073527\u003ca name\u003d\"packaging-type-100000073527\"\u003e \u003c/a\u003e\u003c/td\u003e\u003ctd\u003eMetering valve\u003c/td\u003e\u003c/tr\u003e\u003ctr\u003e\u003ctd style\u003d\"white-space:nowrap\"\u003e100000073528\u003ca name\u003d\"packaging-type-100000073528\"\u003e \u003c/a\u003e\u003c/td\u003e\u003ctd\u003eMobile cryogenic vessel\u003c/td\u003e\u003c/tr\u003e\u003ctr\u003e\u003ctd style\u003d\"white-space:nowrap\"\u003e100000073529\u003ca name\u003d\"packaging-type-100000073529\"\u003e \u003c/a\u003e\u003c/td\u003e\u003ctd\u003eMouthpiece\u003c/td\u003e\u003c/tr\u003e\u003ctr\u003e\u003ctd style\u003d\"white-space:nowrap\"\u003e100000073530\u003ca name\u003d\"packaging-type-100000073530\"\u003e \u003c/a\u003e\u003c/td\u003e\u003ctd\u003eMultidose container\u003c/td\u003e\u003c/tr\u003e\u003ctr\u003e\u003ctd style\u003d\"white-space:nowrap\"\u003e100000073531\u003ca name\u003d\"packaging-type-100000073531\"\u003e \u003c/a\u003e\u003c/td\u003e\u003ctd\u003eMultidose container with airless pump\u003c/td\u003e\u003c/tr\u003e\u003ctr\u003e\u003ctd style\u003d\"white-space:nowrap\"\u003e100000073532\u003ca name\u003d\"packaging-type-100000073532\"\u003e \u003c/a\u003e\u003c/td\u003e\u003ctd\u003eMultipuncturer\u003c/td\u003e\u003c/tr\u003e\u003ctr\u003e\u003ctd style\u003d\"white-space:nowrap\"\u003e100000073533\u003ca name\u003d\"packaging-type-100000073533\"\u003e \u003c/a\u003e\u003c/td\u003e\u003ctd\u003eNasal applicator\u003c/td\u003e\u003c/tr\u003e\u003ctr\u003e\u003ctd style\u003d\"white-space:nowrap\"\u003e100000073534\u003ca name\u003d\"packaging-type-100000073534\"\u003e \u003c/a\u003e\u003c/td\u003e\u003ctd\u003eNebuliser\u003c/td\u003e\u003c/tr\u003e\u003ctr\u003e\u003ctd style\u003d\"white-space:nowrap\"\u003e100000073535\u003ca name\u003d\"packaging-type-100000073535\"\u003e \u003c/a\u003e\u003c/td\u003e\u003ctd\u003eNeedle applicator\u003c/td\u003e\u003c/tr\u003e\u003ctr\u003e\u003ctd style\u003d\"white-space:nowrap\"\u003e100000073536\u003ca name\u003d\"packaging-type-100000073536\"\u003e \u003c/a\u003e\u003c/td\u003e\u003ctd\u003eNozzle\u003c/td\u003e\u003c/tr\u003e\u003ctr\u003e\u003ctd style\u003d\"white-space:nowrap\"\u003e100000073537\u003ca name\u003d\"packaging-type-100000073537\"\u003e \u003c/a\u003e\u003c/td\u003e\u003ctd\u003eOral syringe\u003c/td\u003e\u003c/tr\u003e\u003ctr\u003e\u003ctd style\u003d\"white-space:nowrap\"\u003e100000073538\u003ca name\u003d\"packaging-type-100000073538\"\u003e \u003c/a\u003e\u003c/td\u003e\u003ctd\u003ePipette\u003c/td\u003e\u003c/tr\u003e\u003ctr\u003e\u003ctd style\u003d\"white-space:nowrap\"\u003e100000073539\u003ca name\u003d\"packaging-type-100000073539\"\u003e \u003c/a\u003e\u003c/td\u003e\u003ctd\u003ePipette applicator\u003c/td\u003e\u003c/tr\u003e\u003ctr\u003e\u003ctd style\u003d\"white-space:nowrap\"\u003e100000073540\u003ca name\u003d\"packaging-type-100000073540\"\u003e \u003c/a\u003e\u003c/td\u003e\u003ctd\u003ePouch\u003c/td\u003e\u003c/tr\u003e\u003ctr\u003e\u003ctd style\u003d\"white-space:nowrap\"\u003e100000073541\u003ca name\u003d\"packaging-type-100000073541\"\u003e \u003c/a\u003e\u003c/td\u003e\u003ctd\u003ePour-on container\u003c/td\u003e\u003c/tr\u003e\u003ctr\u003e\u003ctd style\u003d\"white-space:nowrap\"\u003e100000073542\u003ca name\u003d\"packaging-type-100000073542\"\u003e \u003c/a\u003e\u003c/td\u003e\u003ctd\u003ePre-filled gastroenteral tube\u003c/td\u003e\u003c/tr\u003e\u003ctr\u003e\u003ctd style\u003d\"white-space:nowrap\"\u003e100000073543\u003ca name\u003d\"packaging-type-100000073543\"\u003e \u003c/a\u003e\u003c/td\u003e\u003ctd\u003ePre-filled pen\u003c/td\u003e\u003c/tr\u003e\u003ctr\u003e\u003ctd style\u003d\"white-space:nowrap\"\u003e100000073544\u003ca name\u003d\"packaging-type-100000073544\"\u003e \u003c/a\u003e\u003c/td\u003e\u003ctd\u003ePre-filled syringe\u003c/td\u003e\u003c/tr\u003e\u003ctr\u003e\u003ctd style\u003d\"white-space:nowrap\"\u003e100000073545\u003ca name\u003d\"packaging-type-100000073545\"\u003e \u003c/a\u003e\u003c/td\u003e\u003ctd\u003ePressurised container\u003c/td\u003e\u003c/tr\u003e\u003ctr\u003e\u003ctd style\u003d\"white-space:nowrap\"\u003e100000073546\u003ca name\u003d\"packaging-type-100000073546\"\u003e \u003c/a\u003e\u003c/td\u003e\u003ctd\u003ePrick test applicator\u003c/td\u003e\u003c/tr\u003e\u003ctr\u003e\u003ctd style\u003d\"white-space:nowrap\"\u003e100000073547\u003ca name\u003d\"packaging-type-100000073547\"\u003e \u003c/a\u003e\u003c/td\u003e\u003ctd\u003eSachet\u003c/td\u003e\u003c/tr\u003e\u003ctr\u003e\u003ctd style\u003d\"white-space:nowrap\"\u003e100000073548\u003ca name\u003d\"packaging-type-100000073548\"\u003e \u003c/a\u003e\u003c/td\u003e\u003ctd\u003eScarifier\u003c/td\u003e\u003c/tr\u003e\u003ctr\u003e\u003ctd style\u003d\"white-space:nowrap\"\u003e100000073549\u003ca name\u003d\"packaging-type-100000073549\"\u003e \u003c/a\u003e\u003c/td\u003e\u003ctd\u003eScrew cap\u003c/td\u003e\u003c/tr\u003e\u003ctr\u003e\u003ctd style\u003d\"white-space:nowrap\"\u003e100000073550\u003ca name\u003d\"packaging-type-100000073550\"\u003e \u003c/a\u003e\u003c/td\u003e\u003ctd\u003eSingle-dose container\u003c/td\u003e\u003c/tr\u003e\u003ctr\u003e\u003ctd style\u003d\"white-space:nowrap\"\u003e100000073551\u003ca name\u003d\"packaging-type-100000073551\"\u003e \u003c/a\u003e\u003c/td\u003e\u003ctd\u003eSpatula\u003c/td\u003e\u003c/tr\u003e\u003ctr\u003e\u003ctd style\u003d\"white-space:nowrap\"\u003e100000073552\u003ca name\u003d\"packaging-type-100000073552\"\u003e \u003c/a\u003e\u003c/td\u003e\u003ctd\u003eSpot-on applicator\u003c/td\u003e\u003c/tr\u003e\u003ctr\u003e\u003ctd style\u003d\"white-space:nowrap\"\u003e100000073553\u003ca name\u003d\"packaging-type-100000073553\"\u003e \u003c/a\u003e\u003c/td\u003e\u003ctd\u003eSpray container\u003c/td\u003e\u003c/tr\u003e\u003ctr\u003e\u003ctd style\u003d\"white-space:nowrap\"\u003e100000073554\u003ca name\u003d\"packaging-type-100000073554\"\u003e \u003c/a\u003e\u003c/td\u003e\u003ctd\u003eSpray pump\u003c/td\u003e\u003c/tr\u003e\u003ctr\u003e\u003ctd style\u003d\"white-space:nowrap\"\u003e100000073555\u003ca name\u003d\"packaging-type-100000073555\"\u003e \u003c/a\u003e\u003c/td\u003e\u003ctd\u003eSpray valve\u003c/td\u003e\u003c/tr\u003e\u003ctr\u003e\u003ctd style\u003d\"white-space:nowrap\"\u003e100000073556\u003ca name\u003d\"packaging-type-100000073556\"\u003e \u003c/a\u003e\u003c/td\u003e\u003ctd\u003eStab vaccinator\u003c/td\u003e\u003c/tr\u003e\u003ctr\u003e\u003ctd style\u003d\"white-space:nowrap\"\u003e100000073557\u003ca name\u003d\"packaging-type-100000073557\"\u003e \u003c/a\u003e\u003c/td\u003e\u003ctd\u003eStopper\u003c/td\u003e\u003c/tr\u003e\u003ctr\u003e\u003ctd style\u003d\"white-space:nowrap\"\u003e100000073558\u003ca name\u003d\"packaging-type-100000073558\"\u003e \u003c/a\u003e\u003c/td\u003e\u003ctd\u003eStraw\u003c/td\u003e\u003c/tr\u003e\u003ctr\u003e\u003ctd style\u003d\"white-space:nowrap\"\u003e100000073559\u003ca name\u003d\"packaging-type-100000073559\"\u003e \u003c/a\u003e\u003c/td\u003e\u003ctd\u003eStrip\u003c/td\u003e\u003c/tr\u003e\u003ctr\u003e\u003ctd style\u003d\"white-space:nowrap\"\u003e100000073560\u003ca name\u003d\"packaging-type-100000073560\"\u003e \u003c/a\u003e\u003c/td\u003e\u003ctd\u003eTablet container\u003c/td\u003e\u003c/tr\u003e\u003ctr\u003e\u003ctd style\u003d\"white-space:nowrap\"\u003e100000073561\u003ca name\u003d\"packaging-type-100000073561\"\u003e \u003c/a\u003e\u003c/td\u003e\u003ctd\u003eTube\u003c/td\u003e\u003c/tr\u003e\u003ctr\u003e\u003ctd style\u003d\"white-space:nowrap\"\u003e100000073562\u003ca name\u003d\"packaging-type-100000073562\"\u003e \u003c/a\u003e\u003c/td\u003e\u003ctd\u003eVaginal sponge applicator\u003c/td\u003e\u003c/tr\u003e\u003ctr\u003e\u003ctd style\u003d\"white-space:nowrap\"\u003e100000073563\u003ca name\u003d\"packaging-type-100000073563\"\u003e \u003c/a\u003e\u003c/td\u003e\u003ctd\u003eVial\u003c/td\u003e\u003c/tr\u003e\u003ctr\u003e\u003ctd style\u003d\"white-space:nowrap\"\u003e100000075664\u003ca name\u003d\"packaging-type-100000075664\"\u003e \u003c/a\u003e\u003c/td\u003e\u003ctd\u003eAdministration system\u003c/td\u003e\u003c/tr\u003e\u003ctr\u003e\u003ctd style\u003d\"white-space:nowrap\"\u003e100000116195\u003ca name\u003d\"packaging-type-100000116195\"\u003e \u003c/a\u003e\u003c/td\u003e\u003ctd\u003eCalendar package\u003c/td\u003e\u003c/tr\u003e\u003ctr\u003e\u003ctd style\u003d\"white-space:nowrap\"\u003e100000116196\u003ca name\u003d\"packaging-type-100000116196\"\u003e \u003c/a\u003e\u003c/td\u003e\u003ctd\u003eNeedle-free injector\u003c/td\u003e\u003c/tr\u003e\u003ctr\u003e\u003ctd style\u003d\"white-space:nowrap\"\u003e100000116197\u003ca name\u003d\"packaging-type-100000116197\"\u003e \u003c/a\u003e\u003c/td\u003e\u003ctd\u003eRoll-on container\u003c/td\u003e\u003c/tr\u003e\u003ctr\u003e\u003ctd style\u003d\"white-space:nowrap\"\u003e100000125779\u003ca name\u003d\"packaging-type-100000125779\"\u003e \u003c/a\u003e\u003c/td\u003e\u003ctd\u003eMultidose container with pump\u003c/td\u003e\u003c/tr\u003e\u003ctr\u003e\u003ctd style\u003d\"white-space:nowrap\"\u003e100000137702\u003ca name\u003d\"packaging-type-100000137702\"\u003e \u003c/a\u003e\u003c/td\u003e\u003ctd\u003eContainer\u003c/td\u003e\u003c/tr\u003e\u003ctr\u003e\u003ctd style\u003d\"white-space:nowrap\"\u003e100000137703\u003ca name\u003d\"packaging-type-100000137703\"\u003e \u003c/a\u003e\u003c/td\u003e\u003ctd\u003eOral applicator\u003c/td\u003e\u003c/tr\u003e\u003ctr\u003e\u003ctd style\u003d\"white-space:nowrap\"\u003e100000143554\u003ca name\u003d\"packaging-type-100000143554\"\u003e \u003c/a\u003e\u003c/td\u003e\u003ctd\u003eMultidose container with metering pump\u003c/td\u003e\u003c/tr\u003e\u003ctr\u003e\u003ctd style\u003d\"white-space:nowrap\"\u003e100000143555\u003ca name\u003d\"packaging-type-100000143555\"\u003e \u003c/a\u003e\u003c/td\u003e\u003ctd\u003ePack\u003c/td\u003e\u003c/tr\u003e\u003ctr\u003e\u003ctd style\u003d\"white-space:nowrap\"\u003e100000163233\u003ca name\u003d\"packaging-type-100000163233\"\u003e \u003c/a\u003e\u003c/td\u003e\u003ctd\u003edisk\u003c/td\u003e\u003c/tr\u003e\u003ctr\u003e\u003ctd style\u003d\"white-space:nowrap\"\u003e100000163234\u003ca name\u003d\"packaging-type-100000163234\"\u003e \u003c/a\u003e\u003c/td\u003e\u003ctd\u003eplunger\u003c/td\u003e\u003c/tr\u003e\u003ctr\u003e\u003ctd style\u003d\"white-space:nowrap\"\u003e100000164143\u003ca name\u003d\"packaging-type-100000164143\"\u003e \u003c/a\u003e\u003c/td\u003e\u003ctd\u003einfusion port\u003c/td\u003e\u003c/tr\u003e\u003ctr\u003e\u003ctd style\u003d\"white-space:nowrap\"\u003e100000166980\u003ca name\u003d\"packaging-type-100000166980\"\u003e \u003c/a\u003e\u003c/td\u003e\u003ctd\u003eValve\u003c/td\u003e\u003c/tr\u003e\u003ctr\u003e\u003ctd style\u003d\"white-space:nowrap\"\u003e100000169899\u003ca name\u003d\"packaging-type-100000169899\"\u003e \u003c/a\u003e\u003c/td\u003e\u003ctd\u003eJerrycan\u003c/td\u003e\u003c/tr\u003e\u003ctr\u003e\u003ctd style\u003d\"white-space:nowrap\"\u003e100000173982\u003ca name\u003d\"packaging-type-100000173982\"\u003e \u003c/a\u003e\u003c/td\u003e\u003ctd\u003eOral applicator\u003c/td\u003e\u003c/tr\u003e\u003ctr\u003e\u003ctd style\u003d\"white-space:nowrap\"\u003e100000173983\u003ca name\u003d\"packaging-type-100000173983\"\u003e \u003c/a\u003e\u003c/td\u003e\u003ctd\u003eDose dispenser\u003c/td\u003e\u003c/tr\u003e\u003ctr\u003e\u003ctd style\u003d\"white-space:nowrap\"\u003e100000174066\u003ca name\u003d\"packaging-type-100000174066\"\u003e \u003c/a\u003e\u003c/td\u003e\u003ctd\u003eUnit-dose blister\u003c/td\u003e\u003c/tr\u003e\u003ctr\u003e\u003ctd style\u003d\"white-space:nowrap\"\u003e100000174067\u003ca name\u003d\"packaging-type-100000174067\"\u003e \u003c/a\u003e\u003c/td\u003e\u003ctd\u003ePre-filled injector\u003c/td\u003e\u003c/tr\u003e\u003ctr\u003e\u003ctd style\u003d\"white-space:nowrap\"\u003e100000174068\u003ca name\u003d\"packaging-type-100000174068\"\u003e \u003c/a\u003e\u003c/td\u003e\u003ctd\u003ePre-filled oral syringe\u003c/td\u003e\u003c/tr\u003e\u003ctr\u003e\u003ctd style\u003d\"white-space:nowrap\"\u003e100000174069\u003ca name\u003d\"packaging-type-100000174069\"\u003e \u003c/a\u003e\u003c/td\u003e\u003ctd\u003ePre-filled oral applicator\u003c/td\u003e\u003c/tr\u003e\u003ctr\u003e\u003ctd style\u003d\"white-space:nowrap\"\u003e100000174070\u003ca name\u003d\"packaging-type-100000174070\"\u003e \u003c/a\u003e\u003c/td\u003e\u003ctd\u003eDose-dispenser cartridge\u003c/td\u003e\u003c/tr\u003e\u003ctr\u003e\u003ctd style\u003d\"white-space:nowrap\"\u003e200000005068\u003ca name\u003d\"packaging-type-200000005068\"\u003e \u003c/a\u003e\u003c/td\u003e\u003ctd\u003ePen\u003c/td\u003e\u003c/tr\u003e\u003ctr\u003e\u003ctd style\u003d\"white-space:nowrap\"\u003e200000005585\u003ca name\u003d\"packaging-type-200000005585\"\u003e \u003c/a\u003e\u003c/td\u003e\u003ctd\u003eWrapper\u003c/td\u003e\u003c/tr\u003e\u003ctr\u003e\u003ctd style\u003d\"white-space:nowrap\"\u003e200000010647\u003ca name\u003d\"packaging-type-200000010647\"\u003e \u003c/a\u003e\u003c/td\u003e\u003ctd\u003eLid\u003c/td\u003e\u003c/tr\u003e\u003ctr\u003e\u003ctd style\u003d\"white-space:nowrap\"\u003e200000011726\u003ca name\u003d\"packaging-type-200000011726\"\u003e \u003c/a\u003e\u003c/td\u003e\u003ctd\u003eCapsule for opening\u003c/td\u003e\u003c/tr\u003e\u003ctr\u003e\u003ctd style\u003d\"white-space:nowrap\"\u003e200000012539\u003ca name\u003d\"packaging-type-200000012539\"\u003e \u003c/a\u003e\u003c/td\u003e\u003ctd\u003eChild-resistant sachet\u003c/td\u003e\u003c/tr\u003e\u003ctr\u003e\u003ctd style\u003d\"white-space:nowrap\"\u003e200000013191\u003ca name\u003d\"packaging-type-200000013191\"\u003e \u003c/a\u003e\u003c/td\u003e\u003ctd\u003eTamper-evident closure\u003c/td\u003e\u003c/tr\u003e\u003ctr\u003e\u003ctd style\u003d\"white-space:nowrap\"\u003e200000024874\u003ca name\u003d\"packaging-type-200000024874\"\u003e \u003c/a\u003e\u003c/td\u003e\u003ctd\u003eTablet tube\u003c/td\u003e\u003c/tr\u003e\u003c/table\u003e\u003c/div\u003e"
+  },
+  "extension": [
+    {
+      "url": "http://hl7.org/fhir/StructureDefinition/structuredefinition-wg",
+      "valueCode": "brr"
+    },
+    {
+      "url": "http://hl7.org/fhir/StructureDefinition/structuredefinition-standards-status",
+      "valueCode": "trial-use"
+    },
+    {
+      "url": "http://hl7.org/fhir/StructureDefinition/structuredefinition-fmm",
+      "valueInteger": 1
+    }
+  ],
+  "url": "http://hl7.org/fhir/packaging-type",
+  "identifier": [
+    {
+      "system": "urn:ietf:rfc:3986",
+      "value": "urn:oid:2.16.840.1.113883.4.642.1.1679"
+    }
+  ],
+  "version": "4.3.0-cibuild",
+  "name": "PackagingType",
+  "title": "PackagingType",
+  "status": "draft",
+  "experimental": false,
+  "date": "2021-01-05T10:01:24+11:00",
+  "publisher": "HL7 (FHIR Project)",
+  "contact": [
+    {
+      "telecom": [
+        {
+          "system": "url",
+          "value": "http://hl7.org/fhir"
+        },
+        {
+          "system": "email",
+          "value": "fhir@lists.hl7.org"
+        }
+      ]
+    }
+  ],
+  "description": "A type of packaging.",
+  "caseSensitive": true,
+  "valueSet": "http://hl7.org/fhir/ValueSet/packaging-type",
+  "content": "complete",
+  "concept": [
+    {
+      "code": "100000073490",
+      "display": "Ampoule"
+    },
+    {
+      "code": "100000073491",
+      "display": "Applicator"
+    },
+    {
+      "code": "100000073492",
+      "display": "Automatic injection device"
+    },
+    {
+      "code": "100000073493",
+      "display": "Bag"
+    },
+    {
+      "code": "100000073494",
+      "display": "Balling gun"
+    },
+    {
+      "code": "100000073495",
+      "display": "Barrel"
+    },
+    {
+      "code": "100000073496",
+      "display": "Blister"
+    },
+    {
+      "code": "100000073497",
+      "display": "Bottle"
+    },
+    {
+      "code": "100000073498",
+      "display": "Box"
+    },
+    {
+      "code": "100000073499",
+      "display": "Brush"
+    },
+    {
+      "code": "100000073500",
+      "display": "Brush applicator"
+    },
+    {
+      "code": "100000073501",
+      "display": "Cannula"
+    },
+    {
+      "code": "100000073502",
+      "display": "Cap"
+    },
+    {
+      "code": "100000073503",
+      "display": "Cartridge"
+    },
+    {
+      "code": "100000073504",
+      "display": "Child-resistant closure"
+    },
+    {
+      "code": "100000073505",
+      "display": "Cup"
+    },
+    {
+      "code": "100000073506",
+      "display": "Dabbing applicator"
+    },
+    {
+      "code": "100000073507",
+      "display": "Dart"
+    },
+    {
+      "code": "100000073508",
+      "display": "Dredging applicator"
+    },
+    {
+      "code": "100000073509",
+      "display": "Dredging container"
+    },
+    {
+      "code": "100000073510",
+      "display": "Drench gun"
+    },
+    {
+      "code": "100000073511",
+      "display": "Dropper applicator"
+    },
+    {
+      "code": "100000073512",
+      "display": "Dropper container"
+    },
+    {
+      "code": "100000073513",
+      "display": "Fixed cryogenic vessel"
+    },
+    {
+      "code": "100000073514",
+      "display": "Gas cylinder"
+    },
+    {
+      "code": "100000073515",
+      "display": "High pressure transdermal delivery device"
+    },
+    {
+      "code": "100000073516",
+      "display": "Implanter"
+    },
+    {
+      "code": "100000073517",
+      "display": "Inhaler"
+    },
+    {
+      "code": "100000073518",
+      "display": "In-ovo injection device"
+    },
+    {
+      "code": "100000073519",
+      "display": "Injection needle"
+    },
+    {
+      "code": "100000073520",
+      "display": "Injection syringe"
+    },
+    {
+      "code": "100000073521",
+      "display": "Internal graduated calibration chamber"
+    },
+    {
+      "code": "100000073522",
+      "display": "Intramammary syringe"
+    },
+    {
+      "code": "100000073523",
+      "display": "Jar"
+    },
+    {
+      "code": "100000073524",
+      "display": "Measuring device"
+    },
+    {
+      "code": "100000073525",
+      "display": "Measuring spoon"
+    },
+    {
+      "code": "100000073526",
+      "display": "Metering pump"
+    },
+    {
+      "code": "100000073527",
+      "display": "Metering valve"
+    },
+    {
+      "code": "100000073528",
+      "display": "Mobile cryogenic vessel"
+    },
+    {
+      "code": "100000073529",
+      "display": "Mouthpiece"
+    },
+    {
+      "code": "100000073530",
+      "display": "Multidose container"
+    },
+    {
+      "code": "100000073531",
+      "display": "Multidose container with airless pump"
+    },
+    {
+      "code": "100000073532",
+      "display": "Multipuncturer"
+    },
+    {
+      "code": "100000073533",
+      "display": "Nasal applicator"
+    },
+    {
+      "code": "100000073534",
+      "display": "Nebuliser"
+    },
+    {
+      "code": "100000073535",
+      "display": "Needle applicator"
+    },
+    {
+      "code": "100000073536",
+      "display": "Nozzle"
+    },
+    {
+      "code": "100000073537",
+      "display": "Oral syringe"
+    },
+    {
+      "code": "100000073538",
+      "display": "Pipette"
+    },
+    {
+      "code": "100000073539",
+      "display": "Pipette applicator"
+    },
+    {
+      "code": "100000073540",
+      "display": "Pouch"
+    },
+    {
+      "code": "100000073541",
+      "display": "Pour-on container"
+    },
+    {
+      "code": "100000073542",
+      "display": "Pre-filled gastroenteral tube"
+    },
+    {
+      "code": "100000073543",
+      "display": "Pre-filled pen"
+    },
+    {
+      "code": "100000073544",
+      "display": "Pre-filled syringe"
+    },
+    {
+      "code": "100000073545",
+      "display": "Pressurised container"
+    },
+    {
+      "code": "100000073546",
+      "display": "Prick test applicator"
+    },
+    {
+      "code": "100000073547",
+      "display": "Sachet"
+    },
+    {
+      "code": "100000073548",
+      "display": "Scarifier"
+    },
+    {
+      "code": "100000073549",
+      "display": "Screw cap"
+    },
+    {
+      "code": "100000073550",
+      "display": "Single-dose container"
+    },
+    {
+      "code": "100000073551",
+      "display": "Spatula"
+    },
+    {
+      "code": "100000073552",
+      "display": "Spot-on applicator"
+    },
+    {
+      "code": "100000073553",
+      "display": "Spray container"
+    },
+    {
+      "code": "100000073554",
+      "display": "Spray pump"
+    },
+    {
+      "code": "100000073555",
+      "display": "Spray valve"
+    },
+    {
+      "code": "100000073556",
+      "display": "Stab vaccinator"
+    },
+    {
+      "code": "100000073557",
+      "display": "Stopper"
+    },
+    {
+      "code": "100000073558",
+      "display": "Straw"
+    },
+    {
+      "code": "100000073559",
+      "display": "Strip"
+    },
+    {
+      "code": "100000073560",
+      "display": "Tablet container"
+    },
+    {
+      "code": "100000073561",
+      "display": "Tube"
+    },
+    {
+      "code": "100000073562",
+      "display": "Vaginal sponge applicator"
+    },
+    {
+      "code": "100000073563",
+      "display": "Vial"
+    },
+    {
+      "code": "100000075664",
+      "display": "Administration system"
+    },
+    {
+      "code": "100000116195",
+      "display": "Calendar package"
+    },
+    {
+      "code": "100000116196",
+      "display": "Needle-free injector"
+    },
+    {
+      "code": "100000116197",
+      "display": "Roll-on container"
+    },
+    {
+      "code": "100000125779",
+      "display": "Multidose container with pump"
+    },
+    {
+      "code": "100000137702",
+      "display": "Container"
+    },
+    {
+      "code": "100000137703",
+      "display": "Oral applicator"
+    },
+    {
+      "code": "100000143554",
+      "display": "Multidose container with metering pump"
+    },
+    {
+      "code": "100000143555",
+      "display": "Pack"
+    },
+    {
+      "code": "100000163233",
+      "display": "disk"
+    },
+    {
+      "code": "100000163234",
+      "display": "plunger"
+    },
+    {
+      "code": "100000164143",
+      "display": "infusion port"
+    },
+    {
+      "code": "100000166980",
+      "display": "Valve"
+    },
+    {
+      "code": "100000169899",
+      "display": "Jerrycan"
+    },
+    {
+      "code": "100000173982",
+      "display": "Oral applicator"
+    },
+    {
+      "code": "100000173983",
+      "display": "Dose dispenser"
+    },
+    {
+      "code": "100000174066",
+      "display": "Unit-dose blister"
+    },
+    {
+      "code": "100000174067",
+      "display": "Pre-filled injector"
+    },
+    {
+      "code": "100000174068",
+      "display": "Pre-filled oral syringe"
+    },
+    {
+      "code": "100000174069",
+      "display": "Pre-filled oral applicator"
+    },
+    {
+      "code": "100000174070",
+      "display": "Dose-dispenser cartridge"
+    },
+    {
+      "code": "200000005068",
+      "display": "Pen"
+    },
+    {
+      "code": "200000005585",
+      "display": "Wrapper"
+    },
+    {
+      "code": "200000010647",
+      "display": "Lid"
+    },
+    {
+      "code": "200000011726",
+      "display": "Capsule for opening"
+    },
+    {
+      "code": "200000012539",
+      "display": "Child-resistant sachet"
+    },
+    {
+      "code": "200000013191",
+      "display": "Tamper-evident closure"
+    },
+    {
+      "code": "200000024874",
+      "display": "Tablet tube"
+    }
+  ]
+}

@@ -2,7 +2,7 @@
     "resourceType": "StructureDefinition",
     "id": "RegulatedAuthorization",
     "meta": {
-        "lastUpdated": "2022-01-01T15:17:18.597Z"
+        "lastUpdated": "2022-04-23T22:21:35.043Z"
     },
     "text": {
         "status": "empty",
@@ -31,10 +31,11 @@
         }
     ],
     "url": "http://hl7.org/fhir/StructureDefinition/RegulatedAuthorization",
-    "version": "4.3.0-CIBUILD",
+    "version": "4.3.0-cibuild",
     "name": "RegulatedAuthorization",
     "status": "draft",
-    "date": "2022-01-01T15:17:18Z",
+    "experimental": false,
+    "date": "2022-04-23T22:21:35Z",
     "publisher": "Health Level Seven International (Biomedical Research and Regulation)",
     "contact": [
         {
@@ -55,7 +56,7 @@
         }
     ],
     "description": "Regulatory approval, clearance or licencing related to a regulated product, treatment, facility or activity that is cited in a guidance, regulation, rule or legislative act. An example is Market Authorization relating to a Medicinal Product.",
-    "fhirVersion": "4.3.0-CIBUILD",
+    "fhirVersion": "4.3.0-cibuild",
     "mapping": [
         {
             "identity": "idmp",
@@ -83,7 +84,7 @@
             {
                 "id": "RegulatedAuthorization",
                 "path": "RegulatedAuthorization",
-                "short": "Regulatory approval, clearance or licencing related to a regulated product, treatment, facility or activity that is cited in a guidance, regulation, rule or legislative act. An example is Market Authorization relating to a Medicinal Product",
+                "short": "Regulatory approval, clearance or licencing related to a regulated product, treatment, facility or activity e.g. Market Authorization for a Medicinal Product",
                 "definition": "Regulatory approval, clearance or licencing related to a regulated product, treatment, facility or activity that is cited in a guidance, regulation, rule or legislative act. An example is Market Authorization relating to a Medicinal Product.",
                 "min": 0,
                 "max": "*",
@@ -106,7 +107,7 @@
                         "severity": "error",
                         "human": "If the resource is contained in another resource, it SHALL be referred to from elsewhere in the resource or SHALL refer to the containing resource",
                         "expression": "contained.where(((id.exists() and ('#'+id in (%resource.descendants().reference | %resource.descendants().as(canonical) | %resource.descendants().as(uri) | %resource.descendants().as(url)))) or descendants().where(reference = '#').exists() or descendants().where(as(canonical) = '#').exists() or descendants().where(as(uri) = '#').exists()).not()).trace('unmatched', id).empty()",
-                        "xpath": "not(exists(for $resource in . return (for $contained in $resource/f:contained return $contained[not(descendant::f:*/@value='#' or (exists(f:id) and $resource//f:*/@*=concat('#', $contained/*/f:id/@value)))])))",
+                        "xpath": "not(exists(for $contained in f:contained return $contained[not(exists(parent::*/descendant::f:reference/@value=concat('#', $contained/*/f:id/@value)) or exists(descendant::f:reference[@value='#']))]))",
                         "source": "http://hl7.org/fhir/StructureDefinition/DomainResource"
                     },
                     {
@@ -372,6 +373,16 @@
                         "code": "Resource"
                     }
                 ],
+                "constraint": [
+                    {
+                        "key": "dom-r4b",
+                        "severity": "warning",
+                        "human": "Containing new R4B resources within R4 resources may cause interoperability issues if instances are shared with R4 systems",
+                        "expression": "($this is Citation or $this is Evidence or $this is EvidenceReport or $this is EvidenceVariable or $this is MedicinalProductDefinition or $this is PackagedProductDefinition or $this is AdministrableProductDefinition or $this is Ingredient or $this is ClinicalUseDefinition or $this is RegulatedAuthorization or $this is SubstanceDefinition or $this is SubscriptionStatus or $this is SubscriptionTopic) implies (%resource is Citation or %resource is Evidence or %resource is EvidenceReport or %resource is EvidenceVariable or %resource is MedicinalProductDefinition or %resource is PackagedProductDefinition or %resource is AdministrableProductDefinition or %resource is Ingredient or %resource is ClinicalUseDefinition or %resource is RegulatedAuthorization or %resource is SubstanceDefinition or %resource is SubscriptionStatus or %resource is SubscriptionTopic)",
+                        "xpath": "not(f:Citation|f:Evidence|f:EvidenceReport|f:EvidenceVariable|f:MedicinalProductDefinition|f:PackagedProductDefinition|f:AdministrableProductDefinition|f:Ingredient|f:ClinicalUseDefinition|f:RegulatedAuthorization|f:SubstanceDefinition|f:SubscriptionStatus|f:SubscriptionTopic) or not(parent::f:Citation|parent::f:Evidence|parent::f:EvidenceReport|parent::f:EvidenceVariable|parent::f:MedicinalProductDefinition|parent::f:PackagedProductDefinition|parent::f:AdministrableProductDefinition|parent::f:Ingredient|parent::f:ClinicalUseDefinition|parent::f:RegulatedAuthorization|parent::f:SubstanceDefinition|f:SubscriptionStatus|f:SubscriptionTopic)",
+                        "source": "http://hl7.org/fhir/StructureDefinition/RegulatedAuthorization"
+                    }
+                ],
                 "mustSupport": false,
                 "isModifier": false,
                 "isSummary": false,
@@ -603,6 +614,17 @@
                 "mustSupport": false,
                 "isModifier": false,
                 "isSummary": true,
+                "binding": {
+                    "extension": [
+                        {
+                            "url": "http://hl7.org/fhir/StructureDefinition/elementdefinition-bindingName",
+                            "valueString": "RegulatedAuthorizationType"
+                        }
+                    ],
+                    "strength": "example",
+                    "description": "Overall type of this authorization.",
+                    "valueSet": "http://hl7.org/fhir/ValueSet/regulated-authorization-type"
+                },
                 "mapping": [
                     {
                         "identity": "idmp",
@@ -650,7 +672,7 @@
             {
                 "id": "RegulatedAuthorization.region",
                 "path": "RegulatedAuthorization.region",
-                "short": "The territory (e.g., country, jurisdiction etc.) in which the authorization has been granted",
+                "short": "The territory in which the authorization has been granted",
                 "definition": "The territory (e.g., country, jurisdiction etc.) in which the authorization has been granted.",
                 "min": 0,
                 "max": "*",
@@ -677,6 +699,21 @@
                 "mustSupport": false,
                 "isModifier": false,
                 "isSummary": true,
+                "binding": {
+                    "extension": [
+                        {
+                            "url": "http://hl7.org/fhir/StructureDefinition/elementdefinition-bindingName",
+                            "valueString": "Jurisdiction"
+                        },
+                        {
+                            "url": "http://hl7.org/fhir/StructureDefinition/elementdefinition-isCommonBinding",
+                            "valueBoolean": true
+                        }
+                    ],
+                    "strength": "example",
+                    "description": "Jurisdiction codes",
+                    "valueSet": "http://hl7.org/fhir/ValueSet/jurisdiction"
+                },
                 "mapping": [
                     {
                         "identity": "idmp",
@@ -688,7 +725,7 @@
                 "id": "RegulatedAuthorization.status",
                 "path": "RegulatedAuthorization.status",
                 "short": "The status that is authorised e.g. approved. Intermediate states can be tracked with cases and applications",
-                "definition": "The status that is authorised e.g. approved. Intermediate states can be tracked with cases and applications.",
+                "definition": "The status that is authorised e.g. approved. Intermediate states and actions can be tracked with cases and applications.",
                 "min": 0,
                 "max": "1",
                 "base": {
@@ -714,6 +751,21 @@
                 "mustSupport": false,
                 "isModifier": false,
                 "isSummary": true,
+                "binding": {
+                    "extension": [
+                        {
+                            "url": "http://hl7.org/fhir/StructureDefinition/elementdefinition-bindingName",
+                            "valueString": "PublicationStatus"
+                        },
+                        {
+                            "url": "http://hl7.org/fhir/StructureDefinition/elementdefinition-isCommonBinding",
+                            "valueBoolean": true
+                        }
+                    ],
+                    "strength": "preferred",
+                    "description": "The lifecycle status of an artifact.",
+                    "valueSet": "http://hl7.org/fhir/ValueSet/publication-status"
+                },
                 "mapping": [
                     {
                         "identity": "idmp",
@@ -761,7 +813,7 @@
             {
                 "id": "RegulatedAuthorization.validityPeriod",
                 "path": "RegulatedAuthorization.validityPeriod",
-                "short": "The time period in which the regulatory approval, clearance or licencing is in effect. As an example, a Marketing Authorization includes the date of authorization and/or an expiration date",
+                "short": "The time period in which the regulatory approval etc. is in effect, e.g. a Marketing Authorization includes the date of authorization and/or expiration date",
                 "definition": "The time period in which the regulatory approval, clearance or licencing is in effect. As an example, a Marketing Authorization includes the date of authorization and/or an expiration date.",
                 "min": 0,
                 "max": "1",
@@ -798,7 +850,7 @@
             {
                 "id": "RegulatedAuthorization.indication",
                 "path": "RegulatedAuthorization.indication",
-                "short": "Condition for which the use of the regulated product  applies",
+                "short": "Condition for which the use of the regulated product applies",
                 "definition": "Condition for which the use of the regulated product applies.",
                 "min": 0,
                 "max": "1",
@@ -839,7 +891,7 @@
                 "id": "RegulatedAuthorization.intendedUse",
                 "path": "RegulatedAuthorization.intendedUse",
                 "short": "The intended use of the product, e.g. prevention, treatment",
-                "definition": "The intended use of the product, e.g. prevention, treatment.",
+                "definition": "The intended use of the product, e.g. prevention, treatment, diagnosis.",
                 "min": 0,
                 "max": "1",
                 "base": {
@@ -865,6 +917,17 @@
                 "mustSupport": false,
                 "isModifier": false,
                 "isSummary": true,
+                "binding": {
+                    "extension": [
+                        {
+                            "url": "http://hl7.org/fhir/StructureDefinition/elementdefinition-bindingName",
+                            "valueString": "ProductIntendedUse"
+                        }
+                    ],
+                    "strength": "preferred",
+                    "description": "The overall intended use of a product.",
+                    "valueSet": "http://hl7.org/fhir/ValueSet/product-intended-use"
+                },
                 "mapping": [
                     {
                         "identity": "idmp",
@@ -875,7 +938,7 @@
             {
                 "id": "RegulatedAuthorization.basis",
                 "path": "RegulatedAuthorization.basis",
-                "short": "The legal or regulatory framework against which this authorization is granted, or other reasons for it",
+                "short": "The legal/regulatory framework or reasons under which this authorization is granted",
                 "definition": "The legal or regulatory framework against which this authorization is granted, or other reasons for it.",
                 "min": 0,
                 "max": "*",
@@ -902,6 +965,17 @@
                 "mustSupport": false,
                 "isModifier": false,
                 "isSummary": true,
+                "binding": {
+                    "extension": [
+                        {
+                            "url": "http://hl7.org/fhir/StructureDefinition/elementdefinition-bindingName",
+                            "valueString": "RegulatedAuthorizationBasis"
+                        }
+                    ],
+                    "strength": "example",
+                    "description": "A legal or regulatory framework against which an authorization is granted, or other reasons for it.",
+                    "valueSet": "http://hl7.org/fhir/ValueSet/regulated-authorization-basis"
+                },
                 "mapping": [
                     {
                         "identity": "idmp",
@@ -912,8 +986,8 @@
             {
                 "id": "RegulatedAuthorization.holder",
                 "path": "RegulatedAuthorization.holder",
-                "short": "The organization that holds the granted authorization",
-                "definition": "The organization that holds the granted authorization.",
+                "short": "The organization that has been granted this authorization, by the regulator",
+                "definition": "The organization that has been granted this authorization, by some authoritative body (the 'regulator').",
                 "min": 0,
                 "max": "1",
                 "base": {
@@ -992,8 +1066,8 @@
             {
                 "id": "RegulatedAuthorization.case",
                 "path": "RegulatedAuthorization.case",
-                "short": "The case or regulatory procedure for granting or amending a marketing authorization. Note: This area is subject to ongoing review and the workgroup is seeking implementer feedback on its use (see link at bottom of page)",
-                "definition": "The case or regulatory procedure for granting or amending a marketing authorization. Note: This area is subject to ongoing review and the workgroup is seeking implementer feedback on its use (see link at bottom of page).",
+                "short": "The case or regulatory procedure for granting or amending a regulated authorization. Note: This area is subject to ongoing review and the workgroup is seeking implementer feedback on its use (see link at bottom of page)",
+                "definition": "The case or regulatory procedure for granting or amending a regulated authorization. An authorization is granted in response to submissions/applications by those seeking authorization. A case is the administrative process that deals with the application(s) that relate to this and assesses them. Note: This area is subject to ongoing review and the workgroup is seeking implementer feedback on its use (see link at bottom of page).",
                 "min": 0,
                 "max": "1",
                 "base": {
@@ -1046,7 +1120,7 @@
                         "extension": [
                             {
                                 "url": "http://hl7.org/fhir/StructureDefinition/structuredefinition-fhir-type",
-                                "valueUrl": "id"
+                                "valueUrl": "string"
                             }
                         ],
                         "code": "http://hl7.org/fhirpath/System.String"
@@ -1229,6 +1303,17 @@
                 "mustSupport": false,
                 "isModifier": false,
                 "isSummary": true,
+                "binding": {
+                    "extension": [
+                        {
+                            "url": "http://hl7.org/fhir/StructureDefinition/elementdefinition-bindingName",
+                            "valueString": "RegulatedAuthorizationCaseType"
+                        }
+                    ],
+                    "strength": "example",
+                    "description": "The type of a case involved in an application.",
+                    "valueSet": "http://hl7.org/fhir/ValueSet/regulated-authorization-case-type"
+                },
                 "mapping": [
                     {
                         "identity": "idmp",
@@ -1266,6 +1351,21 @@
                 "mustSupport": false,
                 "isModifier": false,
                 "isSummary": true,
+                "binding": {
+                    "extension": [
+                        {
+                            "url": "http://hl7.org/fhir/StructureDefinition/elementdefinition-bindingName",
+                            "valueString": "PublicationStatus"
+                        },
+                        {
+                            "url": "http://hl7.org/fhir/StructureDefinition/elementdefinition-isCommonBinding",
+                            "valueBoolean": true
+                        }
+                    ],
+                    "strength": "preferred",
+                    "description": "The lifecycle status of an artifact.",
+                    "valueSet": "http://hl7.org/fhir/ValueSet/publication-status"
+                },
                 "mapping": [
                     {
                         "identity": "idmp",
@@ -1276,8 +1376,8 @@
             {
                 "id": "RegulatedAuthorization.case.date[x]",
                 "path": "RegulatedAuthorization.case.date[x]",
-                "short": "Relevant date for this of case",
-                "definition": "Relevant date for this of case.",
+                "short": "Relevant date for this case",
+                "definition": "Relevant date for this case.",
                 "min": 0,
                 "max": "1",
                 "base": {
@@ -1316,8 +1416,8 @@
             {
                 "id": "RegulatedAuthorization.case.application",
                 "path": "RegulatedAuthorization.case.application",
-                "short": "Applications submitted to obtain a marketing authorization. Steps within the longer running case or procedure",
-                "definition": "Applications submitted to obtain a marketing authorization. Steps within the longer running case or procedure.",
+                "short": "Applications submitted to obtain a regulated authorization. Steps within the longer running case or procedure",
+                "definition": "A regulatory submission from an organization to a regulator, as part of an assessing case. Multiple applications may occur over time, with more or different information to support or modify the submission or the authorization. The applications can be considered as steps within the longer running case or procedure for this authorization process.",
                 "min": 0,
                 "max": "*",
                 "base": {
@@ -1353,7 +1453,7 @@
             {
                 "id": "RegulatedAuthorization",
                 "path": "RegulatedAuthorization",
-                "short": "Regulatory approval, clearance or licencing related to a regulated product, treatment, facility or activity that is cited in a guidance, regulation, rule or legislative act. An example is Market Authorization relating to a Medicinal Product",
+                "short": "Regulatory approval, clearance or licencing related to a regulated product, treatment, facility or activity e.g. Market Authorization for a Medicinal Product",
                 "definition": "Regulatory approval, clearance or licencing related to a regulated product, treatment, facility or activity that is cited in a guidance, regulation, rule or legislative act. An example is Market Authorization relating to a Medicinal Product.",
                 "min": 0,
                 "max": "*",
@@ -1444,6 +1544,17 @@
                 "mustSupport": false,
                 "isModifier": false,
                 "isSummary": true,
+                "binding": {
+                    "extension": [
+                        {
+                            "url": "http://hl7.org/fhir/StructureDefinition/elementdefinition-bindingName",
+                            "valueString": "RegulatedAuthorizationType"
+                        }
+                    ],
+                    "strength": "example",
+                    "description": "Overall type of this authorization.",
+                    "valueSet": "http://hl7.org/fhir/ValueSet/regulated-authorization-type"
+                },
                 "mapping": [
                     {
                         "identity": "idmp",
@@ -1476,7 +1587,7 @@
             {
                 "id": "RegulatedAuthorization.region",
                 "path": "RegulatedAuthorization.region",
-                "short": "The territory (e.g., country, jurisdiction etc.) in which the authorization has been granted",
+                "short": "The territory in which the authorization has been granted",
                 "definition": "The territory (e.g., country, jurisdiction etc.) in which the authorization has been granted.",
                 "min": 0,
                 "max": "*",
@@ -1488,6 +1599,21 @@
                 "mustSupport": false,
                 "isModifier": false,
                 "isSummary": true,
+                "binding": {
+                    "extension": [
+                        {
+                            "url": "http://hl7.org/fhir/StructureDefinition/elementdefinition-bindingName",
+                            "valueString": "Jurisdiction"
+                        },
+                        {
+                            "url": "http://hl7.org/fhir/StructureDefinition/elementdefinition-isCommonBinding",
+                            "valueBoolean": true
+                        }
+                    ],
+                    "strength": "example",
+                    "description": "Jurisdiction codes",
+                    "valueSet": "http://hl7.org/fhir/ValueSet/jurisdiction"
+                },
                 "mapping": [
                     {
                         "identity": "idmp",
@@ -1499,7 +1625,7 @@
                 "id": "RegulatedAuthorization.status",
                 "path": "RegulatedAuthorization.status",
                 "short": "The status that is authorised e.g. approved. Intermediate states can be tracked with cases and applications",
-                "definition": "The status that is authorised e.g. approved. Intermediate states can be tracked with cases and applications.",
+                "definition": "The status that is authorised e.g. approved. Intermediate states and actions can be tracked with cases and applications.",
                 "min": 0,
                 "max": "1",
                 "type": [
@@ -1510,6 +1636,21 @@
                 "mustSupport": false,
                 "isModifier": false,
                 "isSummary": true,
+                "binding": {
+                    "extension": [
+                        {
+                            "url": "http://hl7.org/fhir/StructureDefinition/elementdefinition-bindingName",
+                            "valueString": "PublicationStatus"
+                        },
+                        {
+                            "url": "http://hl7.org/fhir/StructureDefinition/elementdefinition-isCommonBinding",
+                            "valueBoolean": true
+                        }
+                    ],
+                    "strength": "preferred",
+                    "description": "The lifecycle status of an artifact.",
+                    "valueSet": "http://hl7.org/fhir/ValueSet/publication-status"
+                },
                 "mapping": [
                     {
                         "identity": "idmp",
@@ -1542,7 +1683,7 @@
             {
                 "id": "RegulatedAuthorization.validityPeriod",
                 "path": "RegulatedAuthorization.validityPeriod",
-                "short": "The time period in which the regulatory approval, clearance or licencing is in effect. As an example, a Marketing Authorization includes the date of authorization and/or an expiration date",
+                "short": "The time period in which the regulatory approval etc. is in effect, e.g. a Marketing Authorization includes the date of authorization and/or expiration date",
                 "definition": "The time period in which the regulatory approval, clearance or licencing is in effect. As an example, a Marketing Authorization includes the date of authorization and/or an expiration date.",
                 "min": 0,
                 "max": "1",
@@ -1564,7 +1705,7 @@
             {
                 "id": "RegulatedAuthorization.indication",
                 "path": "RegulatedAuthorization.indication",
-                "short": "Condition for which the use of the regulated product  applies",
+                "short": "Condition for which the use of the regulated product applies",
                 "definition": "Condition for which the use of the regulated product applies.",
                 "min": 0,
                 "max": "1",
@@ -1590,7 +1731,7 @@
                 "id": "RegulatedAuthorization.intendedUse",
                 "path": "RegulatedAuthorization.intendedUse",
                 "short": "The intended use of the product, e.g. prevention, treatment",
-                "definition": "The intended use of the product, e.g. prevention, treatment.",
+                "definition": "The intended use of the product, e.g. prevention, treatment, diagnosis.",
                 "min": 0,
                 "max": "1",
                 "type": [
@@ -1601,6 +1742,17 @@
                 "mustSupport": false,
                 "isModifier": false,
                 "isSummary": true,
+                "binding": {
+                    "extension": [
+                        {
+                            "url": "http://hl7.org/fhir/StructureDefinition/elementdefinition-bindingName",
+                            "valueString": "ProductIntendedUse"
+                        }
+                    ],
+                    "strength": "preferred",
+                    "description": "The overall intended use of a product.",
+                    "valueSet": "http://hl7.org/fhir/ValueSet/product-intended-use"
+                },
                 "mapping": [
                     {
                         "identity": "idmp",
@@ -1611,7 +1763,7 @@
             {
                 "id": "RegulatedAuthorization.basis",
                 "path": "RegulatedAuthorization.basis",
-                "short": "The legal or regulatory framework against which this authorization is granted, or other reasons for it",
+                "short": "The legal/regulatory framework or reasons under which this authorization is granted",
                 "definition": "The legal or regulatory framework against which this authorization is granted, or other reasons for it.",
                 "min": 0,
                 "max": "*",
@@ -1623,6 +1775,17 @@
                 "mustSupport": false,
                 "isModifier": false,
                 "isSummary": true,
+                "binding": {
+                    "extension": [
+                        {
+                            "url": "http://hl7.org/fhir/StructureDefinition/elementdefinition-bindingName",
+                            "valueString": "RegulatedAuthorizationBasis"
+                        }
+                    ],
+                    "strength": "example",
+                    "description": "A legal or regulatory framework against which an authorization is granted, or other reasons for it.",
+                    "valueSet": "http://hl7.org/fhir/ValueSet/regulated-authorization-basis"
+                },
                 "mapping": [
                     {
                         "identity": "idmp",
@@ -1633,8 +1796,8 @@
             {
                 "id": "RegulatedAuthorization.holder",
                 "path": "RegulatedAuthorization.holder",
-                "short": "The organization that holds the granted authorization",
-                "definition": "The organization that holds the granted authorization.",
+                "short": "The organization that has been granted this authorization, by the regulator",
+                "definition": "The organization that has been granted this authorization, by some authoritative body (the 'regulator').",
                 "min": 0,
                 "max": "1",
                 "type": [
@@ -1683,8 +1846,8 @@
             {
                 "id": "RegulatedAuthorization.case",
                 "path": "RegulatedAuthorization.case",
-                "short": "The case or regulatory procedure for granting or amending a marketing authorization. Note: This area is subject to ongoing review and the workgroup is seeking implementer feedback on its use (see link at bottom of page)",
-                "definition": "The case or regulatory procedure for granting or amending a marketing authorization. Note: This area is subject to ongoing review and the workgroup is seeking implementer feedback on its use (see link at bottom of page).",
+                "short": "The case or regulatory procedure for granting or amending a regulated authorization. Note: This area is subject to ongoing review and the workgroup is seeking implementer feedback on its use (see link at bottom of page)",
+                "definition": "The case or regulatory procedure for granting or amending a regulated authorization. An authorization is granted in response to submissions/applications by those seeking authorization. A case is the administrative process that deals with the application(s) that relate to this and assesses them. Note: This area is subject to ongoing review and the workgroup is seeking implementer feedback on its use (see link at bottom of page).",
                 "min": 0,
                 "max": "1",
                 "type": [
@@ -1739,6 +1902,17 @@
                 "mustSupport": false,
                 "isModifier": false,
                 "isSummary": true,
+                "binding": {
+                    "extension": [
+                        {
+                            "url": "http://hl7.org/fhir/StructureDefinition/elementdefinition-bindingName",
+                            "valueString": "RegulatedAuthorizationCaseType"
+                        }
+                    ],
+                    "strength": "example",
+                    "description": "The type of a case involved in an application.",
+                    "valueSet": "http://hl7.org/fhir/ValueSet/regulated-authorization-case-type"
+                },
                 "mapping": [
                     {
                         "identity": "idmp",
@@ -1761,6 +1935,21 @@
                 "mustSupport": false,
                 "isModifier": false,
                 "isSummary": true,
+                "binding": {
+                    "extension": [
+                        {
+                            "url": "http://hl7.org/fhir/StructureDefinition/elementdefinition-bindingName",
+                            "valueString": "PublicationStatus"
+                        },
+                        {
+                            "url": "http://hl7.org/fhir/StructureDefinition/elementdefinition-isCommonBinding",
+                            "valueBoolean": true
+                        }
+                    ],
+                    "strength": "preferred",
+                    "description": "The lifecycle status of an artifact.",
+                    "valueSet": "http://hl7.org/fhir/ValueSet/publication-status"
+                },
                 "mapping": [
                     {
                         "identity": "idmp",
@@ -1771,8 +1960,8 @@
             {
                 "id": "RegulatedAuthorization.case.date[x]",
                 "path": "RegulatedAuthorization.case.date[x]",
-                "short": "Relevant date for this of case",
-                "definition": "Relevant date for this of case.",
+                "short": "Relevant date for this case",
+                "definition": "Relevant date for this case.",
                 "min": 0,
                 "max": "1",
                 "type": [
@@ -1796,8 +1985,8 @@
             {
                 "id": "RegulatedAuthorization.case.application",
                 "path": "RegulatedAuthorization.case.application",
-                "short": "Applications submitted to obtain a marketing authorization. Steps within the longer running case or procedure",
-                "definition": "Applications submitted to obtain a marketing authorization. Steps within the longer running case or procedure.",
+                "short": "Applications submitted to obtain a regulated authorization. Steps within the longer running case or procedure",
+                "definition": "A regulatory submission from an organization to a regulator, as part of an assessing case. Multiple applications may occur over time, with more or different information to support or modify the submission or the authorization. The applications can be considered as steps within the longer running case or procedure for this authorization process.",
                 "min": 0,
                 "max": "*",
                 "contentReference": "#RegulatedAuthorization.case",

@@ -79,7 +79,7 @@ public class Specimen extends DomainResource {
         bindingName = "SpecimenStatus",
         strength = BindingStrength.Value.REQUIRED,
         description = "Codes providing the status/availability of a specimen.",
-        valueSet = "http://hl7.org/fhir/ValueSet/specimen-status|4.3.0-CIBUILD"
+        valueSet = "http://hl7.org/fhir/ValueSet/specimen-status|4.3.0-cibuild"
     )
     private final SpecimenStatus status;
     @Summary

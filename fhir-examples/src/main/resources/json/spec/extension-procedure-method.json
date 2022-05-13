@@ -12,10 +12,11 @@
     }
   ],
   "url": "http://hl7.org/fhir/StructureDefinition/procedure-method",
-  "version": "4.3.0-CIBUILD",
+  "version": "4.3.0-cibuild",
   "name": "method",
   "title": "method",
   "status": "draft",
+  "experimental": false,
   "date": "2015-02-12",
   "publisher": "Health Level Seven, Inc. - FHIR WG",
   "contact": [
@@ -29,7 +30,7 @@
     }
   ],
   "description": "The method used to perform this procedure.",
-  "fhirVersion": "4.3.0-CIBUILD",
+  "fhirVersion": "4.3.0-cibuild",
   "mapping": [
     {
       "identity": "rim",

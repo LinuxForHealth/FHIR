@@ -2,7 +2,7 @@
     "resourceType": "ValueSet",
     "id": "fhir-element-types",
     "meta": {
-        "lastUpdated": "2022-03-03T22:04:06.196Z",
+        "lastUpdated": "2022-04-23T22:21:35.043Z",
         "profile": [
             "http://hl7.org/fhir/StructureDefinition/shareablevalueset"
         ]
@@ -32,12 +32,12 @@
             "value": "urn:oid:2.16.840.1.113883.4.642.3.0"
         }
     ],
-    "version": "4.3.0-CIBUILD",
+    "version": "4.3.0-cibuild",
     "name": "ElementTypes",
     "title": "Common Tags",
     "status": "active",
     "experimental": false,
-    "date": "2022-03-03T22:04:06Z",
+    "date": "2022-04-23T22:21:35Z",
     "publisher": "FHIR Project team",
     "contact": [
         {
@@ -63,9 +63,9 @@
         ]
     },
     "expansion": {
-        "identifier": "urn:uuid:280f7aad-4264-4b5a-bda8-7714735dca32",
-        "timestamp": "2022-03-03T22:05:31Z",
-        "total": 215,
+        "identifier": "urn:uuid:55156690-a430-4742-b415-e3bece8149fa",
+        "timestamp": "2022-04-23T22:23:26Z",
+        "total": 214,
         "parameter": [
             {
                 "name": "excludeNested",
@@ -77,19 +77,19 @@
             },
             {
                 "name": "version",
-                "valueUri": "http://hl7.org/fhir/CodeSystem/fhirpath-types|4.3.0-CIBUILD"
+                "valueUri": "http://hl7.org/fhir/CodeSystem/fhirpath-types|4.3.0-cibuild"
             },
             {
                 "name": "version",
-                "valueUri": "http://hl7.org/fhir/ValueSet/defined-types|4.3.0-CIBUILD"
+                "valueUri": "http://hl7.org/fhir/ValueSet/defined-types|4.3.0-cibuild"
             },
             {
                 "name": "version",
-                "valueUri": "http://hl7.org/fhir/data-types|4.3.0-CIBUILD"
+                "valueUri": "http://hl7.org/fhir/data-types|4.3.0-cibuild"
             },
             {
                 "name": "version",
-                "valueUri": "http://hl7.org/fhir/resource-types|4.3.0-CIBUILD"
+                "valueUri": "http://hl7.org/fhir/resource-types|4.3.0-cibuild"
             }
         ],
         "contains": [
@@ -130,1457 +130,1036 @@
             },
             {
                 "system": "http://hl7.org/fhir/data-types",
-                "abstract": false,
-                "inactive": false,
                 "code": "Address",
                 "display": "Address"
             },
             {
                 "system": "http://hl7.org/fhir/data-types",
-                "abstract": false,
-                "inactive": false,
                 "code": "Age",
                 "display": "Age"
             },
             {
                 "system": "http://hl7.org/fhir/data-types",
-                "abstract": false,
-                "inactive": false,
                 "code": "Annotation",
                 "display": "Annotation"
             },
             {
                 "system": "http://hl7.org/fhir/data-types",
-                "abstract": false,
-                "inactive": false,
                 "code": "Attachment",
                 "display": "Attachment"
             },
             {
                 "system": "http://hl7.org/fhir/data-types",
-                "abstract": false,
-                "inactive": false,
                 "code": "BackboneElement",
                 "display": "BackboneElement"
             },
             {
                 "system": "http://hl7.org/fhir/data-types",
-                "abstract": false,
-                "inactive": false,
                 "code": "CodeableConcept",
                 "display": "CodeableConcept"
             },
             {
                 "system": "http://hl7.org/fhir/data-types",
-                "abstract": false,
-                "inactive": false,
                 "code": "CodeableReference",
                 "display": "CodeableReference"
             },
             {
                 "system": "http://hl7.org/fhir/data-types",
-                "abstract": false,
-                "inactive": false,
                 "code": "Coding",
                 "display": "Coding"
             },
             {
                 "system": "http://hl7.org/fhir/data-types",
-                "abstract": false,
-                "inactive": false,
                 "code": "ContactDetail",
                 "display": "ContactDetail"
             },
             {
                 "system": "http://hl7.org/fhir/data-types",
-                "abstract": false,
-                "inactive": false,
                 "code": "ContactPoint",
                 "display": "ContactPoint"
             },
             {
                 "system": "http://hl7.org/fhir/data-types",
-                "abstract": false,
-                "inactive": false,
                 "code": "Contributor",
                 "display": "Contributor"
             },
             {
                 "system": "http://hl7.org/fhir/data-types",
-                "abstract": false,
-                "inactive": false,
                 "code": "Count",
                 "display": "Count"
             },
             {
                 "system": "http://hl7.org/fhir/data-types",
-                "abstract": false,
-                "inactive": false,
                 "code": "DataRequirement",
                 "display": "DataRequirement"
             },
             {
                 "system": "http://hl7.org/fhir/data-types",
-                "abstract": false,
-                "inactive": false,
-                "code": "DataType",
-                "display": "DataType"
-            },
-            {
-                "system": "http://hl7.org/fhir/data-types",
-                "abstract": false,
-                "inactive": false,
                 "code": "Distance",
                 "display": "Distance"
             },
             {
                 "system": "http://hl7.org/fhir/data-types",
-                "abstract": false,
-                "inactive": false,
                 "code": "Dosage",
                 "display": "Dosage"
             },
             {
                 "system": "http://hl7.org/fhir/data-types",
-                "abstract": false,
-                "inactive": false,
                 "code": "Duration",
                 "display": "Duration"
             },
             {
                 "system": "http://hl7.org/fhir/data-types",
-                "abstract": false,
-                "inactive": false,
                 "code": "Element",
                 "display": "Element"
             },
             {
                 "system": "http://hl7.org/fhir/data-types",
-                "abstract": false,
-                "inactive": false,
                 "code": "ElementDefinition",
                 "display": "ElementDefinition"
             },
             {
                 "system": "http://hl7.org/fhir/data-types",
-                "abstract": false,
-                "inactive": false,
                 "code": "Expression",
                 "display": "Expression"
             },
             {
                 "system": "http://hl7.org/fhir/data-types",
-                "abstract": false,
-                "inactive": false,
                 "code": "Extension",
                 "display": "Extension"
             },
             {
                 "system": "http://hl7.org/fhir/data-types",
-                "abstract": false,
-                "inactive": false,
                 "code": "HumanName",
                 "display": "HumanName"
             },
             {
                 "system": "http://hl7.org/fhir/data-types",
-                "abstract": false,
-                "inactive": false,
                 "code": "Identifier",
                 "display": "Identifier"
             },
             {
                 "system": "http://hl7.org/fhir/data-types",
-                "abstract": false,
-                "inactive": false,
                 "code": "MarketingStatus",
                 "display": "MarketingStatus"
             },
             {
                 "system": "http://hl7.org/fhir/data-types",
-                "abstract": false,
-                "inactive": false,
                 "code": "Meta",
                 "display": "Meta"
             },
             {
                 "system": "http://hl7.org/fhir/data-types",
-                "abstract": false,
-                "inactive": false,
                 "code": "Money",
                 "display": "Money"
             },
             {
                 "system": "http://hl7.org/fhir/data-types",
-                "abstract": false,
-                "inactive": false,
                 "code": "MoneyQuantity",
                 "display": "MoneyQuantity"
             },
             {
                 "system": "http://hl7.org/fhir/data-types",
-                "abstract": false,
-                "inactive": false,
                 "code": "Narrative",
                 "display": "Narrative"
             },
             {
                 "system": "http://hl7.org/fhir/data-types",
-                "abstract": false,
-                "inactive": false,
                 "code": "ParameterDefinition",
                 "display": "ParameterDefinition"
             },
             {
                 "system": "http://hl7.org/fhir/data-types",
-                "abstract": false,
-                "inactive": false,
                 "code": "Period",
                 "display": "Period"
             },
             {
                 "system": "http://hl7.org/fhir/data-types",
-                "abstract": false,
-                "inactive": false,
                 "code": "Population",
                 "display": "Population"
             },
             {
                 "system": "http://hl7.org/fhir/data-types",
-                "abstract": false,
-                "inactive": false,
                 "code": "ProdCharacteristic",
                 "display": "ProdCharacteristic"
             },
             {
                 "system": "http://hl7.org/fhir/data-types",
-                "abstract": false,
-                "inactive": false,
                 "code": "ProductShelfLife",
                 "display": "ProductShelfLife"
             },
             {
                 "system": "http://hl7.org/fhir/data-types",
-                "abstract": false,
-                "inactive": false,
                 "code": "Quantity",
                 "display": "Quantity"
             },
             {
                 "system": "http://hl7.org/fhir/data-types",
-                "abstract": false,
-                "inactive": false,
                 "code": "Range",
                 "display": "Range"
             },
             {
                 "system": "http://hl7.org/fhir/data-types",
-                "abstract": false,
-                "inactive": false,
                 "code": "Ratio",
                 "display": "Ratio"
             },
             {
                 "system": "http://hl7.org/fhir/data-types",
-                "abstract": false,
-                "inactive": false,
                 "code": "RatioRange",
                 "display": "RatioRange"
             },
             {
                 "system": "http://hl7.org/fhir/data-types",
-                "abstract": false,
-                "inactive": false,
                 "code": "Reference",
                 "display": "Reference"
             },
             {
                 "system": "http://hl7.org/fhir/data-types",
-                "abstract": false,
-                "inactive": false,
                 "code": "RelatedArtifact",
                 "display": "RelatedArtifact"
             },
             {
                 "system": "http://hl7.org/fhir/data-types",
-                "abstract": false,
-                "inactive": false,
                 "code": "SampledData",
                 "display": "SampledData"
             },
             {
                 "system": "http://hl7.org/fhir/data-types",
-                "abstract": false,
-                "inactive": false,
                 "code": "Signature",
                 "display": "Signature"
             },
             {
                 "system": "http://hl7.org/fhir/data-types",
-                "abstract": false,
-                "inactive": false,
                 "code": "SimpleQuantity",
                 "display": "SimpleQuantity"
             },
             {
                 "system": "http://hl7.org/fhir/data-types",
-                "abstract": false,
-                "inactive": false,
                 "code": "Timing",
                 "display": "Timing"
             },
             {
                 "system": "http://hl7.org/fhir/data-types",
-                "abstract": false,
-                "inactive": false,
                 "code": "TriggerDefinition",
                 "display": "TriggerDefinition"
             },
             {
                 "system": "http://hl7.org/fhir/data-types",
-                "abstract": false,
-                "inactive": false,
                 "code": "UsageContext",
                 "display": "UsageContext"
             },
             {
                 "system": "http://hl7.org/fhir/data-types",
-                "abstract": false,
-                "inactive": false,
                 "code": "base64Binary",
                 "display": "base64Binary"
             },
             {
                 "system": "http://hl7.org/fhir/data-types",
-                "abstract": false,
-                "inactive": false,
                 "code": "boolean",
                 "display": "boolean"
             },
             {
                 "system": "http://hl7.org/fhir/data-types",
-                "abstract": false,
-                "inactive": false,
                 "code": "canonical",
                 "display": "canonical"
             },
             {
                 "system": "http://hl7.org/fhir/data-types",
-                "abstract": false,
-                "inactive": false,
                 "code": "code",
                 "display": "code"
             },
             {
                 "system": "http://hl7.org/fhir/data-types",
-                "abstract": false,
-                "inactive": false,
                 "code": "date",
                 "display": "date"
             },
             {
                 "system": "http://hl7.org/fhir/data-types",
-                "abstract": false,
-                "inactive": false,
                 "code": "dateTime",
                 "display": "dateTime"
             },
             {
                 "system": "http://hl7.org/fhir/data-types",
-                "abstract": false,
-                "inactive": false,
                 "code": "decimal",
                 "display": "decimal"
             },
             {
                 "system": "http://hl7.org/fhir/data-types",
-                "abstract": false,
-                "inactive": false,
                 "code": "id",
                 "display": "id"
             },
             {
                 "system": "http://hl7.org/fhir/data-types",
-                "abstract": false,
-                "inactive": false,
                 "code": "instant",
                 "display": "instant"
             },
             {
                 "system": "http://hl7.org/fhir/data-types",
-                "abstract": false,
-                "inactive": false,
                 "code": "integer",
                 "display": "integer"
             },
             {
                 "system": "http://hl7.org/fhir/data-types",
-                "abstract": false,
-                "inactive": false,
                 "code": "markdown",
                 "display": "markdown"
             },
             {
                 "system": "http://hl7.org/fhir/data-types",
-                "abstract": false,
-                "inactive": false,
                 "code": "oid",
                 "display": "oid"
             },
             {
                 "system": "http://hl7.org/fhir/data-types",
-                "abstract": false,
-                "inactive": false,
                 "code": "positiveInt",
                 "display": "positiveInt"
             },
             {
                 "system": "http://hl7.org/fhir/data-types",
-                "abstract": false,
-                "inactive": false,
                 "code": "string",
                 "display": "string"
             },
             {
                 "system": "http://hl7.org/fhir/data-types",
-                "abstract": false,
-                "inactive": false,
                 "code": "time",
                 "display": "time"
             },
             {
                 "system": "http://hl7.org/fhir/data-types",
-                "abstract": false,
-                "inactive": false,
                 "code": "unsignedInt",
                 "display": "unsignedInt"
             },
             {
                 "system": "http://hl7.org/fhir/data-types",
-                "abstract": false,
-                "inactive": false,
                 "code": "uri",
                 "display": "uri"
             },
             {
                 "system": "http://hl7.org/fhir/data-types",
-                "abstract": false,
-                "inactive": false,
                 "code": "url",
                 "display": "url"
             },
             {
                 "system": "http://hl7.org/fhir/data-types",
-                "abstract": false,
-                "inactive": false,
                 "code": "uuid",
                 "display": "uuid"
             },
             {
                 "system": "http://hl7.org/fhir/data-types",
-                "abstract": false,
-                "inactive": false,
                 "code": "xhtml",
                 "display": "XHTML"
             },
             {
                 "system": "http://hl7.org/fhir/resource-types",
-                "abstract": false,
-                "inactive": false,
                 "code": "Resource",
                 "display": "Resource"
             },
             {
                 "system": "http://hl7.org/fhir/resource-types",
-                "abstract": false,
-                "inactive": false,
                 "code": "Binary",
                 "display": "Binary"
             },
             {
                 "system": "http://hl7.org/fhir/resource-types",
-                "abstract": false,
-                "inactive": false,
                 "code": "Bundle",
                 "display": "Bundle"
             },
             {
                 "system": "http://hl7.org/fhir/resource-types",
-                "abstract": false,
-                "inactive": false,
                 "code": "DomainResource",
                 "display": "DomainResource"
             },
             {
                 "system": "http://hl7.org/fhir/resource-types",
-                "abstract": false,
-                "inactive": false,
                 "code": "Account",
                 "display": "Account"
             },
             {
                 "system": "http://hl7.org/fhir/resource-types",
-                "abstract": false,
-                "inactive": false,
                 "code": "ActivityDefinition",
                 "display": "ActivityDefinition"
             },
             {
                 "system": "http://hl7.org/fhir/resource-types",
-                "abstract": false,
-                "inactive": false,
                 "code": "AdministrableProductDefinition",
                 "display": "AdministrableProductDefinition"
             },
             {
                 "system": "http://hl7.org/fhir/resource-types",
-                "abstract": false,
-                "inactive": false,
                 "code": "AdverseEvent",
                 "display": "AdverseEvent"
             },
             {
                 "system": "http://hl7.org/fhir/resource-types",
-                "abstract": false,
-                "inactive": false,
                 "code": "AllergyIntolerance",
                 "display": "AllergyIntolerance"
             },
             {
                 "system": "http://hl7.org/fhir/resource-types",
-                "abstract": false,
-                "inactive": false,
                 "code": "Appointment",
                 "display": "Appointment"
             },
             {
                 "system": "http://hl7.org/fhir/resource-types",
-                "abstract": false,
-                "inactive": false,
                 "code": "AppointmentResponse",
                 "display": "AppointmentResponse"
             },
             {
                 "system": "http://hl7.org/fhir/resource-types",
-                "abstract": false,
-                "inactive": false,
                 "code": "AuditEvent",
                 "display": "AuditEvent"
             },
             {
                 "system": "http://hl7.org/fhir/resource-types",
-                "abstract": false,
-                "inactive": false,
                 "code": "Basic",
                 "display": "Basic"
             },
             {
                 "system": "http://hl7.org/fhir/resource-types",
-                "abstract": false,
-                "inactive": false,
                 "code": "BiologicallyDerivedProduct",
                 "display": "BiologicallyDerivedProduct"
             },
             {
                 "system": "http://hl7.org/fhir/resource-types",
-                "abstract": false,
-                "inactive": false,
                 "code": "BodyStructure",
                 "display": "BodyStructure"
             },
             {
                 "system": "http://hl7.org/fhir/resource-types",
-                "abstract": false,
-                "inactive": false,
                 "code": "CapabilityStatement",
                 "display": "CapabilityStatement"
             },
             {
                 "system": "http://hl7.org/fhir/resource-types",
-                "abstract": false,
-                "inactive": false,
                 "code": "CarePlan",
                 "display": "CarePlan"
             },
             {
                 "system": "http://hl7.org/fhir/resource-types",
-                "abstract": false,
-                "inactive": false,
                 "code": "CareTeam",
                 "display": "CareTeam"
             },
             {
                 "system": "http://hl7.org/fhir/resource-types",
-                "abstract": false,
-                "inactive": false,
                 "code": "CatalogEntry",
                 "display": "CatalogEntry"
             },
             {
                 "system": "http://hl7.org/fhir/resource-types",
-                "abstract": false,
-                "inactive": false,
                 "code": "ChargeItem",
                 "display": "ChargeItem"
             },
             {
                 "system": "http://hl7.org/fhir/resource-types",
-                "abstract": false,
-                "inactive": false,
                 "code": "ChargeItemDefinition",
                 "display": "ChargeItemDefinition"
             },
             {
                 "system": "http://hl7.org/fhir/resource-types",
-                "abstract": false,
-                "inactive": false,
                 "code": "Citation",
                 "display": "Citation"
             },
             {
                 "system": "http://hl7.org/fhir/resource-types",
-                "abstract": false,
-                "inactive": false,
                 "code": "Claim",
                 "display": "Claim"
             },
             {
                 "system": "http://hl7.org/fhir/resource-types",
-                "abstract": false,
-                "inactive": false,
                 "code": "ClaimResponse",
                 "display": "ClaimResponse"
             },
             {
                 "system": "http://hl7.org/fhir/resource-types",
-                "abstract": false,
-                "inactive": false,
                 "code": "ClinicalImpression",
                 "display": "ClinicalImpression"
             },
             {
                 "system": "http://hl7.org/fhir/resource-types",
-                "abstract": false,
-                "inactive": false,
                 "code": "ClinicalUseDefinition",
                 "display": "ClinicalUseDefinition"
             },
             {
                 "system": "http://hl7.org/fhir/resource-types",
-                "abstract": false,
-                "inactive": false,
                 "code": "CodeSystem",
                 "display": "CodeSystem"
             },
             {
                 "system": "http://hl7.org/fhir/resource-types",
-                "abstract": false,
-                "inactive": false,
                 "code": "Communication",
                 "display": "Communication"
             },
             {
                 "system": "http://hl7.org/fhir/resource-types",
-                "abstract": false,
-                "inactive": false,
                 "code": "CommunicationRequest",
                 "display": "CommunicationRequest"
             },
             {
                 "system": "http://hl7.org/fhir/resource-types",
-                "abstract": false,
-                "inactive": false,
                 "code": "CompartmentDefinition",
                 "display": "CompartmentDefinition"
             },
             {
                 "system": "http://hl7.org/fhir/resource-types",
-                "abstract": false,
-                "inactive": false,
                 "code": "Composition",
                 "display": "Composition"
             },
             {
                 "system": "http://hl7.org/fhir/resource-types",
-                "abstract": false,
-                "inactive": false,
                 "code": "ConceptMap",
                 "display": "ConceptMap"
             },
             {
                 "system": "http://hl7.org/fhir/resource-types",
-                "abstract": false,
-                "inactive": false,
                 "code": "Condition",
                 "display": "Condition"
             },
             {
                 "system": "http://hl7.org/fhir/resource-types",
-                "abstract": false,
-                "inactive": false,
                 "code": "Consent",
                 "display": "Consent"
             },
             {
                 "system": "http://hl7.org/fhir/resource-types",
-                "abstract": false,
-                "inactive": false,
                 "code": "Contract",
                 "display": "Contract"
             },
             {
                 "system": "http://hl7.org/fhir/resource-types",
-                "abstract": false,
-                "inactive": false,
                 "code": "Coverage",
                 "display": "Coverage"
             },
             {
                 "system": "http://hl7.org/fhir/resource-types",
-                "abstract": false,
-                "inactive": false,
                 "code": "CoverageEligibilityRequest",
                 "display": "CoverageEligibilityRequest"
             },
             {
                 "system": "http://hl7.org/fhir/resource-types",
-                "abstract": false,
-                "inactive": false,
                 "code": "CoverageEligibilityResponse",
                 "display": "CoverageEligibilityResponse"
             },
             {
                 "system": "http://hl7.org/fhir/resource-types",
-                "abstract": false,
-                "inactive": false,
                 "code": "DetectedIssue",
                 "display": "DetectedIssue"
             },
             {
                 "system": "http://hl7.org/fhir/resource-types",
-                "abstract": false,
-                "inactive": false,
                 "code": "Device",
                 "display": "Device"
             },
             {
                 "system": "http://hl7.org/fhir/resource-types",
-                "abstract": false,
-                "inactive": false,
                 "code": "DeviceDefinition",
                 "display": "DeviceDefinition"
             },
             {
                 "system": "http://hl7.org/fhir/resource-types",
-                "abstract": false,
-                "inactive": false,
                 "code": "DeviceMetric",
                 "display": "DeviceMetric"
             },
             {
                 "system": "http://hl7.org/fhir/resource-types",
-                "abstract": false,
-                "inactive": false,
                 "code": "DeviceRequest",
                 "display": "DeviceRequest"
             },
             {
                 "system": "http://hl7.org/fhir/resource-types",
-                "abstract": false,
-                "inactive": false,
                 "code": "DeviceUseStatement",
                 "display": "DeviceUseStatement"
             },
             {
                 "system": "http://hl7.org/fhir/resource-types",
-                "abstract": false,
-                "inactive": false,
                 "code": "DiagnosticReport",
                 "display": "DiagnosticReport"
             },
             {
                 "system": "http://hl7.org/fhir/resource-types",
-                "abstract": false,
-                "inactive": false,
                 "code": "DocumentManifest",
                 "display": "DocumentManifest"
             },
             {
                 "system": "http://hl7.org/fhir/resource-types",
-                "abstract": false,
-                "inactive": false,
                 "code": "DocumentReference",
                 "display": "DocumentReference"
             },
             {
                 "system": "http://hl7.org/fhir/resource-types",
-                "abstract": false,
-                "inactive": false,
                 "code": "Encounter",
                 "display": "Encounter"
             },
             {
                 "system": "http://hl7.org/fhir/resource-types",
-                "abstract": false,
-                "inactive": false,
                 "code": "Endpoint",
                 "display": "Endpoint"
             },
             {
                 "system": "http://hl7.org/fhir/resource-types",
-                "abstract": false,
-                "inactive": false,
                 "code": "EnrollmentRequest",
                 "display": "EnrollmentRequest"
             },
             {
                 "system": "http://hl7.org/fhir/resource-types",
-                "abstract": false,
-                "inactive": false,
                 "code": "EnrollmentResponse",
                 "display": "EnrollmentResponse"
             },
             {
                 "system": "http://hl7.org/fhir/resource-types",
-                "abstract": false,
-                "inactive": false,
                 "code": "EpisodeOfCare",
                 "display": "EpisodeOfCare"
             },
             {
                 "system": "http://hl7.org/fhir/resource-types",
-                "abstract": false,
-                "inactive": false,
                 "code": "EventDefinition",
                 "display": "EventDefinition"
             },
             {
                 "system": "http://hl7.org/fhir/resource-types",
-                "abstract": false,
-                "inactive": false,
                 "code": "Evidence",
                 "display": "Evidence"
             },
             {
                 "system": "http://hl7.org/fhir/resource-types",
-                "abstract": false,
-                "inactive": false,
                 "code": "EvidenceReport",
                 "display": "EvidenceReport"
             },
             {
                 "system": "http://hl7.org/fhir/resource-types",
-                "abstract": false,
-                "inactive": false,
                 "code": "EvidenceVariable",
                 "display": "EvidenceVariable"
             },
             {
                 "system": "http://hl7.org/fhir/resource-types",
-                "abstract": false,
-                "inactive": false,
                 "code": "ExampleScenario",
                 "display": "ExampleScenario"
             },
             {
                 "system": "http://hl7.org/fhir/resource-types",
-                "abstract": false,
-                "inactive": false,
                 "code": "ExplanationOfBenefit",
                 "display": "ExplanationOfBenefit"
             },
             {
                 "system": "http://hl7.org/fhir/resource-types",
-                "abstract": false,
-                "inactive": false,
                 "code": "FamilyMemberHistory",
                 "display": "FamilyMemberHistory"
             },
             {
                 "system": "http://hl7.org/fhir/resource-types",
-                "abstract": false,
-                "inactive": false,
                 "code": "Flag",
                 "display": "Flag"
             },
             {
                 "system": "http://hl7.org/fhir/resource-types",
-                "abstract": false,
-                "inactive": false,
                 "code": "Goal",
                 "display": "Goal"
             },
             {
                 "system": "http://hl7.org/fhir/resource-types",
-                "abstract": false,
-                "inactive": false,
                 "code": "GraphDefinition",
                 "display": "GraphDefinition"
             },
             {
                 "system": "http://hl7.org/fhir/resource-types",
-                "abstract": false,
-                "inactive": false,
                 "code": "Group",
                 "display": "Group"
             },
             {
                 "system": "http://hl7.org/fhir/resource-types",
-                "abstract": false,
-                "inactive": false,
                 "code": "GuidanceResponse",
                 "display": "GuidanceResponse"
             },
             {
                 "system": "http://hl7.org/fhir/resource-types",
-                "abstract": false,
-                "inactive": false,
                 "code": "HealthcareService",
                 "display": "HealthcareService"
             },
             {
                 "system": "http://hl7.org/fhir/resource-types",
-                "abstract": false,
-                "inactive": false,
                 "code": "ImagingStudy",
                 "display": "ImagingStudy"
             },
             {
                 "system": "http://hl7.org/fhir/resource-types",
-                "abstract": false,
-                "inactive": false,
                 "code": "Immunization",
                 "display": "Immunization"
             },
             {
                 "system": "http://hl7.org/fhir/resource-types",
-                "abstract": false,
-                "inactive": false,
                 "code": "ImmunizationEvaluation",
                 "display": "ImmunizationEvaluation"
             },
             {
                 "system": "http://hl7.org/fhir/resource-types",
-                "abstract": false,
-                "inactive": false,
                 "code": "ImmunizationRecommendation",
                 "display": "ImmunizationRecommendation"
             },
             {
                 "system": "http://hl7.org/fhir/resource-types",
-                "abstract": false,
-                "inactive": false,
                 "code": "ImplementationGuide",
                 "display": "ImplementationGuide"
             },
             {
                 "system": "http://hl7.org/fhir/resource-types",
-                "abstract": false,
-                "inactive": false,
                 "code": "Ingredient",
                 "display": "Ingredient"
             },
             {
                 "system": "http://hl7.org/fhir/resource-types",
-                "abstract": false,
-                "inactive": false,
                 "code": "InsurancePlan",
                 "display": "InsurancePlan"
             },
             {
                 "system": "http://hl7.org/fhir/resource-types",
-                "abstract": false,
-                "inactive": false,
                 "code": "Invoice",
                 "display": "Invoice"
             },
             {
                 "system": "http://hl7.org/fhir/resource-types",
-                "abstract": false,
-                "inactive": false,
                 "code": "Library",
                 "display": "Library"
             },
             {
                 "system": "http://hl7.org/fhir/resource-types",
-                "abstract": false,
-                "inactive": false,
                 "code": "Linkage",
                 "display": "Linkage"
             },
             {
                 "system": "http://hl7.org/fhir/resource-types",
-                "abstract": false,
-                "inactive": false,
                 "code": "List",
                 "display": "List"
             },
             {
                 "system": "http://hl7.org/fhir/resource-types",
-                "abstract": false,
-                "inactive": false,
                 "code": "Location",
                 "display": "Location"
             },
             {
                 "system": "http://hl7.org/fhir/resource-types",
-                "abstract": false,
-                "inactive": false,
                 "code": "ManufacturedItemDefinition",
                 "display": "ManufacturedItemDefinition"
             },
             {
                 "system": "http://hl7.org/fhir/resource-types",
-                "abstract": false,
-                "inactive": false,
                 "code": "Measure",
                 "display": "Measure"
             },
             {
                 "system": "http://hl7.org/fhir/resource-types",
-                "abstract": false,
-                "inactive": false,
                 "code": "MeasureReport",
                 "display": "MeasureReport"
             },
             {
                 "system": "http://hl7.org/fhir/resource-types",
-                "abstract": false,
-                "inactive": false,
                 "code": "Media",
                 "display": "Media"
             },
             {
                 "system": "http://hl7.org/fhir/resource-types",
-                "abstract": false,
-                "inactive": false,
                 "code": "Medication",
                 "display": "Medication"
             },
             {
                 "system": "http://hl7.org/fhir/resource-types",
-                "abstract": false,
-                "inactive": false,
                 "code": "MedicationAdministration",
                 "display": "MedicationAdministration"
             },
             {
                 "system": "http://hl7.org/fhir/resource-types",
-                "abstract": false,
-                "inactive": false,
                 "code": "MedicationDispense",
                 "display": "MedicationDispense"
             },
             {
                 "system": "http://hl7.org/fhir/resource-types",
-                "abstract": false,
-                "inactive": false,
                 "code": "MedicationKnowledge",
                 "display": "MedicationKnowledge"
             },
             {
                 "system": "http://hl7.org/fhir/resource-types",
-                "abstract": false,
-                "inactive": false,
                 "code": "MedicationRequest",
                 "display": "MedicationRequest"
             },
             {
                 "system": "http://hl7.org/fhir/resource-types",
-                "abstract": false,
-                "inactive": false,
                 "code": "MedicationStatement",
                 "display": "MedicationStatement"
             },
             {
                 "system": "http://hl7.org/fhir/resource-types",
-                "abstract": false,
-                "inactive": false,
                 "code": "MedicinalProductDefinition",
                 "display": "MedicinalProductDefinition"
             },
             {
                 "system": "http://hl7.org/fhir/resource-types",
-                "abstract": false,
-                "inactive": false,
                 "code": "MessageDefinition",
                 "display": "MessageDefinition"
             },
             {
                 "system": "http://hl7.org/fhir/resource-types",
-                "abstract": false,
-                "inactive": false,
                 "code": "MessageHeader",
                 "display": "MessageHeader"
             },
             {
                 "system": "http://hl7.org/fhir/resource-types",
-                "abstract": false,
-                "inactive": false,
                 "code": "MolecularSequence",
                 "display": "MolecularSequence"
             },
             {
                 "system": "http://hl7.org/fhir/resource-types",
-                "abstract": false,
-                "inactive": false,
                 "code": "NamingSystem",
                 "display": "NamingSystem"
             },
             {
                 "system": "http://hl7.org/fhir/resource-types",
-                "abstract": false,
-                "inactive": false,
                 "code": "NutritionOrder",
                 "display": "NutritionOrder"
             },
             {
                 "system": "http://hl7.org/fhir/resource-types",
-                "abstract": false,
-                "inactive": false,
                 "code": "NutritionProduct",
                 "display": "NutritionProduct"
             },
             {
                 "system": "http://hl7.org/fhir/resource-types",
-                "abstract": false,
-                "inactive": false,
                 "code": "Observation",
                 "display": "Observation"
             },
             {
                 "system": "http://hl7.org/fhir/resource-types",
-                "abstract": false,
-                "inactive": false,
                 "code": "ObservationDefinition",
                 "display": "ObservationDefinition"
             },
             {
                 "system": "http://hl7.org/fhir/resource-types",
-                "abstract": false,
-                "inactive": false,
                 "code": "OperationDefinition",
                 "display": "OperationDefinition"
             },
             {
                 "system": "http://hl7.org/fhir/resource-types",
-                "abstract": false,
-                "inactive": false,
                 "code": "OperationOutcome",
                 "display": "OperationOutcome"
             },
             {
                 "system": "http://hl7.org/fhir/resource-types",
-                "abstract": false,
-                "inactive": false,
                 "code": "Organization",
                 "display": "Organization"
             },
             {
                 "system": "http://hl7.org/fhir/resource-types",
-                "abstract": false,
-                "inactive": false,
                 "code": "OrganizationAffiliation",
                 "display": "OrganizationAffiliation"
             },
             {
                 "system": "http://hl7.org/fhir/resource-types",
-                "abstract": false,
-                "inactive": false,
                 "code": "PackagedProductDefinition",
                 "display": "PackagedProductDefinition"
             },
             {
                 "system": "http://hl7.org/fhir/resource-types",
-                "abstract": false,
-                "inactive": false,
                 "code": "Patient",
                 "display": "Patient"
             },
             {
                 "system": "http://hl7.org/fhir/resource-types",
-                "abstract": false,
-                "inactive": false,
                 "code": "PaymentNotice",
                 "display": "PaymentNotice"
             },
             {
                 "system": "http://hl7.org/fhir/resource-types",
-                "abstract": false,
-                "inactive": false,
                 "code": "PaymentReconciliation",
                 "display": "PaymentReconciliation"
             },
             {
                 "system": "http://hl7.org/fhir/resource-types",
-                "abstract": false,
-                "inactive": false,
                 "code": "Person",
                 "display": "Person"
             },
             {
                 "system": "http://hl7.org/fhir/resource-types",
-                "abstract": false,
-                "inactive": false,
                 "code": "PlanDefinition",
                 "display": "PlanDefinition"
             },
             {
                 "system": "http://hl7.org/fhir/resource-types",
-                "abstract": false,
-                "inactive": false,
                 "code": "Practitioner",
                 "display": "Practitioner"
             },
             {
                 "system": "http://hl7.org/fhir/resource-types",
-                "abstract": false,
-                "inactive": false,
                 "code": "PractitionerRole",
                 "display": "PractitionerRole"
             },
             {
                 "system": "http://hl7.org/fhir/resource-types",
-                "abstract": false,
-                "inactive": false,
                 "code": "Procedure",
                 "display": "Procedure"
             },
             {
                 "system": "http://hl7.org/fhir/resource-types",
-                "abstract": false,
-                "inactive": false,
                 "code": "Provenance",
                 "display": "Provenance"
             },
             {
                 "system": "http://hl7.org/fhir/resource-types",
-                "abstract": false,
-                "inactive": false,
                 "code": "Questionnaire",
                 "display": "Questionnaire"
             },
             {
                 "system": "http://hl7.org/fhir/resource-types",
-                "abstract": false,
-                "inactive": false,
                 "code": "QuestionnaireResponse",
                 "display": "QuestionnaireResponse"
             },
             {
                 "system": "http://hl7.org/fhir/resource-types",
-                "abstract": false,
-                "inactive": false,
                 "code": "RegulatedAuthorization",
                 "display": "RegulatedAuthorization"
             },
             {
                 "system": "http://hl7.org/fhir/resource-types",
-                "abstract": false,
-                "inactive": false,
                 "code": "RelatedPerson",
                 "display": "RelatedPerson"
             },
             {
                 "system": "http://hl7.org/fhir/resource-types",
-                "abstract": false,
-                "inactive": false,
                 "code": "RequestGroup",
                 "display": "RequestGroup"
             },
             {
                 "system": "http://hl7.org/fhir/resource-types",
-                "abstract": false,
-                "inactive": false,
                 "code": "ResearchDefinition",
                 "display": "ResearchDefinition"
             },
             {
                 "system": "http://hl7.org/fhir/resource-types",
-                "abstract": false,
-                "inactive": false,
                 "code": "ResearchElementDefinition",
                 "display": "ResearchElementDefinition"
             },
             {
                 "system": "http://hl7.org/fhir/resource-types",
-                "abstract": false,
-                "inactive": false,
                 "code": "ResearchStudy",
                 "display": "ResearchStudy"
             },
             {
                 "system": "http://hl7.org/fhir/resource-types",
-                "abstract": false,
-                "inactive": false,
                 "code": "ResearchSubject",
                 "display": "ResearchSubject"
             },
             {
                 "system": "http://hl7.org/fhir/resource-types",
-                "abstract": false,
-                "inactive": false,
                 "code": "RiskAssessment",
                 "display": "RiskAssessment"
             },
             {
                 "system": "http://hl7.org/fhir/resource-types",
-                "abstract": false,
-                "inactive": false,
                 "code": "Schedule",
                 "display": "Schedule"
             },
             {
                 "system": "http://hl7.org/fhir/resource-types",
-                "abstract": false,
-                "inactive": false,
                 "code": "SearchParameter",
                 "display": "SearchParameter"
             },
             {
                 "system": "http://hl7.org/fhir/resource-types",
-                "abstract": false,
-                "inactive": false,
                 "code": "ServiceRequest",
                 "display": "ServiceRequest"
             },
             {
                 "system": "http://hl7.org/fhir/resource-types",
-                "abstract": false,
-                "inactive": false,
                 "code": "Slot",
                 "display": "Slot"
             },
             {
                 "system": "http://hl7.org/fhir/resource-types",
-                "abstract": false,
-                "inactive": false,
                 "code": "Specimen",
                 "display": "Specimen"
             },
             {
                 "system": "http://hl7.org/fhir/resource-types",
-                "abstract": false,
-                "inactive": false,
                 "code": "SpecimenDefinition",
                 "display": "SpecimenDefinition"
             },
             {
                 "system": "http://hl7.org/fhir/resource-types",
-                "abstract": false,
-                "inactive": false,
                 "code": "StructureDefinition",
                 "display": "StructureDefinition"
             },
             {
                 "system": "http://hl7.org/fhir/resource-types",
-                "abstract": false,
-                "inactive": false,
                 "code": "StructureMap",
                 "display": "StructureMap"
             },
             {
                 "system": "http://hl7.org/fhir/resource-types",
-                "abstract": false,
-                "inactive": false,
                 "code": "Subscription",
                 "display": "Subscription"
             },
             {
                 "system": "http://hl7.org/fhir/resource-types",
-                "abstract": false,
-                "inactive": false,
                 "code": "SubscriptionStatus",
                 "display": "SubscriptionStatus"
             },
             {
                 "system": "http://hl7.org/fhir/resource-types",
-                "abstract": false,
-                "inactive": false,
                 "code": "SubscriptionTopic",
                 "display": "SubscriptionTopic"
             },
             {
                 "system": "http://hl7.org/fhir/resource-types",
-                "abstract": false,
-                "inactive": false,
                 "code": "Substance",
                 "display": "Substance"
             },
             {
                 "system": "http://hl7.org/fhir/resource-types",
-                "abstract": false,
-                "inactive": false,
                 "code": "SubstanceDefinition",
                 "display": "SubstanceDefinition"
             },
             {
                 "system": "http://hl7.org/fhir/resource-types",
-                "abstract": false,
-                "inactive": false,
                 "code": "SupplyDelivery",
                 "display": "SupplyDelivery"
             },
             {
                 "system": "http://hl7.org/fhir/resource-types",
-                "abstract": false,
-                "inactive": false,
                 "code": "SupplyRequest",
                 "display": "SupplyRequest"
             },
             {
                 "system": "http://hl7.org/fhir/resource-types",
-                "abstract": false,
-                "inactive": false,
                 "code": "Task",
                 "display": "Task"
             },
             {
                 "system": "http://hl7.org/fhir/resource-types",
-                "abstract": false,
-                "inactive": false,
                 "code": "TerminologyCapabilities",
                 "display": "TerminologyCapabilities"
             },
             {
                 "system": "http://hl7.org/fhir/resource-types",
-                "abstract": false,
-                "inactive": false,
                 "code": "TestReport",
                 "display": "TestReport"
             },
             {
                 "system": "http://hl7.org/fhir/resource-types",
-                "abstract": false,
-                "inactive": false,
                 "code": "TestScript",
                 "display": "TestScript"
             },
             {
                 "system": "http://hl7.org/fhir/resource-types",
-                "abstract": false,
-                "inactive": false,
                 "code": "ValueSet",
                 "display": "ValueSet"
             },
             {
                 "system": "http://hl7.org/fhir/resource-types",
-                "abstract": false,
-                "inactive": false,
                 "code": "VerificationResult",
                 "display": "VerificationResult"
             },
             {
                 "system": "http://hl7.org/fhir/resource-types",
-                "abstract": false,
-                "inactive": false,
                 "code": "VisionPrescription",
                 "display": "VisionPrescription"
             },
             {
                 "system": "http://hl7.org/fhir/resource-types",
-                "abstract": false,
-                "inactive": false,
                 "code": "Parameters",
                 "display": "Parameters"
             }

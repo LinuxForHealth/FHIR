@@ -2,7 +2,7 @@
     "resourceType": "ValueSet",
     "id": "prepare-patient-prior-specimen-collection",
     "meta": {
-        "lastUpdated": "2022-03-03T22:04:06.196Z",
+        "lastUpdated": "2022-04-23T22:21:35.043Z",
         "profile": [
             "http://hl7.org/fhir/StructureDefinition/shareablevalueset"
         ]
@@ -28,7 +28,7 @@
             "value": "urn:oid:2.16.840.1.113883.4.642.3.1399"
         }
     ],
-    "version": "4.3.0-CIBUILD",
+    "version": "4.3.0-cibuild",
     "name": "PreparePatient",
     "title": "Patient preparation prior specimen collection",
     "status": "draft",
@@ -67,11 +67,12 @@
                 "valueBoolean": true
             }
         ],
-        "identifier": "urn:uuid:da278cd0-936b-49ca-a6cb-aae3fbb58a2a",
-        "timestamp": "2021-11-17T05:28:50.597Z",
+        "identifier": "urn:uuid:25a23d3c-6234-46f6-af74-7d54b0b865dc",
+        "timestamp": "2022-04-23T22:23:26Z",
+        "total": 98,
         "parameter": [
             {
-                "name": "limitedExpansion",
+                "name": "excludeNested",
                 "valueBoolean": true
             },
             {
@@ -79,12 +80,12 @@
                 "valueBoolean": true
             },
             {
-                "name": "excludeNested",
+                "name": "limitedExpansion",
                 "valueBoolean": true
             },
             {
                 "name": "version",
-                "valueUri": "http://snomed.info/sct|http://snomed.info/sct/900000000000207008/version/20200131"
+                "valueUri": "http://snomed.info/sct|http://snomed.info/sct/900000000000207008/version/20200731"
             }
         ],
         "contains": [
@@ -135,9 +136,6 @@
                         "value": "Infancy"
                     },
                     {
-                        "value": "Infantile state"
-                    },
-                    {
                         "value": "Infancy (qualifier value)"
                     },
                     {
@@ -154,13 +152,13 @@
                         "value": "Adulthood"
                     },
                     {
-                        "value": "Maturity"
-                    },
-                    {
                         "value": "Adulthood (qualifier value)"
                     },
                     {
                         "value": "Adulthood - period"
+                    },
+                    {
+                        "value": "Adult period of life"
                     }
                 ]
             },

@@ -12,7 +12,7 @@
     <use value="official"/>
     <value value="FHIRHelpers"/>
   </identifier>
-  <version value="4.3.0-CIBUILD"/>
+  <version value="4.3.0-cibuild"/>
   <name value="FHIRHelpers"/>
   <title value="FHIR Helpers"/>
   <status value="active"/>
@@ -32,6 +32,9 @@
   <relatedArtifact>
     <type value="documentation"/>
     <url value="https://github.com/cqframework/clinical_quality_language/wiki/FHIRHelpers"/>
+    <document>
+      <url value="https://github.com/cqframework/clinical_quality_language/wiki/FHIRHelpers"/>
+    </document>
   </relatedArtifact>
   <relatedArtifact>
     <type value="depends-on"/>
@@ -39,7 +42,7 @@
   </relatedArtifact>
   <relatedArtifact>
     <type value="predecessor"/>
-    <resource value="library-fhir-helpers-predecessor"/>
+    <resource value="http://hl7.org/fhir/Library/library-fhir-helpers-predecessor"/>
   </relatedArtifact>
   <content>
     <contentType value="text/cql"/>

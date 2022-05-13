@@ -2,7 +2,7 @@
     "resourceType": "StructureDefinition",
     "id": "ElementDefinition",
     "meta": {
-        "lastUpdated": "2022-01-01T15:17:18.597Z"
+        "lastUpdated": "2022-04-23T22:21:35.043Z"
     },
     "text": {
         "status": "empty",
@@ -19,10 +19,11 @@
         }
     ],
     "url": "http://hl7.org/fhir/StructureDefinition/ElementDefinition",
-    "version": "4.3.0-CIBUILD",
+    "version": "4.3.0-cibuild",
     "name": "ElementDefinition",
     "status": "active",
-    "date": "2022-01-01T15:17:18Z",
+    "experimental": false,
+    "date": "2022-04-23T22:21:35Z",
     "publisher": "HL7 FHIR Standard",
     "contact": [
         {
@@ -35,7 +36,7 @@
         }
     ],
     "description": "Base StructureDefinition for ElementDefinition Type: Captures constraints on each element within the resource, profile, or extension.",
-    "fhirVersion": "4.3.0-CIBUILD",
+    "fhirVersion": "4.3.0-cibuild",
     "mapping": [
         {
             "identity": "v2",
@@ -137,8 +138,8 @@
                         "key": "eld-11",
                         "severity": "error",
                         "human": "Binding can only be present for coded elements, string, and uri",
-                        "expression": "binding.empty() or type.code.empty() or type.select((code = 'code') or (code = 'Coding') or (code='CodeableConcept') or (code = 'Quantity') or (code = 'string') or (code = 'uri')).exists()",
-                        "xpath": "not(exists(f:binding)) or (count(f:type/f:code) = 0) or  f:type/f:code/@value=('code','Coding','CodeableConcept','Quantity','string', 'uri')",
+                        "expression": "binding.empty() or type.code.empty() or type.select((code = 'code') or (code = 'Coding') or (code='CodeableConcept') or (code = 'Quantity') or (code = 'string') or (code = 'uri') or (code = 'Duration')).exists()",
+                        "xpath": "not(exists(f:binding)) or (count(f:type/f:code) = 0) or  f:type/f:code/@value=('code','Coding','CodeableConcept','Quantity','string', 'uri', 'Duration')",
                         "source": "http://hl7.org/fhir/StructureDefinition/ElementDefinition"
                     },
                     {
@@ -168,7 +169,7 @@
                     {
                         "key": "eld-16",
                         "severity": "error",
-                        "human": "sliceName must be composed of proper tokens separated by \"/\"",
+                        "human": "sliceName must be composed of proper tokens separated by\"/\"",
                         "expression": "sliceName.empty() or sliceName.matches('^[a-zA-Z0-9\\\\/\\\\-_\\\\[\\\\]\\\\@]+$')",
                         "xpath": "not(exists(f:sliceName/@value)) or matches(f:sliceName/@value, '^[a-zA-Z0-9\\/\\-_\\[\\]\\@]+$')",
                         "source": "http://hl7.org/fhir/StructureDefinition/ElementDefinition"
@@ -193,8 +194,8 @@
                         "key": "eld-20",
                         "severity": "warning",
                         "human": "Element names should be simple alphanumerics with a max of 64 characters, or code generation tools may be broken",
-                        "expression": "path.matches('[A-Za-z][A-Za-z0-9]*(\\\\.[a-z][A-Za-z0-9]*(\\\\[x])?)*')",
-                        "xpath": "matches(path/@value, '[A-Za-z][A-Za-z0-9]*(\\.[a-z][A-Za-z0-9]*(\\[x])?)*')",
+                        "expression": "path.matches('^[A-Za-z][A-Za-z0-9]*(\\\\.[a-z][A-Za-z0-9]*(\\\\[x])?)*$')",
+                        "xpath": "matches(f:path/@value, '^[A-Za-z][A-Za-z0-9]*(\\.[a-z][A-Za-z0-9]*(\\[x])?)*$')",
                         "source": "http://hl7.org/fhir/StructureDefinition/ElementDefinition"
                     },
                     {
@@ -470,7 +471,7 @@
                         }
                     ],
                     "strength": "required",
-                    "valueSet": "http://hl7.org/fhir/ValueSet/property-representation|4.3.0-CIBUILD"
+                    "valueSet": "http://hl7.org/fhir/ValueSet/property-representation|4.3.0-cibuild"
                 },
                 "mapping": [
                     {
@@ -1019,7 +1020,7 @@
                         }
                     ],
                     "strength": "required",
-                    "valueSet": "http://hl7.org/fhir/ValueSet/discriminator-type|4.3.0-CIBUILD"
+                    "valueSet": "http://hl7.org/fhir/ValueSet/discriminator-type|4.3.0-cibuild"
                 },
                 "mapping": [
                     {
@@ -1203,7 +1204,7 @@
                         }
                     ],
                     "strength": "required",
-                    "valueSet": "http://hl7.org/fhir/ValueSet/resource-slicing-rules|4.3.0-CIBUILD"
+                    "valueSet": "http://hl7.org/fhir/ValueSet/resource-slicing-rules|4.3.0-cibuild"
                 },
                 "mapping": [
                     {
@@ -1940,7 +1941,7 @@
                         "severity": "error",
                         "human": "targetProfile is only allowed if the type is Reference or canonical",
                         "expression": "(code='Reference' or code = 'canonical' or code = 'CodeableReference') or targetProfile.empty()",
-                        "xpath": "not(exists(f:targetProfile)) or (f:code/@value = 'Reference')",
+                        "xpath": "not(exists(f:targetProfile)) or (f:code/@value = ('Reference', 'canonical', 'CodeableReference'))",
                         "source": "http://hl7.org/fhir/StructureDefinition/ElementDefinition"
                     },
                     {
@@ -2117,7 +2118,7 @@
                         }
                     ],
                     "strength": "extensible",
-                    "valueSet": "http://hl7.org/fhir/ValueSet/defined-types"
+                    "valueSet": "http://hl7.org/fhir/ValueSet/fhir-element-types"
                 },
                 "mapping": [
                     {
@@ -2272,7 +2273,7 @@
                         }
                     ],
                     "strength": "required",
-                    "valueSet": "http://hl7.org/fhir/ValueSet/resource-aggregation-mode|4.3.0-CIBUILD"
+                    "valueSet": "http://hl7.org/fhir/ValueSet/resource-aggregation-mode|4.3.0-cibuild"
                 },
                 "mapping": [
                     {
@@ -2327,7 +2328,7 @@
                         }
                     ],
                     "strength": "required",
-                    "valueSet": "http://hl7.org/fhir/ValueSet/reference-version-rules|4.3.0-CIBUILD"
+                    "valueSet": "http://hl7.org/fhir/ValueSet/reference-version-rules|4.3.0-cibuild"
                 },
                 "mapping": [
                     {
@@ -2423,9 +2424,6 @@
                         "code": "CodeableConcept"
                     },
                     {
-                        "code": "CodeableReference"
-                    },
-                    {
                         "code": "Coding"
                     },
                     {
@@ -2460,9 +2458,6 @@
                     },
                     {
                         "code": "Ratio"
-                    },
-                    {
-                        "code": "RatioRange"
                     },
                     {
                         "code": "Reference"
@@ -2703,9 +2698,6 @@
                         "code": "CodeableConcept"
                     },
                     {
-                        "code": "CodeableReference"
-                    },
-                    {
                         "code": "Coding"
                     },
                     {
@@ -2740,9 +2732,6 @@
                     },
                     {
                         "code": "Ratio"
-                    },
-                    {
-                        "code": "RatioRange"
                     },
                     {
                         "code": "Reference"
@@ -2902,9 +2891,6 @@
                         "code": "CodeableConcept"
                     },
                     {
-                        "code": "CodeableReference"
-                    },
-                    {
                         "code": "Coding"
                     },
                     {
@@ -2939,9 +2925,6 @@
                     },
                     {
                         "code": "Ratio"
-                    },
-                    {
-                        "code": "RatioRange"
                     },
                     {
                         "code": "Reference"
@@ -3273,9 +3256,6 @@
                         "code": "CodeableConcept"
                     },
                     {
-                        "code": "CodeableReference"
-                    },
-                    {
                         "code": "Coding"
                     },
                     {
@@ -3310,9 +3290,6 @@
                     },
                     {
                         "code": "Ratio"
-                    },
-                    {
-                        "code": "RatioRange"
                     },
                     {
                         "code": "Reference"
@@ -3848,7 +3825,7 @@
                         }
                     ],
                     "strength": "required",
-                    "valueSet": "http://hl7.org/fhir/ValueSet/constraint-severity|4.3.0-CIBUILD"
+                    "valueSet": "http://hl7.org/fhir/ValueSet/constraint-severity|4.3.0-cibuild"
                 },
                 "mapping": [
                     {
@@ -4223,8 +4200,8 @@
                         "key": "eld-12",
                         "severity": "error",
                         "human": "ValueSet SHALL start with http:// or https:// or urn:",
-                        "expression": "valueSet.exists() implies (valueSet.startsWith('http:') or valueSet.startsWith('https') or valueSet.startsWith('urn:'))",
-                        "xpath": "(starts-with(string(f:valueSet/@value), 'http:') or starts-with(string(f:valueSet/@value), 'https:') or starts-with(string(f:valueSet/@value), 'urn:'))",
+                        "expression": "valueSet.exists() implies (valueSet.startsWith('http:') or valueSet.startsWith('https') or valueSet.startsWith('urn:') or valueSet.startsWith('#'))",
+                        "xpath": "(starts-with(string(f:valueSet/@value), 'http:') or starts-with(string(f:valueSet/@value), 'https:') or starts-with(string(f:valueSet/@value), 'urn:') or starts-with(string(f:valueSet/@value), '#'))",
                         "source": "http://hl7.org/fhir/StructureDefinition/ElementDefinition"
                     },
                     {
@@ -4401,7 +4378,7 @@
                         }
                     ],
                     "strength": "required",
-                    "valueSet": "http://hl7.org/fhir/ValueSet/binding-strength|4.3.0-CIBUILD"
+                    "valueSet": "http://hl7.org/fhir/ValueSet/binding-strength|4.3.0-cibuild"
                 },
                 "mapping": [
                     {
@@ -4746,7 +4723,7 @@
                     ],
                     "strength": "required",
                     "description": "BCP 13 (RFCs 2045, 2046, 2047, 4288, 4289 and 2049)",
-                    "valueSet": "http://hl7.org/fhir/ValueSet/mimetypes|4.3.0-CIBUILD"
+                    "valueSet": "http://hl7.org/fhir/ValueSet/mimetypes|4.3.0-cibuild"
                 },
                 "mapping": [
                     {
@@ -4898,8 +4875,8 @@
                         "key": "eld-11",
                         "severity": "error",
                         "human": "Binding can only be present for coded elements, string, and uri",
-                        "expression": "binding.empty() or type.code.empty() or type.select((code = 'code') or (code = 'Coding') or (code='CodeableConcept') or (code = 'Quantity') or (code = 'string') or (code = 'uri')).exists()",
-                        "xpath": "not(exists(f:binding)) or (count(f:type/f:code) = 0) or  f:type/f:code/@value=('code','Coding','CodeableConcept','Quantity','string', 'uri')",
+                        "expression": "binding.empty() or type.code.empty() or type.select((code = 'code') or (code = 'Coding') or (code='CodeableConcept') or (code = 'Quantity') or (code = 'string') or (code = 'uri') or (code = 'Duration')).exists()",
+                        "xpath": "not(exists(f:binding)) or (count(f:type/f:code) = 0) or  f:type/f:code/@value=('code','Coding','CodeableConcept','Quantity','string', 'uri', 'Duration')",
                         "source": "http://hl7.org/fhir/StructureDefinition/ElementDefinition"
                     },
                     {
@@ -4937,7 +4914,7 @@
                     {
                         "key": "eld-16",
                         "severity": "error",
-                        "human": "sliceName must be composed of proper tokens separated by \"/\"",
+                        "human": "sliceName must be composed of proper tokens separated by\"/\"",
                         "expression": "sliceName.empty() or sliceName.matches('^[a-zA-Z0-9\\\\/\\\\-_\\\\[\\\\]\\\\@]+$')",
                         "xpath": "not(exists(f:sliceName/@value)) or matches(f:sliceName/@value, '^[a-zA-Z0-9\\/\\-_\\[\\]\\@]+$')",
                         "source": "http://hl7.org/fhir/StructureDefinition/ElementDefinition"
@@ -4962,8 +4939,8 @@
                         "key": "eld-20",
                         "severity": "warning",
                         "human": "Element names should be simple alphanumerics with a max of 64 characters, or code generation tools may be broken",
-                        "expression": "path.matches('[A-Za-z][A-Za-z0-9]*(\\\\.[a-z][A-Za-z0-9]*(\\\\[x])?)*')",
-                        "xpath": "matches(path/@value, '[A-Za-z][A-Za-z0-9]*(\\.[a-z][A-Za-z0-9]*(\\[x])?)*')",
+                        "expression": "path.matches('^[A-Za-z][A-Za-z0-9]*(\\\\.[a-z][A-Za-z0-9]*(\\\\[x])?)*$')",
+                        "xpath": "matches(f:path/@value, '^[A-Za-z][A-Za-z0-9]*(\\.[a-z][A-Za-z0-9]*(\\[x])?)*$')",
                         "source": "http://hl7.org/fhir/StructureDefinition/ElementDefinition"
                     }
                 ],
@@ -5040,7 +5017,7 @@
                         }
                     ],
                     "strength": "required",
-                    "valueSet": "http://hl7.org/fhir/ValueSet/property-representation|4.3.0-CIBUILD"
+                    "valueSet": "http://hl7.org/fhir/ValueSet/property-representation|4.3.0-cibuild"
                 },
                 "mapping": [
                     {
@@ -5291,7 +5268,7 @@
                         }
                     ],
                     "strength": "required",
-                    "valueSet": "http://hl7.org/fhir/ValueSet/discriminator-type|4.3.0-CIBUILD"
+                    "valueSet": "http://hl7.org/fhir/ValueSet/discriminator-type|4.3.0-cibuild"
                 },
                 "mapping": [
                     {
@@ -5411,7 +5388,7 @@
                         }
                     ],
                     "strength": "required",
-                    "valueSet": "http://hl7.org/fhir/ValueSet/resource-slicing-rules|4.3.0-CIBUILD"
+                    "valueSet": "http://hl7.org/fhir/ValueSet/resource-slicing-rules|4.3.0-cibuild"
                 },
                 "mapping": [
                     {
@@ -5859,7 +5836,7 @@
                         "severity": "error",
                         "human": "targetProfile is only allowed if the type is Reference or canonical",
                         "expression": "(code='Reference' or code = 'canonical' or code = 'CodeableReference') or targetProfile.empty()",
-                        "xpath": "not(exists(f:targetProfile)) or (f:code/@value = 'Reference')",
+                        "xpath": "not(exists(f:targetProfile)) or (f:code/@value = ('Reference', 'canonical', 'CodeableReference'))",
                         "source": "http://hl7.org/fhir/StructureDefinition/ElementDefinition"
                     }
                 ],
@@ -5917,7 +5894,7 @@
                         }
                     ],
                     "strength": "extensible",
-                    "valueSet": "http://hl7.org/fhir/ValueSet/defined-types"
+                    "valueSet": "http://hl7.org/fhir/ValueSet/fhir-element-types"
                 },
                 "mapping": [
                     {
@@ -6024,7 +6001,7 @@
                         }
                     ],
                     "strength": "required",
-                    "valueSet": "http://hl7.org/fhir/ValueSet/resource-aggregation-mode|4.3.0-CIBUILD"
+                    "valueSet": "http://hl7.org/fhir/ValueSet/resource-aggregation-mode|4.3.0-cibuild"
                 },
                 "mapping": [
                     {
@@ -6063,7 +6040,7 @@
                         }
                     ],
                     "strength": "required",
-                    "valueSet": "http://hl7.org/fhir/ValueSet/reference-version-rules|4.3.0-CIBUILD"
+                    "valueSet": "http://hl7.org/fhir/ValueSet/reference-version-rules|4.3.0-cibuild"
                 },
                 "mapping": [
                     {
@@ -6154,9 +6131,6 @@
                         "code": "CodeableConcept"
                     },
                     {
-                        "code": "CodeableReference"
-                    },
-                    {
                         "code": "Coding"
                     },
                     {
@@ -6191,9 +6165,6 @@
                     },
                     {
                         "code": "Ratio"
-                    },
-                    {
-                        "code": "RatioRange"
                     },
                     {
                         "code": "Reference"
@@ -6386,9 +6357,6 @@
                         "code": "CodeableConcept"
                     },
                     {
-                        "code": "CodeableReference"
-                    },
-                    {
                         "code": "Coding"
                     },
                     {
@@ -6423,9 +6391,6 @@
                     },
                     {
                         "code": "Ratio"
-                    },
-                    {
-                        "code": "RatioRange"
                     },
                     {
                         "code": "Reference"
@@ -6569,9 +6534,6 @@
                         "code": "CodeableConcept"
                     },
                     {
-                        "code": "CodeableReference"
-                    },
-                    {
                         "code": "Coding"
                     },
                     {
@@ -6606,9 +6568,6 @@
                     },
                     {
                         "code": "Ratio"
-                    },
-                    {
-                        "code": "RatioRange"
                     },
                     {
                         "code": "Reference"
@@ -6798,9 +6757,6 @@
                         "code": "CodeableConcept"
                     },
                     {
-                        "code": "CodeableReference"
-                    },
-                    {
                         "code": "Coding"
                     },
                     {
@@ -6835,9 +6791,6 @@
                     },
                     {
                         "code": "Ratio"
-                    },
-                    {
-                        "code": "RatioRange"
                     },
                     {
                         "code": "Reference"
@@ -7142,7 +7095,7 @@
                         }
                     ],
                     "strength": "required",
-                    "valueSet": "http://hl7.org/fhir/ValueSet/constraint-severity|4.3.0-CIBUILD"
+                    "valueSet": "http://hl7.org/fhir/ValueSet/constraint-severity|4.3.0-cibuild"
                 },
                 "mapping": [
                     {
@@ -7384,8 +7337,8 @@
                         "key": "eld-12",
                         "severity": "error",
                         "human": "ValueSet SHALL start with http:// or https:// or urn:",
-                        "expression": "valueSet.exists() implies (valueSet.startsWith('http:') or valueSet.startsWith('https') or valueSet.startsWith('urn:'))",
-                        "xpath": "(starts-with(string(f:valueSet/@value), 'http:') or starts-with(string(f:valueSet/@value), 'https:') or starts-with(string(f:valueSet/@value), 'urn:'))",
+                        "expression": "valueSet.exists() implies (valueSet.startsWith('http:') or valueSet.startsWith('https') or valueSet.startsWith('urn:') or valueSet.startsWith('#'))",
+                        "xpath": "(starts-with(string(f:valueSet/@value), 'http:') or starts-with(string(f:valueSet/@value), 'https:') or starts-with(string(f:valueSet/@value), 'urn:') or starts-with(string(f:valueSet/@value), '#'))",
                         "source": "http://hl7.org/fhir/StructureDefinition/ElementDefinition"
                     }
                 ],
@@ -7443,7 +7396,7 @@
                         }
                     ],
                     "strength": "required",
-                    "valueSet": "http://hl7.org/fhir/ValueSet/binding-strength|4.3.0-CIBUILD"
+                    "valueSet": "http://hl7.org/fhir/ValueSet/binding-strength|4.3.0-cibuild"
                 },
                 "mapping": [
                     {
@@ -7614,7 +7567,7 @@
                     ],
                     "strength": "required",
                     "description": "BCP 13 (RFCs 2045, 2046, 2047, 4288, 4289 and 2049)",
-                    "valueSet": "http://hl7.org/fhir/ValueSet/mimetypes|4.3.0-CIBUILD"
+                    "valueSet": "http://hl7.org/fhir/ValueSet/mimetypes|4.3.0-cibuild"
                 },
                 "mapping": [
                     {

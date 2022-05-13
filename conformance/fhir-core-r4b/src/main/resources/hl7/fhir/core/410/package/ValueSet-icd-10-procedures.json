@@ -2,7 +2,7 @@
     "resourceType": "ValueSet",
     "id": "icd-10-procedures",
     "meta": {
-        "lastUpdated": "2022-03-03T22:04:06.196Z",
+        "lastUpdated": "2022-04-23T22:21:35.043Z",
         "profile": [
             "http://hl7.org/fhir/StructureDefinition/shareablevalueset"
         ]
@@ -28,7 +28,7 @@
             "value": "urn:oid:2.16.840.1.113883.4.642.3.574"
         }
     ],
-    "version": "4.3.0-CIBUILD",
+    "version": "4.3.0-cibuild",
     "name": "ICD-10ProcedureCodes",
     "title": "ICD-10 Procedure Codes",
     "status": "draft",
@@ -54,8 +54,8 @@
         ]
     },
     "expansion": {
-        "identifier": "urn:uuid:ca49bc68-d167-4654-8abd-2c9298c738f8",
-        "timestamp": "2022-03-03T22:05:31Z",
+        "identifier": "urn:uuid:b96986a7-38d1-4fce-a6e6-8a9341c4efc2",
+        "timestamp": "2022-04-23T22:23:26Z",
         "total": 3,
         "parameter": [
             {
@@ -68,7 +68,7 @@
             },
             {
                 "name": "version",
-                "valueUri": "http://hl7.org/fhir/sid/ex-icd-10-procedures|4.3.0-CIBUILD"
+                "valueUri": "http://hl7.org/fhir/sid/ex-icd-10-procedures|4.3.0-cibuild"
             }
         ],
         "contains": [

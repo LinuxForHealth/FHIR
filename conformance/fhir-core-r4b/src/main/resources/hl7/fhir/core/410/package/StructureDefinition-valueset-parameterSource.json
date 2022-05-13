@@ -12,13 +12,14 @@
         }
     ],
     "url": "http://hl7.org/fhir/StructureDefinition/valueset-parameterSource",
-    "version": "4.3.0-CIBUILD",
+    "version": "4.3.0-cibuild",
     "name": "parameterSource",
     "status": "draft",
+    "experimental": false,
     "date": "2021-01-17T07:06:13+11:00",
     "publisher": "HL7",
     "description": "Declares what the source of this parameter is.",
-    "fhirVersion": "4.3.0-CIBUILD",
+    "fhirVersion": "4.3.0-cibuild",
     "mapping": [
         {
             "identity": "rim",
@@ -236,7 +237,7 @@
                     ],
                     "strength": "required",
                     "description": "Declares what the source of a parameter is.",
-                    "valueSet": "http://hl7.org/fhir/ValueSet/expansion-parameter-source"
+                    "valueSet": "http://terminology.hl7.org/ValueSet/expansion-parameter-source"
                 },
                 "mapping": [
                     {
@@ -290,7 +291,7 @@
                     ],
                     "strength": "required",
                     "description": "Declares what the source of a parameter is.",
-                    "valueSet": "http://hl7.org/fhir/ValueSet/expansion-parameter-source"
+                    "valueSet": "http://terminology.hl7.org/ValueSet/expansion-parameter-source"
                 }
             }
         ]

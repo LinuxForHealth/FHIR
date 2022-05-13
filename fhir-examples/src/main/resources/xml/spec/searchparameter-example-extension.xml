@@ -7,7 +7,62 @@
       <display value="test health data"/>
     </security>
   </meta>
-  <text><status value="generated"/><div xmlns="http://www.w3.org/1999/xhtml"><p><b>Generated Narrative</b></p><div><p>Resource "example-extension" </p></div><p><b>url</b>: <code>http://hl7.org/fhir/SearchParameter/example-extension</code></p><p><b>name</b>: Example Search Parameter on an extension</p><p><b>status</b>: draft</p><p><b>experimental</b>: true</p><p><b>publisher</b>: Health Level Seven International (FHIR Infrastructure)</p><p><b>contact</b>: <a>http://hl7.org/fhir</a></p><p><b>description</b>: Search by url for a participation agreement, which is stored in a DocumentReference</p><p><b>code</b>: part-agree</p><p><b>base</b>: Patient</p><p><b>type</b>: reference</p><p><b>expression</b>: DocumentReference.extension('http://example.org/fhir/StructureDefinition/participation-agreement')</p><p><b>xpath</b>: f:DocumentReference/f:extension[@url='http://example.org/fhir/StructureDefinition/participation-agreement']</p><p><b>xpathUsage</b>: normal</p><p><b>target</b>: DocumentReference</p></div></text><url value="http://hl7.org/fhir/SearchParameter/example-extension"/>
+  <text>
+    <status value="generated"/>
+    <div xmlns="http://www.w3.org/1999/xhtml">
+      <p>
+        <b>Generated Narrative</b>
+      </p>
+      <div style="display: inline-block; background-color: #d9e0e7; padding: 6px; margin: 4px; border: 1px solid #8da1b4; border-radius: 5px; line-height: 60%">
+        <p style="margin-bottom: 0px">Resource "example-extension" </p>
+      </div>
+      <p>
+        <b>url</b>: 
+        <code>http://hl7.org/fhir/SearchParameter/example-extension</code>
+      </p>
+      <p>
+        <b>name</b>: Example Search Parameter on an extension
+      </p>
+      <p>
+        <b>status</b>: draft
+      </p>
+      <p>
+        <b>experimental</b>: true
+      </p>
+      <p>
+        <b>publisher</b>: Health Level Seven International (FHIR Infrastructure)
+      </p>
+      <p>
+        <b>contact</b>: 
+        <a href="http://hl7.org/fhir">http://hl7.org/fhir</a>
+      </p>
+      <p>
+        <b>description</b>: Search by url for a participation agreement, which is stored in a DocumentReference
+      </p>
+      <p>
+        <b>code</b>: part-agree
+      </p>
+      <p>
+        <b>base</b>: Patient
+      </p>
+      <p>
+        <b>type</b>: reference
+      </p>
+      <p>
+        <b>expression</b>: DocumentReference.extension('http://example.org/fhir/StructureDefinition/participation-agreement')
+      </p>
+      <p>
+        <b>xpath</b>: f:DocumentReference/f:extension[@url='http://example.org/fhir/StructureDefinition/participation-agreement']
+      </p>
+      <p>
+        <b>xpathUsage</b>: normal
+      </p>
+      <p>
+        <b>target</b>: DocumentReference
+      </p>
+    </div>
+  </text>
+  <url value="http://hl7.org/fhir/SearchParameter/example-extension"/>
   <name value="Example Search Parameter on an extension"/>
   <status value="draft"/>
   <experimental value="true"/>

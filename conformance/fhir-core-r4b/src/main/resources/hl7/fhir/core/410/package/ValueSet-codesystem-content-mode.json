@@ -2,7 +2,7 @@
     "resourceType": "ValueSet",
     "id": "codesystem-content-mode",
     "meta": {
-        "lastUpdated": "2022-03-04T09:04:06.196+11:00",
+        "lastUpdated": "2022-04-24T09:21:35.043+11:00",
         "profile": [
             "http://hl7.org/fhir/StructureDefinition/shareablevalueset"
         ]
@@ -32,7 +32,7 @@
             "value": "urn:oid:2.16.840.1.113883.4.642.3.782"
         }
     ],
-    "version": "4.3.0-CIBUILD",
+    "version": "4.3.0-cibuild",
     "name": "CodeSystemContentMode",
     "title": "CodeSystemContentMode",
     "status": "active",
@@ -63,8 +63,8 @@
         ]
     },
     "expansion": {
-        "identifier": "urn:uuid:b5a64495-02eb-4065-b1a4-5987b5395521",
-        "timestamp": "2022-03-03T22:05:09Z",
+        "identifier": "urn:uuid:81e60b9c-db06-4779-822d-99b45a6b58b9",
+        "timestamp": "2022-04-23T22:23:07Z",
         "total": 5,
         "parameter": [
             {
@@ -77,7 +77,7 @@
             },
             {
                 "name": "version",
-                "valueUri": "http://hl7.org/fhir/codesystem-content-mode|4.3.0-CIBUILD"
+                "valueUri": "http://hl7.org/fhir/codesystem-content-mode|4.3.0-cibuild"
             }
         ],
         "contains": [

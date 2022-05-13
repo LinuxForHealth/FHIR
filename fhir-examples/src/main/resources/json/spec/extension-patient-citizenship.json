@@ -12,14 +12,15 @@
     }
   ],
   "url": "http://hl7.org/fhir/StructureDefinition/patient-citizenship",
-  "version": "4.3.0-CIBUILD",
+  "version": "4.3.0-cibuild",
   "name": "citizenship",
   "title": "citizenship",
   "status": "draft",
+  "experimental": false,
   "date": "2021-01-17T07:06:13+11:00",
   "publisher": "HL7",
   "description": "The patient\u0027s legal status as citizen of a country.",
-  "fhirVersion": "4.3.0-CIBUILD",
+  "fhirVersion": "4.3.0-cibuild",
   "mapping": [
     {
       "identity": "rim",
@@ -670,9 +671,6 @@
             "code": "CodeableConcept"
           },
           {
-            "code": "CodeableReference"
-          },
-          {
             "code": "Coding"
           },
           {
@@ -707,9 +705,6 @@
           },
           {
             "code": "Ratio"
-          },
-          {
-            "code": "RatioRange"
           },
           {
             "code": "Reference"

@@ -3,7 +3,7 @@
 <StructureDefinition xmlns="http://hl7.org/fhir">
   <id value="Consent"/>
   <meta>
-    <lastUpdated value="2022-01-01T15:17:18.597+00:00"/>
+    <lastUpdated value="2022-04-23T22:21:35.043+00:00"/>
   </meta>
   <text>
     <status value="generated"/>
@@ -45,7 +45,7 @@
           <td style="vertical-align: top; text-align : left; background-color: white; border: 0px #F0F0F0 solid; padding:0px 4px 0px 4px" class="hierarchy">
             <a href="domainresource.html">DomainResource</a>
           </td>
-          <td style="vertical-align: top; text-align : left; background-color: white; border: 0px #F0F0F0 solid; padding:0px 4px 0px 4px" class="hierarchy">A healthcare consumer&#39;s  choices to permit or deny recipients or roles to perform actions for specific purposes and periods of time
+          <td style="vertical-align: top; text-align : left; background-color: white; border: 0px #F0F0F0 solid; padding:0px 4px 0px 4px" class="hierarchy">A healthcare consumer's  choices to permit or deny recipients or roles to perform actions for specific purposes and periods of time
             <br/>
             <span style="font-style: italic" title="ppc-1">+ Rule: Either a Policy or PolicyRule</span>
             <br/>
@@ -64,7 +64,7 @@
             <a href="domainresource.html#DomainResource" title="A human-readable narrative that contains a summary of the resource and can be used to represent the content of the resource to a human. The narrative need not encode all the structured data, but is required to contain sufficient detail to make it &quot;clinically safe&quot; for a human to just read the narrative. Resource definitions may define what content should be represented in the narrative to ensure clinical safety.">text</a>, 
             <a href="domainresource.html#DomainResource" title="These resources do not have an independent existence apart from the resource that contains them - they cannot be identified independently, and nor can they have their own independent transaction scope.">contained</a>, 
             <a href="domainresource.html#DomainResource" title="May be used to represent additional information that is not part of the basic definition of the resource. To make the use of extensions safe and manageable, there is a strict set of governance  applied to the definition and use of extensions. Though any implementer can define an extension, there is a set of requirements that SHALL be met as part of the definition of the extension.">extension</a>, 
-            <a href="domainresource.html#DomainResource" title="May be used to represent additional information that is not part of the basic definition of the resource and that modifies the understanding of the element that contains it and/or the understanding of the containing element&#39;s descendants. Usually modifier elements provide negation or qualification. To make the use of extensions safe and manageable, there is a strict set of governance applied to the definition and use of extensions. Though any implementer is allowed to define an extension, there is a set of requirements that SHALL be met as part of the definition of the extension. Applications processing a resource are required to check for modifier extensions.&#xA;&#xA;Modifier extensions SHALL NOT change the meaning of any elements on Resource or DomainResource (including cannot change the meaning of modifierExtension itself).">modifierExtension</a>
+            <a href="domainresource.html#DomainResource" title="May be used to represent additional information that is not part of the basic definition of the resource and that modifies the understanding of the element that contains it and/or the understanding of the containing element's descendants. Usually modifier elements provide negation or qualification. To make the use of extensions safe and manageable, there is a strict set of governance applied to the definition and use of extensions. Though any implementer is allowed to define an extension, there is a set of requirements that SHALL be met as part of the definition of the extension. Applications processing a resource are required to check for modifier extensions.&#xA;&#xA;Modifier extensions SHALL NOT change the meaning of any elements on Resource or DomainResource (including cannot change the meaning of modifierExtension itself).">modifierExtension</a>
           </td>
         </tr>
 
@@ -511,7 +511,7 @@
             <img src="data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAABAAAAAWCAYAAADJqhx8AAAACXBIWXMAAAsTAAALEwEAmpwYAAAAB3RJTUUH3wYeFzIZgEiYEgAAAB1pVFh0Q29tbWVudAAAAAAAQ3JlYXRlZCB3aXRoIEdJTVBkLmUHAAAAIElEQVQ4y2P8//8/AyWAiYFCMGrAqAGjBowaMGoAAgAALL0DKYQ0DPIAAAAASUVORK5CYII=" alt="." style="background-color: inherit" class="hierarchy"/>
             <img src="data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAABAAAAAWCAYAAADJqhx8AAAACXBIWXMAAAsTAAALEwEAmpwYAAAAB3RJTUUH3wYeFzI3XJ6V3QAAAB1pVFh0Q29tbWVudAAAAAAAQ3JlYXRlZCB3aXRoIEdJTVBkLmUHAAAANklEQVQ4y+2RsQ0AIAzDav7/2VzQwoCY4iWbZSmo1QGoUgNMghvWaIejPQW/CrrNCylIwcOCDYfLNRcNer4SAAAAAElFTkSuQmCC" alt="." style="background-color: inherit" class="hierarchy"/>
             <img src="data:image/png;base64,R0lGODlhEAAQAPQfAOvGUf7ztuvPMf/78/fkl/Pbg+u8Rvjqteu2Pf3zxPz36Pz0z+vTmPzurPvuw/npofbjquvNefHVduuyN+uuMu3Oafbgjfnqvf/3zv/3xevPi+vRjP/20/bmsP///wD/ACH5BAEKAB8ALAAAAAAQABAAAAVl4CeOZGme5qCqqDg8jyVJaz1876DsmAQAgqDgltspMEhMJoMZ4iy6I1AooFCIv+wKybziALVAoAEjYLwDgGIpJhMslgxaLR4/3rMAWoBp32V5exg8Shl1ckRUQVaMVkQ2kCstKCEAOw==" alt="." style="background-color: #F7F7F7; background-color: inherit" title="Element" class="hierarchy"/> 
-            <span title="Consent.provision.actor : Who or what is controlled by this rule. Use group to identify a set of actors by some property they share (e.g. &#39;admitting officers&#39;).">actor</span>
+            <span title="Consent.provision.actor : Who or what is controlled by this rule. Use group to identify a set of actors by some property they share (e.g. 'admitting officers').">actor</span>
             <a name="Consent.provision.actor"> </a>
           </td>
           <td style="vertical-align: top; text-align : left; background-color: #F7F7F7; border: 0px #F0F0F0 solid; padding:0px 4px 0px 4px" class="hierarchy"/>
@@ -553,7 +553,7 @@
             <img src="data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAABAAAAAWCAYAAADJqhx8AAAACXBIWXMAAAsTAAALEwEAmpwYAAAAB3RJTUUH3wYeFzMPbYccAgAAAB1pVFh0Q29tbWVudAAAAAAAQ3JlYXRlZCB3aXRoIEdJTVBkLmUHAAAAMElEQVQ4y+3OQREAIBDDwAv+PQcFFN5MIyCzqHMKUGVCpMFLK97heq+gggoq+EiwAVjvMhFGmlEUAAAAAElFTkSuQmCC" alt="." style="background-color: inherit" class="hierarchy"/>
             <img src="data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAABAAAAAWCAYAAADJqhx8AAAACXBIWXMAAAsTAAALEwEAmpwYAAAAB3RJTUUH3wYeFzME+lXFigAAAB1pVFh0Q29tbWVudAAAAAAAQ3JlYXRlZCB3aXRoIEdJTVBkLmUHAAAANklEQVQ4y+3OsRUAIAjEUOL+O8cJABttJM11/x1qZAGqRBEVcNIqdWj1efDqQbb3HwwwwEfABmQUHSPM9dtDAAAAAElFTkSuQmCC" alt="." style="background-color: inherit" class="hierarchy"/>
             <img src="data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAABAAAAAQCAYAAAAf8/9hAAAAAXNSR0IArs4c6QAAAARnQU1BAACxjwv8YQUAAAAJcEhZcwAADsMAAA7DAcdvqGQAAAAadEVYdFNvZnR3YXJlAFBhaW50Lk5FVCB2My41LjEwMPRyoQAAAFxJREFUOE/NjEEOACEIA/0o/38GGw+agoXYeNnDJDCUDnd/gkoFKhWozJiZI3gLwY6rAgxhsPKTPUzycTl8lAryMyMsVQG6TFi6cHULyz8KOjC7OIQKlQpU3uPjAwhX2CCcGsgOAAAAAElFTkSuQmCC" alt="." style="background-color: #F7F7F7; background-color: inherit" title="Reference to another Resource" class="hierarchy"/> 
-            <span title="Consent.provision.actor.reference : The resource that identifies the actor. To identify actors by type, use group to identify a set of actors by some property they share (e.g. &#39;admitting officers&#39;).">reference</span>
+            <span title="Consent.provision.actor.reference : The resource that identifies the actor. To identify actors by type, use group to identify a set of actors by some property they share (e.g. 'admitting officers').">reference</span>
             <a name="Consent.provision.actor.reference"> </a>
           </td>
           <td style="vertical-align: top; text-align : left; background-color: #F7F7F7; border: 0px #F0F0F0 solid; padding:0px 4px 0px 4px" class="hierarchy"/>
@@ -638,7 +638,7 @@
           </td>
           <td style="vertical-align: top; text-align : left; background-color: white; border: 0px #F0F0F0 solid; padding:0px 4px 0px 4px" class="hierarchy">Context of activities covered by this rule
             <br/>
-            <a href="http://terminology.hl7.org/3.0.0/ValueSet-v3-PurposeOfUse.html">PurposeOfUse</a> (
+            <a href="http://terminology.hl7.org/3.1.0/ValueSet-v3-PurposeOfUse.html">PurposeOfUse</a> (
             <a href="terminologies.html#extensible" title="To be conformant, the concept in this element SHALL be from the specified value set if any of the codes within the value set can apply to the concept being communicated.  If the value set does not cover the concept (based on human review), alternate codings (or, data type allowing, text) may be included instead.">Extensible</a>)
             <br/>
           </td>
@@ -820,10 +820,11 @@
     <valueCode value="cbcc"/>
   </extension>
   <url value="http://hl7.org/fhir/StructureDefinition/Consent"/>
-  <version value="4.3.0-CIBUILD"/>
+  <version value="4.3.0-cibuild"/>
   <name value="Consent"/>
   <status value="draft"/>
-  <date value="2022-01-01T15:17:18+00:00"/>
+  <experimental value="false"/>
+  <date value="2022-04-23T22:21:35+00:00"/>
   <publisher value="Health Level Seven International (Community Based Collaborative Care)"/>
   <contact>
     <telecom>
@@ -838,7 +839,7 @@
     </telecom>
   </contact>
   <description value="A record of a healthcare consumer’s  choices, which permits or denies identified recipient(s) or recipient role(s) to perform one or more actions within a given policy context, for specific purposes and periods of time."/>
-  <fhirVersion value="4.3.0-CIBUILD"/>
+  <fhirVersion value="4.3.0-cibuild"/>
   <mapping>
     <identity value="workflow"/>
     <uri value="http://hl7.org/fhir/workflow"/>
@@ -867,7 +868,7 @@
   <snapshot>
     <element id="Consent">
       <path value="Consent"/>
-      <short value="A healthcare consumer&#39;s  choices to permit or deny recipients or roles to perform actions for specific purposes and periods of time"/>
+      <short value="A healthcare consumer's  choices to permit or deny recipients or roles to perform actions for specific purposes and periods of time"/>
       <definition value="A record of a healthcare consumer’s  choices, which permits or denies identified recipient(s) or recipient role(s) to perform one or more actions within a given policy context, for specific purposes and periods of time."/>
       <comment value="Broadly, there are 3 key areas of consent for patients: Consent around sharing information (aka Privacy Consent Directive - Authorization to Collect, Use, or Disclose information), consent for specific treatment, or kinds of treatment, and general advance care directives."/>
       <min value="0"/>
@@ -889,8 +890,8 @@
         <key value="dom-3"/>
         <severity value="error"/>
         <human value="If the resource is contained in another resource, it SHALL be referred to from elsewhere in the resource or SHALL refer to the containing resource"/>
-        <expression value="contained.where(((id.exists() and (&#39;#&#39;+id in (%resource.descendants().reference | %resource.descendants().as(canonical) | %resource.descendants().as(uri) | %resource.descendants().as(url)))) or descendants().where(reference = &#39;#&#39;).exists() or descendants().where(as(canonical) = &#39;#&#39;).exists() or descendants().where(as(uri) = &#39;#&#39;).exists()).not()).trace(&#39;unmatched&#39;, id).empty()"/>
-        <xpath value="not(exists(for $resource in . return (for $contained in $resource/f:contained return $contained[not(descendant::f:*/@value=&#39;#&#39; or (exists(f:id) and $resource//f:*/@*=concat(&#39;#&#39;, $contained/*/f:id/@value)))])))"/>
+        <expression value="contained.where(((id.exists() and ('#'+id in (%resource.descendants().reference | %resource.descendants().as(canonical) | %resource.descendants().as(uri) | %resource.descendants().as(url)))) or descendants().where(reference = '#').exists() or descendants().where(as(canonical) = '#').exists() or descendants().where(as(uri) = '#').exists()).not()).trace('unmatched', id).empty()"/>
+        <xpath value="not(exists(for $contained in f:contained return $contained[not(exists(parent::*/descendant::f:reference/@value=concat('#', $contained/*/f:id/@value)) or exists(descendant::f:reference[@value='#']))]))"/>
         <source value="http://hl7.org/fhir/StructureDefinition/DomainResource"/>
       </constraint>
       <constraint>
@@ -935,32 +936,32 @@
         <key value="ppc-2"/>
         <severity value="error"/>
         <human value="IF Scope=privacy, there must be a patient"/>
-        <expression value="patient.exists() or scope.coding.where(system=&#39;something&#39; and code=&#39;patient-privacy&#39;).exists().not()"/>
-        <xpath value="exists(f:patient) or not(exists(f:scope/f:coding[f:system/@value=&#39;something&#39; and f:code/@value=&#39;patient-privacy&#39;]))"/>
+        <expression value="patient.exists() or scope.coding.where(system='something' and code='patient-privacy').exists().not()"/>
+        <xpath value="exists(f:patient) or not(exists(f:scope/f:coding[f:system/@value='something' and f:code/@value='patient-privacy']))"/>
         <source value="http://hl7.org/fhir/StructureDefinition/Consent"/>
       </constraint>
       <constraint>
         <key value="ppc-3"/>
         <severity value="error"/>
         <human value="IF Scope=research, there must be a patient"/>
-        <expression value="patient.exists() or scope.coding.where(system=&#39;something&#39; and code=&#39;research&#39;).exists().not()"/>
-        <xpath value="exists(f:patient) or not(exists(f:scope/f:coding[f:system/@value=&#39;something&#39; and f:code/@value=&#39;research&#39;]))"/>
+        <expression value="patient.exists() or scope.coding.where(system='something' and code='research').exists().not()"/>
+        <xpath value="exists(f:patient) or not(exists(f:scope/f:coding[f:system/@value='something' and f:code/@value='research']))"/>
         <source value="http://hl7.org/fhir/StructureDefinition/Consent"/>
       </constraint>
       <constraint>
         <key value="ppc-4"/>
         <severity value="error"/>
         <human value="IF Scope=adr, there must be a patient"/>
-        <expression value="patient.exists() or scope.coding.where(system=&#39;something&#39; and code=&#39;adr&#39;).exists().not()"/>
-        <xpath value="exists(f:patient) or not(exists(f:scope/f:coding[f:system/@value=&#39;something&#39; and f:code/@value=&#39;adr&#39;]))"/>
+        <expression value="patient.exists() or scope.coding.where(system='something' and code='adr').exists().not()"/>
+        <xpath value="exists(f:patient) or not(exists(f:scope/f:coding[f:system/@value='something' and f:code/@value='adr']))"/>
         <source value="http://hl7.org/fhir/StructureDefinition/Consent"/>
       </constraint>
       <constraint>
         <key value="ppc-5"/>
         <severity value="error"/>
         <human value="IF Scope=treatment, there must be a patient"/>
-        <expression value="patient.exists() or scope.coding.where(system=&#39;something&#39; and code=&#39;treatment&#39;).exists().not()"/>
-        <xpath value="exists(f:patient) or not(exists(f:scope/f:coding[f:system/@value=&#39;something&#39; and f:code/@value=&#39;treatment&#39;]))"/>
+        <expression value="patient.exists() or scope.coding.where(system='something' and code='treatment').exists().not()"/>
+        <xpath value="exists(f:patient) or not(exists(f:scope/f:coding[f:system/@value='something' and f:code/@value='treatment']))"/>
         <source value="http://hl7.org/fhir/StructureDefinition/Consent"/>
       </constraint>
       <mustSupport value="false"/>
@@ -999,7 +1000,6 @@
         <min value="0"/>
         <max value="1"/>
       </base>
-    <!-- Note: special primitive values have a FHIRPath system type. e.g. this is compiler magic (j) -->
       <type>
         <extension url="http://hl7.org/fhir/StructureDefinition/structuredefinition-fhir-type">
           <valueUrl value="id"/>
@@ -1040,7 +1040,7 @@
       <path value="Consent.implicitRules"/>
       <short value="A set of rules under which this content was created"/>
       <definition value="A reference to a set of rules that were followed when the resource was constructed, and which must be understood when processing the content. Often, this is a reference to an implementation guide that defines the special rules along with other profiles etc."/>
-      <comment value="Asserting this rule set restricts the content to be only understood by a limited set of trading partners. This inherently limits the usefulness of the data in the long term. However, the existing health eco-system is highly fractured, and not yet ready to define, collect, and exchange data in a generally computable sense. Wherever possible, implementers and/or specification writers should avoid using this element. Often, when used, the URL is a reference to an implementation guide that defines these special rules as part of it&#39;s narrative along with other profiles, value sets, etc."/>
+      <comment value="Asserting this rule set restricts the content to be only understood by a limited set of trading partners. This inherently limits the usefulness of the data in the long term. However, the existing health eco-system is highly fractured, and not yet ready to define, collect, and exchange data in a generally computable sense. Wherever possible, implementers and/or specification writers should avoid using this element. Often, when used, the URL is a reference to an implementation guide that defines these special rules as part of it's narrative along with other profiles, value sets, etc."/>
       <min value="0"/>
       <max value="1"/>
       <base>
@@ -1061,7 +1061,7 @@
       </constraint>
       <mustSupport value="false"/>
       <isModifier value="true"/>
-      <isModifierReason value="This element is labeled as a modifier because the implicit rules may provide additional knowledge about the resource that modifies it&#39;s meaning or interpretation"/>
+      <isModifierReason value="This element is labeled as a modifier because the implicit rules may provide additional knowledge about the resource that modifies it's meaning or interpretation"/>
       <isSummary value="true"/>
     </element>
     <element id="Consent.language">
@@ -1158,6 +1158,14 @@
       <type>
         <code value="Resource"/>
       </type>
+      <constraint>
+        <key value="dom-r4b"/>
+        <severity value="warning"/>
+        <human value="Containing new R4B resources within R4 resources may cause interoperability issues if instances are shared with R4 systems"/>
+        <expression value="($this is Citation or $this is Evidence or $this is EvidenceReport or $this is EvidenceVariable or $this is MedicinalProductDefinition or $this is PackagedProductDefinition or $this is AdministrableProductDefinition or $this is Ingredient or $this is ClinicalUseDefinition or $this is RegulatedAuthorization or $this is SubstanceDefinition or $this is SubscriptionStatus or $this is SubscriptionTopic) implies (%resource is Citation or %resource is Evidence or %resource is EvidenceReport or %resource is EvidenceVariable or %resource is MedicinalProductDefinition or %resource is PackagedProductDefinition or %resource is AdministrableProductDefinition or %resource is Ingredient or %resource is ClinicalUseDefinition or %resource is RegulatedAuthorization or %resource is SubstanceDefinition or %resource is SubscriptionStatus or %resource is SubscriptionTopic)"/>
+        <xpath value="not(f:Citation|f:Evidence|f:EvidenceReport|f:EvidenceVariable|f:MedicinalProductDefinition|f:PackagedProductDefinition|f:AdministrableProductDefinition|f:Ingredient|f:ClinicalUseDefinition|f:RegulatedAuthorization|f:SubstanceDefinition|f:SubscriptionStatus|f:SubscriptionTopic) or not(parent::f:Citation|parent::f:Evidence|parent::f:EvidenceReport|parent::f:EvidenceVariable|parent::f:MedicinalProductDefinition|parent::f:PackagedProductDefinition|parent::f:AdministrableProductDefinition|parent::f:Ingredient|parent::f:ClinicalUseDefinition|parent::f:RegulatedAuthorization|parent::f:SubstanceDefinition|f:SubscriptionStatus|f:SubscriptionTopic)"/>
+        <source value="http://hl7.org/fhir/StructureDefinition/Consent"/>
+      </constraint>
       <mustSupport value="false"/>
       <isModifier value="false"/>
       <isSummary value="false"/>
@@ -1210,7 +1218,7 @@
     <element id="Consent.modifierExtension">
       <path value="Consent.modifierExtension"/>
       <short value="Extensions that cannot be ignored"/>
-      <definition value="May be used to represent additional information that is not part of the basic definition of the resource and that modifies the understanding of the element that contains it and/or the understanding of the containing element&#39;s descendants. Usually modifier elements provide negation or qualification. To make the use of extensions safe and manageable, there is a strict set of governance applied to the definition and use of extensions. Though any implementer is allowed to define an extension, there is a set of requirements that SHALL be met as part of the definition of the extension. Applications processing a resource are required to check for modifier extensions.&#xA;&#xA;Modifier extensions SHALL NOT change the meaning of any elements on Resource or DomainResource (including cannot change the meaning of modifierExtension itself)."/>
+      <definition value="May be used to represent additional information that is not part of the basic definition of the resource and that modifies the understanding of the element that contains it and/or the understanding of the containing element's descendants. Usually modifier elements provide negation or qualification. To make the use of extensions safe and manageable, there is a strict set of governance applied to the definition and use of extensions. Though any implementer is allowed to define an extension, there is a set of requirements that SHALL be met as part of the definition of the extension. Applications processing a resource are required to check for modifier extensions.&#xA;&#xA;Modifier extensions SHALL NOT change the meaning of any elements on Resource or DomainResource (including cannot change the meaning of modifierExtension itself)."/>
       <comment value="There can be no stigma associated with the use of extensions by any application, project, or standard - regardless of the institution or jurisdiction that uses or defines the extensions.  The use of extensions is what allows the FHIR specification to retain a core level of simplicity for everyone."/>
       <requirements value="Modifier extensions allow for extensions that *cannot* be safely ignored to be clearly distinguished from the vast majority of extensions which can be safely ignored.  This promotes interoperability by eliminating the need for implementers to prohibit the presence of extensions. For further information, see the [definition of modifier extensions](extensibility.html#modifierExtension)."/>
       <alias value="extensions"/>
@@ -1323,7 +1331,7 @@
         </extension>
         <strength value="required"/>
         <description value="Indicates the state of the consent."/>
-        <valueSet value="http://hl7.org/fhir/ValueSet/consent-state-codes|4.3.0-CIBUILD"/>
+        <valueSet value="http://hl7.org/fhir/ValueSet/consent-state-codes|4.3.0-cibuild"/>
       </binding>
       <mapping>
         <identity value="workflow"/>
@@ -1671,10 +1679,9 @@
         <min value="0"/>
         <max value="1"/>
       </base>
-    <!-- Note: special primitive values have a FHIRPath system type. e.g. this is compiler magic (j) -->
       <type>
         <extension url="http://hl7.org/fhir/StructureDefinition/structuredefinition-fhir-type">
-          <valueUrl value="id"/>
+          <valueUrl value="string"/>
         </extension>
         <code value="http://hl7.org/fhirpath/System.String"/>
       </type>
@@ -1728,7 +1735,7 @@
     <element id="Consent.policy.modifierExtension">
       <path value="Consent.policy.modifierExtension"/>
       <short value="Extensions that cannot be ignored even if unrecognized"/>
-      <definition value="May be used to represent additional information that is not part of the basic definition of the element and that modifies the understanding of the element in which it is contained and/or the understanding of the containing element&#39;s descendants. Usually modifier elements provide negation or qualification. To make the use of extensions safe and manageable, there is a strict set of governance applied to the definition and use of extensions. Though any implementer can define an extension, there is a set of requirements that SHALL be met as part of the definition of the extension. Applications processing a resource are required to check for modifier extensions.&#xA;&#xA;Modifier extensions SHALL NOT change the meaning of any elements on Resource or DomainResource (including cannot change the meaning of modifierExtension itself)."/>
+      <definition value="May be used to represent additional information that is not part of the basic definition of the element and that modifies the understanding of the element in which it is contained and/or the understanding of the containing element's descendants. Usually modifier elements provide negation or qualification. To make the use of extensions safe and manageable, there is a strict set of governance applied to the definition and use of extensions. Though any implementer can define an extension, there is a set of requirements that SHALL be met as part of the definition of the extension. Applications processing a resource are required to check for modifier extensions.&#xA;&#xA;Modifier extensions SHALL NOT change the meaning of any elements on Resource or DomainResource (including cannot change the meaning of modifierExtension itself)."/>
       <comment value="There can be no stigma associated with the use of extensions by any application, project, or standard - regardless of the institution or jurisdiction that uses or defines the extensions.  The use of extensions is what allows the FHIR specification to retain a core level of simplicity for everyone."/>
       <requirements value="Modifier extensions allow for extensions that *cannot* be safely ignored to be clearly distinguished from the vast majority of extensions which can be safely ignored.  This promotes interoperability by eliminating the need for implementers to prohibit the presence of extensions. For further information, see the [definition of modifier extensions](extensibility.html#modifierExtension)."/>
       <alias value="extensions"/>
@@ -1898,10 +1905,9 @@
         <min value="0"/>
         <max value="1"/>
       </base>
-    <!-- Note: special primitive values have a FHIRPath system type. e.g. this is compiler magic (j) -->
       <type>
         <extension url="http://hl7.org/fhir/StructureDefinition/structuredefinition-fhir-type">
-          <valueUrl value="id"/>
+          <valueUrl value="string"/>
         </extension>
         <code value="http://hl7.org/fhirpath/System.String"/>
       </type>
@@ -1955,7 +1961,7 @@
     <element id="Consent.verification.modifierExtension">
       <path value="Consent.verification.modifierExtension"/>
       <short value="Extensions that cannot be ignored even if unrecognized"/>
-      <definition value="May be used to represent additional information that is not part of the basic definition of the element and that modifies the understanding of the element in which it is contained and/or the understanding of the containing element&#39;s descendants. Usually modifier elements provide negation or qualification. To make the use of extensions safe and manageable, there is a strict set of governance applied to the definition and use of extensions. Though any implementer can define an extension, there is a set of requirements that SHALL be met as part of the definition of the extension. Applications processing a resource are required to check for modifier extensions.&#xA;&#xA;Modifier extensions SHALL NOT change the meaning of any elements on Resource or DomainResource (including cannot change the meaning of modifierExtension itself)."/>
+      <definition value="May be used to represent additional information that is not part of the basic definition of the element and that modifies the understanding of the element in which it is contained and/or the understanding of the containing element's descendants. Usually modifier elements provide negation or qualification. To make the use of extensions safe and manageable, there is a strict set of governance applied to the definition and use of extensions. Though any implementer can define an extension, there is a set of requirements that SHALL be met as part of the definition of the extension. Applications processing a resource are required to check for modifier extensions.&#xA;&#xA;Modifier extensions SHALL NOT change the meaning of any elements on Resource or DomainResource (including cannot change the meaning of modifierExtension itself)."/>
       <comment value="There can be no stigma associated with the use of extensions by any application, project, or standard - regardless of the institution or jurisdiction that uses or defines the extensions.  The use of extensions is what allows the FHIR specification to retain a core level of simplicity for everyone."/>
       <requirements value="Modifier extensions allow for extensions that *cannot* be safely ignored to be clearly distinguished from the vast majority of extensions which can be safely ignored.  This promotes interoperability by eliminating the need for implementers to prohibit the presence of extensions. For further information, see the [definition of modifier extensions](extensibility.html#modifierExtension)."/>
       <alias value="extensions"/>
@@ -2116,10 +2122,9 @@
         <min value="0"/>
         <max value="1"/>
       </base>
-    <!-- Note: special primitive values have a FHIRPath system type. e.g. this is compiler magic (j) -->
       <type>
         <extension url="http://hl7.org/fhir/StructureDefinition/structuredefinition-fhir-type">
-          <valueUrl value="id"/>
+          <valueUrl value="string"/>
         </extension>
         <code value="http://hl7.org/fhirpath/System.String"/>
       </type>
@@ -2173,7 +2178,7 @@
     <element id="Consent.provision.modifierExtension">
       <path value="Consent.provision.modifierExtension"/>
       <short value="Extensions that cannot be ignored even if unrecognized"/>
-      <definition value="May be used to represent additional information that is not part of the basic definition of the element and that modifies the understanding of the element in which it is contained and/or the understanding of the containing element&#39;s descendants. Usually modifier elements provide negation or qualification. To make the use of extensions safe and manageable, there is a strict set of governance applied to the definition and use of extensions. Though any implementer can define an extension, there is a set of requirements that SHALL be met as part of the definition of the extension. Applications processing a resource are required to check for modifier extensions.&#xA;&#xA;Modifier extensions SHALL NOT change the meaning of any elements on Resource or DomainResource (including cannot change the meaning of modifierExtension itself)."/>
+      <definition value="May be used to represent additional information that is not part of the basic definition of the element and that modifies the understanding of the element in which it is contained and/or the understanding of the containing element's descendants. Usually modifier elements provide negation or qualification. To make the use of extensions safe and manageable, there is a strict set of governance applied to the definition and use of extensions. Though any implementer can define an extension, there is a set of requirements that SHALL be met as part of the definition of the extension. Applications processing a resource are required to check for modifier extensions.&#xA;&#xA;Modifier extensions SHALL NOT change the meaning of any elements on Resource or DomainResource (including cannot change the meaning of modifierExtension itself)."/>
       <comment value="There can be no stigma associated with the use of extensions by any application, project, or standard - regardless of the institution or jurisdiction that uses or defines the extensions.  The use of extensions is what allows the FHIR specification to retain a core level of simplicity for everyone."/>
       <requirements value="Modifier extensions allow for extensions that *cannot* be safely ignored to be clearly distinguished from the vast majority of extensions which can be safely ignored.  This promotes interoperability by eliminating the need for implementers to prohibit the presence of extensions. For further information, see the [definition of modifier extensions](extensibility.html#modifierExtension)."/>
       <alias value="extensions"/>
@@ -2244,7 +2249,7 @@
         </extension>
         <strength value="required"/>
         <description value="How a rule statement is applied, such as adding additional consent or removing consent."/>
-        <valueSet value="http://hl7.org/fhir/ValueSet/consent-provision-type|4.3.0-CIBUILD"/>
+        <valueSet value="http://hl7.org/fhir/ValueSet/consent-provision-type|4.3.0-cibuild"/>
       </binding>
     </element>
     <element id="Consent.provision.period">
@@ -2279,7 +2284,7 @@
       </extension>
       <path value="Consent.provision.actor"/>
       <short value="Who|what controlled by this rule (or group, by role)"/>
-      <definition value="Who or what is controlled by this rule. Use group to identify a set of actors by some property they share (e.g. &#39;admitting officers&#39;)."/>
+      <definition value="Who or what is controlled by this rule. Use group to identify a set of actors by some property they share (e.g. 'admitting officers')."/>
       <min value="0"/>
       <max value="*"/>
       <base>
@@ -2315,10 +2320,9 @@
         <min value="0"/>
         <max value="1"/>
       </base>
-    <!-- Note: special primitive values have a FHIRPath system type. e.g. this is compiler magic (j) -->
       <type>
         <extension url="http://hl7.org/fhir/StructureDefinition/structuredefinition-fhir-type">
-          <valueUrl value="id"/>
+          <valueUrl value="string"/>
         </extension>
         <code value="http://hl7.org/fhirpath/System.String"/>
       </type>
@@ -2372,7 +2376,7 @@
     <element id="Consent.provision.actor.modifierExtension">
       <path value="Consent.provision.actor.modifierExtension"/>
       <short value="Extensions that cannot be ignored even if unrecognized"/>
-      <definition value="May be used to represent additional information that is not part of the basic definition of the element and that modifies the understanding of the element in which it is contained and/or the understanding of the containing element&#39;s descendants. Usually modifier elements provide negation or qualification. To make the use of extensions safe and manageable, there is a strict set of governance applied to the definition and use of extensions. Though any implementer can define an extension, there is a set of requirements that SHALL be met as part of the definition of the extension. Applications processing a resource are required to check for modifier extensions.&#xA;&#xA;Modifier extensions SHALL NOT change the meaning of any elements on Resource or DomainResource (including cannot change the meaning of modifierExtension itself)."/>
+      <definition value="May be used to represent additional information that is not part of the basic definition of the element and that modifies the understanding of the element in which it is contained and/or the understanding of the containing element's descendants. Usually modifier elements provide negation or qualification. To make the use of extensions safe and manageable, there is a strict set of governance applied to the definition and use of extensions. Though any implementer can define an extension, there is a set of requirements that SHALL be met as part of the definition of the extension. Applications processing a resource are required to check for modifier extensions.&#xA;&#xA;Modifier extensions SHALL NOT change the meaning of any elements on Resource or DomainResource (including cannot change the meaning of modifierExtension itself)."/>
       <comment value="There can be no stigma associated with the use of extensions by any application, project, or standard - regardless of the institution or jurisdiction that uses or defines the extensions.  The use of extensions is what allows the FHIR specification to retain a core level of simplicity for everyone."/>
       <requirements value="Modifier extensions allow for extensions that *cannot* be safely ignored to be clearly distinguished from the vast majority of extensions which can be safely ignored.  This promotes interoperability by eliminating the need for implementers to prohibit the presence of extensions. For further information, see the [definition of modifier extensions](extensibility.html#modifierExtension)."/>
       <alias value="extensions"/>
@@ -2452,7 +2456,7 @@
     <element id="Consent.provision.actor.reference">
       <path value="Consent.provision.actor.reference"/>
       <short value="Resource for the actor (or group, by role)"/>
-      <definition value="The resource that identifies the actor. To identify actors by type, use group to identify a set of actors by some property they share (e.g. &#39;admitting officers&#39;)."/>
+      <definition value="The resource that identifies the actor. To identify actors by type, use group to identify a set of actors by some property they share (e.g. 'admitting officers')."/>
       <min value="1"/>
       <max value="1"/>
       <base>
@@ -2487,7 +2491,7 @@
       <path value="Consent.provision.action"/>
       <short value="Actions controlled by this rule"/>
       <definition value="Actions controlled by this Rule."/>
-      <comment value="Note that this is the direct action (not the grounds for the action covered in the purpose element). At present, the only action in the understood and tested scope of this resource is &#39;read&#39;."/>
+      <comment value="Note that this is the direct action (not the grounds for the action covered in the purpose element). At present, the only action in the understood and tested scope of this resource is 'read'."/>
       <min value="0"/>
       <max value="*"/>
       <base>
@@ -2523,7 +2527,7 @@
       <path value="Consent.provision.securityLabel"/>
       <short value="Security Labels that define affected resources"/>
       <definition value="A security label, comprised of 0..* security label fields (Privacy tags), which define which resources are controlled by this exception."/>
-      <comment value="If the consent specifies a security label of &quot;R&quot; then it applies to all resources that are labeled &quot;R&quot; or lower. E.g. for Confidentiality, it&#39;s a high water mark. For other kinds of security labels, subsumption logic applies. When the purpose of use tag is on the data, access request purpose of use shall not conflict."/>
+      <comment value="If the consent specifies a security label of &quot;R&quot; then it applies to all resources that are labeled &quot;R&quot; or lower. E.g. for Confidentiality, it's a high water mark. For other kinds of security labels, subsumption logic applies. When the purpose of use tag is on the data, access request purpose of use shall not conflict."/>
       <min value="0"/>
       <max value="*"/>
       <base>
@@ -2596,7 +2600,7 @@
       <path value="Consent.provision.class"/>
       <short value="e.g. Resource Type, Profile, CDA, etc."/>
       <definition value="The class of information covered by this rule. The type can be a FHIR resource type, a profile on a type, or a CDA document, or some other type that indicates what sort of information the consent relates to."/>
-      <comment value="Multiple types are or&#39;ed together. The intention of the contentType element is that the codes refer to profiles or document types defined in a standard or an implementation guide somewhere."/>
+      <comment value="Multiple types are or'ed together. The intention of the contentType element is that the codes refer to profiles or document types defined in a standard or an implementation guide somewhere."/>
       <min value="0"/>
       <max value="*"/>
       <base>
@@ -2735,10 +2739,9 @@
         <min value="0"/>
         <max value="1"/>
       </base>
-    <!-- Note: special primitive values have a FHIRPath system type. e.g. this is compiler magic (j) -->
       <type>
         <extension url="http://hl7.org/fhir/StructureDefinition/structuredefinition-fhir-type">
-          <valueUrl value="id"/>
+          <valueUrl value="string"/>
         </extension>
         <code value="http://hl7.org/fhirpath/System.String"/>
       </type>
@@ -2792,7 +2795,7 @@
     <element id="Consent.provision.data.modifierExtension">
       <path value="Consent.provision.data.modifierExtension"/>
       <short value="Extensions that cannot be ignored even if unrecognized"/>
-      <definition value="May be used to represent additional information that is not part of the basic definition of the element and that modifies the understanding of the element in which it is contained and/or the understanding of the containing element&#39;s descendants. Usually modifier elements provide negation or qualification. To make the use of extensions safe and manageable, there is a strict set of governance applied to the definition and use of extensions. Though any implementer can define an extension, there is a set of requirements that SHALL be met as part of the definition of the extension. Applications processing a resource are required to check for modifier extensions.&#xA;&#xA;Modifier extensions SHALL NOT change the meaning of any elements on Resource or DomainResource (including cannot change the meaning of modifierExtension itself)."/>
+      <definition value="May be used to represent additional information that is not part of the basic definition of the element and that modifies the understanding of the element in which it is contained and/or the understanding of the containing element's descendants. Usually modifier elements provide negation or qualification. To make the use of extensions safe and manageable, there is a strict set of governance applied to the definition and use of extensions. Though any implementer can define an extension, there is a set of requirements that SHALL be met as part of the definition of the extension. Applications processing a resource are required to check for modifier extensions.&#xA;&#xA;Modifier extensions SHALL NOT change the meaning of any elements on Resource or DomainResource (including cannot change the meaning of modifierExtension itself)."/>
       <comment value="There can be no stigma associated with the use of extensions by any application, project, or standard - regardless of the institution or jurisdiction that uses or defines the extensions.  The use of extensions is what allows the FHIR specification to retain a core level of simplicity for everyone."/>
       <requirements value="Modifier extensions allow for extensions that *cannot* be safely ignored to be clearly distinguished from the vast majority of extensions which can be safely ignored.  This promotes interoperability by eliminating the need for implementers to prohibit the presence of extensions. For further information, see the [definition of modifier extensions](extensibility.html#modifierExtension)."/>
       <alias value="extensions"/>
@@ -2863,7 +2866,7 @@
         </extension>
         <strength value="required"/>
         <description value="How a resource reference is interpreted when testing consent restrictions."/>
-        <valueSet value="http://hl7.org/fhir/ValueSet/consent-data-meaning|4.3.0-CIBUILD"/>
+        <valueSet value="http://hl7.org/fhir/ValueSet/consent-data-meaning|4.3.0-cibuild"/>
       </binding>
     </element>
     <element id="Consent.provision.data.reference">
@@ -2921,7 +2924,7 @@
   <differential>
     <element id="Consent">
       <path value="Consent"/>
-      <short value="A healthcare consumer&#39;s  choices to permit or deny recipients or roles to perform actions for specific purposes and periods of time"/>
+      <short value="A healthcare consumer's  choices to permit or deny recipients or roles to perform actions for specific purposes and periods of time"/>
       <definition value="A record of a healthcare consumer’s  choices, which permits or denies identified recipient(s) or recipient role(s) to perform one or more actions within a given policy context, for specific purposes and periods of time."/>
       <comment value="Broadly, there are 3 key areas of consent for patients: Consent around sharing information (aka Privacy Consent Directive - Authorization to Collect, Use, or Disclose information), consent for specific treatment, or kinds of treatment, and general advance care directives."/>
       <min value="0"/>
@@ -2930,32 +2933,32 @@
         <key value="ppc-4"/>
         <severity value="error"/>
         <human value="IF Scope=adr, there must be a patient"/>
-        <expression value="patient.exists() or scope.coding.where(system=&#39;something&#39; and code=&#39;adr&#39;).exists().not()"/>
-        <xpath value="exists(f:patient) or not(exists(f:scope/f:coding[f:system/@value=&#39;something&#39; and f:code/@value=&#39;adr&#39;]))"/>
+        <expression value="patient.exists() or scope.coding.where(system='something' and code='adr').exists().not()"/>
+        <xpath value="exists(f:patient) or not(exists(f:scope/f:coding[f:system/@value='something' and f:code/@value='adr']))"/>
         <source value="http://hl7.org/fhir/StructureDefinition/Consent"/>
       </constraint>
       <constraint>
         <key value="ppc-5"/>
         <severity value="error"/>
         <human value="IF Scope=treatment, there must be a patient"/>
-        <expression value="patient.exists() or scope.coding.where(system=&#39;something&#39; and code=&#39;treatment&#39;).exists().not()"/>
-        <xpath value="exists(f:patient) or not(exists(f:scope/f:coding[f:system/@value=&#39;something&#39; and f:code/@value=&#39;treatment&#39;]))"/>
+        <expression value="patient.exists() or scope.coding.where(system='something' and code='treatment').exists().not()"/>
+        <xpath value="exists(f:patient) or not(exists(f:scope/f:coding[f:system/@value='something' and f:code/@value='treatment']))"/>
         <source value="http://hl7.org/fhir/StructureDefinition/Consent"/>
       </constraint>
       <constraint>
         <key value="ppc-2"/>
         <severity value="error"/>
         <human value="IF Scope=privacy, there must be a patient"/>
-        <expression value="patient.exists() or scope.coding.where(system=&#39;something&#39; and code=&#39;patient-privacy&#39;).exists().not()"/>
-        <xpath value="exists(f:patient) or not(exists(f:scope/f:coding[f:system/@value=&#39;something&#39; and f:code/@value=&#39;patient-privacy&#39;]))"/>
+        <expression value="patient.exists() or scope.coding.where(system='something' and code='patient-privacy').exists().not()"/>
+        <xpath value="exists(f:patient) or not(exists(f:scope/f:coding[f:system/@value='something' and f:code/@value='patient-privacy']))"/>
         <source value="http://hl7.org/fhir/StructureDefinition/Consent"/>
       </constraint>
       <constraint>
         <key value="ppc-3"/>
         <severity value="error"/>
         <human value="IF Scope=research, there must be a patient"/>
-        <expression value="patient.exists() or scope.coding.where(system=&#39;something&#39; and code=&#39;research&#39;).exists().not()"/>
-        <xpath value="exists(f:patient) or not(exists(f:scope/f:coding[f:system/@value=&#39;something&#39; and f:code/@value=&#39;research&#39;]))"/>
+        <expression value="patient.exists() or scope.coding.where(system='something' and code='research').exists().not()"/>
+        <xpath value="exists(f:patient) or not(exists(f:scope/f:coding[f:system/@value='something' and f:code/@value='research']))"/>
         <source value="http://hl7.org/fhir/StructureDefinition/Consent"/>
       </constraint>
       <constraint>
@@ -3032,7 +3035,7 @@
         </extension>
         <strength value="required"/>
         <description value="Indicates the state of the consent."/>
-        <valueSet value="http://hl7.org/fhir/ValueSet/consent-state-codes|4.3.0-CIBUILD"/>
+        <valueSet value="http://hl7.org/fhir/ValueSet/consent-state-codes|4.3.0-cibuild"/>
       </binding>
       <mapping>
         <identity value="workflow"/>
@@ -3405,7 +3408,7 @@
         </extension>
         <strength value="required"/>
         <description value="How a rule statement is applied, such as adding additional consent or removing consent."/>
-        <valueSet value="http://hl7.org/fhir/ValueSet/consent-provision-type|4.3.0-CIBUILD"/>
+        <valueSet value="http://hl7.org/fhir/ValueSet/consent-provision-type|4.3.0-cibuild"/>
       </binding>
     </element>
     <element id="Consent.provision.period">
@@ -3427,7 +3430,7 @@
       </extension>
       <path value="Consent.provision.actor"/>
       <short value="Who|what controlled by this rule (or group, by role)"/>
-      <definition value="Who or what is controlled by this rule. Use group to identify a set of actors by some property they share (e.g. &#39;admitting officers&#39;)."/>
+      <definition value="Who or what is controlled by this rule. Use group to identify a set of actors by some property they share (e.g. 'admitting officers')."/>
       <min value="0"/>
       <max value="*"/>
       <type>
@@ -3465,7 +3468,7 @@
     <element id="Consent.provision.actor.reference">
       <path value="Consent.provision.actor.reference"/>
       <short value="Resource for the actor (or group, by role)"/>
-      <definition value="The resource that identifies the actor. To identify actors by type, use group to identify a set of actors by some property they share (e.g. &#39;admitting officers&#39;)."/>
+      <definition value="The resource that identifies the actor. To identify actors by type, use group to identify a set of actors by some property they share (e.g. 'admitting officers')."/>
       <min value="1"/>
       <max value="1"/>
       <type>
@@ -3487,7 +3490,7 @@
       <path value="Consent.provision.action"/>
       <short value="Actions controlled by this rule"/>
       <definition value="Actions controlled by this Rule."/>
-      <comment value="Note that this is the direct action (not the grounds for the action covered in the purpose element). At present, the only action in the understood and tested scope of this resource is &#39;read&#39;."/>
+      <comment value="Note that this is the direct action (not the grounds for the action covered in the purpose element). At present, the only action in the understood and tested scope of this resource is 'read'."/>
       <min value="0"/>
       <max value="*"/>
       <type>
@@ -3510,7 +3513,7 @@
       <path value="Consent.provision.securityLabel"/>
       <short value="Security Labels that define affected resources"/>
       <definition value="A security label, comprised of 0..* security label fields (Privacy tags), which define which resources are controlled by this exception."/>
-      <comment value="If the consent specifies a security label of &quot;R&quot; then it applies to all resources that are labeled &quot;R&quot; or lower. E.g. for Confidentiality, it&#39;s a high water mark. For other kinds of security labels, subsumption logic applies. When the purpose of use tag is on the data, access request purpose of use shall not conflict."/>
+      <comment value="If the consent specifies a security label of &quot;R&quot; then it applies to all resources that are labeled &quot;R&quot; or lower. E.g. for Confidentiality, it's a high water mark. For other kinds of security labels, subsumption logic applies. When the purpose of use tag is on the data, access request purpose of use shall not conflict."/>
       <min value="0"/>
       <max value="*"/>
       <type>
@@ -3557,7 +3560,7 @@
       <path value="Consent.provision.class"/>
       <short value="e.g. Resource Type, Profile, CDA, etc."/>
       <definition value="The class of information covered by this rule. The type can be a FHIR resource type, a profile on a type, or a CDA document, or some other type that indicates what sort of information the consent relates to."/>
-      <comment value="Multiple types are or&#39;ed together. The intention of the contentType element is that the codes refer to profiles or document types defined in a standard or an implementation guide somewhere."/>
+      <comment value="Multiple types are or'ed together. The intention of the contentType element is that the codes refer to profiles or document types defined in a standard or an implementation guide somewhere."/>
       <min value="0"/>
       <max value="*"/>
       <type>
@@ -3650,7 +3653,7 @@
         </extension>
         <strength value="required"/>
         <description value="How a resource reference is interpreted when testing consent restrictions."/>
-        <valueSet value="http://hl7.org/fhir/ValueSet/consent-data-meaning|4.3.0-CIBUILD"/>
+        <valueSet value="http://hl7.org/fhir/ValueSet/consent-data-meaning|4.3.0-cibuild"/>
       </binding>
     </element>
     <element id="Consent.provision.data.reference">

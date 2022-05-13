@@ -12,9 +12,10 @@
     }
   ],
   "url": "http://hl7.org/fhir/StructureDefinition/servicerequest-geneticsItem",
-  "version": "4.3.0-CIBUILD",
+  "version": "4.3.0-cibuild",
   "name": "Item",
   "status": "draft",
+  "experimental": false,
   "date": "2015-10-20",
   "publisher": "Health Level Seven International (Clinical Genomics)",
   "contact": [
@@ -28,7 +29,7 @@
     }
   ],
   "description": "The specific diagnostic investigations that are requested as part of this request. Sometimes, there can only be one item per request, but in most contexts, more than one investigation can be requested.",
-  "fhirVersion": "4.3.0-CIBUILD",
+  "fhirVersion": "4.3.0-cibuild",
   "mapping": [
     {
       "identity": "rim",
@@ -1063,9 +1064,6 @@
             "code": "CodeableConcept"
           },
           {
-            "code": "CodeableReference"
-          },
-          {
             "code": "Coding"
           },
           {
@@ -1100,9 +1098,6 @@
           },
           {
             "code": "Ratio"
-          },
-          {
-            "code": "RatioRange"
           },
           {
             "code": "Reference"

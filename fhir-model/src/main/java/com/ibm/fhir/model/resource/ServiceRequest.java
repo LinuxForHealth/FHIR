@@ -86,7 +86,7 @@ public class ServiceRequest extends DomainResource {
         bindingName = "ServiceRequestStatus",
         strength = BindingStrength.Value.REQUIRED,
         description = "The status of a service order.",
-        valueSet = "http://hl7.org/fhir/ValueSet/request-status|4.3.0-CIBUILD"
+        valueSet = "http://hl7.org/fhir/ValueSet/request-status|4.3.0-cibuild"
     )
     @Required
     private final ServiceRequestStatus status;
@@ -95,7 +95,7 @@ public class ServiceRequest extends DomainResource {
         bindingName = "ServiceRequestIntent",
         strength = BindingStrength.Value.REQUIRED,
         description = "The kind of service request.",
-        valueSet = "http://hl7.org/fhir/ValueSet/request-intent|4.3.0-CIBUILD"
+        valueSet = "http://hl7.org/fhir/ValueSet/request-intent|4.3.0-cibuild"
     )
     @Required
     private final ServiceRequestIntent intent;
@@ -112,7 +112,7 @@ public class ServiceRequest extends DomainResource {
         bindingName = "ServiceRequestPriority",
         strength = BindingStrength.Value.REQUIRED,
         description = "Identifies the level of importance to be assigned to actioning the request.",
-        valueSet = "http://hl7.org/fhir/ValueSet/request-priority|4.3.0-CIBUILD"
+        valueSet = "http://hl7.org/fhir/ValueSet/request-priority|4.3.0-cibuild"
     )
     private final ServiceRequestPriority priority;
     @Summary
@@ -165,7 +165,7 @@ public class ServiceRequest extends DomainResource {
         bindingName = "ServiceRequestParticipantRole",
         strength = BindingStrength.Value.EXAMPLE,
         description = "Indicates specific responsibility of an individual within the care team, such as \"Primary physician\", \"Team coordinator\", \"Caregiver\", etc.",
-        valueSet = "http://hl7.org/fhir/ValueSet/participant-role"
+        valueSet = "http://terminology.hl7.org/ValueSet/action-participant-role"
     )
     private final CodeableConcept performerType;
     @Summary

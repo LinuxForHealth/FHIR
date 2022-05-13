@@ -2,7 +2,7 @@
     "resourceType": "ValueSet",
     "id": "observation-vitalsignresult",
     "meta": {
-        "lastUpdated": "2022-01-01T15:17:18.597Z",
+        "lastUpdated": "2022-04-23T22:21:35.043Z",
         "profile": [
             "http://hl7.org/fhir/StructureDefinition/shareablevalueset"
         ]
@@ -24,10 +24,11 @@
             "value": "urn:oid:2.16.840.1.113883.3.88.12.80.62"
         }
     ],
-    "version": "4.3.0-CIBUILD",
+    "version": "4.3.0-cibuild",
     "name": "VitalSigns",
     "title": "Vital Signs",
     "status": "active",
+    "experimental": false,
     "publisher": "FHIR project team",
     "contact": [
         {

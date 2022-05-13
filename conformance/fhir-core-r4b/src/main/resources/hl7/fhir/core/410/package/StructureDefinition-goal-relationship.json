@@ -12,10 +12,11 @@
         }
     ],
     "url": "http://hl7.org/fhir/StructureDefinition/goal-relationship",
-    "version": "4.3.0-CIBUILD",
+    "version": "4.3.0-cibuild",
     "name": "relationship",
     "title": "related goal",
     "status": "draft",
+    "experimental": false,
     "date": "2014-12-07",
     "publisher": "Health Level Seven, Inc. - FHIR WG",
     "contact": [
@@ -29,7 +30,7 @@
         }
     ],
     "description": "Establishes a relationship between this goal and other goals.",
-    "fhirVersion": "4.3.0-CIBUILD",
+    "fhirVersion": "4.3.0-cibuild",
     "mapping": [
         {
             "identity": "rim",
@@ -374,7 +375,7 @@
                     ],
                     "strength": "extensible",
                     "description": "Types of relationships between two goals.",
-                    "valueSet": "http://hl7.org/fhir/ValueSet/goal-relationship-type"
+                    "valueSet": "http://terminology.hl7.org/ValueSet/goal-relationship-type"
                 },
                 "mapping": [
                     {
@@ -698,9 +699,6 @@
                         "code": "CodeableConcept"
                     },
                     {
-                        "code": "CodeableReference"
-                    },
-                    {
                         "code": "Coding"
                     },
                     {
@@ -735,9 +733,6 @@
                     },
                     {
                         "code": "Ratio"
-                    },
-                    {
-                        "code": "RatioRange"
                     },
                     {
                         "code": "Reference"
@@ -864,7 +859,7 @@
                     ],
                     "strength": "extensible",
                     "description": "Types of relationships between two goals.",
-                    "valueSet": "http://hl7.org/fhir/ValueSet/goal-relationship-type"
+                    "valueSet": "http://terminology.hl7.org/ValueSet/goal-relationship-type"
                 }
             },
             {

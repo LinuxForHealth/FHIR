@@ -2,7 +2,7 @@
     "resourceType": "ValueSet",
     "id": "device-action",
     "meta": {
-        "lastUpdated": "2022-03-03T22:04:06.196Z",
+        "lastUpdated": "2022-04-23T22:21:35.043Z",
         "profile": [
             "http://hl7.org/fhir/StructureDefinition/shareablevalueset"
         ]
@@ -20,10 +20,11 @@
             "value": "urn:oid:2.16.840.1.113883.4.642.3.425"
         }
     ],
-    "version": "4.3.0-CIBUILD",
+    "version": "4.3.0-cibuild",
     "name": "ProcedureDeviceActionCodes",
     "title": "Procedure Device Action Codes",
     "status": "draft",
+    "experimental": false,
     "publisher": "HL7 International - Patient Care WG",
     "contact": [
         {
@@ -58,11 +59,12 @@
                 "valueBoolean": true
             }
         ],
-        "identifier": "urn:uuid:49da2522-b20f-4110-a653-f30e961ca281",
-        "timestamp": "2021-11-17T05:28:27.955Z",
+        "identifier": "urn:uuid:1ea71726-84e4-45b0-8e85-32c1a410d2c2",
+        "timestamp": "2022-04-23T22:23:26Z",
+        "total": 447,
         "parameter": [
             {
-                "name": "limitedExpansion",
+                "name": "excludeNested",
                 "valueBoolean": true
             },
             {
@@ -70,12 +72,12 @@
                 "valueBoolean": true
             },
             {
-                "name": "excludeNested",
+                "name": "limitedExpansion",
                 "valueBoolean": true
             },
             {
                 "name": "version",
-                "valueUri": "http://snomed.info/sct|http://snomed.info/sct/900000000000207008/version/20200131"
+                "valueUri": "http://snomed.info/sct|http://snomed.info/sct/900000000000207008/version/20200731"
             }
         ],
         "contains": [
@@ -6418,6 +6420,32 @@
                     },
                     {
                         "value": "Surgical reimplantation - action (qualifier value)"
+                    }
+                ]
+            },
+            {
+                "system": "http://snomed.info/sct",
+                "code": "830058008",
+                "display": "Nonsurgical fixation - action (qualifier value)",
+                "designation": [
+                    {
+                        "value": "Nonsurgical fixation - action (qualifier value)"
+                    },
+                    {
+                        "value": "Nonsurgical fixation - action"
+                    }
+                ]
+            },
+            {
+                "system": "http://snomed.info/sct",
+                "code": "830059000",
+                "display": "Nonsurgical repair - action (qualifier value)",
+                "designation": [
+                    {
+                        "value": "Nonsurgical repair - action (qualifier value)"
+                    },
+                    {
+                        "value": "Nonsurgical repair - action"
                     }
                 ]
             },

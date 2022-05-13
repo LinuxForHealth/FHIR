@@ -1,0 +1,93 @@
+{
+  "resourceType": "CodeSystem",
+  "id": "substance-weight-method",
+  "meta": {
+    "lastUpdated": "2022-04-24T09:21:35.043+11:00",
+    "profile": [
+      "http://hl7.org/fhir/StructureDefinition/shareablecodesystem"
+    ]
+  },
+  "text": {
+    "status": "generated",
+    "div": "\u003cdiv xmlns\u003d\"http://www.w3.org/1999/xhtml\"\u003e\u003cp\u003eThis code system http://hl7.org/fhir/substance-weight-method defines the following codes:\u003c/p\u003e\u003ctable class\u003d\"codes\"\u003e\u003ctr\u003e\u003ctd style\u003d\"white-space:nowrap\"\u003e\u003cb\u003eCode\u003c/b\u003e\u003c/td\u003e\u003ctd\u003e\u003cb\u003eDisplay\u003c/b\u003e\u003c/td\u003e\u003c/tr\u003e\u003ctr\u003e\u003ctd style\u003d\"white-space:nowrap\"\u003eSDS-PAGE\u003ca name\u003d\"substance-weight-method-SDS-PAGE\"\u003e \u003c/a\u003e\u003c/td\u003e\u003ctd\u003eSDS-PAGE (sodium dodecyl sulfate-polyacrylamide gel electrophoresis)\u003c/td\u003e\u003c/tr\u003e\u003ctr\u003e\u003ctd style\u003d\"white-space:nowrap\"\u003eCalculated\u003ca name\u003d\"substance-weight-method-Calculated\"\u003e \u003c/a\u003e\u003c/td\u003e\u003ctd\u003ecalculated\u003c/td\u003e\u003c/tr\u003e\u003ctr\u003e\u003ctd style\u003d\"white-space:nowrap\"\u003eLighScattering\u003ca name\u003d\"substance-weight-method-LighScattering\"\u003e \u003c/a\u003e\u003c/td\u003e\u003ctd\u003elight scattering\u003c/td\u003e\u003c/tr\u003e\u003ctr\u003e\u003ctd style\u003d\"white-space:nowrap\"\u003eViscosity\u003ca name\u003d\"substance-weight-method-Viscosity\"\u003e \u003c/a\u003e\u003c/td\u003e\u003ctd\u003eviscosity\u003c/td\u003e\u003c/tr\u003e\u003ctr\u003e\u003ctd style\u003d\"white-space:nowrap\"\u003eGelPermeationCentrifugation\u003ca name\u003d\"substance-weight-method-GelPermeationCentrifugation\"\u003e \u003c/a\u003e\u003c/td\u003e\u003ctd\u003egel permeation centrifugation\u003c/td\u003e\u003c/tr\u003e\u003ctr\u003e\u003ctd style\u003d\"white-space:nowrap\"\u003eEnd-groupAnalysis\u003ca name\u003d\"substance-weight-method-End-groupAnalysis\"\u003e \u003c/a\u003e\u003c/td\u003e\u003ctd\u003eEnd-group analysis\u003c/td\u003e\u003c/tr\u003e\u003ctr\u003e\u003ctd style\u003d\"white-space:nowrap\"\u003eEnd-groupTitration\u003ca name\u003d\"substance-weight-method-End-groupTitration\"\u003e \u003c/a\u003e\u003c/td\u003e\u003ctd\u003eEnd-group titration\u003c/td\u003e\u003c/tr\u003e\u003ctr\u003e\u003ctd style\u003d\"white-space:nowrap\"\u003eSize-ExclusionChromatography\u003ca name\u003d\"substance-weight-method-Size-ExclusionChromatography\"\u003e \u003c/a\u003e\u003c/td\u003e\u003ctd\u003eSize-exclusion chromatography\u003c/td\u003e\u003c/tr\u003e\u003c/table\u003e\u003c/div\u003e"
+  },
+  "extension": [
+    {
+      "url": "http://hl7.org/fhir/StructureDefinition/structuredefinition-wg",
+      "valueCode": "brr"
+    },
+    {
+      "url": "http://hl7.org/fhir/StructureDefinition/structuredefinition-standards-status",
+      "valueCode": "trial-use"
+    },
+    {
+      "url": "http://hl7.org/fhir/StructureDefinition/structuredefinition-fmm",
+      "valueInteger": 1
+    }
+  ],
+  "url": "http://hl7.org/fhir/substance-weight-method",
+  "identifier": [
+    {
+      "system": "urn:ietf:rfc:3986",
+      "value": "urn:oid:2.16.840.1.113883.4.642.1.1615"
+    }
+  ],
+  "version": "4.3.0-cibuild",
+  "name": "SubstanceWeightMethod",
+  "title": "SubstanceWeightMethod",
+  "status": "draft",
+  "experimental": false,
+  "date": "2021-01-05T10:01:24+11:00",
+  "publisher": "HL7 (FHIR Project)",
+  "contact": [
+    {
+      "telecom": [
+        {
+          "system": "url",
+          "value": "http://hl7.org/fhir"
+        },
+        {
+          "system": "email",
+          "value": "fhir@lists.hl7.org"
+        }
+      ]
+    }
+  ],
+  "caseSensitive": true,
+  "valueSet": "http://hl7.org/fhir/ValueSet/substance-weight-method",
+  "content": "complete",
+  "concept": [
+    {
+      "code": "SDS-PAGE",
+      "display": "SDS-PAGE (sodium dodecyl sulfate-polyacrylamide gel electrophoresis)"
+    },
+    {
+      "code": "Calculated",
+      "display": "calculated"
+    },
+    {
+      "code": "LighScattering",
+      "display": "light scattering"
+    },
+    {
+      "code": "Viscosity",
+      "display": "viscosity"
+    },
+    {
+      "code": "GelPermeationCentrifugation",
+      "display": "gel permeation centrifugation"
+    },
+    {
+      "code": "End-groupAnalysis",
+      "display": "End-group analysis"
+    },
+    {
+      "code": "End-groupTitration",
+      "display": "End-group titration"
+    },
+    {
+      "code": "Size-ExclusionChromatography",
+      "display": "Size-exclusion chromatography"
+    }
+  ]
+}

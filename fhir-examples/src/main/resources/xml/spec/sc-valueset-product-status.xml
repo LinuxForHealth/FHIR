@@ -10,7 +10,7 @@
         <a href="valueset-product-status.html">http://hl7.org/fhir/ValueSet/product-status</a> to 
         <a href="valueset-resource-status.html">http://hl7.org/fhir/ValueSet/resource-status</a>
       </p>
-      <p>DRAFT. Published on Jan 16, 2021 8:06:13 PM by HL7 (FHIR Project) (
+      <p>DRAFT. Published on 2021-01-16T20:06:13Z by HL7 (FHIR Project) (
         <a href="http://hl7.org/fhir">http://hl7.org/fhir</a>, 
         <a href="mailto:fhir@lists.hl7.org">fhir@lists.hl7.org</a>). 
       </p>
@@ -32,6 +32,12 @@
           </td>
         </tr>
         <tr>
+          <td colspan="3">Mapping from 
+            <a href="codesystem-product-status.html">BiologicallyDerivedProductStatus</a> to 
+            <a href="codesystem-resource-status.html">Canonical Status Codes for FHIR Resources</a>
+          </td>
+        </tr>
+        <tr>
           <td>available</td>
           <td>
             <a href="codesystem-concept-map-equivalence.html#equivalent">is equivalent to</a>
@@ -49,10 +55,11 @@
     </div>
   </text>
   <url value="http://hl7.org/fhir/ConceptMap/sc-product-status"/>
-  <version value="4.3.0-CIBUILD"/>
+  <version value="4.3.0-cibuild"/>
   <name value="BiologicallyDerivedProductStatusCanonicalMap"/>
   <title value="Canonical Mapping for &quot;BiologicallyDerivedProductStatus&quot;"/>
   <status value="draft"/>
+  <experimental value="false"/>
   <date value="2021-01-16T20:06:13+00:00"/>
   <publisher value="HL7 (FHIR Project)"/>
   <contact>
@@ -75,14 +82,14 @@
       <code value="available"/>
       <target>
         <code value="active"/>
-        <relationship value="equivalent"/>
+        <equivalence value="equivalent"/>
       </target>
     </element>
     <element>
       <code value="unavailable"/>
       <target>
         <code value="busy-unavailable"/>
-        <relationship value="equivalent"/>
+        <equivalence value="equivalent"/>
       </target>
     </element>
   </group>

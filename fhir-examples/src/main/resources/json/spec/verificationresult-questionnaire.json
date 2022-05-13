@@ -6,9 +6,10 @@
       "system": "urn:ietf:rfc:3986"
     }
   ],
-  "version": "4.3.0-CIBUILD",
+  "version": "4.3.0-cibuild",
   "status": "draft",
-  "date": "2022-01-01T15:17:18+00:00",
+  "experimental": false,
+  "date": "2022-04-23T22:21:35+00:00",
   "publisher": "Health Level Seven International (Patient Administration)",
   "item": [
     {
@@ -197,10 +198,9 @@
             {
               "linkId": "VerificationResult.language.value",
               "text": "language",
-              "type": "coding",
+              "type": "choice",
               "required": false,
-              "repeats": false,
-              "answerConstraint": "optionsOnly"
+              "repeats": false
             }
           ]
         },
@@ -451,10 +451,9 @@
             {
               "linkId": "VerificationResult.need.coding",
               "text": "code:",
-              "type": "coding",
+              "type": "choice",
               "required": false,
-              "repeats": false,
-              "answerConstraint": "optionsOnly"
+              "repeats": false
             },
             {
               "linkId": "VerificationResult.need.text",
@@ -507,10 +506,9 @@
             {
               "linkId": "VerificationResult.status.value",
               "text": "status",
-              "type": "coding",
+              "type": "choice",
               "required": false,
-              "repeats": false,
-              "answerConstraint": "optionsOrType"
+              "repeats": false
             }
           ]
         },
@@ -597,10 +595,9 @@
             {
               "linkId": "VerificationResult.validationType.coding",
               "text": "code:",
-              "type": "coding",
+              "type": "choice",
               "required": false,
-              "repeats": false,
-              "answerConstraint": "optionsOnly"
+              "repeats": false
             },
             {
               "linkId": "VerificationResult.validationType.text",
@@ -646,10 +643,9 @@
             {
               "linkId": "VerificationResult.validationProcess.coding",
               "text": "code:",
-              "type": "coding",
+              "type": "choice",
               "required": false,
-              "repeats": false,
-              "answerConstraint": "optionsOnly"
+              "repeats": false
             },
             {
               "linkId": "VerificationResult.validationProcess.text",
@@ -860,10 +856,9 @@
             {
               "linkId": "VerificationResult.failureAction.coding",
               "text": "code:",
-              "type": "coding",
+              "type": "choice",
               "required": false,
-              "repeats": false,
-              "answerConstraint": "optionsOnly"
+              "repeats": false
             },
             {
               "linkId": "VerificationResult.failureAction.text",
@@ -1089,10 +1084,9 @@
                 {
                   "linkId": "VerificationResult.primarySource.type.coding",
                   "text": "code:",
-                  "type": "coding",
+                  "type": "choice",
                   "required": false,
-                  "repeats": false,
-                  "answerConstraint": "optionsOnly"
+                  "repeats": false
                 },
                 {
                   "linkId": "VerificationResult.primarySource.type.text",
@@ -1138,10 +1132,9 @@
                 {
                   "linkId": "VerificationResult.primarySource.communicationMethod.coding",
                   "text": "code:",
-                  "type": "coding",
+                  "type": "choice",
                   "required": false,
-                  "repeats": false,
-                  "answerConstraint": "optionsOnly"
+                  "repeats": false
                 },
                 {
                   "linkId": "VerificationResult.primarySource.communicationMethod.text",
@@ -1191,10 +1184,9 @@
                 {
                   "linkId": "VerificationResult.primarySource.validationStatus.coding",
                   "text": "code:",
-                  "type": "coding",
+                  "type": "choice",
                   "required": false,
-                  "repeats": false,
-                  "answerConstraint": "optionsOnly"
+                  "repeats": false
                 },
                 {
                   "linkId": "VerificationResult.primarySource.validationStatus.text",
@@ -1288,10 +1280,9 @@
                 {
                   "linkId": "VerificationResult.primarySource.canPushUpdates.coding",
                   "text": "code:",
-                  "type": "coding",
+                  "type": "choice",
                   "required": false,
-                  "repeats": false,
-                  "answerConstraint": "optionsOnly"
+                  "repeats": false
                 },
                 {
                   "linkId": "VerificationResult.primarySource.canPushUpdates.text",
@@ -1337,10 +1328,9 @@
                 {
                   "linkId": "VerificationResult.primarySource.pushTypeAvailable.coding",
                   "text": "code:",
-                  "type": "coding",
+                  "type": "choice",
                   "required": false,
-                  "repeats": false,
-                  "answerConstraint": "optionsOnly"
+                  "repeats": false
                 },
                 {
                   "linkId": "VerificationResult.primarySource.pushTypeAvailable.text",
@@ -1632,10 +1622,9 @@
                 {
                   "linkId": "VerificationResult.attestation.communicationMethod.coding",
                   "text": "code:",
-                  "type": "coding",
+                  "type": "choice",
                   "required": false,
-                  "repeats": false,
-                  "answerConstraint": "optionsOnly"
+                  "repeats": false
                 },
                 {
                   "linkId": "VerificationResult.attestation.communicationMethod.text",

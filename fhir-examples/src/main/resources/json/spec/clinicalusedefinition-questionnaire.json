@@ -5,12 +5,35 @@
     {
       "resourceType": "ValueSet",
       "id": "vs2",
+      "name": "Type options for ClinicalUseDefinition.indication.duration[x]",
+      "status": "active",
+      "description": "Type options for ClinicalUseDefinition.indication.duration[x]",
+      "expansion": {
+        "identifier": "urn:uuid:7522d097-3f79-4076-9c49-b4e06179b9bc",
+        "timestamp": "2022-04-23T22:28:50+00:00",
+        "contains": [
+          {
+            "system": "http://hl7.org/fhir/data-types",
+            "code": "Range",
+            "display": "Range"
+          },
+          {
+            "system": "http://hl7.org/fhir/data-types",
+            "code": "string",
+            "display": "string"
+          }
+        ]
+      }
+    },
+    {
+      "resourceType": "ValueSet",
+      "id": "vs3",
       "name": "Type options for ClinicalUseDefinition.interaction.interactant.item[x]",
       "status": "active",
       "description": "Type options for ClinicalUseDefinition.interaction.interactant.item[x]",
       "expansion": {
-        "identifier": "urn:uuid:1f0a71b7-b2b4-44b4-8ccb-b8dd3d739142",
-        "timestamp": "2022-01-01T15:24:01+00:00",
+        "identifier": "urn:uuid:b14f094f-76ba-4f6f-afb6-ba95b3af2651",
+        "timestamp": "2022-04-23T22:28:50+00:00",
         "contains": [
           {
             "system": "http://hl7.org/fhir/resource-types",
@@ -46,9 +69,10 @@
       "system": "urn:ietf:rfc:3986"
     }
   ],
-  "version": "4.3.0-CIBUILD",
+  "version": "4.3.0-cibuild",
   "status": "draft",
-  "date": "2022-01-01T15:17:18+00:00",
+  "experimental": false,
+  "date": "2022-04-23T22:21:35+00:00",
   "publisher": "Health Level Seven International (Biomedical Research and Regulation)",
   "item": [
     {
@@ -237,10 +261,9 @@
             {
               "linkId": "ClinicalUseDefinition.language.value",
               "text": "language",
-              "type": "coding",
+              "type": "choice",
               "required": false,
-              "repeats": false,
-              "answerConstraint": "optionsOnly"
+              "repeats": false
             }
           ]
         },
@@ -459,10 +482,9 @@
             {
               "linkId": "ClinicalUseDefinition.type.value",
               "text": "type",
-              "type": "coding",
+              "type": "choice",
               "required": false,
-              "repeats": false,
-              "answerConstraint": "optionsOrType"
+              "repeats": false
             }
           ]
         },
@@ -474,7 +496,7 @@
             }
           ],
           "linkId": "ClinicalUseDefinition.category",
-          "text": "A categorisation of the issue, primarily for dividing warnings into subject heading areas such as \"Pregnancy and Lactation\", \"Overdose\", \"Effects on Ability to Drive and Use Machines\"",
+          "text": "A categorisation of the issue, primarily for dividing warnings into subject heading areas such as \"Pregnancy\", \"Overdose\"",
           "type": "group",
           "required": false,
           "repeats": true,
@@ -501,10 +523,9 @@
             {
               "linkId": "ClinicalUseDefinition.category.coding",
               "text": "code:",
-              "type": "coding",
+              "type": "choice",
               "required": false,
-              "repeats": false,
-              "answerConstraint": "optionsOnly"
+              "repeats": false
             },
             {
               "linkId": "ClinicalUseDefinition.category.text",
@@ -604,10 +625,9 @@
             {
               "linkId": "ClinicalUseDefinition.status.coding",
               "text": "code:",
-              "type": "coding",
+              "type": "choice",
               "required": false,
-              "repeats": false,
-              "answerConstraint": "optionsOnly"
+              "repeats": false
             },
             {
               "linkId": "ClinicalUseDefinition.status.text",
@@ -813,7 +833,7 @@
                     }
                   ],
                   "linkId": "ClinicalUseDefinition.contraindication.diseaseStatus-flyover",
-                  "text": "The status of the disease or symptom for the contraindication.",
+                  "text": "The status of the disease or symptom for the contraindication, for example \"chronic\" or \"metastatic\".",
                   "type": "display"
                 }
               ]
@@ -898,7 +918,7 @@
             },
             {
               "linkId": "ClinicalUseDefinition.contraindication.otherTherapy",
-              "text": "Information about the use of the medicinal product in relation to other therapies described as part of the contraindication",
+              "text": "Information about use of the product in relation to other therapies described as part of the contraindication",
               "type": "group",
               "required": false,
               "repeats": true,
@@ -1038,7 +1058,7 @@
                     }
                   ],
                   "linkId": "ClinicalUseDefinition.contraindication.otherTherapy.relationshipType",
-                  "text": "The type of relationship between the medicinal product indication or contraindication and another therapy",
+                  "text": "The type of relationship between the product indication/contraindication and another therapy",
                   "type": "group",
                   "required": true,
                   "repeats": true,
@@ -1065,10 +1085,9 @@
                     {
                       "linkId": "ClinicalUseDefinition.contraindication.otherTherapy.relationshipType.coding",
                       "text": "code:",
-                      "type": "coding",
+                      "type": "choice",
                       "required": false,
-                      "repeats": false,
-                      "answerConstraint": "optionsOnly"
+                      "repeats": false
                     },
                     {
                       "linkId": "ClinicalUseDefinition.contraindication.otherTherapy.relationshipType.text",
@@ -1091,7 +1110,7 @@
                     }
                   ],
                   "linkId": "ClinicalUseDefinition.contraindication.otherTherapy.therapy",
-                  "text": "Reference to a specific medication (active substance, medicinal product or class of products) as part of an indication or contraindication",
+                  "text": "Reference to a specific medication as part of an indication or contraindication",
                   "type": "group",
                   "required": true,
                   "repeats": false,
@@ -1316,14 +1335,14 @@
                     }
                   ],
                   "linkId": "ClinicalUseDefinition.indication.diseaseStatus-flyover",
-                  "text": "The status of the disease or symptom for the indication.",
+                  "text": "The status of the disease or symptom for the indication, for example \"chronic\" or \"metastatic\".",
                   "type": "display"
                 }
               ]
             },
             {
               "linkId": "ClinicalUseDefinition.indication.comorbidity",
-              "text": "A comorbidity (concurrent condition) or coinfection as part of the indication",
+              "text": "A comorbidity or coinfection as part of the indication",
               "type": "group",
               "required": false,
               "repeats": true,
@@ -1388,13 +1407,9 @@
                 {
                   "url": "http://hl7.org/fhir/StructureDefinition/questionnaire-maxOccurs",
                   "valueInteger": 1
-                },
-                {
-                  "url": "http://hl7.org/fhir/StructureDefinition/questionnaire-fhirType",
-                  "valueString": "Quantity"
                 }
               ],
-              "linkId": "ClinicalUseDefinition.indication.duration",
+              "linkId": "ClinicalUseDefinition.indication.duration[x]",
               "text": "Timing or duration information",
               "type": "group",
               "required": false,
@@ -1415,45 +1430,70 @@
                       }
                     }
                   ],
-                  "linkId": "ClinicalUseDefinition.indication.duration-flyover",
-                  "text": "Timing or duration information.",
+                  "linkId": "ClinicalUseDefinition.indication.duration[x]-flyover",
+                  "text": "Timing or duration information, that may be associated with use with the indicated condition e.g. Adult patients suffering from myocardial infarction (from a few days until less than 35 days), ischaemic stroke (from 7 days until less than 6 months).",
                   "type": "display"
                 },
                 {
-                  "linkId": "ClinicalUseDefinition.indication.duration.comparator",
-                  "text": "comp:",
-                  "type": "coding",
+                  "linkId": "ClinicalUseDefinition.indication.duration[x]._type",
+                  "text": "type",
+                  "type": "choice",
                   "required": false,
                   "repeats": false,
-                  "answerConstraint": "optionsOnly"
-                },
-                {
-                  "linkId": "ClinicalUseDefinition.indication.duration.value",
-                  "text": "value:",
-                  "type": "decimal",
-                  "required": false,
-                  "repeats": false
-                },
-                {
-                  "linkId": "ClinicalUseDefinition.indication.duration.units",
-                  "text": "units:",
-                  "type": "string",
-                  "required": false,
-                  "repeats": false
-                },
-                {
-                  "linkId": "ClinicalUseDefinition.indication.duration.code",
-                  "text": "coded units:",
-                  "type": "string",
-                  "required": false,
-                  "repeats": false
-                },
-                {
-                  "linkId": "ClinicalUseDefinition.indication.duration.system",
-                  "text": "units system:",
-                  "type": "string",
-                  "required": false,
-                  "repeats": false
+                  "answerValueSet": "#vs2",
+                  "item": [
+                    {
+                      "extension": [
+                        {
+                          "url": "http://hl7.org/fhir/StructureDefinition/questionnaire-fhirType",
+                          "valueString": "Range"
+                        }
+                      ],
+                      "linkId": "ClinicalUseDefinition.indication.duration[x]._null",
+                      "type": "group",
+                      "item": [
+                        {
+                          "linkId": "ClinicalUseDefinition.indication.duration[x]._null.low",
+                          "text": "low:",
+                          "type": "decimal",
+                          "required": false,
+                          "repeats": false
+                        },
+                        {
+                          "linkId": "ClinicalUseDefinition.indication.duration[x]._null.high",
+                          "text": "high:",
+                          "type": "decimal",
+                          "required": false,
+                          "repeats": false
+                        },
+                        {
+                          "linkId": "ClinicalUseDefinition.indication.duration[x]._null.units",
+                          "text": "units:",
+                          "type": "string",
+                          "required": false,
+                          "repeats": false
+                        }
+                      ]
+                    },
+                    {
+                      "extension": [
+                        {
+                          "url": "http://hl7.org/fhir/StructureDefinition/questionnaire-fhirType",
+                          "valueString": "string"
+                        }
+                      ],
+                      "linkId": "ClinicalUseDefinition.indication.duration[x]._null",
+                      "type": "group",
+                      "item": [
+                        {
+                          "linkId": "ClinicalUseDefinition.indication.duration[x]._null.value",
+                          "type": "string",
+                          "required": false,
+                          "repeats": false
+                        }
+                      ]
+                    }
+                  ]
                 }
               ]
             },
@@ -1485,7 +1525,7 @@
                     }
                   ],
                   "linkId": "ClinicalUseDefinition.indication.undesirableEffect-flyover",
-                  "text": "The specific undesirable effects of the medicinal product.",
+                  "text": "An unwanted side effect or negative outcome that may happen if you use the drug (or other subject of this resource) for this indication.",
                   "type": "display"
                 },
                 {
@@ -1500,7 +1540,7 @@
                     }
                   ],
                   "linkId": "ClinicalUseDefinition.indication.undesirableEffect.value",
-                  "text": "The specific undesirable effects of the medicinal product",
+                  "text": "An unwanted side effect or negative outcome of the subject of this resource when being used for this indication",
                   "type": "reference",
                   "required": false,
                   "repeats": false
@@ -1509,7 +1549,7 @@
             },
             {
               "linkId": "ClinicalUseDefinition.indication.otherTherapy",
-              "text": "Information about the use of the medicinal product in relation to other therapies described as part of the indication",
+              "text": "The use of the medicinal product in relation to other therapies described as part of the indication",
               "type": "group",
               "required": false,
               "repeats": true,
@@ -1532,6 +1572,200 @@
                   "linkId": "ClinicalUseDefinition.indication.otherTherapy-flyover",
                   "text": "Information about the use of the medicinal product in relation to other therapies described as part of the indication.",
                   "type": "display"
+                },
+                {
+                  "extension": [
+                    {
+                      "url": "http://hl7.org/fhir/StructureDefinition/questionnaire-maxOccurs",
+                      "valueInteger": 1
+                    },
+                    {
+                      "url": "http://hl7.org/fhir/StructureDefinition/questionnaire-fhirType",
+                      "valueString": "string"
+                    }
+                  ],
+                  "linkId": "ClinicalUseDefinition.contraindication.otherTherapy.id",
+                  "type": "group",
+                  "required": false,
+                  "repeats": true,
+                  "item": [
+                    {
+                      "extension": [
+                        {
+                          "url": "http://hl7.org/fhir/StructureDefinition/questionnaire-itemControl",
+                          "valueCodeableConcept": {
+                            "coding": [
+                              {
+                                "system": "http://hl7.org/fhir/questionnaire-item-control",
+                                "code": "flyover",
+                                "display": "Fly-over"
+                              }
+                            ]
+                          }
+                        }
+                      ],
+                      "linkId": "ClinicalUseDefinition.contraindication.otherTherapy.id-flyover",
+                      "text": "Unique id for the element within a resource (for internal references). This may be any string value that does not contain spaces.",
+                      "type": "display"
+                    },
+                    {
+                      "linkId": "ClinicalUseDefinition.contraindication.otherTherapy.id.value",
+                      "text": "Unique id for inter-element referencing",
+                      "type": "string",
+                      "required": false,
+                      "repeats": false
+                    }
+                  ]
+                },
+                {
+                  "linkId": "ClinicalUseDefinition.contraindication.otherTherapy.extension",
+                  "text": "Additional content defined by implementations",
+                  "type": "group",
+                  "required": false,
+                  "repeats": true,
+                  "item": [
+                    {
+                      "extension": [
+                        {
+                          "url": "http://hl7.org/fhir/StructureDefinition/questionnaire-itemControl",
+                          "valueCodeableConcept": {
+                            "coding": [
+                              {
+                                "system": "http://hl7.org/fhir/questionnaire-item-control",
+                                "code": "flyover",
+                                "display": "Fly-over"
+                              }
+                            ]
+                          }
+                        }
+                      ],
+                      "linkId": "ClinicalUseDefinition.contraindication.otherTherapy.extension-flyover",
+                      "text": "May be used to represent additional information that is not part of the basic definition of the element. To make the use of extensions safe and manageable, there is a strict set of governance  applied to the definition and use of extensions. Though any implementer can define an extension, there is a set of requirements that SHALL be met as part of the definition of the extension. There can be no stigma associated with the use of extensions by any application, project, or standard - regardless of the institution or jurisdiction that uses or defines the extensions.  The use of extensions is what allows the FHIR specification to retain a core level of simplicity for everyone.",
+                      "type": "display"
+                    }
+                  ]
+                },
+                {
+                  "linkId": "ClinicalUseDefinition.contraindication.otherTherapy.modifierExtension",
+                  "text": "Extensions that cannot be ignored even if unrecognized",
+                  "type": "group",
+                  "required": false,
+                  "repeats": true,
+                  "item": [
+                    {
+                      "extension": [
+                        {
+                          "url": "http://hl7.org/fhir/StructureDefinition/questionnaire-itemControl",
+                          "valueCodeableConcept": {
+                            "coding": [
+                              {
+                                "system": "http://hl7.org/fhir/questionnaire-item-control",
+                                "code": "flyover",
+                                "display": "Fly-over"
+                              }
+                            ]
+                          }
+                        }
+                      ],
+                      "linkId": "ClinicalUseDefinition.contraindication.otherTherapy.modifierExtension-flyover",
+                      "text": "May be used to represent additional information that is not part of the basic definition of the element and that modifies the understanding of the element in which it is contained and/or the understanding of the containing element\u0027s descendants. Usually modifier elements provide negation or qualification. To make the use of extensions safe and manageable, there is a strict set of governance applied to the definition and use of extensions. Though any implementer can define an extension, there is a set of requirements that SHALL be met as part of the definition of the extension. Applications processing a resource are required to check for modifier extensions.\n\nModifier extensions SHALL NOT change the meaning of any elements on Resource or DomainResource (including cannot change the meaning of modifierExtension itself). There can be no stigma associated with the use of extensions by any application, project, or standard - regardless of the institution or jurisdiction that uses or defines the extensions.  The use of extensions is what allows the FHIR specification to retain a core level of simplicity for everyone.",
+                      "type": "display"
+                    }
+                  ]
+                },
+                {
+                  "extension": [
+                    {
+                      "url": "http://hl7.org/fhir/StructureDefinition/questionnaire-minOccurs",
+                      "valueInteger": 1
+                    },
+                    {
+                      "url": "http://hl7.org/fhir/StructureDefinition/questionnaire-maxOccurs",
+                      "valueInteger": 1
+                    },
+                    {
+                      "url": "http://hl7.org/fhir/StructureDefinition/questionnaire-fhirType",
+                      "valueString": "CodeableConcept"
+                    }
+                  ],
+                  "linkId": "ClinicalUseDefinition.contraindication.otherTherapy.relationshipType",
+                  "text": "The type of relationship between the product indication/contraindication and another therapy",
+                  "type": "group",
+                  "required": true,
+                  "repeats": true,
+                  "item": [
+                    {
+                      "extension": [
+                        {
+                          "url": "http://hl7.org/fhir/StructureDefinition/questionnaire-itemControl",
+                          "valueCodeableConcept": {
+                            "coding": [
+                              {
+                                "system": "http://hl7.org/fhir/questionnaire-item-control",
+                                "code": "flyover",
+                                "display": "Fly-over"
+                              }
+                            ]
+                          }
+                        }
+                      ],
+                      "linkId": "ClinicalUseDefinition.contraindication.otherTherapy.relationshipType-flyover",
+                      "text": "The type of relationship between the medicinal product indication or contraindication and another therapy.",
+                      "type": "display"
+                    },
+                    {
+                      "linkId": "ClinicalUseDefinition.contraindication.otherTherapy.relationshipType.coding",
+                      "text": "code:",
+                      "type": "choice",
+                      "required": false,
+                      "repeats": false
+                    },
+                    {
+                      "linkId": "ClinicalUseDefinition.contraindication.otherTherapy.relationshipType.text",
+                      "text": "text:",
+                      "type": "string",
+                      "required": false,
+                      "repeats": false
+                    }
+                  ]
+                },
+                {
+                  "extension": [
+                    {
+                      "url": "http://hl7.org/fhir/StructureDefinition/questionnaire-minOccurs",
+                      "valueInteger": 1
+                    },
+                    {
+                      "url": "http://hl7.org/fhir/StructureDefinition/questionnaire-maxOccurs",
+                      "valueInteger": 1
+                    }
+                  ],
+                  "linkId": "ClinicalUseDefinition.contraindication.otherTherapy.therapy",
+                  "text": "Reference to a specific medication as part of an indication or contraindication",
+                  "type": "group",
+                  "required": true,
+                  "repeats": false,
+                  "item": [
+                    {
+                      "extension": [
+                        {
+                          "url": "http://hl7.org/fhir/StructureDefinition/questionnaire-itemControl",
+                          "valueCodeableConcept": {
+                            "coding": [
+                              {
+                                "system": "http://hl7.org/fhir/questionnaire-item-control",
+                                "code": "flyover",
+                                "display": "Fly-over"
+                              }
+                            ]
+                          }
+                        }
+                      ],
+                      "linkId": "ClinicalUseDefinition.contraindication.otherTherapy.therapy-flyover",
+                      "text": "Reference to a specific medication (active substance, medicinal product or class of products) as part of an indication or contraindication.",
+                      "type": "display"
+                    }
+                  ]
                 }
               ]
             }
@@ -1834,11 +2068,10 @@
                     {
                       "linkId": "ClinicalUseDefinition.interaction.interactant.item[x]._type",
                       "text": "type",
-                      "type": "coding",
+                      "type": "choice",
                       "required": false,
                       "repeats": false,
-                      "answerConstraint": "optionsOnly",
-                      "answerValueSet": "#vs2",
+                      "answerValueSet": "#vs3",
                       "item": [
                         {
                           "extension": [
@@ -1881,10 +2114,9 @@
                             {
                               "linkId": "ClinicalUseDefinition.interaction.interactant.item[x]._null.coding",
                               "text": "code:",
-                              "type": "coding",
+                              "type": "choice",
                               "required": false,
-                              "repeats": false,
-                              "answerConstraint": "optionsOnly"
+                              "repeats": false
                             },
                             {
                               "linkId": "ClinicalUseDefinition.interaction.interactant.item[x]._null.text",
@@ -1913,7 +2145,7 @@
                 }
               ],
               "linkId": "ClinicalUseDefinition.interaction.type",
-              "text": "The type of the interaction e.g. drug-drug interaction, drug-food interaction, drug-lab test interaction",
+              "text": "The type of the interaction e.g. drug-drug interaction, drug-lab test interaction",
               "type": "group",
               "required": false,
               "repeats": true,
@@ -1940,10 +2172,9 @@
                 {
                   "linkId": "ClinicalUseDefinition.interaction.type.coding",
                   "text": "code:",
-                  "type": "coding",
+                  "type": "choice",
                   "required": false,
-                  "repeats": false,
-                  "answerConstraint": "optionsOnly"
+                  "repeats": false
                 },
                 {
                   "linkId": "ClinicalUseDefinition.interaction.type.text",
@@ -2027,10 +2258,9 @@
                 {
                   "linkId": "ClinicalUseDefinition.interaction.incidence.coding",
                   "text": "code:",
-                  "type": "coding",
+                  "type": "choice",
                   "required": false,
-                  "repeats": false,
-                  "answerConstraint": "optionsOnly"
+                  "repeats": false
                 },
                 {
                   "linkId": "ClinicalUseDefinition.interaction.incidence.text",
@@ -2076,10 +2306,9 @@
                 {
                   "linkId": "ClinicalUseDefinition.interaction.management.coding",
                   "text": "code:",
-                  "type": "coding",
+                  "type": "choice",
                   "required": false,
-                  "repeats": false,
-                  "answerConstraint": "optionsOnly"
+                  "repeats": false
                 },
                 {
                   "linkId": "ClinicalUseDefinition.interaction.management.text",
@@ -2171,7 +2400,7 @@
                 }
               ],
               "linkId": "ClinicalUseDefinition.undesirableEffect-flyover",
-              "text": "Describe the undesirable effects of the medicinal product.",
+              "text": "Describe the possible undesirable effects (negative outcomes) from the use of the medicinal product as treatment.",
               "type": "display"
             },
             {
@@ -2347,10 +2576,9 @@
                 {
                   "linkId": "ClinicalUseDefinition.undesirableEffect.classification.coding",
                   "text": "code:",
-                  "type": "coding",
+                  "type": "choice",
                   "required": false,
-                  "repeats": false,
-                  "answerConstraint": "optionsOnly"
+                  "repeats": false
                 },
                 {
                   "linkId": "ClinicalUseDefinition.undesirableEffect.classification.text",
@@ -2400,10 +2628,9 @@
                 {
                   "linkId": "ClinicalUseDefinition.undesirableEffect.frequencyOfOccurrence.coding",
                   "text": "code:",
-                  "type": "coding",
+                  "type": "choice",
                   "required": false,
-                  "repeats": false,
-                  "answerConstraint": "optionsOnly"
+                  "repeats": false
                 },
                 {
                   "linkId": "ClinicalUseDefinition.undesirableEffect.frequencyOfOccurrence.text",
@@ -2424,7 +2651,7 @@
             }
           ],
           "linkId": "ClinicalUseDefinition.warning",
-          "text": "A critical piece of information about environmental, health or physical risks or hazards that serve as caution to the user. For example \u0027Do not operate heavy machinery\u0027, \u0027May cause drowsiness\u0027 or \u0027Get medical advice/attention if you feel unwell\u0027",
+          "text": "Critical environmental, health or physical risks or hazards. For example \u0027Do not operate heavy machinery\u0027, \u0027May cause drowsiness\u0027",
           "type": "group",
           "required": false,
           "repeats": false,
@@ -2631,10 +2858,9 @@
                 {
                   "linkId": "ClinicalUseDefinition.warning.code.coding",
                   "text": "code:",
-                  "type": "coding",
+                  "type": "choice",
                   "required": false,
-                  "repeats": false,
-                  "answerConstraint": "optionsOnly"
+                  "repeats": false
                 },
                 {
                   "linkId": "ClinicalUseDefinition.warning.code.text",

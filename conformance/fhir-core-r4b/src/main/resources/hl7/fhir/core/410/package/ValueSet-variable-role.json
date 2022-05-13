@@ -2,7 +2,7 @@
     "resourceType": "ValueSet",
     "id": "variable-role",
     "meta": {
-        "lastUpdated": "2022-03-04T09:04:06.196+11:00",
+        "lastUpdated": "2022-04-24T09:21:35.043+11:00",
         "profile": [
             "http://hl7.org/fhir/StructureDefinition/shareablevalueset"
         ]
@@ -28,7 +28,7 @@
             "value": "urn:oid:2.16.840.1.113883.4.642.3.1456"
         }
     ],
-    "version": "4.3.0-CIBUILD",
+    "version": "4.3.0-cibuild",
     "name": "EvidenceVariableRole",
     "title": "EvidenceVariableRole",
     "status": "draft",
@@ -59,8 +59,8 @@
         ]
     },
     "expansion": {
-        "identifier": "urn:uuid:17613fa6-f827-42b9-93a6-9d7c3c6da938",
-        "timestamp": "2022-03-03T22:05:31Z",
+        "identifier": "urn:uuid:6a9dfa91-9b57-48ab-93eb-a87907f7db46",
+        "timestamp": "2022-04-23T22:23:26Z",
         "total": 6,
         "parameter": [
             {
@@ -73,7 +73,7 @@
             },
             {
                 "name": "version",
-                "valueUri": "http://terminology.hl7.org/CodeSystem/variable-role|4.3.0-CIBUILD"
+                "valueUri": "http://terminology.hl7.org/CodeSystem/variable-role|4.3.0-cibuild"
             }
         ],
         "contains": [

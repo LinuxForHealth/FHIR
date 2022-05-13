@@ -7,7 +7,7 @@
       <display value="test health data"/>
     </security>
   </meta>
-  <text><status value="generated"/><div xmlns="http://www.w3.org/1999/xhtml"><p><b>Generated Narrative</b></p><div><p>Resource "date-lastmp" </p></div><p><b>status</b>: final</p><p><b>category</b>: AOE <span> (<a>Observation Category Codes</a>#survey "Survey")</span></p><p><b>code</b>: Date last menstrual period <span> (<a>LOINC</a>#8665-2)</span></p><p><b>subject</b>: <a>Patient/pat2</a> "Duck DONALD"</p><p><b>effective</b>: 2016-01-24</p><p><b>value</b>: 2016-12-30</p></div></text><status value="final"/>
+  <text><status value="generated"/><div xmlns="http://www.w3.org/1999/xhtml"><p><b>Generated Narrative</b></p><div style="display: inline-block; background-color: #d9e0e7; padding: 6px; margin: 4px; border: 1px solid #8da1b4; border-radius: 5px; line-height: 60%"><p style="margin-bottom: 0px">Resource "date-lastmp" </p></div><p><b>status</b>: final</p><p><b>category</b>: AOE <span style="background: LightGoldenRodYellow; margin: 4px; border: 1px solid khaki"> (<a href="codesystem-observation-category.html">Observation Category Codes</a>#survey "Survey")</span></p><p><b>code</b>: Date last menstrual period <span style="background: LightGoldenRodYellow; margin: 4px; border: 1px solid khaki"> (<a href="https://loinc.org/">LOINC</a>#8665-2)</span></p><p><b>subject</b>: <a href="patient-pat2.html">Patient/pat2</a> "Duck DONALD"</p><p><b>effective</b>: 2016-01-24</p><p><b>value</b>: 2016-12-30</p></div></text><status value="final"/>
 	<category>
 		<coding>
 			<system value="http://terminology.hl7.org/CodeSystem/observation-category"/>

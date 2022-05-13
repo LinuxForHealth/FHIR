@@ -2,7 +2,7 @@
     "resourceType": "ValueSet",
     "id": "encounter-location-status",
     "meta": {
-        "lastUpdated": "2022-03-04T09:04:06.196+11:00",
+        "lastUpdated": "2022-04-24T09:21:35.043+11:00",
         "profile": [
             "http://hl7.org/fhir/StructureDefinition/shareablevalueset"
         ]
@@ -28,7 +28,7 @@
             "value": "urn:oid:2.16.840.1.113883.4.642.3.262"
         }
     ],
-    "version": "4.3.0-CIBUILD",
+    "version": "4.3.0-cibuild",
     "name": "EncounterLocationStatus",
     "title": "EncounterLocationStatus",
     "status": "draft",
@@ -59,8 +59,8 @@
         ]
     },
     "expansion": {
-        "identifier": "urn:uuid:bc5aab63-726a-45d9-95c6-912b5ee18081",
-        "timestamp": "2022-03-03T22:05:09Z",
+        "identifier": "urn:uuid:4bc5eb30-ea7c-4952-824d-98eb85716ca9",
+        "timestamp": "2022-04-23T22:23:07Z",
         "total": 4,
         "parameter": [
             {
@@ -73,7 +73,7 @@
             },
             {
                 "name": "version",
-                "valueUri": "http://hl7.org/fhir/encounter-location-status|4.3.0-CIBUILD"
+                "valueUri": "http://hl7.org/fhir/encounter-location-status|4.3.0-cibuild"
             }
         ],
         "contains": [

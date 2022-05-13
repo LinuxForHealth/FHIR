@@ -39,8 +39,8 @@
         ]
     },
     "expansion": {
-        "identifier": "urn:uuid:81799364-3706-467e-8dc5-3d719fab00af",
-        "timestamp": "2022-03-03T22:05:30Z",
+        "identifier": "urn:uuid:4d68bba8-82db-4151-a425-22063572fd8c",
+        "timestamp": "2022-04-23T22:23:26Z",
         "total": 295,
         "parameter": [
             {
@@ -180,30 +180,35 @@
             {
                 "system": "http://terminology.hl7.org/CodeSystem/v3-ActReason",
                 "abstract": true,
+                "inactive": true,
                 "code": "_ActCoverageProviderReason",
                 "display": "ActCoverageProviderReason"
             },
             {
                 "system": "http://terminology.hl7.org/CodeSystem/v3-ActReason",
                 "abstract": true,
+                "inactive": true,
                 "code": "_ActCoverageServiceReason",
                 "display": "ActCoverageServiceReason"
             },
             {
                 "system": "http://terminology.hl7.org/CodeSystem/v3-ActReason",
                 "abstract": true,
+                "inactive": true,
                 "code": "_CoverageExclusionReason",
                 "display": "CoverageExclusionReason"
             },
             {
                 "system": "http://terminology.hl7.org/CodeSystem/v3-ActReason",
                 "abstract": true,
+                "inactive": true,
                 "code": "_CoverageFinancialParticipationReason",
                 "display": "CoverageFinancialParticipationReason"
             },
             {
                 "system": "http://terminology.hl7.org/CodeSystem/v3-ActReason",
                 "abstract": true,
+                "inactive": true,
                 "code": "_CoverageLimitationReason",
                 "display": "CoverageLimitationReason"
             },
@@ -553,6 +558,7 @@
             {
                 "system": "http://terminology.hl7.org/CodeSystem/v3-ActReason",
                 "abstract": true,
+                "inactive": true,
                 "code": "_ActHealthInformationPrivacyReason",
                 "display": "ActHealthInformationPrivacyReason"
             },
@@ -951,6 +957,7 @@
             },
             {
                 "system": "http://terminology.hl7.org/CodeSystem/v3-ActReason",
+                "inactive": true,
                 "code": "NOUSRPERM",
                 "display": "no user permission"
             },
@@ -1209,6 +1216,7 @@
             {
                 "system": "http://terminology.hl7.org/CodeSystem/v3-ActReason",
                 "abstract": true,
+                "inactive": true,
                 "code": "_ControlActReasonConditionNullify",
                 "display": "ControlActReasonConditionNullify"
             },
@@ -1442,134 +1450,160 @@
             {
                 "system": "http://terminology.hl7.org/CodeSystem/v3-ActReason",
                 "abstract": true,
+                "inactive": true,
                 "code": "_ActAdjudicationReason",
                 "display": "ActAdjudicationReason"
             },
             {
                 "system": "http://terminology.hl7.org/CodeSystem/v3-ActReason",
                 "abstract": true,
+                "inactive": true,
                 "code": "_ActBillableServiceReason",
                 "display": "ActBillableServiceReason"
             },
             {
                 "system": "http://terminology.hl7.org/CodeSystem/v3-ActReason",
                 "abstract": true,
+                "inactive": true,
                 "code": "_ActBillableClinicalServiceReason",
                 "display": "ActBillableClinicalServiceReason"
             },
             {
                 "system": "http://terminology.hl7.org/CodeSystem/v3-ActReason",
                 "abstract": true,
+                "inactive": true,
                 "code": "_MedicallyNecessaryDuplicateProcedureReason",
                 "display": "MedicallyNecessaryDuplicateProcedureReason"
             },
             {
                 "system": "http://terminology.hl7.org/CodeSystem/v3-ActReason",
                 "abstract": true,
+                "inactive": true,
                 "code": "_ActCoverageLevelRasonCode",
                 "display": "ActCoverageLevelRasonCode"
             },
             {
                 "system": "http://terminology.hl7.org/CodeSystem/v3-ActReason",
                 "abstract": true,
+                "inactive": true,
                 "code": "_ActImmunizationReason",
                 "display": "ActImmunizationReason"
             },
             {
                 "system": "http://terminology.hl7.org/CodeSystem/v3-ActReason",
                 "abstract": true,
+                "inactive": true,
                 "code": "_ConrolActNullificationReasonCode",
                 "display": "ConrolActNullificationReasonCode"
             },
             {
                 "system": "http://terminology.hl7.org/CodeSystem/v3-ActReason",
                 "abstract": true,
+                "inactive": true,
                 "code": "_NonPerformanceReasonCode",
                 "display": "NonPerformanceReasonCode"
             },
             {
                 "system": "http://terminology.hl7.org/CodeSystem/v3-ActReason",
                 "abstract": true,
+                "inactive": true,
                 "code": "_ReasonForNotEvaluatingDevice",
                 "display": "ReasonForNotEvaluatingDevice"
             },
             {
                 "system": "http://terminology.hl7.org/CodeSystem/v3-ActReason",
                 "abstract": true,
+                "inactive": true,
                 "code": "_ReferralReasonCode",
                 "display": "ReferralReasonCode"
             },
             {
                 "system": "http://terminology.hl7.org/CodeSystem/v3-ActReason",
+                "inactive": true,
                 "code": "BONUS"
             },
             {
                 "system": "http://terminology.hl7.org/CodeSystem/v3-ActReason",
+                "inactive": true,
                 "code": "CHD",
                 "display": "Children only"
             },
             {
                 "system": "http://terminology.hl7.org/CodeSystem/v3-ActReason",
+                "inactive": true,
                 "code": "DEP",
                 "display": "Dependents only"
             },
             {
                 "system": "http://terminology.hl7.org/CodeSystem/v3-ActReason",
+                "inactive": true,
                 "code": "ECH",
                 "display": "Employee and children"
             },
             {
                 "system": "http://terminology.hl7.org/CodeSystem/v3-ActReason",
+                "inactive": true,
                 "code": "EDU"
             },
             {
                 "system": "http://terminology.hl7.org/CodeSystem/v3-ActReason",
+                "inactive": true,
                 "code": "EMP",
                 "display": "Employee only"
             },
             {
                 "system": "http://terminology.hl7.org/CodeSystem/v3-ActReason",
+                "inactive": true,
                 "code": "ESP",
                 "display": "Employee and spouse"
             },
             {
                 "system": "http://terminology.hl7.org/CodeSystem/v3-ActReason",
+                "inactive": true,
                 "code": "FAM",
                 "display": "Family"
             },
             {
                 "system": "http://terminology.hl7.org/CodeSystem/v3-ActReason",
+                "inactive": true,
                 "code": "IND",
                 "display": "Individual"
             },
             {
                 "system": "http://terminology.hl7.org/CodeSystem/v3-ActReason",
+                "inactive": true,
                 "code": "INVOICE"
             },
             {
                 "system": "http://terminology.hl7.org/CodeSystem/v3-ActReason",
+                "inactive": true,
                 "code": "PROA"
             },
             {
                 "system": "http://terminology.hl7.org/CodeSystem/v3-ActReason",
+                "inactive": true,
                 "code": "RECOV"
             },
             {
                 "system": "http://terminology.hl7.org/CodeSystem/v3-ActReason",
+                "inactive": true,
                 "code": "RETRO"
             },
             {
                 "system": "http://terminology.hl7.org/CodeSystem/v3-ActReason",
+                "inactive": true,
                 "code": "SPC",
                 "display": "Spouse and children"
             },
             {
                 "system": "http://terminology.hl7.org/CodeSystem/v3-ActReason",
+                "inactive": true,
                 "code": "SPO",
                 "display": "Spouse only"
             },
             {
                 "system": "http://terminology.hl7.org/CodeSystem/v3-ActReason",
+                "inactive": true,
                 "code": "TRAN"
             }
         ]

@@ -12,9 +12,10 @@
         }
     ],
     "url": "http://hl7.org/fhir/StructureDefinition/questionnaire-minOccurs",
-    "version": "4.3.0-CIBUILD",
+    "version": "4.3.0-cibuild",
     "name": "minOccurs",
     "status": "draft",
+    "experimental": false,
     "date": "2013-07-04",
     "publisher": "HL7",
     "contact": [
@@ -28,7 +29,7 @@
         }
     ],
     "description": "The minimum number of times the group must appear, or the minimum number of answers for a question - when greater than 1.",
-    "fhirVersion": "4.3.0-CIBUILD",
+    "fhirVersion": "4.3.0-cibuild",
     "mapping": [
         {
             "identity": "rim",

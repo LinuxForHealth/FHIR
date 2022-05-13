@@ -2,7 +2,7 @@
     "resourceType": "ValueSet",
     "id": "immunization-recommendation-target-disease",
     "meta": {
-        "lastUpdated": "2022-03-03T22:04:06.196Z",
+        "lastUpdated": "2022-04-23T22:21:35.043Z",
         "profile": [
             "http://hl7.org/fhir/StructureDefinition/shareablevalueset"
         ]
@@ -28,7 +28,7 @@
             "value": "urn:oid:2.16.840.1.113883.4.642.3.309"
         }
     ],
-    "version": "4.3.0-CIBUILD",
+    "version": "4.3.0-cibuild",
     "name": "ImmunizationRecommendationTargetDiseaseCodes",
     "title": "Immunization Recommendation Target Disease Codes",
     "status": "draft",
@@ -83,11 +83,12 @@
         ]
     },
     "expansion": {
-        "identifier": "urn:uuid:72eca9b9-f7cc-4501-bb36-51d61b0be123",
-        "timestamp": "2021-11-17T05:28:34.808Z",
+        "identifier": "urn:uuid:52e34354-2a64-4647-8716-92b32d49eed1",
+        "timestamp": "2022-04-23T22:23:26Z",
+        "total": 9,
         "parameter": [
             {
-                "name": "limitedExpansion",
+                "name": "excludeNested",
                 "valueBoolean": true
             },
             {
@@ -95,12 +96,12 @@
                 "valueBoolean": true
             },
             {
-                "name": "excludeNested",
+                "name": "limitedExpansion",
                 "valueBoolean": true
             },
             {
                 "name": "version",
-                "valueUri": "http://snomed.info/sct|http://snomed.info/sct/900000000000207008/version/20200131"
+                "valueUri": "http://snomed.info/sct|http://snomed.info/sct/900000000000207008/version/20200731"
             }
         ],
         "contains": [

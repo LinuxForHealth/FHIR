@@ -1,0 +1,818 @@
+{
+  "resourceType": "CodeSystem",
+  "id": "animal-tissue-type",
+  "meta": {
+    "lastUpdated": "2022-04-24T09:21:35.043+11:00",
+    "profile": [
+      "http://hl7.org/fhir/StructureDefinition/shareablecodesystem"
+    ]
+  },
+  "text": {
+    "status": "generated",
+    "div": "\u003cdiv xmlns\u003d\"http://www.w3.org/1999/xhtml\"\u003e\u003cp\u003eThis code system http://hl7.org/fhir/animal-tissue-type defines the following codes:\u003c/p\u003e\u003ctable class\u003d\"codes\"\u003e\u003ctr\u003e\u003ctd style\u003d\"white-space:nowrap\"\u003e\u003cb\u003eCode\u003c/b\u003e\u003c/td\u003e\u003ctd\u003e\u003cb\u003eDisplay\u003c/b\u003e\u003c/td\u003e\u003c/tr\u003e\u003ctr\u003e\u003ctd style\u003d\"white-space:nowrap\"\u003e100000072091\u003ca name\u003d\"animal-tissue-type-100000072091\"\u003e \u003c/a\u003e\u003c/td\u003e\u003ctd\u003eAll relevant tissues\u003c/td\u003e\u003c/tr\u003e\u003ctr\u003e\u003ctd style\u003d\"white-space:nowrap\"\u003e100000072092\u003ca name\u003d\"animal-tissue-type-100000072092\"\u003e \u003c/a\u003e\u003c/td\u003e\u003ctd\u003eFat\u003c/td\u003e\u003c/tr\u003e\u003ctr\u003e\u003ctd style\u003d\"white-space:nowrap\"\u003e100000072093\u003ca name\u003d\"animal-tissue-type-100000072093\"\u003e \u003c/a\u003e\u003c/td\u003e\u003ctd\u003eHoney\u003c/td\u003e\u003c/tr\u003e\u003ctr\u003e\u003ctd style\u003d\"white-space:nowrap\"\u003e100000072094\u003ca name\u003d\"animal-tissue-type-100000072094\"\u003e \u003c/a\u003e\u003c/td\u003e\u003ctd\u003eLiver\u003c/td\u003e\u003c/tr\u003e\u003ctr\u003e\u003ctd style\u003d\"white-space:nowrap\"\u003e100000072095\u003ca name\u003d\"animal-tissue-type-100000072095\"\u003e \u003c/a\u003e\u003c/td\u003e\u003ctd\u003eFresh Milk\u003c/td\u003e\u003c/tr\u003e\u003ctr\u003e\u003ctd style\u003d\"white-space:nowrap\"\u003e100000072096\u003ca name\u003d\"animal-tissue-type-100000072096\"\u003e \u003c/a\u003e\u003c/td\u003e\u003ctd\u003eMuscle and skin in natural proportions\u003c/td\u003e\u003c/tr\u003e\u003ctr\u003e\u003ctd style\u003d\"white-space:nowrap\"\u003e100000072104\u003ca name\u003d\"animal-tissue-type-100000072104\"\u003e \u003c/a\u003e\u003c/td\u003e\u003ctd\u003eEggs\u003c/td\u003e\u003c/tr\u003e\u003ctr\u003e\u003ctd style\u003d\"white-space:nowrap\"\u003e100000072105\u003ca name\u003d\"animal-tissue-type-100000072105\"\u003e \u003c/a\u003e\u003c/td\u003e\u003ctd\u003eSkin and fat\u003c/td\u003e\u003c/tr\u003e\u003ctr\u003e\u003ctd style\u003d\"white-space:nowrap\"\u003e100000072106\u003ca name\u003d\"animal-tissue-type-100000072106\"\u003e \u003c/a\u003e\u003c/td\u003e\u003ctd\u003eKidney\u003c/td\u003e\u003c/tr\u003e\u003ctr\u003e\u003ctd style\u003d\"white-space:nowrap\"\u003e100000072107\u003ca name\u003d\"animal-tissue-type-100000072107\"\u003e \u003c/a\u003e\u003c/td\u003e\u003ctd\u003eMeat and offal\u003c/td\u003e\u003c/tr\u003e\u003ctr\u003e\u003ctd style\u003d\"white-space:nowrap\"\u003e100000072108\u003ca name\u003d\"animal-tissue-type-100000072108\"\u003e \u003c/a\u003e\u003c/td\u003e\u003ctd\u003eMuscle\u003c/td\u003e\u003c/tr\u003e\u003ctr\u003e\u003ctd style\u003d\"white-space:nowrap\"\u003e100000072109\u003ca name\u003d\"animal-tissue-type-100000072109\"\u003e \u003c/a\u003e\u003c/td\u003e\u003ctd\u003eUnspecified\u003c/td\u003e\u003c/tr\u003e\u003ctr\u003e\u003ctd style\u003d\"white-space:nowrap\"\u003e100000111053\u003ca name\u003d\"animal-tissue-type-100000111053\"\u003e \u003c/a\u003e\u003c/td\u003e\u003ctd\u003eAdipose tissue\u003c/td\u003e\u003c/tr\u003e\u003ctr\u003e\u003ctd style\u003d\"white-space:nowrap\"\u003e100000111054\u003ca name\u003d\"animal-tissue-type-100000111054\"\u003e \u003c/a\u003e\u003c/td\u003e\u003ctd\u003eAdrenal\u003c/td\u003e\u003c/tr\u003e\u003ctr\u003e\u003ctd style\u003d\"white-space:nowrap\"\u003e100000111055\u003ca name\u003d\"animal-tissue-type-100000111055\"\u003e \u003c/a\u003e\u003c/td\u003e\u003ctd\u003eBlood vessels\u003c/td\u003e\u003c/tr\u003e\u003ctr\u003e\u003ctd style\u003d\"white-space:nowrap\"\u003e100000111056\u003ca name\u003d\"animal-tissue-type-100000111056\"\u003e \u003c/a\u003e\u003c/td\u003e\u003ctd\u003eBone\u003c/td\u003e\u003c/tr\u003e\u003ctr\u003e\u003ctd style\u003d\"white-space:nowrap\"\u003e100000111057\u003ca name\u003d\"animal-tissue-type-100000111057\"\u003e \u003c/a\u003e\u003c/td\u003e\u003ctd\u003eBone marrow\u003c/td\u003e\u003c/tr\u003e\u003ctr\u003e\u003ctd style\u003d\"white-space:nowrap\"\u003e100000111058\u003ca name\u003d\"animal-tissue-type-100000111058\"\u003e \u003c/a\u003e\u003c/td\u003e\u003ctd\u003eBrain\u003c/td\u003e\u003c/tr\u003e\u003ctr\u003e\u003ctd style\u003d\"white-space:nowrap\"\u003e100000111059\u003ca name\u003d\"animal-tissue-type-100000111059\"\u003e \u003c/a\u003e\u003c/td\u003e\u003ctd\u003eConnective tissue\u003c/td\u003e\u003c/tr\u003e\u003ctr\u003e\u003ctd style\u003d\"white-space:nowrap\"\u003e100000111060\u003ca name\u003d\"animal-tissue-type-100000111060\"\u003e \u003c/a\u003e\u003c/td\u003e\u003ctd\u003eCornea\u003c/td\u003e\u003c/tr\u003e\u003ctr\u003e\u003ctd style\u003d\"white-space:nowrap\"\u003e100000111061\u003ca name\u003d\"animal-tissue-type-100000111061\"\u003e \u003c/a\u003e\u003c/td\u003e\u003ctd\u003eDental pulp\u003c/td\u003e\u003c/tr\u003e\u003ctr\u003e\u003ctd style\u003d\"white-space:nowrap\"\u003e100000111062\u003ca name\u003d\"animal-tissue-type-100000111062\"\u003e \u003c/a\u003e\u003c/td\u003e\u003ctd\u003eDuodenum\u003c/td\u003e\u003c/tr\u003e\u003ctr\u003e\u003ctd style\u003d\"white-space:nowrap\"\u003e100000111063\u003ca name\u003d\"animal-tissue-type-100000111063\"\u003e \u003c/a\u003e\u003c/td\u003e\u003ctd\u003eDura mater\u003c/td\u003e\u003c/tr\u003e\u003ctr\u003e\u003ctd style\u003d\"white-space:nowrap\"\u003e100000111064\u003ca name\u003d\"animal-tissue-type-100000111064\"\u003e \u003c/a\u003e\u003c/td\u003e\u003ctd\u003eEgg, embryonated\u003c/td\u003e\u003c/tr\u003e\u003ctr\u003e\u003ctd style\u003d\"white-space:nowrap\"\u003e100000111065\u003ca name\u003d\"animal-tissue-type-100000111065\"\u003e \u003c/a\u003e\u003c/td\u003e\u003ctd\u003eEgg\u003c/td\u003e\u003c/tr\u003e\u003ctr\u003e\u003ctd style\u003d\"white-space:nowrap\"\u003e100000111066\u003ca name\u003d\"animal-tissue-type-100000111066\"\u003e \u003c/a\u003e\u003c/td\u003e\u003ctd\u003eEgg white\u003c/td\u003e\u003c/tr\u003e\u003ctr\u003e\u003ctd style\u003d\"white-space:nowrap\"\u003e100000111067\u003ca name\u003d\"animal-tissue-type-100000111067\"\u003e \u003c/a\u003e\u003c/td\u003e\u003ctd\u003eEgg yolk\u003c/td\u003e\u003c/tr\u003e\u003ctr\u003e\u003ctd style\u003d\"white-space:nowrap\"\u003e100000111068\u003ca name\u003d\"animal-tissue-type-100000111068\"\u003e \u003c/a\u003e\u003c/td\u003e\u003ctd\u003eEmbryos\u003c/td\u003e\u003c/tr\u003e\u003ctr\u003e\u003ctd style\u003d\"white-space:nowrap\"\u003e100000111069\u003ca name\u003d\"animal-tissue-type-100000111069\"\u003e \u003c/a\u003e\u003c/td\u003e\u003ctd\u003eEnteric plexuses\u003c/td\u003e\u003c/tr\u003e\u003ctr\u003e\u003ctd style\u003d\"white-space:nowrap\"\u003e100000111070\u003ca name\u003d\"animal-tissue-type-100000111070\"\u003e \u003c/a\u003e\u003c/td\u003e\u003ctd\u003eEsophagus\u003c/td\u003e\u003c/tr\u003e\u003ctr\u003e\u003ctd style\u003d\"white-space:nowrap\"\u003e100000111071\u003ca name\u003d\"animal-tissue-type-100000111071\"\u003e \u003c/a\u003e\u003c/td\u003e\u003ctd\u003eFeathers\u003c/td\u003e\u003c/tr\u003e\u003ctr\u003e\u003ctd style\u003d\"white-space:nowrap\"\u003e100000111072\u003ca name\u003d\"animal-tissue-type-100000111072\"\u003e \u003c/a\u003e\u003c/td\u003e\u003ctd\u003eFoetus\u003c/td\u003e\u003c/tr\u003e\u003ctr\u003e\u003ctd style\u003d\"white-space:nowrap\"\u003e100000111073\u003ca name\u003d\"animal-tissue-type-100000111073\"\u003e \u003c/a\u003e\u003c/td\u003e\u003ctd\u003eFore-stomach (ruminants only)\u003c/td\u003e\u003c/tr\u003e\u003ctr\u003e\u003ctd style\u003d\"white-space:nowrap\"\u003e100000111074\u003ca name\u003d\"animal-tissue-type-100000111074\"\u003e \u003c/a\u003e\u003c/td\u003e\u003ctd\u003eGingival tissue\u003c/td\u003e\u003c/tr\u003e\u003ctr\u003e\u003ctd style\u003d\"white-space:nowrap\"\u003e100000111075\u003ca name\u003d\"animal-tissue-type-100000111075\"\u003e \u003c/a\u003e\u003c/td\u003e\u003ctd\u003eHair\u003c/td\u003e\u003c/tr\u003e\u003ctr\u003e\u003ctd style\u003d\"white-space:nowrap\"\u003e100000111076\u003ca name\u003d\"animal-tissue-type-100000111076\"\u003e \u003c/a\u003e\u003c/td\u003e\u003ctd\u003eHeart/pericardium\u003c/td\u003e\u003c/tr\u003e\u003ctr\u003e\u003ctd style\u003d\"white-space:nowrap\"\u003e100000111077\u003ca name\u003d\"animal-tissue-type-100000111077\"\u003e \u003c/a\u003e\u003c/td\u003e\u003ctd\u003eHide\u003c/td\u003e\u003c/tr\u003e\u003ctr\u003e\u003ctd style\u003d\"white-space:nowrap\"\u003e100000111078\u003ca name\u003d\"animal-tissue-type-100000111078\"\u003e \u003c/a\u003e\u003c/td\u003e\u003ctd\u003eHooves\u003c/td\u003e\u003c/tr\u003e\u003ctr\u003e\u003ctd style\u003d\"white-space:nowrap\"\u003e100000111079\u003ca name\u003d\"animal-tissue-type-100000111079\"\u003e \u003c/a\u003e\u003c/td\u003e\u003ctd\u003eIleum\u003c/td\u003e\u003c/tr\u003e\u003ctr\u003e\u003ctd style\u003d\"white-space:nowrap\"\u003e100000111080\u003ca name\u003d\"animal-tissue-type-100000111080\"\u003e \u003c/a\u003e\u003c/td\u003e\u003ctd\u003eJejunum\u003c/td\u003e\u003c/tr\u003e\u003ctr\u003e\u003ctd style\u003d\"white-space:nowrap\"\u003e100000111081\u003ca name\u003d\"animal-tissue-type-100000111081\"\u003e \u003c/a\u003e\u003c/td\u003e\u003ctd\u003eKidney\u003c/td\u003e\u003c/tr\u003e\u003ctr\u003e\u003ctd style\u003d\"white-space:nowrap\"\u003e100000111082\u003ca name\u003d\"animal-tissue-type-100000111082\"\u003e \u003c/a\u003e\u003c/td\u003e\u003ctd\u003eLard/lard oil\u003c/td\u003e\u003c/tr\u003e\u003ctr\u003e\u003ctd style\u003d\"white-space:nowrap\"\u003e100000111083\u003ca name\u003d\"animal-tissue-type-100000111083\"\u003e \u003c/a\u003e\u003c/td\u003e\u003ctd\u003eLarge intestine\u003c/td\u003e\u003c/tr\u003e\u003ctr\u003e\u003ctd style\u003d\"white-space:nowrap\"\u003e100000111084\u003ca name\u003d\"animal-tissue-type-100000111084\"\u003e \u003c/a\u003e\u003c/td\u003e\u003ctd\u003eLiver\u003c/td\u003e\u003c/tr\u003e\u003ctr\u003e\u003ctd style\u003d\"white-space:nowrap\"\u003e100000111085\u003ca name\u003d\"animal-tissue-type-100000111085\"\u003e \u003c/a\u003e\u003c/td\u003e\u003ctd\u003eLung\u003c/td\u003e\u003c/tr\u003e\u003ctr\u003e\u003ctd style\u003d\"white-space:nowrap\"\u003e100000111086\u003ca name\u003d\"animal-tissue-type-100000111086\"\u003e \u003c/a\u003e\u003c/td\u003e\u003ctd\u003eLymph nodes\u003c/td\u003e\u003c/tr\u003e\u003ctr\u003e\u003ctd style\u003d\"white-space:nowrap\"\u003e100000111087\u003ca name\u003d\"animal-tissue-type-100000111087\"\u003e \u003c/a\u003e\u003c/td\u003e\u003ctd\u003eMammary gland\u003c/td\u003e\u003c/tr\u003e\u003ctr\u003e\u003ctd style\u003d\"white-space:nowrap\"\u003e100000111088\u003ca name\u003d\"animal-tissue-type-100000111088\"\u003e \u003c/a\u003e\u003c/td\u003e\u003ctd\u003eUdder\u003c/td\u003e\u003c/tr\u003e\u003ctr\u003e\u003ctd style\u003d\"white-space:nowrap\"\u003e100000111089\u003ca name\u003d\"animal-tissue-type-100000111089\"\u003e \u003c/a\u003e\u003c/td\u003e\u003ctd\u003eMammary tumour\u003c/td\u003e\u003c/tr\u003e\u003ctr\u003e\u003ctd style\u003d\"white-space:nowrap\"\u003e100000111090\u003ca name\u003d\"animal-tissue-type-100000111090\"\u003e \u003c/a\u003e\u003c/td\u003e\u003ctd\u003eMeat extract\u003c/td\u003e\u003c/tr\u003e\u003ctr\u003e\u003ctd style\u003d\"white-space:nowrap\"\u003e100000111091\u003ca name\u003d\"animal-tissue-type-100000111091\"\u003e \u003c/a\u003e\u003c/td\u003e\u003ctd\u003eNasopharyngeal\u003c/td\u003e\u003c/tr\u003e\u003ctr\u003e\u003ctd style\u003d\"white-space:nowrap\"\u003e100000111092\u003ca name\u003d\"animal-tissue-type-100000111092\"\u003e \u003c/a\u003e\u003c/td\u003e\u003ctd\u003eNictitating membrane\u003c/td\u003e\u003c/tr\u003e\u003ctr\u003e\u003ctd style\u003d\"white-space:nowrap\"\u003e100000111093\u003ca name\u003d\"animal-tissue-type-100000111093\"\u003e \u003c/a\u003e\u003c/td\u003e\u003ctd\u003eNasal mucosa\u003c/td\u003e\u003c/tr\u003e\u003ctr\u003e\u003ctd style\u003d\"white-space:nowrap\"\u003e100000111094\u003ca name\u003d\"animal-tissue-type-100000111094\"\u003e \u003c/a\u003e\u003c/td\u003e\u003ctd\u003eOvary\u003c/td\u003e\u003c/tr\u003e\u003ctr\u003e\u003ctd style\u003d\"white-space:nowrap\"\u003e100000111095\u003ca name\u003d\"animal-tissue-type-100000111095\"\u003e \u003c/a\u003e\u003c/td\u003e\u003ctd\u003ePancreas\u003c/td\u003e\u003c/tr\u003e\u003ctr\u003e\u003ctd style\u003d\"white-space:nowrap\"\u003e100000111096\u003ca name\u003d\"animal-tissue-type-100000111096\"\u003e \u003c/a\u003e\u003c/td\u003e\u003ctd\u003ePeripheral nerves\u003c/td\u003e\u003c/tr\u003e\u003ctr\u003e\u003ctd style\u003d\"white-space:nowrap\"\u003e100000111097\u003ca name\u003d\"animal-tissue-type-100000111097\"\u003e \u003c/a\u003e\u003c/td\u003e\u003ctd\u003ePituitary gland\u003c/td\u003e\u003c/tr\u003e\u003ctr\u003e\u003ctd style\u003d\"white-space:nowrap\"\u003e100000111098\u003ca name\u003d\"animal-tissue-type-100000111098\"\u003e \u003c/a\u003e\u003c/td\u003e\u003ctd\u003ePlacenta\u003c/td\u003e\u003c/tr\u003e\u003ctr\u003e\u003ctd style\u003d\"white-space:nowrap\"\u003e100000111099\u003ca name\u003d\"animal-tissue-type-100000111099\"\u003e \u003c/a\u003e\u003c/td\u003e\u003ctd\u003eProstate\u003c/td\u003e\u003c/tr\u003e\u003ctr\u003e\u003ctd style\u003d\"white-space:nowrap\"\u003e100000111100\u003ca name\u003d\"animal-tissue-type-100000111100\"\u003e \u003c/a\u003e\u003c/td\u003e\u003ctd\u003eEpididymis\u003c/td\u003e\u003c/tr\u003e\u003ctr\u003e\u003ctd style\u003d\"white-space:nowrap\"\u003e100000111101\u003ca name\u003d\"animal-tissue-type-100000111101\"\u003e \u003c/a\u003e\u003c/td\u003e\u003ctd\u003eSeminal vesicle\u003c/td\u003e\u003c/tr\u003e\u003ctr\u003e\u003ctd style\u003d\"white-space:nowrap\"\u003e100000111102\u003ca name\u003d\"animal-tissue-type-100000111102\"\u003e \u003c/a\u003e\u003c/td\u003e\u003ctd\u003eRennet, calf\u003c/td\u003e\u003c/tr\u003e\u003ctr\u003e\u003ctd style\u003d\"white-space:nowrap\"\u003e100000111103\u003ca name\u003d\"animal-tissue-type-100000111103\"\u003e \u003c/a\u003e\u003c/td\u003e\u003ctd\u003eRetina\u003c/td\u003e\u003c/tr\u003e\u003ctr\u003e\u003ctd style\u003d\"white-space:nowrap\"\u003e100000111104\u003ca name\u003d\"animal-tissue-type-100000111104\"\u003e \u003c/a\u003e\u003c/td\u003e\u003ctd\u003eOptic nerve\u003c/td\u003e\u003c/tr\u003e\u003ctr\u003e\u003ctd style\u003d\"white-space:nowrap\"\u003e100000111105\u003ca name\u003d\"animal-tissue-type-100000111105\"\u003e \u003c/a\u003e\u003c/td\u003e\u003ctd\u003eSalivary gland\u003c/td\u003e\u003c/tr\u003e\u003ctr\u003e\u003ctd style\u003d\"white-space:nowrap\"\u003e100000111106\u003ca name\u003d\"animal-tissue-type-100000111106\"\u003e \u003c/a\u003e\u003c/td\u003e\u003ctd\u003eShank\u003c/td\u003e\u003c/tr\u003e\u003ctr\u003e\u003ctd style\u003d\"white-space:nowrap\"\u003e100000111107\u003ca name\u003d\"animal-tissue-type-100000111107\"\u003e \u003c/a\u003e\u003c/td\u003e\u003ctd\u003eSkeletal muscle\u003c/td\u003e\u003c/tr\u003e\u003ctr\u003e\u003ctd style\u003d\"white-space:nowrap\"\u003e100000111108\u003ca name\u003d\"animal-tissue-type-100000111108\"\u003e \u003c/a\u003e\u003c/td\u003e\u003ctd\u003eSkin\u003c/td\u003e\u003c/tr\u003e\u003ctr\u003e\u003ctd style\u003d\"white-space:nowrap\"\u003e100000111109\u003ca name\u003d\"animal-tissue-type-100000111109\"\u003e \u003c/a\u003e\u003c/td\u003e\u003ctd\u003eSpinal ganglia\u003c/td\u003e\u003c/tr\u003e\u003ctr\u003e\u003ctd style\u003d\"white-space:nowrap\"\u003e100000111110\u003ca name\u003d\"animal-tissue-type-100000111110\"\u003e \u003c/a\u003e\u003c/td\u003e\u003ctd\u003eSpinal cord\u003c/td\u003e\u003c/tr\u003e\u003ctr\u003e\u003ctd style\u003d\"white-space:nowrap\"\u003e100000111111\u003ca name\u003d\"animal-tissue-type-100000111111\"\u003e \u003c/a\u003e\u003c/td\u003e\u003ctd\u003eSpleen\u003c/td\u003e\u003c/tr\u003e\u003ctr\u003e\u003ctd style\u003d\"white-space:nowrap\"\u003e100000111112\u003ca name\u003d\"animal-tissue-type-100000111112\"\u003e \u003c/a\u003e\u003c/td\u003e\u003ctd\u003eStomach\u003c/td\u003e\u003c/tr\u003e\u003ctr\u003e\u003ctd style\u003d\"white-space:nowrap\"\u003e100000111113\u003ca name\u003d\"animal-tissue-type-100000111113\"\u003e \u003c/a\u003e\u003c/td\u003e\u003ctd\u003eAbomasum\u003c/td\u003e\u003c/tr\u003e\u003ctr\u003e\u003ctd style\u003d\"white-space:nowrap\"\u003e100000111114\u003ca name\u003d\"animal-tissue-type-100000111114\"\u003e \u003c/a\u003e\u003c/td\u003e\u003ctd\u003eSubmaxillary glands\u003c/td\u003e\u003c/tr\u003e\u003ctr\u003e\u003ctd style\u003d\"white-space:nowrap\"\u003e100000111115\u003ca name\u003d\"animal-tissue-type-100000111115\"\u003e \u003c/a\u003e\u003c/td\u003e\u003ctd\u003eTallow\u003c/td\u003e\u003c/tr\u003e\u003ctr\u003e\u003ctd style\u003d\"white-space:nowrap\"\u003e100000111116\u003ca name\u003d\"animal-tissue-type-100000111116\"\u003e \u003c/a\u003e\u003c/td\u003e\u003ctd\u003eTendon\u003c/td\u003e\u003c/tr\u003e\u003ctr\u003e\u003ctd style\u003d\"white-space:nowrap\"\u003e100000111117\u003ca name\u003d\"animal-tissue-type-100000111117\"\u003e \u003c/a\u003e\u003c/td\u003e\u003ctd\u003eTestis\u003c/td\u003e\u003c/tr\u003e\u003ctr\u003e\u003ctd style\u003d\"white-space:nowrap\"\u003e100000111118\u003ca name\u003d\"animal-tissue-type-100000111118\"\u003e \u003c/a\u003e\u003c/td\u003e\u003ctd\u003eThymus\u003c/td\u003e\u003c/tr\u003e\u003ctr\u003e\u003ctd style\u003d\"white-space:nowrap\"\u003e100000111119\u003ca name\u003d\"animal-tissue-type-100000111119\"\u003e \u003c/a\u003e\u003c/td\u003e\u003ctd\u003eThyroid gland\u003c/td\u003e\u003c/tr\u003e\u003ctr\u003e\u003ctd style\u003d\"white-space:nowrap\"\u003e100000111120\u003ca name\u003d\"animal-tissue-type-100000111120\"\u003e \u003c/a\u003e\u003c/td\u003e\u003ctd\u003eTongue\u003c/td\u003e\u003c/tr\u003e\u003ctr\u003e\u003ctd style\u003d\"white-space:nowrap\"\u003e100000111121\u003ca name\u003d\"animal-tissue-type-100000111121\"\u003e \u003c/a\u003e\u003c/td\u003e\u003ctd\u003eTonsil\u003c/td\u003e\u003c/tr\u003e\u003ctr\u003e\u003ctd style\u003d\"white-space:nowrap\"\u003e100000111122\u003ca name\u003d\"animal-tissue-type-100000111122\"\u003e \u003c/a\u003e\u003c/td\u003e\u003ctd\u003eTrachea\u003c/td\u003e\u003c/tr\u003e\u003ctr\u003e\u003ctd style\u003d\"white-space:nowrap\"\u003e100000111123\u003ca name\u003d\"animal-tissue-type-100000111123\"\u003e \u003c/a\u003e\u003c/td\u003e\u003ctd\u003eTrigeminal ganglia\u003c/td\u003e\u003c/tr\u003e\u003ctr\u003e\u003ctd style\u003d\"white-space:nowrap\"\u003e100000111124\u003ca name\u003d\"animal-tissue-type-100000111124\"\u003e \u003c/a\u003e\u003c/td\u003e\u003ctd\u003eTripe\u003c/td\u003e\u003c/tr\u003e\u003ctr\u003e\u003ctd style\u003d\"white-space:nowrap\"\u003e100000111125\u003ca name\u003d\"animal-tissue-type-100000111125\"\u003e \u003c/a\u003e\u003c/td\u003e\u003ctd\u003eUterus (Non-gravid)\u003c/td\u003e\u003c/tr\u003e\u003ctr\u003e\u003ctd style\u003d\"white-space:nowrap\"\u003e100000111126\u003ca name\u003d\"animal-tissue-type-100000111126\"\u003e \u003c/a\u003e\u003c/td\u003e\u003ctd\u003eWool\u003c/td\u003e\u003c/tr\u003e\u003ctr\u003e\u003ctd style\u003d\"white-space:nowrap\"\u003e100000111127\u003ca name\u003d\"animal-tissue-type-100000111127\"\u003e \u003c/a\u003e\u003c/td\u003e\u003ctd\u003eAscites fluid\u003c/td\u003e\u003c/tr\u003e\u003ctr\u003e\u003ctd style\u003d\"white-space:nowrap\"\u003e100000111128\u003ca name\u003d\"animal-tissue-type-100000111128\"\u003e \u003c/a\u003e\u003c/td\u003e\u003ctd\u003eBile\u003c/td\u003e\u003c/tr\u003e\u003ctr\u003e\u003ctd style\u003d\"white-space:nowrap\"\u003e100000111129\u003ca name\u003d\"animal-tissue-type-100000111129\"\u003e \u003c/a\u003e\u003c/td\u003e\u003ctd\u003eBlood1\u003c/td\u003e\u003c/tr\u003e\u003ctr\u003e\u003ctd style\u003d\"white-space:nowrap\"\u003e100000111130\u003ca name\u003d\"animal-tissue-type-100000111130\"\u003e \u003c/a\u003e\u003c/td\u003e\u003ctd\u003eBlood, foetal\u003c/td\u003e\u003c/tr\u003e\u003ctr\u003e\u003ctd style\u003d\"white-space:nowrap\"\u003e100000111131\u003ca name\u003d\"animal-tissue-type-100000111131\"\u003e \u003c/a\u003e\u003c/td\u003e\u003ctd\u003eColostrum\u003c/td\u003e\u003c/tr\u003e\u003ctr\u003e\u003ctd style\u003d\"white-space:nowrap\"\u003e100000111132\u003ca name\u003d\"animal-tissue-type-100000111132\"\u003e \u003c/a\u003e\u003c/td\u003e\u003ctd\u003eCord blood\u003c/td\u003e\u003c/tr\u003e\u003ctr\u003e\u003ctd style\u003d\"white-space:nowrap\"\u003e100000111133\u003ca name\u003d\"animal-tissue-type-100000111133\"\u003e \u003c/a\u003e\u003c/td\u003e\u003ctd\u003eCSF\u003c/td\u003e\u003c/tr\u003e\u003ctr\u003e\u003ctd style\u003d\"white-space:nowrap\"\u003e100000111134\u003ca name\u003d\"animal-tissue-type-100000111134\"\u003e \u003c/a\u003e\u003c/td\u003e\u003ctd\u003eFaeces\u003c/td\u003e\u003c/tr\u003e\u003ctr\u003e\u003ctd style\u003d\"white-space:nowrap\"\u003e100000111135\u003ca name\u003d\"animal-tissue-type-100000111135\"\u003e \u003c/a\u003e\u003c/td\u003e\u003ctd\u003eMilk\u003c/td\u003e\u003c/tr\u003e\u003ctr\u003e\u003ctd style\u003d\"white-space:nowrap\"\u003e100000111136\u003ca name\u003d\"animal-tissue-type-100000111136\"\u003e \u003c/a\u003e\u003c/td\u003e\u003ctd\u003eNasal mucus\u003c/td\u003e\u003c/tr\u003e\u003ctr\u003e\u003ctd style\u003d\"white-space:nowrap\"\u003e100000111137\u003ca name\u003d\"animal-tissue-type-100000111137\"\u003e \u003c/a\u003e\u003c/td\u003e\u003ctd\u003ePlacenta fluids\u003c/td\u003e\u003c/tr\u003e\u003ctr\u003e\u003ctd style\u003d\"white-space:nowrap\"\u003e100000111138\u003ca name\u003d\"animal-tissue-type-100000111138\"\u003e \u003c/a\u003e\u003c/td\u003e\u003ctd\u003ePlasma\u003c/td\u003e\u003c/tr\u003e\u003ctr\u003e\u003ctd style\u003d\"white-space:nowrap\"\u003e100000111139\u003ca name\u003d\"animal-tissue-type-100000111139\"\u003e \u003c/a\u003e\u003c/td\u003e\u003ctd\u003eSaliva\u003c/td\u003e\u003c/tr\u003e\u003ctr\u003e\u003ctd style\u003d\"white-space:nowrap\"\u003e100000111140\u003ca name\u003d\"animal-tissue-type-100000111140\"\u003e \u003c/a\u003e\u003c/td\u003e\u003ctd\u003eSecretion from bees\u003c/td\u003e\u003c/tr\u003e\u003ctr\u003e\u003ctd style\u003d\"white-space:nowrap\"\u003e100000111141\u003ca name\u003d\"animal-tissue-type-100000111141\"\u003e \u003c/a\u003e\u003c/td\u003e\u003ctd\u003eSemen\u003c/td\u003e\u003c/tr\u003e\u003ctr\u003e\u003ctd style\u003d\"white-space:nowrap\"\u003e100000111142\u003ca name\u003d\"animal-tissue-type-100000111142\"\u003e \u003c/a\u003e\u003c/td\u003e\u003ctd\u003eSerum, calf\u003c/td\u003e\u003c/tr\u003e\u003ctr\u003e\u003ctd style\u003d\"white-space:nowrap\"\u003e100000111143\u003ca name\u003d\"animal-tissue-type-100000111143\"\u003e \u003c/a\u003e\u003c/td\u003e\u003ctd\u003eSerum, donor adult bovine\u003c/td\u003e\u003c/tr\u003e\u003ctr\u003e\u003ctd style\u003d\"white-space:nowrap\"\u003e100000111144\u003ca name\u003d\"animal-tissue-type-100000111144\"\u003e \u003c/a\u003e\u003c/td\u003e\u003ctd\u003eSerum, donor calf\u003c/td\u003e\u003c/tr\u003e\u003ctr\u003e\u003ctd style\u003d\"white-space:nowrap\"\u003e100000111145\u003ca name\u003d\"animal-tissue-type-100000111145\"\u003e \u003c/a\u003e\u003c/td\u003e\u003ctd\u003eSerum, foetal bovine\u003c/td\u003e\u003c/tr\u003e\u003ctr\u003e\u003ctd style\u003d\"white-space:nowrap\"\u003e100000111146\u003ca name\u003d\"animal-tissue-type-100000111146\"\u003e \u003c/a\u003e\u003c/td\u003e\u003ctd\u003eSerum, newborn calf\u003c/td\u003e\u003c/tr\u003e\u003ctr\u003e\u003ctd style\u003d\"white-space:nowrap\"\u003e100000111147\u003ca name\u003d\"animal-tissue-type-100000111147\"\u003e \u003c/a\u003e\u003c/td\u003e\u003ctd\u003eSerum/plasma derivate, adult bovine\u003c/td\u003e\u003c/tr\u003e\u003ctr\u003e\u003ctd style\u003d\"white-space:nowrap\"\u003e100000111148\u003ca name\u003d\"animal-tissue-type-100000111148\"\u003e \u003c/a\u003e\u003c/td\u003e\u003ctd\u003eSerum/plasma, adult bovine\u003c/td\u003e\u003c/tr\u003e\u003ctr\u003e\u003ctd style\u003d\"white-space:nowrap\"\u003e100000111149\u003ca name\u003d\"animal-tissue-type-100000111149\"\u003e \u003c/a\u003e\u003c/td\u003e\u003ctd\u003eSweat\u003c/td\u003e\u003c/tr\u003e\u003ctr\u003e\u003ctd style\u003d\"white-space:nowrap\"\u003e100000111150\u003ca name\u003d\"animal-tissue-type-100000111150\"\u003e \u003c/a\u003e\u003c/td\u003e\u003ctd\u003eTears\u003c/td\u003e\u003c/tr\u003e\u003ctr\u003e\u003ctd style\u003d\"white-space:nowrap\"\u003e100000111151\u003ca name\u003d\"animal-tissue-type-100000111151\"\u003e \u003c/a\u003e\u003c/td\u003e\u003ctd\u003eUrine\u003c/td\u003e\u003c/tr\u003e\u003ctr\u003e\u003ctd style\u003d\"white-space:nowrap\"\u003e100000111152\u003ca name\u003d\"animal-tissue-type-100000111152\"\u003e \u003c/a\u003e\u003c/td\u003e\u003ctd\u003eVenom\u003c/td\u003e\u003c/tr\u003e\u003ctr\u003e\u003ctd style\u003d\"white-space:nowrap\"\u003e100000111153\u003ca name\u003d\"animal-tissue-type-100000111153\"\u003e \u003c/a\u003e\u003c/td\u003e\u003ctd\u003eWhey\u003c/td\u003e\u003c/tr\u003e\u003ctr\u003e\u003ctd style\u003d\"white-space:nowrap\"\u003e100000111154\u003ca name\u003d\"animal-tissue-type-100000111154\"\u003e \u003c/a\u003e\u003c/td\u003e\u003ctd\u003eCasein\u003c/td\u003e\u003c/tr\u003e\u003ctr\u003e\u003ctd style\u003d\"white-space:nowrap\"\u003e100000111155\u003ca name\u003d\"animal-tissue-type-100000111155\"\u003e \u003c/a\u003e\u003c/td\u003e\u003ctd\u003eFermentation products\u003c/td\u003e\u003c/tr\u003e\u003ctr\u003e\u003ctd style\u003d\"white-space:nowrap\"\u003e100000111156\u003ca name\u003d\"animal-tissue-type-100000111156\"\u003e \u003c/a\u003e\u003c/td\u003e\u003ctd\u003eGelatin\u003c/td\u003e\u003c/tr\u003e\u003ctr\u003e\u003ctd style\u003d\"white-space:nowrap\"\u003e100000111157\u003ca name\u003d\"animal-tissue-type-100000111157\"\u003e \u003c/a\u003e\u003c/td\u003e\u003ctd\u003eLactose\u003c/td\u003e\u003c/tr\u003e\u003ctr\u003e\u003ctd style\u003d\"white-space:nowrap\"\u003e100000111158\u003ca name\u003d\"animal-tissue-type-100000111158\"\u003e \u003c/a\u003e\u003c/td\u003e\u003ctd\u003eProtein\u003c/td\u003e\u003c/tr\u003e\u003ctr\u003e\u003ctd style\u003d\"white-space:nowrap\"\u003e100000111159\u003ca name\u003d\"animal-tissue-type-100000111159\"\u003e \u003c/a\u003e\u003c/td\u003e\u003ctd\u003eInsulin\u003c/td\u003e\u003c/tr\u003e\u003ctr\u003e\u003ctd style\u003d\"white-space:nowrap\"\u003e100000111160\u003ca name\u003d\"animal-tissue-type-100000111160\"\u003e \u003c/a\u003e\u003c/td\u003e\u003ctd\u003eCollagen\u003c/td\u003e\u003c/tr\u003e\u003ctr\u003e\u003ctd style\u003d\"white-space:nowrap\"\u003e100000111161\u003ca name\u003d\"animal-tissue-type-100000111161\"\u003e \u003c/a\u003e\u003c/td\u003e\u003ctd\u003eAnimal Charcoal\u003c/td\u003e\u003c/tr\u003e\u003ctr\u003e\u003ctd style\u003d\"white-space:nowrap\"\u003e100000111162\u003ca name\u003d\"animal-tissue-type-100000111162\"\u003e \u003c/a\u003e\u003c/td\u003e\u003ctd\u003ePeptones\u003c/td\u003e\u003c/tr\u003e\u003ctr\u003e\u003ctd style\u003d\"white-space:nowrap\"\u003e100000111163\u003ca name\u003d\"animal-tissue-type-100000111163\"\u003e \u003c/a\u003e\u003c/td\u003e\u003ctd\u003eFatty acids\u003c/td\u003e\u003c/tr\u003e\u003ctr\u003e\u003ctd style\u003d\"white-space:nowrap\"\u003e100000111164\u003ca name\u003d\"animal-tissue-type-100000111164\"\u003e \u003c/a\u003e\u003c/td\u003e\u003ctd\u003eGlycerol\u003c/td\u003e\u003c/tr\u003e\u003ctr\u003e\u003ctd style\u003d\"white-space:nowrap\"\u003e100000125717\u003ca name\u003d\"animal-tissue-type-100000125717\"\u003e \u003c/a\u003e\u003c/td\u003e\u003ctd\u003eNot applicable\u003c/td\u003e\u003c/tr\u003e\u003ctr\u003e\u003ctd style\u003d\"white-space:nowrap\"\u003e100000136180\u003ca name\u003d\"animal-tissue-type-100000136180\"\u003e \u003c/a\u003e\u003c/td\u003e\u003ctd\u003eMeat and offal, milk\u003c/td\u003e\u003c/tr\u003e\u003ctr\u003e\u003ctd style\u003d\"white-space:nowrap\"\u003e100000136181\u003ca name\u003d\"animal-tissue-type-100000136181\"\u003e \u003c/a\u003e\u003c/td\u003e\u003ctd\u003eAgar blood\u003c/td\u003e\u003c/tr\u003e\u003ctr\u003e\u003ctd style\u003d\"white-space:nowrap\"\u003e100000136182\u003ca name\u003d\"animal-tissue-type-100000136182\"\u003e \u003c/a\u003e\u003c/td\u003e\u003ctd\u003eCasamino acid\u003c/td\u003e\u003c/tr\u003e\u003ctr\u003e\u003ctd style\u003d\"white-space:nowrap\"\u003e100000136183\u003ca name\u003d\"animal-tissue-type-100000136183\"\u003e \u003c/a\u003e\u003c/td\u003e\u003ctd\u003eCasein, hydrolysate\u003c/td\u003e\u003c/tr\u003e\u003ctr\u003e\u003ctd style\u003d\"white-space:nowrap\"\u003e100000136184\u003ca name\u003d\"animal-tissue-type-100000136184\"\u003e \u003c/a\u003e\u003c/td\u003e\u003ctd\u003eCasein, pancreatic digest\u003c/td\u003e\u003c/tr\u003e\u003ctr\u003e\u003ctd style\u003d\"white-space:nowrap\"\u003e100000136185\u003ca name\u003d\"animal-tissue-type-100000136185\"\u003e \u003c/a\u003e\u003c/td\u003e\u003ctd\u003eCasein, peptides N3\u003c/td\u003e\u003c/tr\u003e\u003ctr\u003e\u003ctd style\u003d\"white-space:nowrap\"\u003e100000136186\u003ca name\u003d\"animal-tissue-type-100000136186\"\u003e \u003c/a\u003e\u003c/td\u003e\u003ctd\u003eCells\u003c/td\u003e\u003c/tr\u003e\u003ctr\u003e\u003ctd style\u003d\"white-space:nowrap\"\u003e100000136187\u003ca name\u003d\"animal-tissue-type-100000136187\"\u003e \u003c/a\u003e\u003c/td\u003e\u003ctd\u003eCells, BHK21\u003c/td\u003e\u003c/tr\u003e\u003ctr\u003e\u003ctd style\u003d\"white-space:nowrap\"\u003e100000136188\u003ca name\u003d\"animal-tissue-type-100000136188\"\u003e \u003c/a\u003e\u003c/td\u003e\u003ctd\u003eCells, CHO\u003c/td\u003e\u003c/tr\u003e\u003ctr\u003e\u003ctd style\u003d\"white-space:nowrap\"\u003e100000136189\u003ca name\u003d\"animal-tissue-type-100000136189\"\u003e \u003c/a\u003e\u003c/td\u003e\u003ctd\u003eCells, CRFK\u003c/td\u003e\u003c/tr\u003e\u003ctr\u003e\u003ctd style\u003d\"white-space:nowrap\"\u003e100000136190\u003ca name\u003d\"animal-tissue-type-100000136190\"\u003e \u003c/a\u003e\u003c/td\u003e\u003ctd\u003eCells, embryo SPF\u003c/td\u003e\u003c/tr\u003e\u003ctr\u003e\u003ctd style\u003d\"white-space:nowrap\"\u003e100000136191\u003ca name\u003d\"animal-tissue-type-100000136191\"\u003e \u003c/a\u003e\u003c/td\u003e\u003ctd\u003eCells, IRC5\u003c/td\u003e\u003c/tr\u003e\u003ctr\u003e\u003ctd style\u003d\"white-space:nowrap\"\u003e100000136192\u003ca name\u003d\"animal-tissue-type-100000136192\"\u003e \u003c/a\u003e\u003c/td\u003e\u003ctd\u003eCells, kidney\u003c/td\u003e\u003c/tr\u003e\u003ctr\u003e\u003ctd style\u003d\"white-space:nowrap\"\u003e100000136193\u003ca name\u003d\"animal-tissue-type-100000136193\"\u003e \u003c/a\u003e\u003c/td\u003e\u003ctd\u003eCells, MDCK\u003c/td\u003e\u003c/tr\u003e\u003ctr\u003e\u003ctd style\u003d\"white-space:nowrap\"\u003e100000136194\u003ca name\u003d\"animal-tissue-type-100000136194\"\u003e \u003c/a\u003e\u003c/td\u003e\u003ctd\u003eCells, red blood\u003c/td\u003e\u003c/tr\u003e\u003ctr\u003e\u003ctd style\u003d\"white-space:nowrap\"\u003e100000136195\u003ca name\u003d\"animal-tissue-type-100000136195\"\u003e \u003c/a\u003e\u003c/td\u003e\u003ctd\u003eCollagen, hydrolysate\u003c/td\u003e\u003c/tr\u003e\u003ctr\u003e\u003ctd style\u003d\"white-space:nowrap\"\u003e100000136196\u003ca name\u003d\"animal-tissue-type-100000136196\"\u003e \u003c/a\u003e\u003c/td\u003e\u003ctd\u003eCholesterol\u003c/td\u003e\u003c/tr\u003e\u003ctr\u003e\u003ctd style\u003d\"white-space:nowrap\"\u003e100000136197\u003ca name\u003d\"animal-tissue-type-100000136197\"\u003e \u003c/a\u003e\u003c/td\u003e\u003ctd\u003eEgg, SPF embryonated\u003c/td\u003e\u003c/tr\u003e\u003ctr\u003e\u003ctd style\u003d\"white-space:nowrap\"\u003e100000136198\u003ca name\u003d\"animal-tissue-type-100000136198\"\u003e \u003c/a\u003e\u003c/td\u003e\u003ctd\u003eEnzyme\u003c/td\u003e\u003c/tr\u003e\u003ctr\u003e\u003ctd style\u003d\"white-space:nowrap\"\u003e100000136199\u003ca name\u003d\"animal-tissue-type-100000136199\"\u003e \u003c/a\u003e\u003c/td\u003e\u003ctd\u003eEnzyme, pancreatic enzymes\u003c/td\u003e\u003c/tr\u003e\u003ctr\u003e\u003ctd style\u003d\"white-space:nowrap\"\u003e100000136200\u003ca name\u003d\"animal-tissue-type-100000136200\"\u003e \u003c/a\u003e\u003c/td\u003e\u003ctd\u003eEnzyme, pancreatin 6NF\u003c/td\u003e\u003c/tr\u003e\u003ctr\u003e\u003ctd style\u003d\"white-space:nowrap\"\u003e100000136201\u003ca name\u003d\"animal-tissue-type-100000136201\"\u003e \u003c/a\u003e\u003c/td\u003e\u003ctd\u003eEnzyme, pepsin\u003c/td\u003e\u003c/tr\u003e\u003ctr\u003e\u003ctd style\u003d\"white-space:nowrap\"\u003e100000136202\u003ca name\u003d\"animal-tissue-type-100000136202\"\u003e \u003c/a\u003e\u003c/td\u003e\u003ctd\u003eEnzyme, pronase\u003c/td\u003e\u003c/tr\u003e\u003ctr\u003e\u003ctd style\u003d\"white-space:nowrap\"\u003e100000136203\u003ca name\u003d\"animal-tissue-type-100000136203\"\u003e \u003c/a\u003e\u003c/td\u003e\u003ctd\u003eEnzyme, trypsin\u003c/td\u003e\u003c/tr\u003e\u003ctr\u003e\u003ctd style\u003d\"white-space:nowrap\"\u003e100000136204\u003ca name\u003d\"animal-tissue-type-100000136204\"\u003e \u003c/a\u003e\u003c/td\u003e\u003ctd\u003eHeart, digest\u003c/td\u003e\u003c/tr\u003e\u003ctr\u003e\u003ctd style\u003d\"white-space:nowrap\"\u003e100000136205\u003ca name\u003d\"animal-tissue-type-100000136205\"\u003e \u003c/a\u003e\u003c/td\u003e\u003ctd\u003eHeart, extract\u003c/td\u003e\u003c/tr\u003e\u003ctr\u003e\u003ctd style\u003d\"white-space:nowrap\"\u003e100000136206\u003ca name\u003d\"animal-tissue-type-100000136206\"\u003e \u003c/a\u003e\u003c/td\u003e\u003ctd\u003eIntestinal mucosae\u003c/td\u003e\u003c/tr\u003e\u003ctr\u003e\u003ctd style\u003d\"white-space:nowrap\"\u003e100000136207\u003ca name\u003d\"animal-tissue-type-100000136207\"\u003e \u003c/a\u003e\u003c/td\u003e\u003ctd\u003eLactalbumin hydrolysate\u003c/td\u003e\u003c/tr\u003e\u003ctr\u003e\u003ctd style\u003d\"white-space:nowrap\"\u003e100000136208\u003ca name\u003d\"animal-tissue-type-100000136208\"\u003e \u003c/a\u003e\u003c/td\u003e\u003ctd\u003eLiver, digest\u003c/td\u003e\u003c/tr\u003e\u003ctr\u003e\u003ctd style\u003d\"white-space:nowrap\"\u003e100000136209\u003ca name\u003d\"animal-tissue-type-100000136209\"\u003e \u003c/a\u003e\u003c/td\u003e\u003ctd\u003eLymphocytes\u003c/td\u003e\u003c/tr\u003e\u003ctr\u003e\u003ctd style\u003d\"white-space:nowrap\"\u003e100000136210\u003ca name\u003d\"animal-tissue-type-100000136210\"\u003e \u003c/a\u003e\u003c/td\u003e\u003ctd\u003eMeat\u003c/td\u003e\u003c/tr\u003e\u003ctr\u003e\u003ctd style\u003d\"white-space:nowrap\"\u003e100000136211\u003ca name\u003d\"animal-tissue-type-100000136211\"\u003e \u003c/a\u003e\u003c/td\u003e\u003ctd\u003eMeat, enzymic hydrolysate\u003c/td\u003e\u003c/tr\u003e\u003ctr\u003e\u003ctd style\u003d\"white-space:nowrap\"\u003e100000136212\u003ca name\u003d\"animal-tissue-type-100000136212\"\u003e \u003c/a\u003e\u003c/td\u003e\u003ctd\u003eMedium, cooked meat\u003c/td\u003e\u003c/tr\u003e\u003ctr\u003e\u003ctd style\u003d\"white-space:nowrap\"\u003e100000136213\u003ca name\u003d\"animal-tissue-type-100000136213\"\u003e \u003c/a\u003e\u003c/td\u003e\u003ctd\u003eMedium, F10-199 medium\u003c/td\u003e\u003c/tr\u003e\u003ctr\u003e\u003ctd style\u003d\"white-space:nowrap\"\u003e100000136214\u003ca name\u003d\"animal-tissue-type-100000136214\"\u003e \u003c/a\u003e\u003c/td\u003e\u003ctd\u003eMedium, FMD culture medium\u003c/td\u003e\u003c/tr\u003e\u003ctr\u003e\u003ctd style\u003d\"white-space:nowrap\"\u003e100000136215\u003ca name\u003d\"animal-tissue-type-100000136215\"\u003e \u003c/a\u003e\u003c/td\u003e\u003ctd\u003eMedium, Glasgow MEM culture\u003c/td\u003e\u003c/tr\u003e\u003ctr\u003e\u003ctd style\u003d\"white-space:nowrap\"\u003e100000136216\u003ca name\u003d\"animal-tissue-type-100000136216\"\u003e \u003c/a\u003e\u003c/td\u003e\u003ctd\u003eMedium, LB Agar Lennox\u003c/td\u003e\u003c/tr\u003e\u003ctr\u003e\u003ctd style\u003d\"white-space:nowrap\"\u003e100000136217\u003ca name\u003d\"animal-tissue-type-100000136217\"\u003e \u003c/a\u003e\u003c/td\u003e\u003ctd\u003eMedium, LB Broth Lennox\u003c/td\u003e\u003c/tr\u003e\u003ctr\u003e\u003ctd style\u003d\"white-space:nowrap\"\u003e100000136218\u003ca name\u003d\"animal-tissue-type-100000136218\"\u003e \u003c/a\u003e\u003c/td\u003e\u003ctd\u003eMedium, modified thioglycolate medium\u003c/td\u003e\u003c/tr\u003e\u003ctr\u003e\u003ctd style\u003d\"white-space:nowrap\"\u003e100000136219\u003ca name\u003d\"animal-tissue-type-100000136219\"\u003e \u003c/a\u003e\u003c/td\u003e\u003ctd\u003eMedium, trypticase soy broth\u003c/td\u003e\u003c/tr\u003e\u003ctr\u003e\u003ctd style\u003d\"white-space:nowrap\"\u003e100000136220\u003ca name\u003d\"animal-tissue-type-100000136220\"\u003e \u003c/a\u003e\u003c/td\u003e\u003ctd\u003eMedium, tryptose phosphate broth\u003c/td\u003e\u003c/tr\u003e\u003ctr\u003e\u003ctd style\u003d\"white-space:nowrap\"\u003e100000136221\u003ca name\u003d\"animal-tissue-type-100000136221\"\u003e \u003c/a\u003e\u003c/td\u003e\u003ctd\u003eMilk, skimmed\u003c/td\u003e\u003c/tr\u003e\u003ctr\u003e\u003ctd style\u003d\"white-space:nowrap\"\u003e100000136222\u003ca name\u003d\"animal-tissue-type-100000136222\"\u003e \u003c/a\u003e\u003c/td\u003e\u003ctd\u003ePancreas, extract\u003c/td\u003e\u003c/tr\u003e\u003ctr\u003e\u003ctd style\u003d\"white-space:nowrap\"\u003e100000136223\u003ca name\u003d\"animal-tissue-type-100000136223\"\u003e \u003c/a\u003e\u003c/td\u003e\u003ctd\u003ePeptones, casein hydrochloric peptone\u003c/td\u003e\u003c/tr\u003e\u003ctr\u003e\u003ctd style\u003d\"white-space:nowrap\"\u003e100000136224\u003ca name\u003d\"animal-tissue-type-100000136224\"\u003e \u003c/a\u003e\u003c/td\u003e\u003ctd\u003ePeptones, casein tryptic peptone\u003c/td\u003e\u003c/tr\u003e\u003ctr\u003e\u003ctd style\u003d\"white-space:nowrap\"\u003e100000136225\u003ca name\u003d\"animal-tissue-type-100000136225\"\u003e \u003c/a\u003e\u003c/td\u003e\u003ctd\u003ePituitary extract\u003c/td\u003e\u003c/tr\u003e\u003ctr\u003e\u003ctd style\u003d\"white-space:nowrap\"\u003e100000136226\u003ca name\u003d\"animal-tissue-type-100000136226\"\u003e \u003c/a\u003e\u003c/td\u003e\u003ctd\u003eRennet\u003c/td\u003e\u003c/tr\u003e\u003ctr\u003e\u003ctd style\u003d\"white-space:nowrap\"\u003e100000136227\u003ca name\u003d\"animal-tissue-type-100000136227\"\u003e \u003c/a\u003e\u003c/td\u003e\u003ctd\u003eMedium, nutrient broth\u003c/td\u003e\u003c/tr\u003e\u003ctr\u003e\u003ctd style\u003d\"white-space:nowrap\"\u003e100000136228\u003ca name\u003d\"animal-tissue-type-100000136228\"\u003e \u003c/a\u003e\u003c/td\u003e\u003ctd\u003eMedium, NZ-Amine\u003c/td\u003e\u003c/tr\u003e\u003ctr\u003e\u003ctd style\u003d\"white-space:nowrap\"\u003e100000136229\u003ca name\u003d\"animal-tissue-type-100000136229\"\u003e \u003c/a\u003e\u003c/td\u003e\u003ctd\u003eMedium, thioglycolate medium\u003c/td\u003e\u003c/tr\u003e\u003ctr\u003e\u003ctd style\u003d\"white-space:nowrap\"\u003e100000136230\u003ca name\u003d\"animal-tissue-type-100000136230\"\u003e \u003c/a\u003e\u003c/td\u003e\u003ctd\u003ePeptones, proteose peptone\u003c/td\u003e\u003c/tr\u003e\u003ctr\u003e\u003ctd style\u003d\"white-space:nowrap\"\u003e100000136231\u003ca name\u003d\"animal-tissue-type-100000136231\"\u003e \u003c/a\u003e\u003c/td\u003e\u003ctd\u003eSerum\u003c/td\u003e\u003c/tr\u003e\u003ctr\u003e\u003ctd style\u003d\"white-space:nowrap\"\u003e100000136232\u003ca name\u003d\"animal-tissue-type-100000136232\"\u003e \u003c/a\u003e\u003c/td\u003e\u003ctd\u003eSerum, albumin\u003c/td\u003e\u003c/tr\u003e\u003ctr\u003e\u003ctd style\u003d\"white-space:nowrap\"\u003e100000136233\u003ca name\u003d\"animal-tissue-type-100000136233\"\u003e \u003c/a\u003e\u003c/td\u003e\u003ctd\u003eSerum, Iron fortified calf\u003c/td\u003e\u003c/tr\u003e\u003ctr\u003e\u003ctd style\u003d\"white-space:nowrap\"\u003e100000136234\u003ca name\u003d\"animal-tissue-type-100000136234\"\u003e \u003c/a\u003e\u003c/td\u003e\u003ctd\u003eSkin, connective tissue and bone\u003c/td\u003e\u003c/tr\u003e\u003ctr\u003e\u003ctd style\u003d\"white-space:nowrap\"\u003e100000136235\u003ca name\u003d\"animal-tissue-type-100000136235\"\u003e \u003c/a\u003e\u003c/td\u003e\u003ctd\u003eSperm\u003c/td\u003e\u003c/tr\u003e\u003ctr\u003e\u003ctd style\u003d\"white-space:nowrap\"\u003e100000136236\u003ca name\u003d\"animal-tissue-type-100000136236\"\u003e \u003c/a\u003e\u003c/td\u003e\u003ctd\u003eTryptone\u003c/td\u003e\u003c/tr\u003e\u003ctr\u003e\u003ctd style\u003d\"white-space:nowrap\"\u003e100000136237\u003ca name\u003d\"animal-tissue-type-100000136237\"\u003e \u003c/a\u003e\u003c/td\u003e\u003ctd\u003eMeat, extract desiccated\u003c/td\u003e\u003c/tr\u003e\u003ctr\u003e\u003ctd style\u003d\"white-space:nowrap\"\u003e100000136247\u003ca name\u003d\"animal-tissue-type-100000136247\"\u003e \u003c/a\u003e\u003c/td\u003e\u003ctd\u003eStomach mucosa\u003c/td\u003e\u003c/tr\u003e\u003ctr\u003e\u003ctd style\u003d\"white-space:nowrap\"\u003e100000136248\u003ca name\u003d\"animal-tissue-type-100000136248\"\u003e \u003c/a\u003e\u003c/td\u003e\u003ctd\u003eTransferin\u003c/td\u003e\u003c/tr\u003e\u003ctr\u003e\u003ctd style\u003d\"white-space:nowrap\"\u003e100000136554\u003ca name\u003d\"animal-tissue-type-100000136554\"\u003e \u003c/a\u003e\u003c/td\u003e\u003ctd\u003eNon-neural\u003c/td\u003e\u003c/tr\u003e\u003ctr\u003e\u003ctd style\u003d\"white-space:nowrap\"\u003e100000136555\u003ca name\u003d\"animal-tissue-type-100000136555\"\u003e \u003c/a\u003e\u003c/td\u003e\u003ctd\u003eNot specified\u003c/td\u003e\u003c/tr\u003e\u003ctr\u003e\u003ctd style\u003d\"white-space:nowrap\"\u003e100000136556\u003ca name\u003d\"animal-tissue-type-100000136556\"\u003e \u003c/a\u003e\u003c/td\u003e\u003ctd\u003eOrgan tissue\u003c/td\u003e\u003c/tr\u003e\u003ctr\u003e\u003ctd style\u003d\"white-space:nowrap\"\u003e100000142485\u003ca name\u003d\"animal-tissue-type-100000142485\"\u003e \u003c/a\u003e\u003c/td\u003e\u003ctd\u003eSkin and fat in natural proportions\u003c/td\u003e\u003c/tr\u003e\u003c/table\u003e\u003c/div\u003e"
+  },
+  "extension": [
+    {
+      "url": "http://hl7.org/fhir/StructureDefinition/structuredefinition-wg",
+      "valueCode": "brr"
+    },
+    {
+      "url": "http://hl7.org/fhir/StructureDefinition/structuredefinition-standards-status",
+      "valueCode": "trial-use"
+    },
+    {
+      "url": "http://hl7.org/fhir/StructureDefinition/structuredefinition-fmm",
+      "valueInteger": 1
+    }
+  ],
+  "url": "http://hl7.org/fhir/animal-tissue-type",
+  "identifier": [
+    {
+      "system": "urn:ietf:rfc:3986",
+      "value": "urn:oid:2.16.840.1.113883.4.642.1.1591"
+    }
+  ],
+  "version": "4.3.0-cibuild",
+  "name": "AnimalTissueType",
+  "title": "AnimalTissueType",
+  "status": "draft",
+  "experimental": false,
+  "date": "2021-01-05T10:01:24+11:00",
+  "publisher": "HL7 (FHIR Project)",
+  "contact": [
+    {
+      "telecom": [
+        {
+          "system": "url",
+          "value": "http://hl7.org/fhir"
+        },
+        {
+          "system": "email",
+          "value": "fhir@lists.hl7.org"
+        }
+      ]
+    }
+  ],
+  "description": "A tissue type of an animal.",
+  "caseSensitive": true,
+  "valueSet": "http://hl7.org/fhir/ValueSet/animal-tissue-type",
+  "content": "complete",
+  "concept": [
+    {
+      "code": "100000072091",
+      "display": "All relevant tissues"
+    },
+    {
+      "code": "100000072092",
+      "display": "Fat"
+    },
+    {
+      "code": "100000072093",
+      "display": "Honey"
+    },
+    {
+      "code": "100000072094",
+      "display": "Liver"
+    },
+    {
+      "code": "100000072095",
+      "display": "Fresh Milk"
+    },
+    {
+      "code": "100000072096",
+      "display": "Muscle and skin in natural proportions"
+    },
+    {
+      "code": "100000072104",
+      "display": "Eggs"
+    },
+    {
+      "code": "100000072105",
+      "display": "Skin and fat"
+    },
+    {
+      "code": "100000072106",
+      "display": "Kidney"
+    },
+    {
+      "code": "100000072107",
+      "display": "Meat and offal"
+    },
+    {
+      "code": "100000072108",
+      "display": "Muscle"
+    },
+    {
+      "code": "100000072109",
+      "display": "Unspecified"
+    },
+    {
+      "code": "100000111053",
+      "display": "Adipose tissue"
+    },
+    {
+      "code": "100000111054",
+      "display": "Adrenal"
+    },
+    {
+      "code": "100000111055",
+      "display": "Blood vessels"
+    },
+    {
+      "code": "100000111056",
+      "display": "Bone"
+    },
+    {
+      "code": "100000111057",
+      "display": "Bone marrow"
+    },
+    {
+      "code": "100000111058",
+      "display": "Brain"
+    },
+    {
+      "code": "100000111059",
+      "display": "Connective tissue"
+    },
+    {
+      "code": "100000111060",
+      "display": "Cornea"
+    },
+    {
+      "code": "100000111061",
+      "display": "Dental pulp"
+    },
+    {
+      "code": "100000111062",
+      "display": "Duodenum"
+    },
+    {
+      "code": "100000111063",
+      "display": "Dura mater"
+    },
+    {
+      "code": "100000111064",
+      "display": "Egg, embryonated"
+    },
+    {
+      "code": "100000111065",
+      "display": "Egg"
+    },
+    {
+      "code": "100000111066",
+      "display": "Egg white"
+    },
+    {
+      "code": "100000111067",
+      "display": "Egg yolk"
+    },
+    {
+      "code": "100000111068",
+      "display": "Embryos"
+    },
+    {
+      "code": "100000111069",
+      "display": "Enteric plexuses"
+    },
+    {
+      "code": "100000111070",
+      "display": "Esophagus"
+    },
+    {
+      "code": "100000111071",
+      "display": "Feathers"
+    },
+    {
+      "code": "100000111072",
+      "display": "Foetus"
+    },
+    {
+      "code": "100000111073",
+      "display": "Fore-stomach (ruminants only)"
+    },
+    {
+      "code": "100000111074",
+      "display": "Gingival tissue"
+    },
+    {
+      "code": "100000111075",
+      "display": "Hair"
+    },
+    {
+      "code": "100000111076",
+      "display": "Heart/pericardium"
+    },
+    {
+      "code": "100000111077",
+      "display": "Hide"
+    },
+    {
+      "code": "100000111078",
+      "display": "Hooves"
+    },
+    {
+      "code": "100000111079",
+      "display": "Ileum"
+    },
+    {
+      "code": "100000111080",
+      "display": "Jejunum"
+    },
+    {
+      "code": "100000111081",
+      "display": "Kidney"
+    },
+    {
+      "code": "100000111082",
+      "display": "Lard/lard oil"
+    },
+    {
+      "code": "100000111083",
+      "display": "Large intestine"
+    },
+    {
+      "code": "100000111084",
+      "display": "Liver"
+    },
+    {
+      "code": "100000111085",
+      "display": "Lung"
+    },
+    {
+      "code": "100000111086",
+      "display": "Lymph nodes"
+    },
+    {
+      "code": "100000111087",
+      "display": "Mammary gland"
+    },
+    {
+      "code": "100000111088",
+      "display": "Udder"
+    },
+    {
+      "code": "100000111089",
+      "display": "Mammary tumour"
+    },
+    {
+      "code": "100000111090",
+      "display": "Meat extract"
+    },
+    {
+      "code": "100000111091",
+      "display": "Nasopharyngeal"
+    },
+    {
+      "code": "100000111092",
+      "display": "Nictitating membrane"
+    },
+    {
+      "code": "100000111093",
+      "display": "Nasal mucosa"
+    },
+    {
+      "code": "100000111094",
+      "display": "Ovary"
+    },
+    {
+      "code": "100000111095",
+      "display": "Pancreas"
+    },
+    {
+      "code": "100000111096",
+      "display": "Peripheral nerves"
+    },
+    {
+      "code": "100000111097",
+      "display": "Pituitary gland"
+    },
+    {
+      "code": "100000111098",
+      "display": "Placenta"
+    },
+    {
+      "code": "100000111099",
+      "display": "Prostate"
+    },
+    {
+      "code": "100000111100",
+      "display": "Epididymis"
+    },
+    {
+      "code": "100000111101",
+      "display": "Seminal vesicle"
+    },
+    {
+      "code": "100000111102",
+      "display": "Rennet, calf"
+    },
+    {
+      "code": "100000111103",
+      "display": "Retina"
+    },
+    {
+      "code": "100000111104",
+      "display": "Optic nerve"
+    },
+    {
+      "code": "100000111105",
+      "display": "Salivary gland"
+    },
+    {
+      "code": "100000111106",
+      "display": "Shank"
+    },
+    {
+      "code": "100000111107",
+      "display": "Skeletal muscle"
+    },
+    {
+      "code": "100000111108",
+      "display": "Skin"
+    },
+    {
+      "code": "100000111109",
+      "display": "Spinal ganglia"
+    },
+    {
+      "code": "100000111110",
+      "display": "Spinal cord"
+    },
+    {
+      "code": "100000111111",
+      "display": "Spleen"
+    },
+    {
+      "code": "100000111112",
+      "display": "Stomach"
+    },
+    {
+      "code": "100000111113",
+      "display": "Abomasum"
+    },
+    {
+      "code": "100000111114",
+      "display": "Submaxillary glands"
+    },
+    {
+      "code": "100000111115",
+      "display": "Tallow"
+    },
+    {
+      "code": "100000111116",
+      "display": "Tendon"
+    },
+    {
+      "code": "100000111117",
+      "display": "Testis"
+    },
+    {
+      "code": "100000111118",
+      "display": "Thymus"
+    },
+    {
+      "code": "100000111119",
+      "display": "Thyroid gland"
+    },
+    {
+      "code": "100000111120",
+      "display": "Tongue"
+    },
+    {
+      "code": "100000111121",
+      "display": "Tonsil"
+    },
+    {
+      "code": "100000111122",
+      "display": "Trachea"
+    },
+    {
+      "code": "100000111123",
+      "display": "Trigeminal ganglia"
+    },
+    {
+      "code": "100000111124",
+      "display": "Tripe"
+    },
+    {
+      "code": "100000111125",
+      "display": "Uterus (Non-gravid)"
+    },
+    {
+      "code": "100000111126",
+      "display": "Wool"
+    },
+    {
+      "code": "100000111127",
+      "display": "Ascites fluid"
+    },
+    {
+      "code": "100000111128",
+      "display": "Bile"
+    },
+    {
+      "code": "100000111129",
+      "display": "Blood1"
+    },
+    {
+      "code": "100000111130",
+      "display": "Blood, foetal"
+    },
+    {
+      "code": "100000111131",
+      "display": "Colostrum"
+    },
+    {
+      "code": "100000111132",
+      "display": "Cord blood"
+    },
+    {
+      "code": "100000111133",
+      "display": "CSF"
+    },
+    {
+      "code": "100000111134",
+      "display": "Faeces"
+    },
+    {
+      "code": "100000111135",
+      "display": "Milk"
+    },
+    {
+      "code": "100000111136",
+      "display": "Nasal mucus"
+    },
+    {
+      "code": "100000111137",
+      "display": "Placenta fluids"
+    },
+    {
+      "code": "100000111138",
+      "display": "Plasma"
+    },
+    {
+      "code": "100000111139",
+      "display": "Saliva"
+    },
+    {
+      "code": "100000111140",
+      "display": "Secretion from bees"
+    },
+    {
+      "code": "100000111141",
+      "display": "Semen"
+    },
+    {
+      "code": "100000111142",
+      "display": "Serum, calf"
+    },
+    {
+      "code": "100000111143",
+      "display": "Serum, donor adult bovine"
+    },
+    {
+      "code": "100000111144",
+      "display": "Serum, donor calf"
+    },
+    {
+      "code": "100000111145",
+      "display": "Serum, foetal bovine"
+    },
+    {
+      "code": "100000111146",
+      "display": "Serum, newborn calf"
+    },
+    {
+      "code": "100000111147",
+      "display": "Serum/plasma derivate, adult bovine"
+    },
+    {
+      "code": "100000111148",
+      "display": "Serum/plasma, adult bovine"
+    },
+    {
+      "code": "100000111149",
+      "display": "Sweat"
+    },
+    {
+      "code": "100000111150",
+      "display": "Tears"
+    },
+    {
+      "code": "100000111151",
+      "display": "Urine"
+    },
+    {
+      "code": "100000111152",
+      "display": "Venom"
+    },
+    {
+      "code": "100000111153",
+      "display": "Whey"
+    },
+    {
+      "code": "100000111154",
+      "display": "Casein"
+    },
+    {
+      "code": "100000111155",
+      "display": "Fermentation products"
+    },
+    {
+      "code": "100000111156",
+      "display": "Gelatin"
+    },
+    {
+      "code": "100000111157",
+      "display": "Lactose"
+    },
+    {
+      "code": "100000111158",
+      "display": "Protein"
+    },
+    {
+      "code": "100000111159",
+      "display": "Insulin"
+    },
+    {
+      "code": "100000111160",
+      "display": "Collagen"
+    },
+    {
+      "code": "100000111161",
+      "display": "Animal Charcoal"
+    },
+    {
+      "code": "100000111162",
+      "display": "Peptones"
+    },
+    {
+      "code": "100000111163",
+      "display": "Fatty acids"
+    },
+    {
+      "code": "100000111164",
+      "display": "Glycerol"
+    },
+    {
+      "code": "100000125717",
+      "display": "Not applicable"
+    },
+    {
+      "code": "100000136180",
+      "display": "Meat and offal, milk"
+    },
+    {
+      "code": "100000136181",
+      "display": "Agar blood"
+    },
+    {
+      "code": "100000136182",
+      "display": "Casamino acid"
+    },
+    {
+      "code": "100000136183",
+      "display": "Casein, hydrolysate"
+    },
+    {
+      "code": "100000136184",
+      "display": "Casein, pancreatic digest"
+    },
+    {
+      "code": "100000136185",
+      "display": "Casein, peptides N3"
+    },
+    {
+      "code": "100000136186",
+      "display": "Cells"
+    },
+    {
+      "code": "100000136187",
+      "display": "Cells, BHK21"
+    },
+    {
+      "code": "100000136188",
+      "display": "Cells, CHO"
+    },
+    {
+      "code": "100000136189",
+      "display": "Cells, CRFK"
+    },
+    {
+      "code": "100000136190",
+      "display": "Cells, embryo SPF"
+    },
+    {
+      "code": "100000136191",
+      "display": "Cells, IRC5"
+    },
+    {
+      "code": "100000136192",
+      "display": "Cells, kidney"
+    },
+    {
+      "code": "100000136193",
+      "display": "Cells, MDCK"
+    },
+    {
+      "code": "100000136194",
+      "display": "Cells, red blood"
+    },
+    {
+      "code": "100000136195",
+      "display": "Collagen, hydrolysate"
+    },
+    {
+      "code": "100000136196",
+      "display": "Cholesterol"
+    },
+    {
+      "code": "100000136197",
+      "display": "Egg, SPF embryonated"
+    },
+    {
+      "code": "100000136198",
+      "display": "Enzyme"
+    },
+    {
+      "code": "100000136199",
+      "display": "Enzyme, pancreatic enzymes"
+    },
+    {
+      "code": "100000136200",
+      "display": "Enzyme, pancreatin 6NF"
+    },
+    {
+      "code": "100000136201",
+      "display": "Enzyme, pepsin"
+    },
+    {
+      "code": "100000136202",
+      "display": "Enzyme, pronase"
+    },
+    {
+      "code": "100000136203",
+      "display": "Enzyme, trypsin"
+    },
+    {
+      "code": "100000136204",
+      "display": "Heart, digest"
+    },
+    {
+      "code": "100000136205",
+      "display": "Heart, extract"
+    },
+    {
+      "code": "100000136206",
+      "display": "Intestinal mucosae"
+    },
+    {
+      "code": "100000136207",
+      "display": "Lactalbumin hydrolysate"
+    },
+    {
+      "code": "100000136208",
+      "display": "Liver, digest"
+    },
+    {
+      "code": "100000136209",
+      "display": "Lymphocytes"
+    },
+    {
+      "code": "100000136210",
+      "display": "Meat"
+    },
+    {
+      "code": "100000136211",
+      "display": "Meat, enzymic hydrolysate"
+    },
+    {
+      "code": "100000136212",
+      "display": "Medium, cooked meat"
+    },
+    {
+      "code": "100000136213",
+      "display": "Medium, F10-199 medium"
+    },
+    {
+      "code": "100000136214",
+      "display": "Medium, FMD culture medium"
+    },
+    {
+      "code": "100000136215",
+      "display": "Medium, Glasgow MEM culture"
+    },
+    {
+      "code": "100000136216",
+      "display": "Medium, LB Agar Lennox"
+    },
+    {
+      "code": "100000136217",
+      "display": "Medium, LB Broth Lennox"
+    },
+    {
+      "code": "100000136218",
+      "display": "Medium, modified thioglycolate medium"
+    },
+    {
+      "code": "100000136219",
+      "display": "Medium, trypticase soy broth"
+    },
+    {
+      "code": "100000136220",
+      "display": "Medium, tryptose phosphate broth"
+    },
+    {
+      "code": "100000136221",
+      "display": "Milk, skimmed"
+    },
+    {
+      "code": "100000136222",
+      "display": "Pancreas, extract"
+    },
+    {
+      "code": "100000136223",
+      "display": "Peptones, casein hydrochloric peptone"
+    },
+    {
+      "code": "100000136224",
+      "display": "Peptones, casein tryptic peptone"
+    },
+    {
+      "code": "100000136225",
+      "display": "Pituitary extract"
+    },
+    {
+      "code": "100000136226",
+      "display": "Rennet"
+    },
+    {
+      "code": "100000136227",
+      "display": "Medium, nutrient broth"
+    },
+    {
+      "code": "100000136228",
+      "display": "Medium, NZ-Amine"
+    },
+    {
+      "code": "100000136229",
+      "display": "Medium, thioglycolate medium"
+    },
+    {
+      "code": "100000136230",
+      "display": "Peptones, proteose peptone"
+    },
+    {
+      "code": "100000136231",
+      "display": "Serum"
+    },
+    {
+      "code": "100000136232",
+      "display": "Serum, albumin"
+    },
+    {
+      "code": "100000136233",
+      "display": "Serum, Iron fortified calf"
+    },
+    {
+      "code": "100000136234",
+      "display": "Skin, connective tissue and bone"
+    },
+    {
+      "code": "100000136235",
+      "display": "Sperm"
+    },
+    {
+      "code": "100000136236",
+      "display": "Tryptone"
+    },
+    {
+      "code": "100000136237",
+      "display": "Meat, extract desiccated"
+    },
+    {
+      "code": "100000136247",
+      "display": "Stomach mucosa"
+    },
+    {
+      "code": "100000136248",
+      "display": "Transferin"
+    },
+    {
+      "code": "100000136554",
+      "display": "Non-neural"
+    },
+    {
+      "code": "100000136555",
+      "display": "Not specified"
+    },
+    {
+      "code": "100000136556",
+      "display": "Organ tissue"
+    },
+    {
+      "code": "100000142485",
+      "display": "Skin and fat in natural proportions"
+    }
+  ]
+}

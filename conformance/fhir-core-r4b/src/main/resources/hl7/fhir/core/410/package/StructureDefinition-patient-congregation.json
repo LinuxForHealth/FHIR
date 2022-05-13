@@ -12,14 +12,15 @@
         }
     ],
     "url": "http://hl7.org/fhir/StructureDefinition/patient-congregation",
-    "version": "4.3.0-CIBUILD",
+    "version": "4.3.0-cibuild",
     "name": "congregation",
     "title": "congregation",
     "status": "draft",
+    "experimental": false,
     "date": "2021-01-17T07:06:13+11:00",
     "publisher": "HL7",
     "description": "A group or place of religious practice that may provide services to the patient.",
-    "fhirVersion": "4.3.0-CIBUILD",
+    "fhirVersion": "4.3.0-cibuild",
     "mapping": [
         {
             "identity": "rim",

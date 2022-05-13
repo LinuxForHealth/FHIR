@@ -42,7 +42,7 @@
       <MedicationRequest>
         <id value="3123"/>
         <!--   snip   -->
-        <text><status value="generated"/><div xmlns="http://www.w3.org/1999/xhtml"><p><b>Generated Narrative</b></p><div><p>Resource "3123" </p></div><p><b>status</b>: unknown</p><p><b>intent</b>: order</p><p><b>medication</b>: <a>Medication/example</a></p><p><b>subject</b>: <a>Patient/347</a></p></div></text><status value="unknown"/>
+        <text><status value="generated"/><div xmlns="http://www.w3.org/1999/xhtml"><p><b>Generated Narrative</b></p><div style="display: inline-block; background-color: #d9e0e7; padding: 6px; margin: 4px; border: 1px solid #8da1b4; border-radius: 5px; line-height: 60%"><p style="margin-bottom: 0px">Resource "3123" </p></div><p><b>status</b>: unknown</p><p><b>intent</b>: order</p><p><b>medication</b>: <a href="todo.html">Medication/example</a></p><p><b>subject</b>: <a href="todo.html">Patient/347</a></p></div></text><status value="unknown"/>
         <intent value="order"/>
 	      <medicationReference>
           <reference value="Medication/example"/>
@@ -73,7 +73,7 @@
       <Medication>
         <id value="example"/>
         <!--   snip   -->
-      <text><status value="generated"/><div xmlns="http://www.w3.org/1999/xhtml"><p><b>Generated Narrative</b></p><div><p>Resource "example" </p></div></div></text></Medication>
+      <text><status value="generated"/><div xmlns="http://www.w3.org/1999/xhtml"><p><b>Generated Narrative</b></p><div style="display: inline-block; background-color: #d9e0e7; padding: 6px; margin: 4px; border: 1px solid #8da1b4; border-radius: 5px; line-height: 60%"><p style="margin-bottom: 0px">Resource "example" </p></div></div></text></Medication>
     </resource>
     <search>
       <!--   added because the client asked to include the medications   -->   

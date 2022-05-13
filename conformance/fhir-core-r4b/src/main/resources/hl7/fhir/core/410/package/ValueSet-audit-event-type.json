@@ -2,7 +2,7 @@
     "resourceType": "ValueSet",
     "id": "audit-event-type",
     "meta": {
-        "lastUpdated": "2022-03-03T22:04:06.196Z",
+        "lastUpdated": "2022-04-23T22:21:35.043Z",
         "profile": [
             "http://hl7.org/fhir/StructureDefinition/shareablevalueset"
         ]
@@ -28,10 +28,11 @@
             "value": "urn:oid:2.16.840.1.113883.4.642.3.462"
         }
     ],
-    "version": "4.3.0-CIBUILD",
+    "version": "4.3.0-cibuild",
     "name": "AuditEventID",
     "title": "Audit Event ID",
     "status": "active",
+    "experimental": false,
     "date": "2015-03-26",
     "publisher": "NEMA/DICOM",
     "description": "Event Types for Audit Events - defined by DICOM with some FHIR specific additions.",
@@ -97,8 +98,8 @@
         ]
     },
     "expansion": {
-        "identifier": "urn:uuid:c9cf8ad0-61f0-487f-8a5b-4afd3dadf839",
-        "timestamp": "2022-03-03T22:05:31Z",
+        "identifier": "urn:uuid:f2295221-8bba-430c-81dd-1f795c4227b2",
+        "timestamp": "2022-04-23T22:23:26Z",
         "total": 43,
         "parameter": [
             {
@@ -115,11 +116,11 @@
             },
             {
                 "name": "version",
-                "valueUri": "http://dicom.nema.org/resources/ontology/DCM|01"
+                "valueUri": "http://dicom.nema.org/resources/ontology/DCM|2022.1.20220124"
             },
             {
                 "name": "version",
-                "valueUri": "http://terminology.hl7.org/CodeSystem/audit-event-type|4.3.0-CIBUILD"
+                "valueUri": "http://terminology.hl7.org/CodeSystem/audit-event-type|4.3.0-cibuild"
             },
             {
                 "name": "version",
@@ -130,77 +131,152 @@
             {
                 "system": "http://dicom.nema.org/resources/ontology/DCM",
                 "code": "110100",
-                "display": "Application Activity"
+                "display": "Application Activity",
+                "designation": [
+                    {
+                        "value": "Application Activity"
+                    }
+                ]
             },
             {
                 "system": "http://dicom.nema.org/resources/ontology/DCM",
                 "code": "110101",
-                "display": "Audit Log Used"
+                "display": "Audit Log Used",
+                "designation": [
+                    {
+                        "value": "Audit Log Used"
+                    }
+                ]
             },
             {
                 "system": "http://dicom.nema.org/resources/ontology/DCM",
                 "code": "110102",
-                "display": "Begin Transferring DICOM Instances"
+                "display": "Begin Transferring DICOM Instances",
+                "designation": [
+                    {
+                        "value": "Begin Transferring DICOM Instances"
+                    }
+                ]
             },
             {
                 "system": "http://dicom.nema.org/resources/ontology/DCM",
                 "code": "110103",
-                "display": "DICOM Instances Accessed"
+                "display": "DICOM Instances Accessed",
+                "designation": [
+                    {
+                        "value": "DICOM Instances Accessed"
+                    }
+                ]
             },
             {
                 "system": "http://dicom.nema.org/resources/ontology/DCM",
                 "code": "110104",
-                "display": "DICOM Instances Transferred"
+                "display": "DICOM Instances Transferred",
+                "designation": [
+                    {
+                        "value": "DICOM Instances Transferred"
+                    }
+                ]
             },
             {
                 "system": "http://dicom.nema.org/resources/ontology/DCM",
                 "code": "110105",
-                "display": "DICOM Study Deleted"
+                "display": "DICOM Study Deleted",
+                "designation": [
+                    {
+                        "value": "DICOM Study Deleted"
+                    }
+                ]
             },
             {
                 "system": "http://dicom.nema.org/resources/ontology/DCM",
                 "code": "110106",
-                "display": "Export"
+                "display": "Export",
+                "designation": [
+                    {
+                        "value": "Export"
+                    }
+                ]
             },
             {
                 "system": "http://dicom.nema.org/resources/ontology/DCM",
                 "code": "110107",
-                "display": "Import"
+                "display": "Import",
+                "designation": [
+                    {
+                        "value": "Import"
+                    }
+                ]
             },
             {
                 "system": "http://dicom.nema.org/resources/ontology/DCM",
                 "code": "110108",
-                "display": "Network Entry"
+                "display": "Network Entry",
+                "designation": [
+                    {
+                        "value": "Network Entry"
+                    }
+                ]
             },
             {
                 "system": "http://dicom.nema.org/resources/ontology/DCM",
                 "code": "110109",
-                "display": "Order Record"
+                "display": "Order Record",
+                "designation": [
+                    {
+                        "value": "Order Record"
+                    }
+                ]
             },
             {
                 "system": "http://dicom.nema.org/resources/ontology/DCM",
                 "code": "110110",
-                "display": "Patient Record"
+                "display": "Patient Record",
+                "designation": [
+                    {
+                        "value": "Patient Record"
+                    }
+                ]
             },
             {
                 "system": "http://dicom.nema.org/resources/ontology/DCM",
                 "code": "110111",
-                "display": "Procedure Record"
+                "display": "Procedure Record",
+                "designation": [
+                    {
+                        "value": "Procedure Record"
+                    }
+                ]
             },
             {
                 "system": "http://dicom.nema.org/resources/ontology/DCM",
                 "code": "110112",
-                "display": "Query"
+                "display": "Query",
+                "designation": [
+                    {
+                        "value": "Query"
+                    }
+                ]
             },
             {
                 "system": "http://dicom.nema.org/resources/ontology/DCM",
                 "code": "110113",
-                "display": "Security Alert"
+                "display": "Security Alert",
+                "designation": [
+                    {
+                        "value": "Security Alert"
+                    }
+                ]
             },
             {
                 "system": "http://dicom.nema.org/resources/ontology/DCM",
                 "code": "110114",
-                "display": "User Authentication"
+                "display": "User Authentication",
+                "designation": [
+                    {
+                        "value": "User Authentication"
+                    }
+                ]
             },
             {
                 "system": "http://terminology.hl7.org/CodeSystem/audit-event-type",

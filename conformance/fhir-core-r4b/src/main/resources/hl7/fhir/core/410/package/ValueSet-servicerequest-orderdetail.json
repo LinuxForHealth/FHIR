@@ -2,7 +2,7 @@
     "resourceType": "ValueSet",
     "id": "servicerequest-orderdetail",
     "meta": {
-        "lastUpdated": "2022-03-03T22:04:06.196Z",
+        "lastUpdated": "2022-04-23T22:21:35.043Z",
         "profile": [
             "http://hl7.org/fhir/StructureDefinition/shareablevalueset"
         ]
@@ -28,7 +28,7 @@
             "value": "urn:oid:2.16.840.1.113883.4.642.3.435"
         }
     ],
-    "version": "4.3.0-CIBUILD",
+    "version": "4.3.0-cibuild",
     "name": "ServiceRequestOrderDetailsCodes",
     "title": "Service Request Order Details Codes",
     "status": "draft",
@@ -74,7 +74,7 @@
                         "display": "Patient triggered inspiratory assistance (procedure)",
                         "designation": [
                             {
-                                "value": "IPPB "
+                                "value": "IPPB"
                             }
                         ]
                     },
@@ -101,11 +101,12 @@
         ]
     },
     "expansion": {
-        "identifier": "urn:uuid:d32353fa-4c3b-413c-801e-a05b3322f51e",
-        "timestamp": "2021-11-17T05:28:21.678Z",
+        "identifier": "urn:uuid:7e560226-bec3-4bf4-b16c-f25c6b232fc5",
+        "timestamp": "2022-04-23T22:23:26Z",
+        "total": 5,
         "parameter": [
             {
-                "name": "limitedExpansion",
+                "name": "excludeNested",
                 "valueBoolean": true
             },
             {
@@ -113,12 +114,12 @@
                 "valueBoolean": true
             },
             {
-                "name": "excludeNested",
+                "name": "limitedExpansion",
                 "valueBoolean": true
             },
             {
                 "name": "version",
-                "valueUri": "http://snomed.info/sct|http://snomed.info/sct/900000000000207008/version/20200131"
+                "valueUri": "http://snomed.info/sct|http://snomed.info/sct/900000000000207008/version/20200731"
             }
         ],
         "contains": [

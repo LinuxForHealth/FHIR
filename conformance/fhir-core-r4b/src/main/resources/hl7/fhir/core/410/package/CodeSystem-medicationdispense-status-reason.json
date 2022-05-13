@@ -2,7 +2,7 @@
     "resourceType": "CodeSystem",
     "id": "medicationdispense-status-reason",
     "meta": {
-        "lastUpdated": "2022-01-01T15:17:18.597Z",
+        "lastUpdated": "2022-04-23T22:21:35.043Z",
         "profile": [
             "http://hl7.org/fhir/StructureDefinition/shareablecodesystem"
         ]
@@ -17,14 +17,14 @@
             "valueCode": "phx"
         }
     ],
-    "url": "http://terminology.hl7.org/fhir/CodeSystem/medicationdispense-status-reason",
+    "url": "http://terminology.hl7.org/CodeSystem/medicationdispense-status-reason",
     "identifier": [
         {
             "system": "urn:ietf:rfc:3986",
             "value": "urn:oid:2.16.840.1.113883.4.642.1.1317"
         }
     ],
-    "version": "4.3.0-CIBUILD",
+    "version": "4.3.0-cibuild",
     "name": "Medication Dispense Status Reason Codes",
     "status": "draft",
     "experimental": false,

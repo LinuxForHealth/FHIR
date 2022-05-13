@@ -2,7 +2,7 @@
     "resourceType": "ValueSet",
     "id": "audit-event-sub-type",
     "meta": {
-        "lastUpdated": "2022-03-03T22:04:06.196Z",
+        "lastUpdated": "2022-04-23T22:21:35.043Z",
         "profile": [
             "http://hl7.org/fhir/StructureDefinition/shareablevalueset"
         ]
@@ -28,10 +28,11 @@
             "value": "urn:oid:2.16.840.1.113883.4.642.3.464"
         }
     ],
-    "version": "4.3.0-CIBUILD",
+    "version": "4.3.0-cibuild",
     "name": "AuditEventSub-Type",
     "title": "Audit Event Sub-Type",
     "status": "active",
+    "experimental": false,
     "date": "2010-08-26",
     "publisher": "NEMA/DICOM",
     "description": "More detailed code concerning the type of the audit event - defined by DICOM with some FHIR specific additions.",
@@ -118,8 +119,8 @@
         ]
     },
     "expansion": {
-        "identifier": "urn:uuid:99696f78-e693-4c38-a428-0ff4f39fe0a0",
-        "timestamp": "2022-03-03T22:05:31Z",
+        "identifier": "urn:uuid:238d6302-5d5c-46f1-9d87-21a4b66cc3d3",
+        "timestamp": "2022-04-23T22:23:26Z",
         "total": 40,
         "parameter": [
             {
@@ -136,128 +137,243 @@
             },
             {
                 "name": "version",
-                "valueUri": "http://dicom.nema.org/resources/ontology/DCM|01"
+                "valueUri": "http://dicom.nema.org/resources/ontology/DCM|2022.1.20220124"
             },
             {
                 "name": "version",
-                "valueUri": "http://hl7.org/fhir/restful-interaction|4.3.0-CIBUILD"
+                "valueUri": "http://hl7.org/fhir/restful-interaction|4.3.0-cibuild"
             }
         ],
         "contains": [
             {
                 "system": "http://dicom.nema.org/resources/ontology/DCM",
                 "code": "110120",
-                "display": "Application Start"
+                "display": "Application Start",
+                "designation": [
+                    {
+                        "value": "Application Start"
+                    }
+                ]
             },
             {
                 "system": "http://dicom.nema.org/resources/ontology/DCM",
                 "code": "110121",
-                "display": "Application Stop"
+                "display": "Application Stop",
+                "designation": [
+                    {
+                        "value": "Application Stop"
+                    }
+                ]
             },
             {
                 "system": "http://dicom.nema.org/resources/ontology/DCM",
                 "code": "110122",
-                "display": "Login"
+                "display": "Login",
+                "designation": [
+                    {
+                        "value": "Login"
+                    }
+                ]
             },
             {
                 "system": "http://dicom.nema.org/resources/ontology/DCM",
                 "code": "110123",
-                "display": "Logout"
+                "display": "Logout",
+                "designation": [
+                    {
+                        "value": "Logout"
+                    }
+                ]
             },
             {
                 "system": "http://dicom.nema.org/resources/ontology/DCM",
                 "code": "110124",
-                "display": "Attach"
+                "display": "Attach",
+                "designation": [
+                    {
+                        "value": "Attach"
+                    }
+                ]
             },
             {
                 "system": "http://dicom.nema.org/resources/ontology/DCM",
                 "code": "110125",
-                "display": "Detach"
+                "display": "Detach",
+                "designation": [
+                    {
+                        "value": "Detach"
+                    }
+                ]
             },
             {
                 "system": "http://dicom.nema.org/resources/ontology/DCM",
                 "code": "110126",
-                "display": "Node Authentication"
+                "display": "Node Authentication",
+                "designation": [
+                    {
+                        "value": "Node Authentication"
+                    }
+                ]
             },
             {
                 "system": "http://dicom.nema.org/resources/ontology/DCM",
                 "code": "110127",
-                "display": "Emergency Override Started"
+                "display": "Emergency Override Started",
+                "designation": [
+                    {
+                        "value": "Emergency Override Started"
+                    }
+                ]
             },
             {
                 "system": "http://dicom.nema.org/resources/ontology/DCM",
                 "code": "110128",
-                "display": "Network Configuration"
+                "display": "Network Configuration",
+                "designation": [
+                    {
+                        "value": "Network Configuration"
+                    }
+                ]
             },
             {
                 "system": "http://dicom.nema.org/resources/ontology/DCM",
                 "code": "110129",
-                "display": "Security Configuration"
+                "display": "Security Configuration",
+                "designation": [
+                    {
+                        "value": "Security Configuration"
+                    }
+                ]
             },
             {
                 "system": "http://dicom.nema.org/resources/ontology/DCM",
                 "code": "110130",
-                "display": "Hardware Configuration"
+                "display": "Hardware Configuration",
+                "designation": [
+                    {
+                        "value": "Hardware Configuration"
+                    }
+                ]
             },
             {
                 "system": "http://dicom.nema.org/resources/ontology/DCM",
                 "code": "110131",
-                "display": "Software Configuration"
+                "display": "Software Configuration",
+                "designation": [
+                    {
+                        "value": "Software Configuration"
+                    }
+                ]
             },
             {
                 "system": "http://dicom.nema.org/resources/ontology/DCM",
                 "code": "110132",
-                "display": "Use of Restricted Function"
+                "display": "Use of Restricted Function",
+                "designation": [
+                    {
+                        "value": "Use of Restricted Function"
+                    }
+                ]
             },
             {
                 "system": "http://dicom.nema.org/resources/ontology/DCM",
                 "code": "110133",
-                "display": "Audit Recording Stopped"
+                "display": "Audit Recording Stopped",
+                "designation": [
+                    {
+                        "value": "Audit Recording Stopped"
+                    }
+                ]
             },
             {
                 "system": "http://dicom.nema.org/resources/ontology/DCM",
                 "code": "110134",
-                "display": "Audit Recording Started"
+                "display": "Audit Recording Started",
+                "designation": [
+                    {
+                        "value": "Audit Recording Started"
+                    }
+                ]
             },
             {
                 "system": "http://dicom.nema.org/resources/ontology/DCM",
                 "code": "110135",
-                "display": "Object Security Attributes Changed"
+                "display": "Object Security Attributes Changed",
+                "designation": [
+                    {
+                        "value": "Object Security Attributes Changed"
+                    }
+                ]
             },
             {
                 "system": "http://dicom.nema.org/resources/ontology/DCM",
                 "code": "110136",
-                "display": "Security Roles Changed"
+                "display": "Security Roles Changed",
+                "designation": [
+                    {
+                        "value": "Security Roles Changed"
+                    }
+                ]
             },
             {
                 "system": "http://dicom.nema.org/resources/ontology/DCM",
                 "code": "110137",
-                "display": "User security Attributes Changed"
+                "display": "User security Attributes Changed",
+                "designation": [
+                    {
+                        "value": "User security Attributes Changed"
+                    }
+                ]
             },
             {
                 "system": "http://dicom.nema.org/resources/ontology/DCM",
                 "code": "110138",
-                "display": "Emergency Override Stopped"
+                "display": "Emergency Override Stopped",
+                "designation": [
+                    {
+                        "value": "Emergency Override Stopped"
+                    }
+                ]
             },
             {
                 "system": "http://dicom.nema.org/resources/ontology/DCM",
                 "code": "110139",
-                "display": "Remote Service Operation Started"
+                "display": "Remote Service Operation Started",
+                "designation": [
+                    {
+                        "value": "Remote Service Operation Started"
+                    }
+                ]
             },
             {
                 "system": "http://dicom.nema.org/resources/ontology/DCM",
                 "code": "110140",
-                "display": "Remote Service Operation Stopped"
+                "display": "Remote Service Operation Stopped",
+                "designation": [
+                    {
+                        "value": "Remote Service Operation Stopped"
+                    }
+                ]
             },
             {
                 "system": "http://dicom.nema.org/resources/ontology/DCM",
                 "code": "110141",
-                "display": "Local Service Operation Started"
+                "display": "Local Service Operation Started",
+                "designation": [
+                    {
+                        "value": "Local Service Operation Started"
+                    }
+                ]
             },
             {
                 "system": "http://dicom.nema.org/resources/ontology/DCM",
                 "code": "110142",
-                "display": "Local Service Operation Stopped"
+                "display": "Local Service Operation Stopped",
+                "designation": [
+                    {
+                        "value": "Local Service Operation Stopped"
+                    }
+                ]
             },
             {
                 "system": "http://hl7.org/fhir/restful-interaction",

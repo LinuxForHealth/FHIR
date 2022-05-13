@@ -7,6 +7,7 @@
   },
   "name": "PHR Template",
   "status": "draft",
+  "experimental": true,
   "date": "2013-06-18",
   "publisher": "FHIR Project",
   "contact": [
@@ -24,7 +25,7 @@
   "software": {
     "name": "ACME PHR Server"
   },
-  "fhirVersion": "4.3.0-CIBUILD",
+  "fhirVersion": "4.3.0-cibuild",
   "format": [
     "json",
     "xml"

@@ -12,9 +12,10 @@
     }
   ],
   "url": "http://hl7.org/fhir/StructureDefinition/ordinalValue",
-  "version": "4.3.0-CIBUILD",
+  "version": "4.3.0-cibuild",
   "name": "Ordinal Value",
   "status": "draft",
+  "experimental": false,
   "date": "2013-12-05",
   "publisher": "Health Level Seven International (FHIR Infrastructure)",
   "contact": [
@@ -28,7 +29,7 @@
     }
   ],
   "description": "A numeric value that allows the comparison (less than, greater than) or other numerical \nmanipulation of a concept (e.g. Adding up components of a score). Scores are usually a whole number, but occasionally decimals are encountered in scores.",
-  "fhirVersion": "4.3.0-CIBUILD",
+  "fhirVersion": "4.3.0-cibuild",
   "mapping": [
     {
       "identity": "rim",

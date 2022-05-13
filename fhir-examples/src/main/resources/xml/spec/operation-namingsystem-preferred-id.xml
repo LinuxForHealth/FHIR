@@ -5,8 +5,8 @@
   <text>
     <status value="extensions"/>
     <div xmlns="http://www.w3.org/1999/xhtml">
-      <h2>preferred-id</h2>
-      <p>OPERATION: preferred-id</p>
+      <h2>PreferredId</h2>
+      <p>OPERATION: PreferredId</p>
       <p>The official URL for this operation definition is: </p>
       <pre>http://hl7.org/fhir/OperationDefinition/NamingSystem-preferred-id</pre>
       <div>
@@ -58,7 +58,7 @@
           <td/>
           <td>
             <div>
-              <p>The server parses the provided id to see what type it is (mary a URI, an OID as a URI, a plain OID, or a v2 table 0396 code). If the server can&#39;t tell what type of identifier it is, it can try it as multiple types. It is an error if more than one system matches the provided identifier</p>
+              <p>The server parses the provided id to see what type it is (mary a URI, an OID as a URI, a plain OID, or a v2 table 0396 code). If the server can't tell what type of identifier it is, it can try it as multiple types. It is an error if more than one system matches the provided identifier</p>
 
             </div>
           </td>
@@ -71,7 +71,7 @@
             <a href="datatypes.html#code">code</a>
           </td>
           <td>
-            <a href="valueset-namingsystem-identifier-type.html">http://hl7.org/fhir/ValueSet/namingsystem-identifier-type|4.3.0-CIBUILD</a> (Required)
+            <a href="valueset-namingsystem-identifier-type.html">http://hl7.org/fhir/ValueSet/namingsystem-identifier-type|4.3.0-cibuild</a> (Required)
           </td>
           <td/>
         </tr>
@@ -108,12 +108,13 @@
     <valueCode value="trial-use"/>
   </extension>
   <url value="http://hl7.org/fhir/OperationDefinition/NamingSystem-preferred-id"/>
-  <version value="4.3.0-CIBUILD"/>
-  <name value="preferred-id"/>
+  <version value="4.3.0-cibuild"/>
+  <name value="PreferredId"/>
   <title value="Fetch Preferred it"/>
   <status value="draft"/>
   <kind value="operation"/>
-  <date value="2022-01-01T15:17:18+00:00"/>
+  <experimental value="false"/>
+  <date value="2022-04-23T22:21:35+00:00"/>
   <publisher value="HL7 (FHIR Project)"/>
   <contact>
     <telecom>
@@ -138,7 +139,7 @@
     <use value="in"/>
     <min value="1"/>
     <max value="1"/>
-    <documentation value="The server parses the provided id to see what type it is (mary a URI, an OID as a URI, a plain OID, or a v2 table 0396 code). If the server can&#39;t tell what type of identifier it is, it can try it as multiple types. It is an error if more than one system matches the provided identifier"/>
+    <documentation value="The server parses the provided id to see what type it is (mary a URI, an OID as a URI, a plain OID, or a v2 table 0396 code). If the server can't tell what type of identifier it is, it can try it as multiple types. It is an error if more than one system matches the provided identifier"/>
     <type value="string"/>
   </parameter>
   <parameter>
@@ -152,7 +153,7 @@
         <valueString value="NamingSystemIdentifierType"/>
       </extension>
       <strength value="required"/>
-      <valueSet value="http://hl7.org/fhir/ValueSet/namingsystem-identifier-type|4.3.0-CIBUILD"/>
+      <valueSet value="http://hl7.org/fhir/ValueSet/namingsystem-identifier-type|4.3.0-cibuild"/>
     </binding>
   </parameter>
   <parameter>

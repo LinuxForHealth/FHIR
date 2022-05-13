@@ -12,10 +12,11 @@
         }
     ],
     "url": "http://hl7.org/fhir/StructureDefinition/structuredefinition-normative-version",
-    "version": "4.3.0-CIBUILD",
+    "version": "4.3.0-cibuild",
     "name": "normative-version",
     "title": "First Normative Version",
     "status": "draft",
+    "experimental": false,
     "date": "2014-01-31",
     "publisher": "Health Level Seven, Inc. - [WG Name] WG",
     "contact": [
@@ -29,7 +30,7 @@
         }
     ],
     "description": "If this StructureDefinition is normative, which was the first normative version.",
-    "fhirVersion": "4.3.0-CIBUILD",
+    "fhirVersion": "4.3.0-cibuild",
     "mapping": [
         {
             "identity": "rim",

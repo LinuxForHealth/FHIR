@@ -2,7 +2,7 @@
     "resourceType": "ValueSet",
     "id": "list-order",
     "meta": {
-        "lastUpdated": "2022-03-03T22:04:06.196Z",
+        "lastUpdated": "2022-04-23T22:21:35.043Z",
         "profile": [
             "http://hl7.org/fhir/StructureDefinition/shareablevalueset"
         ]
@@ -20,10 +20,11 @@
             "value": "urn:oid:2.16.840.1.113883.4.642.3.324"
         }
     ],
-    "version": "4.3.0-CIBUILD",
+    "version": "4.3.0-cibuild",
     "name": "ListOrderCodes",
     "title": "List Order Codes",
     "status": "draft",
+    "experimental": false,
     "publisher": "FHIR Project",
     "contact": [
         {
@@ -44,8 +45,8 @@
         ]
     },
     "expansion": {
-        "identifier": "urn:uuid:84cac6e6-acb2-4c5b-8227-dff562e2e50d",
-        "timestamp": "2022-03-03T22:05:31Z",
+        "identifier": "urn:uuid:93a67461-db71-486c-9af2-123c18205ef0",
+        "timestamp": "2022-04-23T22:23:26Z",
         "total": 8,
         "parameter": [
             {
@@ -58,7 +59,7 @@
             },
             {
                 "name": "version",
-                "valueUri": "http://terminology.hl7.org/CodeSystem/list-order|4.3.0-CIBUILD"
+                "valueUri": "http://terminology.hl7.org/CodeSystem/list-order|4.3.0-cibuild"
             }
         ],
         "contains": [

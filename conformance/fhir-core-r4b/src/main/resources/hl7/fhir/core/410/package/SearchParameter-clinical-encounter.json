@@ -8,11 +8,11 @@
         }
     ],
     "url": "http://hl7.org/fhir/SearchParameter/clinical-encounter",
-    "version": "4.3.0-CIBUILD",
+    "version": "4.3.0-cibuild",
     "name": "encounter",
     "status": "draft",
     "experimental": false,
-    "date": "2022-01-01T15:17:18Z",
+    "date": "2022-04-23T22:21:35Z",
     "publisher": "Health Level Seven International (Structured Documents)",
     "contact": [
         {
@@ -49,7 +49,7 @@
         "VisionPrescription"
     ],
     "type": "reference",
-    "expression": "Composition.encounter | DeviceRequest.encounter | DiagnosticReport.encounter | DocumentReference.context.encounter | Flag.encounter | List.encounter | NutritionOrder.encounter | Observation.encounter | Procedure.encounter | RiskAssessment.encounter | ServiceRequest.encounter | VisionPrescription.encounter",
+    "expression": "Composition.encounter | DeviceRequest.encounter | DiagnosticReport.encounter | DocumentReference.context.encounter.where(resolve() is Encounter) | Flag.encounter | List.encounter | NutritionOrder.encounter | Observation.encounter | Procedure.encounter | RiskAssessment.encounter | ServiceRequest.encounter | VisionPrescription.encounter",
     "xpath": "f:Composition/f:encounter | f:DeviceRequest/f:encounter | f:DiagnosticReport/f:encounter | f:DocumentReference/f:context/f:encounter | f:Flag/f:encounter | f:List/f:encounter | f:NutritionOrder/f:encounter | f:Observation/f:encounter | f:Procedure/f:encounter | f:RiskAssessment/f:encounter | f:ServiceRequest/f:encounter | f:VisionPrescription/f:encounter",
     "xpathUsage": "normal",
     "target": [

@@ -12,9 +12,10 @@
         }
     ],
     "url": "http://hl7.org/fhir/StructureDefinition/cqf-certainty",
-    "version": "4.3.0-CIBUILD",
+    "version": "4.3.0-cibuild",
     "name": "certainty",
     "status": "draft",
+    "experimental": false,
     "date": "2015-05-30",
     "publisher": "Health Level Seven, Inc. - CDS WG",
     "contact": [
@@ -28,7 +29,7 @@
         }
     ],
     "description": "An assessment of certainty, confidence, or quality of the item on which it appears.",
-    "fhirVersion": "4.3.0-CIBUILD",
+    "fhirVersion": "4.3.0-cibuild",
     "mapping": [
         {
             "identity": "rim",
@@ -1274,9 +1275,6 @@
                         "code": "CodeableConcept"
                     },
                     {
-                        "code": "CodeableReference"
-                    },
-                    {
                         "code": "Coding"
                     },
                     {
@@ -1311,9 +1309,6 @@
                     },
                     {
                         "code": "Ratio"
-                    },
-                    {
-                        "code": "RatioRange"
                     },
                     {
                         "code": "Reference"

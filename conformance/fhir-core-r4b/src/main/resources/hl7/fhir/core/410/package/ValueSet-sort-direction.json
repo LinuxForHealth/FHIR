@@ -2,7 +2,7 @@
     "resourceType": "ValueSet",
     "id": "sort-direction",
     "meta": {
-        "lastUpdated": "2022-03-03T22:04:06.196Z",
+        "lastUpdated": "2022-04-23T22:21:35.043Z",
         "profile": [
             "http://hl7.org/fhir/StructureDefinition/shareablevalueset"
         ]
@@ -28,12 +28,12 @@
             "value": "urn:oid:2.16.840.1.113883.4.642.3.979"
         }
     ],
-    "version": "4.3.0-CIBUILD",
+    "version": "4.3.0-cibuild",
     "name": "SortDirection",
     "title": "SortDirection",
     "status": "draft",
     "experimental": false,
-    "date": "2022-03-03T22:04:06Z",
+    "date": "2022-04-23T22:21:35Z",
     "publisher": "HL7 (FHIR Project)",
     "contact": [
         {
@@ -59,8 +59,8 @@
         ]
     },
     "expansion": {
-        "identifier": "urn:uuid:55d0bda8-9e12-47a3-9b4b-aa07042d29fd",
-        "timestamp": "2022-03-03T22:05:09Z",
+        "identifier": "urn:uuid:02fc22d8-6c5a-4e46-8f30-9ac22ec89963",
+        "timestamp": "2022-04-23T22:23:07Z",
         "total": 2,
         "parameter": [
             {
@@ -73,7 +73,7 @@
             },
             {
                 "name": "version",
-                "valueUri": "http://hl7.org/fhir/sort-direction|4.3.0-CIBUILD"
+                "valueUri": "http://hl7.org/fhir/sort-direction|4.3.0-cibuild"
             }
         ],
         "contains": [

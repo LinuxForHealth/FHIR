@@ -14,14 +14,13 @@
     <resource>
       <SubscriptionStatus>
         <id value="a5b053d4-2603-446f-ae86-f5853ac09334"/>
-        <text><status value="generated"/><div xmlns="http://www.w3.org/1999/xhtml"><p><b>Generated Narrative</b></p><div><p>Resource "a5b053d4-2603-446f-ae86-f5853ac09334" </p></div><p><b>status</b>: active</p><p><b>type</b>: heartbeat</p><p><b>eventsSinceSubscriptionStart</b>: 310</p><p><b>eventsInNotification</b>: 0</p><p><b>subscription</b>: <a>http://example.org/FHIR/R4/Subscription/123</a></p><p><b>topic</b>: <a>http://example.org/FHIR/R4/SubscriptionTopic/admission</a></p></div></text><status value="active"/>
+        <text><status value="generated"/><div xmlns="http://www.w3.org/1999/xhtml"><p><b>Generated Narrative</b></p><div style="display: inline-block; background-color: #d9e0e7; padding: 6px; margin: 4px; border: 1px solid #8da1b4; border-radius: 5px; line-height: 60%"><p style="margin-bottom: 0px">Resource "a5b053d4-2603-446f-ae86-f5853ac09334" </p></div><p><b>status</b>: active</p><p><b>type</b>: heartbeat</p><p><b>eventsSinceSubscriptionStart</b>: 310</p><p><b>subscription</b>: <a href="todo.html">http://example.org/FHIR/R4B/Subscription/123</a></p><p><b>topic</b>: <a href="http://example.org/FHIR/R4B/SubscriptionTopic/admission">http://example.org/FHIR/R4B/SubscriptionTopic/admission</a></p></div></text><status value="active"/>
         <type value="heartbeat"/>
         <eventsSinceSubscriptionStart value="310"/>
-        <eventsInNotification value="0"/>
         <subscription>
-          <reference value="http://example.org/FHIR/R4/Subscription/123"/>
+          <reference value="http://example.org/FHIR/R4B/Subscription/123"/>
         </subscription>
-        <topic value="http://example.org/FHIR/R4/SubscriptionTopic/admission"/>
+        <topic value="http://example.org/FHIR/R4B/SubscriptionTopic/admission"/>
       </SubscriptionStatus>
     </resource>
     <request>

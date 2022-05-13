@@ -2,7 +2,7 @@
     "resourceType": "StructureDefinition",
     "id": "ClinicalUseDefinition",
     "meta": {
-        "lastUpdated": "2022-01-01T15:17:18.597Z"
+        "lastUpdated": "2022-04-23T22:21:35.043Z"
     },
     "text": {
         "status": "empty",
@@ -31,10 +31,11 @@
         }
     ],
     "url": "http://hl7.org/fhir/StructureDefinition/ClinicalUseDefinition",
-    "version": "4.3.0-CIBUILD",
+    "version": "4.3.0-cibuild",
     "name": "ClinicalUseDefinition",
     "status": "draft",
-    "date": "2022-01-01T15:17:18Z",
+    "experimental": false,
+    "date": "2022-04-23T22:21:35Z",
     "publisher": "Health Level Seven International (Biomedical Research and Regulation)",
     "contact": [
         {
@@ -55,7 +56,7 @@
         }
     ],
     "description": "A single issue - either an indication, contraindication, interaction or an undesirable effect for a medicinal product, medication, device or procedure.",
-    "fhirVersion": "4.3.0-CIBUILD",
+    "fhirVersion": "4.3.0-cibuild",
     "mapping": [
         {
             "identity": "idmp",
@@ -97,8 +98,8 @@
                         "key": "cud-1",
                         "severity": "error",
                         "human": "Indication, Contraindication, Interaction, UndesirableEffect and Warning cannot be used in the same instance",
-                        "expression": "(ClinicalUseDefinition.indication.count() + ClinicalUseDefinition.contraIndication.count() + ClinicalUseDefinition.interaction.count() + ClinicalUseDefinition.undesirableEffect.count() + ClinicalUseDefinition.warning.count())  < 2",
-                        "xpath": "count(f:ClinicalUseDefinition.f:indication|f:ClinicalUseDefinition.f:contraIndication|f:ClinicalUseDefinition.f:interaction|f:ClinicalUseDefinition.f:undesirableEffect|f:ClinicalUseDefinition.f:warning) < 2",
+                        "expression": "(ClinicalUseDefinition.indication.count() + ClinicalUseDefinition.contraindication.count() + ClinicalUseDefinition.interaction.count() + ClinicalUseDefinition.undesirableEffect.count() + ClinicalUseDefinition.warning.count())  < 2",
+                        "xpath": "count(f:ClinicalUseDefinition/f:indication|f:ClinicalUseDefinition/f:contraindication|f:ClinicalUseDefinition/f:interaction|f:ClinicalUseDefinition/f:undesirableEffect|f:ClinicalUseDefinition/f:warning) < 2",
                         "source": "http://hl7.org/fhir/StructureDefinition/ClinicalUseDefinition"
                     },
                     {
@@ -114,7 +115,7 @@
                         "severity": "error",
                         "human": "If the resource is contained in another resource, it SHALL be referred to from elsewhere in the resource or SHALL refer to the containing resource",
                         "expression": "contained.where(((id.exists() and ('#'+id in (%resource.descendants().reference | %resource.descendants().as(canonical) | %resource.descendants().as(uri) | %resource.descendants().as(url)))) or descendants().where(reference = '#').exists() or descendants().where(as(canonical) = '#').exists() or descendants().where(as(uri) = '#').exists()).not()).trace('unmatched', id).empty()",
-                        "xpath": "not(exists(for $resource in . return (for $contained in $resource/f:contained return $contained[not(descendant::f:*/@value='#' or (exists(f:id) and $resource//f:*/@*=concat('#', $contained/*/f:id/@value)))])))",
+                        "xpath": "not(exists(for $contained in f:contained return $contained[not(exists(parent::*/descendant::f:reference/@value=concat('#', $contained/*/f:id/@value)) or exists(descendant::f:reference[@value='#']))]))",
                         "source": "http://hl7.org/fhir/StructureDefinition/DomainResource"
                     },
                     {
@@ -380,6 +381,16 @@
                         "code": "Resource"
                     }
                 ],
+                "constraint": [
+                    {
+                        "key": "dom-r4b",
+                        "severity": "warning",
+                        "human": "Containing new R4B resources within R4 resources may cause interoperability issues if instances are shared with R4 systems",
+                        "expression": "($this is Citation or $this is Evidence or $this is EvidenceReport or $this is EvidenceVariable or $this is MedicinalProductDefinition or $this is PackagedProductDefinition or $this is AdministrableProductDefinition or $this is Ingredient or $this is ClinicalUseDefinition or $this is RegulatedAuthorization or $this is SubstanceDefinition or $this is SubscriptionStatus or $this is SubscriptionTopic) implies (%resource is Citation or %resource is Evidence or %resource is EvidenceReport or %resource is EvidenceVariable or %resource is MedicinalProductDefinition or %resource is PackagedProductDefinition or %resource is AdministrableProductDefinition or %resource is Ingredient or %resource is ClinicalUseDefinition or %resource is RegulatedAuthorization or %resource is SubstanceDefinition or %resource is SubscriptionStatus or %resource is SubscriptionTopic)",
+                        "xpath": "not(f:Citation|f:Evidence|f:EvidenceReport|f:EvidenceVariable|f:MedicinalProductDefinition|f:PackagedProductDefinition|f:AdministrableProductDefinition|f:Ingredient|f:ClinicalUseDefinition|f:RegulatedAuthorization|f:SubstanceDefinition|f:SubscriptionStatus|f:SubscriptionTopic) or not(parent::f:Citation|parent::f:Evidence|parent::f:EvidenceReport|parent::f:EvidenceVariable|parent::f:MedicinalProductDefinition|parent::f:PackagedProductDefinition|parent::f:AdministrableProductDefinition|parent::f:Ingredient|parent::f:ClinicalUseDefinition|parent::f:RegulatedAuthorization|parent::f:SubstanceDefinition|f:SubscriptionStatus|f:SubscriptionTopic)",
+                        "source": "http://hl7.org/fhir/StructureDefinition/ClinicalUseDefinition"
+                    }
+                ],
                 "mustSupport": false,
                 "isModifier": false,
                 "isSummary": false,
@@ -568,7 +579,7 @@
                     ],
                     "strength": "required",
                     "description": "Overall defining type of this clinical use definition.",
-                    "valueSet": "http://hl7.org/fhir/ValueSet/clinical-use-definition-type|4.3.0-CIBUILD"
+                    "valueSet": "http://hl7.org/fhir/ValueSet/clinical-use-definition-type|4.3.0-cibuild"
                 },
                 "mapping": [
                     {
@@ -580,7 +591,7 @@
             {
                 "id": "ClinicalUseDefinition.category",
                 "path": "ClinicalUseDefinition.category",
-                "short": "A categorisation of the issue, primarily for dividing warnings into subject heading areas such as \"Pregnancy and Lactation\", \"Overdose\", \"Effects on Ability to Drive and Use Machines\"",
+                "short": "A categorisation of the issue, primarily for dividing warnings into subject heading areas such as \"Pregnancy\", \"Overdose\"",
                 "definition": "A categorisation of the issue, primarily for dividing warnings into subject heading areas such as \"Pregnancy and Lactation\", \"Overdose\", \"Effects on Ability to Drive and Use Machines\".",
                 "min": 0,
                 "max": "*",
@@ -607,6 +618,17 @@
                 "mustSupport": false,
                 "isModifier": false,
                 "isSummary": true,
+                "binding": {
+                    "extension": [
+                        {
+                            "url": "http://hl7.org/fhir/StructureDefinition/elementdefinition-bindingName",
+                            "valueString": "ClinicalUseDefinitionCategory"
+                        }
+                    ],
+                    "strength": "preferred",
+                    "description": "A categorisation for a clinical use information item.",
+                    "valueSet": "http://hl7.org/fhir/ValueSet/clinical-use-definition-category"
+                },
                 "mapping": [
                     {
                         "identity": "idmp",
@@ -690,6 +712,21 @@
                 "mustSupport": false,
                 "isModifier": false,
                 "isSummary": true,
+                "binding": {
+                    "extension": [
+                        {
+                            "url": "http://hl7.org/fhir/StructureDefinition/elementdefinition-bindingName",
+                            "valueString": "PublicationStatus"
+                        },
+                        {
+                            "url": "http://hl7.org/fhir/StructureDefinition/elementdefinition-isCommonBinding",
+                            "valueBoolean": true
+                        }
+                    ],
+                    "strength": "preferred",
+                    "description": "The lifecycle status of an artifact.",
+                    "valueSet": "http://hl7.org/fhir/ValueSet/publication-status"
+                },
                 "mapping": [
                     {
                         "identity": "idmp",
@@ -754,7 +791,7 @@
                         "extension": [
                             {
                                 "url": "http://hl7.org/fhir/StructureDefinition/structuredefinition-fhir-type",
-                                "valueUrl": "id"
+                                "valueUrl": "string"
                             }
                         ],
                         "code": "http://hl7.org/fhirpath/System.String"
@@ -903,6 +940,17 @@
                 "mustSupport": false,
                 "isModifier": false,
                 "isSummary": true,
+                "binding": {
+                    "extension": [
+                        {
+                            "url": "http://hl7.org/fhir/StructureDefinition/elementdefinition-bindingName",
+                            "valueString": "DiseaseSymptomProcedure"
+                        }
+                    ],
+                    "strength": "example",
+                    "description": "A symptom, disease or procedure.",
+                    "valueSet": "http://hl7.org/fhir/ValueSet/disease-symptom-procedure"
+                },
                 "mapping": [
                     {
                         "identity": "idmp",
@@ -914,7 +962,7 @@
                 "id": "ClinicalUseDefinition.contraindication.diseaseStatus",
                 "path": "ClinicalUseDefinition.contraindication.diseaseStatus",
                 "short": "The status of the disease or symptom for the contraindication",
-                "definition": "The status of the disease or symptom for the contraindication.",
+                "definition": "The status of the disease or symptom for the contraindication, for example \"chronic\" or \"metastatic\".",
                 "min": 0,
                 "max": "1",
                 "base": {
@@ -943,6 +991,17 @@
                 "mustSupport": false,
                 "isModifier": false,
                 "isSummary": true,
+                "binding": {
+                    "extension": [
+                        {
+                            "url": "http://hl7.org/fhir/StructureDefinition/elementdefinition-bindingName",
+                            "valueString": "DiseaseStatus"
+                        }
+                    ],
+                    "strength": "example",
+                    "description": "The status of a disease or symptom.",
+                    "valueSet": "http://hl7.org/fhir/ValueSet/disease-status"
+                },
                 "mapping": [
                     {
                         "identity": "idmp",
@@ -983,6 +1042,17 @@
                 "mustSupport": false,
                 "isModifier": false,
                 "isSummary": true,
+                "binding": {
+                    "extension": [
+                        {
+                            "url": "http://hl7.org/fhir/StructureDefinition/elementdefinition-bindingName",
+                            "valueString": "DiseaseSymptomProcedure"
+                        }
+                    ],
+                    "strength": "example",
+                    "description": "A symptom, disease or procedure.",
+                    "valueSet": "http://hl7.org/fhir/ValueSet/disease-symptom-procedure"
+                },
                 "mapping": [
                     {
                         "identity": "idmp",
@@ -1033,7 +1103,7 @@
             {
                 "id": "ClinicalUseDefinition.contraindication.otherTherapy",
                 "path": "ClinicalUseDefinition.contraindication.otherTherapy",
-                "short": "Information about the use of the medicinal product in relation to other therapies described as part of the contraindication",
+                "short": "Information about use of the product in relation to other therapies described as part of the contraindication",
                 "definition": "Information about the use of the medicinal product in relation to other therapies described as part of the contraindication.",
                 "min": 0,
                 "max": "*",
@@ -1087,7 +1157,7 @@
                         "extension": [
                             {
                                 "url": "http://hl7.org/fhir/StructureDefinition/structuredefinition-fhir-type",
-                                "valueUrl": "id"
+                                "valueUrl": "string"
                             }
                         ],
                         "code": "http://hl7.org/fhirpath/System.String"
@@ -1206,7 +1276,7 @@
             {
                 "id": "ClinicalUseDefinition.contraindication.otherTherapy.relationshipType",
                 "path": "ClinicalUseDefinition.contraindication.otherTherapy.relationshipType",
-                "short": "The type of relationship between the medicinal product indication or contraindication and another therapy",
+                "short": "The type of relationship between the product indication/contraindication and another therapy",
                 "definition": "The type of relationship between the medicinal product indication or contraindication and another therapy.",
                 "min": 1,
                 "max": "1",
@@ -1233,6 +1303,17 @@
                 "mustSupport": false,
                 "isModifier": false,
                 "isSummary": true,
+                "binding": {
+                    "extension": [
+                        {
+                            "url": "http://hl7.org/fhir/StructureDefinition/elementdefinition-bindingName",
+                            "valueString": "TherapyRelationshipType"
+                        }
+                    ],
+                    "strength": "preferred",
+                    "description": "Classification of relationship between a therapy and a contraindication or an indication.",
+                    "valueSet": "http://hl7.org/fhir/ValueSet/therapy-relationship-type"
+                },
                 "mapping": [
                     {
                         "identity": "idmp",
@@ -1243,7 +1324,7 @@
             {
                 "id": "ClinicalUseDefinition.contraindication.otherTherapy.therapy",
                 "path": "ClinicalUseDefinition.contraindication.otherTherapy.therapy",
-                "short": "Reference to a specific medication (active substance, medicinal product or class of products) as part of an indication or contraindication",
+                "short": "Reference to a specific medication as part of an indication or contraindication",
                 "definition": "Reference to a specific medication (active substance, medicinal product or class of products) as part of an indication or contraindication.",
                 "min": 1,
                 "max": "1",
@@ -1277,6 +1358,17 @@
                 "mustSupport": false,
                 "isModifier": false,
                 "isSummary": true,
+                "binding": {
+                    "extension": [
+                        {
+                            "url": "http://hl7.org/fhir/StructureDefinition/elementdefinition-bindingName",
+                            "valueString": "Therapy"
+                        }
+                    ],
+                    "strength": "example",
+                    "description": "A therapy.",
+                    "valueSet": "http://hl7.org/fhir/ValueSet/therapy"
+                },
                 "mapping": [
                     {
                         "identity": "idmp",
@@ -1341,7 +1433,7 @@
                         "extension": [
                             {
                                 "url": "http://hl7.org/fhir/StructureDefinition/structuredefinition-fhir-type",
-                                "valueUrl": "id"
+                                "valueUrl": "string"
                             }
                         ],
                         "code": "http://hl7.org/fhirpath/System.String"
@@ -1490,6 +1582,17 @@
                 "mustSupport": false,
                 "isModifier": false,
                 "isSummary": true,
+                "binding": {
+                    "extension": [
+                        {
+                            "url": "http://hl7.org/fhir/StructureDefinition/elementdefinition-bindingName",
+                            "valueString": "DiseaseSymptomProcedure"
+                        }
+                    ],
+                    "strength": "example",
+                    "description": "A symptom, disease or procedure.",
+                    "valueSet": "http://hl7.org/fhir/ValueSet/disease-symptom-procedure"
+                },
                 "mapping": [
                     {
                         "identity": "idmp",
@@ -1501,7 +1604,7 @@
                 "id": "ClinicalUseDefinition.indication.diseaseStatus",
                 "path": "ClinicalUseDefinition.indication.diseaseStatus",
                 "short": "The status of the disease or symptom for the indication",
-                "definition": "The status of the disease or symptom for the indication.",
+                "definition": "The status of the disease or symptom for the indication, for example \"chronic\" or \"metastatic\".",
                 "min": 0,
                 "max": "1",
                 "base": {
@@ -1530,6 +1633,17 @@
                 "mustSupport": false,
                 "isModifier": false,
                 "isSummary": true,
+                "binding": {
+                    "extension": [
+                        {
+                            "url": "http://hl7.org/fhir/StructureDefinition/elementdefinition-bindingName",
+                            "valueString": "DiseaseStatus"
+                        }
+                    ],
+                    "strength": "example",
+                    "description": "The status of a disease or symptom.",
+                    "valueSet": "http://hl7.org/fhir/ValueSet/disease-status"
+                },
                 "mapping": [
                     {
                         "identity": "idmp",
@@ -1540,7 +1654,7 @@
             {
                 "id": "ClinicalUseDefinition.indication.comorbidity",
                 "path": "ClinicalUseDefinition.indication.comorbidity",
-                "short": "A comorbidity (concurrent condition) or coinfection as part of the indication",
+                "short": "A comorbidity or coinfection as part of the indication",
                 "definition": "A comorbidity (concurrent condition) or coinfection as part of the indication.",
                 "min": 0,
                 "max": "*",
@@ -1570,6 +1684,17 @@
                 "mustSupport": false,
                 "isModifier": false,
                 "isSummary": true,
+                "binding": {
+                    "extension": [
+                        {
+                            "url": "http://hl7.org/fhir/StructureDefinition/elementdefinition-bindingName",
+                            "valueString": "DiseaseSymptomProcedure"
+                        }
+                    ],
+                    "strength": "example",
+                    "description": "A symptom, disease or procedure.",
+                    "valueSet": "http://hl7.org/fhir/ValueSet/disease-symptom-procedure"
+                },
                 "mapping": [
                     {
                         "identity": "idmp",
@@ -1610,6 +1735,17 @@
                 "mustSupport": false,
                 "isModifier": false,
                 "isSummary": true,
+                "binding": {
+                    "extension": [
+                        {
+                            "url": "http://hl7.org/fhir/StructureDefinition/elementdefinition-bindingName",
+                            "valueString": "ProductIntendedUse"
+                        }
+                    ],
+                    "strength": "preferred",
+                    "description": "The overall intended use of a product.",
+                    "valueSet": "http://hl7.org/fhir/ValueSet/product-intended-use"
+                },
                 "mapping": [
                     {
                         "identity": "idmp",
@@ -1618,20 +1754,23 @@
                 ]
             },
             {
-                "id": "ClinicalUseDefinition.indication.duration",
-                "path": "ClinicalUseDefinition.indication.duration",
+                "id": "ClinicalUseDefinition.indication.duration[x]",
+                "path": "ClinicalUseDefinition.indication.duration[x]",
                 "short": "Timing or duration information",
-                "definition": "Timing or duration information.",
+                "definition": "Timing or duration information, that may be associated with use with the indicated condition e.g. Adult patients suffering from myocardial infarction (from a few days until less than 35 days), ischaemic stroke (from 7 days until less than 6 months).",
                 "min": 0,
                 "max": "1",
                 "base": {
-                    "path": "ClinicalUseDefinition.indication.duration",
+                    "path": "ClinicalUseDefinition.indication.duration[x]",
                     "min": 0,
                     "max": "1"
                 },
                 "type": [
                     {
-                        "code": "Quantity"
+                        "code": "Range"
+                    },
+                    {
+                        "code": "string"
                     }
                 ],
                 "constraint": [
@@ -1657,8 +1796,8 @@
             {
                 "id": "ClinicalUseDefinition.indication.undesirableEffect",
                 "path": "ClinicalUseDefinition.indication.undesirableEffect",
-                "short": "The specific undesirable effects of the medicinal product",
-                "definition": "The specific undesirable effects of the medicinal product.",
+                "short": "An unwanted side effect or negative outcome of the subject of this resource when being used for this indication",
+                "definition": "An unwanted side effect or negative outcome that may happen if you use the drug (or other subject of this resource) for this indication.",
                 "min": 0,
                 "max": "*",
                 "base": {
@@ -1697,7 +1836,7 @@
             {
                 "id": "ClinicalUseDefinition.indication.otherTherapy",
                 "path": "ClinicalUseDefinition.indication.otherTherapy",
-                "short": "Information about the use of the medicinal product in relation to other therapies described as part of the indication",
+                "short": "The use of the medicinal product in relation to other therapies described as part of the indication",
                 "definition": "Information about the use of the medicinal product in relation to other therapies described as part of the indication.",
                 "min": 0,
                 "max": "*",
@@ -1784,7 +1923,7 @@
                         "extension": [
                             {
                                 "url": "http://hl7.org/fhir/StructureDefinition/structuredefinition-fhir-type",
-                                "valueUrl": "id"
+                                "valueUrl": "string"
                             }
                         ],
                         "code": "http://hl7.org/fhirpath/System.String"
@@ -1957,7 +2096,7 @@
                         "extension": [
                             {
                                 "url": "http://hl7.org/fhir/StructureDefinition/structuredefinition-fhir-type",
-                                "valueUrl": "id"
+                                "valueUrl": "string"
                             }
                         ],
                         "code": "http://hl7.org/fhirpath/System.String"
@@ -2112,6 +2251,17 @@
                 "mustSupport": false,
                 "isModifier": false,
                 "isSummary": true,
+                "binding": {
+                    "extension": [
+                        {
+                            "url": "http://hl7.org/fhir/StructureDefinition/elementdefinition-bindingName",
+                            "valueString": "Interactant"
+                        }
+                    ],
+                    "strength": "example",
+                    "description": "An interactant - a substance that may have an clinically significant effect on another.",
+                    "valueSet": "http://hl7.org/fhir/ValueSet/interactant"
+                },
                 "mapping": [
                     {
                         "identity": "idmp",
@@ -2122,7 +2272,7 @@
             {
                 "id": "ClinicalUseDefinition.interaction.type",
                 "path": "ClinicalUseDefinition.interaction.type",
-                "short": "The type of the interaction e.g. drug-drug interaction, drug-food interaction, drug-lab test interaction",
+                "short": "The type of the interaction e.g. drug-drug interaction, drug-lab test interaction",
                 "definition": "The type of the interaction e.g. drug-drug interaction, drug-food interaction, drug-lab test interaction.",
                 "min": 0,
                 "max": "1",
@@ -2149,6 +2299,17 @@
                 "mustSupport": false,
                 "isModifier": false,
                 "isSummary": true,
+                "binding": {
+                    "extension": [
+                        {
+                            "url": "http://hl7.org/fhir/StructureDefinition/elementdefinition-bindingName",
+                            "valueString": "InteractionType"
+                        }
+                    ],
+                    "strength": "example",
+                    "description": "A categorisation for an interaction between two substances.",
+                    "valueSet": "http://hl7.org/fhir/ValueSet/interaction-type"
+                },
                 "mapping": [
                     {
                         "identity": "idmp",
@@ -2189,6 +2350,17 @@
                 "mustSupport": false,
                 "isModifier": false,
                 "isSummary": true,
+                "binding": {
+                    "extension": [
+                        {
+                            "url": "http://hl7.org/fhir/StructureDefinition/elementdefinition-bindingName",
+                            "valueString": "InteractionEffect"
+                        }
+                    ],
+                    "strength": "example",
+                    "description": "A interaction effect of clinical use of a medication or other substance.",
+                    "valueSet": "http://hl7.org/fhir/ValueSet/interaction-effect"
+                },
                 "mapping": [
                     {
                         "identity": "idmp",
@@ -2226,6 +2398,17 @@
                 "mustSupport": false,
                 "isModifier": false,
                 "isSummary": true,
+                "binding": {
+                    "extension": [
+                        {
+                            "url": "http://hl7.org/fhir/StructureDefinition/elementdefinition-bindingName",
+                            "valueString": "UndesirableEffectSymptom"
+                        }
+                    ],
+                    "strength": "example",
+                    "description": "A categorisation for incidence of occurence of an interaction.",
+                    "valueSet": "http://hl7.org/fhir/ValueSet/interaction-incidence"
+                },
                 "mapping": [
                     {
                         "identity": "idmp",
@@ -2263,6 +2446,17 @@
                 "mustSupport": false,
                 "isModifier": false,
                 "isSummary": true,
+                "binding": {
+                    "extension": [
+                        {
+                            "url": "http://hl7.org/fhir/StructureDefinition/elementdefinition-bindingName",
+                            "valueString": "InteractionManagement"
+                        }
+                    ],
+                    "strength": "example",
+                    "description": "A type of management for an interaction of a medication or other substance.",
+                    "valueSet": "http://hl7.org/fhir/ValueSet/interaction-management"
+                },
                 "mapping": [
                     {
                         "identity": "idmp",
@@ -2314,7 +2508,7 @@
                 "id": "ClinicalUseDefinition.undesirableEffect",
                 "path": "ClinicalUseDefinition.undesirableEffect",
                 "short": "A possible negative outcome from the use of this treatment",
-                "definition": "Describe the undesirable effects of the medicinal product.",
+                "definition": "Describe the possible undesirable effects (negative outcomes) from the use of the medicinal product as treatment.",
                 "min": 0,
                 "max": "1",
                 "base": {
@@ -2367,7 +2561,7 @@
                         "extension": [
                             {
                                 "url": "http://hl7.org/fhir/StructureDefinition/structuredefinition-fhir-type",
-                                "valueUrl": "id"
+                                "valueUrl": "string"
                             }
                         ],
                         "code": "http://hl7.org/fhirpath/System.String"
@@ -2516,6 +2710,17 @@
                 "mustSupport": false,
                 "isModifier": false,
                 "isSummary": true,
+                "binding": {
+                    "extension": [
+                        {
+                            "url": "http://hl7.org/fhir/StructureDefinition/elementdefinition-bindingName",
+                            "valueString": "UndesirableEffectSymptom"
+                        }
+                    ],
+                    "strength": "example",
+                    "description": "An undesirable effect of clinical use.",
+                    "valueSet": "http://hl7.org/fhir/ValueSet/undesirable-effect-symptom"
+                },
                 "mapping": [
                     {
                         "identity": "idmp",
@@ -2553,6 +2758,17 @@
                 "mustSupport": false,
                 "isModifier": false,
                 "isSummary": true,
+                "binding": {
+                    "extension": [
+                        {
+                            "url": "http://hl7.org/fhir/StructureDefinition/elementdefinition-bindingName",
+                            "valueString": "UndesirableEffectClassification"
+                        }
+                    ],
+                    "strength": "example",
+                    "description": "A categorisation for an undesirable effect.",
+                    "valueSet": "http://hl7.org/fhir/ValueSet/undesirable-effect-classification"
+                },
                 "mapping": [
                     {
                         "identity": "idmp",
@@ -2590,6 +2806,17 @@
                 "mustSupport": false,
                 "isModifier": false,
                 "isSummary": true,
+                "binding": {
+                    "extension": [
+                        {
+                            "url": "http://hl7.org/fhir/StructureDefinition/elementdefinition-bindingName",
+                            "valueString": "UndesirablEffectFrequency"
+                        }
+                    ],
+                    "strength": "example",
+                    "description": "A categorisation for a frequency of occurence of an undesirable effect.",
+                    "valueSet": "http://hl7.org/fhir/ValueSet/undesirable-effect-frequency"
+                },
                 "mapping": [
                     {
                         "identity": "idmp",
@@ -2600,7 +2827,7 @@
             {
                 "id": "ClinicalUseDefinition.warning",
                 "path": "ClinicalUseDefinition.warning",
-                "short": "A critical piece of information about environmental, health or physical risks or hazards that serve as caution to the user. For example 'Do not operate heavy machinery', 'May cause drowsiness' or 'Get medical advice/attention if you feel unwell'",
+                "short": "Critical environmental, health or physical risks or hazards. For example 'Do not operate heavy machinery', 'May cause drowsiness'",
                 "definition": "A critical piece of information about environmental, health or physical risks or hazards that serve as caution to the user. For example 'Do not operate heavy machinery', 'May cause drowsiness', or 'Get medical advice/attention if you feel unwell'.",
                 "min": 0,
                 "max": "1",
@@ -2654,7 +2881,7 @@
                         "extension": [
                             {
                                 "url": "http://hl7.org/fhir/StructureDefinition/structuredefinition-fhir-type",
-                                "valueUrl": "id"
+                                "valueUrl": "string"
                             }
                         ],
                         "code": "http://hl7.org/fhirpath/System.String"
@@ -2871,8 +3098,8 @@
                         "key": "cud-1",
                         "severity": "error",
                         "human": "Indication, Contraindication, Interaction, UndesirableEffect and Warning cannot be used in the same instance",
-                        "expression": "(ClinicalUseDefinition.indication.count() + ClinicalUseDefinition.contraIndication.count() + ClinicalUseDefinition.interaction.count() + ClinicalUseDefinition.undesirableEffect.count() + ClinicalUseDefinition.warning.count())  < 2",
-                        "xpath": "count(f:ClinicalUseDefinition.f:indication|f:ClinicalUseDefinition.f:contraIndication|f:ClinicalUseDefinition.f:interaction|f:ClinicalUseDefinition.f:undesirableEffect|f:ClinicalUseDefinition.f:warning) < 2",
+                        "expression": "(ClinicalUseDefinition.indication.count() + ClinicalUseDefinition.contraindication.count() + ClinicalUseDefinition.interaction.count() + ClinicalUseDefinition.undesirableEffect.count() + ClinicalUseDefinition.warning.count())  < 2",
+                        "xpath": "count(f:ClinicalUseDefinition/f:indication|f:ClinicalUseDefinition/f:contraindication|f:ClinicalUseDefinition/f:interaction|f:ClinicalUseDefinition/f:undesirableEffect|f:ClinicalUseDefinition/f:warning) < 2",
                         "source": "http://hl7.org/fhir/StructureDefinition/ClinicalUseDefinition"
                     }
                 ],
@@ -2935,7 +3162,7 @@
                     ],
                     "strength": "required",
                     "description": "Overall defining type of this clinical use definition.",
-                    "valueSet": "http://hl7.org/fhir/ValueSet/clinical-use-definition-type|4.3.0-CIBUILD"
+                    "valueSet": "http://hl7.org/fhir/ValueSet/clinical-use-definition-type|4.3.0-cibuild"
                 },
                 "mapping": [
                     {
@@ -2947,7 +3174,7 @@
             {
                 "id": "ClinicalUseDefinition.category",
                 "path": "ClinicalUseDefinition.category",
-                "short": "A categorisation of the issue, primarily for dividing warnings into subject heading areas such as \"Pregnancy and Lactation\", \"Overdose\", \"Effects on Ability to Drive and Use Machines\"",
+                "short": "A categorisation of the issue, primarily for dividing warnings into subject heading areas such as \"Pregnancy\", \"Overdose\"",
                 "definition": "A categorisation of the issue, primarily for dividing warnings into subject heading areas such as \"Pregnancy and Lactation\", \"Overdose\", \"Effects on Ability to Drive and Use Machines\".",
                 "min": 0,
                 "max": "*",
@@ -2959,6 +3186,17 @@
                 "mustSupport": false,
                 "isModifier": false,
                 "isSummary": true,
+                "binding": {
+                    "extension": [
+                        {
+                            "url": "http://hl7.org/fhir/StructureDefinition/elementdefinition-bindingName",
+                            "valueString": "ClinicalUseDefinitionCategory"
+                        }
+                    ],
+                    "strength": "preferred",
+                    "description": "A categorisation for a clinical use information item.",
+                    "valueSet": "http://hl7.org/fhir/ValueSet/clinical-use-definition-category"
+                },
                 "mapping": [
                     {
                         "identity": "idmp",
@@ -3012,6 +3250,21 @@
                 "mustSupport": false,
                 "isModifier": false,
                 "isSummary": true,
+                "binding": {
+                    "extension": [
+                        {
+                            "url": "http://hl7.org/fhir/StructureDefinition/elementdefinition-bindingName",
+                            "valueString": "PublicationStatus"
+                        },
+                        {
+                            "url": "http://hl7.org/fhir/StructureDefinition/elementdefinition-isCommonBinding",
+                            "valueBoolean": true
+                        }
+                    ],
+                    "strength": "preferred",
+                    "description": "The lifecycle status of an artifact.",
+                    "valueSet": "http://hl7.org/fhir/ValueSet/publication-status"
+                },
                 "mapping": [
                     {
                         "identity": "idmp",
@@ -3059,6 +3312,17 @@
                 "mustSupport": false,
                 "isModifier": false,
                 "isSummary": true,
+                "binding": {
+                    "extension": [
+                        {
+                            "url": "http://hl7.org/fhir/StructureDefinition/elementdefinition-bindingName",
+                            "valueString": "DiseaseSymptomProcedure"
+                        }
+                    ],
+                    "strength": "example",
+                    "description": "A symptom, disease or procedure.",
+                    "valueSet": "http://hl7.org/fhir/ValueSet/disease-symptom-procedure"
+                },
                 "mapping": [
                     {
                         "identity": "idmp",
@@ -3070,7 +3334,7 @@
                 "id": "ClinicalUseDefinition.contraindication.diseaseStatus",
                 "path": "ClinicalUseDefinition.contraindication.diseaseStatus",
                 "short": "The status of the disease or symptom for the contraindication",
-                "definition": "The status of the disease or symptom for the contraindication.",
+                "definition": "The status of the disease or symptom for the contraindication, for example \"chronic\" or \"metastatic\".",
                 "min": 0,
                 "max": "1",
                 "type": [
@@ -3084,6 +3348,17 @@
                 "mustSupport": false,
                 "isModifier": false,
                 "isSummary": true,
+                "binding": {
+                    "extension": [
+                        {
+                            "url": "http://hl7.org/fhir/StructureDefinition/elementdefinition-bindingName",
+                            "valueString": "DiseaseStatus"
+                        }
+                    ],
+                    "strength": "example",
+                    "description": "The status of a disease or symptom.",
+                    "valueSet": "http://hl7.org/fhir/ValueSet/disease-status"
+                },
                 "mapping": [
                     {
                         "identity": "idmp",
@@ -3109,6 +3384,17 @@
                 "mustSupport": false,
                 "isModifier": false,
                 "isSummary": true,
+                "binding": {
+                    "extension": [
+                        {
+                            "url": "http://hl7.org/fhir/StructureDefinition/elementdefinition-bindingName",
+                            "valueString": "DiseaseSymptomProcedure"
+                        }
+                    ],
+                    "strength": "example",
+                    "description": "A symptom, disease or procedure.",
+                    "valueSet": "http://hl7.org/fhir/ValueSet/disease-symptom-procedure"
+                },
                 "mapping": [
                     {
                         "identity": "idmp",
@@ -3144,7 +3430,7 @@
             {
                 "id": "ClinicalUseDefinition.contraindication.otherTherapy",
                 "path": "ClinicalUseDefinition.contraindication.otherTherapy",
-                "short": "Information about the use of the medicinal product in relation to other therapies described as part of the contraindication",
+                "short": "Information about use of the product in relation to other therapies described as part of the contraindication",
                 "definition": "Information about the use of the medicinal product in relation to other therapies described as part of the contraindication.",
                 "min": 0,
                 "max": "*",
@@ -3166,7 +3452,7 @@
             {
                 "id": "ClinicalUseDefinition.contraindication.otherTherapy.relationshipType",
                 "path": "ClinicalUseDefinition.contraindication.otherTherapy.relationshipType",
-                "short": "The type of relationship between the medicinal product indication or contraindication and another therapy",
+                "short": "The type of relationship between the product indication/contraindication and another therapy",
                 "definition": "The type of relationship between the medicinal product indication or contraindication and another therapy.",
                 "min": 1,
                 "max": "1",
@@ -3178,6 +3464,17 @@
                 "mustSupport": false,
                 "isModifier": false,
                 "isSummary": true,
+                "binding": {
+                    "extension": [
+                        {
+                            "url": "http://hl7.org/fhir/StructureDefinition/elementdefinition-bindingName",
+                            "valueString": "TherapyRelationshipType"
+                        }
+                    ],
+                    "strength": "preferred",
+                    "description": "Classification of relationship between a therapy and a contraindication or an indication.",
+                    "valueSet": "http://hl7.org/fhir/ValueSet/therapy-relationship-type"
+                },
                 "mapping": [
                     {
                         "identity": "idmp",
@@ -3188,7 +3485,7 @@
             {
                 "id": "ClinicalUseDefinition.contraindication.otherTherapy.therapy",
                 "path": "ClinicalUseDefinition.contraindication.otherTherapy.therapy",
-                "short": "Reference to a specific medication (active substance, medicinal product or class of products) as part of an indication or contraindication",
+                "short": "Reference to a specific medication as part of an indication or contraindication",
                 "definition": "Reference to a specific medication (active substance, medicinal product or class of products) as part of an indication or contraindication.",
                 "min": 1,
                 "max": "1",
@@ -3207,6 +3504,17 @@
                 "mustSupport": false,
                 "isModifier": false,
                 "isSummary": true,
+                "binding": {
+                    "extension": [
+                        {
+                            "url": "http://hl7.org/fhir/StructureDefinition/elementdefinition-bindingName",
+                            "valueString": "Therapy"
+                        }
+                    ],
+                    "strength": "example",
+                    "description": "A therapy.",
+                    "valueSet": "http://hl7.org/fhir/ValueSet/therapy"
+                },
                 "mapping": [
                     {
                         "identity": "idmp",
@@ -3254,6 +3562,17 @@
                 "mustSupport": false,
                 "isModifier": false,
                 "isSummary": true,
+                "binding": {
+                    "extension": [
+                        {
+                            "url": "http://hl7.org/fhir/StructureDefinition/elementdefinition-bindingName",
+                            "valueString": "DiseaseSymptomProcedure"
+                        }
+                    ],
+                    "strength": "example",
+                    "description": "A symptom, disease or procedure.",
+                    "valueSet": "http://hl7.org/fhir/ValueSet/disease-symptom-procedure"
+                },
                 "mapping": [
                     {
                         "identity": "idmp",
@@ -3265,7 +3584,7 @@
                 "id": "ClinicalUseDefinition.indication.diseaseStatus",
                 "path": "ClinicalUseDefinition.indication.diseaseStatus",
                 "short": "The status of the disease or symptom for the indication",
-                "definition": "The status of the disease or symptom for the indication.",
+                "definition": "The status of the disease or symptom for the indication, for example \"chronic\" or \"metastatic\".",
                 "min": 0,
                 "max": "1",
                 "type": [
@@ -3279,6 +3598,17 @@
                 "mustSupport": false,
                 "isModifier": false,
                 "isSummary": true,
+                "binding": {
+                    "extension": [
+                        {
+                            "url": "http://hl7.org/fhir/StructureDefinition/elementdefinition-bindingName",
+                            "valueString": "DiseaseStatus"
+                        }
+                    ],
+                    "strength": "example",
+                    "description": "The status of a disease or symptom.",
+                    "valueSet": "http://hl7.org/fhir/ValueSet/disease-status"
+                },
                 "mapping": [
                     {
                         "identity": "idmp",
@@ -3289,7 +3619,7 @@
             {
                 "id": "ClinicalUseDefinition.indication.comorbidity",
                 "path": "ClinicalUseDefinition.indication.comorbidity",
-                "short": "A comorbidity (concurrent condition) or coinfection as part of the indication",
+                "short": "A comorbidity or coinfection as part of the indication",
                 "definition": "A comorbidity (concurrent condition) or coinfection as part of the indication.",
                 "min": 0,
                 "max": "*",
@@ -3304,6 +3634,17 @@
                 "mustSupport": false,
                 "isModifier": false,
                 "isSummary": true,
+                "binding": {
+                    "extension": [
+                        {
+                            "url": "http://hl7.org/fhir/StructureDefinition/elementdefinition-bindingName",
+                            "valueString": "DiseaseSymptomProcedure"
+                        }
+                    ],
+                    "strength": "example",
+                    "description": "A symptom, disease or procedure.",
+                    "valueSet": "http://hl7.org/fhir/ValueSet/disease-symptom-procedure"
+                },
                 "mapping": [
                     {
                         "identity": "idmp",
@@ -3329,6 +3670,17 @@
                 "mustSupport": false,
                 "isModifier": false,
                 "isSummary": true,
+                "binding": {
+                    "extension": [
+                        {
+                            "url": "http://hl7.org/fhir/StructureDefinition/elementdefinition-bindingName",
+                            "valueString": "ProductIntendedUse"
+                        }
+                    ],
+                    "strength": "preferred",
+                    "description": "The overall intended use of a product.",
+                    "valueSet": "http://hl7.org/fhir/ValueSet/product-intended-use"
+                },
                 "mapping": [
                     {
                         "identity": "idmp",
@@ -3337,15 +3689,18 @@
                 ]
             },
             {
-                "id": "ClinicalUseDefinition.indication.duration",
-                "path": "ClinicalUseDefinition.indication.duration",
+                "id": "ClinicalUseDefinition.indication.duration[x]",
+                "path": "ClinicalUseDefinition.indication.duration[x]",
                 "short": "Timing or duration information",
-                "definition": "Timing or duration information.",
+                "definition": "Timing or duration information, that may be associated with use with the indicated condition e.g. Adult patients suffering from myocardial infarction (from a few days until less than 35 days), ischaemic stroke (from 7 days until less than 6 months).",
                 "min": 0,
                 "max": "1",
                 "type": [
                     {
-                        "code": "Quantity"
+                        "code": "Range"
+                    },
+                    {
+                        "code": "string"
                     }
                 ],
                 "mustSupport": false,
@@ -3361,8 +3716,8 @@
             {
                 "id": "ClinicalUseDefinition.indication.undesirableEffect",
                 "path": "ClinicalUseDefinition.indication.undesirableEffect",
-                "short": "The specific undesirable effects of the medicinal product",
-                "definition": "The specific undesirable effects of the medicinal product.",
+                "short": "An unwanted side effect or negative outcome of the subject of this resource when being used for this indication",
+                "definition": "An unwanted side effect or negative outcome that may happen if you use the drug (or other subject of this resource) for this indication.",
                 "min": 0,
                 "max": "*",
                 "type": [
@@ -3386,7 +3741,7 @@
             {
                 "id": "ClinicalUseDefinition.indication.otherTherapy",
                 "path": "ClinicalUseDefinition.indication.otherTherapy",
-                "short": "Information about the use of the medicinal product in relation to other therapies described as part of the indication",
+                "short": "The use of the medicinal product in relation to other therapies described as part of the indication",
                 "definition": "Information about the use of the medicinal product in relation to other therapies described as part of the indication.",
                 "min": 0,
                 "max": "*",
@@ -3469,6 +3824,17 @@
                 "mustSupport": false,
                 "isModifier": false,
                 "isSummary": true,
+                "binding": {
+                    "extension": [
+                        {
+                            "url": "http://hl7.org/fhir/StructureDefinition/elementdefinition-bindingName",
+                            "valueString": "Interactant"
+                        }
+                    ],
+                    "strength": "example",
+                    "description": "An interactant - a substance that may have an clinically significant effect on another.",
+                    "valueSet": "http://hl7.org/fhir/ValueSet/interactant"
+                },
                 "mapping": [
                     {
                         "identity": "idmp",
@@ -3479,7 +3845,7 @@
             {
                 "id": "ClinicalUseDefinition.interaction.type",
                 "path": "ClinicalUseDefinition.interaction.type",
-                "short": "The type of the interaction e.g. drug-drug interaction, drug-food interaction, drug-lab test interaction",
+                "short": "The type of the interaction e.g. drug-drug interaction, drug-lab test interaction",
                 "definition": "The type of the interaction e.g. drug-drug interaction, drug-food interaction, drug-lab test interaction.",
                 "min": 0,
                 "max": "1",
@@ -3491,6 +3857,17 @@
                 "mustSupport": false,
                 "isModifier": false,
                 "isSummary": true,
+                "binding": {
+                    "extension": [
+                        {
+                            "url": "http://hl7.org/fhir/StructureDefinition/elementdefinition-bindingName",
+                            "valueString": "InteractionType"
+                        }
+                    ],
+                    "strength": "example",
+                    "description": "A categorisation for an interaction between two substances.",
+                    "valueSet": "http://hl7.org/fhir/ValueSet/interaction-type"
+                },
                 "mapping": [
                     {
                         "identity": "idmp",
@@ -3516,6 +3893,17 @@
                 "mustSupport": false,
                 "isModifier": false,
                 "isSummary": true,
+                "binding": {
+                    "extension": [
+                        {
+                            "url": "http://hl7.org/fhir/StructureDefinition/elementdefinition-bindingName",
+                            "valueString": "InteractionEffect"
+                        }
+                    ],
+                    "strength": "example",
+                    "description": "A interaction effect of clinical use of a medication or other substance.",
+                    "valueSet": "http://hl7.org/fhir/ValueSet/interaction-effect"
+                },
                 "mapping": [
                     {
                         "identity": "idmp",
@@ -3538,6 +3926,17 @@
                 "mustSupport": false,
                 "isModifier": false,
                 "isSummary": true,
+                "binding": {
+                    "extension": [
+                        {
+                            "url": "http://hl7.org/fhir/StructureDefinition/elementdefinition-bindingName",
+                            "valueString": "UndesirableEffectSymptom"
+                        }
+                    ],
+                    "strength": "example",
+                    "description": "A categorisation for incidence of occurence of an interaction.",
+                    "valueSet": "http://hl7.org/fhir/ValueSet/interaction-incidence"
+                },
                 "mapping": [
                     {
                         "identity": "idmp",
@@ -3560,6 +3959,17 @@
                 "mustSupport": false,
                 "isModifier": false,
                 "isSummary": true,
+                "binding": {
+                    "extension": [
+                        {
+                            "url": "http://hl7.org/fhir/StructureDefinition/elementdefinition-bindingName",
+                            "valueString": "InteractionManagement"
+                        }
+                    ],
+                    "strength": "example",
+                    "description": "A type of management for an interaction of a medication or other substance.",
+                    "valueSet": "http://hl7.org/fhir/ValueSet/interaction-management"
+                },
                 "mapping": [
                     {
                         "identity": "idmp",
@@ -3596,7 +4006,7 @@
                 "id": "ClinicalUseDefinition.undesirableEffect",
                 "path": "ClinicalUseDefinition.undesirableEffect",
                 "short": "A possible negative outcome from the use of this treatment",
-                "definition": "Describe the undesirable effects of the medicinal product.",
+                "definition": "Describe the possible undesirable effects (negative outcomes) from the use of the medicinal product as treatment.",
                 "min": 0,
                 "max": "1",
                 "type": [
@@ -3632,6 +4042,17 @@
                 "mustSupport": false,
                 "isModifier": false,
                 "isSummary": true,
+                "binding": {
+                    "extension": [
+                        {
+                            "url": "http://hl7.org/fhir/StructureDefinition/elementdefinition-bindingName",
+                            "valueString": "UndesirableEffectSymptom"
+                        }
+                    ],
+                    "strength": "example",
+                    "description": "An undesirable effect of clinical use.",
+                    "valueSet": "http://hl7.org/fhir/ValueSet/undesirable-effect-symptom"
+                },
                 "mapping": [
                     {
                         "identity": "idmp",
@@ -3654,6 +4075,17 @@
                 "mustSupport": false,
                 "isModifier": false,
                 "isSummary": true,
+                "binding": {
+                    "extension": [
+                        {
+                            "url": "http://hl7.org/fhir/StructureDefinition/elementdefinition-bindingName",
+                            "valueString": "UndesirableEffectClassification"
+                        }
+                    ],
+                    "strength": "example",
+                    "description": "A categorisation for an undesirable effect.",
+                    "valueSet": "http://hl7.org/fhir/ValueSet/undesirable-effect-classification"
+                },
                 "mapping": [
                     {
                         "identity": "idmp",
@@ -3676,6 +4108,17 @@
                 "mustSupport": false,
                 "isModifier": false,
                 "isSummary": true,
+                "binding": {
+                    "extension": [
+                        {
+                            "url": "http://hl7.org/fhir/StructureDefinition/elementdefinition-bindingName",
+                            "valueString": "UndesirablEffectFrequency"
+                        }
+                    ],
+                    "strength": "example",
+                    "description": "A categorisation for a frequency of occurence of an undesirable effect.",
+                    "valueSet": "http://hl7.org/fhir/ValueSet/undesirable-effect-frequency"
+                },
                 "mapping": [
                     {
                         "identity": "idmp",
@@ -3686,7 +4129,7 @@
             {
                 "id": "ClinicalUseDefinition.warning",
                 "path": "ClinicalUseDefinition.warning",
-                "short": "A critical piece of information about environmental, health or physical risks or hazards that serve as caution to the user. For example 'Do not operate heavy machinery', 'May cause drowsiness' or 'Get medical advice/attention if you feel unwell'",
+                "short": "Critical environmental, health or physical risks or hazards. For example 'Do not operate heavy machinery', 'May cause drowsiness'",
                 "definition": "A critical piece of information about environmental, health or physical risks or hazards that serve as caution to the user. For example 'Do not operate heavy machinery', 'May cause drowsiness', or 'Get medical advice/attention if you feel unwell'.",
                 "min": 0,
                 "max": "1",

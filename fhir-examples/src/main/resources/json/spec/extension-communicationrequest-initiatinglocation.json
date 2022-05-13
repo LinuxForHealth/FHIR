@@ -12,10 +12,11 @@
     }
   ],
   "url": "http://hl7.org/fhir/StructureDefinition/communicationrequest-initiatingLocation",
-  "version": "4.3.0-CIBUILD",
+  "version": "4.3.0-cibuild",
   "name": "initiatingLocation",
   "title": "initiatingLocation",
   "status": "draft",
+  "experimental": false,
   "date": "2015-02-21",
   "publisher": "Health Level Seven, Inc. - FHIR WG",
   "contact": [
@@ -29,7 +30,7 @@
     }
   ],
   "description": "Location where the information being requested to be communicated happened.",
-  "fhirVersion": "4.3.0-CIBUILD",
+  "fhirVersion": "4.3.0-cibuild",
   "mapping": [
     {
       "identity": "rim",

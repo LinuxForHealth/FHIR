@@ -6,9 +6,10 @@
       "system": "urn:ietf:rfc:3986"
     }
   ],
-  "version": "4.3.0-CIBUILD",
+  "version": "4.3.0-cibuild",
   "status": "draft",
-  "date": "2022-01-01T15:17:18+00:00",
+  "experimental": false,
+  "date": "2022-04-23T22:21:35+00:00",
   "publisher": "Health Level Seven International (Imaging Integration)",
   "item": [
     {
@@ -197,10 +198,9 @@
             {
               "linkId": "ImagingStudy.language.value",
               "text": "language",
-              "type": "coding",
+              "type": "choice",
               "required": false,
-              "repeats": false,
-              "answerConstraint": "optionsOnly"
+              "repeats": false
             }
           ]
         },
@@ -419,10 +419,9 @@
             {
               "linkId": "ImagingStudy.status.value",
               "text": "status",
-              "type": "coding",
+              "type": "choice",
               "required": false,
-              "repeats": false,
-              "answerConstraint": "optionsOrType"
+              "repeats": false
             }
           ]
         },
@@ -460,10 +459,9 @@
             {
               "linkId": "ImagingStudy.modality.value",
               "text": "All series modality if actual acquisition modalities",
-              "type": "coding",
+              "type": "choice",
               "required": false,
-              "repeats": false,
-              "answerConstraint": "optionsOnly"
+              "repeats": false
             }
           ]
         },
@@ -1004,10 +1002,9 @@
             {
               "linkId": "ImagingStudy.procedureCode.coding",
               "text": "code:",
-              "type": "coding",
+              "type": "choice",
               "required": false,
-              "repeats": false,
-              "answerConstraint": "optionsOnly"
+              "repeats": false
             },
             {
               "linkId": "ImagingStudy.procedureCode.text",
@@ -1107,10 +1104,9 @@
             {
               "linkId": "ImagingStudy.reasonCode.coding",
               "text": "code:",
-              "type": "coding",
+              "type": "choice",
               "required": false,
-              "repeats": false,
-              "answerConstraint": "optionsOnly"
+              "repeats": false
             },
             {
               "linkId": "ImagingStudy.reasonCode.text",
@@ -1509,10 +1505,9 @@
                 {
                   "linkId": "ImagingStudy.series.modality.value",
                   "text": "The modality of the instances in the series",
-                  "type": "coding",
+                  "type": "choice",
                   "required": false,
-                  "repeats": false,
-                  "answerConstraint": "optionsOnly"
+                  "repeats": false
                 }
               ]
             },
@@ -1692,10 +1687,9 @@
                 {
                   "linkId": "ImagingStudy.series.bodySite.value",
                   "text": "Body part examined",
-                  "type": "coding",
+                  "type": "choice",
                   "required": false,
-                  "repeats": false,
-                  "answerConstraint": "optionsOnly"
+                  "repeats": false
                 }
               ]
             },
@@ -1737,10 +1731,9 @@
                 {
                   "linkId": "ImagingStudy.series.laterality.value",
                   "text": "Body part laterality",
-                  "type": "coding",
+                  "type": "choice",
                   "required": false,
-                  "repeats": false,
-                  "answerConstraint": "optionsOnly"
+                  "repeats": false
                 }
               ]
             },
@@ -2008,10 +2001,9 @@
                     {
                       "linkId": "ImagingStudy.series.performer.function.coding",
                       "text": "code:",
-                      "type": "coding",
+                      "type": "choice",
                       "required": false,
-                      "repeats": false,
-                      "answerConstraint": "optionsOnly"
+                      "repeats": false
                     },
                     {
                       "linkId": "ImagingStudy.series.performer.function.text",
@@ -2298,10 +2290,9 @@
                     {
                       "linkId": "ImagingStudy.series.instance.sopClass.value",
                       "text": "DICOM class type",
-                      "type": "coding",
+                      "type": "choice",
                       "required": false,
-                      "repeats": false,
-                      "answerConstraint": "optionsOnly"
+                      "repeats": false
                     }
                   ]
                 },

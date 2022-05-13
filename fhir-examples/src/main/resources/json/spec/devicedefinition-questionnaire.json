@@ -9,8 +9,8 @@
       "status": "active",
       "description": "Type options for DeviceDefinition.manufacturer[x]",
       "expansion": {
-        "identifier": "urn:uuid:95a999d5-39df-45ae-9daf-13ac81662fb7",
-        "timestamp": "2022-01-01T15:24:15+00:00",
+        "identifier": "urn:uuid:5e7823dc-cac2-4ec7-8df9-5af996e779eb",
+        "timestamp": "2022-04-23T22:29:04+00:00",
         "contains": [
           {
             "system": "http://hl7.org/fhir/data-types",
@@ -31,9 +31,10 @@
       "system": "urn:ietf:rfc:3986"
     }
   ],
-  "version": "4.3.0-CIBUILD",
+  "version": "4.3.0-cibuild",
   "status": "draft",
-  "date": "2022-01-01T15:17:18+00:00",
+  "experimental": false,
+  "date": "2022-04-23T22:21:35+00:00",
   "publisher": "Health Level Seven International (Orders and Observations)",
   "item": [
     {
@@ -227,10 +228,9 @@
             {
               "linkId": "DeviceDefinition.language.value",
               "text": "language",
-              "type": "coding",
+              "type": "choice",
               "required": false,
-              "repeats": false,
-              "answerConstraint": "optionsOnly"
+              "repeats": false
             }
           ]
         },
@@ -714,10 +714,9 @@
             {
               "linkId": "DeviceDefinition.manufacturer[x]._type",
               "text": "type",
-              "type": "coding",
+              "type": "choice",
               "required": false,
               "repeats": false,
-              "answerConstraint": "optionsOnly",
               "answerValueSet": "#vs2",
               "item": [
                 {
@@ -986,10 +985,9 @@
                 {
                   "linkId": "DeviceDefinition.deviceName.type.value",
                   "text": "type",
-                  "type": "coding",
+                  "type": "choice",
                   "required": false,
-                  "repeats": false,
-                  "answerConstraint": "optionsOrType"
+                  "repeats": false
                 }
               ]
             }
@@ -1078,10 +1076,9 @@
             {
               "linkId": "DeviceDefinition.type.coding",
               "text": "code:",
-              "type": "coding",
+              "type": "choice",
               "required": false,
-              "repeats": false,
-              "answerConstraint": "optionsOnly"
+              "repeats": false
             },
             {
               "linkId": "DeviceDefinition.type.text",
@@ -1387,10 +1384,9 @@
             {
               "linkId": "DeviceDefinition.safety.coding",
               "text": "code:",
-              "type": "coding",
+              "type": "choice",
               "required": false,
-              "repeats": false,
-              "answerConstraint": "optionsOnly"
+              "repeats": false
             },
             {
               "linkId": "DeviceDefinition.safety.text",
@@ -1498,10 +1494,9 @@
             {
               "linkId": "DeviceDefinition.languageCode.coding",
               "text": "code:",
-              "type": "coding",
+              "type": "choice",
               "required": false,
-              "repeats": false,
-              "answerConstraint": "optionsOnly"
+              "repeats": false
             },
             {
               "linkId": "DeviceDefinition.languageCode.text",
@@ -1681,10 +1676,9 @@
                 {
                   "linkId": "DeviceDefinition.capability.type.coding",
                   "text": "code:",
-                  "type": "coding",
+                  "type": "choice",
                   "required": false,
-                  "repeats": false,
-                  "answerConstraint": "optionsOnly"
+                  "repeats": false
                 },
                 {
                   "linkId": "DeviceDefinition.capability.type.text",
@@ -1730,10 +1724,9 @@
                 {
                   "linkId": "DeviceDefinition.capability.description.coding",
                   "text": "code:",
-                  "type": "coding",
+                  "type": "choice",
                   "required": false,
-                  "repeats": false,
-                  "answerConstraint": "optionsOnly"
+                  "repeats": false
                 },
                 {
                   "linkId": "DeviceDefinition.capability.description.text",
@@ -1915,10 +1908,9 @@
                 {
                   "linkId": "DeviceDefinition.property.type.coding",
                   "text": "code:",
-                  "type": "coding",
+                  "type": "choice",
                   "required": false,
-                  "repeats": false,
-                  "answerConstraint": "optionsOnly"
+                  "repeats": false
                 },
                 {
                   "linkId": "DeviceDefinition.property.type.text",
@@ -1964,10 +1956,9 @@
                 {
                   "linkId": "DeviceDefinition.property.valueQuantity.comparator",
                   "text": "comp:",
-                  "type": "coding",
+                  "type": "choice",
                   "required": false,
-                  "repeats": false,
-                  "answerConstraint": "optionsOnly"
+                  "repeats": false
                 },
                 {
                   "linkId": "DeviceDefinition.property.valueQuantity.value",
@@ -2034,10 +2025,9 @@
                 {
                   "linkId": "DeviceDefinition.property.valueCode.coding",
                   "text": "code:",
-                  "type": "coding",
+                  "type": "choice",
                   "required": false,
-                  "repeats": false,
-                  "answerConstraint": "optionsOnly"
+                  "repeats": false
                 },
                 {
                   "linkId": "DeviceDefinition.property.valueCode.text",
@@ -2139,10 +2129,9 @@
             {
               "linkId": "DeviceDefinition.contact.system",
               "text": "type:",
-              "type": "coding",
+              "type": "choice",
               "required": false,
-              "repeats": false,
-              "answerConstraint": "optionsOnly"
+              "repeats": false
             },
             {
               "linkId": "DeviceDefinition.contact.value",
@@ -2154,10 +2143,9 @@
             {
               "linkId": "DeviceDefinition.contact.use",
               "text": "use:",
-              "type": "coding",
+              "type": "choice",
               "required": false,
-              "repeats": false,
-              "answerConstraint": "optionsOnly"
+              "repeats": false
             }
           ]
         },
@@ -2322,10 +2310,9 @@
             {
               "linkId": "DeviceDefinition.quantity.comparator",
               "text": "comp:",
-              "type": "coding",
+              "type": "choice",
               "required": false,
-              "repeats": false,
-              "answerConstraint": "optionsOnly"
+              "repeats": false
             },
             {
               "linkId": "DeviceDefinition.quantity.value",
@@ -2580,10 +2567,9 @@
                 {
                   "linkId": "DeviceDefinition.material.substance.coding",
                   "text": "code:",
-                  "type": "coding",
+                  "type": "choice",
                   "required": false,
-                  "repeats": false,
-                  "answerConstraint": "optionsOnly"
+                  "repeats": false
                 },
                 {
                   "linkId": "DeviceDefinition.material.substance.text",

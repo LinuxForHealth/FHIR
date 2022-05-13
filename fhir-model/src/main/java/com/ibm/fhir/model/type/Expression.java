@@ -51,7 +51,7 @@ public class Expression extends Element {
         bindingName = "ExpressionLanguage",
         strength = BindingStrength.Value.EXTENSIBLE,
         valueSet = "http://hl7.org/fhir/ValueSet/expression-language",
-        maxValueSet = "http://www.rfc-editor.org/bcp/bcp13.txt"
+        maxValueSet = "http://hl7.org/fhir/ValueSet/mimetypes"
     )
     @Required
     private final Code language;
@@ -315,7 +315,7 @@ public class Expression extends Element {
          * <p>This element is required.
          * 
          * @param language
-         *     text/cql | text/fhirpath | application/x-fhir-query | etc.
+         *     text/cql | text/fhirpath | application/x-fhir-query | text/cql-identifier | text/cql-expression | etc.
          * 
          * @return
          *     A reference to this Builder instance

@@ -2,7 +2,7 @@
     "resourceType": "ValueSet",
     "id": "participation-role-type",
     "meta": {
-        "lastUpdated": "2022-03-03T22:04:06.196Z",
+        "lastUpdated": "2022-04-23T22:21:35.043Z",
         "profile": [
             "http://hl7.org/fhir/StructureDefinition/shareablevalueset"
         ]
@@ -32,7 +32,7 @@
             "value": "urn:oid:2.16.840.1.113883.4.642.3.54"
         }
     ],
-    "version": "4.3.0-CIBUILD",
+    "version": "4.3.0-cibuild",
     "name": "ParticipationRoleType",
     "title": "ParticipationRoleType",
     "status": "draft",
@@ -292,8 +292,8 @@
         ]
     },
     "expansion": {
-        "identifier": "urn:uuid:f30675d6-3a0b-4331-a4bf-6b6c81a6bc2e",
-        "timestamp": "2022-03-03T22:05:31Z",
+        "identifier": "urn:uuid:ccdf03be-8c74-4a6a-ae2c-fcc4e662d51a",
+        "timestamp": "2022-04-23T22:23:26Z",
         "total": 76,
         "parameter": [
             {
@@ -326,7 +326,7 @@
             },
             {
                 "name": "version",
-                "valueUri": "http://terminology.hl7.org/CodeSystem/extra-security-role-type|4.3.0-CIBUILD"
+                "valueUri": "http://terminology.hl7.org/CodeSystem/extra-security-role-type|4.3.0-cibuild"
             },
             {
                 "name": "limitedExpansion",
@@ -334,7 +334,7 @@
             },
             {
                 "name": "version",
-                "valueUri": "http://dicom.nema.org/resources/ontology/DCM|01"
+                "valueUri": "http://dicom.nema.org/resources/ontology/DCM|2022.1.20220124"
             }
         ],
         "contains": [
@@ -691,32 +691,62 @@
             {
                 "system": "http://dicom.nema.org/resources/ontology/DCM",
                 "code": "110150",
-                "display": "Application"
+                "display": "Application",
+                "designation": [
+                    {
+                        "value": "Application"
+                    }
+                ]
             },
             {
                 "system": "http://dicom.nema.org/resources/ontology/DCM",
                 "code": "110151",
-                "display": "Application Launcher"
+                "display": "Application Launcher",
+                "designation": [
+                    {
+                        "value": "Application Launcher"
+                    }
+                ]
             },
             {
                 "system": "http://dicom.nema.org/resources/ontology/DCM",
                 "code": "110152",
-                "display": "Destination Role ID"
+                "display": "Destination Role ID",
+                "designation": [
+                    {
+                        "value": "Destination Role ID"
+                    }
+                ]
             },
             {
                 "system": "http://dicom.nema.org/resources/ontology/DCM",
                 "code": "110153",
-                "display": "Source Role ID"
+                "display": "Source Role ID",
+                "designation": [
+                    {
+                        "value": "Source Role ID"
+                    }
+                ]
             },
             {
                 "system": "http://dicom.nema.org/resources/ontology/DCM",
                 "code": "110154",
-                "display": "Destination Media"
+                "display": "Destination Media",
+                "designation": [
+                    {
+                        "value": "Destination Media"
+                    }
+                ]
             },
             {
                 "system": "http://dicom.nema.org/resources/ontology/DCM",
                 "code": "110155",
-                "display": "Source Media"
+                "display": "Source Media",
+                "designation": [
+                    {
+                        "value": "Source Media"
+                    }
+                ]
             }
         ]
     }

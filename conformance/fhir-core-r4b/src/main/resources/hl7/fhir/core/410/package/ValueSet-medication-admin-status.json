@@ -2,7 +2,7 @@
     "resourceType": "ValueSet",
     "id": "medication-admin-status",
     "meta": {
-        "lastUpdated": "2022-03-03T22:04:06.196Z",
+        "lastUpdated": "2022-04-23T22:21:35.043Z",
         "profile": [
             "http://hl7.org/fhir/StructureDefinition/shareablevalueset"
         ]
@@ -28,9 +28,10 @@
             "value": "urn:oid:2.16.840.1.113883.4.642.3.340"
         }
     ],
-    "version": "4.3.0-CIBUILD",
+    "version": "4.3.0-cibuild",
     "name": "MedicationAdministration Status Codes",
     "status": "draft",
+    "experimental": false,
     "publisher": "FHIR Project team",
     "contact": [
         {
@@ -51,8 +52,8 @@
         ]
     },
     "expansion": {
-        "identifier": "urn:uuid:98182b28-2a93-40a4-a2c9-5eedf0f923ae",
-        "timestamp": "2022-03-03T22:05:10Z",
+        "identifier": "urn:uuid:7be3e5cb-f69f-4b18-93a2-ce28ec5d0ec7",
+        "timestamp": "2022-04-23T22:23:08Z",
         "total": 7,
         "parameter": [
             {
@@ -65,7 +66,7 @@
             },
             {
                 "name": "version",
-                "valueUri": "http://terminology.hl7.org/CodeSystem/medication-admin-status|4.3.0-CIBUILD"
+                "valueUri": "http://terminology.hl7.org/CodeSystem/medication-admin-status|4.3.0-cibuild"
             }
         ],
         "contains": [

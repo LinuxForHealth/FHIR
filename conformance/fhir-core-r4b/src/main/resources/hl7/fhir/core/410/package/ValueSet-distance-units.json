@@ -2,7 +2,7 @@
     "resourceType": "ValueSet",
     "id": "distance-units",
     "meta": {
-        "lastUpdated": "2022-03-03T22:04:06.196Z",
+        "lastUpdated": "2022-04-23T22:21:35.043Z",
         "profile": [
             "http://hl7.org/fhir/StructureDefinition/shareablevalueset"
         ]
@@ -28,12 +28,12 @@
             "value": "urn:oid:2.16.840.1.113883.4.642.3.62"
         }
     ],
-    "version": "4.3.0-CIBUILD",
+    "version": "4.3.0-cibuild",
     "name": "CommonUCUMCodesForDistance",
     "title": "Common UCUM Codes for Distance",
     "status": "draft",
     "experimental": false,
-    "date": "2022-03-03T22:04:06Z",
+    "date": "2022-04-23T22:21:35Z",
     "publisher": "FHIR Project team",
     "contact": [
         {
@@ -77,11 +77,12 @@
         ]
     },
     "expansion": {
-        "identifier": "urn:uuid:07bdbe9d-d90b-47e4-a393-69bdcb5dbe21",
-        "timestamp": "2021-11-17T05:28:26.15Z",
+        "identifier": "urn:uuid:227bb6f9-0455-4ed7-aef2-c09f8ec6d486",
+        "timestamp": "2022-04-23T22:23:26Z",
+        "total": 5,
         "parameter": [
             {
-                "name": "limitedExpansion",
+                "name": "excludeNested",
                 "valueBoolean": true
             },
             {
@@ -89,7 +90,7 @@
                 "valueBoolean": true
             },
             {
-                "name": "excludeNested",
+                "name": "limitedExpansion",
                 "valueBoolean": true
             },
             {
@@ -101,50 +102,50 @@
             {
                 "system": "http://unitsofmeasure.org",
                 "code": "nm",
-                "display": "nm",
+                "display": "nanometers",
                 "designation": [
                     {
-                        "value": "nm"
+                        "value": "nanometers"
                     }
                 ]
             },
             {
                 "system": "http://unitsofmeasure.org",
                 "code": "um",
-                "display": "um",
+                "display": "micrometers",
                 "designation": [
                     {
-                        "value": "um"
+                        "value": "micrometers"
                     }
                 ]
             },
             {
                 "system": "http://unitsofmeasure.org",
                 "code": "mm",
-                "display": "mm",
+                "display": "millimeters",
                 "designation": [
                     {
-                        "value": "mm"
+                        "value": "millimeters"
                     }
                 ]
             },
             {
                 "system": "http://unitsofmeasure.org",
                 "code": "m",
-                "display": "m",
+                "display": "meters",
                 "designation": [
                     {
-                        "value": "m"
+                        "value": "meters"
                     }
                 ]
             },
             {
                 "system": "http://unitsofmeasure.org",
                 "code": "km",
-                "display": "km",
+                "display": "kilometers",
                 "designation": [
                     {
-                        "value": "km"
+                        "value": "kilometers"
                     }
                 ]
             }

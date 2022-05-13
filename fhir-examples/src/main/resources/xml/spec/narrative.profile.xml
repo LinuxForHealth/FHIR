@@ -53,7 +53,7 @@
             <img src="data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAAEAAAAWCAYAAAABxvaqAAAACXBIWXMAAAsTAAALEwEAmpwYAAAAB3RJTUUH3wYeFzIs1vtcMQAAAB1pVFh0Q29tbWVudAAAAAAAQ3JlYXRlZCB3aXRoIEdJTVBkLmUHAAAAE0lEQVQI12P4//8/AxMDAwNdCABMPwMo2ctnoQAAAABJRU5ErkJggg==" alt="." style="background-color: inherit" class="hierarchy"/>
             <img src="data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAABAAAAAWCAYAAADJqhx8AAAACXBIWXMAAAsTAAALEwEAmpwYAAAAB3RJTUUH3wYeFzI3XJ6V3QAAAB1pVFh0Q29tbWVudAAAAAAAQ3JlYXRlZCB3aXRoIEdJTVBkLmUHAAAANklEQVQ4y+2RsQ0AIAzDav7/2VzQwoCY4iWbZSmo1QGoUgNMghvWaIejPQW/CrrNCylIwcOCDYfLNRcNer4SAAAAAElFTkSuQmCC" alt="." style="background-color: inherit" class="hierarchy"/>
             <img src="data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAABAAAAAQCAYAAAAf8/9hAAAACXBIWXMAAAsTAAALEwEAmpwYAAAARklEQVQ4y2P8//8/AyWAhYFCMAgMuHjx4n+KXaCv+I0szW8WpCG8kFO1lGFKW/SIjAUYgxz/MzAwMDC+nqhDUTQyjuYFBgCNmhP4OvTRgwAAAABJRU5ErkJggg==" alt="." style="background-color: #F7F7F7; background-color: inherit" title="Primitive Data Type" class="hierarchy"/> 
-            <a href="narrative-definitions.html#Narrative.status" title="Narrative.status : The status of the narrative - whether it&#39;s entirely generated (from just the defined data or the extensions too), or whether a human authored it and it may contain additional data.">status</a>
+            <a href="narrative-definitions.html#Narrative.status" title="Narrative.status : The status of the narrative - whether it's entirely generated (from just the defined data or the extensions too), or whether a human authored it and it may contain additional data.">status</a>
           </td>
           <td style="vertical-align: top; text-align : left; background-color: #F7F7F7; border: 0px #F0F0F0 solid; padding:0px 4px 0px 4px" class="hierarchy"/>
           <td style="vertical-align: top; text-align : left; background-color: #F7F7F7; border: 0px #F0F0F0 solid; padding:0px 4px 0px 4px" class="hierarchy">1..1</td>
@@ -107,10 +107,11 @@
     <valueCode value="4.0.0"/>
   </extension>
   <url value="http://hl7.org/fhir/StructureDefinition/Narrative"/>
-  <version value="4.3.0-CIBUILD"/>
+  <version value="4.3.0-cibuild"/>
   <name value="Narrative"/>
   <status value="active"/>
-  <date value="2022-01-01T15:17:18+00:00"/>
+  <experimental value="false"/>
+  <date value="2022-04-23T22:21:35+00:00"/>
   <publisher value="HL7 FHIR Standard"/>
   <contact>
     <telecom>
@@ -119,7 +120,7 @@
     </telecom>
   </contact>
   <description value="Base StructureDefinition for Narrative Type: A human-readable summary of the resource conveying the essential clinical and business information for the resource."/>
-  <fhirVersion value="4.3.0-CIBUILD"/>
+  <fhirVersion value="4.3.0-cibuild"/>
   <mapping>
     <identity value="rim"/>
     <uri value="http://hl7.org/v3"/>
@@ -179,7 +180,6 @@
         <min value="0"/>
         <max value="1"/>
       </base>
-    <!-- Note: special primitive values have a FHIRPath system type. e.g. this is compiler magic (j) -->
       <type>
         <extension url="http://hl7.org/fhir/StructureDefinition/structuredefinition-fhir-type">
           <valueUrl value="string"/>
@@ -244,7 +244,7 @@
     <element id="Narrative.status">
       <path value="Narrative.status"/>
       <short value="generated | extensions | additional | empty"/>
-      <definition value="The status of the narrative - whether it&#39;s entirely generated (from just the defined data or the extensions too), or whether a human authored it and it may contain additional data."/>
+      <definition value="The status of the narrative - whether it's entirely generated (from just the defined data or the extensions too), or whether a human authored it and it may contain additional data."/>
       <min value="1"/>
       <max value="1"/>
       <base>
@@ -273,7 +273,7 @@
           <valueString value="NarrativeStatus"/>
         </extension>
         <strength value="required"/>
-        <valueSet value="http://hl7.org/fhir/ValueSet/narrative-status|4.3.0-CIBUILD"/>
+        <valueSet value="http://hl7.org/fhir/ValueSet/narrative-status|4.3.0-cibuild"/>
       </binding>
       <mapping>
         <identity value="rim"/>
@@ -308,7 +308,7 @@
         <severity value="error"/>
         <human value="The narrative SHALL contain only the basic html formatting elements and attributes described in chapters 7-11 (except section 4 of chapter 9) and 15 of the HTML 4.0 standard, &lt;a&gt; elements (either name or href), images and internally contained style attributes"/>
         <expression value="htmlChecks()"/>
-        <xpath value="not(descendant-or-self::*[not(local-name(.)=(&#39;a&#39;, &#39;abbr&#39;, &#39;acronym&#39;, &#39;b&#39;, &#39;big&#39;, &#39;blockquote&#39;, &#39;br&#39;, &#39;caption&#39;, &#39;cite&#39;, &#39;code&#39;, &#39;col&#39;, &#39;colgroup&#39;, &#39;dd&#39;, &#39;dfn&#39;, &#39;div&#39;, &#39;dl&#39;, &#39;dt&#39;, &#39;em&#39;, &#39;h1&#39;, &#39;h2&#39;, &#39;h3&#39;, &#39;h4&#39;, &#39;h5&#39;, &#39;h6&#39;, &#39;hr&#39;, &#39;i&#39;, &#39;img&#39;, &#39;li&#39;, &#39;ol&#39;, &#39;p&#39;, &#39;pre&#39;, &#39;q&#39;, &#39;samp&#39;, &#39;small&#39;, &#39;span&#39;, &#39;strong&#39;, &#39;sub&#39;, &#39;sup&#39;, &#39;table&#39;, &#39;tbody&#39;, &#39;td&#39;, &#39;tfoot&#39;, &#39;th&#39;, &#39;thead&#39;, &#39;tr&#39;, &#39;tt&#39;, &#39;ul&#39;, &#39;var&#39;))]) and not(descendant-or-self::*/@*[not(name(.)=(&#39;abbr&#39;, &#39;accesskey&#39;, &#39;align&#39;, &#39;alt&#39;, &#39;axis&#39;, &#39;bgcolor&#39;, &#39;border&#39;, &#39;cellhalign&#39;, &#39;cellpadding&#39;, &#39;cellspacing&#39;, &#39;cellvalign&#39;, &#39;char&#39;, &#39;charoff&#39;, &#39;charset&#39;, &#39;cite&#39;, &#39;class&#39;, &#39;colspan&#39;, &#39;compact&#39;, &#39;coords&#39;, &#39;dir&#39;, &#39;frame&#39;, &#39;headers&#39;, &#39;height&#39;, &#39;href&#39;, &#39;hreflang&#39;, &#39;hspace&#39;, &#39;id&#39;, &#39;lang&#39;, &#39;longdesc&#39;, &#39;name&#39;, &#39;nowrap&#39;, &#39;rel&#39;, &#39;rev&#39;, &#39;rowspan&#39;, &#39;rules&#39;, &#39;scope&#39;, &#39;shape&#39;, &#39;span&#39;, &#39;src&#39;, &#39;start&#39;, &#39;style&#39;, &#39;summary&#39;, &#39;tabindex&#39;, &#39;title&#39;, &#39;type&#39;, &#39;valign&#39;, &#39;value&#39;, &#39;vspace&#39;, &#39;width&#39;))])"/>
+        <xpath value="not(descendant-or-self::*[not(local-name(.)=('a', 'abbr', 'acronym', 'b', 'big', 'blockquote', 'br', 'caption', 'cite', 'code', 'col', 'colgroup', 'dd', 'dfn', 'div', 'dl', 'dt', 'em', 'h1', 'h2', 'h3', 'h4', 'h5', 'h6', 'hr', 'i', 'img', 'li', 'ol', 'p', 'pre', 'q', 'samp', 'small', 'span', 'strong', 'sub', 'sup', 'table', 'tbody', 'td', 'tfoot', 'th', 'thead', 'tr', 'tt', 'ul', 'var'))]) and not(descendant-or-self::*/@*[not(name(.)=('abbr', 'accesskey', 'align', 'alt', 'axis', 'bgcolor', 'border', 'cellhalign', 'cellpadding', 'cellspacing', 'cellvalign', 'char', 'charoff', 'charset', 'cite', 'class', 'colspan', 'compact', 'coords', 'dir', 'frame', 'headers', 'height', 'href', 'hreflang', 'hspace', 'id', 'lang', 'longdesc', 'name', 'nowrap', 'rel', 'rev', 'rowspan', 'rules', 'scope', 'shape', 'span', 'src', 'start', 'style', 'summary', 'tabindex', 'title', 'type', 'valign', 'value', 'vspace', 'width'))])"/>
         <source value="http://hl7.org/fhir/StructureDefinition/Narrative"/>
       </constraint>
       <constraint>
@@ -316,7 +316,7 @@
         <severity value="error"/>
         <human value="The narrative SHALL have some non-whitespace content"/>
         <expression value="htmlChecks()"/>
-        <xpath value="descendant::text()[normalize-space(.)!=&#39;&#39;] or descendant::h:img[@src]"/>
+        <xpath value="descendant::text()[normalize-space(.)!=''] or descendant::h:img[@src]"/>
         <source value="http://hl7.org/fhir/StructureDefinition/Narrative"/>
       </constraint>
       <isModifier value="false"/>
@@ -348,7 +348,7 @@
     <element id="Narrative.status">
       <path value="Narrative.status"/>
       <short value="generated | extensions | additional | empty"/>
-      <definition value="The status of the narrative - whether it&#39;s entirely generated (from just the defined data or the extensions too), or whether a human authored it and it may contain additional data."/>
+      <definition value="The status of the narrative - whether it's entirely generated (from just the defined data or the extensions too), or whether a human authored it and it may contain additional data."/>
       <min value="1"/>
       <max value="1"/>
       <type>
@@ -362,7 +362,7 @@
           <valueString value="NarrativeStatus"/>
         </extension>
         <strength value="required"/>
-        <valueSet value="http://hl7.org/fhir/ValueSet/narrative-status|4.3.0-CIBUILD"/>
+        <valueSet value="http://hl7.org/fhir/ValueSet/narrative-status|4.3.0-cibuild"/>
       </binding>
       <mapping>
         <identity value="rim"/>
@@ -384,7 +384,7 @@
         <severity value="error"/>
         <human value="The narrative SHALL contain only the basic html formatting elements and attributes described in chapters 7-11 (except section 4 of chapter 9) and 15 of the HTML 4.0 standard, &lt;a&gt; elements (either name or href), images and internally contained style attributes"/>
         <expression value="htmlChecks()"/>
-        <xpath value="not(descendant-or-self::*[not(local-name(.)=(&#39;a&#39;, &#39;abbr&#39;, &#39;acronym&#39;, &#39;b&#39;, &#39;big&#39;, &#39;blockquote&#39;, &#39;br&#39;, &#39;caption&#39;, &#39;cite&#39;, &#39;code&#39;, &#39;col&#39;, &#39;colgroup&#39;, &#39;dd&#39;, &#39;dfn&#39;, &#39;div&#39;, &#39;dl&#39;, &#39;dt&#39;, &#39;em&#39;, &#39;h1&#39;, &#39;h2&#39;, &#39;h3&#39;, &#39;h4&#39;, &#39;h5&#39;, &#39;h6&#39;, &#39;hr&#39;, &#39;i&#39;, &#39;img&#39;, &#39;li&#39;, &#39;ol&#39;, &#39;p&#39;, &#39;pre&#39;, &#39;q&#39;, &#39;samp&#39;, &#39;small&#39;, &#39;span&#39;, &#39;strong&#39;, &#39;sub&#39;, &#39;sup&#39;, &#39;table&#39;, &#39;tbody&#39;, &#39;td&#39;, &#39;tfoot&#39;, &#39;th&#39;, &#39;thead&#39;, &#39;tr&#39;, &#39;tt&#39;, &#39;ul&#39;, &#39;var&#39;))]) and not(descendant-or-self::*/@*[not(name(.)=(&#39;abbr&#39;, &#39;accesskey&#39;, &#39;align&#39;, &#39;alt&#39;, &#39;axis&#39;, &#39;bgcolor&#39;, &#39;border&#39;, &#39;cellhalign&#39;, &#39;cellpadding&#39;, &#39;cellspacing&#39;, &#39;cellvalign&#39;, &#39;char&#39;, &#39;charoff&#39;, &#39;charset&#39;, &#39;cite&#39;, &#39;class&#39;, &#39;colspan&#39;, &#39;compact&#39;, &#39;coords&#39;, &#39;dir&#39;, &#39;frame&#39;, &#39;headers&#39;, &#39;height&#39;, &#39;href&#39;, &#39;hreflang&#39;, &#39;hspace&#39;, &#39;id&#39;, &#39;lang&#39;, &#39;longdesc&#39;, &#39;name&#39;, &#39;nowrap&#39;, &#39;rel&#39;, &#39;rev&#39;, &#39;rowspan&#39;, &#39;rules&#39;, &#39;scope&#39;, &#39;shape&#39;, &#39;span&#39;, &#39;src&#39;, &#39;start&#39;, &#39;style&#39;, &#39;summary&#39;, &#39;tabindex&#39;, &#39;title&#39;, &#39;type&#39;, &#39;valign&#39;, &#39;value&#39;, &#39;vspace&#39;, &#39;width&#39;))])"/>
+        <xpath value="not(descendant-or-self::*[not(local-name(.)=('a', 'abbr', 'acronym', 'b', 'big', 'blockquote', 'br', 'caption', 'cite', 'code', 'col', 'colgroup', 'dd', 'dfn', 'div', 'dl', 'dt', 'em', 'h1', 'h2', 'h3', 'h4', 'h5', 'h6', 'hr', 'i', 'img', 'li', 'ol', 'p', 'pre', 'q', 'samp', 'small', 'span', 'strong', 'sub', 'sup', 'table', 'tbody', 'td', 'tfoot', 'th', 'thead', 'tr', 'tt', 'ul', 'var'))]) and not(descendant-or-self::*/@*[not(name(.)=('abbr', 'accesskey', 'align', 'alt', 'axis', 'bgcolor', 'border', 'cellhalign', 'cellpadding', 'cellspacing', 'cellvalign', 'char', 'charoff', 'charset', 'cite', 'class', 'colspan', 'compact', 'coords', 'dir', 'frame', 'headers', 'height', 'href', 'hreflang', 'hspace', 'id', 'lang', 'longdesc', 'name', 'nowrap', 'rel', 'rev', 'rowspan', 'rules', 'scope', 'shape', 'span', 'src', 'start', 'style', 'summary', 'tabindex', 'title', 'type', 'valign', 'value', 'vspace', 'width'))])"/>
         <source value="http://hl7.org/fhir/StructureDefinition/Narrative"/>
       </constraint>
       <constraint>
@@ -392,7 +392,7 @@
         <severity value="error"/>
         <human value="The narrative SHALL have some non-whitespace content"/>
         <expression value="htmlChecks()"/>
-        <xpath value="descendant::text()[normalize-space(.)!=&#39;&#39;] or descendant::h:img[@src]"/>
+        <xpath value="descendant::text()[normalize-space(.)!=''] or descendant::h:img[@src]"/>
         <source value="http://hl7.org/fhir/StructureDefinition/Narrative"/>
       </constraint>
       <mapping>

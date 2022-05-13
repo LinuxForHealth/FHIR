@@ -2,7 +2,7 @@
     "resourceType": "ValueSet",
     "id": "security-labels",
     "meta": {
-        "lastUpdated": "2022-03-03T22:04:06.196Z",
+        "lastUpdated": "2022-04-23T22:21:35.043Z",
         "profile": [
             "http://hl7.org/fhir/StructureDefinition/shareablevalueset"
         ]
@@ -32,7 +32,7 @@
             "value": "urn:oid:2.16.840.1.113883.4.642.3.47"
         }
     ],
-    "version": "4.3.0-CIBUILD",
+    "version": "4.3.0-cibuild",
     "name": "All Security Labels",
     "title": "SecurityLabels",
     "status": "active",
@@ -85,8 +85,8 @@
         ]
     },
     "expansion": {
-        "identifier": "urn:uuid:a0235019-c6fe-4c8e-886c-2e6b8cfa6e86",
-        "timestamp": "2022-03-03T22:05:38.301Z",
+        "identifier": "urn:uuid:fd9823e5-91a3-42da-9e66-902d8bf602f4",
+        "timestamp": "2022-04-07T04:48:27.743Z",
         "parameter": [
             {
                 "name": "expansion-source",

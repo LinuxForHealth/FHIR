@@ -7,7 +7,7 @@
       <display value="test health data"/>
     </security>
   </meta>
-  <text><status value="generated"/><div xmlns="http://www.w3.org/1999/xhtml"><p><b>Generated Narrative</b></p><div><p>Resource "Acetamin-500-20-generic" </p></div><p><b>identifier</b>: id: 12345</p><h3>Names</h3><table><tr><td>-</td><td><b>ProductName</b></td></tr><tr><td>*</td><td>Acetaminophen 500 mg tablets [generic]</td></tr></table></div></text><contained>
+  <text><status value="generated"/><div xmlns="http://www.w3.org/1999/xhtml"><p><b>Generated Narrative</b></p><div style="display: inline-block; background-color: #d9e0e7; padding: 6px; margin: 4px; border: 1px solid #8da1b4; border-radius: 5px; line-height: 60%"><p style="margin-bottom: 0px">Resource "Acetamin-500-20-generic" </p></div><p><b>identifier</b>: id: 12345</p><h3>Names</h3><table class="grid"><tr><td>-</td><td><b>ProductName</b></td></tr><tr><td>*</td><td>Acetaminophen 500 mg tablets [generic]</td></tr></table></div></text><contained>
 		<PackagedProductDefinition>
 			<id value="Acetamin-pack-20"/>
 			<packageFor>

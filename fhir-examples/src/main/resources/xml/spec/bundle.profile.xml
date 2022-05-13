@@ -3,7 +3,7 @@
 <StructureDefinition xmlns="http://hl7.org/fhir">
   <id value="Bundle"/>
   <meta>
-    <lastUpdated value="2022-01-01T15:17:18.597+00:00"/>
+    <lastUpdated value="2022-04-23T22:21:35.043+00:00"/>
   </meta>
   <text>
     <status value="generated"/>
@@ -77,7 +77,7 @@
             <img src="data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAAEAAAAWCAYAAAABxvaqAAAACXBIWXMAAAsTAAALEwEAmpwYAAAAB3RJTUUH3wYeFzIs1vtcMQAAAB1pVFh0Q29tbWVudAAAAAAAQ3JlYXRlZCB3aXRoIEdJTVBkLmUHAAAAE0lEQVQI12P4//8/AxMDAwNdCABMPwMo2ctnoQAAAABJRU5ErkJggg==" alt="." style="background-color: inherit" class="hierarchy"/>
             <img src="data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAABAAAAAWCAYAAADJqhx8AAAACXBIWXMAAAsTAAALEwEAmpwYAAAAB3RJTUUH3wYeFzI3XJ6V3QAAAB1pVFh0Q29tbWVudAAAAAAAQ3JlYXRlZCB3aXRoIEdJTVBkLmUHAAAANklEQVQ4y+2RsQ0AIAzDav7/2VzQwoCY4iWbZSmo1QGoUgNMghvWaIejPQW/CrrNCylIwcOCDYfLNRcNer4SAAAAAElFTkSuQmCC" alt="." style="background-color: inherit" class="hierarchy"/>
             <img src="data:image/png;base64,R0lGODlhEAAQAPZ/APrkusOiYvvfqbiXWaV2G+jGhdq1b8GgYf3v1frw3vTUlsWkZNewbcSjY/DQkad4Hb6dXv3u0f3v1ObEgfPTlerJiP3w1v79+e7OkPrfrfnjuNOtZPrpydaxa+/YrvvdpP779ZxvFPvnwKKBQaFyF/369M2vdaqHRPz58/HNh/vowufFhfroxO3OkPrluv779tK0e6JzGProwvrow9m4eOnIifPTlPDPkP78+Naxaf3v0/zowfXRi+bFhLWUVv379/rnwPvszv3rye3LiPvnv+3MjPDasKiIS/789/3x2f747eXDg+7Mifvu0tu7f+/QkfDTnPXWmPrjsvrjtPbPgrqZW+/QlPz48K2EMv36866OUPvowat8Ivvgq/Pbrvzgq/PguvrgrqN0Gda2evfYm9+7d/rpw9q6e/LSku/Rl/XVl/LSlfrkt+zVqe7Wqv3x1/bNffbOf59wFdS6if3u0vrqyP3owPvepfXQivDQkO/PkKh9K7STVf779P///wD/ACH5BAEKAH8ALAAAAAAQABAAAAemgH+CgxeFF4OIhBdKGwFChYl/hYwbdkoBPnaQkosbG3d3VEpSUlonUoY1Gzo6QkI8SrGxWBOFG4uySgY5ZWR3PFy2hnaWZXC/PHcPwkpJk1ShoHcxhQEXSUmtFy6+0iSFVResrjoTPDzdcoU+F65CduVU6KAhhQa3F8Tx8nchBoYuqoTLZoAKFRIhqGwqJAULFx0GYpBQeChRIR4TJm6KJMhQRUSBAAA7" alt="." style="background-color: #F7F7F7; background-color: inherit" title="Data Type" class="hierarchy"/> 
-            <span title="Bundle.identifier : A persistent identifier for the bundle that won&#39;t change as a bundle is copied from server to server.">identifier</span>
+            <span title="Bundle.identifier : A persistent identifier for the bundle that won't change as a bundle is copied from server to server.">identifier</span>
             <a name="Bundle.identifier"> </a>
           </td>
           <td style="vertical-align: top; text-align : left; background-color: #F7F7F7; border: 0px #F0F0F0 solid; padding:0px 4px 0px 4px" class="hierarchy">
@@ -135,7 +135,7 @@
             <img src="data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAAEAAAAWCAYAAAABxvaqAAAACXBIWXMAAAsTAAALEwEAmpwYAAAAB3RJTUUH3wYeFzIs1vtcMQAAAB1pVFh0Q29tbWVudAAAAAAAQ3JlYXRlZCB3aXRoIEdJTVBkLmUHAAAAE0lEQVQI12P4//8/AxMDAwNdCABMPwMo2ctnoQAAAABJRU5ErkJggg==" alt="." style="background-color: inherit" class="hierarchy"/>
             <img src="data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAABAAAAAWCAYAAADJqhx8AAAACXBIWXMAAAsTAAALEwEAmpwYAAAAB3RJTUUH3wYeFzI3XJ6V3QAAAB1pVFh0Q29tbWVudAAAAAAAQ3JlYXRlZCB3aXRoIEdJTVBkLmUHAAAANklEQVQ4y+2RsQ0AIAzDav7/2VzQwoCY4iWbZSmo1QGoUgNMghvWaIejPQW/CrrNCylIwcOCDYfLNRcNer4SAAAAAElFTkSuQmCC" alt="." style="background-color: inherit" class="hierarchy"/>
             <img src="data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAABAAAAAQCAYAAAAf8/9hAAAACXBIWXMAAAsTAAALEwEAmpwYAAAARklEQVQ4y2P8//8/AyWAhYFCMAgMuHjx4n+KXaCv+I0szW8WpCG8kFO1lGFKW/SIjAUYgxz/MzAwMDC+nqhDUTQyjuYFBgCNmhP4OvTRgwAAAABJRU5ErkJggg==" alt="." style="background-color: white; background-color: inherit" title="Primitive Data Type" class="hierarchy"/> 
-            <span title="Bundle.total : If a set of search matches, this is the total number of entries of type &#39;match&#39; across all pages in the search.  It does not include search.mode = &#39;include&#39; or &#39;outcome&#39; entries and it does not provide a count of the number of entries in the Bundle.">total</span>
+            <span title="Bundle.total : If a set of search matches, this is the total number of entries of type 'match' across all pages in the search.  It does not include search.mode = 'include' or 'outcome' entries and it does not provide a count of the number of entries in the Bundle.">total</span>
             <a name="Bundle.total"> </a>
           </td>
           <td style="vertical-align: top; text-align : left; background-color: white; border: 0px #F0F0F0 solid; padding:0px 4px 0px 4px" class="hierarchy">
@@ -225,10 +225,10 @@
           </td>
           <td style="vertical-align: top; text-align : left; background-color: white; border: 0px #F0F0F0 solid; padding:0px 4px 0px 4px" class="hierarchy">Entry in the bundle - will have a resource or information
             <br/>
-            <span style="font-style: italic" title="bdl-5">+ Rule: must be a resource unless there&#39;s a request or response</span>
+            <span style="font-style: italic" title="bdl-5">+ Rule: must be a resource unless there's a request or response</span>
             <br/>
             <span style="font-style: italic" title="bdl-8">+ Rule: fullUrl cannot be a version specific reference</span>
-            <br/>This repeating element order: For bundles of type &#39;document&#39; and &#39;message&#39;, the first resource is special (must be Composition or MessageHeader respectively). For all bundles, the meaning of the order of entries depends on the bundle type
+            <br/>This repeating element order: For bundles of type 'document' and 'message', the first resource is special (must be Composition or MessageHeader respectively). For all bundles, the meaning of the order of entries depends on the bundle type
           </td>
         </tr>
 
@@ -318,7 +318,7 @@
             <img src="data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAABAAAAAWCAYAAADJqhx8AAAACXBIWXMAAAsTAAALEwEAmpwYAAAAB3RJTUUH3wYeFzMPbYccAgAAAB1pVFh0Q29tbWVudAAAAAAAQ3JlYXRlZCB3aXRoIEdJTVBkLmUHAAAAMElEQVQ4y+3OQREAIBDDwAv+PQcFFN5MIyCzqHMKUGVCpMFLK97heq+gggoq+EiwAVjvMhFGmlEUAAAAAElFTkSuQmCC" alt="." style="background-color: inherit" class="hierarchy"/>
             <img src="data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAABAAAAAWCAYAAADJqhx8AAAACXBIWXMAAAsTAAALEwEAmpwYAAAAB3RJTUUH3wYeFzI3XJ6V3QAAAB1pVFh0Q29tbWVudAAAAAAAQ3JlYXRlZCB3aXRoIEdJTVBkLmUHAAAANklEQVQ4y+2RsQ0AIAzDav7/2VzQwoCY4iWbZSmo1QGoUgNMghvWaIejPQW/CrrNCylIwcOCDYfLNRcNer4SAAAAAElFTkSuQmCC" alt="." style="background-color: inherit" class="hierarchy"/>
             <img src="data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAABAAAAAQCAYAAAAf8/9hAAAACXBIWXMAAAsTAAALEwEAmpwYAAAARklEQVQ4y2P8//8/AyWAhYFCMAgMuHjx4n+KXaCv+I0szW8WpCG8kFO1lGFKW/SIjAUYgxz/MzAwMDC+nqhDUTQyjuYFBgCNmhP4OvTRgwAAAABJRU5ErkJggg==" alt="." style="background-color: #F7F7F7; background-color: inherit" title="Primitive Data Type" class="hierarchy"/> 
-            <span title="Bundle.entry.search.mode : Why this entry is in the result set - whether it&#39;s included as a match or because of an _include requirement, or to convey information or warning information about the search process.">mode</span>
+            <span title="Bundle.entry.search.mode : Why this entry is in the result set - whether it's included as a match or because of an _include requirement, or to convey information or warning information about the search process.">mode</span>
             <a name="Bundle.entry.search.mode"> </a>
           </td>
           <td style="vertical-align: top; text-align : left; background-color: #F7F7F7; border: 0px #F0F0F0 solid; padding:0px 4px 0px 4px" class="hierarchy">
@@ -342,7 +342,7 @@
             <img src="data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAABAAAAAWCAYAAADJqhx8AAAACXBIWXMAAAsTAAALEwEAmpwYAAAAB3RJTUUH3wYeFzMPbYccAgAAAB1pVFh0Q29tbWVudAAAAAAAQ3JlYXRlZCB3aXRoIEdJTVBkLmUHAAAAMElEQVQ4y+3OQREAIBDDwAv+PQcFFN5MIyCzqHMKUGVCpMFLK97heq+gggoq+EiwAVjvMhFGmlEUAAAAAElFTkSuQmCC" alt="." style="background-color: inherit" class="hierarchy"/>
             <img src="data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAABAAAAAWCAYAAADJqhx8AAAACXBIWXMAAAsTAAALEwEAmpwYAAAAB3RJTUUH3wYeFzME+lXFigAAAB1pVFh0Q29tbWVudAAAAAAAQ3JlYXRlZCB3aXRoIEdJTVBkLmUHAAAANklEQVQ4y+3OsRUAIAjEUOL+O8cJABttJM11/x1qZAGqRBEVcNIqdWj1efDqQbb3HwwwwEfABmQUHSPM9dtDAAAAAElFTkSuQmCC" alt="." style="background-color: inherit" class="hierarchy"/>
             <img src="data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAABAAAAAQCAYAAAAf8/9hAAAACXBIWXMAAAsTAAALEwEAmpwYAAAARklEQVQ4y2P8//8/AyWAhYFCMAgMuHjx4n+KXaCv+I0szW8WpCG8kFO1lGFKW/SIjAUYgxz/MzAwMDC+nqhDUTQyjuYFBgCNmhP4OvTRgwAAAABJRU5ErkJggg==" alt="." style="background-color: white; background-color: inherit" title="Primitive Data Type" class="hierarchy"/> 
-            <span title="Bundle.entry.search.score : When searching, the server&#39;s search ranking score for the entry.">score</span>
+            <span title="Bundle.entry.search.score : When searching, the server's search ranking score for the entry.">score</span>
             <a name="Bundle.entry.search.score"> </a>
           </td>
           <td style="vertical-align: top; text-align : left; background-color: white; border: 0px #F0F0F0 solid; padding:0px 4px 0px 4px" class="hierarchy">
@@ -505,7 +505,7 @@
             <img src="data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAABAAAAAWCAYAAADJqhx8AAAACXBIWXMAAAsTAAALEwEAmpwYAAAAB3RJTUUH3wYeFzMPbYccAgAAAB1pVFh0Q29tbWVudAAAAAAAQ3JlYXRlZCB3aXRoIEdJTVBkLmUHAAAAMElEQVQ4y+3OQREAIBDDwAv+PQcFFN5MIyCzqHMKUGVCpMFLK97heq+gggoq+EiwAVjvMhFGmlEUAAAAAElFTkSuQmCC" alt="." style="background-color: inherit" class="hierarchy"/>
             <img src="data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAABAAAAAWCAYAAADJqhx8AAAACXBIWXMAAAsTAAALEwEAmpwYAAAAB3RJTUUH3wYeFzME+lXFigAAAB1pVFh0Q29tbWVudAAAAAAAQ3JlYXRlZCB3aXRoIEdJTVBkLmUHAAAANklEQVQ4y+3OsRUAIAjEUOL+O8cJABttJM11/x1qZAGqRBEVcNIqdWj1efDqQbb3HwwwwEfABmQUHSPM9dtDAAAAAElFTkSuQmCC" alt="." style="background-color: inherit" class="hierarchy"/>
             <img src="data:image/png;base64,R0lGODlhEAAQAPQfAOvGUf7ztuvPMf/78/fkl/Pbg+u8Rvjqteu2Pf3zxPz36Pz0z+vTmPzurPvuw/npofbjquvNefHVduuyN+uuMu3Oafbgjfnqvf/3zv/3xevPi+vRjP/20/bmsP///wD/ACH5BAEKAB8ALAAAAAAQABAAAAVl4CeOZGme5qCqqDg8jyVJaz1876DsmAQAgqDgltspMEhMJoMZ4iy6I1AooFCIv+wKybziALVAoAEjYLwDgGIpJhMslgxaLR4/3rMAWoBp32V5exg8Shl1ckRUQVaMVkQ2kCstKCEAOw==" alt="." style="background-color: white; background-color: inherit" title="Element" class="hierarchy"/> 
-            <span title="Bundle.entry.response : Indicates the results of processing the corresponding &#39;request&#39; entry in the batch or transaction being responded to or what the results of an operation where when returning history.">response</span>
+            <span title="Bundle.entry.response : Indicates the results of processing the corresponding 'request' entry in the batch or transaction being responded to or what the results of an operation where when returning history.">response</span>
             <a name="Bundle.entry.response"> </a>
           </td>
           <td style="vertical-align: top; text-align : left; background-color: white; border: 0px #F0F0F0 solid; padding:0px 4px 0px 4px" class="hierarchy">
@@ -596,7 +596,7 @@
           <td style="vertical-align: top; text-align : left; background-color: white; border: 0px #F0F0F0 solid; padding:0px 4px 0px 4px" class="hierarchy">
             <a href="datatypes.html#instant">instant</a>
           </td>
-          <td style="vertical-align: top; text-align : left; background-color: white; border: 0px #F0F0F0 solid; padding:0px 4px 0px 4px" class="hierarchy">Server&#39;s date time modified</td>
+          <td style="vertical-align: top; text-align : left; background-color: white; border: 0px #F0F0F0 solid; padding:0px 4px 0px 4px" class="hierarchy">Server's date time modified</td>
         </tr>
 
         <tr style="border: 0px #F0F0F0 solid; padding:0px; vertical-align: top; background-color: #F7F7F7">
@@ -665,10 +665,11 @@
     <valueCode value="fhir"/>
   </extension>
   <url value="http://hl7.org/fhir/StructureDefinition/Bundle"/>
-  <version value="4.3.0-CIBUILD"/>
+  <version value="4.3.0-cibuild"/>
   <name value="Bundle"/>
   <status value="active"/>
-  <date value="2022-01-01T15:17:18+00:00"/>
+  <experimental value="false"/>
+  <date value="2022-04-23T22:21:35+00:00"/>
   <publisher value="Health Level Seven International (FHIR Infrastructure)"/>
   <contact>
     <telecom>
@@ -683,7 +684,7 @@
     </telecom>
   </contact>
   <description value="A container for a collection of resources."/>
-  <fhirVersion value="4.3.0-CIBUILD"/>
+  <fhirVersion value="4.3.0-cibuild"/>
   <mapping>
     <identity value="v2"/>
     <uri value="http://hl7.org/v2"/>
@@ -725,72 +726,72 @@
         <key value="bdl-1"/>
         <severity value="error"/>
         <human value="total only when a search or history"/>
-        <expression value="total.empty() or (type = &#39;searchset&#39;) or (type = &#39;history&#39;)"/>
-        <xpath value="not(f:total) or (f:type/@value = &#39;searchset&#39;) or (f:type/@value = &#39;history&#39;)"/>
+        <expression value="total.empty() or (type = 'searchset') or (type = 'history')"/>
+        <xpath value="not(f:total) or (f:type/@value = 'searchset') or (f:type/@value = 'history')"/>
         <source value="http://hl7.org/fhir/StructureDefinition/Bundle"/>
       </constraint>
       <constraint>
         <key value="bdl-2"/>
         <severity value="error"/>
         <human value="entry.search only when a search"/>
-        <expression value="entry.search.empty() or (type = &#39;searchset&#39;)"/>
-        <xpath value="not(f:entry/f:search) or (f:type/@value = &#39;searchset&#39;)"/>
+        <expression value="entry.search.empty() or (type = 'searchset')"/>
+        <xpath value="not(f:entry/f:search) or (f:type/@value = 'searchset')"/>
         <source value="http://hl7.org/fhir/StructureDefinition/Bundle"/>
       </constraint>
       <constraint>
         <key value="bdl-3"/>
         <severity value="error"/>
         <human value="entry.request mandatory for batch/transaction/history, otherwise prohibited"/>
-        <expression value="entry.all(request.exists() = (%resource.type = &#39;batch&#39; or %resource.type = &#39;transaction&#39; or %resource.type = &#39;history&#39;))"/>
-        <xpath value="not(f:entry/f:request) or (f:type/@value = &#39;batch&#39;) or (f:type/@value = &#39;transaction&#39;) or (f:type/@value = &#39;history&#39;)"/>
+        <expression value="entry.all(request.exists() = (%resource.type = 'batch' or %resource.type = 'transaction' or %resource.type = 'history'))"/>
+        <xpath value="not(f:entry/f:request) or (f:type/@value = 'batch') or (f:type/@value = 'transaction') or (f:type/@value = 'history')"/>
         <source value="http://hl7.org/fhir/StructureDefinition/Bundle"/>
       </constraint>
       <constraint>
         <key value="bdl-4"/>
         <severity value="error"/>
         <human value="entry.response mandatory for batch-response/transaction-response/history, otherwise prohibited"/>
-        <expression value="entry.all(response.exists() = (%resource.type = &#39;batch-response&#39; or %resource.type = &#39;transaction-response&#39; or %resource.type = &#39;history&#39;))"/>
-        <xpath value="not(f:entry/f:response) or (f:type/@value = &#39;batch-response&#39;) or (f:type/@value = &#39;transaction-response&#39;) or (f:type/@value = &#39;history&#39;)"/>
+        <expression value="entry.all(response.exists() = (%resource.type = 'batch-response' or %resource.type = 'transaction-response' or %resource.type = 'history'))"/>
+        <xpath value="not(f:entry/f:response) or (f:type/@value = 'batch-response') or (f:type/@value = 'transaction-response') or (f:type/@value = 'history')"/>
         <source value="http://hl7.org/fhir/StructureDefinition/Bundle"/>
       </constraint>
       <constraint>
         <key value="bdl-7"/>
         <severity value="error"/>
         <human value="FullUrl must be unique in a bundle, or else entries with the same fullUrl must have different meta.versionId (except in history bundles)"/>
-        <expression value="(type = &#39;history&#39;) or entry.where(fullUrl.exists()).select(fullUrl&amp;resource.meta.versionId).isDistinct()"/>
-        <xpath value="(f:type/@value = &#39;history&#39;) or (count(for $entry in f:entry[f:resource] return $entry[count(parent::f:Bundle/f:entry[f:fullUrl/@value=$entry/f:fullUrl/@value and ((not(f:resource/*/f:meta/f:versionId/@value) and not($entry/f:resource/*/f:meta/f:versionId/@value)) or f:resource/*/f:meta/f:versionId/@value=$entry/f:resource/*/f:meta/f:versionId/@value)])!=1])=0)"/>
+        <expression value="(type = 'history') or entry.where(fullUrl.exists()).select(fullUrl&amp;resource.meta.versionId).isDistinct()"/>
+        <xpath value="(f:type/@value = 'history') or (count(for $entry in f:entry[f:resource] return $entry[count(parent::f:Bundle/f:entry[f:fullUrl/@value=$entry/f:fullUrl/@value and ((not(f:resource/*/f:meta/f:versionId/@value) and not($entry/f:resource/*/f:meta/f:versionId/@value)) or f:resource/*/f:meta/f:versionId/@value=$entry/f:resource/*/f:meta/f:versionId/@value)])!=1])=0)"/>
         <source value="http://hl7.org/fhir/StructureDefinition/Bundle"/>
       </constraint>
       <constraint>
         <key value="bdl-9"/>
         <severity value="error"/>
         <human value="A document must have an identifier with a system and a value"/>
-        <expression value="type = &#39;document&#39; implies (identifier.system.exists() and identifier.value.exists())"/>
-        <xpath value="not(f:type/@value = &#39;document&#39;) or exists(f:identifier/f:system) or exists(f:identifier/f:value)"/>
+        <expression value="type = 'document' implies (identifier.system.exists() and identifier.value.exists())"/>
+        <xpath value="not(f:type/@value = 'document') or exists(f:identifier/f:system) or exists(f:identifier/f:value)"/>
         <source value="http://hl7.org/fhir/StructureDefinition/Bundle"/>
       </constraint>
       <constraint>
         <key value="bdl-10"/>
         <severity value="error"/>
         <human value="A document must have a date"/>
-        <expression value="type = &#39;document&#39; implies (timestamp.hasValue())"/>
-        <xpath value="not(f:type/@value = &#39;document&#39;) or exists(f:timestamp/@value)"/>
+        <expression value="type = 'document' implies (timestamp.hasValue())"/>
+        <xpath value="not(f:type/@value = 'document') or exists(f:timestamp/@value)"/>
         <source value="http://hl7.org/fhir/StructureDefinition/Bundle"/>
       </constraint>
       <constraint>
         <key value="bdl-11"/>
         <severity value="error"/>
         <human value="A document must have a Composition as the first resource"/>
-        <expression value="type = &#39;document&#39; implies entry.first().resource.is(Composition)"/>
-        <xpath value="not(f:type/@value=&#39;document&#39;) or f:entry[1]/f:resource/f:Composition"/>
+        <expression value="type = 'document' implies entry.first().resource.is(Composition)"/>
+        <xpath value="not(f:type/@value='document') or f:entry[1]/f:resource/f:Composition"/>
         <source value="http://hl7.org/fhir/StructureDefinition/Bundle"/>
       </constraint>
       <constraint>
         <key value="bdl-12"/>
         <severity value="error"/>
         <human value="A message must have a MessageHeader as the first resource"/>
-        <expression value="type = &#39;message&#39; implies entry.first().resource.is(MessageHeader)"/>
-        <xpath value="not(f:type/@value=&#39;message&#39;) or f:entry[1]/f:resource/f:MessageHeader"/>
+        <expression value="type = 'message' implies entry.first().resource.is(MessageHeader)"/>
+        <xpath value="not(f:type/@value='message') or f:entry[1]/f:resource/f:MessageHeader"/>
         <source value="http://hl7.org/fhir/StructureDefinition/Bundle"/>
       </constraint>
       <mustSupport value="false"/>
@@ -829,7 +830,6 @@
         <min value="0"/>
         <max value="1"/>
       </base>
-    <!-- Note: special primitive values have a FHIRPath system type. e.g. this is compiler magic (j) -->
       <type>
         <extension url="http://hl7.org/fhir/StructureDefinition/structuredefinition-fhir-type">
           <valueUrl value="id"/>
@@ -870,7 +870,7 @@
       <path value="Bundle.implicitRules"/>
       <short value="A set of rules under which this content was created"/>
       <definition value="A reference to a set of rules that were followed when the resource was constructed, and which must be understood when processing the content. Often, this is a reference to an implementation guide that defines the special rules along with other profiles etc."/>
-      <comment value="Asserting this rule set restricts the content to be only understood by a limited set of trading partners. This inherently limits the usefulness of the data in the long term. However, the existing health eco-system is highly fractured, and not yet ready to define, collect, and exchange data in a generally computable sense. Wherever possible, implementers and/or specification writers should avoid using this element. Often, when used, the URL is a reference to an implementation guide that defines these special rules as part of it&#39;s narrative along with other profiles, value sets, etc."/>
+      <comment value="Asserting this rule set restricts the content to be only understood by a limited set of trading partners. This inherently limits the usefulness of the data in the long term. However, the existing health eco-system is highly fractured, and not yet ready to define, collect, and exchange data in a generally computable sense. Wherever possible, implementers and/or specification writers should avoid using this element. Often, when used, the URL is a reference to an implementation guide that defines these special rules as part of it's narrative along with other profiles, value sets, etc."/>
       <min value="0"/>
       <max value="1"/>
       <base>
@@ -891,7 +891,7 @@
       </constraint>
       <mustSupport value="false"/>
       <isModifier value="true"/>
-      <isModifierReason value="This element is labeled as a modifier because the implicit rules may provide additional knowledge about the resource that modifies it&#39;s meaning or interpretation"/>
+      <isModifierReason value="This element is labeled as a modifier because the implicit rules may provide additional knowledge about the resource that modifies it's meaning or interpretation"/>
       <isSummary value="true"/>
     </element>
     <element id="Bundle.language">
@@ -938,7 +938,7 @@
     <element id="Bundle.identifier">
       <path value="Bundle.identifier"/>
       <short value="Persistent identifier for the bundle"/>
-      <definition value="A persistent identifier for the bundle that won&#39;t change as a bundle is copied from server to server."/>
+      <definition value="A persistent identifier for the bundle that won't change as a bundle is copied from server to server."/>
       <comment value="Persistent identity generally only matters for batches of type Document, Message, and Collection. It would not normally be populated for search and history results and servers ignore Bundle.identifier when processing batches and transactions. For Documents  the .identifier SHALL be populated such that the .identifier is globally unique."/>
       <min value="0"/>
       <max value="1"/>
@@ -974,7 +974,7 @@
       <path value="Bundle.type"/>
       <short value="document | message | transaction | transaction-response | batch | batch-response | history | searchset | collection"/>
       <definition value="Indicates the purpose of this bundle - how it is intended to be used."/>
-      <comment value="It&#39;s possible to use a bundle for other purposes (e.g. a document can be accepted as a transaction). This is primarily defined so that there can be specific rules for some of the bundle types."/>
+      <comment value="It's possible to use a bundle for other purposes (e.g. a document can be accepted as a transaction). This is primarily defined so that there can be specific rules for some of the bundle types."/>
       <min value="1"/>
       <max value="1"/>
       <base>
@@ -1002,7 +1002,7 @@
         </extension>
         <strength value="required"/>
         <description value="Indicates the purpose of a bundle - how it is intended to be used."/>
-        <valueSet value="http://hl7.org/fhir/ValueSet/bundle-type|4.3.0-CIBUILD"/>
+        <valueSet value="http://hl7.org/fhir/ValueSet/bundle-type|4.3.0-cibuild"/>
       </binding>
       <mapping>
         <identity value="w5"/>
@@ -1047,7 +1047,7 @@
     <element id="Bundle.total">
       <path value="Bundle.total"/>
       <short value="If search, the total number of matches"/>
-      <definition value="If a set of search matches, this is the total number of entries of type &#39;match&#39; across all pages in the search.  It does not include search.mode = &#39;include&#39; or &#39;outcome&#39; entries and it does not provide a count of the number of entries in the Bundle."/>
+      <definition value="If a set of search matches, this is the total number of entries of type 'match' across all pages in the search.  It does not include search.mode = 'include' or 'outcome' entries and it does not provide a count of the number of entries in the Bundle."/>
       <comment value="Only used if the bundle is a search result set. The total does not include resources such as OperationOutcome and included resources, only the total number of matching resources."/>
       <min value="0"/>
       <max value="1"/>
@@ -1111,10 +1111,9 @@
         <min value="0"/>
         <max value="1"/>
       </base>
-    <!-- Note: special primitive values have a FHIRPath system type. e.g. this is compiler magic (j) -->
       <type>
         <extension url="http://hl7.org/fhir/StructureDefinition/structuredefinition-fhir-type">
-          <valueUrl value="id"/>
+          <valueUrl value="string"/>
         </extension>
         <code value="http://hl7.org/fhirpath/System.String"/>
       </type>
@@ -1168,7 +1167,7 @@
     <element id="Bundle.link.modifierExtension">
       <path value="Bundle.link.modifierExtension"/>
       <short value="Extensions that cannot be ignored even if unrecognized"/>
-      <definition value="May be used to represent additional information that is not part of the basic definition of the element and that modifies the understanding of the element in which it is contained and/or the understanding of the containing element&#39;s descendants. Usually modifier elements provide negation or qualification. To make the use of extensions safe and manageable, there is a strict set of governance applied to the definition and use of extensions. Though any implementer can define an extension, there is a set of requirements that SHALL be met as part of the definition of the extension. Applications processing a resource are required to check for modifier extensions.&#xA;&#xA;Modifier extensions SHALL NOT change the meaning of any elements on Resource or DomainResource (including cannot change the meaning of modifierExtension itself)."/>
+      <definition value="May be used to represent additional information that is not part of the basic definition of the element and that modifies the understanding of the element in which it is contained and/or the understanding of the containing element's descendants. Usually modifier elements provide negation or qualification. To make the use of extensions safe and manageable, there is a strict set of governance applied to the definition and use of extensions. Though any implementer can define an extension, there is a set of requirements that SHALL be met as part of the definition of the extension. Applications processing a resource are required to check for modifier extensions.&#xA;&#xA;Modifier extensions SHALL NOT change the meaning of any elements on Resource or DomainResource (including cannot change the meaning of modifierExtension itself)."/>
       <comment value="There can be no stigma associated with the use of extensions by any application, project, or standard - regardless of the institution or jurisdiction that uses or defines the extensions.  The use of extensions is what allows the FHIR specification to retain a core level of simplicity for everyone."/>
       <requirements value="Modifier extensions allow for extensions that *cannot* be safely ignored to be clearly distinguished from the vast majority of extensions which can be safely ignored.  This promotes interoperability by eliminating the need for implementers to prohibit the presence of extensions. For further information, see the [definition of modifier extensions](extensibility.html#modifierExtension)."/>
       <alias value="extensions"/>
@@ -1274,11 +1273,11 @@
       <type>
         <code value="BackboneElement"/>
       </type>
-      <orderMeaning value="For bundles of type &#39;document&#39; and &#39;message&#39;, the first resource is special (must be Composition or MessageHeader respectively). For all bundles, the meaning of the order of entries depends on the bundle type"/>
+      <orderMeaning value="For bundles of type 'document' and 'message', the first resource is special (must be Composition or MessageHeader respectively). For all bundles, the meaning of the order of entries depends on the bundle type"/>
       <constraint>
         <key value="bdl-5"/>
         <severity value="error"/>
-        <human value="must be a resource unless there&#39;s a request or response"/>
+        <human value="must be a resource unless there's a request or response"/>
         <expression value="resource.exists() or request.exists() or response.exists()"/>
         <xpath value="exists(f:resource) or exists(f:request) or exists(f:response)"/>
         <source value="http://hl7.org/fhir/StructureDefinition/Bundle"/>
@@ -1287,8 +1286,8 @@
         <key value="bdl-8"/>
         <severity value="error"/>
         <human value="fullUrl cannot be a version specific reference"/>
-        <expression value="fullUrl.exists() implies fullUrl.contains(&#39;/_history/&#39;).not()"/>
-        <xpath value="not(exists(f:fullUrl[contains(string(@value), &#39;/_history/&#39;)]))"/>
+        <expression value="fullUrl.exists() implies fullUrl.contains('/_history/').not()"/>
+        <xpath value="not(exists(f:fullUrl[contains(string(@value), '/_history/')]))"/>
         <source value="http://hl7.org/fhir/StructureDefinition/Bundle"/>
       </constraint>
       <constraint>
@@ -1315,10 +1314,9 @@
         <min value="0"/>
         <max value="1"/>
       </base>
-    <!-- Note: special primitive values have a FHIRPath system type. e.g. this is compiler magic (j) -->
       <type>
         <extension url="http://hl7.org/fhir/StructureDefinition/structuredefinition-fhir-type">
-          <valueUrl value="id"/>
+          <valueUrl value="string"/>
         </extension>
         <code value="http://hl7.org/fhirpath/System.String"/>
       </type>
@@ -1372,7 +1370,7 @@
     <element id="Bundle.entry.modifierExtension">
       <path value="Bundle.entry.modifierExtension"/>
       <short value="Extensions that cannot be ignored even if unrecognized"/>
-      <definition value="May be used to represent additional information that is not part of the basic definition of the element and that modifies the understanding of the element in which it is contained and/or the understanding of the containing element&#39;s descendants. Usually modifier elements provide negation or qualification. To make the use of extensions safe and manageable, there is a strict set of governance applied to the definition and use of extensions. Though any implementer can define an extension, there is a set of requirements that SHALL be met as part of the definition of the extension. Applications processing a resource are required to check for modifier extensions.&#xA;&#xA;Modifier extensions SHALL NOT change the meaning of any elements on Resource or DomainResource (including cannot change the meaning of modifierExtension itself)."/>
+      <definition value="May be used to represent additional information that is not part of the basic definition of the element and that modifies the understanding of the element in which it is contained and/or the understanding of the containing element's descendants. Usually modifier elements provide negation or qualification. To make the use of extensions safe and manageable, there is a strict set of governance applied to the definition and use of extensions. Though any implementer can define an extension, there is a set of requirements that SHALL be met as part of the definition of the extension. Applications processing a resource are required to check for modifier extensions.&#xA;&#xA;Modifier extensions SHALL NOT change the meaning of any elements on Resource or DomainResource (including cannot change the meaning of modifierExtension itself)."/>
       <comment value="There can be no stigma associated with the use of extensions by any application, project, or standard - regardless of the institution or jurisdiction that uses or defines the extensions.  The use of extensions is what allows the FHIR specification to retain a core level of simplicity for everyone."/>
       <requirements value="Modifier extensions allow for extensions that *cannot* be safely ignored to be clearly distinguished from the vast majority of extensions which can be safely ignored.  This promotes interoperability by eliminating the need for implementers to prohibit the presence of extensions. For further information, see the [definition of modifier extensions](extensibility.html#modifierExtension)."/>
       <alias value="extensions"/>
@@ -1440,7 +1438,7 @@
       <path value="Bundle.entry.fullUrl"/>
       <short value="URI for resource (Absolute URL server address or URI for UUID/OID)"/>
       <definition value="The Absolute URL for the resource.  The fullUrl SHALL NOT disagree with the id in the resource - i.e. if the fullUrl is not a urn:uuid, the URL shall be version-independent URL consistent with the Resource.id. The fullUrl is a version independent reference to the resource. The fullUrl element SHALL have a value except that: &#xA;* fullUrl can be empty on a POST (although it does not need to when specifying a temporary id for reference in the bundle)&#xA;* Results from operations might involve resources that are not identified."/>
-      <comment value="fullUrl might not be [unique in the context of a resource](bundle.html#bundle-unique). Note that since [FHIR resources do not need to be served through the FHIR API](references.html), the fullURL might be a URN or an absolute URL that does not end with the logical id of the resource (Resource.id). However, but if the fullUrl does look like a RESTful server URL (e.g. meets the [regex](references.html#regex), then the &#39;id&#39; portion of the fullUrl SHALL end with the Resource.id.&#xA;&#xA;Note that the fullUrl is not the same as the canonical URL - it&#39;s an absolute url for an endpoint serving the resource (these will happen to have the same value on the canonical server for the resource with the canonical URL)."/>
+      <comment value="fullUrl might not be [unique in the context of a resource](bundle.html#bundle-unique). Note that since [FHIR resources do not need to be served through the FHIR API](references.html), the fullURL might be a URN or an absolute URL that does not end with the logical id of the resource (Resource.id). However, but if the fullUrl does look like a RESTful server URL (e.g. meets the [regex](references.html#regex), then the 'id' portion of the fullUrl SHALL end with the Resource.id.&#xA;&#xA;Note that the fullUrl is not the same as the canonical URL - it's an absolute url for an endpoint serving the resource (these will happen to have the same value on the canonical server for the resource with the canonical URL)."/>
       <min value="0"/>
       <max value="1"/>
       <base>
@@ -1520,10 +1518,9 @@
         <min value="0"/>
         <max value="1"/>
       </base>
-    <!-- Note: special primitive values have a FHIRPath system type. e.g. this is compiler magic (j) -->
       <type>
         <extension url="http://hl7.org/fhir/StructureDefinition/structuredefinition-fhir-type">
-          <valueUrl value="id"/>
+          <valueUrl value="string"/>
         </extension>
         <code value="http://hl7.org/fhirpath/System.String"/>
       </type>
@@ -1577,7 +1574,7 @@
     <element id="Bundle.entry.search.modifierExtension">
       <path value="Bundle.entry.search.modifierExtension"/>
       <short value="Extensions that cannot be ignored even if unrecognized"/>
-      <definition value="May be used to represent additional information that is not part of the basic definition of the element and that modifies the understanding of the element in which it is contained and/or the understanding of the containing element&#39;s descendants. Usually modifier elements provide negation or qualification. To make the use of extensions safe and manageable, there is a strict set of governance applied to the definition and use of extensions. Though any implementer can define an extension, there is a set of requirements that SHALL be met as part of the definition of the extension. Applications processing a resource are required to check for modifier extensions.&#xA;&#xA;Modifier extensions SHALL NOT change the meaning of any elements on Resource or DomainResource (including cannot change the meaning of modifierExtension itself)."/>
+      <definition value="May be used to represent additional information that is not part of the basic definition of the element and that modifies the understanding of the element in which it is contained and/or the understanding of the containing element's descendants. Usually modifier elements provide negation or qualification. To make the use of extensions safe and manageable, there is a strict set of governance applied to the definition and use of extensions. Though any implementer can define an extension, there is a set of requirements that SHALL be met as part of the definition of the extension. Applications processing a resource are required to check for modifier extensions.&#xA;&#xA;Modifier extensions SHALL NOT change the meaning of any elements on Resource or DomainResource (including cannot change the meaning of modifierExtension itself)."/>
       <comment value="There can be no stigma associated with the use of extensions by any application, project, or standard - regardless of the institution or jurisdiction that uses or defines the extensions.  The use of extensions is what allows the FHIR specification to retain a core level of simplicity for everyone."/>
       <requirements value="Modifier extensions allow for extensions that *cannot* be safely ignored to be clearly distinguished from the vast majority of extensions which can be safely ignored.  This promotes interoperability by eliminating the need for implementers to prohibit the presence of extensions. For further information, see the [definition of modifier extensions](extensibility.html#modifierExtension)."/>
       <alias value="extensions"/>
@@ -1620,8 +1617,8 @@
     <element id="Bundle.entry.search.mode">
       <path value="Bundle.entry.search.mode"/>
       <short value="match | include | outcome - why this is in the result set"/>
-      <definition value="Why this entry is in the result set - whether it&#39;s included as a match or because of an _include requirement, or to convey information or warning information about the search process."/>
-      <comment value="There is only one mode. In some corner cases, a resource may be included because it is both a match and an include. In these circumstances, &#39;match&#39; takes precedence."/>
+      <definition value="Why this entry is in the result set - whether it's included as a match or because of an _include requirement, or to convey information or warning information about the search process."/>
+      <comment value="There is only one mode. In some corner cases, a resource may be included because it is both a match and an include. In these circumstances, 'match' takes precedence."/>
       <min value="0"/>
       <max value="1"/>
       <base>
@@ -1648,14 +1645,14 @@
           <valueString value="SearchEntryMode"/>
         </extension>
         <strength value="required"/>
-        <description value="Why an entry is in the result set - whether it&#39;s included as a match or because of an _include requirement, or to convey information or warning information about the search process."/>
-        <valueSet value="http://hl7.org/fhir/ValueSet/search-entry-mode|4.3.0-CIBUILD"/>
+        <description value="Why an entry is in the result set - whether it's included as a match or because of an _include requirement, or to convey information or warning information about the search process."/>
+        <valueSet value="http://hl7.org/fhir/ValueSet/search-entry-mode|4.3.0-cibuild"/>
       </binding>
     </element>
     <element id="Bundle.entry.search.score">
       <path value="Bundle.entry.search.score"/>
       <short value="Search ranking (between 0 and 1)"/>
-      <definition value="When searching, the server&#39;s search ranking score for the entry."/>
+      <definition value="When searching, the server's search ranking score for the entry."/>
       <comment value="Servers are not required to return a ranking score. 1 is most relevant, and 0 is least relevant. Often, search results are sorted by score, but the client may specify a different sort order.&#xA;&#xA;See [Patient Match](patient-operation-match.html) for the EMPI search which relates to this element."/>
       <min value="0"/>
       <max value="1"/>
@@ -1718,10 +1715,9 @@
         <min value="0"/>
         <max value="1"/>
       </base>
-    <!-- Note: special primitive values have a FHIRPath system type. e.g. this is compiler magic (j) -->
       <type>
         <extension url="http://hl7.org/fhir/StructureDefinition/structuredefinition-fhir-type">
-          <valueUrl value="id"/>
+          <valueUrl value="string"/>
         </extension>
         <code value="http://hl7.org/fhirpath/System.String"/>
       </type>
@@ -1775,7 +1771,7 @@
     <element id="Bundle.entry.request.modifierExtension">
       <path value="Bundle.entry.request.modifierExtension"/>
       <short value="Extensions that cannot be ignored even if unrecognized"/>
-      <definition value="May be used to represent additional information that is not part of the basic definition of the element and that modifies the understanding of the element in which it is contained and/or the understanding of the containing element&#39;s descendants. Usually modifier elements provide negation or qualification. To make the use of extensions safe and manageable, there is a strict set of governance applied to the definition and use of extensions. Though any implementer can define an extension, there is a set of requirements that SHALL be met as part of the definition of the extension. Applications processing a resource are required to check for modifier extensions.&#xA;&#xA;Modifier extensions SHALL NOT change the meaning of any elements on Resource or DomainResource (including cannot change the meaning of modifierExtension itself)."/>
+      <definition value="May be used to represent additional information that is not part of the basic definition of the element and that modifies the understanding of the element in which it is contained and/or the understanding of the containing element's descendants. Usually modifier elements provide negation or qualification. To make the use of extensions safe and manageable, there is a strict set of governance applied to the definition and use of extensions. Though any implementer can define an extension, there is a set of requirements that SHALL be met as part of the definition of the extension. Applications processing a resource are required to check for modifier extensions.&#xA;&#xA;Modifier extensions SHALL NOT change the meaning of any elements on Resource or DomainResource (including cannot change the meaning of modifierExtension itself)."/>
       <comment value="There can be no stigma associated with the use of extensions by any application, project, or standard - regardless of the institution or jurisdiction that uses or defines the extensions.  The use of extensions is what allows the FHIR specification to retain a core level of simplicity for everyone."/>
       <requirements value="Modifier extensions allow for extensions that *cannot* be safely ignored to be clearly distinguished from the vast majority of extensions which can be safely ignored.  This promotes interoperability by eliminating the need for implementers to prohibit the presence of extensions. For further information, see the [definition of modifier extensions](extensibility.html#modifierExtension)."/>
       <alias value="extensions"/>
@@ -1846,7 +1842,7 @@
         </extension>
         <strength value="required"/>
         <description value="HTTP verbs (in the HTTP command line). See [HTTP rfc](https://tools.ietf.org/html/rfc7231) for details."/>
-        <valueSet value="http://hl7.org/fhir/ValueSet/http-verb|4.3.0-CIBUILD"/>
+        <valueSet value="http://hl7.org/fhir/ValueSet/http-verb|4.3.0-cibuild"/>
       </binding>
     </element>
     <element id="Bundle.entry.request.url">
@@ -1983,7 +1979,7 @@
     <element id="Bundle.entry.response">
       <path value="Bundle.entry.response"/>
       <short value="Results of execution (transaction/batch/history)"/>
-      <definition value="Indicates the results of processing the corresponding &#39;request&#39; entry in the batch or transaction being responded to or what the results of an operation where when returning history."/>
+      <definition value="Indicates the results of processing the corresponding 'request' entry in the batch or transaction being responded to or what the results of an operation where when returning history."/>
       <min value="0"/>
       <max value="1"/>
       <base>
@@ -2019,10 +2015,9 @@
         <min value="0"/>
         <max value="1"/>
       </base>
-    <!-- Note: special primitive values have a FHIRPath system type. e.g. this is compiler magic (j) -->
       <type>
         <extension url="http://hl7.org/fhir/StructureDefinition/structuredefinition-fhir-type">
-          <valueUrl value="id"/>
+          <valueUrl value="string"/>
         </extension>
         <code value="http://hl7.org/fhirpath/System.String"/>
       </type>
@@ -2076,7 +2071,7 @@
     <element id="Bundle.entry.response.modifierExtension">
       <path value="Bundle.entry.response.modifierExtension"/>
       <short value="Extensions that cannot be ignored even if unrecognized"/>
-      <definition value="May be used to represent additional information that is not part of the basic definition of the element and that modifies the understanding of the element in which it is contained and/or the understanding of the containing element&#39;s descendants. Usually modifier elements provide negation or qualification. To make the use of extensions safe and manageable, there is a strict set of governance applied to the definition and use of extensions. Though any implementer can define an extension, there is a set of requirements that SHALL be met as part of the definition of the extension. Applications processing a resource are required to check for modifier extensions.&#xA;&#xA;Modifier extensions SHALL NOT change the meaning of any elements on Resource or DomainResource (including cannot change the meaning of modifierExtension itself)."/>
+      <definition value="May be used to represent additional information that is not part of the basic definition of the element and that modifies the understanding of the element in which it is contained and/or the understanding of the containing element's descendants. Usually modifier elements provide negation or qualification. To make the use of extensions safe and manageable, there is a strict set of governance applied to the definition and use of extensions. Though any implementer can define an extension, there is a set of requirements that SHALL be met as part of the definition of the extension. Applications processing a resource are required to check for modifier extensions.&#xA;&#xA;Modifier extensions SHALL NOT change the meaning of any elements on Resource or DomainResource (including cannot change the meaning of modifierExtension itself)."/>
       <comment value="There can be no stigma associated with the use of extensions by any application, project, or standard - regardless of the institution or jurisdiction that uses or defines the extensions.  The use of extensions is what allows the FHIR specification to retain a core level of simplicity for everyone."/>
       <requirements value="Modifier extensions allow for extensions that *cannot* be safely ignored to be clearly distinguished from the vast majority of extensions which can be safely ignored.  This promotes interoperability by eliminating the need for implementers to prohibit the presence of extensions. For further information, see the [definition of modifier extensions](extensibility.html#modifierExtension)."/>
       <alias value="extensions"/>
@@ -2197,7 +2192,7 @@
     </element>
     <element id="Bundle.entry.response.lastModified">
       <path value="Bundle.entry.response.lastModified"/>
-      <short value="Server&#39;s date time modified"/>
+      <short value="Server's date time modified"/>
       <definition value="The date/time that the resource was modified on the server."/>
       <comment value="This has to match the same time in the meta header (meta.lastUpdated) if a resource is included."/>
       <min value="0"/>
@@ -2284,72 +2279,72 @@
         <key value="bdl-7"/>
         <severity value="error"/>
         <human value="FullUrl must be unique in a bundle, or else entries with the same fullUrl must have different meta.versionId (except in history bundles)"/>
-        <expression value="(type = &#39;history&#39;) or entry.where(fullUrl.exists()).select(fullUrl&amp;resource.meta.versionId).isDistinct()"/>
-        <xpath value="(f:type/@value = &#39;history&#39;) or (count(for $entry in f:entry[f:resource] return $entry[count(parent::f:Bundle/f:entry[f:fullUrl/@value=$entry/f:fullUrl/@value and ((not(f:resource/*/f:meta/f:versionId/@value) and not($entry/f:resource/*/f:meta/f:versionId/@value)) or f:resource/*/f:meta/f:versionId/@value=$entry/f:resource/*/f:meta/f:versionId/@value)])!=1])=0)"/>
+        <expression value="(type = 'history') or entry.where(fullUrl.exists()).select(fullUrl&amp;resource.meta.versionId).isDistinct()"/>
+        <xpath value="(f:type/@value = 'history') or (count(for $entry in f:entry[f:resource] return $entry[count(parent::f:Bundle/f:entry[f:fullUrl/@value=$entry/f:fullUrl/@value and ((not(f:resource/*/f:meta/f:versionId/@value) and not($entry/f:resource/*/f:meta/f:versionId/@value)) or f:resource/*/f:meta/f:versionId/@value=$entry/f:resource/*/f:meta/f:versionId/@value)])!=1])=0)"/>
         <source value="http://hl7.org/fhir/StructureDefinition/Bundle"/>
       </constraint>
       <constraint>
         <key value="bdl-9"/>
         <severity value="error"/>
         <human value="A document must have an identifier with a system and a value"/>
-        <expression value="type = &#39;document&#39; implies (identifier.system.exists() and identifier.value.exists())"/>
-        <xpath value="not(f:type/@value = &#39;document&#39;) or exists(f:identifier/f:system) or exists(f:identifier/f:value)"/>
+        <expression value="type = 'document' implies (identifier.system.exists() and identifier.value.exists())"/>
+        <xpath value="not(f:type/@value = 'document') or exists(f:identifier/f:system) or exists(f:identifier/f:value)"/>
         <source value="http://hl7.org/fhir/StructureDefinition/Bundle"/>
       </constraint>
       <constraint>
         <key value="bdl-3"/>
         <severity value="error"/>
         <human value="entry.request mandatory for batch/transaction/history, otherwise prohibited"/>
-        <expression value="entry.all(request.exists() = (%resource.type = &#39;batch&#39; or %resource.type = &#39;transaction&#39; or %resource.type = &#39;history&#39;))"/>
-        <xpath value="not(f:entry/f:request) or (f:type/@value = &#39;batch&#39;) or (f:type/@value = &#39;transaction&#39;) or (f:type/@value = &#39;history&#39;)"/>
+        <expression value="entry.all(request.exists() = (%resource.type = 'batch' or %resource.type = 'transaction' or %resource.type = 'history'))"/>
+        <xpath value="not(f:entry/f:request) or (f:type/@value = 'batch') or (f:type/@value = 'transaction') or (f:type/@value = 'history')"/>
         <source value="http://hl7.org/fhir/StructureDefinition/Bundle"/>
       </constraint>
       <constraint>
         <key value="bdl-4"/>
         <severity value="error"/>
         <human value="entry.response mandatory for batch-response/transaction-response/history, otherwise prohibited"/>
-        <expression value="entry.all(response.exists() = (%resource.type = &#39;batch-response&#39; or %resource.type = &#39;transaction-response&#39; or %resource.type = &#39;history&#39;))"/>
-        <xpath value="not(f:entry/f:response) or (f:type/@value = &#39;batch-response&#39;) or (f:type/@value = &#39;transaction-response&#39;) or (f:type/@value = &#39;history&#39;)"/>
+        <expression value="entry.all(response.exists() = (%resource.type = 'batch-response' or %resource.type = 'transaction-response' or %resource.type = 'history'))"/>
+        <xpath value="not(f:entry/f:response) or (f:type/@value = 'batch-response') or (f:type/@value = 'transaction-response') or (f:type/@value = 'history')"/>
         <source value="http://hl7.org/fhir/StructureDefinition/Bundle"/>
       </constraint>
       <constraint>
         <key value="bdl-12"/>
         <severity value="error"/>
         <human value="A message must have a MessageHeader as the first resource"/>
-        <expression value="type = &#39;message&#39; implies entry.first().resource.is(MessageHeader)"/>
-        <xpath value="not(f:type/@value=&#39;message&#39;) or f:entry[1]/f:resource/f:MessageHeader"/>
+        <expression value="type = 'message' implies entry.first().resource.is(MessageHeader)"/>
+        <xpath value="not(f:type/@value='message') or f:entry[1]/f:resource/f:MessageHeader"/>
         <source value="http://hl7.org/fhir/StructureDefinition/Bundle"/>
       </constraint>
       <constraint>
         <key value="bdl-1"/>
         <severity value="error"/>
         <human value="total only when a search or history"/>
-        <expression value="total.empty() or (type = &#39;searchset&#39;) or (type = &#39;history&#39;)"/>
-        <xpath value="not(f:total) or (f:type/@value = &#39;searchset&#39;) or (f:type/@value = &#39;history&#39;)"/>
+        <expression value="total.empty() or (type = 'searchset') or (type = 'history')"/>
+        <xpath value="not(f:total) or (f:type/@value = 'searchset') or (f:type/@value = 'history')"/>
         <source value="http://hl7.org/fhir/StructureDefinition/Bundle"/>
       </constraint>
       <constraint>
         <key value="bdl-2"/>
         <severity value="error"/>
         <human value="entry.search only when a search"/>
-        <expression value="entry.search.empty() or (type = &#39;searchset&#39;)"/>
-        <xpath value="not(f:entry/f:search) or (f:type/@value = &#39;searchset&#39;)"/>
+        <expression value="entry.search.empty() or (type = 'searchset')"/>
+        <xpath value="not(f:entry/f:search) or (f:type/@value = 'searchset')"/>
         <source value="http://hl7.org/fhir/StructureDefinition/Bundle"/>
       </constraint>
       <constraint>
         <key value="bdl-11"/>
         <severity value="error"/>
         <human value="A document must have a Composition as the first resource"/>
-        <expression value="type = &#39;document&#39; implies entry.first().resource.is(Composition)"/>
-        <xpath value="not(f:type/@value=&#39;document&#39;) or f:entry[1]/f:resource/f:Composition"/>
+        <expression value="type = 'document' implies entry.first().resource.is(Composition)"/>
+        <xpath value="not(f:type/@value='document') or f:entry[1]/f:resource/f:Composition"/>
         <source value="http://hl7.org/fhir/StructureDefinition/Bundle"/>
       </constraint>
       <constraint>
         <key value="bdl-10"/>
         <severity value="error"/>
         <human value="A document must have a date"/>
-        <expression value="type = &#39;document&#39; implies (timestamp.hasValue())"/>
-        <xpath value="not(f:type/@value = &#39;document&#39;) or exists(f:timestamp/@value)"/>
+        <expression value="type = 'document' implies (timestamp.hasValue())"/>
+        <xpath value="not(f:type/@value = 'document') or exists(f:timestamp/@value)"/>
         <source value="http://hl7.org/fhir/StructureDefinition/Bundle"/>
       </constraint>
       <mustSupport value="false"/>
@@ -2374,7 +2369,7 @@
     <element id="Bundle.identifier">
       <path value="Bundle.identifier"/>
       <short value="Persistent identifier for the bundle"/>
-      <definition value="A persistent identifier for the bundle that won&#39;t change as a bundle is copied from server to server."/>
+      <definition value="A persistent identifier for the bundle that won't change as a bundle is copied from server to server."/>
       <comment value="Persistent identity generally only matters for batches of type Document, Message, and Collection. It would not normally be populated for search and history results and servers ignore Bundle.identifier when processing batches and transactions. For Documents  the .identifier SHALL be populated such that the .identifier is globally unique."/>
       <min value="0"/>
       <max value="1"/>
@@ -2397,7 +2392,7 @@
       <path value="Bundle.type"/>
       <short value="document | message | transaction | transaction-response | batch | batch-response | history | searchset | collection"/>
       <definition value="Indicates the purpose of this bundle - how it is intended to be used."/>
-      <comment value="It&#39;s possible to use a bundle for other purposes (e.g. a document can be accepted as a transaction). This is primarily defined so that there can be specific rules for some of the bundle types."/>
+      <comment value="It's possible to use a bundle for other purposes (e.g. a document can be accepted as a transaction). This is primarily defined so that there can be specific rules for some of the bundle types."/>
       <min value="1"/>
       <max value="1"/>
       <type>
@@ -2412,7 +2407,7 @@
         </extension>
         <strength value="required"/>
         <description value="Indicates the purpose of a bundle - how it is intended to be used."/>
-        <valueSet value="http://hl7.org/fhir/ValueSet/bundle-type|4.3.0-CIBUILD"/>
+        <valueSet value="http://hl7.org/fhir/ValueSet/bundle-type|4.3.0-cibuild"/>
       </binding>
       <mapping>
         <identity value="w5"/>
@@ -2444,7 +2439,7 @@
     <element id="Bundle.total">
       <path value="Bundle.total"/>
       <short value="If search, the total number of matches"/>
-      <definition value="If a set of search matches, this is the total number of entries of type &#39;match&#39; across all pages in the search.  It does not include search.mode = &#39;include&#39; or &#39;outcome&#39; entries and it does not provide a count of the number of entries in the Bundle."/>
+      <definition value="If a set of search matches, this is the total number of entries of type 'match' across all pages in the search.  It does not include search.mode = 'include' or 'outcome' entries and it does not provide a count of the number of entries in the Bundle."/>
       <comment value="Only used if the bundle is a search result set. The total does not include resources such as OperationOutcome and included resources, only the total number of matching resources."/>
       <min value="0"/>
       <max value="1"/>
@@ -2505,19 +2500,19 @@
       <type>
         <code value="BackboneElement"/>
       </type>
-      <orderMeaning value="For bundles of type &#39;document&#39; and &#39;message&#39;, the first resource is special (must be Composition or MessageHeader respectively). For all bundles, the meaning of the order of entries depends on the bundle type"/>
+      <orderMeaning value="For bundles of type 'document' and 'message', the first resource is special (must be Composition or MessageHeader respectively). For all bundles, the meaning of the order of entries depends on the bundle type"/>
       <constraint>
         <key value="bdl-8"/>
         <severity value="error"/>
         <human value="fullUrl cannot be a version specific reference"/>
-        <expression value="fullUrl.exists() implies fullUrl.contains(&#39;/_history/&#39;).not()"/>
-        <xpath value="not(exists(f:fullUrl[contains(string(@value), &#39;/_history/&#39;)]))"/>
+        <expression value="fullUrl.exists() implies fullUrl.contains('/_history/').not()"/>
+        <xpath value="not(exists(f:fullUrl[contains(string(@value), '/_history/')]))"/>
         <source value="http://hl7.org/fhir/StructureDefinition/Bundle"/>
       </constraint>
       <constraint>
         <key value="bdl-5"/>
         <severity value="error"/>
-        <human value="must be a resource unless there&#39;s a request or response"/>
+        <human value="must be a resource unless there's a request or response"/>
         <expression value="resource.exists() or request.exists() or response.exists()"/>
         <xpath value="exists(f:resource) or exists(f:request) or exists(f:response)"/>
         <source value="http://hl7.org/fhir/StructureDefinition/Bundle"/>
@@ -2541,7 +2536,7 @@
       <path value="Bundle.entry.fullUrl"/>
       <short value="URI for resource (Absolute URL server address or URI for UUID/OID)"/>
       <definition value="The Absolute URL for the resource.  The fullUrl SHALL NOT disagree with the id in the resource - i.e. if the fullUrl is not a urn:uuid, the URL shall be version-independent URL consistent with the Resource.id. The fullUrl is a version independent reference to the resource. The fullUrl element SHALL have a value except that: &#xA;* fullUrl can be empty on a POST (although it does not need to when specifying a temporary id for reference in the bundle)&#xA;* Results from operations might involve resources that are not identified."/>
-      <comment value="fullUrl might not be [unique in the context of a resource](bundle.html#bundle-unique). Note that since [FHIR resources do not need to be served through the FHIR API](references.html), the fullURL might be a URN or an absolute URL that does not end with the logical id of the resource (Resource.id). However, but if the fullUrl does look like a RESTful server URL (e.g. meets the [regex](references.html#regex), then the &#39;id&#39; portion of the fullUrl SHALL end with the Resource.id.&#xA;&#xA;Note that the fullUrl is not the same as the canonical URL - it&#39;s an absolute url for an endpoint serving the resource (these will happen to have the same value on the canonical server for the resource with the canonical URL)."/>
+      <comment value="fullUrl might not be [unique in the context of a resource](bundle.html#bundle-unique). Note that since [FHIR resources do not need to be served through the FHIR API](references.html), the fullURL might be a URN or an absolute URL that does not end with the logical id of the resource (Resource.id). However, but if the fullUrl does look like a RESTful server URL (e.g. meets the [regex](references.html#regex), then the 'id' portion of the fullUrl SHALL end with the Resource.id.&#xA;&#xA;Note that the fullUrl is not the same as the canonical URL - it's an absolute url for an endpoint serving the resource (these will happen to have the same value on the canonical server for the resource with the canonical URL)."/>
       <min value="0"/>
       <max value="1"/>
       <type>
@@ -2581,8 +2576,8 @@
     <element id="Bundle.entry.search.mode">
       <path value="Bundle.entry.search.mode"/>
       <short value="match | include | outcome - why this is in the result set"/>
-      <definition value="Why this entry is in the result set - whether it&#39;s included as a match or because of an _include requirement, or to convey information or warning information about the search process."/>
-      <comment value="There is only one mode. In some corner cases, a resource may be included because it is both a match and an include. In these circumstances, &#39;match&#39; takes precedence."/>
+      <definition value="Why this entry is in the result set - whether it's included as a match or because of an _include requirement, or to convey information or warning information about the search process."/>
+      <comment value="There is only one mode. In some corner cases, a resource may be included because it is both a match and an include. In these circumstances, 'match' takes precedence."/>
       <min value="0"/>
       <max value="1"/>
       <type>
@@ -2596,14 +2591,14 @@
           <valueString value="SearchEntryMode"/>
         </extension>
         <strength value="required"/>
-        <description value="Why an entry is in the result set - whether it&#39;s included as a match or because of an _include requirement, or to convey information or warning information about the search process."/>
-        <valueSet value="http://hl7.org/fhir/ValueSet/search-entry-mode|4.3.0-CIBUILD"/>
+        <description value="Why an entry is in the result set - whether it's included as a match or because of an _include requirement, or to convey information or warning information about the search process."/>
+        <valueSet value="http://hl7.org/fhir/ValueSet/search-entry-mode|4.3.0-cibuild"/>
       </binding>
     </element>
     <element id="Bundle.entry.search.score">
       <path value="Bundle.entry.search.score"/>
       <short value="Search ranking (between 0 and 1)"/>
-      <definition value="When searching, the server&#39;s search ranking score for the entry."/>
+      <definition value="When searching, the server's search ranking score for the entry."/>
       <comment value="Servers are not required to return a ranking score. 1 is most relevant, and 0 is least relevant. Often, search results are sorted by score, but the client may specify a different sort order.&#xA;&#xA;See [Patient Match](patient-operation-match.html) for the EMPI search which relates to this element."/>
       <min value="0"/>
       <max value="1"/>
@@ -2646,7 +2641,7 @@
         </extension>
         <strength value="required"/>
         <description value="HTTP verbs (in the HTTP command line). See [HTTP rfc](https://tools.ietf.org/html/rfc7231) for details."/>
-        <valueSet value="http://hl7.org/fhir/ValueSet/http-verb|4.3.0-CIBUILD"/>
+        <valueSet value="http://hl7.org/fhir/ValueSet/http-verb|4.3.0-cibuild"/>
       </binding>
     </element>
     <element id="Bundle.entry.request.url">
@@ -2718,7 +2713,7 @@
     <element id="Bundle.entry.response">
       <path value="Bundle.entry.response"/>
       <short value="Results of execution (transaction/batch/history)"/>
-      <definition value="Indicates the results of processing the corresponding &#39;request&#39; entry in the batch or transaction being responded to or what the results of an operation where when returning history."/>
+      <definition value="Indicates the results of processing the corresponding 'request' entry in the batch or transaction being responded to or what the results of an operation where when returning history."/>
       <min value="0"/>
       <max value="1"/>
       <type>
@@ -2771,7 +2766,7 @@
     </element>
     <element id="Bundle.entry.response.lastModified">
       <path value="Bundle.entry.response.lastModified"/>
-      <short value="Server&#39;s date time modified"/>
+      <short value="Server's date time modified"/>
       <definition value="The date/time that the resource was modified on the server."/>
       <comment value="This has to match the same time in the meta header (meta.lastUpdated) if a resource is included."/>
       <min value="0"/>

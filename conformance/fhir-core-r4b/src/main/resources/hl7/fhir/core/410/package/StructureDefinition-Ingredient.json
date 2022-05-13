@@ -2,7 +2,7 @@
     "resourceType": "StructureDefinition",
     "id": "Ingredient",
     "meta": {
-        "lastUpdated": "2022-01-01T15:17:18.597Z"
+        "lastUpdated": "2022-04-23T22:21:35.043Z"
     },
     "text": {
         "status": "empty",
@@ -31,10 +31,11 @@
         }
     ],
     "url": "http://hl7.org/fhir/StructureDefinition/Ingredient",
-    "version": "4.3.0-CIBUILD",
+    "version": "4.3.0-cibuild",
     "name": "Ingredient",
     "status": "draft",
-    "date": "2022-01-01T15:17:18Z",
+    "experimental": false,
+    "date": "2022-04-23T22:21:35Z",
     "publisher": "Health Level Seven International (Biomedical Research and Regulation)",
     "contact": [
         {
@@ -55,7 +56,7 @@
         }
     ],
     "description": "An ingredient of a manufactured item or pharmaceutical product.",
-    "fhirVersion": "4.3.0-CIBUILD",
+    "fhirVersion": "4.3.0-cibuild",
     "mapping": [
         {
             "identity": "idmp",
@@ -106,7 +107,7 @@
                         "severity": "error",
                         "human": "If the resource is contained in another resource, it SHALL be referred to from elsewhere in the resource or SHALL refer to the containing resource",
                         "expression": "contained.where(((id.exists() and ('#'+id in (%resource.descendants().reference | %resource.descendants().as(canonical) | %resource.descendants().as(uri) | %resource.descendants().as(url)))) or descendants().where(reference = '#').exists() or descendants().where(as(canonical) = '#').exists() or descendants().where(as(uri) = '#').exists()).not()).trace('unmatched', id).empty()",
-                        "xpath": "not(exists(for $resource in . return (for $contained in $resource/f:contained return $contained[not(descendant::f:*/@value='#' or (exists(f:id) and $resource//f:*/@*=concat('#', $contained/*/f:id/@value)))])))",
+                        "xpath": "not(exists(for $contained in f:contained return $contained[not(exists(parent::*/descendant::f:reference/@value=concat('#', $contained/*/f:id/@value)) or exists(descendant::f:reference[@value='#']))]))",
                         "source": "http://hl7.org/fhir/StructureDefinition/DomainResource"
                     },
                     {
@@ -142,6 +143,14 @@
                         "expression": "text.`div`.exists()",
                         "xpath": "exists(f:text/h:div)",
                         "source": "http://hl7.org/fhir/StructureDefinition/DomainResource"
+                    },
+                    {
+                        "key": "ing-1",
+                        "severity": "error",
+                        "human": "If an ingredient is noted as an allergen (allergenicIndicator) then its substance should be a code. If the substance is a SubstanceDefinition, then the allegen information should be documented in that resource",
+                        "expression": "(Ingredient.allergenicIndicator.where(value='true').count() + Ingredient.substance.code.reference.count())  < 2",
+                        "xpath": "count(f:Ingredient.f:allergenicIndicator[@value='true']|f:Ingredient.f:substance.f:code.f:reference) < 2",
+                        "source": "http://hl7.org/fhir/StructureDefinition/Ingredient"
                     }
                 ],
                 "mustSupport": false,
@@ -372,6 +381,16 @@
                         "code": "Resource"
                     }
                 ],
+                "constraint": [
+                    {
+                        "key": "dom-r4b",
+                        "severity": "warning",
+                        "human": "Containing new R4B resources within R4 resources may cause interoperability issues if instances are shared with R4 systems",
+                        "expression": "($this is Citation or $this is Evidence or $this is EvidenceReport or $this is EvidenceVariable or $this is MedicinalProductDefinition or $this is PackagedProductDefinition or $this is AdministrableProductDefinition or $this is Ingredient or $this is ClinicalUseDefinition or $this is RegulatedAuthorization or $this is SubstanceDefinition or $this is SubscriptionStatus or $this is SubscriptionTopic) implies (%resource is Citation or %resource is Evidence or %resource is EvidenceReport or %resource is EvidenceVariable or %resource is MedicinalProductDefinition or %resource is PackagedProductDefinition or %resource is AdministrableProductDefinition or %resource is Ingredient or %resource is ClinicalUseDefinition or %resource is RegulatedAuthorization or %resource is SubstanceDefinition or %resource is SubscriptionStatus or %resource is SubscriptionTopic)",
+                        "xpath": "not(f:Citation|f:Evidence|f:EvidenceReport|f:EvidenceVariable|f:MedicinalProductDefinition|f:PackagedProductDefinition|f:AdministrableProductDefinition|f:Ingredient|f:ClinicalUseDefinition|f:RegulatedAuthorization|f:SubstanceDefinition|f:SubscriptionStatus|f:SubscriptionTopic) or not(parent::f:Citation|parent::f:Evidence|parent::f:EvidenceReport|parent::f:EvidenceVariable|parent::f:MedicinalProductDefinition|parent::f:PackagedProductDefinition|parent::f:AdministrableProductDefinition|parent::f:Ingredient|parent::f:ClinicalUseDefinition|parent::f:RegulatedAuthorization|parent::f:SubstanceDefinition|f:SubscriptionStatus|f:SubscriptionTopic)",
+                        "source": "http://hl7.org/fhir/StructureDefinition/Ingredient"
+                    }
+                ],
                 "mustSupport": false,
                 "isModifier": false,
                 "isSummary": false,
@@ -566,7 +585,7 @@
                     ],
                     "strength": "required",
                     "description": "The lifecycle status of an artifact.",
-                    "valueSet": "http://hl7.org/fhir/ValueSet/publication-status|4.3.0-CIBUILD"
+                    "valueSet": "http://hl7.org/fhir/ValueSet/publication-status|4.3.0-cibuild"
                 },
                 "mapping": [
                     {
@@ -620,7 +639,7 @@
             {
                 "id": "Ingredient.role",
                 "path": "Ingredient.role",
-                "short": "A classification of the ingredient identifying its purpose within the product, e.g. active, inactive",
+                "short": "Purpose of the ingredient within the product, e.g. active, inactive",
                 "definition": "A classification of the ingredient identifying its purpose within the product, e.g. active, inactive.",
                 "min": 1,
                 "max": "1",
@@ -647,6 +666,17 @@
                 "mustSupport": false,
                 "isModifier": false,
                 "isSummary": true,
+                "binding": {
+                    "extension": [
+                        {
+                            "url": "http://hl7.org/fhir/StructureDefinition/elementdefinition-bindingName",
+                            "valueString": "IngredientRole"
+                        }
+                    ],
+                    "strength": "example",
+                    "description": "A classification of the ingredient identifying its purpose within the product, e.g. active, inactive.",
+                    "valueSet": "http://hl7.org/fhir/ValueSet/ingredient-role"
+                },
                 "mapping": [
                     {
                         "identity": "idmp",
@@ -657,8 +687,8 @@
             {
                 "id": "Ingredient.function",
                 "path": "Ingredient.function",
-                "short": "A classification of the ingredient identifying its precise purpose(s) in the drug product. This extends the Ingredient.role to add more detail. Example: Antioxidant, Alkalizing Agent",
-                "definition": "A classification of the ingredient identifying its precise purpose(s) in the drug product. This extends the Ingredient.role to add more detail. Example: Antioxidant, Alkalizing Agent.",
+                "short": "Precise action within the drug product, e.g. antioxidant, alkalizing agent",
+                "definition": "A classification of the ingredient identifying its precise purpose(s) in the drug product. This extends the Ingredient.role to add more detail. Example: antioxidant, alkalizing agent.",
                 "min": 0,
                 "max": "*",
                 "base": {
@@ -684,6 +714,17 @@
                 "mustSupport": false,
                 "isModifier": false,
                 "isSummary": true,
+                "binding": {
+                    "extension": [
+                        {
+                            "url": "http://hl7.org/fhir/StructureDefinition/elementdefinition-bindingName",
+                            "valueString": "IngredientFunction"
+                        }
+                    ],
+                    "strength": "example",
+                    "description": "A classification of the ingredient identifying its precise purpose(s) in the drug product (beyond e.g. active/inactive).",
+                    "valueSet": "http://hl7.org/fhir/ValueSet/ingredient-function"
+                },
                 "mapping": [
                     {
                         "identity": "idmp",
@@ -695,7 +736,7 @@
                 "id": "Ingredient.allergenicIndicator",
                 "path": "Ingredient.allergenicIndicator",
                 "short": "If the ingredient is a known or suspected allergen",
-                "definition": "If the ingredient is a known or suspected allergen.",
+                "definition": "If the ingredient is a known or suspected allergen. Note that this is a property of the substance, so if a reference to a SubstanceDefinition is used to decribe that (rather than just a code), the allergen information should go there, not here.",
                 "min": 0,
                 "max": "1",
                 "base": {
@@ -708,6 +749,7 @@
                         "code": "boolean"
                     }
                 ],
+                "meaningWhenMissing": "If this value is not present, there is no statement being made about whether this is an allergen or not. No inference can be made",
                 "constraint": [
                     {
                         "key": "ele-1",
@@ -732,7 +774,7 @@
                 "id": "Ingredient.manufacturer",
                 "path": "Ingredient.manufacturer",
                 "short": "An organization that manufactures this ingredient",
-                "definition": "An organization that manufactures this ingredient.",
+                "definition": "The organization(s) that manufacture this ingredient. Can be used to indicate:         1) Organizations we are aware of that manufacture this ingredient         2) Specific Manufacturer(s) currently being used         3) Set of organisations allowed to manufacture this ingredient for this product         Users must be clear on the application of context relevant to their use case.",
                 "min": 0,
                 "max": "*",
                 "base": {
@@ -785,7 +827,7 @@
                         "extension": [
                             {
                                 "url": "http://hl7.org/fhir/StructureDefinition/structuredefinition-fhir-type",
-                                "valueUrl": "id"
+                                "valueUrl": "string"
                             }
                         ],
                         "code": "http://hl7.org/fhirpath/System.String"
@@ -904,7 +946,7 @@
             {
                 "id": "Ingredient.manufacturer.role",
                 "path": "Ingredient.manufacturer.role",
-                "short": "The way in which this manufacturer is associated with the ingredient. For example whether it is a possible one (others allowed), or an exclusive authorized one for this ingredient. Note that this is not the manufacturing process role",
+                "short": "allowed | possible | actual",
                 "definition": "The way in which this manufacturer is associated with the ingredient. For example whether it is a possible one (others allowed), or an exclusive authorized one for this ingredient. Note that this is not the manufacturing process role.",
                 "min": 0,
                 "max": "1",
@@ -915,7 +957,7 @@
                 },
                 "type": [
                     {
-                        "code": "Coding"
+                        "code": "code"
                     }
                 ],
                 "constraint": [
@@ -940,7 +982,7 @@
                     ],
                     "strength": "required",
                     "description": "The way in which this manufacturer is associated with the ingredient.",
-                    "valueSet": "http://hl7.org/fhir/ValueSet/ingredient-manufacturer-role|4.3.0-CIBUILD"
+                    "valueSet": "http://hl7.org/fhir/ValueSet/ingredient-manufacturer-role|4.3.0-cibuild"
                 },
                 "mapping": [
                     {
@@ -1046,7 +1088,7 @@
                         "extension": [
                             {
                                 "url": "http://hl7.org/fhir/StructureDefinition/structuredefinition-fhir-type",
-                                "valueUrl": "id"
+                                "valueUrl": "string"
                             }
                         ],
                         "code": "http://hl7.org/fhirpath/System.String"
@@ -1166,7 +1208,7 @@
                 "id": "Ingredient.substance.code",
                 "path": "Ingredient.substance.code",
                 "short": "A code or full resource that represents the ingredient substance",
-                "definition": "A code or full resource that represents the ingredient substance.",
+                "definition": "A code or full resource that represents the ingredient's substance.",
                 "min": 1,
                 "max": "1",
                 "base": {
@@ -1195,6 +1237,17 @@
                 "mustSupport": false,
                 "isModifier": false,
                 "isSummary": true,
+                "binding": {
+                    "extension": [
+                        {
+                            "url": "http://hl7.org/fhir/StructureDefinition/elementdefinition-bindingName",
+                            "valueString": "SNOMEDCTSubstanceCodes"
+                        }
+                    ],
+                    "strength": "example",
+                    "description": "This value set includes all substance codes from SNOMED CT - provided as an exemplar value set.",
+                    "valueSet": "http://hl7.org/fhir/ValueSet/substance-codes"
+                },
                 "mapping": [
                     {
                         "identity": "idmp",
@@ -1205,8 +1258,8 @@
             {
                 "id": "Ingredient.substance.strength",
                 "path": "Ingredient.substance.strength",
-                "short": "The quantity of substance in the unit of presentation, or in the volume (or mass) of the single pharmaceutical product or manufactured item",
-                "definition": "The quantity of substance in the unit of presentation, or in the volume (or mass) of the single pharmaceutical product or manufactured item.",
+                "short": "The quantity of substance, per presentation, or per volume or mass, and type of quantity",
+                "definition": "The quantity of substance in the unit of presentation, or in the volume (or mass) of the single pharmaceutical product or manufactured item. The allowed repetitions do not represent different strengths, but are different representations - mathematically equivalent - of a single strength.",
                 "min": 0,
                 "max": "*",
                 "base": {
@@ -1259,7 +1312,7 @@
                         "extension": [
                             {
                                 "url": "http://hl7.org/fhir/StructureDefinition/structuredefinition-fhir-type",
-                                "valueUrl": "id"
+                                "valueUrl": "string"
                             }
                         ],
                         "code": "http://hl7.org/fhirpath/System.String"
@@ -1378,8 +1431,8 @@
             {
                 "id": "Ingredient.substance.strength.presentation[x]",
                 "path": "Ingredient.substance.strength.presentation[x]",
-                "short": "The quantity of substance in the unit of presentation, or in the volume (or mass) of the single pharmaceutical product or manufactured item",
-                "definition": "The quantity of substance in the unit of presentation, or in the volume (or mass) of the single pharmaceutical product or manufactured item.",
+                "short": "The quantity of substance in the unit of presentation",
+                "definition": "The quantity of substance in the unit of presentation, or in the volume (or mass) of the single pharmaceutical product or manufactured item. Unit of presentation refers to the quantity that the item occurs in e.g. a strength per tablet size, perhaps 'per 20mg' (the size of the tablet). It is not generally normalized as a unitary unit, which would be 'per mg').",
                 "min": 0,
                 "max": "1",
                 "base": {
@@ -1416,14 +1469,14 @@
                 ]
             },
             {
-                "id": "Ingredient.substance.strength.presentationText",
-                "path": "Ingredient.substance.strength.presentationText",
-                "short": "A textual represention of either the whole of the presentation strength or a part of it - with the rest being in Strength.presentation as a ratio",
+                "id": "Ingredient.substance.strength.textPresentation",
+                "path": "Ingredient.substance.strength.textPresentation",
+                "short": "Text of either the whole presentation strength or a part of it (rest being in Strength.presentation as a ratio)",
                 "definition": "A textual represention of either the whole of the presentation strength or a part of it - with the rest being in Strength.presentation as a ratio.",
                 "min": 0,
                 "max": "1",
                 "base": {
-                    "path": "Ingredient.substance.strength.presentationText",
+                    "path": "Ingredient.substance.strength.textPresentation",
                     "min": 0,
                     "max": "1"
                 },
@@ -1493,14 +1546,14 @@
                 ]
             },
             {
-                "id": "Ingredient.substance.strength.concentrationText",
-                "path": "Ingredient.substance.strength.concentrationText",
-                "short": "A textual represention of either the whole of the concentration strength or a part of it - with the rest being in Strength.concentration as a ratio",
+                "id": "Ingredient.substance.strength.textConcentration",
+                "path": "Ingredient.substance.strength.textConcentration",
+                "short": "Text of either the whole concentration strength or a part of it (rest being in Strength.concentration as a ratio)",
                 "definition": "A textual represention of either the whole of the concentration strength or a part of it - with the rest being in Strength.concentration as a ratio.",
                 "min": 0,
                 "max": "1",
                 "base": {
-                    "path": "Ingredient.substance.strength.concentrationText",
+                    "path": "Ingredient.substance.strength.textConcentration",
                     "min": 0,
                     "max": "1"
                 },
@@ -1532,8 +1585,8 @@
             {
                 "id": "Ingredient.substance.strength.measurementPoint",
                 "path": "Ingredient.substance.strength.measurementPoint",
-                "short": "For when strength is measured at a particular point or distance",
-                "definition": "For when strength is measured at a particular point or distance.",
+                "short": "When strength is measured at a particular point or distance",
+                "definition": "For when strength is measured at a particular point or distance. There are products where strength is measured at a particular point. For example, the strength of the ingredient in some inhalers is measured at a particular position relative to the point of aerosolization.",
                 "min": 0,
                 "max": "1",
                 "base": {
@@ -1569,7 +1622,7 @@
             {
                 "id": "Ingredient.substance.strength.country",
                 "path": "Ingredient.substance.strength.country",
-                "short": "The country or countries for which the strength range applies",
+                "short": "Where the strength range applies",
                 "definition": "The country or countries for which the strength range applies.",
                 "min": 0,
                 "max": "*",
@@ -1596,6 +1649,21 @@
                 "mustSupport": false,
                 "isModifier": false,
                 "isSummary": true,
+                "binding": {
+                    "extension": [
+                        {
+                            "url": "http://hl7.org/fhir/StructureDefinition/elementdefinition-bindingName",
+                            "valueString": "Country"
+                        },
+                        {
+                            "url": "http://hl7.org/fhir/StructureDefinition/elementdefinition-isCommonBinding",
+                            "valueBoolean": true
+                        }
+                    ],
+                    "strength": "example",
+                    "description": "Jurisdiction codes",
+                    "valueSet": "http://hl7.org/fhir/ValueSet/country"
+                },
                 "mapping": [
                     {
                         "identity": "idmp",
@@ -1607,7 +1675,7 @@
                 "id": "Ingredient.substance.strength.referenceStrength",
                 "path": "Ingredient.substance.strength.referenceStrength",
                 "short": "Strength expressed in terms of a reference substance",
-                "definition": "Strength expressed in terms of a reference substance.",
+                "definition": "Strength expressed in terms of a reference substance. For when the ingredient strength is additionally expressed as equivalent to the strength of some other closely related substance (e.g. salt vs. base). Reference strength represents the strength (quantitative composition) of the active moiety of the active substance. There are situations when the active substance and active moiety are different, therefore both a strength and a reference strength are needed.",
                 "min": 0,
                 "max": "*",
                 "base": {
@@ -1660,7 +1728,7 @@
                         "extension": [
                             {
                                 "url": "http://hl7.org/fhir/StructureDefinition/structuredefinition-fhir-type",
-                                "valueUrl": "id"
+                                "valueUrl": "string"
                             }
                         ],
                         "code": "http://hl7.org/fhirpath/System.String"
@@ -1809,10 +1877,21 @@
                 "mustSupport": false,
                 "isModifier": false,
                 "isSummary": true,
+                "binding": {
+                    "extension": [
+                        {
+                            "url": "http://hl7.org/fhir/StructureDefinition/elementdefinition-bindingName",
+                            "valueString": "SNOMEDCTSubstanceCodes"
+                        }
+                    ],
+                    "strength": "example",
+                    "description": "This value set includes all substance codes from SNOMED CT - provided as an exemplar value set.",
+                    "valueSet": "http://hl7.org/fhir/ValueSet/substance-codes"
+                },
                 "mapping": [
                     {
                         "identity": "idmp",
-                        "map": "Reference Strength.Reference Specified Substance"
+                        "map": "Reference Strength.Reference Substance"
                     }
                 ]
             },
@@ -1859,7 +1938,7 @@
             {
                 "id": "Ingredient.substance.strength.referenceStrength.measurementPoint",
                 "path": "Ingredient.substance.strength.referenceStrength.measurementPoint",
-                "short": "For when strength is measured at a particular point or distance",
+                "short": "When strength is measured at a particular point or distance",
                 "definition": "For when strength is measured at a particular point or distance.",
                 "min": 0,
                 "max": "1",
@@ -1896,7 +1975,7 @@
             {
                 "id": "Ingredient.substance.strength.referenceStrength.country",
                 "path": "Ingredient.substance.strength.referenceStrength.country",
-                "short": "The country or countries for which the strength range applies",
+                "short": "Where the strength range applies",
                 "definition": "The country or countries for which the strength range applies.",
                 "min": 0,
                 "max": "*",
@@ -1923,6 +2002,21 @@
                 "mustSupport": false,
                 "isModifier": false,
                 "isSummary": true,
+                "binding": {
+                    "extension": [
+                        {
+                            "url": "http://hl7.org/fhir/StructureDefinition/elementdefinition-bindingName",
+                            "valueString": "Country"
+                        },
+                        {
+                            "url": "http://hl7.org/fhir/StructureDefinition/elementdefinition-isCommonBinding",
+                            "valueBoolean": true
+                        }
+                    ],
+                    "strength": "example",
+                    "description": "Jurisdiction codes",
+                    "valueSet": "http://hl7.org/fhir/ValueSet/country"
+                },
                 "mapping": [
                     {
                         "identity": "idmp",
@@ -1941,6 +2035,16 @@
                 "definition": "An ingredient of a manufactured item or pharmaceutical product.",
                 "min": 0,
                 "max": "*",
+                "constraint": [
+                    {
+                        "key": "ing-1",
+                        "severity": "error",
+                        "human": "If an ingredient is noted as an allergen (allergenicIndicator) then its substance should be a code. If the substance is a SubstanceDefinition, then the allegen information should be documented in that resource",
+                        "expression": "(Ingredient.allergenicIndicator.where(value='true').count() + Ingredient.substance.code.reference.count())  < 2",
+                        "xpath": "count(f:Ingredient.f:allergenicIndicator[@value='true']|f:Ingredient.f:substance.f:code.f:reference) < 2",
+                        "source": "http://hl7.org/fhir/StructureDefinition/Ingredient"
+                    }
+                ],
                 "mustSupport": false,
                 "isModifier": false,
                 "mapping": [
@@ -2006,7 +2110,7 @@
                     ],
                     "strength": "required",
                     "description": "The lifecycle status of an artifact.",
-                    "valueSet": "http://hl7.org/fhir/ValueSet/publication-status|4.3.0-CIBUILD"
+                    "valueSet": "http://hl7.org/fhir/ValueSet/publication-status|4.3.0-cibuild"
                 },
                 "mapping": [
                     {
@@ -2045,7 +2149,7 @@
             {
                 "id": "Ingredient.role",
                 "path": "Ingredient.role",
-                "short": "A classification of the ingredient identifying its purpose within the product, e.g. active, inactive",
+                "short": "Purpose of the ingredient within the product, e.g. active, inactive",
                 "definition": "A classification of the ingredient identifying its purpose within the product, e.g. active, inactive.",
                 "min": 1,
                 "max": "1",
@@ -2057,6 +2161,17 @@
                 "mustSupport": false,
                 "isModifier": false,
                 "isSummary": true,
+                "binding": {
+                    "extension": [
+                        {
+                            "url": "http://hl7.org/fhir/StructureDefinition/elementdefinition-bindingName",
+                            "valueString": "IngredientRole"
+                        }
+                    ],
+                    "strength": "example",
+                    "description": "A classification of the ingredient identifying its purpose within the product, e.g. active, inactive.",
+                    "valueSet": "http://hl7.org/fhir/ValueSet/ingredient-role"
+                },
                 "mapping": [
                     {
                         "identity": "idmp",
@@ -2067,8 +2182,8 @@
             {
                 "id": "Ingredient.function",
                 "path": "Ingredient.function",
-                "short": "A classification of the ingredient identifying its precise purpose(s) in the drug product. This extends the Ingredient.role to add more detail. Example: Antioxidant, Alkalizing Agent",
-                "definition": "A classification of the ingredient identifying its precise purpose(s) in the drug product. This extends the Ingredient.role to add more detail. Example: Antioxidant, Alkalizing Agent.",
+                "short": "Precise action within the drug product, e.g. antioxidant, alkalizing agent",
+                "definition": "A classification of the ingredient identifying its precise purpose(s) in the drug product. This extends the Ingredient.role to add more detail. Example: antioxidant, alkalizing agent.",
                 "min": 0,
                 "max": "*",
                 "type": [
@@ -2079,6 +2194,17 @@
                 "mustSupport": false,
                 "isModifier": false,
                 "isSummary": true,
+                "binding": {
+                    "extension": [
+                        {
+                            "url": "http://hl7.org/fhir/StructureDefinition/elementdefinition-bindingName",
+                            "valueString": "IngredientFunction"
+                        }
+                    ],
+                    "strength": "example",
+                    "description": "A classification of the ingredient identifying its precise purpose(s) in the drug product (beyond e.g. active/inactive).",
+                    "valueSet": "http://hl7.org/fhir/ValueSet/ingredient-function"
+                },
                 "mapping": [
                     {
                         "identity": "idmp",
@@ -2090,7 +2216,7 @@
                 "id": "Ingredient.allergenicIndicator",
                 "path": "Ingredient.allergenicIndicator",
                 "short": "If the ingredient is a known or suspected allergen",
-                "definition": "If the ingredient is a known or suspected allergen.",
+                "definition": "If the ingredient is a known or suspected allergen. Note that this is a property of the substance, so if a reference to a SubstanceDefinition is used to decribe that (rather than just a code), the allergen information should go there, not here.",
                 "min": 0,
                 "max": "1",
                 "type": [
@@ -2098,6 +2224,7 @@
                         "code": "boolean"
                     }
                 ],
+                "meaningWhenMissing": "If this value is not present, there is no statement being made about whether this is an allergen or not. No inference can be made",
                 "mustSupport": false,
                 "isModifier": false,
                 "isSummary": true,
@@ -2112,7 +2239,7 @@
                 "id": "Ingredient.manufacturer",
                 "path": "Ingredient.manufacturer",
                 "short": "An organization that manufactures this ingredient",
-                "definition": "An organization that manufactures this ingredient.",
+                "definition": "The organization(s) that manufacture this ingredient. Can be used to indicate:         1) Organizations we are aware of that manufacture this ingredient         2) Specific Manufacturer(s) currently being used         3) Set of organisations allowed to manufacture this ingredient for this product         Users must be clear on the application of context relevant to their use case.",
                 "min": 0,
                 "max": "*",
                 "type": [
@@ -2133,13 +2260,13 @@
             {
                 "id": "Ingredient.manufacturer.role",
                 "path": "Ingredient.manufacturer.role",
-                "short": "The way in which this manufacturer is associated with the ingredient. For example whether it is a possible one (others allowed), or an exclusive authorized one for this ingredient. Note that this is not the manufacturing process role",
+                "short": "allowed | possible | actual",
                 "definition": "The way in which this manufacturer is associated with the ingredient. For example whether it is a possible one (others allowed), or an exclusive authorized one for this ingredient. Note that this is not the manufacturing process role.",
                 "min": 0,
                 "max": "1",
                 "type": [
                     {
-                        "code": "Coding"
+                        "code": "code"
                     }
                 ],
                 "mustSupport": false,
@@ -2154,7 +2281,7 @@
                     ],
                     "strength": "required",
                     "description": "The way in which this manufacturer is associated with the ingredient.",
-                    "valueSet": "http://hl7.org/fhir/ValueSet/ingredient-manufacturer-role|4.3.0-CIBUILD"
+                    "valueSet": "http://hl7.org/fhir/ValueSet/ingredient-manufacturer-role|4.3.0-cibuild"
                 },
                 "mapping": [
                     {
@@ -2214,7 +2341,7 @@
                 "id": "Ingredient.substance.code",
                 "path": "Ingredient.substance.code",
                 "short": "A code or full resource that represents the ingredient substance",
-                "definition": "A code or full resource that represents the ingredient substance.",
+                "definition": "A code or full resource that represents the ingredient's substance.",
                 "min": 1,
                 "max": "1",
                 "type": [
@@ -2228,6 +2355,17 @@
                 "mustSupport": false,
                 "isModifier": false,
                 "isSummary": true,
+                "binding": {
+                    "extension": [
+                        {
+                            "url": "http://hl7.org/fhir/StructureDefinition/elementdefinition-bindingName",
+                            "valueString": "SNOMEDCTSubstanceCodes"
+                        }
+                    ],
+                    "strength": "example",
+                    "description": "This value set includes all substance codes from SNOMED CT - provided as an exemplar value set.",
+                    "valueSet": "http://hl7.org/fhir/ValueSet/substance-codes"
+                },
                 "mapping": [
                     {
                         "identity": "idmp",
@@ -2238,8 +2376,8 @@
             {
                 "id": "Ingredient.substance.strength",
                 "path": "Ingredient.substance.strength",
-                "short": "The quantity of substance in the unit of presentation, or in the volume (or mass) of the single pharmaceutical product or manufactured item",
-                "definition": "The quantity of substance in the unit of presentation, or in the volume (or mass) of the single pharmaceutical product or manufactured item.",
+                "short": "The quantity of substance, per presentation, or per volume or mass, and type of quantity",
+                "definition": "The quantity of substance in the unit of presentation, or in the volume (or mass) of the single pharmaceutical product or manufactured item. The allowed repetitions do not represent different strengths, but are different representations - mathematically equivalent - of a single strength.",
                 "min": 0,
                 "max": "*",
                 "type": [
@@ -2260,8 +2398,8 @@
             {
                 "id": "Ingredient.substance.strength.presentation[x]",
                 "path": "Ingredient.substance.strength.presentation[x]",
-                "short": "The quantity of substance in the unit of presentation, or in the volume (or mass) of the single pharmaceutical product or manufactured item",
-                "definition": "The quantity of substance in the unit of presentation, or in the volume (or mass) of the single pharmaceutical product or manufactured item.",
+                "short": "The quantity of substance in the unit of presentation",
+                "definition": "The quantity of substance in the unit of presentation, or in the volume (or mass) of the single pharmaceutical product or manufactured item. Unit of presentation refers to the quantity that the item occurs in e.g. a strength per tablet size, perhaps 'per 20mg' (the size of the tablet). It is not generally normalized as a unitary unit, which would be 'per mg').",
                 "min": 0,
                 "max": "1",
                 "type": [
@@ -2283,9 +2421,9 @@
                 ]
             },
             {
-                "id": "Ingredient.substance.strength.presentationText",
-                "path": "Ingredient.substance.strength.presentationText",
-                "short": "A textual represention of either the whole of the presentation strength or a part of it - with the rest being in Strength.presentation as a ratio",
+                "id": "Ingredient.substance.strength.textPresentation",
+                "path": "Ingredient.substance.strength.textPresentation",
+                "short": "Text of either the whole presentation strength or a part of it (rest being in Strength.presentation as a ratio)",
                 "definition": "A textual represention of either the whole of the presentation strength or a part of it - with the rest being in Strength.presentation as a ratio.",
                 "min": 0,
                 "max": "1",
@@ -2330,9 +2468,9 @@
                 ]
             },
             {
-                "id": "Ingredient.substance.strength.concentrationText",
-                "path": "Ingredient.substance.strength.concentrationText",
-                "short": "A textual represention of either the whole of the concentration strength or a part of it - with the rest being in Strength.concentration as a ratio",
+                "id": "Ingredient.substance.strength.textConcentration",
+                "path": "Ingredient.substance.strength.textConcentration",
+                "short": "Text of either the whole concentration strength or a part of it (rest being in Strength.concentration as a ratio)",
                 "definition": "A textual represention of either the whole of the concentration strength or a part of it - with the rest being in Strength.concentration as a ratio.",
                 "min": 0,
                 "max": "1",
@@ -2354,8 +2492,8 @@
             {
                 "id": "Ingredient.substance.strength.measurementPoint",
                 "path": "Ingredient.substance.strength.measurementPoint",
-                "short": "For when strength is measured at a particular point or distance",
-                "definition": "For when strength is measured at a particular point or distance.",
+                "short": "When strength is measured at a particular point or distance",
+                "definition": "For when strength is measured at a particular point or distance. There are products where strength is measured at a particular point. For example, the strength of the ingredient in some inhalers is measured at a particular position relative to the point of aerosolization.",
                 "min": 0,
                 "max": "1",
                 "type": [
@@ -2376,7 +2514,7 @@
             {
                 "id": "Ingredient.substance.strength.country",
                 "path": "Ingredient.substance.strength.country",
-                "short": "The country or countries for which the strength range applies",
+                "short": "Where the strength range applies",
                 "definition": "The country or countries for which the strength range applies.",
                 "min": 0,
                 "max": "*",
@@ -2388,6 +2526,21 @@
                 "mustSupport": false,
                 "isModifier": false,
                 "isSummary": true,
+                "binding": {
+                    "extension": [
+                        {
+                            "url": "http://hl7.org/fhir/StructureDefinition/elementdefinition-bindingName",
+                            "valueString": "Country"
+                        },
+                        {
+                            "url": "http://hl7.org/fhir/StructureDefinition/elementdefinition-isCommonBinding",
+                            "valueBoolean": true
+                        }
+                    ],
+                    "strength": "example",
+                    "description": "Jurisdiction codes",
+                    "valueSet": "http://hl7.org/fhir/ValueSet/country"
+                },
                 "mapping": [
                     {
                         "identity": "idmp",
@@ -2399,7 +2552,7 @@
                 "id": "Ingredient.substance.strength.referenceStrength",
                 "path": "Ingredient.substance.strength.referenceStrength",
                 "short": "Strength expressed in terms of a reference substance",
-                "definition": "Strength expressed in terms of a reference substance.",
+                "definition": "Strength expressed in terms of a reference substance. For when the ingredient strength is additionally expressed as equivalent to the strength of some other closely related substance (e.g. salt vs. base). Reference strength represents the strength (quantitative composition) of the active moiety of the active substance. There are situations when the active substance and active moiety are different, therefore both a strength and a reference strength are needed.",
                 "min": 0,
                 "max": "*",
                 "type": [
@@ -2435,10 +2588,21 @@
                 "mustSupport": false,
                 "isModifier": false,
                 "isSummary": true,
+                "binding": {
+                    "extension": [
+                        {
+                            "url": "http://hl7.org/fhir/StructureDefinition/elementdefinition-bindingName",
+                            "valueString": "SNOMEDCTSubstanceCodes"
+                        }
+                    ],
+                    "strength": "example",
+                    "description": "This value set includes all substance codes from SNOMED CT - provided as an exemplar value set.",
+                    "valueSet": "http://hl7.org/fhir/ValueSet/substance-codes"
+                },
                 "mapping": [
                     {
                         "identity": "idmp",
-                        "map": "Reference Strength.Reference Specified Substance"
+                        "map": "Reference Strength.Reference Substance"
                     }
                 ]
             },
@@ -2470,7 +2634,7 @@
             {
                 "id": "Ingredient.substance.strength.referenceStrength.measurementPoint",
                 "path": "Ingredient.substance.strength.referenceStrength.measurementPoint",
-                "short": "For when strength is measured at a particular point or distance",
+                "short": "When strength is measured at a particular point or distance",
                 "definition": "For when strength is measured at a particular point or distance.",
                 "min": 0,
                 "max": "1",
@@ -2492,7 +2656,7 @@
             {
                 "id": "Ingredient.substance.strength.referenceStrength.country",
                 "path": "Ingredient.substance.strength.referenceStrength.country",
-                "short": "The country or countries for which the strength range applies",
+                "short": "Where the strength range applies",
                 "definition": "The country or countries for which the strength range applies.",
                 "min": 0,
                 "max": "*",
@@ -2504,6 +2668,21 @@
                 "mustSupport": false,
                 "isModifier": false,
                 "isSummary": true,
+                "binding": {
+                    "extension": [
+                        {
+                            "url": "http://hl7.org/fhir/StructureDefinition/elementdefinition-bindingName",
+                            "valueString": "Country"
+                        },
+                        {
+                            "url": "http://hl7.org/fhir/StructureDefinition/elementdefinition-isCommonBinding",
+                            "valueBoolean": true
+                        }
+                    ],
+                    "strength": "example",
+                    "description": "Jurisdiction codes",
+                    "valueSet": "http://hl7.org/fhir/ValueSet/country"
+                },
                 "mapping": [
                     {
                         "identity": "idmp",

@@ -54,7 +54,7 @@
         <dependency>
             <groupId>com.ibm.fhir</groupId>
             <artifactId>fhir-operation-member-match</artifactId>
-            <version>5.0.0-SNAPSHOT</version>
+            <version>${project.version}</version>
             <scope>provided</scope>
         </dependency>
     </dependencies>

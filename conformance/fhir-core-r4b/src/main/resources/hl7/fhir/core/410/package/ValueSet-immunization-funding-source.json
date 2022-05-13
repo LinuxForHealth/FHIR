@@ -2,7 +2,7 @@
     "resourceType": "ValueSet",
     "id": "immunization-funding-source",
     "meta": {
-        "lastUpdated": "2022-03-03T22:04:06.196Z",
+        "lastUpdated": "2022-04-23T22:21:35.043Z",
         "profile": [
             "http://hl7.org/fhir/StructureDefinition/shareablevalueset"
         ]
@@ -28,7 +28,7 @@
             "value": "urn:oid:2.16.840.1.113883.4.642.3.293"
         }
     ],
-    "version": "4.3.0-CIBUILD",
+    "version": "4.3.0-cibuild",
     "name": "ImmunizationFundingSource",
     "title": "Immunization Funding Source",
     "status": "draft",
@@ -53,8 +53,8 @@
         ]
     },
     "expansion": {
-        "identifier": "urn:uuid:ce55254b-4742-44f5-a4a9-733f6aabf084",
-        "timestamp": "2022-03-03T22:05:31Z",
+        "identifier": "urn:uuid:d8f559fe-c4e5-41db-893f-80e42a8487f1",
+        "timestamp": "2022-04-23T22:23:26Z",
         "total": 2,
         "parameter": [
             {
@@ -67,7 +67,7 @@
             },
             {
                 "name": "version",
-                "valueUri": "http://terminology.hl7.org/CodeSystem/immunization-funding-source|4.3.0-CIBUILD"
+                "valueUri": "http://terminology.hl7.org/CodeSystem/immunization-funding-source|4.3.0-cibuild"
             }
         ],
         "contains": [

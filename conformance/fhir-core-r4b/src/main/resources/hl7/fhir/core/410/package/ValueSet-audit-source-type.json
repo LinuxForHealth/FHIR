@@ -2,7 +2,7 @@
     "resourceType": "ValueSet",
     "id": "audit-source-type",
     "meta": {
-        "lastUpdated": "2022-03-03T22:04:06.196Z",
+        "lastUpdated": "2022-04-23T22:21:35.043Z",
         "profile": [
             "http://hl7.org/fhir/StructureDefinition/shareablevalueset"
         ]
@@ -28,10 +28,11 @@
             "value": "urn:oid:2.16.840.1.113883.4.642.3.466"
         }
     ],
-    "version": "4.3.0-CIBUILD",
+    "version": "4.3.0-cibuild",
     "name": "AuditEventSourceType",
     "title": "Audit Event Source Type",
     "status": "active",
+    "experimental": false,
     "date": "2010-08-26",
     "publisher": "NEMA/DICOM",
     "description": "The type of process where the audit event originated from.",
@@ -43,8 +44,8 @@
         ]
     },
     "expansion": {
-        "identifier": "urn:uuid:22abeb3f-7013-4702-af09-8d31d15f1fdc",
-        "timestamp": "2022-03-03T22:05:31Z",
+        "identifier": "urn:uuid:e1ddc71b-d313-4b07-8efe-3aafcf9bec09",
+        "timestamp": "2022-04-23T22:23:26Z",
         "total": 9,
         "parameter": [
             {
@@ -57,7 +58,7 @@
             },
             {
                 "name": "version",
-                "valueUri": "http://terminology.hl7.org/CodeSystem/security-source-type|4.3.0-CIBUILD"
+                "valueUri": "http://terminology.hl7.org/CodeSystem/security-source-type|4.3.0-cibuild"
             }
         ],
         "contains": [

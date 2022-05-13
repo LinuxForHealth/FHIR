@@ -45,7 +45,7 @@ public class ParametersHelperTest extends BaseSearchTest {
             parametersHelper.print(out);
             Assert.assertNotNull(outBA);
         }
-        assertEquals(params.size(), 1414);
+        assertEquals(params.size(), 1418);
     }
 
     @Test

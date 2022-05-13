@@ -9,8 +9,8 @@
       "status": "active",
       "description": "Type options for ClinicalImpression.effective[x]",
       "expansion": {
-        "identifier": "urn:uuid:534ccfb9-f090-4f3d-be2b-94f9ce14dd0d",
-        "timestamp": "2022-01-01T15:24:00+00:00",
+        "identifier": "urn:uuid:26ad12ff-d7b8-4d70-946f-69e339358e82",
+        "timestamp": "2022-04-23T22:28:49+00:00",
         "contains": [
           {
             "system": "http://hl7.org/fhir/data-types",
@@ -31,9 +31,10 @@
       "system": "urn:ietf:rfc:3986"
     }
   ],
-  "version": "4.3.0-CIBUILD",
+  "version": "4.3.0-cibuild",
   "status": "draft",
-  "date": "2022-01-01T15:17:18+00:00",
+  "experimental": false,
+  "date": "2022-04-23T22:21:35+00:00",
   "publisher": "Health Level Seven International (Patient Care)",
   "item": [
     {
@@ -222,10 +223,9 @@
             {
               "linkId": "ClinicalImpression.language.value",
               "text": "language",
-              "type": "coding",
+              "type": "choice",
               "required": false,
-              "repeats": false,
-              "answerConstraint": "optionsOnly"
+              "repeats": false
             }
           ]
         },
@@ -444,10 +444,9 @@
             {
               "linkId": "ClinicalImpression.status.value",
               "text": "status",
-              "type": "coding",
+              "type": "choice",
               "required": false,
-              "repeats": false,
-              "answerConstraint": "optionsOrType"
+              "repeats": false
             }
           ]
         },
@@ -490,10 +489,9 @@
             {
               "linkId": "ClinicalImpression.statusReason.coding",
               "text": "code:",
-              "type": "coding",
+              "type": "choice",
               "required": false,
-              "repeats": false,
-              "answerConstraint": "optionsOnly"
+              "repeats": false
             },
             {
               "linkId": "ClinicalImpression.statusReason.text",
@@ -543,10 +541,9 @@
             {
               "linkId": "ClinicalImpression.code.coding",
               "text": "code:",
-              "type": "coding",
+              "type": "choice",
               "required": false,
-              "repeats": false,
-              "answerConstraint": "optionsOnly"
+              "repeats": false
             },
             {
               "linkId": "ClinicalImpression.code.text",
@@ -748,10 +745,9 @@
             {
               "linkId": "ClinicalImpression.effective[x]._type",
               "text": "type",
-              "type": "coding",
+              "type": "choice",
               "required": false,
               "repeats": false,
-              "answerConstraint": "optionsOnly",
               "answerValueSet": "#vs2",
               "item": [
                 {
@@ -1173,10 +1169,9 @@
                 {
                   "linkId": "ClinicalImpression.investigation.code.coding",
                   "text": "code:",
-                  "type": "coding",
+                  "type": "choice",
                   "required": false,
-                  "repeats": false,
-                  "answerConstraint": "optionsOnly"
+                  "repeats": false
                 },
                 {
                   "linkId": "ClinicalImpression.investigation.code.text",
@@ -1488,10 +1483,9 @@
                 {
                   "linkId": "ClinicalImpression.finding.itemCodeableConcept.coding",
                   "text": "code:",
-                  "type": "coding",
+                  "type": "choice",
                   "required": false,
-                  "repeats": false,
-                  "answerConstraint": "optionsOnly"
+                  "repeats": false
                 },
                 {
                   "linkId": "ClinicalImpression.finding.itemCodeableConcept.text",
@@ -1637,10 +1631,9 @@
             {
               "linkId": "ClinicalImpression.prognosisCodeableConcept.coding",
               "text": "code:",
-              "type": "coding",
+              "type": "choice",
               "required": false,
-              "repeats": false,
-              "answerConstraint": "optionsOnly"
+              "repeats": false
             },
             {
               "linkId": "ClinicalImpression.prognosisCodeableConcept.text",

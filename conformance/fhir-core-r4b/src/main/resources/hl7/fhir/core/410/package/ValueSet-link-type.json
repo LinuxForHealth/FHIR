@@ -2,7 +2,7 @@
     "resourceType": "ValueSet",
     "id": "link-type",
     "meta": {
-        "lastUpdated": "2022-03-04T09:04:06.196+11:00",
+        "lastUpdated": "2022-04-24T09:21:35.043+11:00",
         "profile": [
             "http://hl7.org/fhir/StructureDefinition/shareablevalueset"
         ]
@@ -32,7 +32,7 @@
             "value": "urn:oid:2.16.840.1.113883.4.642.3.423"
         }
     ],
-    "version": "4.3.0-CIBUILD",
+    "version": "4.3.0-cibuild",
     "name": "LinkType",
     "title": "LinkType",
     "status": "active",
@@ -63,8 +63,8 @@
         ]
     },
     "expansion": {
-        "identifier": "urn:uuid:f26e43d2-8c4f-421e-b46b-cce0218c878e",
-        "timestamp": "2022-03-03T22:05:09Z",
+        "identifier": "urn:uuid:b492cbe9-3967-46ed-8855-1835ba76ab2d",
+        "timestamp": "2022-04-23T22:23:07Z",
         "total": 4,
         "parameter": [
             {
@@ -77,89 +77,53 @@
             },
             {
                 "name": "version",
-                "valueUri": "http://hl7.org/fhir/link-type|4.3.0-CIBUILD"
+                "valueUri": "http://hl7.org/fhir/link-type|4.3.0-cibuild"
             }
         ],
         "contains": [
             {
-                "extension": [
-                    {
-                        "extension": [
-                            {
-                                "url": "lang",
-                                "valueCode": "nl"
-                            },
-                            {
-                                "url": "content",
-                                "valueString": "Vervangen door"
-                            }
-                        ],
-                        "url": "http://hl7.org/fhir/StructureDefinition/translation"
-                    }
-                ],
                 "system": "http://hl7.org/fhir/link-type",
                 "code": "replaced-by",
-                "display": "Replaced-by"
+                "display": "Replaced-by",
+                "designation": [
+                    {
+                        "language": "nl",
+                        "value": "Vervangen door"
+                    }
+                ]
             },
             {
-                "extension": [
-                    {
-                        "extension": [
-                            {
-                                "url": "lang",
-                                "valueCode": "nl"
-                            },
-                            {
-                                "url": "content",
-                                "valueString": "Vervangt"
-                            }
-                        ],
-                        "url": "http://hl7.org/fhir/StructureDefinition/translation"
-                    }
-                ],
                 "system": "http://hl7.org/fhir/link-type",
                 "code": "replaces",
-                "display": "Replaces"
+                "display": "Replaces",
+                "designation": [
+                    {
+                        "language": "nl",
+                        "value": "Vervangt"
+                    }
+                ]
             },
             {
-                "extension": [
-                    {
-                        "extension": [
-                            {
-                                "url": "lang",
-                                "valueCode": "nl"
-                            },
-                            {
-                                "url": "content",
-                                "valueString": "Verwijzing"
-                            }
-                        ],
-                        "url": "http://hl7.org/fhir/StructureDefinition/translation"
-                    }
-                ],
                 "system": "http://hl7.org/fhir/link-type",
                 "code": "refer",
-                "display": "Refer"
+                "display": "Refer",
+                "designation": [
+                    {
+                        "language": "nl",
+                        "value": "Verwijzing"
+                    }
+                ]
             },
             {
-                "extension": [
-                    {
-                        "extension": [
-                            {
-                                "url": "lang",
-                                "valueCode": "nl"
-                            },
-                            {
-                                "url": "content",
-                                "valueString": "Zie ook"
-                            }
-                        ],
-                        "url": "http://hl7.org/fhir/StructureDefinition/translation"
-                    }
-                ],
                 "system": "http://hl7.org/fhir/link-type",
                 "code": "seealso",
-                "display": "See also"
+                "display": "See also",
+                "designation": [
+                    {
+                        "language": "nl",
+                        "value": "Zie ook"
+                    }
+                ]
             }
         ]
     }

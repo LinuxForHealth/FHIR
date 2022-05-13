@@ -2,7 +2,7 @@
     "resourceType": "ValueSet",
     "id": "series-performer-function",
     "meta": {
-        "lastUpdated": "2022-03-03T22:04:06.196Z",
+        "lastUpdated": "2022-04-23T22:21:35.043Z",
         "profile": [
             "http://hl7.org/fhir/StructureDefinition/shareablevalueset"
         ]
@@ -28,11 +28,11 @@
             "value": "urn:oid:2.16.840.1.113883.4.642.3.989"
         }
     ],
-    "version": "4.3.0-CIBUILD",
+    "version": "4.3.0-cibuild",
     "name": "ImagingStudySeriesPerformerFunction",
     "title": "ImagingStudy series performer function",
     "status": "draft",
-    "experimental": true,
+    "experimental": false,
     "publisher": "HL7 (FHIR Project)",
     "contact": [
         {
@@ -75,8 +75,8 @@
         ]
     },
     "expansion": {
-        "identifier": "urn:uuid:ba036abb-c1a7-4f49-8e0e-04f6d58321d4",
-        "timestamp": "2022-03-03T22:05:31Z",
+        "identifier": "urn:uuid:e4249b92-b0d4-4a55-a706-597bd53562a4",
+        "timestamp": "2022-04-23T22:23:26Z",
         "total": 5,
         "parameter": [
             {

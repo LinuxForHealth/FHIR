@@ -10,24 +10,51 @@
   <text>
     <status value="generated"/>
     <div xmlns="http://www.w3.org/1999/xhtml">Screening for Alcohol Misuse
-    <p>This measure example is used to illustrate how a composite measure can be constructured. This measure is one component of the composite measure.</p></div>
+    
+      <p>This measure example is used to illustrate how a composite measure can be constructured. This measure is one component of the composite measure.</p>
+    </div>
   </text>
   <title value="Screening for Alcohol Misuse"/>
   <status value="draft"/>
-  <scoring><coding><code value="proportion"/></coding></scoring>
-  
+  <experimental value="true"/>
+  <scoring>
+    <coding>
+      <code value="proportion"/>
+    </coding>
+  </scoring>
   <group id="Main">
     <population>
-      <code><coding><code value="initial-population"/></coding></code>
-      <criteria><language value="text/cql"/><expression value="Initial Population"/></criteria>
+      <code>
+        <coding>
+          <code value="initial-population"/>
+        </coding>
+      </code>
+      <criteria>
+        <language value="text/cql"/>
+        <expression value="Initial Population"/>
+      </criteria>
     </population>
     <population>
-      <code><coding><code value="denominator"/></coding></code>
-      <criteria><language value="text/cql"/><expression value="Denominator"/></criteria>
+      <code>
+        <coding>
+          <code value="denominator"/>
+        </coding>
+      </code>
+      <criteria>
+        <language value="text/cql"/>
+        <expression value="Denominator"/>
+      </criteria>
     </population>
     <population>
-      <code><coding><code value="numerator"/></coding></code>
-      <criteria><language value="text/cql"/><expression value="Numerator"/></criteria>
+      <code>
+        <coding>
+          <code value="numerator"/>
+        </coding>
+      </code>
+      <criteria>
+        <language value="text/cql"/>
+        <expression value="Numerator"/>
+      </criteria>
     </population>
   </group>
 </Measure>

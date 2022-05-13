@@ -2,7 +2,7 @@
     "resourceType": "ValueSet",
     "id": "provenance-activity-type",
     "meta": {
-        "lastUpdated": "2022-03-03T22:04:06.196Z",
+        "lastUpdated": "2022-04-23T22:21:35.043Z",
         "profile": [
             "http://hl7.org/fhir/StructureDefinition/shareablevalueset"
         ]
@@ -32,7 +32,7 @@
             "value": "urn:oid:2.16.840.1.113883.4.642.3.438"
         }
     ],
-    "version": "4.3.0-CIBUILD",
+    "version": "4.3.0-cibuild",
     "name": "ProvenanceActivityType",
     "status": "draft",
     "experimental": false,
@@ -110,8 +110,8 @@
         ]
     },
     "expansion": {
-        "identifier": "urn:uuid:610a8387-e415-4360-a8b6-2f2dff4634bb",
-        "timestamp": "2022-03-03T22:05:31Z",
+        "identifier": "urn:uuid:887393dd-5353-408f-8690-597a12855a05",
+        "timestamp": "2022-04-23T22:23:26Z",
         "total": 72,
         "parameter": [
             {
@@ -304,6 +304,7 @@
             },
             {
                 "system": "http://terminology.hl7.org/CodeSystem/v3-ParticipationType",
+                "inactive": true,
                 "code": "TPA",
                 "display": "therapeutic agent"
             },

@@ -2,7 +2,7 @@
     "resourceType": "ValueSet",
     "id": "device-status-reason",
     "meta": {
-        "lastUpdated": "2022-03-04T09:04:06.196+11:00",
+        "lastUpdated": "2022-04-24T09:21:35.043+11:00",
         "profile": [
             "http://hl7.org/fhir/StructureDefinition/shareablevalueset"
         ]
@@ -28,7 +28,7 @@
             "value": "urn:oid:2.16.840.1.113883.4.642.3.1081"
         }
     ],
-    "version": "4.3.0-CIBUILD",
+    "version": "4.3.0-cibuild",
     "name": "FHIRDeviceStatusReason",
     "title": "FHIRDeviceStatusReason",
     "status": "draft",
@@ -59,8 +59,8 @@
         ]
     },
     "expansion": {
-        "identifier": "urn:uuid:ec40b92a-5068-4239-b636-884e560243fe",
-        "timestamp": "2022-03-03T22:05:30Z",
+        "identifier": "urn:uuid:b5b8e0a2-fa23-4f3d-8460-6930541f3444",
+        "timestamp": "2022-04-23T22:23:26Z",
         "total": 8,
         "parameter": [
             {
@@ -73,7 +73,7 @@
             },
             {
                 "name": "version",
-                "valueUri": "http://terminology.hl7.org/CodeSystem/device-status-reason|4.3.0-CIBUILD"
+                "valueUri": "http://terminology.hl7.org/CodeSystem/device-status-reason|4.3.0-cibuild"
             }
         ],
         "contains": [

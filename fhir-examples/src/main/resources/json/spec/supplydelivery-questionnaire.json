@@ -9,8 +9,8 @@
       "status": "active",
       "description": "Type options for SupplyDelivery.suppliedItem.item[x]",
       "expansion": {
-        "identifier": "urn:uuid:a229f707-5383-4558-99be-2183d7bb6611",
-        "timestamp": "2022-01-01T15:25:59+00:00",
+        "identifier": "urn:uuid:fc8e97aa-4492-4922-bdbd-a8d76fd5f0f7",
+        "timestamp": "2022-04-23T22:30:54+00:00",
         "contains": [
           {
             "system": "http://hl7.org/fhir/data-types",
@@ -42,8 +42,8 @@
       "status": "active",
       "description": "Type options for SupplyDelivery.occurrence[x]",
       "expansion": {
-        "identifier": "urn:uuid:483fb7fa-3b18-4a7a-abbb-4ab27e17b1af",
-        "timestamp": "2022-01-01T15:25:59+00:00",
+        "identifier": "urn:uuid:979cb65c-9830-4cc8-8fb2-7c087410f2c6",
+        "timestamp": "2022-04-23T22:30:54+00:00",
         "contains": [
           {
             "system": "http://hl7.org/fhir/data-types",
@@ -69,9 +69,10 @@
       "system": "urn:ietf:rfc:3986"
     }
   ],
-  "version": "4.3.0-CIBUILD",
+  "version": "4.3.0-cibuild",
   "status": "draft",
-  "date": "2022-01-01T15:17:18+00:00",
+  "experimental": false,
+  "date": "2022-04-23T22:21:35+00:00",
   "publisher": "Health Level Seven International (Orders and Observations)",
   "item": [
     {
@@ -260,10 +261,9 @@
             {
               "linkId": "SupplyDelivery.language.value",
               "text": "language",
-              "type": "coding",
+              "type": "choice",
               "required": false,
-              "repeats": false,
-              "answerConstraint": "optionsOnly"
+              "repeats": false
             }
           ]
         },
@@ -578,10 +578,9 @@
             {
               "linkId": "SupplyDelivery.status.value",
               "text": "status",
-              "type": "coding",
+              "type": "choice",
               "required": false,
-              "repeats": false,
-              "answerConstraint": "optionsOrType"
+              "repeats": false
             }
           ]
         },
@@ -678,10 +677,9 @@
             {
               "linkId": "SupplyDelivery.type.coding",
               "text": "code:",
-              "type": "coding",
+              "type": "choice",
               "required": false,
-              "repeats": false,
-              "answerConstraint": "optionsOrType"
+              "repeats": false
             },
             {
               "linkId": "SupplyDelivery.type.text",
@@ -863,10 +861,9 @@
                 {
                   "linkId": "SupplyDelivery.suppliedItem.quantity.comparator",
                   "text": "comp:",
-                  "type": "coding",
+                  "type": "choice",
                   "required": false,
-                  "repeats": false,
-                  "answerConstraint": "optionsOnly"
+                  "repeats": false
                 },
                 {
                   "linkId": "SupplyDelivery.suppliedItem.quantity.value",
@@ -933,10 +930,9 @@
                 {
                   "linkId": "SupplyDelivery.suppliedItem.item[x]._type",
                   "text": "type",
-                  "type": "coding",
+                  "type": "choice",
                   "required": false,
                   "repeats": false,
-                  "answerConstraint": "optionsOnly",
                   "answerValueSet": "#vs2",
                   "item": [
                     {
@@ -952,10 +948,9 @@
                         {
                           "linkId": "SupplyDelivery.suppliedItem.item[x]._null.coding",
                           "text": "code:",
-                          "type": "coding",
+                          "type": "choice",
                           "required": false,
-                          "repeats": false,
-                          "answerConstraint": "optionsOnly"
+                          "repeats": false
                         },
                         {
                           "linkId": "SupplyDelivery.suppliedItem.item[x]._null.text",
@@ -1035,10 +1030,9 @@
             {
               "linkId": "SupplyDelivery.occurrence[x]._type",
               "text": "type",
-              "type": "coding",
+              "type": "choice",
               "required": false,
               "repeats": false,
-              "answerConstraint": "optionsOnly",
               "answerValueSet": "#vs3",
               "item": [
                 {

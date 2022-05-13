@@ -2,7 +2,7 @@
     "resourceType": "ValueSet",
     "id": "immunization-reason",
     "meta": {
-        "lastUpdated": "2022-03-03T22:04:06.196Z",
+        "lastUpdated": "2022-04-23T22:21:35.043Z",
         "profile": [
             "http://hl7.org/fhir/StructureDefinition/shareablevalueset"
         ]
@@ -28,7 +28,7 @@
             "value": "urn:oid:2.16.840.1.113883.4.642.3.290"
         }
     ],
-    "version": "4.3.0-CIBUILD",
+    "version": "4.3.0-cibuild",
     "name": "ImmunizationReasonCodes",
     "title": "Immunization Reason Codes",
     "status": "draft",
@@ -62,11 +62,12 @@
         ]
     },
     "expansion": {
-        "identifier": "urn:uuid:5671c89c-4399-441e-81fc-9fdaaf9f2199",
-        "timestamp": "2021-11-17T05:28:38.362Z",
+        "identifier": "urn:uuid:7cd7f454-5f9d-4e4c-9d90-d6c454a53579",
+        "timestamp": "2022-04-23T22:23:26Z",
+        "total": 2,
         "parameter": [
             {
-                "name": "limitedExpansion",
+                "name": "excludeNested",
                 "valueBoolean": true
             },
             {
@@ -74,12 +75,12 @@
                 "valueBoolean": true
             },
             {
-                "name": "excludeNested",
+                "name": "limitedExpansion",
                 "valueBoolean": true
             },
             {
                 "name": "version",
-                "valueUri": "http://snomed.info/sct|http://snomed.info/sct/900000000000207008/version/20200131"
+                "valueUri": "http://snomed.info/sct|http://snomed.info/sct/900000000000207008/version/20200731"
             }
         ],
         "contains": [

@@ -12,9 +12,10 @@
         }
     ],
     "url": "http://hl7.org/fhir/StructureDefinition/rendering-style",
-    "version": "4.3.0-CIBUILD",
+    "version": "4.3.0-cibuild",
     "name": "style",
     "status": "draft",
+    "experimental": false,
     "date": "2014-04-23",
     "publisher": "Health Level Seven International (FHIR Infrastructure)",
     "contact": [
@@ -28,7 +29,7 @@
         }
     ],
     "description": "Identifies how the specified element should be rendered when displayed.",
-    "fhirVersion": "4.3.0-CIBUILD",
+    "fhirVersion": "4.3.0-cibuild",
     "mapping": [
         {
             "identity": "rim",

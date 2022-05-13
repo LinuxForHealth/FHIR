@@ -12,10 +12,11 @@
         }
     ],
     "url": "http://hl7.org/fhir/StructureDefinition/consent-location",
-    "version": "4.3.0-CIBUILD",
+    "version": "4.3.0-cibuild",
     "name": "location",
     "title": "Location of Access restriction",
     "status": "draft",
+    "experimental": false,
     "date": "2021-01-17T07:06:13+11:00",
     "publisher": "Health Level Seven, Inc. - CBCC WG",
     "contact": [
@@ -29,7 +30,7 @@
         }
     ],
     "description": "Restricts this exception to only apply a specific location as defined.",
-    "fhirVersion": "4.3.0-CIBUILD",
+    "fhirVersion": "4.3.0-cibuild",
     "mapping": [
         {
             "identity": "rim",

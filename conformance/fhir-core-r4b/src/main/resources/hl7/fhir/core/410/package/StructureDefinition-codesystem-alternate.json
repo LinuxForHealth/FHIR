@@ -12,13 +12,14 @@
         }
     ],
     "url": "http://hl7.org/fhir/StructureDefinition/codesystem-alternate",
-    "version": "4.3.0-CIBUILD",
+    "version": "4.3.0-cibuild",
     "name": "alternate",
     "status": "draft",
+    "experimental": false,
     "date": "2021-01-17T07:06:13+11:00",
     "publisher": "HL7",
     "description": "An additional code that may be used to represent the concept.",
-    "fhirVersion": "4.3.0-CIBUILD",
+    "fhirVersion": "4.3.0-cibuild",
     "mapping": [
         {
             "identity": "rim",
@@ -554,7 +555,7 @@
                     ],
                     "strength": "extensible",
                     "description": "Indicates the type of use for which the code is defined.",
-                    "valueSet": "http://hl7.org/fhir/ValueSet/codesystem-altcode-kind"
+                    "valueSet": "http://terminology.hl7.org/ValueSet/codesystem-altcode-kind"
                 },
                 "mapping": [
                     {
@@ -686,9 +687,6 @@
                         "code": "CodeableConcept"
                     },
                     {
-                        "code": "CodeableReference"
-                    },
-                    {
                         "code": "Coding"
                     },
                     {
@@ -723,9 +721,6 @@
                     },
                     {
                         "code": "Ratio"
-                    },
-                    {
-                        "code": "RatioRange"
                     },
                     {
                         "code": "Reference"
@@ -894,7 +889,7 @@
                     ],
                     "strength": "extensible",
                     "description": "Indicates the type of use for which the code is defined.",
-                    "valueSet": "http://hl7.org/fhir/ValueSet/codesystem-altcode-kind"
+                    "valueSet": "http://terminology.hl7.org/ValueSet/codesystem-altcode-kind"
                 }
             },
             {

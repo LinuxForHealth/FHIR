@@ -2,7 +2,7 @@
     "resourceType": "ValueSet",
     "id": "encounter-special-arrangements",
     "meta": {
-        "lastUpdated": "2022-03-03T22:04:06.196Z",
+        "lastUpdated": "2022-04-23T22:21:35.043Z",
         "profile": [
             "http://hl7.org/fhir/StructureDefinition/shareablevalueset"
         ]
@@ -20,9 +20,10 @@
             "value": "urn:oid:2.16.840.1.113883.4.642.3.253"
         }
     ],
-    "version": "4.3.0-CIBUILD",
+    "version": "4.3.0-cibuild",
     "name": "SpecialArrangements",
     "status": "draft",
+    "experimental": false,
     "publisher": "FHIR Project team",
     "contact": [
         {
@@ -43,8 +44,8 @@
         ]
     },
     "expansion": {
-        "identifier": "urn:uuid:4babd2f8-95c1-4d8d-b931-a978dbac3147",
-        "timestamp": "2022-03-03T22:05:31Z",
+        "identifier": "urn:uuid:f0517e1d-a545-48fb-a41b-f0bd83b87fb0",
+        "timestamp": "2022-04-23T22:23:26Z",
         "total": 5,
         "parameter": [
             {
@@ -57,7 +58,7 @@
             },
             {
                 "name": "version",
-                "valueUri": "http://terminology.hl7.org/CodeSystem/encounter-special-arrangements|4.3.0-CIBUILD"
+                "valueUri": "http://terminology.hl7.org/CodeSystem/encounter-special-arrangements|4.3.0-cibuild"
             }
         ],
         "contains": [

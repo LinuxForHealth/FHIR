@@ -2,7 +2,7 @@
     "resourceType": "StructureDefinition",
     "id": "CapabilityStatement",
     "meta": {
-        "lastUpdated": "2022-01-01T15:17:18.597Z"
+        "lastUpdated": "2022-04-23T22:21:35.043Z"
     },
     "text": {
         "status": "empty",
@@ -35,10 +35,11 @@
         }
     ],
     "url": "http://hl7.org/fhir/StructureDefinition/CapabilityStatement",
-    "version": "4.3.0-CIBUILD",
+    "version": "4.3.0-cibuild",
     "name": "CapabilityStatement",
     "status": "active",
-    "date": "2022-01-01T15:17:18Z",
+    "experimental": false,
+    "date": "2022-04-23T22:21:35Z",
     "publisher": "Health Level Seven International (FHIR Infrastructure)",
     "contact": [
         {
@@ -59,7 +60,7 @@
         }
     ],
     "description": "A Capability Statement documents a set of capabilities (behaviors) of a FHIR Server for a particular version of FHIR that may be used as a statement of actual server functionality or a statement of required or desired server implementation.",
-    "fhirVersion": "4.3.0-CIBUILD",
+    "fhirVersion": "4.3.0-cibuild",
     "mapping": [
         {
             "identity": "rim",
@@ -107,7 +108,7 @@
                         "key": "cpb-0",
                         "severity": "warning",
                         "human": "Name should be usable as an identifier for the module by machine processing applications such as code generation",
-                        "expression": "name.matches('[A-Z]([A-Za-z0-9_]){0,254}')",
+                        "expression": "name.exists() implies name.matches('[A-Z]([A-Za-z0-9_]){0,254}')",
                         "xpath": "not(exists(f:name/@value)) or matches(f:name/@value, '[A-Z]([A-Za-z0-9_]){0,254}')",
                         "source": "http://hl7.org/fhir/StructureDefinition/CapabilityStatement"
                     },
@@ -180,7 +181,7 @@
                         "severity": "error",
                         "human": "If the resource is contained in another resource, it SHALL be referred to from elsewhere in the resource or SHALL refer to the containing resource",
                         "expression": "contained.where(((id.exists() and ('#'+id in (%resource.descendants().reference | %resource.descendants().as(canonical) | %resource.descendants().as(uri) | %resource.descendants().as(url)))) or descendants().where(reference = '#').exists() or descendants().where(as(canonical) = '#').exists() or descendants().where(as(uri) = '#').exists()).not()).trace('unmatched', id).empty()",
-                        "xpath": "not(exists(for $resource in . return (for $contained in $resource/f:contained return $contained[not(descendant::f:*/@value='#' or (exists(f:id) and $resource//f:*/@*=concat('#', $contained/*/f:id/@value)))])))",
+                        "xpath": "not(exists(for $contained in f:contained return $contained[not(exists(parent::*/descendant::f:reference/@value=concat('#', $contained/*/f:id/@value)) or exists(descendant::f:reference[@value='#']))]))",
                         "source": "http://hl7.org/fhir/StructureDefinition/DomainResource"
                     },
                     {
@@ -444,6 +445,16 @@
                 "type": [
                     {
                         "code": "Resource"
+                    }
+                ],
+                "constraint": [
+                    {
+                        "key": "dom-r4b",
+                        "severity": "warning",
+                        "human": "Containing new R4B resources within R4 resources may cause interoperability issues if instances are shared with R4 systems",
+                        "expression": "($this is Citation or $this is Evidence or $this is EvidenceReport or $this is EvidenceVariable or $this is MedicinalProductDefinition or $this is PackagedProductDefinition or $this is AdministrableProductDefinition or $this is Ingredient or $this is ClinicalUseDefinition or $this is RegulatedAuthorization or $this is SubstanceDefinition or $this is SubscriptionStatus or $this is SubscriptionTopic) implies (%resource is Citation or %resource is Evidence or %resource is EvidenceReport or %resource is EvidenceVariable or %resource is MedicinalProductDefinition or %resource is PackagedProductDefinition or %resource is AdministrableProductDefinition or %resource is Ingredient or %resource is ClinicalUseDefinition or %resource is RegulatedAuthorization or %resource is SubstanceDefinition or %resource is SubscriptionStatus or %resource is SubscriptionTopic)",
+                        "xpath": "not(f:Citation|f:Evidence|f:EvidenceReport|f:EvidenceVariable|f:MedicinalProductDefinition|f:PackagedProductDefinition|f:AdministrableProductDefinition|f:Ingredient|f:ClinicalUseDefinition|f:RegulatedAuthorization|f:SubstanceDefinition|f:SubscriptionStatus|f:SubscriptionTopic) or not(parent::f:Citation|parent::f:Evidence|parent::f:EvidenceReport|parent::f:EvidenceVariable|parent::f:MedicinalProductDefinition|parent::f:PackagedProductDefinition|parent::f:AdministrableProductDefinition|parent::f:Ingredient|parent::f:ClinicalUseDefinition|parent::f:RegulatedAuthorization|parent::f:SubstanceDefinition|f:SubscriptionStatus|f:SubscriptionTopic)",
+                        "source": "http://hl7.org/fhir/StructureDefinition/CapabilityStatement"
                     }
                 ],
                 "mustSupport": false,
@@ -759,7 +770,7 @@
                     ],
                     "strength": "required",
                     "description": "The lifecycle status of an artifact.",
-                    "valueSet": "http://hl7.org/fhir/ValueSet/publication-status|4.3.0-CIBUILD"
+                    "valueSet": "http://hl7.org/fhir/ValueSet/publication-status|4.3.0-cibuild"
                 },
                 "mapping": [
                     {
@@ -1215,7 +1226,7 @@
                     ],
                     "strength": "required",
                     "description": "How a capability statement is intended to be used.",
-                    "valueSet": "http://hl7.org/fhir/ValueSet/capability-statement-kind|4.3.0-CIBUILD"
+                    "valueSet": "http://hl7.org/fhir/ValueSet/capability-statement-kind|4.3.0-cibuild"
                 }
             },
             {
@@ -1348,7 +1359,7 @@
                         "extension": [
                             {
                                 "url": "http://hl7.org/fhir/StructureDefinition/structuredefinition-fhir-type",
-                                "valueUrl": "id"
+                                "valueUrl": "string"
                             }
                         ],
                         "code": "http://hl7.org/fhirpath/System.String"
@@ -1613,7 +1624,7 @@
                         "extension": [
                             {
                                 "url": "http://hl7.org/fhir/StructureDefinition/structuredefinition-fhir-type",
-                                "valueUrl": "id"
+                                "valueUrl": "string"
                             }
                         ],
                         "code": "http://hl7.org/fhirpath/System.String"
@@ -1875,7 +1886,7 @@
                     ],
                     "strength": "required",
                     "description": "All published FHIR Versions.",
-                    "valueSet": "http://hl7.org/fhir/ValueSet/FHIR-version|4.3.0-CIBUILD"
+                    "valueSet": "http://hl7.org/fhir/ValueSet/FHIR-version|4.3.0-cibuild"
                 }
             },
             {
@@ -1922,7 +1933,7 @@
                     ],
                     "strength": "required",
                     "description": "BCP 13 (RFCs 2045, 2046, 2047, 4288, 4289 and 2049)",
-                    "valueSet": "http://hl7.org/fhir/ValueSet/mimetypes|4.3.0-CIBUILD"
+                    "valueSet": "http://hl7.org/fhir/ValueSet/mimetypes|4.3.0-cibuild"
                 }
             },
             {
@@ -1969,7 +1980,7 @@
                     ],
                     "strength": "required",
                     "description": "BCP 13 (RFCs 2045, 2046, 2047, 4288, 4289 and 2049)",
-                    "valueSet": "http://hl7.org/fhir/ValueSet/mimetypes|4.3.0-CIBUILD"
+                    "valueSet": "http://hl7.org/fhir/ValueSet/mimetypes|4.3.0-cibuild"
                 }
             },
             {
@@ -2069,7 +2080,7 @@
                         "extension": [
                             {
                                 "url": "http://hl7.org/fhir/StructureDefinition/structuredefinition-fhir-type",
-                                "valueUrl": "id"
+                                "valueUrl": "string"
                             }
                         ],
                         "code": "http://hl7.org/fhirpath/System.String"
@@ -2224,7 +2235,7 @@
                     ],
                     "strength": "required",
                     "description": "The mode of a RESTful capability statement.",
-                    "valueSet": "http://hl7.org/fhir/ValueSet/restful-capability-mode|4.3.0-CIBUILD"
+                    "valueSet": "http://hl7.org/fhir/ValueSet/restful-capability-mode|4.3.0-cibuild"
                 }
             },
             {
@@ -2315,7 +2326,7 @@
                         "extension": [
                             {
                                 "url": "http://hl7.org/fhir/StructureDefinition/structuredefinition-fhir-type",
-                                "valueUrl": "id"
+                                "valueUrl": "string"
                             }
                         ],
                         "code": "http://hl7.org/fhirpath/System.String"
@@ -2596,7 +2607,7 @@
                         "extension": [
                             {
                                 "url": "http://hl7.org/fhir/StructureDefinition/structuredefinition-fhir-type",
-                                "valueUrl": "id"
+                                "valueUrl": "string"
                             }
                         ],
                         "code": "http://hl7.org/fhirpath/System.String"
@@ -2755,7 +2766,7 @@
                     ],
                     "strength": "required",
                     "description": "One of the resource types defined as part of this version of FHIR.",
-                    "valueSet": "http://hl7.org/fhir/ValueSet/resource-types|4.3.0-CIBUILD"
+                    "valueSet": "http://hl7.org/fhir/ValueSet/resource-types|4.3.0-cibuild"
                 }
             },
             {
@@ -2923,7 +2934,7 @@
                         "extension": [
                             {
                                 "url": "http://hl7.org/fhir/StructureDefinition/structuredefinition-fhir-type",
-                                "valueUrl": "id"
+                                "valueUrl": "string"
                             }
                         ],
                         "code": "http://hl7.org/fhirpath/System.String"
@@ -3078,7 +3089,7 @@
                     ],
                     "strength": "required",
                     "description": "Operations supported by REST at the type or instance level.",
-                    "valueSet": "http://hl7.org/fhir/ValueSet/type-restful-interaction|4.3.0-CIBUILD"
+                    "valueSet": "http://hl7.org/fhir/ValueSet/type-restful-interaction|4.3.0-cibuild"
                 }
             },
             {
@@ -3159,7 +3170,7 @@
                     ],
                     "strength": "required",
                     "description": "How the system supports versioning for a resource.",
-                    "valueSet": "http://hl7.org/fhir/ValueSet/versioning-policy|4.3.0-CIBUILD"
+                    "valueSet": "http://hl7.org/fhir/ValueSet/versioning-policy|4.3.0-cibuild"
                 }
             },
             {
@@ -3322,7 +3333,7 @@
                     ],
                     "strength": "required",
                     "description": "A code that indicates how the server supports conditional read.",
-                    "valueSet": "http://hl7.org/fhir/ValueSet/conditional-read-status|4.3.0-CIBUILD"
+                    "valueSet": "http://hl7.org/fhir/ValueSet/conditional-read-status|4.3.0-cibuild"
                 }
             },
             {
@@ -3409,7 +3420,7 @@
                     ],
                     "strength": "required",
                     "description": "A code that indicates how the server supports conditional delete.",
-                    "valueSet": "http://hl7.org/fhir/ValueSet/conditional-delete-status|4.3.0-CIBUILD"
+                    "valueSet": "http://hl7.org/fhir/ValueSet/conditional-delete-status|4.3.0-cibuild"
                 }
             },
             {
@@ -3457,7 +3468,7 @@
                     ],
                     "strength": "required",
                     "description": "A set of flags that defines how references are supported.",
-                    "valueSet": "http://hl7.org/fhir/ValueSet/reference-handling-policy|4.3.0-CIBUILD"
+                    "valueSet": "http://hl7.org/fhir/ValueSet/reference-handling-policy|4.3.0-cibuild"
                 }
             },
             {
@@ -3588,7 +3599,7 @@
                         "extension": [
                             {
                                 "url": "http://hl7.org/fhir/StructureDefinition/structuredefinition-fhir-type",
-                                "valueUrl": "id"
+                                "valueUrl": "string"
                             }
                         ],
                         "code": "http://hl7.org/fhirpath/System.String"
@@ -3741,7 +3752,7 @@
                 "path": "CapabilityStatement.rest.resource.searchParam.definition",
                 "short": "Source of definition for parameter",
                 "definition": "An absolute URI that is a formal reference to where this parameter was first defined, so that a client can be confident of the meaning of the search parameter (a reference to [SearchParameter.url](searchparameter-definitions.html#SearchParameter.url)). This element SHALL be populated if the search parameter refers to a SearchParameter defined by the FHIR core specification or externally defined IGs.",
-                "comment": "This SHOULD be present, and matches refers to a SearchParameter by its canonical URL. If systems wish to document their support for modifiers, comparators, target resource types, and chained parameters, they should do using a search parameter resource. This element SHALL be populated if the search parameter refers to a SearchParameter defined by the FHIR core specification or externally defined IGs.",
+                "comment": "This SHOULD be present, and matches refers to a SearchParameter by its canonical URL, except for the control parameters that do not have a canonical URL (or a SearchParameter definition). If systems wish to document their support for modifiers, comparators, target resource types, and chained parameters, they should do using a search parameter resource. This element SHALL be populated if the search parameter refers to a SearchParameter defined by the FHIR core specification or externally defined IGs.",
                 "min": 0,
                 "max": "1",
                 "base": {
@@ -3815,7 +3826,7 @@
                     ],
                     "strength": "required",
                     "description": "Data types allowed to be used for search parameters.",
-                    "valueSet": "http://hl7.org/fhir/ValueSet/search-param-type|4.3.0-CIBUILD"
+                    "valueSet": "http://hl7.org/fhir/ValueSet/search-param-type|4.3.0-cibuild"
                 }
             },
             {
@@ -3901,7 +3912,7 @@
                         "extension": [
                             {
                                 "url": "http://hl7.org/fhir/StructureDefinition/structuredefinition-fhir-type",
-                                "valueUrl": "id"
+                                "valueUrl": "string"
                             }
                         ],
                         "code": "http://hl7.org/fhirpath/System.String"
@@ -4172,7 +4183,7 @@
                         "extension": [
                             {
                                 "url": "http://hl7.org/fhir/StructureDefinition/structuredefinition-fhir-type",
-                                "valueUrl": "id"
+                                "valueUrl": "string"
                             }
                         ],
                         "code": "http://hl7.org/fhirpath/System.String"
@@ -4327,7 +4338,7 @@
                     ],
                     "strength": "required",
                     "description": "Operations supported by REST at the system level.",
-                    "valueSet": "http://hl7.org/fhir/ValueSet/system-restful-interaction|4.3.0-CIBUILD"
+                    "valueSet": "http://hl7.org/fhir/ValueSet/system-restful-interaction|4.3.0-cibuild"
                 }
             },
             {
@@ -4513,7 +4524,7 @@
                         "extension": [
                             {
                                 "url": "http://hl7.org/fhir/StructureDefinition/structuredefinition-fhir-type",
-                                "valueUrl": "id"
+                                "valueUrl": "string"
                             }
                         ],
                         "code": "http://hl7.org/fhirpath/System.String"
@@ -4683,7 +4694,7 @@
                         "extension": [
                             {
                                 "url": "http://hl7.org/fhir/StructureDefinition/structuredefinition-fhir-type",
-                                "valueUrl": "id"
+                                "valueUrl": "string"
                             }
                         ],
                         "code": "http://hl7.org/fhirpath/System.String"
@@ -4987,7 +4998,7 @@
                         "extension": [
                             {
                                 "url": "http://hl7.org/fhir/StructureDefinition/structuredefinition-fhir-type",
-                                "valueUrl": "id"
+                                "valueUrl": "string"
                             }
                         ],
                         "code": "http://hl7.org/fhirpath/System.String"
@@ -5142,7 +5153,7 @@
                     ],
                     "strength": "required",
                     "description": "The mode of a message capability statement.",
-                    "valueSet": "http://hl7.org/fhir/ValueSet/event-capability-mode|4.3.0-CIBUILD"
+                    "valueSet": "http://hl7.org/fhir/ValueSet/event-capability-mode|4.3.0-cibuild"
                 }
             },
             {
@@ -5239,7 +5250,7 @@
                         "extension": [
                             {
                                 "url": "http://hl7.org/fhir/StructureDefinition/structuredefinition-fhir-type",
-                                "valueUrl": "id"
+                                "valueUrl": "string"
                             }
                         ],
                         "code": "http://hl7.org/fhirpath/System.String"
@@ -5394,7 +5405,7 @@
                     ],
                     "strength": "required",
                     "description": "Whether the application produces or consumes documents.",
-                    "valueSet": "http://hl7.org/fhir/ValueSet/document-mode|4.3.0-CIBUILD"
+                    "valueSet": "http://hl7.org/fhir/ValueSet/document-mode|4.3.0-cibuild"
                 }
             },
             {
@@ -5536,7 +5547,7 @@
                         "key": "cpb-0",
                         "severity": "warning",
                         "human": "Name should be usable as an identifier for the module by machine processing applications such as code generation",
-                        "expression": "name.matches('[A-Z]([A-Za-z0-9_]){0,254}')",
+                        "expression": "name.exists() implies name.matches('[A-Z]([A-Za-z0-9_]){0,254}')",
                         "xpath": "not(exists(f:name/@value)) or matches(f:name/@value, '[A-Z]([A-Za-z0-9_]){0,254}')",
                         "source": "http://hl7.org/fhir/StructureDefinition/CapabilityStatement"
                     }
@@ -5680,7 +5691,7 @@
                     ],
                     "strength": "required",
                     "description": "The lifecycle status of an artifact.",
-                    "valueSet": "http://hl7.org/fhir/ValueSet/publication-status|4.3.0-CIBUILD"
+                    "valueSet": "http://hl7.org/fhir/ValueSet/publication-status|4.3.0-cibuild"
                 },
                 "mapping": [
                     {
@@ -5986,7 +5997,7 @@
                     ],
                     "strength": "required",
                     "description": "How a capability statement is intended to be used.",
-                    "valueSet": "http://hl7.org/fhir/ValueSet/capability-statement-kind|4.3.0-CIBUILD"
+                    "valueSet": "http://hl7.org/fhir/ValueSet/capability-statement-kind|4.3.0-cibuild"
                 }
             },
             {
@@ -6209,7 +6220,7 @@
                     ],
                     "strength": "required",
                     "description": "All published FHIR Versions.",
-                    "valueSet": "http://hl7.org/fhir/ValueSet/FHIR-version|4.3.0-CIBUILD"
+                    "valueSet": "http://hl7.org/fhir/ValueSet/FHIR-version|4.3.0-cibuild"
                 }
             },
             {
@@ -6241,7 +6252,7 @@
                     ],
                     "strength": "required",
                     "description": "BCP 13 (RFCs 2045, 2046, 2047, 4288, 4289 and 2049)",
-                    "valueSet": "http://hl7.org/fhir/ValueSet/mimetypes|4.3.0-CIBUILD"
+                    "valueSet": "http://hl7.org/fhir/ValueSet/mimetypes|4.3.0-cibuild"
                 }
             },
             {
@@ -6273,7 +6284,7 @@
                     ],
                     "strength": "required",
                     "description": "BCP 13 (RFCs 2045, 2046, 2047, 4288, 4289 and 2049)",
-                    "valueSet": "http://hl7.org/fhir/ValueSet/mimetypes|4.3.0-CIBUILD"
+                    "valueSet": "http://hl7.org/fhir/ValueSet/mimetypes|4.3.0-cibuild"
                 }
             },
             {
@@ -6349,7 +6360,7 @@
                     ],
                     "strength": "required",
                     "description": "The mode of a RESTful capability statement.",
-                    "valueSet": "http://hl7.org/fhir/ValueSet/restful-capability-mode|4.3.0-CIBUILD"
+                    "valueSet": "http://hl7.org/fhir/ValueSet/restful-capability-mode|4.3.0-cibuild"
                 }
             },
             {
@@ -6505,7 +6516,7 @@
                     ],
                     "strength": "required",
                     "description": "One of the resource types defined as part of this version of FHIR.",
-                    "valueSet": "http://hl7.org/fhir/ValueSet/resource-types|4.3.0-CIBUILD"
+                    "valueSet": "http://hl7.org/fhir/ValueSet/resource-types|4.3.0-cibuild"
                 }
             },
             {
@@ -6617,7 +6628,7 @@
                     ],
                     "strength": "required",
                     "description": "Operations supported by REST at the type or instance level.",
-                    "valueSet": "http://hl7.org/fhir/ValueSet/type-restful-interaction|4.3.0-CIBUILD"
+                    "valueSet": "http://hl7.org/fhir/ValueSet/type-restful-interaction|4.3.0-cibuild"
                 }
             },
             {
@@ -6668,7 +6679,7 @@
                     ],
                     "strength": "required",
                     "description": "How the system supports versioning for a resource.",
-                    "valueSet": "http://hl7.org/fhir/ValueSet/versioning-policy|4.3.0-CIBUILD"
+                    "valueSet": "http://hl7.org/fhir/ValueSet/versioning-policy|4.3.0-cibuild"
                 }
             },
             {
@@ -6771,7 +6782,7 @@
                     ],
                     "strength": "required",
                     "description": "A code that indicates how the server supports conditional read.",
-                    "valueSet": "http://hl7.org/fhir/ValueSet/conditional-read-status|4.3.0-CIBUILD"
+                    "valueSet": "http://hl7.org/fhir/ValueSet/conditional-read-status|4.3.0-cibuild"
                 }
             },
             {
@@ -6828,7 +6839,7 @@
                     ],
                     "strength": "required",
                     "description": "A code that indicates how the server supports conditional delete.",
-                    "valueSet": "http://hl7.org/fhir/ValueSet/conditional-delete-status|4.3.0-CIBUILD"
+                    "valueSet": "http://hl7.org/fhir/ValueSet/conditional-delete-status|4.3.0-cibuild"
                 }
             },
             {
@@ -6861,7 +6872,7 @@
                     ],
                     "strength": "required",
                     "description": "A set of flags that defines how references are supported.",
-                    "valueSet": "http://hl7.org/fhir/ValueSet/reference-handling-policy|4.3.0-CIBUILD"
+                    "valueSet": "http://hl7.org/fhir/ValueSet/reference-handling-policy|4.3.0-cibuild"
                 }
             },
             {
@@ -6949,7 +6960,7 @@
                 "path": "CapabilityStatement.rest.resource.searchParam.definition",
                 "short": "Source of definition for parameter",
                 "definition": "An absolute URI that is a formal reference to where this parameter was first defined, so that a client can be confident of the meaning of the search parameter (a reference to [SearchParameter.url](searchparameter-definitions.html#SearchParameter.url)). This element SHALL be populated if the search parameter refers to a SearchParameter defined by the FHIR core specification or externally defined IGs.",
-                "comment": "This SHOULD be present, and matches refers to a SearchParameter by its canonical URL. If systems wish to document their support for modifiers, comparators, target resource types, and chained parameters, they should do using a search parameter resource. This element SHALL be populated if the search parameter refers to a SearchParameter defined by the FHIR core specification or externally defined IGs.",
+                "comment": "This SHOULD be present, and matches refers to a SearchParameter by its canonical URL, except for the control parameters that do not have a canonical URL (or a SearchParameter definition). If systems wish to document their support for modifiers, comparators, target resource types, and chained parameters, they should do using a search parameter resource. This element SHALL be populated if the search parameter refers to a SearchParameter defined by the FHIR core specification or externally defined IGs.",
                 "min": 0,
                 "max": "1",
                 "type": [
@@ -6993,7 +7004,7 @@
                     ],
                     "strength": "required",
                     "description": "Data types allowed to be used for search parameters.",
-                    "valueSet": "http://hl7.org/fhir/ValueSet/search-param-type|4.3.0-CIBUILD"
+                    "valueSet": "http://hl7.org/fhir/ValueSet/search-param-type|4.3.0-cibuild"
                 }
             },
             {
@@ -7128,7 +7139,7 @@
                     ],
                     "strength": "required",
                     "description": "Operations supported by REST at the system level.",
-                    "valueSet": "http://hl7.org/fhir/ValueSet/system-restful-interaction|4.3.0-CIBUILD"
+                    "valueSet": "http://hl7.org/fhir/ValueSet/system-restful-interaction|4.3.0-cibuild"
                 }
             },
             {
@@ -7355,7 +7366,7 @@
                     ],
                     "strength": "required",
                     "description": "The mode of a message capability statement.",
-                    "valueSet": "http://hl7.org/fhir/ValueSet/event-capability-mode|4.3.0-CIBUILD"
+                    "valueSet": "http://hl7.org/fhir/ValueSet/event-capability-mode|4.3.0-cibuild"
                 }
             },
             {
@@ -7426,7 +7437,7 @@
                     ],
                     "strength": "required",
                     "description": "Whether the application produces or consumes documents.",
-                    "valueSet": "http://hl7.org/fhir/ValueSet/document-mode|4.3.0-CIBUILD"
+                    "valueSet": "http://hl7.org/fhir/ValueSet/document-mode|4.3.0-cibuild"
                 }
             },
             {

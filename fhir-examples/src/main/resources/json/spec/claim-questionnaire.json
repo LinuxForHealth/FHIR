@@ -9,8 +9,8 @@
       "status": "active",
       "description": "Type options for Claim.supportingInfo.timing[x]",
       "expansion": {
-        "identifier": "urn:uuid:f50fe7a7-327b-4145-b05b-cc2e59c86035",
-        "timestamp": "2022-01-01T15:23:56+00:00",
+        "identifier": "urn:uuid:6f6ff35c-f2fa-4474-b52c-ff54cce7b06a",
+        "timestamp": "2022-04-23T22:28:45+00:00",
         "contains": [
           {
             "system": "http://hl7.org/fhir/data-types",
@@ -32,8 +32,8 @@
       "status": "active",
       "description": "Type options for Claim.supportingInfo.value[x]",
       "expansion": {
-        "identifier": "urn:uuid:b246ffbe-edf8-4f43-8c17-5a9f4a9ee221",
-        "timestamp": "2022-01-01T15:23:56+00:00",
+        "identifier": "urn:uuid:eeefae3f-d379-4aa6-a1a8-a9a8098c6075",
+        "timestamp": "2022-04-23T22:28:45+00:00",
         "contains": [
           {
             "system": "http://hl7.org/fhir/data-types",
@@ -70,8 +70,8 @@
       "status": "active",
       "description": "Type options for Claim.diagnosis.diagnosis[x]",
       "expansion": {
-        "identifier": "urn:uuid:828df1a3-19b9-4372-89b3-56f1f20f1601",
-        "timestamp": "2022-01-01T15:23:56+00:00",
+        "identifier": "urn:uuid:f6bc870d-122e-4b96-9810-4d1cc070e94d",
+        "timestamp": "2022-04-23T22:28:45+00:00",
         "contains": [
           {
             "system": "http://hl7.org/fhir/data-types",
@@ -93,8 +93,8 @@
       "status": "active",
       "description": "Type options for Claim.procedure.procedure[x]",
       "expansion": {
-        "identifier": "urn:uuid:a839ee22-1cc5-4fe6-88e3-a20c5b0d4e6d",
-        "timestamp": "2022-01-01T15:23:56+00:00",
+        "identifier": "urn:uuid:6c3fdde7-0842-4a8a-94ce-437561848363",
+        "timestamp": "2022-04-23T22:28:45+00:00",
         "contains": [
           {
             "system": "http://hl7.org/fhir/data-types",
@@ -116,8 +116,8 @@
       "status": "active",
       "description": "Type options for Claim.accident.location[x]",
       "expansion": {
-        "identifier": "urn:uuid:4864d851-5959-4045-9fc1-8cb598635413",
-        "timestamp": "2022-01-01T15:23:56+00:00",
+        "identifier": "urn:uuid:346ac68c-090e-4a98-a167-47042d673295",
+        "timestamp": "2022-04-23T22:28:45+00:00",
         "contains": [
           {
             "system": "http://hl7.org/fhir/data-types",
@@ -139,8 +139,8 @@
       "status": "active",
       "description": "Type options for Claim.item.serviced[x]",
       "expansion": {
-        "identifier": "urn:uuid:902ad47b-c2b5-4f42-8b22-7b66e3e7844e",
-        "timestamp": "2022-01-01T15:23:56+00:00",
+        "identifier": "urn:uuid:232adc39-546f-4304-9133-6a6e02d2a5f1",
+        "timestamp": "2022-04-23T22:28:45+00:00",
         "contains": [
           {
             "system": "http://hl7.org/fhir/data-types",
@@ -162,8 +162,8 @@
       "status": "active",
       "description": "Type options for Claim.item.location[x]",
       "expansion": {
-        "identifier": "urn:uuid:82ed092f-8d58-4d2c-8cb8-cba8bc6ea2c3",
-        "timestamp": "2022-01-01T15:23:56+00:00",
+        "identifier": "urn:uuid:0fa9273f-8f5c-4f0b-9baa-6d9884fae234",
+        "timestamp": "2022-04-23T22:28:45+00:00",
         "contains": [
           {
             "system": "http://hl7.org/fhir/data-types",
@@ -189,9 +189,10 @@
       "system": "urn:ietf:rfc:3986"
     }
   ],
-  "version": "4.3.0-CIBUILD",
+  "version": "4.3.0-cibuild",
   "status": "draft",
-  "date": "2022-01-01T15:17:18+00:00",
+  "experimental": false,
+  "date": "2022-04-23T22:21:35+00:00",
   "publisher": "Health Level Seven International (Financial Management)",
   "item": [
     {
@@ -385,10 +386,9 @@
             {
               "linkId": "Claim.language.value",
               "text": "language",
-              "type": "coding",
+              "type": "choice",
               "required": false,
-              "repeats": false,
-              "answerConstraint": "optionsOnly"
+              "repeats": false
             }
           ]
         },
@@ -607,10 +607,9 @@
             {
               "linkId": "Claim.status.value",
               "text": "status",
-              "type": "coding",
+              "type": "choice",
               "required": false,
-              "repeats": false,
-              "answerConstraint": "optionsOrType"
+              "repeats": false
             }
           ]
         },
@@ -657,10 +656,9 @@
             {
               "linkId": "Claim.type.coding",
               "text": "code:",
-              "type": "coding",
+              "type": "choice",
               "required": false,
-              "repeats": false,
-              "answerConstraint": "optionsOnly"
+              "repeats": false
             },
             {
               "linkId": "Claim.type.text",
@@ -710,10 +708,9 @@
             {
               "linkId": "Claim.subType.coding",
               "text": "code:",
-              "type": "coding",
+              "type": "choice",
               "required": false,
-              "repeats": false,
-              "answerConstraint": "optionsOnly"
+              "repeats": false
             },
             {
               "linkId": "Claim.subType.text",
@@ -766,10 +763,9 @@
             {
               "linkId": "Claim.use.value",
               "text": "use",
-              "type": "coding",
+              "type": "choice",
               "required": false,
-              "repeats": false,
-              "answerConstraint": "optionsOrType"
+              "repeats": false
             }
           ]
         },
@@ -1140,10 +1136,9 @@
             {
               "linkId": "Claim.priority.coding",
               "text": "code:",
-              "type": "coding",
+              "type": "choice",
               "required": false,
-              "repeats": false,
-              "answerConstraint": "optionsOnly"
+              "repeats": false
             },
             {
               "linkId": "Claim.priority.text",
@@ -1193,10 +1188,9 @@
             {
               "linkId": "Claim.fundsReserve.coding",
               "text": "code:",
-              "type": "coding",
+              "type": "choice",
               "required": false,
-              "repeats": false,
-              "answerConstraint": "optionsOnly"
+              "repeats": false
             },
             {
               "linkId": "Claim.fundsReserve.text",
@@ -1431,10 +1425,9 @@
                 {
                   "linkId": "Claim.related.relationship.coding",
                   "text": "code:",
-                  "type": "coding",
+                  "type": "choice",
                   "required": false,
-                  "repeats": false,
-                  "answerConstraint": "optionsOnly"
+                  "repeats": false
                 },
                 {
                   "linkId": "Claim.related.relationship.text",
@@ -1794,10 +1787,9 @@
                 {
                   "linkId": "Claim.payee.type.coding",
                   "text": "code:",
-                  "type": "coding",
+                  "type": "choice",
                   "required": false,
-                  "repeats": false,
-                  "answerConstraint": "optionsOnly"
+                  "repeats": false
                 },
                 {
                   "linkId": "Claim.payee.type.text",
@@ -2287,10 +2279,9 @@
                 {
                   "linkId": "Claim.careTeam.role.coding",
                   "text": "code:",
-                  "type": "coding",
+                  "type": "choice",
                   "required": false,
-                  "repeats": false,
-                  "answerConstraint": "optionsOnly"
+                  "repeats": false
                 },
                 {
                   "linkId": "Claim.careTeam.role.text",
@@ -2340,10 +2331,9 @@
                 {
                   "linkId": "Claim.careTeam.qualification.coding",
                   "text": "code:",
-                  "type": "coding",
+                  "type": "choice",
                   "required": false,
-                  "repeats": false,
-                  "answerConstraint": "optionsOnly"
+                  "repeats": false
                 },
                 {
                   "linkId": "Claim.careTeam.qualification.text",
@@ -2578,10 +2568,9 @@
                 {
                   "linkId": "Claim.supportingInfo.category.coding",
                   "text": "code:",
-                  "type": "coding",
+                  "type": "choice",
                   "required": false,
-                  "repeats": false,
-                  "answerConstraint": "optionsOnly"
+                  "repeats": false
                 },
                 {
                   "linkId": "Claim.supportingInfo.category.text",
@@ -2631,10 +2620,9 @@
                 {
                   "linkId": "Claim.supportingInfo.code.coding",
                   "text": "code:",
-                  "type": "coding",
+                  "type": "choice",
                   "required": false,
-                  "repeats": false,
-                  "answerConstraint": "optionsOnly"
+                  "repeats": false
                 },
                 {
                   "linkId": "Claim.supportingInfo.code.text",
@@ -2680,10 +2668,9 @@
                 {
                   "linkId": "Claim.supportingInfo.timing[x]._type",
                   "text": "type",
-                  "type": "coding",
+                  "type": "choice",
                   "required": false,
                   "repeats": false,
-                  "answerConstraint": "optionsOnly",
                   "answerValueSet": "#vs2",
                   "item": [
                     {
@@ -2769,10 +2756,9 @@
                 {
                   "linkId": "Claim.supportingInfo.value[x]._type",
                   "text": "type",
-                  "type": "coding",
+                  "type": "choice",
                   "required": false,
                   "repeats": false,
-                  "answerConstraint": "optionsOnly",
                   "answerValueSet": "#vs3",
                   "item": [
                     {
@@ -2824,10 +2810,9 @@
                         {
                           "linkId": "Claim.supportingInfo.value[x]._null.comparator",
                           "text": "comp:",
-                          "type": "coding",
+                          "type": "choice",
                           "required": false,
-                          "repeats": false,
-                          "answerConstraint": "optionsOnly"
+                          "repeats": false
                         },
                         {
                           "linkId": "Claim.supportingInfo.value[x]._null.value",
@@ -2940,10 +2925,9 @@
                 {
                   "linkId": "Claim.supportingInfo.reason.coding",
                   "text": "code:",
-                  "type": "coding",
+                  "type": "choice",
                   "required": false,
-                  "repeats": false,
-                  "answerConstraint": "optionsOnly"
+                  "repeats": false
                 },
                 {
                   "linkId": "Claim.supportingInfo.reason.text",
@@ -3169,10 +3153,9 @@
                 {
                   "linkId": "Claim.diagnosis.diagnosis[x]._type",
                   "text": "type",
-                  "type": "coding",
+                  "type": "choice",
                   "required": false,
                   "repeats": false,
-                  "answerConstraint": "optionsOnly",
                   "answerValueSet": "#vs4",
                   "item": [
                     {
@@ -3188,10 +3171,9 @@
                         {
                           "linkId": "Claim.diagnosis.diagnosis[x]._null.coding",
                           "text": "code:",
-                          "type": "coding",
+                          "type": "choice",
                           "required": false,
-                          "repeats": false,
-                          "answerConstraint": "optionsOnly"
+                          "repeats": false
                         },
                         {
                           "linkId": "Claim.diagnosis.diagnosis[x]._null.text",
@@ -3269,10 +3251,9 @@
                 {
                   "linkId": "Claim.diagnosis.type.coding",
                   "text": "code:",
-                  "type": "coding",
+                  "type": "choice",
                   "required": false,
-                  "repeats": false,
-                  "answerConstraint": "optionsOnly"
+                  "repeats": false
                 },
                 {
                   "linkId": "Claim.diagnosis.type.text",
@@ -3322,10 +3303,9 @@
                 {
                   "linkId": "Claim.diagnosis.onAdmission.coding",
                   "text": "code:",
-                  "type": "coding",
+                  "type": "choice",
                   "required": false,
-                  "repeats": false,
-                  "answerConstraint": "optionsOnly"
+                  "repeats": false
                 },
                 {
                   "linkId": "Claim.diagnosis.onAdmission.text",
@@ -3375,10 +3355,9 @@
                 {
                   "linkId": "Claim.diagnosis.packageCode.coding",
                   "text": "code:",
-                  "type": "coding",
+                  "type": "choice",
                   "required": false,
-                  "repeats": false,
-                  "answerConstraint": "optionsOnly"
+                  "repeats": false
                 },
                 {
                   "linkId": "Claim.diagnosis.packageCode.text",
@@ -3600,10 +3579,9 @@
                 {
                   "linkId": "Claim.procedure.type.coding",
                   "text": "code:",
-                  "type": "coding",
+                  "type": "choice",
                   "required": false,
-                  "repeats": false,
-                  "answerConstraint": "optionsOnly"
+                  "repeats": false
                 },
                 {
                   "linkId": "Claim.procedure.type.text",
@@ -3697,10 +3675,9 @@
                 {
                   "linkId": "Claim.procedure.procedure[x]._type",
                   "text": "type",
-                  "type": "coding",
+                  "type": "choice",
                   "required": false,
                   "repeats": false,
-                  "answerConstraint": "optionsOnly",
                   "answerValueSet": "#vs5",
                   "item": [
                     {
@@ -3716,10 +3693,9 @@
                         {
                           "linkId": "Claim.procedure.procedure[x]._null.coding",
                           "text": "code:",
-                          "type": "coding",
+                          "type": "choice",
                           "required": false,
-                          "repeats": false,
-                          "answerConstraint": "optionsOnly"
+                          "repeats": false
                         },
                         {
                           "linkId": "Claim.procedure.procedure[x]._null.text",
@@ -4523,10 +4499,9 @@
                 {
                   "linkId": "Claim.accident.type.coding",
                   "text": "code:",
-                  "type": "coding",
+                  "type": "choice",
                   "required": false,
-                  "repeats": false,
-                  "answerConstraint": "optionsOnly"
+                  "repeats": false
                 },
                 {
                   "linkId": "Claim.accident.type.text",
@@ -4572,10 +4547,9 @@
                 {
                   "linkId": "Claim.accident.location[x]._type",
                   "text": "type",
-                  "type": "coding",
+                  "type": "choice",
                   "required": false,
                   "repeats": false,
-                  "answerConstraint": "optionsOnly",
                   "answerValueSet": "#vs6",
                   "item": [
                     {
@@ -4633,10 +4607,9 @@
                         {
                           "linkId": "Claim.accident.location[x]._null.use",
                           "text": "use:",
-                          "type": "coding",
+                          "type": "choice",
                           "required": false,
-                          "repeats": false,
-                          "answerConstraint": "optionsOnly"
+                          "repeats": false
                         }
                       ]
                     },
@@ -5047,10 +5020,9 @@
                 {
                   "linkId": "Claim.item.revenue.coding",
                   "text": "code:",
-                  "type": "coding",
+                  "type": "choice",
                   "required": false,
-                  "repeats": false,
-                  "answerConstraint": "optionsOnly"
+                  "repeats": false
                 },
                 {
                   "linkId": "Claim.item.revenue.text",
@@ -5100,10 +5072,9 @@
                 {
                   "linkId": "Claim.item.category.coding",
                   "text": "code:",
-                  "type": "coding",
+                  "type": "choice",
                   "required": false,
-                  "repeats": false,
-                  "answerConstraint": "optionsOnly"
+                  "repeats": false
                 },
                 {
                   "linkId": "Claim.item.category.text",
@@ -5157,10 +5128,9 @@
                 {
                   "linkId": "Claim.item.productOrService.coding",
                   "text": "code:",
-                  "type": "coding",
+                  "type": "choice",
                   "required": false,
-                  "repeats": false,
-                  "answerConstraint": "optionsOnly"
+                  "repeats": false
                 },
                 {
                   "linkId": "Claim.item.productOrService.text",
@@ -5206,10 +5176,9 @@
                 {
                   "linkId": "Claim.item.modifier.coding",
                   "text": "code:",
-                  "type": "coding",
+                  "type": "choice",
                   "required": false,
-                  "repeats": false,
-                  "answerConstraint": "optionsOnly"
+                  "repeats": false
                 },
                 {
                   "linkId": "Claim.item.modifier.text",
@@ -5255,10 +5224,9 @@
                 {
                   "linkId": "Claim.item.programCode.coding",
                   "text": "code:",
-                  "type": "coding",
+                  "type": "choice",
                   "required": false,
-                  "repeats": false,
-                  "answerConstraint": "optionsOnly"
+                  "repeats": false
                 },
                 {
                   "linkId": "Claim.item.programCode.text",
@@ -5304,10 +5272,9 @@
                 {
                   "linkId": "Claim.item.serviced[x]._type",
                   "text": "type",
-                  "type": "coding",
+                  "type": "choice",
                   "required": false,
                   "repeats": false,
-                  "answerConstraint": "optionsOnly",
                   "answerValueSet": "#vs7",
                   "item": [
                     {
@@ -5393,10 +5360,9 @@
                 {
                   "linkId": "Claim.item.location[x]._type",
                   "text": "type",
-                  "type": "coding",
+                  "type": "choice",
                   "required": false,
                   "repeats": false,
-                  "answerConstraint": "optionsOnly",
                   "answerValueSet": "#vs8",
                   "item": [
                     {
@@ -5412,10 +5378,9 @@
                         {
                           "linkId": "Claim.item.location[x]._null.coding",
                           "text": "code:",
-                          "type": "coding",
+                          "type": "choice",
                           "required": false,
-                          "repeats": false,
-                          "answerConstraint": "optionsOnly"
+                          "repeats": false
                         },
                         {
                           "linkId": "Claim.item.location[x]._null.text",
@@ -5481,10 +5446,9 @@
                         {
                           "linkId": "Claim.item.location[x]._null.use",
                           "text": "use:",
-                          "type": "coding",
+                          "type": "choice",
                           "required": false,
-                          "repeats": false,
-                          "answerConstraint": "optionsOnly"
+                          "repeats": false
                         }
                       ]
                     },
@@ -5559,10 +5523,9 @@
                 {
                   "linkId": "Claim.item.quantity.comparator",
                   "text": "comp:",
-                  "type": "coding",
+                  "type": "choice",
                   "required": false,
-                  "repeats": false,
-                  "answerConstraint": "optionsOnly"
+                  "repeats": false
                 },
                 {
                   "linkId": "Claim.item.quantity.value",
@@ -5633,10 +5596,9 @@
                 {
                   "linkId": "Claim.item.unitPrice.comparator",
                   "text": "comp:",
-                  "type": "coding",
+                  "type": "choice",
                   "required": false,
-                  "repeats": false,
-                  "answerConstraint": "optionsOnly"
+                  "repeats": false
                 },
                 {
                   "linkId": "Claim.item.unitPrice.value",
@@ -5751,10 +5713,9 @@
                 {
                   "linkId": "Claim.item.net.comparator",
                   "text": "comp:",
-                  "type": "coding",
+                  "type": "choice",
                   "required": false,
-                  "repeats": false,
-                  "answerConstraint": "optionsOnly"
+                  "repeats": false
                 },
                 {
                   "linkId": "Claim.item.net.value",
@@ -5875,10 +5836,9 @@
                 {
                   "linkId": "Claim.item.bodySite.coding",
                   "text": "code:",
-                  "type": "coding",
+                  "type": "choice",
                   "required": false,
-                  "repeats": false,
-                  "answerConstraint": "optionsOnly"
+                  "repeats": false
                 },
                 {
                   "linkId": "Claim.item.bodySite.text",
@@ -5924,10 +5884,9 @@
                 {
                   "linkId": "Claim.item.subSite.coding",
                   "text": "code:",
-                  "type": "coding",
+                  "type": "choice",
                   "required": false,
-                  "repeats": false,
-                  "answerConstraint": "optionsOnly"
+                  "repeats": false
                 },
                 {
                   "linkId": "Claim.item.subSite.text",
@@ -6201,10 +6160,9 @@
                     {
                       "linkId": "Claim.item.detail.revenue.coding",
                       "text": "code:",
-                      "type": "coding",
+                      "type": "choice",
                       "required": false,
-                      "repeats": false,
-                      "answerConstraint": "optionsOnly"
+                      "repeats": false
                     },
                     {
                       "linkId": "Claim.item.detail.revenue.text",
@@ -6254,10 +6212,9 @@
                     {
                       "linkId": "Claim.item.detail.category.coding",
                       "text": "code:",
-                      "type": "coding",
+                      "type": "choice",
                       "required": false,
-                      "repeats": false,
-                      "answerConstraint": "optionsOnly"
+                      "repeats": false
                     },
                     {
                       "linkId": "Claim.item.detail.category.text",
@@ -6311,10 +6268,9 @@
                     {
                       "linkId": "Claim.item.detail.productOrService.coding",
                       "text": "code:",
-                      "type": "coding",
+                      "type": "choice",
                       "required": false,
-                      "repeats": false,
-                      "answerConstraint": "optionsOnly"
+                      "repeats": false
                     },
                     {
                       "linkId": "Claim.item.detail.productOrService.text",
@@ -6360,10 +6316,9 @@
                     {
                       "linkId": "Claim.item.detail.modifier.coding",
                       "text": "code:",
-                      "type": "coding",
+                      "type": "choice",
                       "required": false,
-                      "repeats": false,
-                      "answerConstraint": "optionsOnly"
+                      "repeats": false
                     },
                     {
                       "linkId": "Claim.item.detail.modifier.text",
@@ -6409,10 +6364,9 @@
                     {
                       "linkId": "Claim.item.detail.programCode.coding",
                       "text": "code:",
-                      "type": "coding",
+                      "type": "choice",
                       "required": false,
-                      "repeats": false,
-                      "answerConstraint": "optionsOnly"
+                      "repeats": false
                     },
                     {
                       "linkId": "Claim.item.detail.programCode.text",
@@ -6462,10 +6416,9 @@
                     {
                       "linkId": "Claim.item.detail.quantity.comparator",
                       "text": "comp:",
-                      "type": "coding",
+                      "type": "choice",
                       "required": false,
-                      "repeats": false,
-                      "answerConstraint": "optionsOnly"
+                      "repeats": false
                     },
                     {
                       "linkId": "Claim.item.detail.quantity.value",
@@ -6536,10 +6489,9 @@
                     {
                       "linkId": "Claim.item.detail.unitPrice.comparator",
                       "text": "comp:",
-                      "type": "coding",
+                      "type": "choice",
                       "required": false,
-                      "repeats": false,
-                      "answerConstraint": "optionsOnly"
+                      "repeats": false
                     },
                     {
                       "linkId": "Claim.item.detail.unitPrice.value",
@@ -6654,10 +6606,9 @@
                     {
                       "linkId": "Claim.item.detail.net.comparator",
                       "text": "comp:",
-                      "type": "coding",
+                      "type": "choice",
                       "required": false,
-                      "repeats": false,
-                      "answerConstraint": "optionsOnly"
+                      "repeats": false
                     },
                     {
                       "linkId": "Claim.item.detail.net.value",
@@ -6952,10 +6903,9 @@
                         {
                           "linkId": "Claim.item.detail.subDetail.revenue.coding",
                           "text": "code:",
-                          "type": "coding",
+                          "type": "choice",
                           "required": false,
-                          "repeats": false,
-                          "answerConstraint": "optionsOnly"
+                          "repeats": false
                         },
                         {
                           "linkId": "Claim.item.detail.subDetail.revenue.text",
@@ -7005,10 +6955,9 @@
                         {
                           "linkId": "Claim.item.detail.subDetail.category.coding",
                           "text": "code:",
-                          "type": "coding",
+                          "type": "choice",
                           "required": false,
-                          "repeats": false,
-                          "answerConstraint": "optionsOnly"
+                          "repeats": false
                         },
                         {
                           "linkId": "Claim.item.detail.subDetail.category.text",
@@ -7062,10 +7011,9 @@
                         {
                           "linkId": "Claim.item.detail.subDetail.productOrService.coding",
                           "text": "code:",
-                          "type": "coding",
+                          "type": "choice",
                           "required": false,
-                          "repeats": false,
-                          "answerConstraint": "optionsOnly"
+                          "repeats": false
                         },
                         {
                           "linkId": "Claim.item.detail.subDetail.productOrService.text",
@@ -7111,10 +7059,9 @@
                         {
                           "linkId": "Claim.item.detail.subDetail.modifier.coding",
                           "text": "code:",
-                          "type": "coding",
+                          "type": "choice",
                           "required": false,
-                          "repeats": false,
-                          "answerConstraint": "optionsOnly"
+                          "repeats": false
                         },
                         {
                           "linkId": "Claim.item.detail.subDetail.modifier.text",
@@ -7160,10 +7107,9 @@
                         {
                           "linkId": "Claim.item.detail.subDetail.programCode.coding",
                           "text": "code:",
-                          "type": "coding",
+                          "type": "choice",
                           "required": false,
-                          "repeats": false,
-                          "answerConstraint": "optionsOnly"
+                          "repeats": false
                         },
                         {
                           "linkId": "Claim.item.detail.subDetail.programCode.text",
@@ -7213,10 +7159,9 @@
                         {
                           "linkId": "Claim.item.detail.subDetail.quantity.comparator",
                           "text": "comp:",
-                          "type": "coding",
+                          "type": "choice",
                           "required": false,
-                          "repeats": false,
-                          "answerConstraint": "optionsOnly"
+                          "repeats": false
                         },
                         {
                           "linkId": "Claim.item.detail.subDetail.quantity.value",
@@ -7287,10 +7232,9 @@
                         {
                           "linkId": "Claim.item.detail.subDetail.unitPrice.comparator",
                           "text": "comp:",
-                          "type": "coding",
+                          "type": "choice",
                           "required": false,
-                          "repeats": false,
-                          "answerConstraint": "optionsOnly"
+                          "repeats": false
                         },
                         {
                           "linkId": "Claim.item.detail.subDetail.unitPrice.value",
@@ -7405,10 +7349,9 @@
                         {
                           "linkId": "Claim.item.detail.subDetail.net.comparator",
                           "text": "comp:",
-                          "type": "coding",
+                          "type": "choice",
                           "required": false,
-                          "repeats": false,
-                          "answerConstraint": "optionsOnly"
+                          "repeats": false
                         },
                         {
                           "linkId": "Claim.item.detail.subDetail.net.value",
@@ -7535,10 +7478,9 @@
             {
               "linkId": "Claim.total.comparator",
               "text": "comp:",
-              "type": "coding",
+              "type": "choice",
               "required": false,
-              "repeats": false,
-              "answerConstraint": "optionsOnly"
+              "repeats": false
             },
             {
               "linkId": "Claim.total.value",

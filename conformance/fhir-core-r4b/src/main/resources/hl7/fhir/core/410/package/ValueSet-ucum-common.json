@@ -2,7 +2,7 @@
     "resourceType": "ValueSet",
     "id": "ucum-common",
     "meta": {
-        "lastUpdated": "2022-01-01T15:17:18.597Z"
+        "lastUpdated": "2022-04-23T22:21:35.043Z"
     },
     "text": {
         "status": "empty",
@@ -19,11 +19,12 @@
         }
     ],
     "url": "http://hl7.org/fhir/ValueSet/ucum-common",
-    "version": "4.3.0-CIBUILD",
+    "version": "4.3.0-cibuild",
     "name": "Common UCUM units",
     "status": "draft",
+    "experimental": true,
     "publisher": "FHIR Project",
-    "description": "Commonly encountered UCUM units (for purposes of helping populate look ups.",
+    "description": "Commonly encountered UCUM units (for purposes of helping populate look ups).",
     "copyright": "UCUM is Copyright © 1999-2013 Regenstrief Institute, Inc. and The UCUM Organization, Indianapolis, IN. All rights reserved. See http://unitsofmeasure.org/trac//wiki/TermsOfUse for details.",
     "compose": {
         "include": [

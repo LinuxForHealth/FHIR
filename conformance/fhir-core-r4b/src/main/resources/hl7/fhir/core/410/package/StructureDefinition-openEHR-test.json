@@ -12,9 +12,10 @@
         }
     ],
     "url": "http://hl7.org/fhir/StructureDefinition/openEHR-test",
-    "version": "4.3.0-CIBUILD",
+    "version": "4.3.0-cibuild",
     "name": "test",
     "status": "draft",
+    "experimental": false,
     "date": "2014-10-09",
     "publisher": "Health Level Seven, Inc / openEHR project",
     "contact": [
@@ -28,7 +29,7 @@
         }
     ],
     "description": "Observations that confirm or refute the risk and/or the substance.",
-    "fhirVersion": "4.3.0-CIBUILD",
+    "fhirVersion": "4.3.0-cibuild",
     "mapping": [
         {
             "identity": "rim",

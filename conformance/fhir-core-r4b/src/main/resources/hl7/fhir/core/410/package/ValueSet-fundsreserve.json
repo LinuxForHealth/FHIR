@@ -2,7 +2,7 @@
     "resourceType": "ValueSet",
     "id": "fundsreserve",
     "meta": {
-        "lastUpdated": "2022-03-03T22:04:06.196Z",
+        "lastUpdated": "2022-04-23T22:21:35.043Z",
         "profile": [
             "http://hl7.org/fhir/StructureDefinition/shareablevalueset"
         ]
@@ -28,12 +28,12 @@
             "value": "urn:oid:2.16.840.1.113883.4.642.3.33"
         }
     ],
-    "version": "4.3.0-CIBUILD",
+    "version": "4.3.0-cibuild",
     "name": "Funds Reservation Codes",
     "title": "FundsReserve",
     "status": "draft",
     "experimental": true,
-    "date": "2022-03-03T22:04:06Z",
+    "date": "2022-04-23T22:21:35Z",
     "publisher": "Financial Management",
     "contact": [
         {
@@ -56,8 +56,8 @@
         ]
     },
     "expansion": {
-        "identifier": "urn:uuid:5056b5a6-2943-4c97-a3d2-1b4bce7961ab",
-        "timestamp": "2022-03-03T22:05:31Z",
+        "identifier": "urn:uuid:1968e11f-ecc1-4b60-8cf0-5e1dbfcdfabf",
+        "timestamp": "2022-04-23T22:23:26Z",
         "total": 3,
         "parameter": [
             {
@@ -70,7 +70,7 @@
             },
             {
                 "name": "version",
-                "valueUri": "http://terminology.hl7.org/CodeSystem/fundsreserve|4.3.0-CIBUILD"
+                "valueUri": "http://terminology.hl7.org/CodeSystem/fundsreserve|4.3.0-cibuild"
             }
         ],
         "contains": [

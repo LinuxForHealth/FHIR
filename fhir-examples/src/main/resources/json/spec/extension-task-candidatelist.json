@@ -12,10 +12,11 @@
     }
   ],
   "url": "http://hl7.org/fhir/StructureDefinition/task-candidateList",
-  "version": "4.3.0-CIBUILD",
+  "version": "4.3.0-cibuild",
   "name": "candidateList",
   "title": "Candidate List",
   "status": "draft",
+  "experimental": false,
   "date": "2017-02-16",
   "publisher": "Health Level Seven, Inc. - FHIR I WG",
   "contact": [
@@ -29,7 +30,7 @@
     }
   ],
   "description": "Identifies the individuals who are candidates for being the owner of the task.",
-  "fhirVersion": "4.3.0-CIBUILD",
+  "fhirVersion": "4.3.0-cibuild",
   "mapping": [
     {
       "identity": "workflow",

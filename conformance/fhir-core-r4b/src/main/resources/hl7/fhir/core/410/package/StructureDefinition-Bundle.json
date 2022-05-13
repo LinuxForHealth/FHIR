@@ -2,7 +2,7 @@
     "resourceType": "StructureDefinition",
     "id": "Bundle",
     "meta": {
-        "lastUpdated": "2022-01-01T15:17:18.597Z"
+        "lastUpdated": "2022-04-23T22:21:35.043Z"
     },
     "text": {
         "status": "empty",
@@ -35,10 +35,11 @@
         }
     ],
     "url": "http://hl7.org/fhir/StructureDefinition/Bundle",
-    "version": "4.3.0-CIBUILD",
+    "version": "4.3.0-cibuild",
     "name": "Bundle",
     "status": "active",
-    "date": "2022-01-01T15:17:18Z",
+    "experimental": false,
+    "date": "2022-04-23T22:21:35Z",
     "publisher": "Health Level Seven International (FHIR Infrastructure)",
     "contact": [
         {
@@ -59,7 +60,7 @@
         }
     ],
     "description": "A container for a collection of resources.",
-    "fhirVersion": "4.3.0-CIBUILD",
+    "fhirVersion": "4.3.0-cibuild",
     "mapping": [
         {
             "identity": "v2",
@@ -426,7 +427,7 @@
                     ],
                     "strength": "required",
                     "description": "Indicates the purpose of a bundle - how it is intended to be used.",
-                    "valueSet": "http://hl7.org/fhir/ValueSet/bundle-type|4.3.0-CIBUILD"
+                    "valueSet": "http://hl7.org/fhir/ValueSet/bundle-type|4.3.0-cibuild"
                 },
                 "mapping": [
                     {
@@ -564,7 +565,7 @@
                         "extension": [
                             {
                                 "url": "http://hl7.org/fhir/StructureDefinition/structuredefinition-fhir-type",
-                                "valueUrl": "id"
+                                "valueUrl": "string"
                             }
                         ],
                         "code": "http://hl7.org/fhirpath/System.String"
@@ -810,7 +811,7 @@
                         "extension": [
                             {
                                 "url": "http://hl7.org/fhir/StructureDefinition/structuredefinition-fhir-type",
-                                "valueUrl": "id"
+                                "valueUrl": "string"
                             }
                         ],
                         "code": "http://hl7.org/fhirpath/System.String"
@@ -1060,7 +1061,7 @@
                         "extension": [
                             {
                                 "url": "http://hl7.org/fhir/StructureDefinition/structuredefinition-fhir-type",
-                                "valueUrl": "id"
+                                "valueUrl": "string"
                             }
                         ],
                         "code": "http://hl7.org/fhirpath/System.String"
@@ -1216,7 +1217,7 @@
                     ],
                     "strength": "required",
                     "description": "Why an entry is in the result set - whether it's included as a match or because of an _include requirement, or to convey information or warning information about the search process.",
-                    "valueSet": "http://hl7.org/fhir/ValueSet/search-entry-mode|4.3.0-CIBUILD"
+                    "valueSet": "http://hl7.org/fhir/ValueSet/search-entry-mode|4.3.0-cibuild"
                 }
             },
             {
@@ -1305,7 +1306,7 @@
                         "extension": [
                             {
                                 "url": "http://hl7.org/fhir/StructureDefinition/structuredefinition-fhir-type",
-                                "valueUrl": "id"
+                                "valueUrl": "string"
                             }
                         ],
                         "code": "http://hl7.org/fhirpath/System.String"
@@ -1460,7 +1461,7 @@
                     ],
                     "strength": "required",
                     "description": "HTTP verbs (in the HTTP command line). See [HTTP rfc](https://tools.ietf.org/html/rfc7231) for details.",
-                    "valueSet": "http://hl7.org/fhir/ValueSet/http-verb|4.3.0-CIBUILD"
+                    "valueSet": "http://hl7.org/fhir/ValueSet/http-verb|4.3.0-cibuild"
                 }
             },
             {
@@ -1673,7 +1674,7 @@
                         "extension": [
                             {
                                 "url": "http://hl7.org/fhir/StructureDefinition/structuredefinition-fhir-type",
-                                "valueUrl": "id"
+                                "valueUrl": "string"
                             }
                         ],
                         "code": "http://hl7.org/fhirpath/System.String"
@@ -2134,7 +2135,7 @@
                     ],
                     "strength": "required",
                     "description": "Indicates the purpose of a bundle - how it is intended to be used.",
-                    "valueSet": "http://hl7.org/fhir/ValueSet/bundle-type|4.3.0-CIBUILD"
+                    "valueSet": "http://hl7.org/fhir/ValueSet/bundle-type|4.3.0-cibuild"
                 },
                 "mapping": [
                     {
@@ -2363,7 +2364,7 @@
                     ],
                     "strength": "required",
                     "description": "Why an entry is in the result set - whether it's included as a match or because of an _include requirement, or to convey information or warning information about the search process.",
-                    "valueSet": "http://hl7.org/fhir/ValueSet/search-entry-mode|4.3.0-CIBUILD"
+                    "valueSet": "http://hl7.org/fhir/ValueSet/search-entry-mode|4.3.0-cibuild"
                 }
             },
             {
@@ -2426,7 +2427,7 @@
                     ],
                     "strength": "required",
                     "description": "HTTP verbs (in the HTTP command line). See [HTTP rfc](https://tools.ietf.org/html/rfc7231) for details.",
-                    "valueSet": "http://hl7.org/fhir/ValueSet/http-verb|4.3.0-CIBUILD"
+                    "valueSet": "http://hl7.org/fhir/ValueSet/http-verb|4.3.0-cibuild"
                 }
             },
             {

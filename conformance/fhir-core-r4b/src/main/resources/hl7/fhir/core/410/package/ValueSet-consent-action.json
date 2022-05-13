@@ -2,7 +2,7 @@
     "resourceType": "ValueSet",
     "id": "consent-action",
     "meta": {
-        "lastUpdated": "2022-03-03T22:04:06.196Z",
+        "lastUpdated": "2022-04-23T22:21:35.043Z",
         "profile": [
             "http://hl7.org/fhir/StructureDefinition/shareablevalueset"
         ]
@@ -28,7 +28,7 @@
             "value": "urn:oid:2.16.840.1.113883.4.642.3.753"
         }
     ],
-    "version": "4.3.0-CIBUILD",
+    "version": "4.3.0-cibuild",
     "name": "ConsentActionCodes",
     "title": "Consent Action Codes",
     "status": "draft",
@@ -54,8 +54,8 @@
         ]
     },
     "expansion": {
-        "identifier": "urn:uuid:27027a65-b4eb-415a-b4da-1ae91bb704aa",
-        "timestamp": "2022-03-03T22:05:31Z",
+        "identifier": "urn:uuid:167c64d8-6a87-48bb-bfb4-88d90ae2c4ab",
+        "timestamp": "2022-04-23T22:23:26Z",
         "total": 5,
         "parameter": [
             {
@@ -68,7 +68,7 @@
             },
             {
                 "name": "version",
-                "valueUri": "http://terminology.hl7.org/CodeSystem/consentaction|4.3.0-CIBUILD"
+                "valueUri": "http://terminology.hl7.org/CodeSystem/consentaction|4.3.0-cibuild"
             }
         ],
         "contains": [

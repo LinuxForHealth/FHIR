@@ -24,7 +24,7 @@
         }
     ],
     "url": "http://hl7.org/fhir/StructureDefinition/bp",
-    "version": "4.3.0-CIBUILD",
+    "version": "4.3.0-cibuild",
     "name": "observation-bp",
     "title": "Observation Blood Pressure Profile",
     "status": "draft",
@@ -42,7 +42,7 @@
         }
     ],
     "description": "FHIR Blood Pressure Profile",
-    "fhirVersion": "4.3.0-CIBUILD",
+    "fhirVersion": "4.3.0-cibuild",
     "mapping": [
         {
             "identity": "workflow",
@@ -115,7 +115,7 @@
                         "severity": "error",
                         "human": "If the resource is contained in another resource, it SHALL be referred to from elsewhere in the resource or SHALL refer to the containing resource",
                         "expression": "contained.where(((id.exists() and ('#'+id in (%resource.descendants().reference | %resource.descendants().as(canonical) | %resource.descendants().as(uri) | %resource.descendants().as(url)))) or descendants().where(reference = '#').exists() or descendants().where(as(canonical) = '#').exists() or descendants().where(as(uri) = '#').exists()).not()).trace('unmatched', id).empty()",
-                        "xpath": "not(exists(for $resource in . return (for $contained in $resource/f:contained return $contained[not(descendant::f:*/@value='#' or (exists(f:id) and $resource//f:*/@*=concat('#', $contained/*/f:id/@value)))])))",
+                        "xpath": "not(exists(for $contained in f:contained return $contained[not(exists(parent::*/descendant::f:reference/@value=concat('#', $contained/*/f:id/@value)) or exists(descendant::f:reference[@value='#']))]))",
                         "source": "http://hl7.org/fhir/StructureDefinition/DomainResource"
                     },
                     {
@@ -417,6 +417,16 @@
                         "code": "Resource"
                     }
                 ],
+                "constraint": [
+                    {
+                        "key": "dom-r4b",
+                        "severity": "warning",
+                        "human": "Containing new R4B resources within R4 resources may cause interoperability issues if instances are shared with R4 systems",
+                        "expression": "($this is Citation or $this is Evidence or $this is EvidenceReport or $this is EvidenceVariable or $this is MedicinalProductDefinition or $this is PackagedProductDefinition or $this is AdministrableProductDefinition or $this is Ingredient or $this is ClinicalUseDefinition or $this is RegulatedAuthorization or $this is SubstanceDefinition or $this is SubscriptionStatus or $this is SubscriptionTopic) implies (%resource is Citation or %resource is Evidence or %resource is EvidenceReport or %resource is EvidenceVariable or %resource is MedicinalProductDefinition or %resource is PackagedProductDefinition or %resource is AdministrableProductDefinition or %resource is Ingredient or %resource is ClinicalUseDefinition or %resource is RegulatedAuthorization or %resource is SubstanceDefinition or %resource is SubscriptionStatus or %resource is SubscriptionTopic)",
+                        "xpath": "not(f:Citation|f:Evidence|f:EvidenceReport|f:EvidenceVariable|f:MedicinalProductDefinition|f:PackagedProductDefinition|f:AdministrableProductDefinition|f:Ingredient|f:ClinicalUseDefinition|f:RegulatedAuthorization|f:SubstanceDefinition|f:SubscriptionStatus|f:SubscriptionTopic) or not(parent::f:Citation|parent::f:Evidence|parent::f:EvidenceReport|parent::f:EvidenceVariable|parent::f:MedicinalProductDefinition|parent::f:PackagedProductDefinition|parent::f:AdministrableProductDefinition|parent::f:Ingredient|parent::f:ClinicalUseDefinition|parent::f:RegulatedAuthorization|parent::f:SubstanceDefinition|f:SubscriptionStatus|f:SubscriptionTopic)",
+                        "source": "http://hl7.org/fhir/StructureDefinition/Observation"
+                    }
+                ],
                 "mustSupport": false,
                 "isModifier": false,
                 "isSummary": false,
@@ -483,7 +493,7 @@
                 "short": "Extensions that cannot be ignored",
                 "definition": "May be used to represent additional information that is not part of the basic definition of the resource and that modifies the understanding of the element that contains it and/or the understanding of the containing element's descendants. Usually modifier elements provide negation or qualification. To make the use of extensions safe and manageable, there is a strict set of governance applied to the definition and use of extensions. Though any implementer is allowed to define an extension, there is a set of requirements that SHALL be met as part of the definition of the extension. Applications processing a resource are required to check for modifier extensions.\n\nModifier extensions SHALL NOT change the meaning of any elements on Resource or DomainResource (including cannot change the meaning of modifierExtension itself).",
                 "comment": "There can be no stigma associated with the use of extensions by any application, project, or standard - regardless of the institution or jurisdiction that uses or defines the extensions.  The use of extensions is what allows the FHIR specification to retain a core level of simplicity for everyone.",
-                "requirements": "Modifier extensions allow for extensions that *cannot* be safely ignored to be clearly distinguished from the vast majority of extensions which can be safely ignored.  This promotes interoperability by eliminating the need for implementers to prohibit the presence of extensions. For further information, see the [definition of modifier extensions](http://hl7.org/fhir/2021Mar/extensibility.html#modifierExtension).",
+                "requirements": "Modifier extensions allow for extensions that *cannot* be safely ignored to be clearly distinguished from the vast majority of extensions which can be safely ignored.  This promotes interoperability by eliminating the need for implementers to prohibit the presence of extensions. For further information, see the [definition of modifier extensions](extensibility.html#modifierExtension).",
                 "alias": [
                     "extensions",
                     "user content"
@@ -641,7 +651,7 @@
                 "path": "Observation.partOf",
                 "short": "Part of referenced event",
                 "definition": "A larger event of which this particular Observation is a component or step.  For example,  an observation as part of a procedure.",
-                "comment": "To link an Observation to an Encounter use `encounter`.  See the  [Notes](http://hl7.org/fhir/2021Mar/observation.html#obsgrouping) below for guidance on referencing another Observation.",
+                "comment": "To link an Observation to an Encounter use `encounter`.  See the  [Notes](observation.html#obsgrouping) below for guidance on referencing another Observation.",
                 "alias": [
                     "Container"
                 ],
@@ -1013,7 +1023,7 @@
                 ],
                 "mustSupport": true,
                 "isModifier": false,
-                "isSummary": false,
+                "isSummary": true,
                 "mapping": [
                     {
                         "identity": "v2",
@@ -1155,7 +1165,7 @@
                 ],
                 "mustSupport": true,
                 "isModifier": false,
-                "isSummary": false,
+                "isSummary": true,
                 "mapping": [
                     {
                         "identity": "v2",
@@ -1200,7 +1210,7 @@
                     }
                 ],
                 "isModifier": false,
-                "isSummary": false,
+                "isSummary": true,
                 "mapping": [
                     {
                         "identity": "v2",
@@ -1253,7 +1263,7 @@
                 ],
                 "mustSupport": true,
                 "isModifier": false,
-                "isSummary": false,
+                "isSummary": true,
                 "mapping": [
                     {
                         "identity": "v2",
@@ -1308,7 +1318,7 @@
                     }
                 ],
                 "isModifier": false,
-                "isSummary": false,
+                "isSummary": true,
                 "mapping": [
                     {
                         "identity": "v2",
@@ -1354,7 +1364,7 @@
                     }
                 ],
                 "isModifier": false,
-                "isSummary": false,
+                "isSummary": true,
                 "mapping": [
                     {
                         "identity": "v2",
@@ -1410,7 +1420,7 @@
                     }
                 ],
                 "isModifier": false,
-                "isSummary": false,
+                "isSummary": true,
                 "mapping": [
                     {
                         "identity": "v2",
@@ -1642,7 +1652,7 @@
                     }
                 ],
                 "isModifier": false,
-                "isSummary": false,
+                "isSummary": true,
                 "mapping": [
                     {
                         "identity": "v2",
@@ -1689,7 +1699,7 @@
                     }
                 ],
                 "isModifier": false,
-                "isSummary": false,
+                "isSummary": true,
                 "mapping": [
                     {
                         "identity": "v2",
@@ -1830,7 +1840,7 @@
                     }
                 ],
                 "isModifier": false,
-                "isSummary": false,
+                "isSummary": true,
                 "mapping": [
                     {
                         "identity": "v2",
@@ -1875,7 +1885,7 @@
                     }
                 ],
                 "isModifier": false,
-                "isSummary": false,
+                "isSummary": true,
                 "mapping": [
                     {
                         "identity": "v2",
@@ -1927,7 +1937,7 @@
                     }
                 ],
                 "isModifier": false,
-                "isSummary": false,
+                "isSummary": true,
                 "mapping": [
                     {
                         "identity": "v2",
@@ -1982,7 +1992,7 @@
                     }
                 ],
                 "isModifier": false,
-                "isSummary": false,
+                "isSummary": true,
                 "mapping": [
                     {
                         "identity": "v2",
@@ -2028,7 +2038,7 @@
                     }
                 ],
                 "isModifier": false,
-                "isSummary": false,
+                "isSummary": true,
                 "mapping": [
                     {
                         "identity": "v2",
@@ -2084,7 +2094,7 @@
                     }
                 ],
                 "isModifier": false,
-                "isSummary": false,
+                "isSummary": true,
                 "mapping": [
                     {
                         "identity": "v2",
@@ -2169,7 +2179,7 @@
                 "path": "Observation.focus",
                 "short": "What the observation is about, when it is not about the subject of record",
                 "definition": "The actual focus of an observation when it is not the patient of record representing something or someone associated with the patient such as a spouse, parent, fetus, or donor. For example, fetus observations in a mother's record.  The focus of an observation could also be an existing condition,  an intervention, the subject's diet,  another observation of the subject,  or a body structure such as tumor or implanted device.   An example use case would be using the Observation resource to capture whether the mother is trained to change her child's tracheostomy tube. In this example, the child is the patient of record and the mother is the focus.",
-                "comment": "Typically, an observation is made about the subject - a patient, or group of patients, location, or device - and the distinction between the subject and what is directly measured for an observation is specified in the observation code itself ( e.g., \"Blood Glucose\") and does not need to be represented separately using this element.  Use `specimen` if a reference to a specimen is required.  If a code is required instead of a resource use either  `bodysite` for bodysites or the standard extension [focusCode](http://hl7.org/fhir/2021Mar/extension-observation-focuscode.html).",
+                "comment": "Typically, an observation is made about the subject - a patient, or group of patients, location, or device - and the distinction between the subject and what is directly measured for an observation is specified in the observation code itself ( e.g., \"Blood Glucose\") and does not need to be represented separately using this element.  Use `specimen` if a reference to a specimen is required.  If a code is required instead of a resource use either  `bodysite` for bodysites or the standard extension [focusCode](extension-observation-focuscode.html).",
                 "min": 0,
                 "max": "*",
                 "base": {
@@ -2279,7 +2289,7 @@
                 "path": "Observation.effective[x]",
                 "short": "Often just a dateTime for Vital Signs",
                 "definition": "Often just a dateTime for Vital Signs.",
-                "comment": "At least a date should be present unless this observation is a historical report.  For recording imprecise or \"fuzzy\" times (For example, a blood glucose measurement taken \"after breakfast\") use the [Timing](http://hl7.org/fhir/2021Mar/datatypes.html#timing) datatype which allow the measurement to be tied to regular life events.",
+                "comment": "At least a date should be present unless this observation is a historical report.  For recording imprecise or \"fuzzy\" times (For example, a blood glucose measurement taken \"after breakfast\") use the [Timing](datatypes.html#timing) datatype which allow the measurement to be tied to regular life events.",
                 "requirements": "Knowing when an observation was deemed true is important to its relevance as well as determining trends.",
                 "alias": [
                     "Occurrence"
@@ -2316,7 +2326,8 @@
                         "severity": "error",
                         "human": "if Observation.effective[x] is dateTime and has a value then that value shall be precise to the day",
                         "expression": "($this as dateTime).toString().length() >= 8",
-                        "xpath": "f:effectiveDateTime[matches(@value, '^\\d{4}-\\d{2}-\\d{2}')]"
+                        "xpath": "f:effectiveDateTime[matches(@value, '^\\d{4}-\\d{2}-\\d{2}')]",
+                        "source": "http://hl7.org/fhir/StructureDefinition/vitalsigns"
                     }
                 ],
                 "mustSupport": true,
@@ -2346,7 +2357,7 @@
                 "path": "Observation.issued",
                 "short": "Date/Time this version was made available",
                 "definition": "The date and time this version of the observation was made available to providers, typically after the results have been reviewed and verified.",
-                "comment": "For Observations that don’t require review and verification, it may be the same as the [`lastUpdated` ](http://hl7.org/fhir/2021Mar/resource-definitions.html#Meta.lastUpdated) time of the resource itself.  For Observations that do require review and verification for certain updates, it might not be the same as the `lastUpdated` time of the resource itself due to a non-clinically significant update that doesn’t require the new version to be reviewed and verified again.",
+                "comment": "For Observations that don’t require review and verification, it may be the same as the [`lastUpdated` ](resource-definitions.html#Meta.lastUpdated) time of the resource itself.  For Observations that do require review and verification for certain updates, it might not be the same as the `lastUpdated` time of the resource itself due to a non-clinically significant update that doesn’t require the new version to be reviewed and verified again.",
                 "min": 0,
                 "max": "1",
                 "base": {
@@ -2460,7 +2471,7 @@
                 },
                 "short": "Vital Signs value are recorded using the Quantity data type. For supporting observations such as Cuff size could use other datatypes such as CodeableConcept.",
                 "definition": "Vital Signs value are recorded using the Quantity data type. For supporting observations such as Cuff size could use other datatypes such as CodeableConcept.",
-                "comment": "An observation may have; 1)  a single value here, 2)  both a value and a set of related or component values,  or 3)  only a set of related or component values. If a value is present, the datatype for this element should be determined by Observation.code.  A CodeableConcept with just a text would be used instead of a string if the field was usually coded, or if the type associated with the Observation.code defines a coded value.  For additional guidance, see the [Notes section](http://hl7.org/fhir/2021Mar/observation.html#notes) below.",
+                "comment": "An observation may have; 1)  a single value here, 2)  both a value and a set of related or component values,  or 3)  only a set of related or component values. If a value is present, the datatype for this element should be determined by Observation.code.  A CodeableConcept with just a text would be used instead of a string if the field was usually coded, or if the type associated with the Observation.code defines a coded value.  For additional guidance, see the [Notes section](observation.html#notes) below.",
                 "requirements": "9. SHALL contain exactly one [1..1] value with @xsi:type=\"PQ\" (CONF:7305).",
                 "min": 0,
                 "max": "1",
@@ -2491,6 +2502,21 @@
                 "mustSupport": true,
                 "isModifier": false,
                 "isSummary": true,
+                "binding": {
+                    "extension": [
+                        {
+                            "url": "http://hl7.org/fhir/build/StructureDefinition/definition",
+                            "valueString": "Common UCUM units for recording Vital Signs."
+                        },
+                        {
+                            "url": "http://hl7.org/fhir/StructureDefinition/elementdefinition-bindingName",
+                            "valueString": "VitalSignsUnits"
+                        }
+                    ],
+                    "strength": "extensible",
+                    "description": "Commonly encountered UCUM units for recording Vital Signs quantity units as codes. If extending this valueset the codes SHOULD come from UCUM.",
+                    "valueSet": "http://hl7.org/fhir/ValueSet/ucum-vitals-common"
+                },
                 "mapping": [
                     {
                         "identity": "sct-concept",
@@ -2516,7 +2542,7 @@
                 "sliceName": "valueQuantity",
                 "short": "Vital Signs value are recorded using the Quantity data type. For supporting observations such as Cuff size could use other datatypes such as CodeableConcept.",
                 "definition": "Vital Signs value are recorded using the Quantity data type. For supporting observations such as Cuff size could use other datatypes such as CodeableConcept.",
-                "comment": "An observation may have; 1)  a single value here, 2)  both a value and a set of related or component values,  or 3)  only a set of related or component values. If a value is present, the datatype for this element should be determined by Observation.code.  A CodeableConcept with just a text would be used instead of a string if the field was usually coded, or if the type associated with the Observation.code defines a coded value.  For additional guidance, see the [Notes section](http://hl7.org/fhir/2021Mar/observation.html#notes) below.",
+                "comment": "An observation may have; 1)  a single value here, 2)  both a value and a set of related or component values,  or 3)  only a set of related or component values. If a value is present, the datatype for this element should be determined by Observation.code.  A CodeableConcept with just a text would be used instead of a string if the field was usually coded, or if the type associated with the Observation.code defines a coded value.  For additional guidance, see the [Notes section](observation.html#notes) below.",
                 "requirements": "9. SHALL contain exactly one [1..1] value with @xsi:type=\"PQ\" (CONF:7305).",
                 "min": 0,
                 "max": "0",
@@ -2547,6 +2573,21 @@
                 "mustSupport": true,
                 "isModifier": false,
                 "isSummary": true,
+                "binding": {
+                    "extension": [
+                        {
+                            "url": "http://hl7.org/fhir/build/StructureDefinition/definition",
+                            "valueString": "Common UCUM units for recording Vital Signs."
+                        },
+                        {
+                            "url": "http://hl7.org/fhir/StructureDefinition/elementdefinition-bindingName",
+                            "valueString": "VitalSignsUnits"
+                        }
+                    ],
+                    "strength": "extensible",
+                    "description": "Commonly encountered UCUM units for recording Vital Signs quantity units as codes. If extending this valueset the codes SHOULD come from UCUM.",
+                    "valueSet": "http://hl7.org/fhir/ValueSet/ucum-vitals-common"
+                },
                 "mapping": [
                     {
                         "identity": "sct-concept",
@@ -2741,7 +2782,7 @@
                 "path": "Observation.bodySite",
                 "short": "Observed body part",
                 "definition": "Indicates the site on the subject's body where the observation was made (i.e. the target site).",
-                "comment": "Only used if not implicit in code found in Observation.code.  In many systems, this may be represented as a related observation instead of an inline component.   \n\nIf the use case requires BodySite to be handled as a separate resource (e.g. to identify and track separately) then use the standard extension[ bodySite](http://hl7.org/fhir/2021Mar/extension-bodysite.html).",
+                "comment": "Only used if not implicit in code found in Observation.code.  In many systems, this may be represented as a related observation instead of an inline component.   \n\nIf the use case requires BodySite to be handled as a separate resource (e.g. to identify and track separately) then use the standard extension[ bodySite](extension-bodysite.html).",
                 "min": 0,
                 "max": "1",
                 "base": {
@@ -3029,7 +3070,7 @@
                         "extension": [
                             {
                                 "url": "http://hl7.org/fhir/StructureDefinition/structuredefinition-fhir-type",
-                                "valueUrl": "id"
+                                "valueUrl": "string"
                             }
                         ],
                         "code": "http://hl7.org/fhirpath/System.String"
@@ -3099,7 +3140,7 @@
                 "short": "Extensions that cannot be ignored even if unrecognized",
                 "definition": "May be used to represent additional information that is not part of the basic definition of the element and that modifies the understanding of the element in which it is contained and/or the understanding of the containing element's descendants. Usually modifier elements provide negation or qualification. To make the use of extensions safe and manageable, there is a strict set of governance applied to the definition and use of extensions. Though any implementer can define an extension, there is a set of requirements that SHALL be met as part of the definition of the extension. Applications processing a resource are required to check for modifier extensions.\n\nModifier extensions SHALL NOT change the meaning of any elements on Resource or DomainResource (including cannot change the meaning of modifierExtension itself).",
                 "comment": "There can be no stigma associated with the use of extensions by any application, project, or standard - regardless of the institution or jurisdiction that uses or defines the extensions.  The use of extensions is what allows the FHIR specification to retain a core level of simplicity for everyone.",
-                "requirements": "Modifier extensions allow for extensions that *cannot* be safely ignored to be clearly distinguished from the vast majority of extensions which can be safely ignored.  This promotes interoperability by eliminating the need for implementers to prohibit the presence of extensions. For further information, see the [definition of modifier extensions](http://hl7.org/fhir/2021Mar/extensibility.html#modifierExtension).",
+                "requirements": "Modifier extensions allow for extensions that *cannot* be safely ignored to be clearly distinguished from the vast majority of extensions which can be safely ignored.  This promotes interoperability by eliminating the need for implementers to prohibit the presence of extensions. For further information, see the [definition of modifier extensions](extensibility.html#modifierExtension).",
                 "alias": [
                     "extensions",
                     "user content",
@@ -3439,7 +3480,7 @@
                 "path": "Observation.hasMember",
                 "short": "Used when reporting vital signs panel components",
                 "definition": "Used when reporting vital signs panel components.",
-                "comment": "When using this element, an observation will typically have either a value or a set of related resources, although both may be present in some cases.  For a discussion on the ways Observations can assembled in groups together, see [Notes](http://hl7.org/fhir/2021Mar/observation.html#obsgrouping) below.  Note that a system may calculate results from [QuestionnaireResponse](http://hl7.org/fhir/2021Mar/questionnaireresponse.html)  into a final score and represent the score as an Observation.",
+                "comment": "When using this element, an observation will typically have either a value or a set of related resources, although both may be present in some cases.  For a discussion on the ways Observations can assembled in groups together, see [Notes](observation.html#obsgrouping) below.  Note that a system may calculate results from [QuestionnaireResponse](questionnaireresponse.html)  into a final score and represent the score as an Observation.",
                 "min": 0,
                 "max": "*",
                 "base": {
@@ -3486,7 +3527,7 @@
                 "path": "Observation.derivedFrom",
                 "short": "Related measurements the observation is made from",
                 "definition": "The target resource that represents a measurement from which this observation value is derived. For example, a calculated anion gap or a fetal measurement based on an ultrasound image.",
-                "comment": "All the reference choices that are listed in this element can represent clinical observations and other measurements that may be the source for a derived value.  The most common reference will be another Observation.  For a discussion on the ways Observations can assembled in groups together, see [Notes](http://hl7.org/fhir/2021Mar/observation.html#obsgrouping) below.",
+                "comment": "All the reference choices that are listed in this element can represent clinical observations and other measurements that may be the source for a derived value.  The most common reference will be another Observation.  For a discussion on the ways Observations can assembled in groups together, see [Notes](observation.html#obsgrouping) below.",
                 "min": 0,
                 "max": "*",
                 "base": {
@@ -3500,7 +3541,6 @@
                         "targetProfile": [
                             "http://hl7.org/fhir/StructureDefinition/DocumentReference",
                             "http://hl7.org/fhir/StructureDefinition/ImagingStudy",
-                            "http://hl7.org/fhir/StructureDefinition/Media",
                             "http://hl7.org/fhir/StructureDefinition/QuestionnaireResponse",
                             "http://hl7.org/fhir/StructureDefinition/MolecularSequence",
                             "http://hl7.org/fhir/StructureDefinition/vitalsigns"
@@ -3550,7 +3590,7 @@
                 },
                 "short": "Used when reporting systolic and diastolic blood pressure.",
                 "definition": "Used when reporting systolic and diastolic blood pressure.",
-                "comment": "For a discussion on the ways Observations can be assembled in groups together see [Notes](http://hl7.org/fhir/2021Mar/observation.html#notes) below.",
+                "comment": "For a discussion on the ways Observations can be assembled in groups together see [Notes](observation.html#notes) below.",
                 "requirements": "Component observations share the same attributes in the Observation resource as the primary observation and are always treated a part of a single observation (they are not separable).   However, the reference range for the primary observation value is not inherited by the component values and is required when appropriate for each component observation.",
                 "min": 2,
                 "max": "*",
@@ -3616,7 +3656,7 @@
                         "extension": [
                             {
                                 "url": "http://hl7.org/fhir/StructureDefinition/structuredefinition-fhir-type",
-                                "valueUrl": "id"
+                                "valueUrl": "string"
                             }
                         ],
                         "code": "http://hl7.org/fhirpath/System.String"
@@ -3686,7 +3726,7 @@
                 "short": "Extensions that cannot be ignored even if unrecognized",
                 "definition": "May be used to represent additional information that is not part of the basic definition of the element and that modifies the understanding of the element in which it is contained and/or the understanding of the containing element's descendants. Usually modifier elements provide negation or qualification. To make the use of extensions safe and manageable, there is a strict set of governance applied to the definition and use of extensions. Though any implementer can define an extension, there is a set of requirements that SHALL be met as part of the definition of the extension. Applications processing a resource are required to check for modifier extensions.\n\nModifier extensions SHALL NOT change the meaning of any elements on Resource or DomainResource (including cannot change the meaning of modifierExtension itself).",
                 "comment": "There can be no stigma associated with the use of extensions by any application, project, or standard - regardless of the institution or jurisdiction that uses or defines the extensions.  The use of extensions is what allows the FHIR specification to retain a core level of simplicity for everyone.",
-                "requirements": "Modifier extensions allow for extensions that *cannot* be safely ignored to be clearly distinguished from the vast majority of extensions which can be safely ignored.  This promotes interoperability by eliminating the need for implementers to prohibit the presence of extensions. For further information, see the [definition of modifier extensions](http://hl7.org/fhir/2021Mar/extensibility.html#modifierExtension).",
+                "requirements": "Modifier extensions allow for extensions that *cannot* be safely ignored to be clearly distinguished from the vast majority of extensions which can be safely ignored.  This promotes interoperability by eliminating the need for implementers to prohibit the presence of extensions. For further information, see the [definition of modifier extensions](extensibility.html#modifierExtension).",
                 "alias": [
                     "extensions",
                     "user content",
@@ -3803,7 +3843,7 @@
                 "path": "Observation.component.value[x]",
                 "short": "Vital Sign Value recorded with UCUM",
                 "definition": "Vital Sign Value recorded with UCUM.",
-                "comment": "Used when observation has a set of component observations. An observation may have both a value (e.g. an  Apgar score)  and component observations (the observations from which the Apgar score was derived). If a value is present, the datatype for this element should be determined by Observation.code. A CodeableConcept with just a text would be used instead of a string if the field was usually coded, or if the type associated with the Observation.code defines a coded value.  For additional guidance, see the [Notes section](http://hl7.org/fhir/2021Mar/observation.html#notes) below.",
+                "comment": "Used when observation has a set of component observations. An observation may have both a value (e.g. an  Apgar score)  and component observations (the observations from which the Apgar score was derived). If a value is present, the datatype for this element should be determined by Observation.code. A CodeableConcept with just a text would be used instead of a string if the field was usually coded, or if the type associated with the Observation.code defines a coded value.  For additional guidance, see the [Notes section](observation.html#notes) below.",
                 "requirements": "9. SHALL contain exactly one [1..1] value with @xsi:type=\"PQ\" (CONF:7305).",
                 "min": 0,
                 "max": "1",
@@ -3874,8 +3914,8 @@
                             "valueString": "VitalSignsUnits"
                         }
                     ],
-                    "strength": "required",
-                    "description": "Commonly encountered UCUM units for recording Vital Signs.",
+                    "strength": "extensible",
+                    "description": "Commonly encountered UCUM units for recording Vital Signs quantity units as codes. If extending this valueset the codes SHOULD come from UCUM.",
                     "valueSet": "http://hl7.org/fhir/ValueSet/ucum-vitals-common"
                 },
                 "mapping": [
@@ -4069,7 +4109,7 @@
                 "sliceName": "SystolicBP",
                 "short": "Used when reporting systolic and diastolic blood pressure.",
                 "definition": "Used when reporting systolic and diastolic blood pressure.",
-                "comment": "For a discussion on the ways Observations can be assembled in groups together see [Notes](http://hl7.org/fhir/2021Mar/observation.html#notes) below.",
+                "comment": "For a discussion on the ways Observations can be assembled in groups together see [Notes](observation.html#notes) below.",
                 "requirements": "Component observations share the same attributes in the Observation resource as the primary observation and are always treated a part of a single observation (they are not separable).   However, the reference range for the primary observation value is not inherited by the component values and is required when appropriate for each component observation.",
                 "min": 1,
                 "max": "1",
@@ -4135,7 +4175,7 @@
                         "extension": [
                             {
                                 "url": "http://hl7.org/fhir/StructureDefinition/structuredefinition-fhir-type",
-                                "valueUrl": "id"
+                                "valueUrl": "string"
                             }
                         ],
                         "code": "http://hl7.org/fhirpath/System.String"
@@ -4205,7 +4245,7 @@
                 "short": "Extensions that cannot be ignored even if unrecognized",
                 "definition": "May be used to represent additional information that is not part of the basic definition of the element and that modifies the understanding of the element in which it is contained and/or the understanding of the containing element's descendants. Usually modifier elements provide negation or qualification. To make the use of extensions safe and manageable, there is a strict set of governance applied to the definition and use of extensions. Though any implementer can define an extension, there is a set of requirements that SHALL be met as part of the definition of the extension. Applications processing a resource are required to check for modifier extensions.\n\nModifier extensions SHALL NOT change the meaning of any elements on Resource or DomainResource (including cannot change the meaning of modifierExtension itself).",
                 "comment": "There can be no stigma associated with the use of extensions by any application, project, or standard - regardless of the institution or jurisdiction that uses or defines the extensions.  The use of extensions is what allows the FHIR specification to retain a core level of simplicity for everyone.",
-                "requirements": "Modifier extensions allow for extensions that *cannot* be safely ignored to be clearly distinguished from the vast majority of extensions which can be safely ignored.  This promotes interoperability by eliminating the need for implementers to prohibit the presence of extensions. For further information, see the [definition of modifier extensions](http://hl7.org/fhir/2021Mar/extensibility.html#modifierExtension).",
+                "requirements": "Modifier extensions allow for extensions that *cannot* be safely ignored to be clearly distinguished from the vast majority of extensions which can be safely ignored.  This promotes interoperability by eliminating the need for implementers to prohibit the presence of extensions. For further information, see the [definition of modifier extensions](extensibility.html#modifierExtension).",
                 "alias": [
                     "extensions",
                     "user content",
@@ -4459,7 +4499,7 @@
                     }
                 ],
                 "isModifier": false,
-                "isSummary": false,
+                "isSummary": true,
                 "mapping": [
                     {
                         "identity": "v2",
@@ -4506,7 +4546,7 @@
                     }
                 ],
                 "isModifier": false,
-                "isSummary": false,
+                "isSummary": true,
                 "mapping": [
                     {
                         "identity": "v2",
@@ -4647,7 +4687,7 @@
                     }
                 ],
                 "isModifier": false,
-                "isSummary": false,
+                "isSummary": true,
                 "mapping": [
                     {
                         "identity": "v2",
@@ -4692,7 +4732,7 @@
                     }
                 ],
                 "isModifier": false,
-                "isSummary": false,
+                "isSummary": true,
                 "mapping": [
                     {
                         "identity": "v2",
@@ -4744,7 +4784,7 @@
                     }
                 ],
                 "isModifier": false,
-                "isSummary": false,
+                "isSummary": true,
                 "mapping": [
                     {
                         "identity": "v2",
@@ -4799,7 +4839,7 @@
                     }
                 ],
                 "isModifier": false,
-                "isSummary": false,
+                "isSummary": true,
                 "mapping": [
                     {
                         "identity": "v2",
@@ -4845,7 +4885,7 @@
                     }
                 ],
                 "isModifier": false,
-                "isSummary": false,
+                "isSummary": true,
                 "mapping": [
                     {
                         "identity": "v2",
@@ -4901,7 +4941,7 @@
                     }
                 ],
                 "isModifier": false,
-                "isSummary": false,
+                "isSummary": true,
                 "mapping": [
                     {
                         "identity": "v2",
@@ -4922,7 +4962,7 @@
                 "path": "Observation.component.value[x]",
                 "short": "Vital Sign Value recorded with UCUM",
                 "definition": "Vital Sign Value recorded with UCUM.",
-                "comment": "Used when observation has a set of component observations. An observation may have both a value (e.g. an  Apgar score)  and component observations (the observations from which the Apgar score was derived). If a value is present, the datatype for this element should be determined by Observation.code. A CodeableConcept with just a text would be used instead of a string if the field was usually coded, or if the type associated with the Observation.code defines a coded value.  For additional guidance, see the [Notes section](http://hl7.org/fhir/2021Mar/observation.html#notes) below.",
+                "comment": "Used when observation has a set of component observations. An observation may have both a value (e.g. an  Apgar score)  and component observations (the observations from which the Apgar score was derived). If a value is present, the datatype for this element should be determined by Observation.code. A CodeableConcept with just a text would be used instead of a string if the field was usually coded, or if the type associated with the Observation.code defines a coded value.  For additional guidance, see the [Notes section](observation.html#notes) below.",
                 "requirements": "9. SHALL contain exactly one [1..1] value with @xsi:type=\"PQ\" (CONF:7305).",
                 "min": 0,
                 "max": "1",
@@ -4963,8 +5003,8 @@
                             "valueString": "VitalSignsUnits"
                         }
                     ],
-                    "strength": "required",
-                    "description": "Commonly encountered UCUM units for recording Vital Signs.",
+                    "strength": "extensible",
+                    "description": "Commonly encountered UCUM units for recording Vital Signs quantity units as codes. If extending this valueset the codes SHOULD come from UCUM.",
                     "valueSet": "http://hl7.org/fhir/ValueSet/ucum-vitals-common"
                 },
                 "mapping": [
@@ -5111,7 +5151,7 @@
                 ],
                 "mustSupport": true,
                 "isModifier": false,
-                "isSummary": false,
+                "isSummary": true,
                 "mapping": [
                     {
                         "identity": "v2",
@@ -5154,7 +5194,7 @@
                 ],
                 "isModifier": true,
                 "isModifierReason": "This is labeled as \"Is Modifier\" because the comparator modifies the interpretation of the value significantly. If there is no comparator, then there is no modification of the value",
-                "isSummary": false,
+                "isSummary": true,
                 "binding": {
                     "extension": [
                         {
@@ -5167,7 +5207,7 @@
                         }
                     ],
                     "strength": "required",
-                    "valueSet": "http://hl7.org/fhir/ValueSet/quantity-comparator|4.3.0-CIBUILD"
+                    "valueSet": "http://hl7.org/fhir/ValueSet/quantity-comparator|4.3.0-cibuild"
                 },
                 "mapping": [
                     {
@@ -5220,7 +5260,7 @@
                 ],
                 "mustSupport": true,
                 "isModifier": false,
-                "isSummary": false,
+                "isSummary": true,
                 "mapping": [
                     {
                         "identity": "v2",
@@ -5266,7 +5306,7 @@
                 ],
                 "mustSupport": true,
                 "isModifier": false,
-                "isSummary": false,
+                "isSummary": true,
                 "mapping": [
                     {
                         "identity": "v2",
@@ -5316,7 +5356,7 @@
                 ],
                 "mustSupport": true,
                 "isModifier": false,
-                "isSummary": false,
+                "isSummary": true,
                 "mapping": [
                     {
                         "identity": "v2",
@@ -5500,7 +5540,7 @@
                 "sliceName": "DiastolicBP",
                 "short": "Used when reporting systolic and diastolic blood pressure.",
                 "definition": "Used when reporting systolic and diastolic blood pressure.",
-                "comment": "For a discussion on the ways Observations can be assembled in groups together see [Notes](http://hl7.org/fhir/2021Mar/observation.html#notes) below.",
+                "comment": "For a discussion on the ways Observations can be assembled in groups together see [Notes](observation.html#notes) below.",
                 "requirements": "Component observations share the same attributes in the Observation resource as the primary observation and are always treated a part of a single observation (they are not separable).   However, the reference range for the primary observation value is not inherited by the component values and is required when appropriate for each component observation.",
                 "min": 1,
                 "max": "1",
@@ -5566,7 +5606,7 @@
                         "extension": [
                             {
                                 "url": "http://hl7.org/fhir/StructureDefinition/structuredefinition-fhir-type",
-                                "valueUrl": "id"
+                                "valueUrl": "string"
                             }
                         ],
                         "code": "http://hl7.org/fhirpath/System.String"
@@ -5636,7 +5676,7 @@
                 "short": "Extensions that cannot be ignored even if unrecognized",
                 "definition": "May be used to represent additional information that is not part of the basic definition of the element and that modifies the understanding of the element in which it is contained and/or the understanding of the containing element's descendants. Usually modifier elements provide negation or qualification. To make the use of extensions safe and manageable, there is a strict set of governance applied to the definition and use of extensions. Though any implementer can define an extension, there is a set of requirements that SHALL be met as part of the definition of the extension. Applications processing a resource are required to check for modifier extensions.\n\nModifier extensions SHALL NOT change the meaning of any elements on Resource or DomainResource (including cannot change the meaning of modifierExtension itself).",
                 "comment": "There can be no stigma associated with the use of extensions by any application, project, or standard - regardless of the institution or jurisdiction that uses or defines the extensions.  The use of extensions is what allows the FHIR specification to retain a core level of simplicity for everyone.",
-                "requirements": "Modifier extensions allow for extensions that *cannot* be safely ignored to be clearly distinguished from the vast majority of extensions which can be safely ignored.  This promotes interoperability by eliminating the need for implementers to prohibit the presence of extensions. For further information, see the [definition of modifier extensions](http://hl7.org/fhir/2021Mar/extensibility.html#modifierExtension).",
+                "requirements": "Modifier extensions allow for extensions that *cannot* be safely ignored to be clearly distinguished from the vast majority of extensions which can be safely ignored.  This promotes interoperability by eliminating the need for implementers to prohibit the presence of extensions. For further information, see the [definition of modifier extensions](extensibility.html#modifierExtension).",
                 "alias": [
                     "extensions",
                     "user content",
@@ -5886,7 +5926,7 @@
                     }
                 ],
                 "isModifier": false,
-                "isSummary": false,
+                "isSummary": true,
                 "mapping": [
                     {
                         "identity": "v2",
@@ -5933,7 +5973,7 @@
                     }
                 ],
                 "isModifier": false,
-                "isSummary": false,
+                "isSummary": true,
                 "mapping": [
                     {
                         "identity": "v2",
@@ -6074,7 +6114,7 @@
                     }
                 ],
                 "isModifier": false,
-                "isSummary": false,
+                "isSummary": true,
                 "mapping": [
                     {
                         "identity": "v2",
@@ -6119,7 +6159,7 @@
                     }
                 ],
                 "isModifier": false,
-                "isSummary": false,
+                "isSummary": true,
                 "mapping": [
                     {
                         "identity": "v2",
@@ -6171,7 +6211,7 @@
                     }
                 ],
                 "isModifier": false,
-                "isSummary": false,
+                "isSummary": true,
                 "mapping": [
                     {
                         "identity": "v2",
@@ -6226,7 +6266,7 @@
                     }
                 ],
                 "isModifier": false,
-                "isSummary": false,
+                "isSummary": true,
                 "mapping": [
                     {
                         "identity": "v2",
@@ -6272,7 +6312,7 @@
                     }
                 ],
                 "isModifier": false,
-                "isSummary": false,
+                "isSummary": true,
                 "mapping": [
                     {
                         "identity": "v2",
@@ -6328,7 +6368,7 @@
                     }
                 ],
                 "isModifier": false,
-                "isSummary": false,
+                "isSummary": true,
                 "mapping": [
                     {
                         "identity": "v2",
@@ -6349,7 +6389,7 @@
                 "path": "Observation.component.value[x]",
                 "short": "Vital Sign Value recorded with UCUM",
                 "definition": "Vital Sign Value recorded with UCUM.",
-                "comment": "Used when observation has a set of component observations. An observation may have both a value (e.g. an  Apgar score)  and component observations (the observations from which the Apgar score was derived). If a value is present, the datatype for this element should be determined by Observation.code. A CodeableConcept with just a text would be used instead of a string if the field was usually coded, or if the type associated with the Observation.code defines a coded value.  For additional guidance, see the [Notes section](http://hl7.org/fhir/2021Mar/observation.html#notes) below.",
+                "comment": "Used when observation has a set of component observations. An observation may have both a value (e.g. an  Apgar score)  and component observations (the observations from which the Apgar score was derived). If a value is present, the datatype for this element should be determined by Observation.code. A CodeableConcept with just a text would be used instead of a string if the field was usually coded, or if the type associated with the Observation.code defines a coded value.  For additional guidance, see the [Notes section](observation.html#notes) below.",
                 "requirements": "9. SHALL contain exactly one [1..1] value with @xsi:type=\"PQ\" (CONF:7305).",
                 "min": 0,
                 "max": "1",
@@ -6390,8 +6430,8 @@
                             "valueString": "VitalSignsUnits"
                         }
                     ],
-                    "strength": "required",
-                    "description": "Commonly encountered UCUM units for recording Vital Signs.",
+                    "strength": "extensible",
+                    "description": "Commonly encountered UCUM units for recording Vital Signs quantity units as codes. If extending this valueset the codes SHOULD come from UCUM.",
                     "valueSet": "http://hl7.org/fhir/ValueSet/ucum-vitals-common"
                 },
                 "mapping": [
@@ -6538,7 +6578,7 @@
                 ],
                 "mustSupport": true,
                 "isModifier": false,
-                "isSummary": false,
+                "isSummary": true,
                 "mapping": [
                     {
                         "identity": "v2",
@@ -6581,7 +6621,7 @@
                 ],
                 "isModifier": true,
                 "isModifierReason": "This is labeled as \"Is Modifier\" because the comparator modifies the interpretation of the value significantly. If there is no comparator, then there is no modification of the value",
-                "isSummary": false,
+                "isSummary": true,
                 "binding": {
                     "extension": [
                         {
@@ -6594,7 +6634,7 @@
                         }
                     ],
                     "strength": "required",
-                    "valueSet": "http://hl7.org/fhir/ValueSet/quantity-comparator|4.3.0-CIBUILD"
+                    "valueSet": "http://hl7.org/fhir/ValueSet/quantity-comparator|4.3.0-cibuild"
                 },
                 "mapping": [
                     {
@@ -6647,7 +6687,7 @@
                 ],
                 "mustSupport": true,
                 "isModifier": false,
-                "isSummary": false,
+                "isSummary": true,
                 "mapping": [
                     {
                         "identity": "v2",
@@ -6693,7 +6733,7 @@
                 ],
                 "mustSupport": true,
                 "isModifier": false,
-                "isSummary": false,
+                "isSummary": true,
                 "mapping": [
                     {
                         "identity": "v2",
@@ -6743,7 +6783,7 @@
                 ],
                 "mustSupport": true,
                 "isModifier": false,
-                "isSummary": false,
+                "isSummary": true,
                 "mapping": [
                     {
                         "identity": "v2",

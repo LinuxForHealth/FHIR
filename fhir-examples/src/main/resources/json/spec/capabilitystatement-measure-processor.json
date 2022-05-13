@@ -8,6 +8,7 @@
   "url": "http://hl7.org/fhir/measure-processor",
   "name": "Measure Processor Service Conformance Statement",
   "status": "draft",
+  "experimental": true,
   "date": "2016-09-16",
   "publisher": "HL7, Inc",
   "contact": [
@@ -26,7 +27,7 @@
   "software": {
     "name": "ACME Measure Processor Service"
   },
-  "fhirVersion": "4.3.0-CIBUILD",
+  "fhirVersion": "4.3.0-cibuild",
   "format": [
     "json",
     "xml"

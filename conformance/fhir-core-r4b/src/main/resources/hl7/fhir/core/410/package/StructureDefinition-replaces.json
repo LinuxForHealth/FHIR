@@ -12,9 +12,10 @@
         }
     ],
     "url": "http://hl7.org/fhir/StructureDefinition/replaces",
-    "version": "4.3.0-CIBUILD",
+    "version": "4.3.0-cibuild",
     "name": "replaces",
     "status": "draft",
+    "experimental": false,
     "date": "2013-12-05",
     "publisher": "Health Level Seven International (FHIR Infrastructure)",
     "contact": [
@@ -28,7 +29,7 @@
         }
     ],
     "description": "Indicates a resource that this resource is replacing.",
-    "fhirVersion": "4.3.0-CIBUILD",
+    "fhirVersion": "4.3.0-cibuild",
     "mapping": [
         {
             "identity": "rim",

@@ -71,10 +71,11 @@
     <valueCode value="trial-use"/>
   </extension>
   <url value="http://hl7.org/fhir/StructureDefinition/Count"/>
-  <version value="4.3.0-CIBUILD"/>
+  <version value="4.3.0-cibuild"/>
   <name value="Count"/>
   <status value="draft"/>
-  <date value="2022-01-01T15:17:18+00:00"/>
+  <experimental value="false"/>
+  <date value="2022-04-23T22:21:35+00:00"/>
   <publisher value="HL7 FHIR Standard"/>
   <contact>
     <telecom>
@@ -84,7 +85,7 @@
   </contact>
   <description value="Base StructureDefinition for Count Type: A measured amount (or an amount that can potentially be measured). Note that measured amounts include amounts that are not precisely quantified, including amounts involving arbitrary units and floating currencies."/>
   <purpose value="Need to able to capture all sorts of measured values, even if the measured value are not precisely quantified. Values include exact measures such as 3.51g, customary units such as 3 tablets, and currencies such as $100.32USD."/>
-  <fhirVersion value="4.3.0-CIBUILD"/>
+  <fhirVersion value="4.3.0-cibuild"/>
   <mapping>
     <identity value="v2"/>
     <uri value="http://hl7.org/v2"/>
@@ -120,8 +121,8 @@
         <key value="cnt-3"/>
         <severity value="error"/>
         <human value="There SHALL be a code with a value of &quot;1&quot; if there is a value. If system is present, it SHALL be UCUM.  If present, the value SHALL be a whole number."/>
-        <expression value="(code.exists() or value.empty()) and (system.empty() or system = %ucum) and (code.empty() or code = &#39;1&#39;) and (value.empty() or value.hasValue().not() or value.toString().contains(&#39;.&#39;).not())"/>
-        <xpath value="(f:code or not(f:value)) and (not(exists(f:system)) or (f:system/@value=&#39;http://unitsofmeasure.org&#39; and f:code/@value=&#39;1&#39;)) and not(contains(f:value/@value, &#39;.&#39;))"/>
+        <expression value="(code.exists() or value.empty()) and (system.empty() or system = %ucum) and (code.empty() or code = '1') and (value.empty() or value.hasValue().not() or value.toString().contains('.').not())"/>
+        <xpath value="(f:code or not(f:value)) and (not(exists(f:system)) or (f:system/@value='http://unitsofmeasure.org' and f:code/@value='1')) and not(contains(f:value/@value, '.'))"/>
         <source value="http://hl7.org/fhir/StructureDefinition/Count"/>
       </constraint>
       <constraint>
@@ -162,7 +163,6 @@
         <min value="0"/>
         <max value="1"/>
       </base>
-    <!-- Note: special primitive values have a FHIRPath system type. e.g. this is compiler magic (j) -->
       <type>
         <extension url="http://hl7.org/fhir/StructureDefinition/structuredefinition-fhir-type">
           <valueUrl value="string"/>
@@ -294,7 +294,7 @@
           <valueString value="QuantityComparator"/>
         </extension>
         <strength value="required"/>
-        <valueSet value="http://hl7.org/fhir/ValueSet/quantity-comparator|4.3.0-CIBUILD"/>
+        <valueSet value="http://hl7.org/fhir/ValueSet/quantity-comparator|4.3.0-cibuild"/>
       </binding>
       <mapping>
         <identity value="v2"/>
@@ -434,8 +434,8 @@
         <key value="cnt-3"/>
         <severity value="error"/>
         <human value="There SHALL be a code with a value of &quot;1&quot; if there is a value. If system is present, it SHALL be UCUM.  If present, the value SHALL be a whole number."/>
-        <expression value="(code.exists() or value.empty()) and (system.empty() or system = %ucum) and (code.empty() or code = &#39;1&#39;) and (value.empty() or value.hasValue().not() or value.toString().contains(&#39;.&#39;).not())"/>
-        <xpath value="(f:code or not(f:value)) and (not(exists(f:system)) or (f:system/@value=&#39;http://unitsofmeasure.org&#39; and f:code/@value=&#39;1&#39;)) and not(contains(f:value/@value, &#39;.&#39;))"/>
+        <expression value="(code.exists() or value.empty()) and (system.empty() or system = %ucum) and (code.empty() or code = '1') and (value.empty() or value.hasValue().not() or value.toString().contains('.').not())"/>
+        <xpath value="(f:code or not(f:value)) and (not(exists(f:system)) or (f:system/@value='http://unitsofmeasure.org' and f:code/@value='1')) and not(contains(f:value/@value, '.'))"/>
         <source value="http://hl7.org/fhir/StructureDefinition/Count"/>
       </constraint>
       <mapping>

@@ -9,8 +9,8 @@
       "status": "active",
       "description": "Type options for DiagnosticReport.effective[x]",
       "expansion": {
-        "identifier": "urn:uuid:c5e8795e-f661-499e-beb9-cbca8e9f86ea",
-        "timestamp": "2022-01-01T15:24:22+00:00",
+        "identifier": "urn:uuid:c607df59-3308-44b2-a185-b67277760281",
+        "timestamp": "2022-04-23T22:29:11+00:00",
         "contains": [
           {
             "system": "http://hl7.org/fhir/data-types",
@@ -31,8 +31,9 @@
       "system": "urn:ietf:rfc:3986"
     }
   ],
-  "version": "4.3.0-CIBUILD",
+  "version": "4.3.0-cibuild",
   "status": "draft",
+  "experimental": false,
   "date": "2012-05-12T00:00:00+00:00",
   "publisher": "Grahame Grieve",
   "item": [
@@ -237,10 +238,9 @@
             {
               "linkId": "DiagnosticReport.language.value",
               "text": "language",
-              "type": "coding",
+              "type": "choice",
               "required": false,
-              "repeats": false,
-              "answerConstraint": "optionsOnly"
+              "repeats": false
             }
           ]
         },
@@ -509,10 +509,9 @@
             {
               "linkId": "DiagnosticReport.status.value",
               "text": "status",
-              "type": "coding",
+              "type": "choice",
               "required": false,
-              "repeats": false,
-              "answerConstraint": "optionsOrType"
+              "repeats": false
             }
           ]
         },
@@ -551,10 +550,9 @@
             {
               "linkId": "DiagnosticReport.category.coding",
               "text": "code:",
-              "type": "coding",
+              "type": "choice",
               "required": false,
-              "repeats": false,
-              "answerConstraint": "optionsOnly"
+              "repeats": false
             },
             {
               "linkId": "DiagnosticReport.category.text",
@@ -608,10 +606,9 @@
             {
               "linkId": "DiagnosticReport.code.coding",
               "text": "code:",
-              "type": "coding",
+              "type": "choice",
               "required": false,
-              "repeats": false,
-              "answerConstraint": "optionsOnly"
+              "repeats": false
             },
             {
               "linkId": "DiagnosticReport.code.text",
@@ -765,10 +762,9 @@
             {
               "linkId": "DiagnosticReport.effective[x]._type",
               "text": "type",
-              "type": "coding",
+              "type": "choice",
               "required": false,
               "repeats": false,
-              "answerConstraint": "optionsOnly",
               "answerValueSet": "#vs2",
               "item": [
                 {
@@ -1049,7 +1045,7 @@
                 }
               ],
               "linkId": "DiagnosticReport.result-flyover",
-              "text": "[Observations](http://hl7.org/fhir/2021Mar/observation.html)  that are part of this diagnostic report. Observations can contain observations.",
+              "text": "[Observations](observation.html)  that are part of this diagnostic report. Observations can contain observations.",
               "type": "display"
             },
             {
@@ -1662,10 +1658,9 @@
             {
               "linkId": "DiagnosticReport.conclusionCode.coding",
               "text": "code:",
-              "type": "coding",
+              "type": "choice",
               "required": false,
-              "repeats": false,
-              "answerConstraint": "optionsOnly"
+              "repeats": false
             },
             {
               "linkId": "DiagnosticReport.conclusionCode.text",

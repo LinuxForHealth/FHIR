@@ -45,7 +45,7 @@ public class Narrative extends Element {
     @Binding(
         bindingName = "NarrativeStatus",
         strength = BindingStrength.Value.REQUIRED,
-        valueSet = "http://hl7.org/fhir/ValueSet/narrative-status|4.3.0-CIBUILD"
+        valueSet = "http://hl7.org/fhir/ValueSet/narrative-status|4.3.0-cibuild"
     )
     @Required
     private final NarrativeStatus status;

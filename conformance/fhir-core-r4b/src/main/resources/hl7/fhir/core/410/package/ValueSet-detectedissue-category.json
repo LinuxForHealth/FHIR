@@ -2,7 +2,7 @@
     "resourceType": "ValueSet",
     "id": "detectedissue-category",
     "meta": {
-        "lastUpdated": "2022-03-03T22:04:06.196Z",
+        "lastUpdated": "2022-04-23T22:21:35.043Z",
         "profile": [
             "http://hl7.org/fhir/StructureDefinition/shareablevalueset"
         ]
@@ -20,10 +20,11 @@
             "value": "urn:oid:2.16.840.1.113883.4.642.3.204"
         }
     ],
-    "version": "4.3.0-CIBUILD",
+    "version": "4.3.0-cibuild",
     "name": "DetectedIssueCategory",
     "title": "Detected Issue Category",
     "status": "draft",
+    "experimental": false,
     "publisher": "FHIR Project team",
     "contact": [
         {
@@ -71,8 +72,8 @@
         ]
     },
     "expansion": {
-        "identifier": "urn:uuid:17c18b82-45e1-4841-9b8c-eca8e93b3400",
-        "timestamp": "2022-03-03T22:05:30Z",
+        "identifier": "urn:uuid:990e8946-d970-4983-ba63-0339ca693c9f",
+        "timestamp": "2022-04-23T22:23:26Z",
         "total": 83,
         "parameter": [
             {
@@ -286,24 +287,15 @@
                 "display": "Poly-orderer Alert"
             },
             {
-                "extension": [
-                    {
-                        "extension": [
-                            {
-                                "url": "lang",
-                                "valueCode": "en"
-                            },
-                            {
-                                "url": "content",
-                                "valueString": "Poly-pharmacy Alert"
-                            }
-                        ],
-                        "url": "http://hl7.org/fhir/StructureDefinition/translation"
-                    }
-                ],
                 "system": "http://terminology.hl7.org/CodeSystem/v3-ActCode",
                 "code": "PLYPHRM",
-                "display": "Poly-supplier Alert"
+                "display": "Poly-supplier Alert",
+                "designation": [
+                    {
+                        "language": "en",
+                        "value": "Poly-pharmacy Alert"
+                    }
+                ]
             },
             {
                 "system": "http://terminology.hl7.org/CodeSystem/v3-ActCode",
@@ -418,12 +410,14 @@
             {
                 "system": "http://terminology.hl7.org/CodeSystem/v3-ActCode",
                 "abstract": true,
+                "inactive": true,
                 "code": "_DrugActionDetectedIssueCode",
                 "display": "DrugActionDetectedIssueCode"
             },
             {
                 "system": "http://terminology.hl7.org/CodeSystem/v3-ActCode",
                 "abstract": true,
+                "inactive": true,
                 "code": "_TimingDetectedIssueCode",
                 "display": "TimingDetectedIssueCode"
             },

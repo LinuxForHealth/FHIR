@@ -3479,7 +3479,7 @@ public class FHIRJsonParser extends FHIRAbstractParser {
                 if (summaryArray.get(i).getValueType() != JsonValue.ValueType.OBJECT) {
                     throw new IllegalArgumentException("Expected: OBJECT but found: " + summaryArray.get(i).getValueType() + " for element: summary");
                 }
-                builder.summary(parseContactDetail("summary", summaryArray.getJsonObject(i), i));
+                builder.summary(parseCitationSummary("summary", summaryArray.getJsonObject(i), i));
             }
         }
         JsonArray classificationArray = getJsonArray(jsonObject, "classification");
@@ -4175,6 +4175,23 @@ public class FHIRJsonParser extends FHIRAbstractParser {
         builder.activity(parseCodeableConcept("activity", getJsonValue(jsonObject, "activity", JsonObject.class), -1));
         builder.actual(parseBoolean("actual", getJsonValue(jsonObject, "actual", JsonValue.class), jsonObject.get("_actual"), -1));
         builder.period(parsePeriod("period", getJsonValue(jsonObject, "period", JsonObject.class), -1));
+        stackPop();
+        return builder.build();
+    }
+
+    private Citation.Summary parseCitationSummary(java.lang.String elementName, JsonObject jsonObject, int elementIndex) {
+        if (jsonObject == null) {
+            return null;
+        }
+        stackPush(elementName, elementIndex);
+        if (!ignoringUnrecognizedElements) {
+            checkForUnrecognizedElements(Citation.Summary.class, jsonObject);
+        }
+        Citation.Summary.Builder builder = Citation.Summary.builder();
+        builder.setValidating(validating);
+        parseBackboneElement(builder, jsonObject);
+        builder.style(parseCodeableConcept("style", getJsonValue(jsonObject, "style", JsonObject.class), -1));
+        builder.text((Markdown) parseString(Markdown.builder(), "text", getJsonValue(jsonObject, "text", JsonString.class), jsonObject.get("_text"), -1));
         stackPop();
         return builder.build();
     }
@@ -5525,7 +5542,7 @@ public class FHIRJsonParser extends FHIRAbstractParser {
             }
         }
         builder.intendedEffect(parseCodeableReference("intendedEffect", getJsonValue(jsonObject, "intendedEffect", JsonObject.class), -1));
-        builder.duration(parseQuantity("duration", getJsonValue(jsonObject, "duration", JsonObject.class), -1));
+        builder.duration(parseChoiceElement("duration", jsonObject, Range.class, String.class));
         JsonArray undesirableEffectArray = getJsonArray(jsonObject, "undesirableEffect");
         if (undesirableEffectArray != null) {
             for (int i = 0; i < undesirableEffectArray.size(); i++) {
@@ -5891,7 +5908,7 @@ public class FHIRJsonParser extends FHIRAbstractParser {
         }
         CodeableReference.Builder builder = CodeableReference.builder();
         builder.setValidating(validating);
-        parseDataType(builder, jsonObject);
+        parseElement(builder, jsonObject);
         builder.concept(parseCodeableConcept("concept", getJsonValue(jsonObject, "concept", JsonObject.class), -1));
         builder.reference(parseReference("reference", getJsonValue(jsonObject, "reference", JsonObject.class), -1));
         stackPop();
@@ -8531,11 +8548,6 @@ public class FHIRJsonParser extends FHIRAbstractParser {
         return builder.build();
     }
 
-    private void parseDataType(DataType.Builder builder, JsonObject jsonObject) {
-        builder.setValidating(validating);
-        parseElement(builder, jsonObject);
-    }
-
     private Date parseDate(java.lang.String elementName, JsonValue jsonValue, JsonValue _jsonValue, int elementIndex) {
         if (jsonValue == null && _jsonValue == null) {
             return null;
@@ -10049,11 +10061,11 @@ public class FHIRJsonParser extends FHIRAbstractParser {
                 builder.type(parseElementDefinitionType("type", typeArray.getJsonObject(i), i));
             }
         }
-        builder.defaultValue(parseChoiceElement("defaultValue", jsonObject, Base64Binary.class, Boolean.class, Canonical.class, Code.class, Date.class, DateTime.class, Decimal.class, Id.class, Instant.class, Integer.class, Markdown.class, Oid.class, PositiveInt.class, String.class, Time.class, UnsignedInt.class, Uri.class, Url.class, Uuid.class, Address.class, Age.class, Annotation.class, Attachment.class, CodeableConcept.class, CodeableReference.class, Coding.class, ContactPoint.class, Count.class, Distance.class, Duration.class, HumanName.class, Identifier.class, Money.class, Period.class, Quantity.class, Range.class, Ratio.class, RatioRange.class, Reference.class, SampledData.class, Signature.class, Timing.class, ContactDetail.class, Contributor.class, DataRequirement.class, Expression.class, ParameterDefinition.class, RelatedArtifact.class, TriggerDefinition.class, UsageContext.class, Dosage.class, Meta.class));
+        builder.defaultValue(parseChoiceElement("defaultValue", jsonObject, Base64Binary.class, Boolean.class, Canonical.class, Code.class, Date.class, DateTime.class, Decimal.class, Id.class, Instant.class, Integer.class, Markdown.class, Oid.class, PositiveInt.class, String.class, Time.class, UnsignedInt.class, Uri.class, Url.class, Uuid.class, Address.class, Age.class, Annotation.class, Attachment.class, CodeableConcept.class, Coding.class, ContactPoint.class, Count.class, Distance.class, Duration.class, HumanName.class, Identifier.class, Money.class, Period.class, Quantity.class, Range.class, Ratio.class, Reference.class, SampledData.class, Signature.class, Timing.class, ContactDetail.class, Contributor.class, DataRequirement.class, Expression.class, ParameterDefinition.class, RelatedArtifact.class, TriggerDefinition.class, UsageContext.class, Dosage.class, Meta.class));
         builder.meaningWhenMissing((Markdown) parseString(Markdown.builder(), "meaningWhenMissing", getJsonValue(jsonObject, "meaningWhenMissing", JsonString.class), jsonObject.get("_meaningWhenMissing"), -1));
         builder.orderMeaning(parseString("orderMeaning", getJsonValue(jsonObject, "orderMeaning", JsonString.class), jsonObject.get("_orderMeaning"), -1));
-        builder.fixed(parseChoiceElement("fixed", jsonObject, Base64Binary.class, Boolean.class, Canonical.class, Code.class, Date.class, DateTime.class, Decimal.class, Id.class, Instant.class, Integer.class, Markdown.class, Oid.class, PositiveInt.class, String.class, Time.class, UnsignedInt.class, Uri.class, Url.class, Uuid.class, Address.class, Age.class, Annotation.class, Attachment.class, CodeableConcept.class, CodeableReference.class, Coding.class, ContactPoint.class, Count.class, Distance.class, Duration.class, HumanName.class, Identifier.class, Money.class, Period.class, Quantity.class, Range.class, Ratio.class, RatioRange.class, Reference.class, SampledData.class, Signature.class, Timing.class, ContactDetail.class, Contributor.class, DataRequirement.class, Expression.class, ParameterDefinition.class, RelatedArtifact.class, TriggerDefinition.class, UsageContext.class, Dosage.class, Meta.class));
-        builder.pattern(parseChoiceElement("pattern", jsonObject, Base64Binary.class, Boolean.class, Canonical.class, Code.class, Date.class, DateTime.class, Decimal.class, Id.class, Instant.class, Integer.class, Markdown.class, Oid.class, PositiveInt.class, String.class, Time.class, UnsignedInt.class, Uri.class, Url.class, Uuid.class, Address.class, Age.class, Annotation.class, Attachment.class, CodeableConcept.class, CodeableReference.class, Coding.class, ContactPoint.class, Count.class, Distance.class, Duration.class, HumanName.class, Identifier.class, Money.class, Period.class, Quantity.class, Range.class, Ratio.class, RatioRange.class, Reference.class, SampledData.class, Signature.class, Timing.class, ContactDetail.class, Contributor.class, DataRequirement.class, Expression.class, ParameterDefinition.class, RelatedArtifact.class, TriggerDefinition.class, UsageContext.class, Dosage.class, Meta.class));
+        builder.fixed(parseChoiceElement("fixed", jsonObject, Base64Binary.class, Boolean.class, Canonical.class, Code.class, Date.class, DateTime.class, Decimal.class, Id.class, Instant.class, Integer.class, Markdown.class, Oid.class, PositiveInt.class, String.class, Time.class, UnsignedInt.class, Uri.class, Url.class, Uuid.class, Address.class, Age.class, Annotation.class, Attachment.class, CodeableConcept.class, Coding.class, ContactPoint.class, Count.class, Distance.class, Duration.class, HumanName.class, Identifier.class, Money.class, Period.class, Quantity.class, Range.class, Ratio.class, Reference.class, SampledData.class, Signature.class, Timing.class, ContactDetail.class, Contributor.class, DataRequirement.class, Expression.class, ParameterDefinition.class, RelatedArtifact.class, TriggerDefinition.class, UsageContext.class, Dosage.class, Meta.class));
+        builder.pattern(parseChoiceElement("pattern", jsonObject, Base64Binary.class, Boolean.class, Canonical.class, Code.class, Date.class, DateTime.class, Decimal.class, Id.class, Instant.class, Integer.class, Markdown.class, Oid.class, PositiveInt.class, String.class, Time.class, UnsignedInt.class, Uri.class, Url.class, Uuid.class, Address.class, Age.class, Annotation.class, Attachment.class, CodeableConcept.class, Coding.class, ContactPoint.class, Count.class, Distance.class, Duration.class, HumanName.class, Identifier.class, Money.class, Period.class, Quantity.class, Range.class, Ratio.class, Reference.class, SampledData.class, Signature.class, Timing.class, ContactDetail.class, Contributor.class, DataRequirement.class, Expression.class, ParameterDefinition.class, RelatedArtifact.class, TriggerDefinition.class, UsageContext.class, Dosage.class, Meta.class));
         JsonArray exampleArray = getJsonArray(jsonObject, "example");
         if (exampleArray != null) {
             for (int i = 0; i < exampleArray.size(); i++) {
@@ -10170,7 +10182,7 @@ public class FHIRJsonParser extends FHIRAbstractParser {
         builder.setValidating(validating);
         parseBackboneElement(builder, jsonObject);
         builder.label(parseString("label", getJsonValue(jsonObject, "label", JsonString.class), jsonObject.get("_label"), -1));
-        builder.value(parseChoiceElement("value", jsonObject, Base64Binary.class, Boolean.class, Canonical.class, Code.class, Date.class, DateTime.class, Decimal.class, Id.class, Instant.class, Integer.class, Markdown.class, Oid.class, PositiveInt.class, String.class, Time.class, UnsignedInt.class, Uri.class, Url.class, Uuid.class, Address.class, Age.class, Annotation.class, Attachment.class, CodeableConcept.class, CodeableReference.class, Coding.class, ContactPoint.class, Count.class, Distance.class, Duration.class, HumanName.class, Identifier.class, Money.class, Period.class, Quantity.class, Range.class, Ratio.class, RatioRange.class, Reference.class, SampledData.class, Signature.class, Timing.class, ContactDetail.class, Contributor.class, DataRequirement.class, Expression.class, ParameterDefinition.class, RelatedArtifact.class, TriggerDefinition.class, UsageContext.class, Dosage.class, Meta.class));
+        builder.value(parseChoiceElement("value", jsonObject, Base64Binary.class, Boolean.class, Canonical.class, Code.class, Date.class, DateTime.class, Decimal.class, Id.class, Instant.class, Integer.class, Markdown.class, Oid.class, PositiveInt.class, String.class, Time.class, UnsignedInt.class, Uri.class, Url.class, Uuid.class, Address.class, Age.class, Annotation.class, Attachment.class, CodeableConcept.class, Coding.class, ContactPoint.class, Count.class, Distance.class, Duration.class, HumanName.class, Identifier.class, Money.class, Period.class, Quantity.class, Range.class, Ratio.class, Reference.class, SampledData.class, Signature.class, Timing.class, ContactDetail.class, Contributor.class, DataRequirement.class, Expression.class, ParameterDefinition.class, RelatedArtifact.class, TriggerDefinition.class, UsageContext.class, Dosage.class, Meta.class));
         stackPop();
         return builder.build();
     }
@@ -13071,7 +13083,7 @@ public class FHIRJsonParser extends FHIRAbstractParser {
         builder.setValidating(validating);
         parseElement(builder, jsonObject);
         builder.url(parseJavaString("url", getJsonValue(jsonObject, "url", JsonString.class), -1));
-        builder.value(parseChoiceElement("value", jsonObject, Base64Binary.class, Boolean.class, Canonical.class, Code.class, Date.class, DateTime.class, Decimal.class, Id.class, Instant.class, Integer.class, Markdown.class, Oid.class, PositiveInt.class, String.class, Time.class, UnsignedInt.class, Uri.class, Url.class, Uuid.class, Address.class, Age.class, Annotation.class, Attachment.class, CodeableConcept.class, CodeableReference.class, Coding.class, ContactPoint.class, Count.class, Distance.class, Duration.class, HumanName.class, Identifier.class, Money.class, Period.class, Quantity.class, Range.class, Ratio.class, RatioRange.class, Reference.class, SampledData.class, Signature.class, Timing.class, ContactDetail.class, Contributor.class, DataRequirement.class, Expression.class, ParameterDefinition.class, RelatedArtifact.class, TriggerDefinition.class, UsageContext.class, Dosage.class, Meta.class));
+        builder.value(parseChoiceElement("value", jsonObject, Base64Binary.class, Boolean.class, Canonical.class, Code.class, Date.class, DateTime.class, Decimal.class, Id.class, Instant.class, Integer.class, Markdown.class, Oid.class, PositiveInt.class, String.class, Time.class, UnsignedInt.class, Uri.class, Url.class, Uuid.class, Address.class, Age.class, Annotation.class, Attachment.class, CodeableConcept.class, Coding.class, ContactPoint.class, Count.class, Distance.class, Duration.class, HumanName.class, Identifier.class, Money.class, Period.class, Quantity.class, Range.class, Ratio.class, Reference.class, SampledData.class, Signature.class, Timing.class, ContactDetail.class, Contributor.class, DataRequirement.class, Expression.class, ParameterDefinition.class, RelatedArtifact.class, TriggerDefinition.class, UsageContext.class, Dosage.class, Meta.class));
         stackPop();
         return builder.build();
     }
@@ -14940,7 +14952,7 @@ public class FHIRJsonParser extends FHIRAbstractParser {
         Ingredient.Manufacturer.Builder builder = Ingredient.Manufacturer.builder();
         builder.setValidating(validating);
         parseBackboneElement(builder, jsonObject);
-        builder.role(parseCoding("role", getJsonValue(jsonObject, "role", JsonObject.class), -1));
+        builder.role((IngredientManufacturerRole) parseString(IngredientManufacturerRole.builder(), "role", getJsonValue(jsonObject, "role", JsonString.class), jsonObject.get("_role"), -1));
         builder.manufacturer(parseReference("manufacturer", getJsonValue(jsonObject, "manufacturer", JsonObject.class), -1));
         stackPop();
         return builder.build();
@@ -14983,9 +14995,9 @@ public class FHIRJsonParser extends FHIRAbstractParser {
         builder.setValidating(validating);
         parseBackboneElement(builder, jsonObject);
         builder.presentation(parseChoiceElement("presentation", jsonObject, Ratio.class, RatioRange.class));
-        builder.presentationText(parseString("presentationText", getJsonValue(jsonObject, "presentationText", JsonString.class), jsonObject.get("_presentationText"), -1));
+        builder.textPresentation(parseString("textPresentation", getJsonValue(jsonObject, "textPresentation", JsonString.class), jsonObject.get("_textPresentation"), -1));
         builder.concentration(parseChoiceElement("concentration", jsonObject, Ratio.class, RatioRange.class));
-        builder.concentrationText(parseString("concentrationText", getJsonValue(jsonObject, "concentrationText", JsonString.class), jsonObject.get("_concentrationText"), -1));
+        builder.textConcentration(parseString("textConcentration", getJsonValue(jsonObject, "textConcentration", JsonString.class), jsonObject.get("_textConcentration"), -1));
         builder.measurementPoint(parseString("measurementPoint", getJsonValue(jsonObject, "measurementPoint", JsonString.class), jsonObject.get("_measurementPoint"), -1));
         JsonArray countryArray = getJsonArray(jsonObject, "country");
         if (countryArray != null) {
@@ -20226,7 +20238,7 @@ public class FHIRJsonParser extends FHIRAbstractParser {
                 if (shelfLifeStorageArray.get(i).getValueType() != JsonValue.ValueType.OBJECT) {
                     throw new IllegalArgumentException("Expected: OBJECT but found: " + shelfLifeStorageArray.get(i).getValueType() + " for element: shelfLifeStorage");
                 }
-                builder.shelfLifeStorage(parseProductShelfLife("shelfLifeStorage", shelfLifeStorageArray.getJsonObject(i), i));
+                builder.shelfLifeStorage(parsePackagedProductDefinitionPackageShelfLifeStorage("shelfLifeStorage", shelfLifeStorageArray.getJsonObject(i), i));
             }
         }
         JsonArray manufacturerArray = getJsonArray(jsonObject, "manufacturer");
@@ -20299,6 +20311,32 @@ public class FHIRJsonParser extends FHIRAbstractParser {
         parseBackboneElement(builder, jsonObject);
         builder.type(parseCodeableConcept("type", getJsonValue(jsonObject, "type", JsonObject.class), -1));
         builder.value(parseChoiceElement("value", jsonObject, CodeableConcept.class, Quantity.class, Date.class, Boolean.class, Attachment.class));
+        stackPop();
+        return builder.build();
+    }
+
+    private PackagedProductDefinition.Package.ShelfLifeStorage parsePackagedProductDefinitionPackageShelfLifeStorage(java.lang.String elementName, JsonObject jsonObject, int elementIndex) {
+        if (jsonObject == null) {
+            return null;
+        }
+        stackPush(elementName, elementIndex);
+        if (!ignoringUnrecognizedElements) {
+            checkForUnrecognizedElements(PackagedProductDefinition.Package.ShelfLifeStorage.class, jsonObject);
+        }
+        PackagedProductDefinition.Package.ShelfLifeStorage.Builder builder = PackagedProductDefinition.Package.ShelfLifeStorage.builder();
+        builder.setValidating(validating);
+        parseBackboneElement(builder, jsonObject);
+        builder.type(parseCodeableConcept("type", getJsonValue(jsonObject, "type", JsonObject.class), -1));
+        builder.period(parseChoiceElement("period", jsonObject, Duration.class, String.class));
+        JsonArray specialPrecautionsForStorageArray = getJsonArray(jsonObject, "specialPrecautionsForStorage");
+        if (specialPrecautionsForStorageArray != null) {
+            for (int i = 0; i < specialPrecautionsForStorageArray.size(); i++) {
+                if (specialPrecautionsForStorageArray.get(i).getValueType() != JsonValue.ValueType.OBJECT) {
+                    throw new IllegalArgumentException("Expected: OBJECT but found: " + specialPrecautionsForStorageArray.get(i).getValueType() + " for element: specialPrecautionsForStorage");
+                }
+                builder.specialPrecautionsForStorage(parseCodeableConcept("specialPrecautionsForStorage", specialPrecautionsForStorageArray.getJsonObject(i), i));
+            }
+        }
         stackPop();
         return builder.build();
     }
@@ -21735,8 +21773,9 @@ public class FHIRJsonParser extends FHIRAbstractParser {
         ProductShelfLife.Builder builder = ProductShelfLife.builder();
         builder.setValidating(validating);
         parseBackboneElement(builder, jsonObject);
+        builder.identifier(parseIdentifier("identifier", getJsonValue(jsonObject, "identifier", JsonObject.class), -1));
         builder.type(parseCodeableConcept("type", getJsonValue(jsonObject, "type", JsonObject.class), -1));
-        builder.period(parseChoiceElement("period", jsonObject, Duration.class, String.class));
+        builder.period(parseQuantity("period", getJsonValue(jsonObject, "period", JsonObject.class), -1));
         JsonArray specialPrecautionsForStorageArray = getJsonArray(jsonObject, "specialPrecautionsForStorage");
         if (specialPrecautionsForStorageArray != null) {
             for (int i = 0; i < specialPrecautionsForStorageArray.size(); i++) {
@@ -22271,7 +22310,7 @@ public class FHIRJsonParser extends FHIRAbstractParser {
         }
         RatioRange.Builder builder = RatioRange.builder();
         builder.setValidating(validating);
-        parseDataType(builder, jsonObject);
+        parseElement(builder, jsonObject);
         builder.lowNumerator((SimpleQuantity) parseQuantity(SimpleQuantity.builder(), "lowNumerator", getJsonValue(jsonObject, "lowNumerator", JsonObject.class), -1));
         builder.highNumerator((SimpleQuantity) parseQuantity(SimpleQuantity.builder(), "highNumerator", getJsonValue(jsonObject, "highNumerator", JsonObject.class), -1));
         builder.denominator((SimpleQuantity) parseQuantity(SimpleQuantity.builder(), "denominator", getJsonValue(jsonObject, "denominator", JsonObject.class), -1));
@@ -24781,7 +24820,6 @@ public class FHIRJsonParser extends FHIRAbstractParser {
         builder.status((SubscriptionStatusCode) parseString(SubscriptionStatusCode.builder(), "status", getJsonValue(jsonObject, "status", JsonString.class), jsonObject.get("_status"), -1));
         builder.type((SubscriptionNotificationType) parseString(SubscriptionNotificationType.builder(), "type", getJsonValue(jsonObject, "type", JsonString.class), jsonObject.get("_type"), -1));
         builder.eventsSinceSubscriptionStart(parseString("eventsSinceSubscriptionStart", getJsonValue(jsonObject, "eventsSinceSubscriptionStart", JsonString.class), jsonObject.get("_eventsSinceSubscriptionStart"), -1));
-        builder.eventsInNotification(parseInteger("eventsInNotification", getJsonValue(jsonObject, "eventsInNotification", JsonNumber.class), jsonObject.get("_eventsInNotification"), -1));
         JsonArray notificationEventArray = getJsonArray(jsonObject, "notificationEvent");
         if (notificationEventArray != null) {
             for (int i = 0; i < notificationEventArray.size(); i++) {
@@ -24954,6 +24992,7 @@ public class FHIRJsonParser extends FHIRAbstractParser {
         builder.description((Markdown) parseString(Markdown.builder(), "description", getJsonValue(jsonObject, "description", JsonString.class), jsonObject.get("_description"), -1));
         builder.resource(parseUri("resource", getJsonValue(jsonObject, "resource", JsonString.class), jsonObject.get("_resource"), -1));
         builder.filterParameter(parseString("filterParameter", getJsonValue(jsonObject, "filterParameter", JsonString.class), jsonObject.get("_filterParameter"), -1));
+        builder.filterDefinition(parseUri("filterDefinition", getJsonValue(jsonObject, "filterDefinition", JsonString.class), jsonObject.get("_filterDefinition"), -1));
         JsonArray modifierArray = getJsonArray(jsonObject, "modifier", true);
         if (modifierArray != null) {
             JsonArray _modifierArray = jsonObject.getJsonArray("_modifier");
@@ -25340,7 +25379,7 @@ public class FHIRJsonParser extends FHIRAbstractParser {
         builder.opticalActivity(parseCodeableConcept("opticalActivity", getJsonValue(jsonObject, "opticalActivity", JsonObject.class), -1));
         builder.molecularFormula(parseString("molecularFormula", getJsonValue(jsonObject, "molecularFormula", JsonString.class), jsonObject.get("_molecularFormula"), -1));
         builder.amount(parseChoiceElement("amount", jsonObject, Quantity.class, String.class));
-        builder.amountType(parseCodeableConcept("amountType", getJsonValue(jsonObject, "amountType", JsonObject.class), -1));
+        builder.measurementType(parseCodeableConcept("measurementType", getJsonValue(jsonObject, "measurementType", JsonObject.class), -1));
         stackPop();
         return builder.build();
     }
@@ -25495,8 +25534,8 @@ public class FHIRJsonParser extends FHIRAbstractParser {
         builder.type(parseCodeableConcept("type", getJsonValue(jsonObject, "type", JsonObject.class), -1));
         builder.isDefining(parseBoolean("isDefining", getJsonValue(jsonObject, "isDefining", JsonValue.class), jsonObject.get("_isDefining"), -1));
         builder.amount(parseChoiceElement("amount", jsonObject, Quantity.class, Ratio.class, String.class));
-        builder.amountRatioHighLimit(parseRatio("amountRatioHighLimit", getJsonValue(jsonObject, "amountRatioHighLimit", JsonObject.class), -1));
-        builder.amountType(parseCodeableConcept("amountType", getJsonValue(jsonObject, "amountType", JsonObject.class), -1));
+        builder.ratioHighLimitAmount(parseRatio("ratioHighLimitAmount", getJsonValue(jsonObject, "ratioHighLimitAmount", JsonObject.class), -1));
+        builder.comparator(parseCodeableConcept("comparator", getJsonValue(jsonObject, "comparator", JsonObject.class), -1));
         JsonArray sourceArray = getJsonArray(jsonObject, "source");
         if (sourceArray != null) {
             for (int i = 0; i < sourceArray.size(); i++) {

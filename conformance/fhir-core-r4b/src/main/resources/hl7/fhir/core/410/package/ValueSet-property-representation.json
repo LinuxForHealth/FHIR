@@ -2,7 +2,7 @@
     "resourceType": "ValueSet",
     "id": "property-representation",
     "meta": {
-        "lastUpdated": "2022-03-03T22:04:06.196Z",
+        "lastUpdated": "2022-04-23T22:21:35.043Z",
         "profile": [
             "http://hl7.org/fhir/StructureDefinition/shareablevalueset"
         ]
@@ -32,12 +32,12 @@
             "value": "urn:oid:2.16.840.1.113883.4.642.3.87"
         }
     ],
-    "version": "4.3.0-CIBUILD",
+    "version": "4.3.0-cibuild",
     "name": "PropertyRepresentation",
     "title": "PropertyRepresentation",
     "status": "active",
     "experimental": false,
-    "date": "2022-03-03T22:04:06Z",
+    "date": "2022-04-23T22:21:35Z",
     "publisher": "HL7 (FHIR Project)",
     "contact": [
         {
@@ -63,8 +63,8 @@
         ]
     },
     "expansion": {
-        "identifier": "urn:uuid:12e2861c-63a5-4aa2-bb40-6cec935384c6",
-        "timestamp": "2022-03-03T22:05:09Z",
+        "identifier": "urn:uuid:2ed3fd4b-0c07-4a62-a2af-bc389cd2e3bf",
+        "timestamp": "2022-04-23T22:23:07Z",
         "total": 5,
         "parameter": [
             {
@@ -77,7 +77,7 @@
             },
             {
                 "name": "version",
-                "valueUri": "http://hl7.org/fhir/property-representation|4.3.0-CIBUILD"
+                "valueUri": "http://hl7.org/fhir/property-representation|4.3.0-cibuild"
             }
         ],
         "contains": [

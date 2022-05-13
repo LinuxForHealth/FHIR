@@ -2,7 +2,7 @@
     "resourceType": "ValueSet",
     "id": "service-uscls",
     "meta": {
-        "lastUpdated": "2022-03-03T22:04:06.196Z",
+        "lastUpdated": "2022-04-23T22:21:35.043Z",
         "profile": [
             "http://hl7.org/fhir/StructureDefinition/shareablevalueset"
         ]
@@ -28,7 +28,7 @@
             "value": "urn:oid:2.16.840.1.113883.4.642.3.542"
         }
     ],
-    "version": "4.3.0-CIBUILD",
+    "version": "4.3.0-cibuild",
     "name": "USCLSCodes",
     "title": "USCLS Codes",
     "status": "draft",
@@ -54,8 +54,8 @@
         ]
     },
     "expansion": {
-        "identifier": "urn:uuid:fc3ffbd5-6415-410f-9e1d-61fe34ecb461",
-        "timestamp": "2022-03-03T22:05:31Z",
+        "identifier": "urn:uuid:1422b095-a01e-4fae-b05f-b19405fd021e",
+        "timestamp": "2022-04-23T22:23:26Z",
         "total": 20,
         "parameter": [
             {
@@ -68,7 +68,7 @@
             },
             {
                 "name": "version",
-                "valueUri": "http://terminology.hl7.org/CodeSystem/ex-USCLS|4.3.0-CIBUILD"
+                "valueUri": "http://terminology.hl7.org/CodeSystem/ex-USCLS|4.3.0-cibuild"
             }
         ],
         "contains": [

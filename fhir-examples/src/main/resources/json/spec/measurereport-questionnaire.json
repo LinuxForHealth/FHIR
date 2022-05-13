@@ -6,9 +6,10 @@
       "system": "urn:ietf:rfc:3986"
     }
   ],
-  "version": "4.3.0-CIBUILD",
+  "version": "4.3.0-cibuild",
   "status": "draft",
-  "date": "2022-01-01T15:17:18+00:00",
+  "experimental": false,
+  "date": "2022-04-23T22:21:35+00:00",
   "publisher": "Health Level Seven International (Clinical Quality Information)",
   "item": [
     {
@@ -197,10 +198,9 @@
             {
               "linkId": "MeasureReport.language.value",
               "text": "language",
-              "type": "coding",
+              "type": "choice",
               "required": false,
-              "repeats": false,
-              "answerConstraint": "optionsOnly"
+              "repeats": false
             }
           ]
         },
@@ -419,10 +419,9 @@
             {
               "linkId": "MeasureReport.status.value",
               "text": "status",
-              "type": "coding",
+              "type": "choice",
               "required": false,
-              "repeats": false,
-              "answerConstraint": "optionsOrType"
+              "repeats": false
             }
           ]
         },
@@ -468,10 +467,9 @@
             {
               "linkId": "MeasureReport.type.value",
               "text": "type",
-              "type": "coding",
+              "type": "choice",
               "required": false,
-              "repeats": false,
-              "answerConstraint": "optionsOrType"
+              "repeats": false
             }
           ]
         },
@@ -770,10 +768,9 @@
             {
               "linkId": "MeasureReport.improvementNotation.coding",
               "text": "code:",
-              "type": "coding",
+              "type": "choice",
               "required": false,
-              "repeats": false,
-              "answerConstraint": "optionsOrType"
+              "repeats": false
             },
             {
               "linkId": "MeasureReport.improvementNotation.text",
@@ -949,10 +946,9 @@
                 {
                   "linkId": "MeasureReport.group.code.coding",
                   "text": "code:",
-                  "type": "coding",
+                  "type": "choice",
                   "required": false,
-                  "repeats": false,
-                  "answerConstraint": "optionsOnly"
+                  "repeats": false
                 },
                 {
                   "linkId": "MeasureReport.group.code.text",
@@ -1128,10 +1124,9 @@
                     {
                       "linkId": "MeasureReport.group.population.code.coding",
                       "text": "code:",
-                      "type": "coding",
+                      "type": "choice",
                       "required": false,
-                      "repeats": false,
-                      "answerConstraint": "optionsOnly"
+                      "repeats": false
                     },
                     {
                       "linkId": "MeasureReport.group.population.code.text",
@@ -1281,10 +1276,9 @@
                 {
                   "linkId": "MeasureReport.group.measureScore.comparator",
                   "text": "comp:",
-                  "type": "coding",
+                  "type": "choice",
                   "required": false,
-                  "repeats": false,
-                  "answerConstraint": "optionsOnly"
+                  "repeats": false
                 },
                 {
                   "linkId": "MeasureReport.group.measureScore.value",
@@ -1477,10 +1471,9 @@
                     {
                       "linkId": "MeasureReport.group.stratifier.code.coding",
                       "text": "code:",
-                      "type": "coding",
+                      "type": "choice",
                       "required": false,
-                      "repeats": false,
-                      "answerConstraint": "optionsOnly"
+                      "repeats": false
                     },
                     {
                       "linkId": "MeasureReport.group.stratifier.code.text",
@@ -1656,10 +1649,9 @@
                         {
                           "linkId": "MeasureReport.group.stratifier.stratum.value.coding",
                           "text": "code:",
-                          "type": "coding",
+                          "type": "choice",
                           "required": false,
-                          "repeats": false,
-                          "answerConstraint": "optionsOnly"
+                          "repeats": false
                         },
                         {
                           "linkId": "MeasureReport.group.stratifier.stratum.value.text",
@@ -1839,10 +1831,9 @@
                             {
                               "linkId": "MeasureReport.group.stratifier.stratum.component.code.coding",
                               "text": "code:",
-                              "type": "coding",
+                              "type": "choice",
                               "required": false,
-                              "repeats": false,
-                              "answerConstraint": "optionsOnly"
+                              "repeats": false
                             },
                             {
                               "linkId": "MeasureReport.group.stratifier.stratum.component.code.text",
@@ -1896,10 +1887,9 @@
                             {
                               "linkId": "MeasureReport.group.stratifier.stratum.component.value.coding",
                               "text": "code:",
-                              "type": "coding",
+                              "type": "choice",
                               "required": false,
-                              "repeats": false,
-                              "answerConstraint": "optionsOnly"
+                              "repeats": false
                             },
                             {
                               "linkId": "MeasureReport.group.stratifier.stratum.component.value.text",
@@ -2077,10 +2067,9 @@
                             {
                               "linkId": "MeasureReport.group.stratifier.stratum.population.code.coding",
                               "text": "code:",
-                              "type": "coding",
+                              "type": "choice",
                               "required": false,
-                              "repeats": false,
-                              "answerConstraint": "optionsOnly"
+                              "repeats": false
                             },
                             {
                               "linkId": "MeasureReport.group.stratifier.stratum.population.code.text",
@@ -2230,10 +2219,9 @@
                         {
                           "linkId": "MeasureReport.group.stratifier.stratum.measureScore.comparator",
                           "text": "comp:",
-                          "type": "coding",
+                          "type": "choice",
                           "required": false,
-                          "repeats": false,
-                          "answerConstraint": "optionsOnly"
+                          "repeats": false
                         },
                         {
                           "linkId": "MeasureReport.group.stratifier.stratum.measureScore.value",

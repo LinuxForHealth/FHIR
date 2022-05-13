@@ -7,7 +7,7 @@
       <display value="test health data"/>
     </security>
   </meta>
-  <text><status value="generated"/><div xmlns="http://www.w3.org/1999/xhtml"><p><b>Generated Narrative</b></p><div><p>Resource "example-genetics-3" </p></div><p><b>status</b>: final</p><p><b>code</b>: Further analysis <span> ()</span></p><p><b>subject</b>: <a>Patient/example: Molecular Lab Patient ID: HOSP-23456</a> "Peter CHALMERS"</p><p><b>issued</b>: Apr 3, 2013 2:30:10 PM</p><p><b>performer</b>: <a>Practitioner/example: Sequence Analysis Laboratory</a> "Adam CAREFUL"</p><p><b>note</b>: The material on this page will be removed in a future release. This content is deprecated and SHOULD NOT be used. Implementers are instead directed to the ([Genomics Reporting Implementation Guide](http://hl7.org/fhir/uv/genomics-reporting/index.html)) for guidance. The EGFR p.L858R mutation has been associated with response to anti-EGFR therapy</p><p><b>derivedFrom</b>: <a>Observation/example-genetics-1: ObservationForGenetics profile example 1</a></p></div></text><status value="final"/>
+  <text><status value="generated"/><div xmlns="http://www.w3.org/1999/xhtml"><p><b>Generated Narrative</b></p><div style="display: inline-block; background-color: #d9e0e7; padding: 6px; margin: 4px; border: 1px solid #8da1b4; border-radius: 5px; line-height: 60%"><p style="margin-bottom: 0px">Resource "example-genetics-3" </p></div><p><b>status</b>: final</p><p><b>code</b>: Further analysis <span style="background: LightGoldenRodYellow; margin: 4px; border: 1px solid khaki"> ()</span></p><p><b>subject</b>: <a href="patient-example.html">Patient/example: Molecular Lab Patient ID: HOSP-23456</a> "Peter CHALMERS"</p><p><b>effective</b>: 2013-04-03T15:30:10+01:00</p><p><b>performer</b>: <a href="practitioner-example.html">Practitioner/example: Sequence Analysis Laboratory</a> "Adam CAREFUL"</p><p><b>note</b>: The material on this page will be removed in a future release. This content is deprecated and SHOULD NOT be used. Implementers are instead directed to the ([Genomics Reporting Implementation Guide](http://hl7.org/fhir/uv/genomics-reporting/index.html)) for guidance. The EGFR p.L858R mutation has been associated with response to anti-EGFR therapy</p><p><b>device</b>: <a href="device-example.html">Device/example</a></p><p><b>derivedFrom</b>: <a href="observation-example-genetics-1.html">Observation/example-genetics-1: ObservationForGenetics profile example 1</a></p></div></text><status value="final"/>
 	<code>
 		<text value="Further analysis"/>
 	</code>
@@ -15,12 +15,17 @@
 		<reference value="Patient/example"/>
 		<display value="Molecular Lab Patient ID: HOSP-23456"/>
 	</subject>
-	<issued value="2013-04-03T15:30:10+01:00"/>
+	<effectiveDateTime value="2013-04-03T15:30:10+01:00"/>
 	<performer>
 		<reference value="Practitioner/example"/>
 		<display value="Sequence Analysis Laboratory"/>
 	</performer>
-	<note><text value="The material on this page will be removed in a future release. This content is deprecated and SHOULD NOT be used. Implementers are instead directed to the ([Genomics Reporting Implementation Guide](http://hl7.org/fhir/uv/genomics-reporting/index.html)) for guidance. The EGFR p.L858R mutation has been associated with response to anti-EGFR therapy"/></note>
+	<note>
+	  <text value="The material on this page will be removed in a future release. This content is deprecated and SHOULD NOT be used. Implementers are instead directed to the ([Genomics Reporting Implementation Guide](http://hl7.org/fhir/uv/genomics-reporting/index.html)) for guidance. The EGFR p.L858R mutation has been associated with response to anti-EGFR therapy"/>
+	</note>
+  <device>
+    <reference value="Device/example"/>
+  </device>	
 	<derivedFrom>
 		<reference value="Observation/example-genetics-1"/>
 		<display value="ObservationForGenetics profile example 1"/>

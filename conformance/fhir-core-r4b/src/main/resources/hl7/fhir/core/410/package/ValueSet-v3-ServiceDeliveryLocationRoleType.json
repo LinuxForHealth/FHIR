@@ -30,8 +30,8 @@
         ]
     },
     "expansion": {
-        "identifier": "urn:uuid:9e363d49-86b5-4d9b-9f79-b25e1041ddd7",
-        "timestamp": "2022-03-03T22:05:30Z",
+        "identifier": "urn:uuid:267e40ae-ce20-48a5-8c5b-ead2312376bf",
+        "timestamp": "2022-04-23T22:23:26Z",
         "total": 127,
         "parameter": [
             {
@@ -86,64 +86,37 @@
                 "display": "Gastroenterology diagnostics or therapeutics lab"
             },
             {
-                "extension": [
-                    {
-                        "extension": [
-                            {
-                                "url": "lang",
-                                "valueCode": "en"
-                            },
-                            {
-                                "url": "content",
-                                "valueString": "Ambulatory Health Care Facilities; Clinic/Center; Endoscopy"
-                            }
-                        ],
-                        "url": "http://hl7.org/fhir/StructureDefinition/translation"
-                    }
-                ],
                 "system": "http://terminology.hl7.org/CodeSystem/v3-RoleCode",
                 "code": "ENDOS",
-                "display": "Endoscopy lab"
+                "display": "Endoscopy lab",
+                "designation": [
+                    {
+                        "language": "en",
+                        "value": "Ambulatory Health Care Facilities; Clinic/Center; Endoscopy"
+                    }
+                ]
             },
             {
-                "extension": [
-                    {
-                        "extension": [
-                            {
-                                "url": "lang",
-                                "valueCode": "en"
-                            },
-                            {
-                                "url": "content",
-                                "valueString": "Ambulatory Health Care Facilities; Clinic/Center; Radiology"
-                            }
-                        ],
-                        "url": "http://hl7.org/fhir/StructureDefinition/translation"
-                    }
-                ],
                 "system": "http://terminology.hl7.org/CodeSystem/v3-RoleCode",
                 "code": "RADDX",
-                "display": "Radiology diagnostics or therapeutics unit"
+                "display": "Radiology diagnostics or therapeutics unit",
+                "designation": [
+                    {
+                        "language": "en",
+                        "value": "Ambulatory Health Care Facilities; Clinic/Center; Radiology"
+                    }
+                ]
             },
             {
-                "extension": [
-                    {
-                        "extension": [
-                            {
-                                "url": "lang",
-                                "valueCode": "en"
-                            },
-                            {
-                                "url": "content",
-                                "valueString": "Ambulatory Health Care Facilities; Clinic/Center; Oncology, Radiation"
-                            }
-                        ],
-                        "url": "http://hl7.org/fhir/StructureDefinition/translation"
-                    }
-                ],
                 "system": "http://terminology.hl7.org/CodeSystem/v3-RoleCode",
                 "code": "RADO",
-                "display": "Radiation oncology unit"
+                "display": "Radiation oncology unit",
+                "designation": [
+                    {
+                        "language": "en",
+                        "value": "Ambulatory Health Care Facilities; Clinic/Center; Oncology, Radiation"
+                    }
+                ]
             },
             {
                 "system": "http://terminology.hl7.org/CodeSystem/v3-RoleCode",
@@ -156,64 +129,37 @@
                 "display": "Hospital"
             },
             {
-                "extension": [
-                    {
-                        "extension": [
-                            {
-                                "url": "lang",
-                                "valueCode": "en"
-                            },
-                            {
-                                "url": "content",
-                                "valueString": "Hospitals; Chronic Disease Hospital"
-                            }
-                        ],
-                        "url": "http://hl7.org/fhir/StructureDefinition/translation"
-                    }
-                ],
                 "system": "http://terminology.hl7.org/CodeSystem/v3-RoleCode",
                 "code": "CHR",
-                "display": "Chronic Care Facility"
+                "display": "Chronic Care Facility",
+                "designation": [
+                    {
+                        "language": "en",
+                        "value": "Hospitals; Chronic Disease Hospital"
+                    }
+                ]
             },
             {
-                "extension": [
-                    {
-                        "extension": [
-                            {
-                                "url": "lang",
-                                "valueCode": "en"
-                            },
-                            {
-                                "url": "content",
-                                "valueString": "General acute care hospital"
-                            }
-                        ],
-                        "url": "http://hl7.org/fhir/StructureDefinition/translation"
-                    }
-                ],
                 "system": "http://terminology.hl7.org/CodeSystem/v3-RoleCode",
                 "code": "GACH",
-                "display": "Hospitals; General Acute Care Hospital"
+                "display": "Hospitals; General Acute Care Hospital",
+                "designation": [
+                    {
+                        "language": "en",
+                        "value": "General acute care hospital"
+                    }
+                ]
             },
             {
-                "extension": [
-                    {
-                        "extension": [
-                            {
-                                "url": "lang",
-                                "valueCode": "en"
-                            },
-                            {
-                                "url": "content",
-                                "valueString": "MilitaryHospital"
-                            }
-                        ],
-                        "url": "http://hl7.org/fhir/StructureDefinition/translation"
-                    }
-                ],
                 "system": "http://terminology.hl7.org/CodeSystem/v3-RoleCode",
                 "code": "MHSP",
-                "display": "Military Hospital"
+                "display": "Military Hospital",
+                "designation": [
+                    {
+                        "language": "en",
+                        "value": "MilitaryHospital"
+                    }
+                ]
             },
             {
                 "system": "http://terminology.hl7.org/CodeSystem/v3-RoleCode",
@@ -221,24 +167,15 @@
                 "display": "Psychatric Care Facility"
             },
             {
-                "extension": [
-                    {
-                        "extension": [
-                            {
-                                "url": "lang",
-                                "valueCode": "en"
-                            },
-                            {
-                                "url": "content",
-                                "valueString": "Hospitals; Rehabilitation Hospital"
-                            }
-                        ],
-                        "url": "http://hl7.org/fhir/StructureDefinition/translation"
-                    }
-                ],
                 "system": "http://terminology.hl7.org/CodeSystem/v3-RoleCode",
                 "code": "RH",
-                "display": "Rehabilitation hospital"
+                "display": "Rehabilitation hospital",
+                "designation": [
+                    {
+                        "language": "en",
+                        "value": "Hospitals; Rehabilitation Hospital"
+                    }
+                ]
             },
             {
                 "system": "http://terminology.hl7.org/CodeSystem/v3-RoleCode",
@@ -391,44 +328,26 @@
                 "display": "Pediatric unit"
             },
             {
-                "extension": [
-                    {
-                        "extension": [
-                            {
-                                "url": "lang",
-                                "valueCode": "en"
-                            },
-                            {
-                                "url": "content",
-                                "valueString": "Hospital Units; Psychiatric Unit"
-                            }
-                        ],
-                        "url": "http://hl7.org/fhir/StructureDefinition/translation"
-                    }
-                ],
                 "system": "http://terminology.hl7.org/CodeSystem/v3-RoleCode",
                 "code": "PHU",
-                "display": "Psychiatric hospital unit"
+                "display": "Psychiatric hospital unit",
+                "designation": [
+                    {
+                        "language": "en",
+                        "value": "Hospital Units; Psychiatric Unit"
+                    }
+                ]
             },
             {
-                "extension": [
-                    {
-                        "extension": [
-                            {
-                                "url": "lang",
-                                "valueCode": "en"
-                            },
-                            {
-                                "url": "content",
-                                "valueString": "Hospital Units; Rehabilitation Unit"
-                            }
-                        ],
-                        "url": "http://hl7.org/fhir/StructureDefinition/translation"
-                    }
-                ],
                 "system": "http://terminology.hl7.org/CodeSystem/v3-RoleCode",
                 "code": "RHU",
-                "display": "Rehabilitation hospital unit"
+                "display": "Rehabilitation hospital unit",
+                "designation": [
+                    {
+                        "language": "en",
+                        "value": "Hospital Units; Rehabilitation Unit"
+                    }
+                ]
             },
             {
                 "system": "http://terminology.hl7.org/CodeSystem/v3-RoleCode",
@@ -441,24 +360,15 @@
                 "display": "Nursing or custodial care facility"
             },
             {
-                "extension": [
-                    {
-                        "extension": [
-                            {
-                                "url": "lang",
-                                "valueCode": "en"
-                            },
-                            {
-                                "url": "content",
-                                "valueString": "Nursing & Custodial Care Facilities; Skilled Nursing Facility"
-                            }
-                        ],
-                        "url": "http://hl7.org/fhir/StructureDefinition/translation"
-                    }
-                ],
                 "system": "http://terminology.hl7.org/CodeSystem/v3-RoleCode",
                 "code": "SNF",
-                "display": "Skilled nursing facility"
+                "display": "Skilled nursing facility",
+                "designation": [
+                    {
+                        "language": "en",
+                        "value": "Nursing & Custodial Care Facilities; Skilled Nursing Facility"
+                    }
+                ]
             },
             {
                 "system": "http://terminology.hl7.org/CodeSystem/v3-RoleCode",
@@ -496,24 +406,15 @@
                 "display": "Child and adolescent psychiatry clinic"
             },
             {
-                "extension": [
-                    {
-                        "extension": [
-                            {
-                                "url": "lang",
-                                "valueCode": "en"
-                            },
-                            {
-                                "url": "content",
-                                "valueString": "Cardiology clinic"
-                            }
-                        ],
-                        "url": "http://hl7.org/fhir/StructureDefinition/translation"
-                    }
-                ],
                 "system": "http://terminology.hl7.org/CodeSystem/v3-RoleCode",
                 "code": "CARD",
-                "display": "Ambulatory Health Care Facilities; Clinic/Center; Rehabilitation: Cardiac Facilities"
+                "display": "Ambulatory Health Care Facilities; Clinic/Center; Rehabilitation: Cardiac Facilities",
+                "designation": [
+                    {
+                        "language": "en",
+                        "value": "Cardiology clinic"
+                    }
+                ]
             },
             {
                 "system": "http://terminology.hl7.org/CodeSystem/v3-RoleCode",
@@ -641,24 +542,15 @@
                 "display": "Obstetrics clinic"
             },
             {
-                "extension": [
-                    {
-                        "extension": [
-                            {
-                                "url": "lang",
-                                "valueCode": "en"
-                            },
-                            {
-                                "url": "content",
-                                "valueString": "Ambulatory Health Care Facilities; Clinic/Center; Surgery, Oral/Maxillofacial"
-                            }
-                        ],
-                        "url": "http://hl7.org/fhir/StructureDefinition/translation"
-                    }
-                ],
                 "system": "http://terminology.hl7.org/CodeSystem/v3-RoleCode",
                 "code": "OMS",
-                "display": "Oral and maxillofacial surgery clinic"
+                "display": "Oral and maxillofacial surgery clinic",
+                "designation": [
+                    {
+                        "language": "en",
+                        "value": "Ambulatory Health Care Facilities; Clinic/Center; Surgery, Oral/Maxillofacial"
+                    }
+                ]
             },
             {
                 "system": "http://terminology.hl7.org/CodeSystem/v3-RoleCode",
@@ -691,44 +583,26 @@
                 "display": "Hand clinic"
             },
             {
-                "extension": [
-                    {
-                        "extension": [
-                            {
-                                "url": "lang",
-                                "valueCode": "en"
-                            },
-                            {
-                                "url": "content",
-                                "valueString": "Ambulatory Health Care Facilities; Clinic/Center; Pain"
-                            }
-                        ],
-                        "url": "http://hl7.org/fhir/StructureDefinition/translation"
-                    }
-                ],
                 "system": "http://terminology.hl7.org/CodeSystem/v3-RoleCode",
                 "code": "PAINCL",
-                "display": "Pain clinic"
+                "display": "Pain clinic",
+                "designation": [
+                    {
+                        "language": "en",
+                        "value": "Ambulatory Health Care Facilities; Clinic/Center; Pain"
+                    }
+                ]
             },
             {
-                "extension": [
-                    {
-                        "extension": [
-                            {
-                                "url": "lang",
-                                "valueCode": "en"
-                            },
-                            {
-                                "url": "content",
-                                "valueString": "Ambulatory Health Care Facilities; Clinic/Center; Primary Care"
-                            }
-                        ],
-                        "url": "http://hl7.org/fhir/StructureDefinition/translation"
-                    }
-                ],
                 "system": "http://terminology.hl7.org/CodeSystem/v3-RoleCode",
                 "code": "PC",
-                "display": "Primary care clinic"
+                "display": "Primary care clinic",
+                "designation": [
+                    {
+                        "language": "en",
+                        "value": "Ambulatory Health Care Facilities; Clinic/Center; Primary Care"
+                    }
+                ]
             },
             {
                 "system": "http://terminology.hl7.org/CodeSystem/v3-RoleCode",
@@ -741,24 +615,15 @@
                 "display": "Pediatric rheumatology clinic"
             },
             {
-                "extension": [
-                    {
-                        "extension": [
-                            {
-                                "url": "lang",
-                                "valueCode": "en"
-                            },
-                            {
-                                "url": "content",
-                                "valueString": "Ambulatory Health Care Facilities; Clinic/Center; Podiatric"
-                            }
-                        ],
-                        "url": "http://hl7.org/fhir/StructureDefinition/translation"
-                    }
-                ],
                 "system": "http://terminology.hl7.org/CodeSystem/v3-RoleCode",
                 "code": "POD",
-                "display": "Podiatry clinic"
+                "display": "Podiatry clinic",
+                "designation": [
+                    {
+                        "language": "en",
+                        "value": "Ambulatory Health Care Facilities; Clinic/Center; Podiatric"
+                    }
+                ]
             },
             {
                 "system": "http://terminology.hl7.org/CodeSystem/v3-RoleCode",
@@ -841,24 +706,15 @@
                 "display": "Pain rehabilitation center"
             },
             {
-                "extension": [
-                    {
-                        "extension": [
-                            {
-                                "url": "lang",
-                                "valueCode": "en"
-                            },
-                            {
-                                "url": "content",
-                                "valueString": "Residential Treatment Facilities; Substance Use Rehabilitation Facility"
-                            }
-                        ],
-                        "url": "http://hl7.org/fhir/StructureDefinition/translation"
-                    }
-                ],
                 "system": "http://terminology.hl7.org/CodeSystem/v3-RoleCode",
                 "code": "SURF",
-                "display": "Substance use rehabilitation facility"
+                "display": "Substance use rehabilitation facility",
+                "designation": [
+                    {
+                        "language": "en",
+                        "value": "Residential Treatment Facilities; Substance Use Rehabilitation Facility"
+                    }
+                ]
             },
             {
                 "system": "http://terminology.hl7.org/CodeSystem/v3-RoleCode",
