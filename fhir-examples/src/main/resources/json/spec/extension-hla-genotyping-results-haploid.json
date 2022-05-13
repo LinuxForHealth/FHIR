@@ -12,9 +12,10 @@
     }
   ],
   "url": "http://hl7.org/fhir/StructureDefinition/hla-genotyping-results-haploid",
-  "version": "4.3.0-CIBUILD",
+  "version": "4.3.0-cibuild",
   "name": "haploid",
   "status": "draft",
+  "experimental": false,
   "date": "2015-10-09",
   "publisher": "Health Level Seven International (Clinical Genomics)",
   "contact": [
@@ -28,7 +29,7 @@
     }
   ],
   "description": "haploid.",
-  "fhirVersion": "4.3.0-CIBUILD",
+  "fhirVersion": "4.3.0-cibuild",
   "mapping": [
     {
       "identity": "rim",
@@ -868,9 +869,6 @@
             "code": "CodeableConcept"
           },
           {
-            "code": "CodeableReference"
-          },
-          {
             "code": "Coding"
           },
           {
@@ -905,9 +903,6 @@
           },
           {
             "code": "Ratio"
-          },
-          {
-            "code": "RatioRange"
           },
           {
             "code": "Reference"

@@ -36,7 +36,7 @@ import com.ibm.fhir.model.visitor.Visitor;
     source = "http://hl7.org/fhir/StructureDefinition/RatioRange"
 )
 @Generated("com.ibm.fhir.tools.CodeGenerator")
-public class RatioRange extends DataType {
+public class RatioRange extends Element {
     @Summary
     private final SimpleQuantity lowNumerator;
     @Summary
@@ -148,7 +148,7 @@ public class RatioRange extends DataType {
         return new Builder();
     }
 
-    public static class Builder extends DataType.Builder {
+    public static class Builder extends Element.Builder {
         private SimpleQuantity lowNumerator;
         private SimpleQuantity highNumerator;
         private SimpleQuantity denominator;

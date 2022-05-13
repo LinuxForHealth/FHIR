@@ -12,14 +12,15 @@
     }
   ],
   "url": "http://hl7.org/fhir/StructureDefinition/patient-preferenceType",
-  "version": "4.3.0-CIBUILD",
+  "version": "4.3.0-cibuild",
   "name": "preferenceType",
   "title": "preferenceType",
   "status": "draft",
+  "experimental": false,
   "date": "2021-01-17T07:06:13+11:00",
   "publisher": "HL7",
   "description": "Indicates what mode of communication the patient prefers to use for the indicated language.",
-  "fhirVersion": "4.3.0-CIBUILD",
+  "fhirVersion": "4.3.0-cibuild",
   "mapping": [
     {
       "identity": "rim",

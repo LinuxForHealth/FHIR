@@ -3,7 +3,7 @@
 <StructureDefinition xmlns="http://hl7.org/fhir">
   <id value="SearchParameter"/>
   <meta>
-    <lastUpdated value="2022-01-01T15:17:18.597+00:00"/>
+    <lastUpdated value="2022-04-23T22:21:35.043+00:00"/>
   </meta>
   <text>
     <status value="generated"/>
@@ -51,7 +51,7 @@
             <br/>
             <span style="font-style: italic" title="spd-1">+ Rule: If an xpath is present, there SHALL be an xpathUsage</span>
             <br/>
-            <span style="font-style: italic" title="spd-2">+ Rule: Search parameters can only have chain names when the search parameter type is &#39;reference&#39;</span>
+            <span style="font-style: italic" title="spd-2">+ Rule: Search parameters can only have chain names when the search parameter type is 'reference'</span>
             <br/>Elements defined in Ancestors: 
             <a href="resource.html#Resource" title="The logical id of the resource, as used in the URL for the resource. Once assigned, this value never changes.">id</a>, 
             <a href="resource.html#Resource" title="The metadata about the resource. This is content that is maintained by the infrastructure. Changes to the content might not always be associated with version changes to the resource.">meta</a>, 
@@ -60,7 +60,7 @@
             <a href="domainresource.html#DomainResource" title="A human-readable narrative that contains a summary of the resource and can be used to represent the content of the resource to a human. The narrative need not encode all the structured data, but is required to contain sufficient detail to make it &quot;clinically safe&quot; for a human to just read the narrative. Resource definitions may define what content should be represented in the narrative to ensure clinical safety.">text</a>, 
             <a href="domainresource.html#DomainResource" title="These resources do not have an independent existence apart from the resource that contains them - they cannot be identified independently, and nor can they have their own independent transaction scope.">contained</a>, 
             <a href="domainresource.html#DomainResource" title="May be used to represent additional information that is not part of the basic definition of the resource. To make the use of extensions safe and manageable, there is a strict set of governance  applied to the definition and use of extensions. Though any implementer can define an extension, there is a set of requirements that SHALL be met as part of the definition of the extension.">extension</a>, 
-            <a href="domainresource.html#DomainResource" title="May be used to represent additional information that is not part of the basic definition of the resource and that modifies the understanding of the element that contains it and/or the understanding of the containing element&#39;s descendants. Usually modifier elements provide negation or qualification. To make the use of extensions safe and manageable, there is a strict set of governance applied to the definition and use of extensions. Though any implementer is allowed to define an extension, there is a set of requirements that SHALL be met as part of the definition of the extension. Applications processing a resource are required to check for modifier extensions.&#xA;&#xA;Modifier extensions SHALL NOT change the meaning of any elements on Resource or DomainResource (including cannot change the meaning of modifierExtension itself).">modifierExtension</a>
+            <a href="domainresource.html#DomainResource" title="May be used to represent additional information that is not part of the basic definition of the resource and that modifies the understanding of the element that contains it and/or the understanding of the containing element's descendants. Usually modifier elements provide negation or qualification. To make the use of extensions safe and manageable, there is a strict set of governance applied to the definition and use of extensions. Though any implementer is allowed to define an extension, there is a set of requirements that SHALL be met as part of the definition of the extension. Applications processing a resource are required to check for modifier extensions.&#xA;&#xA;Modifier extensions SHALL NOT change the meaning of any elements on Resource or DomainResource (including cannot change the meaning of modifierExtension itself).">modifierExtension</a>
           </td>
         </tr>
 
@@ -620,10 +620,11 @@
     <valueCode value="fhir"/>
   </extension>
   <url value="http://hl7.org/fhir/StructureDefinition/SearchParameter"/>
-  <version value="4.3.0-CIBUILD"/>
+  <version value="4.3.0-cibuild"/>
   <name value="SearchParameter"/>
   <status value="draft"/>
-  <date value="2022-01-01T15:17:18+00:00"/>
+  <experimental value="false"/>
+  <date value="2022-04-23T22:21:35+00:00"/>
   <publisher value="Health Level Seven International (FHIR Infrastructure)"/>
   <contact>
     <telecom>
@@ -638,7 +639,7 @@
     </telecom>
   </contact>
   <description value="A search parameter that defines a named search item that can be used to search/filter on a resource."/>
-  <fhirVersion value="4.3.0-CIBUILD"/>
+  <fhirVersion value="4.3.0-cibuild"/>
   <mapping>
     <identity value="v2"/>
     <uri value="http://hl7.org/v2"/>
@@ -694,8 +695,8 @@
         <key value="dom-3"/>
         <severity value="error"/>
         <human value="If the resource is contained in another resource, it SHALL be referred to from elsewhere in the resource or SHALL refer to the containing resource"/>
-        <expression value="contained.where(((id.exists() and (&#39;#&#39;+id in (%resource.descendants().reference | %resource.descendants().as(canonical) | %resource.descendants().as(uri) | %resource.descendants().as(url)))) or descendants().where(reference = &#39;#&#39;).exists() or descendants().where(as(canonical) = &#39;#&#39;).exists() or descendants().where(as(uri) = &#39;#&#39;).exists()).not()).trace(&#39;unmatched&#39;, id).empty()"/>
-        <xpath value="not(exists(for $resource in . return (for $contained in $resource/f:contained return $contained[not(descendant::f:*/@value=&#39;#&#39; or (exists(f:id) and $resource//f:*/@*=concat(&#39;#&#39;, $contained/*/f:id/@value)))])))"/>
+        <expression value="contained.where(((id.exists() and ('#'+id in (%resource.descendants().reference | %resource.descendants().as(canonical) | %resource.descendants().as(uri) | %resource.descendants().as(url)))) or descendants().where(reference = '#').exists() or descendants().where(as(canonical) = '#').exists() or descendants().where(as(uri) = '#').exists()).not()).trace('unmatched', id).empty()"/>
+        <xpath value="not(exists(for $contained in f:contained return $contained[not(exists(parent::*/descendant::f:reference/@value=concat('#', $contained/*/f:id/@value)) or exists(descendant::f:reference[@value='#']))]))"/>
         <source value="http://hl7.org/fhir/StructureDefinition/DomainResource"/>
       </constraint>
       <constraint>
@@ -732,8 +733,8 @@
         <key value="spd-0"/>
         <severity value="warning"/>
         <human value="Name should be usable as an identifier for the module by machine processing applications such as code generation"/>
-        <expression value="name.matches(&#39;[A-Z]([A-Za-z0-9_]){0,254}&#39;)"/>
-        <xpath value="not(exists(f:name/@value)) or matches(f:name/@value, &#39;[A-Z]([A-Za-z0-9_]){0,254}&#39;)"/>
+        <expression value="name.exists() implies name.matches('[A-Z]([A-Za-z0-9_]){0,254}')"/>
+        <xpath value="not(exists(f:name/@value)) or matches(f:name/@value, '[A-Z]([A-Za-z0-9_]){0,254}')"/>
         <source value="http://hl7.org/fhir/StructureDefinition/SearchParameter"/>
       </constraint>
       <constraint>
@@ -747,9 +748,9 @@
       <constraint>
         <key value="spd-2"/>
         <severity value="error"/>
-        <human value="Search parameters can only have chain names when the search parameter type is &#39;reference&#39;"/>
-        <expression value="chain.empty() or type = &#39;reference&#39;"/>
-        <xpath value="not(exists(f:chain)) or (f:type/@value = &#39;reference&#39;)"/>
+        <human value="Search parameters can only have chain names when the search parameter type is 'reference'"/>
+        <expression value="chain.empty() or type = 'reference'"/>
+        <xpath value="not(exists(f:chain)) or (f:type/@value = 'reference')"/>
         <source value="http://hl7.org/fhir/StructureDefinition/SearchParameter"/>
       </constraint>
       <mustSupport value="false"/>
@@ -784,7 +785,6 @@
         <min value="0"/>
         <max value="1"/>
       </base>
-    <!-- Note: special primitive values have a FHIRPath system type. e.g. this is compiler magic (j) -->
       <type>
         <extension url="http://hl7.org/fhir/StructureDefinition/structuredefinition-fhir-type">
           <valueUrl value="id"/>
@@ -825,7 +825,7 @@
       <path value="SearchParameter.implicitRules"/>
       <short value="A set of rules under which this content was created"/>
       <definition value="A reference to a set of rules that were followed when the resource was constructed, and which must be understood when processing the content. Often, this is a reference to an implementation guide that defines the special rules along with other profiles etc."/>
-      <comment value="Asserting this rule set restricts the content to be only understood by a limited set of trading partners. This inherently limits the usefulness of the data in the long term. However, the existing health eco-system is highly fractured, and not yet ready to define, collect, and exchange data in a generally computable sense. Wherever possible, implementers and/or specification writers should avoid using this element. Often, when used, the URL is a reference to an implementation guide that defines these special rules as part of it&#39;s narrative along with other profiles, value sets, etc."/>
+      <comment value="Asserting this rule set restricts the content to be only understood by a limited set of trading partners. This inherently limits the usefulness of the data in the long term. However, the existing health eco-system is highly fractured, and not yet ready to define, collect, and exchange data in a generally computable sense. Wherever possible, implementers and/or specification writers should avoid using this element. Often, when used, the URL is a reference to an implementation guide that defines these special rules as part of it's narrative along with other profiles, value sets, etc."/>
       <min value="0"/>
       <max value="1"/>
       <base>
@@ -846,7 +846,7 @@
       </constraint>
       <mustSupport value="false"/>
       <isModifier value="true"/>
-      <isModifierReason value="This element is labeled as a modifier because the implicit rules may provide additional knowledge about the resource that modifies it&#39;s meaning or interpretation"/>
+      <isModifierReason value="This element is labeled as a modifier because the implicit rules may provide additional knowledge about the resource that modifies it's meaning or interpretation"/>
       <isSummary value="true"/>
     </element>
     <element id="SearchParameter.language">
@@ -943,6 +943,14 @@
       <type>
         <code value="Resource"/>
       </type>
+      <constraint>
+        <key value="dom-r4b"/>
+        <severity value="warning"/>
+        <human value="Containing new R4B resources within R4 resources may cause interoperability issues if instances are shared with R4 systems"/>
+        <expression value="($this is Citation or $this is Evidence or $this is EvidenceReport or $this is EvidenceVariable or $this is MedicinalProductDefinition or $this is PackagedProductDefinition or $this is AdministrableProductDefinition or $this is Ingredient or $this is ClinicalUseDefinition or $this is RegulatedAuthorization or $this is SubstanceDefinition or $this is SubscriptionStatus or $this is SubscriptionTopic) implies (%resource is Citation or %resource is Evidence or %resource is EvidenceReport or %resource is EvidenceVariable or %resource is MedicinalProductDefinition or %resource is PackagedProductDefinition or %resource is AdministrableProductDefinition or %resource is Ingredient or %resource is ClinicalUseDefinition or %resource is RegulatedAuthorization or %resource is SubstanceDefinition or %resource is SubscriptionStatus or %resource is SubscriptionTopic)"/>
+        <xpath value="not(f:Citation|f:Evidence|f:EvidenceReport|f:EvidenceVariable|f:MedicinalProductDefinition|f:PackagedProductDefinition|f:AdministrableProductDefinition|f:Ingredient|f:ClinicalUseDefinition|f:RegulatedAuthorization|f:SubstanceDefinition|f:SubscriptionStatus|f:SubscriptionTopic) or not(parent::f:Citation|parent::f:Evidence|parent::f:EvidenceReport|parent::f:EvidenceVariable|parent::f:MedicinalProductDefinition|parent::f:PackagedProductDefinition|parent::f:AdministrableProductDefinition|parent::f:Ingredient|parent::f:ClinicalUseDefinition|parent::f:RegulatedAuthorization|parent::f:SubstanceDefinition|f:SubscriptionStatus|f:SubscriptionTopic)"/>
+        <source value="http://hl7.org/fhir/StructureDefinition/SearchParameter"/>
+      </constraint>
       <mustSupport value="false"/>
       <isModifier value="false"/>
       <isSummary value="false"/>
@@ -995,7 +1003,7 @@
     <element id="SearchParameter.modifierExtension">
       <path value="SearchParameter.modifierExtension"/>
       <short value="Extensions that cannot be ignored"/>
-      <definition value="May be used to represent additional information that is not part of the basic definition of the resource and that modifies the understanding of the element that contains it and/or the understanding of the containing element&#39;s descendants. Usually modifier elements provide negation or qualification. To make the use of extensions safe and manageable, there is a strict set of governance applied to the definition and use of extensions. Though any implementer is allowed to define an extension, there is a set of requirements that SHALL be met as part of the definition of the extension. Applications processing a resource are required to check for modifier extensions.&#xA;&#xA;Modifier extensions SHALL NOT change the meaning of any elements on Resource or DomainResource (including cannot change the meaning of modifierExtension itself)."/>
+      <definition value="May be used to represent additional information that is not part of the basic definition of the resource and that modifies the understanding of the element that contains it and/or the understanding of the containing element's descendants. Usually modifier elements provide negation or qualification. To make the use of extensions safe and manageable, there is a strict set of governance applied to the definition and use of extensions. Though any implementer is allowed to define an extension, there is a set of requirements that SHALL be met as part of the definition of the extension. Applications processing a resource are required to check for modifier extensions.&#xA;&#xA;Modifier extensions SHALL NOT change the meaning of any elements on Resource or DomainResource (including cannot change the meaning of modifierExtension itself)."/>
       <comment value="There can be no stigma associated with the use of extensions by any application, project, or standard - regardless of the institution or jurisdiction that uses or defines the extensions.  The use of extensions is what allows the FHIR specification to retain a core level of simplicity for everyone."/>
       <requirements value="Modifier extensions allow for extensions that *cannot* be safely ignored to be clearly distinguished from the vast majority of extensions which can be safely ignored.  This promotes interoperability by eliminating the need for implementers to prohibit the presence of extensions. For further information, see the [definition of modifier extensions](extensibility.html#modifierExtension)."/>
       <alias value="extensions"/>
@@ -1198,7 +1206,7 @@
         </extension>
         <strength value="required"/>
         <description value="The lifecycle status of an artifact."/>
-        <valueSet value="http://hl7.org/fhir/ValueSet/publication-status|4.3.0-CIBUILD"/>
+        <valueSet value="http://hl7.org/fhir/ValueSet/publication-status|4.3.0-cibuild"/>
       </binding>
       <mapping>
         <identity value="workflow"/>
@@ -1352,7 +1360,7 @@
       <path value="SearchParameter.description"/>
       <short value="Natural language description of the search parameter"/>
       <definition value="And how it used."/>
-      <comment value="This description can be used to capture details such as why the search parameter was built, comments about misuse, instructions for clinical use and interpretation, literature references, examples from the paper world, etc. It is not a rendering of the search parameter as conveyed in the &#39;text&#39; field of the resource itself. This item SHOULD be populated unless the information is available from context (e.g. the language of the search parameter is presumed to be the predominant language in the place the search parameter was created)."/>
+      <comment value="This description can be used to capture details such as why the search parameter was built, comments about misuse, instructions for clinical use and interpretation, literature references, examples from the paper world, etc. It is not a rendering of the search parameter as conveyed in the 'text' field of the resource itself. This item SHOULD be populated unless the information is available from context (e.g. the language of the search parameter is presumed to be the predominant language in the place the search parameter was created)."/>
       <min value="1"/>
       <max value="1"/>
       <base>
@@ -1457,7 +1465,7 @@
       <path value="SearchParameter.purpose"/>
       <short value="Why this search parameter is defined"/>
       <definition value="Explanation of why this search parameter is needed and why it has been designed as it has."/>
-      <comment value="This element does not describe the usage of the search parameter. Instead, it provides traceability of &#39;&#39;why&#39;&#39; the resource is either needed or &#39;&#39;why&#39;&#39; it is defined as it is.  This may be used to point to source materials or specifications that drove the structure of this search parameter."/>
+      <comment value="This element does not describe the usage of the search parameter. Instead, it provides traceability of ''why'' the resource is either needed or ''why'' it is defined as it is.  This may be used to point to source materials or specifications that drove the structure of this search parameter."/>
       <min value="0"/>
       <max value="1"/>
       <base>
@@ -1557,7 +1565,7 @@
         </extension>
         <strength value="required"/>
         <description value="One of the resource types defined as part of this version of FHIR."/>
-        <valueSet value="http://hl7.org/fhir/ValueSet/resource-types|4.3.0-CIBUILD"/>
+        <valueSet value="http://hl7.org/fhir/ValueSet/resource-types|4.3.0-cibuild"/>
       </binding>
     </element>
     <element id="SearchParameter.type">
@@ -1594,7 +1602,7 @@
         </extension>
         <strength value="required"/>
         <description value="Data types allowed to be used for search parameters."/>
-        <valueSet value="http://hl7.org/fhir/ValueSet/search-param-type|4.3.0-CIBUILD"/>
+        <valueSet value="http://hl7.org/fhir/ValueSet/search-param-type|4.3.0-cibuild"/>
       </binding>
     </element>
     <element id="SearchParameter.expression">
@@ -1685,7 +1693,7 @@
         </extension>
         <strength value="required"/>
         <description value="How a search parameter relates to the set of elements returned by evaluating its xpath query."/>
-        <valueSet value="http://hl7.org/fhir/ValueSet/search-xpath-usage|4.3.0-CIBUILD"/>
+        <valueSet value="http://hl7.org/fhir/ValueSet/search-xpath-usage|4.3.0-cibuild"/>
       </binding>
     </element>
     <element id="SearchParameter.target">
@@ -1722,7 +1730,7 @@
         </extension>
         <strength value="required"/>
         <description value="One of the resource types defined as part of this version of FHIR."/>
-        <valueSet value="http://hl7.org/fhir/ValueSet/resource-types|4.3.0-CIBUILD"/>
+        <valueSet value="http://hl7.org/fhir/ValueSet/resource-types|4.3.0-cibuild"/>
       </binding>
     </element>
     <element id="SearchParameter.multipleOr">
@@ -1809,7 +1817,7 @@
         </extension>
         <strength value="required"/>
         <description value="What Search Comparator Codes are supported in search."/>
-        <valueSet value="http://hl7.org/fhir/ValueSet/search-comparator|4.3.0-CIBUILD"/>
+        <valueSet value="http://hl7.org/fhir/ValueSet/search-comparator|4.3.0-cibuild"/>
       </binding>
     </element>
     <element id="SearchParameter.modifier">
@@ -1843,14 +1851,14 @@
         </extension>
         <strength value="required"/>
         <description value="A supported modifier for a search parameter."/>
-        <valueSet value="http://hl7.org/fhir/ValueSet/search-modifier-code|4.3.0-CIBUILD"/>
+        <valueSet value="http://hl7.org/fhir/ValueSet/search-modifier-code|4.3.0-cibuild"/>
       </binding>
     </element>
     <element id="SearchParameter.chain">
       <path value="SearchParameter.chain"/>
       <short value="Chained names supported"/>
       <definition value="Contains the names of any search parameters which may be chained to the containing search parameter. Chained parameters may be added to search parameters of type reference and specify that resources will only be returned if they contain a reference to a resource which matches the chained parameter value. Values for this field should be drawn from SearchParameter.code for a parameter on the target resource type."/>
-      <comment value="Systems are not required to list all the chain names they support, but if they don&#39;t list them, clients might not know to use them."/>
+      <comment value="Systems are not required to list all the chain names they support, but if they don't list them, clients might not know to use them."/>
       <min value="0"/>
       <max value="*"/>
       <base>
@@ -1911,10 +1919,9 @@
         <min value="0"/>
         <max value="1"/>
       </base>
-    <!-- Note: special primitive values have a FHIRPath system type. e.g. this is compiler magic (j) -->
       <type>
         <extension url="http://hl7.org/fhir/StructureDefinition/structuredefinition-fhir-type">
-          <valueUrl value="id"/>
+          <valueUrl value="string"/>
         </extension>
         <code value="http://hl7.org/fhirpath/System.String"/>
       </type>
@@ -1968,7 +1975,7 @@
     <element id="SearchParameter.component.modifierExtension">
       <path value="SearchParameter.component.modifierExtension"/>
       <short value="Extensions that cannot be ignored even if unrecognized"/>
-      <definition value="May be used to represent additional information that is not part of the basic definition of the element and that modifies the understanding of the element in which it is contained and/or the understanding of the containing element&#39;s descendants. Usually modifier elements provide negation or qualification. To make the use of extensions safe and manageable, there is a strict set of governance applied to the definition and use of extensions. Though any implementer can define an extension, there is a set of requirements that SHALL be met as part of the definition of the extension. Applications processing a resource are required to check for modifier extensions.&#xA;&#xA;Modifier extensions SHALL NOT change the meaning of any elements on Resource or DomainResource (including cannot change the meaning of modifierExtension itself)."/>
+      <definition value="May be used to represent additional information that is not part of the basic definition of the element and that modifies the understanding of the element in which it is contained and/or the understanding of the containing element's descendants. Usually modifier elements provide negation or qualification. To make the use of extensions safe and manageable, there is a strict set of governance applied to the definition and use of extensions. Though any implementer can define an extension, there is a set of requirements that SHALL be met as part of the definition of the extension. Applications processing a resource are required to check for modifier extensions.&#xA;&#xA;Modifier extensions SHALL NOT change the meaning of any elements on Resource or DomainResource (including cannot change the meaning of modifierExtension itself)."/>
       <comment value="There can be no stigma associated with the use of extensions by any application, project, or standard - regardless of the institution or jurisdiction that uses or defines the extensions.  The use of extensions is what allows the FHIR specification to retain a core level of simplicity for everyone."/>
       <requirements value="Modifier extensions allow for extensions that *cannot* be safely ignored to be clearly distinguished from the vast majority of extensions which can be safely ignored.  This promotes interoperability by eliminating the need for implementers to prohibit the presence of extensions. For further information, see the [definition of modifier extensions](extensibility.html#modifierExtension)."/>
       <alias value="extensions"/>
@@ -2075,8 +2082,8 @@
         <key value="spd-0"/>
         <severity value="warning"/>
         <human value="Name should be usable as an identifier for the module by machine processing applications such as code generation"/>
-        <expression value="name.matches(&#39;[A-Z]([A-Za-z0-9_]){0,254}&#39;)"/>
-        <xpath value="not(exists(f:name/@value)) or matches(f:name/@value, &#39;[A-Z]([A-Za-z0-9_]){0,254}&#39;)"/>
+        <expression value="name.exists() implies name.matches('[A-Z]([A-Za-z0-9_]){0,254}')"/>
+        <xpath value="not(exists(f:name/@value)) or matches(f:name/@value, '[A-Z]([A-Za-z0-9_]){0,254}')"/>
         <source value="http://hl7.org/fhir/StructureDefinition/SearchParameter"/>
       </constraint>
       <constraint>
@@ -2090,9 +2097,9 @@
       <constraint>
         <key value="spd-2"/>
         <severity value="error"/>
-        <human value="Search parameters can only have chain names when the search parameter type is &#39;reference&#39;"/>
-        <expression value="chain.empty() or type = &#39;reference&#39;"/>
-        <xpath value="not(exists(f:chain)) or (f:type/@value = &#39;reference&#39;)"/>
+        <human value="Search parameters can only have chain names when the search parameter type is 'reference'"/>
+        <expression value="chain.empty() or type = 'reference'"/>
+        <xpath value="not(exists(f:chain)) or (f:type/@value = 'reference')"/>
         <source value="http://hl7.org/fhir/StructureDefinition/SearchParameter"/>
       </constraint>
       <mustSupport value="false"/>
@@ -2208,7 +2215,7 @@
         </extension>
         <strength value="required"/>
         <description value="The lifecycle status of an artifact."/>
-        <valueSet value="http://hl7.org/fhir/ValueSet/publication-status|4.3.0-CIBUILD"/>
+        <valueSet value="http://hl7.org/fhir/ValueSet/publication-status|4.3.0-cibuild"/>
       </binding>
       <mapping>
         <identity value="workflow"/>
@@ -2310,7 +2317,7 @@
       <path value="SearchParameter.description"/>
       <short value="Natural language description of the search parameter"/>
       <definition value="And how it used."/>
-      <comment value="This description can be used to capture details such as why the search parameter was built, comments about misuse, instructions for clinical use and interpretation, literature references, examples from the paper world, etc. It is not a rendering of the search parameter as conveyed in the &#39;text&#39; field of the resource itself. This item SHOULD be populated unless the information is available from context (e.g. the language of the search parameter is presumed to be the predominant language in the place the search parameter was created)."/>
+      <comment value="This description can be used to capture details such as why the search parameter was built, comments about misuse, instructions for clinical use and interpretation, literature references, examples from the paper world, etc. It is not a rendering of the search parameter as conveyed in the 'text' field of the resource itself. This item SHOULD be populated unless the information is available from context (e.g. the language of the search parameter is presumed to be the predominant language in the place the search parameter was created)."/>
       <min value="1"/>
       <max value="1"/>
       <type>
@@ -2376,7 +2383,7 @@
       <path value="SearchParameter.purpose"/>
       <short value="Why this search parameter is defined"/>
       <definition value="Explanation of why this search parameter is needed and why it has been designed as it has."/>
-      <comment value="This element does not describe the usage of the search parameter. Instead, it provides traceability of &#39;&#39;why&#39;&#39; the resource is either needed or &#39;&#39;why&#39;&#39; it is defined as it is.  This may be used to point to source materials or specifications that drove the structure of this search parameter."/>
+      <comment value="This element does not describe the usage of the search parameter. Instead, it provides traceability of ''why'' the resource is either needed or ''why'' it is defined as it is.  This may be used to point to source materials or specifications that drove the structure of this search parameter."/>
       <min value="0"/>
       <max value="1"/>
       <type>
@@ -2437,7 +2444,7 @@
         </extension>
         <strength value="required"/>
         <description value="One of the resource types defined as part of this version of FHIR."/>
-        <valueSet value="http://hl7.org/fhir/ValueSet/resource-types|4.3.0-CIBUILD"/>
+        <valueSet value="http://hl7.org/fhir/ValueSet/resource-types|4.3.0-cibuild"/>
       </binding>
     </element>
     <element id="SearchParameter.type">
@@ -2461,7 +2468,7 @@
         </extension>
         <strength value="required"/>
         <description value="Data types allowed to be used for search parameters."/>
-        <valueSet value="http://hl7.org/fhir/ValueSet/search-param-type|4.3.0-CIBUILD"/>
+        <valueSet value="http://hl7.org/fhir/ValueSet/search-param-type|4.3.0-cibuild"/>
       </binding>
     </element>
     <element id="SearchParameter.expression">
@@ -2513,7 +2520,7 @@
         </extension>
         <strength value="required"/>
         <description value="How a search parameter relates to the set of elements returned by evaluating its xpath query."/>
-        <valueSet value="http://hl7.org/fhir/ValueSet/search-xpath-usage|4.3.0-CIBUILD"/>
+        <valueSet value="http://hl7.org/fhir/ValueSet/search-xpath-usage|4.3.0-cibuild"/>
       </binding>
     </element>
     <element id="SearchParameter.target">
@@ -2537,7 +2544,7 @@
         </extension>
         <strength value="required"/>
         <description value="One of the resource types defined as part of this version of FHIR."/>
-        <valueSet value="http://hl7.org/fhir/ValueSet/resource-types|4.3.0-CIBUILD"/>
+        <valueSet value="http://hl7.org/fhir/ValueSet/resource-types|4.3.0-cibuild"/>
       </binding>
     </element>
     <element id="SearchParameter.multipleOr">
@@ -2585,7 +2592,7 @@
         </extension>
         <strength value="required"/>
         <description value="What Search Comparator Codes are supported in search."/>
-        <valueSet value="http://hl7.org/fhir/ValueSet/search-comparator|4.3.0-CIBUILD"/>
+        <valueSet value="http://hl7.org/fhir/ValueSet/search-comparator|4.3.0-cibuild"/>
       </binding>
     </element>
     <element id="SearchParameter.modifier">
@@ -2606,14 +2613,14 @@
         </extension>
         <strength value="required"/>
         <description value="A supported modifier for a search parameter."/>
-        <valueSet value="http://hl7.org/fhir/ValueSet/search-modifier-code|4.3.0-CIBUILD"/>
+        <valueSet value="http://hl7.org/fhir/ValueSet/search-modifier-code|4.3.0-cibuild"/>
       </binding>
     </element>
     <element id="SearchParameter.chain">
       <path value="SearchParameter.chain"/>
       <short value="Chained names supported"/>
       <definition value="Contains the names of any search parameters which may be chained to the containing search parameter. Chained parameters may be added to search parameters of type reference and specify that resources will only be returned if they contain a reference to a resource which matches the chained parameter value. Values for this field should be drawn from SearchParameter.code for a parameter on the target resource type."/>
-      <comment value="Systems are not required to list all the chain names they support, but if they don&#39;t list them, clients might not know to use them."/>
+      <comment value="Systems are not required to list all the chain names they support, but if they don't list them, clients might not know to use them."/>
       <min value="0"/>
       <max value="*"/>
       <type>

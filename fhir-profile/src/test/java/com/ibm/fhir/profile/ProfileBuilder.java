@@ -1,5 +1,5 @@
 /*
- * (C) Copyright IBM Corp. 2021
+ * (C) Copyright IBM Corp. 2021, 2022
  *
  * SPDX-License-Identifier: Apache-2.0
  */
@@ -45,6 +45,7 @@ import com.ibm.fhir.model.util.ModelSupport;
  */
 public class ProfileBuilder {
     protected final Class<?> type;
+    // The base structureDefinition on which this is built
     protected final StructureDefinition structureDefinition;
     protected final String url;
     protected final String version;

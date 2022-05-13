@@ -7,7 +7,7 @@
       <display value="test health data"/>
     </security>
   </meta>
-  <text><status value="generated"/><div xmlns="http://www.w3.org/1999/xhtml"><table><tr><td>Mode: snapshotStatus: currentCode: History of family member diseases</td></tr><tr><td>Subject: <a>Patient/f201: Roel</a> "Roel"</td></tr></table><table><tr><td><b>Items</b></td></tr><tr><td><a>#fmh-1</a></td></tr><tr><td><a>#fmh-2</a></td></tr></table></div></text><contained>
+  <text><status value="generated"/><div xmlns="http://www.w3.org/1999/xhtml"><table class="clstu"><tr><td>Mode: snapshotStatus: currentCode: History of family member diseases</td></tr><tr><td>Subject: <a href="patient-f201.html">Patient/f201: Roel</a> "Roel"</td></tr></table><table class="grid"><tr style="backgound-color: #eeeeee"><td><b>Items</b></td></tr><tr><td><a href="#fmh-1">#fmh-1</a></td></tr><tr><td><a href="#fmh-2">#fmh-2</a></td></tr></table></div></text><contained>
     <FamilyMemberHistory>
       <id value="fmh-1"/>
       <!--  ROB's Mother has a hernia  -->

@@ -77,7 +77,7 @@ public class Media extends DomainResource {
         bindingName = "MediaStatus",
         strength = BindingStrength.Value.REQUIRED,
         description = "Codes identifying the lifecycle stage of an event.",
-        valueSet = "http://hl7.org/fhir/ValueSet/event-status|4.3.0-CIBUILD"
+        valueSet = "http://hl7.org/fhir/ValueSet/event-status|4.3.0-cibuild"
     )
     @Required
     private final MediaStatus status;

@@ -9,8 +9,8 @@
       "status": "active",
       "description": "Type options for Measure.subject[x]",
       "expansion": {
-        "identifier": "urn:uuid:dc157e31-1f5d-467e-898a-2f1d2365203a",
-        "timestamp": "2022-01-01T15:24:57+00:00",
+        "identifier": "urn:uuid:8020b3f7-8618-44ac-b4fc-61b715e8310b",
+        "timestamp": "2022-04-23T22:29:48+00:00",
         "contains": [
           {
             "system": "http://hl7.org/fhir/data-types",
@@ -31,9 +31,10 @@
       "system": "urn:ietf:rfc:3986"
     }
   ],
-  "version": "4.3.0-CIBUILD",
+  "version": "4.3.0-cibuild",
   "status": "draft",
-  "date": "2022-01-01T15:17:18+00:00",
+  "experimental": false,
+  "date": "2022-04-23T22:21:35+00:00",
   "publisher": "Health Level Seven International (Clinical Quality Information)",
   "item": [
     {
@@ -222,10 +223,9 @@
             {
               "linkId": "Measure.language.value",
               "text": "language",
-              "type": "coding",
+              "type": "choice",
               "required": false,
-              "repeats": false,
-              "answerConstraint": "optionsOnly"
+              "repeats": false
             }
           ]
         },
@@ -664,10 +664,9 @@
             {
               "linkId": "Measure.status.value",
               "text": "status",
-              "type": "coding",
+              "type": "choice",
               "required": false,
-              "repeats": false,
-              "answerConstraint": "optionsOrType"
+              "repeats": false
             }
           ]
         },
@@ -750,10 +749,9 @@
             {
               "linkId": "Measure.subject[x]._type",
               "text": "type",
-              "type": "coding",
+              "type": "choice",
               "required": false,
               "repeats": false,
-              "answerConstraint": "optionsOnly",
               "answerValueSet": "#vs2",
               "item": [
                 {
@@ -769,10 +767,9 @@
                     {
                       "linkId": "Measure.subject[x]._null.coding",
                       "text": "code:",
-                      "type": "coding",
+                      "type": "choice",
                       "required": false,
-                      "repeats": false,
-                      "answerConstraint": "optionsOnly"
+                      "repeats": false
                     },
                     {
                       "linkId": "Measure.subject[x]._null.text",
@@ -1048,10 +1045,9 @@
             {
               "linkId": "Measure.jurisdiction.coding",
               "text": "code:",
-              "type": "coding",
+              "type": "choice",
               "required": false,
-              "repeats": false,
-              "answerConstraint": "optionsOnly"
+              "repeats": false
             },
             {
               "linkId": "Measure.jurisdiction.text",
@@ -1369,10 +1365,9 @@
             {
               "linkId": "Measure.topic.coding",
               "text": "code:",
-              "type": "coding",
+              "type": "choice",
               "required": false,
-              "repeats": false,
-              "answerConstraint": "optionsOnly"
+              "repeats": false
             },
             {
               "linkId": "Measure.topic.text",
@@ -1651,10 +1646,9 @@
             {
               "linkId": "Measure.scoring.coding",
               "text": "code:",
-              "type": "coding",
+              "type": "choice",
               "required": false,
-              "repeats": false,
-              "answerConstraint": "optionsOnly"
+              "repeats": false
             },
             {
               "linkId": "Measure.scoring.text",
@@ -1704,10 +1698,9 @@
             {
               "linkId": "Measure.compositeScoring.coding",
               "text": "code:",
-              "type": "coding",
+              "type": "choice",
               "required": false,
-              "repeats": false,
-              "answerConstraint": "optionsOnly"
+              "repeats": false
             },
             {
               "linkId": "Measure.compositeScoring.text",
@@ -1753,10 +1746,9 @@
             {
               "linkId": "Measure.type.coding",
               "text": "code:",
-              "type": "coding",
+              "type": "choice",
               "required": false,
-              "repeats": false,
-              "answerConstraint": "optionsOnly"
+              "repeats": false
             },
             {
               "linkId": "Measure.type.text",
@@ -1982,10 +1974,9 @@
             {
               "linkId": "Measure.improvementNotation.coding",
               "text": "code:",
-              "type": "coding",
+              "type": "choice",
               "required": false,
-              "repeats": false,
-              "answerConstraint": "optionsOrType"
+              "repeats": false
             },
             {
               "linkId": "Measure.improvementNotation.text",
@@ -2245,10 +2236,9 @@
                 {
                   "linkId": "Measure.group.code.coding",
                   "text": "code:",
-                  "type": "coding",
+                  "type": "choice",
                   "required": false,
-                  "repeats": false,
-                  "answerConstraint": "optionsOnly"
+                  "repeats": false
                 },
                 {
                   "linkId": "Measure.group.code.text",
@@ -2468,10 +2458,9 @@
                     {
                       "linkId": "Measure.group.population.code.coding",
                       "text": "code:",
-                      "type": "coding",
+                      "type": "choice",
                       "required": false,
-                      "repeats": false,
-                      "answerConstraint": "optionsOnly"
+                      "repeats": false
                     },
                     {
                       "linkId": "Measure.group.population.code.text",
@@ -2736,10 +2725,9 @@
                     {
                       "linkId": "Measure.group.stratifier.code.coding",
                       "text": "code:",
-                      "type": "coding",
+                      "type": "choice",
                       "required": false,
-                      "repeats": false,
-                      "answerConstraint": "optionsOnly"
+                      "repeats": false
                     },
                     {
                       "linkId": "Measure.group.stratifier.code.text",
@@ -2998,10 +2986,9 @@
                         {
                           "linkId": "Measure.group.stratifier.component.code.coding",
                           "text": "code:",
-                          "type": "coding",
+                          "type": "choice",
                           "required": false,
-                          "repeats": false,
-                          "answerConstraint": "optionsOnly"
+                          "repeats": false
                         },
                         {
                           "linkId": "Measure.group.stratifier.component.code.text",
@@ -3270,10 +3257,9 @@
                 {
                   "linkId": "Measure.supplementalData.code.coding",
                   "text": "code:",
-                  "type": "coding",
+                  "type": "choice",
                   "required": false,
-                  "repeats": false,
-                  "answerConstraint": "optionsOnly"
+                  "repeats": false
                 },
                 {
                   "linkId": "Measure.supplementalData.code.text",
@@ -3319,10 +3305,9 @@
                 {
                   "linkId": "Measure.supplementalData.usage.coding",
                   "text": "code:",
-                  "type": "coding",
+                  "type": "choice",
                   "required": false,
-                  "repeats": false,
-                  "answerConstraint": "optionsOnly"
+                  "repeats": false
                 },
                 {
                   "linkId": "Measure.supplementalData.usage.text",

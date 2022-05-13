@@ -2,7 +2,7 @@
   "resourceType": "StructureDefinition",
   "id": "AllergyIntolerance",
   "meta": {
-    "lastUpdated": "2022-01-01T15:17:18.597+00:00"
+    "lastUpdated": "2022-04-23T22:21:35.043+00:00"
   },
   "text": {
     "status": "generated",
@@ -27,10 +27,11 @@
     }
   ],
   "url": "http://hl7.org/fhir/StructureDefinition/AllergyIntolerance",
-  "version": "4.3.0-CIBUILD",
+  "version": "4.3.0-cibuild",
   "name": "AllergyIntolerance",
   "status": "draft",
-  "date": "2022-01-01T15:17:18+00:00",
+  "experimental": false,
+  "date": "2022-04-23T22:21:35+00:00",
   "publisher": "Health Level Seven International (Patient Care)",
   "contact": [
     {
@@ -52,7 +53,7 @@
   ],
   "description": "Risk of harmful or undesirable, physiological response which is unique to an individual and associated with exposure to a substance.",
   "purpose": "To record a clinical assessment of a propensity, or potential risk to an individual, of an adverse reaction upon future exposure to the specified substance, or class of substance.",
-  "fhirVersion": "4.3.0-CIBUILD",
+  "fhirVersion": "4.3.0-cibuild",
   "mapping": [
     {
       "identity": "rim",
@@ -125,7 +126,7 @@
             "severity": "error",
             "human": "If the resource is contained in another resource, it SHALL be referred to from elsewhere in the resource or SHALL refer to the containing resource",
             "expression": "contained.where(((id.exists() and (\u0027#\u0027+id in (%resource.descendants().reference | %resource.descendants().as(canonical) | %resource.descendants().as(uri) | %resource.descendants().as(url)))) or descendants().where(reference \u003d \u0027#\u0027).exists() or descendants().where(as(canonical) \u003d \u0027#\u0027).exists() or descendants().where(as(uri) \u003d \u0027#\u0027).exists()).not()).trace(\u0027unmatched\u0027, id).empty()",
-            "xpath": "not(exists(for $resource in . return (for $contained in $resource/f:contained return $contained[not(descendant::f:*/@value\u003d\u0027#\u0027 or (exists(f:id) and $resource//f:*/@*\u003dconcat(\u0027#\u0027, $contained/*/f:id/@value)))])))",
+            "xpath": "not(exists(for $contained in f:contained return $contained[not(exists(parent::*/descendant::f:reference/@value\u003dconcat(\u0027#\u0027, $contained/*/f:id/@value)) or exists(descendant::f:reference[@value\u003d\u0027#\u0027]))]))",
             "source": "http://hl7.org/fhir/StructureDefinition/DomainResource"
           },
           {
@@ -391,6 +392,16 @@
             "code": "Resource"
           }
         ],
+        "constraint": [
+          {
+            "key": "dom-r4b",
+            "severity": "warning",
+            "human": "Containing new R4B resources within R4 resources may cause interoperability issues if instances are shared with R4 systems",
+            "expression": "($this is Citation or $this is Evidence or $this is EvidenceReport or $this is EvidenceVariable or $this is MedicinalProductDefinition or $this is PackagedProductDefinition or $this is AdministrableProductDefinition or $this is Ingredient or $this is ClinicalUseDefinition or $this is RegulatedAuthorization or $this is SubstanceDefinition or $this is SubscriptionStatus or $this is SubscriptionTopic) implies (%resource is Citation or %resource is Evidence or %resource is EvidenceReport or %resource is EvidenceVariable or %resource is MedicinalProductDefinition or %resource is PackagedProductDefinition or %resource is AdministrableProductDefinition or %resource is Ingredient or %resource is ClinicalUseDefinition or %resource is RegulatedAuthorization or %resource is SubstanceDefinition or %resource is SubscriptionStatus or %resource is SubscriptionTopic)",
+            "xpath": "not(f:Citation|f:Evidence|f:EvidenceReport|f:EvidenceVariable|f:MedicinalProductDefinition|f:PackagedProductDefinition|f:AdministrableProductDefinition|f:Ingredient|f:ClinicalUseDefinition|f:RegulatedAuthorization|f:SubstanceDefinition|f:SubscriptionStatus|f:SubscriptionTopic) or not(parent::f:Citation|parent::f:Evidence|parent::f:EvidenceReport|parent::f:EvidenceVariable|parent::f:MedicinalProductDefinition|parent::f:PackagedProductDefinition|parent::f:AdministrableProductDefinition|parent::f:Ingredient|parent::f:ClinicalUseDefinition|parent::f:RegulatedAuthorization|parent::f:SubstanceDefinition|f:SubscriptionStatus|f:SubscriptionTopic)",
+            "source": "http://hl7.org/fhir/StructureDefinition/AllergyIntolerance"
+          }
+        ],
         "mustSupport": false,
         "isModifier": false,
         "isSummary": false,
@@ -595,7 +606,7 @@
           ],
           "strength": "required",
           "description": "The clinical status of the allergy or intolerance.",
-          "valueSet": "http://hl7.org/fhir/ValueSet/allergyintolerance-clinical|4.3.0-CIBUILD"
+          "valueSet": "http://hl7.org/fhir/ValueSet/allergyintolerance-clinical|4.3.0-cibuild"
         },
         "mapping": [
           {
@@ -653,7 +664,7 @@
           ],
           "strength": "required",
           "description": "Assertion about certainty associated with a propensity, or potential risk, of a reaction to the identified substance.",
-          "valueSet": "http://hl7.org/fhir/ValueSet/allergyintolerance-verification|4.3.0-CIBUILD"
+          "valueSet": "http://hl7.org/fhir/ValueSet/allergyintolerance-verification|4.3.0-cibuild"
         },
         "mapping": [
           {
@@ -710,7 +721,7 @@
           ],
           "strength": "required",
           "description": "Identification of the underlying physiological mechanism for a Reaction Risk.",
-          "valueSet": "http://hl7.org/fhir/ValueSet/allergy-intolerance-type|4.3.0-CIBUILD"
+          "valueSet": "http://hl7.org/fhir/ValueSet/allergy-intolerance-type|4.3.0-cibuild"
         },
         "mapping": [
           {
@@ -773,7 +784,7 @@
           ],
           "strength": "required",
           "description": "Category of an identified substance associated with allergies or intolerances.",
-          "valueSet": "http://hl7.org/fhir/ValueSet/allergy-intolerance-category|4.3.0-CIBUILD"
+          "valueSet": "http://hl7.org/fhir/ValueSet/allergy-intolerance-category|4.3.0-cibuild"
         },
         "mapping": [
           {
@@ -836,7 +847,7 @@
           ],
           "strength": "required",
           "description": "Estimate of the potential clinical harm, or seriousness, of a reaction to an identified substance.",
-          "valueSet": "http://hl7.org/fhir/ValueSet/allergy-intolerance-criticality|4.3.0-CIBUILD"
+          "valueSet": "http://hl7.org/fhir/ValueSet/allergy-intolerance-criticality|4.3.0-cibuild"
         },
         "mapping": [
           {
@@ -1349,7 +1360,7 @@
             "extension": [
               {
                 "url": "http://hl7.org/fhir/StructureDefinition/structuredefinition-fhir-type",
-                "valueUrl": "id"
+                "valueUrl": "string"
               }
             ],
             "code": "http://hl7.org/fhirpath/System.String"
@@ -1694,7 +1705,7 @@
           ],
           "strength": "required",
           "description": "Clinical assessment of the severity of a reaction event as a whole, potentially considering multiple different manifestations.",
-          "valueSet": "http://hl7.org/fhir/ValueSet/reaction-event-severity|4.3.0-CIBUILD"
+          "valueSet": "http://hl7.org/fhir/ValueSet/reaction-event-severity|4.3.0-cibuild"
         },
         "mapping": [
           {
@@ -1900,7 +1911,7 @@
           ],
           "strength": "required",
           "description": "The clinical status of the allergy or intolerance.",
-          "valueSet": "http://hl7.org/fhir/ValueSet/allergyintolerance-clinical|4.3.0-CIBUILD"
+          "valueSet": "http://hl7.org/fhir/ValueSet/allergyintolerance-clinical|4.3.0-cibuild"
         },
         "mapping": [
           {
@@ -1943,7 +1954,7 @@
           ],
           "strength": "required",
           "description": "Assertion about certainty associated with a propensity, or potential risk, of a reaction to the identified substance.",
-          "valueSet": "http://hl7.org/fhir/ValueSet/allergyintolerance-verification|4.3.0-CIBUILD"
+          "valueSet": "http://hl7.org/fhir/ValueSet/allergyintolerance-verification|4.3.0-cibuild"
         },
         "mapping": [
           {
@@ -1985,7 +1996,7 @@
           ],
           "strength": "required",
           "description": "Identification of the underlying physiological mechanism for a Reaction Risk.",
-          "valueSet": "http://hl7.org/fhir/ValueSet/allergy-intolerance-type|4.3.0-CIBUILD"
+          "valueSet": "http://hl7.org/fhir/ValueSet/allergy-intolerance-type|4.3.0-cibuild"
         },
         "mapping": [
           {
@@ -2033,7 +2044,7 @@
           ],
           "strength": "required",
           "description": "Category of an identified substance associated with allergies or intolerances.",
-          "valueSet": "http://hl7.org/fhir/ValueSet/allergy-intolerance-category|4.3.0-CIBUILD"
+          "valueSet": "http://hl7.org/fhir/ValueSet/allergy-intolerance-category|4.3.0-cibuild"
         },
         "mapping": [
           {
@@ -2081,7 +2092,7 @@
           ],
           "strength": "required",
           "description": "Estimate of the potential clinical harm, or seriousness, of a reaction to an identified substance.",
-          "valueSet": "http://hl7.org/fhir/ValueSet/allergy-intolerance-criticality|4.3.0-CIBUILD"
+          "valueSet": "http://hl7.org/fhir/ValueSet/allergy-intolerance-criticality|4.3.0-cibuild"
         },
         "mapping": [
           {
@@ -2578,7 +2589,7 @@
           ],
           "strength": "required",
           "description": "Clinical assessment of the severity of a reaction event as a whole, potentially considering multiple different manifestations.",
-          "valueSet": "http://hl7.org/fhir/ValueSet/reaction-event-severity|4.3.0-CIBUILD"
+          "valueSet": "http://hl7.org/fhir/ValueSet/reaction-event-severity|4.3.0-cibuild"
         },
         "mapping": [
           {

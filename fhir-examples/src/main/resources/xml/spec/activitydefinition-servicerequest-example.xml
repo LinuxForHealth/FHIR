@@ -7,7 +7,78 @@
       <display value="test health data"/>
     </security>
   </meta>
-  <text><status value="generated"/><div xmlns="http://www.w3.org/1999/xhtml"><p><b>Generated Narrative</b></p><div><p>Resource "heart-valve-replacement" </p></div><p><b>status</b>: draft</p><p><b>description</b>: Heart valve replacement</p><p><b>purpose</b>: Describes the proposal to perform a Heart Valve replacement.</p><p><b>usage</b>: This activity definition is used as the definition of a service request to perform a heart valve replacement. Elements that apply universally are defined here, while elements that apply to the specific setting of a referral within a particular order set are defined in the order set.</p><p><b>topic</b>: Heart valve replacement <span> (<a>SNOMED CT</a>#34068001)</span></p><p><b>kind</b>: ServiceRequest</p><p><b>code</b>: Heart valve replacement <span> (<a>SNOMED CT</a>#34068001)</span></p><p><b>timing</b>: Events: Now()</p><p><b>location</b>: <a>Location/1</a> "South Wing, second floor"</p><h3>Participants</h3><table><tr><td>-</td><td><b>Type</b></td><td><b>Role</b></td></tr><tr><td>*</td><td>practitioner</td><td>Interventional Cardiology <span> (provider-taxonomy#207RI0011X)</span></td></tr></table><p><b>bodySite</b>: Heart valve structure <span> (<a>SNOMED CT</a>#17401000)</span></p></div></text><status value="draft"/>
+  <text>
+    <status value="generated"/>
+    <div xmlns="http://www.w3.org/1999/xhtml">
+      <p>
+        <b>Generated Narrative</b>
+      </p>
+      <div style="display: inline-block; background-color: #d9e0e7; padding: 6px; margin: 4px; border: 1px solid #8da1b4; border-radius: 5px; line-height: 60%">
+        <p style="margin-bottom: 0px">Resource "heart-valve-replacement" </p>
+      </div>
+      <p>
+        <b>status</b>: draft
+      </p>
+      <p>
+        <b>description</b>: Heart valve replacement
+      </p>
+      <p>
+        <b>purpose</b>: Describes the proposal to perform a Heart Valve replacement.
+      </p>
+      <p>
+        <b>usage</b>: This activity definition is used as the definition of a service request to perform a heart valve replacement. Elements that apply universally are defined here, while elements that apply to the specific setting of a referral within a particular order set are defined in the order set.
+      </p>
+      <p>
+        <b>topic</b>: Heart valve replacement 
+        <span style="background: LightGoldenRodYellow; margin: 4px; border: 1px solid khaki"> (
+          <a href="https://browser.ihtsdotools.org/">SNOMED CT</a>#34068001)
+        </span>
+      </p>
+      <p>
+        <b>kind</b>: ServiceRequest
+      </p>
+      <p>
+        <b>code</b>: Heart valve replacement 
+        <span style="background: LightGoldenRodYellow; margin: 4px; border: 1px solid khaki"> (
+          <a href="https://browser.ihtsdotools.org/">SNOMED CT</a>#34068001)
+        </span>
+      </p>
+      <p>
+        <b>timing</b>: Events: Now()
+      </p>
+      <p>
+        <b>location</b>: 
+        <a href="location-1.html">Location/1</a> "South Wing, second floor"
+      </p>
+      <h3>Participants</h3>
+      <table class="grid">
+        <tr>
+          <td>-</td>
+          <td>
+            <b>Type</b>
+          </td>
+          <td>
+            <b>Role</b>
+          </td>
+        </tr>
+        <tr>
+          <td>*</td>
+          <td>practitioner</td>
+          <td>Interventional Cardiology 
+            <span style="background: LightGoldenRodYellow; margin: 4px; border: 1px solid khaki"> (provider-taxonomy#207RI0011X)</span>
+          </td>
+        </tr>
+      </table>
+      <p>
+        <b>bodySite</b>: Heart valve structure 
+        <span style="background: LightGoldenRodYellow; margin: 4px; border: 1px solid khaki"> (
+          <a href="https://browser.ihtsdotools.org/">SNOMED CT</a>#17401000)
+        </span>
+      </p>
+    </div>
+  </text>
+  <status value="draft"/>
+  <experimental value="true"/>
   <description value="Heart valve replacement"/>
   <useContext>
     <code>
@@ -38,20 +109,20 @@
   <purpose value="Describes the proposal to perform a Heart Valve replacement."/>
   <usage value="This activity definition is used as the definition of a service request to perform a heart valve replacement. Elements that apply universally are defined here, while elements that apply to the specific setting of a referral within a particular order set are defined in the order set."/>
   <topic>
-	<coding> 
-		<system value="http://snomed.info/sct"/> 
-		<code value="34068001"/> 
-		<display value="Heart valve replacement"/> 
-	</coding> 
+    <coding>
+      <system value="http://snomed.info/sct"/>
+      <code value="34068001"/>
+      <display value="Heart valve replacement"/>
+    </coding>
   </topic>
   <kind value="ServiceRequest"/>
-    <code> 
-        <coding> 
-            <system value="http://snomed.info/sct"/> 
-            <code value="34068001"/> 
-            <display value="Heart valve replacement"/> 
-        </coding> 
-    </code>
+  <code>
+    <coding>
+      <system value="http://snomed.info/sct"/>
+      <code value="34068001"/>
+      <display value="Heart valve replacement"/>
+    </coding>
+  </code>
   <timingTiming>
     <event>
       <extension url="http://hl7.org/fhir/StructureDefinition/cqf-expression">
@@ -66,21 +137,21 @@
     <reference value="Location/1"/>
   </location>
   <participant>
-	<type value="practitioner"/>
-	<role>
-	  <coding>
-	    <system value="http://nucc.org/provider-taxonomy"/>
-	    <code value="207RI0011X"/>
-	    <display value="Interventional Cardiology"/>
-	  </coding>
-	  <text value="Interventional Cardiology"/>
-	</role>
+    <type value="practitioner"/>
+    <role>
+      <coding>
+        <system value="http://nucc.org/provider-taxonomy"/>
+        <code value="207RI0011X"/>
+        <display value="Interventional Cardiology"/>
+      </coding>
+      <text value="Interventional Cardiology"/>
+    </role>
   </participant>
-    <bodySite> 
-		<coding> 
-			<system value="http://snomed.info/sct"/> 
-			<code value="17401000"/> 
-			<display value="Heart valve structure"/> 
-		</coding>  
-    </bodySite>
+  <bodySite>
+    <coding>
+      <system value="http://snomed.info/sct"/>
+      <code value="17401000"/>
+      <display value="Heart valve structure"/>
+    </coding>
+  </bodySite>
 </ActivityDefinition>

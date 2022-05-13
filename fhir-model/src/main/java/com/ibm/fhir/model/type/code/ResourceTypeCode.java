@@ -734,7 +734,7 @@ public class ResourceTypeCode extends Code {
      * MedicinalProductDefinition
      * 
      * <p>Detailed definition of a medicinal product, typically for uses other than direct patient care (e.g. regulatory use, 
-     * drug catalogs).
+     * drug catalogs, to support prescribing, adverse events management etc.).
      */
     public static final ResourceTypeCode MEDICINAL_PRODUCT_DEFINITION = ResourceTypeCode.builder().value(ResourceType.MEDICINAL_PRODUCT_DEFINITION).build();
 

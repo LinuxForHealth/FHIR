@@ -11,7 +11,7 @@
         "id": "801728e4-75e9-42e6-b6d0-0cc3e835a70d",
         "text": {
           "status": "generated",
-          "div": "\u003cdiv xmlns\u003d\"http://www.w3.org/1999/xhtml\"\u003e\u003cp\u003e\u003cb\u003eGenerated Narrative\u003c/b\u003e\u003c/p\u003e\u003cdiv\u003e\u003cp\u003eResource \u0026quot;801728e4-75e9-42e6-b6d0-0cc3e835a70d\u0026quot; \u003c/p\u003e\u003c/div\u003e\u003cp\u003e\u003cb\u003eevent\u003c/b\u003e: subscription-notification (Details: http://example.org/fhir/message-events code subscription-notification \u003d \u0027subscription-notification\u0027, stated as \u0027null\u0027)\u003c/p\u003e\u003ch3\u003eSources\u003c/h3\u003e\u003ctable\u003e\u003ctr\u003e\u003ctd\u003e-\u003c/td\u003e\u003ctd\u003e\u003cb\u003eEndpoint\u003c/b\u003e\u003c/td\u003e\u003c/tr\u003e\u003ctr\u003e\u003ctd\u003e*\u003c/td\u003e\u003ctd\u003e\u003ca\u003ehttp://example.org/FHIR/R4\u003c/a\u003e\u003c/td\u003e\u003c/tr\u003e\u003c/table\u003e\u003cp\u003e\u003cb\u003efocus\u003c/b\u003e: \u003ca\u003eurn:uuid:c13b0b59-525c-4e41-b874-b5b87538a5b7\u003c/a\u003e\u003c/p\u003e\u003c/div\u003e"
+          "div": "\u003cdiv xmlns\u003d\"http://www.w3.org/1999/xhtml\"\u003e\u003cp\u003e\u003cb\u003eGenerated Narrative\u003c/b\u003e\u003c/p\u003e\u003cdiv style\u003d\"display: inline-block; background-color: #d9e0e7; padding: 6px; margin: 4px; border: 1px solid #8da1b4; border-radius: 5px; line-height: 60%\"\u003e\u003cp style\u003d\"margin-bottom: 0px\"\u003eResource \u0026quot;801728e4-75e9-42e6-b6d0-0cc3e835a70d\u0026quot; \u003c/p\u003e\u003c/div\u003e\u003cp\u003e\u003cb\u003eevent\u003c/b\u003e: subscription-notification (Details: http://example.org/fhir/message-events code subscription-notification \u003d \u0027subscription-notification\u0027, stated as \u0027null\u0027)\u003c/p\u003e\u003ch3\u003eSources\u003c/h3\u003e\u003ctable class\u003d\"grid\"\u003e\u003ctr\u003e\u003ctd\u003e-\u003c/td\u003e\u003ctd\u003e\u003cb\u003eEndpoint\u003c/b\u003e\u003c/td\u003e\u003c/tr\u003e\u003ctr\u003e\u003ctd\u003e*\u003c/td\u003e\u003ctd\u003e\u003ca href\u003d\"http://example.org/FHIR/R4\"\u003ehttp://example.org/FHIR/R4\u003c/a\u003e\u003c/td\u003e\u003c/tr\u003e\u003c/table\u003e\u003cp\u003e\u003cb\u003efocus\u003c/b\u003e: \u003ca href\u003d\"todo.html\"\u003eurn:uuid:c13b0b59-525c-4e41-b874-b5b87538a5b7\u003c/a\u003e\u003c/p\u003e\u003c/div\u003e"
         },
         "eventCoding": {
           "system": "http://example.org/fhir/message-events",
@@ -43,19 +43,18 @@
               "status": "active",
               "type": "event-notification",
               "eventsSinceSubscriptionStart": "2",
-              "eventsInNotification": 1,
               "notificationEvent": [
                 {
                   "eventNumber": "2",
                   "focus": {
-                    "reference": "http://example.org/FHIR/R4/Encounter/2"
+                    "reference": "http://example.org/FHIR/R4B/Encounter/2"
                   }
                 }
               ],
               "subscription": {
-                "reference": "http://example.org/FHIR/R4/Subscription/123"
+                "reference": "http://example.org/FHIR/R4B/Subscription/123"
               },
-              "topic": "http://example.org/FHIR/R4/SubscriptionTopic/admission"
+              "topic": "http://example.org/FHIR/R4B/SubscriptionTopic/admission"
             },
             "request": {
               "method": "GET",

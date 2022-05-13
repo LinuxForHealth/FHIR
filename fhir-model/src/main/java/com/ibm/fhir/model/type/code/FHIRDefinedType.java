@@ -66,7 +66,7 @@ public class FHIRDefinedType extends Code {
     /**
      * CodeableReference
      * 
-     * <p>A reference to a resource (by instance), or instead, a reference to a cencept defined in a terminology or ontology 
+     * <p>A reference to a resource (by instance), or instead, a reference to a concept defined in a terminology or ontology 
      * (by class).
      */
     public static final FHIRDefinedType CODEABLE_REFERENCE = FHIRDefinedType.builder().value(Value.CODEABLE_REFERENCE).build();
@@ -115,13 +115,6 @@ public class FHIRDefinedType extends Code {
      * of the data.
      */
     public static final FHIRDefinedType DATA_REQUIREMENT = FHIRDefinedType.builder().value(Value.DATA_REQUIREMENT).build();
-
-    /**
-     * DataType
-     * 
-     * <p>The base class for all re-useable types defined as part of the FHIR Specification.
-     */
-    public static final FHIRDefinedType DATA_TYPE = FHIRDefinedType.builder().value(Value.DATA_TYPE).build();
 
     /**
      * Distance
@@ -1210,7 +1203,7 @@ public class FHIRDefinedType extends Code {
      * MedicinalProductDefinition
      * 
      * <p>Detailed definition of a medicinal product, typically for uses other than direct patient care (e.g. regulatory use, 
-     * drug catalogs).
+     * drug catalogs, to support prescribing, adverse events management etc.).
      */
     public static final FHIRDefinedType MEDICINAL_PRODUCT_DEFINITION = FHIRDefinedType.builder().value(Value.MEDICINAL_PRODUCT_DEFINITION).build();
 
@@ -1685,8 +1678,6 @@ public class FHIRDefinedType extends Code {
             return COUNT;
         case DATA_REQUIREMENT:
             return DATA_REQUIREMENT;
-        case DATA_TYPE:
-            return DATA_TYPE;
         case DISTANCE:
             return DISTANCE;
         case DOSAGE:
@@ -2254,7 +2245,7 @@ public class FHIRDefinedType extends Code {
         /**
          * CodeableReference
          * 
-         * <p>A reference to a resource (by instance), or instead, a reference to a cencept defined in a terminology or ontology 
+         * <p>A reference to a resource (by instance), or instead, a reference to a concept defined in a terminology or ontology 
          * (by class).
          */
         CODEABLE_REFERENCE("CodeableReference"),
@@ -2303,13 +2294,6 @@ public class FHIRDefinedType extends Code {
          * of the data.
          */
         DATA_REQUIREMENT("DataRequirement"),
-
-        /**
-         * DataType
-         * 
-         * <p>The base class for all re-useable types defined as part of the FHIR Specification.
-         */
-        DATA_TYPE("DataType"),
 
         /**
          * Distance
@@ -3398,7 +3382,7 @@ public class FHIRDefinedType extends Code {
          * MedicinalProductDefinition
          * 
          * <p>Detailed definition of a medicinal product, typically for uses other than direct patient care (e.g. regulatory use, 
-         * drug catalogs).
+         * drug catalogs, to support prescribing, adverse events management etc.).
          */
         MEDICINAL_PRODUCT_DEFINITION("MedicinalProductDefinition"),
 
@@ -3884,8 +3868,6 @@ public class FHIRDefinedType extends Code {
                 return COUNT;
             case "DataRequirement":
                 return DATA_REQUIREMENT;
-            case "DataType":
-                return DATA_TYPE;
             case "Distance":
                 return DISTANCE;
             case "Dosage":

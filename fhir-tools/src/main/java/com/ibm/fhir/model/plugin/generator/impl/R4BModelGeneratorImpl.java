@@ -1,5 +1,5 @@
 /*
- * (C) Copyright IBM Corp. 2019, 2021
+ * (C) Copyright IBM Corp. 2019, 2022
  *
  * SPDX-License-Identifier: Apache-2.0
  */
@@ -76,7 +76,7 @@ public class R4BModelGeneratorImpl implements ModelGenerator {
                 Map<String, JsonObject> codeSystemMap = CodeGenerator.buildResourceMap(definitionsDir + "/R4B/valuesets.json", "CodeSystem");
 
                 Map<String, JsonObject> valueSetMap = CodeGenerator.buildResourceMap(definitionsDir + "/R4B/valuesets.json", "ValueSet");
-                valueSetMap.putAll(CodeGenerator.buildResourceMap(definitionsDir + "/R4B/fhir-expansions.json", "ValueSet"));
+                valueSetMap.putAll(CodeGenerator.buildResourceMap(definitionsDir + "/R4B/expansions.json", "ValueSet"));
 
                 log.info("[Started] generating the code for fhir-model");
                 CodeGenerator generator = new CodeGenerator(structureDefinitionMap, codeSystemMap, valueSetMap);

@@ -20,7 +20,6 @@ import com.ibm.fhir.model.annotation.Constraint;
 import com.ibm.fhir.model.annotation.Maturity;
 import com.ibm.fhir.model.annotation.ReferenceTarget;
 import com.ibm.fhir.model.annotation.Required;
-import com.ibm.fhir.model.annotation.Summary;
 import com.ibm.fhir.model.type.Address;
 import com.ibm.fhir.model.type.Annotation;
 import com.ibm.fhir.model.type.Attachment;
@@ -67,7 +66,7 @@ import com.ibm.fhir.model.visitor.Visitor;
     level = "Warning",
     location = "(base)",
     description = "Name should be usable as an identifier for the module by machine processing applications such as code generation",
-    expression = "name.matches('[A-Z]([A-Za-z0-9_]){0,254}')",
+    expression = "name.exists() implies name.matches('[A-Z]([A-Za-z0-9_]){0,254}')",
     source = "http://hl7.org/fhir/StructureDefinition/Citation"
 )
 @Constraint(
@@ -279,36 +278,36 @@ import com.ibm.fhir.model.visitor.Visitor;
 )
 @Generated("com.ibm.fhir.tools.CodeGenerator")
 public class Citation extends DomainResource {
-    @Summary
+    @com.ibm.fhir.model.annotation.Summary
     private final Uri url;
-    @Summary
+    @com.ibm.fhir.model.annotation.Summary
     private final List<Identifier> identifier;
-    @Summary
+    @com.ibm.fhir.model.annotation.Summary
     private final String version;
-    @Summary
+    @com.ibm.fhir.model.annotation.Summary
     private final String name;
-    @Summary
+    @com.ibm.fhir.model.annotation.Summary
     private final String title;
-    @Summary
+    @com.ibm.fhir.model.annotation.Summary
     @Binding(
         bindingName = "PublicationStatus",
         strength = BindingStrength.Value.REQUIRED,
-        valueSet = "http://hl7.org/fhir/ValueSet/publication-status|4.3.0-CIBUILD"
+        valueSet = "http://hl7.org/fhir/ValueSet/publication-status|4.3.0-cibuild"
     )
     @Required
     private final PublicationStatus status;
-    @Summary
+    @com.ibm.fhir.model.annotation.Summary
     private final Boolean experimental;
-    @Summary
+    @com.ibm.fhir.model.annotation.Summary
     private final DateTime date;
-    @Summary
+    @com.ibm.fhir.model.annotation.Summary
     private final String publisher;
-    @Summary
+    @com.ibm.fhir.model.annotation.Summary
     private final List<ContactDetail> contact;
     private final Markdown description;
-    @Summary
+    @com.ibm.fhir.model.annotation.Summary
     private final List<UsageContext> useContext;
-    @Summary
+    @com.ibm.fhir.model.annotation.Summary
     @Binding(
         bindingName = "Jurisdiction",
         strength = BindingStrength.Value.EXTENSIBLE,
@@ -319,13 +318,13 @@ public class Citation extends DomainResource {
     private final Markdown copyright;
     private final Date approvalDate;
     private final Date lastReviewDate;
-    @Summary
+    @com.ibm.fhir.model.annotation.Summary
     private final Period effectivePeriod;
     private final List<ContactDetail> author;
     private final List<ContactDetail> editor;
     private final List<ContactDetail> reviewer;
     private final List<ContactDetail> endorser;
-    private final List<ContactDetail> summary;
+    private final List<Summary> summary;
     private final List<Classification> classification;
     private final List<Annotation> note;
     @Binding(
@@ -610,9 +609,9 @@ public class Citation extends DomainResource {
      * A human-readable display of the citation.
      * 
      * @return
-     *     An unmodifiable list containing immutable objects of type {@link ContactDetail} that may be empty.
+     *     An unmodifiable list containing immutable objects of type {@link Summary} that may be empty.
      */
-    public List<ContactDetail> getSummary() {
+    public List<Summary> getSummary() {
         return summary;
     }
 
@@ -746,7 +745,7 @@ public class Citation extends DomainResource {
                 accept(editor, "editor", visitor, ContactDetail.class);
                 accept(reviewer, "reviewer", visitor, ContactDetail.class);
                 accept(endorser, "endorser", visitor, ContactDetail.class);
-                accept(summary, "summary", visitor, ContactDetail.class);
+                accept(summary, "summary", visitor, Summary.class);
                 accept(classification, "classification", visitor, Classification.class);
                 accept(note, "note", visitor, Annotation.class);
                 accept(currentState, "currentState", visitor, CodeableConcept.class);
@@ -888,7 +887,7 @@ public class Citation extends DomainResource {
         private List<ContactDetail> editor = new ArrayList<>();
         private List<ContactDetail> reviewer = new ArrayList<>();
         private List<ContactDetail> endorser = new ArrayList<>();
-        private List<ContactDetail> summary = new ArrayList<>();
+        private List<Summary> summary = new ArrayList<>();
         private List<Classification> classification = new ArrayList<>();
         private List<Annotation> note = new ArrayList<>();
         private List<CodeableConcept> currentState = new ArrayList<>();
@@ -1763,8 +1762,8 @@ public class Citation extends DomainResource {
          * @return
          *     A reference to this Builder instance
          */
-        public Builder summary(ContactDetail... summary) {
-            for (ContactDetail value : summary) {
+        public Builder summary(Summary... summary) {
+            for (Summary value : summary) {
                 this.summary.add(value);
             }
             return this;
@@ -1785,7 +1784,7 @@ public class Citation extends DomainResource {
          * @throws NullPointerException
          *     If the passed collection is null
          */
-        public Builder summary(Collection<ContactDetail> summary) {
+        public Builder summary(Collection<Summary> summary) {
             this.summary = new ArrayList<>(summary);
             return this;
         }
@@ -2032,7 +2031,7 @@ public class Citation extends DomainResource {
             ValidationSupport.checkList(citation.editor, "editor", ContactDetail.class);
             ValidationSupport.checkList(citation.reviewer, "reviewer", ContactDetail.class);
             ValidationSupport.checkList(citation.endorser, "endorser", ContactDetail.class);
-            ValidationSupport.checkList(citation.summary, "summary", ContactDetail.class);
+            ValidationSupport.checkList(citation.summary, "summary", Summary.class);
             ValidationSupport.checkList(citation.classification, "classification", Classification.class);
             ValidationSupport.checkList(citation.note, "note", Annotation.class);
             ValidationSupport.checkList(citation.currentState, "currentState", CodeableConcept.class);
@@ -2072,6 +2071,298 @@ public class Citation extends DomainResource {
             relatesTo.addAll(citation.relatesTo);
             citedArtifact = citation.citedArtifact;
             return this;
+        }
+    }
+
+    /**
+     * A human-readable display of the citation.
+     */
+    public static class Summary extends BackboneElement {
+        @Binding(
+            bindingName = "CitationSummaryStyle",
+            strength = BindingStrength.Value.EXTENSIBLE,
+            valueSet = "http://hl7.org/fhir/ValueSet/citation-summary-style"
+        )
+        private final CodeableConcept style;
+        @com.ibm.fhir.model.annotation.Summary
+        @Required
+        private final Markdown text;
+
+        private Summary(Builder builder) {
+            super(builder);
+            style = builder.style;
+            text = builder.text;
+        }
+
+        /**
+         * Format for display of the citation.
+         * 
+         * @return
+         *     An immutable object of type {@link CodeableConcept} that may be null.
+         */
+        public CodeableConcept getStyle() {
+            return style;
+        }
+
+        /**
+         * The human-readable display of the citation.
+         * 
+         * @return
+         *     An immutable object of type {@link Markdown} that is non-null.
+         */
+        public Markdown getText() {
+            return text;
+        }
+
+        @Override
+        public boolean hasChildren() {
+            return super.hasChildren() || 
+                (style != null) || 
+                (text != null);
+        }
+
+        @Override
+        public void accept(java.lang.String elementName, int elementIndex, Visitor visitor) {
+            if (visitor.preVisit(this)) {
+                visitor.visitStart(elementName, elementIndex, this);
+                if (visitor.visit(elementName, elementIndex, this)) {
+                    // visit children
+                    accept(id, "id", visitor);
+                    accept(extension, "extension", visitor, Extension.class);
+                    accept(modifierExtension, "modifierExtension", visitor, Extension.class);
+                    accept(style, "style", visitor);
+                    accept(text, "text", visitor);
+                }
+                visitor.visitEnd(elementName, elementIndex, this);
+                visitor.postVisit(this);
+            }
+        }
+
+        @Override
+        public boolean equals(Object obj) {
+            if (this == obj) {
+                return true;
+            }
+            if (obj == null) {
+                return false;
+            }
+            if (getClass() != obj.getClass()) {
+                return false;
+            }
+            Summary other = (Summary) obj;
+            return Objects.equals(id, other.id) && 
+                Objects.equals(extension, other.extension) && 
+                Objects.equals(modifierExtension, other.modifierExtension) && 
+                Objects.equals(style, other.style) && 
+                Objects.equals(text, other.text);
+        }
+
+        @Override
+        public int hashCode() {
+            int result = hashCode;
+            if (result == 0) {
+                result = Objects.hash(id, 
+                    extension, 
+                    modifierExtension, 
+                    style, 
+                    text);
+                hashCode = result;
+            }
+            return result;
+        }
+
+        @Override
+        public Builder toBuilder() {
+            return new Builder().from(this);
+        }
+
+        public static Builder builder() {
+            return new Builder();
+        }
+
+        public static class Builder extends BackboneElement.Builder {
+            private CodeableConcept style;
+            private Markdown text;
+
+            private Builder() {
+                super();
+            }
+
+            /**
+             * Unique id for the element within a resource (for internal references). This may be any string value that does not 
+             * contain spaces.
+             * 
+             * @param id
+             *     Unique id for inter-element referencing
+             * 
+             * @return
+             *     A reference to this Builder instance
+             */
+            @Override
+            public Builder id(java.lang.String id) {
+                return (Builder) super.id(id);
+            }
+
+            /**
+             * May be used to represent additional information that is not part of the basic definition of the element. To make the 
+             * use of extensions safe and manageable, there is a strict set of governance applied to the definition and use of 
+             * extensions. Though any implementer can define an extension, there is a set of requirements that SHALL be met as part 
+             * of the definition of the extension.
+             * 
+             * <p>Adds new element(s) to the existing list.
+             * If any of the elements are null, calling {@link #build()} will fail.
+             * 
+             * @param extension
+             *     Additional content defined by implementations
+             * 
+             * @return
+             *     A reference to this Builder instance
+             */
+            @Override
+            public Builder extension(Extension... extension) {
+                return (Builder) super.extension(extension);
+            }
+
+            /**
+             * May be used to represent additional information that is not part of the basic definition of the element. To make the 
+             * use of extensions safe and manageable, there is a strict set of governance applied to the definition and use of 
+             * extensions. Though any implementer can define an extension, there is a set of requirements that SHALL be met as part 
+             * of the definition of the extension.
+             * 
+             * <p>Replaces the existing list with a new one containing elements from the Collection.
+             * If any of the elements are null, calling {@link #build()} will fail.
+             * 
+             * @param extension
+             *     Additional content defined by implementations
+             * 
+             * @return
+             *     A reference to this Builder instance
+             * 
+             * @throws NullPointerException
+             *     If the passed collection is null
+             */
+            @Override
+            public Builder extension(Collection<Extension> extension) {
+                return (Builder) super.extension(extension);
+            }
+
+            /**
+             * May be used to represent additional information that is not part of the basic definition of the element and that 
+             * modifies the understanding of the element in which it is contained and/or the understanding of the containing 
+             * element's descendants. Usually modifier elements provide negation or qualification. To make the use of extensions safe 
+             * and manageable, there is a strict set of governance applied to the definition and use of extensions. Though any 
+             * implementer can define an extension, there is a set of requirements that SHALL be met as part of the definition of the 
+             * extension. Applications processing a resource are required to check for modifier extensions.
+             * 
+             * <p>Modifier extensions SHALL NOT change the meaning of any elements on Resource or DomainResource (including cannot 
+             * change the meaning of modifierExtension itself).
+             * 
+             * <p>Adds new element(s) to the existing list.
+             * If any of the elements are null, calling {@link #build()} will fail.
+             * 
+             * @param modifierExtension
+             *     Extensions that cannot be ignored even if unrecognized
+             * 
+             * @return
+             *     A reference to this Builder instance
+             */
+            @Override
+            public Builder modifierExtension(Extension... modifierExtension) {
+                return (Builder) super.modifierExtension(modifierExtension);
+            }
+
+            /**
+             * May be used to represent additional information that is not part of the basic definition of the element and that 
+             * modifies the understanding of the element in which it is contained and/or the understanding of the containing 
+             * element's descendants. Usually modifier elements provide negation or qualification. To make the use of extensions safe 
+             * and manageable, there is a strict set of governance applied to the definition and use of extensions. Though any 
+             * implementer can define an extension, there is a set of requirements that SHALL be met as part of the definition of the 
+             * extension. Applications processing a resource are required to check for modifier extensions.
+             * 
+             * <p>Modifier extensions SHALL NOT change the meaning of any elements on Resource or DomainResource (including cannot 
+             * change the meaning of modifierExtension itself).
+             * 
+             * <p>Replaces the existing list with a new one containing elements from the Collection.
+             * If any of the elements are null, calling {@link #build()} will fail.
+             * 
+             * @param modifierExtension
+             *     Extensions that cannot be ignored even if unrecognized
+             * 
+             * @return
+             *     A reference to this Builder instance
+             * 
+             * @throws NullPointerException
+             *     If the passed collection is null
+             */
+            @Override
+            public Builder modifierExtension(Collection<Extension> modifierExtension) {
+                return (Builder) super.modifierExtension(modifierExtension);
+            }
+
+            /**
+             * Format for display of the citation.
+             * 
+             * @param style
+             *     Format for display of the citation
+             * 
+             * @return
+             *     A reference to this Builder instance
+             */
+            public Builder style(CodeableConcept style) {
+                this.style = style;
+                return this;
+            }
+
+            /**
+             * The human-readable display of the citation.
+             * 
+             * <p>This element is required.
+             * 
+             * @param text
+             *     The human-readable display of the citation
+             * 
+             * @return
+             *     A reference to this Builder instance
+             */
+            public Builder text(Markdown text) {
+                this.text = text;
+                return this;
+            }
+
+            /**
+             * Build the {@link Summary}
+             * 
+             * <p>Required elements:
+             * <ul>
+             * <li>text</li>
+             * </ul>
+             * 
+             * @return
+             *     An immutable object of type {@link Summary}
+             * @throws IllegalStateException
+             *     if the current state cannot be built into a valid Summary per the base specification
+             */
+            @Override
+            public Summary build() {
+                Summary summary = new Summary(this);
+                if (validating) {
+                    validate(summary);
+                }
+                return summary;
+            }
+
+            protected void validate(Summary summary) {
+                super.validate(summary);
+                ValidationSupport.requireNonNull(summary.text, "text");
+                ValidationSupport.requireValueOrChildren(summary);
+            }
+
+            protected Builder from(Summary summary) {
+                super.from(summary);
+                style = summary.style;
+                text = summary.text;
+                return this;
+            }
         }
     }
 
@@ -3104,11 +3395,11 @@ public class Citation extends DomainResource {
      * The article or artifact being described.
      */
     public static class CitedArtifact extends BackboneElement {
-        @Summary
+        @com.ibm.fhir.model.annotation.Summary
         private final List<Identifier> identifier;
-        @Summary
+        @com.ibm.fhir.model.annotation.Summary
         private final List<Identifier> relatedIdentifier;
-        @Summary
+        @com.ibm.fhir.model.annotation.Summary
         private final DateTime dateAccessed;
         private final Version version;
         @Binding(

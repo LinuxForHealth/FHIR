@@ -1,0 +1,115 @@
+{
+    "resourceType": "ValueSet",
+    "id": "specimen-processing-procedure",
+    "meta": {
+        "lastUpdated": "2022-04-23T22:21:35.043Z",
+        "profile": [
+            "http://hl7.org/fhir/StructureDefinition/shareablevalueset"
+        ]
+    },
+    "extension": [
+        {
+            "url": "http://hl7.org/fhir/StructureDefinition/structuredefinition-wg",
+            "valueCode": "oo"
+        },
+        {
+            "url": "http://hl7.org/fhir/StructureDefinition/structuredefinition-standards-status",
+            "valueCode": "draft"
+        },
+        {
+            "url": "http://hl7.org/fhir/StructureDefinition/structuredefinition-fmm",
+            "valueInteger": 1
+        }
+    ],
+    "url": "http://hl7.org/fhir/ValueSet/specimen-processing-procedure",
+    "identifier": [
+        {
+            "system": "urn:ietf:rfc:3986",
+            "value": "urn:oid:2.16.840.1.113883.4.642.3.469"
+        }
+    ],
+    "version": "4.3.0-cibuild",
+    "name": "SpecimenProcessingProcedure",
+    "status": "draft",
+    "experimental": true,
+    "publisher": "FHIR Project team",
+    "contact": [
+        {
+            "telecom": [
+                {
+                    "system": "url",
+                    "value": "http://hl7.org/fhir"
+                }
+            ]
+        }
+    ],
+    "description": "The technique that is used to perform the process or preserve the specimen.",
+    "compose": {
+        "include": [
+            {
+                "system": "http://terminology.hl7.org/CodeSystem/v2-0373"
+            }
+        ]
+    },
+    "expansion": {
+        "identifier": "urn:uuid:83a51318-c5de-4643-8598-802c69e5bd56",
+        "timestamp": "2022-04-23T22:23:26Z",
+        "total": 8,
+        "parameter": [
+            {
+                "name": "excludeNested",
+                "valueBoolean": true
+            },
+            {
+                "name": "includeDesignations",
+                "valueBoolean": true
+            },
+            {
+                "name": "version",
+                "valueUri": "http://terminology.hl7.org/CodeSystem/v2-0373|2.1.0"
+            }
+        ],
+        "contains": [
+            {
+                "system": "http://terminology.hl7.org/CodeSystem/v2-0373",
+                "code": "LDLP",
+                "display": "LDL Precipitation"
+            },
+            {
+                "system": "http://terminology.hl7.org/CodeSystem/v2-0373",
+                "code": "RECA",
+                "display": "Recalification"
+            },
+            {
+                "system": "http://terminology.hl7.org/CodeSystem/v2-0373",
+                "code": "DEFB",
+                "display": "Defibrination"
+            },
+            {
+                "system": "http://terminology.hl7.org/CodeSystem/v2-0373",
+                "code": "ACID",
+                "display": "Acidification"
+            },
+            {
+                "system": "http://terminology.hl7.org/CodeSystem/v2-0373",
+                "code": "NEUT",
+                "display": "Neutralization"
+            },
+            {
+                "system": "http://terminology.hl7.org/CodeSystem/v2-0373",
+                "code": "ALK",
+                "display": "Alkalization"
+            },
+            {
+                "system": "http://terminology.hl7.org/CodeSystem/v2-0373",
+                "code": "FILT",
+                "display": "Filtration"
+            },
+            {
+                "system": "http://terminology.hl7.org/CodeSystem/v2-0373",
+                "code": "UFIL",
+                "display": "Ultrafiltration"
+            }
+        ]
+    }
+}

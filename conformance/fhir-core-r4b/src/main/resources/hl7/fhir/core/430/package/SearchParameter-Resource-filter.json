@@ -1,0 +1,42 @@
+{
+    "resourceType": "SearchParameter",
+    "id": "Resource-filter",
+    "extension": [
+        {
+            "url": "http://hl7.org/fhir/StructureDefinition/structuredefinition-standards-status",
+            "valueCode": "trial-use"
+        }
+    ],
+    "url": "http://hl7.org/fhir/SearchParameter/Resource-filter",
+    "version": "4.3.0-cibuild",
+    "name": "_filter",
+    "status": "draft",
+    "experimental": false,
+    "date": "2022-04-23T22:21:35Z",
+    "publisher": "Health Level Seven International (FHIR Infrastructure)",
+    "contact": [
+        {
+            "telecom": [
+                {
+                    "system": "url",
+                    "value": "http://hl7.org/fhir"
+                }
+            ]
+        },
+        {
+            "telecom": [
+                {
+                    "system": "url",
+                    "value": "http://www.hl7.org/Special/committees/fiwg/index.cfm"
+                }
+            ]
+        }
+    ],
+    "description": "Filter search parameter which supports a more sophisticated grammar for searching. See [documentation](search_filter.html) for further details",
+    "code": "_filter",
+    "base": [
+        "Resource"
+    ],
+    "type": "token",
+    "xpathUsage": "other"
+}

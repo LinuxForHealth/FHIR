@@ -12,14 +12,15 @@
     }
   ],
   "url": "http://hl7.org/fhir/StructureDefinition/resource-lastReviewDate",
-  "version": "4.3.0-CIBUILD",
+  "version": "4.3.0-cibuild",
   "name": "lastReviewDate",
   "title": "Last Review Date",
   "status": "draft",
+  "experimental": false,
   "date": "2021-01-17T07:06:13+11:00",
   "publisher": "HL7",
   "description": "The date on which the asset content was last reviewed. Review happens periodically after that, but doesn\u0027t change the original approval date.",
-  "fhirVersion": "4.3.0-CIBUILD",
+  "fhirVersion": "4.3.0-cibuild",
   "mapping": [
     {
       "identity": "rim",

@@ -84,7 +84,7 @@ public class MedicationAdministration extends DomainResource {
         bindingName = "MedicationAdministrationStatus",
         strength = BindingStrength.Value.REQUIRED,
         description = "A set of codes indicating the current status of a MedicationAdministration.",
-        valueSet = "http://hl7.org/fhir/ValueSet/medication-admin-status|4.3.0-CIBUILD"
+        valueSet = "http://hl7.org/fhir/ValueSet/medication-admin-status|4.3.0-cibuild"
     )
     @Required
     private final MedicationAdministrationStatus status;
@@ -1815,7 +1815,7 @@ public class MedicationAdministration extends DomainResource {
 
         /**
          * Free text dosage can be used for cases where the dosage administered is too complex to code. When coded dosage is 
-         * present, the free text dosage may still be present for display to humans. The dosage instructions should reflect the 
+         * present, the free text dosage may still be present for display to humans.The dosage instructions should reflect the 
          * dosage of the medication that was administered.
          * 
          * @return
@@ -2104,7 +2104,7 @@ public class MedicationAdministration extends DomainResource {
 
             /**
              * Free text dosage can be used for cases where the dosage administered is too complex to code. When coded dosage is 
-             * present, the free text dosage may still be present for display to humans. The dosage instructions should reflect the 
+             * present, the free text dosage may still be present for display to humans.The dosage instructions should reflect the 
              * dosage of the medication that was administered.
              * 
              * @param text

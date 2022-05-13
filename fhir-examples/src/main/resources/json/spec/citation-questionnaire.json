@@ -9,8 +9,8 @@
       "status": "active",
       "description": "Type options for Citation.relatesTo.target[x]",
       "expansion": {
-        "identifier": "urn:uuid:f749657e-57bf-49df-9251-cd42e6545d92",
-        "timestamp": "2022-01-01T15:23:54+00:00",
+        "identifier": "urn:uuid:3636faf8-0255-4211-8755-4bdad49e6bcd",
+        "timestamp": "2022-04-23T22:28:42+00:00",
         "contains": [
           {
             "system": "http://hl7.org/fhir/data-types",
@@ -42,8 +42,8 @@
       "status": "active",
       "description": "Type options for Citation.citedArtifact.relatesTo.target[x]",
       "expansion": {
-        "identifier": "urn:uuid:151445f0-3a22-407d-bd7c-0644e0b39fb0",
-        "timestamp": "2022-01-01T15:23:54+00:00",
+        "identifier": "urn:uuid:0eb665e9-0718-4313-9401-f998294f8c7b",
+        "timestamp": "2022-04-23T22:28:42+00:00",
         "contains": [
           {
             "system": "http://hl7.org/fhir/data-types",
@@ -74,9 +74,10 @@
       "system": "urn:ietf:rfc:3986"
     }
   ],
-  "version": "4.3.0-CIBUILD",
+  "version": "4.3.0-cibuild",
   "status": "draft",
-  "date": "2022-01-01T15:17:18+00:00",
+  "experimental": false,
+  "date": "2022-04-23T22:21:35+00:00",
   "publisher": "Health Level Seven International (Clinical Decision Support)",
   "item": [
     {
@@ -265,10 +266,9 @@
             {
               "linkId": "Citation.language.value",
               "text": "language",
-              "type": "coding",
+              "type": "choice",
               "required": false,
-              "repeats": false,
-              "answerConstraint": "optionsOnly"
+              "repeats": false
             }
           ]
         },
@@ -663,10 +663,9 @@
             {
               "linkId": "Citation.status.value",
               "text": "status",
-              "type": "coding",
+              "type": "choice",
               "required": false,
-              "repeats": false,
-              "answerConstraint": "optionsOrType"
+              "repeats": false
             }
           ]
         },
@@ -947,10 +946,9 @@
             {
               "linkId": "Citation.jurisdiction.coding",
               "text": "code:",
-              "type": "coding",
+              "type": "choice",
               "required": false,
-              "repeats": false,
-              "answerConstraint": "optionsOnly"
+              "repeats": false
             },
             {
               "linkId": "Citation.jurisdiction.text",
@@ -1335,6 +1333,106 @@
                 },
                 {
                   "url": "http://hl7.org/fhir/StructureDefinition/questionnaire-fhirType",
+                  "valueString": "string"
+                }
+              ],
+              "linkId": "Citation.summary.id",
+              "type": "group",
+              "required": false,
+              "repeats": true,
+              "item": [
+                {
+                  "extension": [
+                    {
+                      "url": "http://hl7.org/fhir/StructureDefinition/questionnaire-itemControl",
+                      "valueCodeableConcept": {
+                        "coding": [
+                          {
+                            "system": "http://hl7.org/fhir/questionnaire-item-control",
+                            "code": "flyover",
+                            "display": "Fly-over"
+                          }
+                        ]
+                      }
+                    }
+                  ],
+                  "linkId": "Citation.summary.id-flyover",
+                  "text": "Unique id for the element within a resource (for internal references). This may be any string value that does not contain spaces.",
+                  "type": "display"
+                },
+                {
+                  "linkId": "Citation.summary.id.value",
+                  "text": "Unique id for inter-element referencing",
+                  "type": "string",
+                  "required": false,
+                  "repeats": false
+                }
+              ]
+            },
+            {
+              "linkId": "Citation.summary.extension",
+              "text": "Additional content defined by implementations",
+              "type": "group",
+              "required": false,
+              "repeats": true,
+              "item": [
+                {
+                  "extension": [
+                    {
+                      "url": "http://hl7.org/fhir/StructureDefinition/questionnaire-itemControl",
+                      "valueCodeableConcept": {
+                        "coding": [
+                          {
+                            "system": "http://hl7.org/fhir/questionnaire-item-control",
+                            "code": "flyover",
+                            "display": "Fly-over"
+                          }
+                        ]
+                      }
+                    }
+                  ],
+                  "linkId": "Citation.summary.extension-flyover",
+                  "text": "May be used to represent additional information that is not part of the basic definition of the element. To make the use of extensions safe and manageable, there is a strict set of governance  applied to the definition and use of extensions. Though any implementer can define an extension, there is a set of requirements that SHALL be met as part of the definition of the extension. There can be no stigma associated with the use of extensions by any application, project, or standard - regardless of the institution or jurisdiction that uses or defines the extensions.  The use of extensions is what allows the FHIR specification to retain a core level of simplicity for everyone.",
+                  "type": "display"
+                }
+              ]
+            },
+            {
+              "linkId": "Citation.summary.modifierExtension",
+              "text": "Extensions that cannot be ignored even if unrecognized",
+              "type": "group",
+              "required": false,
+              "repeats": true,
+              "item": [
+                {
+                  "extension": [
+                    {
+                      "url": "http://hl7.org/fhir/StructureDefinition/questionnaire-itemControl",
+                      "valueCodeableConcept": {
+                        "coding": [
+                          {
+                            "system": "http://hl7.org/fhir/questionnaire-item-control",
+                            "code": "flyover",
+                            "display": "Fly-over"
+                          }
+                        ]
+                      }
+                    }
+                  ],
+                  "linkId": "Citation.summary.modifierExtension-flyover",
+                  "text": "May be used to represent additional information that is not part of the basic definition of the element and that modifies the understanding of the element in which it is contained and/or the understanding of the containing element\u0027s descendants. Usually modifier elements provide negation or qualification. To make the use of extensions safe and manageable, there is a strict set of governance applied to the definition and use of extensions. Though any implementer can define an extension, there is a set of requirements that SHALL be met as part of the definition of the extension. Applications processing a resource are required to check for modifier extensions.\n\nModifier extensions SHALL NOT change the meaning of any elements on Resource or DomainResource (including cannot change the meaning of modifierExtension itself). There can be no stigma associated with the use of extensions by any application, project, or standard - regardless of the institution or jurisdiction that uses or defines the extensions.  The use of extensions is what allows the FHIR specification to retain a core level of simplicity for everyone.",
+                  "type": "display"
+                }
+              ]
+            },
+            {
+              "extension": [
+                {
+                  "url": "http://hl7.org/fhir/StructureDefinition/questionnaire-maxOccurs",
+                  "valueInteger": 1
+                },
+                {
+                  "url": "http://hl7.org/fhir/StructureDefinition/questionnaire-fhirType",
                   "valueString": "CodeableConcept"
                 }
               ],
@@ -1366,10 +1464,9 @@
                 {
                   "linkId": "Citation.summary.style.coding",
                   "text": "code:",
-                  "type": "coding",
+                  "type": "choice",
                   "required": false,
-                  "repeats": false,
-                  "answerConstraint": "optionsOnly"
+                  "repeats": false
                 },
                 {
                   "linkId": "Citation.summary.style.text",
@@ -1595,10 +1692,9 @@
                 {
                   "linkId": "Citation.classification.type.coding",
                   "text": "code:",
-                  "type": "coding",
+                  "type": "choice",
                   "required": false,
-                  "repeats": false,
-                  "answerConstraint": "optionsOnly"
+                  "repeats": false
                 },
                 {
                   "linkId": "Citation.classification.type.text",
@@ -1644,10 +1740,9 @@
                 {
                   "linkId": "Citation.classification.classifier.coding",
                   "text": "code:",
-                  "type": "coding",
+                  "type": "choice",
                   "required": false,
-                  "repeats": false,
-                  "answerConstraint": "optionsOnly"
+                  "repeats": false
                 },
                 {
                   "linkId": "Citation.classification.classifier.text",
@@ -1729,10 +1824,9 @@
             {
               "linkId": "Citation.currentState.coding",
               "text": "code:",
-              "type": "coding",
+              "type": "choice",
               "required": false,
-              "repeats": false,
-              "answerConstraint": "optionsOnly"
+              "repeats": false
             },
             {
               "linkId": "Citation.currentState.text",
@@ -1912,10 +2006,9 @@
                 {
                   "linkId": "Citation.statusDate.activity.coding",
                   "text": "code:",
-                  "type": "coding",
+                  "type": "choice",
                   "required": false,
-                  "repeats": false,
-                  "answerConstraint": "optionsOnly"
+                  "repeats": false
                 },
                 {
                   "linkId": "Citation.statusDate.activity.text",
@@ -2197,10 +2290,9 @@
                 {
                   "linkId": "Citation.relatesTo.relationshipType.coding",
                   "text": "code:",
-                  "type": "coding",
+                  "type": "choice",
                   "required": false,
-                  "repeats": false,
-                  "answerConstraint": "optionsOnly"
+                  "repeats": false
                 },
                 {
                   "linkId": "Citation.relatesTo.relationshipType.text",
@@ -2246,10 +2338,9 @@
                 {
                   "linkId": "Citation.relatesTo.targetClassifier.coding",
                   "text": "code:",
-                  "type": "coding",
+                  "type": "choice",
                   "required": false,
-                  "repeats": false,
-                  "answerConstraint": "optionsOnly"
+                  "repeats": false
                 },
                 {
                   "linkId": "Citation.relatesTo.targetClassifier.text",
@@ -2299,10 +2390,9 @@
                 {
                   "linkId": "Citation.relatesTo.target[x]._type",
                   "text": "type",
-                  "type": "coding",
+                  "type": "choice",
                   "required": false,
                   "repeats": false,
-                  "answerConstraint": "optionsOnly",
                   "answerValueSet": "#vs2",
                   "item": [
                     {
@@ -2957,10 +3047,9 @@
                 {
                   "linkId": "Citation.citedArtifact.currentState.coding",
                   "text": "code:",
-                  "type": "coding",
+                  "type": "choice",
                   "required": false,
-                  "repeats": false,
-                  "answerConstraint": "optionsOnly"
+                  "repeats": false
                 },
                 {
                   "linkId": "Citation.citedArtifact.currentState.text",
@@ -3140,10 +3229,9 @@
                     {
                       "linkId": "Citation.citedArtifact.statusDate.activity.coding",
                       "text": "code:",
-                      "type": "coding",
+                      "type": "choice",
                       "required": false,
-                      "repeats": false,
-                      "answerConstraint": "optionsOnly"
+                      "repeats": false
                     },
                     {
                       "linkId": "Citation.citedArtifact.statusDate.activity.text",
@@ -3417,10 +3505,9 @@
                     {
                       "linkId": "Citation.citedArtifact.title.type.coding",
                       "text": "code:",
-                      "type": "coding",
+                      "type": "choice",
                       "required": false,
-                      "repeats": false,
-                      "answerConstraint": "optionsOnly"
+                      "repeats": false
                     },
                     {
                       "linkId": "Citation.citedArtifact.title.type.text",
@@ -3470,10 +3557,9 @@
                     {
                       "linkId": "Citation.citedArtifact.title.language.coding",
                       "text": "code:",
-                      "type": "coding",
+                      "type": "choice",
                       "required": false,
-                      "repeats": false,
-                      "answerConstraint": "optionsOnly"
+                      "repeats": false
                     },
                     {
                       "linkId": "Citation.citedArtifact.title.language.text",
@@ -3699,10 +3785,9 @@
                     {
                       "linkId": "Citation.citedArtifact.abstract.type.coding",
                       "text": "code:",
-                      "type": "coding",
+                      "type": "choice",
                       "required": false,
-                      "repeats": false,
-                      "answerConstraint": "optionsOnly"
+                      "repeats": false
                     },
                     {
                       "linkId": "Citation.citedArtifact.abstract.type.text",
@@ -3752,10 +3837,9 @@
                     {
                       "linkId": "Citation.citedArtifact.abstract.language.coding",
                       "text": "code:",
-                      "type": "coding",
+                      "type": "choice",
                       "required": false,
-                      "repeats": false,
-                      "answerConstraint": "optionsOnly"
+                      "repeats": false
                     },
                     {
                       "linkId": "Citation.citedArtifact.abstract.language.text",
@@ -4031,10 +4115,9 @@
                     {
                       "linkId": "Citation.citedArtifact.part.type.coding",
                       "text": "code:",
-                      "type": "coding",
+                      "type": "choice",
                       "required": false,
-                      "repeats": false,
-                      "answerConstraint": "optionsOnly"
+                      "repeats": false
                     },
                     {
                       "linkId": "Citation.citedArtifact.part.type.text",
@@ -4314,10 +4397,9 @@
                     {
                       "linkId": "Citation.citedArtifact.relatesTo.relationshipType.coding",
                       "text": "code:",
-                      "type": "coding",
+                      "type": "choice",
                       "required": false,
-                      "repeats": false,
-                      "answerConstraint": "optionsOnly"
+                      "repeats": false
                     },
                     {
                       "linkId": "Citation.citedArtifact.relatesTo.relationshipType.text",
@@ -4363,10 +4445,9 @@
                     {
                       "linkId": "Citation.citedArtifact.relatesTo.targetClassifier.coding",
                       "text": "code:",
-                      "type": "coding",
+                      "type": "choice",
                       "required": false,
-                      "repeats": false,
-                      "answerConstraint": "optionsOnly"
+                      "repeats": false
                     },
                     {
                       "linkId": "Citation.citedArtifact.relatesTo.targetClassifier.text",
@@ -4416,10 +4497,9 @@
                     {
                       "linkId": "Citation.citedArtifact.relatesTo.target[x]._type",
                       "text": "type",
-                      "type": "coding",
+                      "type": "choice",
                       "required": false,
                       "repeats": false,
-                      "answerConstraint": "optionsOnly",
                       "answerValueSet": "#vs3",
                       "item": [
                         {
@@ -4819,10 +4899,9 @@
                         {
                           "linkId": "Citation.citedArtifact.publicationForm.publishedIn.type.coding",
                           "text": "code:",
-                          "type": "coding",
+                          "type": "choice",
                           "required": false,
-                          "repeats": false,
-                          "answerConstraint": "optionsOnly"
+                          "repeats": false
                         },
                         {
                           "linkId": "Citation.citedArtifact.publicationForm.publishedIn.type.text",
@@ -5203,10 +5282,9 @@
                         {
                           "linkId": "Citation.citedArtifact.publicationForm.periodicRelease.citedMedium.coding",
                           "text": "code:",
-                          "type": "coding",
+                          "type": "choice",
                           "required": false,
-                          "repeats": false,
-                          "answerConstraint": "optionsOnly"
+                          "repeats": false
                         },
                         {
                           "linkId": "Citation.citedArtifact.publicationForm.periodicRelease.citedMedium.text",
@@ -5828,10 +5906,9 @@
                     {
                       "linkId": "Citation.citedArtifact.publicationForm.language.coding",
                       "text": "code:",
-                      "type": "coding",
+                      "type": "choice",
                       "required": false,
-                      "repeats": false,
-                      "answerConstraint": "optionsOnly"
+                      "repeats": false
                     },
                     {
                       "linkId": "Citation.citedArtifact.publicationForm.language.text",
@@ -6273,10 +6350,9 @@
                     {
                       "linkId": "Citation.citedArtifact.webLocation.type.coding",
                       "text": "code:",
-                      "type": "coding",
+                      "type": "choice",
                       "required": false,
-                      "repeats": false,
-                      "answerConstraint": "optionsOnly"
+                      "repeats": false
                     },
                     {
                       "linkId": "Citation.citedArtifact.webLocation.type.text",
@@ -6498,10 +6574,9 @@
                     {
                       "linkId": "Citation.citedArtifact.classification.type.coding",
                       "text": "code:",
-                      "type": "coding",
+                      "type": "choice",
                       "required": false,
-                      "repeats": false,
-                      "answerConstraint": "optionsOnly"
+                      "repeats": false
                     },
                     {
                       "linkId": "Citation.citedArtifact.classification.type.text",
@@ -6547,10 +6622,9 @@
                     {
                       "linkId": "Citation.citedArtifact.classification.classifier.coding",
                       "text": "code:",
-                      "type": "coding",
+                      "type": "choice",
                       "required": false,
-                      "repeats": false,
-                      "answerConstraint": "optionsOnly"
+                      "repeats": false
                     },
                     {
                       "linkId": "Citation.citedArtifact.classification.classifier.text",
@@ -7804,10 +7878,9 @@
                         {
                           "linkId": "Citation.citedArtifact.contributorship.entry.address.use",
                           "text": "use:",
-                          "type": "coding",
+                          "type": "choice",
                           "required": false,
-                          "repeats": false,
-                          "answerConstraint": "optionsOnly"
+                          "repeats": false
                         }
                       ]
                     },
@@ -7846,10 +7919,9 @@
                         {
                           "linkId": "Citation.citedArtifact.contributorship.entry.telecom.system",
                           "text": "type:",
-                          "type": "coding",
+                          "type": "choice",
                           "required": false,
-                          "repeats": false,
-                          "answerConstraint": "optionsOnly"
+                          "repeats": false
                         },
                         {
                           "linkId": "Citation.citedArtifact.contributorship.entry.telecom.value",
@@ -7861,10 +7933,9 @@
                         {
                           "linkId": "Citation.citedArtifact.contributorship.entry.telecom.use",
                           "text": "use:",
-                          "type": "coding",
+                          "type": "choice",
                           "required": false,
-                          "repeats": false,
-                          "answerConstraint": "optionsOnly"
+                          "repeats": false
                         }
                       ]
                     },
@@ -7903,10 +7974,9 @@
                         {
                           "linkId": "Citation.citedArtifact.contributorship.entry.contributionType.coding",
                           "text": "code:",
-                          "type": "coding",
+                          "type": "choice",
                           "required": false,
-                          "repeats": false,
-                          "answerConstraint": "optionsOnly"
+                          "repeats": false
                         },
                         {
                           "linkId": "Citation.citedArtifact.contributorship.entry.contributionType.text",
@@ -7956,10 +8026,9 @@
                         {
                           "linkId": "Citation.citedArtifact.contributorship.entry.role.coding",
                           "text": "code:",
-                          "type": "coding",
+                          "type": "choice",
                           "required": false,
-                          "repeats": false,
-                          "answerConstraint": "optionsOnly"
+                          "repeats": false
                         },
                         {
                           "linkId": "Citation.citedArtifact.contributorship.entry.role.text",
@@ -8139,10 +8208,9 @@
                             {
                               "linkId": "Citation.citedArtifact.contributorship.entry.contributionInstance.type.coding",
                               "text": "code:",
-                              "type": "coding",
+                              "type": "choice",
                               "required": false,
-                              "repeats": false,
-                              "answerConstraint": "optionsOnly"
+                              "repeats": false
                             },
                             {
                               "linkId": "Citation.citedArtifact.contributorship.entry.contributionInstance.type.text",
@@ -8454,10 +8522,9 @@
                         {
                           "linkId": "Citation.citedArtifact.contributorship.summary.type.coding",
                           "text": "code:",
-                          "type": "coding",
+                          "type": "choice",
                           "required": false,
-                          "repeats": false,
-                          "answerConstraint": "optionsOnly"
+                          "repeats": false
                         },
                         {
                           "linkId": "Citation.citedArtifact.contributorship.summary.type.text",
@@ -8507,10 +8574,9 @@
                         {
                           "linkId": "Citation.citedArtifact.contributorship.summary.style.coding",
                           "text": "code:",
-                          "type": "coding",
+                          "type": "choice",
                           "required": false,
-                          "repeats": false,
-                          "answerConstraint": "optionsOnly"
+                          "repeats": false
                         },
                         {
                           "linkId": "Citation.citedArtifact.contributorship.summary.style.text",
@@ -8560,10 +8626,9 @@
                         {
                           "linkId": "Citation.citedArtifact.contributorship.summary.source.coding",
                           "text": "code:",
-                          "type": "coding",
+                          "type": "choice",
                           "required": false,
-                          "repeats": false,
-                          "answerConstraint": "optionsOnly"
+                          "repeats": false
                         },
                         {
                           "linkId": "Citation.citedArtifact.contributorship.summary.source.text",

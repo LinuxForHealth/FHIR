@@ -9,8 +9,8 @@
       "status": "active",
       "description": "Type options for ValueSet.expansion.parameter.value[x]",
       "expansion": {
-        "identifier": "urn:uuid:66bcc50b-3a2a-431d-b359-7ddf058b36f6",
-        "timestamp": "2022-01-01T15:19:50+00:00",
+        "identifier": "urn:uuid:ce7570e1-17b3-4871-ae33-d3309646d299",
+        "timestamp": "2022-04-23T22:24:35+00:00",
         "contains": [
           {
             "system": "http://hl7.org/fhir/data-types",
@@ -56,8 +56,9 @@
       "system": "urn:ietf:rfc:3986"
     }
   ],
-  "version": "4.3.0-CIBUILD",
+  "version": "4.3.0-cibuild",
   "status": "draft",
+  "experimental": false,
   "date": "2021-01-16T20:06:13+00:00",
   "publisher": "HL7",
   "item": [
@@ -94,7 +95,7 @@
             }
           ],
           "linkId": "ValueSet-flyover",
-          "text": "A ValueSet resource instance specifies a set of codes drawn from one or more code systems, intended for use in a particular context. Value sets link between [CodeSystem](http://hl7.org/fhir/2021Mar/codesystem.html) definitions and their use in [coded elements](http://hl7.org/fhir/2021Mar/terminologies.html).",
+          "text": "A ValueSet resource instance specifies a set of codes drawn from one or more code systems, intended for use in a particular context. Value sets link between [CodeSystem](codesystem.html) definitions and their use in [coded elements](terminologies.html).",
           "type": "display"
         },
         {
@@ -257,10 +258,9 @@
             {
               "linkId": "ValueSet.language.value",
               "text": "language",
-              "type": "coding",
+              "type": "choice",
               "required": false,
-              "repeats": false,
-              "answerConstraint": "optionsOnly"
+              "repeats": false
             }
           ]
         },
@@ -418,7 +418,7 @@
                 }
               ],
               "linkId": "ValueSet.url-flyover",
-              "text": "An absolute URI that is used to identify this value set when it is referenced in a specification, model, design or an instance; also called its canonical identifier. This SHOULD be globally unique and SHOULD be a literal address at which at which an authoritative instance of this value set is (or will be) published. This URL can be the target of a canonical reference. It SHALL remain the same when the value set is stored on different servers. Can be a urn:uuid: or a urn:oid: but real http: addresses are preferred.  Multiple instances may share the same URL if they have a distinct version.\n\nThe determination of when to create a new version of a resource (same url, new version) vs. defining a new artifact is up to the author.  Considerations for making this decision are found in [Technical and Business Versions](http://hl7.org/fhir/2021Mar/resource.html#versions). \n\nIn some cases, the resource can no longer be found at the stated url, but the url itself cannot change. Implementations can use the [meta.source](http://hl7.org/fhir/2021Mar/resource.html#meta) element to indicate where the current master source of the resource can be found.",
+              "text": "An absolute URI that is used to identify this value set when it is referenced in a specification, model, design or an instance; also called its canonical identifier. This SHOULD be globally unique and SHOULD be a literal address at which at which an authoritative instance of this value set is (or will be) published. This URL can be the target of a canonical reference. It SHALL remain the same when the value set is stored on different servers. Can be a urn:uuid: or a urn:oid: but real http: addresses are preferred.  Multiple instances may share the same URL if they have a distinct version.\n\nThe determination of when to create a new version of a resource (same url, new version) vs. defining a new artifact is up to the author.  Considerations for making this decision are found in [Technical and Business Versions](resource.html#versions). \n\nIn some cases, the resource can no longer be found at the stated url, but the url itself cannot change. Implementations can use the [meta.source](resource.html#meta) element to indicate where the current master source of the resource can be found.",
               "type": "display"
             },
             {
@@ -661,16 +661,15 @@
                 }
               ],
               "linkId": "ValueSet.status-flyover",
-              "text": "The status of this value set. Enables tracking the life-cycle of the content. The status of the value set applies to the value set definition (ValueSet.compose) and the associated ValueSet metadata. Expansions do not have a state. Allows filtering of value sets that are appropriate for use versus not.See also the [valueset-workflowStatus](http://hl7.org/fhir/2021Mar/extension-valueset-workflowstatus.html) extension for additional status information related to the editorial process.",
+              "text": "The status of this value set. Enables tracking the life-cycle of the content. The status of the value set applies to the value set definition (ValueSet.compose) and the associated ValueSet metadata. Expansions do not have a state. Allows filtering of value sets that are appropriate for use versus not.See also the [valueset-workflowStatus](extension-valueset-workflowstatus.html) extension for additional status information related to the editorial process.",
               "type": "display"
             },
             {
               "linkId": "ValueSet.status.value",
               "text": "status",
-              "type": "coding",
+              "type": "choice",
               "required": false,
-              "repeats": false,
-              "answerConstraint": "optionsOrType"
+              "repeats": false
             }
           ]
         },
@@ -963,10 +962,9 @@
             {
               "linkId": "ValueSet.jurisdiction.coding",
               "text": "code:",
-              "type": "coding",
+              "type": "choice",
               "required": false,
-              "repeats": false,
-              "answerConstraint": "optionsOnly"
+              "repeats": false
             },
             {
               "linkId": "ValueSet.jurisdiction.text",
@@ -1727,10 +1725,9 @@
                         {
                           "linkId": "ValueSet.compose.include.concept.code.value",
                           "text": "code",
-                          "type": "coding",
+                          "type": "choice",
                           "required": false,
-                          "repeats": false,
-                          "answerConstraint": "optionsOnly"
+                          "repeats": false
                         }
                       ]
                     },
@@ -1787,7 +1784,7 @@
                       "item": [
                         {
                           "linkId": "ValueSet.compose.include.concept.designation-display",
-                          "text": "Concepts have both a ```display``` and an array of ```designation```. The display is equivalent to a special designation with an implied ```designation.use``` of \"primary code\" and a language equal to the [Resource Language](http://hl7.org/fhir/2021Mar/resource.html#language).",
+                          "text": "Concepts have both a ```display``` and an array of ```designation```. The display is equivalent to a special designation with an implied ```designation.use``` of \"primary code\" and a language equal to the [Resource Language](resource.html#language).",
                           "type": "display"
                         },
                         {
@@ -1947,10 +1944,9 @@
                             {
                               "linkId": "ValueSet.compose.include.concept.designation.language.value",
                               "text": "language",
-                              "type": "coding",
+                              "type": "choice",
                               "required": false,
-                              "repeats": false,
-                              "answerConstraint": "optionsOnly"
+                              "repeats": false
                             }
                           ]
                         },
@@ -1992,10 +1988,9 @@
                             {
                               "linkId": "ValueSet.compose.include.concept.designation.use.value",
                               "text": "Types of uses of designations",
-                              "type": "coding",
+                              "type": "choice",
                               "required": false,
-                              "repeats": false,
-                              "answerConstraint": "optionsOnly"
+                              "repeats": false
                             }
                           ]
                         },
@@ -2224,10 +2219,9 @@
                         {
                           "linkId": "ValueSet.compose.include.filter.property.value",
                           "text": "property",
-                          "type": "coding",
+                          "type": "choice",
                           "required": false,
-                          "repeats": false,
-                          "answerConstraint": "optionsOnly"
+                          "repeats": false
                         }
                       ]
                     },
@@ -2273,10 +2267,9 @@
                         {
                           "linkId": "ValueSet.compose.include.filter.op.value",
                           "text": "op",
-                          "type": "coding",
+                          "type": "choice",
                           "required": false,
-                          "repeats": false,
-                          "answerConstraint": "optionsOrType"
+                          "repeats": false
                         }
                       ]
                     },
@@ -2358,7 +2351,7 @@
                         }
                       ],
                       "linkId": "ValueSet.compose.include.valueSet-flyover",
-                      "text": "Selects the concepts found in this value set (based on its value set definition). This is an absolute URI that is a reference to ValueSet.url.  If multiple value sets are specified this includes the union of the contents of all of the referenced value sets. The value set URI is either a logical reference to a defined value set such as a [SNOMED CT reference set](http://hl7.org/fhir/2021Mar/snomedct.html#implicit), or a direct reference to a value set definition using ValueSet.url. The reference might not refer to an actual FHIR ValueSet resource; in this case, whatever is referred to is an implicit definition of a value set that needs to be clear about how versions are resolved.",
+                      "text": "Selects the concepts found in this value set (based on its value set definition). This is an absolute URI that is a reference to ValueSet.url.  If multiple value sets are specified this includes the union of the contents of all of the referenced value sets. The value set URI is either a logical reference to a defined value set such as a [SNOMED CT reference set](snomedct.html#implicit), or a direct reference to a value set definition using ValueSet.url. The reference might not refer to an actual FHIR ValueSet resource; in this case, whatever is referred to is an implicit definition of a value set that needs to be clear about how versions are resolved.",
                       "type": "display"
                     },
                     {
@@ -2422,7 +2415,7 @@
           "item": [
             {
               "linkId": "ValueSet.expansion-display",
-              "text": "Expansion is performed to produce a collection of codes that are ready to use for data entry or validation. Value set expansions are always considered to be stateless - they are a record of the set of codes in the value set at a point in time under a given set of conditions, and are not subject to ongoing maintenance.\n\nExpansion.parameter is  a simplified list of parameters - a subset of the features of the [Parameters](http://hl7.org/fhir/2021Mar/parameters.html) resource.",
+              "text": "Expansion is performed to produce a collection of codes that are ready to use for data entry or validation. Value set expansions are always considered to be stateless - they are a record of the set of codes in the value set at a point in time under a given set of conditions, and are not subject to ongoing maintenance.\n\nExpansion.parameter is  a simplified list of parameters - a subset of the features of the [Parameters](parameters.html) resource.",
               "type": "display"
             },
             {
@@ -2938,10 +2931,9 @@
                     {
                       "linkId": "ValueSet.expansion.parameter.value[x]._type",
                       "text": "type",
-                      "type": "coding",
+                      "type": "choice",
                       "required": false,
                       "repeats": false,
-                      "answerConstraint": "optionsOnly",
                       "answerValueSet": "#vs2",
                       "item": [
                         {
@@ -3047,10 +3039,9 @@
                             {
                               "linkId": "ValueSet.expansion.parameter.value[x]._null.value",
                               "text": "value[x]",
-                              "type": "coding",
+                              "type": "choice",
                               "required": false,
-                              "repeats": false,
-                              "answerConstraint": "optionsOnly"
+                              "repeats": false
                             }
                           ]
                         },
@@ -3418,10 +3409,9 @@
                     {
                       "linkId": "ValueSet.expansion.contains.code.value",
                       "text": "code",
-                      "type": "coding",
+                      "type": "choice",
                       "required": false,
-                      "repeats": false,
-                      "answerConstraint": "optionsOnly"
+                      "repeats": false
                     }
                   ]
                 },

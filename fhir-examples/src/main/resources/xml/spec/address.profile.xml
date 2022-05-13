@@ -248,10 +248,11 @@
     <valueCode value="4.0.0"/>
   </extension>
   <url value="http://hl7.org/fhir/StructureDefinition/Address"/>
-  <version value="4.3.0-CIBUILD"/>
+  <version value="4.3.0-cibuild"/>
   <name value="Address"/>
   <status value="active"/>
-  <date value="2022-01-01T15:17:18+00:00"/>
+  <experimental value="false"/>
+  <date value="2022-04-23T22:21:35+00:00"/>
   <publisher value="HL7 FHIR Standard"/>
   <contact>
     <telecom>
@@ -261,7 +262,7 @@
   </contact>
   <description value="Base StructureDefinition for Address Type: An address expressed using postal conventions (as opposed to GPS or other location definition formats).  This data type may be used to convey addresses for use in delivering mail as well as for visiting locations which might not be valid for mail delivery.  There are a variety of postal address formats defined around the world."/>
   <purpose value="Need to be able to record postal addresses, along with notes about their use."/>
-  <fhirVersion value="4.3.0-CIBUILD"/>
+  <fhirVersion value="4.3.0-cibuild"/>
   <mapping>
     <identity value="v2"/>
     <uri value="http://hl7.org/v2"/>
@@ -345,7 +346,6 @@
         <min value="0"/>
         <max value="1"/>
       </base>
-    <!-- Note: special primitive values have a FHIRPath system type. e.g. this is compiler magic (j) -->
       <type>
         <extension url="http://hl7.org/fhir/StructureDefinition/structuredefinition-fhir-type">
           <valueUrl value="string"/>
@@ -447,7 +447,7 @@
         </extension>
         <strength value="required"/>
         <description value="The use of an address (home / work / etc.)."/>
-        <valueSet value="http://hl7.org/fhir/ValueSet/address-use|4.3.0-CIBUILD"/>
+        <valueSet value="http://hl7.org/fhir/ValueSet/address-use|4.3.0-cibuild"/>
       </binding>
       <mapping>
         <identity value="v2"/>
@@ -500,7 +500,7 @@
         </extension>
         <strength value="required"/>
         <description value="The type of an address (physical / postal)."/>
-        <valueSet value="http://hl7.org/fhir/ValueSet/address-type|4.3.0-CIBUILD"/>
+        <valueSet value="http://hl7.org/fhir/ValueSet/address-type|4.3.0-cibuild"/>
       </binding>
       <mapping>
         <identity value="v2"/>
@@ -519,7 +519,7 @@
       <path value="Address.text"/>
       <short value="Text representation of the address"/>
       <definition value="Specifies the entire address as it should be displayed e.g. on a postal label. This may be provided instead of or as well as the specific parts."/>
-      <comment value="Can provide both a text representation and parts. Applications updating an address SHALL ensure that  when both text and parts are present,  no content is included in the text that isn&#39;t found in a part."/>
+      <comment value="Can provide both a text representation and parts. Applications updating an address SHALL ensure that  when both text and parts are present,  no content is included in the text that isn't found in a part."/>
       <requirements value="A renderable, unencoded form."/>
       <min value="0"/>
       <max value="1"/>
@@ -654,7 +654,7 @@
       <path value="Address.district"/>
       <short value="District name (aka county)"/>
       <definition value="The name of the administrative area (county)."/>
-      <comment value="District is sometimes known as county, but in some regions &#39;county&#39; is used in place of city (municipality), so county name should be conveyed in city instead."/>
+      <comment value="District is sometimes known as county, but in some regions 'county' is used in place of city (municipality), so county name should be conveyed in city instead."/>
       <alias value="County"/>
       <min value="0"/>
       <max value="1"/>
@@ -920,7 +920,7 @@
         </extension>
         <strength value="required"/>
         <description value="The use of an address (home / work / etc.)."/>
-        <valueSet value="http://hl7.org/fhir/ValueSet/address-use|4.3.0-CIBUILD"/>
+        <valueSet value="http://hl7.org/fhir/ValueSet/address-use|4.3.0-cibuild"/>
       </binding>
       <mapping>
         <identity value="v2"/>
@@ -959,7 +959,7 @@
         </extension>
         <strength value="required"/>
         <description value="The type of an address (physical / postal)."/>
-        <valueSet value="http://hl7.org/fhir/ValueSet/address-type|4.3.0-CIBUILD"/>
+        <valueSet value="http://hl7.org/fhir/ValueSet/address-type|4.3.0-cibuild"/>
       </binding>
       <mapping>
         <identity value="v2"/>
@@ -978,7 +978,7 @@
       <path value="Address.text"/>
       <short value="Text representation of the address"/>
       <definition value="Specifies the entire address as it should be displayed e.g. on a postal label. This may be provided instead of or as well as the specific parts."/>
-      <comment value="Can provide both a text representation and parts. Applications updating an address SHALL ensure that  when both text and parts are present,  no content is included in the text that isn&#39;t found in a part."/>
+      <comment value="Can provide both a text representation and parts. Applications updating an address SHALL ensure that  when both text and parts are present,  no content is included in the text that isn't found in a part."/>
       <requirements value="A renderable, unencoded form."/>
       <min value="0"/>
       <max value="1"/>
@@ -1071,7 +1071,7 @@
       <path value="Address.district"/>
       <short value="District name (aka county)"/>
       <definition value="The name of the administrative area (county)."/>
-      <comment value="District is sometimes known as county, but in some regions &#39;county&#39; is used in place of city (municipality), so county name should be conveyed in city instead."/>
+      <comment value="District is sometimes known as county, but in some regions 'county' is used in place of city (municipality), so county name should be conveyed in city instead."/>
       <alias value="County"/>
       <min value="0"/>
       <max value="1"/>

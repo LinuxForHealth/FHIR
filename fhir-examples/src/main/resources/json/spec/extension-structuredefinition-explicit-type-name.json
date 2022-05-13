@@ -12,9 +12,10 @@
     }
   ],
   "url": "http://hl7.org/fhir/StructureDefinition/structuredefinition-explicit-type-name",
-  "version": "4.3.0-CIBUILD",
+  "version": "4.3.0-cibuild",
   "name": "explicit-type-name",
   "status": "draft",
+  "experimental": false,
   "date": "2014-01-31",
   "publisher": "Health Level Seven, Inc. - [WG Name] WG",
   "contact": [
@@ -28,7 +29,7 @@
     }
   ],
   "description": "A name to use for the type, in implementations. This is a suggestion; it\u0027s not a normative part of the FHIR specification, but it does appear in the UML diagrams, and is used in generated code, schemas, etc.to identify the type.",
-  "fhirVersion": "4.3.0-CIBUILD",
+  "fhirVersion": "4.3.0-cibuild",
   "mapping": [
     {
       "identity": "rim",

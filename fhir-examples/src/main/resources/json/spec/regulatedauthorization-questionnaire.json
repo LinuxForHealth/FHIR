@@ -9,8 +9,31 @@
       "status": "active",
       "description": "Type options for RegulatedAuthorization.case.date[x]",
       "expansion": {
-        "identifier": "urn:uuid:da36be8f-3d6b-475d-b177-465552df42ba",
-        "timestamp": "2022-01-01T15:25:44+00:00",
+        "identifier": "urn:uuid:3839adcc-0ed0-4a3e-b7c2-a037732e0719",
+        "timestamp": "2022-04-23T22:30:37+00:00",
+        "contains": [
+          {
+            "system": "http://hl7.org/fhir/data-types",
+            "code": "Period",
+            "display": "Period"
+          },
+          {
+            "system": "http://hl7.org/fhir/data-types",
+            "code": "dateTime",
+            "display": "dateTime"
+          }
+        ]
+      }
+    },
+    {
+      "resourceType": "ValueSet",
+      "id": "vs3",
+      "name": "Type options for RegulatedAuthorization.case.date[x]",
+      "status": "active",
+      "description": "Type options for RegulatedAuthorization.case.date[x]",
+      "expansion": {
+        "identifier": "urn:uuid:fb2d19d7-88ef-459e-a98c-1e1daf80e02e",
+        "timestamp": "2022-04-23T22:30:37+00:00",
         "contains": [
           {
             "system": "http://hl7.org/fhir/data-types",
@@ -31,14 +54,15 @@
       "system": "urn:ietf:rfc:3986"
     }
   ],
-  "version": "4.3.0-CIBUILD",
+  "version": "4.3.0-cibuild",
   "status": "draft",
-  "date": "2022-01-01T15:17:18+00:00",
+  "experimental": false,
+  "date": "2022-04-23T22:21:35+00:00",
   "publisher": "Health Level Seven International (Biomedical Research and Regulation)",
   "item": [
     {
       "linkId": "RegulatedAuthorization",
-      "text": "Regulatory approval, clearance or licencing related to a regulated product, treatment, facility or activity that is cited in a guidance, regulation, rule or legislative act. An example is Market Authorization relating to a Medicinal Product",
+      "text": "Regulatory approval, clearance or licencing related to a regulated product, treatment, facility or activity e.g. Market Authorization for a Medicinal Product",
       "type": "group",
       "required": false,
       "repeats": true,
@@ -222,10 +246,9 @@
             {
               "linkId": "RegulatedAuthorization.language.value",
               "text": "language",
-              "type": "coding",
+              "type": "choice",
               "required": false,
-              "repeats": false,
-              "answerConstraint": "optionsOnly"
+              "repeats": false
             }
           ]
         },
@@ -491,10 +514,9 @@
             {
               "linkId": "RegulatedAuthorization.type.coding",
               "text": "code:",
-              "type": "coding",
+              "type": "choice",
               "required": false,
-              "repeats": false,
-              "answerConstraint": "optionsOnly"
+              "repeats": false
             },
             {
               "linkId": "RegulatedAuthorization.type.text",
@@ -557,7 +579,7 @@
             }
           ],
           "linkId": "RegulatedAuthorization.region",
-          "text": "The territory (e.g., country, jurisdiction etc.) in which the authorization has been granted",
+          "text": "The territory in which the authorization has been granted",
           "type": "group",
           "required": false,
           "repeats": true,
@@ -584,10 +606,9 @@
             {
               "linkId": "RegulatedAuthorization.region.coding",
               "text": "code:",
-              "type": "coding",
+              "type": "choice",
               "required": false,
-              "repeats": false,
-              "answerConstraint": "optionsOnly"
+              "repeats": false
             },
             {
               "linkId": "RegulatedAuthorization.region.text",
@@ -631,16 +652,15 @@
                 }
               ],
               "linkId": "RegulatedAuthorization.status-flyover",
-              "text": "The status that is authorised e.g. approved. Intermediate states can be tracked with cases and applications.",
+              "text": "The status that is authorised e.g. approved. Intermediate states and actions can be tracked with cases and applications.",
               "type": "display"
             },
             {
               "linkId": "RegulatedAuthorization.status.coding",
               "text": "code:",
-              "type": "coding",
+              "type": "choice",
               "required": false,
-              "repeats": false,
-              "answerConstraint": "optionsOnly"
+              "repeats": false
             },
             {
               "linkId": "RegulatedAuthorization.status.text",
@@ -707,7 +727,7 @@
             }
           ],
           "linkId": "RegulatedAuthorization.validityPeriod",
-          "text": "The time period in which the regulatory approval, clearance or licencing is in effect. As an example, a Marketing Authorization includes the date of authorization and/or an expiration date",
+          "text": "The time period in which the regulatory approval etc. is in effect, e.g. a Marketing Authorization includes the date of authorization and/or expiration date",
           "type": "group",
           "required": false,
           "repeats": true,
@@ -755,7 +775,7 @@
             }
           ],
           "linkId": "RegulatedAuthorization.indication",
-          "text": "Condition for which the use of the regulated product  applies",
+          "text": "Condition for which the use of the regulated product applies",
           "type": "group",
           "required": false,
           "repeats": false,
@@ -814,16 +834,15 @@
                 }
               ],
               "linkId": "RegulatedAuthorization.intendedUse-flyover",
-              "text": "The intended use of the product, e.g. prevention, treatment.",
+              "text": "The intended use of the product, e.g. prevention, treatment, diagnosis.",
               "type": "display"
             },
             {
               "linkId": "RegulatedAuthorization.intendedUse.coding",
               "text": "code:",
-              "type": "coding",
+              "type": "choice",
               "required": false,
-              "repeats": false,
-              "answerConstraint": "optionsOnly"
+              "repeats": false
             },
             {
               "linkId": "RegulatedAuthorization.intendedUse.text",
@@ -842,7 +861,7 @@
             }
           ],
           "linkId": "RegulatedAuthorization.basis",
-          "text": "The legal or regulatory framework against which this authorization is granted, or other reasons for it",
+          "text": "The legal/regulatory framework or reasons under which this authorization is granted",
           "type": "group",
           "required": false,
           "repeats": true,
@@ -869,10 +888,9 @@
             {
               "linkId": "RegulatedAuthorization.basis.coding",
               "text": "code:",
-              "type": "coding",
+              "type": "choice",
               "required": false,
-              "repeats": false,
-              "answerConstraint": "optionsOnly"
+              "repeats": false
             },
             {
               "linkId": "RegulatedAuthorization.basis.text",
@@ -915,7 +933,7 @@
                 }
               ],
               "linkId": "RegulatedAuthorization.holder-flyover",
-              "text": "The organization that holds the granted authorization.",
+              "text": "The organization that has been granted this authorization, by some authoritative body (the \u0027regulator\u0027).",
               "type": "display"
             },
             {
@@ -930,7 +948,7 @@
                 }
               ],
               "linkId": "RegulatedAuthorization.holder.value",
-              "text": "The organization that holds the granted authorization",
+              "text": "The organization that has been granted this authorization, by the regulator",
               "type": "reference",
               "required": false,
               "repeats": false
@@ -999,7 +1017,7 @@
             }
           ],
           "linkId": "RegulatedAuthorization.case",
-          "text": "The case or regulatory procedure for granting or amending a marketing authorization. Note: This area is subject to ongoing review and the workgroup is seeking implementer feedback on its use (see link at bottom of page)",
+          "text": "The case or regulatory procedure for granting or amending a regulated authorization. Note: This area is subject to ongoing review and the workgroup is seeking implementer feedback on its use (see link at bottom of page)",
           "type": "group",
           "required": false,
           "repeats": false,
@@ -1020,7 +1038,7 @@
                 }
               ],
               "linkId": "RegulatedAuthorization.case-flyover",
-              "text": "The case or regulatory procedure for granting or amending a marketing authorization. Note: This area is subject to ongoing review and the workgroup is seeking implementer feedback on its use (see link at bottom of page).",
+              "text": "The case or regulatory procedure for granting or amending a regulated authorization. An authorization is granted in response to submissions/applications by those seeking authorization. A case is the administrative process that deals with the application(s) that relate to this and assesses them. Note: This area is subject to ongoing review and the workgroup is seeking implementer feedback on its use (see link at bottom of page).",
               "type": "display"
             },
             {
@@ -1221,10 +1239,9 @@
                 {
                   "linkId": "RegulatedAuthorization.case.type.coding",
                   "text": "code:",
-                  "type": "coding",
+                  "type": "choice",
                   "required": false,
-                  "repeats": false,
-                  "answerConstraint": "optionsOnly"
+                  "repeats": false
                 },
                 {
                   "linkId": "RegulatedAuthorization.case.type.text",
@@ -1274,10 +1291,9 @@
                 {
                   "linkId": "RegulatedAuthorization.case.status.coding",
                   "text": "code:",
-                  "type": "coding",
+                  "type": "choice",
                   "required": false,
-                  "repeats": false,
-                  "answerConstraint": "optionsOnly"
+                  "repeats": false
                 },
                 {
                   "linkId": "RegulatedAuthorization.case.status.text",
@@ -1296,7 +1312,7 @@
                 }
               ],
               "linkId": "RegulatedAuthorization.case.date[x]",
-              "text": "Relevant date for this of case",
+              "text": "Relevant date for this case",
               "type": "group",
               "required": false,
               "repeats": true,
@@ -1317,16 +1333,15 @@
                     }
                   ],
                   "linkId": "RegulatedAuthorization.case.date[x]-flyover",
-                  "text": "Relevant date for this of case.",
+                  "text": "Relevant date for this case.",
                   "type": "display"
                 },
                 {
                   "linkId": "RegulatedAuthorization.case.date[x]._type",
                   "text": "type",
-                  "type": "coding",
+                  "type": "choice",
                   "required": false,
                   "repeats": false,
-                  "answerConstraint": "optionsOnly",
                   "answerValueSet": "#vs2",
                   "item": [
                     {
@@ -1379,7 +1394,7 @@
             },
             {
               "linkId": "RegulatedAuthorization.case.application",
-              "text": "Applications submitted to obtain a marketing authorization. Steps within the longer running case or procedure",
+              "text": "Applications submitted to obtain a regulated authorization. Steps within the longer running case or procedure",
               "type": "group",
               "required": false,
               "repeats": true,
@@ -1400,8 +1415,359 @@
                     }
                   ],
                   "linkId": "RegulatedAuthorization.case.application-flyover",
-                  "text": "Applications submitted to obtain a marketing authorization. Steps within the longer running case or procedure.",
+                  "text": "A regulatory submission from an organization to a regulator, as part of an assessing case. Multiple applications may occur over time, with more or different information to support or modify the submission or the authorization. The applications can be considered as steps within the longer running case or procedure for this authorization process.",
                   "type": "display"
+                },
+                {
+                  "extension": [
+                    {
+                      "url": "http://hl7.org/fhir/StructureDefinition/questionnaire-maxOccurs",
+                      "valueInteger": 1
+                    },
+                    {
+                      "url": "http://hl7.org/fhir/StructureDefinition/questionnaire-fhirType",
+                      "valueString": "string"
+                    }
+                  ],
+                  "linkId": "RegulatedAuthorization.case.id",
+                  "type": "group",
+                  "required": false,
+                  "repeats": true,
+                  "item": [
+                    {
+                      "extension": [
+                        {
+                          "url": "http://hl7.org/fhir/StructureDefinition/questionnaire-itemControl",
+                          "valueCodeableConcept": {
+                            "coding": [
+                              {
+                                "system": "http://hl7.org/fhir/questionnaire-item-control",
+                                "code": "flyover",
+                                "display": "Fly-over"
+                              }
+                            ]
+                          }
+                        }
+                      ],
+                      "linkId": "RegulatedAuthorization.case.id-flyover",
+                      "text": "Unique id for the element within a resource (for internal references). This may be any string value that does not contain spaces.",
+                      "type": "display"
+                    },
+                    {
+                      "linkId": "RegulatedAuthorization.case.id.value",
+                      "text": "Unique id for inter-element referencing",
+                      "type": "string",
+                      "required": false,
+                      "repeats": false
+                    }
+                  ]
+                },
+                {
+                  "linkId": "RegulatedAuthorization.case.extension",
+                  "text": "Additional content defined by implementations",
+                  "type": "group",
+                  "required": false,
+                  "repeats": true,
+                  "item": [
+                    {
+                      "extension": [
+                        {
+                          "url": "http://hl7.org/fhir/StructureDefinition/questionnaire-itemControl",
+                          "valueCodeableConcept": {
+                            "coding": [
+                              {
+                                "system": "http://hl7.org/fhir/questionnaire-item-control",
+                                "code": "flyover",
+                                "display": "Fly-over"
+                              }
+                            ]
+                          }
+                        }
+                      ],
+                      "linkId": "RegulatedAuthorization.case.extension-flyover",
+                      "text": "May be used to represent additional information that is not part of the basic definition of the element. To make the use of extensions safe and manageable, there is a strict set of governance  applied to the definition and use of extensions. Though any implementer can define an extension, there is a set of requirements that SHALL be met as part of the definition of the extension. There can be no stigma associated with the use of extensions by any application, project, or standard - regardless of the institution or jurisdiction that uses or defines the extensions.  The use of extensions is what allows the FHIR specification to retain a core level of simplicity for everyone.",
+                      "type": "display"
+                    }
+                  ]
+                },
+                {
+                  "linkId": "RegulatedAuthorization.case.modifierExtension",
+                  "text": "Extensions that cannot be ignored even if unrecognized",
+                  "type": "group",
+                  "required": false,
+                  "repeats": true,
+                  "item": [
+                    {
+                      "extension": [
+                        {
+                          "url": "http://hl7.org/fhir/StructureDefinition/questionnaire-itemControl",
+                          "valueCodeableConcept": {
+                            "coding": [
+                              {
+                                "system": "http://hl7.org/fhir/questionnaire-item-control",
+                                "code": "flyover",
+                                "display": "Fly-over"
+                              }
+                            ]
+                          }
+                        }
+                      ],
+                      "linkId": "RegulatedAuthorization.case.modifierExtension-flyover",
+                      "text": "May be used to represent additional information that is not part of the basic definition of the element and that modifies the understanding of the element in which it is contained and/or the understanding of the containing element\u0027s descendants. Usually modifier elements provide negation or qualification. To make the use of extensions safe and manageable, there is a strict set of governance applied to the definition and use of extensions. Though any implementer can define an extension, there is a set of requirements that SHALL be met as part of the definition of the extension. Applications processing a resource are required to check for modifier extensions.\n\nModifier extensions SHALL NOT change the meaning of any elements on Resource or DomainResource (including cannot change the meaning of modifierExtension itself). There can be no stigma associated with the use of extensions by any application, project, or standard - regardless of the institution or jurisdiction that uses or defines the extensions.  The use of extensions is what allows the FHIR specification to retain a core level of simplicity for everyone.",
+                      "type": "display"
+                    }
+                  ]
+                },
+                {
+                  "extension": [
+                    {
+                      "url": "http://hl7.org/fhir/StructureDefinition/questionnaire-maxOccurs",
+                      "valueInteger": 1
+                    },
+                    {
+                      "url": "http://hl7.org/fhir/StructureDefinition/questionnaire-fhirType",
+                      "valueString": "Identifier"
+                    }
+                  ],
+                  "linkId": "RegulatedAuthorization.case.identifier",
+                  "text": "Identifier by which this case can be referenced",
+                  "type": "group",
+                  "required": false,
+                  "repeats": true,
+                  "item": [
+                    {
+                      "extension": [
+                        {
+                          "url": "http://hl7.org/fhir/StructureDefinition/questionnaire-itemControl",
+                          "valueCodeableConcept": {
+                            "coding": [
+                              {
+                                "system": "http://hl7.org/fhir/questionnaire-item-control",
+                                "code": "flyover",
+                                "display": "Fly-over"
+                              }
+                            ]
+                          }
+                        }
+                      ],
+                      "linkId": "RegulatedAuthorization.case.identifier-flyover",
+                      "text": "Identifier by which this case can be referenced.",
+                      "type": "display"
+                    },
+                    {
+                      "linkId": "RegulatedAuthorization.case.identifier.label",
+                      "text": "label:",
+                      "type": "string",
+                      "required": false,
+                      "repeats": false
+                    },
+                    {
+                      "linkId": "RegulatedAuthorization.case.identifier.system",
+                      "text": "system:",
+                      "type": "string",
+                      "required": false,
+                      "repeats": false
+                    },
+                    {
+                      "linkId": "RegulatedAuthorization.case.identifier.value",
+                      "text": "value:",
+                      "type": "string",
+                      "required": false,
+                      "repeats": false
+                    }
+                  ]
+                },
+                {
+                  "extension": [
+                    {
+                      "url": "http://hl7.org/fhir/StructureDefinition/questionnaire-maxOccurs",
+                      "valueInteger": 1
+                    },
+                    {
+                      "url": "http://hl7.org/fhir/StructureDefinition/questionnaire-fhirType",
+                      "valueString": "CodeableConcept"
+                    }
+                  ],
+                  "linkId": "RegulatedAuthorization.case.type",
+                  "text": "The defining type of case",
+                  "type": "group",
+                  "required": false,
+                  "repeats": true,
+                  "item": [
+                    {
+                      "extension": [
+                        {
+                          "url": "http://hl7.org/fhir/StructureDefinition/questionnaire-itemControl",
+                          "valueCodeableConcept": {
+                            "coding": [
+                              {
+                                "system": "http://hl7.org/fhir/questionnaire-item-control",
+                                "code": "flyover",
+                                "display": "Fly-over"
+                              }
+                            ]
+                          }
+                        }
+                      ],
+                      "linkId": "RegulatedAuthorization.case.type-flyover",
+                      "text": "The defining type of case.",
+                      "type": "display"
+                    },
+                    {
+                      "linkId": "RegulatedAuthorization.case.type.coding",
+                      "text": "code:",
+                      "type": "choice",
+                      "required": false,
+                      "repeats": false
+                    },
+                    {
+                      "linkId": "RegulatedAuthorization.case.type.text",
+                      "text": "text:",
+                      "type": "string",
+                      "required": false,
+                      "repeats": false
+                    }
+                  ]
+                },
+                {
+                  "extension": [
+                    {
+                      "url": "http://hl7.org/fhir/StructureDefinition/questionnaire-maxOccurs",
+                      "valueInteger": 1
+                    },
+                    {
+                      "url": "http://hl7.org/fhir/StructureDefinition/questionnaire-fhirType",
+                      "valueString": "CodeableConcept"
+                    }
+                  ],
+                  "linkId": "RegulatedAuthorization.case.status",
+                  "text": "The status associated with the case",
+                  "type": "group",
+                  "required": false,
+                  "repeats": true,
+                  "item": [
+                    {
+                      "extension": [
+                        {
+                          "url": "http://hl7.org/fhir/StructureDefinition/questionnaire-itemControl",
+                          "valueCodeableConcept": {
+                            "coding": [
+                              {
+                                "system": "http://hl7.org/fhir/questionnaire-item-control",
+                                "code": "flyover",
+                                "display": "Fly-over"
+                              }
+                            ]
+                          }
+                        }
+                      ],
+                      "linkId": "RegulatedAuthorization.case.status-flyover",
+                      "text": "The status associated with the case.",
+                      "type": "display"
+                    },
+                    {
+                      "linkId": "RegulatedAuthorization.case.status.coding",
+                      "text": "code:",
+                      "type": "choice",
+                      "required": false,
+                      "repeats": false
+                    },
+                    {
+                      "linkId": "RegulatedAuthorization.case.status.text",
+                      "text": "text:",
+                      "type": "string",
+                      "required": false,
+                      "repeats": false
+                    }
+                  ]
+                },
+                {
+                  "extension": [
+                    {
+                      "url": "http://hl7.org/fhir/StructureDefinition/questionnaire-maxOccurs",
+                      "valueInteger": 1
+                    }
+                  ],
+                  "linkId": "RegulatedAuthorization.case.date[x]",
+                  "text": "Relevant date for this case",
+                  "type": "group",
+                  "required": false,
+                  "repeats": true,
+                  "item": [
+                    {
+                      "extension": [
+                        {
+                          "url": "http://hl7.org/fhir/StructureDefinition/questionnaire-itemControl",
+                          "valueCodeableConcept": {
+                            "coding": [
+                              {
+                                "system": "http://hl7.org/fhir/questionnaire-item-control",
+                                "code": "flyover",
+                                "display": "Fly-over"
+                              }
+                            ]
+                          }
+                        }
+                      ],
+                      "linkId": "RegulatedAuthorization.case.date[x]-flyover",
+                      "text": "Relevant date for this case.",
+                      "type": "display"
+                    },
+                    {
+                      "linkId": "RegulatedAuthorization.case.date[x]._type",
+                      "text": "type",
+                      "type": "choice",
+                      "required": false,
+                      "repeats": false,
+                      "answerValueSet": "#vs3",
+                      "item": [
+                        {
+                          "extension": [
+                            {
+                              "url": "http://hl7.org/fhir/StructureDefinition/questionnaire-fhirType",
+                              "valueString": "Period"
+                            }
+                          ],
+                          "linkId": "RegulatedAuthorization.case.date[x]._null",
+                          "type": "group",
+                          "item": [
+                            {
+                              "linkId": "RegulatedAuthorization.case.date[x]._null.low",
+                              "text": "start:",
+                              "type": "dateTime",
+                              "required": false,
+                              "repeats": false
+                            },
+                            {
+                              "linkId": "RegulatedAuthorization.case.date[x]._null.end",
+                              "text": "end:",
+                              "type": "dateTime",
+                              "required": false,
+                              "repeats": false
+                            }
+                          ]
+                        },
+                        {
+                          "extension": [
+                            {
+                              "url": "http://hl7.org/fhir/StructureDefinition/questionnaire-fhirType",
+                              "valueString": "datetime"
+                            }
+                          ],
+                          "linkId": "RegulatedAuthorization.case.date[x]._null",
+                          "type": "group",
+                          "item": [
+                            {
+                              "linkId": "RegulatedAuthorization.case.date[x]._null.value",
+                              "type": "dateTime",
+                              "required": false,
+                              "repeats": false
+                            }
+                          ]
+                        }
+                      ]
+                    }
+                  ]
                 }
               ]
             }

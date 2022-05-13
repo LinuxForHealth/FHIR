@@ -15,7 +15,7 @@
     <resource>
       <Patient>
          <id value="23"/>
-				 <text><status value="generated"/><div xmlns="http://www.w3.org/1999/xhtml"><p><b>Generated Narrative</b></p><div><p>Resource "23" </p></div><p><b>identifier</b>: id: 1234567</p></div></text><identifier>
+				 <text><status value="generated"/><div xmlns="http://www.w3.org/1999/xhtml"><p><b>Anonymous Patient</b> (no stated gender), DoB Unknown ( id: 1234567)</p></div></text><identifier>
 				   <system value="http://example.org/ids"/>
 					 <value value="1234567"/>
 				 </identifier>
@@ -29,7 +29,7 @@
     <fullUrl value="urn:uuid:04121321-4af5-424c-a0e1-ed3aab1c349d"/>
     <resource>
       <Patient>
-      <text><status value="generated"/><div xmlns="http://www.w3.org/1999/xhtml"><p><b>Generated Narrative</b></p><div/></div></text></Patient>
+      <text><status value="generated"/><div xmlns="http://www.w3.org/1999/xhtml"><p><b>Anonymous Patient</b> (no stated gender), DoB Unknown</p></div></text></Patient>
     </resource>
   </entry>
   
@@ -39,7 +39,7 @@
     <resource>
       <Observation>
         <id value="123"/>
- 				<text><status value="generated"/><div xmlns="http://www.w3.org/1999/xhtml"><p><b>Generated Narrative</b></p><div><p>Resource "123" </p></div><p><b>status</b>: final</p><p><b>code</b>: Glucose [Moles/volume] in Blood <span> (<a>LOINC</a>#15074-8)</span></p><p><b>subject</b>: <a>Patient/23</a></p></div></text><status value="final"/> 
+ 				<text><status value="generated"/><div xmlns="http://www.w3.org/1999/xhtml"><p><b>Generated Narrative</b></p><div style="display: inline-block; background-color: #d9e0e7; padding: 6px; margin: 4px; border: 1px solid #8da1b4; border-radius: 5px; line-height: 60%"><p style="margin-bottom: 0px">Resource "123" </p></div><p><b>status</b>: final</p><p><b>code</b>: Glucose [Moles/volume] in Blood <span style="background: LightGoldenRodYellow; margin: 4px; border: 1px solid khaki"> (<a href="https://loinc.org/">LOINC</a>#15074-8)</span></p><p><b>subject</b>: <a href="todo.html">Patient/23</a></p></div></text><status value="final"/> 
 	 			<code> 
 					<coding> 
 						<system value="http://loinc.org"/> 
@@ -61,7 +61,7 @@
     <resource>
       <Observation>
         <id value="124"/>
-				<text><status value="generated"/><div xmlns="http://www.w3.org/1999/xhtml"><p><b>Generated Narrative</b></p><div><p>Resource "124" </p></div><p><b>status</b>: final</p><p><b>code</b>: Glucose [Moles/volume] in Blood <span> (<a>LOINC</a>#15074-8)</span></p><p><b>subject</b>: <a>http://example.org/fhir/Patient/23</a></p></div></text><status value="final"/> 
+				<text><status value="generated"/><div xmlns="http://www.w3.org/1999/xhtml"><p><b>Generated Narrative</b></p><div style="display: inline-block; background-color: #d9e0e7; padding: 6px; margin: 4px; border: 1px solid #8da1b4; border-radius: 5px; line-height: 60%"><p style="margin-bottom: 0px">Resource "124" </p></div><p><b>status</b>: final</p><p><b>code</b>: Glucose [Moles/volume] in Blood <span style="background: LightGoldenRodYellow; margin: 4px; border: 1px solid khaki"> (<a href="https://loinc.org/">LOINC</a>#15074-8)</span></p><p><b>subject</b>: <a href="todo.html">http://example.org/fhir/Patient/23</a></p></div></text><status value="final"/> 
 	 			<code> 
 					<coding> 
 						<system value="http://loinc.org"/> 
@@ -83,7 +83,7 @@
     <resource>
       <Observation>
         <id value="12"/>
- 				<text><status value="generated"/><div xmlns="http://www.w3.org/1999/xhtml"><p><b>Generated Narrative</b></p><div><p>Resource "12" </p></div><p><b>status</b>: final</p><p><b>code</b>: Glucose [Moles/volume] in Blood <span> (<a>LOINC</a>#15074-8)</span></p><p><b>subject</b>: <a>urn:uuid:04121321-4af5-424c-a0e1-ed3aab1c349d</a></p></div></text><status value="final"/> 
+ 				<text><status value="generated"/><div xmlns="http://www.w3.org/1999/xhtml"><p><b>Generated Narrative</b></p><div style="display: inline-block; background-color: #d9e0e7; padding: 6px; margin: 4px; border: 1px solid #8da1b4; border-radius: 5px; line-height: 60%"><p style="margin-bottom: 0px">Resource "12" </p></div><p><b>status</b>: final</p><p><b>code</b>: Glucose [Moles/volume] in Blood <span style="background: LightGoldenRodYellow; margin: 4px; border: 1px solid khaki"> (<a href="https://loinc.org/">LOINC</a>#15074-8)</span></p><p><b>subject</b>: <a href="todo.html">urn:uuid:04121321-4af5-424c-a0e1-ed3aab1c349d</a></p></div></text><status value="final"/> 
 	 			<code> 
 					<coding> 
 						<system value="http://loinc.org"/> 
@@ -105,7 +105,7 @@
     <resource>
       <Observation>
         <id value="14"/>
- 				<text><status value="generated"/><div xmlns="http://www.w3.org/1999/xhtml"><p><b>Generated Narrative</b></p><div><p>Resource "14" </p></div><p><b>status</b>: final</p><p><b>code</b>: Glucose [Moles/volume] in Blood <span> (<a>LOINC</a>#15074-8)</span></p><p><b>subject</b>: <a>http://example.org/fhir-2/Patient/1</a></p></div></text><status value="final"/> 
+ 				<text><status value="generated"/><div xmlns="http://www.w3.org/1999/xhtml"><p><b>Generated Narrative</b></p><div style="display: inline-block; background-color: #d9e0e7; padding: 6px; margin: 4px; border: 1px solid #8da1b4; border-radius: 5px; line-height: 60%"><p style="margin-bottom: 0px">Resource "14" </p></div><p><b>status</b>: final</p><p><b>code</b>: Glucose [Moles/volume] in Blood <span style="background: LightGoldenRodYellow; margin: 4px; border: 1px solid khaki"> (<a href="https://loinc.org/">LOINC</a>#15074-8)</span></p><p><b>subject</b>: <a href="todo.html">http://example.org/fhir-2/Patient/1</a></p></div></text><status value="final"/> 
 	 			<code> 
 					<coding> 
 						<system value="http://loinc.org"/> 
@@ -128,7 +128,7 @@
     <resource>
       <Observation>
         <id value="14"/>
- 				<text><status value="generated"/><div xmlns="http://www.w3.org/1999/xhtml"><p><b>Generated Narrative</b></p><div><p>Resource "14" </p></div><p><b>status</b>: final</p><p><b>code</b>: Glucose [Moles/volume] in Blood <span> (<a>LOINC</a>#15074-8)</span></p><p><b>subject</b>: <a>Patient/23</a></p></div></text><status value="final"/> 
+ 				<text><status value="generated"/><div xmlns="http://www.w3.org/1999/xhtml"><p><b>Generated Narrative</b></p><div style="display: inline-block; background-color: #d9e0e7; padding: 6px; margin: 4px; border: 1px solid #8da1b4; border-radius: 5px; line-height: 60%"><p style="margin-bottom: 0px">Resource "14" </p></div><p><b>status</b>: final</p><p><b>code</b>: Glucose [Moles/volume] in Blood <span style="background: LightGoldenRodYellow; margin: 4px; border: 1px solid khaki"> (<a href="https://loinc.org/">LOINC</a>#15074-8)</span></p><p><b>subject</b>: <a href="todo.html">Patient/23</a></p></div></text><status value="final"/> 
 	 			<code> 
 					<coding> 
 						<system value="http://loinc.org"/> 
@@ -153,7 +153,7 @@
 				 <meta>
 				   <versionId value="1"/>
 				 </meta>
-				 <text><status value="generated"/><div xmlns="http://www.w3.org/1999/xhtml"><p><b>Generated Narrative</b></p><div><p>Resource "45" Version "1" </p></div><p><b>name</b>: Name 1</p></div></text><name>
+				 <text><status value="generated"/><div xmlns="http://www.w3.org/1999/xhtml"><p><b>Name 1</b> (no stated gender), DoB Unknown</p></div></text><name>
 				   <text value="Name 1"/>
 				 </name>
       </Patient>
@@ -169,7 +169,7 @@
 				 <meta>
 				   <versionId value="2"/>
 				 </meta>
-				 <text><status value="generated"/><div xmlns="http://www.w3.org/1999/xhtml"><p><b>Generated Narrative</b></p><div><p>Resource "45" Version "2" </p></div><p><b>name</b>: Name 2</p></div></text><name>
+				 <text><status value="generated"/><div xmlns="http://www.w3.org/1999/xhtml"><p><b>Name 2</b> (no stated gender), DoB Unknown</p></div></text><name>
 				   <text value="Name 2"/>
 				 </name>
       </Patient>
@@ -204,7 +204,7 @@
     <resource>
       <Observation>
         <id value="47"/>
- 				<text><status value="generated"/><div xmlns="http://www.w3.org/1999/xhtml"><p><b>Generated Narrative</b></p><div><p>Resource "47" </p></div><p><b>status</b>: final</p><p><b>code</b>: Glucose [Moles/volume] in Blood <span> (<a>LOINC</a>#15074-8)</span></p><p><b>subject</b>: <a>Patient/45/_history/2</a></p></div></text><status value="final"/> 
+ 				<text><status value="generated"/><div xmlns="http://www.w3.org/1999/xhtml"><p><b>Generated Narrative</b></p><div style="display: inline-block; background-color: #d9e0e7; padding: 6px; margin: 4px; border: 1px solid #8da1b4; border-radius: 5px; line-height: 60%"><p style="margin-bottom: 0px">Resource "47" </p></div><p><b>status</b>: final</p><p><b>code</b>: Glucose [Moles/volume] in Blood <span style="background: LightGoldenRodYellow; margin: 4px; border: 1px solid khaki"> (<a href="https://loinc.org/">LOINC</a>#15074-8)</span></p><p><b>subject</b>: <a href="todo.html">Patient/45/_history/2</a></p></div></text><status value="final"/> 
 	 			<code> 
 					<coding> 
 						<system value="http://loinc.org"/> 
@@ -225,7 +225,7 @@
     <resource>
       <Observation>
         <id value="48"/>
- 				<text><status value="generated"/><div xmlns="http://www.w3.org/1999/xhtml"><p><b>Generated Narrative</b></p><div><p>Resource "48" </p></div><p><b>status</b>: final</p><p><b>code</b>: Glucose [Moles/volume] in Blood <span> (<a>LOINC</a>#15074-8)</span></p><p><b>subject</b>: <span/></p></div></text><status value="final"/> 
+ 				<text><status value="generated"/><div xmlns="http://www.w3.org/1999/xhtml"><p><b>Generated Narrative</b></p><div style="display: inline-block; background-color: #d9e0e7; padding: 6px; margin: 4px; border: 1px solid #8da1b4; border-radius: 5px; line-height: 60%"><p style="margin-bottom: 0px">Resource "48" </p></div><p><b>status</b>: final</p><p><b>code</b>: Glucose [Moles/volume] in Blood <span style="background: LightGoldenRodYellow; margin: 4px; border: 1px solid khaki"> (<a href="https://loinc.org/">LOINC</a>#15074-8)</span></p><p><b>subject</b>: <span/></p></div></text><status value="final"/> 
 	 			<code> 
 					<coding> 
 						<system value="http://loinc.org"/> 

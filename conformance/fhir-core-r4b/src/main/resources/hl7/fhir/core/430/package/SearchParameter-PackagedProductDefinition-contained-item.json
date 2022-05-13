@@ -1,0 +1,44 @@
+{
+    "resourceType": "SearchParameter",
+    "id": "PackagedProductDefinition-contained-item",
+    "extension": [
+        {
+            "url": "http://hl7.org/fhir/StructureDefinition/structuredefinition-standards-status",
+            "valueCode": "draft"
+        }
+    ],
+    "url": "http://hl7.org/fhir/SearchParameter/PackagedProductDefinition-contained-item",
+    "version": "4.3.0-cibuild",
+    "name": "contained-item",
+    "status": "draft",
+    "experimental": false,
+    "date": "2022-04-23T22:21:35Z",
+    "publisher": "Health Level Seven International (Biomedical Research and Regulation)",
+    "contact": [
+        {
+            "telecom": [
+                {
+                    "system": "url",
+                    "value": "http://hl7.org/fhir"
+                }
+            ]
+        },
+        {
+            "telecom": [
+                {
+                    "system": "url",
+                    "value": "http://www.hl7.org/Special/committees/rcrim/index.cfm"
+                }
+            ]
+        }
+    ],
+    "description": "Any of the contained items within this packaged product",
+    "code": "contained-item",
+    "base": [
+        "PackagedProductDefinition"
+    ],
+    "type": "reference",
+    "expression": "PackagedProductDefinition.package.containedItem.item.reference",
+    "xpath": "f:PackagedProductDefinition/f:package/f:containedItem/f:item/f:reference",
+    "xpathUsage": "normal"
+}

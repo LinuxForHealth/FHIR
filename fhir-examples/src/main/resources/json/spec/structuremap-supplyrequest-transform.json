@@ -8,6 +8,7 @@
   "url": "http://hl7.org/fhir/StructureMap/supplyrequest-transform",
   "name": "Transform from an ActivityDefinition to a SupplyRequest",
   "status": "draft",
+  "experimental": true,
   "structure": [
     {
       "url": "http://hl7.org/fhir/StructureDefinition/activitydefinition",

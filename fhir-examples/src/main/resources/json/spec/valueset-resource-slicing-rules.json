@@ -2,7 +2,7 @@
   "resourceType": "ValueSet",
   "id": "resource-slicing-rules",
   "meta": {
-    "lastUpdated": "2022-01-01T15:17:18.597+00:00",
+    "lastUpdated": "2022-04-23T22:21:35.043+00:00",
     "profile": [
       "http://hl7.org/fhir/StructureDefinition/shareablevalueset"
     ]
@@ -36,12 +36,12 @@
       "value": "urn:oid:2.16.840.1.113883.4.642.3.83"
     }
   ],
-  "version": "4.3.0-CIBUILD",
+  "version": "4.3.0-cibuild",
   "name": "SlicingRules",
   "title": "SlicingRules",
   "status": "active",
   "experimental": false,
-  "date": "2022-01-01T15:17:18+00:00",
+  "date": "2022-04-23T22:21:35+00:00",
   "publisher": "HL7 (FHIR Project)",
   "contact": [
     {

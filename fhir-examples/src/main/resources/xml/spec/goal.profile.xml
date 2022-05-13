@@ -3,7 +3,7 @@
 <StructureDefinition xmlns="http://hl7.org/fhir">
   <id value="Goal"/>
   <meta>
-    <lastUpdated value="2022-01-01T15:17:18.597+00:00"/>
+    <lastUpdated value="2022-04-23T22:21:35.043+00:00"/>
   </meta>
   <text>
     <status value="generated"/>
@@ -54,7 +54,7 @@
             <a href="domainresource.html#DomainResource" title="A human-readable narrative that contains a summary of the resource and can be used to represent the content of the resource to a human. The narrative need not encode all the structured data, but is required to contain sufficient detail to make it &quot;clinically safe&quot; for a human to just read the narrative. Resource definitions may define what content should be represented in the narrative to ensure clinical safety.">text</a>, 
             <a href="domainresource.html#DomainResource" title="These resources do not have an independent existence apart from the resource that contains them - they cannot be identified independently, and nor can they have their own independent transaction scope.">contained</a>, 
             <a href="domainresource.html#DomainResource" title="May be used to represent additional information that is not part of the basic definition of the resource. To make the use of extensions safe and manageable, there is a strict set of governance  applied to the definition and use of extensions. Though any implementer can define an extension, there is a set of requirements that SHALL be met as part of the definition of the extension.">extension</a>, 
-            <a href="domainresource.html#DomainResource" title="May be used to represent additional information that is not part of the basic definition of the resource and that modifies the understanding of the element that contains it and/or the understanding of the containing element&#39;s descendants. Usually modifier elements provide negation or qualification. To make the use of extensions safe and manageable, there is a strict set of governance applied to the definition and use of extensions. Though any implementer is allowed to define an extension, there is a set of requirements that SHALL be met as part of the definition of the extension. Applications processing a resource are required to check for modifier extensions.&#xA;&#xA;Modifier extensions SHALL NOT change the meaning of any elements on Resource or DomainResource (including cannot change the meaning of modifierExtension itself).">modifierExtension</a>
+            <a href="domainresource.html#DomainResource" title="May be used to represent additional information that is not part of the basic definition of the resource and that modifies the understanding of the element that contains it and/or the understanding of the containing element's descendants. Usually modifier elements provide negation or qualification. To make the use of extensions safe and manageable, there is a strict set of governance applied to the definition and use of extensions. Though any implementer is allowed to define an extension, there is a set of requirements that SHALL be met as part of the definition of the extension. Applications processing a resource are required to check for modifier extensions.&#xA;&#xA;Modifier extensions SHALL NOT change the meaning of any elements on Resource or DomainResource (including cannot change the meaning of modifierExtension itself).">modifierExtension</a>
           </td>
         </tr>
 
@@ -551,7 +551,7 @@
             <a href="practitionerrole.html">PractitionerRole</a> | 
             <a href="relatedperson.html">RelatedPerson</a>)
           </td>
-          <td style="vertical-align: top; text-align : left; background-color: white; border: 0px #F0F0F0 solid; padding:0px 4px 0px 4px" class="hierarchy">Who&#39;s responsible for creating Goal?</td>
+          <td style="vertical-align: top; text-align : left; background-color: white; border: 0px #F0F0F0 solid; padding:0px 4px 0px 4px" class="hierarchy">Who's responsible for creating Goal?</td>
         </tr>
 
         <tr style="border: 0px #F0F0F0 solid; padding:0px; vertical-align: top; background-color: #F7F7F7">
@@ -622,7 +622,7 @@
             <img src="data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAAEAAAAWCAYAAAABxvaqAAAACXBIWXMAAAsTAAALEwEAmpwYAAAAB3RJTUUH3wYeFzIs1vtcMQAAAB1pVFh0Q29tbWVudAAAAAAAQ3JlYXRlZCB3aXRoIEdJTVBkLmUHAAAAE0lEQVQI12P4//8/AxMDAwNdCABMPwMo2ctnoQAAAABJRU5ErkJggg==" alt="." style="background-color: inherit" class="hierarchy"/>
             <img src="data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAABAAAAAWCAYAAADJqhx8AAAACXBIWXMAAAsTAAALEwEAmpwYAAAAB3RJTUUH3wYeFzME+lXFigAAAB1pVFh0Q29tbWVudAAAAAAAQ3JlYXRlZCB3aXRoIEdJTVBkLmUHAAAANklEQVQ4y+3OsRUAIAjEUOL+O8cJABttJM11/x1qZAGqRBEVcNIqdWj1efDqQbb3HwwwwEfABmQUHSPM9dtDAAAAAElFTkSuQmCC" alt="." style="background-color: inherit" class="hierarchy"/>
             <img src="data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAABAAAAAQCAYAAAAf8/9hAAAAAXNSR0IArs4c6QAAAARnQU1BAACxjwv8YQUAAAAJcEhZcwAADsMAAA7DAcdvqGQAAAAadEVYdFNvZnR3YXJlAFBhaW50Lk5FVCB2My41LjEwMPRyoQAAAFxJREFUOE/NjEEOACEIA/0o/38GGw+agoXYeNnDJDCUDnd/gkoFKhWozJiZI3gLwY6rAgxhsPKTPUzycTl8lAryMyMsVQG6TFi6cHULyz8KOjC7OIQKlQpU3uPjAwhX2CCcGsgOAAAAAElFTkSuQmCC" alt="." style="background-color: white; background-color: inherit" title="Reference to another Resource" class="hierarchy"/> 
-            <span title="Goal.outcomeReference : Details of what&#39;s changed (or not changed).">outcomeReference</span>
+            <span title="Goal.outcomeReference : Details of what's changed (or not changed).">outcomeReference</span>
             <a name="Goal.outcomeReference"> </a>
           </td>
           <td style="vertical-align: top; text-align : left; background-color: white; border: 0px #F0F0F0 solid; padding:0px 4px 0px 4px" class="hierarchy"/>
@@ -660,10 +660,11 @@
     <valueCode value="pc"/>
   </extension>
   <url value="http://hl7.org/fhir/StructureDefinition/Goal"/>
-  <version value="4.3.0-CIBUILD"/>
+  <version value="4.3.0-cibuild"/>
   <name value="Goal"/>
   <status value="draft"/>
-  <date value="2022-01-01T15:17:18+00:00"/>
+  <experimental value="false"/>
+  <date value="2022-04-23T22:21:35+00:00"/>
   <publisher value="Health Level Seven International (Patient Care)"/>
   <contact>
     <telecom>
@@ -678,7 +679,7 @@
     </telecom>
   </contact>
   <description value="Describes the intended objective(s) for a patient, group or organization care, for example, weight loss, restoring an activity of daily living, obtaining herd immunity via immunization, meeting a process improvement objective, etc."/>
-  <fhirVersion value="4.3.0-CIBUILD"/>
+  <fhirVersion value="4.3.0-cibuild"/>
   <mapping>
     <identity value="v2"/>
     <uri value="http://hl7.org/v2"/>
@@ -724,8 +725,8 @@
         <key value="dom-3"/>
         <severity value="error"/>
         <human value="If the resource is contained in another resource, it SHALL be referred to from elsewhere in the resource or SHALL refer to the containing resource"/>
-        <expression value="contained.where(((id.exists() and (&#39;#&#39;+id in (%resource.descendants().reference | %resource.descendants().as(canonical) | %resource.descendants().as(uri) | %resource.descendants().as(url)))) or descendants().where(reference = &#39;#&#39;).exists() or descendants().where(as(canonical) = &#39;#&#39;).exists() or descendants().where(as(uri) = &#39;#&#39;).exists()).not()).trace(&#39;unmatched&#39;, id).empty()"/>
-        <xpath value="not(exists(for $resource in . return (for $contained in $resource/f:contained return $contained[not(descendant::f:*/@value=&#39;#&#39; or (exists(f:id) and $resource//f:*/@*=concat(&#39;#&#39;, $contained/*/f:id/@value)))])))"/>
+        <expression value="contained.where(((id.exists() and ('#'+id in (%resource.descendants().reference | %resource.descendants().as(canonical) | %resource.descendants().as(uri) | %resource.descendants().as(url)))) or descendants().where(reference = '#').exists() or descendants().where(as(canonical) = '#').exists() or descendants().where(as(uri) = '#').exists()).not()).trace('unmatched', id).empty()"/>
+        <xpath value="not(exists(for $contained in f:contained return $contained[not(exists(parent::*/descendant::f:reference/@value=concat('#', $contained/*/f:id/@value)) or exists(descendant::f:reference[@value='#']))]))"/>
         <source value="http://hl7.org/fhir/StructureDefinition/DomainResource"/>
       </constraint>
       <constraint>
@@ -790,7 +791,6 @@
         <min value="0"/>
         <max value="1"/>
       </base>
-    <!-- Note: special primitive values have a FHIRPath system type. e.g. this is compiler magic (j) -->
       <type>
         <extension url="http://hl7.org/fhir/StructureDefinition/structuredefinition-fhir-type">
           <valueUrl value="id"/>
@@ -831,7 +831,7 @@
       <path value="Goal.implicitRules"/>
       <short value="A set of rules under which this content was created"/>
       <definition value="A reference to a set of rules that were followed when the resource was constructed, and which must be understood when processing the content. Often, this is a reference to an implementation guide that defines the special rules along with other profiles etc."/>
-      <comment value="Asserting this rule set restricts the content to be only understood by a limited set of trading partners. This inherently limits the usefulness of the data in the long term. However, the existing health eco-system is highly fractured, and not yet ready to define, collect, and exchange data in a generally computable sense. Wherever possible, implementers and/or specification writers should avoid using this element. Often, when used, the URL is a reference to an implementation guide that defines these special rules as part of it&#39;s narrative along with other profiles, value sets, etc."/>
+      <comment value="Asserting this rule set restricts the content to be only understood by a limited set of trading partners. This inherently limits the usefulness of the data in the long term. However, the existing health eco-system is highly fractured, and not yet ready to define, collect, and exchange data in a generally computable sense. Wherever possible, implementers and/or specification writers should avoid using this element. Often, when used, the URL is a reference to an implementation guide that defines these special rules as part of it's narrative along with other profiles, value sets, etc."/>
       <min value="0"/>
       <max value="1"/>
       <base>
@@ -852,7 +852,7 @@
       </constraint>
       <mustSupport value="false"/>
       <isModifier value="true"/>
-      <isModifierReason value="This element is labeled as a modifier because the implicit rules may provide additional knowledge about the resource that modifies it&#39;s meaning or interpretation"/>
+      <isModifierReason value="This element is labeled as a modifier because the implicit rules may provide additional knowledge about the resource that modifies it's meaning or interpretation"/>
       <isSummary value="true"/>
     </element>
     <element id="Goal.language">
@@ -949,6 +949,14 @@
       <type>
         <code value="Resource"/>
       </type>
+      <constraint>
+        <key value="dom-r4b"/>
+        <severity value="warning"/>
+        <human value="Containing new R4B resources within R4 resources may cause interoperability issues if instances are shared with R4 systems"/>
+        <expression value="($this is Citation or $this is Evidence or $this is EvidenceReport or $this is EvidenceVariable or $this is MedicinalProductDefinition or $this is PackagedProductDefinition or $this is AdministrableProductDefinition or $this is Ingredient or $this is ClinicalUseDefinition or $this is RegulatedAuthorization or $this is SubstanceDefinition or $this is SubscriptionStatus or $this is SubscriptionTopic) implies (%resource is Citation or %resource is Evidence or %resource is EvidenceReport or %resource is EvidenceVariable or %resource is MedicinalProductDefinition or %resource is PackagedProductDefinition or %resource is AdministrableProductDefinition or %resource is Ingredient or %resource is ClinicalUseDefinition or %resource is RegulatedAuthorization or %resource is SubstanceDefinition or %resource is SubscriptionStatus or %resource is SubscriptionTopic)"/>
+        <xpath value="not(f:Citation|f:Evidence|f:EvidenceReport|f:EvidenceVariable|f:MedicinalProductDefinition|f:PackagedProductDefinition|f:AdministrableProductDefinition|f:Ingredient|f:ClinicalUseDefinition|f:RegulatedAuthorization|f:SubstanceDefinition|f:SubscriptionStatus|f:SubscriptionTopic) or not(parent::f:Citation|parent::f:Evidence|parent::f:EvidenceReport|parent::f:EvidenceVariable|parent::f:MedicinalProductDefinition|parent::f:PackagedProductDefinition|parent::f:AdministrableProductDefinition|parent::f:Ingredient|parent::f:ClinicalUseDefinition|parent::f:RegulatedAuthorization|parent::f:SubstanceDefinition|f:SubscriptionStatus|f:SubscriptionTopic)"/>
+        <source value="http://hl7.org/fhir/StructureDefinition/Goal"/>
+      </constraint>
       <mustSupport value="false"/>
       <isModifier value="false"/>
       <isSummary value="false"/>
@@ -1001,7 +1009,7 @@
     <element id="Goal.modifierExtension">
       <path value="Goal.modifierExtension"/>
       <short value="Extensions that cannot be ignored"/>
-      <definition value="May be used to represent additional information that is not part of the basic definition of the resource and that modifies the understanding of the element that contains it and/or the understanding of the containing element&#39;s descendants. Usually modifier elements provide negation or qualification. To make the use of extensions safe and manageable, there is a strict set of governance applied to the definition and use of extensions. Though any implementer is allowed to define an extension, there is a set of requirements that SHALL be met as part of the definition of the extension. Applications processing a resource are required to check for modifier extensions.&#xA;&#xA;Modifier extensions SHALL NOT change the meaning of any elements on Resource or DomainResource (including cannot change the meaning of modifierExtension itself)."/>
+      <definition value="May be used to represent additional information that is not part of the basic definition of the resource and that modifies the understanding of the element that contains it and/or the understanding of the containing element's descendants. Usually modifier elements provide negation or qualification. To make the use of extensions safe and manageable, there is a strict set of governance applied to the definition and use of extensions. Though any implementer is allowed to define an extension, there is a set of requirements that SHALL be met as part of the definition of the extension. Applications processing a resource are required to check for modifier extensions.&#xA;&#xA;Modifier extensions SHALL NOT change the meaning of any elements on Resource or DomainResource (including cannot change the meaning of modifierExtension itself)."/>
       <comment value="There can be no stigma associated with the use of extensions by any application, project, or standard - regardless of the institution or jurisdiction that uses or defines the extensions.  The use of extensions is what allows the FHIR specification to retain a core level of simplicity for everyone."/>
       <requirements value="Modifier extensions allow for extensions that *cannot* be safely ignored to be clearly distinguished from the vast majority of extensions which can be safely ignored.  This promotes interoperability by eliminating the need for implementers to prohibit the presence of extensions. For further information, see the [definition of modifier extensions](extensibility.html#modifierExtension)."/>
       <alias value="extensions"/>
@@ -1111,7 +1119,7 @@
         </extension>
         <strength value="required"/>
         <description value="Codes that reflect the current state of a goal and whether the goal is still being targeted."/>
-        <valueSet value="http://hl7.org/fhir/ValueSet/goal-status|4.3.0-CIBUILD"/>
+        <valueSet value="http://hl7.org/fhir/ValueSet/goal-status|4.3.0-cibuild"/>
       </binding>
       <mapping>
         <identity value="w5"/>
@@ -1207,7 +1215,7 @@
       <path value="Goal.priority"/>
       <short value="high-priority | medium-priority | low-priority"/>
       <definition value="Identifies the mutually agreed level of importance associated with reaching/sustaining the goal."/>
-      <comment value="Extensions are available to track priorities as established by each participant (i.e. Priority from the patient&#39;s perspective, different practitioners&#39; perspectives, family member&#39;s perspectives)&#xD;&#xD;The ordinal extension on Coding can be used to convey a numerically comparable ranking to priority.  (Keep in mind that different coding systems may use a &quot;low value=important&quot;."/>
+      <comment value="Extensions are available to track priorities as established by each participant (i.e. Priority from the patient's perspective, different practitioners' perspectives, family member's perspectives)&#xD;&#xD;The ordinal extension on Coding can be used to convey a numerically comparable ranking to priority.  (Keep in mind that different coding systems may use a &quot;low value=important&quot;."/>
       <requirements value="Used for sorting and presenting goals."/>
       <min value="0"/>
       <max value="1"/>
@@ -1252,7 +1260,7 @@
       <short value="Code or text describing goal"/>
       <definition value="Human-readable and/or coded description of a specific desired objective of care, such as &quot;control blood pressure&quot; or &quot;negotiate an obstacle course&quot; or &quot;dance with child at wedding&quot;."/>
       <comment value="If no code is available, use CodeableConcept.text."/>
-      <requirements value="Without a description of what&#39;s trying to be achieved, element has no purpose."/>
+      <requirements value="Without a description of what's trying to be achieved, element has no purpose."/>
       <min value="1"/>
       <max value="1"/>
       <base>
@@ -1413,7 +1421,7 @@
         <severity value="error"/>
         <human value="Goal.target.measure is required if Goal.target.detail is populated"/>
         <expression value="(detail.exists() and measure.exists()) or detail.exists().not()"/>
-        <xpath value="(exists(f:*[starts-with(local-name(.), &#39;detail&#39;)]) and exists(f:measure)) or not(exists(f:*[starts-with(local-name(.), &#39;detail&#39;)]))"/>
+        <xpath value="(exists(f:*[starts-with(local-name(.), 'detail')]) and exists(f:measure)) or not(exists(f:*[starts-with(local-name(.), 'detail')]))"/>
         <source value="http://hl7.org/fhir/StructureDefinition/Goal"/>
       </constraint>
       <mustSupport value="false"/>
@@ -1432,10 +1440,9 @@
         <min value="0"/>
         <max value="1"/>
       </base>
-    <!-- Note: special primitive values have a FHIRPath system type. e.g. this is compiler magic (j) -->
       <type>
         <extension url="http://hl7.org/fhir/StructureDefinition/structuredefinition-fhir-type">
-          <valueUrl value="id"/>
+          <valueUrl value="string"/>
         </extension>
         <code value="http://hl7.org/fhirpath/System.String"/>
       </type>
@@ -1489,7 +1496,7 @@
     <element id="Goal.target.modifierExtension">
       <path value="Goal.target.modifierExtension"/>
       <short value="Extensions that cannot be ignored even if unrecognized"/>
-      <definition value="May be used to represent additional information that is not part of the basic definition of the element and that modifies the understanding of the element in which it is contained and/or the understanding of the containing element&#39;s descendants. Usually modifier elements provide negation or qualification. To make the use of extensions safe and manageable, there is a strict set of governance applied to the definition and use of extensions. Though any implementer can define an extension, there is a set of requirements that SHALL be met as part of the definition of the extension. Applications processing a resource are required to check for modifier extensions.&#xA;&#xA;Modifier extensions SHALL NOT change the meaning of any elements on Resource or DomainResource (including cannot change the meaning of modifierExtension itself)."/>
+      <definition value="May be used to represent additional information that is not part of the basic definition of the element and that modifies the understanding of the element in which it is contained and/or the understanding of the containing element's descendants. Usually modifier elements provide negation or qualification. To make the use of extensions safe and manageable, there is a strict set of governance applied to the definition and use of extensions. Though any implementer can define an extension, there is a set of requirements that SHALL be met as part of the definition of the extension. Applications processing a resource are required to check for modifier extensions.&#xA;&#xA;Modifier extensions SHALL NOT change the meaning of any elements on Resource or DomainResource (including cannot change the meaning of modifierExtension itself)."/>
       <comment value="There can be no stigma associated with the use of extensions by any application, project, or standard - regardless of the institution or jurisdiction that uses or defines the extensions.  The use of extensions is what allows the FHIR specification to retain a core level of simplicity for everyone."/>
       <requirements value="Modifier extensions allow for extensions that *cannot* be safely ignored to be clearly distinguished from the vast majority of extensions which can be safely ignored.  This promotes interoperability by eliminating the need for implementers to prohibit the presence of extensions. For further information, see the [definition of modifier extensions](extensibility.html#modifierExtension)."/>
       <alias value="extensions"/>
@@ -1711,7 +1718,7 @@
     </element>
     <element id="Goal.expressedBy">
       <path value="Goal.expressedBy"/>
-      <short value="Who&#39;s responsible for creating Goal?"/>
+      <short value="Who's responsible for creating Goal?"/>
       <definition value="Indicates whose goal this is - patient goal, practitioner goal, etc."/>
       <comment value="This is the individual responsible for establishing the goal, not necessarily who recorded it.  (For that, use the Provenance resource.)."/>
       <min value="0"/>
@@ -1748,7 +1755,7 @@
       <path value="Goal.addresses"/>
       <short value="Issues addressed by this goal"/>
       <definition value="The identified conditions and other health record elements that are intended to be addressed by the goal."/>
-      <requirements value="Allows specific goals to explicitly linked to the concerns they&#39;re dealing with - makes the goal more understandable."/>
+      <requirements value="Allows specific goals to explicitly linked to the concerns they're dealing with - makes the goal more understandable."/>
       <min value="0"/>
       <max value="*"/>
       <base>
@@ -1789,8 +1796,8 @@
       <path value="Goal.note"/>
       <short value="Comments about the goal"/>
       <definition value="Any comments related to the goal."/>
-      <comment value="May be used for progress notes, concerns or other related information that doesn&#39;t actually describe the goal itself."/>
-      <requirements value="There&#39;s a need to capture information about the goal that doesn&#39;t actually describe the goal."/>
+      <comment value="May be used for progress notes, concerns or other related information that doesn't actually describe the goal itself."/>
+      <requirements value="There's a need to capture information about the goal that doesn't actually describe the goal."/>
       <min value="0"/>
       <max value="*"/>
       <base>
@@ -1860,7 +1867,7 @@
     <element id="Goal.outcomeReference">
       <path value="Goal.outcomeReference"/>
       <short value="Observation that resulted from goal"/>
-      <definition value="Details of what&#39;s changed (or not changed)."/>
+      <definition value="Details of what's changed (or not changed)."/>
       <comment value="The goal outcome is independent of the outcome of the related activities.  For example, if the Goal is to achieve a target body weight of 150 lb and a care plan activity is defined to diet, then the care plan’s activity outcome could be calories consumed whereas goal outcome is an observation for the actual body weight measured."/>
       <requirements value="Outcome tracking is a key aspect of care planning."/>
       <min value="0"/>
@@ -1954,7 +1961,7 @@
         </extension>
         <strength value="required"/>
         <description value="Codes that reflect the current state of a goal and whether the goal is still being targeted."/>
-        <valueSet value="http://hl7.org/fhir/ValueSet/goal-status|4.3.0-CIBUILD"/>
+        <valueSet value="http://hl7.org/fhir/ValueSet/goal-status|4.3.0-cibuild"/>
       </binding>
       <mapping>
         <identity value="w5"/>
@@ -2024,7 +2031,7 @@
       <path value="Goal.priority"/>
       <short value="high-priority | medium-priority | low-priority"/>
       <definition value="Identifies the mutually agreed level of importance associated with reaching/sustaining the goal."/>
-      <comment value="Extensions are available to track priorities as established by each participant (i.e. Priority from the patient&#39;s perspective, different practitioners&#39; perspectives, family member&#39;s perspectives)&#xD;&#xD;The ordinal extension on Coding can be used to convey a numerically comparable ranking to priority.  (Keep in mind that different coding systems may use a &quot;low value=important&quot;."/>
+      <comment value="Extensions are available to track priorities as established by each participant (i.e. Priority from the patient's perspective, different practitioners' perspectives, family member's perspectives)&#xD;&#xD;The ordinal extension on Coding can be used to convey a numerically comparable ranking to priority.  (Keep in mind that different coding systems may use a &quot;low value=important&quot;."/>
       <requirements value="Used for sorting and presenting goals."/>
       <min value="0"/>
       <max value="1"/>
@@ -2056,7 +2063,7 @@
       <short value="Code or text describing goal"/>
       <definition value="Human-readable and/or coded description of a specific desired objective of care, such as &quot;control blood pressure&quot; or &quot;negotiate an obstacle course&quot; or &quot;dance with child at wedding&quot;."/>
       <comment value="If no code is available, use CodeableConcept.text."/>
-      <requirements value="Without a description of what&#39;s trying to be achieved, element has no purpose."/>
+      <requirements value="Without a description of what's trying to be achieved, element has no purpose."/>
       <min value="1"/>
       <max value="1"/>
       <type>
@@ -2165,7 +2172,7 @@
         <severity value="error"/>
         <human value="Goal.target.measure is required if Goal.target.detail is populated"/>
         <expression value="(detail.exists() and measure.exists()) or detail.exists().not()"/>
-        <xpath value="(exists(f:*[starts-with(local-name(.), &#39;detail&#39;)]) and exists(f:measure)) or not(exists(f:*[starts-with(local-name(.), &#39;detail&#39;)]))"/>
+        <xpath value="(exists(f:*[starts-with(local-name(.), 'detail')]) and exists(f:measure)) or not(exists(f:*[starts-with(local-name(.), 'detail')]))"/>
         <source value="http://hl7.org/fhir/StructureDefinition/Goal"/>
       </constraint>
       <mustSupport value="false"/>
@@ -2289,7 +2296,7 @@
     </element>
     <element id="Goal.expressedBy">
       <path value="Goal.expressedBy"/>
-      <short value="Who&#39;s responsible for creating Goal?"/>
+      <short value="Who's responsible for creating Goal?"/>
       <definition value="Indicates whose goal this is - patient goal, practitioner goal, etc."/>
       <comment value="This is the individual responsible for establishing the goal, not necessarily who recorded it.  (For that, use the Provenance resource.)."/>
       <min value="0"/>
@@ -2313,7 +2320,7 @@
       <path value="Goal.addresses"/>
       <short value="Issues addressed by this goal"/>
       <definition value="The identified conditions and other health record elements that are intended to be addressed by the goal."/>
-      <requirements value="Allows specific goals to explicitly linked to the concerns they&#39;re dealing with - makes the goal more understandable."/>
+      <requirements value="Allows specific goals to explicitly linked to the concerns they're dealing with - makes the goal more understandable."/>
       <min value="0"/>
       <max value="*"/>
       <type>
@@ -2341,8 +2348,8 @@
       <path value="Goal.note"/>
       <short value="Comments about the goal"/>
       <definition value="Any comments related to the goal."/>
-      <comment value="May be used for progress notes, concerns or other related information that doesn&#39;t actually describe the goal itself."/>
-      <requirements value="There&#39;s a need to capture information about the goal that doesn&#39;t actually describe the goal."/>
+      <comment value="May be used for progress notes, concerns or other related information that doesn't actually describe the goal itself."/>
+      <requirements value="There's a need to capture information about the goal that doesn't actually describe the goal."/>
       <min value="0"/>
       <max value="*"/>
       <type>
@@ -2386,7 +2393,7 @@
     <element id="Goal.outcomeReference">
       <path value="Goal.outcomeReference"/>
       <short value="Observation that resulted from goal"/>
-      <definition value="Details of what&#39;s changed (or not changed)."/>
+      <definition value="Details of what's changed (or not changed)."/>
       <comment value="The goal outcome is independent of the outcome of the related activities.  For example, if the Goal is to achieve a target body weight of 150 lb and a care plan activity is defined to diet, then the care plan’s activity outcome could be calories consumed whereas goal outcome is an observation for the actual body weight measured."/>
       <requirements value="Outcome tracking is a key aspect of care planning."/>
       <min value="0"/>

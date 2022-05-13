@@ -11,24 +11,23 @@
         "id": "c144782b-da2f-4125-a9e2-9fa4b9085a40",
         "text": {
           "status": "generated",
-          "div": "\u003cdiv xmlns\u003d\"http://www.w3.org/1999/xhtml\"\u003e\u003cp\u003e\u003cb\u003eGenerated Narrative\u003c/b\u003e\u003c/p\u003e\u003cdiv\u003e\u003cp\u003eResource \u0026quot;c144782b-da2f-4125-a9e2-9fa4b9085a40\u0026quot; \u003c/p\u003e\u003c/div\u003e\u003cp\u003e\u003cb\u003estatus\u003c/b\u003e: active\u003c/p\u003e\u003cp\u003e\u003cb\u003etype\u003c/b\u003e: event-notification\u003c/p\u003e\u003cp\u003e\u003cb\u003eeventsSinceSubscriptionStart\u003c/b\u003e: 2\u003c/p\u003e\u003cp\u003e\u003cb\u003eeventsInNotification\u003c/b\u003e: 1\u003c/p\u003e\u003ch3\u003eNotificationEvents\u003c/h3\u003e\u003ctable\u003e\u003ctr\u003e\u003ctd\u003e-\u003c/td\u003e\u003ctd\u003e\u003cb\u003eEventNumber\u003c/b\u003e\u003c/td\u003e\u003ctd\u003e\u003cb\u003eFocus\u003c/b\u003e\u003c/td\u003e\u003c/tr\u003e\u003ctr\u003e\u003ctd\u003e*\u003c/td\u003e\u003ctd\u003e2\u003c/td\u003e\u003ctd\u003e\u003ca\u003ehttp://example.org/FHIR/R4/Encounter/2\u003c/a\u003e\u003c/td\u003e\u003c/tr\u003e\u003c/table\u003e\u003cp\u003e\u003cb\u003esubscription\u003c/b\u003e: \u003ca\u003ehttp://example.org/FHIR/R4/Subscription/123\u003c/a\u003e\u003c/p\u003e\u003cp\u003e\u003cb\u003etopic\u003c/b\u003e: \u003ca\u003ehttp://example.org/FHIR/R4/SubscriptionTopic/admission\u003c/a\u003e\u003c/p\u003e\u003c/div\u003e"
+          "div": "\u003cdiv xmlns\u003d\"http://www.w3.org/1999/xhtml\"\u003e\u003cp\u003e\u003cb\u003eGenerated Narrative\u003c/b\u003e\u003c/p\u003e\u003cdiv style\u003d\"display: inline-block; background-color: #d9e0e7; padding: 6px; margin: 4px; border: 1px solid #8da1b4; border-radius: 5px; line-height: 60%\"\u003e\u003cp style\u003d\"margin-bottom: 0px\"\u003eResource \u0026quot;c144782b-da2f-4125-a9e2-9fa4b9085a40\u0026quot; \u003c/p\u003e\u003c/div\u003e\u003cp\u003e\u003cb\u003estatus\u003c/b\u003e: active\u003c/p\u003e\u003cp\u003e\u003cb\u003etype\u003c/b\u003e: event-notification\u003c/p\u003e\u003cp\u003e\u003cb\u003eeventsSinceSubscriptionStart\u003c/b\u003e: 2\u003c/p\u003e\u003ch3\u003eNotificationEvents\u003c/h3\u003e\u003ctable class\u003d\"grid\"\u003e\u003ctr\u003e\u003ctd\u003e-\u003c/td\u003e\u003ctd\u003e\u003cb\u003eEventNumber\u003c/b\u003e\u003c/td\u003e\u003ctd\u003e\u003cb\u003eFocus\u003c/b\u003e\u003c/td\u003e\u003c/tr\u003e\u003ctr\u003e\u003ctd\u003e*\u003c/td\u003e\u003ctd\u003e2\u003c/td\u003e\u003ctd\u003e\u003ca href\u003d\"todo.html\"\u003ehttp://example.org/FHIR/R4B/Encounter/2\u003c/a\u003e\u003c/td\u003e\u003c/tr\u003e\u003c/table\u003e\u003cp\u003e\u003cb\u003esubscription\u003c/b\u003e: \u003ca href\u003d\"todo.html\"\u003ehttp://example.org/FHIR/R4B/Subscription/123\u003c/a\u003e\u003c/p\u003e\u003cp\u003e\u003cb\u003etopic\u003c/b\u003e: \u003ca href\u003d\"http://example.org/FHIR/R4B/SubscriptionTopic/admission\"\u003ehttp://example.org/FHIR/R4B/SubscriptionTopic/admission\u003c/a\u003e\u003c/p\u003e\u003c/div\u003e"
         },
         "status": "active",
         "type": "event-notification",
         "eventsSinceSubscriptionStart": "2",
-        "eventsInNotification": 1,
         "notificationEvent": [
           {
             "eventNumber": "2",
             "focus": {
-              "reference": "http://example.org/FHIR/R4/Encounter/2"
+              "reference": "http://example.org/FHIR/R4B/Encounter/2"
             }
           }
         ],
         "subscription": {
-          "reference": "http://example.org/FHIR/R4/Subscription/123"
+          "reference": "http://example.org/FHIR/R4B/Subscription/123"
         },
-        "topic": "http://example.org/FHIR/R4/SubscriptionTopic/admission"
+        "topic": "http://example.org/FHIR/R4B/SubscriptionTopic/admission"
       },
       "request": {
         "method": "GET",
@@ -39,7 +38,7 @@
       }
     },
     {
-      "fullUrl": "http://example.org/FHIR/R4/Encounter/2",
+      "fullUrl": "http://example.org/FHIR/R4B/Encounter/2",
       "request": {
         "method": "PUT",
         "url": "Encounter/2"

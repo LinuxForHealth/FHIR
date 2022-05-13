@@ -6,9 +6,10 @@
       "system": "urn:ietf:rfc:3986"
     }
   ],
-  "version": "4.3.0-CIBUILD",
+  "version": "4.3.0-cibuild",
   "status": "draft",
-  "date": "2022-01-01T15:17:18+00:00",
+  "experimental": false,
+  "date": "2022-04-23T22:21:35+00:00",
   "publisher": "Health Level Seven International (Patient Administration)",
   "item": [
     {
@@ -197,10 +198,9 @@
             {
               "linkId": "Encounter.language.value",
               "text": "language",
-              "type": "coding",
+              "type": "choice",
               "required": false,
-              "repeats": false,
-              "answerConstraint": "optionsOnly"
+              "repeats": false
             }
           ]
         },
@@ -419,10 +419,9 @@
             {
               "linkId": "Encounter.status.value",
               "text": "status",
-              "type": "coding",
+              "type": "choice",
               "required": false,
-              "repeats": false,
-              "answerConstraint": "optionsOrType"
+              "repeats": false
             }
           ]
         },
@@ -599,10 +598,9 @@
                 {
                   "linkId": "Encounter.statusHistory.status.value",
                   "text": "status",
-                  "type": "coding",
+                  "type": "choice",
                   "required": false,
-                  "repeats": false,
-                  "answerConstraint": "optionsOrType"
+                  "repeats": false
                 }
               ]
             },
@@ -706,10 +704,9 @@
             {
               "linkId": "Encounter.class.value",
               "text": "Classification of patient encounter",
-              "type": "coding",
+              "type": "choice",
               "required": false,
-              "repeats": false,
-              "answerConstraint": "optionsOnly"
+              "repeats": false
             }
           ]
         },
@@ -881,10 +878,9 @@
                 {
                   "linkId": "Encounter.classHistory.class.value",
                   "text": "inpatient | outpatient | ambulatory | emergency +",
-                  "type": "coding",
+                  "type": "choice",
                   "required": false,
-                  "repeats": false,
-                  "answerConstraint": "optionsOnly"
+                  "repeats": false
                 }
               ]
             },
@@ -981,10 +977,9 @@
             {
               "linkId": "Encounter.type.coding",
               "text": "code:",
-              "type": "coding",
+              "type": "choice",
               "required": false,
-              "repeats": false,
-              "answerConstraint": "optionsOnly"
+              "repeats": false
             },
             {
               "linkId": "Encounter.type.text",
@@ -1034,10 +1029,9 @@
             {
               "linkId": "Encounter.serviceType.coding",
               "text": "code:",
-              "type": "coding",
+              "type": "choice",
               "required": false,
-              "repeats": false,
-              "answerConstraint": "optionsOnly"
+              "repeats": false
             },
             {
               "linkId": "Encounter.serviceType.text",
@@ -1087,10 +1081,9 @@
             {
               "linkId": "Encounter.priority.coding",
               "text": "code:",
-              "type": "coding",
+              "type": "choice",
               "required": false,
-              "repeats": false,
-              "answerConstraint": "optionsOnly"
+              "repeats": false
             },
             {
               "linkId": "Encounter.priority.text",
@@ -1416,10 +1409,9 @@
                 {
                   "linkId": "Encounter.participant.type.coding",
                   "text": "code:",
-                  "type": "coding",
+                  "type": "choice",
                   "required": false,
-                  "repeats": false,
-                  "answerConstraint": "optionsOnly"
+                  "repeats": false
                 },
                 {
                   "linkId": "Encounter.participant.type.text",
@@ -1679,10 +1671,9 @@
             {
               "linkId": "Encounter.length.comparator",
               "text": "comp:",
-              "type": "coding",
+              "type": "choice",
               "required": false,
-              "repeats": false,
-              "answerConstraint": "optionsOnly"
+              "repeats": false
             },
             {
               "linkId": "Encounter.length.value",
@@ -1749,10 +1740,9 @@
             {
               "linkId": "Encounter.reasonCode.coding",
               "text": "code:",
-              "type": "coding",
+              "type": "choice",
               "required": false,
-              "repeats": false,
-              "answerConstraint": "optionsOnly"
+              "repeats": false
             },
             {
               "linkId": "Encounter.reasonCode.text",
@@ -2036,10 +2026,9 @@
                 {
                   "linkId": "Encounter.diagnosis.use.coding",
                   "text": "code:",
-                  "type": "coding",
+                  "type": "choice",
                   "required": false,
-                  "repeats": false,
-                  "answerConstraint": "optionsOnly"
+                  "repeats": false
                 },
                 {
                   "linkId": "Encounter.diagnosis.use.text",
@@ -2435,10 +2424,9 @@
                 {
                   "linkId": "Encounter.hospitalization.admitSource.coding",
                   "text": "code:",
-                  "type": "coding",
+                  "type": "choice",
                   "required": false,
-                  "repeats": false,
-                  "answerConstraint": "optionsOnly"
+                  "repeats": false
                 },
                 {
                   "linkId": "Encounter.hospitalization.admitSource.text",
@@ -2488,10 +2476,9 @@
                 {
                   "linkId": "Encounter.hospitalization.reAdmission.coding",
                   "text": "code:",
-                  "type": "coding",
+                  "type": "choice",
                   "required": false,
-                  "repeats": false,
-                  "answerConstraint": "optionsOnly"
+                  "repeats": false
                 },
                 {
                   "linkId": "Encounter.hospitalization.reAdmission.text",
@@ -2537,10 +2524,9 @@
                 {
                   "linkId": "Encounter.hospitalization.dietPreference.coding",
                   "text": "code:",
-                  "type": "coding",
+                  "type": "choice",
                   "required": false,
-                  "repeats": false,
-                  "answerConstraint": "optionsOnly"
+                  "repeats": false
                 },
                 {
                   "linkId": "Encounter.hospitalization.dietPreference.text",
@@ -2586,10 +2572,9 @@
                 {
                   "linkId": "Encounter.hospitalization.specialCourtesy.coding",
                   "text": "code:",
-                  "type": "coding",
+                  "type": "choice",
                   "required": false,
-                  "repeats": false,
-                  "answerConstraint": "optionsOnly"
+                  "repeats": false
                 },
                 {
                   "linkId": "Encounter.hospitalization.specialCourtesy.text",
@@ -2635,10 +2620,9 @@
                 {
                   "linkId": "Encounter.hospitalization.specialArrangement.coding",
                   "text": "code:",
-                  "type": "coding",
+                  "type": "choice",
                   "required": false,
-                  "repeats": false,
-                  "answerConstraint": "optionsOnly"
+                  "repeats": false
                 },
                 {
                   "linkId": "Encounter.hospitalization.specialArrangement.text",
@@ -2742,10 +2726,9 @@
                 {
                   "linkId": "Encounter.hospitalization.dischargeDisposition.coding",
                   "text": "code:",
-                  "type": "coding",
+                  "type": "choice",
                   "required": false,
-                  "repeats": false,
-                  "answerConstraint": "optionsOnly"
+                  "repeats": false
                 },
                 {
                   "linkId": "Encounter.hospitalization.dischargeDisposition.text",
@@ -2985,10 +2968,9 @@
                 {
                   "linkId": "Encounter.location.status.value",
                   "text": "status",
-                  "type": "coding",
+                  "type": "choice",
                   "required": false,
-                  "repeats": false,
-                  "answerConstraint": "optionsOrType"
+                  "repeats": false
                 }
               ]
             },
@@ -3031,10 +3013,9 @@
                 {
                   "linkId": "Encounter.location.physicalType.coding",
                   "text": "code:",
-                  "type": "coding",
+                  "type": "choice",
                   "required": false,
-                  "repeats": false,
-                  "answerConstraint": "optionsOnly"
+                  "repeats": false
                 },
                 {
                   "linkId": "Encounter.location.physicalType.text",

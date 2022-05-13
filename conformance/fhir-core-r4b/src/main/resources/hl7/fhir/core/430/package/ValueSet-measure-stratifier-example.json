@@ -1,0 +1,81 @@
+{
+    "resourceType": "ValueSet",
+    "id": "measure-stratifier-example",
+    "meta": {
+        "lastUpdated": "2022-04-23T22:21:35.043Z",
+        "profile": [
+            "http://hl7.org/fhir/StructureDefinition/shareablevalueset"
+        ]
+    },
+    "extension": [
+        {
+            "url": "http://hl7.org/fhir/StructureDefinition/structuredefinition-wg",
+            "valueCode": "cqi"
+        },
+        {
+            "url": "http://hl7.org/fhir/StructureDefinition/structuredefinition-standards-status",
+            "valueCode": "draft"
+        },
+        {
+            "url": "http://hl7.org/fhir/StructureDefinition/structuredefinition-fmm",
+            "valueInteger": 1
+        }
+    ],
+    "url": "http://hl7.org/fhir/ValueSet/measure-stratifier-example",
+    "identifier": [
+        {
+            "system": "urn:ietf:rfc:3986",
+            "value": "urn:oid:2.16.840.1.113883.4.642.3.0"
+        }
+    ],
+    "version": "4.3.0-cibuild",
+    "name": "MeasureStratifierExample",
+    "title": "MeasureStratifierExample",
+    "status": "draft",
+    "experimental": true,
+    "publisher": "Clinical Quality Information Workgroup",
+    "description": "Identifier subgroups in a population for measuring purposes.",
+    "compose": {
+        "include": [
+            {
+                "system": "http://terminology.hl7.org/CodeSystem/measure-stratifier-example"
+            }
+        ]
+    },
+    "expansion": {
+        "identifier": "urn:uuid:381eedad-3c36-4c28-b8ee-cce38726f2c1",
+        "timestamp": "2022-04-23T22:23:26Z",
+        "total": 3,
+        "parameter": [
+            {
+                "name": "excludeNested",
+                "valueBoolean": true
+            },
+            {
+                "name": "includeDesignations",
+                "valueBoolean": true
+            },
+            {
+                "name": "version",
+                "valueUri": "http://terminology.hl7.org/CodeSystem/measure-stratifier-example|4.3.0-cibuild"
+            }
+        ],
+        "contains": [
+            {
+                "system": "http://terminology.hl7.org/CodeSystem/measure-stratifier-example",
+                "code": "age",
+                "display": "Age"
+            },
+            {
+                "system": "http://terminology.hl7.org/CodeSystem/measure-stratifier-example",
+                "code": "gender",
+                "display": "Gender"
+            },
+            {
+                "system": "http://terminology.hl7.org/CodeSystem/measure-stratifier-example",
+                "code": "region",
+                "display": "Region"
+            }
+        ]
+    }
+}

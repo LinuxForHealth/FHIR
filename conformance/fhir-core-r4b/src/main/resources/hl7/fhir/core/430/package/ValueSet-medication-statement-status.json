@@ -1,0 +1,115 @@
+{
+    "resourceType": "ValueSet",
+    "id": "medication-statement-status",
+    "meta": {
+        "lastUpdated": "2022-04-23T22:21:35.043Z",
+        "profile": [
+            "http://hl7.org/fhir/StructureDefinition/shareablevalueset"
+        ]
+    },
+    "extension": [
+        {
+            "url": "http://hl7.org/fhir/StructureDefinition/structuredefinition-wg",
+            "valueCode": "phx"
+        },
+        {
+            "url": "http://hl7.org/fhir/StructureDefinition/structuredefinition-standards-status",
+            "valueCode": "trial-use"
+        },
+        {
+            "url": "http://hl7.org/fhir/StructureDefinition/structuredefinition-fmm",
+            "valueInteger": 3
+        }
+    ],
+    "url": "http://hl7.org/fhir/ValueSet/medication-statement-status",
+    "identifier": [
+        {
+            "system": "urn:ietf:rfc:3986",
+            "value": "urn:oid:2.16.840.1.113883.4.642.3.367"
+        }
+    ],
+    "version": "4.3.0-cibuild",
+    "name": "Medication Status Codes",
+    "status": "draft",
+    "experimental": false,
+    "publisher": "FHIR Project team",
+    "contact": [
+        {
+            "telecom": [
+                {
+                    "system": "url",
+                    "value": "http://hl7.org/fhir"
+                }
+            ]
+        }
+    ],
+    "description": "Medication Status Codes",
+    "compose": {
+        "include": [
+            {
+                "system": "http://hl7.org/fhir/CodeSystem/medication-statement-status"
+            }
+        ]
+    },
+    "expansion": {
+        "identifier": "urn:uuid:d929acb2-008c-4230-9efb-a37093ffc509",
+        "timestamp": "2022-04-23T22:23:08Z",
+        "total": 8,
+        "parameter": [
+            {
+                "name": "excludeNested",
+                "valueBoolean": true
+            },
+            {
+                "name": "includeDesignations",
+                "valueBoolean": true
+            },
+            {
+                "name": "version",
+                "valueUri": "http://hl7.org/fhir/CodeSystem/medication-statement-status|4.3.0-cibuild"
+            }
+        ],
+        "contains": [
+            {
+                "system": "http://hl7.org/fhir/CodeSystem/medication-statement-status",
+                "code": "active",
+                "display": "Active"
+            },
+            {
+                "system": "http://hl7.org/fhir/CodeSystem/medication-statement-status",
+                "code": "completed",
+                "display": "Completed"
+            },
+            {
+                "system": "http://hl7.org/fhir/CodeSystem/medication-statement-status",
+                "code": "entered-in-error",
+                "display": "Entered in Error"
+            },
+            {
+                "system": "http://hl7.org/fhir/CodeSystem/medication-statement-status",
+                "code": "intended",
+                "display": "Intended"
+            },
+            {
+                "system": "http://hl7.org/fhir/CodeSystem/medication-statement-status",
+                "code": "stopped",
+                "display": "Stopped"
+            },
+            {
+                "system": "http://hl7.org/fhir/CodeSystem/medication-statement-status",
+                "code": "on-hold",
+                "display": "On Hold"
+            },
+            {
+                "system": "http://hl7.org/fhir/CodeSystem/medication-statement-status",
+                "code": "unknown",
+                "display": "Unknown"
+            },
+            {
+                "system": "http://hl7.org/fhir/CodeSystem/medication-statement-status",
+                "code": "not-taken",
+                "display": "Not Taken"
+            }
+        ]
+    }
+}

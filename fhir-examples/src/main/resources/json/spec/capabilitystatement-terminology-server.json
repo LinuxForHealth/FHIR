@@ -10,6 +10,7 @@
   "url": "http://hl7.org/fhir/terminology-server",
   "name": "Terminology Service Capability Statement",
   "status": "draft",
+  "experimental": true,
   "date": "2015-07-05",
   "publisher": "HL7, Inc",
   "contact": [
@@ -28,7 +29,7 @@
   "software": {
     "name": "ACME Terminology Server"
   },
-  "fhirVersion": "4.3.0-CIBUILD",
+  "fhirVersion": "4.3.0-cibuild",
   "format": [
     "json",
     "xml"

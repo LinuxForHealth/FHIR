@@ -3,14 +3,15 @@
   "id": "cm-address-use-v3",
   "text": {
     "status": "extensions",
-    "div": "\u003cdiv xmlns\u003d\"http://www.w3.org/1999/xhtml\"\u003e\u003ch2\u003ev3.AddressUse (http://hl7.org/fhir/ConceptMap/cm-address-use-v3)\u003c/h2\u003e\u003cp\u003eMapping from \u003ca href\u003d\"valueset-address-use.html\"\u003ehttp://hl7.org/fhir/ValueSet/address-use\u003c/a\u003e to \u003ca href\u003d\"http://terminology.hl7.org/3.0.0/ValueSet-v3-AddressUse.html\"\u003ehttp://terminology.hl7.org/ValueSet/v3-AddressUse\u003c/a\u003e\u003c/p\u003e\u003cp\u003eDRAFT. Published on Jan 1, 2022 3:17:18 PM by HL7 (FHIR Project) (\u003ca href\u003d\"http://hl7.org/fhir\"\u003ehttp://hl7.org/fhir\u003c/a\u003e, \u003ca href\u003d\"mailto:fhir@lists.hl7.org\"\u003efhir@lists.hl7.org\u003c/a\u003e). \u003c/p\u003e\u003cbr/\u003e\u003ctable class\u003d\"grid\"\u003e\u003ctr\u003e\u003ctd colspan\u003d\"2\"\u003e\u003cb\u003eSource Concept Details\u003c/b\u003e\u003c/td\u003e\u003ctd\u003e\u003cb\u003eRelationship\u003c/b\u003e\u003c/td\u003e\u003ctd colspan\u003d\"2\"\u003e\u003cb\u003eDestination Concept Details\u003c/b\u003e\u003c/td\u003e\u003ctd\u003e\u003cb\u003eComment\u003c/b\u003e\u003c/td\u003e\u003c/tr\u003e\u003ctr\u003e\u003ctd colspan\u003d\"2\"\u003e\u003cb\u003eCode\u003c/b\u003e from \u003ca href\u003d\"codesystem-address-use.html\" title\u003d\"http://hl7.org/fhir/address-use\"\u003eAddressUse\u003c/a\u003e\u003c/td\u003e\u003ctd/\u003e\u003ctd colspan\u003d\"2\"\u003e\u003cb\u003eCode\u003c/b\u003e from \u003ca href\u003d\"http://terminology.hl7.org/3.0.0/CodeSystem-v3-AddressUse.html\" title\u003d\"http://terminology.hl7.org/CodeSystem/v3-AddressUse\"\u003eAddressUse\u003c/a\u003e\u003c/td\u003e\u003ctd/\u003e\u003c/tr\u003e\u003ctr\u003e\u003ctd style\u003d\"border-right-width: 0px\"\u003ehome\u003c/td\u003e\u003ctd style\u003d\"border-left-width: 0px\"\u003eHome\u003c/td\u003e\u003ctd\u003e\u003ca href\u003d\"codesystem-concept-map-equivalence.html#equivalent\"\u003eis equivalent to\u003c/a\u003e\u003c/td\u003e\u003ctd style\u003d\"border-right-width: 0px\"\u003eH\u003c/td\u003e\u003ctd style\u003d\"border-left-width: 0px\"\u003ehome address\u003c/td\u003e\u003ctd/\u003e\u003c/tr\u003e\u003ctr\u003e\u003ctd style\u003d\"border-right-width: 0px\"\u003ework\u003c/td\u003e\u003ctd style\u003d\"border-left-width: 0px\"\u003eWork\u003c/td\u003e\u003ctd\u003e\u003ca href\u003d\"codesystem-concept-map-equivalence.html#equivalent\"\u003eis equivalent to\u003c/a\u003e\u003c/td\u003e\u003ctd style\u003d\"border-right-width: 0px\"\u003eWP\u003c/td\u003e\u003ctd style\u003d\"border-left-width: 0px\"\u003ework place\u003c/td\u003e\u003ctd/\u003e\u003c/tr\u003e\u003ctr\u003e\u003ctd style\u003d\"border-right-width: 0px\"\u003etemp\u003c/td\u003e\u003ctd style\u003d\"border-left-width: 0px\"\u003eTemporary\u003c/td\u003e\u003ctd\u003e\u003ca href\u003d\"codesystem-concept-map-equivalence.html#equivalent\"\u003eis equivalent to\u003c/a\u003e\u003c/td\u003e\u003ctd style\u003d\"border-right-width: 0px\"\u003eTMP\u003c/td\u003e\u003ctd style\u003d\"border-left-width: 0px\"\u003etemporary address\u003c/td\u003e\u003ctd/\u003e\u003c/tr\u003e\u003ctr\u003e\u003ctd style\u003d\"border-right-width: 0px; border-bottom-style: none\"\u003eold\u003c/td\u003e\u003ctd style\u003d\"border-left-width: 0px; border-bottom-style: none\"\u003eOld / Incorrect\u003c/td\u003e\u003ctd\u003e\u003ca href\u003d\"codesystem-concept-map-equivalence.html#source-is-broader-than-target\"\u003eis broader than\u003c/a\u003e\u003c/td\u003e\u003ctd style\u003d\"border-right-width: 0px\"\u003eOLD\u003c/td\u003e\u003ctd style\u003d\"border-left-width: 0px\"\u003eno longer in use\u003c/td\u003e\u003ctd\u003eBad or Old\u003c/td\u003e\u003c/tr\u003e\u003ctr\u003e\u003ctd style\u003d\"border-right-width: 0px; border-top-style: none\"/\u003e\u003ctd style\u003d\"border-top-style: none; border-left-width: 0px\"/\u003e\u003ctd\u003e\u003ca href\u003d\"codesystem-concept-map-equivalence.html#source-is-broader-than-target\"\u003eis broader than\u003c/a\u003e\u003c/td\u003e\u003ctd style\u003d\"border-right-width: 0px\"\u003eBAD\u003c/td\u003e\u003ctd style\u003d\"border-left-width: 0px\"\u003ebad address\u003c/td\u003e\u003ctd\u003eBad or Old\u003c/td\u003e\u003c/tr\u003e\u003c/table\u003e\u003c/div\u003e"
+    "div": "\u003cdiv xmlns\u003d\"http://www.w3.org/1999/xhtml\"\u003e\u003ch2\u003ev3.AddressUse (http://hl7.org/fhir/ConceptMap/cm-address-use-v3)\u003c/h2\u003e\u003cp\u003eMapping from \u003ca href\u003d\"valueset-address-use.html\"\u003ehttp://hl7.org/fhir/ValueSet/address-use\u003c/a\u003e to \u003ca href\u003d\"http://terminology.hl7.org/3.1.0/ValueSet-v3-AddressUse.html\"\u003ehttp://terminology.hl7.org/ValueSet/v3-AddressUse\u003c/a\u003e\u003c/p\u003e\u003cp\u003eDRAFT. Published on 2022-04-23T22:21:35Z by HL7 (FHIR Project) (\u003ca href\u003d\"http://hl7.org/fhir\"\u003ehttp://hl7.org/fhir\u003c/a\u003e, \u003ca href\u003d\"mailto:fhir@lists.hl7.org\"\u003efhir@lists.hl7.org\u003c/a\u003e). \u003c/p\u003e\u003cbr/\u003e\u003ctable class\u003d\"grid\"\u003e\u003ctr\u003e\u003ctd colspan\u003d\"2\"\u003e\u003cb\u003eSource Concept Details\u003c/b\u003e\u003c/td\u003e\u003ctd\u003e\u003cb\u003eRelationship\u003c/b\u003e\u003c/td\u003e\u003ctd colspan\u003d\"2\"\u003e\u003cb\u003eDestination Concept Details\u003c/b\u003e\u003c/td\u003e\u003ctd\u003e\u003cb\u003eComment\u003c/b\u003e\u003c/td\u003e\u003c/tr\u003e\u003ctr\u003e\u003ctd colspan\u003d\"2\"\u003e\u003cb\u003eCode\u003c/b\u003e from \u003ca href\u003d\"codesystem-address-use.html\" title\u003d\"http://hl7.org/fhir/address-use\"\u003eAddressUse\u003c/a\u003e\u003c/td\u003e\u003ctd/\u003e\u003ctd colspan\u003d\"2\"\u003e\u003cb\u003eCode\u003c/b\u003e from \u003ca href\u003d\"http://terminology.hl7.org/3.1.0/CodeSystem-v3-AddressUse.html\" title\u003d\"http://terminology.hl7.org/CodeSystem/v3-AddressUse\"\u003eAddressUse\u003c/a\u003e\u003c/td\u003e\u003ctd/\u003e\u003c/tr\u003e\u003ctr\u003e\u003ctd style\u003d\"border-right-width: 0px\"\u003ehome\u003c/td\u003e\u003ctd style\u003d\"border-left-width: 0px\"\u003eHome\u003c/td\u003e\u003ctd\u003e\u003ca href\u003d\"codesystem-concept-map-equivalence.html#equivalent\"\u003eis equivalent to\u003c/a\u003e\u003c/td\u003e\u003ctd style\u003d\"border-right-width: 0px\"\u003eH\u003c/td\u003e\u003ctd style\u003d\"border-left-width: 0px\"\u003ehome address\u003c/td\u003e\u003ctd/\u003e\u003c/tr\u003e\u003ctr\u003e\u003ctd style\u003d\"border-right-width: 0px\"\u003ework\u003c/td\u003e\u003ctd style\u003d\"border-left-width: 0px\"\u003eWork\u003c/td\u003e\u003ctd\u003e\u003ca href\u003d\"codesystem-concept-map-equivalence.html#equivalent\"\u003eis equivalent to\u003c/a\u003e\u003c/td\u003e\u003ctd style\u003d\"border-right-width: 0px\"\u003eWP\u003c/td\u003e\u003ctd style\u003d\"border-left-width: 0px\"\u003ework place\u003c/td\u003e\u003ctd/\u003e\u003c/tr\u003e\u003ctr\u003e\u003ctd style\u003d\"border-right-width: 0px\"\u003etemp\u003c/td\u003e\u003ctd style\u003d\"border-left-width: 0px\"\u003eTemporary\u003c/td\u003e\u003ctd\u003e\u003ca href\u003d\"codesystem-concept-map-equivalence.html#equivalent\"\u003eis equivalent to\u003c/a\u003e\u003c/td\u003e\u003ctd style\u003d\"border-right-width: 0px\"\u003eTMP\u003c/td\u003e\u003ctd style\u003d\"border-left-width: 0px\"\u003etemporary address\u003c/td\u003e\u003ctd/\u003e\u003c/tr\u003e\u003ctr\u003e\u003ctd style\u003d\"border-right-width: 0px; border-bottom-style: none\"\u003eold\u003c/td\u003e\u003ctd style\u003d\"border-left-width: 0px; border-bottom-style: none\"\u003eOld / Incorrect\u003c/td\u003e\u003ctd\u003e\u003ca href\u003d\"codesystem-concept-map-equivalence.html#source-is-broader-than-target\"\u003eis broader than\u003c/a\u003e\u003c/td\u003e\u003ctd style\u003d\"border-right-width: 0px\"\u003eOLD\u003c/td\u003e\u003ctd style\u003d\"border-left-width: 0px\"\u003eno longer in use\u003c/td\u003e\u003ctd\u003eBad or Old\u003c/td\u003e\u003c/tr\u003e\u003ctr\u003e\u003ctd style\u003d\"border-right-width: 0px; border-top-style: none\"/\u003e\u003ctd style\u003d\"border-top-style: none; border-left-width: 0px\"/\u003e\u003ctd\u003e\u003ca href\u003d\"codesystem-concept-map-equivalence.html#source-is-broader-than-target\"\u003eis broader than\u003c/a\u003e\u003c/td\u003e\u003ctd style\u003d\"border-right-width: 0px\"\u003eBAD\u003c/td\u003e\u003ctd style\u003d\"border-left-width: 0px\"\u003ebad address\u003c/td\u003e\u003ctd\u003eBad or Old\u003c/td\u003e\u003c/tr\u003e\u003c/table\u003e\u003c/div\u003e"
   },
   "url": "http://hl7.org/fhir/ConceptMap/cm-address-use-v3",
-  "version": "4.3.0-CIBUILD",
+  "version": "4.3.0-cibuild",
   "name": "v3.AddressUse",
   "title": "v3 map for AddressUse",
   "status": "draft",
-  "date": "2022-01-01T15:17:18+00:00",
+  "experimental": false,
+  "date": "2022-04-23T22:21:35+00:00",
   "publisher": "HL7 (FHIR Project)",
   "contact": [
     {
@@ -38,7 +39,7 @@
           "target": [
             {
               "code": "H",
-              "relationship": "equivalent"
+              "equivalence": "equivalent"
             }
           ]
         },
@@ -47,7 +48,7 @@
           "target": [
             {
               "code": "WP",
-              "relationship": "equivalent"
+              "equivalence": "equivalent"
             }
           ]
         },
@@ -56,7 +57,7 @@
           "target": [
             {
               "code": "TMP",
-              "relationship": "equivalent"
+              "equivalence": "equivalent"
             }
           ]
         },
@@ -65,12 +66,12 @@
           "target": [
             {
               "code": "OLD",
-              "relationship": "source-is-broader-than-target",
+              "equivalence": "narrower",
               "comment": "Bad or Old"
             },
             {
               "code": "BAD",
-              "relationship": "source-is-broader-than-target",
+              "equivalence": "narrower",
               "comment": "Bad or Old"
             }
           ]

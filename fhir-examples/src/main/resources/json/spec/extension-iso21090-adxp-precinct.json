@@ -12,9 +12,10 @@
     }
   ],
   "url": "http://hl7.org/fhir/StructureDefinition/iso21090-ADXP-precinct",
-  "version": "4.3.0-CIBUILD",
+  "version": "4.3.0-cibuild",
   "name": "ADXP-precinct",
   "status": "draft",
+  "experimental": false,
   "date": "2012-06-24",
   "publisher": "Health Level Seven International (Modeling and Methodology)",
   "contact": [
@@ -28,7 +29,7 @@
     }
   ],
   "description": "A subsection of a municipality.",
-  "fhirVersion": "4.3.0-CIBUILD",
+  "fhirVersion": "4.3.0-cibuild",
   "mapping": [
     {
       "identity": "rim",

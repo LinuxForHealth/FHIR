@@ -14,7 +14,9 @@ import java.util.Objects;
 
 import javax.annotation.Generated;
 
+import com.ibm.fhir.model.annotation.Binding;
 import com.ibm.fhir.model.annotation.Choice;
+import com.ibm.fhir.model.annotation.Constraint;
 import com.ibm.fhir.model.annotation.Maturity;
 import com.ibm.fhir.model.annotation.ReferenceTarget;
 import com.ibm.fhir.model.annotation.Required;
@@ -37,6 +39,7 @@ import com.ibm.fhir.model.type.Ratio;
 import com.ibm.fhir.model.type.Reference;
 import com.ibm.fhir.model.type.String;
 import com.ibm.fhir.model.type.Uri;
+import com.ibm.fhir.model.type.code.BindingStrength;
 import com.ibm.fhir.model.type.code.StandardsStatus;
 import com.ibm.fhir.model.util.ValidationSupport;
 import com.ibm.fhir.model.visitor.Visitor;
@@ -50,6 +53,60 @@ import com.ibm.fhir.model.visitor.Visitor;
     level = 1,
     status = StandardsStatus.Value.TRIAL_USE
 )
+@Constraint(
+    id = "substanceDefinition-0",
+    level = "Warning",
+    location = "(base)",
+    description = "SHOULD contain a code from value set http://hl7.org/fhir/ValueSet/publication-status",
+    expression = "status.exists() implies (status.memberOf('http://hl7.org/fhir/ValueSet/publication-status', 'preferred'))",
+    source = "http://hl7.org/fhir/StructureDefinition/SubstanceDefinition",
+    generated = true
+)
+@Constraint(
+    id = "substanceDefinition-1",
+    level = "Warning",
+    location = "code.status",
+    description = "SHOULD contain a code from value set http://hl7.org/fhir/ValueSet/publication-status",
+    expression = "$this.memberOf('http://hl7.org/fhir/ValueSet/publication-status', 'preferred')",
+    source = "http://hl7.org/fhir/StructureDefinition/SubstanceDefinition",
+    generated = true
+)
+@Constraint(
+    id = "substanceDefinition-2",
+    level = "Warning",
+    location = "name.status",
+    description = "SHOULD contain a code from value set http://hl7.org/fhir/ValueSet/publication-status",
+    expression = "$this.memberOf('http://hl7.org/fhir/ValueSet/publication-status', 'preferred')",
+    source = "http://hl7.org/fhir/StructureDefinition/SubstanceDefinition",
+    generated = true
+)
+@Constraint(
+    id = "substanceDefinition-3",
+    level = "Warning",
+    location = "name.language",
+    description = "SHOULD contain a code from value set http://hl7.org/fhir/ValueSet/languages",
+    expression = "$this.memberOf('http://hl7.org/fhir/ValueSet/languages', 'preferred')",
+    source = "http://hl7.org/fhir/StructureDefinition/SubstanceDefinition",
+    generated = true
+)
+@Constraint(
+    id = "substanceDefinition-4",
+    level = "Warning",
+    location = "name.official.authority",
+    description = "SHOULD contain a code from value set http://hl7.org/fhir/ValueSet/substance-name-authority",
+    expression = "$this.memberOf('http://hl7.org/fhir/ValueSet/substance-name-authority', 'preferred')",
+    source = "http://hl7.org/fhir/StructureDefinition/SubstanceDefinition",
+    generated = true
+)
+@Constraint(
+    id = "substanceDefinition-5",
+    level = "Warning",
+    location = "name.official.status",
+    description = "SHOULD contain a code from value set http://hl7.org/fhir/ValueSet/publication-status",
+    expression = "$this.memberOf('http://hl7.org/fhir/ValueSet/publication-status', 'preferred')",
+    source = "http://hl7.org/fhir/StructureDefinition/SubstanceDefinition",
+    generated = true
+)
 @Generated("com.ibm.fhir.tools.CodeGenerator")
 public class SubstanceDefinition extends DomainResource {
     @Summary
@@ -57,12 +114,30 @@ public class SubstanceDefinition extends DomainResource {
     @Summary
     private final String version;
     @Summary
+    @Binding(
+        bindingName = "PublicationStatus",
+        strength = BindingStrength.Value.PREFERRED,
+        description = "The lifecycle status of an artifact.",
+        valueSet = "http://hl7.org/fhir/ValueSet/publication-status"
+    )
     private final CodeableConcept status;
     @Summary
     private final List<CodeableConcept> classification;
     @Summary
+    @Binding(
+        bindingName = "MedicinalProductType",
+        strength = BindingStrength.Value.EXAMPLE,
+        description = "Applicable domain for this product (e.g. human, veterinary).",
+        valueSet = "http://hl7.org/fhir/ValueSet/medicinal-product-domain"
+    )
     private final CodeableConcept domain;
     @Summary
+    @Binding(
+        bindingName = "SubstanceGrade",
+        strength = BindingStrength.Value.EXAMPLE,
+        description = "The quality standard, established benchmark, to which a substance complies",
+        valueSet = "http://hl7.org/fhir/ValueSet/substance-grade"
+    )
     private final List<CodeableConcept> grade;
     @Summary
     private final Markdown description;
@@ -128,7 +203,7 @@ public class SubstanceDefinition extends DomainResource {
     }
 
     /**
-     * A business level identifier of the substance.
+     * A business level version identifier of the substance.
      * 
      * @return
      *     An immutable object of type {@link String} that may be null.
@@ -138,7 +213,7 @@ public class SubstanceDefinition extends DomainResource {
     }
 
     /**
-     * Status of substance within the catalogue e.g. approved.
+     * Status of substance within the catalogue e.g. active, retired.
      * 
      * @return
      *     An immutable object of type {@link CodeableConcept} that may be null.
@@ -159,7 +234,7 @@ public class SubstanceDefinition extends DomainResource {
     }
 
     /**
-     * If the substance applies to only human or veterinary use.
+     * If the substance applies to human or veterinary use.
      * 
      * @return
      *     An immutable object of type {@link CodeableConcept} that may be null.
@@ -210,7 +285,8 @@ public class SubstanceDefinition extends DomainResource {
     }
 
     /**
-     * A company that makes this substance.
+     * The entity that creates, makes, produces or fabricates the substance. This is a set of potential manufacturers but is 
+     * not necessarily comprehensive.
      * 
      * @return
      *     An unmodifiable list containing immutable objects of type {@link Reference} that may be empty.
@@ -220,7 +296,8 @@ public class SubstanceDefinition extends DomainResource {
     }
 
     /**
-     * A company that supplies this substance.
+     * An entity that is the source for the substance. It may be different from the manufacturer. Supplier is synonymous to a 
+     * distributor.
      * 
      * @return
      *     An unmodifiable list containing immutable objects of type {@link Reference} that may be empty.
@@ -737,7 +814,7 @@ public class SubstanceDefinition extends DomainResource {
          * Convenience method for setting {@code version}.
          * 
          * @param version
-         *     A business level identifier of the substance
+         *     A business level version identifier of the substance
          * 
          * @return
          *     A reference to this Builder instance
@@ -750,10 +827,10 @@ public class SubstanceDefinition extends DomainResource {
         }
 
         /**
-         * A business level identifier of the substance.
+         * A business level version identifier of the substance.
          * 
          * @param version
-         *     A business level identifier of the substance
+         *     A business level version identifier of the substance
          * 
          * @return
          *     A reference to this Builder instance
@@ -764,10 +841,10 @@ public class SubstanceDefinition extends DomainResource {
         }
 
         /**
-         * Status of substance within the catalogue e.g. approved.
+         * Status of substance within the catalogue e.g. active, retired.
          * 
          * @param status
-         *     Status of substance within the catalogue e.g. approved
+         *     Status of substance within the catalogue e.g. active, retired
          * 
          * @return
          *     A reference to this Builder instance
@@ -785,8 +862,8 @@ public class SubstanceDefinition extends DomainResource {
          * If any of the elements are null, calling {@link #build()} will fail.
          * 
          * @param classification
-         *     A high level categorization, e.g. polymer or nucleic acid, or food, chemical, biological, or a lower level such as the 
-         *     general types of polymer (linear or branch chain) or type of impurity (process related or contaminant)
+         *     A categorization, high level e.g. polymer or nucleic acid, or food, chemical, biological, or lower e.g. polymer linear 
+         *     or branch chain, or type of impurity
          * 
          * @return
          *     A reference to this Builder instance
@@ -806,8 +883,8 @@ public class SubstanceDefinition extends DomainResource {
          * If any of the elements are null, calling {@link #build()} will fail.
          * 
          * @param classification
-         *     A high level categorization, e.g. polymer or nucleic acid, or food, chemical, biological, or a lower level such as the 
-         *     general types of polymer (linear or branch chain) or type of impurity (process related or contaminant)
+         *     A categorization, high level e.g. polymer or nucleic acid, or food, chemical, biological, or lower e.g. polymer linear 
+         *     or branch chain, or type of impurity
          * 
          * @return
          *     A reference to this Builder instance
@@ -821,10 +898,10 @@ public class SubstanceDefinition extends DomainResource {
         }
 
         /**
-         * If the substance applies to only human or veterinary use.
+         * If the substance applies to human or veterinary use.
          * 
          * @param domain
-         *     If the substance applies to only human or veterinary use
+         *     If the substance applies to human or veterinary use
          * 
          * @return
          *     A reference to this Builder instance
@@ -842,8 +919,7 @@ public class SubstanceDefinition extends DomainResource {
          * If any of the elements are null, calling {@link #build()} will fail.
          * 
          * @param grade
-         *     The quality standard, established benchmark, to which substance complies (e.g. USP/NF, Ph. Eur, JP, BP, Company 
-         *     Standard)
+         *     The quality standard, established benchmark, to which substance complies (e.g. USP/NF, BP)
          * 
          * @return
          *     A reference to this Builder instance
@@ -863,8 +939,7 @@ public class SubstanceDefinition extends DomainResource {
          * If any of the elements are null, calling {@link #build()} will fail.
          * 
          * @param grade
-         *     The quality standard, established benchmark, to which substance complies (e.g. USP/NF, Ph. Eur, JP, BP, Company 
-         *     Standard)
+         *     The quality standard, established benchmark, to which substance complies (e.g. USP/NF, BP)
          * 
          * @return
          *     A reference to this Builder instance
@@ -980,7 +1055,8 @@ public class SubstanceDefinition extends DomainResource {
         }
 
         /**
-         * A company that makes this substance.
+         * The entity that creates, makes, produces or fabricates the substance. This is a set of potential manufacturers but is 
+         * not necessarily comprehensive.
          * 
          * <p>Adds new element(s) to the existing list.
          * If any of the elements are null, calling {@link #build()} will fail.
@@ -991,7 +1067,7 @@ public class SubstanceDefinition extends DomainResource {
          * </ul>
          * 
          * @param manufacturer
-         *     A company that makes this substance
+         *     The entity that creates, makes, produces or fabricates the substance
          * 
          * @return
          *     A reference to this Builder instance
@@ -1004,7 +1080,8 @@ public class SubstanceDefinition extends DomainResource {
         }
 
         /**
-         * A company that makes this substance.
+         * The entity that creates, makes, produces or fabricates the substance. This is a set of potential manufacturers but is 
+         * not necessarily comprehensive.
          * 
          * <p>Replaces the existing list with a new one containing elements from the Collection.
          * If any of the elements are null, calling {@link #build()} will fail.
@@ -1015,7 +1092,7 @@ public class SubstanceDefinition extends DomainResource {
          * </ul>
          * 
          * @param manufacturer
-         *     A company that makes this substance
+         *     The entity that creates, makes, produces or fabricates the substance
          * 
          * @return
          *     A reference to this Builder instance
@@ -1029,7 +1106,8 @@ public class SubstanceDefinition extends DomainResource {
         }
 
         /**
-         * A company that supplies this substance.
+         * An entity that is the source for the substance. It may be different from the manufacturer. Supplier is synonymous to a 
+         * distributor.
          * 
          * <p>Adds new element(s) to the existing list.
          * If any of the elements are null, calling {@link #build()} will fail.
@@ -1040,7 +1118,7 @@ public class SubstanceDefinition extends DomainResource {
          * </ul>
          * 
          * @param supplier
-         *     A company that supplies this substance
+         *     An entity that is the source for the substance. It may be different from the manufacturer
          * 
          * @return
          *     A reference to this Builder instance
@@ -1053,7 +1131,8 @@ public class SubstanceDefinition extends DomainResource {
         }
 
         /**
-         * A company that supplies this substance.
+         * An entity that is the source for the substance. It may be different from the manufacturer. Supplier is synonymous to a 
+         * distributor.
          * 
          * <p>Replaces the existing list with a new one containing elements from the Collection.
          * If any of the elements are null, calling {@link #build()} will fail.
@@ -1064,7 +1143,7 @@ public class SubstanceDefinition extends DomainResource {
          * </ul>
          * 
          * @param supplier
-         *     A company that supplies this substance
+         *     An entity that is the source for the substance. It may be different from the manufacturer
          * 
          * @return
          *     A reference to this Builder instance
@@ -1162,7 +1241,7 @@ public class SubstanceDefinition extends DomainResource {
          * If any of the elements are null, calling {@link #build()} will fail.
          * 
          * @param molecularWeight
-         *     The molecular weight or weight range (for proteins, polymers or nucleic acids)
+         *     The molecular weight or weight range
          * 
          * @return
          *     A reference to this Builder instance
@@ -1181,7 +1260,7 @@ public class SubstanceDefinition extends DomainResource {
          * If any of the elements are null, calling {@link #build()} will fail.
          * 
          * @param molecularWeight
-         *     The molecular weight or weight range (for proteins, polymers or nucleic acids)
+         *     The molecular weight or weight range
          * 
          * @return
          *     A reference to this Builder instance
@@ -1293,7 +1372,7 @@ public class SubstanceDefinition extends DomainResource {
          * If any of the elements are null, calling {@link #build()} will fail.
          * 
          * @param relationship
-         *     A link between this substance and another, with details of the relationship
+         *     A link between this substance and another
          * 
          * @return
          *     A reference to this Builder instance
@@ -1312,7 +1391,7 @@ public class SubstanceDefinition extends DomainResource {
          * If any of the elements are null, calling {@link #build()} will fail.
          * 
          * @param relationship
-         *     A link between this substance and another, with details of the relationship
+         *     A link between this substance and another
          * 
          * @return
          *     A reference to this Builder instance
@@ -1329,7 +1408,7 @@ public class SubstanceDefinition extends DomainResource {
          * Material or taxonomic/anatomical source for the substance.
          * 
          * @param sourceMaterial
-         *     Material or taxonomic/anatomical source for the substance
+         *     Material or taxonomic/anatomical source
          * 
          * @return
          *     A reference to this Builder instance
@@ -1412,8 +1491,20 @@ public class SubstanceDefinition extends DomainResource {
         @Summary
         private final String name;
         @Summary
+        @Binding(
+            bindingName = "SubstanceStereochemistry",
+            strength = BindingStrength.Value.EXAMPLE,
+            description = "The optical rotation type of a substance.",
+            valueSet = "http://hl7.org/fhir/ValueSet/substance-stereochemistry"
+        )
         private final CodeableConcept stereochemistry;
         @Summary
+        @Binding(
+            bindingName = "SubstanceOpticalActivity",
+            strength = BindingStrength.Value.EXAMPLE,
+            description = "The optical rotation type of a substance.",
+            valueSet = "http://hl7.org/fhir/ValueSet/substance-optical-activity"
+        )
         private final CodeableConcept opticalActivity;
         @Summary
         private final String molecularFormula;
@@ -1421,7 +1512,13 @@ public class SubstanceDefinition extends DomainResource {
         @Choice({ Quantity.class, String.class })
         private final Element amount;
         @Summary
-        private final CodeableConcept amountType;
+        @Binding(
+            bindingName = "SubstanceAmountType",
+            strength = BindingStrength.Value.EXAMPLE,
+            description = "The relationship between two substance types.",
+            valueSet = "http://hl7.org/fhir/ValueSet/substance-amount-type"
+        )
+        private final CodeableConcept measurementType;
 
         private Moiety(Builder builder) {
             super(builder);
@@ -1432,7 +1529,7 @@ public class SubstanceDefinition extends DomainResource {
             opticalActivity = builder.opticalActivity;
             molecularFormula = builder.molecularFormula;
             amount = builder.amount;
-            amountType = builder.amountType;
+            measurementType = builder.measurementType;
         }
 
         /**
@@ -1506,13 +1603,14 @@ public class SubstanceDefinition extends DomainResource {
         }
 
         /**
-         * The measurement type of the quantitative value.
+         * The measurement type of the quantitative value. In capturing the actual relative amounts of substances or molecular 
+         * fragments it may be necessary to indicate whether the amount refers to, for example, a mole ratio or weight ratio.
          * 
          * @return
          *     An immutable object of type {@link CodeableConcept} that may be null.
          */
-        public CodeableConcept getAmountType() {
-            return amountType;
+        public CodeableConcept getMeasurementType() {
+            return measurementType;
         }
 
         @Override
@@ -1525,7 +1623,7 @@ public class SubstanceDefinition extends DomainResource {
                 (opticalActivity != null) || 
                 (molecularFormula != null) || 
                 (amount != null) || 
-                (amountType != null);
+                (measurementType != null);
         }
 
         @Override
@@ -1544,7 +1642,7 @@ public class SubstanceDefinition extends DomainResource {
                     accept(opticalActivity, "opticalActivity", visitor);
                     accept(molecularFormula, "molecularFormula", visitor);
                     accept(amount, "amount", visitor);
-                    accept(amountType, "amountType", visitor);
+                    accept(measurementType, "measurementType", visitor);
                 }
                 visitor.visitEnd(elementName, elementIndex, this);
                 visitor.postVisit(this);
@@ -1573,7 +1671,7 @@ public class SubstanceDefinition extends DomainResource {
                 Objects.equals(opticalActivity, other.opticalActivity) && 
                 Objects.equals(molecularFormula, other.molecularFormula) && 
                 Objects.equals(amount, other.amount) && 
-                Objects.equals(amountType, other.amountType);
+                Objects.equals(measurementType, other.measurementType);
         }
 
         @Override
@@ -1590,7 +1688,7 @@ public class SubstanceDefinition extends DomainResource {
                     opticalActivity, 
                     molecularFormula, 
                     amount, 
-                    amountType);
+                    measurementType);
                 hashCode = result;
             }
             return result;
@@ -1613,7 +1711,7 @@ public class SubstanceDefinition extends DomainResource {
             private CodeableConcept opticalActivity;
             private String molecularFormula;
             private Element amount;
-            private CodeableConcept amountType;
+            private CodeableConcept measurementType;
 
             private Builder() {
                 super();
@@ -1820,7 +1918,7 @@ public class SubstanceDefinition extends DomainResource {
              * Convenience method for setting {@code molecularFormula}.
              * 
              * @param molecularFormula
-             *     Molecular formula for this moiety of this substance, typically using the Hill system
+             *     Molecular formula for this moiety (e.g. with the Hill system)
              * 
              * @return
              *     A reference to this Builder instance
@@ -1836,7 +1934,7 @@ public class SubstanceDefinition extends DomainResource {
              * Molecular formula for this moiety of this substance, typically using the Hill system.
              * 
              * @param molecularFormula
-             *     Molecular formula for this moiety of this substance, typically using the Hill system
+             *     Molecular formula for this moiety (e.g. with the Hill system)
              * 
              * @return
              *     A reference to this Builder instance
@@ -1883,16 +1981,17 @@ public class SubstanceDefinition extends DomainResource {
             }
 
             /**
-             * The measurement type of the quantitative value.
+             * The measurement type of the quantitative value. In capturing the actual relative amounts of substances or molecular 
+             * fragments it may be necessary to indicate whether the amount refers to, for example, a mole ratio or weight ratio.
              * 
-             * @param amountType
+             * @param measurementType
              *     The measurement type of the quantitative value
              * 
              * @return
              *     A reference to this Builder instance
              */
-            public Builder amountType(CodeableConcept amountType) {
-                this.amountType = amountType;
+            public Builder measurementType(CodeableConcept measurementType) {
+                this.measurementType = measurementType;
                 return this;
             }
 
@@ -1928,7 +2027,7 @@ public class SubstanceDefinition extends DomainResource {
                 opticalActivity = moiety.opticalActivity;
                 molecularFormula = moiety.molecularFormula;
                 amount = moiety.amount;
-                amountType = moiety.amountType;
+                measurementType = moiety.measurementType;
                 return this;
             }
         }
@@ -1939,6 +2038,12 @@ public class SubstanceDefinition extends DomainResource {
      */
     public static class Property extends BackboneElement {
         @Summary
+        @Binding(
+            bindingName = "SNOMEDCTCharacteristicCodes",
+            strength = BindingStrength.Value.EXAMPLE,
+            description = "This value set includes all observable entity codes from SNOMED CT - provided as an exemplar value set.",
+            valueSet = "http://hl7.org/fhir/ValueSet/product-characteristic-codes"
+        )
         @Required
         private final CodeableConcept type;
         @Summary
@@ -1952,7 +2057,7 @@ public class SubstanceDefinition extends DomainResource {
         }
 
         /**
-         * A code expressing the type of characteristic.
+         * A code expressing the type of property.
          * 
          * @return
          *     An immutable object of type {@link CodeableConcept} that is non-null.
@@ -1962,7 +2067,7 @@ public class SubstanceDefinition extends DomainResource {
         }
 
         /**
-         * A value for the characteristic.
+         * A value for the property.
          * 
          * @return
          *     An immutable object of type {@link CodeableConcept}, {@link Quantity}, {@link Date}, {@link Boolean} or {@link 
@@ -2158,12 +2263,12 @@ public class SubstanceDefinition extends DomainResource {
             }
 
             /**
-             * A code expressing the type of characteristic.
+             * A code expressing the type of property.
              * 
              * <p>This element is required.
              * 
              * @param type
-             *     A code expressing the type of characteristic
+             *     A code expressing the type of property
              * 
              * @return
              *     A reference to this Builder instance
@@ -2177,7 +2282,7 @@ public class SubstanceDefinition extends DomainResource {
              * Convenience method for setting {@code value} with choice type Date.
              * 
              * @param value
-             *     A value for the characteristic
+             *     A value for the property
              * 
              * @return
              *     A reference to this Builder instance
@@ -2193,7 +2298,7 @@ public class SubstanceDefinition extends DomainResource {
              * Convenience method for setting {@code value} with choice type Boolean.
              * 
              * @param value
-             *     A value for the characteristic
+             *     A value for the property
              * 
              * @return
              *     A reference to this Builder instance
@@ -2206,7 +2311,7 @@ public class SubstanceDefinition extends DomainResource {
             }
 
             /**
-             * A value for the characteristic.
+             * A value for the property.
              * 
              * <p>This is a choice element with the following allowed types:
              * <ul>
@@ -2218,7 +2323,7 @@ public class SubstanceDefinition extends DomainResource {
              * </ul>
              * 
              * @param value
-             *     A value for the characteristic
+             *     A value for the property
              * 
              * @return
              *     A reference to this Builder instance
@@ -2271,8 +2376,20 @@ public class SubstanceDefinition extends DomainResource {
      */
     public static class MolecularWeight extends BackboneElement {
         @Summary
+        @Binding(
+            bindingName = "SubstanceWeightMethod",
+            strength = BindingStrength.Value.EXAMPLE,
+            description = "The method by which the substance weight was measured.",
+            valueSet = "http://hl7.org/fhir/ValueSet/substance-weight-method"
+        )
         private final CodeableConcept method;
         @Summary
+        @Binding(
+            bindingName = "SubstanceWeightType",
+            strength = BindingStrength.Value.EXAMPLE,
+            description = "The type of substance weight measurement.",
+            valueSet = "http://hl7.org/fhir/ValueSet/substance-weight-type"
+        )
         private final CodeableConcept type;
         @Summary
         @Required
@@ -2510,7 +2627,7 @@ public class SubstanceDefinition extends DomainResource {
              * The method by which the molecular weight was determined.
              * 
              * @param method
-             *     The method by which the molecular weight was determined
+             *     The method by which the weight was determined
              * 
              * @return
              *     A reference to this Builder instance
@@ -2524,7 +2641,7 @@ public class SubstanceDefinition extends DomainResource {
              * Type of molecular weight such as exact, average (also known as. number average), weight average.
              * 
              * @param type
-             *     Type of molecular weight such as exact, average (also known as. number average), weight average
+             *     Type of molecular weight e.g. exact, average, weight average
              * 
              * @return
              *     A reference to this Builder instance
@@ -2541,8 +2658,7 @@ public class SubstanceDefinition extends DomainResource {
              * <p>This element is required.
              * 
              * @param amount
-             *     Used to capture quantitative values for a variety of elements. If only limits are given, the arithmetic mean would be 
-             *     the average. If only a single definite value for a given element is given, it would be captured in this field
+             *     Used to capture quantitative values for a variety of elements
              * 
              * @return
              *     A reference to this Builder instance
@@ -2595,8 +2711,20 @@ public class SubstanceDefinition extends DomainResource {
      */
     public static class Structure extends BackboneElement {
         @Summary
+        @Binding(
+            bindingName = "SubstanceStereochemistry",
+            strength = BindingStrength.Value.EXAMPLE,
+            description = "The optical rotation type of a substance.",
+            valueSet = "http://hl7.org/fhir/ValueSet/substance-stereochemistry"
+        )
         private final CodeableConcept stereochemistry;
         @Summary
+        @Binding(
+            bindingName = "SubstanceOpticalActivity",
+            strength = BindingStrength.Value.EXAMPLE,
+            description = "The optical rotation type of a substance.",
+            valueSet = "http://hl7.org/fhir/ValueSet/substance-optical-activity"
+        )
         private final CodeableConcept opticalActivity;
         @Summary
         private final String molecularFormula;
@@ -2605,6 +2733,12 @@ public class SubstanceDefinition extends DomainResource {
         @Summary
         private final SubstanceDefinition.MolecularWeight molecularWeight;
         @Summary
+        @Binding(
+            bindingName = "SubstanceStructureTechnique",
+            strength = BindingStrength.Value.EXAMPLE,
+            description = "The method used to elucidate the structure or characterization of the drug substance.",
+            valueSet = "http://hl7.org/fhir/ValueSet/substance-structure-technique"
+        )
         private final List<CodeableConcept> technique;
         @Summary
         @ReferenceTarget({ "DocumentReference" })
@@ -2687,7 +2821,7 @@ public class SubstanceDefinition extends DomainResource {
         }
 
         /**
-         * Supporting literature about the source of information.
+         * The source of information about the structure.
          * 
          * @return
          *     An unmodifiable list containing immutable objects of type {@link Reference} that may be empty.
@@ -2953,7 +3087,7 @@ public class SubstanceDefinition extends DomainResource {
              * Convenience method for setting {@code molecularFormula}.
              * 
              * @param molecularFormula
-             *     Molecular formula of this substance, typically using the Hill system
+             *     Molecular formula (e.g. using the Hill system)
              * 
              * @return
              *     A reference to this Builder instance
@@ -2969,7 +3103,7 @@ public class SubstanceDefinition extends DomainResource {
              * Molecular formula of this substance, typically using the Hill system.
              * 
              * @param molecularFormula
-             *     Molecular formula of this substance, typically using the Hill system
+             *     Molecular formula (e.g. using the Hill system)
              * 
              * @return
              *     A reference to this Builder instance
@@ -2983,8 +3117,7 @@ public class SubstanceDefinition extends DomainResource {
              * Convenience method for setting {@code molecularFormulaByMoiety}.
              * 
              * @param molecularFormulaByMoiety
-             *     Specified per moiety according to the Hill system, i.e. first C, then H, then alphabetical, each moiety separated by a 
-             *     dot
+             *     Specified per moiety according to the Hill system
              * 
              * @return
              *     A reference to this Builder instance
@@ -3001,8 +3134,7 @@ public class SubstanceDefinition extends DomainResource {
              * dot.
              * 
              * @param molecularFormulaByMoiety
-             *     Specified per moiety according to the Hill system, i.e. first C, then H, then alphabetical, each moiety separated by a 
-             *     dot
+             *     Specified per moiety according to the Hill system
              * 
              * @return
              *     A reference to this Builder instance
@@ -3016,7 +3148,7 @@ public class SubstanceDefinition extends DomainResource {
              * The molecular weight or weight range (for proteins, polymers or nucleic acids).
              * 
              * @param molecularWeight
-             *     The molecular weight or weight range (for proteins, polymers or nucleic acids)
+             *     The molecular weight or weight range
              * 
              * @return
              *     A reference to this Builder instance
@@ -3034,8 +3166,7 @@ public class SubstanceDefinition extends DomainResource {
              * If any of the elements are null, calling {@link #build()} will fail.
              * 
              * @param technique
-             *     The method used to elucidate the structure or characterization of the drug substance. Examples: X-ray, HPLC, NMR, 
-             *     Peptide mapping, Ligand binding assay
+             *     The method used to find the structure e.g. X-ray, NMR
              * 
              * @return
              *     A reference to this Builder instance
@@ -3055,8 +3186,7 @@ public class SubstanceDefinition extends DomainResource {
              * If any of the elements are null, calling {@link #build()} will fail.
              * 
              * @param technique
-             *     The method used to elucidate the structure or characterization of the drug substance. Examples: X-ray, HPLC, NMR, 
-             *     Peptide mapping, Ligand binding assay
+             *     The method used to find the structure e.g. X-ray, NMR
              * 
              * @return
              *     A reference to this Builder instance
@@ -3070,7 +3200,7 @@ public class SubstanceDefinition extends DomainResource {
             }
 
             /**
-             * Supporting literature about the source of information.
+             * The source of information about the structure.
              * 
              * <p>Adds new element(s) to the existing list.
              * If any of the elements are null, calling {@link #build()} will fail.
@@ -3081,7 +3211,7 @@ public class SubstanceDefinition extends DomainResource {
              * </ul>
              * 
              * @param sourceDocument
-             *     Supporting literature about the source of information
+             *     Source of information for the structure
              * 
              * @return
              *     A reference to this Builder instance
@@ -3094,7 +3224,7 @@ public class SubstanceDefinition extends DomainResource {
             }
 
             /**
-             * Supporting literature about the source of information.
+             * The source of information about the structure.
              * 
              * <p>Replaces the existing list with a new one containing elements from the Collection.
              * If any of the elements are null, calling {@link #build()} will fail.
@@ -3105,7 +3235,7 @@ public class SubstanceDefinition extends DomainResource {
              * </ul>
              * 
              * @param sourceDocument
-             *     Supporting literature about the source of information
+             *     Source of information for the structure
              * 
              * @return
              *     A reference to this Builder instance
@@ -3202,10 +3332,22 @@ public class SubstanceDefinition extends DomainResource {
          */
         public static class Representation extends BackboneElement {
             @Summary
+            @Binding(
+                bindingName = "SubstanceRepresentationType",
+                strength = BindingStrength.Value.EXAMPLE,
+                description = "A format of a substance representation.",
+                valueSet = "http://hl7.org/fhir/ValueSet/substance-representation-type"
+            )
             private final CodeableConcept type;
             @Summary
             private final String representation;
             @Summary
+            @Binding(
+                bindingName = "SubstanceRepresentationFormat",
+                strength = BindingStrength.Value.EXAMPLE,
+                description = "A format of a substance representation.",
+                valueSet = "http://hl7.org/fhir/ValueSet/substance-representation-format"
+            )
             private final CodeableConcept format;
             @Summary
             @ReferenceTarget({ "DocumentReference" })
@@ -3220,8 +3362,7 @@ public class SubstanceDefinition extends DomainResource {
             }
 
             /**
-             * The kind of structural representation (e.g. full, partial) or the technique used to derive the analytical 
-             * characterization of the substance (e.g. x-ray, HPLC, NMR, peptide mapping, ligand binding assay, etc.).
+             * The kind of structural representation (e.g. full, partial).
              * 
              * @return
              *     An immutable object of type {@link CodeableConcept} that may be null.
@@ -3458,12 +3599,10 @@ public class SubstanceDefinition extends DomainResource {
                 }
 
                 /**
-                 * The kind of structural representation (e.g. full, partial) or the technique used to derive the analytical 
-                 * characterization of the substance (e.g. x-ray, HPLC, NMR, peptide mapping, ligand binding assay, etc.).
+                 * The kind of structural representation (e.g. full, partial).
                  * 
                  * @param type
-                 *     The kind of structural representation (e.g. full, partial) or the technique used to derive the analytical 
-                 *     characterization of the substance (e.g. x-ray, HPLC, NMR, peptide mapping, ligand binding assay, etc.)
+                 *     The kind of structural representation (e.g. full, partial)
                  * 
                  * @return
                  *     A reference to this Builder instance
@@ -3508,8 +3647,7 @@ public class SubstanceDefinition extends DomainResource {
                  * than the physical file format of a document.
                  * 
                  * @param format
-                 *     The format of the representation e.g. InChI, SMILES, MOLFILE, CDX, SDF, PDB, mmCIF. The logical content type rather 
-                 *     than the physical file format of a document
+                 *     The format of the representation e.g. InChI, SMILES, MOLFILE (note: not the physical file format)
                  * 
                  * @return
                  *     A reference to this Builder instance
@@ -3529,8 +3667,7 @@ public class SubstanceDefinition extends DomainResource {
                  * </ul>
                  * 
                  * @param document
-                 *     An attached file with the structural representation or characterization e.g. a molecular structure graphic of the 
-                 *     substance, a JCAMP or AnIML file
+                 *     An attachment with the structural representation e.g. a structure graphic or AnIML file
                  * 
                  * @return
                  *     A reference to this Builder instance
@@ -3582,6 +3719,12 @@ public class SubstanceDefinition extends DomainResource {
         @Summary
         private final CodeableConcept code;
         @Summary
+        @Binding(
+            bindingName = "PublicationStatus",
+            strength = BindingStrength.Value.PREFERRED,
+            description = "The lifecycle status of an artifact.",
+            valueSet = "http://hl7.org/fhir/ValueSet/publication-status"
+        )
         private final CodeableConcept status;
         @Summary
         private final DateTime statusDate;
@@ -3621,7 +3764,7 @@ public class SubstanceDefinition extends DomainResource {
         }
 
         /**
-         * The date at which the code status is changed as part of the terminology maintenance.
+         * The date at which the code status was changed as part of the terminology maintenance.
          * 
          * @return
          *     An immutable object of type {@link DateTime} that may be null.
@@ -3879,10 +4022,10 @@ public class SubstanceDefinition extends DomainResource {
             }
 
             /**
-             * The date at which the code status is changed as part of the terminology maintenance.
+             * The date at which the code status was changed as part of the terminology maintenance.
              * 
              * @param statusDate
-             *     The date at which the code status is changed as part of the terminology maintenance
+             *     The date at which the code status was changed
              * 
              * @return
              *     A reference to this Builder instance
@@ -3899,7 +4042,7 @@ public class SubstanceDefinition extends DomainResource {
              * If any of the elements are null, calling {@link #build()} will fail.
              * 
              * @param note
-             *     Any comment can be provided in this field, if necessary
+             *     Any comment can be provided in this field
              * 
              * @return
              *     A reference to this Builder instance
@@ -3918,7 +4061,7 @@ public class SubstanceDefinition extends DomainResource {
              * If any of the elements are null, calling {@link #build()} will fail.
              * 
              * @param note
-             *     Any comment can be provided in this field, if necessary
+             *     Any comment can be provided in this field
              * 
              * @return
              *     A reference to this Builder instance
@@ -4025,16 +4168,47 @@ public class SubstanceDefinition extends DomainResource {
         @Required
         private final String name;
         @Summary
+        @Binding(
+            bindingName = "SubstanceNameType",
+            strength = BindingStrength.Value.EXAMPLE,
+            description = "The type of a name given to a substance.",
+            valueSet = "http://hl7.org/fhir/ValueSet/substance-name-type"
+        )
         private final CodeableConcept type;
         @Summary
+        @Binding(
+            bindingName = "PublicationStatus",
+            strength = BindingStrength.Value.PREFERRED,
+            description = "The lifecycle status of an artifact.",
+            valueSet = "http://hl7.org/fhir/ValueSet/publication-status"
+        )
         private final CodeableConcept status;
         @Summary
         private final Boolean preferred;
         @Summary
+        @Binding(
+            bindingName = "Language",
+            strength = BindingStrength.Value.PREFERRED,
+            description = "IETF language tag",
+            valueSet = "http://hl7.org/fhir/ValueSet/languages",
+            maxValueSet = "http://hl7.org/fhir/ValueSet/all-languages"
+        )
         private final List<CodeableConcept> language;
         @Summary
+        @Binding(
+            bindingName = "SubstanceNameDomain",
+            strength = BindingStrength.Value.EXAMPLE,
+            description = "The use context of a substance name for example if there is a different name when used as a drug active ingredient as opposed to a food colour additive.",
+            valueSet = "http://hl7.org/fhir/ValueSet/substance-name-domain"
+        )
         private final List<CodeableConcept> domain;
         @Summary
+        @Binding(
+            bindingName = "Jurisdiction",
+            strength = BindingStrength.Value.EXAMPLE,
+            description = "Jurisdiction codes",
+            valueSet = "http://hl7.org/fhir/ValueSet/jurisdiction"
+        )
         private final List<CodeableConcept> jurisdiction;
         @Summary
         private final List<SubstanceDefinition.Name> synonym;
@@ -4440,7 +4614,7 @@ public class SubstanceDefinition extends DomainResource {
              * Name type, for example 'systematic', 'scientific, 'brand'.
              * 
              * @param type
-             *     Name type, for example 'systematic', 'scientific, 'brand'
+             *     Name type e.g. 'systematic', 'scientific, 'brand'
              * 
              * @return
              *     A reference to this Builder instance
@@ -4454,7 +4628,7 @@ public class SubstanceDefinition extends DomainResource {
              * The status of the name, for example 'current', 'proposed'.
              * 
              * @param status
-             *     The status of the name, for example 'current', 'proposed'
+             *     The status of the name e.g. 'current', 'proposed'
              * 
              * @return
              *     A reference to this Builder instance
@@ -4541,8 +4715,7 @@ public class SubstanceDefinition extends DomainResource {
              * If any of the elements are null, calling {@link #build()} will fail.
              * 
              * @param domain
-             *     The use context of this name for example if there is a different name a drug active ingredient as opposed to a food 
-             *     colour additive
+             *     The use context of this name e.g. as an active ingredient or as a food colour additive
              * 
              * @return
              *     A reference to this Builder instance
@@ -4562,8 +4735,7 @@ public class SubstanceDefinition extends DomainResource {
              * If any of the elements are null, calling {@link #build()} will fail.
              * 
              * @param domain
-             *     The use context of this name for example if there is a different name a drug active ingredient as opposed to a food 
-             *     colour additive
+             *     The use context of this name e.g. as an active ingredient or as a food colour additive
              * 
              * @return
              *     A reference to this Builder instance
@@ -4813,6 +4985,7 @@ public class SubstanceDefinition extends DomainResource {
                 ValidationSupport.checkList(name.translation, "translation", SubstanceDefinition.Name.class);
                 ValidationSupport.checkList(name.official, "official", Official.class);
                 ValidationSupport.checkList(name.source, "source", Reference.class);
+                ValidationSupport.checkValueSetBinding(name.language, "language", "http://hl7.org/fhir/ValueSet/all-languages", "urn:ietf:bcp:47");
                 ValidationSupport.checkReferenceType(name.source, "source", "DocumentReference");
                 ValidationSupport.requireValueOrChildren(name);
             }
@@ -4839,8 +5012,20 @@ public class SubstanceDefinition extends DomainResource {
          */
         public static class Official extends BackboneElement {
             @Summary
+            @Binding(
+                bindingName = "SubstanceNameAuthority",
+                strength = BindingStrength.Value.PREFERRED,
+                description = "An authority that officates substance names.",
+                valueSet = "http://hl7.org/fhir/ValueSet/substance-name-authority"
+            )
             private final CodeableConcept authority;
             @Summary
+            @Binding(
+                bindingName = "PublicationStatus",
+                strength = BindingStrength.Value.PREFERRED,
+                description = "The lifecycle status of an artifact.",
+                valueSet = "http://hl7.org/fhir/ValueSet/publication-status"
+            )
             private final CodeableConcept status;
             @Summary
             private final DateTime date;
@@ -4863,7 +5048,7 @@ public class SubstanceDefinition extends DomainResource {
             }
 
             /**
-             * The status of the official name, for example 'provisional', 'approved'.
+             * The status of the official name, for example 'draft', 'active', 'retired'.
              * 
              * @return
              *     An immutable object of type {@link CodeableConcept} that may be null.
@@ -4873,7 +5058,7 @@ public class SubstanceDefinition extends DomainResource {
             }
 
             /**
-             * Date of official name change.
+             * Date of the official name change.
              * 
              * @return
              *     An immutable object of type {@link DateTime} that may be null.
@@ -5087,10 +5272,10 @@ public class SubstanceDefinition extends DomainResource {
                 }
 
                 /**
-                 * The status of the official name, for example 'provisional', 'approved'.
+                 * The status of the official name, for example 'draft', 'active', 'retired'.
                  * 
                  * @param status
-                 *     The status of the official name, for example 'provisional', 'approved'
+                 *     The status of the official name, for example 'draft', 'active'
                  * 
                  * @return
                  *     A reference to this Builder instance
@@ -5101,7 +5286,7 @@ public class SubstanceDefinition extends DomainResource {
                 }
 
                 /**
-                 * Date of official name change.
+                 * Date of the official name change.
                  * 
                  * @param date
                  *     Date of official name change
@@ -5156,6 +5341,12 @@ public class SubstanceDefinition extends DomainResource {
         @Choice({ Reference.class, CodeableConcept.class })
         private final Element substanceDefinition;
         @Summary
+        @Binding(
+            bindingName = "SubstanceRelationshipType",
+            strength = BindingStrength.Value.EXAMPLE,
+            description = "The relationship between two substance types.",
+            valueSet = "http://hl7.org/fhir/ValueSet/substance-relationship-type"
+        )
         @Required
         private final CodeableConcept type;
         @Summary
@@ -5164,9 +5355,15 @@ public class SubstanceDefinition extends DomainResource {
         @Choice({ Quantity.class, Ratio.class, String.class })
         private final Element amount;
         @Summary
-        private final Ratio amountRatioHighLimit;
+        private final Ratio ratioHighLimitAmount;
         @Summary
-        private final CodeableConcept amountType;
+        @Binding(
+            bindingName = "SubstanceAmountType",
+            strength = BindingStrength.Value.EXAMPLE,
+            description = "The relationship between two substance types.",
+            valueSet = "http://hl7.org/fhir/ValueSet/substance-amount-type"
+        )
+        private final CodeableConcept comparator;
         @Summary
         @ReferenceTarget({ "DocumentReference" })
         private final List<Reference> source;
@@ -5177,8 +5374,8 @@ public class SubstanceDefinition extends DomainResource {
             type = builder.type;
             isDefining = builder.isDefining;
             amount = builder.amount;
-            amountRatioHighLimit = builder.amountRatioHighLimit;
-            amountType = builder.amountType;
+            ratioHighLimitAmount = builder.ratioHighLimitAmount;
+            comparator = builder.comparator;
             source = Collections.unmodifiableList(builder.source);
         }
 
@@ -5230,8 +5427,8 @@ public class SubstanceDefinition extends DomainResource {
          * @return
          *     An immutable object of type {@link Ratio} that may be null.
          */
-        public Ratio getAmountRatioHighLimit() {
-            return amountRatioHighLimit;
+        public Ratio getRatioHighLimitAmount() {
+            return ratioHighLimitAmount;
         }
 
         /**
@@ -5240,8 +5437,8 @@ public class SubstanceDefinition extends DomainResource {
          * @return
          *     An immutable object of type {@link CodeableConcept} that may be null.
          */
-        public CodeableConcept getAmountType() {
-            return amountType;
+        public CodeableConcept getComparator() {
+            return comparator;
         }
 
         /**
@@ -5261,8 +5458,8 @@ public class SubstanceDefinition extends DomainResource {
                 (type != null) || 
                 (isDefining != null) || 
                 (amount != null) || 
-                (amountRatioHighLimit != null) || 
-                (amountType != null) || 
+                (ratioHighLimitAmount != null) || 
+                (comparator != null) || 
                 !source.isEmpty();
         }
 
@@ -5279,8 +5476,8 @@ public class SubstanceDefinition extends DomainResource {
                     accept(type, "type", visitor);
                     accept(isDefining, "isDefining", visitor);
                     accept(amount, "amount", visitor);
-                    accept(amountRatioHighLimit, "amountRatioHighLimit", visitor);
-                    accept(amountType, "amountType", visitor);
+                    accept(ratioHighLimitAmount, "ratioHighLimitAmount", visitor);
+                    accept(comparator, "comparator", visitor);
                     accept(source, "source", visitor, Reference.class);
                 }
                 visitor.visitEnd(elementName, elementIndex, this);
@@ -5307,8 +5504,8 @@ public class SubstanceDefinition extends DomainResource {
                 Objects.equals(type, other.type) && 
                 Objects.equals(isDefining, other.isDefining) && 
                 Objects.equals(amount, other.amount) && 
-                Objects.equals(amountRatioHighLimit, other.amountRatioHighLimit) && 
-                Objects.equals(amountType, other.amountType) && 
+                Objects.equals(ratioHighLimitAmount, other.ratioHighLimitAmount) && 
+                Objects.equals(comparator, other.comparator) && 
                 Objects.equals(source, other.source);
         }
 
@@ -5323,8 +5520,8 @@ public class SubstanceDefinition extends DomainResource {
                     type, 
                     isDefining, 
                     amount, 
-                    amountRatioHighLimit, 
-                    amountType, 
+                    ratioHighLimitAmount, 
+                    comparator, 
                     source);
                 hashCode = result;
             }
@@ -5345,8 +5542,8 @@ public class SubstanceDefinition extends DomainResource {
             private CodeableConcept type;
             private Boolean isDefining;
             private Element amount;
-            private Ratio amountRatioHighLimit;
-            private CodeableConcept amountType;
+            private Ratio ratioHighLimitAmount;
+            private CodeableConcept comparator;
             private List<Reference> source = new ArrayList<>();
 
             private Builder() {
@@ -5479,7 +5676,7 @@ public class SubstanceDefinition extends DomainResource {
              * </ul>
              * 
              * @param substanceDefinition
-             *     A pointer to another substance, as a resource or just a representational code
+             *     A pointer to another substance, as a resource or a representational code
              * 
              * @return
              *     A reference to this Builder instance
@@ -5495,7 +5692,7 @@ public class SubstanceDefinition extends DomainResource {
              * <p>This element is required.
              * 
              * @param type
-             *     For example "salt to parent", "active moiety", "starting material", "polymorph", "impurity of"
+             *     For example "salt to parent", "active moiety"
              * 
              * @return
              *     A reference to this Builder instance
@@ -5510,7 +5707,7 @@ public class SubstanceDefinition extends DomainResource {
              * 
              * @param isDefining
              *     For example where an enzyme strongly bonds with a particular substance, this is a defining relationship for that 
-             *     enzyme, out of several possible substance relationships
+             *     enzyme, out of several possible relationships
              * 
              * @return
              *     A reference to this Builder instance
@@ -5528,7 +5725,7 @@ public class SubstanceDefinition extends DomainResource {
              * 
              * @param isDefining
              *     For example where an enzyme strongly bonds with a particular substance, this is a defining relationship for that 
-             *     enzyme, out of several possible substance relationships
+             *     enzyme, out of several possible relationships
              * 
              * @return
              *     A reference to this Builder instance
@@ -5542,8 +5739,8 @@ public class SubstanceDefinition extends DomainResource {
              * Convenience method for setting {@code amount} with choice type String.
              * 
              * @param amount
-             *     A numeric factor for the relationship, for instance to express that the salt of a substance has some percentage of the 
-             *     active substance in relation to some other
+             *     A numeric factor for the relationship, e.g. that a substance salt has some percentage of active substance in relation 
+             *     to some other
              * 
              * @return
              *     A reference to this Builder instance
@@ -5567,8 +5764,8 @@ public class SubstanceDefinition extends DomainResource {
              * </ul>
              * 
              * @param amount
-             *     A numeric factor for the relationship, for instance to express that the salt of a substance has some percentage of the 
-             *     active substance in relation to some other
+             *     A numeric factor for the relationship, e.g. that a substance salt has some percentage of active substance in relation 
+             *     to some other
              * 
              * @return
              *     A reference to this Builder instance
@@ -5581,28 +5778,28 @@ public class SubstanceDefinition extends DomainResource {
             /**
              * For use when the numeric has an uncertain range.
              * 
-             * @param amountRatioHighLimit
+             * @param ratioHighLimitAmount
              *     For use when the numeric has an uncertain range
              * 
              * @return
              *     A reference to this Builder instance
              */
-            public Builder amountRatioHighLimit(Ratio amountRatioHighLimit) {
-                this.amountRatioHighLimit = amountRatioHighLimit;
+            public Builder ratioHighLimitAmount(Ratio ratioHighLimitAmount) {
+                this.ratioHighLimitAmount = ratioHighLimitAmount;
                 return this;
             }
 
             /**
              * An operator for the amount, for example "average", "approximately", "less than".
              * 
-             * @param amountType
+             * @param comparator
              *     An operator for the amount, for example "average", "approximately", "less than"
              * 
              * @return
              *     A reference to this Builder instance
              */
-            public Builder amountType(CodeableConcept amountType) {
-                this.amountType = amountType;
+            public Builder comparator(CodeableConcept comparator) {
+                this.comparator = comparator;
                 return this;
             }
 
@@ -5694,8 +5891,8 @@ public class SubstanceDefinition extends DomainResource {
                 type = relationship.type;
                 isDefining = relationship.isDefining;
                 amount = relationship.amount;
-                amountRatioHighLimit = relationship.amountRatioHighLimit;
-                amountType = relationship.amountType;
+                ratioHighLimitAmount = relationship.ratioHighLimitAmount;
+                comparator = relationship.comparator;
                 source.addAll(relationship.source);
                 return this;
             }
@@ -5707,14 +5904,44 @@ public class SubstanceDefinition extends DomainResource {
      */
     public static class SourceMaterial extends BackboneElement {
         @Summary
+        @Binding(
+            bindingName = "SourceMaterialType",
+            strength = BindingStrength.Value.EXAMPLE,
+            description = "A classification that provides the origin of the substance raw material.",
+            valueSet = "http://hl7.org/fhir/ValueSet/substance-source-material-type"
+        )
         private final CodeableConcept type;
         @Summary
+        @Binding(
+            bindingName = "SourceMaterialGenus",
+            strength = BindingStrength.Value.EXAMPLE,
+            description = "The genus of an organism, typically referring to the Latin epithet of the genus element of the plant/animal scientific name.",
+            valueSet = "http://hl7.org/fhir/ValueSet/substance-source-material-genus"
+        )
         private final CodeableConcept genus;
         @Summary
+        @Binding(
+            bindingName = "SourceMaterialSpecies",
+            strength = BindingStrength.Value.EXAMPLE,
+            description = "A species of origin a substance raw material.",
+            valueSet = "http://hl7.org/fhir/ValueSet/substance-source-material-species"
+        )
         private final CodeableConcept species;
         @Summary
+        @Binding(
+            bindingName = "SourceMaterialPart",
+            strength = BindingStrength.Value.EXAMPLE,
+            description = "An anatomical origin of the source material within an organism.",
+            valueSet = "http://hl7.org/fhir/ValueSet/substance-source-material-part"
+        )
         private final CodeableConcept part;
         @Summary
+        @Binding(
+            bindingName = "Country",
+            strength = BindingStrength.Value.REQUIRED,
+            description = "Jurisdiction codes",
+            valueSet = "http://hl7.org/fhir/ValueSet/country|4.3.0-cibuild"
+        )
         private final List<CodeableConcept> countryOfOrigin;
 
         private SourceMaterial(Builder builder) {
@@ -5981,7 +6208,7 @@ public class SubstanceDefinition extends DomainResource {
              * A classification that provides the origin of the raw material. Example: cat hair would be an Animal source type.
              * 
              * @param type
-             *     A classification that provides the origin of the raw material. Example: cat hair would be an Animal source type
+             *     Classification of the origin of the raw material. e.g. cat hair is an Animal source type
              * 
              * @return
              *     A reference to this Builder instance
@@ -5996,8 +6223,7 @@ public class SubstanceDefinition extends DomainResource {
              * name.
              * 
              * @param genus
-             *     The genus of an organism, typically referring to the Latin epithet of the genus element of the plant/animal scientific 
-             *     name
+             *     The genus of an organism e.g. the Latin epithet of the plant/animal scientific name
              * 
              * @return
              *     A reference to this Builder instance
@@ -6011,7 +6237,7 @@ public class SubstanceDefinition extends DomainResource {
              * The species of an organism, typically referring to the Latin epithet of the species of the plant/animal.
              * 
              * @param species
-             *     The species of an organism, typically referring to the Latin epithet of the species of the plant/animal
+             *     The species of an organism e.g. the Latin epithet of the species of the plant/animal
              * 
              * @return
              *     A reference to this Builder instance

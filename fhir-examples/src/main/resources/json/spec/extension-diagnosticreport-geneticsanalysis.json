@@ -12,9 +12,10 @@
     }
   ],
   "url": "http://hl7.org/fhir/StructureDefinition/DiagnosticReport-geneticsAnalysis",
-  "version": "4.3.0-CIBUILD",
+  "version": "4.3.0-cibuild",
   "name": "Analysis",
   "status": "draft",
+  "experimental": false,
   "date": "2015-10-09",
   "publisher": "Health Level Seven International (Clinical Genomics)",
   "contact": [
@@ -28,7 +29,7 @@
     }
   ],
   "description": "Knowledge-based comments on the effect of the sequence on patient\u0027s condition/medication reaction.",
-  "fhirVersion": "4.3.0-CIBUILD",
+  "fhirVersion": "4.3.0-cibuild",
   "mapping": [
     {
       "identity": "rim",
@@ -679,9 +680,6 @@
             "code": "CodeableConcept"
           },
           {
-            "code": "CodeableReference"
-          },
-          {
             "code": "Coding"
           },
           {
@@ -716,9 +714,6 @@
           },
           {
             "code": "Ratio"
-          },
-          {
-            "code": "RatioRange"
           },
           {
             "code": "Reference"

@@ -1,0 +1,117 @@
+{
+    "resourceType": "CodeSystem",
+    "id": "cited-artifact-classification-type",
+    "meta": {
+        "lastUpdated": "2022-04-24T09:21:35.043+11:00",
+        "profile": [
+            "http://hl7.org/fhir/StructureDefinition/shareablecodesystem"
+        ]
+    },
+    "text": {
+        "status": "empty",
+        "div": "<div xmlns=\"http://www.w3.org/1999/xhtml\">Redacted for size</div>"
+    },
+    "extension": [
+        {
+            "url": "http://hl7.org/fhir/StructureDefinition/structuredefinition-wg",
+            "valueCode": "cds"
+        },
+        {
+            "url": "http://hl7.org/fhir/StructureDefinition/structuredefinition-standards-status",
+            "valueCode": "trial-use"
+        },
+        {
+            "url": "http://hl7.org/fhir/StructureDefinition/structuredefinition-fmm",
+            "valueInteger": 0
+        }
+    ],
+    "url": "http://terminology.hl7.org/CodeSystem/cited-artifact-classification-type",
+    "identifier": [
+        {
+            "system": "urn:ietf:rfc:3986",
+            "value": "urn:oid:2.16.840.1.113883.4.642.1.0"
+        }
+    ],
+    "version": "4.3.0-cibuild",
+    "name": "CitedArtifactClassificationType",
+    "title": "CitedArtifactClassificationType",
+    "status": "draft",
+    "experimental": false,
+    "date": "2021-03-11T10:55:11.085+11:00",
+    "publisher": "HL7 (FHIR Project)",
+    "contact": [
+        {
+            "telecom": [
+                {
+                    "system": "url",
+                    "value": "http://hl7.org/fhir"
+                },
+                {
+                    "system": "email",
+                    "value": "fhir@lists.hl7.org"
+                }
+            ]
+        }
+    ],
+    "description": "Cited Artifact Classification Type",
+    "caseSensitive": true,
+    "valueSet": "http://hl7.org/fhir/ValueSet/cited-artifact-classification-type",
+    "content": "complete",
+    "concept": [
+        {
+            "code": "publication-type",
+            "display": "Publication type",
+            "definition": "Publication type"
+        },
+        {
+            "code": "mesh-heading",
+            "display": "MeSH heading",
+            "definition": "MeSH heading"
+        },
+        {
+            "code": "supplemental-mesh-protocol",
+            "display": "Supplemental MeSH for Protocol",
+            "definition": "Supplemental MeSH for Protocol"
+        },
+        {
+            "code": "supplemental-mesh-disease",
+            "display": "Supplemental MeSH for Disease",
+            "definition": "Supplemental MeSH for Disease"
+        },
+        {
+            "code": "supplemental-mesh-organism",
+            "display": "Supplemental MeSH for Organism",
+            "definition": "Supplemental MeSH for Organism"
+        },
+        {
+            "code": "keyword",
+            "display": "Keyword",
+            "definition": "Keyword"
+        },
+        {
+            "code": "citation-subset",
+            "display": "Citation subset",
+            "definition": "Citation subset"
+        },
+        {
+            "code": "chemical",
+            "display": "Chemical",
+            "definition": "Chemical"
+        },
+        {
+            "code": "publishing-model",
+            "display": "Publishing Model",
+            "definition": "Used for PubModel attribute in Medline"
+        },
+        {
+            "code": "knowledge-artifact-type",
+            "display": "Knowledge Artifact Type",
+            "definition": "Knowledge Artifact Type"
+        },
+        {
+            "code": "coverage",
+            "display": "Coverage",
+            "definition": "The spatial or temporal topic of the resource, spatial applicability of the resource, or jurisdiction under which the resource is relevant"
+        }
+    ]
+}

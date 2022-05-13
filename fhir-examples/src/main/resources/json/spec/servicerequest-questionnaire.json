@@ -9,8 +9,8 @@
       "status": "active",
       "description": "Type options for ServiceRequest.quantity[x]",
       "expansion": {
-        "identifier": "urn:uuid:c8e8cb39-f741-4ad9-8902-fd897d75c174",
-        "timestamp": "2022-01-01T15:25:50+00:00",
+        "identifier": "urn:uuid:c16674bc-7b6b-47ea-9281-82dc05ead249",
+        "timestamp": "2022-04-23T22:30:44+00:00",
         "contains": [
           {
             "system": "http://hl7.org/fhir/data-types",
@@ -37,8 +37,8 @@
       "status": "active",
       "description": "Type options for ServiceRequest.occurrence[x]",
       "expansion": {
-        "identifier": "urn:uuid:b6e884c3-8901-4ec8-bcbd-a906a2dd1ce7",
-        "timestamp": "2022-01-01T15:25:50+00:00",
+        "identifier": "urn:uuid:d393e10c-6089-4f68-a92e-1bdd9f62cc42",
+        "timestamp": "2022-04-23T22:30:44+00:00",
         "contains": [
           {
             "system": "http://hl7.org/fhir/data-types",
@@ -65,8 +65,8 @@
       "status": "active",
       "description": "Type options for ServiceRequest.asNeeded[x]",
       "expansion": {
-        "identifier": "urn:uuid:4195654f-14a3-4240-8f2a-301f8cb08488",
-        "timestamp": "2022-01-01T15:25:50+00:00",
+        "identifier": "urn:uuid:d91a91c2-b777-4931-98b0-a9ef70f71d45",
+        "timestamp": "2022-04-23T22:30:44+00:00",
         "contains": [
           {
             "system": "http://hl7.org/fhir/data-types",
@@ -87,9 +87,10 @@
       "system": "urn:ietf:rfc:3986"
     }
   ],
-  "version": "4.3.0-CIBUILD",
+  "version": "4.3.0-cibuild",
   "status": "draft",
-  "date": "2022-01-01T15:17:18+00:00",
+  "experimental": false,
+  "date": "2022-04-23T22:21:35+00:00",
   "publisher": "Health Level Seven International (Orders and Observations)",
   "item": [
     {
@@ -278,10 +279,9 @@
             {
               "linkId": "ServiceRequest.language.value",
               "text": "language",
-              "type": "coding",
+              "type": "choice",
               "required": false,
-              "repeats": false,
-              "answerConstraint": "optionsOnly"
+              "repeats": false
             }
           ]
         },
@@ -739,10 +739,9 @@
             {
               "linkId": "ServiceRequest.status.value",
               "text": "status",
-              "type": "coding",
+              "type": "choice",
               "required": false,
-              "repeats": false,
-              "answerConstraint": "optionsOrType"
+              "repeats": false
             }
           ]
         },
@@ -788,10 +787,9 @@
             {
               "linkId": "ServiceRequest.intent.value",
               "text": "intent",
-              "type": "coding",
+              "type": "choice",
               "required": false,
-              "repeats": false,
-              "answerConstraint": "optionsOrType"
+              "repeats": false
             }
           ]
         },
@@ -830,10 +828,9 @@
             {
               "linkId": "ServiceRequest.category.coding",
               "text": "code:",
-              "type": "coding",
+              "type": "choice",
               "required": false,
-              "repeats": false,
-              "answerConstraint": "optionsOnly"
+              "repeats": false
             },
             {
               "linkId": "ServiceRequest.category.text",
@@ -882,10 +879,9 @@
             {
               "linkId": "ServiceRequest.priority.value",
               "text": "priority",
-              "type": "coding",
+              "type": "choice",
               "required": false,
-              "repeats": false,
-              "answerConstraint": "optionsOrType"
+              "repeats": false
             }
           ]
         },
@@ -972,10 +968,9 @@
             {
               "linkId": "ServiceRequest.code.coding",
               "text": "code:",
-              "type": "coding",
+              "type": "choice",
               "required": false,
-              "repeats": false,
-              "answerConstraint": "optionsOnly"
+              "repeats": false
             },
             {
               "linkId": "ServiceRequest.code.text",
@@ -1021,10 +1016,9 @@
             {
               "linkId": "ServiceRequest.orderDetail.coding",
               "text": "code:",
-              "type": "coding",
+              "type": "choice",
               "required": false,
-              "repeats": false,
-              "answerConstraint": "optionsOnly"
+              "repeats": false
             },
             {
               "linkId": "ServiceRequest.orderDetail.text",
@@ -1070,10 +1064,9 @@
             {
               "linkId": "ServiceRequest.quantity[x]._type",
               "text": "type",
-              "type": "coding",
+              "type": "choice",
               "required": false,
               "repeats": false,
-              "answerConstraint": "optionsOnly",
               "answerValueSet": "#vs2",
               "item": [
                 {
@@ -1089,10 +1082,9 @@
                     {
                       "linkId": "ServiceRequest.quantity[x]._null.comparator",
                       "text": "comp:",
-                      "type": "coding",
+                      "type": "choice",
                       "required": false,
-                      "repeats": false,
-                      "answerConstraint": "optionsOnly"
+                      "repeats": false
                     },
                     {
                       "linkId": "ServiceRequest.quantity[x]._null.value",
@@ -1341,10 +1333,9 @@
             {
               "linkId": "ServiceRequest.occurrence[x]._type",
               "text": "type",
-              "type": "coding",
+              "type": "choice",
               "required": false,
               "repeats": false,
-              "answerConstraint": "optionsOnly",
               "answerValueSet": "#vs3",
               "item": [
                 {
@@ -1477,10 +1468,9 @@
             {
               "linkId": "ServiceRequest.asNeeded[x]._type",
               "text": "type",
-              "type": "coding",
+              "type": "choice",
               "required": false,
               "repeats": false,
-              "answerConstraint": "optionsOnly",
               "answerValueSet": "#vs4",
               "item": [
                 {
@@ -1514,10 +1504,9 @@
                     {
                       "linkId": "ServiceRequest.asNeeded[x]._null.coding",
                       "text": "code:",
-                      "type": "coding",
+                      "type": "choice",
                       "required": false,
-                      "repeats": false,
-                      "answerConstraint": "optionsOnly"
+                      "repeats": false
                     },
                     {
                       "linkId": "ServiceRequest.asNeeded[x]._null.text",
@@ -1669,10 +1658,9 @@
             {
               "linkId": "ServiceRequest.performerType.coding",
               "text": "code:",
-              "type": "coding",
+              "type": "choice",
               "required": false,
-              "repeats": false,
-              "answerConstraint": "optionsOnly"
+              "repeats": false
             },
             {
               "linkId": "ServiceRequest.performerType.text",
@@ -1768,10 +1756,9 @@
             {
               "linkId": "ServiceRequest.locationCode.coding",
               "text": "code:",
-              "type": "coding",
+              "type": "choice",
               "required": false,
-              "repeats": false,
-              "answerConstraint": "optionsOnly"
+              "repeats": false
             },
             {
               "linkId": "ServiceRequest.locationCode.text",
@@ -1867,10 +1854,9 @@
             {
               "linkId": "ServiceRequest.reasonCode.coding",
               "text": "code:",
-              "type": "coding",
+              "type": "choice",
               "required": false,
-              "repeats": false,
-              "answerConstraint": "optionsOnly"
+              "repeats": false
             },
             {
               "linkId": "ServiceRequest.reasonCode.text",
@@ -2116,10 +2102,9 @@
             {
               "linkId": "ServiceRequest.bodySite.coding",
               "text": "code:",
-              "type": "coding",
+              "type": "choice",
               "required": false,
-              "repeats": false,
-              "answerConstraint": "optionsOnly"
+              "repeats": false
             },
             {
               "linkId": "ServiceRequest.bodySite.text",

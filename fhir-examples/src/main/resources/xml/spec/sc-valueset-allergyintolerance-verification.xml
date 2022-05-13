@@ -31,6 +31,12 @@
           </td>
         </tr>
         <tr>
+          <td colspan="3">Mapping from 
+            <a href="codesystem-allergyintolerance-verification.html">AllergyIntolerance Verification Status Codes</a> to 
+            <a href="codesystem-resource-status.html">Canonical Status Codes for FHIR Resources</a>
+          </td>
+        </tr>
+        <tr>
           <td>entered-in-error</td>
           <td>
             <a href="codesystem-concept-map-equivalence.html#equivalent">is equivalent to</a>
@@ -62,10 +68,11 @@
     </div>
   </text>
   <url value="http://hl7.org/fhir/ConceptMap/sc-allergyintolerance-verification"/>
-  <version value="4.3.0-CIBUILD"/>
+  <version value="4.3.0-cibuild"/>
   <name value="AllergyIntoleranceVerificationStatusCodesCanonicalMap"/>
   <title value="Canonical Mapping for &quot;AllergyIntolerance Verification Status Codes&quot;"/>
   <status value="draft"/>
+  <experimental value="false"/>
   <publisher value="FHIR Project team"/>
   <contact>
     <telecom>
@@ -83,28 +90,28 @@
       <code value="entered-in-error"/>
       <target>
         <code value="error"/>
-        <relationship value="equivalent"/>
+        <equivalence value="equivalent"/>
       </target>
     </element>
     <element>
       <code value="unconfirmed"/>
       <target>
         <code value="unconfirmed"/>
-        <relationship value="equivalent"/>
+        <equivalence value="equivalent"/>
       </target>
     </element>
     <element>
       <code value="confirmed"/>
       <target>
         <code value="confirmed"/>
-        <relationship value="equivalent"/>
+        <equivalence value="equivalent"/>
       </target>
     </element>
     <element>
       <code value="refuted"/>
       <target>
         <code value="refuted"/>
-        <relationship value="equivalent"/>
+        <equivalence value="equivalent"/>
       </target>
     </element>
   </group>

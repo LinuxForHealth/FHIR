@@ -1,0 +1,48 @@
+{
+    "resourceType": "CodeSystem",
+    "id": "payment-status",
+    "meta": {
+        "lastUpdated": "2022-04-23T22:21:35.043Z",
+        "profile": [
+            "http://hl7.org/fhir/StructureDefinition/shareablecodesystem"
+        ]
+    },
+    "text": {
+        "status": "empty",
+        "div": "<div xmlns=\"http://www.w3.org/1999/xhtml\">Redacted for size</div>"
+    },
+    "extension": [
+        {
+            "url": "http://hl7.org/fhir/StructureDefinition/structuredefinition-wg",
+            "valueCode": "fm"
+        }
+    ],
+    "url": "http://terminology.hl7.org/CodeSystem/paymentstatus",
+    "identifier": [
+        {
+            "system": "urn:ietf:rfc:3986",
+            "value": "urn:oid:2.16.840.1.113883.4.642.1.1187"
+        }
+    ],
+    "version": "4.3.0-cibuild",
+    "name": "PaymentStatusCodes",
+    "title": "Payment Status Codes",
+    "status": "draft",
+    "experimental": false,
+    "description": "This value set includes a sample set of Payment Status codes.",
+    "copyright": "This is an example set.",
+    "caseSensitive": true,
+    "content": "complete",
+    "concept": [
+        {
+            "code": "paid",
+            "display": "Paid",
+            "definition": "The payment has been sent physically or electronically."
+        },
+        {
+            "code": "cleared",
+            "display": "Cleared",
+            "definition": "The payment has been received by the payee."
+        }
+    ]
+}

@@ -15,6 +15,7 @@ import java.util.Objects;
 import javax.annotation.Generated;
 
 import com.ibm.fhir.model.annotation.Binding;
+import com.ibm.fhir.model.annotation.Constraint;
 import com.ibm.fhir.model.annotation.Maturity;
 import com.ibm.fhir.model.annotation.ReferenceTarget;
 import com.ibm.fhir.model.annotation.Required;
@@ -25,7 +26,6 @@ import com.ibm.fhir.model.type.Code;
 import com.ibm.fhir.model.type.CodeableConcept;
 import com.ibm.fhir.model.type.Extension;
 import com.ibm.fhir.model.type.Instant;
-import com.ibm.fhir.model.type.Integer;
 import com.ibm.fhir.model.type.Meta;
 import com.ibm.fhir.model.type.Narrative;
 import com.ibm.fhir.model.type.Reference;
@@ -47,6 +47,14 @@ import com.ibm.fhir.model.visitor.Visitor;
     level = 0,
     status = StandardsStatus.Value.DRAFT
 )
+@Constraint(
+    id = "sst-1",
+    level = "Rule",
+    location = "(base)",
+    description = "events listed in event notifications",
+    expression = "type = 'event-notification' implies (notificationEvent.exists() and notificationEvent.first().exists())",
+    source = "http://hl7.org/fhir/StructureDefinition/SubscriptionStatus"
+)
 @Generated("com.ibm.fhir.tools.CodeGenerator")
 public class SubscriptionStatus extends DomainResource {
     @Summary
@@ -54,7 +62,7 @@ public class SubscriptionStatus extends DomainResource {
         bindingName = "SubscriptionStatus",
         strength = BindingStrength.Value.REQUIRED,
         description = "The status of a subscription at the time this notification was generated.",
-        valueSet = "http://hl7.org/fhir/ValueSet/subscription-status|4.3.0-CIBUILD"
+        valueSet = "http://hl7.org/fhir/ValueSet/subscription-status|4.3.0-cibuild"
     )
     private final SubscriptionStatusCode status;
     @Summary
@@ -62,14 +70,12 @@ public class SubscriptionStatus extends DomainResource {
         bindingName = "SubscriptionNotificationType",
         strength = BindingStrength.Value.REQUIRED,
         description = "The type of notification represented by the status message.",
-        valueSet = "http://hl7.org/fhir/ValueSet/subscription-notification-type|4.3.0-CIBUILD"
+        valueSet = "http://hl7.org/fhir/ValueSet/subscription-notification-type|4.3.0-cibuild"
     )
     @Required
     private final SubscriptionNotificationType type;
     @Summary
     private final String eventsSinceSubscriptionStart;
-    @Summary
-    private final Integer eventsInNotification;
     private final List<NotificationEvent> notificationEvent;
     @Summary
     @ReferenceTarget({ "Subscription" })
@@ -91,7 +97,6 @@ public class SubscriptionStatus extends DomainResource {
         status = builder.status;
         type = builder.type;
         eventsSinceSubscriptionStart = builder.eventsSinceSubscriptionStart;
-        eventsInNotification = builder.eventsInNotification;
         notificationEvent = Collections.unmodifiableList(builder.notificationEvent);
         subscription = builder.subscription;
         topic = builder.topic;
@@ -128,18 +133,6 @@ public class SubscriptionStatus extends DomainResource {
      */
     public String getEventsSinceSubscriptionStart() {
         return eventsSinceSubscriptionStart;
-    }
-
-    /**
-     * The total number of actual events represented within this notification. For handshake and heartbeat notifications, 
-     * this will be zero or not present. For event-notifications, this number may be one or more, depending on server 
-     * batching.
-     * 
-     * @return
-     *     An immutable object of type {@link Integer} that may be null.
-     */
-    public Integer getEventsInNotification() {
-        return eventsInNotification;
     }
 
     /**
@@ -188,7 +181,6 @@ public class SubscriptionStatus extends DomainResource {
             (status != null) || 
             (type != null) || 
             (eventsSinceSubscriptionStart != null) || 
-            (eventsInNotification != null) || 
             !notificationEvent.isEmpty() || 
             (subscription != null) || 
             (topic != null) || 
@@ -212,7 +204,6 @@ public class SubscriptionStatus extends DomainResource {
                 accept(status, "status", visitor);
                 accept(type, "type", visitor);
                 accept(eventsSinceSubscriptionStart, "eventsSinceSubscriptionStart", visitor);
-                accept(eventsInNotification, "eventsInNotification", visitor);
                 accept(notificationEvent, "notificationEvent", visitor, NotificationEvent.class);
                 accept(subscription, "subscription", visitor);
                 accept(topic, "topic", visitor);
@@ -246,7 +237,6 @@ public class SubscriptionStatus extends DomainResource {
             Objects.equals(status, other.status) && 
             Objects.equals(type, other.type) && 
             Objects.equals(eventsSinceSubscriptionStart, other.eventsSinceSubscriptionStart) && 
-            Objects.equals(eventsInNotification, other.eventsInNotification) && 
             Objects.equals(notificationEvent, other.notificationEvent) && 
             Objects.equals(subscription, other.subscription) && 
             Objects.equals(topic, other.topic) && 
@@ -268,7 +258,6 @@ public class SubscriptionStatus extends DomainResource {
                 status, 
                 type, 
                 eventsSinceSubscriptionStart, 
-                eventsInNotification, 
                 notificationEvent, 
                 subscription, 
                 topic, 
@@ -291,7 +280,6 @@ public class SubscriptionStatus extends DomainResource {
         private SubscriptionStatusCode status;
         private SubscriptionNotificationType type;
         private String eventsSinceSubscriptionStart;
-        private Integer eventsInNotification;
         private List<NotificationEvent> notificationEvent = new ArrayList<>();
         private Reference subscription;
         private Canonical topic;
@@ -575,38 +563,6 @@ public class SubscriptionStatus extends DomainResource {
         }
 
         /**
-         * Convenience method for setting {@code eventsInNotification}.
-         * 
-         * @param eventsInNotification
-         *     The number of actual notifications represented by this bundle
-         * 
-         * @return
-         *     A reference to this Builder instance
-         * 
-         * @see #eventsInNotification(com.ibm.fhir.model.type.Integer)
-         */
-        public Builder eventsInNotification(java.lang.Integer eventsInNotification) {
-            this.eventsInNotification = (eventsInNotification == null) ? null : Integer.of(eventsInNotification);
-            return this;
-        }
-
-        /**
-         * The total number of actual events represented within this notification. For handshake and heartbeat notifications, 
-         * this will be zero or not present. For event-notifications, this number may be one or more, depending on server 
-         * batching.
-         * 
-         * @param eventsInNotification
-         *     The number of actual notifications represented by this bundle
-         * 
-         * @return
-         *     A reference to this Builder instance
-         */
-        public Builder eventsInNotification(Integer eventsInNotification) {
-            this.eventsInNotification = eventsInNotification;
-            return this;
-        }
-
-        /**
          * Detailed information about events relevant to this subscription notification.
          * 
          * <p>Adds new element(s) to the existing list.
@@ -756,7 +712,6 @@ public class SubscriptionStatus extends DomainResource {
             status = subscriptionStatus.status;
             type = subscriptionStatus.type;
             eventsSinceSubscriptionStart = subscriptionStatus.eventsSinceSubscriptionStart;
-            eventsInNotification = subscriptionStatus.eventsInNotification;
             notificationEvent.addAll(subscriptionStatus.notificationEvent);
             subscription = subscriptionStatus.subscription;
             topic = subscriptionStatus.topic;

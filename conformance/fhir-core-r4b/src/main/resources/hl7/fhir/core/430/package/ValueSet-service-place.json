@@ -1,0 +1,162 @@
+{
+    "resourceType": "ValueSet",
+    "id": "service-place",
+    "meta": {
+        "lastUpdated": "2022-04-23T22:21:35.043Z",
+        "profile": [
+            "http://hl7.org/fhir/StructureDefinition/shareablevalueset"
+        ]
+    },
+    "extension": [
+        {
+            "url": "http://hl7.org/fhir/StructureDefinition/structuredefinition-wg",
+            "valueCode": "fm"
+        },
+        {
+            "url": "http://hl7.org/fhir/StructureDefinition/structuredefinition-standards-status",
+            "valueCode": "draft"
+        },
+        {
+            "url": "http://hl7.org/fhir/StructureDefinition/structuredefinition-fmm",
+            "valueInteger": 1
+        }
+    ],
+    "url": "http://hl7.org/fhir/ValueSet/service-place",
+    "identifier": [
+        {
+            "system": "urn:ietf:rfc:3986",
+            "value": "urn:oid:2.16.840.1.113883.4.642.3.564"
+        }
+    ],
+    "version": "4.3.0-cibuild",
+    "name": "ExampleServicePlaceCodes",
+    "title": "Example Service Place Codes",
+    "status": "draft",
+    "experimental": true,
+    "publisher": "Financial Management",
+    "contact": [
+        {
+            "telecom": [
+                {
+                    "system": "url",
+                    "value": "http://hl7.org/fhir"
+                }
+            ]
+        }
+    ],
+    "description": "This value set includes a smattering of Service Place codes.",
+    "copyright": "This is an example set.",
+    "compose": {
+        "include": [
+            {
+                "system": "http://terminology.hl7.org/CodeSystem/ex-serviceplace"
+            }
+        ]
+    },
+    "expansion": {
+        "identifier": "urn:uuid:eb4a7f9f-d2de-48e9-96ff-df74fa34dc6a",
+        "timestamp": "2022-04-23T22:23:26Z",
+        "total": 17,
+        "parameter": [
+            {
+                "name": "excludeNested",
+                "valueBoolean": true
+            },
+            {
+                "name": "includeDesignations",
+                "valueBoolean": true
+            },
+            {
+                "name": "version",
+                "valueUri": "http://terminology.hl7.org/CodeSystem/ex-serviceplace|4.3.0-cibuild"
+            }
+        ],
+        "contains": [
+            {
+                "system": "http://terminology.hl7.org/CodeSystem/ex-serviceplace",
+                "code": "01",
+                "display": "Pharmacy"
+            },
+            {
+                "system": "http://terminology.hl7.org/CodeSystem/ex-serviceplace",
+                "code": "03",
+                "display": "School"
+            },
+            {
+                "system": "http://terminology.hl7.org/CodeSystem/ex-serviceplace",
+                "code": "04",
+                "display": "Homeless Shelter"
+            },
+            {
+                "system": "http://terminology.hl7.org/CodeSystem/ex-serviceplace",
+                "code": "05",
+                "display": "Indian Health Service Free-standing Facility"
+            },
+            {
+                "system": "http://terminology.hl7.org/CodeSystem/ex-serviceplace",
+                "code": "06",
+                "display": "Indian Health Service Provider-based Facility"
+            },
+            {
+                "system": "http://terminology.hl7.org/CodeSystem/ex-serviceplace",
+                "code": "07",
+                "display": "Tribal 638 Free-Standing Facility"
+            },
+            {
+                "system": "http://terminology.hl7.org/CodeSystem/ex-serviceplace",
+                "code": "08",
+                "display": "Tribal 638 Provider-Based Facility"
+            },
+            {
+                "system": "http://terminology.hl7.org/CodeSystem/ex-serviceplace",
+                "code": "09",
+                "display": "Prison/Correctional Facility"
+            },
+            {
+                "system": "http://terminology.hl7.org/CodeSystem/ex-serviceplace",
+                "code": "11",
+                "display": "Office"
+            },
+            {
+                "system": "http://terminology.hl7.org/CodeSystem/ex-serviceplace",
+                "code": "12",
+                "display": "Home"
+            },
+            {
+                "system": "http://terminology.hl7.org/CodeSystem/ex-serviceplace",
+                "code": "13",
+                "display": "Assisted Living Fa"
+            },
+            {
+                "system": "http://terminology.hl7.org/CodeSystem/ex-serviceplace",
+                "code": "14",
+                "display": "Group Home"
+            },
+            {
+                "system": "http://terminology.hl7.org/CodeSystem/ex-serviceplace",
+                "code": "15",
+                "display": "Mobile Unit"
+            },
+            {
+                "system": "http://terminology.hl7.org/CodeSystem/ex-serviceplace",
+                "code": "19",
+                "display": "Off Campus-Outpatient Hospital"
+            },
+            {
+                "system": "http://terminology.hl7.org/CodeSystem/ex-serviceplace",
+                "code": "20",
+                "display": "Urgent Care Facility"
+            },
+            {
+                "system": "http://terminology.hl7.org/CodeSystem/ex-serviceplace",
+                "code": "21",
+                "display": "Inpatient Hospital"
+            },
+            {
+                "system": "http://terminology.hl7.org/CodeSystem/ex-serviceplace",
+                "code": "41",
+                "display": "Ambulance—Land"
+            }
+        ]
+    }
+}

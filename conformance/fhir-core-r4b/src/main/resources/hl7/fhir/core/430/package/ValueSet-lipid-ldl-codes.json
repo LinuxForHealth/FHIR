@@ -1,0 +1,86 @@
+{
+    "resourceType": "ValueSet",
+    "id": "lipid-ldl-codes",
+    "meta": {
+        "lastUpdated": "2022-04-24T08:21:35.043+10:00",
+        "profile": [
+            "http://hl7.org/fhir/StructureDefinition/shareablevalueset"
+        ]
+    },
+    "text": {
+        "status": "empty",
+        "div": "<div xmlns=\"http://www.w3.org/1999/xhtml\">Redacted for size</div>"
+    },
+    "extension": [
+        {
+            "url": "http://hl7.org/fhir/StructureDefinition/structuredefinition-wg",
+            "valueCode": "oo"
+        }
+    ],
+    "url": "http://hl7.org/fhir/ValueSet/lipid-ldl-codes",
+    "identifier": [
+        {
+            "system": "urn:ietf:rfc:3986",
+            "value": "urn:oid:2.16.840.1.113883.4.642.3.0"
+        }
+    ],
+    "version": "4.3.0-cibuild",
+    "name": "LDLCodes",
+    "status": "draft",
+    "experimental": false,
+    "date": "2015-06-23T10:59:44+10:00",
+    "publisher": "HL7 (FHIR Project)",
+    "contact": [
+        {
+            "telecom": [
+                {
+                    "system": "url",
+                    "value": "http://hl7.org/fhir"
+                },
+                {
+                    "system": "email",
+                    "value": "fhir@lists.hl7.org"
+                }
+            ]
+        }
+    ],
+    "description": "LDL Cholesterol codes - measured or calculated",
+    "copyright": "This content from LOINC© is copyright © 1995 Regenstrief Institute, Inc. and the LOINC Committee, and available at no cost under the license at http://loinc.org/terms-of-use.",
+    "compose": {
+        "include": [
+            {
+                "system": "http://loinc.org",
+                "concept": [
+                    {
+                        "code": "18262-6",
+                        "display": "LDL Cholesterol (Assay)",
+                        "designation": [
+                            {
+                                "use": {
+                                    "system": "http://snomed.info/sct",
+                                    "code": "900000000000003001",
+                                    "display": "Fully specified name"
+                                },
+                                "value": "Cholesterol in LDL [Mass/volume] in Serum or Plasma by Direct assay"
+                            }
+                        ]
+                    },
+                    {
+                        "code": "13457-7",
+                        "display": "Cholesterol in LDL [Mass/volume] in Serum or Plasma by calculation",
+                        "designation": [
+                            {
+                                "use": {
+                                    "system": "http://snomed.info/sct",
+                                    "code": "900000000000003001",
+                                    "display": "Fully specified name"
+                                },
+                                "value": "Cholesterol in LDL [Mass/volume] in Serum or Plasma by calculation"
+                            }
+                        ]
+                    }
+                ]
+            }
+        ]
+    }
+}

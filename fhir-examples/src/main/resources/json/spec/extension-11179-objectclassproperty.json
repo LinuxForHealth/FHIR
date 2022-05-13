@@ -12,10 +12,11 @@
     }
   ],
   "url": "http://hl7.org/fhir/StructureDefinition/11179-objectClassProperty",
-  "version": "4.3.0-CIBUILD",
+  "version": "4.3.0-cibuild",
   "name": "objectClassProperty",
   "title": "Object Class Property",
   "status": "draft",
+  "experimental": false,
   "date": "2014-04-21",
   "publisher": "Health Level Seven International (Orders and Observations)",
   "contact": [
@@ -29,7 +30,7 @@
     }
   ],
   "description": "A quality common to all members of an object class. A property may be any feature that humans naturally use to distinguish one individual object from another. It is the human perception of a single quality of an object class in the real world.  It is conceptual and thus has no particular associated means of representation by which the property can be communicated.",
-  "fhirVersion": "4.3.0-CIBUILD",
+  "fhirVersion": "4.3.0-cibuild",
   "mapping": [
     {
       "identity": "v2",

@@ -12,9 +12,10 @@
     }
   ],
   "url": "http://hl7.org/fhir/StructureDefinition/iso21090-AD-use",
-  "version": "4.3.0-CIBUILD",
+  "version": "4.3.0-cibuild",
   "name": "AD-use",
   "status": "draft",
+  "experimental": false,
   "date": "2012-06-24",
   "publisher": "Health Level Seven International (Modeling and Methodology)",
   "contact": [
@@ -28,7 +29,7 @@
     }
   ],
   "description": "Uses of Addresses - codes not defined as part of Address.use.",
-  "fhirVersion": "4.3.0-CIBUILD",
+  "fhirVersion": "4.3.0-cibuild",
   "mapping": [
     {
       "identity": "rim",
@@ -251,7 +252,7 @@
             }
           ],
           "strength": "required",
-          "valueSet": "http://hl7.org/fhir/ValueSet/postal-address-use|4.3.0-CIBUILD"
+          "valueSet": "http://hl7.org/fhir/ValueSet/postal-address-use|4.3.0-cibuild"
         },
         "mapping": [
           {
@@ -309,7 +310,7 @@
             }
           ],
           "strength": "required",
-          "valueSet": "http://hl7.org/fhir/ValueSet/postal-address-use|4.3.0-CIBUILD"
+          "valueSet": "http://hl7.org/fhir/ValueSet/postal-address-use|4.3.0-cibuild"
         }
       }
     ]

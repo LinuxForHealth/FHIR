@@ -1,0 +1,70 @@
+{
+    "resourceType": "ValueSet",
+    "id": "v2-0092",
+    "url": "http://terminology.hl7.org/ValueSet/v2-0092",
+    "identifier": [
+        {
+            "system": "urn:ietf:rfc:3986",
+            "value": "urn:oid:2.16.840.1.113883.21.40"
+        }
+    ],
+    "version": "2.0.0",
+    "name": "Hl7VSReAdmissionIndicator",
+    "title": "hl7VS-re-admissionIndicator",
+    "status": "active",
+    "experimental": false,
+    "date": "2019-12-01",
+    "publisher": "HL7, Inc",
+    "contact": [
+        {
+            "telecom": [
+                {
+                    "system": "url",
+                    "value": "https://github.com/HL7/UTG"
+                }
+            ]
+        }
+    ],
+    "description": "Value Set of codes which are used to specify that a patient is being re-admitted to a healthcare facility from which they were discharged, and indicates the circumstances around such re-admission.",
+    "copyright": "Copyright HL7. Licensed under creative commons public domain",
+    "compose": {
+        "include": [
+            {
+                "system": "http://terminology.hl7.org/CodeSystem/v2-0092",
+                "version": "2.1.0"
+            }
+        ]
+    },
+    "expansion": {
+        "identifier": "urn:uuid:0543545f-919f-4fe7-a2c7-8f0ac68619b5",
+        "timestamp": "2022-04-23T22:23:26Z",
+        "total": 1,
+        "parameter": [
+            {
+                "name": "excludeNested",
+                "valueBoolean": true
+            },
+            {
+                "name": "includeDesignations",
+                "valueBoolean": true
+            },
+            {
+                "name": "version",
+                "valueUri": "http://terminology.hl7.org/CodeSystem/v2-0092|2.1.0"
+            }
+        ],
+        "contains": [
+            {
+                "system": "http://terminology.hl7.org/CodeSystem/v2-0092",
+                "code": "R",
+                "display": "Re-admission",
+                "designation": [
+                    {
+                        "language": "de",
+                        "value": "Wiederaufnahme"
+                    }
+                ]
+            }
+        ]
+    }
+}

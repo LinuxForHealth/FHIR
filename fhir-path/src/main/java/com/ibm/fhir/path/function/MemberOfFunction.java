@@ -204,7 +204,8 @@ public class MemberOfFunction extends FHIRPathAbstractFunction {
         return true;
     }
 
-    private boolean validateCode(FHIRTermService service, ValueSet valueSet, Coding coding, EvaluationContext evaluationContext, FHIRPathElementNode elementNode, String strength) {
+    private boolean validateCode(FHIRTermService service, ValueSet valueSet, Coding coding,
+            EvaluationContext evaluationContext, FHIRPathElementNode elementNode, String strength) {
         ValidationOutcome outcome = null;
         if (convertsToCodeSystemValidateCode(valueSet, coding)) {
             // optimization
@@ -220,7 +221,8 @@ public class MemberOfFunction extends FHIRPathAbstractFunction {
         return true;
     }
 
-    private boolean validateCode(FHIRTermService service, ValueSet valueSet, CodeableConcept codeableConcept, EvaluationContext evaluationContext, FHIRPathElementNode elementNode, String strength) {
+    private boolean validateCode(FHIRTermService service, ValueSet valueSet, CodeableConcept codeableConcept,
+            EvaluationContext evaluationContext, FHIRPathElementNode elementNode, String strength) {
         ValidationOutcome outcome = null;
         if (convertsToCodeSystemValidateCode(valueSet, codeableConcept)) {
             // optimization

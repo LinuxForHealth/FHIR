@@ -1,0 +1,48 @@
+{
+    "resourceType": "SearchParameter",
+    "id": "ActivityDefinition-status",
+    "extension": [
+        {
+            "url": "http://hl7.org/fhir/StructureDefinition/structuredefinition-standards-status",
+            "valueCode": "normative"
+        },
+        {
+            "url": "http://ibm.com/fhir/extension/implicit-system",
+            "valueUri": "http://hl7.org/fhir/publication-status"
+        }
+    ],
+    "url": "http://hl7.org/fhir/SearchParameter/ActivityDefinition-status",
+    "version": "4.3.0-cibuild",
+    "name": "status",
+    "status": "active",
+    "experimental": false,
+    "date": "2022-04-23T22:21:35Z",
+    "publisher": "Health Level Seven International (Clinical Decision Support)",
+    "contact": [
+        {
+            "telecom": [
+                {
+                    "system": "url",
+                    "value": "http://hl7.org/fhir"
+                }
+            ]
+        },
+        {
+            "telecom": [
+                {
+                    "system": "url",
+                    "value": "http://www.hl7.org/Special/committees/dss/index.cfm"
+                }
+            ]
+        }
+    ],
+    "description": "The current status of the activity definition",
+    "code": "status",
+    "base": [
+        "ActivityDefinition"
+    ],
+    "type": "token",
+    "expression": "ActivityDefinition.status",
+    "xpath": "f:ActivityDefinition/f:status",
+    "xpathUsage": "normal"
+}

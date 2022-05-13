@@ -144,7 +144,7 @@ public class Bundle extends Resource {
         bindingName = "BundleType",
         strength = BindingStrength.Value.REQUIRED,
         description = "Indicates the purpose of a bundle - how it is intended to be used.",
-        valueSet = "http://hl7.org/fhir/ValueSet/bundle-type|4.3.0-CIBUILD"
+        valueSet = "http://hl7.org/fhir/ValueSet/bundle-type|4.3.0-cibuild"
     )
     @Required
     private final BundleType type;
@@ -1391,7 +1391,7 @@ public class Bundle extends Resource {
                 bindingName = "SearchEntryMode",
                 strength = BindingStrength.Value.REQUIRED,
                 description = "Why an entry is in the result set - whether it's included as a match or because of an _include requirement, or to convey information or warning information about the search process.",
-                valueSet = "http://hl7.org/fhir/ValueSet/search-entry-mode|4.3.0-CIBUILD"
+                valueSet = "http://hl7.org/fhir/ValueSet/search-entry-mode|4.3.0-cibuild"
             )
             private final SearchEntryMode mode;
             @Summary
@@ -1679,7 +1679,7 @@ public class Bundle extends Resource {
                 bindingName = "HTTPVerb",
                 strength = BindingStrength.Value.REQUIRED,
                 description = "HTTP verbs (in the HTTP command line). See [HTTP rfc](https://tools.ietf.org/html/rfc7231) for details.",
-                valueSet = "http://hl7.org/fhir/ValueSet/http-verb|4.3.0-CIBUILD"
+                valueSet = "http://hl7.org/fhir/ValueSet/http-verb|4.3.0-cibuild"
             )
             @Required
             private final HTTPVerb method;

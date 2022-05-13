@@ -60,7 +60,7 @@ import com.ibm.fhir.model.visitor.Visitor;
     level = "Warning",
     location = "(base)",
     description = "Name should be usable as an identifier for the module by machine processing applications such as code generation",
-    expression = "name.matches('[A-Z]([A-Za-z0-9_]){0,254}')",
+    expression = "name.exists() implies name.matches('[A-Z]([A-Za-z0-9_]){0,254}')",
     source = "http://hl7.org/fhir/StructureDefinition/OperationDefinition"
 )
 @Constraint(
@@ -112,7 +112,7 @@ public class OperationDefinition extends DomainResource {
         bindingName = "PublicationStatus",
         strength = BindingStrength.Value.REQUIRED,
         description = "The lifecycle status of an artifact.",
-        valueSet = "http://hl7.org/fhir/ValueSet/publication-status|4.3.0-CIBUILD"
+        valueSet = "http://hl7.org/fhir/ValueSet/publication-status|4.3.0-cibuild"
     )
     @Required
     private final PublicationStatus status;
@@ -121,7 +121,7 @@ public class OperationDefinition extends DomainResource {
         bindingName = "OperationKind",
         strength = BindingStrength.Value.REQUIRED,
         description = "Whether an operation is a normal operation or a query.",
-        valueSet = "http://hl7.org/fhir/ValueSet/operation-kind|4.3.0-CIBUILD"
+        valueSet = "http://hl7.org/fhir/ValueSet/operation-kind|4.3.0-cibuild"
     )
     @Required
     private final OperationKind kind;
@@ -158,7 +158,7 @@ public class OperationDefinition extends DomainResource {
         bindingName = "ResourceType",
         strength = BindingStrength.Value.REQUIRED,
         description = "One of the resource types defined as part of this version of FHIR.",
-        valueSet = "http://hl7.org/fhir/ValueSet/resource-types|4.3.0-CIBUILD"
+        valueSet = "http://hl7.org/fhir/ValueSet/resource-types|4.3.0-cibuild"
     )
     private final List<ResourceTypeCode> resource;
     @Summary
@@ -1693,7 +1693,7 @@ public class OperationDefinition extends DomainResource {
             bindingName = "OperationParameterUse",
             strength = BindingStrength.Value.REQUIRED,
             description = "Whether an operation parameter is an input or an output parameter.",
-            valueSet = "http://hl7.org/fhir/ValueSet/operation-parameter-use|4.3.0-CIBUILD"
+            valueSet = "http://hl7.org/fhir/ValueSet/operation-parameter-use|4.3.0-cibuild"
         )
         @Required
         private final OperationParameterUse use;
@@ -1706,7 +1706,7 @@ public class OperationDefinition extends DomainResource {
             bindingName = "FHIRAllTypes",
             strength = BindingStrength.Value.REQUIRED,
             description = "A list of all the concrete types defined in this version of the FHIR specification - Abstract Types, Data Types and Resource Types.",
-            valueSet = "http://hl7.org/fhir/ValueSet/all-types|4.3.0-CIBUILD"
+            valueSet = "http://hl7.org/fhir/ValueSet/all-types|4.3.0-cibuild"
         )
         private final FHIRAllTypes type;
         private final List<Canonical> targetProfile;
@@ -1714,7 +1714,7 @@ public class OperationDefinition extends DomainResource {
             bindingName = "SearchParamType",
             strength = BindingStrength.Value.REQUIRED,
             description = "Data types allowed to be used for search parameters.",
-            valueSet = "http://hl7.org/fhir/ValueSet/search-param-type|4.3.0-CIBUILD"
+            valueSet = "http://hl7.org/fhir/ValueSet/search-param-type|4.3.0-cibuild"
         )
         private final SearchParamType searchType;
         private final Binding binding;
@@ -2439,7 +2439,7 @@ public class OperationDefinition extends DomainResource {
                 bindingName = "BindingStrength",
                 strength = BindingStrength.Value.REQUIRED,
                 description = "Indication of the degree of conformance expectations associated with a binding.",
-                valueSet = "http://hl7.org/fhir/ValueSet/binding-strength|4.3.0-CIBUILD"
+                valueSet = "http://hl7.org/fhir/ValueSet/binding-strength|4.3.0-cibuild"
             )
             @Required
             private final BindingStrength strength;

@@ -338,6 +338,11 @@
         <valueCode value="unknown"/>
       </extension>
     </filterParameter>
+    <filterDefinition>
+      <extension url="http://hl7.org/fhir/StructureDefinition/data-absent-reason">
+        <valueCode value="unknown"/>
+      </extension>
+    </filterDefinition>
     <modifier>
       <extension url="http://hl7.org/fhir/StructureDefinition/data-absent-reason">
         <valueCode value="unknown"/>

@@ -9,8 +9,8 @@
       "status": "active",
       "description": "Type options for Library.subject[x]",
       "expansion": {
-        "identifier": "urn:uuid:c7d4d61f-059b-4f83-a26e-e59045535041",
-        "timestamp": "2022-01-01T15:24:47+00:00",
+        "identifier": "urn:uuid:d4922144-5200-49ad-a8d6-7c6768e23f8e",
+        "timestamp": "2022-04-23T22:29:38+00:00",
         "contains": [
           {
             "system": "http://hl7.org/fhir/data-types",
@@ -31,9 +31,10 @@
       "system": "urn:ietf:rfc:3986"
     }
   ],
-  "version": "4.3.0-CIBUILD",
+  "version": "4.3.0-cibuild",
   "status": "draft",
-  "date": "2022-01-01T15:17:18+00:00",
+  "experimental": false,
+  "date": "2022-04-23T22:21:35+00:00",
   "publisher": "Health Level Seven International (Clinical Decision Support)",
   "item": [
     {
@@ -222,10 +223,9 @@
             {
               "linkId": "Library.language.value",
               "text": "language",
-              "type": "coding",
+              "type": "choice",
               "required": false,
-              "repeats": false,
-              "answerConstraint": "optionsOnly"
+              "repeats": false
             }
           ]
         },
@@ -664,10 +664,9 @@
             {
               "linkId": "Library.status.value",
               "text": "status",
-              "type": "coding",
+              "type": "choice",
               "required": false,
-              "repeats": false,
-              "answerConstraint": "optionsOrType"
+              "repeats": false
             }
           ]
         },
@@ -758,10 +757,9 @@
             {
               "linkId": "Library.type.coding",
               "text": "code:",
-              "type": "coding",
+              "type": "choice",
               "required": false,
-              "repeats": false,
-              "answerConstraint": "optionsOnly"
+              "repeats": false
             },
             {
               "linkId": "Library.type.text",
@@ -807,10 +805,9 @@
             {
               "linkId": "Library.subject[x]._type",
               "text": "type",
-              "type": "coding",
+              "type": "choice",
               "required": false,
               "repeats": false,
-              "answerConstraint": "optionsOnly",
               "answerValueSet": "#vs2",
               "item": [
                 {
@@ -826,10 +823,9 @@
                     {
                       "linkId": "Library.subject[x]._null.coding",
                       "text": "code:",
-                      "type": "coding",
+                      "type": "choice",
                       "required": false,
-                      "repeats": false,
-                      "answerConstraint": "optionsOnly"
+                      "repeats": false
                     },
                     {
                       "linkId": "Library.subject[x]._null.text",
@@ -1105,10 +1101,9 @@
             {
               "linkId": "Library.jurisdiction.coding",
               "text": "code:",
-              "type": "coding",
+              "type": "choice",
               "required": false,
-              "repeats": false,
-              "answerConstraint": "optionsOnly"
+              "repeats": false
             },
             {
               "linkId": "Library.jurisdiction.text",
@@ -1426,10 +1421,9 @@
             {
               "linkId": "Library.topic.coding",
               "text": "code:",
-              "type": "coding",
+              "type": "choice",
               "required": false,
-              "repeats": false,
-              "answerConstraint": "optionsOnly"
+              "repeats": false
             },
             {
               "linkId": "Library.topic.text",

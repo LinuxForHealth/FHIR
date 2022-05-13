@@ -1,0 +1,465 @@
+{
+    "resourceType": "ValueSet",
+    "id": "audit-event-sub-type",
+    "meta": {
+        "lastUpdated": "2022-04-23T22:21:35.043Z",
+        "profile": [
+            "http://hl7.org/fhir/StructureDefinition/shareablevalueset"
+        ]
+    },
+    "extension": [
+        {
+            "url": "http://hl7.org/fhir/StructureDefinition/structuredefinition-wg",
+            "valueCode": "sec"
+        },
+        {
+            "url": "http://hl7.org/fhir/StructureDefinition/structuredefinition-standards-status",
+            "valueCode": "trial-use"
+        },
+        {
+            "url": "http://hl7.org/fhir/StructureDefinition/structuredefinition-fmm",
+            "valueInteger": 3
+        }
+    ],
+    "url": "http://hl7.org/fhir/ValueSet/audit-event-sub-type",
+    "identifier": [
+        {
+            "system": "urn:ietf:rfc:3986",
+            "value": "urn:oid:2.16.840.1.113883.4.642.3.464"
+        }
+    ],
+    "version": "4.3.0-cibuild",
+    "name": "AuditEventSub-Type",
+    "title": "Audit Event Sub-Type",
+    "status": "active",
+    "experimental": false,
+    "date": "2010-08-26",
+    "publisher": "NEMA/DICOM",
+    "description": "More detailed code concerning the type of the audit event - defined by DICOM with some FHIR specific additions.",
+    "copyright": "These codes are excerpted from Digital Imaging and Communications in Medicine (DICOM) Standard, Part 16: Content Mapping Resource, Copyright © 2011 by the National Electrical Manufacturers Association.",
+    "compose": {
+        "include": [
+            {
+                "system": "http://dicom.nema.org/resources/ontology/DCM",
+                "concept": [
+                    {
+                        "code": "110120"
+                    },
+                    {
+                        "code": "110121"
+                    },
+                    {
+                        "code": "110122"
+                    },
+                    {
+                        "code": "110123"
+                    },
+                    {
+                        "code": "110124"
+                    },
+                    {
+                        "code": "110125"
+                    },
+                    {
+                        "code": "110126"
+                    },
+                    {
+                        "code": "110127"
+                    },
+                    {
+                        "code": "110128"
+                    },
+                    {
+                        "code": "110129"
+                    },
+                    {
+                        "code": "110130"
+                    },
+                    {
+                        "code": "110131"
+                    },
+                    {
+                        "code": "110132"
+                    },
+                    {
+                        "code": "110133"
+                    },
+                    {
+                        "code": "110134"
+                    },
+                    {
+                        "code": "110135"
+                    },
+                    {
+                        "code": "110136"
+                    },
+                    {
+                        "code": "110137"
+                    },
+                    {
+                        "code": "110138"
+                    },
+                    {
+                        "code": "110139"
+                    },
+                    {
+                        "code": "110140"
+                    },
+                    {
+                        "code": "110141"
+                    },
+                    {
+                        "code": "110142"
+                    }
+                ]
+            },
+            {
+                "system": "http://hl7.org/fhir/restful-interaction"
+            }
+        ]
+    },
+    "expansion": {
+        "identifier": "urn:uuid:238d6302-5d5c-46f1-9d87-21a4b66cc3d3",
+        "timestamp": "2022-04-23T22:23:26Z",
+        "total": 40,
+        "parameter": [
+            {
+                "name": "excludeNested",
+                "valueBoolean": true
+            },
+            {
+                "name": "includeDesignations",
+                "valueBoolean": true
+            },
+            {
+                "name": "limitedExpansion",
+                "valueBoolean": true
+            },
+            {
+                "name": "version",
+                "valueUri": "http://dicom.nema.org/resources/ontology/DCM|2022.1.20220124"
+            },
+            {
+                "name": "version",
+                "valueUri": "http://hl7.org/fhir/restful-interaction|4.3.0-cibuild"
+            }
+        ],
+        "contains": [
+            {
+                "system": "http://dicom.nema.org/resources/ontology/DCM",
+                "code": "110120",
+                "display": "Application Start",
+                "designation": [
+                    {
+                        "value": "Application Start"
+                    }
+                ]
+            },
+            {
+                "system": "http://dicom.nema.org/resources/ontology/DCM",
+                "code": "110121",
+                "display": "Application Stop",
+                "designation": [
+                    {
+                        "value": "Application Stop"
+                    }
+                ]
+            },
+            {
+                "system": "http://dicom.nema.org/resources/ontology/DCM",
+                "code": "110122",
+                "display": "Login",
+                "designation": [
+                    {
+                        "value": "Login"
+                    }
+                ]
+            },
+            {
+                "system": "http://dicom.nema.org/resources/ontology/DCM",
+                "code": "110123",
+                "display": "Logout",
+                "designation": [
+                    {
+                        "value": "Logout"
+                    }
+                ]
+            },
+            {
+                "system": "http://dicom.nema.org/resources/ontology/DCM",
+                "code": "110124",
+                "display": "Attach",
+                "designation": [
+                    {
+                        "value": "Attach"
+                    }
+                ]
+            },
+            {
+                "system": "http://dicom.nema.org/resources/ontology/DCM",
+                "code": "110125",
+                "display": "Detach",
+                "designation": [
+                    {
+                        "value": "Detach"
+                    }
+                ]
+            },
+            {
+                "system": "http://dicom.nema.org/resources/ontology/DCM",
+                "code": "110126",
+                "display": "Node Authentication",
+                "designation": [
+                    {
+                        "value": "Node Authentication"
+                    }
+                ]
+            },
+            {
+                "system": "http://dicom.nema.org/resources/ontology/DCM",
+                "code": "110127",
+                "display": "Emergency Override Started",
+                "designation": [
+                    {
+                        "value": "Emergency Override Started"
+                    }
+                ]
+            },
+            {
+                "system": "http://dicom.nema.org/resources/ontology/DCM",
+                "code": "110128",
+                "display": "Network Configuration",
+                "designation": [
+                    {
+                        "value": "Network Configuration"
+                    }
+                ]
+            },
+            {
+                "system": "http://dicom.nema.org/resources/ontology/DCM",
+                "code": "110129",
+                "display": "Security Configuration",
+                "designation": [
+                    {
+                        "value": "Security Configuration"
+                    }
+                ]
+            },
+            {
+                "system": "http://dicom.nema.org/resources/ontology/DCM",
+                "code": "110130",
+                "display": "Hardware Configuration",
+                "designation": [
+                    {
+                        "value": "Hardware Configuration"
+                    }
+                ]
+            },
+            {
+                "system": "http://dicom.nema.org/resources/ontology/DCM",
+                "code": "110131",
+                "display": "Software Configuration",
+                "designation": [
+                    {
+                        "value": "Software Configuration"
+                    }
+                ]
+            },
+            {
+                "system": "http://dicom.nema.org/resources/ontology/DCM",
+                "code": "110132",
+                "display": "Use of Restricted Function",
+                "designation": [
+                    {
+                        "value": "Use of Restricted Function"
+                    }
+                ]
+            },
+            {
+                "system": "http://dicom.nema.org/resources/ontology/DCM",
+                "code": "110133",
+                "display": "Audit Recording Stopped",
+                "designation": [
+                    {
+                        "value": "Audit Recording Stopped"
+                    }
+                ]
+            },
+            {
+                "system": "http://dicom.nema.org/resources/ontology/DCM",
+                "code": "110134",
+                "display": "Audit Recording Started",
+                "designation": [
+                    {
+                        "value": "Audit Recording Started"
+                    }
+                ]
+            },
+            {
+                "system": "http://dicom.nema.org/resources/ontology/DCM",
+                "code": "110135",
+                "display": "Object Security Attributes Changed",
+                "designation": [
+                    {
+                        "value": "Object Security Attributes Changed"
+                    }
+                ]
+            },
+            {
+                "system": "http://dicom.nema.org/resources/ontology/DCM",
+                "code": "110136",
+                "display": "Security Roles Changed",
+                "designation": [
+                    {
+                        "value": "Security Roles Changed"
+                    }
+                ]
+            },
+            {
+                "system": "http://dicom.nema.org/resources/ontology/DCM",
+                "code": "110137",
+                "display": "User security Attributes Changed",
+                "designation": [
+                    {
+                        "value": "User security Attributes Changed"
+                    }
+                ]
+            },
+            {
+                "system": "http://dicom.nema.org/resources/ontology/DCM",
+                "code": "110138",
+                "display": "Emergency Override Stopped",
+                "designation": [
+                    {
+                        "value": "Emergency Override Stopped"
+                    }
+                ]
+            },
+            {
+                "system": "http://dicom.nema.org/resources/ontology/DCM",
+                "code": "110139",
+                "display": "Remote Service Operation Started",
+                "designation": [
+                    {
+                        "value": "Remote Service Operation Started"
+                    }
+                ]
+            },
+            {
+                "system": "http://dicom.nema.org/resources/ontology/DCM",
+                "code": "110140",
+                "display": "Remote Service Operation Stopped",
+                "designation": [
+                    {
+                        "value": "Remote Service Operation Stopped"
+                    }
+                ]
+            },
+            {
+                "system": "http://dicom.nema.org/resources/ontology/DCM",
+                "code": "110141",
+                "display": "Local Service Operation Started",
+                "designation": [
+                    {
+                        "value": "Local Service Operation Started"
+                    }
+                ]
+            },
+            {
+                "system": "http://dicom.nema.org/resources/ontology/DCM",
+                "code": "110142",
+                "display": "Local Service Operation Stopped",
+                "designation": [
+                    {
+                        "value": "Local Service Operation Stopped"
+                    }
+                ]
+            },
+            {
+                "system": "http://hl7.org/fhir/restful-interaction",
+                "code": "read",
+                "display": "read"
+            },
+            {
+                "system": "http://hl7.org/fhir/restful-interaction",
+                "code": "vread",
+                "display": "vread"
+            },
+            {
+                "system": "http://hl7.org/fhir/restful-interaction",
+                "code": "update",
+                "display": "update"
+            },
+            {
+                "system": "http://hl7.org/fhir/restful-interaction",
+                "code": "patch",
+                "display": "patch"
+            },
+            {
+                "system": "http://hl7.org/fhir/restful-interaction",
+                "code": "delete",
+                "display": "delete"
+            },
+            {
+                "system": "http://hl7.org/fhir/restful-interaction",
+                "code": "history",
+                "display": "history"
+            },
+            {
+                "system": "http://hl7.org/fhir/restful-interaction",
+                "code": "history-instance",
+                "display": "history-instance"
+            },
+            {
+                "system": "http://hl7.org/fhir/restful-interaction",
+                "code": "history-type",
+                "display": "history-type"
+            },
+            {
+                "system": "http://hl7.org/fhir/restful-interaction",
+                "code": "history-system",
+                "display": "history-system"
+            },
+            {
+                "system": "http://hl7.org/fhir/restful-interaction",
+                "code": "create",
+                "display": "create"
+            },
+            {
+                "system": "http://hl7.org/fhir/restful-interaction",
+                "code": "search",
+                "display": "search"
+            },
+            {
+                "system": "http://hl7.org/fhir/restful-interaction",
+                "code": "search-type",
+                "display": "search-type"
+            },
+            {
+                "system": "http://hl7.org/fhir/restful-interaction",
+                "code": "search-system",
+                "display": "search-system"
+            },
+            {
+                "system": "http://hl7.org/fhir/restful-interaction",
+                "code": "capabilities",
+                "display": "capabilities"
+            },
+            {
+                "system": "http://hl7.org/fhir/restful-interaction",
+                "code": "transaction",
+                "display": "transaction"
+            },
+            {
+                "system": "http://hl7.org/fhir/restful-interaction",
+                "code": "batch",
+                "display": "batch"
+            },
+            {
+                "system": "http://hl7.org/fhir/restful-interaction",
+                "code": "operation",
+                "display": "operation"
+            }
+        ]
+    }
+}

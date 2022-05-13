@@ -12,10 +12,11 @@
     }
   ],
   "url": "http://hl7.org/fhir/StructureDefinition/encounter-modeOfArrival",
-  "version": "4.3.0-CIBUILD",
+  "version": "4.3.0-cibuild",
   "name": "modeOfArrival",
   "title": "modeOfArrival",
   "status": "draft",
+  "experimental": false,
   "date": "2015-02-21",
   "publisher": "Health Level Seven, Inc. - FHIR WG",
   "contact": [
@@ -29,7 +30,7 @@
     }
   ],
   "description": "Identifies whether a patient arrives at the reporting facility via ambulance and the type of ambulance that was used.",
-  "fhirVersion": "4.3.0-CIBUILD",
+  "fhirVersion": "4.3.0-cibuild",
   "mapping": [
     {
       "identity": "rim",

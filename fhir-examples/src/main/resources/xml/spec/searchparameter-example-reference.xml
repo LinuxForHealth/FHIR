@@ -7,21 +7,84 @@
       <display value="test health data"/>
     </security>
   </meta>
-  <text><status value="generated"/><div xmlns="http://www.w3.org/1999/xhtml"><p><b>Generated Narrative</b></p><div><p>Resource "example-reference" </p></div><p><b>url</b>: <code>http://hl7.org/fhir/SearchParameter/example-reference</code></p><p><b>name</b>: Example Search Parameter</p><p><b>status</b>: draft</p><p><b>experimental</b>: true</p><p><b>date</b>: 2013-10-23</p><p><b>publisher</b>: Health Level Seven International (FHIR Infrastructure)</p><p><b>contact</b>: [string]: <a>http://hl7.org/fhir</a></p><p><b>description</b>: Search by condition subject</p><p><b>purpose</b>: Need to search Condition by subject</p><p><b>code</b>: subject</p><p><b>base</b>: Condition</p><p><b>type</b>: reference</p><p><b>expression</b>: Condition.subject</p><p><b>xpathUsage</b>: normal</p><p><b>target</b>: Organization</p><p><b>modifier</b>: missing</p><p><b>chain</b>: name, identifier</p></div></text><url value="http://hl7.org/fhir/SearchParameter/example-reference"/>
+  <text>
+    <status value="generated"/>
+    <div xmlns="http://www.w3.org/1999/xhtml">
+      <p>
+        <b>Generated Narrative</b>
+      </p>
+      <div style="display: inline-block; background-color: #d9e0e7; padding: 6px; margin: 4px; border: 1px solid #8da1b4; border-radius: 5px; line-height: 60%">
+        <p style="margin-bottom: 0px">Resource "example-reference" </p>
+      </div>
+      <p>
+        <b>url</b>: 
+        <code>http://hl7.org/fhir/SearchParameter/example-reference</code>
+      </p>
+      <p>
+        <b>name</b>: Example Search Parameter
+      </p>
+      <p>
+        <b>status</b>: draft
+      </p>
+      <p>
+        <b>experimental</b>: true
+      </p>
+      <p>
+        <b>date</b>: 2013-10-23
+      </p>
+      <p>
+        <b>publisher</b>: Health Level Seven International (FHIR Infrastructure)
+      </p>
+      <p>
+        <b>contact</b>: [string]: 
+        <a href="http://hl7.org/fhir">http://hl7.org/fhir</a>
+      </p>
+      <p>
+        <b>description</b>: Search by condition subject
+      </p>
+      <p>
+        <b>purpose</b>: Need to search Condition by subject
+      </p>
+      <p>
+        <b>code</b>: subject
+      </p>
+      <p>
+        <b>base</b>: Condition
+      </p>
+      <p>
+        <b>type</b>: reference
+      </p>
+      <p>
+        <b>expression</b>: Condition.subject
+      </p>
+      <p>
+        <b>xpathUsage</b>: normal
+      </p>
+      <p>
+        <b>target</b>: Organization
+      </p>
+      <p>
+        <b>modifier</b>: missing
+      </p>
+      <p>
+        <b>chain</b>: name, identifier
+      </p>
+    </div>
+  </text>
+  <url value="http://hl7.org/fhir/SearchParameter/example-reference"/>
   <name value="Example Search Parameter"/>
   <status value="draft"/>
   <experimental value="true"/>
   <date value="2013-10-23"/>
   <publisher value="Health Level Seven International (FHIR Infrastructure)"/>
   <contact>
-  <name value="[string]"/><!--   0..1 Name of an individual to contact   -->
+    <name value="[string]"/>
     <telecom>
       <system value="url"/>
       <value value="http://hl7.org/fhir"/>
     </telecom>
   </contact>
   <description value="Search by condition subject"/>
-  
   <purpose value="Need to search Condition by subject"/>
   <code value="subject"/>
   <base value="Condition"/>
@@ -31,5 +94,5 @@
   <target value="Organization"/>
   <modifier value="missing"/>
   <chain value="name"/>
-  <chain value="identifier"/>  
+  <chain value="identifier"/>
 </SearchParameter>

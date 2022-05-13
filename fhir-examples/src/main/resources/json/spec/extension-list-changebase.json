@@ -12,13 +12,14 @@
     }
   ],
   "url": "http://hl7.org/fhir/StructureDefinition/list-changeBase",
-  "version": "4.3.0-CIBUILD",
+  "version": "4.3.0-cibuild",
   "name": "changeBase",
   "status": "draft",
+  "experimental": false,
   "date": "2021-01-17T07:06:13+11:00",
   "publisher": "HL7",
   "description": "Reference to the List that a \"change\" list is asserting changes with respect to.",
-  "fhirVersion": "4.3.0-CIBUILD",
+  "fhirVersion": "4.3.0-cibuild",
   "mapping": [
     {
       "identity": "rim",

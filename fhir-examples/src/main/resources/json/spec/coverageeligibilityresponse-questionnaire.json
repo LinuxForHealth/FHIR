@@ -9,8 +9,8 @@
       "status": "active",
       "description": "Type options for CoverageEligibilityResponse.serviced[x]",
       "expansion": {
-        "identifier": "urn:uuid:f1f9b5a2-982b-445a-92c2-82cbaa5fbca0",
-        "timestamp": "2022-01-01T15:24:13+00:00",
+        "identifier": "urn:uuid:be170fde-1466-4f5f-b1a7-e1a17c683313",
+        "timestamp": "2022-04-23T22:29:02+00:00",
         "contains": [
           {
             "system": "http://hl7.org/fhir/data-types",
@@ -32,8 +32,8 @@
       "status": "active",
       "description": "Type options for CoverageEligibilityResponse.insurance.item.benefit.allowed[x]",
       "expansion": {
-        "identifier": "urn:uuid:21c5b208-cab8-4ea3-8e59-ed86f0ffbad7",
-        "timestamp": "2022-01-01T15:24:13+00:00",
+        "identifier": "urn:uuid:55615165-00e4-4499-a2f0-0fdd93ef81d1",
+        "timestamp": "2022-04-23T22:29:02+00:00",
         "contains": [
           {
             "system": "http://hl7.org/fhir/data-types",
@@ -60,8 +60,8 @@
       "status": "active",
       "description": "Type options for CoverageEligibilityResponse.insurance.item.benefit.used[x]",
       "expansion": {
-        "identifier": "urn:uuid:cf55896e-465e-4a1f-b529-e29bc3f266bf",
-        "timestamp": "2022-01-01T15:24:13+00:00",
+        "identifier": "urn:uuid:031ae420-5116-4823-9d30-42fe65a11b56",
+        "timestamp": "2022-04-23T22:29:02+00:00",
         "contains": [
           {
             "system": "http://hl7.org/fhir/data-types",
@@ -87,9 +87,10 @@
       "system": "urn:ietf:rfc:3986"
     }
   ],
-  "version": "4.3.0-CIBUILD",
+  "version": "4.3.0-cibuild",
   "status": "draft",
-  "date": "2022-01-01T15:17:18+00:00",
+  "experimental": false,
+  "date": "2022-04-23T22:21:35+00:00",
   "publisher": "Health Level Seven International (Financial Management)",
   "item": [
     {
@@ -278,10 +279,9 @@
             {
               "linkId": "CoverageEligibilityResponse.language.value",
               "text": "language",
-              "type": "coding",
+              "type": "choice",
               "required": false,
-              "repeats": false,
-              "answerConstraint": "optionsOnly"
+              "repeats": false
             }
           ]
         },
@@ -500,10 +500,9 @@
             {
               "linkId": "CoverageEligibilityResponse.status.value",
               "text": "status",
-              "type": "coding",
+              "type": "choice",
               "required": false,
-              "repeats": false,
-              "answerConstraint": "optionsOrType"
+              "repeats": false
             }
           ]
         },
@@ -545,10 +544,9 @@
             {
               "linkId": "CoverageEligibilityResponse.purpose.value",
               "text": "purpose",
-              "type": "coding",
+              "type": "choice",
               "required": false,
-              "repeats": false,
-              "answerConstraint": "optionsOrType"
+              "repeats": false
             }
           ]
         },
@@ -645,10 +643,9 @@
             {
               "linkId": "CoverageEligibilityResponse.serviced[x]._type",
               "text": "type",
-              "type": "coding",
+              "type": "choice",
               "required": false,
               "repeats": false,
-              "answerConstraint": "optionsOnly",
               "answerValueSet": "#vs2",
               "item": [
                 {
@@ -901,10 +898,9 @@
             {
               "linkId": "CoverageEligibilityResponse.outcome.value",
               "text": "outcome",
-              "type": "coding",
+              "type": "choice",
               "required": false,
-              "repeats": false,
-              "answerConstraint": "optionsOrType"
+              "repeats": false
             }
           ]
         },
@@ -1460,10 +1456,9 @@
                     {
                       "linkId": "CoverageEligibilityResponse.insurance.item.category.coding",
                       "text": "code:",
-                      "type": "coding",
+                      "type": "choice",
                       "required": false,
-                      "repeats": false,
-                      "answerConstraint": "optionsOnly"
+                      "repeats": false
                     },
                     {
                       "linkId": "CoverageEligibilityResponse.insurance.item.category.text",
@@ -1513,10 +1508,9 @@
                     {
                       "linkId": "CoverageEligibilityResponse.insurance.item.productOrService.coding",
                       "text": "code:",
-                      "type": "coding",
+                      "type": "choice",
                       "required": false,
-                      "repeats": false,
-                      "answerConstraint": "optionsOnly"
+                      "repeats": false
                     },
                     {
                       "linkId": "CoverageEligibilityResponse.insurance.item.productOrService.text",
@@ -1562,10 +1556,9 @@
                     {
                       "linkId": "CoverageEligibilityResponse.insurance.item.modifier.coding",
                       "text": "code:",
-                      "type": "coding",
+                      "type": "choice",
                       "required": false,
-                      "repeats": false,
-                      "answerConstraint": "optionsOnly"
+                      "repeats": false
                     },
                     {
                       "linkId": "CoverageEligibilityResponse.insurance.item.modifier.text",
@@ -1801,10 +1794,9 @@
                     {
                       "linkId": "CoverageEligibilityResponse.insurance.item.network.coding",
                       "text": "code:",
-                      "type": "coding",
+                      "type": "choice",
                       "required": false,
-                      "repeats": false,
-                      "answerConstraint": "optionsOnly"
+                      "repeats": false
                     },
                     {
                       "linkId": "CoverageEligibilityResponse.insurance.item.network.text",
@@ -1854,10 +1846,9 @@
                     {
                       "linkId": "CoverageEligibilityResponse.insurance.item.unit.coding",
                       "text": "code:",
-                      "type": "coding",
+                      "type": "choice",
                       "required": false,
-                      "repeats": false,
-                      "answerConstraint": "optionsOnly"
+                      "repeats": false
                     },
                     {
                       "linkId": "CoverageEligibilityResponse.insurance.item.unit.text",
@@ -1907,10 +1898,9 @@
                     {
                       "linkId": "CoverageEligibilityResponse.insurance.item.term.coding",
                       "text": "code:",
-                      "type": "coding",
+                      "type": "choice",
                       "required": false,
-                      "repeats": false,
-                      "answerConstraint": "optionsOnly"
+                      "repeats": false
                     },
                     {
                       "linkId": "CoverageEligibilityResponse.insurance.item.term.text",
@@ -2090,10 +2080,9 @@
                         {
                           "linkId": "CoverageEligibilityResponse.insurance.item.benefit.type.coding",
                           "text": "code:",
-                          "type": "coding",
+                          "type": "choice",
                           "required": false,
-                          "repeats": false,
-                          "answerConstraint": "optionsOnly"
+                          "repeats": false
                         },
                         {
                           "linkId": "CoverageEligibilityResponse.insurance.item.benefit.type.text",
@@ -2139,10 +2128,9 @@
                         {
                           "linkId": "CoverageEligibilityResponse.insurance.item.benefit.allowed[x]._type",
                           "text": "type",
-                          "type": "coding",
+                          "type": "choice",
                           "required": false,
                           "repeats": false,
-                          "answerConstraint": "optionsOnly",
                           "answerValueSet": "#vs3",
                           "item": [
                             {
@@ -2194,10 +2182,9 @@
                                 {
                                   "linkId": "CoverageEligibilityResponse.insurance.item.benefit.allowed[x]._null.comparator",
                                   "text": "comp:",
-                                  "type": "coding",
+                                  "type": "choice",
                                   "required": false,
-                                  "repeats": false,
-                                  "answerConstraint": "optionsOnly"
+                                  "repeats": false
                                 },
                                 {
                                   "linkId": "CoverageEligibilityResponse.insurance.item.benefit.allowed[x]._null.value",
@@ -2268,10 +2255,9 @@
                         {
                           "linkId": "CoverageEligibilityResponse.insurance.item.benefit.used[x]._type",
                           "text": "type",
-                          "type": "coding",
+                          "type": "choice",
                           "required": false,
                           "repeats": false,
-                          "answerConstraint": "optionsOnly",
                           "answerValueSet": "#vs4",
                           "item": [
                             {
@@ -2323,10 +2309,9 @@
                                 {
                                   "linkId": "CoverageEligibilityResponse.insurance.item.benefit.used[x]._null.comparator",
                                   "text": "comp:",
-                                  "type": "coding",
+                                  "type": "choice",
                                   "required": false,
-                                  "repeats": false,
-                                  "answerConstraint": "optionsOnly"
+                                  "repeats": false
                                 },
                                 {
                                   "linkId": "CoverageEligibilityResponse.insurance.item.benefit.used[x]._null.value",
@@ -2443,10 +2428,9 @@
                     {
                       "linkId": "CoverageEligibilityResponse.insurance.item.authorizationSupporting.coding",
                       "text": "code:",
-                      "type": "coding",
+                      "type": "choice",
                       "required": false,
-                      "repeats": false,
-                      "answerConstraint": "optionsOnly"
+                      "repeats": false
                     },
                     {
                       "linkId": "CoverageEligibilityResponse.insurance.item.authorizationSupporting.text",
@@ -2588,10 +2572,9 @@
             {
               "linkId": "CoverageEligibilityResponse.form.coding",
               "text": "code:",
-              "type": "coding",
+              "type": "choice",
               "required": false,
-              "repeats": false,
-              "answerConstraint": "optionsOnly"
+              "repeats": false
             },
             {
               "linkId": "CoverageEligibilityResponse.form.text",
@@ -2771,10 +2754,9 @@
                 {
                   "linkId": "CoverageEligibilityResponse.error.code.coding",
                   "text": "code:",
-                  "type": "coding",
+                  "type": "choice",
                   "required": false,
-                  "repeats": false,
-                  "answerConstraint": "optionsOnly"
+                  "repeats": false
                 },
                 {
                   "linkId": "CoverageEligibilityResponse.error.code.text",

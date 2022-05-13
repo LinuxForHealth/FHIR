@@ -14,7 +14,9 @@ import java.util.Objects;
 
 import javax.annotation.Generated;
 
+import com.ibm.fhir.model.annotation.Binding;
 import com.ibm.fhir.model.annotation.Choice;
+import com.ibm.fhir.model.annotation.Constraint;
 import com.ibm.fhir.model.annotation.Maturity;
 import com.ibm.fhir.model.annotation.ReferenceTarget;
 import com.ibm.fhir.model.annotation.Summary;
@@ -32,6 +34,7 @@ import com.ibm.fhir.model.type.Narrative;
 import com.ibm.fhir.model.type.Period;
 import com.ibm.fhir.model.type.Reference;
 import com.ibm.fhir.model.type.Uri;
+import com.ibm.fhir.model.type.code.BindingStrength;
 import com.ibm.fhir.model.type.code.StandardsStatus;
 import com.ibm.fhir.model.util.ValidationSupport;
 import com.ibm.fhir.model.visitor.Visitor;
@@ -47,6 +50,33 @@ import com.ibm.fhir.model.visitor.Visitor;
     level = 1,
     status = StandardsStatus.Value.TRIAL_USE
 )
+@Constraint(
+    id = "regulatedAuthorization-0",
+    level = "Warning",
+    location = "(base)",
+    description = "SHOULD contain a code from value set http://hl7.org/fhir/ValueSet/publication-status",
+    expression = "status.exists() implies (status.memberOf('http://hl7.org/fhir/ValueSet/publication-status', 'preferred'))",
+    source = "http://hl7.org/fhir/StructureDefinition/RegulatedAuthorization",
+    generated = true
+)
+@Constraint(
+    id = "regulatedAuthorization-1",
+    level = "Warning",
+    location = "(base)",
+    description = "SHOULD contain a code from value set http://hl7.org/fhir/ValueSet/product-intended-use",
+    expression = "intendedUse.exists() implies (intendedUse.memberOf('http://hl7.org/fhir/ValueSet/product-intended-use', 'preferred'))",
+    source = "http://hl7.org/fhir/StructureDefinition/RegulatedAuthorization",
+    generated = true
+)
+@Constraint(
+    id = "regulatedAuthorization-2",
+    level = "Warning",
+    location = "case.status",
+    description = "SHOULD contain a code from value set http://hl7.org/fhir/ValueSet/publication-status",
+    expression = "$this.memberOf('http://hl7.org/fhir/ValueSet/publication-status', 'preferred')",
+    source = "http://hl7.org/fhir/StructureDefinition/RegulatedAuthorization",
+    generated = true
+)
 @Generated("com.ibm.fhir.tools.CodeGenerator")
 public class RegulatedAuthorization extends DomainResource {
     @Summary
@@ -55,12 +85,30 @@ public class RegulatedAuthorization extends DomainResource {
     @ReferenceTarget({ "MedicinalProductDefinition", "BiologicallyDerivedProduct", "NutritionProduct", "PackagedProductDefinition", "SubstanceDefinition", "DeviceDefinition", "ResearchStudy", "ActivityDefinition", "PlanDefinition", "ObservationDefinition", "Practitioner", "Organization", "Location" })
     private final List<Reference> subject;
     @Summary
+    @Binding(
+        bindingName = "RegulatedAuthorizationType",
+        strength = BindingStrength.Value.EXAMPLE,
+        description = "Overall type of this authorization.",
+        valueSet = "http://hl7.org/fhir/ValueSet/regulated-authorization-type"
+    )
     private final CodeableConcept type;
     @Summary
     private final Markdown description;
     @Summary
+    @Binding(
+        bindingName = "Jurisdiction",
+        strength = BindingStrength.Value.EXAMPLE,
+        description = "Jurisdiction codes",
+        valueSet = "http://hl7.org/fhir/ValueSet/jurisdiction"
+    )
     private final List<CodeableConcept> region;
     @Summary
+    @Binding(
+        bindingName = "PublicationStatus",
+        strength = BindingStrength.Value.PREFERRED,
+        description = "The lifecycle status of an artifact.",
+        valueSet = "http://hl7.org/fhir/ValueSet/publication-status"
+    )
     private final CodeableConcept status;
     @Summary
     private final DateTime statusDate;
@@ -69,8 +117,20 @@ public class RegulatedAuthorization extends DomainResource {
     @Summary
     private final CodeableReference indication;
     @Summary
+    @Binding(
+        bindingName = "ProductIntendedUse",
+        strength = BindingStrength.Value.PREFERRED,
+        description = "The overall intended use of a product.",
+        valueSet = "http://hl7.org/fhir/ValueSet/product-intended-use"
+    )
     private final CodeableConcept intendedUse;
     @Summary
+    @Binding(
+        bindingName = "RegulatedAuthorizationBasis",
+        strength = BindingStrength.Value.EXAMPLE,
+        description = "A legal or regulatory framework against which an authorization is granted, or other reasons for it.",
+        valueSet = "http://hl7.org/fhir/ValueSet/regulated-authorization-basis"
+    )
     private final List<CodeableConcept> basis;
     @Summary
     @ReferenceTarget({ "Organization" })
@@ -150,7 +210,8 @@ public class RegulatedAuthorization extends DomainResource {
     }
 
     /**
-     * The status that is authorised e.g. approved. Intermediate states can be tracked with cases and applications.
+     * The status that is authorised e.g. approved. Intermediate states and actions can be tracked with cases and 
+     * applications.
      * 
      * @return
      *     An immutable object of type {@link CodeableConcept} that may be null.
@@ -191,7 +252,7 @@ public class RegulatedAuthorization extends DomainResource {
     }
 
     /**
-     * The intended use of the product, e.g. prevention, treatment.
+     * The intended use of the product, e.g. prevention, treatment, diagnosis.
      * 
      * @return
      *     An immutable object of type {@link CodeableConcept} that may be null.
@@ -211,7 +272,7 @@ public class RegulatedAuthorization extends DomainResource {
     }
 
     /**
-     * The organization that holds the granted authorization.
+     * The organization that has been granted this authorization, by some authoritative body (the 'regulator').
      * 
      * @return
      *     An immutable object of type {@link Reference} that may be null.
@@ -232,8 +293,10 @@ public class RegulatedAuthorization extends DomainResource {
     }
 
     /**
-     * The case or regulatory procedure for granting or amending a marketing authorization. Note: This area is subject to 
-     * ongoing review and the workgroup is seeking implementer feedback on its use (see link at bottom of page).
+     * The case or regulatory procedure for granting or amending a regulated authorization. An authorization is granted in 
+     * response to submissions/applications by those seeking authorization. A case is the administrative process that deals 
+     * with the application(s) that relate to this and assesses them. Note: This area is subject to ongoing review and the 
+     * workgroup is seeking implementer feedback on its use (see link at bottom of page).
      * 
      * @return
      *     An immutable object of type {@link Case} that may be null.
@@ -749,7 +812,7 @@ public class RegulatedAuthorization extends DomainResource {
          * If any of the elements are null, calling {@link #build()} will fail.
          * 
          * @param region
-         *     The territory (e.g., country, jurisdiction etc.) in which the authorization has been granted
+         *     The territory in which the authorization has been granted
          * 
          * @return
          *     A reference to this Builder instance
@@ -768,7 +831,7 @@ public class RegulatedAuthorization extends DomainResource {
          * If any of the elements are null, calling {@link #build()} will fail.
          * 
          * @param region
-         *     The territory (e.g., country, jurisdiction etc.) in which the authorization has been granted
+         *     The territory in which the authorization has been granted
          * 
          * @return
          *     A reference to this Builder instance
@@ -782,7 +845,8 @@ public class RegulatedAuthorization extends DomainResource {
         }
 
         /**
-         * The status that is authorised e.g. approved. Intermediate states can be tracked with cases and applications.
+         * The status that is authorised e.g. approved. Intermediate states and actions can be tracked with cases and 
+         * applications.
          * 
          * @param status
          *     The status that is authorised e.g. approved. Intermediate states can be tracked with cases and applications
@@ -814,8 +878,8 @@ public class RegulatedAuthorization extends DomainResource {
          * Authorization includes the date of authorization and/or an expiration date.
          * 
          * @param validityPeriod
-         *     The time period in which the regulatory approval, clearance or licencing is in effect. As an example, a Marketing 
-         *     Authorization includes the date of authorization and/or an expiration date
+         *     The time period in which the regulatory approval etc. is in effect, e.g. a Marketing Authorization includes the date 
+         *     of authorization and/or expiration date
          * 
          * @return
          *     A reference to this Builder instance
@@ -840,7 +904,7 @@ public class RegulatedAuthorization extends DomainResource {
         }
 
         /**
-         * The intended use of the product, e.g. prevention, treatment.
+         * The intended use of the product, e.g. prevention, treatment, diagnosis.
          * 
          * @param intendedUse
          *     The intended use of the product, e.g. prevention, treatment
@@ -860,7 +924,7 @@ public class RegulatedAuthorization extends DomainResource {
          * If any of the elements are null, calling {@link #build()} will fail.
          * 
          * @param basis
-         *     The legal or regulatory framework against which this authorization is granted, or other reasons for it
+         *     The legal/regulatory framework or reasons under which this authorization is granted
          * 
          * @return
          *     A reference to this Builder instance
@@ -879,7 +943,7 @@ public class RegulatedAuthorization extends DomainResource {
          * If any of the elements are null, calling {@link #build()} will fail.
          * 
          * @param basis
-         *     The legal or regulatory framework against which this authorization is granted, or other reasons for it
+         *     The legal/regulatory framework or reasons under which this authorization is granted
          * 
          * @return
          *     A reference to this Builder instance
@@ -893,7 +957,7 @@ public class RegulatedAuthorization extends DomainResource {
         }
 
         /**
-         * The organization that holds the granted authorization.
+         * The organization that has been granted this authorization, by some authoritative body (the 'regulator').
          * 
          * <p>Allowed resource types for this reference:
          * <ul>
@@ -901,7 +965,7 @@ public class RegulatedAuthorization extends DomainResource {
          * </ul>
          * 
          * @param holder
-         *     The organization that holds the granted authorization
+         *     The organization that has been granted this authorization, by the regulator
          * 
          * @return
          *     A reference to this Builder instance
@@ -932,11 +996,13 @@ public class RegulatedAuthorization extends DomainResource {
         }
 
         /**
-         * The case or regulatory procedure for granting or amending a marketing authorization. Note: This area is subject to 
-         * ongoing review and the workgroup is seeking implementer feedback on its use (see link at bottom of page).
+         * The case or regulatory procedure for granting or amending a regulated authorization. An authorization is granted in 
+         * response to submissions/applications by those seeking authorization. A case is the administrative process that deals 
+         * with the application(s) that relate to this and assesses them. Note: This area is subject to ongoing review and the 
+         * workgroup is seeking implementer feedback on its use (see link at bottom of page).
          * 
          * @param _case
-         *     The case or regulatory procedure for granting or amending a marketing authorization. Note: This area is subject to 
+         *     The case or regulatory procedure for granting or amending a regulated authorization. Note: This area is subject to 
          *     ongoing review and the workgroup is seeking implementer feedback on its use (see link at bottom of page)
          * 
          * @return
@@ -996,15 +1062,29 @@ public class RegulatedAuthorization extends DomainResource {
     }
 
     /**
-     * The case or regulatory procedure for granting or amending a marketing authorization. Note: This area is subject to 
-     * ongoing review and the workgroup is seeking implementer feedback on its use (see link at bottom of page).
+     * The case or regulatory procedure for granting or amending a regulated authorization. An authorization is granted in 
+     * response to submissions/applications by those seeking authorization. A case is the administrative process that deals 
+     * with the application(s) that relate to this and assesses them. Note: This area is subject to ongoing review and the 
+     * workgroup is seeking implementer feedback on its use (see link at bottom of page).
      */
     public static class Case extends BackboneElement {
         @Summary
         private final Identifier identifier;
         @Summary
+        @Binding(
+            bindingName = "RegulatedAuthorizationCaseType",
+            strength = BindingStrength.Value.EXAMPLE,
+            description = "The type of a case involved in an application.",
+            valueSet = "http://hl7.org/fhir/ValueSet/regulated-authorization-case-type"
+        )
         private final CodeableConcept type;
         @Summary
+        @Binding(
+            bindingName = "PublicationStatus",
+            strength = BindingStrength.Value.PREFERRED,
+            description = "The lifecycle status of an artifact.",
+            valueSet = "http://hl7.org/fhir/ValueSet/publication-status"
+        )
         private final CodeableConcept status;
         @Summary
         @Choice({ Period.class, DateTime.class })
@@ -1052,7 +1132,7 @@ public class RegulatedAuthorization extends DomainResource {
         }
 
         /**
-         * Relevant date for this of case.
+         * Relevant date for this case.
          * 
          * @return
          *     An immutable object of type {@link Period} or {@link DateTime} that may be null.
@@ -1062,7 +1142,9 @@ public class RegulatedAuthorization extends DomainResource {
         }
 
         /**
-         * Applications submitted to obtain a marketing authorization. Steps within the longer running case or procedure.
+         * A regulatory submission from an organization to a regulator, as part of an assessing case. Multiple applications may 
+         * occur over time, with more or different information to support or modify the submission or the authorization. The 
+         * applications can be considered as steps within the longer running case or procedure for this authorization process.
          * 
          * @return
          *     An unmodifiable list containing immutable objects of type {@link Case} that may be empty.
@@ -1314,7 +1396,7 @@ public class RegulatedAuthorization extends DomainResource {
             }
 
             /**
-             * Relevant date for this of case.
+             * Relevant date for this case.
              * 
              * <p>This is a choice element with the following allowed types:
              * <ul>
@@ -1323,7 +1405,7 @@ public class RegulatedAuthorization extends DomainResource {
              * </ul>
              * 
              * @param date
-             *     Relevant date for this of case
+             *     Relevant date for this case
              * 
              * @return
              *     A reference to this Builder instance
@@ -1334,13 +1416,15 @@ public class RegulatedAuthorization extends DomainResource {
             }
 
             /**
-             * Applications submitted to obtain a marketing authorization. Steps within the longer running case or procedure.
+             * A regulatory submission from an organization to a regulator, as part of an assessing case. Multiple applications may 
+             * occur over time, with more or different information to support or modify the submission or the authorization. The 
+             * applications can be considered as steps within the longer running case or procedure for this authorization process.
              * 
              * <p>Adds new element(s) to the existing list.
              * If any of the elements are null, calling {@link #build()} will fail.
              * 
              * @param application
-             *     Applications submitted to obtain a marketing authorization. Steps within the longer running case or procedure
+             *     Applications submitted to obtain a regulated authorization. Steps within the longer running case or procedure
              * 
              * @return
              *     A reference to this Builder instance
@@ -1353,13 +1437,15 @@ public class RegulatedAuthorization extends DomainResource {
             }
 
             /**
-             * Applications submitted to obtain a marketing authorization. Steps within the longer running case or procedure.
+             * A regulatory submission from an organization to a regulator, as part of an assessing case. Multiple applications may 
+             * occur over time, with more or different information to support or modify the submission or the authorization. The 
+             * applications can be considered as steps within the longer running case or procedure for this authorization process.
              * 
              * <p>Replaces the existing list with a new one containing elements from the Collection.
              * If any of the elements are null, calling {@link #build()} will fail.
              * 
              * @param application
-             *     Applications submitted to obtain a marketing authorization. Steps within the longer running case or procedure
+             *     Applications submitted to obtain a regulated authorization. Steps within the longer running case or procedure
              * 
              * @return
              *     A reference to this Builder instance

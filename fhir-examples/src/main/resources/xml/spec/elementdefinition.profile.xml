@@ -62,7 +62,7 @@
             <br/>
             <span style="font-style: italic" title="eld-15">+ Rule: default value and meaningWhenMissing are mutually exclusive</span>
             <br/>
-            <span style="font-style: italic" title="eld-16">+ Rule: sliceName must be composed of proper tokens separated by &quot;/&quot;</span>
+            <span style="font-style: italic" title="eld-16">+ Rule: sliceName must be composed of proper tokens separated by&quot;/&quot;</span>
             <br/>
             <span style="font-style: italic" title="eld-18">+ Rule: Must have a modifier reason if isModifier = true</span>
             <br/>
@@ -74,7 +74,7 @@
             <br/>Elements defined in Ancestors: 
             <a href="element.html#Element" title="Unique id for the element within a resource (for internal references). This may be any string value that does not contain spaces.">id</a>, 
             <a href="element.html#Element" title="May be used to represent additional information that is not part of the basic definition of the element. To make the use of extensions safe and manageable, there is a strict set of governance  applied to the definition and use of extensions. Though any implementer can define an extension, there is a set of requirements that SHALL be met as part of the definition of the extension.">extension</a>, 
-            <a href="backboneelement.html#BackboneElement" title="May be used to represent additional information that is not part of the basic definition of the element and that modifies the understanding of the element in which it is contained and/or the understanding of the containing element&#39;s descendants. Usually modifier elements provide negation or qualification. To make the use of extensions safe and manageable, there is a strict set of governance applied to the definition and use of extensions. Though any implementer can define an extension, there is a set of requirements that SHALL be met as part of the definition of the extension. Applications processing a resource are required to check for modifier extensions.&#xA;&#xA;Modifier extensions SHALL NOT change the meaning of any elements on Resource or DomainResource (including cannot change the meaning of modifierExtension itself).">modifierExtension</a>
+            <a href="backboneelement.html#BackboneElement" title="May be used to represent additional information that is not part of the basic definition of the element and that modifies the understanding of the element in which it is contained and/or the understanding of the containing element's descendants. Usually modifier elements provide negation or qualification. To make the use of extensions safe and manageable, there is a strict set of governance applied to the definition and use of extensions. Though any implementer can define an extension, there is a set of requirements that SHALL be met as part of the definition of the extension. Applications processing a resource are required to check for modifier extensions.&#xA;&#xA;Modifier extensions SHALL NOT change the meaning of any elements on Resource or DomainResource (including cannot change the meaning of modifierExtension itself).">modifierExtension</a>
           </td>
         </tr>
 
@@ -589,7 +589,7 @@
           </td>
           <td style="vertical-align: top; text-align : left; background-color: #F7F7F7; border: 0px #F0F0F0 solid; padding:0px 4px 0px 4px" class="hierarchy">Data type or Resource (reference to definition)
             <br/>
-            <a href="valueset-defined-types.html" title="Either a resource or a data type, including logical model types.">FHIRDefinedType</a> (
+            <a href="valueset-fhir-element-types.html" title="Either a resource or a data type, including logical model types.">Common Tags</a> (
             <a href="terminologies.html#extensible" title="To be conformant, the concept in this element SHALL be from the specified value set if any of the codes within the value set can apply to the concept being communicated.  If the value set does not cover the concept (based on human review), alternate codings (or, data type allowing, text) may be included instead.">Extensible</a>)
           </td>
         </tr>
@@ -689,7 +689,7 @@
             <img src="data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAAEAAAAWCAYAAAABxvaqAAAACXBIWXMAAAsTAAALEwEAmpwYAAAAB3RJTUUH3wYeFzIs1vtcMQAAAB1pVFh0Q29tbWVudAAAAAAAQ3JlYXRlZCB3aXRoIEdJTVBkLmUHAAAAE0lEQVQI12P4//8/AxMDAwNdCABMPwMo2ctnoQAAAABJRU5ErkJggg==" alt="." style="background-color: inherit" class="hierarchy"/>
             <img src="data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAABAAAAAWCAYAAADJqhx8AAAACXBIWXMAAAsTAAALEwEAmpwYAAAAB3RJTUUH3wYeFzI3XJ6V3QAAAB1pVFh0Q29tbWVudAAAAAAAQ3JlYXRlZCB3aXRoIEdJTVBkLmUHAAAANklEQVQ4y+2RsQ0AIAzDav7/2VzQwoCY4iWbZSmo1QGoUgNMghvWaIejPQW/CrrNCylIwcOCDYfLNRcNer4SAAAAAElFTkSuQmCC" alt="." style="background-color: inherit" class="hierarchy"/>
             <img src="data:image/png;base64,R0lGODlhEAAQAPZ/APrkusOiYvvfqbiXWaV2G+jGhdq1b8GgYf3v1frw3vTUlsWkZNewbcSjY/DQkad4Hb6dXv3u0f3v1ObEgfPTlerJiP3w1v79+e7OkPrfrfnjuNOtZPrpydaxa+/YrvvdpP779ZxvFPvnwKKBQaFyF/369M2vdaqHRPz58/HNh/vowufFhfroxO3OkPrluv779tK0e6JzGProwvrow9m4eOnIifPTlPDPkP78+Naxaf3v0/zowfXRi+bFhLWUVv379/rnwPvszv3rye3LiPvnv+3MjPDasKiIS/789/3x2f747eXDg+7Mifvu0tu7f+/QkfDTnPXWmPrjsvrjtPbPgrqZW+/QlPz48K2EMv36866OUPvowat8Ivvgq/Pbrvzgq/PguvrgrqN0Gda2evfYm9+7d/rpw9q6e/LSku/Rl/XVl/LSlfrkt+zVqe7Wqv3x1/bNffbOf59wFdS6if3u0vrqyP3owPvepfXQivDQkO/PkKh9K7STVf779P///wD/ACH5BAEKAH8ALAAAAAAQABAAAAemgH+CgxeFF4OIhBdKGwFChYl/hYwbdkoBPnaQkosbG3d3VEpSUlonUoY1Gzo6QkI8SrGxWBOFG4uySgY5ZWR3PFy2hnaWZXC/PHcPwkpJk1ShoHcxhQEXSUmtFy6+0iSFVResrjoTPDzdcoU+F65CduVU6KAhhQa3F8Tx8nchBoYuqoTLZoAKFRIhqGwqJAULFx0GYpBQeChRIR4TJm6KJMhQRUSBAAA7" alt="." style="background-color: white; background-color: inherit" title="Data Type" class="hierarchy"/> 
-            <a href="elementdefinition-definitions.html#ElementDefinition.defaultValue_x_" title="ElementDefinition.defaultValue[x] : The value that should be used if there is no value stated in the instance (e.g. &#39;if not otherwise specified, the abstract is false&#39;).">defaultValue[x]</a>
+            <a href="elementdefinition-definitions.html#ElementDefinition.defaultValue_x_" title="ElementDefinition.defaultValue[x] : The value that should be used if there is no value stated in the instance (e.g. 'if not otherwise specified, the abstract is false').">defaultValue[x]</a>
           </td>
           <td style="vertical-align: top; text-align : left; background-color: white; border: 0px #F0F0F0 solid; padding:0px 4px 0px 4px" class="hierarchy">
             <a style="padding-left: 3px; padding-right: 3px; color: black; null" href="elementdefinition-definitions.html#ElementDefinition.isSummary" title="This element is included in summaries">Σ</a>
@@ -707,7 +707,7 @@
             <img src="data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAAEAAAAWCAYAAAABxvaqAAAACXBIWXMAAAsTAAALEwEAmpwYAAAAB3RJTUUH3wYeFzIs1vtcMQAAAB1pVFh0Q29tbWVudAAAAAAAQ3JlYXRlZCB3aXRoIEdJTVBkLmUHAAAAE0lEQVQI12P4//8/AxMDAwNdCABMPwMo2ctnoQAAAABJRU5ErkJggg==" alt="." style="background-color: inherit" class="hierarchy"/>
             <img src="data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAABAAAAAWCAYAAADJqhx8AAAACXBIWXMAAAsTAAALEwEAmpwYAAAAB3RJTUUH3wYeFzI3XJ6V3QAAAB1pVFh0Q29tbWVudAAAAAAAQ3JlYXRlZCB3aXRoIEdJTVBkLmUHAAAANklEQVQ4y+2RsQ0AIAzDav7/2VzQwoCY4iWbZSmo1QGoUgNMghvWaIejPQW/CrrNCylIwcOCDYfLNRcNer4SAAAAAElFTkSuQmCC" alt="." style="background-color: inherit" class="hierarchy"/>
             <img src="data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAABAAAAAQCAYAAAAf8/9hAAAACXBIWXMAAAsTAAALEwEAmpwYAAAARklEQVQ4y2P8//8/AyWAhYFCMAgMuHjx4n+KXaCv+I0szW8WpCG8kFO1lGFKW/SIjAUYgxz/MzAwMDC+nqhDUTQyjuYFBgCNmhP4OvTRgwAAAABJRU5ErkJggg==" alt="." style="background-color: #F7F7F7; background-color: inherit" title="Primitive Data Type" class="hierarchy"/> 
-            <a href="elementdefinition-definitions.html#ElementDefinition.meaningWhenMissing" title="ElementDefinition.meaningWhenMissing : The Implicit meaning that is to be understood when this element is missing (e.g. &#39;when this element is missing, the period is ongoing&#39;).">meaningWhenMissing</a>
+            <a href="elementdefinition-definitions.html#ElementDefinition.meaningWhenMissing" title="ElementDefinition.meaningWhenMissing : The Implicit meaning that is to be understood when this element is missing (e.g. 'when this element is missing, the period is ongoing').">meaningWhenMissing</a>
           </td>
           <td style="vertical-align: top; text-align : left; background-color: #F7F7F7; border: 0px #F0F0F0 solid; padding:0px 4px 0px 4px" class="hierarchy">
             <a style="padding-left: 3px; padding-right: 3px; color: black; null" href="elementdefinition-definitions.html#ElementDefinition.isSummary" title="This element is included in summaries">Σ</a>
@@ -1220,7 +1220,7 @@
           <td style="vertical-align: top; text-align : left; background-color: #F7F7F7; border: 0px #F0F0F0 solid; padding:0px 4px 0px 4px" class="hierarchy">
             <a href="datatypes.html#id">id</a>
           </td>
-          <td style="vertical-align: top; text-align : left; background-color: #F7F7F7; border: 0px #F0F0F0 solid; padding:0px 4px 0px 4px" class="hierarchy">Target of &#39;condition&#39; reference above</td>
+          <td style="vertical-align: top; text-align : left; background-color: #F7F7F7; border: 0px #F0F0F0 solid; padding:0px 4px 0px 4px" class="hierarchy">Target of 'condition' reference above</td>
         </tr>
 
         <tr style="border: 0px #F0F0F0 solid; padding:0px; vertical-align: top; background-color: white">
@@ -1599,10 +1599,11 @@
     <valueCode value="4.0.0"/>
   </extension>
   <url value="http://hl7.org/fhir/StructureDefinition/ElementDefinition"/>
-  <version value="4.3.0-CIBUILD"/>
+  <version value="4.3.0-cibuild"/>
   <name value="ElementDefinition"/>
   <status value="active"/>
-  <date value="2022-01-01T15:17:18+00:00"/>
+  <experimental value="false"/>
+  <date value="2022-04-23T22:21:35+00:00"/>
   <publisher value="HL7 FHIR Standard"/>
   <contact>
     <telecom>
@@ -1611,7 +1612,7 @@
     </telecom>
   </contact>
   <description value="Base StructureDefinition for ElementDefinition Type: Captures constraints on each element within the resource, profile, or extension."/>
-  <fhirVersion value="4.3.0-CIBUILD"/>
+  <fhirVersion value="4.3.0-cibuild"/>
   <mapping>
     <identity value="v2"/>
     <uri value="http://hl7.org/v2"/>
@@ -1664,8 +1665,8 @@
         <key value="eld-2"/>
         <severity value="error"/>
         <human value="Min &lt;= Max"/>
-        <expression value="min.empty() or max.empty() or (max = &#39;*&#39;) or iif(max != &#39;*&#39;, min &lt;= max.toInteger())"/>
-        <xpath value="not(exists(f:min)) or not(exists(f:max)) or (not(f:max/@value) and not(f:min/@value)) or (f:max/@value = &#39;*&#39;) or (number(f:max/@value) &gt;= f:min/@value)"/>
+        <expression value="min.empty() or max.empty() or (max = '*') or iif(max != '*', min &lt;= max.toInteger())"/>
+        <xpath value="not(exists(f:min)) or not(exists(f:max)) or (not(f:max/@value) and not(f:min/@value)) or (f:max/@value = '*') or (number(f:max/@value) &gt;= f:min/@value)"/>
         <source value="http://hl7.org/fhir/StructureDefinition/ElementDefinition"/>
       </constraint>
       <constraint>
@@ -1673,7 +1674,7 @@
         <severity value="error"/>
         <human value="if the element definition has a contentReference, it cannot have type, defaultValue, fixed, pattern, example, minValue, maxValue, maxLength, or binding"/>
         <expression value="contentReference.empty() or (type.empty() and defaultValue.empty() and fixed.empty() and pattern.empty() and example.empty() and minValue.empty() and maxValue.empty() and maxLength.empty() and binding.empty())"/>
-        <xpath value="not(exists(f:contentReference) and (exists(f:type) or exists(f:*[starts-with(local-name(.), &#39;value&#39;)]) or exists(f:*[starts-with(local-name(.), &#39;defaultValue&#39;)])  or exists(f:*[starts-with(local-name(.), &#39;fixed&#39;)]) or exists(f:*[starts-with(local-name(.), &#39;pattern&#39;)]) or exists(f:*[starts-with(local-name(.), &#39;example&#39;)]) or exists(f:*[starts-with(local-name(.), &#39;f:minValue&#39;)]) or exists(f:*[starts-with(local-name(.), &#39;f:maxValue&#39;)]) or exists(f:maxLength) or exists(f:binding)))"/>
+        <xpath value="not(exists(f:contentReference) and (exists(f:type) or exists(f:*[starts-with(local-name(.), 'value')]) or exists(f:*[starts-with(local-name(.), 'defaultValue')])  or exists(f:*[starts-with(local-name(.), 'fixed')]) or exists(f:*[starts-with(local-name(.), 'pattern')]) or exists(f:*[starts-with(local-name(.), 'example')]) or exists(f:*[starts-with(local-name(.), 'f:minValue')]) or exists(f:*[starts-with(local-name(.), 'f:maxValue')]) or exists(f:maxLength) or exists(f:binding)))"/>
         <source value="http://hl7.org/fhir/StructureDefinition/ElementDefinition"/>
       </constraint>
       <constraint>
@@ -1681,7 +1682,7 @@
         <severity value="error"/>
         <human value="Fixed value may only be specified if there is one type"/>
         <expression value="fixed.empty() or (type.count()  &lt;= 1)"/>
-        <xpath value="not(exists(f:*[starts-with(local-name(.), &#39;fixed&#39;)])) or (count(f:type)&lt;=1)"/>
+        <xpath value="not(exists(f:*[starts-with(local-name(.), 'fixed')])) or (count(f:type)&lt;=1)"/>
         <source value="http://hl7.org/fhir/StructureDefinition/ElementDefinition"/>
       </constraint>
       <constraint>
@@ -1689,7 +1690,7 @@
         <severity value="error"/>
         <human value="Pattern may only be specified if there is one type"/>
         <expression value="pattern.empty() or (type.count() &lt;= 1)"/>
-        <xpath value="not(exists(f:*[starts-with(local-name(.), &#39;pattern&#39;)])) or (count(f:type)&lt;=1)"/>
+        <xpath value="not(exists(f:*[starts-with(local-name(.), 'pattern')])) or (count(f:type)&lt;=1)"/>
         <source value="http://hl7.org/fhir/StructureDefinition/ElementDefinition"/>
       </constraint>
       <constraint>
@@ -1697,15 +1698,15 @@
         <severity value="error"/>
         <human value="Pattern and fixed are mutually exclusive"/>
         <expression value="pattern.empty() or fixed.empty()"/>
-        <xpath value="not(exists(f:*[starts-with(local-name(.), &#39;pattern&#39;)])) or not(exists(f:*[starts-with(local-name(.), &#39;fixed&#39;)]))"/>
+        <xpath value="not(exists(f:*[starts-with(local-name(.), 'pattern')])) or not(exists(f:*[starts-with(local-name(.), 'fixed')]))"/>
         <source value="http://hl7.org/fhir/StructureDefinition/ElementDefinition"/>
       </constraint>
       <constraint>
         <key value="eld-11"/>
         <severity value="error"/>
         <human value="Binding can only be present for coded elements, string, and uri"/>
-        <expression value="binding.empty() or type.code.empty() or type.select((code = &#39;code&#39;) or (code = &#39;Coding&#39;) or (code=&#39;CodeableConcept&#39;) or (code = &#39;Quantity&#39;) or (code = &#39;string&#39;) or (code = &#39;uri&#39;)).exists()"/>
-        <xpath value="not(exists(f:binding)) or (count(f:type/f:code) = 0) or  f:type/f:code/@value=(&#39;code&#39;,&#39;Coding&#39;,&#39;CodeableConcept&#39;,&#39;Quantity&#39;,&#39;string&#39;, &#39;uri&#39;)"/>
+        <expression value="binding.empty() or type.code.empty() or type.select((code = 'code') or (code = 'Coding') or (code='CodeableConcept') or (code = 'Quantity') or (code = 'string') or (code = 'uri') or (code = 'Duration')).exists()"/>
+        <xpath value="not(exists(f:binding)) or (count(f:type/f:code) = 0) or  f:type/f:code/@value=('code','Coding','CodeableConcept','Quantity','string', 'uri', 'Duration')"/>
         <source value="http://hl7.org/fhir/StructureDefinition/ElementDefinition"/>
       </constraint>
       <constraint>
@@ -1729,15 +1730,15 @@
         <severity value="error"/>
         <human value="default value and meaningWhenMissing are mutually exclusive"/>
         <expression value="defaultValue.empty() or meaningWhenMissing.empty()"/>
-        <xpath value="not(exists(f:*[starts-with(local-name(.), &#39;fixed&#39;)])) or not(exists(f:meaningWhenMissing))"/>
+        <xpath value="not(exists(f:*[starts-with(local-name(.), 'fixed')])) or not(exists(f:meaningWhenMissing))"/>
         <source value="http://hl7.org/fhir/StructureDefinition/ElementDefinition"/>
       </constraint>
       <constraint>
         <key value="eld-16"/>
         <severity value="error"/>
-        <human value="sliceName must be composed of proper tokens separated by &quot;/&quot;"/>
-        <expression value="sliceName.empty() or sliceName.matches(&#39;^[a-zA-Z0-9\\/\\-_\\[\\]\\@]+$&#39;)"/>
-        <xpath value="not(exists(f:sliceName/@value)) or matches(f:sliceName/@value, &#39;^[a-zA-Z0-9\/\-_\[\]\@]+$&#39;)"/>
+        <human value="sliceName must be composed of proper tokens separated by&quot;/&quot;"/>
+        <expression value="sliceName.empty() or sliceName.matches('^[a-zA-Z0-9\\/\\-_\\[\\]\\@]+$')"/>
+        <xpath value="not(exists(f:sliceName/@value)) or matches(f:sliceName/@value, '^[a-zA-Z0-9\/\-_\[\]\@]+$')"/>
         <source value="http://hl7.org/fhir/StructureDefinition/ElementDefinition"/>
       </constraint>
       <constraint>
@@ -1745,23 +1746,23 @@
         <severity value="error"/>
         <human value="Must have a modifier reason if isModifier = true"/>
         <expression value="(isModifier.exists() and isModifier) implies isModifierReason.exists()"/>
-        <xpath value="not(f:isModifier/@value = &#39;true&#39;) or exists(f:isModifierReason)"/>
+        <xpath value="not(f:isModifier/@value = 'true') or exists(f:isModifierReason)"/>
         <source value="http://hl7.org/fhir/StructureDefinition/ElementDefinition"/>
       </constraint>
       <constraint>
         <key value="eld-19"/>
         <severity value="error"/>
         <human value="Element names cannot include some special characters"/>
-        <expression value="path.matches(&#39;^[^\\s\\.,:;\\\&#39;&quot;\\/|?!@#$%&amp;*()\\[\\]{}]{1,64}(\\.[^\\s\\.,:;\\\&#39;&quot;\\/|?!@#$%&amp;*()\\[\\]{}]{1,64}(\\[x\\])?(\\:[^\\s\\.]+)?)*$&#39;)"/>
-        <xpath value="matches(f:path/@value, &#39;^[^\s\.,:;\&#39;&amp;quot;\/|?!@#$%&amp;*()\[\]{}]{1,64}(\.[^\s\.,:;\&#39;&amp;quot;\/|?!@#$%&amp;*()\[\]{}]{1,64}(\[x\])?(\:[^\s\.]+)?)*$&#39;)"/>
+        <expression value="path.matches('^[^\\s\\.,:;\\\'&quot;\\/|?!@#$%&amp;*()\\[\\]{}]{1,64}(\\.[^\\s\\.,:;\\\'&quot;\\/|?!@#$%&amp;*()\\[\\]{}]{1,64}(\\[x\\])?(\\:[^\\s\\.]+)?)*$')"/>
+        <xpath value="matches(f:path/@value, '^[^\s\.,:;\'&amp;quot;\/|?!@#$%&amp;*()\[\]{}]{1,64}(\.[^\s\.,:;\'&amp;quot;\/|?!@#$%&amp;*()\[\]{}]{1,64}(\[x\])?(\:[^\s\.]+)?)*$')"/>
         <source value="http://hl7.org/fhir/StructureDefinition/ElementDefinition"/>
       </constraint>
       <constraint>
         <key value="eld-20"/>
         <severity value="warning"/>
         <human value="Element names should be simple alphanumerics with a max of 64 characters, or code generation tools may be broken"/>
-        <expression value="path.matches(&#39;[A-Za-z][A-Za-z0-9]*(\\.[a-z][A-Za-z0-9]*(\\[x])?)*&#39;)"/>
-        <xpath value="matches(path/@value, &#39;[A-Za-z][A-Za-z0-9]*(\.[a-z][A-Za-z0-9]*(\[x])?)*&#39;)"/>
+        <expression value="path.matches('^[A-Za-z][A-Za-z0-9]*(\\.[a-z][A-Za-z0-9]*(\\[x])?)*$')"/>
+        <xpath value="matches(f:path/@value, '^[A-Za-z][A-Za-z0-9]*(\.[a-z][A-Za-z0-9]*(\[x])?)*$')"/>
         <source value="http://hl7.org/fhir/StructureDefinition/ElementDefinition"/>
       </constraint>
       <constraint>
@@ -1814,7 +1815,6 @@
         <min value="0"/>
         <max value="1"/>
       </base>
-    <!-- Note: special primitive values have a FHIRPath system type. e.g. this is compiler magic (j) -->
       <type>
         <extension url="http://hl7.org/fhir/StructureDefinition/structuredefinition-fhir-type">
           <valueUrl value="string"/>
@@ -1879,7 +1879,7 @@
     <element id="ElementDefinition.modifierExtension">
       <path value="ElementDefinition.modifierExtension"/>
       <short value="Extensions that cannot be ignored even if unrecognized"/>
-      <definition value="May be used to represent additional information that is not part of the basic definition of the element and that modifies the understanding of the element in which it is contained and/or the understanding of the containing element&#39;s descendants. Usually modifier elements provide negation or qualification. To make the use of extensions safe and manageable, there is a strict set of governance applied to the definition and use of extensions. Though any implementer can define an extension, there is a set of requirements that SHALL be met as part of the definition of the extension. Applications processing a resource are required to check for modifier extensions.&#xA;&#xA;Modifier extensions SHALL NOT change the meaning of any elements on Resource or DomainResource (including cannot change the meaning of modifierExtension itself)."/>
+      <definition value="May be used to represent additional information that is not part of the basic definition of the element and that modifies the understanding of the element in which it is contained and/or the understanding of the containing element's descendants. Usually modifier elements provide negation or qualification. To make the use of extensions safe and manageable, there is a strict set of governance applied to the definition and use of extensions. Though any implementer can define an extension, there is a set of requirements that SHALL be met as part of the definition of the extension. Applications processing a resource are required to check for modifier extensions.&#xA;&#xA;Modifier extensions SHALL NOT change the meaning of any elements on Resource or DomainResource (including cannot change the meaning of modifierExtension itself)."/>
       <comment value="There can be no stigma associated with the use of extensions by any application, project, or standard - regardless of the institution or jurisdiction that uses or defines the extensions.  The use of extensions is what allows the FHIR specification to retain a core level of simplicity for everyone."/>
       <requirements value="Modifier extensions allow for extensions that *cannot* be safely ignored to be clearly distinguished from the vast majority of extensions which can be safely ignored.  This promotes interoperability by eliminating the need for implementers to prohibit the presence of extensions. For further information, see the [definition of modifier extensions](extensibility.html#modifierExtension)."/>
       <alias value="extensions"/>
@@ -1989,7 +1989,7 @@
           <valueString value="PropertyRepresentation"/>
         </extension>
         <strength value="required"/>
-        <valueSet value="http://hl7.org/fhir/ValueSet/property-representation|4.3.0-CIBUILD"/>
+        <valueSet value="http://hl7.org/fhir/ValueSet/property-representation|4.3.0-cibuild"/>
       </binding>
       <mapping>
         <identity value="v2"/>
@@ -2232,7 +2232,6 @@
         <min value="0"/>
         <max value="1"/>
       </base>
-    <!-- Note: special primitive values have a FHIRPath system type. e.g. this is compiler magic (j) -->
       <type>
         <extension url="http://hl7.org/fhir/StructureDefinition/structuredefinition-fhir-type">
           <valueUrl value="string"/>
@@ -2340,7 +2339,6 @@
         <min value="0"/>
         <max value="1"/>
       </base>
-    <!-- Note: special primitive values have a FHIRPath system type. e.g. this is compiler magic (j) -->
       <type>
         <extension url="http://hl7.org/fhir/StructureDefinition/structuredefinition-fhir-type">
           <valueUrl value="string"/>
@@ -2434,7 +2432,7 @@
           <valueString value="DiscriminatorType"/>
         </extension>
         <strength value="required"/>
-        <valueSet value="http://hl7.org/fhir/ValueSet/discriminator-type|4.3.0-CIBUILD"/>
+        <valueSet value="http://hl7.org/fhir/ValueSet/discriminator-type|4.3.0-cibuild"/>
       </binding>
       <mapping>
         <identity value="rim"/>
@@ -2485,7 +2483,7 @@
       <path value="ElementDefinition.slicing.description"/>
       <short value="Text description of how slicing works (or not)"/>
       <definition value="A human-readable text description of how the slicing works. If there is no discriminator, this is required to be present to provide whatever information is possible about how the slices can be differentiated."/>
-      <comment value="If it&#39;s really not possible to differentiate them, the design should be re-evaluated to make the content usable."/>
+      <comment value="If it's really not possible to differentiate them, the design should be re-evaluated to make the content usable."/>
       <min value="0"/>
       <max value="1"/>
       <base>
@@ -2551,7 +2549,7 @@
       <path value="ElementDefinition.slicing.rules"/>
       <short value="closed | open | openAtEnd"/>
       <definition value="Whether additional slices are allowed or not. When the slices are ordered, profile authors can also say that additional slices are only allowed at the end."/>
-      <comment value="Allowing additional elements makes for a much for flexible template - it&#39;s open for use in wider contexts, but also means that the content of the resource is not closed, and applications have to decide how to handle content not described by the profile."/>
+      <comment value="Allowing additional elements makes for a much for flexible template - it's open for use in wider contexts, but also means that the content of the resource is not closed, and applications have to decide how to handle content not described by the profile."/>
       <min value="1"/>
       <max value="1"/>
       <base>
@@ -2580,7 +2578,7 @@
           <valueString value="SlicingRules"/>
         </extension>
         <strength value="required"/>
-        <valueSet value="http://hl7.org/fhir/ValueSet/resource-slicing-rules|4.3.0-CIBUILD"/>
+        <valueSet value="http://hl7.org/fhir/ValueSet/resource-slicing-rules|4.3.0-cibuild"/>
       </binding>
       <mapping>
         <identity value="rim"/>
@@ -2739,7 +2737,7 @@
       <path value="ElementDefinition.requirements"/>
       <short value="Why this resource has been created"/>
       <definition value="This element is for traceability of why the element was created and why the constraints exist as they do. This may be used to point to source materials or specifications that drove the structure of this element."/>
-      <comment value="This element does not describe the usage of the element (that&#39;s done in comments), rather it&#39;s for traceability of *why* the element is either needed or why the constraints exist as they do.  This may be used to point to source materials or specifications that drove the structure of this data element."/>
+      <comment value="This element does not describe the usage of the element (that's done in comments), rather it's for traceability of *why* the element is either needed or why the constraints exist as they do.  This may be used to point to source materials or specifications that drove the structure of this data element."/>
       <min value="0"/>
       <max value="1"/>
       <base>
@@ -2873,8 +2871,8 @@
         <key value="eld-3"/>
         <severity value="error"/>
         <human value="Max SHALL be a number or &quot;*&quot;"/>
-        <expression value="empty() or ($this = &#39;*&#39;) or (toInteger() &gt;= 0)"/>
-        <xpath value="@value=&#39;*&#39; or (normalize-space(@value)!=&#39;&#39; and normalize-space(translate(@value, &#39;0123456789&#39;,&#39;&#39;))=&#39;&#39;)"/>
+        <expression value="empty() or ($this = '*') or (toInteger() &gt;= 0)"/>
+        <xpath value="@value='*' or (normalize-space(@value)!='' and normalize-space(translate(@value, '0123456789',''))='')"/>
         <source value="http://hl7.org/fhir/StructureDefinition/ElementDefinition"/>
       </constraint>
       <constraint>
@@ -2946,7 +2944,6 @@
         <min value="0"/>
         <max value="1"/>
       </base>
-    <!-- Note: special primitive values have a FHIRPath system type. e.g. this is compiler magic (j) -->
       <type>
         <extension url="http://hl7.org/fhir/StructureDefinition/structuredefinition-fhir-type">
           <valueUrl value="string"/>
@@ -3163,16 +3160,16 @@
         <key value="eld-4"/>
         <severity value="error"/>
         <human value="Aggregation may only be specified if one of the allowed types for the element is a reference"/>
-        <expression value="aggregation.empty() or (code = &#39;Reference&#39;) or (code = &#39;canonical&#39;)"/>
-        <xpath value="not(exists(f:aggregation)) or exists(f:code[@value = &#39;Reference&#39;]) or exists(f:code[@value = &#39;canonical&#39;])"/>
+        <expression value="aggregation.empty() or (code = 'Reference') or (code = 'canonical')"/>
+        <xpath value="not(exists(f:aggregation)) or exists(f:code[@value = 'Reference']) or exists(f:code[@value = 'canonical'])"/>
         <source value="http://hl7.org/fhir/StructureDefinition/ElementDefinition"/>
       </constraint>
       <constraint>
         <key value="eld-17"/>
         <severity value="error"/>
         <human value="targetProfile is only allowed if the type is Reference or canonical"/>
-        <expression value="(code=&#39;Reference&#39; or code = &#39;canonical&#39; or code = &#39;CodeableReference&#39;) or targetProfile.empty()"/>
-        <xpath value="not(exists(f:targetProfile)) or (f:code/@value = &#39;Reference&#39;)"/>
+        <expression value="(code='Reference' or code = 'canonical' or code = 'CodeableReference') or targetProfile.empty()"/>
+        <xpath value="not(exists(f:targetProfile)) or (f:code/@value = ('Reference', 'canonical', 'CodeableReference'))"/>
         <source value="http://hl7.org/fhir/StructureDefinition/ElementDefinition"/>
       </constraint>
       <constraint>
@@ -3218,7 +3215,6 @@
         <min value="0"/>
         <max value="1"/>
       </base>
-    <!-- Note: special primitive values have a FHIRPath system type. e.g. this is compiler magic (j) -->
       <type>
         <extension url="http://hl7.org/fhir/StructureDefinition/structuredefinition-fhir-type">
           <valueUrl value="string"/>
@@ -3316,7 +3312,7 @@
           <valueBoolean value="true"/>
         </extension>
         <strength value="extensible"/>
-        <valueSet value="http://hl7.org/fhir/ValueSet/defined-types"/>
+        <valueSet value="http://hl7.org/fhir/ValueSet/fhir-element-types"/>
       </binding>
       <mapping>
         <identity value="v2"/>
@@ -3440,7 +3436,7 @@
           <valueString value="AggregationMode"/>
         </extension>
         <strength value="required"/>
-        <valueSet value="http://hl7.org/fhir/ValueSet/resource-aggregation-mode|4.3.0-CIBUILD"/>
+        <valueSet value="http://hl7.org/fhir/ValueSet/resource-aggregation-mode|4.3.0-cibuild"/>
       </binding>
       <mapping>
         <identity value="rim"/>
@@ -3484,7 +3480,7 @@
           <valueString value="ReferenceVersionRules"/>
         </extension>
         <strength value="required"/>
-        <valueSet value="http://hl7.org/fhir/ValueSet/reference-version-rules|4.3.0-CIBUILD"/>
+        <valueSet value="http://hl7.org/fhir/ValueSet/reference-version-rules|4.3.0-cibuild"/>
       </binding>
       <mapping>
         <identity value="rim"/>
@@ -3494,7 +3490,7 @@
     <element id="ElementDefinition.defaultValue[x]">
       <path value="ElementDefinition.defaultValue[x]"/>
       <short value="Specified value if missing from instance"/>
-      <definition value="The value that should be used if there is no value stated in the instance (e.g. &#39;if not otherwise specified, the abstract is false&#39;)."/>
+      <definition value="The value that should be used if there is no value stated in the instance (e.g. 'if not otherwise specified, the abstract is false')."/>
       <comment value="Specifying a default value means that the property can never been unknown - it must always have a value. Further, the default value can never be changed, or changed in constraints on content models. Defining default values creates many difficulties in implementation (e.g. when is a value missing?). For these reasons, default values are (and should be) used extremely sparingly. &#xA;&#xA;No default values are ever defined in the FHIR specification, nor can they be defined in constraints (&quot;profiles&quot;) on data types or resources. This element only exists so that default values may be defined in logical models."/>
       <min value="0"/>
       <max value="1"/>
@@ -3576,9 +3572,6 @@
         <code value="CodeableConcept"/>
       </type>
       <type>
-        <code value="CodeableReference"/>
-      </type>
-      <type>
         <code value="Coding"/>
       </type>
       <type>
@@ -3613,9 +3606,6 @@
       </type>
       <type>
         <code value="Ratio"/>
-      </type>
-      <type>
-        <code value="RatioRange"/>
       </type>
       <type>
         <code value="Reference"/>
@@ -3684,7 +3674,7 @@
       </extension>
       <path value="ElementDefinition.meaningWhenMissing"/>
       <short value="Implicit meaning when this element is missing"/>
-      <definition value="The Implicit meaning that is to be understood when this element is missing (e.g. &#39;when this element is missing, the period is ongoing&#39;)."/>
+      <definition value="The Implicit meaning that is to be understood when this element is missing (e.g. 'when this element is missing, the period is ongoing')."/>
       <comment value="Implicit meanings for missing values can only be specified on a resource, data type, or extension definition, and never in a profile that applies to one of these. An implicit meaning for a missing value can never be changed, and specifying one has the consequence that constraining its use in profiles eliminates use cases as possibilities, not merely moving them out of scope."/>
       <min value="0"/>
       <max value="1"/>
@@ -3827,9 +3817,6 @@
         <code value="CodeableConcept"/>
       </type>
       <type>
-        <code value="CodeableReference"/>
-      </type>
-      <type>
         <code value="Coding"/>
       </type>
       <type>
@@ -3864,9 +3851,6 @@
       </type>
       <type>
         <code value="Ratio"/>
-      </type>
-      <type>
-        <code value="RatioRange"/>
       </type>
       <type>
         <code value="Reference"/>
@@ -3929,7 +3913,7 @@
       </mapping>
       <mapping>
         <identity value="iso11179"/>
-        <map value="N/A (only relevant when constraining, which 11179 doesn&#39;t do)"/>
+        <map value="N/A (only relevant when constraining, which 11179 doesn't do)"/>
       </mapping>
     </element>
     <element id="ElementDefinition.pattern[x]">
@@ -4017,9 +4001,6 @@
         <code value="CodeableConcept"/>
       </type>
       <type>
-        <code value="CodeableReference"/>
-      </type>
-      <type>
         <code value="Coding"/>
       </type>
       <type>
@@ -4054,9 +4035,6 @@
       </type>
       <type>
         <code value="Ratio"/>
-      </type>
-      <type>
-        <code value="RatioRange"/>
       </type>
       <type>
         <code value="Reference"/>
@@ -4122,7 +4100,7 @@
       <path value="ElementDefinition.example"/>
       <short value="Example value (as defined for type)"/>
       <definition value="A sample value for this element demonstrating the type of information that would typically be found in the element."/>
-      <comment value="Examples will most commonly be present for data where it&#39;s not implicitly obvious from either the data type or value set what the values might be.  (I.e. Example values for dates or quantities would generally be unnecessary.)  If the example value is fully populated, the publication tool can generate an instance automatically."/>
+      <comment value="Examples will most commonly be present for data where it's not implicitly obvious from either the data type or value set what the values might be.  (I.e. Example values for dates or quantities would generally be unnecessary.)  If the example value is fully populated, the publication tool can generate an instance automatically."/>
       <min value="0"/>
       <max value="*"/>
       <base>
@@ -4160,7 +4138,6 @@
         <min value="0"/>
         <max value="1"/>
       </base>
-    <!-- Note: special primitive values have a FHIRPath system type. e.g. this is compiler magic (j) -->
       <type>
         <extension url="http://hl7.org/fhir/StructureDefinition/structuredefinition-fhir-type">
           <valueUrl value="string"/>
@@ -4341,9 +4318,6 @@
         <code value="CodeableConcept"/>
       </type>
       <type>
-        <code value="CodeableReference"/>
-      </type>
-      <type>
         <code value="Coding"/>
       </type>
       <type>
@@ -4378,9 +4352,6 @@
       </type>
       <type>
         <code value="Ratio"/>
-      </type>
-      <type>
-        <code value="RatioRange"/>
       </type>
       <type>
         <code value="Reference"/>
@@ -4676,7 +4647,6 @@
         <min value="0"/>
         <max value="1"/>
       </base>
-    <!-- Note: special primitive values have a FHIRPath system type. e.g. this is compiler magic (j) -->
       <type>
         <extension url="http://hl7.org/fhir/StructureDefinition/structuredefinition-fhir-type">
           <valueUrl value="string"/>
@@ -4740,7 +4710,7 @@
     </element>
     <element id="ElementDefinition.constraint.key">
       <path value="ElementDefinition.constraint.key"/>
-      <short value="Target of &#39;condition&#39; reference above"/>
+      <short value="Target of 'condition' reference above"/>
       <definition value="Allows identification of which elements have their cardinalities impacted by the constraint.  Will not be referenced for constraints that do not affect cardinality."/>
       <min value="1"/>
       <max value="1"/>
@@ -4831,7 +4801,7 @@
           <valueString value="ConstraintSeverity"/>
         </extension>
         <strength value="required"/>
-        <valueSet value="http://hl7.org/fhir/ValueSet/constraint-severity|4.3.0-CIBUILD"/>
+        <valueSet value="http://hl7.org/fhir/ValueSet/constraint-severity|4.3.0-cibuild"/>
       </binding>
       <mapping>
         <identity value="rim"/>
@@ -5011,7 +4981,7 @@
       <short value="If this modifies the meaning of other elements"/>
       <definition value="If true, the value of this element affects the interpretation of the element or resource that contains it, and the value of the element cannot be ignored. Typically, this is used for status, negation and qualification codes. The effect of this is that the element cannot be ignored by systems: they SHALL either recognize the element and process it, and/or a pre-determination has been made that it is not relevant to their particular system."/>
       <comment value="Only the definition of an element can set IsModifier true - either the specification itself or where an extension is originally defined. Once set, it cannot be changed in derived profiles. An element/extension that has isModifier=true SHOULD also have a minimum cardinality of 1, so that there is no lack of clarity about what to do if it is missing. If it can be missing, the definition SHALL make the meaning of a missing element clear."/>
-      <requirements value="Allows elements to be introduced into a specification that can&#39;t safely be ignored by applications that don&#39;t recognize them."/>
+      <requirements value="Allows elements to be introduced into a specification that can't safely be ignored by applications that don't recognize them."/>
       <min value="0"/>
       <max value="1"/>
       <base>
@@ -5075,7 +5045,7 @@
       <path value="ElementDefinition.isSummary"/>
       <short value="Include when _summary = true?"/>
       <definition value="Whether the element should be included if a client requests a search with the parameter _summary=true."/>
-      <comment value="Some resources include a set of simple metadata, and some very large data. This element is used to reduce the quantity of data returned in searches. Note that servers may pre-cache summarized resources for optimal performance, so servers might not support per-profile use of the isSummary flag. When a request is made with _summary=true, serailisers only include elements marked as &#39;isSummary = true&#39;. Other than Attachment.data, all data type properties are included in the summary form. In resource and data type definitions, if an element is at the root or has a parent that is &#39;mustSupport&#39; and the minimum cardinality is 1 or the element is a modifier, it must be marked as isSummary=true."/>
+      <comment value="Some resources include a set of simple metadata, and some very large data. This element is used to reduce the quantity of data returned in searches. Note that servers may pre-cache summarized resources for optimal performance, so servers might not support per-profile use of the isSummary flag. When a request is made with _summary=true, serailisers only include elements marked as 'isSummary = true'. Other than Attachment.data, all data type properties are included in the summary form. In resource and data type definitions, if an element is at the root or has a parent that is 'mustSupport' and the minimum cardinality is 1 or the element is a modifier, it must be marked as isSummary=true."/>
       <requirements value="Allow clients to search through large resources quickly."/>
       <min value="0"/>
       <max value="1"/>
@@ -5130,8 +5100,8 @@
         <key value="eld-12"/>
         <severity value="error"/>
         <human value="ValueSet SHALL start with http:// or https:// or urn:"/>
-        <expression value="valueSet.exists() implies (valueSet.startsWith(&#39;http:&#39;) or valueSet.startsWith(&#39;https&#39;) or valueSet.startsWith(&#39;urn:&#39;))"/>
-        <xpath value="(starts-with(string(f:valueSet/@value), &#39;http:&#39;) or starts-with(string(f:valueSet/@value), &#39;https:&#39;) or starts-with(string(f:valueSet/@value), &#39;urn:&#39;))"/>
+        <expression value="valueSet.exists() implies (valueSet.startsWith('http:') or valueSet.startsWith('https') or valueSet.startsWith('urn:') or valueSet.startsWith('#'))"/>
+        <xpath value="(starts-with(string(f:valueSet/@value), 'http:') or starts-with(string(f:valueSet/@value), 'https:') or starts-with(string(f:valueSet/@value), 'urn:') or starts-with(string(f:valueSet/@value), '#'))"/>
         <source value="http://hl7.org/fhir/StructureDefinition/ElementDefinition"/>
       </constraint>
       <constraint>
@@ -5173,7 +5143,6 @@
         <min value="0"/>
         <max value="1"/>
       </base>
-    <!-- Note: special primitive values have a FHIRPath system type. e.g. this is compiler magic (j) -->
       <type>
         <extension url="http://hl7.org/fhir/StructureDefinition/structuredefinition-fhir-type">
           <valueUrl value="string"/>
@@ -5273,7 +5242,7 @@
           <valueBoolean value="true"/>
         </extension>
         <strength value="required"/>
-        <valueSet value="http://hl7.org/fhir/ValueSet/binding-strength|4.3.0-CIBUILD"/>
+        <valueSet value="http://hl7.org/fhir/ValueSet/binding-strength|4.3.0-cibuild"/>
       </binding>
       <mapping>
         <identity value="v2"/>
@@ -5422,7 +5391,6 @@
         <min value="0"/>
         <max value="1"/>
       </base>
-    <!-- Note: special primitive values have a FHIRPath system type. e.g. this is compiler magic (j) -->
       <type>
         <extension url="http://hl7.org/fhir/StructureDefinition/structuredefinition-fhir-type">
           <valueUrl value="string"/>
@@ -5550,7 +5518,7 @@
         </extension>
         <strength value="required"/>
         <description value="BCP 13 (RFCs 2045, 2046, 2047, 4288, 4289 and 2049)"/>
-        <valueSet value="http://hl7.org/fhir/ValueSet/mimetypes|4.3.0-CIBUILD"/>
+        <valueSet value="http://hl7.org/fhir/ValueSet/mimetypes|4.3.0-cibuild"/>
       </binding>
       <mapping>
         <identity value="rim"/>
@@ -5638,16 +5606,16 @@
         <key value="eld-19"/>
         <severity value="error"/>
         <human value="Element names cannot include some special characters"/>
-        <expression value="path.matches(&#39;^[^\\s\\.,:;\\\&#39;&quot;\\/|?!@#$%&amp;*()\\[\\]{}]{1,64}(\\.[^\\s\\.,:;\\\&#39;&quot;\\/|?!@#$%&amp;*()\\[\\]{}]{1,64}(\\[x\\])?(\\:[^\\s\\.]+)?)*$&#39;)"/>
-        <xpath value="matches(f:path/@value, &#39;^[^\s\.,:;\&#39;&amp;quot;\/|?!@#$%&amp;*()\[\]{}]{1,64}(\.[^\s\.,:;\&#39;&amp;quot;\/|?!@#$%&amp;*()\[\]{}]{1,64}(\[x\])?(\:[^\s\.]+)?)*$&#39;)"/>
+        <expression value="path.matches('^[^\\s\\.,:;\\\'&quot;\\/|?!@#$%&amp;*()\\[\\]{}]{1,64}(\\.[^\\s\\.,:;\\\'&quot;\\/|?!@#$%&amp;*()\\[\\]{}]{1,64}(\\[x\\])?(\\:[^\\s\\.]+)?)*$')"/>
+        <xpath value="matches(f:path/@value, '^[^\s\.,:;\'&amp;quot;\/|?!@#$%&amp;*()\[\]{}]{1,64}(\.[^\s\.,:;\'&amp;quot;\/|?!@#$%&amp;*()\[\]{}]{1,64}(\[x\])?(\:[^\s\.]+)?)*$')"/>
         <source value="http://hl7.org/fhir/StructureDefinition/ElementDefinition"/>
       </constraint>
       <constraint>
         <key value="eld-2"/>
         <severity value="error"/>
         <human value="Min &lt;= Max"/>
-        <expression value="min.empty() or max.empty() or (max = &#39;*&#39;) or iif(max != &#39;*&#39;, min &lt;= max.toInteger())"/>
-        <xpath value="not(exists(f:min)) or not(exists(f:max)) or (not(f:max/@value) and not(f:min/@value)) or (f:max/@value = &#39;*&#39;) or (number(f:max/@value) &gt;= f:min/@value)"/>
+        <expression value="min.empty() or max.empty() or (max = '*') or iif(max != '*', min &lt;= max.toInteger())"/>
+        <xpath value="not(exists(f:min)) or not(exists(f:max)) or (not(f:max/@value) and not(f:min/@value)) or (f:max/@value = '*') or (number(f:max/@value) &gt;= f:min/@value)"/>
         <source value="http://hl7.org/fhir/StructureDefinition/ElementDefinition"/>
       </constraint>
       <constraint>
@@ -5655,7 +5623,7 @@
         <severity value="error"/>
         <human value="if the element definition has a contentReference, it cannot have type, defaultValue, fixed, pattern, example, minValue, maxValue, maxLength, or binding"/>
         <expression value="contentReference.empty() or (type.empty() and defaultValue.empty() and fixed.empty() and pattern.empty() and example.empty() and minValue.empty() and maxValue.empty() and maxLength.empty() and binding.empty())"/>
-        <xpath value="not(exists(f:contentReference) and (exists(f:type) or exists(f:*[starts-with(local-name(.), &#39;value&#39;)]) or exists(f:*[starts-with(local-name(.), &#39;defaultValue&#39;)])  or exists(f:*[starts-with(local-name(.), &#39;fixed&#39;)]) or exists(f:*[starts-with(local-name(.), &#39;pattern&#39;)]) or exists(f:*[starts-with(local-name(.), &#39;example&#39;)]) or exists(f:*[starts-with(local-name(.), &#39;f:minValue&#39;)]) or exists(f:*[starts-with(local-name(.), &#39;f:maxValue&#39;)]) or exists(f:maxLength) or exists(f:binding)))"/>
+        <xpath value="not(exists(f:contentReference) and (exists(f:type) or exists(f:*[starts-with(local-name(.), 'value')]) or exists(f:*[starts-with(local-name(.), 'defaultValue')])  or exists(f:*[starts-with(local-name(.), 'fixed')]) or exists(f:*[starts-with(local-name(.), 'pattern')]) or exists(f:*[starts-with(local-name(.), 'example')]) or exists(f:*[starts-with(local-name(.), 'f:minValue')]) or exists(f:*[starts-with(local-name(.), 'f:maxValue')]) or exists(f:maxLength) or exists(f:binding)))"/>
         <source value="http://hl7.org/fhir/StructureDefinition/ElementDefinition"/>
       </constraint>
       <constraint>
@@ -5663,7 +5631,7 @@
         <severity value="error"/>
         <human value="Pattern may only be specified if there is one type"/>
         <expression value="pattern.empty() or (type.count() &lt;= 1)"/>
-        <xpath value="not(exists(f:*[starts-with(local-name(.), &#39;pattern&#39;)])) or (count(f:type)&lt;=1)"/>
+        <xpath value="not(exists(f:*[starts-with(local-name(.), 'pattern')])) or (count(f:type)&lt;=1)"/>
         <source value="http://hl7.org/fhir/StructureDefinition/ElementDefinition"/>
       </constraint>
       <constraint>
@@ -5671,15 +5639,15 @@
         <severity value="error"/>
         <human value="Fixed value may only be specified if there is one type"/>
         <expression value="fixed.empty() or (type.count()  &lt;= 1)"/>
-        <xpath value="not(exists(f:*[starts-with(local-name(.), &#39;fixed&#39;)])) or (count(f:type)&lt;=1)"/>
+        <xpath value="not(exists(f:*[starts-with(local-name(.), 'fixed')])) or (count(f:type)&lt;=1)"/>
         <source value="http://hl7.org/fhir/StructureDefinition/ElementDefinition"/>
       </constraint>
       <constraint>
         <key value="eld-11"/>
         <severity value="error"/>
         <human value="Binding can only be present for coded elements, string, and uri"/>
-        <expression value="binding.empty() or type.code.empty() or type.select((code = &#39;code&#39;) or (code = &#39;Coding&#39;) or (code=&#39;CodeableConcept&#39;) or (code = &#39;Quantity&#39;) or (code = &#39;string&#39;) or (code = &#39;uri&#39;)).exists()"/>
-        <xpath value="not(exists(f:binding)) or (count(f:type/f:code) = 0) or  f:type/f:code/@value=(&#39;code&#39;,&#39;Coding&#39;,&#39;CodeableConcept&#39;,&#39;Quantity&#39;,&#39;string&#39;, &#39;uri&#39;)"/>
+        <expression value="binding.empty() or type.code.empty() or type.select((code = 'code') or (code = 'Coding') or (code='CodeableConcept') or (code = 'Quantity') or (code = 'string') or (code = 'uri') or (code = 'Duration')).exists()"/>
+        <xpath value="not(exists(f:binding)) or (count(f:type/f:code) = 0) or  f:type/f:code/@value=('code','Coding','CodeableConcept','Quantity','string', 'uri', 'Duration')"/>
         <source value="http://hl7.org/fhir/StructureDefinition/ElementDefinition"/>
       </constraint>
       <constraint>
@@ -5695,7 +5663,7 @@
         <severity value="error"/>
         <human value="Pattern and fixed are mutually exclusive"/>
         <expression value="pattern.empty() or fixed.empty()"/>
-        <xpath value="not(exists(f:*[starts-with(local-name(.), &#39;pattern&#39;)])) or not(exists(f:*[starts-with(local-name(.), &#39;fixed&#39;)]))"/>
+        <xpath value="not(exists(f:*[starts-with(local-name(.), 'pattern')])) or not(exists(f:*[starts-with(local-name(.), 'fixed')]))"/>
         <source value="http://hl7.org/fhir/StructureDefinition/ElementDefinition"/>
       </constraint>
       <constraint>
@@ -5717,9 +5685,9 @@
       <constraint>
         <key value="eld-16"/>
         <severity value="error"/>
-        <human value="sliceName must be composed of proper tokens separated by &quot;/&quot;"/>
-        <expression value="sliceName.empty() or sliceName.matches(&#39;^[a-zA-Z0-9\\/\\-_\\[\\]\\@]+$&#39;)"/>
-        <xpath value="not(exists(f:sliceName/@value)) or matches(f:sliceName/@value, &#39;^[a-zA-Z0-9\/\-_\[\]\@]+$&#39;)"/>
+        <human value="sliceName must be composed of proper tokens separated by&quot;/&quot;"/>
+        <expression value="sliceName.empty() or sliceName.matches('^[a-zA-Z0-9\\/\\-_\\[\\]\\@]+$')"/>
+        <xpath value="not(exists(f:sliceName/@value)) or matches(f:sliceName/@value, '^[a-zA-Z0-9\/\-_\[\]\@]+$')"/>
         <source value="http://hl7.org/fhir/StructureDefinition/ElementDefinition"/>
       </constraint>
       <constraint>
@@ -5727,7 +5695,7 @@
         <severity value="error"/>
         <human value="default value and meaningWhenMissing are mutually exclusive"/>
         <expression value="defaultValue.empty() or meaningWhenMissing.empty()"/>
-        <xpath value="not(exists(f:*[starts-with(local-name(.), &#39;fixed&#39;)])) or not(exists(f:meaningWhenMissing))"/>
+        <xpath value="not(exists(f:*[starts-with(local-name(.), 'fixed')])) or not(exists(f:meaningWhenMissing))"/>
         <source value="http://hl7.org/fhir/StructureDefinition/ElementDefinition"/>
       </constraint>
       <constraint>
@@ -5735,15 +5703,15 @@
         <severity value="error"/>
         <human value="Must have a modifier reason if isModifier = true"/>
         <expression value="(isModifier.exists() and isModifier) implies isModifierReason.exists()"/>
-        <xpath value="not(f:isModifier/@value = &#39;true&#39;) or exists(f:isModifierReason)"/>
+        <xpath value="not(f:isModifier/@value = 'true') or exists(f:isModifierReason)"/>
         <source value="http://hl7.org/fhir/StructureDefinition/ElementDefinition"/>
       </constraint>
       <constraint>
         <key value="eld-20"/>
         <severity value="warning"/>
         <human value="Element names should be simple alphanumerics with a max of 64 characters, or code generation tools may be broken"/>
-        <expression value="path.matches(&#39;[A-Za-z][A-Za-z0-9]*(\\.[a-z][A-Za-z0-9]*(\\[x])?)*&#39;)"/>
-        <xpath value="matches(path/@value, &#39;[A-Za-z][A-Za-z0-9]*(\.[a-z][A-Za-z0-9]*(\[x])?)*&#39;)"/>
+        <expression value="path.matches('^[A-Za-z][A-Za-z0-9]*(\\.[a-z][A-Za-z0-9]*(\\[x])?)*$')"/>
+        <xpath value="matches(f:path/@value, '^[A-Za-z][A-Za-z0-9]*(\.[a-z][A-Za-z0-9]*(\[x])?)*$')"/>
         <source value="http://hl7.org/fhir/StructureDefinition/ElementDefinition"/>
       </constraint>
       <mapping>
@@ -5805,7 +5773,7 @@
           <valueString value="PropertyRepresentation"/>
         </extension>
         <strength value="required"/>
-        <valueSet value="http://hl7.org/fhir/ValueSet/property-representation|4.3.0-CIBUILD"/>
+        <valueSet value="http://hl7.org/fhir/ValueSet/property-representation|4.3.0-cibuild"/>
       </binding>
       <mapping>
         <identity value="v2"/>
@@ -6004,7 +5972,7 @@
           <valueString value="DiscriminatorType"/>
         </extension>
         <strength value="required"/>
-        <valueSet value="http://hl7.org/fhir/ValueSet/discriminator-type|4.3.0-CIBUILD"/>
+        <valueSet value="http://hl7.org/fhir/ValueSet/discriminator-type|4.3.0-cibuild"/>
       </binding>
       <mapping>
         <identity value="rim"/>
@@ -6041,7 +6009,7 @@
       <path value="ElementDefinition.slicing.description"/>
       <short value="Text description of how slicing works (or not)"/>
       <definition value="A human-readable text description of how the slicing works. If there is no discriminator, this is required to be present to provide whatever information is possible about how the slices can be differentiated."/>
-      <comment value="If it&#39;s really not possible to differentiate them, the design should be re-evaluated to make the content usable."/>
+      <comment value="If it's really not possible to differentiate them, the design should be re-evaluated to make the content usable."/>
       <min value="0"/>
       <max value="1"/>
       <type>
@@ -6079,7 +6047,7 @@
       <path value="ElementDefinition.slicing.rules"/>
       <short value="closed | open | openAtEnd"/>
       <definition value="Whether additional slices are allowed or not. When the slices are ordered, profile authors can also say that additional slices are only allowed at the end."/>
-      <comment value="Allowing additional elements makes for a much for flexible template - it&#39;s open for use in wider contexts, but also means that the content of the resource is not closed, and applications have to decide how to handle content not described by the profile."/>
+      <comment value="Allowing additional elements makes for a much for flexible template - it's open for use in wider contexts, but also means that the content of the resource is not closed, and applications have to decide how to handle content not described by the profile."/>
       <min value="1"/>
       <max value="1"/>
       <type>
@@ -6094,7 +6062,7 @@
           <valueString value="SlicingRules"/>
         </extension>
         <strength value="required"/>
-        <valueSet value="http://hl7.org/fhir/ValueSet/resource-slicing-rules|4.3.0-CIBUILD"/>
+        <valueSet value="http://hl7.org/fhir/ValueSet/resource-slicing-rules|4.3.0-cibuild"/>
       </binding>
       <mapping>
         <identity value="rim"/>
@@ -6211,7 +6179,7 @@
       <path value="ElementDefinition.requirements"/>
       <short value="Why this resource has been created"/>
       <definition value="This element is for traceability of why the element was created and why the constraints exist as they do. This may be used to point to source materials or specifications that drove the structure of this element."/>
-      <comment value="This element does not describe the usage of the element (that&#39;s done in comments), rather it&#39;s for traceability of *why* the element is either needed or why the constraints exist as they do.  This may be used to point to source materials or specifications that drove the structure of this data element."/>
+      <comment value="This element does not describe the usage of the element (that's done in comments), rather it's for traceability of *why* the element is either needed or why the constraints exist as they do.  This may be used to point to source materials or specifications that drove the structure of this data element."/>
       <min value="0"/>
       <max value="1"/>
       <type>
@@ -6298,8 +6266,8 @@
         <key value="eld-3"/>
         <severity value="error"/>
         <human value="Max SHALL be a number or &quot;*&quot;"/>
-        <expression value="empty() or ($this = &#39;*&#39;) or (toInteger() &gt;= 0)"/>
-        <xpath value="@value=&#39;*&#39; or (normalize-space(@value)!=&#39;&#39; and normalize-space(translate(@value, &#39;0123456789&#39;,&#39;&#39;))=&#39;&#39;)"/>
+        <expression value="empty() or ($this = '*') or (toInteger() &gt;= 0)"/>
+        <xpath value="@value='*' or (normalize-space(@value)!='' and normalize-space(translate(@value, '0123456789',''))='')"/>
         <source value="http://hl7.org/fhir/StructureDefinition/ElementDefinition"/>
       </constraint>
       <isSummary value="true"/>
@@ -6430,16 +6398,16 @@
         <key value="eld-4"/>
         <severity value="error"/>
         <human value="Aggregation may only be specified if one of the allowed types for the element is a reference"/>
-        <expression value="aggregation.empty() or (code = &#39;Reference&#39;) or (code = &#39;canonical&#39;)"/>
-        <xpath value="not(exists(f:aggregation)) or exists(f:code[@value = &#39;Reference&#39;]) or exists(f:code[@value = &#39;canonical&#39;])"/>
+        <expression value="aggregation.empty() or (code = 'Reference') or (code = 'canonical')"/>
+        <xpath value="not(exists(f:aggregation)) or exists(f:code[@value = 'Reference']) or exists(f:code[@value = 'canonical'])"/>
         <source value="http://hl7.org/fhir/StructureDefinition/ElementDefinition"/>
       </constraint>
       <constraint>
         <key value="eld-17"/>
         <severity value="error"/>
         <human value="targetProfile is only allowed if the type is Reference or canonical"/>
-        <expression value="(code=&#39;Reference&#39; or code = &#39;canonical&#39; or code = &#39;CodeableReference&#39;) or targetProfile.empty()"/>
-        <xpath value="not(exists(f:targetProfile)) or (f:code/@value = &#39;Reference&#39;)"/>
+        <expression value="(code='Reference' or code = 'canonical' or code = 'CodeableReference') or targetProfile.empty()"/>
+        <xpath value="not(exists(f:targetProfile)) or (f:code/@value = ('Reference', 'canonical', 'CodeableReference'))"/>
         <source value="http://hl7.org/fhir/StructureDefinition/ElementDefinition"/>
       </constraint>
       <isSummary value="true"/>
@@ -6486,7 +6454,7 @@
           <valueBoolean value="true"/>
         </extension>
         <strength value="extensible"/>
-        <valueSet value="http://hl7.org/fhir/ValueSet/defined-types"/>
+        <valueSet value="http://hl7.org/fhir/ValueSet/fhir-element-types"/>
       </binding>
       <mapping>
         <identity value="v2"/>
@@ -6568,7 +6536,7 @@
           <valueString value="AggregationMode"/>
         </extension>
         <strength value="required"/>
-        <valueSet value="http://hl7.org/fhir/ValueSet/resource-aggregation-mode|4.3.0-CIBUILD"/>
+        <valueSet value="http://hl7.org/fhir/ValueSet/resource-aggregation-mode|4.3.0-cibuild"/>
       </binding>
       <mapping>
         <identity value="rim"/>
@@ -6598,7 +6566,7 @@
           <valueString value="ReferenceVersionRules"/>
         </extension>
         <strength value="required"/>
-        <valueSet value="http://hl7.org/fhir/ValueSet/reference-version-rules|4.3.0-CIBUILD"/>
+        <valueSet value="http://hl7.org/fhir/ValueSet/reference-version-rules|4.3.0-cibuild"/>
       </binding>
       <mapping>
         <identity value="rim"/>
@@ -6608,7 +6576,7 @@
     <element id="ElementDefinition.defaultValue[x]">
       <path value="ElementDefinition.defaultValue[x]"/>
       <short value="Specified value if missing from instance"/>
-      <definition value="The value that should be used if there is no value stated in the instance (e.g. &#39;if not otherwise specified, the abstract is false&#39;)."/>
+      <definition value="The value that should be used if there is no value stated in the instance (e.g. 'if not otherwise specified, the abstract is false')."/>
       <comment value="Specifying a default value means that the property can never been unknown - it must always have a value. Further, the default value can never be changed, or changed in constraints on content models. Defining default values creates many difficulties in implementation (e.g. when is a value missing?). For these reasons, default values are (and should be) used extremely sparingly. &#xA;&#xA;No default values are ever defined in the FHIR specification, nor can they be defined in constraints (&quot;profiles&quot;) on data types or resources. This element only exists so that default values may be defined in logical models."/>
       <min value="0"/>
       <max value="1"/>
@@ -6685,9 +6653,6 @@
         <code value="CodeableConcept"/>
       </type>
       <type>
-        <code value="CodeableReference"/>
-      </type>
-      <type>
         <code value="Coding"/>
       </type>
       <type>
@@ -6722,9 +6687,6 @@
       </type>
       <type>
         <code value="Ratio"/>
-      </type>
-      <type>
-        <code value="RatioRange"/>
       </type>
       <type>
         <code value="Reference"/>
@@ -6784,7 +6746,7 @@
       </extension>
       <path value="ElementDefinition.meaningWhenMissing"/>
       <short value="Implicit meaning when this element is missing"/>
-      <definition value="The Implicit meaning that is to be understood when this element is missing (e.g. &#39;when this element is missing, the period is ongoing&#39;)."/>
+      <definition value="The Implicit meaning that is to be understood when this element is missing (e.g. 'when this element is missing, the period is ongoing')."/>
       <comment value="Implicit meanings for missing values can only be specified on a resource, data type, or extension definition, and never in a profile that applies to one of these. An implicit meaning for a missing value can never be changed, and specifying one has the consequence that constraining its use in profiles eliminates use cases as possibilities, not merely moving them out of scope."/>
       <min value="0"/>
       <max value="1"/>
@@ -6894,9 +6856,6 @@
         <code value="CodeableConcept"/>
       </type>
       <type>
-        <code value="CodeableReference"/>
-      </type>
-      <type>
         <code value="Coding"/>
       </type>
       <type>
@@ -6931,9 +6890,6 @@
       </type>
       <type>
         <code value="Ratio"/>
-      </type>
-      <type>
-        <code value="RatioRange"/>
       </type>
       <type>
         <code value="Reference"/>
@@ -6987,7 +6943,7 @@
       </mapping>
       <mapping>
         <identity value="iso11179"/>
-        <map value="N/A (only relevant when constraining, which 11179 doesn&#39;t do)"/>
+        <map value="N/A (only relevant when constraining, which 11179 doesn't do)"/>
       </mapping>
     </element>
     <element id="ElementDefinition.pattern[x]">
@@ -7070,9 +7026,6 @@
         <code value="CodeableConcept"/>
       </type>
       <type>
-        <code value="CodeableReference"/>
-      </type>
-      <type>
         <code value="Coding"/>
       </type>
       <type>
@@ -7107,9 +7060,6 @@
       </type>
       <type>
         <code value="Ratio"/>
-      </type>
-      <type>
-        <code value="RatioRange"/>
       </type>
       <type>
         <code value="Reference"/>
@@ -7166,7 +7116,7 @@
       <path value="ElementDefinition.example"/>
       <short value="Example value (as defined for type)"/>
       <definition value="A sample value for this element demonstrating the type of information that would typically be found in the element."/>
-      <comment value="Examples will most commonly be present for data where it&#39;s not implicitly obvious from either the data type or value set what the values might be.  (I.e. Example values for dates or quantities would generally be unnecessary.)  If the example value is fully populated, the publication tool can generate an instance automatically."/>
+      <comment value="Examples will most commonly be present for data where it's not implicitly obvious from either the data type or value set what the values might be.  (I.e. Example values for dates or quantities would generally be unnecessary.)  If the example value is fully populated, the publication tool can generate an instance automatically."/>
       <min value="0"/>
       <max value="*"/>
       <type>
@@ -7278,9 +7228,6 @@
         <code value="CodeableConcept"/>
       </type>
       <type>
-        <code value="CodeableReference"/>
-      </type>
-      <type>
         <code value="Coding"/>
       </type>
       <type>
@@ -7315,9 +7262,6 @@
       </type>
       <type>
         <code value="Ratio"/>
-      </type>
-      <type>
-        <code value="RatioRange"/>
       </type>
       <type>
         <code value="Reference"/>
@@ -7524,7 +7468,7 @@
     </element>
     <element id="ElementDefinition.constraint.key">
       <path value="ElementDefinition.constraint.key"/>
-      <short value="Target of &#39;condition&#39; reference above"/>
+      <short value="Target of 'condition' reference above"/>
       <definition value="Allows identification of which elements have their cardinalities impacted by the constraint.  Will not be referenced for constraints that do not affect cardinality."/>
       <min value="1"/>
       <max value="1"/>
@@ -7573,7 +7517,7 @@
           <valueString value="ConstraintSeverity"/>
         </extension>
         <strength value="required"/>
-        <valueSet value="http://hl7.org/fhir/ValueSet/constraint-severity|4.3.0-CIBUILD"/>
+        <valueSet value="http://hl7.org/fhir/ValueSet/constraint-severity|4.3.0-cibuild"/>
       </binding>
       <mapping>
         <identity value="rim"/>
@@ -7683,7 +7627,7 @@
       <short value="If this modifies the meaning of other elements"/>
       <definition value="If true, the value of this element affects the interpretation of the element or resource that contains it, and the value of the element cannot be ignored. Typically, this is used for status, negation and qualification codes. The effect of this is that the element cannot be ignored by systems: they SHALL either recognize the element and process it, and/or a pre-determination has been made that it is not relevant to their particular system."/>
       <comment value="Only the definition of an element can set IsModifier true - either the specification itself or where an extension is originally defined. Once set, it cannot be changed in derived profiles. An element/extension that has isModifier=true SHOULD also have a minimum cardinality of 1, so that there is no lack of clarity about what to do if it is missing. If it can be missing, the definition SHALL make the meaning of a missing element clear."/>
-      <requirements value="Allows elements to be introduced into a specification that can&#39;t safely be ignored by applications that don&#39;t recognize them."/>
+      <requirements value="Allows elements to be introduced into a specification that can't safely be ignored by applications that don't recognize them."/>
       <min value="0"/>
       <max value="1"/>
       <type>
@@ -7719,7 +7663,7 @@
       <path value="ElementDefinition.isSummary"/>
       <short value="Include when _summary = true?"/>
       <definition value="Whether the element should be included if a client requests a search with the parameter _summary=true."/>
-      <comment value="Some resources include a set of simple metadata, and some very large data. This element is used to reduce the quantity of data returned in searches. Note that servers may pre-cache summarized resources for optimal performance, so servers might not support per-profile use of the isSummary flag. When a request is made with _summary=true, serailisers only include elements marked as &#39;isSummary = true&#39;. Other than Attachment.data, all data type properties are included in the summary form. In resource and data type definitions, if an element is at the root or has a parent that is &#39;mustSupport&#39; and the minimum cardinality is 1 or the element is a modifier, it must be marked as isSummary=true."/>
+      <comment value="Some resources include a set of simple metadata, and some very large data. This element is used to reduce the quantity of data returned in searches. Note that servers may pre-cache summarized resources for optimal performance, so servers might not support per-profile use of the isSummary flag. When a request is made with _summary=true, serailisers only include elements marked as 'isSummary = true'. Other than Attachment.data, all data type properties are included in the summary form. In resource and data type definitions, if an element is at the root or has a parent that is 'mustSupport' and the minimum cardinality is 1 or the element is a modifier, it must be marked as isSummary=true."/>
       <requirements value="Allow clients to search through large resources quickly."/>
       <min value="0"/>
       <max value="1"/>
@@ -7755,8 +7699,8 @@
         <key value="eld-12"/>
         <severity value="error"/>
         <human value="ValueSet SHALL start with http:// or https:// or urn:"/>
-        <expression value="valueSet.exists() implies (valueSet.startsWith(&#39;http:&#39;) or valueSet.startsWith(&#39;https&#39;) or valueSet.startsWith(&#39;urn:&#39;))"/>
-        <xpath value="(starts-with(string(f:valueSet/@value), &#39;http:&#39;) or starts-with(string(f:valueSet/@value), &#39;https:&#39;) or starts-with(string(f:valueSet/@value), &#39;urn:&#39;))"/>
+        <expression value="valueSet.exists() implies (valueSet.startsWith('http:') or valueSet.startsWith('https') or valueSet.startsWith('urn:') or valueSet.startsWith('#'))"/>
+        <xpath value="(starts-with(string(f:valueSet/@value), 'http:') or starts-with(string(f:valueSet/@value), 'https:') or starts-with(string(f:valueSet/@value), 'urn:') or starts-with(string(f:valueSet/@value), '#'))"/>
         <source value="http://hl7.org/fhir/StructureDefinition/ElementDefinition"/>
       </constraint>
       <isSummary value="true"/>
@@ -7801,7 +7745,7 @@
           <valueBoolean value="true"/>
         </extension>
         <strength value="required"/>
-        <valueSet value="http://hl7.org/fhir/ValueSet/binding-strength|4.3.0-CIBUILD"/>
+        <valueSet value="http://hl7.org/fhir/ValueSet/binding-strength|4.3.0-cibuild"/>
       </binding>
       <mapping>
         <identity value="v2"/>
@@ -7934,7 +7878,7 @@
         </extension>
         <strength value="required"/>
         <description value="BCP 13 (RFCs 2045, 2046, 2047, 4288, 4289 and 2049)"/>
-        <valueSet value="http://hl7.org/fhir/ValueSet/mimetypes|4.3.0-CIBUILD"/>
+        <valueSet value="http://hl7.org/fhir/ValueSet/mimetypes|4.3.0-cibuild"/>
       </binding>
       <mapping>
         <identity value="rim"/>

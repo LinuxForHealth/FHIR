@@ -12,9 +12,10 @@
     }
   ],
   "url": "http://hl7.org/fhir/StructureDefinition/maxSize",
-  "version": "4.3.0-CIBUILD",
+  "version": "4.3.0-cibuild",
   "name": "maxSize",
   "status": "draft",
+  "experimental": false,
   "date": "2014-04-27",
   "publisher": "Health Level Seven International (FHIR Infrastructure)",
   "contact": [
@@ -28,7 +29,7 @@
     }
   ],
   "description": "For attachment answers, indicates the maximum size an attachment can be.",
-  "fhirVersion": "4.3.0-CIBUILD",
+  "fhirVersion": "4.3.0-cibuild",
   "mapping": [
     {
       "identity": "v2",

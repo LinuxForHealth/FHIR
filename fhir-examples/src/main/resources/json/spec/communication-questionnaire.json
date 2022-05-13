@@ -9,8 +9,8 @@
       "status": "active",
       "description": "Type options for Communication.payload.content[x]",
       "expansion": {
-        "identifier": "urn:uuid:9fde8f55-6fca-4084-a56e-9a45e9df49a9",
-        "timestamp": "2022-01-01T15:24:02+00:00",
+        "identifier": "urn:uuid:a2f3d8e1-0c94-4158-bf68-2b4129d47533",
+        "timestamp": "2022-04-23T22:28:50+00:00",
         "contains": [
           {
             "system": "http://hl7.org/fhir/data-types",
@@ -36,9 +36,10 @@
       "system": "urn:ietf:rfc:3986"
     }
   ],
-  "version": "4.3.0-CIBUILD",
+  "version": "4.3.0-cibuild",
   "status": "draft",
-  "date": "2022-01-01T15:17:18+00:00",
+  "experimental": false,
+  "date": "2022-04-23T22:21:35+00:00",
   "publisher": "Health Level Seven International (Patient Care)",
   "item": [
     {
@@ -227,10 +228,9 @@
             {
               "linkId": "Communication.language.value",
               "text": "language",
-              "type": "coding",
+              "type": "choice",
               "required": false,
-              "repeats": false,
-              "answerConstraint": "optionsOnly"
+              "repeats": false
             }
           ]
         },
@@ -679,10 +679,9 @@
             {
               "linkId": "Communication.status.value",
               "text": "status",
-              "type": "coding",
+              "type": "choice",
               "required": false,
-              "repeats": false,
-              "answerConstraint": "optionsOrType"
+              "repeats": false
             }
           ]
         },
@@ -725,10 +724,9 @@
             {
               "linkId": "Communication.statusReason.coding",
               "text": "code:",
-              "type": "coding",
+              "type": "choice",
               "required": false,
-              "repeats": false,
-              "answerConstraint": "optionsOnly"
+              "repeats": false
             },
             {
               "linkId": "Communication.statusReason.text",
@@ -774,10 +772,9 @@
             {
               "linkId": "Communication.category.coding",
               "text": "code:",
-              "type": "coding",
+              "type": "choice",
               "required": false,
-              "repeats": false,
-              "answerConstraint": "optionsOnly"
+              "repeats": false
             },
             {
               "linkId": "Communication.category.text",
@@ -826,10 +823,9 @@
             {
               "linkId": "Communication.priority.value",
               "text": "priority",
-              "type": "coding",
+              "type": "choice",
               "required": false,
-              "repeats": false,
-              "answerConstraint": "optionsOrType"
+              "repeats": false
             }
           ]
         },
@@ -868,10 +864,9 @@
             {
               "linkId": "Communication.medium.coding",
               "text": "code:",
-              "type": "coding",
+              "type": "choice",
               "required": false,
-              "repeats": false,
-              "answerConstraint": "optionsOnly"
+              "repeats": false
             },
             {
               "linkId": "Communication.medium.text",
@@ -975,10 +970,9 @@
             {
               "linkId": "Communication.topic.coding",
               "text": "code:",
-              "type": "coding",
+              "type": "choice",
               "required": false,
-              "repeats": false,
-              "answerConstraint": "optionsOnly"
+              "repeats": false
             },
             {
               "linkId": "Communication.topic.text",
@@ -1320,10 +1314,9 @@
             {
               "linkId": "Communication.reasonCode.coding",
               "text": "code:",
-              "type": "coding",
+              "type": "choice",
               "required": false,
-              "repeats": false,
-              "answerConstraint": "optionsOnly"
+              "repeats": false
             },
             {
               "linkId": "Communication.reasonCode.text",
@@ -1549,10 +1542,9 @@
                 {
                   "linkId": "Communication.payload.content[x]._type",
                   "text": "type",
-                  "type": "coding",
+                  "type": "choice",
                   "required": false,
                   "repeats": false,
-                  "answerConstraint": "optionsOnly",
                   "answerValueSet": "#vs2",
                   "item": [
                     {

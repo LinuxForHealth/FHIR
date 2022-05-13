@@ -1,0 +1,97 @@
+{
+    "resourceType": "ValueSet",
+    "id": "citation-classification-type",
+    "meta": {
+        "lastUpdated": "2022-04-24T09:21:35.043+11:00",
+        "profile": [
+            "http://hl7.org/fhir/StructureDefinition/shareablevalueset"
+        ]
+    },
+    "extension": [
+        {
+            "url": "http://hl7.org/fhir/StructureDefinition/structuredefinition-wg",
+            "valueCode": "cds"
+        },
+        {
+            "url": "http://hl7.org/fhir/StructureDefinition/structuredefinition-standards-status",
+            "valueCode": "trial-use"
+        },
+        {
+            "url": "http://hl7.org/fhir/StructureDefinition/structuredefinition-fmm",
+            "valueInteger": 0
+        }
+    ],
+    "url": "http://hl7.org/fhir/ValueSet/citation-classification-type",
+    "identifier": [
+        {
+            "system": "urn:ietf:rfc:3986",
+            "value": "urn:oid:2.16.840.1.113883.4.642.3.0"
+        }
+    ],
+    "version": "4.3.0-cibuild",
+    "name": "CitationClassificationType",
+    "title": "CitationClassificationType",
+    "status": "draft",
+    "experimental": true,
+    "date": "2021-03-11T10:55:11.085+11:00",
+    "publisher": "HL7 (FHIR Project)",
+    "contact": [
+        {
+            "telecom": [
+                {
+                    "system": "url",
+                    "value": "http://hl7.org/fhir"
+                },
+                {
+                    "system": "email",
+                    "value": "fhir@lists.hl7.org"
+                }
+            ]
+        }
+    ],
+    "description": "Citation classification type",
+    "immutable": true,
+    "compose": {
+        "include": [
+            {
+                "system": "http://terminology.hl7.org/CodeSystem/citation-classification-type"
+            }
+        ]
+    },
+    "expansion": {
+        "identifier": "urn:uuid:979c93ac-485e-43ff-abeb-77d561257a32",
+        "timestamp": "2022-04-23T22:23:26Z",
+        "total": 3,
+        "parameter": [
+            {
+                "name": "excludeNested",
+                "valueBoolean": true
+            },
+            {
+                "name": "includeDesignations",
+                "valueBoolean": true
+            },
+            {
+                "name": "version",
+                "valueUri": "http://terminology.hl7.org/CodeSystem/citation-classification-type|4.3.0-cibuild"
+            }
+        ],
+        "contains": [
+            {
+                "system": "http://terminology.hl7.org/CodeSystem/citation-classification-type",
+                "code": "citation-source",
+                "display": "Citation Source"
+            },
+            {
+                "system": "http://terminology.hl7.org/CodeSystem/citation-classification-type",
+                "code": "medline-owner",
+                "display": "MEDLINE Citation Owner"
+            },
+            {
+                "system": "http://terminology.hl7.org/CodeSystem/citation-classification-type",
+                "code": "fevir-platform-use",
+                "display": "FEvIR Platform Use"
+            }
+        ]
+    }
+}

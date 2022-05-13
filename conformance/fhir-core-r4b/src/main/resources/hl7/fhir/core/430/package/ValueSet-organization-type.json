@@ -1,0 +1,135 @@
+{
+    "resourceType": "ValueSet",
+    "id": "organization-type",
+    "meta": {
+        "lastUpdated": "2022-04-23T22:21:35.043Z",
+        "profile": [
+            "http://hl7.org/fhir/StructureDefinition/shareablevalueset"
+        ]
+    },
+    "extension": [
+        {
+            "url": "http://hl7.org/fhir/StructureDefinition/structuredefinition-wg",
+            "valueCode": "pa"
+        },
+        {
+            "url": "http://hl7.org/fhir/StructureDefinition/structuredefinition-standards-status",
+            "valueCode": "draft"
+        },
+        {
+            "url": "http://hl7.org/fhir/StructureDefinition/structuredefinition-fmm",
+            "valueInteger": 1
+        }
+    ],
+    "url": "http://hl7.org/fhir/ValueSet/organization-type",
+    "identifier": [
+        {
+            "system": "urn:ietf:rfc:3986",
+            "value": "urn:oid:2.16.840.1.113883.4.642.3.414"
+        }
+    ],
+    "version": "4.3.0-cibuild",
+    "name": "OrganizationType",
+    "status": "draft",
+    "experimental": true,
+    "publisher": "FHIR Project team",
+    "contact": [
+        {
+            "telecom": [
+                {
+                    "system": "url",
+                    "value": "http://hl7.org/fhir"
+                }
+            ]
+        }
+    ],
+    "description": "This example value set defines a set of codes that can be used to indicate a type of organization.",
+    "compose": {
+        "include": [
+            {
+                "system": "http://terminology.hl7.org/CodeSystem/organization-type"
+            }
+        ]
+    },
+    "expansion": {
+        "identifier": "urn:uuid:09756ba2-ef08-4765-bf77-af9465a391fd",
+        "timestamp": "2022-04-23T22:23:26Z",
+        "total": 12,
+        "parameter": [
+            {
+                "name": "excludeNested",
+                "valueBoolean": true
+            },
+            {
+                "name": "includeDesignations",
+                "valueBoolean": true
+            },
+            {
+                "name": "version",
+                "valueUri": "http://terminology.hl7.org/CodeSystem/organization-type|4.3.0-cibuild"
+            }
+        ],
+        "contains": [
+            {
+                "system": "http://terminology.hl7.org/CodeSystem/organization-type",
+                "code": "prov",
+                "display": "Healthcare Provider"
+            },
+            {
+                "system": "http://terminology.hl7.org/CodeSystem/organization-type",
+                "code": "dept",
+                "display": "Hospital Department"
+            },
+            {
+                "system": "http://terminology.hl7.org/CodeSystem/organization-type",
+                "code": "team",
+                "display": "Organizational team"
+            },
+            {
+                "system": "http://terminology.hl7.org/CodeSystem/organization-type",
+                "code": "govt",
+                "display": "Government"
+            },
+            {
+                "system": "http://terminology.hl7.org/CodeSystem/organization-type",
+                "code": "ins",
+                "display": "Insurance Company"
+            },
+            {
+                "system": "http://terminology.hl7.org/CodeSystem/organization-type",
+                "code": "pay",
+                "display": "Payer"
+            },
+            {
+                "system": "http://terminology.hl7.org/CodeSystem/organization-type",
+                "code": "edu",
+                "display": "Educational Institute"
+            },
+            {
+                "system": "http://terminology.hl7.org/CodeSystem/organization-type",
+                "code": "reli",
+                "display": "Religious Institution"
+            },
+            {
+                "system": "http://terminology.hl7.org/CodeSystem/organization-type",
+                "code": "crs",
+                "display": "Clinical Research Sponsor"
+            },
+            {
+                "system": "http://terminology.hl7.org/CodeSystem/organization-type",
+                "code": "cg",
+                "display": "Community Group"
+            },
+            {
+                "system": "http://terminology.hl7.org/CodeSystem/organization-type",
+                "code": "bus",
+                "display": "Non-Healthcare Business or Corporation"
+            },
+            {
+                "system": "http://terminology.hl7.org/CodeSystem/organization-type",
+                "code": "other",
+                "display": "Other"
+            }
+        ]
+    }
+}

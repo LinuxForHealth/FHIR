@@ -14,26 +14,25 @@
     <resource>
       <SubscriptionStatus>
         <id value="dd431176-7bcf-455e-8a0c-50cb15d6263f"/>
-        <text><status value="generated"/><div xmlns="http://www.w3.org/1999/xhtml"><p><b>Generated Narrative</b></p><div><p>Resource "dd431176-7bcf-455e-8a0c-50cb15d6263f" </p></div><p><b>status</b>: active</p><p><b>type</b>: query-event</p><p><b>eventsSinceSubscriptionStart</b>: 2</p><p><b>eventsInNotification</b>: 2</p><blockquote><p><b>notificationEvent</b></p><p><b>eventNumber</b>: 1</p><p><b>focus</b>: <a>http://example.org/FHIR/R4/Encounter/1</a></p></blockquote><blockquote><p><b>notificationEvent</b></p><p><b>eventNumber</b>: 2</p><p><b>focus</b>: <a>http://example.org/FHIR/R4/Encounter/2</a></p></blockquote><p><b>subscription</b>: <a>http://example.org/FHIR/R4/Subscription/123</a></p><p><b>topic</b>: <a>http://example.org/FHIR/R4/SubscriptionTopic/admission</a></p></div></text><status value="active"/>
+        <text><status value="generated"/><div xmlns="http://www.w3.org/1999/xhtml"><p><b>Generated Narrative</b></p><div style="display: inline-block; background-color: #d9e0e7; padding: 6px; margin: 4px; border: 1px solid #8da1b4; border-radius: 5px; line-height: 60%"><p style="margin-bottom: 0px">Resource "dd431176-7bcf-455e-8a0c-50cb15d6263f" </p></div><p><b>status</b>: active</p><p><b>type</b>: query-event</p><p><b>eventsSinceSubscriptionStart</b>: 2</p><blockquote><p><b>notificationEvent</b></p><p><b>eventNumber</b>: 1</p><p><b>focus</b>: <a href="todo.html">http://example.org/FHIR/R4B/Encounter/1</a></p></blockquote><blockquote><p><b>notificationEvent</b></p><p><b>eventNumber</b>: 2</p><p><b>focus</b>: <a href="todo.html">http://example.org/FHIR/R4B/Encounter/2</a></p></blockquote><p><b>subscription</b>: <a href="todo.html">http://example.org/FHIR/R4B/Subscription/123</a></p><p><b>topic</b>: <a href="http://example.org/FHIR/R4B/SubscriptionTopic/admission">http://example.org/FHIR/R4B/SubscriptionTopic/admission</a></p></div></text><status value="active"/>
         <type value="query-event"/>
         <eventsSinceSubscriptionStart value="2"/>
-        <eventsInNotification value="2"/>
         <notificationEvent>
           <eventNumber value="1"/>
           <focus>
-            <reference value="http://example.org/FHIR/R4/Encounter/1"/>
+            <reference value="http://example.org/FHIR/R4B/Encounter/1"/>
           </focus>
         </notificationEvent>
         <notificationEvent>
           <eventNumber value="2"/>
           <focus>
-            <reference value="http://example.org/FHIR/R4/Encounter/2"/>
+            <reference value="http://example.org/FHIR/R4B/Encounter/2"/>
           </focus>
         </notificationEvent>
         <subscription>
-          <reference value="http://example.org/FHIR/R4/Subscription/123"/>
+          <reference value="http://example.org/FHIR/R4B/Subscription/123"/>
         </subscription>
-        <topic value="http://example.org/FHIR/R4/SubscriptionTopic/admission"/>
+        <topic value="http://example.org/FHIR/R4B/SubscriptionTopic/admission"/>
       </SubscriptionStatus>
     </resource>
     <request>
@@ -45,7 +44,7 @@
     </response>
   </entry>
   <entry>
-    <fullUrl value="http://example.org/FHIR/R4/Encounter/1"/>
+    <fullUrl value="http://example.org/FHIR/R4B/Encounter/1"/>
     <request>
       <method value="PUT"/>
       <url value="Encounter/1"/>
@@ -55,7 +54,7 @@
     </response>
   </entry>
   <entry>
-    <fullUrl value="http://example.org/FHIR/R4/Encounter/2"/>
+    <fullUrl value="http://example.org/FHIR/R4B/Encounter/2"/>
     <request>
       <method value="PUT"/>
       <url value="Encounter/2"/>

@@ -1,27 +1,27 @@
 {
     "resourceType": "AllergyIntolerance",
     "meta": {
-        "versionId": "66ZMhIWDtU",
-        "lastUpdated": "2021-12-10T02:40:11.370262-05:00",
-        "source": "tTxyZhCIie",
+        "versionId": "CKjjoMG6NN",
+        "lastUpdated": "2022-05-13T14:23:03.97387-04:00",
+        "source": "u_1juzzLQT",
         "profile": [
-            "EyZ30OlX6i"
+            "uVe7aXicu6"
         ],
         "security": [
             {
-                "system": "8ZDgk6GwkG",
-                "version": "7SMPKpg8um",
-                "code": "6bJHzOr2J2",
-                "display": "8mAub1NAIk",
+                "system": "VEmYmRZgue",
+                "version": "sZ4HeLOZYe",
+                "code": "EUDGFEgqL5",
+                "display": "kButZzfhMV",
                 "userSelected": true
             }
         ],
         "tag": [
             {
-                "system": "jiuvaMd7HU",
-                "version": "wgZJbVdSme",
-                "code": "8FuPWKvGWb",
-                "display": "SBB0qcSDnQ",
+                "system": "1FKUJ0vGlS",
+                "version": "i2neiG1qQA",
+                "code": "t1LERXjRcI",
+                "display": "aPtJ3roVeG",
                 "userSelected": true
             },
             {
@@ -29,7 +29,7 @@
             }
         ]
     },
-    "implicitRules": "h3YA4GotfY",
+    "implicitRules": "yvVI2xJ2ws",
     "language": "en-US",
     "text": {
         "status": "empty",
@@ -37,21 +37,21 @@
     },
     "identifier": [
         {
-            "use": "temp",
+            "use": "old",
             "type": {
                 "coding": [
                     {
-                        "system": "k0MWBhU53J",
-                        "version": "mp5FQemBef",
-                        "code": "sYIpCtj1WY",
-                        "display": "Do1HnttCF8",
+                        "system": "ITX8ne_1F1",
+                        "version": "rMT4d8n692",
+                        "code": "OguVD90WwM",
+                        "display": "FV6xv6Chab",
                         "userSelected": true
                     }
                 ],
-                "text": "SzBWHDFard"
+                "text": "Tw3Eca_55D"
             },
-            "system": "Z_B1rrkcZn",
-            "value": "t_TVbS26Hu",
+            "system": "n2e4JD0o2K",
+            "value": "5RhSMZ_gHl",
             "period": {
                 "extension": [
                     {
@@ -88,129 +88,149 @@
     },
     "type": "intolerance",
     "category": [
-        "environment"
+        "biologic"
     ],
-    "criticality": "low",
+    "criticality": "unable-to-assess",
     "code": {
         "coding": [
             {
-                "system": "wt0OCsBHaq",
-                "version": "rw1tgTL8LU",
-                "code": "Awd6EutAQm",
-                "display": "FGoY8SP0LZ",
+                "system": "eQpnrqMq_f",
+                "version": "AUJBaWIzF4",
+                "code": "6_UesS1JY9",
+                "display": "pTUHSOlBer",
                 "userSelected": true
             }
         ],
-        "text": "syhw2yZ8_Z"
+        "text": "WZQ21GxZxu"
     },
     "patient": {
-        "reference": "Patient/fIkw5UUNGF",
+        "reference": "Patient/gxk9Lm6efE",
         "type": "Patient",
+        "identifier": {
+            "use": "secondary",
+            "type": {
+                "coding": [
+                    {
+                        "system": "R0bS4rFaeg",
+                        "version": "yStlxkMpuk",
+                        "code": "4bHa6s9oba",
+                        "display": "E7j3aegEwL",
+                        "userSelected": true
+                    }
+                ],
+                "text": "iLn7leWB8W"
+            },
+            "system": "sQa2Y8Snnu",
+            "value": "sVKFze7tCd",
+            "period": {
+                "extension": [
+                    {
+                        "url": "http://hl7.org/fhir/StructureDefinition/data-absent-reason",
+                        "valueCode": "unknown"
+                    }
+                ]
+            }
+        },
+        "display": "lEmi4qfM70"
+    },
+    "encounter": {
+        "reference": "Encounter/Ey9EBz4dmO",
+        "type": "Encounter",
         "identifier": {
             "use": "temp",
             "type": {
                 "coding": [
                     {
-                        "system": "pmi_Q5bSDW",
-                        "version": "4SIGRwx6Ju",
-                        "code": "z1fdq_ol00",
-                        "display": "7EGUvxku3Z",
+                        "system": "Uxf_kXjEO5",
+                        "version": "8O2jeduWmC",
+                        "code": "GuJgpjvytR",
+                        "display": "cSOJXO78ZM",
                         "userSelected": true
                     }
                 ],
-                "text": "_APTXtGbvA"
+                "text": "eH_yySQdL7"
             },
-            "system": "9Q88j7SmEW",
-            "value": "3MpB78WwJ5",
+            "system": "kZ9_YlnESH",
+            "value": "y93uMSQNns",
             "period": {
-                "start": "2021-12-10T02:40:11.372076-05:00"
-            }
-        },
-        "display": "HC4Cuw53zg"
-    },
-    "encounter": {
-        "reference": "Encounter/zmwlQlqgUV",
-        "type": "Encounter",
-        "identifier": {
-            "use": "usual",
-            "type": {
-                "coding": [
+                "extension": [
                     {
-                        "system": "lmEV_n5FhA",
-                        "version": "GKvVXnz5NY",
-                        "code": "D4Rq_nKfxh",
-                        "display": "3S6e8QLOm6",
-                        "userSelected": true
+                        "url": "http://hl7.org/fhir/StructureDefinition/data-absent-reason",
+                        "valueCode": "unknown"
                     }
-                ],
-                "text": "FnLrJ3C6J7"
-            },
-            "system": "5BKML4zcul",
-            "value": "r6tfLe7i32",
-            "period": {
-                "start": "2021-12-10T02:40:11.375195-05:00"
+                ]
             }
         },
-        "display": "m8LMp1Vu8F"
+        "display": "nKQIBzgGiF"
     },
-    "onsetDateTime": "2021-12-10T02:40:11.379668-05:00",
-    "recordedDate": "2021-12-10T02:40:11.385341-05:00",
+    "onsetDateTime": "2022-05-13T14:23:03.977786-04:00",
+    "recordedDate": "2022-05-13T14:23:03.977927-04:00",
     "recorder": {
-        "reference": "PractitionerRole/2i1qpQBMgw",
+        "reference": "PractitionerRole/9CcPhZaIDR",
         "type": "PractitionerRole",
         "identifier": {
-            "use": "official",
+            "use": "old",
             "type": {
                 "coding": [
                     {
-                        "system": "yvUTcFKULK",
-                        "version": "sY1iSHrO7Y",
-                        "code": "6i44TQInny",
-                        "display": "AxvuQlOf5B",
+                        "system": "Le50lOdIqL",
+                        "version": "0MYYT4rGEs",
+                        "code": "PUKkFWYXLS",
+                        "display": "alUAkQnAn0",
                         "userSelected": true
                     }
                 ],
-                "text": "O3m4NvEUxg"
+                "text": "ZLnkC3rdOF"
             },
-            "system": "8TEpMeRaU0",
-            "value": "XLoa9jScor",
+            "system": "NMR2BPnJ5i",
+            "value": "iQjjfiSUrR",
             "period": {
-                "start": "2021-12-10T02:40:11.376741-05:00"
+                "extension": [
+                    {
+                        "url": "http://hl7.org/fhir/StructureDefinition/data-absent-reason",
+                        "valueCode": "unknown"
+                    }
+                ]
             }
         },
-        "display": "dmylJqQ62L"
+        "display": "VvFWpQHRVg"
     },
     "asserter": {
-        "reference": "RelatedPerson/zqZnhl83wl",
+        "reference": "RelatedPerson/3EXcwpHh6t",
         "type": "RelatedPerson",
         "identifier": {
             "use": "old",
             "type": {
                 "coding": [
                     {
-                        "system": "MSn1fY0r9u",
-                        "version": "NCJF_ymNJ1",
-                        "code": "pN6fZ1l8mY",
-                        "display": "kKF8zYtNZ6",
+                        "system": "6sVHyzvoxL",
+                        "version": "54qEEwF5Ws",
+                        "code": "KzS7xjgGYf",
+                        "display": "sICDPq0Xhj",
                         "userSelected": true
                     }
                 ],
-                "text": "GdYuHZffme"
+                "text": "6ubh5pHjQ4"
             },
-            "system": "Jmk4muONMr",
-            "value": "SUFF2jNOup",
+            "system": "zCHfmsLUo9",
+            "value": "V_COFVLekW",
             "period": {
-                "start": "2021-12-10T02:40:11.380072-05:00"
+                "extension": [
+                    {
+                        "url": "http://hl7.org/fhir/StructureDefinition/data-absent-reason",
+                        "valueCode": "unknown"
+                    }
+                ]
             }
         },
-        "display": "_y_xpOOi2n"
+        "display": "Te6SlTfMZK"
     },
-    "lastOccurrence": "2021-12-10T02:40:11.385748-05:00",
+    "lastOccurrence": "2022-05-13T14:23:03.979446-04:00",
     "note": [
         {
-            "authorString": "5hRw4t_zKL",
-            "time": "2021-12-10T02:40:11.381852-05:00",
-            "text": "0cCWNM0DW1"
+            "authorString": "5Nu7cZidGE",
+            "time": "2022-05-13T14:23:03.979648-04:00",
+            "text": "yiu6Ri02pm"
         }
     ],
     "reaction": [
@@ -218,49 +238,49 @@
             "substance": {
                 "coding": [
                     {
-                        "system": "Qv5iQbLca2",
-                        "version": "lwZLT2CoNO",
-                        "code": "gf99aDlBdp",
-                        "display": "PYImAvy3e8",
+                        "system": "34Gq7WyBw6",
+                        "version": "lqVetdgAnA",
+                        "code": "AEJSCBK7fa",
+                        "display": "GEeg2PB9O_",
                         "userSelected": true
                     }
                 ],
-                "text": "qff97_svbO"
+                "text": "hB7oOewD5U"
             },
             "manifestation": [
                 {
                     "coding": [
                         {
-                            "system": "Y6_e3c06fd",
-                            "version": "Aid5eamWGc",
-                            "code": "X5WyHiVs2K",
-                            "display": "YBWXEwWvsE",
+                            "system": "_IawnYoUkQ",
+                            "version": "IcJ8MajSRm",
+                            "code": "_HIOwPElLs",
+                            "display": "NdHUs86Ukj",
                             "userSelected": true
                         }
                     ],
-                    "text": "ZcfyUMwmhj"
+                    "text": "txsWopD0CT"
                 }
             ],
-            "description": "9lih4YxWAt",
-            "onset": "2021-12-10T02:40:11.383122-05:00",
+            "description": "E9tvz_n9U0",
+            "onset": "2022-05-13T14:23:03.980638-04:00",
             "severity": "severe",
             "exposureRoute": {
                 "coding": [
                     {
-                        "system": "lEUgIKMGjr",
-                        "version": "I1N0tm81JA",
-                        "code": "ORY0l7iEHD",
-                        "display": "VXHAqkKah2",
+                        "system": "bokhr8djgQ",
+                        "version": "4RhTaO1es_",
+                        "code": "WZoTcPzFTC",
+                        "display": "Gt3Z28BFee",
                         "userSelected": true
                     }
                 ],
-                "text": "BHT7HQ32HR"
+                "text": "F8tY3a0pkB"
             },
             "note": [
                 {
-                    "authorString": "MBBhFukRw0",
-                    "time": "2021-12-10T02:40:11.383598-05:00",
-                    "text": "HeUYzhB771"
+                    "authorString": "J2ouS8LuU6",
+                    "time": "2022-05-13T14:23:03.981221-04:00",
+                    "text": "wdUXNqv6L0"
                 }
             ]
         }

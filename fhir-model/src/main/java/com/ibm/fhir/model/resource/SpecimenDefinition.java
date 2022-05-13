@@ -699,7 +699,7 @@ public class SpecimenDefinition extends DomainResource {
             bindingName = "SpecimenContainedPreference",
             strength = BindingStrength.Value.REQUIRED,
             description = "Degree of preference of a type of conditioned specimen.",
-            valueSet = "http://hl7.org/fhir/ValueSet/specimen-contained-preference|4.3.0-CIBUILD"
+            valueSet = "http://hl7.org/fhir/ValueSet/specimen-contained-preference|4.3.0-cibuild"
         )
         @Required
         private final SpecimenContainedPreference preference;

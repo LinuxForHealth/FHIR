@@ -10,7 +10,7 @@
         <a href="valueset-request-status.html">http://hl7.org/fhir/ValueSet/request-status</a> to 
         <a href="valueset-resource-status.html">http://hl7.org/fhir/ValueSet/resource-status</a>
       </p>
-      <p>DRAFT. Published on Jan 1, 2022 3:17:18 PM by HL7 (FHIR Project) (
+      <p>DRAFT. Published on 2022-04-23T22:21:35Z by HL7 (FHIR Project) (
         <a href="http://hl7.org/fhir">http://hl7.org/fhir</a>, 
         <a href="mailto:fhir@lists.hl7.org">fhir@lists.hl7.org</a>). 
       </p>
@@ -29,6 +29,12 @@
           </td>
           <td>
             <b>Destination Code</b>
+          </td>
+        </tr>
+        <tr>
+          <td colspan="3">Mapping from 
+            <a href="codesystem-request-status.html">RequestStatus</a> to 
+            <a href="codesystem-resource-status.html">Canonical Status Codes for FHIR Resources</a>
           </td>
         </tr>
         <tr>
@@ -84,11 +90,12 @@
     </div>
   </text>
   <url value="http://hl7.org/fhir/ConceptMap/sc-request-status"/>
-  <version value="4.3.0-CIBUILD"/>
+  <version value="4.3.0-cibuild"/>
   <name value="RequestStatusCanonicalMap"/>
   <title value="Canonical Mapping for &quot;RequestStatus&quot;"/>
   <status value="draft"/>
-  <date value="2022-01-01T15:17:18+00:00"/>
+  <experimental value="false"/>
+  <date value="2022-04-23T22:21:35+00:00"/>
   <publisher value="HL7 (FHIR Project)"/>
   <contact>
     <telecom>
@@ -110,49 +117,49 @@
       <code value="entered-in-error"/>
       <target>
         <code value="error"/>
-        <relationship value="equivalent"/>
+        <equivalence value="equivalent"/>
       </target>
     </element>
     <element>
       <code value="draft"/>
       <target>
         <code value="draft"/>
-        <relationship value="equivalent"/>
+        <equivalence value="equivalent"/>
       </target>
     </element>
     <element>
       <code value="active"/>
       <target>
         <code value="active"/>
-        <relationship value="equivalent"/>
+        <equivalence value="equivalent"/>
       </target>
     </element>
     <element>
       <code value="on-hold"/>
       <target>
         <code value="suspended"/>
-        <relationship value="equivalent"/>
+        <equivalence value="equivalent"/>
       </target>
     </element>
     <element>
       <code value="revoked"/>
       <target>
         <code value="failed"/>
-        <relationship value="equivalent"/>
+        <equivalence value="equivalent"/>
       </target>
     </element>
     <element>
       <code value="completed"/>
       <target>
         <code value="complete"/>
-        <relationship value="equivalent"/>
+        <equivalence value="equivalent"/>
       </target>
     </element>
     <element>
       <code value="unknown"/>
       <target>
         <code value="unknown"/>
-        <relationship value="equivalent"/>
+        <equivalence value="equivalent"/>
       </target>
     </element>
   </group>

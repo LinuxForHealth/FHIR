@@ -1,0 +1,81 @@
+{
+  "resourceType": "CodeSystem",
+  "id": "substance-grade",
+  "meta": {
+    "lastUpdated": "2022-04-24T09:21:35.043+11:00",
+    "profile": [
+      "http://hl7.org/fhir/StructureDefinition/shareablecodesystem"
+    ]
+  },
+  "text": {
+    "status": "generated",
+    "div": "\u003cdiv xmlns\u003d\"http://www.w3.org/1999/xhtml\"\u003e\u003cp\u003eThis code system http://hl7.org/fhir/substance-grade defines the following codes:\u003c/p\u003e\u003ctable class\u003d\"codes\"\u003e\u003ctr\u003e\u003ctd style\u003d\"white-space:nowrap\"\u003e\u003cb\u003eCode\u003c/b\u003e\u003c/td\u003e\u003ctd\u003e\u003cb\u003eDisplay\u003c/b\u003e\u003c/td\u003e\u003c/tr\u003e\u003ctr\u003e\u003ctd style\u003d\"white-space:nowrap\"\u003eUSP-NF\u003ca name\u003d\"substance-grade-USP-NF\"\u003e \u003c/a\u003e\u003c/td\u003e\u003ctd\u003eUSP/NF United States Pharmacopeia (USP) and the National Formulary (NF)\u003c/td\u003e\u003c/tr\u003e\u003ctr\u003e\u003ctd style\u003d\"white-space:nowrap\"\u003ePh.Eur\u003ca name\u003d\"substance-grade-Ph.46Eur\"\u003e \u003c/a\u003e\u003c/td\u003e\u003ctd\u003eEuropean Pharmacopoeia\u003c/td\u003e\u003c/tr\u003e\u003ctr\u003e\u003ctd style\u003d\"white-space:nowrap\"\u003eJP\u003ca name\u003d\"substance-grade-JP\"\u003e \u003c/a\u003e\u003c/td\u003e\u003ctd\u003eJapanese Pharmacopoeia\u003c/td\u003e\u003c/tr\u003e\u003ctr\u003e\u003ctd style\u003d\"white-space:nowrap\"\u003eBP\u003ca name\u003d\"substance-grade-BP\"\u003e \u003c/a\u003e\u003c/td\u003e\u003ctd\u003eBritish Pharmacopoeia\u003c/td\u003e\u003c/tr\u003e\u003ctr\u003e\u003ctd style\u003d\"white-space:nowrap\"\u003eCompanyStandard\u003ca name\u003d\"substance-grade-CompanyStandard\"\u003e \u003c/a\u003e\u003c/td\u003e\u003ctd\u003eCompany Standard\u003c/td\u003e\u003c/tr\u003e\u003c/table\u003e\u003c/div\u003e"
+  },
+  "extension": [
+    {
+      "url": "http://hl7.org/fhir/StructureDefinition/structuredefinition-wg",
+      "valueCode": "brr"
+    },
+    {
+      "url": "http://hl7.org/fhir/StructureDefinition/structuredefinition-standards-status",
+      "valueCode": "trial-use"
+    },
+    {
+      "url": "http://hl7.org/fhir/StructureDefinition/structuredefinition-fmm",
+      "valueInteger": 1
+    }
+  ],
+  "url": "http://hl7.org/fhir/substance-grade",
+  "identifier": [
+    {
+      "system": "urn:ietf:rfc:3986",
+      "value": "urn:oid:2.16.840.1.113883.4.642.1.1609"
+    }
+  ],
+  "version": "4.3.0-cibuild",
+  "name": "SubstanceGrade",
+  "title": "SubstanceGrade",
+  "status": "draft",
+  "experimental": false,
+  "date": "2021-01-05T10:01:24+11:00",
+  "publisher": "HL7 (FHIR Project)",
+  "contact": [
+    {
+      "telecom": [
+        {
+          "system": "url",
+          "value": "http://hl7.org/fhir"
+        },
+        {
+          "system": "email",
+          "value": "fhir@lists.hl7.org"
+        }
+      ]
+    }
+  ],
+  "caseSensitive": true,
+  "valueSet": "http://hl7.org/fhir/ValueSet/substance-grade",
+  "content": "complete",
+  "concept": [
+    {
+      "code": "USP-NF",
+      "display": "USP/NF United States Pharmacopeia (USP) and the National Formulary (NF)"
+    },
+    {
+      "code": "Ph.Eur",
+      "display": "European Pharmacopoeia"
+    },
+    {
+      "code": "JP",
+      "display": "Japanese Pharmacopoeia"
+    },
+    {
+      "code": "BP",
+      "display": "British Pharmacopoeia"
+    },
+    {
+      "code": "CompanyStandard",
+      "display": "Company Standard"
+    }
+  ]
+}

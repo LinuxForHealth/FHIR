@@ -11,7 +11,7 @@
       <display value="test health data"/>
     </security>
   </meta>
-  <text><status value="generated"/><div xmlns="http://www.w3.org/1999/xhtml"><table><tr><td>Mode: snapshotStatus: currentCode: History of family member diseases</td></tr><tr><td>Subject: <a>Patient/example: Peter Patient</a> "Peter CHALMERS"</td></tr></table><table><tr><td><b>Items</b></td></tr><tr><td><a>#1</a></td></tr><tr><td><a>#2</a></td></tr><tr><td><a>#3</a></td></tr><tr><td><a>#4</a></td></tr><tr><td><a>#5</a></td></tr><tr><td><a>#6</a></td></tr><tr><td><a>#7</a></td></tr><tr><td><a>#8</a></td></tr><tr><td><a>Condition/family-history: Family history of cancer of colon</a></td></tr></table></div></text><contained>
+  <text><status value="generated"/><div xmlns="http://www.w3.org/1999/xhtml"><table class="clstu"><tr><td>Mode: snapshotStatus: currentCode: History of family member diseases</td></tr><tr><td>Subject: <a href="patient-example.html">Patient/example: Peter Patient</a> "Peter CHALMERS"</td></tr></table><table class="grid"><tr style="backgound-color: #eeeeee"><td><b>Items</b></td></tr><tr><td><a href="#1">#1</a></td></tr><tr><td><a href="#2">#2</a></td></tr><tr><td><a href="#3">#3</a></td></tr><tr><td><a href="#4">#4</a></td></tr><tr><td><a href="#5">#5</a></td></tr><tr><td><a href="#6">#6</a></td></tr><tr><td><a href="#7">#7</a></td></tr><tr><td><a href="#8">#8</a></td></tr><tr><td><a href="condition-family-history.html">Condition/family-history: Family history of cancer of colon</a></td></tr></table></div></text><contained>
     <FamilyMemberHistory>
       <id value="1"/>
       <extension url="http://hl7.org/fhir/StructureDefinition/family-member-history-genetics-parent">

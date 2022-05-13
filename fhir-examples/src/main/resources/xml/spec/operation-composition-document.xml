@@ -5,8 +5,8 @@
   <text>
     <status value="extensions"/>
     <div xmlns="http://www.w3.org/1999/xhtml">
-      <h2>document</h2>
-      <p>OPERATION: document</p>
+      <h2>Document</h2>
+      <p>OPERATION: Document</p>
       <p>The official URL for this operation definition is: </p>
       <pre>http://hl7.org/fhir/OperationDefinition/Composition-document</pre>
       <div>
@@ -74,7 +74,7 @@
           <td/>
           <td>
             <div>
-              <p>Whether to store the document at the bundle end-point (/Bundle) or not once it is generated. Value = true or false (default is for the server to decide). If the document is stored, it&#39;s location can be inferred from the Bundle.id, but it SHOULD be provided explicitly in the HTTP Location header in the response</p>
+              <p>Whether to store the document at the bundle end-point (/Bundle) or not once it is generated. Value = true or false (default is for the server to decide). If the document is stored, it's location can be inferred from the Bundle.id, but it SHOULD be provided explicitly in the HTTP Location header in the response</p>
 
             </div>
           </td>
@@ -110,12 +110,13 @@
     <valueCode value="trial-use"/>
   </extension>
   <url value="http://hl7.org/fhir/OperationDefinition/Composition-document"/>
-  <version value="4.3.0-CIBUILD"/>
-  <name value="document"/>
+  <version value="4.3.0-cibuild"/>
+  <name value="Document"/>
   <title value="Generate a Document"/>
   <status value="draft"/>
   <kind value="operation"/>
-  <date value="2022-01-01T15:17:18+00:00"/>
+  <experimental value="false"/>
+  <date value="2022-04-23T22:21:35+00:00"/>
   <publisher value="HL7 (FHIR Project)"/>
   <contact>
     <telecom>
@@ -148,7 +149,7 @@
     <use value="in"/>
     <min value="0"/>
     <max value="1"/>
-    <documentation value="Whether to store the document at the bundle end-point (/Bundle) or not once it is generated. Value = true or false (default is for the server to decide). If the document is stored, it&#39;s location can be inferred from the Bundle.id, but it SHOULD be provided explicitly in the HTTP Location header in the response"/>
+    <documentation value="Whether to store the document at the bundle end-point (/Bundle) or not once it is generated. Value = true or false (default is for the server to decide). If the document is stored, it's location can be inferred from the Bundle.id, but it SHOULD be provided explicitly in the HTTP Location header in the response"/>
     <type value="boolean"/>
   </parameter>
   <parameter>

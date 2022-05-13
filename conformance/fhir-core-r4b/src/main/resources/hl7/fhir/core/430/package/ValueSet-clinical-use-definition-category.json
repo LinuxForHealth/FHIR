@@ -1,0 +1,97 @@
+{
+    "resourceType": "ValueSet",
+    "id": "clinical-use-definition-category",
+    "meta": {
+        "lastUpdated": "2022-04-24T09:21:35.043+11:00",
+        "profile": [
+            "http://hl7.org/fhir/StructureDefinition/shareablevalueset"
+        ]
+    },
+    "extension": [
+        {
+            "url": "http://hl7.org/fhir/StructureDefinition/structuredefinition-wg",
+            "valueCode": "brr"
+        },
+        {
+            "url": "http://hl7.org/fhir/StructureDefinition/structuredefinition-standards-status",
+            "valueCode": "trial-use"
+        },
+        {
+            "url": "http://hl7.org/fhir/StructureDefinition/structuredefinition-fmm",
+            "valueInteger": 1
+        }
+    ],
+    "url": "http://hl7.org/fhir/ValueSet/clinical-use-definition-category",
+    "identifier": [
+        {
+            "system": "urn:ietf:rfc:3986",
+            "value": "urn:oid:2.16.840.1.113883.4.642.3.1646"
+        }
+    ],
+    "version": "4.3.0-cibuild",
+    "name": "ClinicalUseDefinitionCategory",
+    "title": "ClinicalUseDefinitionCategory",
+    "status": "draft",
+    "experimental": false,
+    "date": "2020-12-28T16:55:11+11:00",
+    "publisher": "HL7 (FHIR Project)",
+    "contact": [
+        {
+            "telecom": [
+                {
+                    "system": "url",
+                    "value": "http://hl7.org/fhir"
+                },
+                {
+                    "system": "email",
+                    "value": "fhir@lists.hl7.org"
+                }
+            ]
+        }
+    ],
+    "description": "A categorisation for a clinical use information item.",
+    "immutable": true,
+    "compose": {
+        "include": [
+            {
+                "system": "http://hl7.org/fhir/clinical-use-definition-category"
+            }
+        ]
+    },
+    "expansion": {
+        "identifier": "urn:uuid:25d9fa6b-2de1-41f2-880c-5f652f32542d",
+        "timestamp": "2022-04-23T22:23:26Z",
+        "total": 3,
+        "parameter": [
+            {
+                "name": "excludeNested",
+                "valueBoolean": true
+            },
+            {
+                "name": "includeDesignations",
+                "valueBoolean": true
+            },
+            {
+                "name": "version",
+                "valueUri": "http://hl7.org/fhir/clinical-use-definition-category|4.3.0-cibuild"
+            }
+        ],
+        "contains": [
+            {
+                "system": "http://hl7.org/fhir/clinical-use-definition-category",
+                "code": "Pregnancy",
+                "display": "Pregnancy and Lactation"
+            },
+            {
+                "system": "http://hl7.org/fhir/clinical-use-definition-category",
+                "code": "Overdose",
+                "display": "Overdose"
+            },
+            {
+                "system": "http://hl7.org/fhir/clinical-use-definition-category",
+                "code": "DriveAndMachines",
+                "display": "Effects on Ability to Drive and Use Machines"
+            }
+        ]
+    }
+}

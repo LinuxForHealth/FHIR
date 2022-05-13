@@ -2,7 +2,7 @@
   "resourceType": "ValueSet",
   "id": "subscription-status",
   "meta": {
-    "lastUpdated": "2022-01-02T02:17:18.597+11:00",
+    "lastUpdated": "2022-04-24T09:21:35.043+11:00",
     "profile": [
       "http://hl7.org/fhir/StructureDefinition/shareablevalueset"
     ]
@@ -32,9 +32,9 @@
       "value": "urn:oid:2.16.840.1.113883.4.642.3.502"
     }
   ],
-  "version": "4.3.0-CIBUILD",
-  "name": "SubscriptionStatus",
-  "title": "SubscriptionStatus",
+  "version": "4.3.0-cibuild",
+  "name": "SubscriptionStatusCodes",
+  "title": "SubscriptionStatusCodes",
   "status": "draft",
   "experimental": true,
   "date": "2021-01-17T07:06:13+11:00",

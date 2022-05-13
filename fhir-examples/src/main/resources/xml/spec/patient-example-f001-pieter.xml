@@ -7,7 +7,7 @@
       <display value="test health data"/>
     </security>
   </meta>
-  <text><status value="generated"/><div xmlns="http://www.w3.org/1999/xhtml"><p><b>Generated Narrative</b></p><div><p>Resource "f001" </p></div><p><b>identifier</b>: id: 738472983 (USUAL), id: ?ngen-9? (USUAL)</p><p><b>active</b>: true</p><p><b>name</b>: Pieter van de Heuvel </p><p><b>telecom</b>: ph: 0648352638(MOBILE), <a>p.heuvel@gmail.com</a></p><p><b>gender</b>: male</p><p><b>birthDate</b>: 1944-11-17</p><p><b>deceased</b>: false</p><p><b>address</b>: Van Egmondkade 23 Amsterdam 1024 RJ NLD (HOME)</p><p><b>maritalStatus</b>: Getrouwd <span> (<a>MaritalStatus</a>#M "Married")</span></p><p><b>multipleBirth</b>: true</p><h3>Contacts</h3><table><tr><td>-</td><td><b>Relationship</b></td><td><b>Name</b></td><td><b>Telecom</b></td></tr><tr><td>*</td><td>Emergency Contact <span> (<a>contactRole2</a>#C)</span></td><td>Sarah Abels </td><td>ph: 0690383372(MOBILE)</td></tr></table><h3>Communications</h3><table><tr><td>-</td><td><b>Language</b></td><td><b>Preferred</b></td></tr><tr><td>*</td><td>Nederlands <span> (<a>Tags for the Identification of Languages</a>#nl "Dutch")</span></td><td>true</td></tr></table><p><b>managingOrganization</b>: <a>Organization/f001: Burgers University Medical Centre</a> "Burgers University Medical Center"</p></div></text><identifier>
+  <text><status value="generated"/><div xmlns="http://www.w3.org/1999/xhtml"><p><b>Pieter van de Heuvel </b> male, DoB: 1944-11-17 ( id: 738472983 (USUAL))</p></div></text><identifier>
     <use value="usual"/>
     <system value="urn:oid:2.16.840.1.113883.2.4.6.3"/>
   <!--    BSN identification system    -->

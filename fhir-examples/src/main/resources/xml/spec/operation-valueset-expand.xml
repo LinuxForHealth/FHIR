@@ -5,8 +5,8 @@
   <text>
     <status value="extensions"/>
     <div xmlns="http://www.w3.org/1999/xhtml">
-      <h2>expand</h2>
-      <p>OPERATION: expand</p>
+      <h2>Expand</h2>
+      <p>OPERATION: Expand</p>
       <p>The official URL for this operation definition is: </p>
       <pre>http://hl7.org/fhir/OperationDefinition/ValueSet-expand</pre>
       <div>
@@ -49,7 +49,7 @@
           <td/>
           <td>
             <div>
-              <p>A canonical reference to a value set. The server must know the value set (e.g. it is defined explicitly in the server&#39;s value sets, or it is defined implicitly by some code system known to the server</p>
+              <p>A canonical reference to a value set. The server must know the value set (e.g. it is defined explicitly in the server's value sets, or it is defined implicitly by some code system known to the server</p>
 
             </div>
           </td>
@@ -113,9 +113,9 @@
 
               <ul>
 
-                <li>&#39;incoming&#39;: the codes a client can use for PUT/POST operations,  and</li>
+                <li>'incoming': the codes a client can use for PUT/POST operations,  and</li>
 
-                <li>&#39;outgoing&#39;, the codes a client might receive from the server.</li>
+                <li>'outgoing', the codes a client might receive from the server.</li>
 
               </ul>
 
@@ -288,7 +288,7 @@
           <td>
             <div>
               <p>Controls whether or not the value set expansion is assembled for a user interface use or not. Value sets intended for User Interface might include 
-                <a href="codesystem.html#status">&#39;abstract&#39; codes</a> or have nested contains with items with no code or abstract = true, with the sole purpose of helping a user navigate through the list efficiently, where as a value set not generated for UI use might be flat, and only contain the selectable codes in the value set. The exact implications of &#39;for UI&#39; depend on the code system, and what properties it exposes for a terminology server to use. In the FHIR Specification itself, the value set expansions are generated with excludeNotForUI = false, and the expansions used when generated schema / code etc, or performing validation, are all excludeNotForUI = true.
+                <a href="codesystem.html#status">'abstract' codes</a> or have nested contains with items with no code or abstract = true, with the sole purpose of helping a user navigate through the list efficiently, where as a value set not generated for UI use might be flat, and only contain the selectable codes in the value set. The exact implications of 'for UI' depend on the code system, and what properties it exposes for a terminology server to use. In the FHIR Specification itself, the value set expansions are generated with excludeNotForUI = false, and the expansions used when generated schema / code etc, or performing validation, are all excludeNotForUI = true.
               </p>
 
             </div>
@@ -431,12 +431,13 @@
     <valueCode value="normative"/>
   </extension>
   <url value="http://hl7.org/fhir/OperationDefinition/ValueSet-expand"/>
-  <version value="4.3.0-CIBUILD"/>
-  <name value="expand"/>
+  <version value="4.3.0-cibuild"/>
+  <name value="Expand"/>
   <title value="Value Set Expansion"/>
   <status value="active"/>
   <kind value="operation"/>
-  <date value="2022-01-01T15:17:18+00:00"/>
+  <experimental value="false"/>
+  <date value="2022-04-23T22:21:35+00:00"/>
   <publisher value="HL7 (FHIR Project)"/>
   <contact>
     <telecom>
@@ -461,7 +462,7 @@
     <use value="in"/>
     <min value="0"/>
     <max value="1"/>
-    <documentation value="A canonical reference to a value set. The server must know the value set (e.g. it is defined explicitly in the server&#39;s value sets, or it is defined implicitly by some code system known to the server"/>
+    <documentation value="A canonical reference to a value set. The server must know the value set (e.g. it is defined explicitly in the server's value sets, or it is defined implicitly by some code system known to the server"/>
     <type value="uri"/>
   </parameter>
   <parameter>
@@ -493,7 +494,7 @@
     <use value="in"/>
     <min value="0"/>
     <max value="1"/>
-    <documentation value="If a context is provided, a context direction may also be provided. Valid values are: &#xA;&#xA;* &#39;incoming&#39;: the codes a client can use for PUT/POST operations,  and &#xA;* &#39;outgoing&#39;, the codes a client might receive from the server.&#xA;&#xA;The purpose is to inform the server whether to use the value set associated with the context for reading or writing purposes (note: for most elements, this is the same value set, but there are a few elements where the reading and writing value sets are different)"/>
+    <documentation value="If a context is provided, a context direction may also be provided. Valid values are: &#xA;&#xA;* 'incoming': the codes a client can use for PUT/POST operations,  and &#xA;* 'outgoing', the codes a client might receive from the server.&#xA;&#xA;The purpose is to inform the server whether to use the value set associated with the context for reading or writing purposes (note: for most elements, this is the same value set, but there are a few elements where the reading and writing value sets are different)"/>
     <type value="code"/>
   </parameter>
   <parameter>
@@ -573,7 +574,7 @@
     <use value="in"/>
     <min value="0"/>
     <max value="1"/>
-    <documentation value="Controls whether or not the value set expansion is assembled for a user interface use or not. Value sets intended for User Interface might include [&#39;abstract&#39; codes](codesystem.html#status) or have nested contains with items with no code or abstract = true, with the sole purpose of helping a user navigate through the list efficiently, where as a value set not generated for UI use might be flat, and only contain the selectable codes in the value set. The exact implications of &#39;for UI&#39; depend on the code system, and what properties it exposes for a terminology server to use. In the FHIR Specification itself, the value set expansions are generated with excludeNotForUI = false, and the expansions used when generated schema / code etc, or performing validation, are all excludeNotForUI = true."/>
+    <documentation value="Controls whether or not the value set expansion is assembled for a user interface use or not. Value sets intended for User Interface might include ['abstract' codes](codesystem.html#status) or have nested contains with items with no code or abstract = true, with the sole purpose of helping a user navigate through the list efficiently, where as a value set not generated for UI use might be flat, and only contain the selectable codes in the value set. The exact implications of 'for UI' depend on the code system, and what properties it exposes for a terminology server to use. In the FHIR Specification itself, the value set expansions are generated with excludeNotForUI = false, and the expansions used when generated schema / code etc, or performing validation, are all excludeNotForUI = true."/>
     <type value="boolean"/>
   </parameter>
   <parameter>

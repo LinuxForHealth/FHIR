@@ -73,7 +73,7 @@ import com.ibm.fhir.model.visitor.Visitor;
     level = "Warning",
     location = "(base)",
     description = "Name should be usable as an identifier for the module by machine processing applications such as code generation",
-    expression = "name.matches('[A-Z]([A-Za-z0-9_]){0,254}')",
+    expression = "name.exists() implies name.matches('[A-Z]([A-Za-z0-9_]){0,254}')",
     source = "http://hl7.org/fhir/StructureDefinition/ActivityDefinition"
 )
 @Constraint(
@@ -112,7 +112,7 @@ public class ActivityDefinition extends DomainResource {
         bindingName = "PublicationStatus",
         strength = BindingStrength.Value.REQUIRED,
         description = "The lifecycle status of an artifact.",
-        valueSet = "http://hl7.org/fhir/ValueSet/publication-status|4.3.0-CIBUILD"
+        valueSet = "http://hl7.org/fhir/ValueSet/publication-status|4.3.0-cibuild"
     )
     @Required
     private final PublicationStatus status;
@@ -170,7 +170,7 @@ public class ActivityDefinition extends DomainResource {
         bindingName = "ActivityDefinitionKind",
         strength = BindingStrength.Value.REQUIRED,
         description = "The kind of activity the definition is describing.",
-        valueSet = "http://hl7.org/fhir/ValueSet/request-resource-types|4.3.0-CIBUILD"
+        valueSet = "http://hl7.org/fhir/ValueSet/request-resource-types|4.3.0-cibuild"
     )
     private final ActivityDefinitionKind kind;
     private final Canonical profile;
@@ -186,14 +186,14 @@ public class ActivityDefinition extends DomainResource {
         bindingName = "RequestIntent",
         strength = BindingStrength.Value.REQUIRED,
         description = "Codes indicating the degree of authority/intentionality associated with a request.",
-        valueSet = "http://hl7.org/fhir/ValueSet/request-intent|4.3.0-CIBUILD"
+        valueSet = "http://hl7.org/fhir/ValueSet/request-intent|4.3.0-cibuild"
     )
     private final RequestIntent intent;
     @Binding(
         bindingName = "RequestPriority",
         strength = BindingStrength.Value.REQUIRED,
         description = "Identifies the level of importance to be assigned to actioning the request.",
-        valueSet = "http://hl7.org/fhir/ValueSet/request-priority|4.3.0-CIBUILD"
+        valueSet = "http://hl7.org/fhir/ValueSet/request-priority|4.3.0-cibuild"
     )
     private final RequestPriority priority;
     @Summary
@@ -2769,7 +2769,7 @@ public class ActivityDefinition extends DomainResource {
             bindingName = "ActivityParticipantType",
             strength = BindingStrength.Value.REQUIRED,
             description = "The type of participant in the activity.",
-            valueSet = "http://hl7.org/fhir/ValueSet/action-participant-type|4.3.0-CIBUILD"
+            valueSet = "http://hl7.org/fhir/ValueSet/action-participant-type|4.3.0-cibuild"
         )
         @Required
         private final ActivityParticipantType type;

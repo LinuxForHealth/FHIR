@@ -12,10 +12,11 @@
     }
   ],
   "url": "http://hl7.org/fhir/StructureDefinition/allergyintolerance-substanceExposureRisk",
-  "version": "4.3.0-CIBUILD",
+  "version": "4.3.0-cibuild",
   "name": "substanceExposureRisk",
   "title": "substanceExposureRisk",
   "status": "draft",
+  "experimental": false,
   "date": "2015-02-21",
   "publisher": "Health Level Seven, Inc. - FHIR WG",
   "contact": [
@@ -29,7 +30,7 @@
     }
   ],
   "description": "A complex extension allowing structured capture of the exposure risk of the patient for an adverse reaction (allergy or intolerance) to the specified substance/product.",
-  "fhirVersion": "4.3.0-CIBUILD",
+  "fhirVersion": "4.3.0-cibuild",
   "mapping": [
     {
       "identity": "v2",
@@ -603,7 +604,7 @@
           ],
           "strength": "required",
           "description": "The risk of an adverse reaction (allergy or intolerance) for this patient upon exposure to the substance (including pharmaceutical products).",
-          "valueSet": "http://hl7.org/fhir/ValueSet/allerg-intol-substance-exp-risk"
+          "valueSet": "http://terminology.hl7.org/ValueSet/allerg-intol-substance-exp-risk"
         },
         "mapping": [
           {
@@ -735,9 +736,6 @@
             "code": "CodeableConcept"
           },
           {
-            "code": "CodeableReference"
-          },
-          {
             "code": "Coding"
           },
           {
@@ -772,9 +770,6 @@
           },
           {
             "code": "Ratio"
-          },
-          {
-            "code": "RatioRange"
           },
           {
             "code": "Reference"
@@ -977,7 +972,7 @@
           ],
           "strength": "required",
           "description": "The risk of an adverse reaction (allergy or intolerance) for this patient upon exposure to the substance (including pharmaceutical products).",
-          "valueSet": "http://hl7.org/fhir/ValueSet/allerg-intol-substance-exp-risk"
+          "valueSet": "http://terminology.hl7.org/ValueSet/allerg-intol-substance-exp-risk"
         }
       },
       {

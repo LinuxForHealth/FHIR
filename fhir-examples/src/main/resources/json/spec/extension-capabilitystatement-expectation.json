@@ -12,10 +12,11 @@
     }
   ],
   "url": "http://hl7.org/fhir/StructureDefinition/capabilitystatement-expectation",
-  "version": "4.3.0-CIBUILD",
+  "version": "4.3.0-cibuild",
   "name": "expectation",
   "title": "Conformance expectation",
   "status": "draft",
+  "experimental": false,
   "date": "2014-04-12",
   "publisher": "Health Level Seven, Inc. - [WG Name] WG",
   "contact": [
@@ -29,7 +30,7 @@
     }
   ],
   "description": "Defines the level of expectation associated with a given system capability.",
-  "fhirVersion": "4.3.0-CIBUILD",
+  "fhirVersion": "4.3.0-cibuild",
   "mapping": [
     {
       "identity": "v2",
@@ -76,6 +77,10 @@
     {
       "type": "element",
       "expression": "CapabilityStatement.rest.resource.searchRevInclude"
+    },
+    {
+      "type": "element",
+      "expression": "CapabilityStatement.rest.resource.operation"
     }
   ],
   "type": "Extension",
@@ -291,7 +296,7 @@
           ],
           "strength": "required",
           "description": "Indicates the degree of adherence to a specified behavior or capability expected for a system to be deemed conformant with a specification.",
-          "valueSet": "http://hl7.org/fhir/ValueSet/conformance-expectation"
+          "valueSet": "http://terminology.hl7.org/ValueSet/conformance-expectation"
         },
         "mapping": [
           {
@@ -355,7 +360,7 @@
           ],
           "strength": "required",
           "description": "Indicates the degree of adherence to a specified behavior or capability expected for a system to be deemed conformant with a specification.",
-          "valueSet": "http://hl7.org/fhir/ValueSet/conformance-expectation"
+          "valueSet": "http://terminology.hl7.org/ValueSet/conformance-expectation"
         }
       }
     ]

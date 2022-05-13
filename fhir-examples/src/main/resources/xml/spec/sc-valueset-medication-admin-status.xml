@@ -31,6 +31,12 @@
           </td>
         </tr>
         <tr>
+          <td colspan="3">Mapping from 
+            <a href="codesystem-medication-admin-status.html">MedicationAdministration Status Codes</a> to 
+            <a href="codesystem-resource-status.html">Canonical Status Codes for FHIR Resources</a>
+          </td>
+        </tr>
+        <tr>
           <td>entered-in-error</td>
           <td>
             <a href="codesystem-concept-map-equivalence.html#equivalent">is equivalent to</a>
@@ -83,10 +89,11 @@
     </div>
   </text>
   <url value="http://hl7.org/fhir/ConceptMap/sc-medication-admin-status"/>
-  <version value="4.3.0-CIBUILD"/>
+  <version value="4.3.0-cibuild"/>
   <name value="MedicationAdministration Status CodesCanonicalMap"/>
   <title value="Canonical Mapping for &quot;MedicationAdministration Status Codes&quot;"/>
   <status value="draft"/>
+  <experimental value="false"/>
   <publisher value="FHIR Project team"/>
   <contact>
     <telecom>
@@ -104,49 +111,49 @@
       <code value="entered-in-error"/>
       <target>
         <code value="error"/>
-        <relationship value="equivalent"/>
+        <equivalence value="equivalent"/>
       </target>
     </element>
     <element>
       <code value="in-progress"/>
       <target>
         <code value="active"/>
-        <relationship value="equivalent"/>
+        <equivalence value="equivalent"/>
       </target>
     </element>
     <element>
       <code value="on-hold"/>
       <target>
         <code value="suspended"/>
-        <relationship value="equivalent"/>
+        <equivalence value="equivalent"/>
       </target>
     </element>
     <element>
       <code value="stopped"/>
       <target>
         <code value="failed"/>
-        <relationship value="equivalent"/>
+        <equivalence value="equivalent"/>
       </target>
     </element>
     <element>
       <code value="completed"/>
       <target>
         <code value="complete"/>
-        <relationship value="equivalent"/>
+        <equivalence value="equivalent"/>
       </target>
     </element>
     <element>
       <code value="unknown"/>
       <target>
         <code value="unknown"/>
-        <relationship value="equivalent"/>
+        <equivalence value="equivalent"/>
       </target>
     </element>
     <element>
       <code value="not-done"/>
       <target>
         <code value="not-done"/>
-        <relationship value="equivalent"/>
+        <equivalence value="equivalent"/>
       </target>
     </element>
   </group>

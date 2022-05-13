@@ -15,6 +15,7 @@
   "version": "2.0.0",
   "title": "Example Zika Virus Intervention",
   "status": "active",
+  "experimental": true,
   "date": "2017-01-12",
   "description": "Zika Virus Management intervention describing the CDC Guidelines for Zika Virus Reporting and Management.",
   "useContext": [
@@ -54,7 +55,10 @@
   "relatedArtifact": [
     {
       "type": "derived-from",
-      "url": "https://www.cdc.gov/mmwr/volumes/65/wr/mm6539e1.htm?s_cid\u003dmm6539e1_w"
+      "url": "https://www.cdc.gov/mmwr/volumes/65/wr/mm6539e1.htm?s_cid\u003dmm6539e1_w",
+      "document": {
+        "url": "https://www.cdc.gov/mmwr/volumes/65/wr/mm6539e1.htm?s_cid\u003dmm6539e1_w"
+      }
     },
     {
       "type": "predecessor",

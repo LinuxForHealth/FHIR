@@ -9,8 +9,8 @@
       "status": "active",
       "description": "Type options for MedicinalProductDefinition.characteristic.value[x]",
       "expansion": {
-        "identifier": "urn:uuid:08732f46-d19d-41b0-ae5a-4fcd9877b432",
-        "timestamp": "2022-01-01T15:25:09+00:00",
+        "identifier": "urn:uuid:edde856e-e896-460d-a668-f57bf5c22a02",
+        "timestamp": "2022-04-23T22:30:01+00:00",
         "contains": [
           {
             "system": "http://hl7.org/fhir/data-types",
@@ -46,14 +46,15 @@
       "system": "urn:ietf:rfc:3986"
     }
   ],
-  "version": "4.3.0-CIBUILD",
+  "version": "4.3.0-cibuild",
   "status": "draft",
-  "date": "2022-01-01T15:17:18+00:00",
+  "experimental": false,
+  "date": "2022-04-23T22:21:35+00:00",
   "publisher": "Health Level Seven International (Biomedical Research and Regulation)",
   "item": [
     {
       "linkId": "MedicinalProductDefinition",
-      "text": "Detailed definition of a medicinal product, typically for uses other than direct patient care (e.g. regulatory use, drug catalogs)",
+      "text": "Detailed definition of a medicinal product",
       "type": "group",
       "required": false,
       "repeats": true,
@@ -74,7 +75,7 @@
             }
           ],
           "linkId": "MedicinalProductDefinition-flyover",
-          "text": "Detailed definition of a medicinal product, typically for uses other than direct patient care (e.g. regulatory use, drug catalogs).",
+          "text": "A medicinal product, being a substance or combination of substances that is intended to treat, prevent or diagnose a disease, or to restore, correct or modify physiological functions by exerting a pharmacological, immunological or metabolic action. This resource is intended to define and detail such products and their properties, for uses other than direct patient care (e.g. regulatory use, or drug catalogs).",
           "type": "display"
         },
         {
@@ -237,10 +238,9 @@
             {
               "linkId": "MedicinalProductDefinition.language.value",
               "text": "language",
-              "type": "coding",
+              "type": "choice",
               "required": false,
-              "repeats": false,
-              "answerConstraint": "optionsOnly"
+              "repeats": false
             }
           ]
         },
@@ -391,7 +391,7 @@
                 }
               ],
               "linkId": "MedicinalProductDefinition.identifier-flyover",
-              "text": "Business identifier for this product. Could be an MPID.",
+              "text": "Business identifier for this product. Could be an MPID. When in development or being regulated, products are typically referenced by official identifiers, assigned by a manufacturer or regulator, and unique to a product (which, when compared to a product instance being prescribed, is actually a product type). See also MedicinalProductDefinition.code.",
               "type": "display"
             },
             {
@@ -456,10 +456,9 @@
             {
               "linkId": "MedicinalProductDefinition.type.coding",
               "text": "code:",
-              "type": "coding",
+              "type": "choice",
               "required": false,
-              "repeats": false,
-              "answerConstraint": "optionsOnly"
+              "repeats": false
             },
             {
               "linkId": "MedicinalProductDefinition.type.text",
@@ -509,10 +508,9 @@
             {
               "linkId": "MedicinalProductDefinition.domain.coding",
               "text": "code:",
-              "type": "coding",
+              "type": "choice",
               "required": false,
-              "repeats": false,
-              "answerConstraint": "optionsOnly"
+              "repeats": false
             },
             {
               "linkId": "MedicinalProductDefinition.domain.text",
@@ -560,7 +558,7 @@
             },
             {
               "linkId": "MedicinalProductDefinition.version.value",
-              "text": "A business identifier relating to a specific version of the product, this is commonly used to support revisions to an existing product",
+              "text": "A business identifier relating to a specific version of the product",
               "type": "string",
               "required": false,
               "repeats": false
@@ -579,7 +577,7 @@
             }
           ],
           "linkId": "MedicinalProductDefinition.status",
-          "text": "The status within the lifecycle of this product record. A high-level status, this is not intended to duplicate details carried elsewhere such as legal status, or authorization status",
+          "text": "The status within the lifecycle of this product record",
           "type": "group",
           "required": false,
           "repeats": true,
@@ -606,10 +604,9 @@
             {
               "linkId": "MedicinalProductDefinition.status.coding",
               "text": "code:",
-              "type": "coding",
+              "type": "choice",
               "required": false,
-              "repeats": false,
-              "answerConstraint": "optionsOnly"
+              "repeats": false
             },
             {
               "linkId": "MedicinalProductDefinition.status.text",
@@ -741,16 +738,15 @@
                 }
               ],
               "linkId": "MedicinalProductDefinition.combinedPharmaceuticalDoseForm-flyover",
-              "text": "The dose form for a single part product, or combined form of a multiple part product.",
+              "text": "The dose form for a single part product, or combined form of a multiple part product. This is one concept that describes all the components. It does not represent the form with components physically mixed, if that might be necessary, for which see (AdministrableProductDefinition.administrableDoseForm).",
               "type": "display"
             },
             {
               "linkId": "MedicinalProductDefinition.combinedPharmaceuticalDoseForm.coding",
               "text": "code:",
-              "type": "coding",
+              "type": "choice",
               "required": false,
-              "repeats": false,
-              "answerConstraint": "optionsOnly"
+              "repeats": false
             },
             {
               "linkId": "MedicinalProductDefinition.combinedPharmaceuticalDoseForm.text",
@@ -769,7 +765,7 @@
             }
           ],
           "linkId": "MedicinalProductDefinition.route",
-          "text": "The path by which the product is taken into or makes contact with the body. In some regions this is referred to as the licenced or approved route. See also AdministrableProductDefinition resource",
+          "text": "The path by which the product is taken into or makes contact with the body",
           "type": "group",
           "required": false,
           "repeats": true,
@@ -790,16 +786,15 @@
                 }
               ],
               "linkId": "MedicinalProductDefinition.route-flyover",
-              "text": "The path by which the product is taken into or makes contact with the body. In some regions this is referred to as the licenced or approved route. See also AdministrableProductDefinition resource.",
+              "text": "The path by which the product is taken into or makes contact with the body. In some regions this is referred to as the licenced or approved route. See also AdministrableProductDefinition resource. MedicinalProductDefinition.route is the same concept as AdministrableProductDefinition.routeOfAdministration.code, and they cannot be used together.",
               "type": "display"
             },
             {
               "linkId": "MedicinalProductDefinition.route.coding",
               "text": "code:",
-              "type": "coding",
+              "type": "choice",
               "required": false,
-              "repeats": false,
-              "answerConstraint": "optionsOnly"
+              "repeats": false
             },
             {
               "linkId": "MedicinalProductDefinition.route.text",
@@ -847,7 +842,7 @@
             },
             {
               "linkId": "MedicinalProductDefinition.indication.value",
-              "text": "Description of indication(s) for this product, used when structured indications are not required. In cases where structured indications are required, they are captured using the ClinicalUseDefinition resource. An indication is a medical situation for which using the product is appropriate",
+              "text": "Description of indication(s) for this product, used when structured indications are not required",
               "type": "string",
               "required": false,
               "repeats": false
@@ -893,10 +888,9 @@
             {
               "linkId": "MedicinalProductDefinition.legalStatusOfSupply.coding",
               "text": "code:",
-              "type": "coding",
+              "type": "choice",
               "required": false,
-              "repeats": false,
-              "answerConstraint": "optionsOnly"
+              "repeats": false
             },
             {
               "linkId": "MedicinalProductDefinition.legalStatusOfSupply.text",
@@ -940,16 +934,15 @@
                 }
               ],
               "linkId": "MedicinalProductDefinition.additionalMonitoringIndicator-flyover",
-              "text": "Whether the Medicinal Product is subject to additional monitoring for regulatory reasons.",
+              "text": "Whether the Medicinal Product is subject to additional monitoring for regulatory reasons, such as heightened reporting requirements.",
               "type": "display"
             },
             {
               "linkId": "MedicinalProductDefinition.additionalMonitoringIndicator.coding",
               "text": "code:",
-              "type": "coding",
+              "type": "choice",
               "required": false,
-              "repeats": false,
-              "answerConstraint": "optionsOnly"
+              "repeats": false
             },
             {
               "linkId": "MedicinalProductDefinition.additionalMonitoringIndicator.text",
@@ -989,16 +982,15 @@
                 }
               ],
               "linkId": "MedicinalProductDefinition.specialMeasures-flyover",
-              "text": "Whether the Medicinal Product is subject to special measures for regulatory reasons.",
+              "text": "Whether the Medicinal Product is subject to special measures for regulatory reasons, such as a requirement to conduct post-authorisation studies.",
               "type": "display"
             },
             {
               "linkId": "MedicinalProductDefinition.specialMeasures.coding",
               "text": "code:",
-              "type": "coding",
+              "type": "choice",
               "required": false,
-              "repeats": false,
-              "answerConstraint": "optionsOnly"
+              "repeats": false
             },
             {
               "linkId": "MedicinalProductDefinition.specialMeasures.text",
@@ -1042,16 +1034,15 @@
                 }
               ],
               "linkId": "MedicinalProductDefinition.pediatricUseIndicator-flyover",
-              "text": "If authorised for use in children.",
+              "text": "If authorised for use in children, or infants, neonates etc.",
               "type": "display"
             },
             {
               "linkId": "MedicinalProductDefinition.pediatricUseIndicator.coding",
               "text": "code:",
-              "type": "coding",
+              "type": "choice",
               "required": false,
-              "repeats": false,
-              "answerConstraint": "optionsOnly"
+              "repeats": false
             },
             {
               "linkId": "MedicinalProductDefinition.pediatricUseIndicator.text",
@@ -1091,16 +1082,15 @@
                 }
               ],
               "linkId": "MedicinalProductDefinition.classification-flyover",
-              "text": "Allows the product to be classified by various systems.",
+              "text": "Allows the product to be classified by various systems, commonly WHO ATC.",
               "type": "display"
             },
             {
               "linkId": "MedicinalProductDefinition.classification.coding",
               "text": "code:",
-              "type": "coding",
+              "type": "choice",
               "required": false,
-              "repeats": false,
-              "answerConstraint": "optionsOnly"
+              "repeats": false
             },
             {
               "linkId": "MedicinalProductDefinition.classification.text",
@@ -1134,7 +1124,7 @@
                 }
               ],
               "linkId": "MedicinalProductDefinition.marketingStatus-flyover",
-              "text": "Marketing status of the medicinal product, in contrast to marketing authorization.",
+              "text": "Marketing status of the medicinal product, in contrast to marketing authorization. This refers to the product being actually \u0027on the market\u0027 as opposed to being allowed to be on the market (which is an authorization).",
               "type": "display"
             }
           ]
@@ -1147,7 +1137,7 @@
             }
           ],
           "linkId": "MedicinalProductDefinition.packagedMedicinalProduct",
-          "text": "Package representation for the product",
+          "text": "Package type for the product",
           "type": "group",
           "required": false,
           "repeats": true,
@@ -1168,16 +1158,15 @@
                 }
               ],
               "linkId": "MedicinalProductDefinition.packagedMedicinalProduct-flyover",
-              "text": "Package representation for the product. See also the PackagedProductDefinition resource.",
+              "text": "Package type for the product. See also the PackagedProductDefinition resource.",
               "type": "display"
             },
             {
               "linkId": "MedicinalProductDefinition.packagedMedicinalProduct.coding",
               "text": "code:",
-              "type": "coding",
+              "type": "choice",
               "required": false,
-              "repeats": false,
-              "answerConstraint": "optionsOnly"
+              "repeats": false
             },
             {
               "linkId": "MedicinalProductDefinition.packagedMedicinalProduct.text",
@@ -1196,7 +1185,7 @@
             }
           ],
           "linkId": "MedicinalProductDefinition.ingredient",
-          "text": "The ingredients of this medicinal product - when not detailed in other resources. This is only needed if the ingredients are not specified by incoming references from the Ingredient resource, or indirectly via incoming AdministrableProductDefinition, PackagedProductDefinition or ManufacturedItemDefinition references. In cases where those levels of detail are not used, the ingredients may be specified directly here as codes",
+          "text": "The ingredients of this medicinal product - when not detailed in other resources",
           "type": "group",
           "required": false,
           "repeats": true,
@@ -1223,10 +1212,9 @@
             {
               "linkId": "MedicinalProductDefinition.ingredient.coding",
               "text": "code:",
-              "type": "coding",
+              "type": "choice",
               "required": false,
-              "repeats": false,
-              "answerConstraint": "optionsOnly"
+              "repeats": false
             },
             {
               "linkId": "MedicinalProductDefinition.ingredient.text",
@@ -1239,7 +1227,7 @@
         },
         {
           "linkId": "MedicinalProductDefinition.impurity",
-          "text": "Any component of the drug product which is not the chemical entity defined as the drug substance or an excipient in the drug product. This includes process-related impurities and contaminants, product-related impurities including degradation products",
+          "text": "Any component of the drug product which is not the chemical entity defined as the drug substance, or an excipient in the drug product",
           "type": "group",
           "required": false,
           "repeats": true,
@@ -1260,7 +1248,7 @@
                 }
               ],
               "linkId": "MedicinalProductDefinition.impurity-flyover",
-              "text": "Any component of the drug product which is not the chemical entity defined as the drug substance or an excipient in the drug product. This includes process-related impurities and contaminants, product-related impurities including degradation products.",
+              "text": "Any component of the drug product which is not the chemical entity defined as the drug substance, or an excipient in the drug product. This includes process-related impurities and contaminants, product-related impurities including degradation products.",
               "type": "display"
             }
           ]
@@ -1308,7 +1296,7 @@
                 }
               ],
               "linkId": "MedicinalProductDefinition.attachedDocument.value",
-              "text": "Additional information or supporting documentation about the medicinal product",
+              "text": "Additional documentation about the medicinal product",
               "type": "reference",
               "required": false,
               "repeats": false
@@ -1530,10 +1518,9 @@
                 {
                   "linkId": "MedicinalProductDefinition.contact.type.coding",
                   "text": "code:",
-                  "type": "coding",
+                  "type": "choice",
                   "required": false,
-                  "repeats": false,
-                  "answerConstraint": "optionsOnly"
+                  "repeats": false
                 },
                 {
                   "linkId": "MedicinalProductDefinition.contact.type.text",
@@ -1682,16 +1669,15 @@
                 }
               ],
               "linkId": "MedicinalProductDefinition.code-flyover",
-              "text": "A code that this product is known by, usually within some formal terminology. Products (types of medications) tend to be known by identifiers during development and within regulatory process. However when they are prescribed they tend to be identified by codes. The same product may be have multiple codes, applied to it by multiple organizations.",
+              "text": "A code that this product is known by, usually within some formal terminology, perhaps assigned by a third party (i.e. not the manufacturer or regulator). Products (types of medications) tend to be known by identifiers during development and within regulatory process. However when they are prescribed they tend to be identified by codes. The same product may be have multiple codes, applied to it by multiple organizations.",
               "type": "display"
             },
             {
               "linkId": "MedicinalProductDefinition.code.value",
               "text": "A code that this product is known by, within some formal terminology",
-              "type": "coding",
+              "type": "choice",
               "required": false,
-              "repeats": false,
-              "answerConstraint": "optionsOnly"
+              "repeats": false
             }
           ]
         },
@@ -1914,10 +1900,9 @@
                 {
                   "linkId": "MedicinalProductDefinition.name.type.coding",
                   "text": "code:",
-                  "type": "coding",
+                  "type": "choice",
                   "required": false,
-                  "repeats": false,
-                  "answerConstraint": "optionsOnly"
+                  "repeats": false
                 },
                 {
                   "linkId": "MedicinalProductDefinition.name.type.text",
@@ -2145,10 +2130,9 @@
                     {
                       "linkId": "MedicinalProductDefinition.name.namePart.type.coding",
                       "text": "code:",
-                      "type": "coding",
+                      "type": "choice",
                       "required": false,
-                      "repeats": false,
-                      "answerConstraint": "optionsOnly"
+                      "repeats": false
                     },
                     {
                       "linkId": "MedicinalProductDefinition.name.namePart.type.text",
@@ -2163,7 +2147,7 @@
             },
             {
               "linkId": "MedicinalProductDefinition.name.countryLanguage",
-              "text": "Country where the name applies",
+              "text": "Country and jurisdiction where the name applies",
               "type": "group",
               "required": false,
               "repeats": true,
@@ -2184,7 +2168,7 @@
                     }
                   ],
                   "linkId": "MedicinalProductDefinition.name.countryLanguage-flyover",
-                  "text": "Country where the name applies.",
+                  "text": "Country and jurisdiction where the name applies, and associated language.",
                   "type": "display"
                 },
                 {
@@ -2330,10 +2314,9 @@
                     {
                       "linkId": "MedicinalProductDefinition.name.countryLanguage.country.coding",
                       "text": "code:",
-                      "type": "coding",
+                      "type": "choice",
                       "required": false,
-                      "repeats": false,
-                      "answerConstraint": "optionsOnly"
+                      "repeats": false
                     },
                     {
                       "linkId": "MedicinalProductDefinition.name.countryLanguage.country.text",
@@ -2377,16 +2360,15 @@
                         }
                       ],
                       "linkId": "MedicinalProductDefinition.name.countryLanguage.jurisdiction-flyover",
-                      "text": "Jurisdiction code for where this name applies.",
+                      "text": "Jurisdiction code for where this name applies. A jurisdiction may be a sub- or supra-national entity (e.g. a state or a geographic region).",
                       "type": "display"
                     },
                     {
                       "linkId": "MedicinalProductDefinition.name.countryLanguage.jurisdiction.coding",
                       "text": "code:",
-                      "type": "coding",
+                      "type": "choice",
                       "required": false,
-                      "repeats": false,
-                      "answerConstraint": "optionsOnly"
+                      "repeats": false
                     },
                     {
                       "linkId": "MedicinalProductDefinition.name.countryLanguage.jurisdiction.text",
@@ -2440,10 +2422,9 @@
                     {
                       "linkId": "MedicinalProductDefinition.name.countryLanguage.language.coding",
                       "text": "code:",
-                      "type": "coding",
+                      "type": "choice",
                       "required": false,
-                      "repeats": false,
-                      "answerConstraint": "optionsOnly"
+                      "repeats": false
                     },
                     {
                       "linkId": "MedicinalProductDefinition.name.countryLanguage.language.text",
@@ -2481,7 +2462,7 @@
                 }
               ],
               "linkId": "MedicinalProductDefinition.crossReference-flyover",
-              "text": "Reference to another product, e.g. for linking authorised to investigational product.",
+              "text": "Reference to another product, e.g. for linking authorised to investigational product, or a virtual product.",
               "type": "display"
             },
             {
@@ -2634,7 +2615,7 @@
                 }
               ],
               "linkId": "MedicinalProductDefinition.crossReference.type",
-              "text": "The type of relationship, for instance branded to generic, product to development product (investigational), parallel import version",
+              "text": "The type of relationship, for instance branded to generic or virtual to actual product",
               "type": "group",
               "required": false,
               "repeats": true,
@@ -2655,16 +2636,15 @@
                     }
                   ],
                   "linkId": "MedicinalProductDefinition.crossReference.type-flyover",
-                  "text": "The type of relationship, for instance branded to generic, product to development product (investigational), parallel import version.",
+                  "text": "The type of relationship, for instance branded to generic, virtual to actual product, product to development product (investigational), parallel import version.",
                   "type": "display"
                 },
                 {
                   "linkId": "MedicinalProductDefinition.crossReference.type.coding",
                   "text": "code:",
-                  "type": "coding",
+                  "type": "choice",
                   "required": false,
-                  "repeats": false,
-                  "answerConstraint": "optionsOnly"
+                  "repeats": false
                 },
                 {
                   "linkId": "MedicinalProductDefinition.crossReference.type.text",
@@ -2679,7 +2659,7 @@
         },
         {
           "linkId": "MedicinalProductDefinition.operation",
-          "text": "A manufacturing or administrative process or step associated with (or performed on) the medicinal product",
+          "text": "A manufacturing or administrative process for the medicinal product",
           "type": "group",
           "required": false,
           "repeats": true,
@@ -2811,7 +2791,7 @@
                 }
               ],
               "linkId": "MedicinalProductDefinition.operation.type",
-              "text": "The type of manufacturing operation e.g. manufacturing itself, re-packaging. For the authorization of this, a RegulatedAuthorization would point to the same plan or activity referenced here",
+              "text": "The type of manufacturing operation e.g. manufacturing itself, re-packaging",
               "type": "group",
               "required": false,
               "repeats": false,
@@ -2932,7 +2912,7 @@
                     }
                   ],
                   "linkId": "MedicinalProductDefinition.operation.organization.value",
-                  "text": "The organization or establishment responsible for (or associated with) the particular process or step, examples include the manufacturer, importer, agent",
+                  "text": "The organization responsible for the particular process, e.g. the manufacturer or importer",
                   "type": "reference",
                   "required": false,
                   "repeats": false
@@ -2951,7 +2931,7 @@
                 }
               ],
               "linkId": "MedicinalProductDefinition.operation.confidentialityIndicator",
-              "text": "Specifies whether this particular business or manufacturing process is considered proprietary or confidential",
+              "text": "Specifies whether this process is considered proprietary or confidential",
               "type": "group",
               "required": false,
               "repeats": true,
@@ -2978,10 +2958,9 @@
                 {
                   "linkId": "MedicinalProductDefinition.operation.confidentialityIndicator.coding",
                   "text": "code:",
-                  "type": "coding",
+                  "type": "choice",
                   "required": false,
-                  "repeats": false,
-                  "answerConstraint": "optionsOnly"
+                  "repeats": false
                 },
                 {
                   "linkId": "MedicinalProductDefinition.operation.confidentialityIndicator.text",
@@ -2996,7 +2975,7 @@
         },
         {
           "linkId": "MedicinalProductDefinition.characteristic",
-          "text": "Allows the key product features to be recorded, such as \"sugar free\", \"modified release\", \"parallel import\"",
+          "text": "Key product features such as \"sugar free\", \"modified release\"",
           "type": "group",
           "required": false,
           "repeats": true,
@@ -3163,10 +3142,9 @@
                 {
                   "linkId": "MedicinalProductDefinition.characteristic.type.coding",
                   "text": "code:",
-                  "type": "coding",
+                  "type": "choice",
                   "required": false,
-                  "repeats": false,
-                  "answerConstraint": "optionsOnly"
+                  "repeats": false
                 },
                 {
                   "linkId": "MedicinalProductDefinition.characteristic.type.text",
@@ -3212,10 +3190,9 @@
                 {
                   "linkId": "MedicinalProductDefinition.characteristic.value[x]._type",
                   "text": "type",
-                  "type": "coding",
+                  "type": "choice",
                   "required": false,
                   "repeats": false,
-                  "answerConstraint": "optionsOnly",
                   "answerValueSet": "#vs2",
                   "item": [
                     {
@@ -3231,10 +3208,9 @@
                         {
                           "linkId": "MedicinalProductDefinition.characteristic.value[x]._null.coding",
                           "text": "code:",
-                          "type": "coding",
+                          "type": "choice",
                           "required": false,
-                          "repeats": false,
-                          "answerConstraint": "optionsOnly"
+                          "repeats": false
                         },
                         {
                           "linkId": "MedicinalProductDefinition.characteristic.value[x]._null.text",
@@ -3258,10 +3234,9 @@
                         {
                           "linkId": "MedicinalProductDefinition.characteristic.value[x]._null.comparator",
                           "text": "comp:",
-                          "type": "coding",
+                          "type": "choice",
                           "required": false,
-                          "repeats": false,
-                          "answerConstraint": "optionsOnly"
+                          "repeats": false
                         },
                         {
                           "linkId": "MedicinalProductDefinition.characteristic.value[x]._null.value",

@@ -1,0 +1,162 @@
+{
+    "resourceType": "ValueSet",
+    "id": "contributor-summary-style",
+    "meta": {
+        "lastUpdated": "2022-04-24T09:21:35.043+11:00",
+        "profile": [
+            "http://hl7.org/fhir/StructureDefinition/shareablevalueset"
+        ]
+    },
+    "extension": [
+        {
+            "url": "http://hl7.org/fhir/StructureDefinition/structuredefinition-wg",
+            "valueCode": "cds"
+        },
+        {
+            "url": "http://hl7.org/fhir/StructureDefinition/structuredefinition-standards-status",
+            "valueCode": "trial-use"
+        },
+        {
+            "url": "http://hl7.org/fhir/StructureDefinition/structuredefinition-fmm",
+            "valueInteger": 0
+        }
+    ],
+    "url": "http://hl7.org/fhir/ValueSet/contributor-summary-style",
+    "identifier": [
+        {
+            "system": "urn:ietf:rfc:3986",
+            "value": "urn:oid:2.16.840.1.113883.4.642.3.0"
+        }
+    ],
+    "version": "4.3.0-cibuild",
+    "name": "ContributorSummaryStyle",
+    "title": "ContributorSummaryStyle",
+    "status": "draft",
+    "experimental": true,
+    "date": "2020-12-28T16:55:11+11:00",
+    "publisher": "HL7 (FHIR Project)",
+    "contact": [
+        {
+            "telecom": [
+                {
+                    "system": "url",
+                    "value": "http://hl7.org/fhir"
+                },
+                {
+                    "system": "email",
+                    "value": "fhir@lists.hl7.org"
+                }
+            ]
+        }
+    ],
+    "description": "Used to code the format of the display string.",
+    "immutable": true,
+    "compose": {
+        "include": [
+            {
+                "system": "http://terminology.hl7.org/CodeSystem/contributor-summary-style"
+            }
+        ]
+    },
+    "expansion": {
+        "identifier": "urn:uuid:e6daee51-28e4-48a6-baca-fe2debadcc02",
+        "timestamp": "2022-04-23T22:23:26Z",
+        "total": 16,
+        "parameter": [
+            {
+                "name": "excludeNested",
+                "valueBoolean": true
+            },
+            {
+                "name": "includeDesignations",
+                "valueBoolean": true
+            },
+            {
+                "name": "version",
+                "valueUri": "http://terminology.hl7.org/CodeSystem/contributor-summary-style|4.3.0-cibuild"
+            }
+        ],
+        "contains": [
+            {
+                "system": "http://terminology.hl7.org/CodeSystem/contributor-summary-style",
+                "code": "a1full",
+                "display": "First author (full name) et al"
+            },
+            {
+                "system": "http://terminology.hl7.org/CodeSystem/contributor-summary-style",
+                "code": "a1init",
+                "display": "First author (last name first initials) et al"
+            },
+            {
+                "system": "http://terminology.hl7.org/CodeSystem/contributor-summary-style",
+                "code": "a3full",
+                "display": "First 3 authors (full name) et al"
+            },
+            {
+                "system": "http://terminology.hl7.org/CodeSystem/contributor-summary-style",
+                "code": "a3init",
+                "display": "First 3 authors (last name first initials) et al"
+            },
+            {
+                "system": "http://terminology.hl7.org/CodeSystem/contributor-summary-style",
+                "code": "a6full",
+                "display": "First 6 authors (full name) et al"
+            },
+            {
+                "system": "http://terminology.hl7.org/CodeSystem/contributor-summary-style",
+                "code": "a6init",
+                "display": "First 6 authors (last name first initials) et al"
+            },
+            {
+                "system": "http://terminology.hl7.org/CodeSystem/contributor-summary-style",
+                "code": "aallfull",
+                "display": "All authors (full name)"
+            },
+            {
+                "system": "http://terminology.hl7.org/CodeSystem/contributor-summary-style",
+                "code": "aallfullwithand",
+                "display": "All authors (full name) with and before last author"
+            },
+            {
+                "system": "http://terminology.hl7.org/CodeSystem/contributor-summary-style",
+                "code": "aallfullwithampersand",
+                "display": "All authors (full name) with an ampersand before last author"
+            },
+            {
+                "system": "http://terminology.hl7.org/CodeSystem/contributor-summary-style",
+                "code": "aallinit",
+                "display": "All authors (last name first initials)"
+            },
+            {
+                "system": "http://terminology.hl7.org/CodeSystem/contributor-summary-style",
+                "code": "aallinitwithand",
+                "display": "All authors (last name first initials) with and before last author"
+            },
+            {
+                "system": "http://terminology.hl7.org/CodeSystem/contributor-summary-style",
+                "code": "aallinitwithampersand",
+                "display": "All authors (last name first initials) with an ampersand before last author"
+            },
+            {
+                "system": "http://terminology.hl7.org/CodeSystem/contributor-summary-style",
+                "code": "contr-full-by-person",
+                "display": "Contributorship statement listed by person with full names"
+            },
+            {
+                "system": "http://terminology.hl7.org/CodeSystem/contributor-summary-style",
+                "code": "contr-init-by-person",
+                "display": "Contributorship statement listed by person with initials"
+            },
+            {
+                "system": "http://terminology.hl7.org/CodeSystem/contributor-summary-style",
+                "code": "contr-full-by-contr",
+                "display": "Contributorship statement listed by contribution with full names"
+            },
+            {
+                "system": "http://terminology.hl7.org/CodeSystem/contributor-summary-style",
+                "code": "contr-init-by-contr",
+                "display": "Contributorship statement listed by contribution with initials"
+            }
+        ]
+    }
+}

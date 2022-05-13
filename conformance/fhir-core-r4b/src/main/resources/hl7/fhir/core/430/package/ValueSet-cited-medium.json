@@ -1,0 +1,112 @@
+{
+    "resourceType": "ValueSet",
+    "id": "cited-medium",
+    "meta": {
+        "lastUpdated": "2022-04-24T09:21:35.043+11:00",
+        "profile": [
+            "http://hl7.org/fhir/StructureDefinition/shareablevalueset"
+        ]
+    },
+    "extension": [
+        {
+            "url": "http://hl7.org/fhir/StructureDefinition/structuredefinition-wg",
+            "valueCode": "cds"
+        },
+        {
+            "url": "http://hl7.org/fhir/StructureDefinition/structuredefinition-standards-status",
+            "valueCode": "trial-use"
+        },
+        {
+            "url": "http://hl7.org/fhir/StructureDefinition/structuredefinition-fmm",
+            "valueInteger": 0
+        }
+    ],
+    "url": "http://hl7.org/fhir/ValueSet/cited-medium",
+    "identifier": [
+        {
+            "system": "urn:ietf:rfc:3986",
+            "value": "urn:oid:2.16.840.1.113883.4.642.3.1488"
+        }
+    ],
+    "version": "4.3.0-cibuild",
+    "name": "CitedMedium",
+    "title": "CitedMedium",
+    "status": "draft",
+    "experimental": true,
+    "date": "2020-12-28T16:55:11+11:00",
+    "publisher": "HL7 (FHIR Project)",
+    "contact": [
+        {
+            "telecom": [
+                {
+                    "system": "url",
+                    "value": "http://hl7.org/fhir"
+                },
+                {
+                    "system": "email",
+                    "value": "fhir@lists.hl7.org"
+                }
+            ]
+        }
+    ],
+    "description": "NLM codes Internet or Print.",
+    "immutable": true,
+    "compose": {
+        "include": [
+            {
+                "system": "http://terminology.hl7.org/CodeSystem/cited-medium"
+            }
+        ]
+    },
+    "expansion": {
+        "identifier": "urn:uuid:6b41fdb7-04ee-48a1-9026-10d5ea45ee11",
+        "timestamp": "2022-04-23T22:23:26Z",
+        "total": 6,
+        "parameter": [
+            {
+                "name": "excludeNested",
+                "valueBoolean": true
+            },
+            {
+                "name": "includeDesignations",
+                "valueBoolean": true
+            },
+            {
+                "name": "version",
+                "valueUri": "http://terminology.hl7.org/CodeSystem/cited-medium|4.3.0-cibuild"
+            }
+        ],
+        "contains": [
+            {
+                "system": "http://terminology.hl7.org/CodeSystem/cited-medium",
+                "code": "internet",
+                "display": "Internet"
+            },
+            {
+                "system": "http://terminology.hl7.org/CodeSystem/cited-medium",
+                "code": "print",
+                "display": "Print"
+            },
+            {
+                "system": "http://terminology.hl7.org/CodeSystem/cited-medium",
+                "code": "offline-digital-storage",
+                "display": "Offline Digital Storage"
+            },
+            {
+                "system": "http://terminology.hl7.org/CodeSystem/cited-medium",
+                "code": "internet-without-issue",
+                "display": "Internet without issue"
+            },
+            {
+                "system": "http://terminology.hl7.org/CodeSystem/cited-medium",
+                "code": "print-without-issue",
+                "display": "Print without issue"
+            },
+            {
+                "system": "http://terminology.hl7.org/CodeSystem/cited-medium",
+                "code": "offline-digital-storage-without-issue",
+                "display": "Offline Digital Storage without issue"
+            }
+        ]
+    }
+}

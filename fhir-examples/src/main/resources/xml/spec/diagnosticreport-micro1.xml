@@ -12,7 +12,7 @@
 		<fullUrl value="https://example.com/base/DiagnosticReport/micro"/>
 		<resource>
 			<DiagnosticReport><!--     start of the main resource     --><id value="micro"/>
-				<text><status value="generated"/><div xmlns="http://www.w3.org/1999/xhtml"><h2><span>Culture, MRSA</span> (<span>Microbiology</span>) </h2><table><tr><td>Subject</td><td><b>Jim </b> ?? 1974-12-25 ( Medical record number: 12345 (USUAL))</td></tr><tr><td>Reported</td><td>2009-08-10T08:25:44+10:00</td></tr><tr><td>Identifier:</td><td> id: 290741144</td></tr></table><p><b>Report Details</b></p><table><tr><td><b>Code</b></td><td><b>Value</b></td></tr><tr><td><i>Observation</i></td></tr></table></div></text><identifier>
+				<text><status value="generated"/><div xmlns="http://www.w3.org/1999/xhtml"><h2><span title="Codes: {http://loinc.org 632-0}">Culture, MRSA</span> (<span title="Codes: {http://terminology.hl7.org/CodeSystem/v2-0074 MB}">Microbiology</span>) </h2><table class="grid"><tr><td>Subject</td><td><b>Jim </b> male, DoB: 1974-12-25 ( Medical record number: 12345 (USUAL))</td></tr><tr><td>Reported</td><td>2009-08-10T08:25:44+10:00</td></tr><tr><td>Identifier:</td><td> id: 290741144</td></tr></table><p><b>Report Details</b></p><table class="grid"><tr><td><b>Code</b></td><td><b>Value</b></td></tr><tr><td colspan="2"><i>Observation</i></td></tr></table></div></text><identifier>
 					<system value="http://hnam.org/identifiers/orders"/><!--     seems like a likely choice     --><value value="290741144"/>
 				</identifier>
 				<basedOn>
@@ -48,7 +48,7 @@
 		<resource>
 			<Observation>
 				<id value="obx1-4"/>
-				<text><status value="generated"/><div xmlns="http://www.w3.org/1999/xhtml"><p><b>Generated Narrative</b></p><div><p>Resource "obx1-4" </p></div><p><b>status</b>: final</p><p><b>code</b>: ORGANISM <span> (tests#ORGANISM)</span></p><p><b>subject</b>: <a>Patient/example</a> "Peter CHALMERS"</p><p><b>performer</b>: <span>: Todd Ashby</span></p><p><b>value</b>: Staphylococcus aureus <span> (organisms#Staaur)</span></p></div></text><status value="final"/>
+				<text><status value="generated"/><div xmlns="http://www.w3.org/1999/xhtml"><p><b>Generated Narrative</b></p><div style="display: inline-block; background-color: #d9e0e7; padding: 6px; margin: 4px; border: 1px solid #8da1b4; border-radius: 5px; line-height: 60%"><p style="margin-bottom: 0px">Resource "obx1-4" </p></div><p><b>status</b>: final</p><p><b>code</b>: ORGANISM <span style="background: LightGoldenRodYellow; margin: 4px; border: 1px solid khaki"> (tests#ORGANISM)</span></p><p><b>subject</b>: <a href="patient-example.html">Patient/example</a> "Peter CHALMERS"</p><p><b>performer</b>: <span>: Todd Ashby</span></p><p><b>value</b>: Staphylococcus aureus <span style="background: LightGoldenRodYellow; margin: 4px; border: 1px solid khaki"> (organisms#Staaur)</span></p></div></text><status value="final"/>
 				<code>
 					<coding>
 						<system value="http://acme.org/lab/codes/tests"/>
@@ -71,7 +71,7 @@
 		<resource>
 			<Observation>
 				<id value="obx1-5"/>
-				<text><status value="generated"/><div xmlns="http://www.w3.org/1999/xhtml"><p><b>Generated Narrative</b></p><div><p>Resource "obx1-5" </p></div><p><b>status</b>: final</p><p><b>code</b>: CULTPOSNEG <span> (tests#CULTPOSNEG)</span></p><p><b>subject</b>: <a>Patient/example</a> "Peter CHALMERS"</p><p><b>performer</b>: <span>: Todd Ashby</span></p><p><b>value</b>: POS <span> (flags#POS)</span></p></div></text><status value="final"/>
+				<text><status value="generated"/><div xmlns="http://www.w3.org/1999/xhtml"><p><b>Generated Narrative</b></p><div style="display: inline-block; background-color: #d9e0e7; padding: 6px; margin: 4px; border: 1px solid #8da1b4; border-radius: 5px; line-height: 60%"><p style="margin-bottom: 0px">Resource "obx1-5" </p></div><p><b>status</b>: final</p><p><b>code</b>: CULTPOSNEG <span style="background: LightGoldenRodYellow; margin: 4px; border: 1px solid khaki"> (tests#CULTPOSNEG)</span></p><p><b>subject</b>: <a href="patient-example.html">Patient/example</a> "Peter CHALMERS"</p><p><b>performer</b>: <span>: Todd Ashby</span></p><p><b>value</b>: POS <span style="background: LightGoldenRodYellow; margin: 4px; border: 1px solid khaki"> (flags#POS)</span></p></div></text><status value="final"/>
 				<code>
 					<coding>
 						<system value="http://acme.org/lab/codes/tests"/>
@@ -94,7 +94,7 @@
 		<resource>
 			<Observation>
 				<id value="obx2-1"/>
-				<text><status value="generated"/><div xmlns="http://www.w3.org/1999/xhtml"><p><b>Generated Narrative</b></p><div><p>Resource "obx2-1" </p></div><p><b>status</b>: final</p><p><b>code</b>: Ampicillin <span> (tests#60504)</span></p><p><b>subject</b>: <a>Patient/example</a> "Peter CHALMERS"</p><p><b>performer</b>: <span>: Todd Ashby</span></p><p><b>interpretation</b>: Resistant <span> (<a>ObservationInterpretation</a>#R)</span></p></div></text><status value="final"/>
+				<text><status value="generated"/><div xmlns="http://www.w3.org/1999/xhtml"><p><b>Generated Narrative</b></p><div style="display: inline-block; background-color: #d9e0e7; padding: 6px; margin: 4px; border: 1px solid #8da1b4; border-radius: 5px; line-height: 60%"><p style="margin-bottom: 0px">Resource "obx2-1" </p></div><p><b>status</b>: final</p><p><b>code</b>: Ampicillin <span style="background: LightGoldenRodYellow; margin: 4px; border: 1px solid khaki"> (tests#60504)</span></p><p><b>subject</b>: <a href="patient-example.html">Patient/example</a> "Peter CHALMERS"</p><p><b>performer</b>: <span>: Todd Ashby</span></p><p><b>interpretation</b>: Resistant <span style="background: LightGoldenRodYellow; margin: 4px; border: 1px solid khaki"> (<a href="http://terminology.hl7.org/3.1.0/CodeSystem-v3-ObservationInterpretation.html">ObservationInterpretation</a>#R)</span></p></div></text><status value="final"/>
 				<code>
 					<coding>
 						<system value="http://acme.org/lab/codes/tests"/>
@@ -118,7 +118,7 @@
 		<resource>
 			<Observation>
 				<id value="obx2-2"/>
-				<text><status value="generated"/><div xmlns="http://www.w3.org/1999/xhtml"><p><b>Generated Narrative</b></p><div><p>Resource "obx2-2" </p></div><p><b>status</b>: final</p><p><b>code</b>: Cefazolin <span> (tests#60512)</span></p><p><b>subject</b>: <a>Patient/example</a> "Peter CHALMERS"</p><p><b>performer</b>: <span>: Todd Ashby</span></p><p><b>value</b>: &lt;=2</p><p><b>interpretation</b>: Susceptible <span> (<a>ObservationInterpretation</a>#S)</span></p></div></text><status value="final"/>
+				<text><status value="generated"/><div xmlns="http://www.w3.org/1999/xhtml"><p><b>Generated Narrative</b></p><div style="display: inline-block; background-color: #d9e0e7; padding: 6px; margin: 4px; border: 1px solid #8da1b4; border-radius: 5px; line-height: 60%"><p style="margin-bottom: 0px">Resource "obx2-2" </p></div><p><b>status</b>: final</p><p><b>code</b>: Cefazolin <span style="background: LightGoldenRodYellow; margin: 4px; border: 1px solid khaki"> (tests#60512)</span></p><p><b>subject</b>: <a href="patient-example.html">Patient/example</a> "Peter CHALMERS"</p><p><b>performer</b>: <span>: Todd Ashby</span></p><p><b>value</b>: &lt;=2</p><p><b>interpretation</b>: Susceptible <span style="background: LightGoldenRodYellow; margin: 4px; border: 1px solid khaki"> (<a href="http://terminology.hl7.org/3.1.0/CodeSystem-v3-ObservationInterpretation.html">ObservationInterpretation</a>#S)</span></p></div></text><status value="final"/>
 				<code>
 					<coding>
 						<system value="http://acme.org/lab/codes/tests"/>
@@ -146,7 +146,7 @@
 		<resource>
 			<Observation>
 				<id value="obx2-4"/>
-				<text><status value="generated"/><div xmlns="http://www.w3.org/1999/xhtml"><p><b>Generated Narrative</b></p><div><p>Resource "obx2-4" </p></div><p><b>status</b>: final</p><p><b>code</b>: Cefoxitin <span> (tests#60516)</span></p><p><b>subject</b>: <a>Patient/example</a> "Peter CHALMERS"</p><p><b>performer</b>: <span>: Todd Ashby</span></p><p><b>value</b>: &lt;=4</p><p><b>interpretation</b>: Susceptible <span> (<a>ObservationInterpretation</a>#S)</span></p></div></text><status value="final"/>
+				<text><status value="generated"/><div xmlns="http://www.w3.org/1999/xhtml"><p><b>Generated Narrative</b></p><div style="display: inline-block; background-color: #d9e0e7; padding: 6px; margin: 4px; border: 1px solid #8da1b4; border-radius: 5px; line-height: 60%"><p style="margin-bottom: 0px">Resource "obx2-4" </p></div><p><b>status</b>: final</p><p><b>code</b>: Cefoxitin <span style="background: LightGoldenRodYellow; margin: 4px; border: 1px solid khaki"> (tests#60516)</span></p><p><b>subject</b>: <a href="patient-example.html">Patient/example</a> "Peter CHALMERS"</p><p><b>performer</b>: <span>: Todd Ashby</span></p><p><b>value</b>: &lt;=4</p><p><b>interpretation</b>: Susceptible <span style="background: LightGoldenRodYellow; margin: 4px; border: 1px solid khaki"> (<a href="http://terminology.hl7.org/3.1.0/CodeSystem-v3-ObservationInterpretation.html">ObservationInterpretation</a>#S)</span></p></div></text><status value="final"/>
 				<code>
 					<coding>
 						<system value="http://acme.org/lab/codes/tests"/>
@@ -174,7 +174,7 @@
 		<resource>
 			<Observation>
 				<id value="obx2-6"/>
-				<text><status value="generated"/><div xmlns="http://www.w3.org/1999/xhtml"><p><b>Generated Narrative</b></p><div><p>Resource "obx2-6" </p></div><p><b>status</b>: final</p><p><b>code</b>: Clindamycin <span> (tests#60527)</span></p><p><b>subject</b>: <a>Patient/example</a> "Peter CHALMERS"</p><p><b>performer</b>: <span>: Todd Ashby</span></p><p><b>value</b>: &gt;=0.5</p><p><b>interpretation</b>: Susceptible <span> (<a>ObservationInterpretation</a>#S)</span></p></div></text><status value="final"/>
+				<text><status value="generated"/><div xmlns="http://www.w3.org/1999/xhtml"><p><b>Generated Narrative</b></p><div style="display: inline-block; background-color: #d9e0e7; padding: 6px; margin: 4px; border: 1px solid #8da1b4; border-radius: 5px; line-height: 60%"><p style="margin-bottom: 0px">Resource "obx2-6" </p></div><p><b>status</b>: final</p><p><b>code</b>: Clindamycin <span style="background: LightGoldenRodYellow; margin: 4px; border: 1px solid khaki"> (tests#60527)</span></p><p><b>subject</b>: <a href="patient-example.html">Patient/example</a> "Peter CHALMERS"</p><p><b>performer</b>: <span>: Todd Ashby</span></p><p><b>value</b>: &gt;=0.5</p><p><b>interpretation</b>: Susceptible <span style="background: LightGoldenRodYellow; margin: 4px; border: 1px solid khaki"> (<a href="http://terminology.hl7.org/3.1.0/CodeSystem-v3-ObservationInterpretation.html">ObservationInterpretation</a>#S)</span></p></div></text><status value="final"/>
 				<code>
 					<coding>
 						<system value="http://acme.org/lab/codes/tests"/>
@@ -202,7 +202,7 @@
 		<resource>
 			<Observation>
 				<id value="obx2-8"/>
-				<text><status value="generated"/><div xmlns="http://www.w3.org/1999/xhtml"><p><b>Generated Narrative</b></p><div><p>Resource "obx2-8" </p></div><p><b>status</b>: final</p><p><b>code</b>: Daptomycin <span> (tests#61203)</span></p><p><b>subject</b>: <a>Patient/example</a> "Peter CHALMERS"</p><p><b>performer</b>: <span>: Todd Ashby</span></p><p><b>value</b>: &gt;=1</p><p><b>interpretation</b>: Susceptible <span> (<a>ObservationInterpretation</a>#S)</span></p></div></text><status value="final"/>
+				<text><status value="generated"/><div xmlns="http://www.w3.org/1999/xhtml"><p><b>Generated Narrative</b></p><div style="display: inline-block; background-color: #d9e0e7; padding: 6px; margin: 4px; border: 1px solid #8da1b4; border-radius: 5px; line-height: 60%"><p style="margin-bottom: 0px">Resource "obx2-8" </p></div><p><b>status</b>: final</p><p><b>code</b>: Daptomycin <span style="background: LightGoldenRodYellow; margin: 4px; border: 1px solid khaki"> (tests#61203)</span></p><p><b>subject</b>: <a href="patient-example.html">Patient/example</a> "Peter CHALMERS"</p><p><b>performer</b>: <span>: Todd Ashby</span></p><p><b>value</b>: &gt;=1</p><p><b>interpretation</b>: Susceptible <span style="background: LightGoldenRodYellow; margin: 4px; border: 1px solid khaki"> (<a href="http://terminology.hl7.org/3.1.0/CodeSystem-v3-ObservationInterpretation.html">ObservationInterpretation</a>#S)</span></p></div></text><status value="final"/>
 				<code>
 					<coding>
 						<system value="http://acme.org/lab/codes/tests"/>
@@ -230,7 +230,7 @@
 		<resource>
 			<Observation>
 				<id value="obx2-10"/>
-				<text><status value="generated"/><div xmlns="http://www.w3.org/1999/xhtml"><p><b>Generated Narrative</b></p><div><p>Resource "obx2-10" </p></div><p><b>status</b>: final</p><p><b>code</b>: Doxycycline <span> (tests#60532)</span></p><p><b>subject</b>: <a>Patient/example</a> "Peter CHALMERS"</p><p><b>performer</b>: <span>: Todd Ashby</span></p><p><b>value</b>: &lt;=0.5</p><p><b>interpretation</b>: Susceptible <span> (<a>ObservationInterpretation</a>#S)</span></p></div></text><status value="final"/>
+				<text><status value="generated"/><div xmlns="http://www.w3.org/1999/xhtml"><p><b>Generated Narrative</b></p><div style="display: inline-block; background-color: #d9e0e7; padding: 6px; margin: 4px; border: 1px solid #8da1b4; border-radius: 5px; line-height: 60%"><p style="margin-bottom: 0px">Resource "obx2-10" </p></div><p><b>status</b>: final</p><p><b>code</b>: Doxycycline <span style="background: LightGoldenRodYellow; margin: 4px; border: 1px solid khaki"> (tests#60532)</span></p><p><b>subject</b>: <a href="patient-example.html">Patient/example</a> "Peter CHALMERS"</p><p><b>performer</b>: <span>: Todd Ashby</span></p><p><b>value</b>: &lt;=0.5</p><p><b>interpretation</b>: Susceptible <span style="background: LightGoldenRodYellow; margin: 4px; border: 1px solid khaki"> (<a href="http://terminology.hl7.org/3.1.0/CodeSystem-v3-ObservationInterpretation.html">ObservationInterpretation</a>#S)</span></p></div></text><status value="final"/>
 				<code>
 					<coding>
 						<system value="http://acme.org/lab/codes/tests"/>
@@ -258,7 +258,7 @@
 		<resource>
 			<Observation>
 				<id value="obx2-12"/>
-				<text><status value="generated"/><div xmlns="http://www.w3.org/1999/xhtml"><p><b>Generated Narrative</b></p><div><p>Resource "obx2-12" </p></div><p><b>status</b>: final</p><p><b>code</b>: Erythromycin <span> (tests#60533)</span></p><p><b>subject</b>: <a>Patient/example</a> "Peter CHALMERS"</p><p><b>performer</b>: <span>: Todd Ashby</span></p><p><b>value</b>: &gt;=8</p><p><b>interpretation</b>: Resistant <span> (<a>ObservationInterpretation</a>#R)</span></p></div></text><status value="final"/>
+				<text><status value="generated"/><div xmlns="http://www.w3.org/1999/xhtml"><p><b>Generated Narrative</b></p><div style="display: inline-block; background-color: #d9e0e7; padding: 6px; margin: 4px; border: 1px solid #8da1b4; border-radius: 5px; line-height: 60%"><p style="margin-bottom: 0px">Resource "obx2-12" </p></div><p><b>status</b>: final</p><p><b>code</b>: Erythromycin <span style="background: LightGoldenRodYellow; margin: 4px; border: 1px solid khaki"> (tests#60533)</span></p><p><b>subject</b>: <a href="patient-example.html">Patient/example</a> "Peter CHALMERS"</p><p><b>performer</b>: <span>: Todd Ashby</span></p><p><b>value</b>: &gt;=8</p><p><b>interpretation</b>: Resistant <span style="background: LightGoldenRodYellow; margin: 4px; border: 1px solid khaki"> (<a href="http://terminology.hl7.org/3.1.0/CodeSystem-v3-ObservationInterpretation.html">ObservationInterpretation</a>#R)</span></p></div></text><status value="final"/>
 				<code>
 					<coding>
 						<system value="http://acme.org/lab/codes/tests"/>
@@ -286,7 +286,7 @@
 		<resource>
 			<Observation>
 				<id value="obx2-14"/>
-				<text><status value="generated"/><div xmlns="http://www.w3.org/1999/xhtml"><p><b>Generated Narrative</b></p><div><p>Resource "obx2-14" </p></div><p><b>status</b>: final</p><p><b>code</b>: Gentamicin <span> (tests#60536)</span></p><p><b>subject</b>: <a>Patient/example</a> "Peter CHALMERS"</p><p><b>performer</b>: <span>: Todd Ashby</span></p><p><b>value</b>: &lt;=2</p><p><b>interpretation</b>: Susceptible <span> (<a>ObservationInterpretation</a>#S)</span></p></div></text><status value="final"/>
+				<text><status value="generated"/><div xmlns="http://www.w3.org/1999/xhtml"><p><b>Generated Narrative</b></p><div style="display: inline-block; background-color: #d9e0e7; padding: 6px; margin: 4px; border: 1px solid #8da1b4; border-radius: 5px; line-height: 60%"><p style="margin-bottom: 0px">Resource "obx2-14" </p></div><p><b>status</b>: final</p><p><b>code</b>: Gentamicin <span style="background: LightGoldenRodYellow; margin: 4px; border: 1px solid khaki"> (tests#60536)</span></p><p><b>subject</b>: <a href="patient-example.html">Patient/example</a> "Peter CHALMERS"</p><p><b>performer</b>: <span>: Todd Ashby</span></p><p><b>value</b>: &lt;=2</p><p><b>interpretation</b>: Susceptible <span style="background: LightGoldenRodYellow; margin: 4px; border: 1px solid khaki"> (<a href="http://terminology.hl7.org/3.1.0/CodeSystem-v3-ObservationInterpretation.html">ObservationInterpretation</a>#S)</span></p></div></text><status value="final"/>
 				<code>
 					<coding>
 						<system value="http://acme.org/lab/codes/tests"/>
@@ -314,7 +314,7 @@
 		<resource>
 			<Observation>
 				<id value="obx2-16"/>
-				<text><status value="generated"/><div xmlns="http://www.w3.org/1999/xhtml"><p><b>Generated Narrative</b></p><div><p>Resource "obx2-16" </p></div><p><b>status</b>: final</p><p><b>code</b>: Levofloxacin <span> (tests#61007)</span></p><p><b>subject</b>: <a>Patient/example</a> "Peter CHALMERS"</p><p><b>performer</b>: <span>: Todd Ashby</span></p><p><b>value</b>: &lt;=0.5</p><p><b>interpretation</b>: Susceptible <span> (<a>ObservationInterpretation</a>#S)</span></p></div></text><status value="final"/>
+				<text><status value="generated"/><div xmlns="http://www.w3.org/1999/xhtml"><p><b>Generated Narrative</b></p><div style="display: inline-block; background-color: #d9e0e7; padding: 6px; margin: 4px; border: 1px solid #8da1b4; border-radius: 5px; line-height: 60%"><p style="margin-bottom: 0px">Resource "obx2-16" </p></div><p><b>status</b>: final</p><p><b>code</b>: Levofloxacin <span style="background: LightGoldenRodYellow; margin: 4px; border: 1px solid khaki"> (tests#61007)</span></p><p><b>subject</b>: <a href="patient-example.html">Patient/example</a> "Peter CHALMERS"</p><p><b>performer</b>: <span>: Todd Ashby</span></p><p><b>value</b>: &lt;=0.5</p><p><b>interpretation</b>: Susceptible <span style="background: LightGoldenRodYellow; margin: 4px; border: 1px solid khaki"> (<a href="http://terminology.hl7.org/3.1.0/CodeSystem-v3-ObservationInterpretation.html">ObservationInterpretation</a>#S)</span></p></div></text><status value="final"/>
 				<code>
 					<coding>
 						<system value="http://acme.org/lab/codes/tests"/>
@@ -342,7 +342,7 @@
 		<resource>
 			<Observation>
 				<id value="obx2-18"/>
-				<text><status value="generated"/><div xmlns="http://www.w3.org/1999/xhtml"><p><b>Generated Narrative</b></p><div><p>Resource "obx2-18" </p></div><p><b>status</b>: final</p><p><b>code</b>: Linezolid <span> (tests#60699)</span></p><p><b>subject</b>: <a>Patient/example</a> "Peter CHALMERS"</p><p><b>performer</b>: <span>: Todd Ashby</span></p><p><b>value</b>: 4</p><p><b>interpretation</b>: Susceptible <span> (<a>ObservationInterpretation</a>#S)</span></p></div></text><status value="final"/>
+				<text><status value="generated"/><div xmlns="http://www.w3.org/1999/xhtml"><p><b>Generated Narrative</b></p><div style="display: inline-block; background-color: #d9e0e7; padding: 6px; margin: 4px; border: 1px solid #8da1b4; border-radius: 5px; line-height: 60%"><p style="margin-bottom: 0px">Resource "obx2-18" </p></div><p><b>status</b>: final</p><p><b>code</b>: Linezolid <span style="background: LightGoldenRodYellow; margin: 4px; border: 1px solid khaki"> (tests#60699)</span></p><p><b>subject</b>: <a href="patient-example.html">Patient/example</a> "Peter CHALMERS"</p><p><b>performer</b>: <span>: Todd Ashby</span></p><p><b>value</b>: 4</p><p><b>interpretation</b>: Susceptible <span style="background: LightGoldenRodYellow; margin: 4px; border: 1px solid khaki"> (<a href="http://terminology.hl7.org/3.1.0/CodeSystem-v3-ObservationInterpretation.html">ObservationInterpretation</a>#S)</span></p></div></text><status value="final"/>
 				<code>
 					<coding>
 						<system value="http://acme.org/lab/codes/tests"/>
@@ -369,7 +369,7 @@
 		<resource>
 			<Observation>
 				<id value="obx2-20"/>
-				<text><status value="generated"/><div xmlns="http://www.w3.org/1999/xhtml"><p><b>Generated Narrative</b></p><div><p>Resource "obx2-20" </p></div><p><b>status</b>: final</p><p><b>code</b>: Moxifloxacin <span> (tests#61204)</span></p><p><b>subject</b>: <a>Patient/example</a> "Peter CHALMERS"</p><p><b>performer</b>: <span>: Todd Ashby</span></p><p><b>value</b>: &lt;=0.5</p><p><b>interpretation</b>: Susceptible <span> (<a>ObservationInterpretation</a>#S)</span></p></div></text><status value="final"/>
+				<text><status value="generated"/><div xmlns="http://www.w3.org/1999/xhtml"><p><b>Generated Narrative</b></p><div style="display: inline-block; background-color: #d9e0e7; padding: 6px; margin: 4px; border: 1px solid #8da1b4; border-radius: 5px; line-height: 60%"><p style="margin-bottom: 0px">Resource "obx2-20" </p></div><p><b>status</b>: final</p><p><b>code</b>: Moxifloxacin <span style="background: LightGoldenRodYellow; margin: 4px; border: 1px solid khaki"> (tests#61204)</span></p><p><b>subject</b>: <a href="patient-example.html">Patient/example</a> "Peter CHALMERS"</p><p><b>performer</b>: <span>: Todd Ashby</span></p><p><b>value</b>: &lt;=0.5</p><p><b>interpretation</b>: Susceptible <span style="background: LightGoldenRodYellow; margin: 4px; border: 1px solid khaki"> (<a href="http://terminology.hl7.org/3.1.0/CodeSystem-v3-ObservationInterpretation.html">ObservationInterpretation</a>#S)</span></p></div></text><status value="final"/>
 				<code>
 					<coding>
 						<system value="http://acme.org/lab/codes/tests"/>
@@ -397,7 +397,7 @@
 		<resource>
 			<Observation>
 				<id value="obx2-22"/>
-				<text><status value="generated"/><div xmlns="http://www.w3.org/1999/xhtml"><p><b>Generated Narrative</b></p><div><p>Resource "obx2-22" </p></div><p><b>status</b>: final</p><p><b>code</b>: Oxacillin <span> (tests#60551)</span></p><p><b>subject</b>: <a>Patient/example</a> "Peter CHALMERS"</p><p><b>performer</b>: <span>: Todd Ashby</span></p><p><b>value</b>: 0.5</p><p><b>interpretation</b>: Susceptible <span> (<a>ObservationInterpretation</a>#S)</span></p></div></text><status value="final"/>
+				<text><status value="generated"/><div xmlns="http://www.w3.org/1999/xhtml"><p><b>Generated Narrative</b></p><div style="display: inline-block; background-color: #d9e0e7; padding: 6px; margin: 4px; border: 1px solid #8da1b4; border-radius: 5px; line-height: 60%"><p style="margin-bottom: 0px">Resource "obx2-22" </p></div><p><b>status</b>: final</p><p><b>code</b>: Oxacillin <span style="background: LightGoldenRodYellow; margin: 4px; border: 1px solid khaki"> (tests#60551)</span></p><p><b>subject</b>: <a href="patient-example.html">Patient/example</a> "Peter CHALMERS"</p><p><b>performer</b>: <span>: Todd Ashby</span></p><p><b>value</b>: 0.5</p><p><b>interpretation</b>: Susceptible <span style="background: LightGoldenRodYellow; margin: 4px; border: 1px solid khaki"> (<a href="http://terminology.hl7.org/3.1.0/CodeSystem-v3-ObservationInterpretation.html">ObservationInterpretation</a>#S)</span></p></div></text><status value="final"/>
 				<code>
 					<coding>
 						<system value="http://acme.org/lab/codes/tests"/>
@@ -424,7 +424,7 @@
 		<resource>
 			<Observation>
 				<id value="obx2-24"/>
-				<text><status value="generated"/><div xmlns="http://www.w3.org/1999/xhtml"><p><b>Generated Narrative</b></p><div><p>Resource "obx2-24" </p></div><p><b>status</b>: final</p><p><b>code</b>: Penicillin <span> (tests#60552)</span></p><p><b>subject</b>: <a>Patient/example</a> "Peter CHALMERS"</p><p><b>performer</b>: <span>: Todd Ashby</span></p><p><b>value</b>: &gt;=2</p><p><b>interpretation</b>: Resistant <span> (<a>ObservationInterpretation</a>#R)</span></p></div></text><status value="final"/>
+				<text><status value="generated"/><div xmlns="http://www.w3.org/1999/xhtml"><p><b>Generated Narrative</b></p><div style="display: inline-block; background-color: #d9e0e7; padding: 6px; margin: 4px; border: 1px solid #8da1b4; border-radius: 5px; line-height: 60%"><p style="margin-bottom: 0px">Resource "obx2-24" </p></div><p><b>status</b>: final</p><p><b>code</b>: Penicillin <span style="background: LightGoldenRodYellow; margin: 4px; border: 1px solid khaki"> (tests#60552)</span></p><p><b>subject</b>: <a href="patient-example.html">Patient/example</a> "Peter CHALMERS"</p><p><b>performer</b>: <span>: Todd Ashby</span></p><p><b>value</b>: &gt;=2</p><p><b>interpretation</b>: Resistant <span style="background: LightGoldenRodYellow; margin: 4px; border: 1px solid khaki"> (<a href="http://terminology.hl7.org/3.1.0/CodeSystem-v3-ObservationInterpretation.html">ObservationInterpretation</a>#R)</span></p></div></text><status value="final"/>
 				<code>
 					<coding>
 						<system value="http://acme.org/lab/codes/tests"/>
@@ -452,7 +452,7 @@
 		<resource>
 			<Observation>
 				<id value="obx2-26"/>
-				<text><status value="generated"/><div xmlns="http://www.w3.org/1999/xhtml"><p><b>Generated Narrative</b></p><div><p>Resource "obx2-26" </p></div><p><b>status</b>: final</p><p><b>code</b>: Quinupristin/Dalfopristin <span> (tests#60697)</span></p><p><b>subject</b>: <a>Patient/example</a> "Peter CHALMERS"</p><p><b>performer</b>: <span>: Todd Ashby</span></p><p><b>value</b>: 0.5</p><p><b>interpretation</b>: Susceptible <span> (<a>ObservationInterpretation</a>#S)</span></p></div></text><status value="final"/>
+				<text><status value="generated"/><div xmlns="http://www.w3.org/1999/xhtml"><p><b>Generated Narrative</b></p><div style="display: inline-block; background-color: #d9e0e7; padding: 6px; margin: 4px; border: 1px solid #8da1b4; border-radius: 5px; line-height: 60%"><p style="margin-bottom: 0px">Resource "obx2-26" </p></div><p><b>status</b>: final</p><p><b>code</b>: Quinupristin/Dalfopristin <span style="background: LightGoldenRodYellow; margin: 4px; border: 1px solid khaki"> (tests#60697)</span></p><p><b>subject</b>: <a href="patient-example.html">Patient/example</a> "Peter CHALMERS"</p><p><b>performer</b>: <span>: Todd Ashby</span></p><p><b>value</b>: 0.5</p><p><b>interpretation</b>: Susceptible <span style="background: LightGoldenRodYellow; margin: 4px; border: 1px solid khaki"> (<a href="http://terminology.hl7.org/3.1.0/CodeSystem-v3-ObservationInterpretation.html">ObservationInterpretation</a>#S)</span></p></div></text><status value="final"/>
 				<code>
 					<coding>
 						<system value="http://acme.org/lab/codes/tests"/>
@@ -479,7 +479,7 @@
 		<resource>
 			<Observation>
 				<id value="obx2-28"/>
-				<text><status value="generated"/><div xmlns="http://www.w3.org/1999/xhtml"><p><b>Generated Narrative</b></p><div><p>Resource "obx2-28" </p></div><p><b>status</b>: final</p><p><b>code</b>: Rifampin <span> (tests#60555)</span></p><p><b>subject</b>: <a>Patient/example</a> "Peter CHALMERS"</p><p><b>performer</b>: <span>: Todd Ashby</span></p><p><b>value</b>: &lt;=0.5</p><p><b>interpretation</b>: Susceptible <span> (<a>ObservationInterpretation</a>#S)</span></p></div></text><status value="final"/>
+				<text><status value="generated"/><div xmlns="http://www.w3.org/1999/xhtml"><p><b>Generated Narrative</b></p><div style="display: inline-block; background-color: #d9e0e7; padding: 6px; margin: 4px; border: 1px solid #8da1b4; border-radius: 5px; line-height: 60%"><p style="margin-bottom: 0px">Resource "obx2-28" </p></div><p><b>status</b>: final</p><p><b>code</b>: Rifampin <span style="background: LightGoldenRodYellow; margin: 4px; border: 1px solid khaki"> (tests#60555)</span></p><p><b>subject</b>: <a href="patient-example.html">Patient/example</a> "Peter CHALMERS"</p><p><b>performer</b>: <span>: Todd Ashby</span></p><p><b>value</b>: &lt;=0.5</p><p><b>interpretation</b>: Susceptible <span style="background: LightGoldenRodYellow; margin: 4px; border: 1px solid khaki"> (<a href="http://terminology.hl7.org/3.1.0/CodeSystem-v3-ObservationInterpretation.html">ObservationInterpretation</a>#S)</span></p></div></text><status value="final"/>
 				<code>
 					<coding>
 						<system value="http://acme.org/lab/codes/tests"/>
@@ -507,7 +507,7 @@
 		<resource>
 			<Observation>
 				<id value="obx2-30"/>
-				<text><status value="generated"/><div xmlns="http://www.w3.org/1999/xhtml"><p><b>Generated Narrative</b></p><div><p>Resource "obx2-30" </p></div><p><b>status</b>: final</p><p><b>code</b>: Tetracycline <span> (tests#60558)</span></p><p><b>subject</b>: <a>Patient/example</a> "Peter CHALMERS"</p><p><b>performer</b>: <span>: Todd Ashby</span></p><p><b>value</b>: &lt;=0.5</p><p><b>interpretation</b>: Susceptible <span> (<a>ObservationInterpretation</a>#S)</span></p></div></text><status value="final"/>
+				<text><status value="generated"/><div xmlns="http://www.w3.org/1999/xhtml"><p><b>Generated Narrative</b></p><div style="display: inline-block; background-color: #d9e0e7; padding: 6px; margin: 4px; border: 1px solid #8da1b4; border-radius: 5px; line-height: 60%"><p style="margin-bottom: 0px">Resource "obx2-30" </p></div><p><b>status</b>: final</p><p><b>code</b>: Tetracycline <span style="background: LightGoldenRodYellow; margin: 4px; border: 1px solid khaki"> (tests#60558)</span></p><p><b>subject</b>: <a href="patient-example.html">Patient/example</a> "Peter CHALMERS"</p><p><b>performer</b>: <span>: Todd Ashby</span></p><p><b>value</b>: &lt;=0.5</p><p><b>interpretation</b>: Susceptible <span style="background: LightGoldenRodYellow; margin: 4px; border: 1px solid khaki"> (<a href="http://terminology.hl7.org/3.1.0/CodeSystem-v3-ObservationInterpretation.html">ObservationInterpretation</a>#S)</span></p></div></text><status value="final"/>
 				<code>
 					<coding>
 						<system value="http://acme.org/lab/codes/tests"/>
@@ -535,7 +535,7 @@
 		<resource>
 			<Observation>
 				<id value="obx2-32"/>
-				<text><status value="generated"/><div xmlns="http://www.w3.org/1999/xhtml"><p><b>Generated Narrative</b></p><div><p>Resource "obx2-32" </p></div><p><b>status</b>: final</p><p><b>code</b>: Trimethoprim/Sulfamethoxazole <span> (tests#60561)</span></p><p><b>subject</b>: <a>Patient/example</a> "Peter CHALMERS"</p><p><b>performer</b>: <span>: Todd Ashby</span></p><p><b>value</b>: &lt;=0.0526</p><p><b>interpretation</b>: Susceptible <span> (<a>ObservationInterpretation</a>#S)</span></p></div></text><status value="final"/>
+				<text><status value="generated"/><div xmlns="http://www.w3.org/1999/xhtml"><p><b>Generated Narrative</b></p><div style="display: inline-block; background-color: #d9e0e7; padding: 6px; margin: 4px; border: 1px solid #8da1b4; border-radius: 5px; line-height: 60%"><p style="margin-bottom: 0px">Resource "obx2-32" </p></div><p><b>status</b>: final</p><p><b>code</b>: Trimethoprim/Sulfamethoxazole <span style="background: LightGoldenRodYellow; margin: 4px; border: 1px solid khaki"> (tests#60561)</span></p><p><b>subject</b>: <a href="patient-example.html">Patient/example</a> "Peter CHALMERS"</p><p><b>performer</b>: <span>: Todd Ashby</span></p><p><b>value</b>: &lt;=0.0526</p><p><b>interpretation</b>: Susceptible <span style="background: LightGoldenRodYellow; margin: 4px; border: 1px solid khaki"> (<a href="http://terminology.hl7.org/3.1.0/CodeSystem-v3-ObservationInterpretation.html">ObservationInterpretation</a>#S)</span></p></div></text><status value="final"/>
 				<code>
 					<coding>
 						<system value="http://acme.org/lab/codes/tests"/>
@@ -562,7 +562,7 @@
 		<resource>
 			<Observation>
 				<id value="obx2-34"/>
-				<text><status value="generated"/><div xmlns="http://www.w3.org/1999/xhtml"><p><b>Generated Narrative</b></p><div><p>Resource "obx2-34" </p></div><p><b>status</b>: final</p><p><b>code</b>: Vancomycin <span> (tests#60563)</span></p><p><b>subject</b>: <a>Patient/example</a> "Peter CHALMERS"</p><p><b>performer</b>: <span>: Todd Ashby</span></p><p><b>value</b>: 1</p><p><b>interpretation</b>: Susceptible <span> (<a>ObservationInterpretation</a>#S)</span></p></div></text><status value="final"/>
+				<text><status value="generated"/><div xmlns="http://www.w3.org/1999/xhtml"><p><b>Generated Narrative</b></p><div style="display: inline-block; background-color: #d9e0e7; padding: 6px; margin: 4px; border: 1px solid #8da1b4; border-radius: 5px; line-height: 60%"><p style="margin-bottom: 0px">Resource "obx2-34" </p></div><p><b>status</b>: final</p><p><b>code</b>: Vancomycin <span style="background: LightGoldenRodYellow; margin: 4px; border: 1px solid khaki"> (tests#60563)</span></p><p><b>subject</b>: <a href="patient-example.html">Patient/example</a> "Peter CHALMERS"</p><p><b>performer</b>: <span>: Todd Ashby</span></p><p><b>value</b>: 1</p><p><b>interpretation</b>: Susceptible <span style="background: LightGoldenRodYellow; margin: 4px; border: 1px solid khaki"> (<a href="http://terminology.hl7.org/3.1.0/CodeSystem-v3-ObservationInterpretation.html">ObservationInterpretation</a>#S)</span></p></div></text><status value="final"/>
 				<code>
 					<coding>
 						<system value="http://acme.org/lab/codes/tests"/>
@@ -589,7 +589,7 @@
 		<resource>
 			<Observation>
 				<id value="nte-1"/>
-				<text><status value="generated"/><div xmlns="http://www.w3.org/1999/xhtml"><p><b>Generated Narrative</b></p><div><p>Resource "nte-1" </p></div><p><b>status</b>: final</p><p><b>code</b>: D-Test <span> (tests#2099930)</span></p><p><b>subject</b>: <a>Patient/example</a> "Peter CHALMERS"</p><p><b>performer</b>: <span>: Todd Ashby</span></p><p><b>value</b>: D-Test:  Negative - This isolate does not demonstrate inducible clindamycin resistance in vitro.</p></div></text><status value="final"/>
+				<text><status value="generated"/><div xmlns="http://www.w3.org/1999/xhtml"><p><b>Generated Narrative</b></p><div style="display: inline-block; background-color: #d9e0e7; padding: 6px; margin: 4px; border: 1px solid #8da1b4; border-radius: 5px; line-height: 60%"><p style="margin-bottom: 0px">Resource "nte-1" </p></div><p><b>status</b>: final</p><p><b>code</b>: D-Test <span style="background: LightGoldenRodYellow; margin: 4px; border: 1px solid khaki"> (tests#2099930)</span></p><p><b>subject</b>: <a href="patient-example.html">Patient/example</a> "Peter CHALMERS"</p><p><b>performer</b>: <span>: Todd Ashby</span></p><p><b>value</b>: D-Test:  Negative - This isolate does not demonstrate inducible clindamycin resistance in vitro.</p></div></text><status value="final"/>
 				<code>
 					<coding>
 						<system value="http://acme.org/lab/codes/tests"/>
@@ -608,7 +608,7 @@
 		<resource>
 			<Observation>
 				<id value="obx3-1"/>
-				<text><status value="generated"/><div xmlns="http://www.w3.org/1999/xhtml"><p><b>Generated Narrative</b></p><div><p>Resource "obx3-1" </p></div><p><b>status</b>: final</p><p><b>code</b>: Oxacillin <span> (tests#60036)</span></p><p><b>subject</b>: <a>Patient/example</a> "Peter CHALMERS"</p><p><b>performer</b>: <span>: Todd Ashby</span></p><p><b>interpretation</b>: Susceptible <span> (<a>ObservationInterpretation</a>#S)</span></p></div></text><status value="final"/>
+				<text><status value="generated"/><div xmlns="http://www.w3.org/1999/xhtml"><p><b>Generated Narrative</b></p><div style="display: inline-block; background-color: #d9e0e7; padding: 6px; margin: 4px; border: 1px solid #8da1b4; border-radius: 5px; line-height: 60%"><p style="margin-bottom: 0px">Resource "obx3-1" </p></div><p><b>status</b>: final</p><p><b>code</b>: Oxacillin <span style="background: LightGoldenRodYellow; margin: 4px; border: 1px solid khaki"> (tests#60036)</span></p><p><b>subject</b>: <a href="patient-example.html">Patient/example</a> "Peter CHALMERS"</p><p><b>performer</b>: <span>: Todd Ashby</span></p><p><b>interpretation</b>: Susceptible <span style="background: LightGoldenRodYellow; margin: 4px; border: 1px solid khaki"> (<a href="http://terminology.hl7.org/3.1.0/CodeSystem-v3-ObservationInterpretation.html">ObservationInterpretation</a>#S)</span></p></div></text><status value="final"/>
 				<code>
 					<coding>
 						<system value="http://acme.org/lab/codes/tests"/>
@@ -632,7 +632,7 @@
 		<resource>
 			<Observation>
 				<id value="obr-2"/>
-				<text><status value="generated"/><div xmlns="http://www.w3.org/1999/xhtml"><p><b>Generated Narrative</b></p><div><p>Resource "obr-2" </p></div><p><b>status</b>: final</p><p><b>code</b>: Susceptibility - Automated broth dilution (Billed) <span> (panels#60790)</span></p><p><b>subject</b>: <a>Patient/example</a> "Peter CHALMERS"</p><p><b>performer</b>: <span>: Todd Ashby</span></p><p><b>hasMember</b>: </p><ul><li><a>Observation/obx2-1</a></li><li><a>Observation/obx2-2</a></li><li><a>Observation/obx2-4</a></li><li><a>Observation/obx2-6</a></li><li><a>Observation/obx2-8</a></li><li><a>Observation/obx2-10</a></li><li><a>Observation/obx2-12</a></li><li><a>Observation/obx2-14</a></li><li><a>Observation/obx2-16</a></li><li><a>Observation/obx2-18</a></li><li><a>Observation/obx2-20</a></li><li><a>Observation/obx2-22</a></li><li><a>Observation/obx2-24</a></li><li><a>Observation/obx2-26</a></li><li><a>Observation/obx2-28</a></li><li><a>Observation/obx2-30</a></li><li><a>Observation/obx2-32</a></li><li><a>Observation/obx2-34</a></li><li><a>Observation/nte-1</a></li></ul></div></text><status value="final"/><!--     OBR 2     --><code>
+				<text><status value="generated"/><div xmlns="http://www.w3.org/1999/xhtml"><p><b>Generated Narrative</b></p><div style="display: inline-block; background-color: #d9e0e7; padding: 6px; margin: 4px; border: 1px solid #8da1b4; border-radius: 5px; line-height: 60%"><p style="margin-bottom: 0px">Resource "obr-2" </p></div><p><b>status</b>: final</p><p><b>code</b>: Susceptibility - Automated broth dilution (Billed) <span style="background: LightGoldenRodYellow; margin: 4px; border: 1px solid khaki"> (panels#60790)</span></p><p><b>subject</b>: <a href="patient-example.html">Patient/example</a> "Peter CHALMERS"</p><p><b>performer</b>: <span>: Todd Ashby</span></p><p><b>hasMember</b>: </p><ul><li><a href="todo.html">Observation/obx2-1</a></li><li><a href="todo.html">Observation/obx2-2</a></li><li><a href="todo.html">Observation/obx2-4</a></li><li><a href="todo.html">Observation/obx2-6</a></li><li><a href="todo.html">Observation/obx2-8</a></li><li><a href="todo.html">Observation/obx2-10</a></li><li><a href="todo.html">Observation/obx2-12</a></li><li><a href="todo.html">Observation/obx2-14</a></li><li><a href="todo.html">Observation/obx2-16</a></li><li><a href="todo.html">Observation/obx2-18</a></li><li><a href="todo.html">Observation/obx2-20</a></li><li><a href="todo.html">Observation/obx2-22</a></li><li><a href="todo.html">Observation/obx2-24</a></li><li><a href="todo.html">Observation/obx2-26</a></li><li><a href="todo.html">Observation/obx2-28</a></li><li><a href="todo.html">Observation/obx2-30</a></li><li><a href="todo.html">Observation/obx2-32</a></li><li><a href="todo.html">Observation/obx2-34</a></li><li><a href="todo.html">Observation/nte-1</a></li></ul></div></text><status value="final"/><!--     OBR 2     --><code>
 					<coding>
 						<system value="http://acme.org/lab/codes/panels"/>
 						<code value="60790"/>
@@ -706,7 +706,7 @@
 		<resource>
 			<Observation>
 				<id value="obr-3"/>
-				<text><status value="generated"/><div xmlns="http://www.w3.org/1999/xhtml"><p><b>Generated Narrative</b></p><div><p>Resource "obr-3" </p></div><p><b>status</b>: final</p><p><b>code</b>: Susceptibility - Disk diffusion (Billed) <span> (panels#60418)</span></p><p><b>subject</b>: <a>Patient/example</a> "Peter CHALMERS"</p><p><b>hasMember</b>: <a>Observation/obx3-1</a></p></div></text><status value="final"/><!--     OBR 3     --><code>
+				<text><status value="generated"/><div xmlns="http://www.w3.org/1999/xhtml"><p><b>Generated Narrative</b></p><div style="display: inline-block; background-color: #d9e0e7; padding: 6px; margin: 4px; border: 1px solid #8da1b4; border-radius: 5px; line-height: 60%"><p style="margin-bottom: 0px">Resource "obr-3" </p></div><p><b>status</b>: final</p><p><b>code</b>: Susceptibility - Disk diffusion (Billed) <span style="background: LightGoldenRodYellow; margin: 4px; border: 1px solid khaki"> (panels#60418)</span></p><p><b>subject</b>: <a href="patient-example.html">Patient/example</a> "Peter CHALMERS"</p><p><b>hasMember</b>: <a href="todo.html">Observation/obx3-1</a></p></div></text><status value="final"/><!--     OBR 3     --><code>
 					<coding>
 						<system value="http://acme.org/lab/codes/panels"/>
 						<code value="60418"/>
@@ -725,7 +725,7 @@
 		<resource>
 			<Observation>
 				<id value="org1"/>
-				<text><status value="generated"/><div xmlns="http://www.w3.org/1999/xhtml"><p><b>Generated Narrative</b></p><div><p>Resource "org1" </p></div><p><b>status</b>: final</p><p><b>code</b>: Staphylococcus aureus Panel <span> (organisms#Staaur)</span></p><p><b>subject</b>: <a>Patient/example</a> "Peter CHALMERS"</p><p><b>hasMember</b>: </p><ul><li><a>Observation/obx1-4</a></li><li><a>Observation/obx1-5</a></li><li><a>Observation/obr-2</a></li><li><a>Observation/obr-3</a></li></ul></div></text><status value="final"/><!--     OBR 1     --><code>
+				<text><status value="generated"/><div xmlns="http://www.w3.org/1999/xhtml"><p><b>Generated Narrative</b></p><div style="display: inline-block; background-color: #d9e0e7; padding: 6px; margin: 4px; border: 1px solid #8da1b4; border-radius: 5px; line-height: 60%"><p style="margin-bottom: 0px">Resource "org1" </p></div><p><b>status</b>: final</p><p><b>code</b>: Staphylococcus aureus Panel <span style="background: LightGoldenRodYellow; margin: 4px; border: 1px solid khaki"> (organisms#Staaur)</span></p><p><b>subject</b>: <a href="patient-example.html">Patient/example</a> "Peter CHALMERS"</p><p><b>hasMember</b>: </p><ul><li><a href="todo.html">Observation/obx1-4</a></li><li><a href="todo.html">Observation/obx1-5</a></li><li><a href="todo.html">Observation/obr-2</a></li><li><a href="todo.html">Observation/obr-3</a></li></ul></div></text><status value="final"/><!--     OBR 1     --><code>
 					<coding>
 						<system value="http://acme.org/lab/codes/organisms"/>
 						<code value="Staaur"/>
@@ -751,7 +751,7 @@
 		<resource>
 			<ServiceRequest>
 				<id value="req"/>
-				<text><status value="generated"/><div xmlns="http://www.w3.org/1999/xhtml"><p><b>Generated Narrative</b></p><div><p>Resource "req" </p></div><p><b>identifier</b>: id: 255337816</p><p><b>status</b>: active</p><p><b>intent</b>: original-order</p><p><b>code</b>: Culture, MRSA <span> (<a>LOINC</a>#632-0)</span></p><p><b>subject</b>: <a>Patient/example</a> "Peter CHALMERS"</p></div></text><identifier>
+				<text><status value="generated"/><div xmlns="http://www.w3.org/1999/xhtml"><p><b>Generated Narrative</b></p><div style="display: inline-block; background-color: #d9e0e7; padding: 6px; margin: 4px; border: 1px solid #8da1b4; border-radius: 5px; line-height: 60%"><p style="margin-bottom: 0px">Resource "req" </p></div><p><b>identifier</b>: id: 255337816</p><p><b>status</b>: active</p><p><b>intent</b>: original-order</p><p><b>code</b>: Culture, MRSA <span style="background: LightGoldenRodYellow; margin: 4px; border: 1px solid khaki"> (<a href="https://loinc.org/">LOINC</a>#632-0)</span></p><p><b>subject</b>: <a href="patient-example.html">Patient/example</a> "Peter CHALMERS"</p></div></text><identifier>
 					<value value="255337816"/>
 				</identifier>
 				<status value="active"/>

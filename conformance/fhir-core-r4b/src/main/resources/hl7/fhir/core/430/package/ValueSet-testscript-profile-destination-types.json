@@ -1,0 +1,95 @@
+{
+    "resourceType": "ValueSet",
+    "id": "testscript-profile-destination-types",
+    "meta": {
+        "lastUpdated": "2022-04-23T22:21:35.043Z",
+        "profile": [
+            "http://hl7.org/fhir/StructureDefinition/shareablevalueset"
+        ]
+    },
+    "extension": [
+        {
+            "url": "http://hl7.org/fhir/StructureDefinition/structuredefinition-wg",
+            "valueCode": "fhir"
+        },
+        {
+            "url": "http://hl7.org/fhir/StructureDefinition/structuredefinition-standards-status",
+            "valueCode": "trial-use"
+        },
+        {
+            "url": "http://hl7.org/fhir/StructureDefinition/structuredefinition-fmm",
+            "valueInteger": 2
+        }
+    ],
+    "url": "http://hl7.org/fhir/ValueSet/testscript-profile-destination-types",
+    "identifier": [
+        {
+            "system": "urn:ietf:rfc:3986",
+            "value": "urn:oid:2.16.840.1.113883.4.642.3.714"
+        }
+    ],
+    "version": "4.3.0-cibuild",
+    "name": "TestScriptProfileDestinationType",
+    "status": "draft",
+    "experimental": false,
+    "publisher": "FHIR Project team",
+    "contact": [
+        {
+            "telecom": [
+                {
+                    "system": "url",
+                    "value": "http://hl7.org/fhir"
+                }
+            ]
+        }
+    ],
+    "description": "This value set defines a set of codes that are used to indicate the profile type of a test system when acting as the destination within a TestScript.",
+    "compose": {
+        "include": [
+            {
+                "system": "http://terminology.hl7.org/CodeSystem/testscript-profile-destination-types"
+            }
+        ]
+    },
+    "expansion": {
+        "identifier": "urn:uuid:1d54fb95-01fc-4358-9fb0-205123c1095c",
+        "timestamp": "2022-04-23T22:23:26Z",
+        "total": 4,
+        "parameter": [
+            {
+                "name": "excludeNested",
+                "valueBoolean": true
+            },
+            {
+                "name": "includeDesignations",
+                "valueBoolean": true
+            },
+            {
+                "name": "version",
+                "valueUri": "http://terminology.hl7.org/CodeSystem/testscript-profile-destination-types|4.3.0-cibuild"
+            }
+        ],
+        "contains": [
+            {
+                "system": "http://terminology.hl7.org/CodeSystem/testscript-profile-destination-types",
+                "code": "FHIR-Server",
+                "display": "FHIR Server"
+            },
+            {
+                "system": "http://terminology.hl7.org/CodeSystem/testscript-profile-destination-types",
+                "code": "FHIR-SDC-FormManager",
+                "display": "FHIR SDC FormManager"
+            },
+            {
+                "system": "http://terminology.hl7.org/CodeSystem/testscript-profile-destination-types",
+                "code": "FHIR-SDC-FormProcessor",
+                "display": "FHIR SDC FormProcessor"
+            },
+            {
+                "system": "http://terminology.hl7.org/CodeSystem/testscript-profile-destination-types",
+                "code": "FHIR-SDC-FormReceiver",
+                "display": "FHIR SDC FormReceiver"
+            }
+        ]
+    }
+}

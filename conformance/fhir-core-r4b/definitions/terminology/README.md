@@ -1,9 +1,16 @@
 This directory contains HL7 CodeSystems from https://terminology.hl7.org that are referenced from R4B ValueSets.
 The CodeSystems are from https://terminology.hl7.org/hl7.terminology.r4.tgz version 3.1.0, downloaded March 9, 2022.
 
-The CodeSystems to include were computed using the following commands against the R4B valuesets.json file downloaded 2021-12-08
+The CodeSystems to include were computed using the following commands against the R4B downloads in this project at fhir-core-r4b/definitions/R4B.
+
+Hint to download the latest fhir-path cli jar to current dir:
+
+```
+$ mvn dependency:copy -DoutputDirectory=. -Dartifact=com.ibm.fhir:fhir-path:LATEST:jar:cli
+```
 
 1. CodeSystems included from R4B valuesets
+
 ```
 $ java -jar fhir-path-*-cli.jar --path "descendants().select(system).value" --file valuesets.json --throw-error | sort | uniq | grep terminology.hl7.org/CodeSystem
 
@@ -264,6 +271,7 @@ http://terminology.hl7.org/CodeSystem/verificationresult-communication-method
 ```
 
 2. CodeSystems associated with terminology.hl7.org ValueSets that bound to from R4B definitions with strength > 'example'
+
 ```
 $ java -jar fhir-path-*-cli.jar --path "entry.resource.differential.element.binding.where(strength != 'example').valueSet.value" --file profiles-resources.json --throw-error | grep terminology | sort | uniq
 
@@ -277,6 +285,19 @@ http://terminology.hl7.org/ValueSet/v3-ActIncidentCode
 http://terminology.hl7.org/ValueSet/v3-Confidentiality|2.0.0|2.0.0
 http://terminology.hl7.org/ValueSet/v3-PurposeOfUse
 http://terminology.hl7.org/ValueSet/v3-ServiceDeliveryLocationRoleType
+```
+
+which becomes
+
+```
+http://terminology.hl7.org/CodeSystem/v2-0116
+http://terminology.hl7.org/CodeSystem/v2-0276
+http://terminology.hl7.org/CodeSystem/v2-0493
+http://terminology.hl7.org/CodeSystem/v2-0916
+http://terminology.hl7.org/CodeSystem/v3-ActCode
+http://terminology.hl7.org/CodeSystem/v3-ActReason
+http://terminology.hl7.org/CodeSystem/v3-Confidentiality
+http://terminology.hl7.org/CodeSystem/v3-RoleCode
 ```
 
 3. Other CodeSystems used by existing IBM FHIR Server tests

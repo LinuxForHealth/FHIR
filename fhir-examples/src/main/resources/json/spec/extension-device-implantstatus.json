@@ -12,10 +12,11 @@
     }
   ],
   "url": "http://hl7.org/fhir/StructureDefinition/device-implantStatus",
-  "version": "4.3.0-CIBUILD",
+  "version": "4.3.0-cibuild",
   "name": "implantStatus",
   "title": "Status of Implantable Devices",
   "status": "draft",
+  "experimental": false,
   "date": "2015-02-21",
   "publisher": "Health Level Seven, Inc. - FHIR WG",
   "contact": [
@@ -29,7 +30,7 @@
     }
   ],
   "description": "Codes to represent the functional status of a device implanted in a patient.  Both overall device status and an implant status need to be considered. The implant status should only be used when the [device status](device-definitions.html#Device.status) is `active `.",
-  "fhirVersion": "4.3.0-CIBUILD",
+  "fhirVersion": "4.3.0-cibuild",
   "mapping": [
     {
       "identity": "rim",
@@ -247,7 +248,7 @@
           ],
           "strength": "required",
           "description": "A set codes that define the functional status of an implanted device.",
-          "valueSet": "http://hl7.org/fhir/ValueSet/implantStatus"
+          "valueSet": "http://terminology.hl7.org/ValueSet/implantStatus"
         },
         "mapping": [
           {
@@ -300,7 +301,7 @@
           ],
           "strength": "required",
           "description": "A set codes that define the functional status of an implanted device.",
-          "valueSet": "http://hl7.org/fhir/ValueSet/implantStatus"
+          "valueSet": "http://terminology.hl7.org/ValueSet/implantStatus"
         }
       }
     ]

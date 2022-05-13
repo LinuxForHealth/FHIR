@@ -2,7 +2,7 @@
   "resourceType": "ValueSet",
   "id": "dicm-405-mediatype",
   "meta": {
-    "lastUpdated": "2022-01-01T15:17:18.597+00:00",
+    "lastUpdated": "2022-04-23T22:21:35.043+00:00",
     "profile": [
       "http://hl7.org/fhir/StructureDefinition/shareablevalueset"
     ]
@@ -32,10 +32,11 @@
       "value": "urn:oid:1.2.840.10008.6.​1.​908"
     }
   ],
-  "version": "4.3.0-CIBUILD",
+  "version": "4.3.0-cibuild",
   "name": "MediaTypeCode",
   "title": "Media Type Code",
   "status": "active",
+  "experimental": false,
   "date": "2010-08-26",
   "publisher": "NEMA/DICOM",
   "description": "Media Type Code",

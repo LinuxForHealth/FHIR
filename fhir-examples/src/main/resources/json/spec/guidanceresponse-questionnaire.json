@@ -9,8 +9,8 @@
       "status": "active",
       "description": "Type options for GuidanceResponse.module[x]",
       "expansion": {
-        "identifier": "urn:uuid:1cb3365c-44cd-420f-b81a-1ce08d6c87b5",
-        "timestamp": "2022-01-01T15:24:40+00:00",
+        "identifier": "urn:uuid:c66c43a1-4766-426c-a7ea-d864b19f3a1c",
+        "timestamp": "2022-04-23T22:29:30+00:00",
         "contains": [
           {
             "system": "http://hl7.org/fhir/data-types",
@@ -31,9 +31,10 @@
       "system": "urn:ietf:rfc:3986"
     }
   ],
-  "version": "4.3.0-CIBUILD",
+  "version": "4.3.0-cibuild",
   "status": "draft",
-  "date": "2022-01-01T15:17:18+00:00",
+  "experimental": false,
+  "date": "2022-04-23T22:21:35+00:00",
   "publisher": "Health Level Seven International (Clinical Decision Support)",
   "item": [
     {
@@ -222,10 +223,9 @@
             {
               "linkId": "GuidanceResponse.language.value",
               "text": "language",
-              "type": "coding",
+              "type": "choice",
               "required": false,
-              "repeats": false,
-              "answerConstraint": "optionsOnly"
+              "repeats": false
             }
           ]
         },
@@ -500,10 +500,9 @@
             {
               "linkId": "GuidanceResponse.module[x]._type",
               "text": "type",
-              "type": "coding",
+              "type": "choice",
               "required": false,
               "repeats": false,
-              "answerConstraint": "optionsOnly",
               "answerValueSet": "#vs2",
               "item": [
                 {
@@ -555,10 +554,9 @@
                     {
                       "linkId": "GuidanceResponse.module[x]._null.coding",
                       "text": "code:",
-                      "type": "coding",
+                      "type": "choice",
                       "required": false,
-                      "repeats": false,
-                      "answerConstraint": "optionsOnly"
+                      "repeats": false
                     },
                     {
                       "linkId": "GuidanceResponse.module[x]._null.text",
@@ -615,10 +613,9 @@
             {
               "linkId": "GuidanceResponse.status.value",
               "text": "status",
-              "type": "coding",
+              "type": "choice",
               "required": false,
-              "repeats": false,
-              "answerConstraint": "optionsOrType"
+              "repeats": false
             }
           ]
         },
@@ -863,10 +860,9 @@
             {
               "linkId": "GuidanceResponse.reasonCode.coding",
               "text": "code:",
-              "type": "coding",
+              "type": "choice",
               "required": false,
-              "repeats": false,
-              "answerConstraint": "optionsOnly"
+              "repeats": false
             },
             {
               "linkId": "GuidanceResponse.reasonCode.text",

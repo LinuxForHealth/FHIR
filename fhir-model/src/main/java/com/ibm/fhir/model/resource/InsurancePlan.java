@@ -56,7 +56,7 @@ import com.ibm.fhir.model.visitor.Visitor;
     id = "ipn-1",
     level = "Rule",
     location = "(base)",
-    description = "The organization SHALL at least have a name or an identifier, and possibly more than one",
+    description = "The organization SHALL at least have a name or an idendtifier, and possibly more than one",
     expression = "(identifier.count() + name.count()) > 0",
     source = "http://hl7.org/fhir/StructureDefinition/InsurancePlan"
 )
@@ -78,7 +78,7 @@ public class InsurancePlan extends DomainResource {
         bindingName = "PublicationStatus",
         strength = BindingStrength.Value.REQUIRED,
         description = "The lifecycle status of an artifact.",
-        valueSet = "http://hl7.org/fhir/ValueSet/publication-status|4.3.0-CIBUILD"
+        valueSet = "http://hl7.org/fhir/ValueSet/publication-status|4.3.0-cibuild"
     )
     private final PublicationStatus status;
     @Summary
@@ -4144,7 +4144,7 @@ public class InsurancePlan extends DomainResource {
                         bindingName = "BenefitCostApplicability",
                         strength = BindingStrength.Value.REQUIRED,
                         description = "Whether the cost applies to in-network or out-of-network providers.",
-                        valueSet = "http://hl7.org/fhir/ValueSet/insuranceplan-applicability|4.3.0-CIBUILD"
+                        valueSet = "http://hl7.org/fhir/ValueSet/insuranceplan-applicability|4.3.0-cibuild"
                     )
                     private final CodeableConcept applicability;
                     private final List<CodeableConcept> qualifiers;

@@ -12,10 +12,11 @@
     }
   ],
   "url": "http://hl7.org/fhir/StructureDefinition/ParameterDefinition",
-  "version": "4.3.0-CIBUILD",
+  "version": "4.3.0-cibuild",
   "name": "ParameterDefinition",
   "status": "draft",
-  "date": "2022-01-01T15:17:18+00:00",
+  "experimental": false,
+  "date": "2022-04-23T22:21:35+00:00",
   "publisher": "HL7 FHIR Standard",
   "contact": [
     {
@@ -28,7 +29,7 @@
     }
   ],
   "description": "Base StructureDefinition for ParameterDefinition Type: The parameters to the module. This collection specifies both the input and output parameters. Input parameters are provided by the caller as part of the $evaluate operation. Output parameters are included in the GuidanceResponse.",
-  "fhirVersion": "4.3.0-CIBUILD",
+  "fhirVersion": "4.3.0-cibuild",
   "mapping": [
     {
       "identity": "rim",
@@ -253,7 +254,7 @@
             }
           ],
           "strength": "required",
-          "valueSet": "http://hl7.org/fhir/ValueSet/operation-parameter-use|4.3.0-CIBUILD"
+          "valueSet": "http://hl7.org/fhir/ValueSet/operation-parameter-use|4.3.0-cibuild"
         }
       },
       {
@@ -391,7 +392,7 @@
             }
           ],
           "strength": "required",
-          "valueSet": "http://hl7.org/fhir/ValueSet/all-types|4.3.0-CIBUILD"
+          "valueSet": "http://hl7.org/fhir/ValueSet/all-types|4.3.0-cibuild"
         }
       },
       {
@@ -490,7 +491,7 @@
             }
           ],
           "strength": "required",
-          "valueSet": "http://hl7.org/fhir/ValueSet/operation-parameter-use|4.3.0-CIBUILD"
+          "valueSet": "http://hl7.org/fhir/ValueSet/operation-parameter-use|4.3.0-cibuild"
         }
       },
       {
@@ -564,7 +565,7 @@
             }
           ],
           "strength": "required",
-          "valueSet": "http://hl7.org/fhir/ValueSet/all-types|4.3.0-CIBUILD"
+          "valueSet": "http://hl7.org/fhir/ValueSet/all-types|4.3.0-cibuild"
         }
       },
       {

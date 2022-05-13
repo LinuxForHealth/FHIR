@@ -2,7 +2,7 @@
   "resourceType": "SearchParameter",
   "id": "questionnaireresponse-extensions-QuestionnaireResponse-item-subject",
   "url": "http://hl7.org/fhir/SearchParameter/questionnaireresponse-extensions-QuestionnaireResponse-item-subject",
-  "version": "4.3.0-CIBUILD",
+  "version": "4.3.0-cibuild",
   "name": "item-subject",
   "status": "draft",
   "experimental": true,
@@ -12,6 +12,6 @@
     "QuestionnaireResponse"
   ],
   "type": "reference",
-  "expression": "QuestionnaireResponse.item.where(hasExtension(\u0027http://hl7.org/fhir/StructureDefinition/questionnaireresponse-isSubject\u0027)).answer.value.ofType(Reference)",
+  "expression": "QuestionnaireResponse.item.where(extension(\u0027http://hl7.org/fhir/StructureDefinition/questionnaireresponse-isSubject\u0027).exists()).answer.value.ofType(Reference)",
   "xpathUsage": "normal"
 }

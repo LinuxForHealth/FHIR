@@ -9,8 +9,8 @@
       "status": "active",
       "description": "Type options for Goal.start[x]",
       "expansion": {
-        "identifier": "urn:uuid:d021053b-74cb-4cb6-95e1-6c4ecfd2d348",
-        "timestamp": "2022-01-01T15:24:38+00:00",
+        "identifier": "urn:uuid:61117ffb-4c0b-4274-b8c4-1f81a3cfe0d3",
+        "timestamp": "2022-04-23T22:29:28+00:00",
         "contains": [
           {
             "system": "http://hl7.org/fhir/data-types",
@@ -32,8 +32,8 @@
       "status": "active",
       "description": "Type options for Goal.target.detail[x]",
       "expansion": {
-        "identifier": "urn:uuid:65605079-e88a-4d42-913c-baa4cbbd779a",
-        "timestamp": "2022-01-01T15:24:38+00:00",
+        "identifier": "urn:uuid:ecb7fe36-1f2c-4fec-ba68-f0d644467836",
+        "timestamp": "2022-04-23T22:29:28+00:00",
         "contains": [
           {
             "system": "http://hl7.org/fhir/data-types",
@@ -80,8 +80,8 @@
       "status": "active",
       "description": "Type options for Goal.target.due[x]",
       "expansion": {
-        "identifier": "urn:uuid:2aad0600-fef5-49b9-92e1-f31678081144",
-        "timestamp": "2022-01-01T15:24:38+00:00",
+        "identifier": "urn:uuid:22cdced0-5d97-4c71-aef2-d87423850dab",
+        "timestamp": "2022-04-23T22:29:28+00:00",
         "contains": [
           {
             "system": "http://hl7.org/fhir/data-types",
@@ -102,9 +102,10 @@
       "system": "urn:ietf:rfc:3986"
     }
   ],
-  "version": "4.3.0-CIBUILD",
+  "version": "4.3.0-cibuild",
   "status": "draft",
-  "date": "2022-01-01T15:17:18+00:00",
+  "experimental": false,
+  "date": "2022-04-23T22:21:35+00:00",
   "publisher": "Health Level Seven International (Patient Care)",
   "item": [
     {
@@ -298,10 +299,9 @@
             {
               "linkId": "Goal.language.value",
               "text": "language",
-              "type": "coding",
+              "type": "choice",
               "required": false,
-              "repeats": false,
-              "answerConstraint": "optionsOnly"
+              "repeats": false
             }
           ]
         },
@@ -520,10 +520,9 @@
             {
               "linkId": "Goal.lifecycleStatus.value",
               "text": "lifecycle status",
-              "type": "coding",
+              "type": "choice",
               "required": false,
-              "repeats": false,
-              "answerConstraint": "optionsOrType"
+              "repeats": false
             }
           ]
         },
@@ -566,10 +565,9 @@
             {
               "linkId": "Goal.achievementStatus.coding",
               "text": "code:",
-              "type": "coding",
+              "type": "choice",
               "required": false,
-              "repeats": false,
-              "answerConstraint": "optionsOnly"
+              "repeats": false
             },
             {
               "linkId": "Goal.achievementStatus.text",
@@ -615,10 +613,9 @@
             {
               "linkId": "Goal.category.coding",
               "text": "code:",
-              "type": "coding",
+              "type": "choice",
               "required": false,
-              "repeats": false,
-              "answerConstraint": "optionsOnly"
+              "repeats": false
             },
             {
               "linkId": "Goal.category.text",
@@ -668,10 +665,9 @@
             {
               "linkId": "Goal.priority.coding",
               "text": "code:",
-              "type": "coding",
+              "type": "choice",
               "required": false,
-              "repeats": false,
-              "answerConstraint": "optionsOnly"
+              "repeats": false
             },
             {
               "linkId": "Goal.priority.text",
@@ -725,10 +721,9 @@
             {
               "linkId": "Goal.description.coding",
               "text": "code:",
-              "type": "coding",
+              "type": "choice",
               "required": false,
-              "repeats": false,
-              "answerConstraint": "optionsOnly"
+              "repeats": false
             },
             {
               "linkId": "Goal.description.text",
@@ -832,10 +827,9 @@
             {
               "linkId": "Goal.start[x]._type",
               "text": "type",
-              "type": "coding",
+              "type": "choice",
               "required": false,
               "repeats": false,
-              "answerConstraint": "optionsOnly",
               "answerValueSet": "#vs2",
               "item": [
                 {
@@ -869,10 +863,9 @@
                     {
                       "linkId": "Goal.start[x]._null.coding",
                       "text": "code:",
-                      "type": "coding",
+                      "type": "choice",
                       "required": false,
-                      "repeats": false,
-                      "answerConstraint": "optionsOnly"
+                      "repeats": false
                     },
                     {
                       "linkId": "Goal.start[x]._null.text",
@@ -1057,10 +1050,9 @@
                 {
                   "linkId": "Goal.target.measure.coding",
                   "text": "code:",
-                  "type": "coding",
+                  "type": "choice",
                   "required": false,
-                  "repeats": false,
-                  "answerConstraint": "optionsOnly"
+                  "repeats": false
                 },
                 {
                   "linkId": "Goal.target.measure.text",
@@ -1106,10 +1098,9 @@
                 {
                   "linkId": "Goal.target.detail[x]._type",
                   "text": "type",
-                  "type": "coding",
+                  "type": "choice",
                   "required": false,
                   "repeats": false,
-                  "answerConstraint": "optionsOnly",
                   "answerValueSet": "#vs3",
                   "item": [
                     {
@@ -1125,10 +1116,9 @@
                         {
                           "linkId": "Goal.target.detail[x]._null.comparator",
                           "text": "comp:",
-                          "type": "coding",
+                          "type": "choice",
                           "required": false,
-                          "repeats": false,
-                          "answerConstraint": "optionsOnly"
+                          "repeats": false
                         },
                         {
                           "linkId": "Goal.target.detail[x]._null.value",
@@ -1206,10 +1196,9 @@
                         {
                           "linkId": "Goal.target.detail[x]._null.coding",
                           "text": "code:",
-                          "type": "coding",
+                          "type": "choice",
                           "required": false,
-                          "repeats": false,
-                          "answerConstraint": "optionsOnly"
+                          "repeats": false
                         },
                         {
                           "linkId": "Goal.target.detail[x]._null.text",
@@ -1346,10 +1335,9 @@
                 {
                   "linkId": "Goal.target.due[x]._type",
                   "text": "type",
-                  "type": "coding",
+                  "type": "choice",
                   "required": false,
                   "repeats": false,
-                  "answerConstraint": "optionsOnly",
                   "answerValueSet": "#vs4",
                   "item": [
                     {
@@ -1383,10 +1371,9 @@
                         {
                           "linkId": "Goal.target.due[x]._null.comparator",
                           "text": "comp:",
-                          "type": "coding",
+                          "type": "choice",
                           "required": false,
-                          "repeats": false,
-                          "answerConstraint": "optionsOnly"
+                          "repeats": false
                         },
                         {
                           "linkId": "Goal.target.due[x]._null.value",
@@ -1685,10 +1672,9 @@
             {
               "linkId": "Goal.outcomeCode.coding",
               "text": "code:",
-              "type": "coding",
+              "type": "choice",
               "required": false,
-              "repeats": false,
-              "answerConstraint": "optionsOnly"
+              "repeats": false
             },
             {
               "linkId": "Goal.outcomeCode.text",

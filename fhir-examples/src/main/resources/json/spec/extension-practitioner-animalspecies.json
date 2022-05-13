@@ -12,14 +12,15 @@
     }
   ],
   "url": "http://hl7.org/fhir/StructureDefinition/practitioner-animalSpecies",
-  "version": "4.3.0-CIBUILD",
+  "version": "4.3.0-cibuild",
   "name": "animalSpecies",
   "title": "animalSpecies",
   "status": "draft",
+  "experimental": false,
   "date": "2021-01-17T07:06:13+11:00",
   "publisher": "HL7",
   "description": "This extension should be used to specifiy that a practioner or RelatedPerson resource is a service animal.",
-  "fhirVersion": "4.3.0-CIBUILD",
+  "fhirVersion": "4.3.0-cibuild",
   "mapping": [
     {
       "identity": "rim",

@@ -6,9 +6,10 @@
       "system": "urn:ietf:rfc:3986"
     }
   ],
-  "version": "4.3.0-CIBUILD",
+  "version": "4.3.0-cibuild",
   "status": "draft",
-  "date": "2022-01-01T15:17:18+00:00",
+  "experimental": false,
+  "date": "2022-04-23T22:21:35+00:00",
   "publisher": "Health Level Seven International (FHIR Infrastructure)",
   "item": [
     {
@@ -197,10 +198,9 @@
             {
               "linkId": "SubscriptionTopic.language.value",
               "text": "language",
-              "type": "coding",
+              "type": "choice",
               "required": false,
-              "repeats": false,
-              "answerConstraint": "optionsOnly"
+              "repeats": false
             }
           ]
         },
@@ -358,12 +358,12 @@
                 }
               ],
               "linkId": "SubscriptionTopic.url-flyover",
-              "text": "An absolute URL that is used to identify this SubscriptionTopic when it is referenced in a specification, model, design or an instance. This SHALL be a URL, SHOULD be globally unique, and SHOULD be an address at which this Topic is (or will be) published. The URL SHOULD include the major version of the Topic. For more information see [Technical and Business Versions](resource.html#versions). Can be a urn:uuid: or a urn:oid:, but real http: addresses are preferred.  This is the URI that will be used when making canonical references to this resource.",
+              "text": "An absolute URI that is used to identify this subscription topic when it is referenced in a specification, model, design or an instance; also called its canonical identifier. This SHOULD be globally unique and SHOULD be a literal address at which at which an authoritative instance of this subscription topic is (or will be) published. This URL can be the target of a canonical reference. It SHALL remain the same when the subscription topic is stored on different servers. Can be a urn:uuid: or a urn:oid: but real http: addresses are preferred.  Multiple instances may share the same URL if they have a distinct version.\n\nThe determination of when to create a new version of a resource (same url, new version) vs. defining a new artifact is up to the author.  Considerations for making this decision are found in [Technical and Business Versions](resource.html#versions). \n\nIn some cases, the resource can no longer be found at the stated url, but the url itself cannot change. Implementations can use the [meta.source](resource.html#meta) element to indicate where the current master source of the resource can be found.",
               "type": "display"
             },
             {
               "linkId": "SubscriptionTopic.url.value",
-              "text": "Logical canonical URL to reference this SubscriptionTopic (globally unique)",
+              "text": "Canonical identifier for this subscription topic definition, represented as a URI (globally unique)",
               "type": "string",
               "required": false,
               "repeats": false
@@ -378,7 +378,7 @@
             }
           ],
           "linkId": "SubscriptionTopic.identifier",
-          "text": "Business Identifier for SubscriptionTopic",
+          "text": "Business Identifier for this subscription topic",
           "type": "group",
           "required": false,
           "repeats": true,
@@ -399,7 +399,7 @@
                 }
               ],
               "linkId": "SubscriptionTopic.identifier-flyover",
-              "text": "Business identifiers assigned to this SubscriptionTopic by the performer and/or other systems.  These identifiers remain constant as the resource is updated and propagates from server to server. Note: This is a business identifier, not a resource identifier (see [discussion](resource.html#identifiers)).  It is best practice for the identifier to only appear on a single resource instance, however business practices may occasionally dictate that multiple resource instances with the same identifier can exist - possibly even with different resource types.  For example, multiple Patient and a Person resource instance might share the same social insurance number.",
+              "text": "Business identifiers assigned to this subscription topic by the performer and/or other systems.  These identifiers remain constant as the resource is updated and propagates from server to server. Note: This is a business identifier, not a resource identifier (see [discussion](resource.html#identifiers)).  It is best practice for the identifier to only appear on a single resource instance, however business practices may occasionally dictate that multiple resource instances with the same identifier can exist - possibly even with different resource types.  For example, multiple Patient and a Person resource instance might share the same social insurance number.",
               "type": "display"
             },
             {
@@ -457,12 +457,12 @@
                 }
               ],
               "linkId": "SubscriptionTopic.version-flyover",
-              "text": "The identifier that is used to identify this version of the SubscriptionTopic when it is referenced in a specification, model, design or instance. This is an arbitrary value managed by the Topic author and is not expected to be globally unique. For example, it might be a timestamp (e.g. yyyymmdd) if a managed version is not available. There is also no expectation that versions are orderable. There may be multiple different instances of a SubscriptionTopic that have the same identifier but different versions.",
+              "text": "The identifier that is used to identify this version of the subscription topic when it is referenced in a specification, model, design or instance. This is an arbitrary value managed by the Topic author and is not expected to be globally unique. For example, it might be a timestamp (e.g. yyyymmdd) if a managed version is not available. There is also no expectation that versions are orderable. There may be multiple different instances of a subscription topic that have the same identifier but different versions.",
               "type": "display"
             },
             {
               "linkId": "SubscriptionTopic.version.value",
-              "text": "Business version of the SubscriptionTopic",
+              "text": "Business version of the subscription topic",
               "type": "string",
               "required": false,
               "repeats": false
@@ -506,7 +506,7 @@
             },
             {
               "linkId": "SubscriptionTopic.title.value",
-              "text": "Name for this SubscriptionTopic (Human friendly)",
+              "text": "Name for this subscription topic (Human friendly)",
               "type": "string",
               "required": false,
               "repeats": false
@@ -595,10 +595,9 @@
             {
               "linkId": "SubscriptionTopic.status.value",
               "text": "status",
-              "type": "coding",
+              "type": "choice",
               "required": false,
-              "repeats": false,
-              "answerConstraint": "optionsOrType"
+              "repeats": false
             }
           ]
         },
@@ -879,10 +878,9 @@
             {
               "linkId": "SubscriptionTopic.jurisdiction.coding",
               "text": "code:",
-              "type": "coding",
+              "type": "choice",
               "required": false,
-              "repeats": false,
-              "answerConstraint": "optionsOnly"
+              "repeats": false
             },
             {
               "linkId": "SubscriptionTopic.jurisdiction.text",
@@ -1373,10 +1371,9 @@
                 {
                   "linkId": "SubscriptionTopic.resourceTrigger.supportedInteraction.value",
                   "text": "supported interaction",
-                  "type": "coding",
+                  "type": "choice",
                   "required": false,
-                  "repeats": false,
-                  "answerConstraint": "optionsOrType"
+                  "repeats": false
                 }
               ]
             },
@@ -1588,16 +1585,15 @@
                         }
                       ],
                       "linkId": "SubscriptionTopic.resourceTrigger.queryCriteria.resultForCreate-flyover",
-                      "text": "What behavior a server will exhibit if the previous state of a resource does NOT exist (e.g., prior to a create).",
+                      "text": "For \"create\" interactions, should the \"previous\" criteria count as an automatic pass or an automatic fail.",
                       "type": "display"
                     },
                     {
                       "linkId": "SubscriptionTopic.resourceTrigger.queryCriteria.resultForCreate.value",
                       "text": "result for create",
-                      "type": "coding",
+                      "type": "choice",
                       "required": false,
-                      "repeats": false,
-                      "answerConstraint": "optionsOrType"
+                      "repeats": false
                     }
                   ]
                 },
@@ -1677,16 +1673,15 @@
                         }
                       ],
                       "linkId": "SubscriptionTopic.resourceTrigger.queryCriteria.resultForDelete-flyover",
-                      "text": "What behavior a server will exhibit if the current state of a resource does NOT exist (e.g., after a DELETE).",
+                      "text": "For \"delete\" interactions, should the \"current\" criteria count as an automatic pass or an automatic fail.",
                       "type": "display"
                     },
                     {
                       "linkId": "SubscriptionTopic.resourceTrigger.queryCriteria.resultForDelete.value",
                       "text": "result for delete",
-                      "type": "coding",
+                      "type": "choice",
                       "required": false,
-                      "repeats": false,
-                      "answerConstraint": "optionsOrType"
+                      "repeats": false
                     }
                   ]
                 },
@@ -1995,10 +1990,9 @@
                 {
                   "linkId": "SubscriptionTopic.eventTrigger.event.coding",
                   "text": "code:",
-                  "type": "coding",
+                  "type": "choice",
                   "required": false,
-                  "repeats": false,
-                  "answerConstraint": "optionsOnly"
+                  "repeats": false
                 },
                 {
                   "linkId": "SubscriptionTopic.eventTrigger.event.text",
@@ -2276,6 +2270,10 @@
             {
               "extension": [
                 {
+                  "url": "http://hl7.org/fhir/StructureDefinition/questionnaire-minOccurs",
+                  "valueInteger": 1
+                },
+                {
                   "url": "http://hl7.org/fhir/StructureDefinition/questionnaire-maxOccurs",
                   "valueInteger": 1
                 },
@@ -2286,7 +2284,7 @@
               ],
               "linkId": "SubscriptionTopic.canFilterBy.filterParameter",
               "type": "group",
-              "required": false,
+              "required": true,
               "repeats": true,
               "item": [
                 {
@@ -2310,7 +2308,51 @@
                 },
                 {
                   "linkId": "SubscriptionTopic.canFilterBy.filterParameter.value",
-                  "text": "Resource Search Parameter or filter parameter defined in this topic that serves as filter key",
+                  "text": "Human-readable and computation-friendly name for a filter parameter usable by subscriptions on this topic, via Subscription.filterBy.filterParameter",
+                  "type": "string",
+                  "required": false,
+                  "repeats": false
+                }
+              ]
+            },
+            {
+              "extension": [
+                {
+                  "url": "http://hl7.org/fhir/StructureDefinition/questionnaire-maxOccurs",
+                  "valueInteger": 1
+                },
+                {
+                  "url": "http://hl7.org/fhir/StructureDefinition/questionnaire-fhirType",
+                  "valueString": "uri"
+                }
+              ],
+              "linkId": "SubscriptionTopic.canFilterBy.filterDefinition",
+              "type": "group",
+              "required": false,
+              "repeats": true,
+              "item": [
+                {
+                  "extension": [
+                    {
+                      "url": "http://hl7.org/fhir/StructureDefinition/questionnaire-itemControl",
+                      "valueCodeableConcept": {
+                        "coding": [
+                          {
+                            "system": "http://hl7.org/fhir/questionnaire-item-control",
+                            "code": "flyover",
+                            "display": "Fly-over"
+                          }
+                        ]
+                      }
+                    }
+                  ],
+                  "linkId": "SubscriptionTopic.canFilterBy.filterDefinition-flyover",
+                  "text": "Either the canonical URL to a search parameter (like \"http://hl7.org/fhir/SearchParameter/encounter-patient\") or the officially-defined URI for a shared filter concept (like \"http://example.org/concepts/shared-common-event\"). Chained parameters are allowed (like \"patient.gender\") - but can not use colons or modifiers.",
+                  "type": "display"
+                },
+                {
+                  "linkId": "SubscriptionTopic.canFilterBy.filterDefinition.value",
+                  "text": "Canonical URL for a filterParameter definition",
                   "type": "string",
                   "required": false,
                   "repeats": false
@@ -2345,16 +2387,15 @@
                     }
                   ],
                   "linkId": "SubscriptionTopic.canFilterBy.modifier-flyover",
-                  "text": "Allowable operators to apply when determining matches (Search Modifiers).",
+                  "text": "Allowable operators to apply when determining matches (Search Modifiers).  If the filterParameter is a SearchParameter, this list of modifiers SHALL be a strict subset of the modifiers defined on that SearchParameter.",
                   "type": "display"
                 },
                 {
                   "linkId": "SubscriptionTopic.canFilterBy.modifier.value",
                   "text": "modifier",
-                  "type": "coding",
+                  "type": "choice",
                   "required": false,
-                  "repeats": false,
-                  "answerConstraint": "optionsOrType"
+                  "repeats": false
                 }
               ]
             }

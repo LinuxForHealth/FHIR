@@ -113,7 +113,7 @@ public class Contract extends DomainResource {
         bindingName = "ContractStatus",
         strength = BindingStrength.Value.REQUIRED,
         description = "A code specifying the state of the resource instance.",
-        valueSet = "http://hl7.org/fhir/ValueSet/contract-status|4.3.0-CIBUILD"
+        valueSet = "http://hl7.org/fhir/ValueSet/contract-status|4.3.0-cibuild"
     )
     private final ContractStatus status;
     @Binding(
@@ -2163,7 +2163,7 @@ public class Contract extends DomainResource {
             bindingName = "ContractPublicationStatus",
             strength = BindingStrength.Value.REQUIRED,
             description = "Status of the publication of contract content.",
-            valueSet = "http://hl7.org/fhir/ValueSet/contract-publicationstatus|4.3.0-CIBUILD"
+            valueSet = "http://hl7.org/fhir/ValueSet/contract-publicationstatus|4.3.0-cibuild"
         )
         @Required
         private final ContractPublicationStatus publicationStatus;

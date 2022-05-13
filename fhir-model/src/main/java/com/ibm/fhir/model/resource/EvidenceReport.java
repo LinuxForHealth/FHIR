@@ -64,7 +64,7 @@ import com.ibm.fhir.model.visitor.Visitor;
     level = "Warning",
     location = "(base)",
     description = "Name should be usable as an identifier for the module by machine processing applications such as code generation",
-    expression = "name.matches('[A-Z]([A-Za-z0-9_]){0,254}')",
+    expression = "name.exists() implies name.matches('[A-Z]([A-Za-z0-9_]){0,254}')",
     source = "http://hl7.org/fhir/StructureDefinition/EvidenceReport"
 )
 @Constraint(
@@ -121,7 +121,7 @@ public class EvidenceReport extends DomainResource {
         bindingName = "PublicationStatus",
         strength = BindingStrength.Value.REQUIRED,
         description = "The lifecycle status of an artifact.",
-        valueSet = "http://hl7.org/fhir/ValueSet/publication-status|4.3.0-CIBUILD"
+        valueSet = "http://hl7.org/fhir/ValueSet/publication-status|4.3.0-cibuild"
     )
     @Required
     private final PublicationStatus status;
@@ -2149,7 +2149,7 @@ public class EvidenceReport extends DomainResource {
             bindingName = "ReportRelationshipType",
             strength = BindingStrength.Value.REQUIRED,
             description = "The type of relationship between reports.",
-            valueSet = "http://hl7.org/fhir/ValueSet/report-relation-type|4.3.0-CIBUILD"
+            valueSet = "http://hl7.org/fhir/ValueSet/report-relation-type|4.3.0-cibuild"
         )
         @Required
         private final ReportRelationshipType code;
@@ -2472,7 +2472,7 @@ public class EvidenceReport extends DomainResource {
             bindingName = "SectionMode",
             strength = BindingStrength.Value.REQUIRED,
             description = "The processing mode that applies to this section.",
-            valueSet = "http://hl7.org/fhir/ValueSet/list-mode|4.3.0-CIBUILD"
+            valueSet = "http://hl7.org/fhir/ValueSet/list-mode|4.3.0-cibuild"
         )
         private final SectionMode mode;
         @Binding(

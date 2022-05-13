@@ -9,8 +9,8 @@
       "status": "active",
       "description": "Type options for MedicationKnowledge.ingredient.item[x]",
       "expansion": {
-        "identifier": "urn:uuid:ab89dfb6-4940-4f4a-9000-65c7266178d5",
-        "timestamp": "2022-01-01T15:25:05+00:00",
+        "identifier": "urn:uuid:0aa7e9cf-79d4-418b-871b-10c63c5eecb2",
+        "timestamp": "2022-04-23T22:29:56+00:00",
         "contains": [
           {
             "system": "http://hl7.org/fhir/data-types",
@@ -32,8 +32,8 @@
       "status": "active",
       "description": "Type options for MedicationKnowledge.administrationGuidelines.indication[x]",
       "expansion": {
-        "identifier": "urn:uuid:57f5ee7e-b82f-4963-b80b-764bd16ad463",
-        "timestamp": "2022-01-01T15:25:05+00:00",
+        "identifier": "urn:uuid:f6658e32-9967-4bab-9577-436fa9158b2b",
+        "timestamp": "2022-04-23T22:29:56+00:00",
         "contains": [
           {
             "system": "http://hl7.org/fhir/data-types",
@@ -55,8 +55,8 @@
       "status": "active",
       "description": "Type options for MedicationKnowledge.administrationGuidelines.patientCharacteristics.characteristic[x]",
       "expansion": {
-        "identifier": "urn:uuid:0bd2fa04-eddb-4d0d-81db-306aa2f66e59",
-        "timestamp": "2022-01-01T15:25:05+00:00",
+        "identifier": "urn:uuid:f489e0c3-f423-4d69-abcd-a92641159441",
+        "timestamp": "2022-04-23T22:29:56+00:00",
         "contains": [
           {
             "system": "http://hl7.org/fhir/data-types",
@@ -78,8 +78,8 @@
       "status": "active",
       "description": "Type options for MedicationKnowledge.drugCharacteristic.value[x]",
       "expansion": {
-        "identifier": "urn:uuid:cab6cf44-f519-4738-9534-694b02df134d",
-        "timestamp": "2022-01-01T15:25:05+00:00",
+        "identifier": "urn:uuid:b5f2c244-7e81-4173-bbf8-d24fa0564bee",
+        "timestamp": "2022-04-23T22:29:56+00:00",
         "contains": [
           {
             "system": "http://hl7.org/fhir/data-types",
@@ -110,9 +110,10 @@
       "system": "urn:ietf:rfc:3986"
     }
   ],
-  "version": "4.3.0-CIBUILD",
+  "version": "4.3.0-cibuild",
   "status": "draft",
-  "date": "2022-01-01T15:17:18+00:00",
+  "experimental": false,
+  "date": "2022-04-23T22:21:35+00:00",
   "publisher": "Health Level Seven International (Pharmacy)",
   "item": [
     {
@@ -301,10 +302,9 @@
             {
               "linkId": "MedicationKnowledge.language.value",
               "text": "language",
-              "type": "coding",
+              "type": "choice",
               "required": false,
-              "repeats": false,
-              "answerConstraint": "optionsOnly"
+              "repeats": false
             }
           ]
         },
@@ -465,10 +465,9 @@
             {
               "linkId": "MedicationKnowledge.code.coding",
               "text": "code:",
-              "type": "coding",
+              "type": "choice",
               "required": false,
-              "repeats": false,
-              "answerConstraint": "optionsOnly"
+              "repeats": false
             },
             {
               "linkId": "MedicationKnowledge.code.text",
@@ -517,10 +516,9 @@
             {
               "linkId": "MedicationKnowledge.status.value",
               "text": "status",
-              "type": "coding",
+              "type": "choice",
               "required": false,
-              "repeats": false,
-              "answerConstraint": "optionsOrType"
+              "repeats": false
             }
           ]
         },
@@ -617,10 +615,9 @@
             {
               "linkId": "MedicationKnowledge.doseForm.coding",
               "text": "code:",
-              "type": "coding",
+              "type": "choice",
               "required": false,
-              "repeats": false,
-              "answerConstraint": "optionsOnly"
+              "repeats": false
             },
             {
               "linkId": "MedicationKnowledge.doseForm.text",
@@ -670,10 +667,9 @@
             {
               "linkId": "MedicationKnowledge.amount.comparator",
               "text": "comp:",
-              "type": "coding",
+              "type": "choice",
               "required": false,
-              "repeats": false,
-              "answerConstraint": "optionsOnly"
+              "repeats": false
             },
             {
               "linkId": "MedicationKnowledge.amount.value",
@@ -914,10 +910,9 @@
                 {
                   "linkId": "MedicationKnowledge.relatedMedicationKnowledge.type.coding",
                   "text": "code:",
-                  "type": "coding",
+                  "type": "choice",
                   "required": false,
-                  "repeats": false,
-                  "answerConstraint": "optionsOnly"
+                  "repeats": false
                 },
                 {
                   "linkId": "MedicationKnowledge.relatedMedicationKnowledge.type.text",
@@ -1069,10 +1064,9 @@
             {
               "linkId": "MedicationKnowledge.productType.coding",
               "text": "code:",
-              "type": "coding",
+              "type": "choice",
               "required": false,
-              "repeats": false,
-              "answerConstraint": "optionsOnly"
+              "repeats": false
             },
             {
               "linkId": "MedicationKnowledge.productType.text",
@@ -1248,10 +1242,9 @@
                 {
                   "linkId": "MedicationKnowledge.monograph.type.coding",
                   "text": "code:",
-                  "type": "coding",
+                  "type": "choice",
                   "required": false,
-                  "repeats": false,
-                  "answerConstraint": "optionsOnly"
+                  "repeats": false
                 },
                 {
                   "linkId": "MedicationKnowledge.monograph.type.text",
@@ -1483,10 +1476,9 @@
                 {
                   "linkId": "MedicationKnowledge.ingredient.item[x]._type",
                   "text": "type",
-                  "type": "coding",
+                  "type": "choice",
                   "required": false,
                   "repeats": false,
-                  "answerConstraint": "optionsOnly",
                   "answerValueSet": "#vs2",
                   "item": [
                     {
@@ -1502,10 +1494,9 @@
                         {
                           "linkId": "MedicationKnowledge.ingredient.item[x]._null.coding",
                           "text": "code:",
-                          "type": "coding",
+                          "type": "choice",
                           "required": false,
-                          "repeats": false,
-                          "answerConstraint": "optionsOnly"
+                          "repeats": false
                         },
                         {
                           "linkId": "MedicationKnowledge.ingredient.item[x]._null.text",
@@ -1732,10 +1723,9 @@
             {
               "linkId": "MedicationKnowledge.intendedRoute.coding",
               "text": "code:",
-              "type": "coding",
+              "type": "choice",
               "required": false,
-              "repeats": false,
-              "answerConstraint": "optionsOnly"
+              "repeats": false
             },
             {
               "linkId": "MedicationKnowledge.intendedRoute.text",
@@ -1915,10 +1905,9 @@
                 {
                   "linkId": "MedicationKnowledge.cost.type.coding",
                   "text": "code:",
-                  "type": "coding",
+                  "type": "choice",
                   "required": false,
-                  "repeats": false,
-                  "answerConstraint": "optionsOnly"
+                  "repeats": false
                 },
                 {
                   "linkId": "MedicationKnowledge.cost.type.text",
@@ -2016,10 +2005,9 @@
                 {
                   "linkId": "MedicationKnowledge.cost.cost.comparator",
                   "text": "comp:",
-                  "type": "coding",
+                  "type": "choice",
                   "required": false,
-                  "repeats": false,
-                  "answerConstraint": "optionsOnly"
+                  "repeats": false
                 },
                 {
                   "linkId": "MedicationKnowledge.cost.cost.value",
@@ -2218,10 +2206,9 @@
                 {
                   "linkId": "MedicationKnowledge.monitoringProgram.type.coding",
                   "text": "code:",
-                  "type": "coding",
+                  "type": "choice",
                   "required": false,
-                  "repeats": false,
-                  "answerConstraint": "optionsOnly"
+                  "repeats": false
                 },
                 {
                   "linkId": "MedicationKnowledge.monitoringProgram.type.text",
@@ -2573,10 +2560,9 @@
                     {
                       "linkId": "MedicationKnowledge.administrationGuidelines.dosage.type.coding",
                       "text": "code:",
-                      "type": "coding",
+                      "type": "choice",
                       "required": false,
-                      "repeats": false,
-                      "answerConstraint": "optionsOnly"
+                      "repeats": false
                     },
                     {
                       "linkId": "MedicationKnowledge.administrationGuidelines.dosage.type.text",
@@ -2658,10 +2644,9 @@
                 {
                   "linkId": "MedicationKnowledge.administrationGuidelines.indication[x]._type",
                   "text": "type",
-                  "type": "coding",
+                  "type": "choice",
                   "required": false,
                   "repeats": false,
-                  "answerConstraint": "optionsOnly",
                   "answerValueSet": "#vs3",
                   "item": [
                     {
@@ -2677,10 +2662,9 @@
                         {
                           "linkId": "MedicationKnowledge.administrationGuidelines.indication[x]._null.coding",
                           "text": "code:",
-                          "type": "coding",
+                          "type": "choice",
                           "required": false,
-                          "repeats": false,
-                          "answerConstraint": "optionsOnly"
+                          "repeats": false
                         },
                         {
                           "linkId": "MedicationKnowledge.administrationGuidelines.indication[x]._null.text",
@@ -2888,10 +2872,9 @@
                     {
                       "linkId": "MedicationKnowledge.administrationGuidelines.patientCharacteristics.characteristic[x]._type",
                       "text": "type",
-                      "type": "coding",
+                      "type": "choice",
                       "required": false,
                       "repeats": false,
-                      "answerConstraint": "optionsOnly",
                       "answerValueSet": "#vs4",
                       "item": [
                         {
@@ -2907,10 +2890,9 @@
                             {
                               "linkId": "MedicationKnowledge.administrationGuidelines.patientCharacteristics.characteristic[x]._null.coding",
                               "text": "code:",
-                              "type": "coding",
+                              "type": "choice",
                               "required": false,
-                              "repeats": false,
-                              "answerConstraint": "optionsOnly"
+                              "repeats": false
                             },
                             {
                               "linkId": "MedicationKnowledge.administrationGuidelines.patientCharacteristics.characteristic[x]._null.text",
@@ -2934,10 +2916,9 @@
                             {
                               "linkId": "MedicationKnowledge.administrationGuidelines.patientCharacteristics.characteristic[x]._null.comparator",
                               "text": "comp:",
-                              "type": "coding",
+                              "type": "choice",
                               "required": false,
-                              "repeats": false,
-                              "answerConstraint": "optionsOnly"
+                              "repeats": false
                             },
                             {
                               "linkId": "MedicationKnowledge.administrationGuidelines.patientCharacteristics.characteristic[x]._null.value",
@@ -3186,10 +3167,9 @@
                 {
                   "linkId": "MedicationKnowledge.medicineClassification.type.coding",
                   "text": "code:",
-                  "type": "coding",
+                  "type": "choice",
                   "required": false,
-                  "repeats": false,
-                  "answerConstraint": "optionsOnly"
+                  "repeats": false
                 },
                 {
                   "linkId": "MedicationKnowledge.medicineClassification.type.text",
@@ -3235,10 +3215,9 @@
                 {
                   "linkId": "MedicationKnowledge.medicineClassification.classification.coding",
                   "text": "code:",
-                  "type": "coding",
+                  "type": "choice",
                   "required": false,
-                  "repeats": false,
-                  "answerConstraint": "optionsOnly"
+                  "repeats": false
                 },
                 {
                   "linkId": "MedicationKnowledge.medicineClassification.classification.text",
@@ -3422,10 +3401,9 @@
                 {
                   "linkId": "MedicationKnowledge.packaging.type.coding",
                   "text": "code:",
-                  "type": "coding",
+                  "type": "choice",
                   "required": false,
-                  "repeats": false,
-                  "answerConstraint": "optionsOnly"
+                  "repeats": false
                 },
                 {
                   "linkId": "MedicationKnowledge.packaging.type.text",
@@ -3475,10 +3453,9 @@
                 {
                   "linkId": "MedicationKnowledge.packaging.quantity.comparator",
                   "text": "comp:",
-                  "type": "coding",
+                  "type": "choice",
                   "required": false,
-                  "repeats": false,
-                  "answerConstraint": "optionsOnly"
+                  "repeats": false
                 },
                 {
                   "linkId": "MedicationKnowledge.packaging.quantity.value",
@@ -3677,10 +3654,9 @@
                 {
                   "linkId": "MedicationKnowledge.drugCharacteristic.type.coding",
                   "text": "code:",
-                  "type": "coding",
+                  "type": "choice",
                   "required": false,
-                  "repeats": false,
-                  "answerConstraint": "optionsOnly"
+                  "repeats": false
                 },
                 {
                   "linkId": "MedicationKnowledge.drugCharacteristic.type.text",
@@ -3726,10 +3702,9 @@
                 {
                   "linkId": "MedicationKnowledge.drugCharacteristic.value[x]._type",
                   "text": "type",
-                  "type": "coding",
+                  "type": "choice",
                   "required": false,
                   "repeats": false,
-                  "answerConstraint": "optionsOnly",
                   "answerValueSet": "#vs5",
                   "item": [
                     {
@@ -3745,10 +3720,9 @@
                         {
                           "linkId": "MedicationKnowledge.drugCharacteristic.value[x]._null.coding",
                           "text": "code:",
-                          "type": "coding",
+                          "type": "choice",
                           "required": false,
-                          "repeats": false,
-                          "answerConstraint": "optionsOnly"
+                          "repeats": false
                         },
                         {
                           "linkId": "MedicationKnowledge.drugCharacteristic.value[x]._null.text",
@@ -3790,10 +3764,9 @@
                         {
                           "linkId": "MedicationKnowledge.drugCharacteristic.value[x]._null.comparator",
                           "text": "comp:",
-                          "type": "coding",
+                          "type": "choice",
                           "required": false,
-                          "repeats": false,
-                          "answerConstraint": "optionsOnly"
+                          "repeats": false
                         },
                         {
                           "linkId": "MedicationKnowledge.drugCharacteristic.value[x]._null.value",
@@ -4244,10 +4217,9 @@
                     {
                       "linkId": "MedicationKnowledge.regulatory.substitution.type.coding",
                       "text": "code:",
-                      "type": "coding",
+                      "type": "choice",
                       "required": false,
-                      "repeats": false,
-                      "answerConstraint": "optionsOnly"
+                      "repeats": false
                     },
                     {
                       "linkId": "MedicationKnowledge.regulatory.substitution.type.text",
@@ -4477,10 +4449,9 @@
                     {
                       "linkId": "MedicationKnowledge.regulatory.schedule.schedule.coding",
                       "text": "code:",
-                      "type": "coding",
+                      "type": "choice",
                       "required": false,
-                      "repeats": false,
-                      "answerConstraint": "optionsOnly"
+                      "repeats": false
                     },
                     {
                       "linkId": "MedicationKnowledge.regulatory.schedule.schedule.text",
@@ -4668,10 +4639,9 @@
                     {
                       "linkId": "MedicationKnowledge.regulatory.maxDispense.quantity.comparator",
                       "text": "comp:",
-                      "type": "coding",
+                      "type": "choice",
                       "required": false,
-                      "repeats": false,
-                      "answerConstraint": "optionsOnly"
+                      "repeats": false
                     },
                     {
                       "linkId": "MedicationKnowledge.regulatory.maxDispense.quantity.value",
@@ -4742,10 +4712,9 @@
                     {
                       "linkId": "MedicationKnowledge.regulatory.maxDispense.period.comparator",
                       "text": "comp:",
-                      "type": "coding",
+                      "type": "choice",
                       "required": false,
-                      "repeats": false,
-                      "answerConstraint": "optionsOnly"
+                      "repeats": false
                     },
                     {
                       "linkId": "MedicationKnowledge.regulatory.maxDispense.period.value",
@@ -4942,10 +4911,9 @@
                 {
                   "linkId": "MedicationKnowledge.kinetics.areaUnderCurve.comparator",
                   "text": "comp:",
-                  "type": "coding",
+                  "type": "choice",
                   "required": false,
-                  "repeats": false,
-                  "answerConstraint": "optionsOnly"
+                  "repeats": false
                 },
                 {
                   "linkId": "MedicationKnowledge.kinetics.areaUnderCurve.value",
@@ -5012,10 +4980,9 @@
                 {
                   "linkId": "MedicationKnowledge.kinetics.lethalDose50.comparator",
                   "text": "comp:",
-                  "type": "coding",
+                  "type": "choice",
                   "required": false,
-                  "repeats": false,
-                  "answerConstraint": "optionsOnly"
+                  "repeats": false
                 },
                 {
                   "linkId": "MedicationKnowledge.kinetics.lethalDose50.value",
@@ -5086,10 +5053,9 @@
                 {
                   "linkId": "MedicationKnowledge.kinetics.halfLifePeriod.comparator",
                   "text": "comp:",
-                  "type": "coding",
+                  "type": "choice",
                   "required": false,
-                  "repeats": false,
-                  "answerConstraint": "optionsOnly"
+                  "repeats": false
                 },
                 {
                   "linkId": "MedicationKnowledge.kinetics.halfLifePeriod.value",

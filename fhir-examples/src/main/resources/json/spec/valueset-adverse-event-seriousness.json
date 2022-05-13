@@ -2,7 +2,7 @@
   "resourceType": "ValueSet",
   "id": "adverse-event-seriousness",
   "meta": {
-    "lastUpdated": "2022-01-02T02:17:18.597+11:00",
+    "lastUpdated": "2022-04-24T09:21:35.043+11:00",
     "profile": [
       "http://hl7.org/fhir/StructureDefinition/shareablevalueset"
     ]
@@ -32,7 +32,7 @@
       "value": "urn:oid:2.16.840.1.113883.4.642.3.838"
     }
   ],
-  "version": "4.3.0-CIBUILD",
+  "version": "4.3.0-cibuild",
   "name": "AdverseEventSeriousness",
   "title": "AdverseEventSeriousness",
   "status": "draft",

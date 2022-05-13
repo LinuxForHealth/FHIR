@@ -6,9 +6,10 @@
       "system": "urn:ietf:rfc:3986"
     }
   ],
-  "version": "4.3.0-CIBUILD",
+  "version": "4.3.0-cibuild",
   "status": "draft",
-  "date": "2022-01-01T15:17:18+00:00",
+  "experimental": false,
+  "date": "2022-04-23T22:21:35+00:00",
   "publisher": "Health Level Seven International (Biomedical Research and Regulation)",
   "item": [
     {
@@ -202,10 +203,9 @@
             {
               "linkId": "ResearchStudy.language.value",
               "text": "language",
-              "type": "coding",
+              "type": "choice",
               "required": false,
-              "repeats": false,
-              "answerConstraint": "optionsOnly"
+              "repeats": false
             }
           ]
         },
@@ -568,10 +568,9 @@
             {
               "linkId": "ResearchStudy.status.value",
               "text": "status",
-              "type": "coding",
+              "type": "choice",
               "required": false,
-              "repeats": false,
-              "answerConstraint": "optionsOrType"
+              "repeats": false
             }
           ]
         },
@@ -614,10 +613,9 @@
             {
               "linkId": "ResearchStudy.primaryPurposeType.coding",
               "text": "code:",
-              "type": "coding",
+              "type": "choice",
               "required": false,
-              "repeats": false,
-              "answerConstraint": "optionsOnly"
+              "repeats": false
             },
             {
               "linkId": "ResearchStudy.primaryPurposeType.text",
@@ -667,10 +665,9 @@
             {
               "linkId": "ResearchStudy.phase.coding",
               "text": "code:",
-              "type": "coding",
+              "type": "choice",
               "required": false,
-              "repeats": false,
-              "answerConstraint": "optionsOnly"
+              "repeats": false
             },
             {
               "linkId": "ResearchStudy.phase.text",
@@ -716,10 +713,9 @@
             {
               "linkId": "ResearchStudy.category.coding",
               "text": "code:",
-              "type": "coding",
+              "type": "choice",
               "required": false,
-              "repeats": false,
-              "answerConstraint": "optionsOnly"
+              "repeats": false
             },
             {
               "linkId": "ResearchStudy.category.text",
@@ -765,10 +761,9 @@
             {
               "linkId": "ResearchStudy.focus.coding",
               "text": "code:",
-              "type": "coding",
+              "type": "choice",
               "required": false,
-              "repeats": false,
-              "answerConstraint": "optionsOnly"
+              "repeats": false
             },
             {
               "linkId": "ResearchStudy.focus.text",
@@ -814,10 +809,9 @@
             {
               "linkId": "ResearchStudy.condition.coding",
               "text": "code:",
-              "type": "coding",
+              "type": "choice",
               "required": false,
-              "repeats": false,
-              "answerConstraint": "optionsOnly"
+              "repeats": false
             },
             {
               "linkId": "ResearchStudy.condition.text",
@@ -919,10 +913,9 @@
             {
               "linkId": "ResearchStudy.keyword.coding",
               "text": "code:",
-              "type": "coding",
+              "type": "choice",
               "required": false,
-              "repeats": false,
-              "answerConstraint": "optionsOnly"
+              "repeats": false
             },
             {
               "linkId": "ResearchStudy.keyword.text",
@@ -968,10 +961,9 @@
             {
               "linkId": "ResearchStudy.location.coding",
               "text": "code:",
-              "type": "coding",
+              "type": "choice",
               "required": false,
-              "repeats": false,
-              "answerConstraint": "optionsOnly"
+              "repeats": false
             },
             {
               "linkId": "ResearchStudy.location.text",
@@ -1325,10 +1317,9 @@
             {
               "linkId": "ResearchStudy.reasonStopped.coding",
               "text": "code:",
-              "type": "coding",
+              "type": "choice",
               "required": false,
-              "repeats": false,
-              "answerConstraint": "optionsOnly"
+              "repeats": false
             },
             {
               "linkId": "ResearchStudy.reasonStopped.text",
@@ -1586,10 +1577,9 @@
                 {
                   "linkId": "ResearchStudy.arm.type.coding",
                   "text": "code:",
-                  "type": "coding",
+                  "type": "choice",
                   "required": false,
-                  "repeats": false,
-                  "answerConstraint": "optionsOnly"
+                  "repeats": false
                 },
                 {
                   "linkId": "ResearchStudy.arm.type.text",
@@ -1855,10 +1845,9 @@
                 {
                   "linkId": "ResearchStudy.objective.type.coding",
                   "text": "code:",
-                  "type": "coding",
+                  "type": "choice",
                   "required": false,
-                  "repeats": false,
-                  "answerConstraint": "optionsOnly"
+                  "repeats": false
                 },
                 {
                   "linkId": "ResearchStudy.objective.type.text",

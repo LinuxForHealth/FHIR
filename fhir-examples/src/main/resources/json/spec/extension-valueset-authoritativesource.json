@@ -12,13 +12,14 @@
     }
   ],
   "url": "http://hl7.org/fhir/StructureDefinition/valueset-authoritativeSource",
-  "version": "4.3.0-CIBUILD",
+  "version": "4.3.0-cibuild",
   "name": "authoritativeSource",
   "status": "draft",
+  "experimental": false,
   "date": "2021-01-17T07:06:13+11:00",
   "publisher": "HL7",
   "description": "A reference to the authoritative accessible, persisted source of truth of the entire Value Set Definition, including textual information and available versions.",
-  "fhirVersion": "4.3.0-CIBUILD",
+  "fhirVersion": "4.3.0-cibuild",
   "mapping": [
     {
       "identity": "rim",

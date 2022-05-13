@@ -12,9 +12,10 @@
     }
   ],
   "url": "http://hl7.org/fhir/StructureDefinition/iso21090-nullFlavor",
-  "version": "4.3.0-CIBUILD",
+  "version": "4.3.0-cibuild",
   "name": "nullFlavor",
   "status": "draft",
+  "experimental": false,
   "date": "2012-06-24",
   "publisher": "Health Level Seven International (Modeling and Methodology)",
   "contact": [
@@ -28,7 +29,7 @@
     }
   ],
   "description": "If the value is not a proper value, indicates the reason.",
-  "fhirVersion": "4.3.0-CIBUILD",
+  "fhirVersion": "4.3.0-cibuild",
   "mapping": [
     {
       "identity": "v2",
@@ -261,7 +262,7 @@
             }
           ],
           "strength": "required",
-          "valueSet": "http://terminology.hl7.org/ValueSet/v3-NullFlavor|4.3.0-CIBUILD"
+          "valueSet": "http://terminology.hl7.org/ValueSet/v3-NullFlavor|4.3.0-cibuild"
         },
         "mapping": [
           {
@@ -324,7 +325,7 @@
             }
           ],
           "strength": "required",
-          "valueSet": "http://terminology.hl7.org/ValueSet/v3-NullFlavor|4.3.0-CIBUILD"
+          "valueSet": "http://terminology.hl7.org/ValueSet/v3-NullFlavor|4.3.0-cibuild"
         }
       }
     ]

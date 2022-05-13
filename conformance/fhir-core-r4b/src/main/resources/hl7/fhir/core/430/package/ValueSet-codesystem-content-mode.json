@@ -1,0 +1,111 @@
+{
+    "resourceType": "ValueSet",
+    "id": "codesystem-content-mode",
+    "meta": {
+        "lastUpdated": "2022-04-24T09:21:35.043+11:00",
+        "profile": [
+            "http://hl7.org/fhir/StructureDefinition/shareablevalueset"
+        ]
+    },
+    "extension": [
+        {
+            "url": "http://hl7.org/fhir/StructureDefinition/structuredefinition-wg",
+            "valueCode": "vocab"
+        },
+        {
+            "url": "http://hl7.org/fhir/StructureDefinition/structuredefinition-standards-status",
+            "valueCode": "normative"
+        },
+        {
+            "url": "http://hl7.org/fhir/StructureDefinition/structuredefinition-normative-version",
+            "valueCode": "4.0.0"
+        },
+        {
+            "url": "http://hl7.org/fhir/StructureDefinition/structuredefinition-fmm",
+            "valueInteger": 5
+        }
+    ],
+    "url": "http://hl7.org/fhir/ValueSet/codesystem-content-mode",
+    "identifier": [
+        {
+            "system": "urn:ietf:rfc:3986",
+            "value": "urn:oid:2.16.840.1.113883.4.642.3.782"
+        }
+    ],
+    "version": "4.3.0-cibuild",
+    "name": "CodeSystemContentMode",
+    "title": "CodeSystemContentMode",
+    "status": "active",
+    "experimental": false,
+    "date": "2021-01-17T07:06:13+11:00",
+    "publisher": "HL7 (FHIR Project)",
+    "contact": [
+        {
+            "telecom": [
+                {
+                    "system": "url",
+                    "value": "http://hl7.org/fhir"
+                },
+                {
+                    "system": "email",
+                    "value": "fhir@lists.hl7.org"
+                }
+            ]
+        }
+    ],
+    "description": "The extent of the content of the code system (the concepts and codes it defines) are represented in a code system resource.",
+    "immutable": true,
+    "compose": {
+        "include": [
+            {
+                "system": "http://hl7.org/fhir/codesystem-content-mode"
+            }
+        ]
+    },
+    "expansion": {
+        "identifier": "urn:uuid:81e60b9c-db06-4779-822d-99b45a6b58b9",
+        "timestamp": "2022-04-23T22:23:07Z",
+        "total": 5,
+        "parameter": [
+            {
+                "name": "excludeNested",
+                "valueBoolean": true
+            },
+            {
+                "name": "includeDesignations",
+                "valueBoolean": true
+            },
+            {
+                "name": "version",
+                "valueUri": "http://hl7.org/fhir/codesystem-content-mode|4.3.0-cibuild"
+            }
+        ],
+        "contains": [
+            {
+                "system": "http://hl7.org/fhir/codesystem-content-mode",
+                "code": "not-present",
+                "display": "Not Present"
+            },
+            {
+                "system": "http://hl7.org/fhir/codesystem-content-mode",
+                "code": "example",
+                "display": "Example"
+            },
+            {
+                "system": "http://hl7.org/fhir/codesystem-content-mode",
+                "code": "fragment",
+                "display": "Fragment"
+            },
+            {
+                "system": "http://hl7.org/fhir/codesystem-content-mode",
+                "code": "complete",
+                "display": "Complete"
+            },
+            {
+                "system": "http://hl7.org/fhir/codesystem-content-mode",
+                "code": "supplement",
+                "display": "Supplement"
+            }
+        ]
+    }
+}

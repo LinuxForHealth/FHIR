@@ -14,7 +14,7 @@
     <resource>
       <MessageHeader>
         <id value="801728e4-75e9-42e6-b6d0-0cc3e835a70d"/>
-        <text><status value="generated"/><div xmlns="http://www.w3.org/1999/xhtml"><p><b>Generated Narrative</b></p><div><p>Resource "801728e4-75e9-42e6-b6d0-0cc3e835a70d" </p></div><p><b>event</b>: subscription-notification (Details: http://example.org/fhir/message-events code subscription-notification = 'subscription-notification', stated as 'null')</p><h3>Sources</h3><table><tr><td>-</td><td><b>Endpoint</b></td></tr><tr><td>*</td><td><a>http://example.org/FHIR/R4</a></td></tr></table><p><b>focus</b>: <a>urn:uuid:c13b0b59-525c-4e41-b874-b5b87538a5b7</a></p></div></text><eventCoding>
+        <text><status value="generated"/><div xmlns="http://www.w3.org/1999/xhtml"><p><b>Generated Narrative</b></p><div style="display: inline-block; background-color: #d9e0e7; padding: 6px; margin: 4px; border: 1px solid #8da1b4; border-radius: 5px; line-height: 60%"><p style="margin-bottom: 0px">Resource "801728e4-75e9-42e6-b6d0-0cc3e835a70d" </p></div><p><b>event</b>: subscription-notification (Details: http://example.org/fhir/message-events code subscription-notification = 'subscription-notification', stated as 'null')</p><h3>Sources</h3><table class="grid"><tr><td>-</td><td><b>Endpoint</b></td></tr><tr><td>*</td><td><a href="http://example.org/FHIR/R4">http://example.org/FHIR/R4</a></td></tr></table><p><b>focus</b>: <a href="todo.html">urn:uuid:c13b0b59-525c-4e41-b874-b5b87538a5b7</a></p></div></text><eventCoding>
           <system value="http://example.org/fhir/message-events"/>
           <code value="subscription-notification"/>
         </eventCoding>
@@ -42,17 +42,16 @@
               <status value="active"/>
               <type value="event-notification"/>
               <eventsSinceSubscriptionStart value="2"/>
-              <eventsInNotification value="1"/>
               <notificationEvent>
                 <eventNumber value="2"/>
                 <focus>
-                  <reference value="http://example.org/FHIR/R4/Encounter/2"/>
+                  <reference value="http://example.org/FHIR/R4B/Encounter/2"/>
                 </focus>
               </notificationEvent>
               <subscription>
-                <reference value="http://example.org/FHIR/R4/Subscription/123"/>
+                <reference value="http://example.org/FHIR/R4B/Subscription/123"/>
               </subscription>
-              <topic value="http://example.org/FHIR/R4/SubscriptionTopic/admission"/>
+              <topic value="http://example.org/FHIR/R4B/SubscriptionTopic/admission"/>
             </SubscriptionStatus>
           </resource>
           <request>

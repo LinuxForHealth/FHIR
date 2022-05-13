@@ -1,0 +1,108 @@
+{
+    "resourceType": "CodeSystem",
+    "id": "claim-informationcategory",
+    "meta": {
+        "lastUpdated": "2022-04-23T22:21:35.043Z",
+        "profile": [
+            "http://hl7.org/fhir/StructureDefinition/shareablecodesystem"
+        ]
+    },
+    "text": {
+        "status": "empty",
+        "div": "<div xmlns=\"http://www.w3.org/1999/xhtml\">Redacted for size</div>"
+    },
+    "extension": [
+        {
+            "url": "http://hl7.org/fhir/StructureDefinition/structuredefinition-wg",
+            "valueCode": "fm"
+        }
+    ],
+    "url": "http://terminology.hl7.org/CodeSystem/claiminformationcategory",
+    "identifier": [
+        {
+            "system": "urn:ietf:rfc:3986",
+            "value": "urn:oid:2.16.840.1.113883.4.642.1.1163"
+        }
+    ],
+    "version": "4.3.0-cibuild",
+    "name": "ClaimInformationCategoryCodes",
+    "title": "Claim Information Category Codes",
+    "status": "draft",
+    "experimental": false,
+    "description": "This value set includes sample Information Category codes.",
+    "copyright": "This is an example set.",
+    "caseSensitive": true,
+    "content": "complete",
+    "concept": [
+        {
+            "code": "info",
+            "display": "Information",
+            "definition": "Codes conveying additional situation and condition information."
+        },
+        {
+            "code": "discharge",
+            "display": "Discharge",
+            "definition": "Discharge status and discharge to locations."
+        },
+        {
+            "code": "onset",
+            "display": "Onset",
+            "definition": "Period, start or end dates of aspects of the Condition."
+        },
+        {
+            "code": "related",
+            "display": "Related Services",
+            "definition": "Nature and date of the related event e.g. Last exam, service, X-ray etc."
+        },
+        {
+            "code": "exception",
+            "display": "Exception",
+            "definition": "Insurance policy exceptions."
+        },
+        {
+            "code": "material",
+            "display": "Materials Forwarded",
+            "definition": "Materials being forwarded, e.g. Models, molds, images, documents."
+        },
+        {
+            "code": "attachment",
+            "display": "Attachment",
+            "definition": "Materials attached such as images, documents and resources."
+        },
+        {
+            "code": "missingtooth",
+            "display": "Missing Tooth",
+            "definition": "Teeth which are missing for any reason, for example: prior extraction, never developed."
+        },
+        {
+            "code": "prosthesis",
+            "display": "Prosthesis",
+            "definition": "The type of prosthesis and date of supply if a previously supplied prosthesis."
+        },
+        {
+            "code": "other",
+            "display": "Other",
+            "definition": "Other information identified by the type.system."
+        },
+        {
+            "code": "hospitalized",
+            "display": "Hospitalized",
+            "definition": "An indication that the patient was hospitalized, the period if known otherwise a Yes/No (boolean)."
+        },
+        {
+            "code": "employmentimpacted",
+            "display": "EmploymentImpacted",
+            "definition": "An indication that the patient was unable to work, the period if known otherwise a Yes/No (boolean)."
+        },
+        {
+            "code": "externalcause",
+            "display": "External Caause",
+            "definition": "The external cause of an illness or injury."
+        },
+        {
+            "code": "patientreasonforvisit",
+            "display": "Patient Reason for Visit",
+            "definition": "The reason for the patient visit."
+        }
+    ]
+}

@@ -31,8 +31,9 @@ import com.ibm.fhir.model.type.Identifier;
 import com.ibm.fhir.model.type.Markdown;
 import com.ibm.fhir.model.type.Meta;
 import com.ibm.fhir.model.type.Narrative;
-import com.ibm.fhir.model.type.Quantity;
+import com.ibm.fhir.model.type.Range;
 import com.ibm.fhir.model.type.Reference;
+import com.ibm.fhir.model.type.String;
 import com.ibm.fhir.model.type.Uri;
 import com.ibm.fhir.model.type.code.BindingStrength;
 import com.ibm.fhir.model.type.code.ClinicalUseDefinitionType;
@@ -55,8 +56,44 @@ import com.ibm.fhir.model.visitor.Visitor;
     level = "Rule",
     location = "(base)",
     description = "Indication, Contraindication, Interaction, UndesirableEffect and Warning cannot be used in the same instance",
-    expression = "(ClinicalUseDefinition.indication.count() + ClinicalUseDefinition.contraIndication.count() + ClinicalUseDefinition.interaction.count() + ClinicalUseDefinition.undesirableEffect.count() + ClinicalUseDefinition.warning.count())  < 2",
+    expression = "(ClinicalUseDefinition.indication.count() + ClinicalUseDefinition.contraindication.count() + ClinicalUseDefinition.interaction.count() + ClinicalUseDefinition.undesirableEffect.count() + ClinicalUseDefinition.warning.count())  < 2",
     source = "http://hl7.org/fhir/StructureDefinition/ClinicalUseDefinition"
+)
+@Constraint(
+    id = "clinicalUseDefinition-2",
+    level = "Warning",
+    location = "(base)",
+    description = "SHOULD contain a code from value set http://hl7.org/fhir/ValueSet/clinical-use-definition-category",
+    expression = "category.exists() implies (category.all(memberOf('http://hl7.org/fhir/ValueSet/clinical-use-definition-category', 'preferred')))",
+    source = "http://hl7.org/fhir/StructureDefinition/ClinicalUseDefinition",
+    generated = true
+)
+@Constraint(
+    id = "clinicalUseDefinition-3",
+    level = "Warning",
+    location = "(base)",
+    description = "SHOULD contain a code from value set http://hl7.org/fhir/ValueSet/publication-status",
+    expression = "status.exists() implies (status.memberOf('http://hl7.org/fhir/ValueSet/publication-status', 'preferred'))",
+    source = "http://hl7.org/fhir/StructureDefinition/ClinicalUseDefinition",
+    generated = true
+)
+@Constraint(
+    id = "clinicalUseDefinition-4",
+    level = "Warning",
+    location = "contraindication.otherTherapy.relationshipType",
+    description = "SHOULD contain a code from value set http://hl7.org/fhir/ValueSet/therapy-relationship-type",
+    expression = "$this.memberOf('http://hl7.org/fhir/ValueSet/therapy-relationship-type', 'preferred')",
+    source = "http://hl7.org/fhir/StructureDefinition/ClinicalUseDefinition",
+    generated = true
+)
+@Constraint(
+    id = "clinicalUseDefinition-5",
+    level = "Warning",
+    location = "indication.intendedEffect",
+    description = "SHOULD contain a code from value set http://hl7.org/fhir/ValueSet/product-intended-use",
+    expression = "$this.memberOf('http://hl7.org/fhir/ValueSet/product-intended-use', 'preferred')",
+    source = "http://hl7.org/fhir/StructureDefinition/ClinicalUseDefinition",
+    generated = true
 )
 @Generated("com.ibm.fhir.tools.CodeGenerator")
 public class ClinicalUseDefinition extends DomainResource {
@@ -67,16 +104,28 @@ public class ClinicalUseDefinition extends DomainResource {
         bindingName = "ClinicalUseDefinitionType",
         strength = BindingStrength.Value.REQUIRED,
         description = "Overall defining type of this clinical use definition.",
-        valueSet = "http://hl7.org/fhir/ValueSet/clinical-use-definition-type|4.3.0-CIBUILD"
+        valueSet = "http://hl7.org/fhir/ValueSet/clinical-use-definition-type|4.3.0-cibuild"
     )
     @Required
     private final ClinicalUseDefinitionType type;
     @Summary
+    @Binding(
+        bindingName = "ClinicalUseDefinitionCategory",
+        strength = BindingStrength.Value.PREFERRED,
+        description = "A categorisation for a clinical use information item.",
+        valueSet = "http://hl7.org/fhir/ValueSet/clinical-use-definition-category"
+    )
     private final List<CodeableConcept> category;
     @Summary
     @ReferenceTarget({ "MedicinalProductDefinition", "Medication", "ActivityDefinition", "PlanDefinition", "Device", "DeviceDefinition", "Substance" })
     private final List<Reference> subject;
     @Summary
+    @Binding(
+        bindingName = "PublicationStatus",
+        strength = BindingStrength.Value.PREFERRED,
+        description = "The lifecycle status of an artifact.",
+        valueSet = "http://hl7.org/fhir/ValueSet/publication-status"
+    )
     private final CodeableConcept status;
     @Summary
     private final Contraindication contraindication;
@@ -199,7 +248,7 @@ public class ClinicalUseDefinition extends DomainResource {
     }
 
     /**
-     * Describe the undesirable effects of the medicinal product.
+     * Describe the possible undesirable effects (negative outcomes) from the use of the medicinal product as treatment.
      * 
      * @return
      *     An immutable object of type {@link UndesirableEffect} that may be null.
@@ -628,8 +677,8 @@ public class ClinicalUseDefinition extends DomainResource {
          * If any of the elements are null, calling {@link #build()} will fail.
          * 
          * @param category
-         *     A categorisation of the issue, primarily for dividing warnings into subject heading areas such as "Pregnancy and 
-         *     Lactation", "Overdose", "Effects on Ability to Drive and Use Machines"
+         *     A categorisation of the issue, primarily for dividing warnings into subject heading areas such as "Pregnancy", 
+         *     "Overdose"
          * 
          * @return
          *     A reference to this Builder instance
@@ -649,8 +698,8 @@ public class ClinicalUseDefinition extends DomainResource {
          * If any of the elements are null, calling {@link #build()} will fail.
          * 
          * @param category
-         *     A categorisation of the issue, primarily for dividing warnings into subject heading areas such as "Pregnancy and 
-         *     Lactation", "Overdose", "Effects on Ability to Drive and Use Machines"
+         *     A categorisation of the issue, primarily for dividing warnings into subject heading areas such as "Pregnancy", 
+         *     "Overdose"
          * 
          * @return
          *     A reference to this Builder instance
@@ -830,7 +879,7 @@ public class ClinicalUseDefinition extends DomainResource {
         }
 
         /**
-         * Describe the undesirable effects of the medicinal product.
+         * Describe the possible undesirable effects (negative outcomes) from the use of the medicinal product as treatment.
          * 
          * @param undesirableEffect
          *     A possible negative outcome from the use of this treatment
@@ -849,9 +898,8 @@ public class ClinicalUseDefinition extends DomainResource {
          * feel unwell'.
          * 
          * @param warning
-         *     A critical piece of information about environmental, health or physical risks or hazards that serve as caution to the 
-         *     user. For example 'Do not operate heavy machinery', 'May cause drowsiness' or 'Get medical advice/attention if you 
-         *     feel unwell'
+         *     Critical environmental, health or physical risks or hazards. For example 'Do not operate heavy machinery', 'May cause 
+         *     drowsiness'
          * 
          * @return
          *     A reference to this Builder instance
@@ -916,10 +964,28 @@ public class ClinicalUseDefinition extends DomainResource {
      */
     public static class Contraindication extends BackboneElement {
         @Summary
+        @Binding(
+            bindingName = "DiseaseSymptomProcedure",
+            strength = BindingStrength.Value.EXAMPLE,
+            description = "A symptom, disease or procedure.",
+            valueSet = "http://hl7.org/fhir/ValueSet/disease-symptom-procedure"
+        )
         private final CodeableReference diseaseSymptomProcedure;
         @Summary
+        @Binding(
+            bindingName = "DiseaseStatus",
+            strength = BindingStrength.Value.EXAMPLE,
+            description = "The status of a disease or symptom.",
+            valueSet = "http://hl7.org/fhir/ValueSet/disease-status"
+        )
         private final CodeableReference diseaseStatus;
         @Summary
+        @Binding(
+            bindingName = "DiseaseSymptomProcedure",
+            strength = BindingStrength.Value.EXAMPLE,
+            description = "A symptom, disease or procedure.",
+            valueSet = "http://hl7.org/fhir/ValueSet/disease-symptom-procedure"
+        )
         private final List<CodeableReference> comorbidity;
         @Summary
         @ReferenceTarget({ "ClinicalUseDefinition" })
@@ -947,7 +1013,7 @@ public class ClinicalUseDefinition extends DomainResource {
         }
 
         /**
-         * The status of the disease or symptom for the contraindication.
+         * The status of the disease or symptom for the contraindication, for example "chronic" or "metastatic".
          * 
          * @return
          *     An immutable object of type {@link CodeableReference} that may be null.
@@ -1202,7 +1268,7 @@ public class ClinicalUseDefinition extends DomainResource {
             }
 
             /**
-             * The status of the disease or symptom for the contraindication.
+             * The status of the disease or symptom for the contraindication, for example "chronic" or "metastatic".
              * 
              * @param diseaseStatus
              *     The status of the disease or symptom for the contraindication
@@ -1311,8 +1377,7 @@ public class ClinicalUseDefinition extends DomainResource {
              * If any of the elements are null, calling {@link #build()} will fail.
              * 
              * @param otherTherapy
-             *     Information about the use of the medicinal product in relation to other therapies described as part of the 
-             *     contraindication
+             *     Information about use of the product in relation to other therapies described as part of the contraindication
              * 
              * @return
              *     A reference to this Builder instance
@@ -1332,8 +1397,7 @@ public class ClinicalUseDefinition extends DomainResource {
              * If any of the elements are null, calling {@link #build()} will fail.
              * 
              * @param otherTherapy
-             *     Information about the use of the medicinal product in relation to other therapies described as part of the 
-             *     contraindication
+             *     Information about use of the product in relation to other therapies described as part of the contraindication
              * 
              * @return
              *     A reference to this Builder instance
@@ -1389,9 +1453,21 @@ public class ClinicalUseDefinition extends DomainResource {
          */
         public static class OtherTherapy extends BackboneElement {
             @Summary
+            @Binding(
+                bindingName = "TherapyRelationshipType",
+                strength = BindingStrength.Value.PREFERRED,
+                description = "Classification of relationship between a therapy and a contraindication or an indication.",
+                valueSet = "http://hl7.org/fhir/ValueSet/therapy-relationship-type"
+            )
             @Required
             private final CodeableConcept relationshipType;
             @Summary
+            @Binding(
+                bindingName = "Therapy",
+                strength = BindingStrength.Value.EXAMPLE,
+                description = "A therapy.",
+                valueSet = "http://hl7.org/fhir/ValueSet/therapy"
+            )
             @Required
             private final CodeableReference therapy;
 
@@ -1613,7 +1689,7 @@ public class ClinicalUseDefinition extends DomainResource {
                  * <p>This element is required.
                  * 
                  * @param relationshipType
-                 *     The type of relationship between the medicinal product indication or contraindication and another therapy
+                 *     The type of relationship between the product indication/contraindication and another therapy
                  * 
                  * @return
                  *     A reference to this Builder instance
@@ -1630,8 +1706,7 @@ public class ClinicalUseDefinition extends DomainResource {
                  * <p>This element is required.
                  * 
                  * @param therapy
-                 *     Reference to a specific medication (active substance, medicinal product or class of products) as part of an indication 
-                 *     or contraindication
+                 *     Reference to a specific medication as part of an indication or contraindication
                  * 
                  * @return
                  *     A reference to this Builder instance
@@ -1686,15 +1761,40 @@ public class ClinicalUseDefinition extends DomainResource {
      */
     public static class Indication extends BackboneElement {
         @Summary
+        @Binding(
+            bindingName = "DiseaseSymptomProcedure",
+            strength = BindingStrength.Value.EXAMPLE,
+            description = "A symptom, disease or procedure.",
+            valueSet = "http://hl7.org/fhir/ValueSet/disease-symptom-procedure"
+        )
         private final CodeableReference diseaseSymptomProcedure;
         @Summary
+        @Binding(
+            bindingName = "DiseaseStatus",
+            strength = BindingStrength.Value.EXAMPLE,
+            description = "The status of a disease or symptom.",
+            valueSet = "http://hl7.org/fhir/ValueSet/disease-status"
+        )
         private final CodeableReference diseaseStatus;
         @Summary
+        @Binding(
+            bindingName = "DiseaseSymptomProcedure",
+            strength = BindingStrength.Value.EXAMPLE,
+            description = "A symptom, disease or procedure.",
+            valueSet = "http://hl7.org/fhir/ValueSet/disease-symptom-procedure"
+        )
         private final List<CodeableReference> comorbidity;
         @Summary
+        @Binding(
+            bindingName = "ProductIntendedUse",
+            strength = BindingStrength.Value.PREFERRED,
+            description = "The overall intended use of a product.",
+            valueSet = "http://hl7.org/fhir/ValueSet/product-intended-use"
+        )
         private final CodeableReference intendedEffect;
         @Summary
-        private final Quantity duration;
+        @Choice({ Range.class, String.class })
+        private final Element duration;
         @Summary
         @ReferenceTarget({ "ClinicalUseDefinition" })
         private final List<Reference> undesirableEffect;
@@ -1723,7 +1823,7 @@ public class ClinicalUseDefinition extends DomainResource {
         }
 
         /**
-         * The status of the disease or symptom for the indication.
+         * The status of the disease or symptom for the indication, for example "chronic" or "metastatic".
          * 
          * @return
          *     An immutable object of type {@link CodeableReference} that may be null.
@@ -1753,17 +1853,20 @@ public class ClinicalUseDefinition extends DomainResource {
         }
 
         /**
-         * Timing or duration information.
+         * Timing or duration information, that may be associated with use with the indicated condition e.g. Adult patients 
+         * suffering from myocardial infarction (from a few days until less than 35 days), ischaemic stroke (from 7 days until 
+         * less than 6 months).
          * 
          * @return
-         *     An immutable object of type {@link Quantity} that may be null.
+         *     An immutable object of type {@link Range} or {@link String} that may be null.
          */
-        public Quantity getDuration() {
+        public Element getDuration() {
             return duration;
         }
 
         /**
-         * The specific undesirable effects of the medicinal product.
+         * An unwanted side effect or negative outcome that may happen if you use the drug (or other subject of this resource) 
+         * for this indication.
          * 
          * @return
          *     An unmodifiable list containing immutable objects of type {@link Reference} that may be empty.
@@ -1873,7 +1976,7 @@ public class ClinicalUseDefinition extends DomainResource {
             private CodeableReference diseaseStatus;
             private List<CodeableReference> comorbidity = new ArrayList<>();
             private CodeableReference intendedEffect;
-            private Quantity duration;
+            private Element duration;
             private List<Reference> undesirableEffect = new ArrayList<>();
             private List<ClinicalUseDefinition.Contraindication.OtherTherapy> otherTherapy = new ArrayList<>();
 
@@ -2007,7 +2110,7 @@ public class ClinicalUseDefinition extends DomainResource {
             }
 
             /**
-             * The status of the disease or symptom for the indication.
+             * The status of the disease or symptom for the indication, for example "chronic" or "metastatic".
              * 
              * @param diseaseStatus
              *     The status of the disease or symptom for the indication
@@ -2027,7 +2130,7 @@ public class ClinicalUseDefinition extends DomainResource {
              * If any of the elements are null, calling {@link #build()} will fail.
              * 
              * @param comorbidity
-             *     A comorbidity (concurrent condition) or coinfection as part of the indication
+             *     A comorbidity or coinfection as part of the indication
              * 
              * @return
              *     A reference to this Builder instance
@@ -2046,7 +2149,7 @@ public class ClinicalUseDefinition extends DomainResource {
              * If any of the elements are null, calling {@link #build()} will fail.
              * 
              * @param comorbidity
-             *     A comorbidity (concurrent condition) or coinfection as part of the indication
+             *     A comorbidity or coinfection as part of the indication
              * 
              * @return
              *     A reference to this Builder instance
@@ -2074,7 +2177,31 @@ public class ClinicalUseDefinition extends DomainResource {
             }
 
             /**
-             * Timing or duration information.
+             * Convenience method for setting {@code duration} with choice type String.
+             * 
+             * @param duration
+             *     Timing or duration information
+             * 
+             * @return
+             *     A reference to this Builder instance
+             * 
+             * @see #duration(Element)
+             */
+            public Builder duration(java.lang.String duration) {
+                this.duration = (duration == null) ? null : String.of(duration);
+                return this;
+            }
+
+            /**
+             * Timing or duration information, that may be associated with use with the indicated condition e.g. Adult patients 
+             * suffering from myocardial infarction (from a few days until less than 35 days), ischaemic stroke (from 7 days until 
+             * less than 6 months).
+             * 
+             * <p>This is a choice element with the following allowed types:
+             * <ul>
+             * <li>{@link Range}</li>
+             * <li>{@link String}</li>
+             * </ul>
              * 
              * @param duration
              *     Timing or duration information
@@ -2082,13 +2209,14 @@ public class ClinicalUseDefinition extends DomainResource {
              * @return
              *     A reference to this Builder instance
              */
-            public Builder duration(Quantity duration) {
+            public Builder duration(Element duration) {
                 this.duration = duration;
                 return this;
             }
 
             /**
-             * The specific undesirable effects of the medicinal product.
+             * An unwanted side effect or negative outcome that may happen if you use the drug (or other subject of this resource) 
+             * for this indication.
              * 
              * <p>Adds new element(s) to the existing list.
              * If any of the elements are null, calling {@link #build()} will fail.
@@ -2099,7 +2227,7 @@ public class ClinicalUseDefinition extends DomainResource {
              * </ul>
              * 
              * @param undesirableEffect
-             *     The specific undesirable effects of the medicinal product
+             *     An unwanted side effect or negative outcome of the subject of this resource when being used for this indication
              * 
              * @return
              *     A reference to this Builder instance
@@ -2112,7 +2240,8 @@ public class ClinicalUseDefinition extends DomainResource {
             }
 
             /**
-             * The specific undesirable effects of the medicinal product.
+             * An unwanted side effect or negative outcome that may happen if you use the drug (or other subject of this resource) 
+             * for this indication.
              * 
              * <p>Replaces the existing list with a new one containing elements from the Collection.
              * If any of the elements are null, calling {@link #build()} will fail.
@@ -2123,7 +2252,7 @@ public class ClinicalUseDefinition extends DomainResource {
              * </ul>
              * 
              * @param undesirableEffect
-             *     The specific undesirable effects of the medicinal product
+             *     An unwanted side effect or negative outcome of the subject of this resource when being used for this indication
              * 
              * @return
              *     A reference to this Builder instance
@@ -2143,7 +2272,7 @@ public class ClinicalUseDefinition extends DomainResource {
              * If any of the elements are null, calling {@link #build()} will fail.
              * 
              * @param otherTherapy
-             *     Information about the use of the medicinal product in relation to other therapies described as part of the indication
+             *     The use of the medicinal product in relation to other therapies described as part of the indication
              * 
              * @return
              *     A reference to this Builder instance
@@ -2162,7 +2291,7 @@ public class ClinicalUseDefinition extends DomainResource {
              * If any of the elements are null, calling {@link #build()} will fail.
              * 
              * @param otherTherapy
-             *     Information about the use of the medicinal product in relation to other therapies described as part of the indication
+             *     The use of the medicinal product in relation to other therapies described as part of the indication
              * 
              * @return
              *     A reference to this Builder instance
@@ -2195,6 +2324,7 @@ public class ClinicalUseDefinition extends DomainResource {
             protected void validate(Indication indication) {
                 super.validate(indication);
                 ValidationSupport.checkList(indication.comorbidity, "comorbidity", CodeableReference.class);
+                ValidationSupport.choiceElement(indication.duration, "duration", Range.class, String.class);
                 ValidationSupport.checkList(indication.undesirableEffect, "undesirableEffect", Reference.class);
                 ValidationSupport.checkList(indication.otherTherapy, "otherTherapy", ClinicalUseDefinition.Contraindication.OtherTherapy.class);
                 ValidationSupport.checkReferenceType(indication.undesirableEffect, "undesirableEffect", "ClinicalUseDefinition");
@@ -2222,12 +2352,36 @@ public class ClinicalUseDefinition extends DomainResource {
         @Summary
         private final List<Interactant> interactant;
         @Summary
+        @Binding(
+            bindingName = "InteractionType",
+            strength = BindingStrength.Value.EXAMPLE,
+            description = "A categorisation for an interaction between two substances.",
+            valueSet = "http://hl7.org/fhir/ValueSet/interaction-type"
+        )
         private final CodeableConcept type;
         @Summary
+        @Binding(
+            bindingName = "InteractionEffect",
+            strength = BindingStrength.Value.EXAMPLE,
+            description = "A interaction effect of clinical use of a medication or other substance.",
+            valueSet = "http://hl7.org/fhir/ValueSet/interaction-effect"
+        )
         private final CodeableReference effect;
         @Summary
+        @Binding(
+            bindingName = "UndesirableEffectSymptom",
+            strength = BindingStrength.Value.EXAMPLE,
+            description = "A categorisation for incidence of occurence of an interaction.",
+            valueSet = "http://hl7.org/fhir/ValueSet/interaction-incidence"
+        )
         private final CodeableConcept incidence;
         @Summary
+        @Binding(
+            bindingName = "InteractionManagement",
+            strength = BindingStrength.Value.EXAMPLE,
+            description = "A type of management for an interaction of a medication or other substance.",
+            valueSet = "http://hl7.org/fhir/ValueSet/interaction-management"
+        )
         private final List<CodeableConcept> management;
 
         private Interaction(Builder builder) {
@@ -2532,7 +2686,7 @@ public class ClinicalUseDefinition extends DomainResource {
              * The type of the interaction e.g. drug-drug interaction, drug-food interaction, drug-lab test interaction.
              * 
              * @param type
-             *     The type of the interaction e.g. drug-drug interaction, drug-food interaction, drug-lab test interaction
+             *     The type of the interaction e.g. drug-drug interaction, drug-lab test interaction
              * 
              * @return
              *     A reference to this Builder instance
@@ -2651,6 +2805,12 @@ public class ClinicalUseDefinition extends DomainResource {
             @Summary
             @ReferenceTarget({ "MedicinalProductDefinition", "Medication", "Substance", "ObservationDefinition" })
             @Choice({ Reference.class, CodeableConcept.class })
+            @Binding(
+                bindingName = "Interactant",
+                strength = BindingStrength.Value.EXAMPLE,
+                description = "An interactant - a substance that may have an clinically significant effect on another.",
+                valueSet = "http://hl7.org/fhir/ValueSet/interactant"
+            )
             @Required
             private final Element item;
 
@@ -2918,14 +3078,32 @@ public class ClinicalUseDefinition extends DomainResource {
     }
 
     /**
-     * Describe the undesirable effects of the medicinal product.
+     * Describe the possible undesirable effects (negative outcomes) from the use of the medicinal product as treatment.
      */
     public static class UndesirableEffect extends BackboneElement {
         @Summary
+        @Binding(
+            bindingName = "UndesirableEffectSymptom",
+            strength = BindingStrength.Value.EXAMPLE,
+            description = "An undesirable effect of clinical use.",
+            valueSet = "http://hl7.org/fhir/ValueSet/undesirable-effect-symptom"
+        )
         private final CodeableReference symptomConditionEffect;
         @Summary
+        @Binding(
+            bindingName = "UndesirableEffectClassification",
+            strength = BindingStrength.Value.EXAMPLE,
+            description = "A categorisation for an undesirable effect.",
+            valueSet = "http://hl7.org/fhir/ValueSet/undesirable-effect-classification"
+        )
         private final CodeableConcept classification;
         @Summary
+        @Binding(
+            bindingName = "UndesirablEffectFrequency",
+            strength = BindingStrength.Value.EXAMPLE,
+            description = "A categorisation for a frequency of occurence of an undesirable effect.",
+            valueSet = "http://hl7.org/fhir/ValueSet/undesirable-effect-frequency"
+        )
         private final CodeableConcept frequencyOfOccurrence;
 
         private UndesirableEffect(Builder builder) {

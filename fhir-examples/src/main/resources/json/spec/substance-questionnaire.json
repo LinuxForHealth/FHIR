@@ -9,8 +9,8 @@
       "status": "active",
       "description": "Type options for Substance.ingredient.substance[x]",
       "expansion": {
-        "identifier": "urn:uuid:ae6d8763-e3ec-4274-9672-bcc89b20da92",
-        "timestamp": "2022-01-01T15:25:57+00:00",
+        "identifier": "urn:uuid:a2657069-db4e-463d-881b-d5941212535d",
+        "timestamp": "2022-04-23T22:30:52+00:00",
         "contains": [
           {
             "system": "http://hl7.org/fhir/data-types",
@@ -31,9 +31,10 @@
       "system": "urn:ietf:rfc:3986"
     }
   ],
-  "version": "4.3.0-CIBUILD",
+  "version": "4.3.0-cibuild",
   "status": "draft",
-  "date": "2022-01-01T15:17:18+00:00",
+  "experimental": false,
+  "date": "2022-04-23T22:21:35+00:00",
   "publisher": "Health Level Seven International (Orders and Observations)",
   "item": [
     {
@@ -222,10 +223,9 @@
             {
               "linkId": "Substance.language.value",
               "text": "language",
-              "type": "coding",
+              "type": "choice",
               "required": false,
-              "repeats": false,
-              "answerConstraint": "optionsOnly"
+              "repeats": false
             }
           ]
         },
@@ -440,10 +440,9 @@
             {
               "linkId": "Substance.status.value",
               "text": "status",
-              "type": "coding",
+              "type": "choice",
               "required": false,
-              "repeats": false,
-              "answerConstraint": "optionsOrType"
+              "repeats": false
             }
           ]
         },
@@ -482,10 +481,9 @@
             {
               "linkId": "Substance.category.coding",
               "text": "code:",
-              "type": "coding",
+              "type": "choice",
               "required": false,
-              "repeats": false,
-              "answerConstraint": "optionsOnly"
+              "repeats": false
             },
             {
               "linkId": "Substance.category.text",
@@ -539,10 +537,9 @@
             {
               "linkId": "Substance.code.coding",
               "text": "code:",
-              "type": "coding",
+              "type": "choice",
               "required": false,
-              "repeats": false,
-              "answerConstraint": "optionsOnly"
+              "repeats": false
             },
             {
               "linkId": "Substance.code.text",
@@ -865,10 +862,9 @@
                 {
                   "linkId": "Substance.instance.quantity.comparator",
                   "text": "comp:",
-                  "type": "coding",
+                  "type": "choice",
                   "required": false,
-                  "repeats": false,
-                  "answerConstraint": "optionsOnly"
+                  "repeats": false
                 },
                 {
                   "linkId": "Substance.instance.quantity.value",
@@ -1126,10 +1122,9 @@
                 {
                   "linkId": "Substance.ingredient.substance[x]._type",
                   "text": "type",
-                  "type": "coding",
+                  "type": "choice",
                   "required": false,
                   "repeats": false,
-                  "answerConstraint": "optionsOnly",
                   "answerValueSet": "#vs2",
                   "item": [
                     {
@@ -1145,10 +1140,9 @@
                         {
                           "linkId": "Substance.ingredient.substance[x]._null.coding",
                           "text": "code:",
-                          "type": "coding",
+                          "type": "choice",
                           "required": false,
-                          "repeats": false,
-                          "answerConstraint": "optionsOnly"
+                          "repeats": false
                         },
                         {
                           "linkId": "Substance.ingredient.substance[x]._null.text",

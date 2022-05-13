@@ -67,7 +67,7 @@ import com.ibm.fhir.model.visitor.Visitor;
     level = "Warning",
     location = "(base)",
     description = "Name should be usable as an identifier for the module by machine processing applications such as code generation",
-    expression = "name.matches('[A-Z]([A-Za-z0-9_]){0,254}')",
+    expression = "name.exists() implies name.matches('[A-Z]([A-Za-z0-9_]){0,254}')",
     source = "http://hl7.org/fhir/StructureDefinition/Evidence"
 )
 @Constraint(
@@ -169,7 +169,7 @@ public class Evidence extends DomainResource {
         bindingName = "PublicationStatus",
         strength = BindingStrength.Value.REQUIRED,
         description = "The lifecycle status of an artifact.",
-        valueSet = "http://hl7.org/fhir/ValueSet/publication-status|4.3.0-CIBUILD"
+        valueSet = "http://hl7.org/fhir/ValueSet/publication-status|4.3.0-cibuild"
     )
     @Required
     private final PublicationStatus status;
@@ -4206,7 +4206,7 @@ public class Evidence extends DomainResource {
                 @Binding(
                     bindingName = "EvidenceVariableHandling",
                     strength = BindingStrength.Value.REQUIRED,
-                    valueSet = "http://hl7.org/fhir/ValueSet/variable-handling|4.3.0-CIBUILD"
+                    valueSet = "http://hl7.org/fhir/ValueSet/variable-handling|4.3.0-cibuild"
                 )
                 private final EvidenceVariableHandling handling;
                 private final List<CodeableConcept> valueCategory;

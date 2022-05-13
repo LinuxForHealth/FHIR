@@ -5,8 +5,8 @@
   <text>
     <status value="extensions"/>
     <div xmlns="http://www.w3.org/1999/xhtml">
-      <h2>validate</h2>
-      <p>OPERATION: validate</p>
+      <h2>Validate</h2>
+      <p>OPERATION: Validate</p>
       <p>The official URL for this operation definition is: </p>
       <pre>http://hl7.org/fhir/OperationDefinition/Resource-validate</pre>
       <div>
@@ -80,11 +80,11 @@
             <a href="datatypes.html#code">code</a>
           </td>
           <td>
-            <a href="valueset-resource-validation-mode.html">http://hl7.org/fhir/ValueSet/resource-validation-mode|4.3.0-CIBUILD</a> (Required)
+            <a href="valueset-resource-validation-mode.html">http://hl7.org/fhir/ValueSet/resource-validation-mode|4.3.0-cibuild</a> (Required)
           </td>
           <td>
             <div>
-              <p>Default is &#39;no action&#39;; (e.g. general validation)</p>
+              <p>Default is 'no action'; (e.g. general validation)</p>
 
             </div>
           </td>
@@ -141,12 +141,13 @@
     <valueCode value="normative"/>
   </extension>
   <url value="http://hl7.org/fhir/OperationDefinition/Resource-validate"/>
-  <version value="4.3.0-CIBUILD"/>
-  <name value="validate"/>
+  <version value="4.3.0-cibuild"/>
+  <name value="Validate"/>
   <title value="Validate a resource"/>
   <status value="active"/>
   <kind value="operation"/>
-  <date value="2022-01-01T15:17:18+00:00"/>
+  <experimental value="false"/>
+  <date value="2022-04-23T22:21:35+00:00"/>
   <publisher value="HL7 (FHIR Project)"/>
   <contact>
     <telecom>
@@ -179,14 +180,14 @@
     <use value="in"/>
     <min value="0"/>
     <max value="1"/>
-    <documentation value="Default is &#39;no action&#39;; (e.g. general validation)"/>
+    <documentation value="Default is 'no action'; (e.g. general validation)"/>
     <type value="code"/>
     <binding>
       <extension url="http://hl7.org/fhir/StructureDefinition/elementdefinition-bindingName">
         <valueString value="ResourceValidationMode"/>
       </extension>
       <strength value="required"/>
-      <valueSet value="http://hl7.org/fhir/ValueSet/resource-validation-mode|4.3.0-CIBUILD"/>
+      <valueSet value="http://hl7.org/fhir/ValueSet/resource-validation-mode|4.3.0-cibuild"/>
     </binding>
   </parameter>
   <parameter>

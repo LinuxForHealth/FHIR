@@ -1,31 +1,81 @@
 <?xml version="1.0" encoding="UTF-8"?><SearchParameter xmlns="http://hl7.org/fhir">
-	<id value="filter"/>
-	<meta>
+  <id value="filter"/>
+  <meta>
     <security>
       <system value="http://terminology.hl7.org/CodeSystem/v3-ActReason"/>
       <code value="HTEST"/>
       <display value="test health data"/>
     </security>
   </meta>
-  <text><status value="generated"/><div xmlns="http://www.w3.org/1999/xhtml"><p><b>Generated Narrative</b></p><div><p>Resource "filter" </p></div><p><b>url</b>: <code>http://hl7.org/fhir/SearchParameter/filter</code></p><p><b>version</b>: 1</p><p><b>name</b>: FilterSearchParameter</p><p><b>status</b>: draft</p><p><b>experimental</b>: false</p><p><b>date</b>: 2018-07-26</p><p><b>publisher</b>: Health Level Seven International (FHIR Infrastructure)</p><p><b>contact</b>: FHIR Project: <a>http://hl7.org/fhir</a></p><p><b>description</b>: This is the formal declaration for the _filter parameter, documented at [http://hl7.org/fhir/search_filter.html](http://hl7.org/fhir/search_filter.html)</p><p><b>purpose</b>: Support combination searches when the simple name=value basis of search cannot express what is required</p><p><b>code</b>: _filter</p><p><b>base</b>: Resource</p><p><b>type</b>: special</p></div></text><url value="http://hl7.org/fhir/SearchParameter/filter"/>
-	<version value="1"/>
-	<name value="FilterSearchParameter"/>
-	<status value="draft"/>
-	<experimental value="false"/>
-	<date value="2018-07-26"/>
-	<publisher value="Health Level Seven International (FHIR Infrastructure)"/>
-	<contact>
-		<name value="FHIR Project"/>
-		<telecom>
-			<system value="url"/>
-			<value value="http://hl7.org/fhir"/>
-		</telecom>
-	</contact>
-	<description value="This is the formal declaration for the _filter parameter, documented at [http://hl7.org/fhir/search_filter.html](http://hl7.org/fhir/search_filter.html)"/>
-	
-	<!--  	this is the canonical definition for the _id search parameter	  -->
-	<purpose value="Support combination searches when the simple name=value basis of search cannot express what is required"/>
-	<code value="_filter"/>
-	<base value="Resource"/><!--   all resources   -->
-	<type value="special"/>
+  <text>
+    <status value="generated"/>
+    <div xmlns="http://www.w3.org/1999/xhtml">
+      <p>
+        <b>Generated Narrative</b>
+      </p>
+      <div style="display: inline-block; background-color: #d9e0e7; padding: 6px; margin: 4px; border: 1px solid #8da1b4; border-radius: 5px; line-height: 60%">
+        <p style="margin-bottom: 0px">Resource "filter" </p>
+      </div>
+      <p>
+        <b>url</b>: 
+        <code>http://hl7.org/fhir/SearchParameter/filter</code>
+      </p>
+      <p>
+        <b>version</b>: 1
+      </p>
+      <p>
+        <b>name</b>: FilterSearchParameter
+      </p>
+      <p>
+        <b>status</b>: draft
+      </p>
+      <p>
+        <b>experimental</b>: false
+      </p>
+      <p>
+        <b>date</b>: 2018-07-26
+      </p>
+      <p>
+        <b>publisher</b>: Health Level Seven International (FHIR Infrastructure)
+      </p>
+      <p>
+        <b>contact</b>: FHIR Project: 
+        <a href="http://hl7.org/fhir">http://hl7.org/fhir</a>
+      </p>
+      <p>
+        <b>description</b>: This is the formal declaration for the _filter parameter, documented at [http://hl7.org/fhir/search_filter.html](http://hl7.org/fhir/search_filter.html)
+      </p>
+      <p>
+        <b>purpose</b>: Support combination searches when the simple name=value basis of search cannot express what is required
+      </p>
+      <p>
+        <b>code</b>: _filter
+      </p>
+      <p>
+        <b>base</b>: Resource
+      </p>
+      <p>
+        <b>type</b>: special
+      </p>
+    </div>
+  </text>
+  <url value="http://hl7.org/fhir/SearchParameter/filter"/>
+  <version value="1"/>
+  <name value="FilterSearchParameter"/>
+  <status value="draft"/>
+  <experimental value="false"/>
+  <date value="2018-07-26"/>
+  <publisher value="Health Level Seven International (FHIR Infrastructure)"/>
+  <contact>
+    <name value="FHIR Project"/>
+    <telecom>
+      <system value="url"/>
+      <value value="http://hl7.org/fhir"/>
+    </telecom>
+  </contact>
+  <description value="This is the formal declaration for the _filter parameter, documented at [http://hl7.org/fhir/search_filter.html](http://hl7.org/fhir/search_filter.html)"/>
+  <purpose value="Support combination searches when the simple name=value basis of search cannot express what is required"/>
+  <code value="_filter"/>
+  <base value="Resource"/>
+  <type value="special"/>
 </SearchParameter>

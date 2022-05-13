@@ -12,9 +12,10 @@
     }
   ],
   "url": "http://hl7.org/fhir/StructureDefinition/cqf-measureInfo",
-  "version": "4.3.0-CIBUILD",
+  "version": "4.3.0-cibuild",
   "name": "measureInfo",
   "status": "draft",
+  "experimental": false,
   "date": "2015-05-30",
   "publisher": "Health Level Seven, Inc. - CDS WG",
   "contact": [
@@ -28,7 +29,7 @@
     }
   ],
   "description": "The measure criteria that resulted in the resource being included in a particular evaluatedResources bundle.",
-  "fhirVersion": "4.3.0-CIBUILD",
+  "fhirVersion": "4.3.0-cibuild",
   "mapping": [
     {
       "identity": "rim",
@@ -871,9 +872,6 @@
             "code": "CodeableConcept"
           },
           {
-            "code": "CodeableReference"
-          },
-          {
             "code": "Coding"
           },
           {
@@ -908,9 +906,6 @@
           },
           {
             "code": "Ratio"
-          },
-          {
-            "code": "RatioRange"
           },
           {
             "code": "Reference"

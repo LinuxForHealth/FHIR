@@ -31,6 +31,12 @@
           </td>
         </tr>
         <tr>
+          <td colspan="3">Mapping from 
+            <a href="codesystem-goal-achievement.html">GoalAchievementStatus</a> to 
+            <a href="codesystem-resource-status.html">Canonical Status Codes for FHIR Resources</a>
+          </td>
+        </tr>
+        <tr>
           <td>in-progress, sustaining, improving, worsening, no-change</td>
           <td>
             <a href="codesystem-concept-map-equivalence.html#equivalent">is equivalent to</a>
@@ -62,10 +68,11 @@
     </div>
   </text>
   <url value="http://hl7.org/fhir/ConceptMap/sc-goal-achievement"/>
-  <version value="4.3.0-CIBUILD"/>
+  <version value="4.3.0-cibuild"/>
   <name value="GoalAchievementStatusCanonicalMap"/>
   <title value="Canonical Mapping for &quot;GoalAchievementStatus&quot;"/>
   <status value="draft"/>
+  <experimental value="false"/>
   <publisher value="HL7 International - Patient Care WG"/>
   <contact>
     <telecom>
@@ -83,28 +90,28 @@
       <code value="in-progress, sustaining, improving, worsening, no-change"/>
       <target>
         <code value="active"/>
-        <relationship value="equivalent"/>
+        <equivalence value="equivalent"/>
       </target>
     </element>
     <element>
       <code value="achieved"/>
       <target>
         <code value="complete"/>
-        <relationship value="equivalent"/>
+        <equivalence value="equivalent"/>
       </target>
     </element>
     <element>
       <code value="not-attainable"/>
       <target>
         <code value="abandoned"/>
-        <relationship value="equivalent"/>
+        <equivalence value="equivalent"/>
       </target>
     </element>
     <element>
       <code value="no-progress, not-achieved"/>
       <target>
         <code value="not-done"/>
-        <relationship value="equivalent"/>
+        <equivalence value="equivalent"/>
       </target>
     </element>
   </group>

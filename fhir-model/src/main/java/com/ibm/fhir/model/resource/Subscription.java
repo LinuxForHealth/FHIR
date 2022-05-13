@@ -54,7 +54,7 @@ public class Subscription extends DomainResource {
         bindingName = "SubscriptionStatus",
         strength = BindingStrength.Value.REQUIRED,
         description = "The status of a subscription.",
-        valueSet = "http://hl7.org/fhir/ValueSet/subscription-status|4.3.0-CIBUILD"
+        valueSet = "http://hl7.org/fhir/ValueSet/subscription-status|4.3.0-cibuild"
     )
     @Required
     private final SubscriptionStatusCode status;
@@ -738,7 +738,7 @@ public class Subscription extends DomainResource {
             bindingName = "SubscriptionChannelType",
             strength = BindingStrength.Value.REQUIRED,
             description = "The type of method used to execute a subscription.",
-            valueSet = "http://hl7.org/fhir/ValueSet/subscription-channel-type|4.3.0-CIBUILD"
+            valueSet = "http://hl7.org/fhir/ValueSet/subscription-channel-type|4.3.0-cibuild"
         )
         @Required
         private final SubscriptionChannelType type;
@@ -749,7 +749,7 @@ public class Subscription extends DomainResource {
             bindingName = "MimeType",
             strength = BindingStrength.Value.REQUIRED,
             description = "BCP 13 (RFCs 2045, 2046, 2047, 4288, 4289 and 2049)",
-            valueSet = "http://hl7.org/fhir/ValueSet/mimetypes|4.3.0-CIBUILD"
+            valueSet = "http://hl7.org/fhir/ValueSet/mimetypes|4.3.0-cibuild"
         )
         private final Code payload;
         @Summary

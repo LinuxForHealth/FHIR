@@ -3,14 +3,15 @@
   "id": "cm-name-use-v2",
   "text": {
     "status": "extensions",
-    "div": "\u003cdiv xmlns\u003d\"http://www.w3.org/1999/xhtml\"\u003e\u003ch2\u003ev2.NameUse (http://hl7.org/fhir/ConceptMap/cm-name-use-v2)\u003c/h2\u003e\u003cp\u003eMapping from \u003ca href\u003d\"valueset-name-use.html\"\u003ehttp://hl7.org/fhir/ValueSet/name-use\u003c/a\u003e to \u003ca href\u003d\"http://terminology.hl7.org/3.0.0/ValueSet-v2-0200.html\"\u003ehttp://terminology.hl7.org/ValueSet/v2-0200\u003c/a\u003e\u003c/p\u003e\u003cp\u003eDRAFT. Published on Jan 1, 2022 3:17:18 PM by HL7 (FHIR Project) (\u003ca href\u003d\"http://hl7.org/fhir\"\u003ehttp://hl7.org/fhir\u003c/a\u003e, \u003ca href\u003d\"mailto:fhir@lists.hl7.org\"\u003efhir@lists.hl7.org\u003c/a\u003e). \u003c/p\u003e\u003cbr/\u003e\u003ctable class\u003d\"grid\"\u003e\u003ctr\u003e\u003ctd colspan\u003d\"2\"\u003e\u003cb\u003eSource Concept Details\u003c/b\u003e\u003c/td\u003e\u003ctd\u003e\u003cb\u003eRelationship\u003c/b\u003e\u003c/td\u003e\u003ctd colspan\u003d\"2\"\u003e\u003cb\u003eDestination Concept Details\u003c/b\u003e\u003c/td\u003e\u003c/tr\u003e\u003ctr\u003e\u003ctd colspan\u003d\"2\"\u003e\u003cb\u003eCode\u003c/b\u003e from \u003ca href\u003d\"codesystem-name-use.html\" title\u003d\"http://hl7.org/fhir/name-use\"\u003eNameUse\u003c/a\u003e\u003c/td\u003e\u003ctd/\u003e\u003ctd colspan\u003d\"2\"\u003e\u003cb\u003eCode\u003c/b\u003e from \u003ca href\u003d\"http://terminology.hl7.org/3.0.0/CodeSystem-v2-0200.html\" title\u003d\"http://terminology.hl7.org/CodeSystem/v2-0200\"\u003enameType2\u003c/a\u003e\u003c/td\u003e\u003c/tr\u003e\u003ctr\u003e\u003ctd style\u003d\"border-right-width: 0px\"\u003eusual\u003c/td\u003e\u003ctd style\u003d\"border-left-width: 0px\"\u003eUsual\u003c/td\u003e\u003ctd\u003e\u003ca href\u003d\"codesystem-concept-map-equivalence.html#equivalent\"\u003eis equivalent to\u003c/a\u003e\u003c/td\u003e\u003ctd style\u003d\"border-right-width: 0px\"\u003eD\u003c/td\u003e\u003ctd style\u003d\"border-left-width: 0px\"\u003eCustomary Name\u003c/td\u003e\u003c/tr\u003e\u003ctr\u003e\u003ctd style\u003d\"border-right-width: 0px\"\u003eofficial\u003c/td\u003e\u003ctd style\u003d\"border-left-width: 0px\"\u003eOfficial\u003c/td\u003e\u003ctd\u003e\u003ca href\u003d\"codesystem-concept-map-equivalence.html#equivalent\"\u003eis equivalent to\u003c/a\u003e\u003c/td\u003e\u003ctd style\u003d\"border-right-width: 0px\"\u003eL\u003c/td\u003e\u003ctd style\u003d\"border-left-width: 0px\"\u003eOfficial Registry Name\u003c/td\u003e\u003c/tr\u003e\u003ctr\u003e\u003ctd style\u003d\"border-right-width: 0px\"\u003etemp\u003c/td\u003e\u003ctd style\u003d\"border-left-width: 0px\"\u003eTemp\u003c/td\u003e\u003ctd\u003e\u003ca href\u003d\"codesystem-concept-map-equivalence.html#equivalent\"\u003eis equivalent to\u003c/a\u003e\u003c/td\u003e\u003ctd style\u003d\"border-right-width: 0px\"\u003eTEMP\u003c/td\u003e\u003ctd style\u003d\"border-left-width: 0px\"\u003eTemporary Name\u003c/td\u003e\u003c/tr\u003e\u003ctr\u003e\u003ctd style\u003d\"border-right-width: 0px\"\u003enickname\u003c/td\u003e\u003ctd style\u003d\"border-left-width: 0px\"\u003eNickname\u003c/td\u003e\u003ctd\u003e\u003ca href\u003d\"codesystem-concept-map-equivalence.html#equivalent\"\u003eis equivalent to\u003c/a\u003e\u003c/td\u003e\u003ctd style\u003d\"border-right-width: 0px\"\u003eN\u003c/td\u003e\u003ctd style\u003d\"border-left-width: 0px\"\u003eNickname\u003c/td\u003e\u003c/tr\u003e\u003ctr\u003e\u003ctd style\u003d\"border-right-width: 0px\"\u003eanonymous\u003c/td\u003e\u003ctd style\u003d\"border-left-width: 0px\"\u003eAnonymous\u003c/td\u003e\u003ctd\u003e\u003ca href\u003d\"codesystem-concept-map-equivalence.html#equivalent\"\u003eis equivalent to\u003c/a\u003e\u003c/td\u003e\u003ctd style\u003d\"border-right-width: 0px\"\u003eS\u003c/td\u003e\u003ctd style\u003d\"border-left-width: 0px\"\u003ePseudonym\u003c/td\u003e\u003c/tr\u003e\u003ctr\u003e\u003ctd style\u003d\"border-right-width: 0px; border-bottom-style: none\"\u003eold\u003c/td\u003e\u003ctd style\u003d\"border-left-width: 0px; border-bottom-style: none\"\u003eOld\u003c/td\u003e\u003ctd\u003e\u003ca href\u003d\"codesystem-concept-map-equivalence.html#source-is-broader-than-target\"\u003eis broader than\u003c/a\u003e\u003c/td\u003e\u003ctd style\u003d\"border-right-width: 0px\"\u003eNOUSE\u003c/td\u003e\u003ctd style\u003d\"border-left-width: 0px\"\u003eNo Longer To Be Used\u003c/td\u003e\u003c/tr\u003e\u003ctr\u003e\u003ctd style\u003d\"border-right-width: 0px; border-top-style: none\"/\u003e\u003ctd style\u003d\"border-top-style: none; border-left-width: 0px\"/\u003e\u003ctd\u003e\u003ca href\u003d\"codesystem-concept-map-equivalence.html#source-is-broader-than-target\"\u003eis broader than\u003c/a\u003e\u003c/td\u003e\u003ctd style\u003d\"border-right-width: 0px\"\u003eBAD\u003c/td\u003e\u003ctd style\u003d\"border-left-width: 0px\"\u003eBad Name\u003c/td\u003e\u003c/tr\u003e\u003ctr\u003e\u003ctd style\u003d\"border-right-width: 0px\"\u003emaiden\u003c/td\u003e\u003ctd style\u003d\"border-left-width: 0px\"\u003eName changed for Marriage\u003c/td\u003e\u003ctd\u003e\u003ca href\u003d\"codesystem-concept-map-equivalence.html#equivalent\"\u003eis equivalent to\u003c/a\u003e\u003c/td\u003e\u003ctd style\u003d\"border-right-width: 0px\"\u003eM\u003c/td\u003e\u003ctd style\u003d\"border-left-width: 0px\"\u003eMaiden Name\u003c/td\u003e\u003c/tr\u003e\u003c/table\u003e\u003c/div\u003e"
+    "div": "\u003cdiv xmlns\u003d\"http://www.w3.org/1999/xhtml\"\u003e\u003ch2\u003ev2.NameUse (http://hl7.org/fhir/ConceptMap/cm-name-use-v2)\u003c/h2\u003e\u003cp\u003eMapping from \u003ca href\u003d\"valueset-name-use.html\"\u003ehttp://hl7.org/fhir/ValueSet/name-use\u003c/a\u003e to \u003ca href\u003d\"http://terminology.hl7.org/3.1.0/ValueSet-v2-0200.html\"\u003ehttp://terminology.hl7.org/ValueSet/v2-0200\u003c/a\u003e\u003c/p\u003e\u003cp\u003eDRAFT. Published on 2022-04-23T22:21:35Z by HL7 (FHIR Project) (\u003ca href\u003d\"http://hl7.org/fhir\"\u003ehttp://hl7.org/fhir\u003c/a\u003e, \u003ca href\u003d\"mailto:fhir@lists.hl7.org\"\u003efhir@lists.hl7.org\u003c/a\u003e). \u003c/p\u003e\u003cbr/\u003e\u003ctable class\u003d\"grid\"\u003e\u003ctr\u003e\u003ctd colspan\u003d\"2\"\u003e\u003cb\u003eSource Concept Details\u003c/b\u003e\u003c/td\u003e\u003ctd\u003e\u003cb\u003eRelationship\u003c/b\u003e\u003c/td\u003e\u003ctd colspan\u003d\"2\"\u003e\u003cb\u003eDestination Concept Details\u003c/b\u003e\u003c/td\u003e\u003c/tr\u003e\u003ctr\u003e\u003ctd colspan\u003d\"2\"\u003e\u003cb\u003eCode\u003c/b\u003e from \u003ca href\u003d\"codesystem-name-use.html\" title\u003d\"http://hl7.org/fhir/name-use\"\u003eNameUse\u003c/a\u003e\u003c/td\u003e\u003ctd/\u003e\u003ctd colspan\u003d\"2\"\u003e\u003cb\u003eCode\u003c/b\u003e from \u003ca href\u003d\"http://terminology.hl7.org/3.1.0/CodeSystem-v2-0200.html\" title\u003d\"http://terminology.hl7.org/CodeSystem/v2-0200\"\u003enameType2\u003c/a\u003e\u003c/td\u003e\u003c/tr\u003e\u003ctr\u003e\u003ctd style\u003d\"border-right-width: 0px\"\u003eusual\u003c/td\u003e\u003ctd style\u003d\"border-left-width: 0px\"\u003eUsual\u003c/td\u003e\u003ctd\u003e\u003ca href\u003d\"codesystem-concept-map-equivalence.html#equivalent\"\u003eis equivalent to\u003c/a\u003e\u003c/td\u003e\u003ctd style\u003d\"border-right-width: 0px\"\u003eD\u003c/td\u003e\u003ctd style\u003d\"border-left-width: 0px\"\u003eCustomary Name\u003c/td\u003e\u003c/tr\u003e\u003ctr\u003e\u003ctd style\u003d\"border-right-width: 0px\"\u003eofficial\u003c/td\u003e\u003ctd style\u003d\"border-left-width: 0px\"\u003eOfficial\u003c/td\u003e\u003ctd\u003e\u003ca href\u003d\"codesystem-concept-map-equivalence.html#equivalent\"\u003eis equivalent to\u003c/a\u003e\u003c/td\u003e\u003ctd style\u003d\"border-right-width: 0px\"\u003eL\u003c/td\u003e\u003ctd style\u003d\"border-left-width: 0px\"\u003eOfficial Registry Name\u003c/td\u003e\u003c/tr\u003e\u003ctr\u003e\u003ctd style\u003d\"border-right-width: 0px\"\u003etemp\u003c/td\u003e\u003ctd style\u003d\"border-left-width: 0px\"\u003eTemp\u003c/td\u003e\u003ctd\u003e\u003ca href\u003d\"codesystem-concept-map-equivalence.html#equivalent\"\u003eis equivalent to\u003c/a\u003e\u003c/td\u003e\u003ctd style\u003d\"border-right-width: 0px\"\u003eTEMP\u003c/td\u003e\u003ctd style\u003d\"border-left-width: 0px\"\u003eTemporary Name\u003c/td\u003e\u003c/tr\u003e\u003ctr\u003e\u003ctd style\u003d\"border-right-width: 0px\"\u003enickname\u003c/td\u003e\u003ctd style\u003d\"border-left-width: 0px\"\u003eNickname\u003c/td\u003e\u003ctd\u003e\u003ca href\u003d\"codesystem-concept-map-equivalence.html#equivalent\"\u003eis equivalent to\u003c/a\u003e\u003c/td\u003e\u003ctd style\u003d\"border-right-width: 0px\"\u003eN\u003c/td\u003e\u003ctd style\u003d\"border-left-width: 0px\"\u003eNickname\u003c/td\u003e\u003c/tr\u003e\u003ctr\u003e\u003ctd style\u003d\"border-right-width: 0px\"\u003eanonymous\u003c/td\u003e\u003ctd style\u003d\"border-left-width: 0px\"\u003eAnonymous\u003c/td\u003e\u003ctd\u003e\u003ca href\u003d\"codesystem-concept-map-equivalence.html#equivalent\"\u003eis equivalent to\u003c/a\u003e\u003c/td\u003e\u003ctd style\u003d\"border-right-width: 0px\"\u003eS\u003c/td\u003e\u003ctd style\u003d\"border-left-width: 0px\"\u003ePseudonym\u003c/td\u003e\u003c/tr\u003e\u003ctr\u003e\u003ctd style\u003d\"border-right-width: 0px; border-bottom-style: none\"\u003eold\u003c/td\u003e\u003ctd style\u003d\"border-left-width: 0px; border-bottom-style: none\"\u003eOld\u003c/td\u003e\u003ctd\u003e\u003ca href\u003d\"codesystem-concept-map-equivalence.html#source-is-broader-than-target\"\u003eis broader than\u003c/a\u003e\u003c/td\u003e\u003ctd style\u003d\"border-right-width: 0px\"\u003eNOUSE\u003c/td\u003e\u003ctd style\u003d\"border-left-width: 0px\"\u003eNo Longer To Be Used\u003c/td\u003e\u003c/tr\u003e\u003ctr\u003e\u003ctd style\u003d\"border-right-width: 0px; border-top-style: none\"/\u003e\u003ctd style\u003d\"border-top-style: none; border-left-width: 0px\"/\u003e\u003ctd\u003e\u003ca href\u003d\"codesystem-concept-map-equivalence.html#source-is-broader-than-target\"\u003eis broader than\u003c/a\u003e\u003c/td\u003e\u003ctd style\u003d\"border-right-width: 0px\"\u003eBAD\u003c/td\u003e\u003ctd style\u003d\"border-left-width: 0px\"\u003eBad Name\u003c/td\u003e\u003c/tr\u003e\u003ctr\u003e\u003ctd style\u003d\"border-right-width: 0px\"\u003emaiden\u003c/td\u003e\u003ctd style\u003d\"border-left-width: 0px\"\u003eName changed for Marriage\u003c/td\u003e\u003ctd\u003e\u003ca href\u003d\"codesystem-concept-map-equivalence.html#equivalent\"\u003eis equivalent to\u003c/a\u003e\u003c/td\u003e\u003ctd style\u003d\"border-right-width: 0px\"\u003eM\u003c/td\u003e\u003ctd style\u003d\"border-left-width: 0px\"\u003eMaiden Name\u003c/td\u003e\u003c/tr\u003e\u003c/table\u003e\u003c/div\u003e"
   },
   "url": "http://hl7.org/fhir/ConceptMap/cm-name-use-v2",
-  "version": "4.3.0-CIBUILD",
+  "version": "4.3.0-cibuild",
   "name": "v2.NameUse",
   "title": "v2 map for NameUse",
   "status": "draft",
-  "date": "2022-01-01T15:17:18+00:00",
+  "experimental": false,
+  "date": "2022-04-23T22:21:35+00:00",
   "publisher": "HL7 (FHIR Project)",
   "contact": [
     {
@@ -38,7 +39,7 @@
           "target": [
             {
               "code": "D",
-              "relationship": "equivalent"
+              "equivalence": "equivalent"
             }
           ]
         },
@@ -47,7 +48,7 @@
           "target": [
             {
               "code": "L",
-              "relationship": "equivalent"
+              "equivalence": "equivalent"
             }
           ]
         },
@@ -56,7 +57,7 @@
           "target": [
             {
               "code": "TEMP",
-              "relationship": "equivalent"
+              "equivalence": "equivalent"
             }
           ]
         },
@@ -65,7 +66,7 @@
           "target": [
             {
               "code": "N",
-              "relationship": "equivalent"
+              "equivalence": "equivalent"
             }
           ]
         },
@@ -74,7 +75,7 @@
           "target": [
             {
               "code": "S",
-              "relationship": "equivalent"
+              "equivalence": "equivalent"
             }
           ]
         },
@@ -83,11 +84,11 @@
           "target": [
             {
               "code": "NOUSE",
-              "relationship": "source-is-broader-than-target"
+              "equivalence": "narrower"
             },
             {
               "code": "BAD",
-              "relationship": "source-is-broader-than-target"
+              "equivalence": "narrower"
             }
           ]
         },
@@ -96,7 +97,7 @@
           "target": [
             {
               "code": "M",
-              "relationship": "equivalent"
+              "equivalence": "equivalent"
             }
           ]
         }

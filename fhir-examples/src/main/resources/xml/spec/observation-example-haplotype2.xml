@@ -8,7 +8,7 @@
       <display value="test health data"/>
     </security>
   </meta>
-  <text><status value="extensions"/><div xmlns="http://www.w3.org/1999/xhtml"><p><b>Generated Narrative</b></p><div><p>Resource "example-haplotype2" </p></div><p><b>Gene</b>: CYP2C9 <span> (<a>HUGO Gene Nomenclature</a>#2623)</span></p><p><b>status</b>: unknown</p><p><b>code</b>: The material on this page will be removed in a future release. This content is deprecated and SHOULD NOT be used. Implementers are instead directed to the ([Genomics Reporting Implementation Guide](http://hl7.org/fhir/uv/genomics-reporting/index.html)) for guidance. Genetic analysis master panel-- This is the parent OBR for the panel holding all of the associated observations that can be reported with a molecular genetics analysis result. <span> (<a>LOINC</a>#55233-1)</span></p><p><b>subject</b>: <a>Patient/727127: J*********** C***********</a></p><p><b>issued</b>: Apr 3, 2013 2:30:10 PM</p><p><b>value</b>: *4 <span> (pharmakb.org#PA16581679)</span></p><p><b>specimen</b>: <a>Specimen/genetics-example1-somatic: Molecular Specimen ID: MLD45-Z4-1234</a></p><p><b>derivedFrom</b>: </p><ul><li><a>MolecularSequence/example-pgx-1</a></li><li><a>MolecularSequence/example-pgx-2</a></li></ul></div></text><extension url="http://hl7.org/fhir/StructureDefinition/observation-geneticsGene">
+  <text><status value="extensions"/><div xmlns="http://www.w3.org/1999/xhtml"><p><b>Generated Narrative</b></p><div style="display: inline-block; background-color: #d9e0e7; padding: 6px; margin: 4px; border: 1px solid #8da1b4; border-radius: 5px; line-height: 60%"><p style="margin-bottom: 0px">Resource "example-haplotype2" </p></div><p><b>Gene</b>: CYP2C9 <span style="background: LightGoldenRodYellow; margin: 4px; border: 1px solid khaki"> (<a href="http://terminology.hl7.org/3.1.0/CodeSystem-v3-hgnc.html">HUGO Gene Nomenclature</a>#2623)</span></p><p><b>status</b>: unknown</p><p><b>code</b>: The material on this page will be removed in a future release. This content is deprecated and SHOULD NOT be used. Implementers are instead directed to the ([Genomics Reporting Implementation Guide](http://hl7.org/fhir/uv/genomics-reporting/index.html)) for guidance. Genetic analysis master panel-- This is the parent OBR for the panel holding all of the associated observations that can be reported with a molecular genetics analysis result. <span style="background: LightGoldenRodYellow; margin: 4px; border: 1px solid khaki"> (<a href="https://loinc.org/">LOINC</a>#55233-1)</span></p><p><b>subject</b>: <a href="todo.html">Patient/727127: J*********** C***********</a></p><p><b>effective</b>: 2013-04-03T15:30:10+01:00</p><p><b>value</b>: *4 <span style="background: LightGoldenRodYellow; margin: 4px; border: 1px solid khaki"> (pharmakb.org#PA16581679)</span></p><p><b>device</b>: <a href="device-example.html">Device/example</a></p><p><b>derivedFrom</b>: </p><ul><li><a href="molecularsequence-example-pgx-1.html">MolecularSequence/example-pgx-1</a></li><li><a href="molecularsequence-example-pgx-2.html">MolecularSequence/example-pgx-2</a></li></ul></div></text><extension url="http://hl7.org/fhir/StructureDefinition/observation-geneticsGene">
 		<valueCodeableConcept>
 			<coding>
 				<system value="http://www.genenames.org"/>
@@ -37,7 +37,7 @@
 		<reference value="Patient/727127"/>
 		<display value="J*********** C***********"/>
 	</subject>
-	<issued value="2013-04-03T15:30:10+01:00"/>
+	<effectiveDateTime value="2013-04-03T15:30:10+01:00"/>
 	<valueCodeableConcept>
 		<coding>
 			<system value="http://pharmakb.org"/>
@@ -45,10 +45,17 @@
 			<display value="*4"/>
 		</coding>
 	</valueCodeableConcept>
+	<!--  
 	<specimen>
 		<reference value="Specimen/genetics-example1-somatic"/>
 		<display value="Molecular Specimen ID: MLD45-Z4-1234"/>
-	</specimen><!--  >If you do not like "related", you can delete this block<  --><derivedFrom>
+	</specimen>
+	  -->
+  <device>
+    <reference value="Device/example"/>
+  </device>
+	<!--  >If you do not like "related", you can delete this block<  -->
+	<derivedFrom>
 		<reference value="MolecularSequence/example-pgx-1"/>
 	</derivedFrom>
 	<derivedFrom>

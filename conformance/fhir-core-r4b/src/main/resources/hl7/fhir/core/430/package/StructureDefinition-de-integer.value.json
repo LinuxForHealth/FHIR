@@ -1,0 +1,72 @@
+{
+    "resourceType": "StructureDefinition",
+    "id": "de-integer.value",
+    "meta": {
+        "lastUpdated": "2022-04-23T22:21:35.043Z"
+    },
+    "url": "http://hl7.org/fhir/StructureDefinition/de-integer.value",
+    "version": "4.3.0-cibuild",
+    "name": "integer.value",
+    "title": "integer.value",
+    "status": "draft",
+    "experimental": true,
+    "date": "2022-04-23T22:21:35Z",
+    "publisher": "HL7 FHIR Standard",
+    "contact": [
+        {
+            "telecom": [
+                {
+                    "system": "url",
+                    "value": "http://hl7.org/fhir"
+                }
+            ]
+        }
+    ],
+    "description": "Data Element for integer.value",
+    "purpose": "Data Elements are defined for each element to assist in questionnaire construction etc",
+    "fhirVersion": "4.3.0-cibuild",
+    "kind": "logical",
+    "abstract": false,
+    "type": "integer.value",
+    "baseDefinition": "http://hl7.org/fhir/StructureDefinition/Element",
+    "derivation": "specialization",
+    "snapshot": {
+        "element": [
+            {
+                "id": "integer.value",
+                "path": "integer.value",
+                "representation": [
+                    "xmlAttr"
+                ],
+                "short": "Primitive value for integer",
+                "definition": "The actual value",
+                "min": 0,
+                "max": "1",
+                "base": {
+                    "path": "integer.value",
+                    "min": 0,
+                    "max": "1"
+                },
+                "type": [
+                    {
+                        "extension": [
+                            {
+                                "url": "http://hl7.org/fhir/StructureDefinition/structuredefinition-fhir-type",
+                                "valueUrl": "integer"
+                            },
+                            {
+                                "url": "http://hl7.org/fhir/StructureDefinition/regex",
+                                "valueString": "-?([0]|([1-9][0-9]*))"
+                            }
+                        ],
+                        "code": "http://hl7.org/fhirpath/System.Integer"
+                    }
+                ],
+                "minValueInteger": -2147483648,
+                "maxValueInteger": 2147483647,
+                "isModifier": false,
+                "isSummary": false
+            }
+        ]
+    }
+}

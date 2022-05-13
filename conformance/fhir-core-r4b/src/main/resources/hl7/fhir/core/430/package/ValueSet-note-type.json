@@ -1,0 +1,97 @@
+{
+    "resourceType": "ValueSet",
+    "id": "note-type",
+    "meta": {
+        "lastUpdated": "2022-04-23T22:21:35.043Z",
+        "profile": [
+            "http://hl7.org/fhir/StructureDefinition/shareablevalueset"
+        ]
+    },
+    "extension": [
+        {
+            "url": "http://hl7.org/fhir/StructureDefinition/structuredefinition-wg",
+            "valueCode": "fm"
+        },
+        {
+            "url": "http://hl7.org/fhir/StructureDefinition/structuredefinition-standards-status",
+            "valueCode": "trial-use"
+        },
+        {
+            "url": "http://hl7.org/fhir/StructureDefinition/structuredefinition-fmm",
+            "valueInteger": 2
+        }
+    ],
+    "url": "http://hl7.org/fhir/ValueSet/note-type",
+    "identifier": [
+        {
+            "system": "urn:ietf:rfc:3986",
+            "value": "urn:oid:2.16.840.1.113883.4.642.3.15"
+        }
+    ],
+    "version": "4.3.0-cibuild",
+    "name": "NoteType",
+    "title": "NoteType",
+    "status": "draft",
+    "experimental": false,
+    "date": "2022-04-23T22:21:35Z",
+    "publisher": "HL7 (FHIR Project)",
+    "contact": [
+        {
+            "telecom": [
+                {
+                    "system": "url",
+                    "value": "http://hl7.org/fhir"
+                },
+                {
+                    "system": "email",
+                    "value": "fhir@lists.hl7.org"
+                }
+            ]
+        }
+    ],
+    "description": "The presentation types of notes.",
+    "immutable": true,
+    "compose": {
+        "include": [
+            {
+                "system": "http://hl7.org/fhir/note-type"
+            }
+        ]
+    },
+    "expansion": {
+        "identifier": "urn:uuid:1346739e-f15c-4f15-ad2e-1731835d0031",
+        "timestamp": "2022-04-23T22:23:07Z",
+        "total": 3,
+        "parameter": [
+            {
+                "name": "excludeNested",
+                "valueBoolean": true
+            },
+            {
+                "name": "includeDesignations",
+                "valueBoolean": true
+            },
+            {
+                "name": "version",
+                "valueUri": "http://hl7.org/fhir/note-type|4.3.0-cibuild"
+            }
+        ],
+        "contains": [
+            {
+                "system": "http://hl7.org/fhir/note-type",
+                "code": "display",
+                "display": "Display"
+            },
+            {
+                "system": "http://hl7.org/fhir/note-type",
+                "code": "print",
+                "display": "Print (Form)"
+            },
+            {
+                "system": "http://hl7.org/fhir/note-type",
+                "code": "printoper",
+                "display": "Print (Operator)"
+            }
+        ]
+    }
+}

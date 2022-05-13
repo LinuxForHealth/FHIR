@@ -6,9 +6,10 @@
       "system": "urn:ietf:rfc:3986"
     }
   ],
-  "version": "4.3.0-CIBUILD",
+  "version": "4.3.0-cibuild",
   "status": "draft",
-  "date": "2022-01-01T15:17:18+00:00",
+  "experimental": false,
+  "date": "2022-04-23T22:21:35+00:00",
   "publisher": "Health Level Seven International (FHIR Infrastructure)",
   "item": [
     {
@@ -197,10 +198,9 @@
             {
               "linkId": "ExampleScenario.language.value",
               "text": "language",
-              "type": "coding",
+              "type": "choice",
               "required": false,
-              "repeats": false,
-              "answerConstraint": "optionsOnly"
+              "repeats": false
             }
           ]
         },
@@ -551,10 +551,9 @@
             {
               "linkId": "ExampleScenario.status.value",
               "text": "status",
-              "type": "coding",
+              "type": "choice",
               "required": false,
-              "repeats": false,
-              "answerConstraint": "optionsOrType"
+              "repeats": false
             }
           ]
         },
@@ -791,10 +790,9 @@
             {
               "linkId": "ExampleScenario.jurisdiction.coding",
               "text": "code:",
-              "type": "coding",
+              "type": "choice",
               "required": false,
-              "repeats": false,
-              "answerConstraint": "optionsOnly"
+              "repeats": false
             },
             {
               "linkId": "ExampleScenario.jurisdiction.text",
@@ -1109,10 +1107,9 @@
                 {
                   "linkId": "ExampleScenario.actor.type.value",
                   "text": "type",
-                  "type": "coding",
+                  "type": "choice",
                   "required": false,
-                  "repeats": false,
-                  "answerConstraint": "optionsOrType"
+                  "repeats": false
                 }
               ]
             },
@@ -1422,10 +1419,9 @@
                 {
                   "linkId": "ExampleScenario.instance.resourceType.value",
                   "text": "resource type",
-                  "type": "coding",
+                  "type": "choice",
                   "required": false,
-                  "repeats": false,
-                  "answerConstraint": "optionsOrType"
+                  "repeats": false
                 }
               ]
             },
@@ -2420,6 +2416,286 @@
                       "linkId": "ExampleScenario.process.step.process-flyover",
                       "text": "Nested process.",
                       "type": "display"
+                    },
+                    {
+                      "extension": [
+                        {
+                          "url": "http://hl7.org/fhir/StructureDefinition/questionnaire-maxOccurs",
+                          "valueInteger": 1
+                        },
+                        {
+                          "url": "http://hl7.org/fhir/StructureDefinition/questionnaire-fhirType",
+                          "valueString": "string"
+                        }
+                      ],
+                      "linkId": "ExampleScenario.process.id",
+                      "type": "group",
+                      "required": false,
+                      "repeats": true,
+                      "item": [
+                        {
+                          "extension": [
+                            {
+                              "url": "http://hl7.org/fhir/StructureDefinition/questionnaire-itemControl",
+                              "valueCodeableConcept": {
+                                "coding": [
+                                  {
+                                    "system": "http://hl7.org/fhir/questionnaire-item-control",
+                                    "code": "flyover",
+                                    "display": "Fly-over"
+                                  }
+                                ]
+                              }
+                            }
+                          ],
+                          "linkId": "ExampleScenario.process.id-flyover",
+                          "text": "Unique id for the element within a resource (for internal references). This may be any string value that does not contain spaces.",
+                          "type": "display"
+                        },
+                        {
+                          "linkId": "ExampleScenario.process.id.value",
+                          "text": "Unique id for inter-element referencing",
+                          "type": "string",
+                          "required": false,
+                          "repeats": false
+                        }
+                      ]
+                    },
+                    {
+                      "linkId": "ExampleScenario.process.extension",
+                      "text": "Additional content defined by implementations",
+                      "type": "group",
+                      "required": false,
+                      "repeats": true,
+                      "item": [
+                        {
+                          "extension": [
+                            {
+                              "url": "http://hl7.org/fhir/StructureDefinition/questionnaire-itemControl",
+                              "valueCodeableConcept": {
+                                "coding": [
+                                  {
+                                    "system": "http://hl7.org/fhir/questionnaire-item-control",
+                                    "code": "flyover",
+                                    "display": "Fly-over"
+                                  }
+                                ]
+                              }
+                            }
+                          ],
+                          "linkId": "ExampleScenario.process.extension-flyover",
+                          "text": "May be used to represent additional information that is not part of the basic definition of the element. To make the use of extensions safe and manageable, there is a strict set of governance  applied to the definition and use of extensions. Though any implementer can define an extension, there is a set of requirements that SHALL be met as part of the definition of the extension. There can be no stigma associated with the use of extensions by any application, project, or standard - regardless of the institution or jurisdiction that uses or defines the extensions.  The use of extensions is what allows the FHIR specification to retain a core level of simplicity for everyone.",
+                          "type": "display"
+                        }
+                      ]
+                    },
+                    {
+                      "linkId": "ExampleScenario.process.modifierExtension",
+                      "text": "Extensions that cannot be ignored even if unrecognized",
+                      "type": "group",
+                      "required": false,
+                      "repeats": true,
+                      "item": [
+                        {
+                          "extension": [
+                            {
+                              "url": "http://hl7.org/fhir/StructureDefinition/questionnaire-itemControl",
+                              "valueCodeableConcept": {
+                                "coding": [
+                                  {
+                                    "system": "http://hl7.org/fhir/questionnaire-item-control",
+                                    "code": "flyover",
+                                    "display": "Fly-over"
+                                  }
+                                ]
+                              }
+                            }
+                          ],
+                          "linkId": "ExampleScenario.process.modifierExtension-flyover",
+                          "text": "May be used to represent additional information that is not part of the basic definition of the element and that modifies the understanding of the element in which it is contained and/or the understanding of the containing element\u0027s descendants. Usually modifier elements provide negation or qualification. To make the use of extensions safe and manageable, there is a strict set of governance applied to the definition and use of extensions. Though any implementer can define an extension, there is a set of requirements that SHALL be met as part of the definition of the extension. Applications processing a resource are required to check for modifier extensions.\n\nModifier extensions SHALL NOT change the meaning of any elements on Resource or DomainResource (including cannot change the meaning of modifierExtension itself). There can be no stigma associated with the use of extensions by any application, project, or standard - regardless of the institution or jurisdiction that uses or defines the extensions.  The use of extensions is what allows the FHIR specification to retain a core level of simplicity for everyone.",
+                          "type": "display"
+                        }
+                      ]
+                    },
+                    {
+                      "extension": [
+                        {
+                          "url": "http://hl7.org/fhir/StructureDefinition/questionnaire-minOccurs",
+                          "valueInteger": 1
+                        },
+                        {
+                          "url": "http://hl7.org/fhir/StructureDefinition/questionnaire-maxOccurs",
+                          "valueInteger": 1
+                        },
+                        {
+                          "url": "http://hl7.org/fhir/StructureDefinition/questionnaire-fhirType",
+                          "valueString": "string"
+                        }
+                      ],
+                      "linkId": "ExampleScenario.process.title",
+                      "type": "group",
+                      "required": true,
+                      "repeats": true,
+                      "item": [
+                        {
+                          "extension": [
+                            {
+                              "url": "http://hl7.org/fhir/StructureDefinition/questionnaire-itemControl",
+                              "valueCodeableConcept": {
+                                "coding": [
+                                  {
+                                    "system": "http://hl7.org/fhir/questionnaire-item-control",
+                                    "code": "flyover",
+                                    "display": "Fly-over"
+                                  }
+                                ]
+                              }
+                            }
+                          ],
+                          "linkId": "ExampleScenario.process.title-flyover",
+                          "text": "The diagram title of the group of operations.",
+                          "type": "display"
+                        },
+                        {
+                          "linkId": "ExampleScenario.process.title.value",
+                          "text": "The diagram title of the group of operations",
+                          "type": "string",
+                          "required": false,
+                          "repeats": false
+                        }
+                      ]
+                    },
+                    {
+                      "extension": [
+                        {
+                          "url": "http://hl7.org/fhir/StructureDefinition/questionnaire-maxOccurs",
+                          "valueInteger": 1
+                        },
+                        {
+                          "url": "http://hl7.org/fhir/StructureDefinition/questionnaire-fhirType",
+                          "valueString": "string"
+                        }
+                      ],
+                      "linkId": "ExampleScenario.process.description",
+                      "type": "group",
+                      "required": false,
+                      "repeats": true,
+                      "item": [
+                        {
+                          "extension": [
+                            {
+                              "url": "http://hl7.org/fhir/StructureDefinition/questionnaire-itemControl",
+                              "valueCodeableConcept": {
+                                "coding": [
+                                  {
+                                    "system": "http://hl7.org/fhir/questionnaire-item-control",
+                                    "code": "flyover",
+                                    "display": "Fly-over"
+                                  }
+                                ]
+                              }
+                            }
+                          ],
+                          "linkId": "ExampleScenario.process.description-flyover",
+                          "text": "A longer description of the group of operations.",
+                          "type": "display"
+                        },
+                        {
+                          "linkId": "ExampleScenario.process.description.value",
+                          "text": "A longer description of the group of operations",
+                          "type": "string",
+                          "required": false,
+                          "repeats": false
+                        }
+                      ]
+                    },
+                    {
+                      "extension": [
+                        {
+                          "url": "http://hl7.org/fhir/StructureDefinition/questionnaire-maxOccurs",
+                          "valueInteger": 1
+                        },
+                        {
+                          "url": "http://hl7.org/fhir/StructureDefinition/questionnaire-fhirType",
+                          "valueString": "string"
+                        }
+                      ],
+                      "linkId": "ExampleScenario.process.preConditions",
+                      "type": "group",
+                      "required": false,
+                      "repeats": true,
+                      "item": [
+                        {
+                          "extension": [
+                            {
+                              "url": "http://hl7.org/fhir/StructureDefinition/questionnaire-itemControl",
+                              "valueCodeableConcept": {
+                                "coding": [
+                                  {
+                                    "system": "http://hl7.org/fhir/questionnaire-item-control",
+                                    "code": "flyover",
+                                    "display": "Fly-over"
+                                  }
+                                ]
+                              }
+                            }
+                          ],
+                          "linkId": "ExampleScenario.process.preConditions-flyover",
+                          "text": "Description of initial status before the process starts.",
+                          "type": "display"
+                        },
+                        {
+                          "linkId": "ExampleScenario.process.preConditions.value",
+                          "text": "Description of initial status before the process starts",
+                          "type": "string",
+                          "required": false,
+                          "repeats": false
+                        }
+                      ]
+                    },
+                    {
+                      "extension": [
+                        {
+                          "url": "http://hl7.org/fhir/StructureDefinition/questionnaire-maxOccurs",
+                          "valueInteger": 1
+                        },
+                        {
+                          "url": "http://hl7.org/fhir/StructureDefinition/questionnaire-fhirType",
+                          "valueString": "string"
+                        }
+                      ],
+                      "linkId": "ExampleScenario.process.postConditions",
+                      "type": "group",
+                      "required": false,
+                      "repeats": true,
+                      "item": [
+                        {
+                          "extension": [
+                            {
+                              "url": "http://hl7.org/fhir/StructureDefinition/questionnaire-itemControl",
+                              "valueCodeableConcept": {
+                                "coding": [
+                                  {
+                                    "system": "http://hl7.org/fhir/questionnaire-item-control",
+                                    "code": "flyover",
+                                    "display": "Fly-over"
+                                  }
+                                ]
+                              }
+                            }
+                          ],
+                          "linkId": "ExampleScenario.process.postConditions-flyover",
+                          "text": "Description of final status after the process ends.",
+                          "type": "display"
+                        },
+                        {
+                          "linkId": "ExampleScenario.process.postConditions.value",
+                          "text": "Description of final status after the process ends",
+                          "type": "string",
+                          "required": false,
+                          "repeats": false
+                        }
+                      ]
                     }
                   ]
                 },
@@ -2986,6 +3262,198 @@
                           "linkId": "ExampleScenario.process.step.operation.request-flyover",
                           "text": "Each resource instance used by the initiator.",
                           "type": "display"
+                        },
+                        {
+                          "extension": [
+                            {
+                              "url": "http://hl7.org/fhir/StructureDefinition/questionnaire-maxOccurs",
+                              "valueInteger": 1
+                            },
+                            {
+                              "url": "http://hl7.org/fhir/StructureDefinition/questionnaire-fhirType",
+                              "valueString": "string"
+                            }
+                          ],
+                          "linkId": "ExampleScenario.instance.containedInstance.id",
+                          "type": "group",
+                          "required": false,
+                          "repeats": true,
+                          "item": [
+                            {
+                              "extension": [
+                                {
+                                  "url": "http://hl7.org/fhir/StructureDefinition/questionnaire-itemControl",
+                                  "valueCodeableConcept": {
+                                    "coding": [
+                                      {
+                                        "system": "http://hl7.org/fhir/questionnaire-item-control",
+                                        "code": "flyover",
+                                        "display": "Fly-over"
+                                      }
+                                    ]
+                                  }
+                                }
+                              ],
+                              "linkId": "ExampleScenario.instance.containedInstance.id-flyover",
+                              "text": "Unique id for the element within a resource (for internal references). This may be any string value that does not contain spaces.",
+                              "type": "display"
+                            },
+                            {
+                              "linkId": "ExampleScenario.instance.containedInstance.id.value",
+                              "text": "Unique id for inter-element referencing",
+                              "type": "string",
+                              "required": false,
+                              "repeats": false
+                            }
+                          ]
+                        },
+                        {
+                          "linkId": "ExampleScenario.instance.containedInstance.extension",
+                          "text": "Additional content defined by implementations",
+                          "type": "group",
+                          "required": false,
+                          "repeats": true,
+                          "item": [
+                            {
+                              "extension": [
+                                {
+                                  "url": "http://hl7.org/fhir/StructureDefinition/questionnaire-itemControl",
+                                  "valueCodeableConcept": {
+                                    "coding": [
+                                      {
+                                        "system": "http://hl7.org/fhir/questionnaire-item-control",
+                                        "code": "flyover",
+                                        "display": "Fly-over"
+                                      }
+                                    ]
+                                  }
+                                }
+                              ],
+                              "linkId": "ExampleScenario.instance.containedInstance.extension-flyover",
+                              "text": "May be used to represent additional information that is not part of the basic definition of the element. To make the use of extensions safe and manageable, there is a strict set of governance  applied to the definition and use of extensions. Though any implementer can define an extension, there is a set of requirements that SHALL be met as part of the definition of the extension. There can be no stigma associated with the use of extensions by any application, project, or standard - regardless of the institution or jurisdiction that uses or defines the extensions.  The use of extensions is what allows the FHIR specification to retain a core level of simplicity for everyone.",
+                              "type": "display"
+                            }
+                          ]
+                        },
+                        {
+                          "linkId": "ExampleScenario.instance.containedInstance.modifierExtension",
+                          "text": "Extensions that cannot be ignored even if unrecognized",
+                          "type": "group",
+                          "required": false,
+                          "repeats": true,
+                          "item": [
+                            {
+                              "extension": [
+                                {
+                                  "url": "http://hl7.org/fhir/StructureDefinition/questionnaire-itemControl",
+                                  "valueCodeableConcept": {
+                                    "coding": [
+                                      {
+                                        "system": "http://hl7.org/fhir/questionnaire-item-control",
+                                        "code": "flyover",
+                                        "display": "Fly-over"
+                                      }
+                                    ]
+                                  }
+                                }
+                              ],
+                              "linkId": "ExampleScenario.instance.containedInstance.modifierExtension-flyover",
+                              "text": "May be used to represent additional information that is not part of the basic definition of the element and that modifies the understanding of the element in which it is contained and/or the understanding of the containing element\u0027s descendants. Usually modifier elements provide negation or qualification. To make the use of extensions safe and manageable, there is a strict set of governance applied to the definition and use of extensions. Though any implementer can define an extension, there is a set of requirements that SHALL be met as part of the definition of the extension. Applications processing a resource are required to check for modifier extensions.\n\nModifier extensions SHALL NOT change the meaning of any elements on Resource or DomainResource (including cannot change the meaning of modifierExtension itself). There can be no stigma associated with the use of extensions by any application, project, or standard - regardless of the institution or jurisdiction that uses or defines the extensions.  The use of extensions is what allows the FHIR specification to retain a core level of simplicity for everyone.",
+                              "type": "display"
+                            }
+                          ]
+                        },
+                        {
+                          "extension": [
+                            {
+                              "url": "http://hl7.org/fhir/StructureDefinition/questionnaire-minOccurs",
+                              "valueInteger": 1
+                            },
+                            {
+                              "url": "http://hl7.org/fhir/StructureDefinition/questionnaire-maxOccurs",
+                              "valueInteger": 1
+                            },
+                            {
+                              "url": "http://hl7.org/fhir/StructureDefinition/questionnaire-fhirType",
+                              "valueString": "string"
+                            }
+                          ],
+                          "linkId": "ExampleScenario.instance.containedInstance.resourceId",
+                          "type": "group",
+                          "required": true,
+                          "repeats": true,
+                          "item": [
+                            {
+                              "extension": [
+                                {
+                                  "url": "http://hl7.org/fhir/StructureDefinition/questionnaire-itemControl",
+                                  "valueCodeableConcept": {
+                                    "coding": [
+                                      {
+                                        "system": "http://hl7.org/fhir/questionnaire-item-control",
+                                        "code": "flyover",
+                                        "display": "Fly-over"
+                                      }
+                                    ]
+                                  }
+                                }
+                              ],
+                              "linkId": "ExampleScenario.instance.containedInstance.resourceId-flyover",
+                              "text": "Each resource contained in the instance.",
+                              "type": "display"
+                            },
+                            {
+                              "linkId": "ExampleScenario.instance.containedInstance.resourceId.value",
+                              "text": "Each resource contained in the instance",
+                              "type": "string",
+                              "required": false,
+                              "repeats": false
+                            }
+                          ]
+                        },
+                        {
+                          "extension": [
+                            {
+                              "url": "http://hl7.org/fhir/StructureDefinition/questionnaire-maxOccurs",
+                              "valueInteger": 1
+                            },
+                            {
+                              "url": "http://hl7.org/fhir/StructureDefinition/questionnaire-fhirType",
+                              "valueString": "string"
+                            }
+                          ],
+                          "linkId": "ExampleScenario.instance.containedInstance.versionId",
+                          "type": "group",
+                          "required": false,
+                          "repeats": true,
+                          "item": [
+                            {
+                              "extension": [
+                                {
+                                  "url": "http://hl7.org/fhir/StructureDefinition/questionnaire-itemControl",
+                                  "valueCodeableConcept": {
+                                    "coding": [
+                                      {
+                                        "system": "http://hl7.org/fhir/questionnaire-item-control",
+                                        "code": "flyover",
+                                        "display": "Fly-over"
+                                      }
+                                    ]
+                                  }
+                                }
+                              ],
+                              "linkId": "ExampleScenario.instance.containedInstance.versionId-flyover",
+                              "text": "A specific version of a resource contained in the instance.",
+                              "type": "display"
+                            },
+                            {
+                              "linkId": "ExampleScenario.instance.containedInstance.versionId.value",
+                              "text": "A specific version of a resource contained in the instance",
+                              "type": "string",
+                              "required": false,
+                              "repeats": false
+                            }
+                          ]
                         }
                       ]
                     },
@@ -3020,6 +3488,198 @@
                           "linkId": "ExampleScenario.process.step.operation.response-flyover",
                           "text": "Each resource instance used by the responder.",
                           "type": "display"
+                        },
+                        {
+                          "extension": [
+                            {
+                              "url": "http://hl7.org/fhir/StructureDefinition/questionnaire-maxOccurs",
+                              "valueInteger": 1
+                            },
+                            {
+                              "url": "http://hl7.org/fhir/StructureDefinition/questionnaire-fhirType",
+                              "valueString": "string"
+                            }
+                          ],
+                          "linkId": "ExampleScenario.instance.containedInstance.id",
+                          "type": "group",
+                          "required": false,
+                          "repeats": true,
+                          "item": [
+                            {
+                              "extension": [
+                                {
+                                  "url": "http://hl7.org/fhir/StructureDefinition/questionnaire-itemControl",
+                                  "valueCodeableConcept": {
+                                    "coding": [
+                                      {
+                                        "system": "http://hl7.org/fhir/questionnaire-item-control",
+                                        "code": "flyover",
+                                        "display": "Fly-over"
+                                      }
+                                    ]
+                                  }
+                                }
+                              ],
+                              "linkId": "ExampleScenario.instance.containedInstance.id-flyover",
+                              "text": "Unique id for the element within a resource (for internal references). This may be any string value that does not contain spaces.",
+                              "type": "display"
+                            },
+                            {
+                              "linkId": "ExampleScenario.instance.containedInstance.id.value",
+                              "text": "Unique id for inter-element referencing",
+                              "type": "string",
+                              "required": false,
+                              "repeats": false
+                            }
+                          ]
+                        },
+                        {
+                          "linkId": "ExampleScenario.instance.containedInstance.extension",
+                          "text": "Additional content defined by implementations",
+                          "type": "group",
+                          "required": false,
+                          "repeats": true,
+                          "item": [
+                            {
+                              "extension": [
+                                {
+                                  "url": "http://hl7.org/fhir/StructureDefinition/questionnaire-itemControl",
+                                  "valueCodeableConcept": {
+                                    "coding": [
+                                      {
+                                        "system": "http://hl7.org/fhir/questionnaire-item-control",
+                                        "code": "flyover",
+                                        "display": "Fly-over"
+                                      }
+                                    ]
+                                  }
+                                }
+                              ],
+                              "linkId": "ExampleScenario.instance.containedInstance.extension-flyover",
+                              "text": "May be used to represent additional information that is not part of the basic definition of the element. To make the use of extensions safe and manageable, there is a strict set of governance  applied to the definition and use of extensions. Though any implementer can define an extension, there is a set of requirements that SHALL be met as part of the definition of the extension. There can be no stigma associated with the use of extensions by any application, project, or standard - regardless of the institution or jurisdiction that uses or defines the extensions.  The use of extensions is what allows the FHIR specification to retain a core level of simplicity for everyone.",
+                              "type": "display"
+                            }
+                          ]
+                        },
+                        {
+                          "linkId": "ExampleScenario.instance.containedInstance.modifierExtension",
+                          "text": "Extensions that cannot be ignored even if unrecognized",
+                          "type": "group",
+                          "required": false,
+                          "repeats": true,
+                          "item": [
+                            {
+                              "extension": [
+                                {
+                                  "url": "http://hl7.org/fhir/StructureDefinition/questionnaire-itemControl",
+                                  "valueCodeableConcept": {
+                                    "coding": [
+                                      {
+                                        "system": "http://hl7.org/fhir/questionnaire-item-control",
+                                        "code": "flyover",
+                                        "display": "Fly-over"
+                                      }
+                                    ]
+                                  }
+                                }
+                              ],
+                              "linkId": "ExampleScenario.instance.containedInstance.modifierExtension-flyover",
+                              "text": "May be used to represent additional information that is not part of the basic definition of the element and that modifies the understanding of the element in which it is contained and/or the understanding of the containing element\u0027s descendants. Usually modifier elements provide negation or qualification. To make the use of extensions safe and manageable, there is a strict set of governance applied to the definition and use of extensions. Though any implementer can define an extension, there is a set of requirements that SHALL be met as part of the definition of the extension. Applications processing a resource are required to check for modifier extensions.\n\nModifier extensions SHALL NOT change the meaning of any elements on Resource or DomainResource (including cannot change the meaning of modifierExtension itself). There can be no stigma associated with the use of extensions by any application, project, or standard - regardless of the institution or jurisdiction that uses or defines the extensions.  The use of extensions is what allows the FHIR specification to retain a core level of simplicity for everyone.",
+                              "type": "display"
+                            }
+                          ]
+                        },
+                        {
+                          "extension": [
+                            {
+                              "url": "http://hl7.org/fhir/StructureDefinition/questionnaire-minOccurs",
+                              "valueInteger": 1
+                            },
+                            {
+                              "url": "http://hl7.org/fhir/StructureDefinition/questionnaire-maxOccurs",
+                              "valueInteger": 1
+                            },
+                            {
+                              "url": "http://hl7.org/fhir/StructureDefinition/questionnaire-fhirType",
+                              "valueString": "string"
+                            }
+                          ],
+                          "linkId": "ExampleScenario.instance.containedInstance.resourceId",
+                          "type": "group",
+                          "required": true,
+                          "repeats": true,
+                          "item": [
+                            {
+                              "extension": [
+                                {
+                                  "url": "http://hl7.org/fhir/StructureDefinition/questionnaire-itemControl",
+                                  "valueCodeableConcept": {
+                                    "coding": [
+                                      {
+                                        "system": "http://hl7.org/fhir/questionnaire-item-control",
+                                        "code": "flyover",
+                                        "display": "Fly-over"
+                                      }
+                                    ]
+                                  }
+                                }
+                              ],
+                              "linkId": "ExampleScenario.instance.containedInstance.resourceId-flyover",
+                              "text": "Each resource contained in the instance.",
+                              "type": "display"
+                            },
+                            {
+                              "linkId": "ExampleScenario.instance.containedInstance.resourceId.value",
+                              "text": "Each resource contained in the instance",
+                              "type": "string",
+                              "required": false,
+                              "repeats": false
+                            }
+                          ]
+                        },
+                        {
+                          "extension": [
+                            {
+                              "url": "http://hl7.org/fhir/StructureDefinition/questionnaire-maxOccurs",
+                              "valueInteger": 1
+                            },
+                            {
+                              "url": "http://hl7.org/fhir/StructureDefinition/questionnaire-fhirType",
+                              "valueString": "string"
+                            }
+                          ],
+                          "linkId": "ExampleScenario.instance.containedInstance.versionId",
+                          "type": "group",
+                          "required": false,
+                          "repeats": true,
+                          "item": [
+                            {
+                              "extension": [
+                                {
+                                  "url": "http://hl7.org/fhir/StructureDefinition/questionnaire-itemControl",
+                                  "valueCodeableConcept": {
+                                    "coding": [
+                                      {
+                                        "system": "http://hl7.org/fhir/questionnaire-item-control",
+                                        "code": "flyover",
+                                        "display": "Fly-over"
+                                      }
+                                    ]
+                                  }
+                                }
+                              ],
+                              "linkId": "ExampleScenario.instance.containedInstance.versionId-flyover",
+                              "text": "A specific version of a resource contained in the instance.",
+                              "type": "display"
+                            },
+                            {
+                              "linkId": "ExampleScenario.instance.containedInstance.versionId.value",
+                              "text": "A specific version of a resource contained in the instance",
+                              "type": "string",
+                              "required": false,
+                              "repeats": false
+                            }
+                          ]
                         }
                       ]
                     }
@@ -3268,6 +3928,1400 @@
                           "linkId": "ExampleScenario.process.step.alternative.step-flyover",
                           "text": "What happens in each alternative option.",
                           "type": "display"
+                        },
+                        {
+                          "extension": [
+                            {
+                              "url": "http://hl7.org/fhir/StructureDefinition/questionnaire-maxOccurs",
+                              "valueInteger": 1
+                            },
+                            {
+                              "url": "http://hl7.org/fhir/StructureDefinition/questionnaire-fhirType",
+                              "valueString": "string"
+                            }
+                          ],
+                          "linkId": "ExampleScenario.process.step.id",
+                          "type": "group",
+                          "required": false,
+                          "repeats": true,
+                          "item": [
+                            {
+                              "extension": [
+                                {
+                                  "url": "http://hl7.org/fhir/StructureDefinition/questionnaire-itemControl",
+                                  "valueCodeableConcept": {
+                                    "coding": [
+                                      {
+                                        "system": "http://hl7.org/fhir/questionnaire-item-control",
+                                        "code": "flyover",
+                                        "display": "Fly-over"
+                                      }
+                                    ]
+                                  }
+                                }
+                              ],
+                              "linkId": "ExampleScenario.process.step.id-flyover",
+                              "text": "Unique id for the element within a resource (for internal references). This may be any string value that does not contain spaces.",
+                              "type": "display"
+                            },
+                            {
+                              "linkId": "ExampleScenario.process.step.id.value",
+                              "text": "Unique id for inter-element referencing",
+                              "type": "string",
+                              "required": false,
+                              "repeats": false
+                            }
+                          ]
+                        },
+                        {
+                          "linkId": "ExampleScenario.process.step.extension",
+                          "text": "Additional content defined by implementations",
+                          "type": "group",
+                          "required": false,
+                          "repeats": true,
+                          "item": [
+                            {
+                              "extension": [
+                                {
+                                  "url": "http://hl7.org/fhir/StructureDefinition/questionnaire-itemControl",
+                                  "valueCodeableConcept": {
+                                    "coding": [
+                                      {
+                                        "system": "http://hl7.org/fhir/questionnaire-item-control",
+                                        "code": "flyover",
+                                        "display": "Fly-over"
+                                      }
+                                    ]
+                                  }
+                                }
+                              ],
+                              "linkId": "ExampleScenario.process.step.extension-flyover",
+                              "text": "May be used to represent additional information that is not part of the basic definition of the element. To make the use of extensions safe and manageable, there is a strict set of governance  applied to the definition and use of extensions. Though any implementer can define an extension, there is a set of requirements that SHALL be met as part of the definition of the extension. There can be no stigma associated with the use of extensions by any application, project, or standard - regardless of the institution or jurisdiction that uses or defines the extensions.  The use of extensions is what allows the FHIR specification to retain a core level of simplicity for everyone.",
+                              "type": "display"
+                            }
+                          ]
+                        },
+                        {
+                          "linkId": "ExampleScenario.process.step.modifierExtension",
+                          "text": "Extensions that cannot be ignored even if unrecognized",
+                          "type": "group",
+                          "required": false,
+                          "repeats": true,
+                          "item": [
+                            {
+                              "extension": [
+                                {
+                                  "url": "http://hl7.org/fhir/StructureDefinition/questionnaire-itemControl",
+                                  "valueCodeableConcept": {
+                                    "coding": [
+                                      {
+                                        "system": "http://hl7.org/fhir/questionnaire-item-control",
+                                        "code": "flyover",
+                                        "display": "Fly-over"
+                                      }
+                                    ]
+                                  }
+                                }
+                              ],
+                              "linkId": "ExampleScenario.process.step.modifierExtension-flyover",
+                              "text": "May be used to represent additional information that is not part of the basic definition of the element and that modifies the understanding of the element in which it is contained and/or the understanding of the containing element\u0027s descendants. Usually modifier elements provide negation or qualification. To make the use of extensions safe and manageable, there is a strict set of governance applied to the definition and use of extensions. Though any implementer can define an extension, there is a set of requirements that SHALL be met as part of the definition of the extension. Applications processing a resource are required to check for modifier extensions.\n\nModifier extensions SHALL NOT change the meaning of any elements on Resource or DomainResource (including cannot change the meaning of modifierExtension itself). There can be no stigma associated with the use of extensions by any application, project, or standard - regardless of the institution or jurisdiction that uses or defines the extensions.  The use of extensions is what allows the FHIR specification to retain a core level of simplicity for everyone.",
+                              "type": "display"
+                            }
+                          ]
+                        },
+                        {
+                          "linkId": "ExampleScenario.process.step.process",
+                          "text": "Nested process",
+                          "type": "group",
+                          "required": false,
+                          "repeats": true,
+                          "item": [
+                            {
+                              "extension": [
+                                {
+                                  "url": "http://hl7.org/fhir/StructureDefinition/questionnaire-itemControl",
+                                  "valueCodeableConcept": {
+                                    "coding": [
+                                      {
+                                        "system": "http://hl7.org/fhir/questionnaire-item-control",
+                                        "code": "flyover",
+                                        "display": "Fly-over"
+                                      }
+                                    ]
+                                  }
+                                }
+                              ],
+                              "linkId": "ExampleScenario.process.step.process-flyover",
+                              "text": "Nested process.",
+                              "type": "display"
+                            },
+                            {
+                              "extension": [
+                                {
+                                  "url": "http://hl7.org/fhir/StructureDefinition/questionnaire-maxOccurs",
+                                  "valueInteger": 1
+                                },
+                                {
+                                  "url": "http://hl7.org/fhir/StructureDefinition/questionnaire-fhirType",
+                                  "valueString": "string"
+                                }
+                              ],
+                              "linkId": "ExampleScenario.process.id",
+                              "type": "group",
+                              "required": false,
+                              "repeats": true,
+                              "item": [
+                                {
+                                  "extension": [
+                                    {
+                                      "url": "http://hl7.org/fhir/StructureDefinition/questionnaire-itemControl",
+                                      "valueCodeableConcept": {
+                                        "coding": [
+                                          {
+                                            "system": "http://hl7.org/fhir/questionnaire-item-control",
+                                            "code": "flyover",
+                                            "display": "Fly-over"
+                                          }
+                                        ]
+                                      }
+                                    }
+                                  ],
+                                  "linkId": "ExampleScenario.process.id-flyover",
+                                  "text": "Unique id for the element within a resource (for internal references). This may be any string value that does not contain spaces.",
+                                  "type": "display"
+                                },
+                                {
+                                  "linkId": "ExampleScenario.process.id.value",
+                                  "text": "Unique id for inter-element referencing",
+                                  "type": "string",
+                                  "required": false,
+                                  "repeats": false
+                                }
+                              ]
+                            },
+                            {
+                              "linkId": "ExampleScenario.process.extension",
+                              "text": "Additional content defined by implementations",
+                              "type": "group",
+                              "required": false,
+                              "repeats": true,
+                              "item": [
+                                {
+                                  "extension": [
+                                    {
+                                      "url": "http://hl7.org/fhir/StructureDefinition/questionnaire-itemControl",
+                                      "valueCodeableConcept": {
+                                        "coding": [
+                                          {
+                                            "system": "http://hl7.org/fhir/questionnaire-item-control",
+                                            "code": "flyover",
+                                            "display": "Fly-over"
+                                          }
+                                        ]
+                                      }
+                                    }
+                                  ],
+                                  "linkId": "ExampleScenario.process.extension-flyover",
+                                  "text": "May be used to represent additional information that is not part of the basic definition of the element. To make the use of extensions safe and manageable, there is a strict set of governance  applied to the definition and use of extensions. Though any implementer can define an extension, there is a set of requirements that SHALL be met as part of the definition of the extension. There can be no stigma associated with the use of extensions by any application, project, or standard - regardless of the institution or jurisdiction that uses or defines the extensions.  The use of extensions is what allows the FHIR specification to retain a core level of simplicity for everyone.",
+                                  "type": "display"
+                                }
+                              ]
+                            },
+                            {
+                              "linkId": "ExampleScenario.process.modifierExtension",
+                              "text": "Extensions that cannot be ignored even if unrecognized",
+                              "type": "group",
+                              "required": false,
+                              "repeats": true,
+                              "item": [
+                                {
+                                  "extension": [
+                                    {
+                                      "url": "http://hl7.org/fhir/StructureDefinition/questionnaire-itemControl",
+                                      "valueCodeableConcept": {
+                                        "coding": [
+                                          {
+                                            "system": "http://hl7.org/fhir/questionnaire-item-control",
+                                            "code": "flyover",
+                                            "display": "Fly-over"
+                                          }
+                                        ]
+                                      }
+                                    }
+                                  ],
+                                  "linkId": "ExampleScenario.process.modifierExtension-flyover",
+                                  "text": "May be used to represent additional information that is not part of the basic definition of the element and that modifies the understanding of the element in which it is contained and/or the understanding of the containing element\u0027s descendants. Usually modifier elements provide negation or qualification. To make the use of extensions safe and manageable, there is a strict set of governance applied to the definition and use of extensions. Though any implementer can define an extension, there is a set of requirements that SHALL be met as part of the definition of the extension. Applications processing a resource are required to check for modifier extensions.\n\nModifier extensions SHALL NOT change the meaning of any elements on Resource or DomainResource (including cannot change the meaning of modifierExtension itself). There can be no stigma associated with the use of extensions by any application, project, or standard - regardless of the institution or jurisdiction that uses or defines the extensions.  The use of extensions is what allows the FHIR specification to retain a core level of simplicity for everyone.",
+                                  "type": "display"
+                                }
+                              ]
+                            },
+                            {
+                              "extension": [
+                                {
+                                  "url": "http://hl7.org/fhir/StructureDefinition/questionnaire-minOccurs",
+                                  "valueInteger": 1
+                                },
+                                {
+                                  "url": "http://hl7.org/fhir/StructureDefinition/questionnaire-maxOccurs",
+                                  "valueInteger": 1
+                                },
+                                {
+                                  "url": "http://hl7.org/fhir/StructureDefinition/questionnaire-fhirType",
+                                  "valueString": "string"
+                                }
+                              ],
+                              "linkId": "ExampleScenario.process.title",
+                              "type": "group",
+                              "required": true,
+                              "repeats": true,
+                              "item": [
+                                {
+                                  "extension": [
+                                    {
+                                      "url": "http://hl7.org/fhir/StructureDefinition/questionnaire-itemControl",
+                                      "valueCodeableConcept": {
+                                        "coding": [
+                                          {
+                                            "system": "http://hl7.org/fhir/questionnaire-item-control",
+                                            "code": "flyover",
+                                            "display": "Fly-over"
+                                          }
+                                        ]
+                                      }
+                                    }
+                                  ],
+                                  "linkId": "ExampleScenario.process.title-flyover",
+                                  "text": "The diagram title of the group of operations.",
+                                  "type": "display"
+                                },
+                                {
+                                  "linkId": "ExampleScenario.process.title.value",
+                                  "text": "The diagram title of the group of operations",
+                                  "type": "string",
+                                  "required": false,
+                                  "repeats": false
+                                }
+                              ]
+                            },
+                            {
+                              "extension": [
+                                {
+                                  "url": "http://hl7.org/fhir/StructureDefinition/questionnaire-maxOccurs",
+                                  "valueInteger": 1
+                                },
+                                {
+                                  "url": "http://hl7.org/fhir/StructureDefinition/questionnaire-fhirType",
+                                  "valueString": "string"
+                                }
+                              ],
+                              "linkId": "ExampleScenario.process.description",
+                              "type": "group",
+                              "required": false,
+                              "repeats": true,
+                              "item": [
+                                {
+                                  "extension": [
+                                    {
+                                      "url": "http://hl7.org/fhir/StructureDefinition/questionnaire-itemControl",
+                                      "valueCodeableConcept": {
+                                        "coding": [
+                                          {
+                                            "system": "http://hl7.org/fhir/questionnaire-item-control",
+                                            "code": "flyover",
+                                            "display": "Fly-over"
+                                          }
+                                        ]
+                                      }
+                                    }
+                                  ],
+                                  "linkId": "ExampleScenario.process.description-flyover",
+                                  "text": "A longer description of the group of operations.",
+                                  "type": "display"
+                                },
+                                {
+                                  "linkId": "ExampleScenario.process.description.value",
+                                  "text": "A longer description of the group of operations",
+                                  "type": "string",
+                                  "required": false,
+                                  "repeats": false
+                                }
+                              ]
+                            },
+                            {
+                              "extension": [
+                                {
+                                  "url": "http://hl7.org/fhir/StructureDefinition/questionnaire-maxOccurs",
+                                  "valueInteger": 1
+                                },
+                                {
+                                  "url": "http://hl7.org/fhir/StructureDefinition/questionnaire-fhirType",
+                                  "valueString": "string"
+                                }
+                              ],
+                              "linkId": "ExampleScenario.process.preConditions",
+                              "type": "group",
+                              "required": false,
+                              "repeats": true,
+                              "item": [
+                                {
+                                  "extension": [
+                                    {
+                                      "url": "http://hl7.org/fhir/StructureDefinition/questionnaire-itemControl",
+                                      "valueCodeableConcept": {
+                                        "coding": [
+                                          {
+                                            "system": "http://hl7.org/fhir/questionnaire-item-control",
+                                            "code": "flyover",
+                                            "display": "Fly-over"
+                                          }
+                                        ]
+                                      }
+                                    }
+                                  ],
+                                  "linkId": "ExampleScenario.process.preConditions-flyover",
+                                  "text": "Description of initial status before the process starts.",
+                                  "type": "display"
+                                },
+                                {
+                                  "linkId": "ExampleScenario.process.preConditions.value",
+                                  "text": "Description of initial status before the process starts",
+                                  "type": "string",
+                                  "required": false,
+                                  "repeats": false
+                                }
+                              ]
+                            },
+                            {
+                              "extension": [
+                                {
+                                  "url": "http://hl7.org/fhir/StructureDefinition/questionnaire-maxOccurs",
+                                  "valueInteger": 1
+                                },
+                                {
+                                  "url": "http://hl7.org/fhir/StructureDefinition/questionnaire-fhirType",
+                                  "valueString": "string"
+                                }
+                              ],
+                              "linkId": "ExampleScenario.process.postConditions",
+                              "type": "group",
+                              "required": false,
+                              "repeats": true,
+                              "item": [
+                                {
+                                  "extension": [
+                                    {
+                                      "url": "http://hl7.org/fhir/StructureDefinition/questionnaire-itemControl",
+                                      "valueCodeableConcept": {
+                                        "coding": [
+                                          {
+                                            "system": "http://hl7.org/fhir/questionnaire-item-control",
+                                            "code": "flyover",
+                                            "display": "Fly-over"
+                                          }
+                                        ]
+                                      }
+                                    }
+                                  ],
+                                  "linkId": "ExampleScenario.process.postConditions-flyover",
+                                  "text": "Description of final status after the process ends.",
+                                  "type": "display"
+                                },
+                                {
+                                  "linkId": "ExampleScenario.process.postConditions.value",
+                                  "text": "Description of final status after the process ends",
+                                  "type": "string",
+                                  "required": false,
+                                  "repeats": false
+                                }
+                              ]
+                            }
+                          ]
+                        },
+                        {
+                          "extension": [
+                            {
+                              "url": "http://hl7.org/fhir/StructureDefinition/questionnaire-maxOccurs",
+                              "valueInteger": 1
+                            },
+                            {
+                              "url": "http://hl7.org/fhir/StructureDefinition/questionnaire-fhirType",
+                              "valueString": "boolean"
+                            }
+                          ],
+                          "linkId": "ExampleScenario.process.step.pause",
+                          "type": "group",
+                          "required": false,
+                          "repeats": true,
+                          "item": [
+                            {
+                              "extension": [
+                                {
+                                  "url": "http://hl7.org/fhir/StructureDefinition/questionnaire-itemControl",
+                                  "valueCodeableConcept": {
+                                    "coding": [
+                                      {
+                                        "system": "http://hl7.org/fhir/questionnaire-item-control",
+                                        "code": "flyover",
+                                        "display": "Fly-over"
+                                      }
+                                    ]
+                                  }
+                                }
+                              ],
+                              "linkId": "ExampleScenario.process.step.pause-flyover",
+                              "text": "If there is a pause in the flow.",
+                              "type": "display"
+                            },
+                            {
+                              "linkId": "ExampleScenario.process.step.pause.value",
+                              "text": "If there is a pause in the flow",
+                              "type": "boolean",
+                              "required": false,
+                              "repeats": false
+                            }
+                          ]
+                        },
+                        {
+                          "extension": [
+                            {
+                              "url": "http://hl7.org/fhir/StructureDefinition/questionnaire-maxOccurs",
+                              "valueInteger": 1
+                            }
+                          ],
+                          "linkId": "ExampleScenario.process.step.operation",
+                          "text": "Each interaction or action",
+                          "type": "group",
+                          "required": false,
+                          "repeats": false,
+                          "item": [
+                            {
+                              "extension": [
+                                {
+                                  "url": "http://hl7.org/fhir/StructureDefinition/questionnaire-itemControl",
+                                  "valueCodeableConcept": {
+                                    "coding": [
+                                      {
+                                        "system": "http://hl7.org/fhir/questionnaire-item-control",
+                                        "code": "flyover",
+                                        "display": "Fly-over"
+                                      }
+                                    ]
+                                  }
+                                }
+                              ],
+                              "linkId": "ExampleScenario.process.step.operation-flyover",
+                              "text": "Each interaction or action.",
+                              "type": "display"
+                            },
+                            {
+                              "extension": [
+                                {
+                                  "url": "http://hl7.org/fhir/StructureDefinition/questionnaire-maxOccurs",
+                                  "valueInteger": 1
+                                },
+                                {
+                                  "url": "http://hl7.org/fhir/StructureDefinition/questionnaire-fhirType",
+                                  "valueString": "string"
+                                }
+                              ],
+                              "linkId": "ExampleScenario.process.step.operation.id",
+                              "type": "group",
+                              "required": false,
+                              "repeats": true,
+                              "item": [
+                                {
+                                  "extension": [
+                                    {
+                                      "url": "http://hl7.org/fhir/StructureDefinition/questionnaire-itemControl",
+                                      "valueCodeableConcept": {
+                                        "coding": [
+                                          {
+                                            "system": "http://hl7.org/fhir/questionnaire-item-control",
+                                            "code": "flyover",
+                                            "display": "Fly-over"
+                                          }
+                                        ]
+                                      }
+                                    }
+                                  ],
+                                  "linkId": "ExampleScenario.process.step.operation.id-flyover",
+                                  "text": "Unique id for the element within a resource (for internal references). This may be any string value that does not contain spaces.",
+                                  "type": "display"
+                                },
+                                {
+                                  "linkId": "ExampleScenario.process.step.operation.id.value",
+                                  "text": "Unique id for inter-element referencing",
+                                  "type": "string",
+                                  "required": false,
+                                  "repeats": false
+                                }
+                              ]
+                            },
+                            {
+                              "linkId": "ExampleScenario.process.step.operation.extension",
+                              "text": "Additional content defined by implementations",
+                              "type": "group",
+                              "required": false,
+                              "repeats": true,
+                              "item": [
+                                {
+                                  "extension": [
+                                    {
+                                      "url": "http://hl7.org/fhir/StructureDefinition/questionnaire-itemControl",
+                                      "valueCodeableConcept": {
+                                        "coding": [
+                                          {
+                                            "system": "http://hl7.org/fhir/questionnaire-item-control",
+                                            "code": "flyover",
+                                            "display": "Fly-over"
+                                          }
+                                        ]
+                                      }
+                                    }
+                                  ],
+                                  "linkId": "ExampleScenario.process.step.operation.extension-flyover",
+                                  "text": "May be used to represent additional information that is not part of the basic definition of the element. To make the use of extensions safe and manageable, there is a strict set of governance  applied to the definition and use of extensions. Though any implementer can define an extension, there is a set of requirements that SHALL be met as part of the definition of the extension. There can be no stigma associated with the use of extensions by any application, project, or standard - regardless of the institution or jurisdiction that uses or defines the extensions.  The use of extensions is what allows the FHIR specification to retain a core level of simplicity for everyone.",
+                                  "type": "display"
+                                }
+                              ]
+                            },
+                            {
+                              "linkId": "ExampleScenario.process.step.operation.modifierExtension",
+                              "text": "Extensions that cannot be ignored even if unrecognized",
+                              "type": "group",
+                              "required": false,
+                              "repeats": true,
+                              "item": [
+                                {
+                                  "extension": [
+                                    {
+                                      "url": "http://hl7.org/fhir/StructureDefinition/questionnaire-itemControl",
+                                      "valueCodeableConcept": {
+                                        "coding": [
+                                          {
+                                            "system": "http://hl7.org/fhir/questionnaire-item-control",
+                                            "code": "flyover",
+                                            "display": "Fly-over"
+                                          }
+                                        ]
+                                      }
+                                    }
+                                  ],
+                                  "linkId": "ExampleScenario.process.step.operation.modifierExtension-flyover",
+                                  "text": "May be used to represent additional information that is not part of the basic definition of the element and that modifies the understanding of the element in which it is contained and/or the understanding of the containing element\u0027s descendants. Usually modifier elements provide negation or qualification. To make the use of extensions safe and manageable, there is a strict set of governance applied to the definition and use of extensions. Though any implementer can define an extension, there is a set of requirements that SHALL be met as part of the definition of the extension. Applications processing a resource are required to check for modifier extensions.\n\nModifier extensions SHALL NOT change the meaning of any elements on Resource or DomainResource (including cannot change the meaning of modifierExtension itself). There can be no stigma associated with the use of extensions by any application, project, or standard - regardless of the institution or jurisdiction that uses or defines the extensions.  The use of extensions is what allows the FHIR specification to retain a core level of simplicity for everyone.",
+                                  "type": "display"
+                                }
+                              ]
+                            },
+                            {
+                              "extension": [
+                                {
+                                  "url": "http://hl7.org/fhir/StructureDefinition/questionnaire-minOccurs",
+                                  "valueInteger": 1
+                                },
+                                {
+                                  "url": "http://hl7.org/fhir/StructureDefinition/questionnaire-maxOccurs",
+                                  "valueInteger": 1
+                                },
+                                {
+                                  "url": "http://hl7.org/fhir/StructureDefinition/questionnaire-fhirType",
+                                  "valueString": "string"
+                                }
+                              ],
+                              "linkId": "ExampleScenario.process.step.operation.number",
+                              "type": "group",
+                              "required": true,
+                              "repeats": true,
+                              "item": [
+                                {
+                                  "extension": [
+                                    {
+                                      "url": "http://hl7.org/fhir/StructureDefinition/questionnaire-itemControl",
+                                      "valueCodeableConcept": {
+                                        "coding": [
+                                          {
+                                            "system": "http://hl7.org/fhir/questionnaire-item-control",
+                                            "code": "flyover",
+                                            "display": "Fly-over"
+                                          }
+                                        ]
+                                      }
+                                    }
+                                  ],
+                                  "linkId": "ExampleScenario.process.step.operation.number-flyover",
+                                  "text": "The sequential number of the interaction, e.g. 1.2.5.",
+                                  "type": "display"
+                                },
+                                {
+                                  "linkId": "ExampleScenario.process.step.operation.number.value",
+                                  "text": "The sequential number of the interaction",
+                                  "type": "string",
+                                  "required": false,
+                                  "repeats": false
+                                }
+                              ]
+                            },
+                            {
+                              "extension": [
+                                {
+                                  "url": "http://hl7.org/fhir/StructureDefinition/questionnaire-maxOccurs",
+                                  "valueInteger": 1
+                                },
+                                {
+                                  "url": "http://hl7.org/fhir/StructureDefinition/questionnaire-fhirType",
+                                  "valueString": "string"
+                                }
+                              ],
+                              "linkId": "ExampleScenario.process.step.operation.type",
+                              "type": "group",
+                              "required": false,
+                              "repeats": true,
+                              "item": [
+                                {
+                                  "extension": [
+                                    {
+                                      "url": "http://hl7.org/fhir/StructureDefinition/questionnaire-itemControl",
+                                      "valueCodeableConcept": {
+                                        "coding": [
+                                          {
+                                            "system": "http://hl7.org/fhir/questionnaire-item-control",
+                                            "code": "flyover",
+                                            "display": "Fly-over"
+                                          }
+                                        ]
+                                      }
+                                    }
+                                  ],
+                                  "linkId": "ExampleScenario.process.step.operation.type-flyover",
+                                  "text": "The type of operation - CRUD.",
+                                  "type": "display"
+                                },
+                                {
+                                  "linkId": "ExampleScenario.process.step.operation.type.value",
+                                  "text": "The type of operation - CRUD",
+                                  "type": "string",
+                                  "required": false,
+                                  "repeats": false
+                                }
+                              ]
+                            },
+                            {
+                              "extension": [
+                                {
+                                  "url": "http://hl7.org/fhir/StructureDefinition/questionnaire-maxOccurs",
+                                  "valueInteger": 1
+                                },
+                                {
+                                  "url": "http://hl7.org/fhir/StructureDefinition/questionnaire-fhirType",
+                                  "valueString": "string"
+                                }
+                              ],
+                              "linkId": "ExampleScenario.process.step.operation.name",
+                              "type": "group",
+                              "required": false,
+                              "repeats": true,
+                              "item": [
+                                {
+                                  "extension": [
+                                    {
+                                      "url": "http://hl7.org/fhir/StructureDefinition/questionnaire-itemControl",
+                                      "valueCodeableConcept": {
+                                        "coding": [
+                                          {
+                                            "system": "http://hl7.org/fhir/questionnaire-item-control",
+                                            "code": "flyover",
+                                            "display": "Fly-over"
+                                          }
+                                        ]
+                                      }
+                                    }
+                                  ],
+                                  "linkId": "ExampleScenario.process.step.operation.name-flyover",
+                                  "text": "The human-friendly name of the interaction.",
+                                  "type": "display"
+                                },
+                                {
+                                  "linkId": "ExampleScenario.process.step.operation.name.value",
+                                  "text": "The human-friendly name of the interaction",
+                                  "type": "string",
+                                  "required": false,
+                                  "repeats": false
+                                }
+                              ]
+                            },
+                            {
+                              "extension": [
+                                {
+                                  "url": "http://hl7.org/fhir/StructureDefinition/questionnaire-maxOccurs",
+                                  "valueInteger": 1
+                                },
+                                {
+                                  "url": "http://hl7.org/fhir/StructureDefinition/questionnaire-fhirType",
+                                  "valueString": "string"
+                                }
+                              ],
+                              "linkId": "ExampleScenario.process.step.operation.initiator",
+                              "type": "group",
+                              "required": false,
+                              "repeats": true,
+                              "item": [
+                                {
+                                  "extension": [
+                                    {
+                                      "url": "http://hl7.org/fhir/StructureDefinition/questionnaire-itemControl",
+                                      "valueCodeableConcept": {
+                                        "coding": [
+                                          {
+                                            "system": "http://hl7.org/fhir/questionnaire-item-control",
+                                            "code": "flyover",
+                                            "display": "Fly-over"
+                                          }
+                                        ]
+                                      }
+                                    }
+                                  ],
+                                  "linkId": "ExampleScenario.process.step.operation.initiator-flyover",
+                                  "text": "Who starts the transaction.",
+                                  "type": "display"
+                                },
+                                {
+                                  "linkId": "ExampleScenario.process.step.operation.initiator.value",
+                                  "text": "Who starts the transaction",
+                                  "type": "string",
+                                  "required": false,
+                                  "repeats": false
+                                }
+                              ]
+                            },
+                            {
+                              "extension": [
+                                {
+                                  "url": "http://hl7.org/fhir/StructureDefinition/questionnaire-maxOccurs",
+                                  "valueInteger": 1
+                                },
+                                {
+                                  "url": "http://hl7.org/fhir/StructureDefinition/questionnaire-fhirType",
+                                  "valueString": "string"
+                                }
+                              ],
+                              "linkId": "ExampleScenario.process.step.operation.receiver",
+                              "type": "group",
+                              "required": false,
+                              "repeats": true,
+                              "item": [
+                                {
+                                  "extension": [
+                                    {
+                                      "url": "http://hl7.org/fhir/StructureDefinition/questionnaire-itemControl",
+                                      "valueCodeableConcept": {
+                                        "coding": [
+                                          {
+                                            "system": "http://hl7.org/fhir/questionnaire-item-control",
+                                            "code": "flyover",
+                                            "display": "Fly-over"
+                                          }
+                                        ]
+                                      }
+                                    }
+                                  ],
+                                  "linkId": "ExampleScenario.process.step.operation.receiver-flyover",
+                                  "text": "Who receives the transaction.",
+                                  "type": "display"
+                                },
+                                {
+                                  "linkId": "ExampleScenario.process.step.operation.receiver.value",
+                                  "text": "Who receives the transaction",
+                                  "type": "string",
+                                  "required": false,
+                                  "repeats": false
+                                }
+                              ]
+                            },
+                            {
+                              "extension": [
+                                {
+                                  "url": "http://hl7.org/fhir/StructureDefinition/questionnaire-maxOccurs",
+                                  "valueInteger": 1
+                                },
+                                {
+                                  "url": "http://hl7.org/fhir/StructureDefinition/questionnaire-fhirType",
+                                  "valueString": "string"
+                                }
+                              ],
+                              "linkId": "ExampleScenario.process.step.operation.description",
+                              "type": "group",
+                              "required": false,
+                              "repeats": true,
+                              "item": [
+                                {
+                                  "extension": [
+                                    {
+                                      "url": "http://hl7.org/fhir/StructureDefinition/questionnaire-itemControl",
+                                      "valueCodeableConcept": {
+                                        "coding": [
+                                          {
+                                            "system": "http://hl7.org/fhir/questionnaire-item-control",
+                                            "code": "flyover",
+                                            "display": "Fly-over"
+                                          }
+                                        ]
+                                      }
+                                    }
+                                  ],
+                                  "linkId": "ExampleScenario.process.step.operation.description-flyover",
+                                  "text": "A comment to be inserted in the diagram.",
+                                  "type": "display"
+                                },
+                                {
+                                  "linkId": "ExampleScenario.process.step.operation.description.value",
+                                  "text": "A comment to be inserted in the diagram",
+                                  "type": "string",
+                                  "required": false,
+                                  "repeats": false
+                                }
+                              ]
+                            },
+                            {
+                              "extension": [
+                                {
+                                  "url": "http://hl7.org/fhir/StructureDefinition/questionnaire-maxOccurs",
+                                  "valueInteger": 1
+                                },
+                                {
+                                  "url": "http://hl7.org/fhir/StructureDefinition/questionnaire-fhirType",
+                                  "valueString": "boolean"
+                                }
+                              ],
+                              "linkId": "ExampleScenario.process.step.operation.initiatorActive",
+                              "type": "group",
+                              "required": false,
+                              "repeats": true,
+                              "item": [
+                                {
+                                  "extension": [
+                                    {
+                                      "url": "http://hl7.org/fhir/StructureDefinition/questionnaire-itemControl",
+                                      "valueCodeableConcept": {
+                                        "coding": [
+                                          {
+                                            "system": "http://hl7.org/fhir/questionnaire-item-control",
+                                            "code": "flyover",
+                                            "display": "Fly-over"
+                                          }
+                                        ]
+                                      }
+                                    }
+                                  ],
+                                  "linkId": "ExampleScenario.process.step.operation.initiatorActive-flyover",
+                                  "text": "Whether the initiator is deactivated right after the transaction.",
+                                  "type": "display"
+                                },
+                                {
+                                  "linkId": "ExampleScenario.process.step.operation.initiatorActive.value",
+                                  "text": "Whether the initiator is deactivated right after the transaction",
+                                  "type": "boolean",
+                                  "required": false,
+                                  "repeats": false
+                                }
+                              ]
+                            },
+                            {
+                              "extension": [
+                                {
+                                  "url": "http://hl7.org/fhir/StructureDefinition/questionnaire-maxOccurs",
+                                  "valueInteger": 1
+                                },
+                                {
+                                  "url": "http://hl7.org/fhir/StructureDefinition/questionnaire-fhirType",
+                                  "valueString": "boolean"
+                                }
+                              ],
+                              "linkId": "ExampleScenario.process.step.operation.receiverActive",
+                              "type": "group",
+                              "required": false,
+                              "repeats": true,
+                              "item": [
+                                {
+                                  "extension": [
+                                    {
+                                      "url": "http://hl7.org/fhir/StructureDefinition/questionnaire-itemControl",
+                                      "valueCodeableConcept": {
+                                        "coding": [
+                                          {
+                                            "system": "http://hl7.org/fhir/questionnaire-item-control",
+                                            "code": "flyover",
+                                            "display": "Fly-over"
+                                          }
+                                        ]
+                                      }
+                                    }
+                                  ],
+                                  "linkId": "ExampleScenario.process.step.operation.receiverActive-flyover",
+                                  "text": "Whether the receiver is deactivated right after the transaction.",
+                                  "type": "display"
+                                },
+                                {
+                                  "linkId": "ExampleScenario.process.step.operation.receiverActive.value",
+                                  "text": "Whether the receiver is deactivated right after the transaction",
+                                  "type": "boolean",
+                                  "required": false,
+                                  "repeats": false
+                                }
+                              ]
+                            },
+                            {
+                              "extension": [
+                                {
+                                  "url": "http://hl7.org/fhir/StructureDefinition/questionnaire-maxOccurs",
+                                  "valueInteger": 1
+                                }
+                              ],
+                              "linkId": "ExampleScenario.process.step.operation.request",
+                              "text": "Each resource instance used by the initiator",
+                              "type": "group",
+                              "required": false,
+                              "repeats": false,
+                              "item": [
+                                {
+                                  "extension": [
+                                    {
+                                      "url": "http://hl7.org/fhir/StructureDefinition/questionnaire-itemControl",
+                                      "valueCodeableConcept": {
+                                        "coding": [
+                                          {
+                                            "system": "http://hl7.org/fhir/questionnaire-item-control",
+                                            "code": "flyover",
+                                            "display": "Fly-over"
+                                          }
+                                        ]
+                                      }
+                                    }
+                                  ],
+                                  "linkId": "ExampleScenario.process.step.operation.request-flyover",
+                                  "text": "Each resource instance used by the initiator.",
+                                  "type": "display"
+                                },
+                                {
+                                  "extension": [
+                                    {
+                                      "url": "http://hl7.org/fhir/StructureDefinition/questionnaire-maxOccurs",
+                                      "valueInteger": 1
+                                    },
+                                    {
+                                      "url": "http://hl7.org/fhir/StructureDefinition/questionnaire-fhirType",
+                                      "valueString": "string"
+                                    }
+                                  ],
+                                  "linkId": "ExampleScenario.instance.containedInstance.id",
+                                  "type": "group",
+                                  "required": false,
+                                  "repeats": true,
+                                  "item": [
+                                    {
+                                      "extension": [
+                                        {
+                                          "url": "http://hl7.org/fhir/StructureDefinition/questionnaire-itemControl",
+                                          "valueCodeableConcept": {
+                                            "coding": [
+                                              {
+                                                "system": "http://hl7.org/fhir/questionnaire-item-control",
+                                                "code": "flyover",
+                                                "display": "Fly-over"
+                                              }
+                                            ]
+                                          }
+                                        }
+                                      ],
+                                      "linkId": "ExampleScenario.instance.containedInstance.id-flyover",
+                                      "text": "Unique id for the element within a resource (for internal references). This may be any string value that does not contain spaces.",
+                                      "type": "display"
+                                    },
+                                    {
+                                      "linkId": "ExampleScenario.instance.containedInstance.id.value",
+                                      "text": "Unique id for inter-element referencing",
+                                      "type": "string",
+                                      "required": false,
+                                      "repeats": false
+                                    }
+                                  ]
+                                },
+                                {
+                                  "linkId": "ExampleScenario.instance.containedInstance.extension",
+                                  "text": "Additional content defined by implementations",
+                                  "type": "group",
+                                  "required": false,
+                                  "repeats": true,
+                                  "item": [
+                                    {
+                                      "extension": [
+                                        {
+                                          "url": "http://hl7.org/fhir/StructureDefinition/questionnaire-itemControl",
+                                          "valueCodeableConcept": {
+                                            "coding": [
+                                              {
+                                                "system": "http://hl7.org/fhir/questionnaire-item-control",
+                                                "code": "flyover",
+                                                "display": "Fly-over"
+                                              }
+                                            ]
+                                          }
+                                        }
+                                      ],
+                                      "linkId": "ExampleScenario.instance.containedInstance.extension-flyover",
+                                      "text": "May be used to represent additional information that is not part of the basic definition of the element. To make the use of extensions safe and manageable, there is a strict set of governance  applied to the definition and use of extensions. Though any implementer can define an extension, there is a set of requirements that SHALL be met as part of the definition of the extension. There can be no stigma associated with the use of extensions by any application, project, or standard - regardless of the institution or jurisdiction that uses or defines the extensions.  The use of extensions is what allows the FHIR specification to retain a core level of simplicity for everyone.",
+                                      "type": "display"
+                                    }
+                                  ]
+                                },
+                                {
+                                  "linkId": "ExampleScenario.instance.containedInstance.modifierExtension",
+                                  "text": "Extensions that cannot be ignored even if unrecognized",
+                                  "type": "group",
+                                  "required": false,
+                                  "repeats": true,
+                                  "item": [
+                                    {
+                                      "extension": [
+                                        {
+                                          "url": "http://hl7.org/fhir/StructureDefinition/questionnaire-itemControl",
+                                          "valueCodeableConcept": {
+                                            "coding": [
+                                              {
+                                                "system": "http://hl7.org/fhir/questionnaire-item-control",
+                                                "code": "flyover",
+                                                "display": "Fly-over"
+                                              }
+                                            ]
+                                          }
+                                        }
+                                      ],
+                                      "linkId": "ExampleScenario.instance.containedInstance.modifierExtension-flyover",
+                                      "text": "May be used to represent additional information that is not part of the basic definition of the element and that modifies the understanding of the element in which it is contained and/or the understanding of the containing element\u0027s descendants. Usually modifier elements provide negation or qualification. To make the use of extensions safe and manageable, there is a strict set of governance applied to the definition and use of extensions. Though any implementer can define an extension, there is a set of requirements that SHALL be met as part of the definition of the extension. Applications processing a resource are required to check for modifier extensions.\n\nModifier extensions SHALL NOT change the meaning of any elements on Resource or DomainResource (including cannot change the meaning of modifierExtension itself). There can be no stigma associated with the use of extensions by any application, project, or standard - regardless of the institution or jurisdiction that uses or defines the extensions.  The use of extensions is what allows the FHIR specification to retain a core level of simplicity for everyone.",
+                                      "type": "display"
+                                    }
+                                  ]
+                                },
+                                {
+                                  "extension": [
+                                    {
+                                      "url": "http://hl7.org/fhir/StructureDefinition/questionnaire-minOccurs",
+                                      "valueInteger": 1
+                                    },
+                                    {
+                                      "url": "http://hl7.org/fhir/StructureDefinition/questionnaire-maxOccurs",
+                                      "valueInteger": 1
+                                    },
+                                    {
+                                      "url": "http://hl7.org/fhir/StructureDefinition/questionnaire-fhirType",
+                                      "valueString": "string"
+                                    }
+                                  ],
+                                  "linkId": "ExampleScenario.instance.containedInstance.resourceId",
+                                  "type": "group",
+                                  "required": true,
+                                  "repeats": true,
+                                  "item": [
+                                    {
+                                      "extension": [
+                                        {
+                                          "url": "http://hl7.org/fhir/StructureDefinition/questionnaire-itemControl",
+                                          "valueCodeableConcept": {
+                                            "coding": [
+                                              {
+                                                "system": "http://hl7.org/fhir/questionnaire-item-control",
+                                                "code": "flyover",
+                                                "display": "Fly-over"
+                                              }
+                                            ]
+                                          }
+                                        }
+                                      ],
+                                      "linkId": "ExampleScenario.instance.containedInstance.resourceId-flyover",
+                                      "text": "Each resource contained in the instance.",
+                                      "type": "display"
+                                    },
+                                    {
+                                      "linkId": "ExampleScenario.instance.containedInstance.resourceId.value",
+                                      "text": "Each resource contained in the instance",
+                                      "type": "string",
+                                      "required": false,
+                                      "repeats": false
+                                    }
+                                  ]
+                                },
+                                {
+                                  "extension": [
+                                    {
+                                      "url": "http://hl7.org/fhir/StructureDefinition/questionnaire-maxOccurs",
+                                      "valueInteger": 1
+                                    },
+                                    {
+                                      "url": "http://hl7.org/fhir/StructureDefinition/questionnaire-fhirType",
+                                      "valueString": "string"
+                                    }
+                                  ],
+                                  "linkId": "ExampleScenario.instance.containedInstance.versionId",
+                                  "type": "group",
+                                  "required": false,
+                                  "repeats": true,
+                                  "item": [
+                                    {
+                                      "extension": [
+                                        {
+                                          "url": "http://hl7.org/fhir/StructureDefinition/questionnaire-itemControl",
+                                          "valueCodeableConcept": {
+                                            "coding": [
+                                              {
+                                                "system": "http://hl7.org/fhir/questionnaire-item-control",
+                                                "code": "flyover",
+                                                "display": "Fly-over"
+                                              }
+                                            ]
+                                          }
+                                        }
+                                      ],
+                                      "linkId": "ExampleScenario.instance.containedInstance.versionId-flyover",
+                                      "text": "A specific version of a resource contained in the instance.",
+                                      "type": "display"
+                                    },
+                                    {
+                                      "linkId": "ExampleScenario.instance.containedInstance.versionId.value",
+                                      "text": "A specific version of a resource contained in the instance",
+                                      "type": "string",
+                                      "required": false,
+                                      "repeats": false
+                                    }
+                                  ]
+                                }
+                              ]
+                            },
+                            {
+                              "extension": [
+                                {
+                                  "url": "http://hl7.org/fhir/StructureDefinition/questionnaire-maxOccurs",
+                                  "valueInteger": 1
+                                }
+                              ],
+                              "linkId": "ExampleScenario.process.step.operation.response",
+                              "text": "Each resource instance used by the responder",
+                              "type": "group",
+                              "required": false,
+                              "repeats": false,
+                              "item": [
+                                {
+                                  "extension": [
+                                    {
+                                      "url": "http://hl7.org/fhir/StructureDefinition/questionnaire-itemControl",
+                                      "valueCodeableConcept": {
+                                        "coding": [
+                                          {
+                                            "system": "http://hl7.org/fhir/questionnaire-item-control",
+                                            "code": "flyover",
+                                            "display": "Fly-over"
+                                          }
+                                        ]
+                                      }
+                                    }
+                                  ],
+                                  "linkId": "ExampleScenario.process.step.operation.response-flyover",
+                                  "text": "Each resource instance used by the responder.",
+                                  "type": "display"
+                                },
+                                {
+                                  "extension": [
+                                    {
+                                      "url": "http://hl7.org/fhir/StructureDefinition/questionnaire-maxOccurs",
+                                      "valueInteger": 1
+                                    },
+                                    {
+                                      "url": "http://hl7.org/fhir/StructureDefinition/questionnaire-fhirType",
+                                      "valueString": "string"
+                                    }
+                                  ],
+                                  "linkId": "ExampleScenario.instance.containedInstance.id",
+                                  "type": "group",
+                                  "required": false,
+                                  "repeats": true,
+                                  "item": [
+                                    {
+                                      "extension": [
+                                        {
+                                          "url": "http://hl7.org/fhir/StructureDefinition/questionnaire-itemControl",
+                                          "valueCodeableConcept": {
+                                            "coding": [
+                                              {
+                                                "system": "http://hl7.org/fhir/questionnaire-item-control",
+                                                "code": "flyover",
+                                                "display": "Fly-over"
+                                              }
+                                            ]
+                                          }
+                                        }
+                                      ],
+                                      "linkId": "ExampleScenario.instance.containedInstance.id-flyover",
+                                      "text": "Unique id for the element within a resource (for internal references). This may be any string value that does not contain spaces.",
+                                      "type": "display"
+                                    },
+                                    {
+                                      "linkId": "ExampleScenario.instance.containedInstance.id.value",
+                                      "text": "Unique id for inter-element referencing",
+                                      "type": "string",
+                                      "required": false,
+                                      "repeats": false
+                                    }
+                                  ]
+                                },
+                                {
+                                  "linkId": "ExampleScenario.instance.containedInstance.extension",
+                                  "text": "Additional content defined by implementations",
+                                  "type": "group",
+                                  "required": false,
+                                  "repeats": true,
+                                  "item": [
+                                    {
+                                      "extension": [
+                                        {
+                                          "url": "http://hl7.org/fhir/StructureDefinition/questionnaire-itemControl",
+                                          "valueCodeableConcept": {
+                                            "coding": [
+                                              {
+                                                "system": "http://hl7.org/fhir/questionnaire-item-control",
+                                                "code": "flyover",
+                                                "display": "Fly-over"
+                                              }
+                                            ]
+                                          }
+                                        }
+                                      ],
+                                      "linkId": "ExampleScenario.instance.containedInstance.extension-flyover",
+                                      "text": "May be used to represent additional information that is not part of the basic definition of the element. To make the use of extensions safe and manageable, there is a strict set of governance  applied to the definition and use of extensions. Though any implementer can define an extension, there is a set of requirements that SHALL be met as part of the definition of the extension. There can be no stigma associated with the use of extensions by any application, project, or standard - regardless of the institution or jurisdiction that uses or defines the extensions.  The use of extensions is what allows the FHIR specification to retain a core level of simplicity for everyone.",
+                                      "type": "display"
+                                    }
+                                  ]
+                                },
+                                {
+                                  "linkId": "ExampleScenario.instance.containedInstance.modifierExtension",
+                                  "text": "Extensions that cannot be ignored even if unrecognized",
+                                  "type": "group",
+                                  "required": false,
+                                  "repeats": true,
+                                  "item": [
+                                    {
+                                      "extension": [
+                                        {
+                                          "url": "http://hl7.org/fhir/StructureDefinition/questionnaire-itemControl",
+                                          "valueCodeableConcept": {
+                                            "coding": [
+                                              {
+                                                "system": "http://hl7.org/fhir/questionnaire-item-control",
+                                                "code": "flyover",
+                                                "display": "Fly-over"
+                                              }
+                                            ]
+                                          }
+                                        }
+                                      ],
+                                      "linkId": "ExampleScenario.instance.containedInstance.modifierExtension-flyover",
+                                      "text": "May be used to represent additional information that is not part of the basic definition of the element and that modifies the understanding of the element in which it is contained and/or the understanding of the containing element\u0027s descendants. Usually modifier elements provide negation or qualification. To make the use of extensions safe and manageable, there is a strict set of governance applied to the definition and use of extensions. Though any implementer can define an extension, there is a set of requirements that SHALL be met as part of the definition of the extension. Applications processing a resource are required to check for modifier extensions.\n\nModifier extensions SHALL NOT change the meaning of any elements on Resource or DomainResource (including cannot change the meaning of modifierExtension itself). There can be no stigma associated with the use of extensions by any application, project, or standard - regardless of the institution or jurisdiction that uses or defines the extensions.  The use of extensions is what allows the FHIR specification to retain a core level of simplicity for everyone.",
+                                      "type": "display"
+                                    }
+                                  ]
+                                },
+                                {
+                                  "extension": [
+                                    {
+                                      "url": "http://hl7.org/fhir/StructureDefinition/questionnaire-minOccurs",
+                                      "valueInteger": 1
+                                    },
+                                    {
+                                      "url": "http://hl7.org/fhir/StructureDefinition/questionnaire-maxOccurs",
+                                      "valueInteger": 1
+                                    },
+                                    {
+                                      "url": "http://hl7.org/fhir/StructureDefinition/questionnaire-fhirType",
+                                      "valueString": "string"
+                                    }
+                                  ],
+                                  "linkId": "ExampleScenario.instance.containedInstance.resourceId",
+                                  "type": "group",
+                                  "required": true,
+                                  "repeats": true,
+                                  "item": [
+                                    {
+                                      "extension": [
+                                        {
+                                          "url": "http://hl7.org/fhir/StructureDefinition/questionnaire-itemControl",
+                                          "valueCodeableConcept": {
+                                            "coding": [
+                                              {
+                                                "system": "http://hl7.org/fhir/questionnaire-item-control",
+                                                "code": "flyover",
+                                                "display": "Fly-over"
+                                              }
+                                            ]
+                                          }
+                                        }
+                                      ],
+                                      "linkId": "ExampleScenario.instance.containedInstance.resourceId-flyover",
+                                      "text": "Each resource contained in the instance.",
+                                      "type": "display"
+                                    },
+                                    {
+                                      "linkId": "ExampleScenario.instance.containedInstance.resourceId.value",
+                                      "text": "Each resource contained in the instance",
+                                      "type": "string",
+                                      "required": false,
+                                      "repeats": false
+                                    }
+                                  ]
+                                },
+                                {
+                                  "extension": [
+                                    {
+                                      "url": "http://hl7.org/fhir/StructureDefinition/questionnaire-maxOccurs",
+                                      "valueInteger": 1
+                                    },
+                                    {
+                                      "url": "http://hl7.org/fhir/StructureDefinition/questionnaire-fhirType",
+                                      "valueString": "string"
+                                    }
+                                  ],
+                                  "linkId": "ExampleScenario.instance.containedInstance.versionId",
+                                  "type": "group",
+                                  "required": false,
+                                  "repeats": true,
+                                  "item": [
+                                    {
+                                      "extension": [
+                                        {
+                                          "url": "http://hl7.org/fhir/StructureDefinition/questionnaire-itemControl",
+                                          "valueCodeableConcept": {
+                                            "coding": [
+                                              {
+                                                "system": "http://hl7.org/fhir/questionnaire-item-control",
+                                                "code": "flyover",
+                                                "display": "Fly-over"
+                                              }
+                                            ]
+                                          }
+                                        }
+                                      ],
+                                      "linkId": "ExampleScenario.instance.containedInstance.versionId-flyover",
+                                      "text": "A specific version of a resource contained in the instance.",
+                                      "type": "display"
+                                    },
+                                    {
+                                      "linkId": "ExampleScenario.instance.containedInstance.versionId.value",
+                                      "text": "A specific version of a resource contained in the instance",
+                                      "type": "string",
+                                      "required": false,
+                                      "repeats": false
+                                    }
+                                  ]
+                                }
+                              ]
+                            }
+                          ]
                         }
                       ]
                     }

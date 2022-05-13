@@ -46,7 +46,7 @@
             <br/>Elements defined in Ancestors: 
             <a href="element.html#Element" title="Unique id for the element within a resource (for internal references). This may be any string value that does not contain spaces.">id</a>, 
             <a href="element.html#Element" title="May be used to represent additional information that is not part of the basic definition of the element. To make the use of extensions safe and manageable, there is a strict set of governance  applied to the definition and use of extensions. Though any implementer can define an extension, there is a set of requirements that SHALL be met as part of the definition of the extension.">extension</a>, 
-            <a href="backboneelement.html#BackboneElement" title="May be used to represent additional information that is not part of the basic definition of the element and that modifies the understanding of the element in which it is contained and/or the understanding of the containing element&#39;s descendants. Usually modifier elements provide negation or qualification. To make the use of extensions safe and manageable, there is a strict set of governance applied to the definition and use of extensions. Though any implementer can define an extension, there is a set of requirements that SHALL be met as part of the definition of the extension. Applications processing a resource are required to check for modifier extensions.&#xA;&#xA;Modifier extensions SHALL NOT change the meaning of any elements on Resource or DomainResource (including cannot change the meaning of modifierExtension itself).">modifierExtension</a>
+            <a href="backboneelement.html#BackboneElement" title="May be used to represent additional information that is not part of the basic definition of the element and that modifies the understanding of the element in which it is contained and/or the understanding of the containing element's descendants. Usually modifier elements provide negation or qualification. To make the use of extensions safe and manageable, there is a strict set of governance applied to the definition and use of extensions. Though any implementer can define an extension, there is a set of requirements that SHALL be met as part of the definition of the extension. Applications processing a resource are required to check for modifier extensions.&#xA;&#xA;Modifier extensions SHALL NOT change the meaning of any elements on Resource or DomainResource (including cannot change the meaning of modifierExtension itself).">modifierExtension</a>
           </td>
         </tr>
 
@@ -86,23 +86,23 @@
           </td>
           <td style="vertical-align: top; text-align : left; background-color: white; border: 0px #F0F0F0 solid; padding:0px 4px 0px 4px" class="hierarchy">When the event is to occur
             <br/>
-            <span style="font-style: italic" title="tim-1">+ Rule: if there&#39;s a duration, there needs to be duration units</span>
+            <span style="font-style: italic" title="tim-1">+ Rule: if there's a duration, there needs to be duration units</span>
             <br/>
-            <span style="font-style: italic" title="tim-2">+ Rule: if there&#39;s a period, there needs to be period units</span>
+            <span style="font-style: italic" title="tim-2">+ Rule: if there's a period, there needs to be period units</span>
             <br/>
             <span style="font-style: italic" title="tim-4">+ Rule: duration SHALL be a non-negative value</span>
             <br/>
             <span style="font-style: italic" title="tim-5">+ Rule: period SHALL be a non-negative value</span>
             <br/>
-            <span style="font-style: italic" title="tim-6">+ Rule: If there&#39;s a periodMax, there must be a period</span>
+            <span style="font-style: italic" title="tim-6">+ Rule: If there's a periodMax, there must be a period</span>
             <br/>
-            <span style="font-style: italic" title="tim-7">+ Rule: If there&#39;s a durationMax, there must be a duration</span>
+            <span style="font-style: italic" title="tim-7">+ Rule: If there's a durationMax, there must be a duration</span>
             <br/>
-            <span style="font-style: italic" title="tim-8">+ Rule: If there&#39;s a countMax, there must be a count</span>
+            <span style="font-style: italic" title="tim-8">+ Rule: If there's a countMax, there must be a count</span>
             <br/>
-            <span style="font-style: italic" title="tim-9">+ Rule: If there&#39;s an offset, there must be a when (and not C, CM, CD, CV)</span>
+            <span style="font-style: italic" title="tim-9">+ Rule: If there's an offset, there must be a when (and not C, CM, CD, CV)</span>
             <br/>
-            <span style="font-style: italic" title="tim-10">+ Rule: If there&#39;s a timeOfDay, there cannot be a when, or vice versa</span>
+            <span style="font-style: italic" title="tim-10">+ Rule: If there's a timeOfDay, there cannot be a when, or vice versa</span>
           </td>
         </tr>
 
@@ -484,10 +484,11 @@
     <valueCode value="4.0.0"/>
   </extension>
   <url value="http://hl7.org/fhir/StructureDefinition/Timing"/>
-  <version value="4.3.0-CIBUILD"/>
+  <version value="4.3.0-cibuild"/>
   <name value="Timing"/>
   <status value="active"/>
-  <date value="2022-01-01T15:17:18+00:00"/>
+  <experimental value="false"/>
+  <date value="2022-04-23T22:21:35+00:00"/>
   <publisher value="HL7 FHIR Standard"/>
   <contact>
     <telecom>
@@ -497,7 +498,7 @@
   </contact>
   <description value="Base StructureDefinition for Timing Type: Specifies an event that may occur multiple times. Timing schedules are used to record when things are planned, expected or requested to occur. The most common usage is in dosage instructions for medications. They are also used when planning care of various kinds, and may be used for reporting the schedule to which past regular activities were carried out."/>
   <purpose value="Need to able to track proposed timing schedules. There are several different ways to do this: one or more specified times, a simple rules like three times a day, or  before/after meals."/>
-  <fhirVersion value="4.3.0-CIBUILD"/>
+  <fhirVersion value="4.3.0-cibuild"/>
   <mapping>
     <identity value="v2"/>
     <uri value="http://hl7.org/v2"/>
@@ -524,7 +525,7 @@
       <path value="Timing"/>
       <short value="A timing schedule that specifies an event that may occur multiple times"/>
       <definition value="Specifies an event that may occur multiple times. Timing schedules are used to record when things are planned, expected or requested to occur. The most common usage is in dosage instructions for medications. They are also used when planning care of various kinds, and may be used for reporting the schedule to which past regular activities were carried out."/>
-      <comment value="Describes the occurrence of an event that may occur multiple times. Timing schedules are used for specifying when events are expected or requested to occur, and may also be used to represent the summary of a past or ongoing event.  For simplicity, the definitions of Timing components are expressed as &#39;future&#39; events, but such components can also be used to describe historic or ongoing events.&#xA;&#xA;A Timing schedule can be a list of events and/or criteria for when the event happens, which can be expressed in a structured form and/or as a code. When both event and a repeating specification are provided, the list of events should be understood as an interpretation of the information in the repeat structure."/>
+      <comment value="Describes the occurrence of an event that may occur multiple times. Timing schedules are used for specifying when events are expected or requested to occur, and may also be used to represent the summary of a past or ongoing event.  For simplicity, the definitions of Timing components are expressed as 'future' events, but such components can also be used to describe historic or ongoing events.&#xA;&#xA;A Timing schedule can be a list of events and/or criteria for when the event happens, which can be expressed in a structured form and/or as a code. When both event and a repeating specification are provided, the list of events should be understood as an interpretation of the information in the repeat structure."/>
       <min value="0"/>
       <max value="*"/>
       <base>
@@ -566,7 +567,6 @@
         <min value="0"/>
         <max value="1"/>
       </base>
-    <!-- Note: special primitive values have a FHIRPath system type. e.g. this is compiler magic (j) -->
       <type>
         <extension url="http://hl7.org/fhir/StructureDefinition/structuredefinition-fhir-type">
           <valueUrl value="string"/>
@@ -631,7 +631,7 @@
     <element id="Timing.modifierExtension">
       <path value="Timing.modifierExtension"/>
       <short value="Extensions that cannot be ignored even if unrecognized"/>
-      <definition value="May be used to represent additional information that is not part of the basic definition of the element and that modifies the understanding of the element in which it is contained and/or the understanding of the containing element&#39;s descendants. Usually modifier elements provide negation or qualification. To make the use of extensions safe and manageable, there is a strict set of governance applied to the definition and use of extensions. Though any implementer can define an extension, there is a set of requirements that SHALL be met as part of the definition of the extension. Applications processing a resource are required to check for modifier extensions.&#xA;&#xA;Modifier extensions SHALL NOT change the meaning of any elements on Resource or DomainResource (including cannot change the meaning of modifierExtension itself)."/>
+      <definition value="May be used to represent additional information that is not part of the basic definition of the element and that modifies the understanding of the element in which it is contained and/or the understanding of the containing element's descendants. Usually modifier elements provide negation or qualification. To make the use of extensions safe and manageable, there is a strict set of governance applied to the definition and use of extensions. Though any implementer can define an extension, there is a set of requirements that SHALL be met as part of the definition of the extension. Applications processing a resource are required to check for modifier extensions.&#xA;&#xA;Modifier extensions SHALL NOT change the meaning of any elements on Resource or DomainResource (including cannot change the meaning of modifierExtension itself)."/>
       <comment value="There can be no stigma associated with the use of extensions by any application, project, or standard - regardless of the institution or jurisdiction that uses or defines the extensions.  The use of extensions is what allows the FHIR specification to retain a core level of simplicity for everyone."/>
       <requirements value="Modifier extensions allow for extensions that *cannot* be safely ignored to be clearly distinguished from the vast majority of extensions which can be safely ignored.  This promotes interoperability by eliminating the need for implementers to prohibit the presence of extensions. For further information, see the [definition of modifier extensions](extensibility.html#modifierExtension)."/>
       <alias value="extensions"/>
@@ -727,7 +727,7 @@
       <constraint>
         <key value="tim-1"/>
         <severity value="error"/>
-        <human value="if there&#39;s a duration, there needs to be duration units"/>
+        <human value="if there's a duration, there needs to be duration units"/>
         <expression value="duration.empty() or durationUnit.exists()"/>
         <xpath value="not(exists(f:duration)) or exists(f:durationUnit)"/>
         <source value="http://hl7.org/fhir/StructureDefinition/Timing"/>
@@ -735,7 +735,7 @@
       <constraint>
         <key value="tim-2"/>
         <severity value="error"/>
-        <human value="if there&#39;s a period, there needs to be period units"/>
+        <human value="if there's a period, there needs to be period units"/>
         <expression value="period.empty() or periodUnit.exists()"/>
         <xpath value="not(exists(f:period)) or exists(f:periodUnit)"/>
         <source value="http://hl7.org/fhir/StructureDefinition/Timing"/>
@@ -759,7 +759,7 @@
       <constraint>
         <key value="tim-6"/>
         <severity value="error"/>
-        <human value="If there&#39;s a periodMax, there must be a period"/>
+        <human value="If there's a periodMax, there must be a period"/>
         <expression value="periodMax.empty() or period.exists()"/>
         <xpath value="not(exists(f:periodMax)) or exists(f:period)"/>
         <source value="http://hl7.org/fhir/StructureDefinition/Timing"/>
@@ -767,7 +767,7 @@
       <constraint>
         <key value="tim-7"/>
         <severity value="error"/>
-        <human value="If there&#39;s a durationMax, there must be a duration"/>
+        <human value="If there's a durationMax, there must be a duration"/>
         <expression value="durationMax.empty() or duration.exists()"/>
         <xpath value="not(exists(f:durationMax)) or exists(f:duration)"/>
         <source value="http://hl7.org/fhir/StructureDefinition/Timing"/>
@@ -775,7 +775,7 @@
       <constraint>
         <key value="tim-8"/>
         <severity value="error"/>
-        <human value="If there&#39;s a countMax, there must be a count"/>
+        <human value="If there's a countMax, there must be a count"/>
         <expression value="countMax.empty() or count.exists()"/>
         <xpath value="not(exists(f:countMax)) or exists(f:count)"/>
         <source value="http://hl7.org/fhir/StructureDefinition/Timing"/>
@@ -783,15 +783,15 @@
       <constraint>
         <key value="tim-9"/>
         <severity value="error"/>
-        <human value="If there&#39;s an offset, there must be a when (and not C, CM, CD, CV)"/>
-        <expression value="offset.empty() or (when.exists() and ((when in (&#39;C&#39; | &#39;CM&#39; | &#39;CD&#39; | &#39;CV&#39;)).not()))"/>
+        <human value="If there's an offset, there must be a when (and not C, CM, CD, CV)"/>
+        <expression value="offset.empty() or (when.exists() and ((when in ('C' | 'CM' | 'CD' | 'CV')).not()))"/>
         <xpath value="not(exists(f:offset)) or exists(f:when)"/>
         <source value="http://hl7.org/fhir/StructureDefinition/Timing"/>
       </constraint>
       <constraint>
         <key value="tim-10"/>
         <severity value="error"/>
-        <human value="If there&#39;s a timeOfDay, there cannot be a when, or vice versa"/>
+        <human value="If there's a timeOfDay, there cannot be a when, or vice versa"/>
         <expression value="timeOfDay.empty() or when.empty()"/>
         <xpath value="not(exists(f:timeOfDay)) or not(exists(f:when))"/>
         <source value="http://hl7.org/fhir/StructureDefinition/Timing"/>
@@ -815,7 +815,6 @@
         <min value="0"/>
         <max value="1"/>
       </base>
-    <!-- Note: special primitive values have a FHIRPath system type. e.g. this is compiler magic (j) -->
       <type>
         <extension url="http://hl7.org/fhir/StructureDefinition/structuredefinition-fhir-type">
           <valueUrl value="string"/>
@@ -976,7 +975,7 @@
       <path value="Timing.repeat.duration"/>
       <short value="How long when it happens"/>
       <definition value="How long this thing happens for when it happens. If durationMax is present, this element indicates the lower bound of the allowed range of the duration."/>
-      <comment value="For some events the duration is part of the definition of the event (e.g. IV infusions, where the duration is implicit in the specified quantity and rate). For others, it&#39;s part of the timing specification (e.g. exercise)."/>
+      <comment value="For some events the duration is part of the definition of the event (e.g. IV infusions, where the duration is implicit in the specified quantity and rate). For others, it's part of the timing specification (e.g. exercise)."/>
       <requirements value="Some activities are not instantaneous and need to be maintained for a period of time."/>
       <min value="0"/>
       <max value="1"/>
@@ -1007,7 +1006,7 @@
       <path value="Timing.repeat.durationMax"/>
       <short value="How long when it happens (Max)"/>
       <definition value="If present, indicates that the duration is a range - so to perform the action between [duration] and [durationMax] time length."/>
-      <comment value="For some events the duration is part of the definition of the event (e.g. IV infusions, where the duration is implicit in the specified quantity and rate). For others, it&#39;s part of the timing specification (e.g. exercise)."/>
+      <comment value="For some events the duration is part of the definition of the event (e.g. IV infusions, where the duration is implicit in the specified quantity and rate). For others, it's part of the timing specification (e.g. exercise)."/>
       <requirements value="Some activities are not instantaneous and need to be maintained for a period of time."/>
       <min value="0"/>
       <max value="1"/>
@@ -1066,7 +1065,7 @@
           <valueString value="UnitsOfTime"/>
         </extension>
         <strength value="required"/>
-        <valueSet value="http://hl7.org/fhir/ValueSet/units-of-time|4.3.0-CIBUILD"/>
+        <valueSet value="http://hl7.org/fhir/ValueSet/units-of-time|4.3.0-cibuild"/>
       </binding>
       <mapping>
         <identity value="rim"/>
@@ -1222,7 +1221,7 @@
           <valueString value="UnitsOfTime"/>
         </extension>
         <strength value="required"/>
-        <valueSet value="http://hl7.org/fhir/ValueSet/units-of-time|4.3.0-CIBUILD"/>
+        <valueSet value="http://hl7.org/fhir/ValueSet/units-of-time|4.3.0-cibuild"/>
       </binding>
       <mapping>
         <identity value="rim"/>
@@ -1259,7 +1258,7 @@
           <valueString value="DayOfWeek"/>
         </extension>
         <strength value="required"/>
-        <valueSet value="http://hl7.org/fhir/ValueSet/days-of-week|4.3.0-CIBUILD"/>
+        <valueSet value="http://hl7.org/fhir/ValueSet/days-of-week|4.3.0-cibuild"/>
       </binding>
       <mapping>
         <identity value="rim"/>
@@ -1330,7 +1329,7 @@
           <valueString value="EventTiming"/>
         </extension>
         <strength value="required"/>
-        <valueSet value="http://hl7.org/fhir/ValueSet/event-timing|4.3.0-CIBUILD"/>
+        <valueSet value="http://hl7.org/fhir/ValueSet/event-timing|4.3.0-cibuild"/>
       </binding>
       <mapping>
         <identity value="rim"/>
@@ -1370,7 +1369,7 @@
       <path value="Timing.code"/>
       <short value="BID | TID | QID | AM | PM | QD | QOD | +"/>
       <definition value="A code for the timing schedule (or just text in code.text). Some codes such as BID are ubiquitous, but many institutions define their own additional codes. If a code is provided, the code is understood to be a complete statement of whatever is specified in the structured timing data, and either the code or the data may be used to interpret the Timing, with the exception that .repeat.bounds still applies over the code (and is not contained in the code)."/>
-      <comment value="BID etc. are defined as &#39;at institutionally specified times&#39;. For example, an institution may choose that BID is &quot;always at 7am and 6pm&quot;.  If it is inappropriate for this choice to be made, the code BID should not be used. Instead, a distinct organization-specific code should be used in place of the HL7-defined BID code and/or a structured representation should be used (in this case, specifying the two event times)."/>
+      <comment value="BID etc. are defined as 'at institutionally specified times'. For example, an institution may choose that BID is &quot;always at 7am and 6pm&quot;.  If it is inappropriate for this choice to be made, the code BID should not be used. Instead, a distinct organization-specific code should be used in place of the HL7-defined BID code and/or a structured representation should be used (in this case, specifying the two event times)."/>
       <min value="0"/>
       <max value="1"/>
       <base>
@@ -1418,7 +1417,7 @@
       <path value="Timing"/>
       <short value="A timing schedule that specifies an event that may occur multiple times"/>
       <definition value="Specifies an event that may occur multiple times. Timing schedules are used to record when things are planned, expected or requested to occur. The most common usage is in dosage instructions for medications. They are also used when planning care of various kinds, and may be used for reporting the schedule to which past regular activities were carried out."/>
-      <comment value="Describes the occurrence of an event that may occur multiple times. Timing schedules are used for specifying when events are expected or requested to occur, and may also be used to represent the summary of a past or ongoing event.  For simplicity, the definitions of Timing components are expressed as &#39;future&#39; events, but such components can also be used to describe historic or ongoing events.&#xA;&#xA;A Timing schedule can be a list of events and/or criteria for when the event happens, which can be expressed in a structured form and/or as a code. When both event and a repeating specification are provided, the list of events should be understood as an interpretation of the information in the repeat structure."/>
+      <comment value="Describes the occurrence of an event that may occur multiple times. Timing schedules are used for specifying when events are expected or requested to occur, and may also be used to represent the summary of a past or ongoing event.  For simplicity, the definitions of Timing components are expressed as 'future' events, but such components can also be used to describe historic or ongoing events.&#xA;&#xA;A Timing schedule can be a list of events and/or criteria for when the event happens, which can be expressed in a structured form and/or as a code. When both event and a repeating specification are provided, the list of events should be understood as an interpretation of the information in the repeat structure."/>
       <min value="0"/>
       <max value="*"/>
       <mapping>
@@ -1459,8 +1458,8 @@
       <constraint>
         <key value="tim-9"/>
         <severity value="error"/>
-        <human value="If there&#39;s an offset, there must be a when (and not C, CM, CD, CV)"/>
-        <expression value="offset.empty() or (when.exists() and ((when in (&#39;C&#39; | &#39;CM&#39; | &#39;CD&#39; | &#39;CV&#39;)).not()))"/>
+        <human value="If there's an offset, there must be a when (and not C, CM, CD, CV)"/>
+        <expression value="offset.empty() or (when.exists() and ((when in ('C' | 'CM' | 'CD' | 'CV')).not()))"/>
         <xpath value="not(exists(f:offset)) or exists(f:when)"/>
         <source value="http://hl7.org/fhir/StructureDefinition/Timing"/>
       </constraint>
@@ -1475,7 +1474,7 @@
       <constraint>
         <key value="tim-6"/>
         <severity value="error"/>
-        <human value="If there&#39;s a periodMax, there must be a period"/>
+        <human value="If there's a periodMax, there must be a period"/>
         <expression value="periodMax.empty() or period.exists()"/>
         <xpath value="not(exists(f:periodMax)) or exists(f:period)"/>
         <source value="http://hl7.org/fhir/StructureDefinition/Timing"/>
@@ -1483,7 +1482,7 @@
       <constraint>
         <key value="tim-7"/>
         <severity value="error"/>
-        <human value="If there&#39;s a durationMax, there must be a duration"/>
+        <human value="If there's a durationMax, there must be a duration"/>
         <expression value="durationMax.empty() or duration.exists()"/>
         <xpath value="not(exists(f:durationMax)) or exists(f:duration)"/>
         <source value="http://hl7.org/fhir/StructureDefinition/Timing"/>
@@ -1491,7 +1490,7 @@
       <constraint>
         <key value="tim-8"/>
         <severity value="error"/>
-        <human value="If there&#39;s a countMax, there must be a count"/>
+        <human value="If there's a countMax, there must be a count"/>
         <expression value="countMax.empty() or count.exists()"/>
         <xpath value="not(exists(f:countMax)) or exists(f:count)"/>
         <source value="http://hl7.org/fhir/StructureDefinition/Timing"/>
@@ -1499,7 +1498,7 @@
       <constraint>
         <key value="tim-1"/>
         <severity value="error"/>
-        <human value="if there&#39;s a duration, there needs to be duration units"/>
+        <human value="if there's a duration, there needs to be duration units"/>
         <expression value="duration.empty() or durationUnit.exists()"/>
         <xpath value="not(exists(f:duration)) or exists(f:durationUnit)"/>
         <source value="http://hl7.org/fhir/StructureDefinition/Timing"/>
@@ -1507,7 +1506,7 @@
       <constraint>
         <key value="tim-10"/>
         <severity value="error"/>
-        <human value="If there&#39;s a timeOfDay, there cannot be a when, or vice versa"/>
+        <human value="If there's a timeOfDay, there cannot be a when, or vice versa"/>
         <expression value="timeOfDay.empty() or when.empty()"/>
         <xpath value="not(exists(f:timeOfDay)) or not(exists(f:when))"/>
         <source value="http://hl7.org/fhir/StructureDefinition/Timing"/>
@@ -1515,7 +1514,7 @@
       <constraint>
         <key value="tim-2"/>
         <severity value="error"/>
-        <human value="if there&#39;s a period, there needs to be period units"/>
+        <human value="if there's a period, there needs to be period units"/>
         <expression value="period.empty() or periodUnit.exists()"/>
         <xpath value="not(exists(f:period)) or exists(f:periodUnit)"/>
         <source value="http://hl7.org/fhir/StructureDefinition/Timing"/>
@@ -1591,7 +1590,7 @@
       <path value="Timing.repeat.duration"/>
       <short value="How long when it happens"/>
       <definition value="How long this thing happens for when it happens. If durationMax is present, this element indicates the lower bound of the allowed range of the duration."/>
-      <comment value="For some events the duration is part of the definition of the event (e.g. IV infusions, where the duration is implicit in the specified quantity and rate). For others, it&#39;s part of the timing specification (e.g. exercise)."/>
+      <comment value="For some events the duration is part of the definition of the event (e.g. IV infusions, where the duration is implicit in the specified quantity and rate). For others, it's part of the timing specification (e.g. exercise)."/>
       <requirements value="Some activities are not instantaneous and need to be maintained for a period of time."/>
       <min value="0"/>
       <max value="1"/>
@@ -1608,7 +1607,7 @@
       <path value="Timing.repeat.durationMax"/>
       <short value="How long when it happens (Max)"/>
       <definition value="If present, indicates that the duration is a range - so to perform the action between [duration] and [durationMax] time length."/>
-      <comment value="For some events the duration is part of the definition of the event (e.g. IV infusions, where the duration is implicit in the specified quantity and rate). For others, it&#39;s part of the timing specification (e.g. exercise)."/>
+      <comment value="For some events the duration is part of the definition of the event (e.g. IV infusions, where the duration is implicit in the specified quantity and rate). For others, it's part of the timing specification (e.g. exercise)."/>
       <requirements value="Some activities are not instantaneous and need to be maintained for a period of time."/>
       <min value="0"/>
       <max value="1"/>
@@ -1639,7 +1638,7 @@
           <valueString value="UnitsOfTime"/>
         </extension>
         <strength value="required"/>
-        <valueSet value="http://hl7.org/fhir/ValueSet/units-of-time|4.3.0-CIBUILD"/>
+        <valueSet value="http://hl7.org/fhir/ValueSet/units-of-time|4.3.0-cibuild"/>
       </binding>
       <mapping>
         <identity value="rim"/>
@@ -1725,7 +1724,7 @@
           <valueString value="UnitsOfTime"/>
         </extension>
         <strength value="required"/>
-        <valueSet value="http://hl7.org/fhir/ValueSet/units-of-time|4.3.0-CIBUILD"/>
+        <valueSet value="http://hl7.org/fhir/ValueSet/units-of-time|4.3.0-cibuild"/>
       </binding>
       <mapping>
         <identity value="rim"/>
@@ -1748,7 +1747,7 @@
           <valueString value="DayOfWeek"/>
         </extension>
         <strength value="required"/>
-        <valueSet value="http://hl7.org/fhir/ValueSet/days-of-week|4.3.0-CIBUILD"/>
+        <valueSet value="http://hl7.org/fhir/ValueSet/days-of-week|4.3.0-cibuild"/>
       </binding>
       <mapping>
         <identity value="rim"/>
@@ -1791,7 +1790,7 @@
           <valueString value="EventTiming"/>
         </extension>
         <strength value="required"/>
-        <valueSet value="http://hl7.org/fhir/ValueSet/event-timing|4.3.0-CIBUILD"/>
+        <valueSet value="http://hl7.org/fhir/ValueSet/event-timing|4.3.0-cibuild"/>
       </binding>
       <mapping>
         <identity value="rim"/>
@@ -1817,7 +1816,7 @@
       <path value="Timing.code"/>
       <short value="BID | TID | QID | AM | PM | QD | QOD | +"/>
       <definition value="A code for the timing schedule (or just text in code.text). Some codes such as BID are ubiquitous, but many institutions define their own additional codes. If a code is provided, the code is understood to be a complete statement of whatever is specified in the structured timing data, and either the code or the data may be used to interpret the Timing, with the exception that .repeat.bounds still applies over the code (and is not contained in the code)."/>
-      <comment value="BID etc. are defined as &#39;at institutionally specified times&#39;. For example, an institution may choose that BID is &quot;always at 7am and 6pm&quot;.  If it is inappropriate for this choice to be made, the code BID should not be used. Instead, a distinct organization-specific code should be used in place of the HL7-defined BID code and/or a structured representation should be used (in this case, specifying the two event times)."/>
+      <comment value="BID etc. are defined as 'at institutionally specified times'. For example, an institution may choose that BID is &quot;always at 7am and 6pm&quot;.  If it is inappropriate for this choice to be made, the code BID should not be used. Instead, a distinct organization-specific code should be used in place of the HL7-defined BID code and/or a structured representation should be used (in this case, specifying the two event times)."/>
       <min value="0"/>
       <max value="1"/>
       <type>

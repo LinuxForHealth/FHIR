@@ -7,8 +7,9 @@
       <display value="test health data"/>
     </security>
   </meta>
-  <text><status value="generated"/><div xmlns="http://www.w3.org/1999/xhtml"><p><b>Generated Narrative</b></p><div><p>Resource "product-with-contained-package-and-ingredient" </p></div><h3>Names</h3><table><tr><td>-</td><td><b>ProductName</b></td></tr><tr><td>*</td><td>Exampleocillin</td></tr></table></div></text><contained>
+  <text><status value="generated"/><div xmlns="http://www.w3.org/1999/xhtml"><p><b>Generated Narrative</b></p><div style="display: inline-block; background-color: #d9e0e7; padding: 6px; margin: 4px; border: 1px solid #8da1b4; border-radius: 5px; line-height: 60%"><p style="margin-bottom: 0px">Resource "product-with-contained-package-and-ingredient" </p></div><h3>Names</h3><table class="grid"><tr><td>-</td><td><b>ProductName</b></td></tr><tr><td>*</td><td>Exampleocillin</td></tr></table></div></text><contained>
         <PackagedProductDefinition>
+            <id value="ppd1"/>
             <packageFor>
                 <reference value="#"/>
             </packageFor>
@@ -17,6 +18,8 @@
     </contained>
     <contained>
         <Ingredient>
+            <id value="i1"/>
+            <status value="active"/>
             <for>
                 <reference value="#"/>
             </for>

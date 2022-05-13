@@ -1,0 +1,126 @@
+{
+  "resourceType": "CodeSystem",
+  "id": "medicinal-product-name-part-type",
+  "meta": {
+    "lastUpdated": "2022-04-24T09:21:35.043+11:00",
+    "profile": [
+      "http://hl7.org/fhir/StructureDefinition/shareablecodesystem"
+    ]
+  },
+  "text": {
+    "status": "generated",
+    "div": "\u003cdiv xmlns\u003d\"http://www.w3.org/1999/xhtml\"\u003e\u003cp\u003eThis code system http://hl7.org/fhir/medicinal-product-name-part-type defines the following codes:\u003c/p\u003e\u003ctable class\u003d\"codes\"\u003e\u003ctr\u003e\u003ctd style\u003d\"white-space:nowrap\"\u003e\u003cb\u003eCode\u003c/b\u003e\u003c/td\u003e\u003ctd\u003e\u003cb\u003eDisplay\u003c/b\u003e\u003c/td\u003e\u003c/tr\u003e\u003ctr\u003e\u003ctd style\u003d\"white-space:nowrap\"\u003eFullName\u003ca name\u003d\"medicinal-product-name-part-type-FullName\"\u003e \u003c/a\u003e\u003c/td\u003e\u003ctd\u003eFull name\u003c/td\u003e\u003c/tr\u003e\u003ctr\u003e\u003ctd style\u003d\"white-space:nowrap\"\u003eInventedNamePart\u003ca name\u003d\"medicinal-product-name-part-type-InventedNamePart\"\u003e \u003c/a\u003e\u003c/td\u003e\u003ctd\u003eInvented name part\u003c/td\u003e\u003c/tr\u003e\u003ctr\u003e\u003ctd style\u003d\"white-space:nowrap\"\u003eScientificNamePart\u003ca name\u003d\"medicinal-product-name-part-type-ScientificNamePart\"\u003e \u003c/a\u003e\u003c/td\u003e\u003ctd\u003eScientific name part\u003c/td\u003e\u003c/tr\u003e\u003ctr\u003e\u003ctd style\u003d\"white-space:nowrap\"\u003eStrengthPart\u003ca name\u003d\"medicinal-product-name-part-type-StrengthPart\"\u003e \u003c/a\u003e\u003c/td\u003e\u003ctd\u003eStrength part\u003c/td\u003e\u003c/tr\u003e\u003ctr\u003e\u003ctd style\u003d\"white-space:nowrap\"\u003eDoseFormPart\u003ca name\u003d\"medicinal-product-name-part-type-DoseFormPart\"\u003e \u003c/a\u003e\u003c/td\u003e\u003ctd\u003ePharmaceutical dose form part\u003c/td\u003e\u003c/tr\u003e\u003ctr\u003e\u003ctd style\u003d\"white-space:nowrap\"\u003eFormulationPart\u003ca name\u003d\"medicinal-product-name-part-type-FormulationPart\"\u003e \u003c/a\u003e\u003c/td\u003e\u003ctd\u003eFormulation part\u003c/td\u003e\u003c/tr\u003e\u003ctr\u003e\u003ctd style\u003d\"white-space:nowrap\"\u003eIntendedUsePart\u003ca name\u003d\"medicinal-product-name-part-type-IntendedUsePart\"\u003e \u003c/a\u003e\u003c/td\u003e\u003ctd\u003eIntended use part\u003c/td\u003e\u003c/tr\u003e\u003ctr\u003e\u003ctd style\u003d\"white-space:nowrap\"\u003ePopulationPart\u003ca name\u003d\"medicinal-product-name-part-type-PopulationPart\"\u003e \u003c/a\u003e\u003c/td\u003e\u003ctd\u003eTarget population part\u003c/td\u003e\u003c/tr\u003e\u003ctr\u003e\u003ctd style\u003d\"white-space:nowrap\"\u003eContainerPart\u003ca name\u003d\"medicinal-product-name-part-type-ContainerPart\"\u003e \u003c/a\u003e\u003c/td\u003e\u003ctd\u003eContainer or pack part\u003c/td\u003e\u003c/tr\u003e\u003ctr\u003e\u003ctd style\u003d\"white-space:nowrap\"\u003eDevicePart\u003ca name\u003d\"medicinal-product-name-part-type-DevicePart\"\u003e \u003c/a\u003e\u003c/td\u003e\u003ctd\u003eDevice part\u003c/td\u003e\u003c/tr\u003e\u003ctr\u003e\u003ctd style\u003d\"white-space:nowrap\"\u003eTrademarkOrCompanyPart\u003ca name\u003d\"medicinal-product-name-part-type-TrademarkOrCompanyPart\"\u003e \u003c/a\u003e\u003c/td\u003e\u003ctd\u003eTrademark or company name part\u003c/td\u003e\u003c/tr\u003e\u003ctr\u003e\u003ctd style\u003d\"white-space:nowrap\"\u003eTimeOrPeriodPart\u003ca name\u003d\"medicinal-product-name-part-type-TimeOrPeriodPart\"\u003e \u003c/a\u003e\u003c/td\u003e\u003ctd\u003eTime/Period part\u003c/td\u003e\u003c/tr\u003e\u003ctr\u003e\u003ctd style\u003d\"white-space:nowrap\"\u003eFlavorPart\u003ca name\u003d\"medicinal-product-name-part-type-FlavorPart\"\u003e \u003c/a\u003e\u003c/td\u003e\u003ctd\u003eFlavor part\u003c/td\u003e\u003c/tr\u003e\u003ctr\u003e\u003ctd style\u003d\"white-space:nowrap\"\u003eDelimiterPart\u003ca name\u003d\"medicinal-product-name-part-type-DelimiterPart\"\u003e \u003c/a\u003e\u003c/td\u003e\u003ctd\u003eDelimiter part\u003c/td\u003e\u003c/tr\u003e\u003ctr\u003e\u003ctd style\u003d\"white-space:nowrap\"\u003eLegacyNamePart\u003ca name\u003d\"medicinal-product-name-part-type-LegacyNamePart\"\u003e \u003c/a\u003e\u003c/td\u003e\u003ctd\u003eLegacy name\u003c/td\u003e\u003c/tr\u003e\u003ctr\u003e\u003ctd style\u003d\"white-space:nowrap\"\u003eSpeciesNamePart\u003ca name\u003d\"medicinal-product-name-part-type-SpeciesNamePart\"\u003e \u003c/a\u003e\u003c/td\u003e\u003ctd\u003eTarget species name part\u003c/td\u003e\u003c/tr\u003e\u003c/table\u003e\u003c/div\u003e"
+  },
+  "extension": [
+    {
+      "url": "http://hl7.org/fhir/StructureDefinition/structuredefinition-wg",
+      "valueCode": "brr"
+    },
+    {
+      "url": "http://hl7.org/fhir/StructureDefinition/structuredefinition-standards-status",
+      "valueCode": "trial-use"
+    },
+    {
+      "url": "http://hl7.org/fhir/StructureDefinition/structuredefinition-fmm",
+      "valueInteger": 1
+    }
+  ],
+  "url": "http://hl7.org/fhir/medicinal-product-name-part-type",
+  "identifier": [
+    {
+      "system": "urn:ietf:rfc:3986",
+      "value": "urn:oid:2.16.840.1.113883.4.642.1.1575"
+    }
+  ],
+  "version": "4.3.0-cibuild",
+  "name": "ProductNamePartType",
+  "title": "ProductNamePartType",
+  "status": "draft",
+  "experimental": false,
+  "date": "2021-01-05T10:01:24+11:00",
+  "publisher": "HL7 (FHIR Project)",
+  "contact": [
+    {
+      "telecom": [
+        {
+          "system": "url",
+          "value": "http://hl7.org/fhir"
+        },
+        {
+          "system": "email",
+          "value": "fhir@lists.hl7.org"
+        }
+      ]
+    }
+  ],
+  "description": "Type of part of a name for a Medicinal Product.",
+  "caseSensitive": true,
+  "valueSet": "http://hl7.org/fhir/ValueSet/medicinal-product-name-part-type",
+  "content": "complete",
+  "concept": [
+    {
+      "code": "FullName",
+      "display": "Full name"
+    },
+    {
+      "code": "InventedNamePart",
+      "display": "Invented name part"
+    },
+    {
+      "code": "ScientificNamePart",
+      "display": "Scientific name part"
+    },
+    {
+      "code": "StrengthPart",
+      "display": "Strength part"
+    },
+    {
+      "code": "DoseFormPart",
+      "display": "Pharmaceutical dose form part"
+    },
+    {
+      "code": "FormulationPart",
+      "display": "Formulation part"
+    },
+    {
+      "code": "IntendedUsePart",
+      "display": "Intended use part"
+    },
+    {
+      "code": "PopulationPart",
+      "display": "Target population part"
+    },
+    {
+      "code": "ContainerPart",
+      "display": "Container or pack part"
+    },
+    {
+      "code": "DevicePart",
+      "display": "Device part"
+    },
+    {
+      "code": "TrademarkOrCompanyPart",
+      "display": "Trademark or company name part"
+    },
+    {
+      "code": "TimeOrPeriodPart",
+      "display": "Time/Period part"
+    },
+    {
+      "code": "FlavorPart",
+      "display": "Flavor part"
+    },
+    {
+      "code": "DelimiterPart",
+      "display": "Delimiter part"
+    },
+    {
+      "code": "LegacyNamePart",
+      "display": "Legacy name"
+    },
+    {
+      "code": "SpeciesNamePart",
+      "display": "Target species name part"
+    }
+  ]
+}

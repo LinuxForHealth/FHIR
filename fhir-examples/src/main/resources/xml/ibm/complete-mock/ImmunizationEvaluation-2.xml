@@ -1,28 +1,28 @@
 <ImmunizationEvaluation xmlns="http://hl7.org/fhir">
   <meta>
-    <versionId value="gedb1BMUDa"/>
-    <lastUpdated value="2021-12-10T02:40:04.497793-05:00"/>
-    <source value="Zg3mQrtKRw"/>
-    <profile value="VkUGV52N2M"/>
+    <versionId value="Z7BXOTqHp3"/>
+    <lastUpdated value="2022-05-13T14:23:08.606435-04:00"/>
+    <source value="Pm3Ny_auFj"/>
+    <profile value="LQZ3YQtDR1"/>
     <security>
-      <system value="BVqzhpYoIC"/>
-      <version value="HpcVUkq5hp"/>
-      <code value="RL9YMKZ9ta"/>
-      <display value="c5EDiROO9g"/>
+      <system value="MLnR1NVItM"/>
+      <version value="aDtiyRqtA1"/>
+      <code value="H_K_yI175U"/>
+      <display value="96LaSo2tbD"/>
       <userSelected value="true"/>
     </security>
     <tag>
-      <system value="G9dJp294bZ"/>
-      <version value="wJ7kLNvBBT"/>
-      <code value="jl_ztMQLBL"/>
-      <display value="jTBcZ87P1C"/>
+      <system value="XCbRvyotA3"/>
+      <version value="TYpQm4Jhmq"/>
+      <code value="OWGiB824UU"/>
+      <display value="yGavHXKfYX"/>
       <userSelected value="true"/>
     </tag>
     <tag>
       <code value="ibm/complete-mock"/>
     </tag>
   </meta>
-  <implicitRules value="VVQE_lGOUE"/>
+  <implicitRules value="dUFsBonTxj"/>
   <language value="en-US"/>
   <text>
     <status value="extensions"/>
@@ -32,16 +32,16 @@
     <use value="temp"/>
     <type>
       <coding>
-        <system value="5w1EHXq3ZJ"/>
-        <version value="gwhLO9rabB"/>
-        <code value="ZZXkHhcZ_a"/>
-        <display value="KM2kCZZP8Y"/>
+        <system value="2E7Y6m3d1a"/>
+        <version value="jE9VsDhEoM"/>
+        <code value="sNNfqbMIhZ"/>
+        <display value="p6ROOstmDT"/>
         <userSelected value="true"/>
       </coding>
-      <text value="qD0UuQXPzT"/>
+      <text value="hK2WVhVy4B"/>
     </type>
-    <system value="nmOBDkRnbS"/>
-    <value value="sA9ITquzoW"/>
+    <system value="w_HHY7lcSP"/>
+    <value value="x0ZAwCfpmD"/>
     <period>
       <extension url="http://hl7.org/fhir/StructureDefinition/data-absent-reason">
         <valueCode value="unknown"/>
@@ -50,107 +50,113 @@
   </identifier>
   <status value="entered-in-error"/>
   <patient>
-    <reference value="Patient/0ShJIy-pTH"/>
+    <reference value="Patient/Ctq0vo-X2u"/>
     <type value="Patient"/>
     <identifier>
       <use value="usual"/>
       <type>
         <coding>
-          <system value="k7SLGHwZk3"/>
-          <version value="i7jjSVdZTn"/>
-          <code value="f5wH0GQcIv"/>
-          <display value="NbiKAdP3P3"/>
+          <system value="tfl3xHT3BQ"/>
+          <version value="rnYkv9NBkl"/>
+          <code value="zET8cIpZZp"/>
+          <display value="11zFZbM3Ow"/>
           <userSelected value="true"/>
         </coding>
-        <text value="N7TajzMTls"/>
+        <text value="nlSLR5G8GL"/>
       </type>
-      <system value="cDvJk7XmD1"/>
-      <value value="flsFwvuvzj"/>
+      <system value="PLkLAXedst"/>
+      <value value="uW6vTFwnwa"/>
       <period>
-        <start value="2021-12-10T02:40:04.499513-05:00"/>
+        <extension url="http://hl7.org/fhir/StructureDefinition/data-absent-reason">
+          <valueCode value="unknown"/>
+        </extension>
       </period>
     </identifier>
-    <display value="JACeaiYhTN"/>
+    <display value="qtVZ2atNn6"/>
   </patient>
-  <date value="2021-12-10T02:40:04.504094-05:00"/>
+  <date value="2022-05-13T14:23:08.609173-04:00"/>
   <authority>
-    <reference value="Organization/9BI3ex2KFZ"/>
+    <reference value="Organization/8NbsDjOQsC"/>
     <type value="Organization"/>
     <identifier>
-      <use value="old"/>
+      <use value="official"/>
       <type>
         <coding>
-          <system value="rVBkYjkLG_"/>
-          <version value="ePCRFBqdRX"/>
-          <code value="hHIH_DtpTW"/>
-          <display value="hUUYrrZWbJ"/>
+          <system value="Y2qtKva1xF"/>
+          <version value="Oyo4AfkQZA"/>
+          <code value="wzyyTQVVAD"/>
+          <display value="NxS6xJXTdc"/>
           <userSelected value="true"/>
         </coding>
-        <text value="HSYdrqGMJW"/>
+        <text value="ZC0xEz5yJh"/>
       </type>
-      <system value="k4K54SIhkU"/>
-      <value value="2gjWd5BRxo"/>
+      <system value="PfKPaBvVoP"/>
+      <value value="xeY66wMOX1"/>
       <period>
-        <start value="2021-12-10T02:40:04.503281-05:00"/>
+        <extension url="http://hl7.org/fhir/StructureDefinition/data-absent-reason">
+          <valueCode value="unknown"/>
+        </extension>
       </period>
     </identifier>
-    <display value="_3DWqAl2Fs"/>
+    <display value="dFt9Fz4Y_L"/>
   </authority>
   <targetDisease>
     <coding>
-      <system value="gVXAdX51OM"/>
-      <version value="7IUj2kML7Z"/>
-      <code value="CMsNkxNZ9i"/>
-      <display value="mJ5_cuOPUX"/>
+      <system value="epGYsl8GFL"/>
+      <version value="imBkWPKcE1"/>
+      <code value="LMFxPpjUVW"/>
+      <display value="fYxgyx7fVC"/>
       <userSelected value="true"/>
     </coding>
-    <text value="7QlK2UDc6_"/>
+    <text value="zb4ywCewJ1"/>
   </targetDisease>
   <immunizationEvent>
-    <reference value="Immunization/UzHjyR1nYS"/>
+    <reference value="Immunization/qVOcIBTOhi"/>
     <type value="Immunization"/>
     <identifier>
       <use value="usual"/>
       <type>
         <coding>
-          <system value="Kno_6ivel6"/>
-          <version value="5xcNBzmsMD"/>
-          <code value="J85sxFcsjD"/>
-          <display value="O9XXwnEBHe"/>
+          <system value="t297IW2PL3"/>
+          <version value="Y_F16338Go"/>
+          <code value="1ZH9AtqylR"/>
+          <display value="hgtK4UtoYx"/>
           <userSelected value="true"/>
         </coding>
-        <text value="c8yRGjnCza"/>
+        <text value="ODQm4ha3Yi"/>
       </type>
-      <system value="TA2KlSf_xa"/>
-      <value value="VIR5dvdz8j"/>
+      <system value="D6VmBEwnXz"/>
+      <value value="cXKyhnUir2"/>
       <period>
-        <start value="2021-12-10T02:40:04.500879-05:00"/>
+        <extension url="http://hl7.org/fhir/StructureDefinition/data-absent-reason">
+          <valueCode value="unknown"/>
+        </extension>
       </period>
     </identifier>
-    <display value="fiDMaSE_KL"/>
+    <display value="P2VHdZi6kD"/>
   </immunizationEvent>
   <doseStatus>
     <coding>
-      <system value="0NmBh21ZYw"/>
-      <version value="VdV_cMzLsa"/>
-      <code value="WabtzPRRk7"/>
-      <display value="IG7_tO21QJ"/>
+      <system value="wOjS7wBAuu"/>
+      <version value="SLzWvS4bZs"/>
+      <code value="sOYxXAAnVR"/>
+      <display value="Ye1ymqZxNK"/>
       <userSelected value="true"/>
     </coding>
-    <text value="6TggWi5kLh"/>
+    <text value="_iOAcVeWlh"/>
   </doseStatus>
   <doseStatusReason>
     <coding>
-      <system value="hm1f13V50E"/>
-      <version value="lxCxeYoZFd"/>
-      <code value="RVR9BmFZeK"/>
-      <display value="qeM4hXVSEj"/>
+      <system value="rK_zrm0gGF"/>
+      <version value="wwXTlGIXOn"/>
+      <code value="pMBCYGAe38"/>
+      <display value="1wWN4UtBwX"/>
       <userSelected value="true"/>
     </coding>
-    <text value="0v_YINx8TC"/>
+    <text value="AdmpWvZkIf"/>
   </doseStatusReason>
-  <description value="pSiIWBVvyf"/>
-  <series value="NqkgC2Dso0"/>
-  <doseNumberString value="4yvTK2rExm"/>
-  <seriesDosesString value="GPa3Dlp3w9"/>
+  <description value="Kpq8wmq1yE"/>
+  <series value="SLyP10stIg"/>
+  <doseNumberString value="PGuP7sM_nt"/>
+  <seriesDosesString value="OG6tv5nor0"/>
 </ImmunizationEvaluation>

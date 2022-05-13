@@ -1,0 +1,3481 @@
+{
+    "resourceType": "ValueSet",
+    "id": "defined-types",
+    "meta": {
+        "lastUpdated": "2022-04-23T22:21:35.043Z",
+        "profile": [
+            "http://hl7.org/fhir/StructureDefinition/shareablevalueset"
+        ]
+    },
+    "extension": [
+        {
+            "url": "http://hl7.org/fhir/StructureDefinition/structuredefinition-wg",
+            "valueCode": "fhir"
+        },
+        {
+            "url": "http://hl7.org/fhir/StructureDefinition/valueset-special-status",
+            "valueString": "This Value Set is normative - it is generated based on the information defined in this specification. The definition will remain fixed  across versions, but the actual contents will change from version to version"
+        },
+        {
+            "url": "http://hl7.org/fhir/StructureDefinition/structuredefinition-standards-status",
+            "valueCode": "normative"
+        },
+        {
+            "url": "http://hl7.org/fhir/StructureDefinition/structuredefinition-normative-version",
+            "valueCode": "4.0.0"
+        },
+        {
+            "url": "http://hl7.org/fhir/StructureDefinition/structuredefinition-fmm",
+            "valueInteger": 5
+        }
+    ],
+    "url": "http://hl7.org/fhir/ValueSet/defined-types",
+    "identifier": [
+        {
+            "system": "urn:ietf:rfc:3986",
+            "value": "urn:oid:2.16.840.1.113883.4.642.3.24"
+        }
+    ],
+    "version": "4.3.0-cibuild",
+    "name": "FHIRDefinedType",
+    "title": "FHIRDefinedType",
+    "status": "active",
+    "experimental": true,
+    "date": "2022-04-23T22:21:35Z",
+    "publisher": "HL7 (FHIR Project)",
+    "contact": [
+        {
+            "telecom": [
+                {
+                    "system": "url",
+                    "value": "http://hl7.org/fhir"
+                },
+                {
+                    "system": "email",
+                    "value": "fhir@lists.hl7.org"
+                }
+            ]
+        }
+    ],
+    "description": "A list of all the concrete types defined in this version of the FHIR specification - Data Types and Resource Types.",
+    "compose": {
+        "include": [
+            {
+                "system": "http://hl7.org/fhir/data-types"
+            },
+            {
+                "system": "http://hl7.org/fhir/resource-types"
+            }
+        ]
+    },
+    "expansion": {
+        "identifier": "urn:uuid:57586e2f-08af-497d-bf0b-9c7fc305e5f6",
+        "timestamp": "2022-04-23T22:23:07Z",
+        "total": 207,
+        "parameter": [
+            {
+                "name": "excludeNested",
+                "valueBoolean": true
+            },
+            {
+                "name": "includeDesignations",
+                "valueBoolean": true
+            },
+            {
+                "name": "version",
+                "valueUri": "http://hl7.org/fhir/data-types|4.3.0-cibuild"
+            },
+            {
+                "name": "version",
+                "valueUri": "http://hl7.org/fhir/resource-types|4.3.0-cibuild"
+            }
+        ],
+        "contains": [
+            {
+                "system": "http://hl7.org/fhir/data-types",
+                "code": "Address",
+                "display": "Address"
+            },
+            {
+                "system": "http://hl7.org/fhir/data-types",
+                "code": "Age",
+                "display": "Age"
+            },
+            {
+                "system": "http://hl7.org/fhir/data-types",
+                "code": "Annotation",
+                "display": "Annotation"
+            },
+            {
+                "system": "http://hl7.org/fhir/data-types",
+                "code": "Attachment",
+                "display": "Attachment"
+            },
+            {
+                "system": "http://hl7.org/fhir/data-types",
+                "code": "BackboneElement",
+                "display": "BackboneElement"
+            },
+            {
+                "system": "http://hl7.org/fhir/data-types",
+                "code": "CodeableConcept",
+                "display": "CodeableConcept"
+            },
+            {
+                "system": "http://hl7.org/fhir/data-types",
+                "code": "CodeableReference",
+                "display": "CodeableReference"
+            },
+            {
+                "system": "http://hl7.org/fhir/data-types",
+                "code": "Coding",
+                "display": "Coding"
+            },
+            {
+                "system": "http://hl7.org/fhir/data-types",
+                "code": "ContactDetail",
+                "display": "ContactDetail"
+            },
+            {
+                "system": "http://hl7.org/fhir/data-types",
+                "code": "ContactPoint",
+                "display": "ContactPoint"
+            },
+            {
+                "system": "http://hl7.org/fhir/data-types",
+                "code": "Contributor",
+                "display": "Contributor"
+            },
+            {
+                "system": "http://hl7.org/fhir/data-types",
+                "code": "Count",
+                "display": "Count"
+            },
+            {
+                "system": "http://hl7.org/fhir/data-types",
+                "code": "DataRequirement",
+                "display": "DataRequirement"
+            },
+            {
+                "system": "http://hl7.org/fhir/data-types",
+                "code": "Distance",
+                "display": "Distance"
+            },
+            {
+                "system": "http://hl7.org/fhir/data-types",
+                "code": "Dosage",
+                "display": "Dosage"
+            },
+            {
+                "system": "http://hl7.org/fhir/data-types",
+                "code": "Duration",
+                "display": "Duration"
+            },
+            {
+                "system": "http://hl7.org/fhir/data-types",
+                "code": "Element",
+                "display": "Element"
+            },
+            {
+                "system": "http://hl7.org/fhir/data-types",
+                "code": "ElementDefinition",
+                "display": "ElementDefinition"
+            },
+            {
+                "system": "http://hl7.org/fhir/data-types",
+                "code": "Expression",
+                "display": "Expression"
+            },
+            {
+                "system": "http://hl7.org/fhir/data-types",
+                "code": "Extension",
+                "display": "Extension"
+            },
+            {
+                "system": "http://hl7.org/fhir/data-types",
+                "code": "HumanName",
+                "display": "HumanName"
+            },
+            {
+                "system": "http://hl7.org/fhir/data-types",
+                "code": "Identifier",
+                "display": "Identifier"
+            },
+            {
+                "system": "http://hl7.org/fhir/data-types",
+                "code": "MarketingStatus",
+                "display": "MarketingStatus"
+            },
+            {
+                "system": "http://hl7.org/fhir/data-types",
+                "code": "Meta",
+                "display": "Meta"
+            },
+            {
+                "system": "http://hl7.org/fhir/data-types",
+                "code": "Money",
+                "display": "Money"
+            },
+            {
+                "system": "http://hl7.org/fhir/data-types",
+                "code": "MoneyQuantity",
+                "display": "MoneyQuantity"
+            },
+            {
+                "system": "http://hl7.org/fhir/data-types",
+                "code": "Narrative",
+                "display": "Narrative"
+            },
+            {
+                "system": "http://hl7.org/fhir/data-types",
+                "code": "ParameterDefinition",
+                "display": "ParameterDefinition"
+            },
+            {
+                "system": "http://hl7.org/fhir/data-types",
+                "code": "Period",
+                "display": "Period"
+            },
+            {
+                "system": "http://hl7.org/fhir/data-types",
+                "code": "Population",
+                "display": "Population"
+            },
+            {
+                "system": "http://hl7.org/fhir/data-types",
+                "code": "ProdCharacteristic",
+                "display": "ProdCharacteristic"
+            },
+            {
+                "system": "http://hl7.org/fhir/data-types",
+                "code": "ProductShelfLife",
+                "display": "ProductShelfLife"
+            },
+            {
+                "system": "http://hl7.org/fhir/data-types",
+                "code": "Quantity",
+                "display": "Quantity"
+            },
+            {
+                "system": "http://hl7.org/fhir/data-types",
+                "code": "Range",
+                "display": "Range"
+            },
+            {
+                "system": "http://hl7.org/fhir/data-types",
+                "code": "Ratio",
+                "display": "Ratio"
+            },
+            {
+                "system": "http://hl7.org/fhir/data-types",
+                "code": "RatioRange",
+                "display": "RatioRange"
+            },
+            {
+                "system": "http://hl7.org/fhir/data-types",
+                "code": "Reference",
+                "display": "Reference"
+            },
+            {
+                "system": "http://hl7.org/fhir/data-types",
+                "code": "RelatedArtifact",
+                "display": "RelatedArtifact"
+            },
+            {
+                "system": "http://hl7.org/fhir/data-types",
+                "code": "SampledData",
+                "display": "SampledData"
+            },
+            {
+                "system": "http://hl7.org/fhir/data-types",
+                "code": "Signature",
+                "display": "Signature"
+            },
+            {
+                "system": "http://hl7.org/fhir/data-types",
+                "code": "SimpleQuantity",
+                "display": "SimpleQuantity"
+            },
+            {
+                "system": "http://hl7.org/fhir/data-types",
+                "code": "Timing",
+                "display": "Timing"
+            },
+            {
+                "system": "http://hl7.org/fhir/data-types",
+                "code": "TriggerDefinition",
+                "display": "TriggerDefinition"
+            },
+            {
+                "system": "http://hl7.org/fhir/data-types",
+                "code": "UsageContext",
+                "display": "UsageContext"
+            },
+            {
+                "system": "http://hl7.org/fhir/data-types",
+                "code": "base64Binary",
+                "display": "base64Binary"
+            },
+            {
+                "system": "http://hl7.org/fhir/data-types",
+                "code": "boolean",
+                "display": "boolean"
+            },
+            {
+                "system": "http://hl7.org/fhir/data-types",
+                "code": "canonical",
+                "display": "canonical"
+            },
+            {
+                "system": "http://hl7.org/fhir/data-types",
+                "code": "code",
+                "display": "code"
+            },
+            {
+                "system": "http://hl7.org/fhir/data-types",
+                "code": "date",
+                "display": "date"
+            },
+            {
+                "system": "http://hl7.org/fhir/data-types",
+                "code": "dateTime",
+                "display": "dateTime"
+            },
+            {
+                "system": "http://hl7.org/fhir/data-types",
+                "code": "decimal",
+                "display": "decimal"
+            },
+            {
+                "system": "http://hl7.org/fhir/data-types",
+                "code": "id",
+                "display": "id"
+            },
+            {
+                "system": "http://hl7.org/fhir/data-types",
+                "code": "instant",
+                "display": "instant"
+            },
+            {
+                "system": "http://hl7.org/fhir/data-types",
+                "code": "integer",
+                "display": "integer"
+            },
+            {
+                "system": "http://hl7.org/fhir/data-types",
+                "code": "markdown",
+                "display": "markdown"
+            },
+            {
+                "system": "http://hl7.org/fhir/data-types",
+                "code": "oid",
+                "display": "oid"
+            },
+            {
+                "system": "http://hl7.org/fhir/data-types",
+                "code": "positiveInt",
+                "display": "positiveInt"
+            },
+            {
+                "system": "http://hl7.org/fhir/data-types",
+                "code": "string",
+                "display": "string"
+            },
+            {
+                "system": "http://hl7.org/fhir/data-types",
+                "code": "time",
+                "display": "time"
+            },
+            {
+                "system": "http://hl7.org/fhir/data-types",
+                "code": "unsignedInt",
+                "display": "unsignedInt"
+            },
+            {
+                "system": "http://hl7.org/fhir/data-types",
+                "code": "uri",
+                "display": "uri"
+            },
+            {
+                "system": "http://hl7.org/fhir/data-types",
+                "code": "url",
+                "display": "url"
+            },
+            {
+                "system": "http://hl7.org/fhir/data-types",
+                "code": "uuid",
+                "display": "uuid"
+            },
+            {
+                "system": "http://hl7.org/fhir/data-types",
+                "code": "xhtml",
+                "display": "XHTML"
+            },
+            {
+                "system": "http://hl7.org/fhir/resource-types",
+                "code": "Resource",
+                "display": "Resource",
+                "designation": [
+                    {
+                        "language": "en",
+                        "value": "Resource"
+                    },
+                    {
+                        "language": "es",
+                        "value": "Recurso"
+                    },
+                    {
+                        "language": "zh",
+                        "value": "资源"
+                    }
+                ]
+            },
+            {
+                "system": "http://hl7.org/fhir/resource-types",
+                "code": "Binary",
+                "display": "Binary",
+                "designation": [
+                    {
+                        "language": "en",
+                        "value": "Binary"
+                    },
+                    {
+                        "language": "it",
+                        "value": "Binario"
+                    },
+                    {
+                        "language": "fr",
+                        "value": "Binaire"
+                    },
+                    {
+                        "language": "es",
+                        "value": "Binario"
+                    },
+                    {
+                        "language": "zh",
+                        "value": "二进制资源"
+                    }
+                ]
+            },
+            {
+                "system": "http://hl7.org/fhir/resource-types",
+                "code": "Bundle",
+                "display": "Bundle",
+                "designation": [
+                    {
+                        "language": "en",
+                        "value": "Bundle"
+                    },
+                    {
+                        "language": "fr",
+                        "value": "Paquet"
+                    },
+                    {
+                        "language": "es",
+                        "value": "Paquete"
+                    },
+                    {
+                        "language": "zh",
+                        "value": "捆束"
+                    }
+                ]
+            },
+            {
+                "system": "http://hl7.org/fhir/resource-types",
+                "code": "DomainResource",
+                "display": "DomainResource",
+                "designation": [
+                    {
+                        "language": "en",
+                        "value": "DomainResource"
+                    },
+                    {
+                        "language": "es",
+                        "value": "RecursoDeDominio"
+                    },
+                    {
+                        "language": "zh",
+                        "value": "领域资源"
+                    }
+                ]
+            },
+            {
+                "system": "http://hl7.org/fhir/resource-types",
+                "code": "Account",
+                "display": "Account",
+                "designation": [
+                    {
+                        "language": "en",
+                        "value": "Account"
+                    },
+                    {
+                        "language": "es",
+                        "value": "Cuenta"
+                    },
+                    {
+                        "language": "zh",
+                        "value": "账户"
+                    }
+                ]
+            },
+            {
+                "system": "http://hl7.org/fhir/resource-types",
+                "code": "ActivityDefinition",
+                "display": "ActivityDefinition",
+                "designation": [
+                    {
+                        "language": "en",
+                        "value": "ActivityDefinition"
+                    },
+                    {
+                        "language": "it",
+                        "value": "DefinizioneAttivita"
+                    },
+                    {
+                        "language": "es",
+                        "value": "DefinicionDeActividad"
+                    },
+                    {
+                        "language": "zh",
+                        "value": "活动定义"
+                    }
+                ]
+            },
+            {
+                "system": "http://hl7.org/fhir/resource-types",
+                "code": "AdministrableProductDefinition",
+                "display": "AdministrableProductDefinition",
+                "designation": [
+                    {
+                        "language": "en",
+                        "value": "AdministrableProductDefinition"
+                    }
+                ]
+            },
+            {
+                "system": "http://hl7.org/fhir/resource-types",
+                "code": "AdverseEvent",
+                "display": "AdverseEvent",
+                "designation": [
+                    {
+                        "language": "en",
+                        "value": "AdverseEvent"
+                    },
+                    {
+                        "language": "it",
+                        "value": "EventoAvverso"
+                    },
+                    {
+                        "language": "es",
+                        "value": "EventoAdverso"
+                    },
+                    {
+                        "language": "zh",
+                        "value": "不良事件"
+                    }
+                ]
+            },
+            {
+                "system": "http://hl7.org/fhir/resource-types",
+                "code": "AllergyIntolerance",
+                "display": "AllergyIntolerance",
+                "designation": [
+                    {
+                        "language": "en",
+                        "value": "AllergyIntolerance"
+                    },
+                    {
+                        "language": "it",
+                        "value": "AllergiaIntolleranza"
+                    },
+                    {
+                        "language": "fr",
+                        "value": "IntoléranceAllergique"
+                    },
+                    {
+                        "language": "es",
+                        "value": "AllergiaIntolerancia"
+                    },
+                    {
+                        "language": "zh",
+                        "value": "变态反应与不耐性"
+                    }
+                ]
+            },
+            {
+                "system": "http://hl7.org/fhir/resource-types",
+                "code": "Appointment",
+                "display": "Appointment",
+                "designation": [
+                    {
+                        "language": "en",
+                        "value": "Appointment"
+                    },
+                    {
+                        "language": "it",
+                        "value": "Appuntamento"
+                    },
+                    {
+                        "language": "fr",
+                        "value": "RendezVous"
+                    },
+                    {
+                        "language": "es",
+                        "value": "Cita"
+                    },
+                    {
+                        "language": "zh",
+                        "value": "预约"
+                    }
+                ]
+            },
+            {
+                "system": "http://hl7.org/fhir/resource-types",
+                "code": "AppointmentResponse",
+                "display": "AppointmentResponse",
+                "designation": [
+                    {
+                        "language": "en",
+                        "value": "AppointmentResponse"
+                    },
+                    {
+                        "language": "it",
+                        "value": "RispostaAppuntamento"
+                    },
+                    {
+                        "language": "fr",
+                        "value": "RéponseRendezVous"
+                    },
+                    {
+                        "language": "es",
+                        "value": "CitaRespuesta"
+                    },
+                    {
+                        "language": "zh",
+                        "value": "预约响应"
+                    }
+                ]
+            },
+            {
+                "system": "http://hl7.org/fhir/resource-types",
+                "code": "AuditEvent",
+                "display": "AuditEvent",
+                "designation": [
+                    {
+                        "language": "en",
+                        "value": "AuditEvent"
+                    },
+                    {
+                        "language": "fr",
+                        "value": "ÉvènementSécurité"
+                    },
+                    {
+                        "language": "es",
+                        "value": "EventoSeguridad"
+                    },
+                    {
+                        "language": "zh",
+                        "value": "审计事件"
+                    }
+                ]
+            },
+            {
+                "system": "http://hl7.org/fhir/resource-types",
+                "code": "Basic",
+                "display": "Basic",
+                "designation": [
+                    {
+                        "language": "en",
+                        "value": "Basic"
+                    },
+                    {
+                        "language": "fr",
+                        "value": "Basique"
+                    },
+                    {
+                        "language": "es",
+                        "value": "Basico"
+                    },
+                    {
+                        "language": "zh",
+                        "value": "初级资源"
+                    }
+                ]
+            },
+            {
+                "system": "http://hl7.org/fhir/resource-types",
+                "code": "BiologicallyDerivedProduct",
+                "display": "BiologicallyDerivedProduct",
+                "designation": [
+                    {
+                        "language": "en",
+                        "value": "BiologicallyDerivedProduct"
+                    }
+                ]
+            },
+            {
+                "system": "http://hl7.org/fhir/resource-types",
+                "code": "BodyStructure",
+                "display": "BodyStructure",
+                "designation": [
+                    {
+                        "language": "en",
+                        "value": "BodyStructure"
+                    },
+                    {
+                        "language": "it",
+                        "value": "StrutturaDelCorpo"
+                    },
+                    {
+                        "language": "fr",
+                        "value": "MorphologieDeCorps"
+                    },
+                    {
+                        "language": "es",
+                        "value": "EstructuraDelCuerpo"
+                    },
+                    {
+                        "language": "zh",
+                        "value": "身体结构"
+                    }
+                ]
+            },
+            {
+                "system": "http://hl7.org/fhir/resource-types",
+                "code": "CapabilityStatement",
+                "display": "CapabilityStatement",
+                "designation": [
+                    {
+                        "language": "en",
+                        "value": "CapabilityStatement"
+                    },
+                    {
+                        "language": "es",
+                        "value": "DeclaracionDeCapacidad"
+                    },
+                    {
+                        "language": "zh",
+                        "value": "能力声明"
+                    }
+                ]
+            },
+            {
+                "system": "http://hl7.org/fhir/resource-types",
+                "code": "CarePlan",
+                "display": "CarePlan",
+                "designation": [
+                    {
+                        "language": "en",
+                        "value": "CarePlan"
+                    },
+                    {
+                        "language": "it",
+                        "value": "PianoDiCura"
+                    },
+                    {
+                        "language": "fr",
+                        "value": "PlanDeSoins"
+                    },
+                    {
+                        "language": "es",
+                        "value": "PlanDeCuidado"
+                    },
+                    {
+                        "language": "zh",
+                        "value": "照护计划"
+                    }
+                ]
+            },
+            {
+                "system": "http://hl7.org/fhir/resource-types",
+                "code": "CareTeam",
+                "display": "CareTeam",
+                "designation": [
+                    {
+                        "language": "en",
+                        "value": "CareTeam"
+                    },
+                    {
+                        "language": "es",
+                        "value": "EquipoDeCuidado"
+                    },
+                    {
+                        "language": "zh",
+                        "value": "照护团队"
+                    }
+                ]
+            },
+            {
+                "system": "http://hl7.org/fhir/resource-types",
+                "code": "CatalogEntry",
+                "display": "CatalogEntry",
+                "designation": [
+                    {
+                        "language": "en",
+                        "value": "CatalogEntry"
+                    },
+                    {
+                        "language": "es",
+                        "value": "EntradaDeCatalogo"
+                    },
+                    {
+                        "language": "zh",
+                        "value": "条目定义"
+                    }
+                ]
+            },
+            {
+                "system": "http://hl7.org/fhir/resource-types",
+                "code": "ChargeItem",
+                "display": "ChargeItem",
+                "designation": [
+                    {
+                        "language": "en",
+                        "value": "ChargeItem"
+                    },
+                    {
+                        "language": "es",
+                        "value": "CargoDeItem"
+                    },
+                    {
+                        "language": "zh",
+                        "value": "收费项目"
+                    }
+                ]
+            },
+            {
+                "system": "http://hl7.org/fhir/resource-types",
+                "code": "ChargeItemDefinition",
+                "display": "ChargeItemDefinition",
+                "designation": [
+                    {
+                        "language": "en",
+                        "value": "ChargeItemDefinition"
+                    }
+                ]
+            },
+            {
+                "system": "http://hl7.org/fhir/resource-types",
+                "code": "Citation",
+                "display": "Citation",
+                "designation": [
+                    {
+                        "language": "en",
+                        "value": "Citation"
+                    }
+                ]
+            },
+            {
+                "system": "http://hl7.org/fhir/resource-types",
+                "code": "Claim",
+                "display": "Claim",
+                "designation": [
+                    {
+                        "language": "en",
+                        "value": "Claim"
+                    },
+                    {
+                        "language": "fr",
+                        "value": "Réclamation"
+                    },
+                    {
+                        "language": "es",
+                        "value": "Reclamación / Factura"
+                    },
+                    {
+                        "language": "zh",
+                        "value": "赔单"
+                    }
+                ]
+            },
+            {
+                "system": "http://hl7.org/fhir/resource-types",
+                "code": "ClaimResponse",
+                "display": "ClaimResponse",
+                "designation": [
+                    {
+                        "language": "en",
+                        "value": "ClaimResponse"
+                    },
+                    {
+                        "language": "fr",
+                        "value": "RéponseARéclamation"
+                    },
+                    {
+                        "language": "zh",
+                        "value": "赔单请求"
+                    }
+                ]
+            },
+            {
+                "system": "http://hl7.org/fhir/resource-types",
+                "code": "ClinicalImpression",
+                "display": "ClinicalImpression",
+                "designation": [
+                    {
+                        "language": "en",
+                        "value": "ClinicalImpression"
+                    },
+                    {
+                        "language": "it",
+                        "value": "ImpressioneClinica"
+                    },
+                    {
+                        "language": "fr",
+                        "value": "ImpressionClinique"
+                    },
+                    {
+                        "language": "es",
+                        "value": "HallazgoClinico"
+                    },
+                    {
+                        "language": "zh",
+                        "value": "临床印象"
+                    }
+                ]
+            },
+            {
+                "system": "http://hl7.org/fhir/resource-types",
+                "code": "ClinicalUseDefinition",
+                "display": "ClinicalUseDefinition",
+                "designation": [
+                    {
+                        "language": "en",
+                        "value": "ClinicalUseDefinition"
+                    }
+                ]
+            },
+            {
+                "system": "http://hl7.org/fhir/resource-types",
+                "code": "CodeSystem",
+                "display": "CodeSystem",
+                "designation": [
+                    {
+                        "language": "en",
+                        "value": "CodeSystem"
+                    },
+                    {
+                        "language": "it",
+                        "value": "SistemaDiCodifica"
+                    },
+                    {
+                        "language": "es",
+                        "value": "SistemaDeCodigos"
+                    },
+                    {
+                        "language": "zh",
+                        "value": "代码系统"
+                    }
+                ]
+            },
+            {
+                "system": "http://hl7.org/fhir/resource-types",
+                "code": "Communication",
+                "display": "Communication",
+                "designation": [
+                    {
+                        "language": "en",
+                        "value": "Communication"
+                    },
+                    {
+                        "language": "it",
+                        "value": "Comunicazione"
+                    },
+                    {
+                        "language": "fr",
+                        "value": "Communication"
+                    },
+                    {
+                        "language": "es",
+                        "value": "Comunicación"
+                    },
+                    {
+                        "language": "zh",
+                        "value": "通讯"
+                    }
+                ]
+            },
+            {
+                "system": "http://hl7.org/fhir/resource-types",
+                "code": "CommunicationRequest",
+                "display": "CommunicationRequest",
+                "designation": [
+                    {
+                        "language": "en",
+                        "value": "CommunicationRequest"
+                    },
+                    {
+                        "language": "it",
+                        "value": "RichiestaDiComunicazione"
+                    },
+                    {
+                        "language": "fr",
+                        "value": "DemandeDeCommunication"
+                    },
+                    {
+                        "language": "es",
+                        "value": "ComunicaciónRequerimiento"
+                    },
+                    {
+                        "language": "zh",
+                        "value": "通讯请求"
+                    }
+                ]
+            },
+            {
+                "system": "http://hl7.org/fhir/resource-types",
+                "code": "CompartmentDefinition",
+                "display": "CompartmentDefinition",
+                "designation": [
+                    {
+                        "language": "en",
+                        "value": "CompartmentDefinition"
+                    },
+                    {
+                        "language": "es",
+                        "value": "DefinicionDeCompartimento"
+                    },
+                    {
+                        "language": "zh",
+                        "value": "逻辑区块定义"
+                    }
+                ]
+            },
+            {
+                "system": "http://hl7.org/fhir/resource-types",
+                "code": "Composition",
+                "display": "Composition",
+                "designation": [
+                    {
+                        "language": "en",
+                        "value": "Composition"
+                    },
+                    {
+                        "language": "it",
+                        "value": "Composizione"
+                    },
+                    {
+                        "language": "fr",
+                        "value": "Composition"
+                    },
+                    {
+                        "language": "es",
+                        "value": "Composición"
+                    },
+                    {
+                        "language": "zh",
+                        "value": "组合式文书"
+                    }
+                ]
+            },
+            {
+                "system": "http://hl7.org/fhir/resource-types",
+                "code": "ConceptMap",
+                "display": "ConceptMap",
+                "designation": [
+                    {
+                        "language": "en",
+                        "value": "ConceptMap"
+                    },
+                    {
+                        "language": "it",
+                        "value": "MappaDiConcetti"
+                    },
+                    {
+                        "language": "fr",
+                        "value": "CarteDeConcepts"
+                    },
+                    {
+                        "language": "es",
+                        "value": "MapaDeConceptos"
+                    },
+                    {
+                        "language": "zh",
+                        "value": "概念映射"
+                    }
+                ]
+            },
+            {
+                "system": "http://hl7.org/fhir/resource-types",
+                "code": "Condition",
+                "display": "Condition",
+                "designation": [
+                    {
+                        "language": "en",
+                        "value": "Condition"
+                    },
+                    {
+                        "language": "it",
+                        "value": "Condizione"
+                    },
+                    {
+                        "language": "fr",
+                        "value": "Condition"
+                    },
+                    {
+                        "language": "es",
+                        "value": "Condición"
+                    },
+                    {
+                        "language": "zh",
+                        "value": "情况"
+                    }
+                ]
+            },
+            {
+                "system": "http://hl7.org/fhir/resource-types",
+                "code": "Consent",
+                "display": "Consent",
+                "designation": [
+                    {
+                        "language": "en",
+                        "value": "Consent"
+                    },
+                    {
+                        "language": "it",
+                        "value": "Consenso"
+                    },
+                    {
+                        "language": "es",
+                        "value": "Consentimiento"
+                    },
+                    {
+                        "language": "zh",
+                        "value": "同意书"
+                    }
+                ]
+            },
+            {
+                "system": "http://hl7.org/fhir/resource-types",
+                "code": "Contract",
+                "display": "Contract",
+                "designation": [
+                    {
+                        "language": "en",
+                        "value": "Contract"
+                    },
+                    {
+                        "language": "it",
+                        "value": "Contratto"
+                    },
+                    {
+                        "language": "fr",
+                        "value": "Contrat"
+                    },
+                    {
+                        "language": "es",
+                        "value": "Contato"
+                    },
+                    {
+                        "language": "zh",
+                        "value": "合同"
+                    }
+                ]
+            },
+            {
+                "system": "http://hl7.org/fhir/resource-types",
+                "code": "Coverage",
+                "display": "Coverage",
+                "designation": [
+                    {
+                        "language": "en",
+                        "value": "Coverage"
+                    },
+                    {
+                        "language": "it",
+                        "value": "Copertura"
+                    },
+                    {
+                        "language": "fr",
+                        "value": "Couverture"
+                    },
+                    {
+                        "language": "es",
+                        "value": "Cobertura"
+                    },
+                    {
+                        "language": "zh",
+                        "value": "保险责任"
+                    }
+                ]
+            },
+            {
+                "system": "http://hl7.org/fhir/resource-types",
+                "code": "CoverageEligibilityRequest",
+                "display": "CoverageEligibilityRequest",
+                "designation": [
+                    {
+                        "language": "en",
+                        "value": "CoverageEligibilityRequest"
+                    },
+                    {
+                        "language": "it",
+                        "value": "RichiestaEleggibilitaCopertura"
+                    },
+                    {
+                        "language": "fr",
+                        "value": "CouvertureDemandeEligibilité"
+                    },
+                    {
+                        "language": "zh",
+                        "value": "资格请求"
+                    }
+                ]
+            },
+            {
+                "system": "http://hl7.org/fhir/resource-types",
+                "code": "CoverageEligibilityResponse",
+                "display": "CoverageEligibilityResponse",
+                "designation": [
+                    {
+                        "language": "en",
+                        "value": "CoverageEligibilityResponse"
+                    },
+                    {
+                        "language": "it",
+                        "value": "RispostaEleggibilitaCopertura"
+                    },
+                    {
+                        "language": "fr",
+                        "value": "RéponseEligibilitéCouverture"
+                    },
+                    {
+                        "language": "zh",
+                        "value": "资格响应"
+                    }
+                ]
+            },
+            {
+                "system": "http://hl7.org/fhir/resource-types",
+                "code": "DetectedIssue",
+                "display": "DetectedIssue",
+                "designation": [
+                    {
+                        "language": "en",
+                        "value": "DetectedIssue"
+                    },
+                    {
+                        "language": "it",
+                        "value": "ProblemaRilevato"
+                    },
+                    {
+                        "language": "fr",
+                        "value": "Problème Détecté"
+                    },
+                    {
+                        "language": "es",
+                        "value": "Problema-Detectado /ProblemaDetectado"
+                    },
+                    {
+                        "language": "zh",
+                        "value": "已发现问题"
+                    }
+                ]
+            },
+            {
+                "system": "http://hl7.org/fhir/resource-types",
+                "code": "Device",
+                "display": "Device",
+                "designation": [
+                    {
+                        "language": "en",
+                        "value": "Device"
+                    },
+                    {
+                        "language": "it",
+                        "value": "Dispositivo"
+                    },
+                    {
+                        "language": "fr",
+                        "value": "Dispositif"
+                    },
+                    {
+                        "language": "es",
+                        "value": "Dispositivo"
+                    },
+                    {
+                        "language": "zh",
+                        "value": "装置"
+                    }
+                ]
+            },
+            {
+                "system": "http://hl7.org/fhir/resource-types",
+                "code": "DeviceDefinition",
+                "display": "DeviceDefinition",
+                "designation": [
+                    {
+                        "language": "en",
+                        "value": "DeviceDefinition"
+                    },
+                    {
+                        "language": "fr",
+                        "value": "DéfinitionDeDispositif"
+                    },
+                    {
+                        "language": "es",
+                        "value": "DefiniciónDeDispositivo"
+                    },
+                    {
+                        "language": "zh",
+                        "value": "装置组件"
+                    }
+                ]
+            },
+            {
+                "system": "http://hl7.org/fhir/resource-types",
+                "code": "DeviceMetric",
+                "display": "DeviceMetric",
+                "designation": [
+                    {
+                        "language": "en",
+                        "value": "DeviceMetric"
+                    },
+                    {
+                        "language": "fr",
+                        "value": "MétriqueDispositif"
+                    },
+                    {
+                        "language": "es",
+                        "value": "MetricaDeDispositivo"
+                    },
+                    {
+                        "language": "zh",
+                        "value": "装置指标"
+                    }
+                ]
+            },
+            {
+                "system": "http://hl7.org/fhir/resource-types",
+                "code": "DeviceRequest",
+                "display": "DeviceRequest",
+                "designation": [
+                    {
+                        "language": "en",
+                        "value": "DeviceRequest"
+                    },
+                    {
+                        "language": "it",
+                        "value": "RichiestaDispositivo"
+                    },
+                    {
+                        "language": "fr",
+                        "value": "DemandeUtilisationDispositif"
+                    },
+                    {
+                        "language": "es",
+                        "value": "SolicitudDeDispositivo"
+                    },
+                    {
+                        "language": "zh",
+                        "value": "装置请求"
+                    }
+                ]
+            },
+            {
+                "system": "http://hl7.org/fhir/resource-types",
+                "code": "DeviceUseStatement",
+                "display": "DeviceUseStatement",
+                "designation": [
+                    {
+                        "language": "en",
+                        "value": "DeviceUseStatement"
+                    },
+                    {
+                        "language": "zh",
+                        "value": "装置使用声明"
+                    }
+                ]
+            },
+            {
+                "system": "http://hl7.org/fhir/resource-types",
+                "code": "DiagnosticReport",
+                "display": "DiagnosticReport",
+                "designation": [
+                    {
+                        "language": "en",
+                        "value": "DiagnosticReport"
+                    },
+                    {
+                        "language": "it",
+                        "value": "RefertoDiagnostico"
+                    },
+                    {
+                        "language": "fr",
+                        "value": "RapportDiagnostique"
+                    },
+                    {
+                        "language": "zh",
+                        "value": "诊断报告"
+                    },
+                    {
+                        "language": "es",
+                        "value": "InformeDiagnostico"
+                    }
+                ]
+            },
+            {
+                "system": "http://hl7.org/fhir/resource-types",
+                "code": "DocumentManifest",
+                "display": "DocumentManifest",
+                "designation": [
+                    {
+                        "language": "en",
+                        "value": "DocumentManifest"
+                    },
+                    {
+                        "language": "fr",
+                        "value": "Manifeste"
+                    },
+                    {
+                        "language": "zh",
+                        "value": "文档清单"
+                    },
+                    {
+                        "language": "es",
+                        "value": "ManifestoDocumento"
+                    }
+                ]
+            },
+            {
+                "system": "http://hl7.org/fhir/resource-types",
+                "code": "DocumentReference",
+                "display": "DocumentReference",
+                "designation": [
+                    {
+                        "language": "en",
+                        "value": "DocumentReference"
+                    },
+                    {
+                        "language": "it",
+                        "value": "RiferimentoDocumento"
+                    },
+                    {
+                        "language": "fr",
+                        "value": "RéférenceDocument"
+                    },
+                    {
+                        "language": "es",
+                        "value": "ReferenciaDocumento"
+                    },
+                    {
+                        "language": "zh",
+                        "value": "文档引用"
+                    }
+                ]
+            },
+            {
+                "system": "http://hl7.org/fhir/resource-types",
+                "code": "Encounter",
+                "display": "Encounter",
+                "designation": [
+                    {
+                        "language": "en",
+                        "value": "Encounter"
+                    },
+                    {
+                        "language": "fr",
+                        "value": "Venue"
+                    },
+                    {
+                        "language": "zh",
+                        "value": "就医过程"
+                    },
+                    {
+                        "language": "es",
+                        "value": "Encuentro"
+                    }
+                ]
+            },
+            {
+                "system": "http://hl7.org/fhir/resource-types",
+                "code": "Endpoint",
+                "display": "Endpoint",
+                "designation": [
+                    {
+                        "language": "en",
+                        "value": "Endpoint"
+                    },
+                    {
+                        "language": "es",
+                        "value": "Endpoint"
+                    },
+                    {
+                        "language": "zh",
+                        "value": "端点"
+                    }
+                ]
+            },
+            {
+                "system": "http://hl7.org/fhir/resource-types",
+                "code": "EnrollmentRequest",
+                "display": "EnrollmentRequest",
+                "designation": [
+                    {
+                        "language": "en",
+                        "value": "EnrollmentRequest"
+                    },
+                    {
+                        "language": "it",
+                        "value": "RichiestaIscrizione"
+                    },
+                    {
+                        "language": "fr",
+                        "value": "DemandeInscription"
+                    },
+                    {
+                        "language": "es",
+                        "value": "SolicitudDeEnrolamiento"
+                    },
+                    {
+                        "language": "zh",
+                        "value": "保险注册请求"
+                    }
+                ]
+            },
+            {
+                "system": "http://hl7.org/fhir/resource-types",
+                "code": "EnrollmentResponse",
+                "display": "EnrollmentResponse",
+                "designation": [
+                    {
+                        "language": "en",
+                        "value": "EnrollmentResponse"
+                    },
+                    {
+                        "language": "it",
+                        "value": "RispostaIscrizione"
+                    },
+                    {
+                        "language": "fr",
+                        "value": "RéponseInscription"
+                    },
+                    {
+                        "language": "es",
+                        "value": "RespuestaDeEnrolamiento"
+                    },
+                    {
+                        "language": "zh",
+                        "value": "保险注册响应"
+                    }
+                ]
+            },
+            {
+                "system": "http://hl7.org/fhir/resource-types",
+                "code": "EpisodeOfCare",
+                "display": "EpisodeOfCare",
+                "designation": [
+                    {
+                        "language": "en",
+                        "value": "EpisodeOfCare"
+                    },
+                    {
+                        "language": "it",
+                        "value": "EpisodioDiCura"
+                    },
+                    {
+                        "language": "fr",
+                        "value": "ÉpisodeDeSoins"
+                    },
+                    {
+                        "language": "es",
+                        "value": "EpisodioDeCuidado"
+                    },
+                    {
+                        "language": "zh",
+                        "value": "照护服务节段"
+                    }
+                ]
+            },
+            {
+                "system": "http://hl7.org/fhir/resource-types",
+                "code": "EventDefinition",
+                "display": "EventDefinition",
+                "designation": [
+                    {
+                        "language": "en",
+                        "value": "EventDefinition"
+                    },
+                    {
+                        "language": "it",
+                        "value": "DefinizioneEvento"
+                    },
+                    {
+                        "language": "es",
+                        "value": "DefinitionDeEvento"
+                    },
+                    {
+                        "language": "zh",
+                        "value": "事件定义"
+                    }
+                ]
+            },
+            {
+                "system": "http://hl7.org/fhir/resource-types",
+                "code": "Evidence",
+                "display": "Evidence",
+                "designation": [
+                    {
+                        "language": "en",
+                        "value": "Evidence"
+                    }
+                ]
+            },
+            {
+                "system": "http://hl7.org/fhir/resource-types",
+                "code": "EvidenceReport",
+                "display": "EvidenceReport",
+                "designation": [
+                    {
+                        "language": "en",
+                        "value": "EvidenceReport"
+                    }
+                ]
+            },
+            {
+                "system": "http://hl7.org/fhir/resource-types",
+                "code": "EvidenceVariable",
+                "display": "EvidenceVariable",
+                "designation": [
+                    {
+                        "language": "en",
+                        "value": "EvidenceVariable"
+                    }
+                ]
+            },
+            {
+                "system": "http://hl7.org/fhir/resource-types",
+                "code": "ExampleScenario",
+                "display": "ExampleScenario",
+                "designation": [
+                    {
+                        "language": "en",
+                        "value": "ExampleScenario"
+                    },
+                    {
+                        "language": "it",
+                        "value": "ScenarioDiEsempio"
+                    },
+                    {
+                        "language": "es",
+                        "value": "EjemploDeEscenario"
+                    },
+                    {
+                        "language": "zh",
+                        "value": "示例场景"
+                    }
+                ]
+            },
+            {
+                "system": "http://hl7.org/fhir/resource-types",
+                "code": "ExplanationOfBenefit",
+                "display": "ExplanationOfBenefit",
+                "designation": [
+                    {
+                        "language": "en",
+                        "value": "ExplanationOfBenefit"
+                    },
+                    {
+                        "language": "fr",
+                        "value": "ExplicationDuBénéfice"
+                    },
+                    {
+                        "language": "zh",
+                        "value": "赔付说明"
+                    }
+                ]
+            },
+            {
+                "system": "http://hl7.org/fhir/resource-types",
+                "code": "FamilyMemberHistory",
+                "display": "FamilyMemberHistory",
+                "designation": [
+                    {
+                        "language": "en",
+                        "value": "FamilyMemberHistory"
+                    },
+                    {
+                        "language": "fr",
+                        "value": "HistoireMembreFamille"
+                    },
+                    {
+                        "language": "es",
+                        "value": "HistorialMiembroFamiliar"
+                    },
+                    {
+                        "language": "zh",
+                        "value": "家族史"
+                    }
+                ]
+            },
+            {
+                "system": "http://hl7.org/fhir/resource-types",
+                "code": "Flag",
+                "display": "Flag",
+                "designation": [
+                    {
+                        "language": "en",
+                        "value": "Flag"
+                    },
+                    {
+                        "language": "fr",
+                        "value": "Drapeau"
+                    },
+                    {
+                        "language": "es",
+                        "value": "Bandera"
+                    },
+                    {
+                        "language": "zh",
+                        "value": "标记"
+                    }
+                ]
+            },
+            {
+                "system": "http://hl7.org/fhir/resource-types",
+                "code": "Goal",
+                "display": "Goal",
+                "designation": [
+                    {
+                        "language": "en",
+                        "value": "Goal"
+                    },
+                    {
+                        "language": "fr",
+                        "value": "But"
+                    },
+                    {
+                        "language": "es",
+                        "value": "Objetivo"
+                    },
+                    {
+                        "language": "zh",
+                        "value": "目标"
+                    }
+                ]
+            },
+            {
+                "system": "http://hl7.org/fhir/resource-types",
+                "code": "GraphDefinition",
+                "display": "GraphDefinition",
+                "designation": [
+                    {
+                        "language": "en",
+                        "value": "GraphDefinition"
+                    },
+                    {
+                        "language": "es",
+                        "value": "DefinitionGrafico"
+                    },
+                    {
+                        "language": "zh",
+                        "value": "图形定义"
+                    }
+                ]
+            },
+            {
+                "system": "http://hl7.org/fhir/resource-types",
+                "code": "Group",
+                "display": "Group",
+                "designation": [
+                    {
+                        "language": "en",
+                        "value": "Group"
+                    },
+                    {
+                        "language": "it",
+                        "value": "Gruppo"
+                    },
+                    {
+                        "language": "fr",
+                        "value": "Groupe"
+                    },
+                    {
+                        "language": "es",
+                        "value": "Grupo"
+                    },
+                    {
+                        "language": "zh",
+                        "value": "群组"
+                    }
+                ]
+            },
+            {
+                "system": "http://hl7.org/fhir/resource-types",
+                "code": "GuidanceResponse",
+                "display": "GuidanceResponse",
+                "designation": [
+                    {
+                        "language": "en",
+                        "value": "GuidanceResponse"
+                    },
+                    {
+                        "language": "es",
+                        "value": "RespuestaDeOrientacion"
+                    },
+                    {
+                        "language": "zh",
+                        "value": "指导意见响应"
+                    }
+                ]
+            },
+            {
+                "system": "http://hl7.org/fhir/resource-types",
+                "code": "HealthcareService",
+                "display": "HealthcareService",
+                "designation": [
+                    {
+                        "language": "en",
+                        "value": "HealthcareService"
+                    },
+                    {
+                        "language": "it",
+                        "value": "ServizioSanitario"
+                    },
+                    {
+                        "language": "fr",
+                        "value": "ServiceDeSanté"
+                    },
+                    {
+                        "language": "es",
+                        "value": "ServicioDeCuidado"
+                    },
+                    {
+                        "language": "zh",
+                        "value": "医疗保健服务项目"
+                    }
+                ]
+            },
+            {
+                "system": "http://hl7.org/fhir/resource-types",
+                "code": "ImagingStudy",
+                "display": "ImagingStudy",
+                "designation": [
+                    {
+                        "language": "en",
+                        "value": "ImagingStudy"
+                    },
+                    {
+                        "language": "fr",
+                        "value": "EtudeImagerie"
+                    },
+                    {
+                        "language": "es",
+                        "value": "EstudioImagen  / EstudioImagen"
+                    },
+                    {
+                        "language": "zh",
+                        "value": "成像检查"
+                    }
+                ]
+            },
+            {
+                "system": "http://hl7.org/fhir/resource-types",
+                "code": "Immunization",
+                "display": "Immunization",
+                "designation": [
+                    {
+                        "language": "en",
+                        "value": "Immunization"
+                    },
+                    {
+                        "language": "it",
+                        "value": "Immunizzazione"
+                    },
+                    {
+                        "language": "fr",
+                        "value": "Immunisation"
+                    },
+                    {
+                        "language": "zh",
+                        "value": "免疫接种"
+                    },
+                    {
+                        "language": "es",
+                        "value": "Inmunización"
+                    }
+                ]
+            },
+            {
+                "system": "http://hl7.org/fhir/resource-types",
+                "code": "ImmunizationEvaluation",
+                "display": "ImmunizationEvaluation",
+                "designation": [
+                    {
+                        "language": "en",
+                        "value": "ImmunizationEvaluation"
+                    }
+                ]
+            },
+            {
+                "system": "http://hl7.org/fhir/resource-types",
+                "code": "ImmunizationRecommendation",
+                "display": "ImmunizationRecommendation",
+                "designation": [
+                    {
+                        "language": "en",
+                        "value": "ImmunizationRecommendation"
+                    },
+                    {
+                        "language": "fr",
+                        "value": "RecommendationImmunisation"
+                    },
+                    {
+                        "language": "zh",
+                        "value": "免疫接种建议"
+                    },
+                    {
+                        "language": "es",
+                        "value": "RecomendaciónInmunización /"
+                    }
+                ]
+            },
+            {
+                "system": "http://hl7.org/fhir/resource-types",
+                "code": "ImplementationGuide",
+                "display": "ImplementationGuide",
+                "designation": [
+                    {
+                        "language": "en",
+                        "value": "ImplementationGuide"
+                    },
+                    {
+                        "language": "es",
+                        "value": "GuiaDeImplementacion"
+                    },
+                    {
+                        "language": "zh",
+                        "value": "实施指南"
+                    }
+                ]
+            },
+            {
+                "system": "http://hl7.org/fhir/resource-types",
+                "code": "Ingredient",
+                "display": "Ingredient",
+                "designation": [
+                    {
+                        "language": "en",
+                        "value": "Ingredient"
+                    }
+                ]
+            },
+            {
+                "system": "http://hl7.org/fhir/resource-types",
+                "code": "InsurancePlan",
+                "display": "InsurancePlan",
+                "designation": [
+                    {
+                        "language": "en",
+                        "value": "InsurancePlan"
+                    }
+                ]
+            },
+            {
+                "system": "http://hl7.org/fhir/resource-types",
+                "code": "Invoice",
+                "display": "Invoice",
+                "designation": [
+                    {
+                        "language": "en",
+                        "value": "Invoice"
+                    }
+                ]
+            },
+            {
+                "system": "http://hl7.org/fhir/resource-types",
+                "code": "Library",
+                "display": "Library",
+                "designation": [
+                    {
+                        "language": "en",
+                        "value": "Library"
+                    },
+                    {
+                        "language": "es",
+                        "value": "Librería"
+                    },
+                    {
+                        "language": "zh",
+                        "value": "库"
+                    }
+                ]
+            },
+            {
+                "system": "http://hl7.org/fhir/resource-types",
+                "code": "Linkage",
+                "display": "Linkage",
+                "designation": [
+                    {
+                        "language": "en",
+                        "value": "Linkage"
+                    },
+                    {
+                        "language": "es",
+                        "value": "Enlace / Conexión / Vinculo / Acoplamiento"
+                    },
+                    {
+                        "language": "zh",
+                        "value": "链接关系"
+                    }
+                ]
+            },
+            {
+                "system": "http://hl7.org/fhir/resource-types",
+                "code": "List",
+                "display": "List",
+                "designation": [
+                    {
+                        "language": "en",
+                        "value": "List"
+                    },
+                    {
+                        "language": "it",
+                        "value": "Lista"
+                    },
+                    {
+                        "language": "fr",
+                        "value": "Liste"
+                    },
+                    {
+                        "language": "zh",
+                        "value": "列表"
+                    },
+                    {
+                        "language": "es",
+                        "value": "Lista"
+                    }
+                ]
+            },
+            {
+                "system": "http://hl7.org/fhir/resource-types",
+                "code": "Location",
+                "display": "Location",
+                "designation": [
+                    {
+                        "language": "en",
+                        "value": "Location"
+                    },
+                    {
+                        "language": "fr",
+                        "value": "Localisation"
+                    },
+                    {
+                        "language": "zh",
+                        "value": "位置"
+                    },
+                    {
+                        "language": "es",
+                        "value": "Locacion"
+                    }
+                ]
+            },
+            {
+                "system": "http://hl7.org/fhir/resource-types",
+                "code": "ManufacturedItemDefinition",
+                "display": "ManufacturedItemDefinition",
+                "designation": [
+                    {
+                        "language": "en",
+                        "value": "ManufacturedItemDefinition"
+                    }
+                ]
+            },
+            {
+                "system": "http://hl7.org/fhir/resource-types",
+                "code": "Measure",
+                "display": "Measure",
+                "designation": [
+                    {
+                        "language": "en",
+                        "value": "Measure"
+                    },
+                    {
+                        "language": "it",
+                        "value": "Misura"
+                    },
+                    {
+                        "language": "es",
+                        "value": "Medida"
+                    },
+                    {
+                        "language": "zh",
+                        "value": "指标"
+                    }
+                ]
+            },
+            {
+                "system": "http://hl7.org/fhir/resource-types",
+                "code": "MeasureReport",
+                "display": "MeasureReport",
+                "designation": [
+                    {
+                        "language": "en",
+                        "value": "MeasureReport"
+                    },
+                    {
+                        "language": "es",
+                        "value": "ReporteMedida"
+                    },
+                    {
+                        "language": "zh",
+                        "value": "指标报告"
+                    }
+                ]
+            },
+            {
+                "system": "http://hl7.org/fhir/resource-types",
+                "code": "Media",
+                "display": "Media",
+                "designation": [
+                    {
+                        "language": "en",
+                        "value": "Media"
+                    },
+                    {
+                        "language": "it",
+                        "value": "Media"
+                    },
+                    {
+                        "language": "fr",
+                        "value": "Média"
+                    },
+                    {
+                        "language": "es",
+                        "value": "Medio"
+                    },
+                    {
+                        "language": "zh",
+                        "value": "媒体"
+                    }
+                ]
+            },
+            {
+                "system": "http://hl7.org/fhir/resource-types",
+                "code": "Medication",
+                "display": "Medication",
+                "designation": [
+                    {
+                        "language": "en",
+                        "value": "Medication"
+                    },
+                    {
+                        "language": "fr",
+                        "value": "Médication"
+                    },
+                    {
+                        "language": "zh",
+                        "value": "药物"
+                    },
+                    {
+                        "language": "es",
+                        "value": "Medicación /Medicamento"
+                    }
+                ]
+            },
+            {
+                "system": "http://hl7.org/fhir/resource-types",
+                "code": "MedicationAdministration",
+                "display": "MedicationAdministration",
+                "designation": [
+                    {
+                        "language": "en",
+                        "value": "MedicationAdministration"
+                    },
+                    {
+                        "language": "fr",
+                        "value": "AdministrationMédicaments"
+                    },
+                    {
+                        "language": "zh",
+                        "value": "药物施用"
+                    },
+                    {
+                        "language": "es",
+                        "value": "AdministraciónMedicación / AdministracionMedicamento"
+                    }
+                ]
+            },
+            {
+                "system": "http://hl7.org/fhir/resource-types",
+                "code": "MedicationDispense",
+                "display": "MedicationDispense",
+                "designation": [
+                    {
+                        "language": "en",
+                        "value": "MedicationDispense"
+                    },
+                    {
+                        "language": "fr",
+                        "value": "DispensationMédicaments"
+                    },
+                    {
+                        "language": "zh",
+                        "value": "药物配发"
+                    },
+                    {
+                        "language": "es",
+                        "value": "DispensaciónMedicación /DispensacionMedicamento"
+                    }
+                ]
+            },
+            {
+                "system": "http://hl7.org/fhir/resource-types",
+                "code": "MedicationKnowledge",
+                "display": "MedicationKnowledge",
+                "designation": [
+                    {
+                        "language": "en",
+                        "value": "MedicationKnowledge"
+                    }
+                ]
+            },
+            {
+                "system": "http://hl7.org/fhir/resource-types",
+                "code": "MedicationRequest",
+                "display": "MedicationRequest",
+                "designation": [
+                    {
+                        "language": "en",
+                        "value": "MedicationRequest"
+                    },
+                    {
+                        "language": "fr",
+                        "value": "PrescriptionMédicamenteuseTODO"
+                    },
+                    {
+                        "language": "zh",
+                        "value": "药物请求"
+                    },
+                    {
+                        "language": "es",
+                        "value": "PrescripciónMedicaciónTODO  /PrescripcionMedicamento"
+                    }
+                ]
+            },
+            {
+                "system": "http://hl7.org/fhir/resource-types",
+                "code": "MedicationStatement",
+                "display": "MedicationStatement",
+                "designation": [
+                    {
+                        "language": "en",
+                        "value": "MedicationStatement"
+                    },
+                    {
+                        "language": "fr",
+                        "value": "ÉtatMédication"
+                    },
+                    {
+                        "language": "zh",
+                        "value": "药物声明"
+                    },
+                    {
+                        "language": "es",
+                        "value": "ResumenMedicación /ResumenMedicamento"
+                    }
+                ]
+            },
+            {
+                "system": "http://hl7.org/fhir/resource-types",
+                "code": "MedicinalProductDefinition",
+                "display": "MedicinalProductDefinition",
+                "designation": [
+                    {
+                        "language": "en",
+                        "value": "MedicinalProductDefinition"
+                    }
+                ]
+            },
+            {
+                "system": "http://hl7.org/fhir/resource-types",
+                "code": "MessageDefinition",
+                "display": "MessageDefinition",
+                "designation": [
+                    {
+                        "language": "en",
+                        "value": "MessageDefinition"
+                    },
+                    {
+                        "language": "it",
+                        "value": "DefinizioneMessaggio"
+                    },
+                    {
+                        "language": "es",
+                        "value": "DefinicionMensaje"
+                    },
+                    {
+                        "language": "zh",
+                        "value": "消息定义"
+                    }
+                ]
+            },
+            {
+                "system": "http://hl7.org/fhir/resource-types",
+                "code": "MessageHeader",
+                "display": "MessageHeader",
+                "designation": [
+                    {
+                        "language": "en",
+                        "value": "MessageHeader"
+                    },
+                    {
+                        "language": "fr",
+                        "value": "EntêteMessage"
+                    },
+                    {
+                        "language": "zh",
+                        "value": "消息标头"
+                    },
+                    {
+                        "language": "es",
+                        "value": "CabeceraMensaje"
+                    }
+                ]
+            },
+            {
+                "system": "http://hl7.org/fhir/resource-types",
+                "code": "MolecularSequence",
+                "display": "MolecularSequence",
+                "designation": [
+                    {
+                        "language": "en",
+                        "value": "MolecularSequence"
+                    },
+                    {
+                        "language": "es",
+                        "value": "SecuenciaMolecular"
+                    },
+                    {
+                        "language": "zh",
+                        "value": "分子序列"
+                    }
+                ]
+            },
+            {
+                "system": "http://hl7.org/fhir/resource-types",
+                "code": "NamingSystem",
+                "display": "NamingSystem",
+                "designation": [
+                    {
+                        "language": "en",
+                        "value": "NamingSystem"
+                    },
+                    {
+                        "language": "fr",
+                        "value": "SystèmeDeNommage"
+                    },
+                    {
+                        "language": "es",
+                        "value": "SistemaDeNombres"
+                    },
+                    {
+                        "language": "zh",
+                        "value": "命名系统"
+                    }
+                ]
+            },
+            {
+                "system": "http://hl7.org/fhir/resource-types",
+                "code": "NutritionOrder",
+                "display": "NutritionOrder",
+                "designation": [
+                    {
+                        "language": "en",
+                        "value": "NutritionOrder"
+                    },
+                    {
+                        "language": "fr",
+                        "value": "OrdreNutrition"
+                    },
+                    {
+                        "language": "es",
+                        "value": "OrdenNutrición"
+                    },
+                    {
+                        "language": "zh",
+                        "value": "营养医嘱"
+                    }
+                ]
+            },
+            {
+                "system": "http://hl7.org/fhir/resource-types",
+                "code": "NutritionProduct",
+                "display": "NutritionProduct",
+                "designation": [
+                    {
+                        "language": "en",
+                        "value": "NutritionProduct"
+                    },
+                    {
+                        "language": "fr",
+                        "value": "ProduitNutritionnel"
+                    },
+                    {
+                        "language": "es",
+                        "value": "ProductoNutricional"
+                    }
+                ]
+            },
+            {
+                "system": "http://hl7.org/fhir/resource-types",
+                "code": "Observation",
+                "display": "Observation",
+                "designation": [
+                    {
+                        "language": "en",
+                        "value": "Observation"
+                    },
+                    {
+                        "language": "it",
+                        "value": "Osservazione"
+                    },
+                    {
+                        "language": "fr",
+                        "value": "Observation"
+                    },
+                    {
+                        "language": "zh",
+                        "value": "观察"
+                    },
+                    {
+                        "language": "es",
+                        "value": "Observación"
+                    }
+                ]
+            },
+            {
+                "system": "http://hl7.org/fhir/resource-types",
+                "code": "ObservationDefinition",
+                "display": "ObservationDefinition",
+                "designation": [
+                    {
+                        "language": "en",
+                        "value": "ObservationDefinition"
+                    },
+                    {
+                        "language": "it",
+                        "value": "DefinizioneOsservazione"
+                    },
+                    {
+                        "language": "es",
+                        "value": "DefinicionDeEspecimen"
+                    },
+                    {
+                        "language": "zh",
+                        "value": "观察定义"
+                    }
+                ]
+            },
+            {
+                "system": "http://hl7.org/fhir/resource-types",
+                "code": "OperationDefinition",
+                "display": "OperationDefinition",
+                "designation": [
+                    {
+                        "language": "en",
+                        "value": "OperationDefinition"
+                    },
+                    {
+                        "language": "it",
+                        "value": "DefinizioneOperazione"
+                    },
+                    {
+                        "language": "fr",
+                        "value": "DéfinitionOpération"
+                    },
+                    {
+                        "language": "es",
+                        "value": "DefinicionDeOperacion"
+                    },
+                    {
+                        "language": "zh",
+                        "value": "操作定义"
+                    }
+                ]
+            },
+            {
+                "system": "http://hl7.org/fhir/resource-types",
+                "code": "OperationOutcome",
+                "display": "OperationOutcome",
+                "designation": [
+                    {
+                        "language": "en",
+                        "value": "OperationOutcome"
+                    },
+                    {
+                        "language": "it",
+                        "value": "RisultatoOperazione"
+                    },
+                    {
+                        "language": "fr",
+                        "value": "RésultatOpération"
+                    },
+                    {
+                        "language": "zh",
+                        "value": "操作结局"
+                    },
+                    {
+                        "language": "es",
+                        "value": "ResultadoOperación"
+                    }
+                ]
+            },
+            {
+                "system": "http://hl7.org/fhir/resource-types",
+                "code": "Organization",
+                "display": "Organization",
+                "designation": [
+                    {
+                        "language": "en",
+                        "value": "Organization"
+                    },
+                    {
+                        "language": "it",
+                        "value": "Organizzazione"
+                    },
+                    {
+                        "language": "fr",
+                        "value": "Organisation"
+                    },
+                    {
+                        "language": "zh",
+                        "value": "组织机构"
+                    },
+                    {
+                        "language": "es",
+                        "value": "Organización"
+                    }
+                ]
+            },
+            {
+                "system": "http://hl7.org/fhir/resource-types",
+                "code": "OrganizationAffiliation",
+                "display": "OrganizationAffiliation",
+                "designation": [
+                    {
+                        "language": "en",
+                        "value": "OrganizationAffiliation"
+                    }
+                ]
+            },
+            {
+                "system": "http://hl7.org/fhir/resource-types",
+                "code": "PackagedProductDefinition",
+                "display": "PackagedProductDefinition",
+                "designation": [
+                    {
+                        "language": "en",
+                        "value": "PackagedProductDefinition"
+                    }
+                ]
+            },
+            {
+                "system": "http://hl7.org/fhir/resource-types",
+                "code": "Patient",
+                "display": "Patient",
+                "designation": [
+                    {
+                        "language": "en",
+                        "value": "Patient"
+                    },
+                    {
+                        "language": "it",
+                        "value": "Paziente"
+                    },
+                    {
+                        "language": "fr",
+                        "value": "Patient"
+                    },
+                    {
+                        "language": "zh",
+                        "value": "患者"
+                    },
+                    {
+                        "language": "es",
+                        "value": "Paciente"
+                    }
+                ]
+            },
+            {
+                "system": "http://hl7.org/fhir/resource-types",
+                "code": "PaymentNotice",
+                "display": "PaymentNotice",
+                "designation": [
+                    {
+                        "language": "en",
+                        "value": "PaymentNotice"
+                    },
+                    {
+                        "language": "it",
+                        "value": "AvvisoDiPagamento"
+                    },
+                    {
+                        "language": "fr",
+                        "value": "AvisPaiement"
+                    },
+                    {
+                        "language": "es",
+                        "value": "AvisoDePago"
+                    },
+                    {
+                        "language": "zh",
+                        "value": "付款通知"
+                    }
+                ]
+            },
+            {
+                "system": "http://hl7.org/fhir/resource-types",
+                "code": "PaymentReconciliation",
+                "display": "PaymentReconciliation",
+                "designation": [
+                    {
+                        "language": "en",
+                        "value": "PaymentReconciliation"
+                    },
+                    {
+                        "language": "it",
+                        "value": "RiconciliazionePagamento"
+                    },
+                    {
+                        "language": "fr",
+                        "value": "RéconciliationPaiement"
+                    },
+                    {
+                        "language": "es",
+                        "value": "ConciliacionDePago"
+                    },
+                    {
+                        "language": "zh",
+                        "value": "付款对账"
+                    }
+                ]
+            },
+            {
+                "system": "http://hl7.org/fhir/resource-types",
+                "code": "Person",
+                "display": "Person",
+                "designation": [
+                    {
+                        "language": "en",
+                        "value": "Person"
+                    },
+                    {
+                        "language": "it",
+                        "value": "Persona"
+                    },
+                    {
+                        "language": "fr",
+                        "value": "Personne"
+                    },
+                    {
+                        "language": "es",
+                        "value": "Persona"
+                    },
+                    {
+                        "language": "zh",
+                        "value": "人员"
+                    }
+                ]
+            },
+            {
+                "system": "http://hl7.org/fhir/resource-types",
+                "code": "PlanDefinition",
+                "display": "PlanDefinition",
+                "designation": [
+                    {
+                        "language": "en",
+                        "value": "PlanDefinition"
+                    },
+                    {
+                        "language": "es",
+                        "value": "DefinicionDePlan"
+                    },
+                    {
+                        "language": "zh",
+                        "value": "计划定义"
+                    }
+                ]
+            },
+            {
+                "system": "http://hl7.org/fhir/resource-types",
+                "code": "Practitioner",
+                "display": "Practitioner",
+                "designation": [
+                    {
+                        "language": "en",
+                        "value": "Practitioner"
+                    },
+                    {
+                        "language": "fr",
+                        "value": "Praticien"
+                    },
+                    {
+                        "language": "zh",
+                        "value": "执业人员"
+                    },
+                    {
+                        "language": "es",
+                        "value": "Practicante / Profesional"
+                    }
+                ]
+            },
+            {
+                "system": "http://hl7.org/fhir/resource-types",
+                "code": "PractitionerRole",
+                "display": "PractitionerRole",
+                "designation": [
+                    {
+                        "language": "en",
+                        "value": "PractitionerRole"
+                    },
+                    {
+                        "language": "es",
+                        "value": "RolProfesional"
+                    },
+                    {
+                        "language": "zh",
+                        "value": "执业人员角色"
+                    }
+                ]
+            },
+            {
+                "system": "http://hl7.org/fhir/resource-types",
+                "code": "Procedure",
+                "display": "Procedure",
+                "designation": [
+                    {
+                        "language": "en",
+                        "value": "Procedure"
+                    },
+                    {
+                        "language": "it",
+                        "value": "Procedura"
+                    },
+                    {
+                        "language": "fr",
+                        "value": "Procédure"
+                    },
+                    {
+                        "language": "zh",
+                        "value": "操作项目"
+                    },
+                    {
+                        "language": "es",
+                        "value": "Procedimiento"
+                    }
+                ]
+            },
+            {
+                "system": "http://hl7.org/fhir/resource-types",
+                "code": "Provenance",
+                "display": "Provenance",
+                "designation": [
+                    {
+                        "language": "en",
+                        "value": "Provenance"
+                    },
+                    {
+                        "language": "it",
+                        "value": "Provenienza"
+                    },
+                    {
+                        "language": "fr",
+                        "value": "Provenance"
+                    },
+                    {
+                        "language": "zh",
+                        "value": "出处"
+                    },
+                    {
+                        "language": "es",
+                        "value": "Procedencia"
+                    }
+                ]
+            },
+            {
+                "system": "http://hl7.org/fhir/resource-types",
+                "code": "Questionnaire",
+                "display": "Questionnaire",
+                "designation": [
+                    {
+                        "language": "en",
+                        "value": "Questionnaire"
+                    },
+                    {
+                        "language": "it",
+                        "value": "Questionario"
+                    },
+                    {
+                        "language": "fr",
+                        "value": "Questionnaire"
+                    },
+                    {
+                        "language": "zh",
+                        "value": "调查问卷"
+                    },
+                    {
+                        "language": "es",
+                        "value": "Cuestionario"
+                    }
+                ]
+            },
+            {
+                "system": "http://hl7.org/fhir/resource-types",
+                "code": "QuestionnaireResponse",
+                "display": "QuestionnaireResponse",
+                "designation": [
+                    {
+                        "language": "en",
+                        "value": "QuestionnaireResponse"
+                    },
+                    {
+                        "language": "it",
+                        "value": "RispostaQuestionario"
+                    },
+                    {
+                        "language": "fr",
+                        "value": "RéponseQuestionnaire"
+                    },
+                    {
+                        "language": "es",
+                        "value": "RespuestaAlCuestionario"
+                    },
+                    {
+                        "language": "zh",
+                        "value": "调查问卷答复"
+                    }
+                ]
+            },
+            {
+                "system": "http://hl7.org/fhir/resource-types",
+                "code": "RegulatedAuthorization",
+                "display": "RegulatedAuthorization",
+                "designation": [
+                    {
+                        "language": "en",
+                        "value": "RegulatedAuthorization"
+                    }
+                ]
+            },
+            {
+                "system": "http://hl7.org/fhir/resource-types",
+                "code": "RelatedPerson",
+                "display": "RelatedPerson",
+                "designation": [
+                    {
+                        "language": "en",
+                        "value": "RelatedPerson"
+                    },
+                    {
+                        "language": "it",
+                        "value": "PersonaCorrelata"
+                    },
+                    {
+                        "language": "fr",
+                        "value": "PersonneEnRelation"
+                    },
+                    {
+                        "language": "es",
+                        "value": "PersonaRelacionada"
+                    },
+                    {
+                        "language": "zh",
+                        "value": "相关人员"
+                    }
+                ]
+            },
+            {
+                "system": "http://hl7.org/fhir/resource-types",
+                "code": "RequestGroup",
+                "display": "RequestGroup",
+                "designation": [
+                    {
+                        "language": "en",
+                        "value": "RequestGroup"
+                    },
+                    {
+                        "language": "it",
+                        "value": "GruppoDiRichieste"
+                    },
+                    {
+                        "language": "es",
+                        "value": "GrupoDeSolicitudes"
+                    },
+                    {
+                        "language": "zh",
+                        "value": "请求分组"
+                    }
+                ]
+            },
+            {
+                "system": "http://hl7.org/fhir/resource-types",
+                "code": "ResearchDefinition",
+                "display": "ResearchDefinition",
+                "designation": [
+                    {
+                        "language": "en",
+                        "value": "ResearchDefinition"
+                    }
+                ]
+            },
+            {
+                "system": "http://hl7.org/fhir/resource-types",
+                "code": "ResearchElementDefinition",
+                "display": "ResearchElementDefinition",
+                "designation": [
+                    {
+                        "language": "en",
+                        "value": "ResearchElementDefinition"
+                    }
+                ]
+            },
+            {
+                "system": "http://hl7.org/fhir/resource-types",
+                "code": "ResearchStudy",
+                "display": "ResearchStudy",
+                "designation": [
+                    {
+                        "language": "en",
+                        "value": "ResearchStudy"
+                    },
+                    {
+                        "language": "es",
+                        "value": "EstudioDeInvestigacion"
+                    },
+                    {
+                        "language": "zh",
+                        "value": "调查研究"
+                    }
+                ]
+            },
+            {
+                "system": "http://hl7.org/fhir/resource-types",
+                "code": "ResearchSubject",
+                "display": "ResearchSubject",
+                "designation": [
+                    {
+                        "language": "en",
+                        "value": "ResearchSubject"
+                    },
+                    {
+                        "language": "es",
+                        "value": "SujetoDeInvestigacion"
+                    },
+                    {
+                        "language": "zh",
+                        "value": "研究主题"
+                    }
+                ]
+            },
+            {
+                "system": "http://hl7.org/fhir/resource-types",
+                "code": "RiskAssessment",
+                "display": "RiskAssessment",
+                "designation": [
+                    {
+                        "language": "en",
+                        "value": "RiskAssessment"
+                    },
+                    {
+                        "language": "fr",
+                        "value": "ÉvaluationRisques"
+                    },
+                    {
+                        "language": "es",
+                        "value": "EvaluacionDeRiesgo"
+                    },
+                    {
+                        "language": "zh",
+                        "value": "风险评估"
+                    }
+                ]
+            },
+            {
+                "system": "http://hl7.org/fhir/resource-types",
+                "code": "Schedule",
+                "display": "Schedule",
+                "designation": [
+                    {
+                        "language": "en",
+                        "value": "Schedule"
+                    },
+                    {
+                        "language": "es",
+                        "value": "Agenda"
+                    },
+                    {
+                        "language": "zh",
+                        "value": "日程安排"
+                    }
+                ]
+            },
+            {
+                "system": "http://hl7.org/fhir/resource-types",
+                "code": "SearchParameter",
+                "display": "SearchParameter",
+                "designation": [
+                    {
+                        "language": "en",
+                        "value": "SearchParameter"
+                    },
+                    {
+                        "language": "it",
+                        "value": "ParametroDiRicerca"
+                    },
+                    {
+                        "language": "fr",
+                        "value": "ParamètreRecherche"
+                    },
+                    {
+                        "language": "es",
+                        "value": "ParametroDeBusqueda"
+                    },
+                    {
+                        "language": "zh",
+                        "value": "搜索参数"
+                    }
+                ]
+            },
+            {
+                "system": "http://hl7.org/fhir/resource-types",
+                "code": "ServiceRequest",
+                "display": "ServiceRequest",
+                "designation": [
+                    {
+                        "language": "en",
+                        "value": "ServiceRequest"
+                    },
+                    {
+                        "language": "it",
+                        "value": "RichiestaDiServizio"
+                    },
+                    {
+                        "language": "fr",
+                        "value": "DemandeService"
+                    },
+                    {
+                        "language": "es",
+                        "value": "PeticiónServicio"
+                    },
+                    {
+                        "language": "zh",
+                        "value": "服务项目请求"
+                    }
+                ]
+            },
+            {
+                "system": "http://hl7.org/fhir/resource-types",
+                "code": "Slot",
+                "display": "Slot",
+                "designation": [
+                    {
+                        "language": "en",
+                        "value": "Slot"
+                    },
+                    {
+                        "language": "fr",
+                        "value": "Slot"
+                    },
+                    {
+                        "language": "zh",
+                        "value": "槽位"
+                    },
+                    {
+                        "language": "es",
+                        "value": "Hueco / Zocalo / Espacio"
+                    }
+                ]
+            },
+            {
+                "system": "http://hl7.org/fhir/resource-types",
+                "code": "Specimen",
+                "display": "Specimen",
+                "designation": [
+                    {
+                        "language": "en",
+                        "value": "Specimen"
+                    },
+                    {
+                        "language": "it",
+                        "value": "Campione"
+                    },
+                    {
+                        "language": "fr",
+                        "value": "Spécimen"
+                    },
+                    {
+                        "language": "zh",
+                        "value": "标本"
+                    },
+                    {
+                        "language": "es",
+                        "value": "Especimen"
+                    }
+                ]
+            },
+            {
+                "system": "http://hl7.org/fhir/resource-types",
+                "code": "SpecimenDefinition",
+                "display": "SpecimenDefinition",
+                "designation": [
+                    {
+                        "language": "en",
+                        "value": "SpecimenDefinition"
+                    },
+                    {
+                        "language": "it",
+                        "value": "DefinizioneCampione"
+                    },
+                    {
+                        "language": "es",
+                        "value": "DefinicionDeEspecimen"
+                    },
+                    {
+                        "language": "zh",
+                        "value": "标本定义"
+                    }
+                ]
+            },
+            {
+                "system": "http://hl7.org/fhir/resource-types",
+                "code": "StructureDefinition",
+                "display": "StructureDefinition",
+                "designation": [
+                    {
+                        "language": "en",
+                        "value": "StructureDefinition"
+                    },
+                    {
+                        "language": "it",
+                        "value": "DefinizioneStruttura"
+                    },
+                    {
+                        "language": "fr",
+                        "value": "DéfinitionStructure"
+                    },
+                    {
+                        "language": "es",
+                        "value": "DefinicionDeEstructura"
+                    },
+                    {
+                        "language": "zh",
+                        "value": "结构定义"
+                    }
+                ]
+            },
+            {
+                "system": "http://hl7.org/fhir/resource-types",
+                "code": "StructureMap",
+                "display": "StructureMap",
+                "designation": [
+                    {
+                        "language": "en",
+                        "value": "StructureMap"
+                    },
+                    {
+                        "language": "es",
+                        "value": "MapaDeEstructura"
+                    },
+                    {
+                        "language": "zh",
+                        "value": "结构映射"
+                    }
+                ]
+            },
+            {
+                "system": "http://hl7.org/fhir/resource-types",
+                "code": "Subscription",
+                "display": "Subscription",
+                "designation": [
+                    {
+                        "language": "en",
+                        "value": "Subscription"
+                    },
+                    {
+                        "language": "it",
+                        "value": "Sottoscrizione"
+                    },
+                    {
+                        "language": "fr",
+                        "value": "Souscription"
+                    },
+                    {
+                        "language": "zh",
+                        "value": "订阅"
+                    },
+                    {
+                        "language": "es",
+                        "value": "Suscripción"
+                    }
+                ]
+            },
+            {
+                "system": "http://hl7.org/fhir/resource-types",
+                "code": "SubscriptionStatus",
+                "display": "SubscriptionStatus",
+                "designation": [
+                    {
+                        "language": "en",
+                        "value": "SubscriptionStatus"
+                    }
+                ]
+            },
+            {
+                "system": "http://hl7.org/fhir/resource-types",
+                "code": "SubscriptionTopic",
+                "display": "SubscriptionTopic",
+                "designation": [
+                    {
+                        "language": "en",
+                        "value": "SubscriptionTopic"
+                    }
+                ]
+            },
+            {
+                "system": "http://hl7.org/fhir/resource-types",
+                "code": "Substance",
+                "display": "Substance",
+                "designation": [
+                    {
+                        "language": "en",
+                        "value": "Substance"
+                    },
+                    {
+                        "language": "it",
+                        "value": "Sostanza"
+                    },
+                    {
+                        "language": "fr",
+                        "value": "Substance"
+                    },
+                    {
+                        "language": "zh",
+                        "value": "物质"
+                    },
+                    {
+                        "language": "es",
+                        "value": "Sustancia"
+                    }
+                ]
+            },
+            {
+                "system": "http://hl7.org/fhir/resource-types",
+                "code": "SubstanceDefinition",
+                "display": "SubstanceDefinition",
+                "designation": [
+                    {
+                        "language": "en",
+                        "value": "SubstanceDefinition"
+                    }
+                ]
+            },
+            {
+                "system": "http://hl7.org/fhir/resource-types",
+                "code": "SupplyDelivery",
+                "display": "SupplyDelivery",
+                "designation": [
+                    {
+                        "language": "en",
+                        "value": "SupplyDelivery"
+                    },
+                    {
+                        "language": "fr",
+                        "value": "Supply Livraison"
+                    },
+                    {
+                        "language": "zh",
+                        "value": "供应交付"
+                    },
+                    {
+                        "language": "es",
+                        "value": "Entrega de Suministro"
+                    }
+                ]
+            },
+            {
+                "system": "http://hl7.org/fhir/resource-types",
+                "code": "SupplyRequest",
+                "display": "SupplyRequest",
+                "designation": [
+                    {
+                        "language": "en",
+                        "value": "SupplyRequest"
+                    },
+                    {
+                        "language": "fr",
+                        "value": "Demande d'approvisionnement"
+                    },
+                    {
+                        "language": "zh",
+                        "value": "供应请求"
+                    },
+                    {
+                        "language": "es",
+                        "value": "Solicitud de Suministro"
+                    }
+                ]
+            },
+            {
+                "system": "http://hl7.org/fhir/resource-types",
+                "code": "Task",
+                "display": "Task",
+                "designation": [
+                    {
+                        "language": "en",
+                        "value": "Task"
+                    },
+                    {
+                        "language": "es",
+                        "value": "Tarea"
+                    },
+                    {
+                        "language": "zh",
+                        "value": "任务"
+                    }
+                ]
+            },
+            {
+                "system": "http://hl7.org/fhir/resource-types",
+                "code": "TerminologyCapabilities",
+                "display": "TerminologyCapabilities",
+                "designation": [
+                    {
+                        "language": "en",
+                        "value": "TerminologyCapabilities"
+                    },
+                    {
+                        "language": "es",
+                        "value": "CapacidadTerminologica"
+                    },
+                    {
+                        "language": "zh",
+                        "value": "术语服务能力"
+                    }
+                ]
+            },
+            {
+                "system": "http://hl7.org/fhir/resource-types",
+                "code": "TestReport",
+                "display": "TestReport",
+                "designation": [
+                    {
+                        "language": "en",
+                        "value": "TestReport"
+                    },
+                    {
+                        "language": "fr",
+                        "value": "RapportTest"
+                    },
+                    {
+                        "language": "es",
+                        "value": "ReporteDePrueba"
+                    },
+                    {
+                        "language": "zh",
+                        "value": "测试报告"
+                    }
+                ]
+            },
+            {
+                "system": "http://hl7.org/fhir/resource-types",
+                "code": "TestScript",
+                "display": "TestScript",
+                "designation": [
+                    {
+                        "language": "en",
+                        "value": "TestScript"
+                    },
+                    {
+                        "language": "fr",
+                        "value": "ScriptTest"
+                    },
+                    {
+                        "language": "es",
+                        "value": "ScriptDePrueba"
+                    },
+                    {
+                        "language": "zh",
+                        "value": "测试脚本"
+                    }
+                ]
+            },
+            {
+                "system": "http://hl7.org/fhir/resource-types",
+                "code": "ValueSet",
+                "display": "ValueSet",
+                "designation": [
+                    {
+                        "language": "en",
+                        "value": "ValueSet"
+                    },
+                    {
+                        "language": "fr",
+                        "value": "EnsembleValeurs"
+                    },
+                    {
+                        "language": "zh",
+                        "value": "取值集合"
+                    },
+                    {
+                        "language": "es",
+                        "value": "ConjuntoValores / ConjuntoDeValores"
+                    }
+                ]
+            },
+            {
+                "system": "http://hl7.org/fhir/resource-types",
+                "code": "VerificationResult",
+                "display": "VerificationResult",
+                "designation": [
+                    {
+                        "language": "en",
+                        "value": "VerificationResult"
+                    }
+                ]
+            },
+            {
+                "system": "http://hl7.org/fhir/resource-types",
+                "code": "VisionPrescription",
+                "display": "VisionPrescription",
+                "designation": [
+                    {
+                        "language": "en",
+                        "value": "VisionPrescription"
+                    },
+                    {
+                        "language": "fr",
+                        "value": "PrescriptionVision"
+                    },
+                    {
+                        "language": "es",
+                        "value": "PrescripcionDeVision"
+                    },
+                    {
+                        "language": "zh",
+                        "value": "视力处方"
+                    }
+                ]
+            },
+            {
+                "system": "http://hl7.org/fhir/resource-types",
+                "code": "Parameters",
+                "display": "Parameters",
+                "designation": [
+                    {
+                        "language": "en",
+                        "value": "Parameters"
+                    },
+                    {
+                        "language": "es",
+                        "value": "Parametros"
+                    },
+                    {
+                        "language": "zh",
+                        "value": "参数"
+                    }
+                ]
+            }
+        ]
+    }
+}

@@ -8,7 +8,7 @@
       "value": "FHIRHelpers"
     }
   ],
-  "version": "4.3.0-CIBUILD",
+  "version": "4.3.0-cibuild",
   "name": "FHIRHelpers",
   "title": "FHIR Helpers",
   "status": "active",
@@ -32,7 +32,10 @@
   "relatedArtifact": [
     {
       "type": "documentation",
-      "url": "https://github.com/cqframework/clinical_quality_language/wiki/FHIRHelpers"
+      "url": "https://github.com/cqframework/clinical_quality_language/wiki/FHIRHelpers",
+      "document": {
+        "url": "https://github.com/cqframework/clinical_quality_language/wiki/FHIRHelpers"
+      }
     },
     {
       "type": "depends-on",
@@ -40,7 +43,7 @@
     },
     {
       "type": "predecessor",
-      "resource": "library-fhir-helpers-predecessor"
+      "resource": "http://hl7.org/fhir/Library/library-fhir-helpers-predecessor"
     }
   ],
   "content": [

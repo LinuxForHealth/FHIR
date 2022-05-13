@@ -1,0 +1,111 @@
+{
+    "resourceType": "ValueSet",
+    "id": "property-representation",
+    "meta": {
+        "lastUpdated": "2022-04-23T22:21:35.043Z",
+        "profile": [
+            "http://hl7.org/fhir/StructureDefinition/shareablevalueset"
+        ]
+    },
+    "extension": [
+        {
+            "url": "http://hl7.org/fhir/StructureDefinition/structuredefinition-wg",
+            "valueCode": "fhir"
+        },
+        {
+            "url": "http://hl7.org/fhir/StructureDefinition/structuredefinition-standards-status",
+            "valueCode": "normative"
+        },
+        {
+            "url": "http://hl7.org/fhir/StructureDefinition/structuredefinition-normative-version",
+            "valueCode": "4.0.0"
+        },
+        {
+            "url": "http://hl7.org/fhir/StructureDefinition/structuredefinition-fmm",
+            "valueInteger": 5
+        }
+    ],
+    "url": "http://hl7.org/fhir/ValueSet/property-representation",
+    "identifier": [
+        {
+            "system": "urn:ietf:rfc:3986",
+            "value": "urn:oid:2.16.840.1.113883.4.642.3.87"
+        }
+    ],
+    "version": "4.3.0-cibuild",
+    "name": "PropertyRepresentation",
+    "title": "PropertyRepresentation",
+    "status": "active",
+    "experimental": false,
+    "date": "2022-04-23T22:21:35Z",
+    "publisher": "HL7 (FHIR Project)",
+    "contact": [
+        {
+            "telecom": [
+                {
+                    "system": "url",
+                    "value": "http://hl7.org/fhir"
+                },
+                {
+                    "system": "email",
+                    "value": "fhir@lists.hl7.org"
+                }
+            ]
+        }
+    ],
+    "description": "How a property is represented when serialized.",
+    "immutable": true,
+    "compose": {
+        "include": [
+            {
+                "system": "http://hl7.org/fhir/property-representation"
+            }
+        ]
+    },
+    "expansion": {
+        "identifier": "urn:uuid:2ed3fd4b-0c07-4a62-a2af-bc389cd2e3bf",
+        "timestamp": "2022-04-23T22:23:07Z",
+        "total": 5,
+        "parameter": [
+            {
+                "name": "excludeNested",
+                "valueBoolean": true
+            },
+            {
+                "name": "includeDesignations",
+                "valueBoolean": true
+            },
+            {
+                "name": "version",
+                "valueUri": "http://hl7.org/fhir/property-representation|4.3.0-cibuild"
+            }
+        ],
+        "contains": [
+            {
+                "system": "http://hl7.org/fhir/property-representation",
+                "code": "xmlAttr",
+                "display": "XML Attribute"
+            },
+            {
+                "system": "http://hl7.org/fhir/property-representation",
+                "code": "xmlText",
+                "display": "XML Text"
+            },
+            {
+                "system": "http://hl7.org/fhir/property-representation",
+                "code": "typeAttr",
+                "display": "Type Attribute"
+            },
+            {
+                "system": "http://hl7.org/fhir/property-representation",
+                "code": "cdaText",
+                "display": "CDA Text Format"
+            },
+            {
+                "system": "http://hl7.org/fhir/property-representation",
+                "code": "xhtml",
+                "display": "XHTML"
+            }
+        ]
+    }
+}

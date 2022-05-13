@@ -49,7 +49,7 @@ public class EnrollmentRequest extends DomainResource {
         bindingName = "EnrollmentRequestStatus",
         strength = BindingStrength.Value.REQUIRED,
         description = "A code specifying the state of the resource instance.",
-        valueSet = "http://hl7.org/fhir/ValueSet/fm-status|4.3.0-CIBUILD"
+        valueSet = "http://hl7.org/fhir/ValueSet/fm-status|4.3.0-cibuild"
     )
     private final EnrollmentRequestStatus status;
     private final DateTime created;

@@ -102,7 +102,6 @@
       <code value="ASERU"/>
       <target>
         <equivalence value="unmatched"/>
-        <comment value="pending"/>
       </target>
     </element>
     <element>
@@ -121,21 +120,18 @@
       <code value="ATTE"/>
       <target>
         <equivalence value="unmatched"/>
-        <comment value="TBD"/>
       </target>
     </element>
     <element>
       <code value="AUTOC"/>
       <target>
         <equivalence value="unmatched"/>
-        <comment value="TBD"/>
       </target>
     </element>
     <element>
       <code value="AUTP"/>
       <target>
         <equivalence value="unmatched"/>
-        <comment value="This really is not a specimen per se - it is the state of the subject from whom the specimen is collected, so it should be used as a  specimen type modifier ONLY!. Often this is indicated with a special medical record number or other notation on the patient. needs to have specimen type (e.g. SPM-4) and source site (SPM.8) and spatial orientation (SPM.9)"/>
       </target>
     </element>
     <element>
@@ -149,19 +145,12 @@
       <code value="BCYST"/>
       <target>
         <equivalence value="unmatched"/>
-        <comment value="submitted (PLR155) with parent of  167874004^knee joint synovial fluid (specimen), with specimen source topography 32361000^Popliteal fossa structure (body structure)"/>
-        <product>
-          <property value="http://snomed.info/id/3006873018"/>
-          <system value="http://snomed.info/sct"/>
-          <value value="32361000"/>
-        </product>
       </target>
     </element>
     <element>
       <code value="BITE"/>
       <target>
         <equivalence value="unmatched"/>
-        <comment value="Submit for new term with parent 119365002"/>
       </target>
     </element>
     <element>
@@ -216,7 +205,6 @@
       <code value="BOWL"/>
       <target>
         <equivalence value="unmatched"/>
-        <comment value="Don't use this term for human samples - use Stool instead. animal would use small intestinal contents, large intestinal contents"/>
       </target>
     </element>
     <element>
@@ -335,7 +323,6 @@
       <code value="CBITE"/>
       <target>
         <equivalence value="unmatched"/>
-        <comment value="Submit for new term with parent 119365002"/>
       </target>
     </element>
     <element>
@@ -395,14 +382,12 @@
       <code value="CSCR"/>
       <target>
         <equivalence value="unmatched"/>
-        <comment value="submit for new term with parent 119365002^Specimen from wound (specimen)"/>
       </target>
     </element>
     <element>
       <code value="CSERU"/>
       <target>
         <equivalence value="unmatched"/>
-        <comment value="pending"/>
       </target>
     </element>
     <element>
@@ -410,7 +395,7 @@
       <target>
         <code value="258507003"/>
         <equivalence value="equivalent"/>
-        <comment value="Prefer to have aspirate of the pus oozing out from cleaned insertion site - if swab is all that can be obtained, then swab after cleaning, otherwise you may get a contaminated specimen and a falsely identified infected central line. Do not just swab the reddened area - that will just collect skin flora       "/>
+        <comment value="Prefer to have aspirate of the pus oozing out from cleaned insertion site - if swab is all that can be obtained, then swab after cleaning, otherwise you may get a contaminated specimen and a falsely identified infected central line. Do not just swab the reddened area - that will just collect skin flora"/>
         <product>
           <property value="TypeModifier"/>
           <system value="http://snomed.info/sct"/>
@@ -441,7 +426,6 @@
       <code value="CSVR"/>
       <target>
         <equivalence value="unmatched"/>
-        <comment value="TBD - may use blood and SPM-6"/>
       </target>
     </element>
     <element>
@@ -495,7 +479,6 @@
       <code value="DBITE"/>
       <target>
         <equivalence value="unmatched"/>
-        <comment value="Submit for new term with parent 119365002"/>
       </target>
     </element>
     <element>
@@ -516,7 +499,6 @@
       <code value="DEION"/>
       <target>
         <equivalence value="unmatched"/>
-        <comment value="TBD"/>
       </target>
     </element>
     <element>
@@ -606,14 +588,12 @@
       <code value="EEYE"/>
       <target>
         <equivalence value="unmatched"/>
-        <comment value="TBD"/>
       </target>
     </element>
     <element>
       <code value="EFF"/>
       <target>
         <equivalence value="unmatched"/>
-        <comment value="TBD"/>
       </target>
     </element>
     <element>
@@ -655,21 +635,18 @@
       <code value="EOTH"/>
       <target>
         <equivalence value="unmatched"/>
-        <comment value="TBD"/>
       </target>
     </element>
     <element>
       <code value="ESOI"/>
       <target>
         <equivalence value="unmatched"/>
-        <comment value="TBD"/>
       </target>
     </element>
     <element>
       <code value="ESOS"/>
       <target>
         <equivalence value="unmatched"/>
-        <comment value="TBD"/>
       </target>
     </element>
     <element>
@@ -718,7 +695,6 @@
       <code value="EWHI"/>
       <target>
         <equivalence value="unmatched"/>
-        <comment value="TBD"/>
       </target>
     </element>
     <element>
@@ -732,7 +708,6 @@
       <code value="EXS"/>
       <target>
         <equivalence value="unmatched"/>
-        <comment value="TBD"/>
       </target>
     </element>
     <element>
@@ -746,7 +721,6 @@
       <code value="FAW"/>
       <target>
         <equivalence value="unmatched"/>
-        <comment value="TBD"/>
       </target>
     </element>
     <element>
@@ -791,7 +765,6 @@
       <code value="FLT"/>
       <target>
         <equivalence value="unmatched"/>
-        <comment value="TBD"/>
       </target>
     </element>
     <element>
@@ -970,7 +943,6 @@
       <code value="GSOL"/>
       <target>
         <equivalence value="unmatched"/>
-        <comment value="TBD"/>
       </target>
     </element>
     <element>
@@ -994,7 +966,6 @@
       <code value="GT"/>
       <target>
         <equivalence value="unmatched"/>
-        <comment value="TBD"/>
       </target>
     </element>
     <element>
@@ -1024,7 +995,6 @@
       <code value="HBITE"/>
       <target>
         <equivalence value="unmatched"/>
-        <comment value="Submit for new term with parent 119365002"/>
       </target>
     </element>
     <element>
@@ -1098,7 +1068,6 @@
       <code value="IBITE"/>
       <target>
         <equivalence value="unmatched"/>
-        <comment value="Submit for new term with parent 119365002"/>
       </target>
     </element>
     <element>
@@ -1140,7 +1109,6 @@
       <code value="ILLEG"/>
       <target>
         <equivalence value="unmatched"/>
-        <comment value="TBD"/>
       </target>
     </element>
     <element>
@@ -1161,7 +1129,6 @@
       <code value="INFIL"/>
       <target>
         <equivalence value="unmatched"/>
-        <comment value="This describes a morphologic abnormality, not a sample"/>
       </target>
     </element>
     <element>
@@ -1190,7 +1157,6 @@
       <code value="IUD"/>
       <target>
         <equivalence value="unmatched"/>
-        <comment value="pending"/>
       </target>
     </element>
     <element>
@@ -1346,7 +1312,6 @@
       <code value="LENS2"/>
       <target>
         <equivalence value="unmatched"/>
-        <comment value="TBD"/>
       </target>
     </element>
     <element>
@@ -1368,7 +1333,6 @@
       <code value="LIQO"/>
       <target>
         <equivalence value="unmatched"/>
-        <comment value="TBD"/>
       </target>
     </element>
     <element>
@@ -1452,7 +1416,6 @@
       <code value="NEDL"/>
       <target>
         <equivalence value="unmatched"/>
-        <comment value="TBD"/>
       </target>
     </element>
     <element>
@@ -1513,7 +1476,6 @@
       <code value="NODUL"/>
       <target>
         <equivalence value="unmatched"/>
-        <comment value="pending"/>
       </target>
     </element>
     <element>
@@ -1534,12 +1496,6 @@
       <code value="ORL"/>
       <target>
         <equivalence value="unmatched"/>
-        <comment value="be more precise use ulcer, tumor, vesicle"/>
-        <product>
-          <property value="http://snomed.info/id/3006873018"/>
-          <system value="http://snomed.info/sct"/>
-          <value value="74262004"/>
-        </product>
       </target>
     </element>
     <element>
@@ -1553,7 +1509,6 @@
       <code value="PACEM"/>
       <target>
         <equivalence value="unmatched"/>
-        <comment value="TBD"/>
       </target>
     </element>
     <element>
@@ -1574,7 +1529,6 @@
       <code value="PDTS"/>
       <target>
         <equivalence value="unmatched"/>
-        <comment value="submitted for code"/>
       </target>
     </element>
     <element>
@@ -1593,12 +1547,6 @@
       <code value="PENIL"/>
       <target>
         <equivalence value="unmatched"/>
-        <comment value="need to know what kind of lesion, so map to: UlcerTissue_penile, VesicleFluid_penile, Wound_penile, Mass tissue_penile, Necrotic tissue_penile, AbscessAspirate_penile, Anything else?"/>
-        <product>
-          <property value="http://snomed.info/id/3006873018"/>
-          <system value="http://snomed.info/sct"/>
-          <value value="18911002"/>
-        </product>
       </target>
     </element>
     <element>
@@ -1725,7 +1673,6 @@
       <code value="POPLV"/>
       <target>
         <equivalence value="unmatched"/>
-        <comment value="TBD"/>
       </target>
     </element>
     <element>
@@ -1811,7 +1758,6 @@
       <code value="QC3"/>
       <target>
         <equivalence value="unmatched"/>
-        <comment value="TBD"/>
       </target>
     </element>
     <element>
@@ -1825,7 +1771,6 @@
       <code value="RBITE"/>
       <target>
         <equivalence value="unmatched"/>
-        <comment value="Submit for new term with parent: 119365002"/>
       </target>
     </element>
     <element>
@@ -1981,14 +1926,12 @@
       <code value="SHUNT"/>
       <target>
         <equivalence value="unmatched"/>
-        <comment value="TBD"/>
       </target>
     </element>
     <element>
       <code value="SITE"/>
       <target>
         <equivalence value="unmatched"/>
-        <comment value="TBD"/>
       </target>
     </element>
     <element>
@@ -2056,7 +1999,6 @@
       <code value="SPS"/>
       <target>
         <equivalence value="unmatched"/>
-        <comment value="TBD"/>
       </target>
     </element>
     <element>
@@ -2084,7 +2026,6 @@
       <code value="SPUT1"/>
       <target>
         <equivalence value="unmatched"/>
-        <comment value="TBD"/>
       </target>
     </element>
     <element>
@@ -2105,7 +2046,6 @@
       <code value="STER"/>
       <target>
         <equivalence value="unmatched"/>
-        <comment value="TBD"/>
       </target>
     </element>
     <element>
@@ -2180,7 +2120,6 @@
       <code value="SUTUR"/>
       <target>
         <equivalence value="unmatched"/>
-        <comment value="TBD"/>
       </target>
     </element>
     <element>
@@ -2298,7 +2237,6 @@
       <code value="TZANC"/>
       <target>
         <equivalence value="unmatched"/>
-        <comment value="This is the name of a lab test. A skin sample is examined for viral inclusions."/>
       </target>
     </element>
     <element>
@@ -2379,7 +2317,6 @@
       <code value="URINP"/>
       <target>
         <equivalence value="unmatched"/>
-        <comment value="TBD"/>
       </target>
     </element>
     <element>
@@ -2393,17 +2330,6 @@
       <code value="USCOP"/>
       <target>
         <equivalence value="unmatched"/>
-        <comment value="NEW specimenTERM 7"/>
-        <product>
-          <property value="http://snomed.info/id/246380002"/>
-          <system value="http://snomed.info/sct"/>
-          <value value="176178006"/>
-        </product>
-        <product>
-          <property value="http://snomed.info/id/3006873018"/>
-          <system value="http://snomed.info/sct"/>
-          <value value="89837001"/>
-        </product>
       </target>
     </element>
     <element>
@@ -2468,7 +2394,6 @@
       <code value="WB"/>
       <target>
         <equivalence value="unmatched"/>
-        <comment value="Bloodbanking term ONLY now map to blood and the respective preservative"/>
       </target>
     </element>
     <element>
@@ -2482,7 +2407,6 @@
       <code value="WICK"/>
       <target>
         <equivalence value="unmatched"/>
-        <comment value="TBD"/>
       </target>
     </element>
     <element>
@@ -2543,65 +2467,30 @@
       <code value="WWO"/>
       <target>
         <equivalence value="unmatched"/>
-        <comment value="TBD"/>
       </target>
     </element>
     <element>
       <code value="WWT"/>
       <target>
         <equivalence value="unmatched"/>
-        <comment value="TBD"/>
       </target>
     </element>
     <element>
       <code value="CSITE"/>
       <target>
         <equivalence value="unmatched"/>
-        <comment value="Prefer to have aspirate of the pus oozing out from cleaned insertion site - if swab is all that can be obtained, then swab after cleaning, otherwise you may get a contaminated specimen and a falsely identified infected central line. Do not just swab the reddened area - that will just collect skin flora"/>
-        <product>
-          <property value="TypeModifier"/>
-          <system value="http://snomed.info/sct"/>
-          <value value="119295008"/>
-        </product>
-        <product>
-          <property value="http://snomed.info/id/246380002"/>
-          <system value="http://snomed.info/sct"/>
-          <value value="386144009"/>
-        </product>
-        <product>
-          <property value="http://snomed.info/id/3006873018"/>
-          <system value="http://snomed.info/sct"/>
-          <value value="14766002"/>
-        </product>
       </target>
     </element>
     <element>
       <code value="CLIPP"/>
       <target>
         <equivalence value="unmatched"/>
-        <comment value="Be more specific use either: 119326000^hair specimen, or 119327009^nail specimen"/>
-        <product>
-          <property value="TypeModifier"/>
-          <system value="http://snomed.info/sct"/>
-          <value value="119326000"/>
-        </product>
       </target>
     </element>
     <element>
       <code value="SHU"/>
       <target>
         <equivalence value="unmatched"/>
-        <comment value="assume swab from shunt site for mapping here - clean surface of skin prior to expressing the shunt site - preferred is aspiration with sterile syringe should use SPM.8 to specify body approximate match location of shunt site"/>
-        <product>
-          <property value="TypeModifier"/>
-          <system value="http://snomed.info/sct"/>
-          <value value="438660002"/>
-        </product>
-        <product>
-          <property value="http://snomed.info/id/246380002"/>
-          <system value="http://snomed.info/sct"/>
-          <value value="257351008"/>
-        </product>
       </target>
     </element>
   </group>

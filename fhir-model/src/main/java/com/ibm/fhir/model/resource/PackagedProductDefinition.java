@@ -29,6 +29,7 @@ import com.ibm.fhir.model.type.CodeableConcept;
 import com.ibm.fhir.model.type.CodeableReference;
 import com.ibm.fhir.model.type.Date;
 import com.ibm.fhir.model.type.DateTime;
+import com.ibm.fhir.model.type.Duration;
 import com.ibm.fhir.model.type.Element;
 import com.ibm.fhir.model.type.Extension;
 import com.ibm.fhir.model.type.Identifier;
@@ -37,7 +38,6 @@ import com.ibm.fhir.model.type.Markdown;
 import com.ibm.fhir.model.type.MarketingStatus;
 import com.ibm.fhir.model.type.Meta;
 import com.ibm.fhir.model.type.Narrative;
-import com.ibm.fhir.model.type.ProductShelfLife;
 import com.ibm.fhir.model.type.Quantity;
 import com.ibm.fhir.model.type.Reference;
 import com.ibm.fhir.model.type.String;
@@ -72,6 +72,12 @@ public class PackagedProductDefinition extends DomainResource {
     @Summary
     private final String name;
     @Summary
+    @Binding(
+        bindingName = "PackageType",
+        strength = BindingStrength.Value.EXAMPLE,
+        description = "A high level categorisation of a package.",
+        valueSet = "http://hl7.org/fhir/ValueSet/package-type"
+    )
     private final CodeableConcept type;
     @Summary
     @ReferenceTarget({ "MedicinalProductDefinition" })
@@ -80,7 +86,7 @@ public class PackagedProductDefinition extends DomainResource {
     @Binding(
         bindingName = "PublicationStatus",
         strength = BindingStrength.Value.PREFERRED,
-        description = "Identifies the level of importance to be assigned to actioning the request.",
+        description = "The lifecycle status of an artifact.",
         valueSet = "http://hl7.org/fhir/ValueSet/publication-status"
     )
     private final CodeableConcept status;
@@ -95,6 +101,12 @@ public class PackagedProductDefinition extends DomainResource {
     @Summary
     private final List<MarketingStatus> marketingStatus;
     @Summary
+    @Binding(
+        bindingName = "PackageCharacteristic",
+        strength = BindingStrength.Value.EXAMPLE,
+        description = "A characteristic of a package.",
+        valueSet = "http://hl7.org/fhir/ValueSet/package-characteristic"
+    )
     private final List<CodeableConcept> characteristic;
     @Summary
     private final Boolean copackagedIndicator;
@@ -123,7 +135,8 @@ public class PackagedProductDefinition extends DomainResource {
     }
 
     /**
-     * Unique identifier.
+     * A unique identifier for this package as whole. Unique instance identifiers assigned to a package by manufacturers, 
+     * regulators, drug catalogue custodians or other organizations.
      * 
      * @return
      *     An unmodifiable list containing immutable objects of type {@link Identifier} that may be empty.
@@ -184,14 +197,15 @@ public class PackagedProductDefinition extends DomainResource {
     }
 
     /**
-     * A total of the amount of items in the package, per item type. This can be considered as the pack size. This attribute 
-     * differs from containedItem.amount in that it can give a single aggregated count of all tablet types in a pack, even 
-     * when these are different manufactured items. For example a pill pack of 21 tablets plus 7 sugar tablets, can be 
-     * denoted here as '28 tablets'. This attribute is repeatable so that the different item types in one pack type can be 
-     * counted (e.g. a count of vials and count of syringes). Each repeat must have different units, so that it is clear what 
-     * the different sets of counted items are, and it is not intended to allow different counts of similar items (e.g. not 
-     * '2 tubes and 3 tubes'). Repeats are not to be used to represent different pack sizes (e.g. 20 pack vs. 50 pack) - 
-     * which would be different instances of this resource.
+     * A total of the complete count of contained items of a particular type/form, independent of sub-packaging or 
+     * organization. This can be considered as the pack size. This attribute differs from containedItem.amount in that it can 
+     * give a single aggregated count of all tablet types in a pack, even when these are different manufactured items. For 
+     * example a pill pack of 21 tablets plus 7 sugar tablets, can be denoted here as '28 tablets'. This attribute is 
+     * repeatable so that the different item types in one pack type can be counted (e.g. a count of vials and count of 
+     * syringes). Each repeat must have different units, so that it is clear what the different sets of counted items are, 
+     * and it is not intended to allow different counts of similar items (e.g. not '2 tubes and 3 tubes'). Repeats are not to 
+     * be used to represent different pack sizes (e.g. 20 pack vs. 50 pack) - which would be different instances of this 
+     * resource.
      * 
      * @return
      *     An unmodifiable list containing immutable objects of type {@link Quantity} that may be empty.
@@ -221,7 +235,8 @@ public class PackagedProductDefinition extends DomainResource {
     }
 
     /**
-     * Marketing information.
+     * Allows specifying that an item is on the market for sale, or that it is not available, and the dates and locations 
+     * associated.
      * 
      * @return
      *     An unmodifiable list containing immutable objects of type {@link MarketingStatus} that may be empty.
@@ -632,13 +647,14 @@ public class PackagedProductDefinition extends DomainResource {
         }
 
         /**
-         * Unique identifier.
+         * A unique identifier for this package as whole. Unique instance identifiers assigned to a package by manufacturers, 
+         * regulators, drug catalogue custodians or other organizations.
          * 
          * <p>Adds new element(s) to the existing list.
          * If any of the elements are null, calling {@link #build()} will fail.
          * 
          * @param identifier
-         *     Unique identifier
+         *     A unique identifier for this package as whole
          * 
          * @return
          *     A reference to this Builder instance
@@ -651,13 +667,14 @@ public class PackagedProductDefinition extends DomainResource {
         }
 
         /**
-         * Unique identifier.
+         * A unique identifier for this package as whole. Unique instance identifiers assigned to a package by manufacturers, 
+         * regulators, drug catalogue custodians or other organizations.
          * 
          * <p>Replaces the existing list with a new one containing elements from the Collection.
          * If any of the elements are null, calling {@link #build()} will fail.
          * 
          * @param identifier
-         *     Unique identifier
+         *     A unique identifier for this package as whole
          * 
          * @return
          *     A reference to this Builder instance
@@ -674,7 +691,7 @@ public class PackagedProductDefinition extends DomainResource {
          * Convenience method for setting {@code name}.
          * 
          * @param name
-         *     A name for this package. Typically what it would be listed as in a drug formulary or catalogue, inventory etc
+         *     A name for this package. Typically as listed in a drug formulary, catalogue, inventory etc
          * 
          * @return
          *     A reference to this Builder instance
@@ -690,7 +707,7 @@ public class PackagedProductDefinition extends DomainResource {
          * A name for this package. Typically what it would be listed as in a drug formulary or catalogue, inventory etc.
          * 
          * @param name
-         *     A name for this package. Typically what it would be listed as in a drug formulary or catalogue, inventory etc
+         *     A name for this package. Typically as listed in a drug formulary, catalogue, inventory etc
          * 
          * @return
          *     A reference to this Builder instance
@@ -704,7 +721,7 @@ public class PackagedProductDefinition extends DomainResource {
          * A high level category e.g. medicinal product, raw material, shipping/transport container, etc.
          * 
          * @param type
-         *     A high level category e.g. medicinal product, raw material, shipping/transport container, etc
+         *     A high level category e.g. medicinal product, raw material, shipping container etc
          * 
          * @return
          *     A reference to this Builder instance
@@ -768,8 +785,8 @@ public class PackagedProductDefinition extends DomainResource {
          * elsewhere such as legal status, or authorization or marketing status.
          * 
          * @param status
-         *     The status within the lifecycle of this item. A high level status, this is not intended to duplicate details carried 
-         *     elsewhere such as legal status, or authorization or marketing status
+         *     The status within the lifecycle of this item. High level - not intended to duplicate details elsewhere e.g. legal 
+         *     status, or authorization/marketing status
          * 
          * @return
          *     A reference to this Builder instance
@@ -794,27 +811,22 @@ public class PackagedProductDefinition extends DomainResource {
         }
 
         /**
-         * A total of the amount of items in the package, per item type. This can be considered as the pack size. This attribute 
-         * differs from containedItem.amount in that it can give a single aggregated count of all tablet types in a pack, even 
-         * when these are different manufactured items. For example a pill pack of 21 tablets plus 7 sugar tablets, can be 
-         * denoted here as '28 tablets'. This attribute is repeatable so that the different item types in one pack type can be 
-         * counted (e.g. a count of vials and count of syringes). Each repeat must have different units, so that it is clear what 
-         * the different sets of counted items are, and it is not intended to allow different counts of similar items (e.g. not 
-         * '2 tubes and 3 tubes'). Repeats are not to be used to represent different pack sizes (e.g. 20 pack vs. 50 pack) - 
-         * which would be different instances of this resource.
+         * A total of the complete count of contained items of a particular type/form, independent of sub-packaging or 
+         * organization. This can be considered as the pack size. This attribute differs from containedItem.amount in that it can 
+         * give a single aggregated count of all tablet types in a pack, even when these are different manufactured items. For 
+         * example a pill pack of 21 tablets plus 7 sugar tablets, can be denoted here as '28 tablets'. This attribute is 
+         * repeatable so that the different item types in one pack type can be counted (e.g. a count of vials and count of 
+         * syringes). Each repeat must have different units, so that it is clear what the different sets of counted items are, 
+         * and it is not intended to allow different counts of similar items (e.g. not '2 tubes and 3 tubes'). Repeats are not to 
+         * be used to represent different pack sizes (e.g. 20 pack vs. 50 pack) - which would be different instances of this 
+         * resource.
          * 
          * <p>Adds new element(s) to the existing list.
          * If any of the elements are null, calling {@link #build()} will fail.
          * 
          * @param containedItemQuantity
-         *     A total of the amount of items in the package, per item type. This can be considered as the pack size. This attribute 
-         *     differs from containedItem.amount in that it can give a single aggregated count of all tablet types in a pack, even 
-         *     when these are different manufactured items. For example a pill pack of 21 tablets plus 7 sugar tablets, can be 
-         *     denoted here as '28 tablets'. This attribute is repeatable so that the different item types in one pack type can be 
-         *     counted (e.g. a count of vials and count of syringes). Each repeat must have different units, so that it is clear what 
-         *     the different sets of counted items are, and it is not intended to allow different counts of similar items (e.g. not 
-         *     '2 tubes and 3 tubes'). Repeats are not to be used to represent different pack sizes (e.g. 20 pack vs. 50 pack) - 
-         *     which would be different instances of this resource
+         *     A total of the complete count of contained items of a particular type/form, independent of sub-packaging or 
+         *     organization. This can be considered as the pack size
          * 
          * @return
          *     A reference to this Builder instance
@@ -827,27 +839,22 @@ public class PackagedProductDefinition extends DomainResource {
         }
 
         /**
-         * A total of the amount of items in the package, per item type. This can be considered as the pack size. This attribute 
-         * differs from containedItem.amount in that it can give a single aggregated count of all tablet types in a pack, even 
-         * when these are different manufactured items. For example a pill pack of 21 tablets plus 7 sugar tablets, can be 
-         * denoted here as '28 tablets'. This attribute is repeatable so that the different item types in one pack type can be 
-         * counted (e.g. a count of vials and count of syringes). Each repeat must have different units, so that it is clear what 
-         * the different sets of counted items are, and it is not intended to allow different counts of similar items (e.g. not 
-         * '2 tubes and 3 tubes'). Repeats are not to be used to represent different pack sizes (e.g. 20 pack vs. 50 pack) - 
-         * which would be different instances of this resource.
+         * A total of the complete count of contained items of a particular type/form, independent of sub-packaging or 
+         * organization. This can be considered as the pack size. This attribute differs from containedItem.amount in that it can 
+         * give a single aggregated count of all tablet types in a pack, even when these are different manufactured items. For 
+         * example a pill pack of 21 tablets plus 7 sugar tablets, can be denoted here as '28 tablets'. This attribute is 
+         * repeatable so that the different item types in one pack type can be counted (e.g. a count of vials and count of 
+         * syringes). Each repeat must have different units, so that it is clear what the different sets of counted items are, 
+         * and it is not intended to allow different counts of similar items (e.g. not '2 tubes and 3 tubes'). Repeats are not to 
+         * be used to represent different pack sizes (e.g. 20 pack vs. 50 pack) - which would be different instances of this 
+         * resource.
          * 
          * <p>Replaces the existing list with a new one containing elements from the Collection.
          * If any of the elements are null, calling {@link #build()} will fail.
          * 
          * @param containedItemQuantity
-         *     A total of the amount of items in the package, per item type. This can be considered as the pack size. This attribute 
-         *     differs from containedItem.amount in that it can give a single aggregated count of all tablet types in a pack, even 
-         *     when these are different manufactured items. For example a pill pack of 21 tablets plus 7 sugar tablets, can be 
-         *     denoted here as '28 tablets'. This attribute is repeatable so that the different item types in one pack type can be 
-         *     counted (e.g. a count of vials and count of syringes). Each repeat must have different units, so that it is clear what 
-         *     the different sets of counted items are, and it is not intended to allow different counts of similar items (e.g. not 
-         *     '2 tubes and 3 tubes'). Repeats are not to be used to represent different pack sizes (e.g. 20 pack vs. 50 pack) - 
-         *     which would be different instances of this resource
+         *     A total of the complete count of contained items of a particular type/form, independent of sub-packaging or 
+         *     organization. This can be considered as the pack size
          * 
          * @return
          *     A reference to this Builder instance
@@ -914,13 +921,15 @@ public class PackagedProductDefinition extends DomainResource {
         }
 
         /**
-         * Marketing information.
+         * Allows specifying that an item is on the market for sale, or that it is not available, and the dates and locations 
+         * associated.
          * 
          * <p>Adds new element(s) to the existing list.
          * If any of the elements are null, calling {@link #build()} will fail.
          * 
          * @param marketingStatus
-         *     Marketing information
+         *     Allows specifying that an item is on the market for sale, or that it is not available, and the dates and locations 
+         *     associated
          * 
          * @return
          *     A reference to this Builder instance
@@ -933,13 +942,15 @@ public class PackagedProductDefinition extends DomainResource {
         }
 
         /**
-         * Marketing information.
+         * Allows specifying that an item is on the market for sale, or that it is not available, and the dates and locations 
+         * associated.
          * 
          * <p>Replaces the existing list with a new one containing elements from the Collection.
          * If any of the elements are null, calling {@link #build()} will fail.
          * 
          * @param marketingStatus
-         *     Marketing information
+         *     Allows specifying that an item is on the market for sale, or that it is not available, and the dates and locations 
+         *     associated
          * 
          * @return
          *     A reference to this Builder instance
@@ -959,7 +970,7 @@ public class PackagedProductDefinition extends DomainResource {
          * If any of the elements are null, calling {@link #build()} will fail.
          * 
          * @param characteristic
-         *     Allows the key features to be recorded, such as "hospital pack", "nurse prescribable", "calendar pack"
+         *     Allows the key features to be recorded, such as "hospital pack", "nurse prescribable"
          * 
          * @return
          *     A reference to this Builder instance
@@ -978,7 +989,7 @@ public class PackagedProductDefinition extends DomainResource {
          * If any of the elements are null, calling {@link #build()} will fail.
          * 
          * @param characteristic
-         *     Allows the key features to be recorded, such as "hospital pack", "nurse prescribable", "calendar pack"
+         *     Allows the key features to be recorded, such as "hospital pack", "nurse prescribable"
          * 
          * @return
          *     A reference to this Builder instance
@@ -995,7 +1006,7 @@ public class PackagedProductDefinition extends DomainResource {
          * Convenience method for setting {@code copackagedIndicator}.
          * 
          * @param copackagedIndicator
-         *     States whether a drug product is supplied with another item such as a diluent or adjuvant
+         *     If the drug product is supplied with another item such as a diluent or adjuvant
          * 
          * @return
          *     A reference to this Builder instance
@@ -1011,7 +1022,7 @@ public class PackagedProductDefinition extends DomainResource {
          * States whether a drug product is supplied with another item such as a diluent or adjuvant.
          * 
          * @param copackagedIndicator
-         *     States whether a drug product is supplied with another item such as a diluent or adjuvant
+         *     If the drug product is supplied with another item such as a diluent or adjuvant
          * 
          * @return
          *     A reference to this Builder instance
@@ -1033,7 +1044,7 @@ public class PackagedProductDefinition extends DomainResource {
          * </ul>
          * 
          * @param manufacturer
-         *     Manufacturer of this package type. When there are multiple it means these are all possible manufacturers
+         *     Manufacturer of this package type (multiple means these are all possible manufacturers)
          * 
          * @return
          *     A reference to this Builder instance
@@ -1057,7 +1068,7 @@ public class PackagedProductDefinition extends DomainResource {
          * </ul>
          * 
          * @param manufacturer
-         *     Manufacturer of this package type. When there are multiple it means these are all possible manufacturers
+         *     Manufacturer of this package type (multiple means these are all possible manufacturers)
          * 
          * @return
          *     A reference to this Builder instance
@@ -1076,7 +1087,7 @@ public class PackagedProductDefinition extends DomainResource {
          * 
          * @param _package
          *     A packaging item, as a container for medically related items, possibly with other packaging items within, or a 
-         *     packaging component, such as bottle cap (which is not a device or a medication manufactured item)
+         *     packaging component, such as bottle cap
          * 
          * @return
          *     A reference to this Builder instance
@@ -1141,8 +1152,20 @@ public class PackagedProductDefinition extends DomainResource {
      */
     public static class LegalStatusOfSupply extends BackboneElement {
         @Summary
+        @Binding(
+            bindingName = "LegalStatusOfSupply",
+            strength = BindingStrength.Value.EXAMPLE,
+            description = "The prescription supply types appropriate to a medicinal product",
+            valueSet = "http://hl7.org/fhir/ValueSet/legal-status-of-supply"
+        )
         private final CodeableConcept code;
         @Summary
+        @Binding(
+            bindingName = "Jurisdiction",
+            strength = BindingStrength.Value.EXAMPLE,
+            description = "Jurisdiction codes",
+            valueSet = "http://hl7.org/fhir/ValueSet/jurisdiction"
+        )
         private final CodeableConcept jurisdiction;
 
         private LegalStatusOfSupply(Builder builder) {
@@ -1152,7 +1175,7 @@ public class PackagedProductDefinition extends DomainResource {
         }
 
         /**
-         * The actual status of supply. In what situation this package type may be supplied for use.
+         * The actual status of supply. Conveys in what situation this package type may be supplied for use.
          * 
          * @return
          *     An immutable object of type {@link CodeableConcept} that may be null.
@@ -1357,7 +1380,7 @@ public class PackagedProductDefinition extends DomainResource {
             }
 
             /**
-             * The actual status of supply. In what situation this package type may be supplied for use.
+             * The actual status of supply. Conveys in what situation this package type may be supplied for use.
              * 
              * @param code
              *     The actual status of supply. In what situation this package type may be supplied for use
@@ -1374,7 +1397,7 @@ public class PackagedProductDefinition extends DomainResource {
              * The place where the legal status of supply applies. When not specified, this indicates it is unknown in this context.
              * 
              * @param jurisdiction
-             *     The place where the legal status of supply applies. When not specified, this indicates it is unknown in this context
+             *     The place where the legal status of supply applies
              * 
              * @return
              *     A reference to this Builder instance
@@ -1423,15 +1446,33 @@ public class PackagedProductDefinition extends DomainResource {
         @Summary
         private final List<Identifier> identifier;
         @Summary
+        @Binding(
+            bindingName = "PackagingType",
+            strength = BindingStrength.Value.EXAMPLE,
+            description = "A high level categorisation of a package.",
+            valueSet = "http://hl7.org/fhir/ValueSet/packaging-type"
+        )
         private final CodeableConcept type;
         @Summary
         private final Integer quantity;
         @Summary
+        @Binding(
+            bindingName = "PackageMaterial",
+            strength = BindingStrength.Value.EXAMPLE,
+            description = "A material used in the construction of packages and their components.",
+            valueSet = "http://hl7.org/fhir/ValueSet/package-material"
+        )
         private final List<CodeableConcept> material;
         @Summary
+        @Binding(
+            bindingName = "PackageMaterial",
+            strength = BindingStrength.Value.EXAMPLE,
+            description = "A material used in the construction of packages and their components.",
+            valueSet = "http://hl7.org/fhir/ValueSet/package-material"
+        )
         private final List<CodeableConcept> alternateMaterial;
         @Summary
-        private final List<ProductShelfLife> shelfLifeStorage;
+        private final List<ShelfLifeStorage> shelfLifeStorage;
         @Summary
         @ReferenceTarget({ "Organization" })
         private final List<Reference> manufacturer;
@@ -1457,7 +1498,8 @@ public class PackagedProductDefinition extends DomainResource {
         }
 
         /**
-         * Including possibly Data Carrier Identifier.
+         * An identifier that is specific to this particular part of the packaging. Including possibly Data Carrier Identifier (a 
+         * GS1 barcode).
          * 
          * @return
          *     An unmodifiable list containing immutable objects of type {@link Identifier} that may be empty.
@@ -1497,7 +1539,8 @@ public class PackagedProductDefinition extends DomainResource {
         }
 
         /**
-         * A possible alternate material for the packaging.
+         * A possible alternate material for this part of the packaging, that is allowed to be used instead of the usual material 
+         * (e.g. different types of plastic for a blister sleeve).
          * 
          * @return
          *     An unmodifiable list containing immutable objects of type {@link CodeableConcept} that may be empty.
@@ -1510,9 +1553,9 @@ public class PackagedProductDefinition extends DomainResource {
          * Shelf Life and storage information.
          * 
          * @return
-         *     An unmodifiable list containing immutable objects of type {@link ProductShelfLife} that may be empty.
+         *     An unmodifiable list containing immutable objects of type {@link ShelfLifeStorage} that may be empty.
          */
-        public List<ProductShelfLife> getShelfLifeStorage() {
+        public List<ShelfLifeStorage> getShelfLifeStorage() {
             return shelfLifeStorage;
         }
 
@@ -1586,7 +1629,7 @@ public class PackagedProductDefinition extends DomainResource {
                     accept(quantity, "quantity", visitor);
                     accept(material, "material", visitor, CodeableConcept.class);
                     accept(alternateMaterial, "alternateMaterial", visitor, CodeableConcept.class);
-                    accept(shelfLifeStorage, "shelfLifeStorage", visitor, ProductShelfLife.class);
+                    accept(shelfLifeStorage, "shelfLifeStorage", visitor, ShelfLifeStorage.class);
                     accept(manufacturer, "manufacturer", visitor, Reference.class);
                     accept(property, "property", visitor, Property.class);
                     accept(containedItem, "containedItem", visitor, ContainedItem.class);
@@ -1661,7 +1704,7 @@ public class PackagedProductDefinition extends DomainResource {
             private Integer quantity;
             private List<CodeableConcept> material = new ArrayList<>();
             private List<CodeableConcept> alternateMaterial = new ArrayList<>();
-            private List<ProductShelfLife> shelfLifeStorage = new ArrayList<>();
+            private List<ShelfLifeStorage> shelfLifeStorage = new ArrayList<>();
             private List<Reference> manufacturer = new ArrayList<>();
             private List<Property> property = new ArrayList<>();
             private List<ContainedItem> containedItem = new ArrayList<>();
@@ -1783,13 +1826,14 @@ public class PackagedProductDefinition extends DomainResource {
             }
 
             /**
-             * Including possibly Data Carrier Identifier.
+             * An identifier that is specific to this particular part of the packaging. Including possibly Data Carrier Identifier (a 
+             * GS1 barcode).
              * 
              * <p>Adds new element(s) to the existing list.
              * If any of the elements are null, calling {@link #build()} will fail.
              * 
              * @param identifier
-             *     Including possibly Data Carrier Identifier
+             *     An identifier that is specific to this particular part of the packaging. Including possibly a Data Carrier Identifier
              * 
              * @return
              *     A reference to this Builder instance
@@ -1802,13 +1846,14 @@ public class PackagedProductDefinition extends DomainResource {
             }
 
             /**
-             * Including possibly Data Carrier Identifier.
+             * An identifier that is specific to this particular part of the packaging. Including possibly Data Carrier Identifier (a 
+             * GS1 barcode).
              * 
              * <p>Replaces the existing list with a new one containing elements from the Collection.
              * If any of the elements are null, calling {@link #build()} will fail.
              * 
              * @param identifier
-             *     Including possibly Data Carrier Identifier
+             *     An identifier that is specific to this particular part of the packaging. Including possibly a Data Carrier Identifier
              * 
              * @return
              *     A reference to this Builder instance
@@ -1839,7 +1884,7 @@ public class PackagedProductDefinition extends DomainResource {
              * Convenience method for setting {@code quantity}.
              * 
              * @param quantity
-             *     The quantity of this level of packaging in the package that contains it. If specified, the outermost level is always 1
+             *     The quantity of this level of packaging in the package that contains it (with the outermost level being 1)
              * 
              * @return
              *     A reference to this Builder instance
@@ -1855,7 +1900,7 @@ public class PackagedProductDefinition extends DomainResource {
              * The quantity of this level of packaging in the package that contains it. If specified, the outermost level is always 1.
              * 
              * @param quantity
-             *     The quantity of this level of packaging in the package that contains it. If specified, the outermost level is always 1
+             *     The quantity of this level of packaging in the package that contains it (with the outermost level being 1)
              * 
              * @return
              *     A reference to this Builder instance
@@ -1905,13 +1950,14 @@ public class PackagedProductDefinition extends DomainResource {
             }
 
             /**
-             * A possible alternate material for the packaging.
+             * A possible alternate material for this part of the packaging, that is allowed to be used instead of the usual material 
+             * (e.g. different types of plastic for a blister sleeve).
              * 
              * <p>Adds new element(s) to the existing list.
              * If any of the elements are null, calling {@link #build()} will fail.
              * 
              * @param alternateMaterial
-             *     A possible alternate material for the packaging
+             *     A possible alternate material for this part of the packaging, that is allowed to be used instead of the usual material
              * 
              * @return
              *     A reference to this Builder instance
@@ -1924,13 +1970,14 @@ public class PackagedProductDefinition extends DomainResource {
             }
 
             /**
-             * A possible alternate material for the packaging.
+             * A possible alternate material for this part of the packaging, that is allowed to be used instead of the usual material 
+             * (e.g. different types of plastic for a blister sleeve).
              * 
              * <p>Replaces the existing list with a new one containing elements from the Collection.
              * If any of the elements are null, calling {@link #build()} will fail.
              * 
              * @param alternateMaterial
-             *     A possible alternate material for the packaging
+             *     A possible alternate material for this part of the packaging, that is allowed to be used instead of the usual material
              * 
              * @return
              *     A reference to this Builder instance
@@ -1955,8 +2002,8 @@ public class PackagedProductDefinition extends DomainResource {
              * @return
              *     A reference to this Builder instance
              */
-            public Builder shelfLifeStorage(ProductShelfLife... shelfLifeStorage) {
-                for (ProductShelfLife value : shelfLifeStorage) {
+            public Builder shelfLifeStorage(ShelfLifeStorage... shelfLifeStorage) {
+                for (ShelfLifeStorage value : shelfLifeStorage) {
                     this.shelfLifeStorage.add(value);
                 }
                 return this;
@@ -1977,7 +2024,7 @@ public class PackagedProductDefinition extends DomainResource {
              * @throws NullPointerException
              *     If the passed collection is null
              */
-            public Builder shelfLifeStorage(Collection<ProductShelfLife> shelfLifeStorage) {
+            public Builder shelfLifeStorage(Collection<ShelfLifeStorage> shelfLifeStorage) {
                 this.shelfLifeStorage = new ArrayList<>(shelfLifeStorage);
                 return this;
             }
@@ -1994,7 +2041,7 @@ public class PackagedProductDefinition extends DomainResource {
              * </ul>
              * 
              * @param manufacturer
-             *     Manufacturer of this package Item. When there are multiple it means these are all possible manufacturers
+             *     Manufacturer of this package Item (multiple means these are all possible manufacturers)
              * 
              * @return
              *     A reference to this Builder instance
@@ -2018,7 +2065,7 @@ public class PackagedProductDefinition extends DomainResource {
              * </ul>
              * 
              * @param manufacturer
-             *     Manufacturer of this package Item. When there are multiple it means these are all possible manufacturers
+             *     Manufacturer of this package Item (multiple means these are all possible manufacturers)
              * 
              * @return
              *     A reference to this Builder instance
@@ -2117,8 +2164,7 @@ public class PackagedProductDefinition extends DomainResource {
              * If any of the elements are null, calling {@link #build()} will fail.
              * 
              * @param _package
-             *     Allows containers (and parts of containers) within containers, still a single packaged product. See also 
-             *     PackagedProductDefinition.package.containedItem.item(PackagedProductDefinition)
+             *     Allows containers (and parts of containers) within containers, still a single packaged product
              * 
              * @return
              *     A reference to this Builder instance
@@ -2138,8 +2184,7 @@ public class PackagedProductDefinition extends DomainResource {
              * If any of the elements are null, calling {@link #build()} will fail.
              * 
              * @param _package
-             *     Allows containers (and parts of containers) within containers, still a single packaged product. See also 
-             *     PackagedProductDefinition.package.containedItem.item(PackagedProductDefinition)
+             *     Allows containers (and parts of containers) within containers, still a single packaged product
              * 
              * @return
              *     A reference to this Builder instance
@@ -2174,7 +2219,7 @@ public class PackagedProductDefinition extends DomainResource {
                 ValidationSupport.checkList(_package.identifier, "identifier", Identifier.class);
                 ValidationSupport.checkList(_package.material, "material", CodeableConcept.class);
                 ValidationSupport.checkList(_package.alternateMaterial, "alternateMaterial", CodeableConcept.class);
-                ValidationSupport.checkList(_package.shelfLifeStorage, "shelfLifeStorage", ProductShelfLife.class);
+                ValidationSupport.checkList(_package.shelfLifeStorage, "shelfLifeStorage", ShelfLifeStorage.class);
                 ValidationSupport.checkList(_package.manufacturer, "manufacturer", Reference.class);
                 ValidationSupport.checkList(_package.property, "property", Property.class);
                 ValidationSupport.checkList(_package.containedItem, "containedItem", ContainedItem.class);
@@ -2200,10 +2245,400 @@ public class PackagedProductDefinition extends DomainResource {
         }
 
         /**
+         * Shelf Life and storage information.
+         */
+        public static class ShelfLifeStorage extends BackboneElement {
+            @Summary
+            private final CodeableConcept type;
+            @Summary
+            @Choice({ Duration.class, String.class })
+            private final Element period;
+            @Summary
+            private final List<CodeableConcept> specialPrecautionsForStorage;
+
+            private ShelfLifeStorage(Builder builder) {
+                super(builder);
+                type = builder.type;
+                period = builder.period;
+                specialPrecautionsForStorage = Collections.unmodifiableList(builder.specialPrecautionsForStorage);
+            }
+
+            /**
+             * This describes the shelf life, taking into account various scenarios such as shelf life of the packaged Medicinal 
+             * Product itself, shelf life after transformation where necessary and shelf life after the first opening of a bottle, 
+             * etc. The shelf life type shall be specified using an appropriate controlled vocabulary The controlled term and the 
+             * controlled term identifier shall be specified.
+             * 
+             * @return
+             *     An immutable object of type {@link CodeableConcept} that may be null.
+             */
+            public CodeableConcept getType() {
+                return type;
+            }
+
+            /**
+             * The shelf life time period can be specified using a numerical value for the period of time and its unit of time 
+             * measurement The unit of measurement shall be specified in accordance with ISO 11240 and the resulting terminology The 
+             * symbol and the symbol identifier shall be used.
+             * 
+             * @return
+             *     An immutable object of type {@link Duration} or {@link String} that may be null.
+             */
+            public Element getPeriod() {
+                return period;
+            }
+
+            /**
+             * Special precautions for storage, if any, can be specified using an appropriate controlled vocabulary. The controlled 
+             * term and the controlled term identifier shall be specified.
+             * 
+             * @return
+             *     An unmodifiable list containing immutable objects of type {@link CodeableConcept} that may be empty.
+             */
+            public List<CodeableConcept> getSpecialPrecautionsForStorage() {
+                return specialPrecautionsForStorage;
+            }
+
+            @Override
+            public boolean hasChildren() {
+                return super.hasChildren() || 
+                    (type != null) || 
+                    (period != null) || 
+                    !specialPrecautionsForStorage.isEmpty();
+            }
+
+            @Override
+            public void accept(java.lang.String elementName, int elementIndex, Visitor visitor) {
+                if (visitor.preVisit(this)) {
+                    visitor.visitStart(elementName, elementIndex, this);
+                    if (visitor.visit(elementName, elementIndex, this)) {
+                        // visit children
+                        accept(id, "id", visitor);
+                        accept(extension, "extension", visitor, Extension.class);
+                        accept(modifierExtension, "modifierExtension", visitor, Extension.class);
+                        accept(type, "type", visitor);
+                        accept(period, "period", visitor);
+                        accept(specialPrecautionsForStorage, "specialPrecautionsForStorage", visitor, CodeableConcept.class);
+                    }
+                    visitor.visitEnd(elementName, elementIndex, this);
+                    visitor.postVisit(this);
+                }
+            }
+
+            @Override
+            public boolean equals(Object obj) {
+                if (this == obj) {
+                    return true;
+                }
+                if (obj == null) {
+                    return false;
+                }
+                if (getClass() != obj.getClass()) {
+                    return false;
+                }
+                ShelfLifeStorage other = (ShelfLifeStorage) obj;
+                return Objects.equals(id, other.id) && 
+                    Objects.equals(extension, other.extension) && 
+                    Objects.equals(modifierExtension, other.modifierExtension) && 
+                    Objects.equals(type, other.type) && 
+                    Objects.equals(period, other.period) && 
+                    Objects.equals(specialPrecautionsForStorage, other.specialPrecautionsForStorage);
+            }
+
+            @Override
+            public int hashCode() {
+                int result = hashCode;
+                if (result == 0) {
+                    result = Objects.hash(id, 
+                        extension, 
+                        modifierExtension, 
+                        type, 
+                        period, 
+                        specialPrecautionsForStorage);
+                    hashCode = result;
+                }
+                return result;
+            }
+
+            @Override
+            public Builder toBuilder() {
+                return new Builder().from(this);
+            }
+
+            public static Builder builder() {
+                return new Builder();
+            }
+
+            public static class Builder extends BackboneElement.Builder {
+                private CodeableConcept type;
+                private Element period;
+                private List<CodeableConcept> specialPrecautionsForStorage = new ArrayList<>();
+
+                private Builder() {
+                    super();
+                }
+
+                /**
+                 * Unique id for the element within a resource (for internal references). This may be any string value that does not 
+                 * contain spaces.
+                 * 
+                 * @param id
+                 *     Unique id for inter-element referencing
+                 * 
+                 * @return
+                 *     A reference to this Builder instance
+                 */
+                @Override
+                public Builder id(java.lang.String id) {
+                    return (Builder) super.id(id);
+                }
+
+                /**
+                 * May be used to represent additional information that is not part of the basic definition of the element. To make the 
+                 * use of extensions safe and manageable, there is a strict set of governance applied to the definition and use of 
+                 * extensions. Though any implementer can define an extension, there is a set of requirements that SHALL be met as part 
+                 * of the definition of the extension.
+                 * 
+                 * <p>Adds new element(s) to the existing list.
+                 * If any of the elements are null, calling {@link #build()} will fail.
+                 * 
+                 * @param extension
+                 *     Additional content defined by implementations
+                 * 
+                 * @return
+                 *     A reference to this Builder instance
+                 */
+                @Override
+                public Builder extension(Extension... extension) {
+                    return (Builder) super.extension(extension);
+                }
+
+                /**
+                 * May be used to represent additional information that is not part of the basic definition of the element. To make the 
+                 * use of extensions safe and manageable, there is a strict set of governance applied to the definition and use of 
+                 * extensions. Though any implementer can define an extension, there is a set of requirements that SHALL be met as part 
+                 * of the definition of the extension.
+                 * 
+                 * <p>Replaces the existing list with a new one containing elements from the Collection.
+                 * If any of the elements are null, calling {@link #build()} will fail.
+                 * 
+                 * @param extension
+                 *     Additional content defined by implementations
+                 * 
+                 * @return
+                 *     A reference to this Builder instance
+                 * 
+                 * @throws NullPointerException
+                 *     If the passed collection is null
+                 */
+                @Override
+                public Builder extension(Collection<Extension> extension) {
+                    return (Builder) super.extension(extension);
+                }
+
+                /**
+                 * May be used to represent additional information that is not part of the basic definition of the element and that 
+                 * modifies the understanding of the element in which it is contained and/or the understanding of the containing 
+                 * element's descendants. Usually modifier elements provide negation or qualification. To make the use of extensions safe 
+                 * and manageable, there is a strict set of governance applied to the definition and use of extensions. Though any 
+                 * implementer can define an extension, there is a set of requirements that SHALL be met as part of the definition of the 
+                 * extension. Applications processing a resource are required to check for modifier extensions.
+                 * 
+                 * <p>Modifier extensions SHALL NOT change the meaning of any elements on Resource or DomainResource (including cannot 
+                 * change the meaning of modifierExtension itself).
+                 * 
+                 * <p>Adds new element(s) to the existing list.
+                 * If any of the elements are null, calling {@link #build()} will fail.
+                 * 
+                 * @param modifierExtension
+                 *     Extensions that cannot be ignored even if unrecognized
+                 * 
+                 * @return
+                 *     A reference to this Builder instance
+                 */
+                @Override
+                public Builder modifierExtension(Extension... modifierExtension) {
+                    return (Builder) super.modifierExtension(modifierExtension);
+                }
+
+                /**
+                 * May be used to represent additional information that is not part of the basic definition of the element and that 
+                 * modifies the understanding of the element in which it is contained and/or the understanding of the containing 
+                 * element's descendants. Usually modifier elements provide negation or qualification. To make the use of extensions safe 
+                 * and manageable, there is a strict set of governance applied to the definition and use of extensions. Though any 
+                 * implementer can define an extension, there is a set of requirements that SHALL be met as part of the definition of the 
+                 * extension. Applications processing a resource are required to check for modifier extensions.
+                 * 
+                 * <p>Modifier extensions SHALL NOT change the meaning of any elements on Resource or DomainResource (including cannot 
+                 * change the meaning of modifierExtension itself).
+                 * 
+                 * <p>Replaces the existing list with a new one containing elements from the Collection.
+                 * If any of the elements are null, calling {@link #build()} will fail.
+                 * 
+                 * @param modifierExtension
+                 *     Extensions that cannot be ignored even if unrecognized
+                 * 
+                 * @return
+                 *     A reference to this Builder instance
+                 * 
+                 * @throws NullPointerException
+                 *     If the passed collection is null
+                 */
+                @Override
+                public Builder modifierExtension(Collection<Extension> modifierExtension) {
+                    return (Builder) super.modifierExtension(modifierExtension);
+                }
+
+                /**
+                 * This describes the shelf life, taking into account various scenarios such as shelf life of the packaged Medicinal 
+                 * Product itself, shelf life after transformation where necessary and shelf life after the first opening of a bottle, 
+                 * etc. The shelf life type shall be specified using an appropriate controlled vocabulary The controlled term and the 
+                 * controlled term identifier shall be specified.
+                 * 
+                 * @param type
+                 *     This describes the shelf life, taking into account various scenarios such as shelf life of the packaged Medicinal 
+                 *     Product itself, shelf life after transformation where necessary and shelf life after the first opening of a bottle, 
+                 *     etc. The shelf life type shall be specified using an appropriate controlled vocabulary The controlled term and the 
+                 *     controlled term identifier shall be specified
+                 * 
+                 * @return
+                 *     A reference to this Builder instance
+                 */
+                public Builder type(CodeableConcept type) {
+                    this.type = type;
+                    return this;
+                }
+
+                /**
+                 * Convenience method for setting {@code period} with choice type String.
+                 * 
+                 * @param period
+                 *     The shelf life time period can be specified using a numerical value for the period of time and its unit of time 
+                 *     measurement The unit of measurement shall be specified in accordance with ISO 11240 and the resulting terminology The 
+                 *     symbol and the symbol identifier shall be used
+                 * 
+                 * @return
+                 *     A reference to this Builder instance
+                 * 
+                 * @see #period(Element)
+                 */
+                public Builder period(java.lang.String period) {
+                    this.period = (period == null) ? null : String.of(period);
+                    return this;
+                }
+
+                /**
+                 * The shelf life time period can be specified using a numerical value for the period of time and its unit of time 
+                 * measurement The unit of measurement shall be specified in accordance with ISO 11240 and the resulting terminology The 
+                 * symbol and the symbol identifier shall be used.
+                 * 
+                 * <p>This is a choice element with the following allowed types:
+                 * <ul>
+                 * <li>{@link Duration}</li>
+                 * <li>{@link String}</li>
+                 * </ul>
+                 * 
+                 * @param period
+                 *     The shelf life time period can be specified using a numerical value for the period of time and its unit of time 
+                 *     measurement The unit of measurement shall be specified in accordance with ISO 11240 and the resulting terminology The 
+                 *     symbol and the symbol identifier shall be used
+                 * 
+                 * @return
+                 *     A reference to this Builder instance
+                 */
+                public Builder period(Element period) {
+                    this.period = period;
+                    return this;
+                }
+
+                /**
+                 * Special precautions for storage, if any, can be specified using an appropriate controlled vocabulary. The controlled 
+                 * term and the controlled term identifier shall be specified.
+                 * 
+                 * <p>Adds new element(s) to the existing list.
+                 * If any of the elements are null, calling {@link #build()} will fail.
+                 * 
+                 * @param specialPrecautionsForStorage
+                 *     Special precautions for storage, if any, can be specified using an appropriate controlled vocabulary. The controlled 
+                 *     term and the controlled term identifier shall be specified
+                 * 
+                 * @return
+                 *     A reference to this Builder instance
+                 */
+                public Builder specialPrecautionsForStorage(CodeableConcept... specialPrecautionsForStorage) {
+                    for (CodeableConcept value : specialPrecautionsForStorage) {
+                        this.specialPrecautionsForStorage.add(value);
+                    }
+                    return this;
+                }
+
+                /**
+                 * Special precautions for storage, if any, can be specified using an appropriate controlled vocabulary. The controlled 
+                 * term and the controlled term identifier shall be specified.
+                 * 
+                 * <p>Replaces the existing list with a new one containing elements from the Collection.
+                 * If any of the elements are null, calling {@link #build()} will fail.
+                 * 
+                 * @param specialPrecautionsForStorage
+                 *     Special precautions for storage, if any, can be specified using an appropriate controlled vocabulary. The controlled 
+                 *     term and the controlled term identifier shall be specified
+                 * 
+                 * @return
+                 *     A reference to this Builder instance
+                 * 
+                 * @throws NullPointerException
+                 *     If the passed collection is null
+                 */
+                public Builder specialPrecautionsForStorage(Collection<CodeableConcept> specialPrecautionsForStorage) {
+                    this.specialPrecautionsForStorage = new ArrayList<>(specialPrecautionsForStorage);
+                    return this;
+                }
+
+                /**
+                 * Build the {@link ShelfLifeStorage}
+                 * 
+                 * @return
+                 *     An immutable object of type {@link ShelfLifeStorage}
+                 * @throws IllegalStateException
+                 *     if the current state cannot be built into a valid ShelfLifeStorage per the base specification
+                 */
+                @Override
+                public ShelfLifeStorage build() {
+                    ShelfLifeStorage shelfLifeStorage = new ShelfLifeStorage(this);
+                    if (validating) {
+                        validate(shelfLifeStorage);
+                    }
+                    return shelfLifeStorage;
+                }
+
+                protected void validate(ShelfLifeStorage shelfLifeStorage) {
+                    super.validate(shelfLifeStorage);
+                    ValidationSupport.choiceElement(shelfLifeStorage.period, "period", Duration.class, String.class);
+                    ValidationSupport.checkList(shelfLifeStorage.specialPrecautionsForStorage, "specialPrecautionsForStorage", CodeableConcept.class);
+                    ValidationSupport.requireValueOrChildren(shelfLifeStorage);
+                }
+
+                protected Builder from(ShelfLifeStorage shelfLifeStorage) {
+                    super.from(shelfLifeStorage);
+                    type = shelfLifeStorage.type;
+                    period = shelfLifeStorage.period;
+                    specialPrecautionsForStorage.addAll(shelfLifeStorage.specialPrecautionsForStorage);
+                    return this;
+                }
+            }
+        }
+
+        /**
          * General characteristics of this item.
          */
         public static class Property extends BackboneElement {
             @Summary
+            @Binding(
+                bindingName = "ProductCharacteristic",
+                strength = BindingStrength.Value.EXAMPLE,
+                description = "This value set includes all observable entity codes from SNOMED CT - provided as an exemplar value set.",
+                valueSet = "http://hl7.org/fhir/ValueSet/product-characteristic-codes"
+            )
             @Required
             private final CodeableConcept type;
             @Summary
@@ -2766,11 +3201,8 @@ public class PackagedProductDefinition extends DomainResource {
                  * <p>This element is required.
                  * 
                  * @param item
-                 *     The actual item(s) of medication, as manufactured, or a device (typically, but not necessarily, a co-packaged one), or 
-                 *     other medically related item (such as food, biologicals, raw materials, medical fluids, gases etc.), as contained in 
-                 *     the package. This also allows another whole packaged product to be included, which is solely for the case where a 
-                 *     package of other entire packages is wanted - such as a wholesale or distribution pack (for layers within one package, 
-                 *     use PackagedProductDefinition.package.package)
+                 *     The actual item(s) of medication, as manufactured, or a device, or other medically related item (food, biologicals, 
+                 *     raw materials, medical fluids, gases etc.), as contained in the package
                  * 
                  * @return
                  *     A reference to this Builder instance

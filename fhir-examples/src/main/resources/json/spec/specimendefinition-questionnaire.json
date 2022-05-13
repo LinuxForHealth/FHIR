@@ -9,8 +9,8 @@
       "status": "active",
       "description": "Type options for SpecimenDefinition.typeTested.container.minimumVolume[x]",
       "expansion": {
-        "identifier": "urn:uuid:a3497768-3da1-48bb-bacf-e903c3c60f6d",
-        "timestamp": "2022-01-01T15:25:53+00:00",
+        "identifier": "urn:uuid:f22e81f4-e4a7-4d03-a274-9ca1714ba7b7",
+        "timestamp": "2022-04-23T22:30:47+00:00",
         "contains": [
           {
             "system": "http://hl7.org/fhir/resource-types",
@@ -32,8 +32,8 @@
       "status": "active",
       "description": "Type options for SpecimenDefinition.typeTested.container.additive.additive[x]",
       "expansion": {
-        "identifier": "urn:uuid:d20175ed-5580-4445-9162-281029730397",
-        "timestamp": "2022-01-01T15:25:53+00:00",
+        "identifier": "urn:uuid:b5cfdf2c-2406-474d-9a5a-6e1ed362d6be",
+        "timestamp": "2022-04-23T22:30:47+00:00",
         "contains": [
           {
             "system": "http://hl7.org/fhir/data-types",
@@ -54,9 +54,10 @@
       "system": "urn:ietf:rfc:3986"
     }
   ],
-  "version": "4.3.0-CIBUILD",
+  "version": "4.3.0-cibuild",
   "status": "draft",
-  "date": "2022-01-01T15:17:18+00:00",
+  "experimental": false,
+  "date": "2022-04-23T22:21:35+00:00",
   "publisher": "Health Level Seven International (Orders and Observations)",
   "item": [
     {
@@ -245,10 +246,9 @@
             {
               "linkId": "SpecimenDefinition.language.value",
               "text": "language",
-              "type": "coding",
+              "type": "choice",
               "required": false,
-              "repeats": false,
-              "answerConstraint": "optionsOnly"
+              "repeats": false
             }
           ]
         },
@@ -468,10 +468,9 @@
             {
               "linkId": "SpecimenDefinition.typeCollected.coding",
               "text": "code:",
-              "type": "coding",
+              "type": "choice",
               "required": false,
-              "repeats": false,
-              "answerConstraint": "optionsOnly"
+              "repeats": false
             },
             {
               "linkId": "SpecimenDefinition.typeCollected.text",
@@ -517,10 +516,9 @@
             {
               "linkId": "SpecimenDefinition.patientPreparation.coding",
               "text": "code:",
-              "type": "coding",
+              "type": "choice",
               "required": false,
-              "repeats": false,
-              "answerConstraint": "optionsOnly"
+              "repeats": false
             },
             {
               "linkId": "SpecimenDefinition.patientPreparation.text",
@@ -610,10 +608,9 @@
             {
               "linkId": "SpecimenDefinition.collection.coding",
               "text": "code:",
-              "type": "coding",
+              "type": "choice",
               "required": false,
-              "repeats": false,
-              "answerConstraint": "optionsOnly"
+              "repeats": false
             },
             {
               "linkId": "SpecimenDefinition.collection.text",
@@ -833,10 +830,9 @@
                 {
                   "linkId": "SpecimenDefinition.typeTested.type.coding",
                   "text": "code:",
-                  "type": "coding",
+                  "type": "choice",
                   "required": false,
-                  "repeats": false,
-                  "answerConstraint": "optionsOnly"
+                  "repeats": false
                 },
                 {
                   "linkId": "SpecimenDefinition.typeTested.type.text",
@@ -889,10 +885,9 @@
                 {
                   "linkId": "SpecimenDefinition.typeTested.preference.value",
                   "text": "preference",
-                  "type": "coding",
+                  "type": "choice",
                   "required": false,
-                  "repeats": false,
-                  "answerConstraint": "optionsOrType"
+                  "repeats": false
                 }
               ]
             },
@@ -1067,10 +1062,9 @@
                     {
                       "linkId": "SpecimenDefinition.typeTested.container.material.coding",
                       "text": "code:",
-                      "type": "coding",
+                      "type": "choice",
                       "required": false,
-                      "repeats": false,
-                      "answerConstraint": "optionsOnly"
+                      "repeats": false
                     },
                     {
                       "linkId": "SpecimenDefinition.typeTested.container.material.text",
@@ -1120,10 +1114,9 @@
                     {
                       "linkId": "SpecimenDefinition.typeTested.container.type.coding",
                       "text": "code:",
-                      "type": "coding",
+                      "type": "choice",
                       "required": false,
-                      "repeats": false,
-                      "answerConstraint": "optionsOnly"
+                      "repeats": false
                     },
                     {
                       "linkId": "SpecimenDefinition.typeTested.container.type.text",
@@ -1173,10 +1166,9 @@
                     {
                       "linkId": "SpecimenDefinition.typeTested.container.cap.coding",
                       "text": "code:",
-                      "type": "coding",
+                      "type": "choice",
                       "required": false,
-                      "repeats": false,
-                      "answerConstraint": "optionsOnly"
+                      "repeats": false
                     },
                     {
                       "linkId": "SpecimenDefinition.typeTested.container.cap.text",
@@ -1270,10 +1262,9 @@
                     {
                       "linkId": "SpecimenDefinition.typeTested.container.capacity.comparator",
                       "text": "comp:",
-                      "type": "coding",
+                      "type": "choice",
                       "required": false,
-                      "repeats": false,
-                      "answerConstraint": "optionsOnly"
+                      "repeats": false
                     },
                     {
                       "linkId": "SpecimenDefinition.typeTested.container.capacity.value",
@@ -1340,10 +1331,9 @@
                     {
                       "linkId": "SpecimenDefinition.typeTested.container.minimumVolume[x]._type",
                       "text": "type",
-                      "type": "coding",
+                      "type": "choice",
                       "required": false,
                       "repeats": false,
-                      "answerConstraint": "optionsOnly",
                       "answerValueSet": "#vs2",
                       "item": [
                         {
@@ -1359,10 +1349,9 @@
                             {
                               "linkId": "SpecimenDefinition.typeTested.container.minimumVolume[x]._null.comparator",
                               "text": "comp:",
-                              "type": "coding",
+                              "type": "choice",
                               "required": false,
-                              "repeats": false,
-                              "answerConstraint": "optionsOnly"
+                              "repeats": false
                             },
                             {
                               "linkId": "SpecimenDefinition.typeTested.container.minimumVolume[x]._null.value",
@@ -1581,10 +1570,9 @@
                         {
                           "linkId": "SpecimenDefinition.typeTested.container.additive.additive[x]._type",
                           "text": "type",
-                          "type": "coding",
+                          "type": "choice",
                           "required": false,
                           "repeats": false,
-                          "answerConstraint": "optionsOnly",
                           "answerValueSet": "#vs3",
                           "item": [
                             {
@@ -1600,10 +1588,9 @@
                                 {
                                   "linkId": "SpecimenDefinition.typeTested.container.additive.additive[x]._null.coding",
                                   "text": "code:",
-                                  "type": "coding",
+                                  "type": "choice",
                                   "required": false,
-                                  "repeats": false,
-                                  "answerConstraint": "optionsOnly"
+                                  "repeats": false
                                 },
                                 {
                                   "linkId": "SpecimenDefinition.typeTested.container.additive.additive[x]._null.text",
@@ -1777,10 +1764,9 @@
                 {
                   "linkId": "SpecimenDefinition.typeTested.retentionTime.comparator",
                   "text": "comp:",
-                  "type": "coding",
+                  "type": "choice",
                   "required": false,
-                  "repeats": false,
-                  "answerConstraint": "optionsOnly"
+                  "repeats": false
                 },
                 {
                   "linkId": "SpecimenDefinition.typeTested.retentionTime.value",
@@ -1847,10 +1833,9 @@
                 {
                   "linkId": "SpecimenDefinition.typeTested.rejectionCriterion.coding",
                   "text": "code:",
-                  "type": "coding",
+                  "type": "choice",
                   "required": false,
-                  "repeats": false,
-                  "answerConstraint": "optionsOnly"
+                  "repeats": false
                 },
                 {
                   "linkId": "SpecimenDefinition.typeTested.rejectionCriterion.text",
@@ -2026,10 +2011,9 @@
                     {
                       "linkId": "SpecimenDefinition.typeTested.handling.temperatureQualifier.coding",
                       "text": "code:",
-                      "type": "coding",
+                      "type": "choice",
                       "required": false,
-                      "repeats": false,
-                      "answerConstraint": "optionsOnly"
+                      "repeats": false
                     },
                     {
                       "linkId": "SpecimenDefinition.typeTested.handling.temperatureQualifier.text",
@@ -2138,10 +2122,9 @@
                     {
                       "linkId": "SpecimenDefinition.typeTested.handling.maxDuration.comparator",
                       "text": "comp:",
-                      "type": "coding",
+                      "type": "choice",
                       "required": false,
-                      "repeats": false,
-                      "answerConstraint": "optionsOnly"
+                      "repeats": false
                     },
                     {
                       "linkId": "SpecimenDefinition.typeTested.handling.maxDuration.value",

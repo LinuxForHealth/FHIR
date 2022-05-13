@@ -1,0 +1,101 @@
+{
+  "resourceType": "CodeSystem",
+  "id": "regulated-authorization-basis",
+  "meta": {
+    "lastUpdated": "2022-04-24T09:21:35.043+11:00",
+    "profile": [
+      "http://hl7.org/fhir/StructureDefinition/shareablecodesystem"
+    ]
+  },
+  "text": {
+    "status": "generated",
+    "div": "\u003cdiv xmlns\u003d\"http://www.w3.org/1999/xhtml\"\u003e\u003cp\u003eThis code system http://hl7.org/fhir/regulated-authorization-basis defines the following codes:\u003c/p\u003e\u003ctable class\u003d\"codes\"\u003e\u003ctr\u003e\u003ctd style\u003d\"white-space:nowrap\"\u003e\u003cb\u003eCode\u003c/b\u003e\u003c/td\u003e\u003ctd\u003e\u003cb\u003eDisplay\u003c/b\u003e\u003c/td\u003e\u003c/tr\u003e\u003ctr\u003e\u003ctd style\u003d\"white-space:nowrap\"\u003eFull\u003ca name\u003d\"regulated-authorization-basis-Full\"\u003e \u003c/a\u003e\u003c/td\u003e\u003ctd\u003eFull application\u003c/td\u003e\u003c/tr\u003e\u003ctr\u003e\u003ctd style\u003d\"white-space:nowrap\"\u003eNewSubstance\u003ca name\u003d\"regulated-authorization-basis-NewSubstance\"\u003e \u003c/a\u003e\u003c/td\u003e\u003ctd\u003eNew active substance\u003c/td\u003e\u003c/tr\u003e\u003ctr\u003e\u003ctd style\u003d\"white-space:nowrap\"\u003eKnownSubstance\u003ca name\u003d\"regulated-authorization-basis-KnownSubstance\"\u003e \u003c/a\u003e\u003c/td\u003e\u003ctd\u003eKnown active substance\u003c/td\u003e\u003c/tr\u003e\u003ctr\u003e\u003ctd style\u003d\"white-space:nowrap\"\u003eSimilarBiological\u003ca name\u003d\"regulated-authorization-basis-SimilarBiological\"\u003e \u003c/a\u003e\u003c/td\u003e\u003ctd\u003eSimilar biological application\u003c/td\u003e\u003c/tr\u003e\u003ctr\u003e\u003ctd style\u003d\"white-space:nowrap\"\u003eWell-establishedUse\u003ca name\u003d\"regulated-authorization-basis-Well-establishedUse\"\u003e \u003c/a\u003e\u003c/td\u003e\u003ctd\u003eWell-established use application\u003c/td\u003e\u003c/tr\u003e\u003ctr\u003e\u003ctd style\u003d\"white-space:nowrap\"\u003eTraditionalUse\u003ca name\u003d\"regulated-authorization-basis-TraditionalUse\"\u003e \u003c/a\u003e\u003c/td\u003e\u003ctd\u003eTraditional use registration for herbal medicinal product application\u003c/td\u003e\u003c/tr\u003e\u003ctr\u003e\u003ctd style\u003d\"white-space:nowrap\"\u003eBibliographical\u003ca name\u003d\"regulated-authorization-basis-Bibliographical\"\u003e \u003c/a\u003e\u003c/td\u003e\u003ctd\u003eBibliographical application (stand-alone)\u003c/td\u003e\u003c/tr\u003e\u003ctr\u003e\u003ctd style\u003d\"white-space:nowrap\"\u003eKnownHumanBlood\u003ca name\u003d\"regulated-authorization-basis-KnownHumanBlood\"\u003e \u003c/a\u003e\u003c/td\u003e\u003ctd\u003eKnown human blood/plasma derived ancillary medicinal substance\u003c/td\u003e\u003c/tr\u003e\u003ctr\u003e\u003ctd style\u003d\"white-space:nowrap\"\u003eTemporaryUse\u003ca name\u003d\"regulated-authorization-basis-TemporaryUse\"\u003e \u003c/a\u003e\u003c/td\u003e\u003ctd\u003eAuthorisations for temporary use\u003c/td\u003e\u003c/tr\u003e\u003ctr\u003e\u003ctd style\u003d\"white-space:nowrap\"\u003eParallelTrade\u003ca name\u003d\"regulated-authorization-basis-ParallelTrade\"\u003e \u003c/a\u003e\u003c/td\u003e\u003ctd\u003eParallel traded products\u003c/td\u003e\u003c/tr\u003e\u003c/table\u003e\u003c/div\u003e"
+  },
+  "extension": [
+    {
+      "url": "http://hl7.org/fhir/StructureDefinition/structuredefinition-wg",
+      "valueCode": "brr"
+    },
+    {
+      "url": "http://hl7.org/fhir/StructureDefinition/structuredefinition-standards-status",
+      "valueCode": "trial-use"
+    },
+    {
+      "url": "http://hl7.org/fhir/StructureDefinition/structuredefinition-fmm",
+      "valueInteger": 1
+    }
+  ],
+  "url": "http://hl7.org/fhir/regulated-authorization-basis",
+  "identifier": [
+    {
+      "system": "urn:ietf:rfc:3986",
+      "value": "urn:oid:2.16.840.1.113883.4.642.1.1643"
+    }
+  ],
+  "version": "4.3.0-cibuild",
+  "name": "RegulatedAuthorizationBasis",
+  "title": "RegulatedAuthorizationBasis",
+  "status": "draft",
+  "experimental": false,
+  "date": "2021-01-05T10:01:24+11:00",
+  "publisher": "HL7 (FHIR Project)",
+  "contact": [
+    {
+      "telecom": [
+        {
+          "system": "url",
+          "value": "http://hl7.org/fhir"
+        },
+        {
+          "system": "email",
+          "value": "fhir@lists.hl7.org"
+        }
+      ]
+    }
+  ],
+  "caseSensitive": true,
+  "valueSet": "http://hl7.org/fhir/ValueSet/regulated-authorization-basis",
+  "content": "complete",
+  "concept": [
+    {
+      "code": "Full",
+      "display": "Full application"
+    },
+    {
+      "code": "NewSubstance",
+      "display": "New active substance"
+    },
+    {
+      "code": "KnownSubstance",
+      "display": "Known active substance"
+    },
+    {
+      "code": "SimilarBiological",
+      "display": "Similar biological application"
+    },
+    {
+      "code": "Well-establishedUse",
+      "display": "Well-established use application"
+    },
+    {
+      "code": "TraditionalUse",
+      "display": "Traditional use registration for herbal medicinal product application"
+    },
+    {
+      "code": "Bibliographical",
+      "display": "Bibliographical application (stand-alone)"
+    },
+    {
+      "code": "KnownHumanBlood",
+      "display": "Known human blood/plasma derived ancillary medicinal substance"
+    },
+    {
+      "code": "TemporaryUse",
+      "display": "Authorisations for temporary use"
+    },
+    {
+      "code": "ParallelTrade",
+      "display": "Parallel traded products"
+    }
+  ]
+}

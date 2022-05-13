@@ -3,13 +3,14 @@
   "id": "sc-medicationrequest-status",
   "text": {
     "status": "extensions",
-    "div": "\u003cdiv xmlns\u003d\"http://www.w3.org/1999/xhtml\"\u003e\u003ch2\u003emedicationrequest StatusCanonicalMap (http://hl7.org/fhir/ConceptMap/sc-medicationrequest-status)\u003c/h2\u003e\u003cp\u003eMapping from \u003ca href\u003d\"valueset-medicationrequest-status.html\"\u003ehttp://hl7.org/fhir/ValueSet/medicationrequest-status\u003c/a\u003e to \u003ca href\u003d\"valueset-resource-status.html\"\u003ehttp://hl7.org/fhir/ValueSet/resource-status\u003c/a\u003e\u003c/p\u003e\u003cp\u003eDRAFT. Published on ?ngen-10? by FHIR Project team (\u003ca href\u003d\"http://hl7.org/fhir\"\u003ehttp://hl7.org/fhir\u003c/a\u003e). \u003c/p\u003e\u003cdiv\u003e\u003cp\u003eCanonical Mapping for \u0026quot;MedicationRequest Status Codes\u0026quot;\u003c/p\u003e\n\u003c/div\u003e\u003cbr/\u003e\u003ctable class\u003d\"grid\"\u003e\u003ctr\u003e\u003ctd\u003e\u003cb\u003eSource Code\u003c/b\u003e\u003c/td\u003e\u003ctd\u003e\u003cb\u003eRelationship\u003c/b\u003e\u003c/td\u003e\u003ctd\u003e\u003cb\u003eDestination Code\u003c/b\u003e\u003c/td\u003e\u003c/tr\u003e\u003ctr\u003e\u003ctd\u003eentered-in-error\u003c/td\u003e\u003ctd\u003e\u003ca href\u003d\"codesystem-concept-map-equivalence.html#equivalent\"\u003eis equivalent to\u003c/a\u003e\u003c/td\u003e\u003ctd\u003eerror\u003c/td\u003e\u003c/tr\u003e\u003ctr\u003e\u003ctd\u003edraft\u003c/td\u003e\u003ctd\u003e\u003ca href\u003d\"codesystem-concept-map-equivalence.html#equivalent\"\u003eis equivalent to\u003c/a\u003e\u003c/td\u003e\u003ctd\u003edraft\u003c/td\u003e\u003c/tr\u003e\u003ctr\u003e\u003ctd\u003eactive\u003c/td\u003e\u003ctd\u003e\u003ca href\u003d\"codesystem-concept-map-equivalence.html#equivalent\"\u003eis equivalent to\u003c/a\u003e\u003c/td\u003e\u003ctd\u003eactive\u003c/td\u003e\u003c/tr\u003e\u003ctr\u003e\u003ctd\u003eon-hold\u003c/td\u003e\u003ctd\u003e\u003ca href\u003d\"codesystem-concept-map-equivalence.html#equivalent\"\u003eis equivalent to\u003c/a\u003e\u003c/td\u003e\u003ctd\u003esuspended\u003c/td\u003e\u003c/tr\u003e\u003ctr\u003e\u003ctd\u003estopped\u003c/td\u003e\u003ctd\u003e\u003ca href\u003d\"codesystem-concept-map-equivalence.html#equivalent\"\u003eis equivalent to\u003c/a\u003e\u003c/td\u003e\u003ctd\u003efailed\u003c/td\u003e\u003c/tr\u003e\u003ctr\u003e\u003ctd\u003ecompleted\u003c/td\u003e\u003ctd\u003e\u003ca href\u003d\"codesystem-concept-map-equivalence.html#equivalent\"\u003eis equivalent to\u003c/a\u003e\u003c/td\u003e\u003ctd\u003ecomplete\u003c/td\u003e\u003c/tr\u003e\u003ctr\u003e\u003ctd\u003ecancelled\u003c/td\u003e\u003ctd\u003e\u003ca href\u003d\"codesystem-concept-map-equivalence.html#equivalent\"\u003eis equivalent to\u003c/a\u003e\u003c/td\u003e\u003ctd\u003eabandoned\u003c/td\u003e\u003c/tr\u003e\u003ctr\u003e\u003ctd\u003eunknown\u003c/td\u003e\u003ctd\u003e\u003ca href\u003d\"codesystem-concept-map-equivalence.html#equivalent\"\u003eis equivalent to\u003c/a\u003e\u003c/td\u003e\u003ctd\u003eunknown\u003c/td\u003e\u003c/tr\u003e\u003c/table\u003e\u003c/div\u003e"
+    "div": "\u003cdiv xmlns\u003d\"http://www.w3.org/1999/xhtml\"\u003e\u003ch2\u003emedicationrequest StatusCanonicalMap (http://hl7.org/fhir/ConceptMap/sc-medicationrequest-status)\u003c/h2\u003e\u003cp\u003eMapping from \u003ca href\u003d\"valueset-medicationrequest-status.html\"\u003ehttp://hl7.org/fhir/ValueSet/medicationrequest-status\u003c/a\u003e to \u003ca href\u003d\"valueset-resource-status.html\"\u003ehttp://hl7.org/fhir/ValueSet/resource-status\u003c/a\u003e\u003c/p\u003e\u003cp\u003eDRAFT. Published on ?ngen-10? by FHIR Project team (\u003ca href\u003d\"http://hl7.org/fhir\"\u003ehttp://hl7.org/fhir\u003c/a\u003e). \u003c/p\u003e\u003cdiv\u003e\u003cp\u003eCanonical Mapping for \u0026quot;MedicationRequest Status Codes\u0026quot;\u003c/p\u003e\n\u003c/div\u003e\u003cbr/\u003e\u003ctable class\u003d\"grid\"\u003e\u003ctr\u003e\u003ctd\u003e\u003cb\u003eSource Code\u003c/b\u003e\u003c/td\u003e\u003ctd\u003e\u003cb\u003eRelationship\u003c/b\u003e\u003c/td\u003e\u003ctd\u003e\u003cb\u003eDestination Code\u003c/b\u003e\u003c/td\u003e\u003c/tr\u003e\u003ctr\u003e\u003ctd colspan\u003d\"3\"\u003eMapping from \u003ca href\u003d\"codesystem-medicationrequest-status.html\"\u003eMedicationRequest Status Codes\u003c/a\u003e to \u003ca href\u003d\"codesystem-resource-status.html\"\u003eCanonical Status Codes for FHIR Resources\u003c/a\u003e\u003c/td\u003e\u003c/tr\u003e\u003ctr\u003e\u003ctd\u003eentered-in-error\u003c/td\u003e\u003ctd\u003e\u003ca href\u003d\"codesystem-concept-map-equivalence.html#equivalent\"\u003eis equivalent to\u003c/a\u003e\u003c/td\u003e\u003ctd\u003eerror\u003c/td\u003e\u003c/tr\u003e\u003ctr\u003e\u003ctd\u003edraft\u003c/td\u003e\u003ctd\u003e\u003ca href\u003d\"codesystem-concept-map-equivalence.html#equivalent\"\u003eis equivalent to\u003c/a\u003e\u003c/td\u003e\u003ctd\u003edraft\u003c/td\u003e\u003c/tr\u003e\u003ctr\u003e\u003ctd\u003eactive\u003c/td\u003e\u003ctd\u003e\u003ca href\u003d\"codesystem-concept-map-equivalence.html#equivalent\"\u003eis equivalent to\u003c/a\u003e\u003c/td\u003e\u003ctd\u003eactive\u003c/td\u003e\u003c/tr\u003e\u003ctr\u003e\u003ctd\u003eon-hold\u003c/td\u003e\u003ctd\u003e\u003ca href\u003d\"codesystem-concept-map-equivalence.html#equivalent\"\u003eis equivalent to\u003c/a\u003e\u003c/td\u003e\u003ctd\u003esuspended\u003c/td\u003e\u003c/tr\u003e\u003ctr\u003e\u003ctd\u003estopped\u003c/td\u003e\u003ctd\u003e\u003ca href\u003d\"codesystem-concept-map-equivalence.html#equivalent\"\u003eis equivalent to\u003c/a\u003e\u003c/td\u003e\u003ctd\u003efailed\u003c/td\u003e\u003c/tr\u003e\u003ctr\u003e\u003ctd\u003ecompleted\u003c/td\u003e\u003ctd\u003e\u003ca href\u003d\"codesystem-concept-map-equivalence.html#equivalent\"\u003eis equivalent to\u003c/a\u003e\u003c/td\u003e\u003ctd\u003ecomplete\u003c/td\u003e\u003c/tr\u003e\u003ctr\u003e\u003ctd\u003ecancelled\u003c/td\u003e\u003ctd\u003e\u003ca href\u003d\"codesystem-concept-map-equivalence.html#equivalent\"\u003eis equivalent to\u003c/a\u003e\u003c/td\u003e\u003ctd\u003eabandoned\u003c/td\u003e\u003c/tr\u003e\u003ctr\u003e\u003ctd\u003eunknown\u003c/td\u003e\u003ctd\u003e\u003ca href\u003d\"codesystem-concept-map-equivalence.html#equivalent\"\u003eis equivalent to\u003c/a\u003e\u003c/td\u003e\u003ctd\u003eunknown\u003c/td\u003e\u003c/tr\u003e\u003c/table\u003e\u003c/div\u003e"
   },
   "url": "http://hl7.org/fhir/ConceptMap/sc-medicationrequest-status",
-  "version": "4.3.0-CIBUILD",
+  "version": "4.3.0-cibuild",
   "name": "medicationrequest StatusCanonicalMap",
   "title": "Canonical Mapping for \"medicationrequest Status\"",
   "status": "draft",
+  "experimental": false,
   "publisher": "FHIR Project team",
   "contact": [
     {
@@ -34,7 +35,7 @@
           "target": [
             {
               "code": "error",
-              "relationship": "equivalent"
+              "equivalence": "equivalent"
             }
           ]
         },
@@ -43,7 +44,7 @@
           "target": [
             {
               "code": "draft",
-              "relationship": "equivalent"
+              "equivalence": "equivalent"
             }
           ]
         },
@@ -52,7 +53,7 @@
           "target": [
             {
               "code": "active",
-              "relationship": "equivalent"
+              "equivalence": "equivalent"
             }
           ]
         },
@@ -61,7 +62,7 @@
           "target": [
             {
               "code": "suspended",
-              "relationship": "equivalent"
+              "equivalence": "equivalent"
             }
           ]
         },
@@ -70,7 +71,7 @@
           "target": [
             {
               "code": "failed",
-              "relationship": "equivalent"
+              "equivalence": "equivalent"
             }
           ]
         },
@@ -79,7 +80,7 @@
           "target": [
             {
               "code": "complete",
-              "relationship": "equivalent"
+              "equivalence": "equivalent"
             }
           ]
         },
@@ -88,7 +89,7 @@
           "target": [
             {
               "code": "abandoned",
-              "relationship": "equivalent"
+              "equivalence": "equivalent"
             }
           ]
         },
@@ -97,7 +98,7 @@
           "target": [
             {
               "code": "unknown",
-              "relationship": "equivalent"
+              "equivalence": "equivalent"
             }
           ]
         }

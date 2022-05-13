@@ -12,9 +12,10 @@
     }
   ],
   "url": "http://hl7.org/fhir/StructureDefinition/auditevent-Anonymized",
-  "version": "4.3.0-CIBUILD",
+  "version": "4.3.0-cibuild",
   "name": "Anonymized",
   "status": "draft",
+  "experimental": false,
   "date": "2021-01-17T07:06:13+11:00",
   "publisher": "Health Level Seven, Inc. - Security WG",
   "contact": [
@@ -28,7 +29,7 @@
     }
   ],
   "description": "True or False indicating whether all patient identifying information was removed from the data.",
-  "fhirVersion": "4.3.0-CIBUILD",
+  "fhirVersion": "4.3.0-cibuild",
   "mapping": [
     {
       "identity": "dicom",

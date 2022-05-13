@@ -14,14 +14,17 @@
     <resource>
       <SubscriptionStatus>
         <id value="b21e4fae-ce73-45cb-8e37-1e203362b2ae"/>
-        <text><status value="generated"/><div xmlns="http://www.w3.org/1999/xhtml"><p><b>Generated Narrative</b></p><div><p>Resource "b21e4fae-ce73-45cb-8e37-1e203362b2ae" </p></div><p><b>status</b>: active</p><p><b>type</b>: event-notification</p><p><b>eventsSinceSubscriptionStart</b>: 2</p><p><b>eventsInNotification</b>: 0</p><p><b>subscription</b>: <a>http://example.org/FHIR/R4/Subscription/123</a></p><p><b>topic</b>: <a>http://example.org/FHIR/R4/SubscriptionTopic/admission</a></p></div></text><status value="active"/>
+        <text><status value="generated"/><div xmlns="http://www.w3.org/1999/xhtml"><p><b>Generated Narrative</b></p><div style="display: inline-block; background-color: #d9e0e7; padding: 6px; margin: 4px; border: 1px solid #8da1b4; border-radius: 5px; line-height: 60%"><p style="margin-bottom: 0px">Resource "b21e4fae-ce73-45cb-8e37-1e203362b2ae" </p></div><p><b>status</b>: active</p><p><b>type</b>: event-notification</p><p><b>eventsSinceSubscriptionStart</b>: 2</p><h3>NotificationEvents</h3><table class="grid"><tr><td>-</td><td><b>EventNumber</b></td><td><b>Timestamp</b></td></tr><tr><td>*</td><td>2</td><td>Apr 17, 2020 3:20:00 PM</td></tr></table><p><b>subscription</b>: <a href="todo.html">http://example.org/FHIR/R4B/Subscription/123</a></p><p><b>topic</b>: <a href="http://example.org/FHIR/R4B/SubscriptionTopic/admission">http://example.org/FHIR/R4B/SubscriptionTopic/admission</a></p></div></text><status value="active"/>
         <type value="event-notification"/>
         <eventsSinceSubscriptionStart value="2"/>
-        <eventsInNotification value="0"/>
+        <notificationEvent>
+          <eventNumber value="2"/>
+          <timestamp value="2020-04-17T10:20:00.0000000-05:00"/>
+        </notificationEvent>
         <subscription>
-          <reference value="http://example.org/FHIR/R4/Subscription/123"/>
+          <reference value="http://example.org/FHIR/R4B/Subscription/123"/>
         </subscription>
-        <topic value="http://example.org/FHIR/R4/SubscriptionTopic/admission"/>
+        <topic value="http://example.org/FHIR/R4B/SubscriptionTopic/admission"/>
       </SubscriptionStatus>
     </resource>
     <request>

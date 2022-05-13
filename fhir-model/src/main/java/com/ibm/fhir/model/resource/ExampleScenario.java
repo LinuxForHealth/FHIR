@@ -56,7 +56,7 @@ import com.ibm.fhir.model.visitor.Visitor;
     level = "Warning",
     location = "(base)",
     description = "Name should be usable as an identifier for the module by machine processing applications such as code generation",
-    expression = "name.matches('[A-Z]([A-Za-z0-9_]){0,254}')",
+    expression = "name.exists() implies name.matches('[A-Z]([A-Za-z0-9_]){0,254}')",
     source = "http://hl7.org/fhir/StructureDefinition/ExampleScenario"
 )
 @Constraint(
@@ -83,7 +83,7 @@ public class ExampleScenario extends DomainResource {
         bindingName = "PublicationStatus",
         strength = BindingStrength.Value.REQUIRED,
         description = "The lifecycle status of an artifact.",
-        valueSet = "http://hl7.org/fhir/ValueSet/publication-status|4.3.0-CIBUILD"
+        valueSet = "http://hl7.org/fhir/ValueSet/publication-status|4.3.0-cibuild"
     )
     @Required
     private final PublicationStatus status;
@@ -1283,7 +1283,7 @@ public class ExampleScenario extends DomainResource {
             bindingName = "ExampleScenarioActorType",
             strength = BindingStrength.Value.REQUIRED,
             description = "The type of actor - system or human.",
-            valueSet = "http://hl7.org/fhir/ValueSet/examplescenario-actor-type|4.3.0-CIBUILD"
+            valueSet = "http://hl7.org/fhir/ValueSet/examplescenario-actor-type|4.3.0-cibuild"
         )
         @Required
         private final ExampleScenarioActorType type;
@@ -1678,7 +1678,7 @@ public class ExampleScenario extends DomainResource {
             bindingName = "FHIRResourceType",
             strength = BindingStrength.Value.REQUIRED,
             description = "The type of resource.",
-            valueSet = "http://hl7.org/fhir/ValueSet/resource-types|4.3.0-CIBUILD"
+            valueSet = "http://hl7.org/fhir/ValueSet/resource-types|4.3.0-cibuild"
         )
         @Required
         private final ResourceTypeCode resourceType;

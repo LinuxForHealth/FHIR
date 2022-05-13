@@ -2,7 +2,7 @@
   "resourceType": "CodeSystem",
   "id": "request-resource-types",
   "meta": {
-    "lastUpdated": "2022-01-01T15:17:18.597+00:00"
+    "lastUpdated": "2022-04-23T22:21:35.043+00:00"
   },
   "text": {
     "status": "generated",
@@ -29,12 +29,12 @@
       "value": "urn:oid:2.16.840.1.113883.4.642.1.1059"
     }
   ],
-  "version": "4.3.0-CIBUILD",
+  "version": "4.3.0-cibuild",
   "name": "RequestResourceType",
   "title": "RequestResourceType",
   "status": "draft",
   "experimental": false,
-  "date": "2022-01-01T15:17:18+00:00",
+  "date": "2022-04-23T22:21:35+00:00",
   "description": "A list of all the request resource types defined in this version of the FHIR specification.",
   "caseSensitive": true,
   "valueSet": "http://hl7.org/fhir/ValueSet/request-resource-types",

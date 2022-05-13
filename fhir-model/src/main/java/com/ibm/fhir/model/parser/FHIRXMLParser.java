@@ -6167,7 +6167,7 @@ public class FHIRXMLParser extends FHIRAbstractParser {
                     break;
                 case "summary":
                     position = checkElementOrder("summary", 30, position, true);
-                    builder.summary(parseContactDetail("summary", reader, summaryElementIndex++));
+                    builder.summary(parseCitationSummary("summary", reader, summaryElementIndex++));
                     break;
                 case "classification":
                     position = checkElementOrder("classification", 31, position, true);
@@ -7588,6 +7588,58 @@ public class FHIRXMLParser extends FHIRAbstractParser {
                 case "period":
                     position = checkElementOrder("period", 4, position, false);
                     builder.period(parsePeriod("period", reader, -1));
+                    break;
+                default:
+                    if (!ignoringUnrecognizedElements) {
+                        throw new IllegalArgumentException("Unrecognized element: '" + localName + "'");
+                    }
+                    reader.nextTag();
+                    break;
+                }
+                break;
+            case XMLStreamReader.END_ELEMENT:
+                if (reader.getLocalName().equals(elementName)) {
+                    stackPop();
+                    return builder.build();
+                }
+                break;
+            }
+        }
+        throw new XMLStreamException("Unexpected end of stream");
+    }
+
+    private Citation.Summary parseCitationSummary(java.lang.String elementName, XMLStreamReader reader, int elementIndex) throws XMLStreamException {
+        stackPush(elementName, elementIndex);
+        Citation.Summary.Builder builder = Citation.Summary.builder();
+        builder.setValidating(validating);
+        java.lang.String id = reader.getAttributeValue(null, "id");
+        if (id != null) {
+            builder.id(id);
+        }
+        int position = -1;
+        int extensionElementIndex = 0, modifierExtensionElementIndex = 0;
+        while (reader.hasNext()) {
+            int eventType = reader.next();
+            switch (eventType) {
+            case XMLStreamReader.START_ELEMENT:
+                java.lang.String localName = reader.getLocalName();
+                requireNamespace(reader, FHIR_NS_URI);
+                switch (localName) {
+                case "extension":
+                    position = checkElementOrder("extension", 0, position, true);
+                    builder.extension(parseExtension("extension", reader, extensionElementIndex++));
+                    break;
+                case "modifierExtension":
+                    position = checkElementOrder("modifierExtension", 1, position, true);
+                    builder.modifierExtension(parseExtension("modifierExtension", reader, modifierExtensionElementIndex++));
+                    break;
+                case "style":
+                    position = checkElementOrder("style", 2, position, false);
+                    builder.style(parseCodeableConcept("style", reader, -1));
+                    break;
+                case "text":
+                    position = checkElementOrder("text", 3, position, false);
+                    builder.text((Markdown) parseString(Markdown.builder(), "text", reader, -1));
                     break;
                 default:
                     if (!ignoringUnrecognizedElements) {
@@ -10145,9 +10197,13 @@ public class FHIRXMLParser extends FHIRAbstractParser {
                     position = checkElementOrder("intendedEffect", 5, position, false);
                     builder.intendedEffect(parseCodeableReference("intendedEffect", reader, -1));
                     break;
-                case "duration":
-                    position = checkElementOrder("duration", 6, position, false);
-                    builder.duration(parseQuantity("duration", reader, -1));
+                case "durationRange":
+                    position = checkElementOrder("duration[x]", 6, position, false);
+                    builder.duration(parseRange("durationRange", reader, -1));
+                    break;
+                case "durationString":
+                    position = checkElementOrder("duration[x]", 6, position, false);
+                    builder.duration(parseString("durationString", reader, -1));
                     break;
                 case "undesirableEffect":
                     position = checkElementOrder("undesirableEffect", 7, position, true);
@@ -18805,10 +18861,6 @@ public class FHIRXMLParser extends FHIRAbstractParser {
                     position = checkElementOrder("defaultValue[x]", 19, position, false);
                     builder.defaultValue(parseCodeableConcept("defaultValueCodeableConcept", reader, -1));
                     break;
-                case "defaultValueCodeableReference":
-                    position = checkElementOrder("defaultValue[x]", 19, position, false);
-                    builder.defaultValue(parseCodeableReference("defaultValueCodeableReference", reader, -1));
-                    break;
                 case "defaultValueCoding":
                     position = checkElementOrder("defaultValue[x]", 19, position, false);
                     builder.defaultValue(parseCoding("defaultValueCoding", reader, -1));
@@ -18856,10 +18908,6 @@ public class FHIRXMLParser extends FHIRAbstractParser {
                 case "defaultValueRatio":
                     position = checkElementOrder("defaultValue[x]", 19, position, false);
                     builder.defaultValue(parseRatio("defaultValueRatio", reader, -1));
-                    break;
-                case "defaultValueRatioRange":
-                    position = checkElementOrder("defaultValue[x]", 19, position, false);
-                    builder.defaultValue(parseRatioRange("defaultValueRatioRange", reader, -1));
                     break;
                 case "defaultValueReference":
                     position = checkElementOrder("defaultValue[x]", 19, position, false);
@@ -19021,10 +19069,6 @@ public class FHIRXMLParser extends FHIRAbstractParser {
                     position = checkElementOrder("fixed[x]", 22, position, false);
                     builder.fixed(parseCodeableConcept("fixedCodeableConcept", reader, -1));
                     break;
-                case "fixedCodeableReference":
-                    position = checkElementOrder("fixed[x]", 22, position, false);
-                    builder.fixed(parseCodeableReference("fixedCodeableReference", reader, -1));
-                    break;
                 case "fixedCoding":
                     position = checkElementOrder("fixed[x]", 22, position, false);
                     builder.fixed(parseCoding("fixedCoding", reader, -1));
@@ -19072,10 +19116,6 @@ public class FHIRXMLParser extends FHIRAbstractParser {
                 case "fixedRatio":
                     position = checkElementOrder("fixed[x]", 22, position, false);
                     builder.fixed(parseRatio("fixedRatio", reader, -1));
-                    break;
-                case "fixedRatioRange":
-                    position = checkElementOrder("fixed[x]", 22, position, false);
-                    builder.fixed(parseRatioRange("fixedRatioRange", reader, -1));
                     break;
                 case "fixedReference":
                     position = checkElementOrder("fixed[x]", 22, position, false);
@@ -19229,10 +19269,6 @@ public class FHIRXMLParser extends FHIRAbstractParser {
                     position = checkElementOrder("pattern[x]", 23, position, false);
                     builder.pattern(parseCodeableConcept("patternCodeableConcept", reader, -1));
                     break;
-                case "patternCodeableReference":
-                    position = checkElementOrder("pattern[x]", 23, position, false);
-                    builder.pattern(parseCodeableReference("patternCodeableReference", reader, -1));
-                    break;
                 case "patternCoding":
                     position = checkElementOrder("pattern[x]", 23, position, false);
                     builder.pattern(parseCoding("patternCoding", reader, -1));
@@ -19280,10 +19316,6 @@ public class FHIRXMLParser extends FHIRAbstractParser {
                 case "patternRatio":
                     position = checkElementOrder("pattern[x]", 23, position, false);
                     builder.pattern(parseRatio("patternRatio", reader, -1));
-                    break;
-                case "patternRatioRange":
-                    position = checkElementOrder("pattern[x]", 23, position, false);
-                    builder.pattern(parseRatioRange("patternRatioRange", reader, -1));
                     break;
                 case "patternReference":
                     position = checkElementOrder("pattern[x]", 23, position, false);
@@ -19781,10 +19813,6 @@ public class FHIRXMLParser extends FHIRAbstractParser {
                     position = checkElementOrder("value[x]", 3, position, false);
                     builder.value(parseCodeableConcept("valueCodeableConcept", reader, -1));
                     break;
-                case "valueCodeableReference":
-                    position = checkElementOrder("value[x]", 3, position, false);
-                    builder.value(parseCodeableReference("valueCodeableReference", reader, -1));
-                    break;
                 case "valueCoding":
                     position = checkElementOrder("value[x]", 3, position, false);
                     builder.value(parseCoding("valueCoding", reader, -1));
@@ -19832,10 +19860,6 @@ public class FHIRXMLParser extends FHIRAbstractParser {
                 case "valueRatio":
                     position = checkElementOrder("value[x]", 3, position, false);
                     builder.value(parseRatio("valueRatio", reader, -1));
-                    break;
-                case "valueRatioRange":
-                    position = checkElementOrder("value[x]", 3, position, false);
-                    builder.value(parseRatioRange("valueRatioRange", reader, -1));
                     break;
                 case "valueReference":
                     position = checkElementOrder("value[x]", 3, position, false);
@@ -25353,10 +25377,6 @@ public class FHIRXMLParser extends FHIRAbstractParser {
                     position = checkElementOrder("value[x]", 1, position, false);
                     builder.value(parseCodeableConcept("valueCodeableConcept", reader, -1));
                     break;
-                case "valueCodeableReference":
-                    position = checkElementOrder("value[x]", 1, position, false);
-                    builder.value(parseCodeableReference("valueCodeableReference", reader, -1));
-                    break;
                 case "valueCoding":
                     position = checkElementOrder("value[x]", 1, position, false);
                     builder.value(parseCoding("valueCoding", reader, -1));
@@ -25404,10 +25424,6 @@ public class FHIRXMLParser extends FHIRAbstractParser {
                 case "valueRatio":
                     position = checkElementOrder("value[x]", 1, position, false);
                     builder.value(parseRatio("valueRatio", reader, -1));
-                    break;
-                case "valueRatioRange":
-                    position = checkElementOrder("value[x]", 1, position, false);
-                    builder.value(parseRatioRange("valueRatioRange", reader, -1));
                     break;
                 case "valueReference":
                     position = checkElementOrder("value[x]", 1, position, false);
@@ -29227,7 +29243,7 @@ public class FHIRXMLParser extends FHIRAbstractParser {
                     break;
                 case "role":
                     position = checkElementOrder("role", 2, position, false);
-                    builder.role(parseCoding("role", reader, -1));
+                    builder.role((IngredientManufacturerRole) parseString(IngredientManufacturerRole.builder(), "role", reader, -1));
                     break;
                 case "manufacturer":
                     position = checkElementOrder("manufacturer", 3, position, false);
@@ -29337,9 +29353,9 @@ public class FHIRXMLParser extends FHIRAbstractParser {
                     position = checkElementOrder("presentation[x]", 2, position, false);
                     builder.presentation(parseRatioRange("presentationRatioRange", reader, -1));
                     break;
-                case "presentationText":
-                    position = checkElementOrder("presentationText", 3, position, false);
-                    builder.presentationText(parseString("presentationText", reader, -1));
+                case "textPresentation":
+                    position = checkElementOrder("textPresentation", 3, position, false);
+                    builder.textPresentation(parseString("textPresentation", reader, -1));
                     break;
                 case "concentrationRatio":
                     position = checkElementOrder("concentration[x]", 4, position, false);
@@ -29349,9 +29365,9 @@ public class FHIRXMLParser extends FHIRAbstractParser {
                     position = checkElementOrder("concentration[x]", 4, position, false);
                     builder.concentration(parseRatioRange("concentrationRatioRange", reader, -1));
                     break;
-                case "concentrationText":
-                    position = checkElementOrder("concentrationText", 5, position, false);
-                    builder.concentrationText(parseString("concentrationText", reader, -1));
+                case "textConcentration":
+                    position = checkElementOrder("textConcentration", 5, position, false);
+                    builder.textConcentration(parseString("textConcentration", reader, -1));
                     break;
                 case "measurementPoint":
                     position = checkElementOrder("measurementPoint", 6, position, false);
@@ -39582,7 +39598,7 @@ public class FHIRXMLParser extends FHIRAbstractParser {
                     break;
                 case "shelfLifeStorage":
                     position = checkElementOrder("shelfLifeStorage", 7, position, true);
-                    builder.shelfLifeStorage(parseProductShelfLife("shelfLifeStorage", reader, shelfLifeStorageElementIndex++));
+                    builder.shelfLifeStorage(parsePackagedProductDefinitionPackageShelfLifeStorage("shelfLifeStorage", reader, shelfLifeStorageElementIndex++));
                     break;
                 case "manufacturer":
                     position = checkElementOrder("manufacturer", 8, position, true);
@@ -39719,6 +39735,66 @@ public class FHIRXMLParser extends FHIRAbstractParser {
                 case "valueAttachment":
                     position = checkElementOrder("value[x]", 3, position, false);
                     builder.value(parseAttachment("valueAttachment", reader, -1));
+                    break;
+                default:
+                    if (!ignoringUnrecognizedElements) {
+                        throw new IllegalArgumentException("Unrecognized element: '" + localName + "'");
+                    }
+                    reader.nextTag();
+                    break;
+                }
+                break;
+            case XMLStreamReader.END_ELEMENT:
+                if (reader.getLocalName().equals(elementName)) {
+                    stackPop();
+                    return builder.build();
+                }
+                break;
+            }
+        }
+        throw new XMLStreamException("Unexpected end of stream");
+    }
+
+    private PackagedProductDefinition.Package.ShelfLifeStorage parsePackagedProductDefinitionPackageShelfLifeStorage(java.lang.String elementName, XMLStreamReader reader, int elementIndex) throws XMLStreamException {
+        stackPush(elementName, elementIndex);
+        PackagedProductDefinition.Package.ShelfLifeStorage.Builder builder = PackagedProductDefinition.Package.ShelfLifeStorage.builder();
+        builder.setValidating(validating);
+        java.lang.String id = reader.getAttributeValue(null, "id");
+        if (id != null) {
+            builder.id(id);
+        }
+        int position = -1;
+        int extensionElementIndex = 0, modifierExtensionElementIndex = 0, specialPrecautionsForStorageElementIndex = 0;
+        while (reader.hasNext()) {
+            int eventType = reader.next();
+            switch (eventType) {
+            case XMLStreamReader.START_ELEMENT:
+                java.lang.String localName = reader.getLocalName();
+                requireNamespace(reader, FHIR_NS_URI);
+                switch (localName) {
+                case "extension":
+                    position = checkElementOrder("extension", 0, position, true);
+                    builder.extension(parseExtension("extension", reader, extensionElementIndex++));
+                    break;
+                case "modifierExtension":
+                    position = checkElementOrder("modifierExtension", 1, position, true);
+                    builder.modifierExtension(parseExtension("modifierExtension", reader, modifierExtensionElementIndex++));
+                    break;
+                case "type":
+                    position = checkElementOrder("type", 2, position, false);
+                    builder.type(parseCodeableConcept("type", reader, -1));
+                    break;
+                case "periodDuration":
+                    position = checkElementOrder("period[x]", 3, position, false);
+                    builder.period((Duration) parseQuantity(Duration.builder(), "periodDuration", reader, -1));
+                    break;
+                case "periodString":
+                    position = checkElementOrder("period[x]", 3, position, false);
+                    builder.period(parseString("periodString", reader, -1));
+                    break;
+                case "specialPrecautionsForStorage":
+                    position = checkElementOrder("specialPrecautionsForStorage", 4, position, true);
+                    builder.specialPrecautionsForStorage(parseCodeableConcept("specialPrecautionsForStorage", reader, specialPrecautionsForStorageElementIndex++));
                     break;
                 default:
                     if (!ignoringUnrecognizedElements) {
@@ -42608,20 +42684,20 @@ public class FHIRXMLParser extends FHIRAbstractParser {
                     position = checkElementOrder("modifierExtension", 1, position, true);
                     builder.modifierExtension(parseExtension("modifierExtension", reader, modifierExtensionElementIndex++));
                     break;
+                case "identifier":
+                    position = checkElementOrder("identifier", 2, position, false);
+                    builder.identifier(parseIdentifier("identifier", reader, -1));
+                    break;
                 case "type":
-                    position = checkElementOrder("type", 2, position, false);
+                    position = checkElementOrder("type", 3, position, false);
                     builder.type(parseCodeableConcept("type", reader, -1));
                     break;
-                case "periodDuration":
-                    position = checkElementOrder("period[x]", 3, position, false);
-                    builder.period((Duration) parseQuantity(Duration.builder(), "periodDuration", reader, -1));
-                    break;
-                case "periodString":
-                    position = checkElementOrder("period[x]", 3, position, false);
-                    builder.period(parseString("periodString", reader, -1));
+                case "period":
+                    position = checkElementOrder("period", 4, position, false);
+                    builder.period(parseQuantity("period", reader, -1));
                     break;
                 case "specialPrecautionsForStorage":
-                    position = checkElementOrder("specialPrecautionsForStorage", 4, position, true);
+                    position = checkElementOrder("specialPrecautionsForStorage", 5, position, true);
                     builder.specialPrecautionsForStorage(parseCodeableConcept("specialPrecautionsForStorage", reader, specialPrecautionsForStorageElementIndex++));
                     break;
                 default:
@@ -48802,24 +48878,20 @@ public class FHIRXMLParser extends FHIRAbstractParser {
                     position = checkElementOrder("eventsSinceSubscriptionStart", 10, position, false);
                     builder.eventsSinceSubscriptionStart(parseString("eventsSinceSubscriptionStart", reader, -1));
                     break;
-                case "eventsInNotification":
-                    position = checkElementOrder("eventsInNotification", 11, position, false);
-                    builder.eventsInNotification(parseInteger("eventsInNotification", reader, -1));
-                    break;
                 case "notificationEvent":
-                    position = checkElementOrder("notificationEvent", 12, position, true);
+                    position = checkElementOrder("notificationEvent", 11, position, true);
                     builder.notificationEvent(parseSubscriptionStatusNotificationEvent("notificationEvent", reader, notificationEventElementIndex++));
                     break;
                 case "subscription":
-                    position = checkElementOrder("subscription", 13, position, false);
+                    position = checkElementOrder("subscription", 12, position, false);
                     builder.subscription(parseReference("subscription", reader, -1));
                     break;
                 case "topic":
-                    position = checkElementOrder("topic", 14, position, false);
+                    position = checkElementOrder("topic", 13, position, false);
                     builder.topic((Canonical) parseUri(Canonical.builder(), "topic", reader, -1));
                     break;
                 case "error":
-                    position = checkElementOrder("error", 15, position, true);
+                    position = checkElementOrder("error", 14, position, true);
                     builder.error(parseCodeableConcept("error", reader, errorElementIndex++));
                     break;
                 default:
@@ -49090,8 +49162,12 @@ public class FHIRXMLParser extends FHIRAbstractParser {
                     position = checkElementOrder("filterParameter", 4, position, false);
                     builder.filterParameter(parseString("filterParameter", reader, -1));
                     break;
+                case "filterDefinition":
+                    position = checkElementOrder("filterDefinition", 5, position, false);
+                    builder.filterDefinition(parseUri("filterDefinition", reader, -1));
+                    break;
                 case "modifier":
-                    position = checkElementOrder("modifier", 5, position, true);
+                    position = checkElementOrder("modifier", 6, position, true);
                     builder.modifier((SubscriptionTopicFilterBySearchModifier) parseString(SubscriptionTopicFilterBySearchModifier.builder(), "modifier", reader, modifierElementIndex++));
                     break;
                 default:
@@ -49818,9 +49894,9 @@ public class FHIRXMLParser extends FHIRAbstractParser {
                     position = checkElementOrder("amount[x]", 8, position, false);
                     builder.amount(parseString("amountString", reader, -1));
                     break;
-                case "amountType":
-                    position = checkElementOrder("amountType", 9, position, false);
-                    builder.amountType(parseCodeableConcept("amountType", reader, -1));
+                case "measurementType":
+                    position = checkElementOrder("measurementType", 9, position, false);
+                    builder.measurementType(parseCodeableConcept("measurementType", reader, -1));
                     break;
                 default:
                     if (!ignoringUnrecognizedElements) {
@@ -50162,13 +50238,13 @@ public class FHIRXMLParser extends FHIRAbstractParser {
                     position = checkElementOrder("amount[x]", 5, position, false);
                     builder.amount(parseString("amountString", reader, -1));
                     break;
-                case "amountRatioHighLimit":
-                    position = checkElementOrder("amountRatioHighLimit", 6, position, false);
-                    builder.amountRatioHighLimit(parseRatio("amountRatioHighLimit", reader, -1));
+                case "ratioHighLimitAmount":
+                    position = checkElementOrder("ratioHighLimitAmount", 6, position, false);
+                    builder.ratioHighLimitAmount(parseRatio("ratioHighLimitAmount", reader, -1));
                     break;
-                case "amountType":
-                    position = checkElementOrder("amountType", 7, position, false);
-                    builder.amountType(parseCodeableConcept("amountType", reader, -1));
+                case "comparator":
+                    position = checkElementOrder("comparator", 7, position, false);
+                    builder.comparator(parseCodeableConcept("comparator", reader, -1));
                     break;
                 case "source":
                     position = checkElementOrder("source", 8, position, true);

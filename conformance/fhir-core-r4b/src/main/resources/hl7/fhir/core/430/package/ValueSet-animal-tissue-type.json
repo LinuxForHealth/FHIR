@@ -1,0 +1,1027 @@
+{
+    "resourceType": "ValueSet",
+    "id": "animal-tissue-type",
+    "meta": {
+        "lastUpdated": "2022-04-24T09:21:35.043+11:00",
+        "profile": [
+            "http://hl7.org/fhir/StructureDefinition/shareablevalueset"
+        ]
+    },
+    "extension": [
+        {
+            "url": "http://hl7.org/fhir/StructureDefinition/structuredefinition-wg",
+            "valueCode": "brr"
+        },
+        {
+            "url": "http://hl7.org/fhir/StructureDefinition/structuredefinition-standards-status",
+            "valueCode": "trial-use"
+        },
+        {
+            "url": "http://hl7.org/fhir/StructureDefinition/structuredefinition-fmm",
+            "valueInteger": 1
+        }
+    ],
+    "url": "http://hl7.org/fhir/ValueSet/animal-tissue-type",
+    "identifier": [
+        {
+            "system": "urn:ietf:rfc:3986",
+            "value": "urn:oid:2.16.840.1.113883.4.642.3.1590"
+        }
+    ],
+    "version": "4.3.0-cibuild",
+    "name": "AnimalTissueType",
+    "title": "AnimalTissueType",
+    "status": "draft",
+    "experimental": true,
+    "date": "2020-12-28T16:55:11+11:00",
+    "publisher": "HL7 (FHIR Project)",
+    "contact": [
+        {
+            "telecom": [
+                {
+                    "system": "url",
+                    "value": "http://hl7.org/fhir"
+                },
+                {
+                    "system": "email",
+                    "value": "fhir@lists.hl7.org"
+                }
+            ]
+        }
+    ],
+    "description": "A tissue type of an animal.",
+    "immutable": true,
+    "compose": {
+        "include": [
+            {
+                "system": "http://hl7.org/fhir/animal-tissue-type"
+            }
+        ]
+    },
+    "expansion": {
+        "identifier": "urn:uuid:4ccbb814-e33f-41bf-8bca-82f714726155",
+        "timestamp": "2022-04-23T22:23:26Z",
+        "total": 189,
+        "parameter": [
+            {
+                "name": "excludeNested",
+                "valueBoolean": true
+            },
+            {
+                "name": "includeDesignations",
+                "valueBoolean": true
+            },
+            {
+                "name": "version",
+                "valueUri": "http://hl7.org/fhir/animal-tissue-type|4.3.0-cibuild"
+            }
+        ],
+        "contains": [
+            {
+                "system": "http://hl7.org/fhir/animal-tissue-type",
+                "code": "100000072091",
+                "display": "All relevant tissues"
+            },
+            {
+                "system": "http://hl7.org/fhir/animal-tissue-type",
+                "code": "100000072092",
+                "display": "Fat"
+            },
+            {
+                "system": "http://hl7.org/fhir/animal-tissue-type",
+                "code": "100000072093",
+                "display": "Honey"
+            },
+            {
+                "system": "http://hl7.org/fhir/animal-tissue-type",
+                "code": "100000072094",
+                "display": "Liver"
+            },
+            {
+                "system": "http://hl7.org/fhir/animal-tissue-type",
+                "code": "100000072095",
+                "display": "Fresh Milk"
+            },
+            {
+                "system": "http://hl7.org/fhir/animal-tissue-type",
+                "code": "100000072096",
+                "display": "Muscle and skin in natural proportions"
+            },
+            {
+                "system": "http://hl7.org/fhir/animal-tissue-type",
+                "code": "100000072104",
+                "display": "Eggs"
+            },
+            {
+                "system": "http://hl7.org/fhir/animal-tissue-type",
+                "code": "100000072105",
+                "display": "Skin and fat"
+            },
+            {
+                "system": "http://hl7.org/fhir/animal-tissue-type",
+                "code": "100000072106",
+                "display": "Kidney"
+            },
+            {
+                "system": "http://hl7.org/fhir/animal-tissue-type",
+                "code": "100000072107",
+                "display": "Meat and offal"
+            },
+            {
+                "system": "http://hl7.org/fhir/animal-tissue-type",
+                "code": "100000072108",
+                "display": "Muscle"
+            },
+            {
+                "system": "http://hl7.org/fhir/animal-tissue-type",
+                "code": "100000072109",
+                "display": "Unspecified"
+            },
+            {
+                "system": "http://hl7.org/fhir/animal-tissue-type",
+                "code": "100000111053",
+                "display": "Adipose tissue"
+            },
+            {
+                "system": "http://hl7.org/fhir/animal-tissue-type",
+                "code": "100000111054",
+                "display": "Adrenal"
+            },
+            {
+                "system": "http://hl7.org/fhir/animal-tissue-type",
+                "code": "100000111055",
+                "display": "Blood vessels"
+            },
+            {
+                "system": "http://hl7.org/fhir/animal-tissue-type",
+                "code": "100000111056",
+                "display": "Bone"
+            },
+            {
+                "system": "http://hl7.org/fhir/animal-tissue-type",
+                "code": "100000111057",
+                "display": "Bone marrow"
+            },
+            {
+                "system": "http://hl7.org/fhir/animal-tissue-type",
+                "code": "100000111058",
+                "display": "Brain"
+            },
+            {
+                "system": "http://hl7.org/fhir/animal-tissue-type",
+                "code": "100000111059",
+                "display": "Connective tissue"
+            },
+            {
+                "system": "http://hl7.org/fhir/animal-tissue-type",
+                "code": "100000111060",
+                "display": "Cornea"
+            },
+            {
+                "system": "http://hl7.org/fhir/animal-tissue-type",
+                "code": "100000111061",
+                "display": "Dental pulp"
+            },
+            {
+                "system": "http://hl7.org/fhir/animal-tissue-type",
+                "code": "100000111062",
+                "display": "Duodenum"
+            },
+            {
+                "system": "http://hl7.org/fhir/animal-tissue-type",
+                "code": "100000111063",
+                "display": "Dura mater"
+            },
+            {
+                "system": "http://hl7.org/fhir/animal-tissue-type",
+                "code": "100000111064",
+                "display": "Egg, embryonated"
+            },
+            {
+                "system": "http://hl7.org/fhir/animal-tissue-type",
+                "code": "100000111065",
+                "display": "Egg"
+            },
+            {
+                "system": "http://hl7.org/fhir/animal-tissue-type",
+                "code": "100000111066",
+                "display": "Egg white"
+            },
+            {
+                "system": "http://hl7.org/fhir/animal-tissue-type",
+                "code": "100000111067",
+                "display": "Egg yolk"
+            },
+            {
+                "system": "http://hl7.org/fhir/animal-tissue-type",
+                "code": "100000111068",
+                "display": "Embryos"
+            },
+            {
+                "system": "http://hl7.org/fhir/animal-tissue-type",
+                "code": "100000111069",
+                "display": "Enteric plexuses"
+            },
+            {
+                "system": "http://hl7.org/fhir/animal-tissue-type",
+                "code": "100000111070",
+                "display": "Esophagus"
+            },
+            {
+                "system": "http://hl7.org/fhir/animal-tissue-type",
+                "code": "100000111071",
+                "display": "Feathers"
+            },
+            {
+                "system": "http://hl7.org/fhir/animal-tissue-type",
+                "code": "100000111072",
+                "display": "Foetus"
+            },
+            {
+                "system": "http://hl7.org/fhir/animal-tissue-type",
+                "code": "100000111073",
+                "display": "Fore-stomach (ruminants only)"
+            },
+            {
+                "system": "http://hl7.org/fhir/animal-tissue-type",
+                "code": "100000111074",
+                "display": "Gingival tissue"
+            },
+            {
+                "system": "http://hl7.org/fhir/animal-tissue-type",
+                "code": "100000111075",
+                "display": "Hair"
+            },
+            {
+                "system": "http://hl7.org/fhir/animal-tissue-type",
+                "code": "100000111076",
+                "display": "Heart/pericardium"
+            },
+            {
+                "system": "http://hl7.org/fhir/animal-tissue-type",
+                "code": "100000111077",
+                "display": "Hide"
+            },
+            {
+                "system": "http://hl7.org/fhir/animal-tissue-type",
+                "code": "100000111078",
+                "display": "Hooves"
+            },
+            {
+                "system": "http://hl7.org/fhir/animal-tissue-type",
+                "code": "100000111079",
+                "display": "Ileum"
+            },
+            {
+                "system": "http://hl7.org/fhir/animal-tissue-type",
+                "code": "100000111080",
+                "display": "Jejunum"
+            },
+            {
+                "system": "http://hl7.org/fhir/animal-tissue-type",
+                "code": "100000111081",
+                "display": "Kidney"
+            },
+            {
+                "system": "http://hl7.org/fhir/animal-tissue-type",
+                "code": "100000111082",
+                "display": "Lard/lard oil"
+            },
+            {
+                "system": "http://hl7.org/fhir/animal-tissue-type",
+                "code": "100000111083",
+                "display": "Large intestine"
+            },
+            {
+                "system": "http://hl7.org/fhir/animal-tissue-type",
+                "code": "100000111084",
+                "display": "Liver"
+            },
+            {
+                "system": "http://hl7.org/fhir/animal-tissue-type",
+                "code": "100000111085",
+                "display": "Lung"
+            },
+            {
+                "system": "http://hl7.org/fhir/animal-tissue-type",
+                "code": "100000111086",
+                "display": "Lymph nodes"
+            },
+            {
+                "system": "http://hl7.org/fhir/animal-tissue-type",
+                "code": "100000111087",
+                "display": "Mammary gland"
+            },
+            {
+                "system": "http://hl7.org/fhir/animal-tissue-type",
+                "code": "100000111088",
+                "display": "Udder"
+            },
+            {
+                "system": "http://hl7.org/fhir/animal-tissue-type",
+                "code": "100000111089",
+                "display": "Mammary tumour"
+            },
+            {
+                "system": "http://hl7.org/fhir/animal-tissue-type",
+                "code": "100000111090",
+                "display": "Meat extract"
+            },
+            {
+                "system": "http://hl7.org/fhir/animal-tissue-type",
+                "code": "100000111091",
+                "display": "Nasopharyngeal"
+            },
+            {
+                "system": "http://hl7.org/fhir/animal-tissue-type",
+                "code": "100000111092",
+                "display": "Nictitating membrane"
+            },
+            {
+                "system": "http://hl7.org/fhir/animal-tissue-type",
+                "code": "100000111093",
+                "display": "Nasal mucosa"
+            },
+            {
+                "system": "http://hl7.org/fhir/animal-tissue-type",
+                "code": "100000111094",
+                "display": "Ovary"
+            },
+            {
+                "system": "http://hl7.org/fhir/animal-tissue-type",
+                "code": "100000111095",
+                "display": "Pancreas"
+            },
+            {
+                "system": "http://hl7.org/fhir/animal-tissue-type",
+                "code": "100000111096",
+                "display": "Peripheral nerves"
+            },
+            {
+                "system": "http://hl7.org/fhir/animal-tissue-type",
+                "code": "100000111097",
+                "display": "Pituitary gland"
+            },
+            {
+                "system": "http://hl7.org/fhir/animal-tissue-type",
+                "code": "100000111098",
+                "display": "Placenta"
+            },
+            {
+                "system": "http://hl7.org/fhir/animal-tissue-type",
+                "code": "100000111099",
+                "display": "Prostate"
+            },
+            {
+                "system": "http://hl7.org/fhir/animal-tissue-type",
+                "code": "100000111100",
+                "display": "Epididymis"
+            },
+            {
+                "system": "http://hl7.org/fhir/animal-tissue-type",
+                "code": "100000111101",
+                "display": "Seminal vesicle"
+            },
+            {
+                "system": "http://hl7.org/fhir/animal-tissue-type",
+                "code": "100000111102",
+                "display": "Rennet, calf"
+            },
+            {
+                "system": "http://hl7.org/fhir/animal-tissue-type",
+                "code": "100000111103",
+                "display": "Retina"
+            },
+            {
+                "system": "http://hl7.org/fhir/animal-tissue-type",
+                "code": "100000111104",
+                "display": "Optic nerve"
+            },
+            {
+                "system": "http://hl7.org/fhir/animal-tissue-type",
+                "code": "100000111105",
+                "display": "Salivary gland"
+            },
+            {
+                "system": "http://hl7.org/fhir/animal-tissue-type",
+                "code": "100000111106",
+                "display": "Shank"
+            },
+            {
+                "system": "http://hl7.org/fhir/animal-tissue-type",
+                "code": "100000111107",
+                "display": "Skeletal muscle"
+            },
+            {
+                "system": "http://hl7.org/fhir/animal-tissue-type",
+                "code": "100000111108",
+                "display": "Skin"
+            },
+            {
+                "system": "http://hl7.org/fhir/animal-tissue-type",
+                "code": "100000111109",
+                "display": "Spinal ganglia"
+            },
+            {
+                "system": "http://hl7.org/fhir/animal-tissue-type",
+                "code": "100000111110",
+                "display": "Spinal cord"
+            },
+            {
+                "system": "http://hl7.org/fhir/animal-tissue-type",
+                "code": "100000111111",
+                "display": "Spleen"
+            },
+            {
+                "system": "http://hl7.org/fhir/animal-tissue-type",
+                "code": "100000111112",
+                "display": "Stomach"
+            },
+            {
+                "system": "http://hl7.org/fhir/animal-tissue-type",
+                "code": "100000111113",
+                "display": "Abomasum"
+            },
+            {
+                "system": "http://hl7.org/fhir/animal-tissue-type",
+                "code": "100000111114",
+                "display": "Submaxillary glands"
+            },
+            {
+                "system": "http://hl7.org/fhir/animal-tissue-type",
+                "code": "100000111115",
+                "display": "Tallow"
+            },
+            {
+                "system": "http://hl7.org/fhir/animal-tissue-type",
+                "code": "100000111116",
+                "display": "Tendon"
+            },
+            {
+                "system": "http://hl7.org/fhir/animal-tissue-type",
+                "code": "100000111117",
+                "display": "Testis"
+            },
+            {
+                "system": "http://hl7.org/fhir/animal-tissue-type",
+                "code": "100000111118",
+                "display": "Thymus"
+            },
+            {
+                "system": "http://hl7.org/fhir/animal-tissue-type",
+                "code": "100000111119",
+                "display": "Thyroid gland"
+            },
+            {
+                "system": "http://hl7.org/fhir/animal-tissue-type",
+                "code": "100000111120",
+                "display": "Tongue"
+            },
+            {
+                "system": "http://hl7.org/fhir/animal-tissue-type",
+                "code": "100000111121",
+                "display": "Tonsil"
+            },
+            {
+                "system": "http://hl7.org/fhir/animal-tissue-type",
+                "code": "100000111122",
+                "display": "Trachea"
+            },
+            {
+                "system": "http://hl7.org/fhir/animal-tissue-type",
+                "code": "100000111123",
+                "display": "Trigeminal ganglia"
+            },
+            {
+                "system": "http://hl7.org/fhir/animal-tissue-type",
+                "code": "100000111124",
+                "display": "Tripe"
+            },
+            {
+                "system": "http://hl7.org/fhir/animal-tissue-type",
+                "code": "100000111125",
+                "display": "Uterus (Non-gravid)"
+            },
+            {
+                "system": "http://hl7.org/fhir/animal-tissue-type",
+                "code": "100000111126",
+                "display": "Wool"
+            },
+            {
+                "system": "http://hl7.org/fhir/animal-tissue-type",
+                "code": "100000111127",
+                "display": "Ascites fluid"
+            },
+            {
+                "system": "http://hl7.org/fhir/animal-tissue-type",
+                "code": "100000111128",
+                "display": "Bile"
+            },
+            {
+                "system": "http://hl7.org/fhir/animal-tissue-type",
+                "code": "100000111129",
+                "display": "Blood1"
+            },
+            {
+                "system": "http://hl7.org/fhir/animal-tissue-type",
+                "code": "100000111130",
+                "display": "Blood, foetal"
+            },
+            {
+                "system": "http://hl7.org/fhir/animal-tissue-type",
+                "code": "100000111131",
+                "display": "Colostrum"
+            },
+            {
+                "system": "http://hl7.org/fhir/animal-tissue-type",
+                "code": "100000111132",
+                "display": "Cord blood"
+            },
+            {
+                "system": "http://hl7.org/fhir/animal-tissue-type",
+                "code": "100000111133",
+                "display": "CSF"
+            },
+            {
+                "system": "http://hl7.org/fhir/animal-tissue-type",
+                "code": "100000111134",
+                "display": "Faeces"
+            },
+            {
+                "system": "http://hl7.org/fhir/animal-tissue-type",
+                "code": "100000111135",
+                "display": "Milk"
+            },
+            {
+                "system": "http://hl7.org/fhir/animal-tissue-type",
+                "code": "100000111136",
+                "display": "Nasal mucus"
+            },
+            {
+                "system": "http://hl7.org/fhir/animal-tissue-type",
+                "code": "100000111137",
+                "display": "Placenta fluids"
+            },
+            {
+                "system": "http://hl7.org/fhir/animal-tissue-type",
+                "code": "100000111138",
+                "display": "Plasma"
+            },
+            {
+                "system": "http://hl7.org/fhir/animal-tissue-type",
+                "code": "100000111139",
+                "display": "Saliva"
+            },
+            {
+                "system": "http://hl7.org/fhir/animal-tissue-type",
+                "code": "100000111140",
+                "display": "Secretion from bees"
+            },
+            {
+                "system": "http://hl7.org/fhir/animal-tissue-type",
+                "code": "100000111141",
+                "display": "Semen"
+            },
+            {
+                "system": "http://hl7.org/fhir/animal-tissue-type",
+                "code": "100000111142",
+                "display": "Serum, calf"
+            },
+            {
+                "system": "http://hl7.org/fhir/animal-tissue-type",
+                "code": "100000111143",
+                "display": "Serum, donor adult bovine"
+            },
+            {
+                "system": "http://hl7.org/fhir/animal-tissue-type",
+                "code": "100000111144",
+                "display": "Serum, donor calf"
+            },
+            {
+                "system": "http://hl7.org/fhir/animal-tissue-type",
+                "code": "100000111145",
+                "display": "Serum, foetal bovine"
+            },
+            {
+                "system": "http://hl7.org/fhir/animal-tissue-type",
+                "code": "100000111146",
+                "display": "Serum, newborn calf"
+            },
+            {
+                "system": "http://hl7.org/fhir/animal-tissue-type",
+                "code": "100000111147",
+                "display": "Serum/plasma derivate, adult bovine"
+            },
+            {
+                "system": "http://hl7.org/fhir/animal-tissue-type",
+                "code": "100000111148",
+                "display": "Serum/plasma, adult bovine"
+            },
+            {
+                "system": "http://hl7.org/fhir/animal-tissue-type",
+                "code": "100000111149",
+                "display": "Sweat"
+            },
+            {
+                "system": "http://hl7.org/fhir/animal-tissue-type",
+                "code": "100000111150",
+                "display": "Tears"
+            },
+            {
+                "system": "http://hl7.org/fhir/animal-tissue-type",
+                "code": "100000111151",
+                "display": "Urine"
+            },
+            {
+                "system": "http://hl7.org/fhir/animal-tissue-type",
+                "code": "100000111152",
+                "display": "Venom"
+            },
+            {
+                "system": "http://hl7.org/fhir/animal-tissue-type",
+                "code": "100000111153",
+                "display": "Whey"
+            },
+            {
+                "system": "http://hl7.org/fhir/animal-tissue-type",
+                "code": "100000111154",
+                "display": "Casein"
+            },
+            {
+                "system": "http://hl7.org/fhir/animal-tissue-type",
+                "code": "100000111155",
+                "display": "Fermentation products"
+            },
+            {
+                "system": "http://hl7.org/fhir/animal-tissue-type",
+                "code": "100000111156",
+                "display": "Gelatin"
+            },
+            {
+                "system": "http://hl7.org/fhir/animal-tissue-type",
+                "code": "100000111157",
+                "display": "Lactose"
+            },
+            {
+                "system": "http://hl7.org/fhir/animal-tissue-type",
+                "code": "100000111158",
+                "display": "Protein"
+            },
+            {
+                "system": "http://hl7.org/fhir/animal-tissue-type",
+                "code": "100000111159",
+                "display": "Insulin"
+            },
+            {
+                "system": "http://hl7.org/fhir/animal-tissue-type",
+                "code": "100000111160",
+                "display": "Collagen"
+            },
+            {
+                "system": "http://hl7.org/fhir/animal-tissue-type",
+                "code": "100000111161",
+                "display": "Animal Charcoal"
+            },
+            {
+                "system": "http://hl7.org/fhir/animal-tissue-type",
+                "code": "100000111162",
+                "display": "Peptones"
+            },
+            {
+                "system": "http://hl7.org/fhir/animal-tissue-type",
+                "code": "100000111163",
+                "display": "Fatty acids"
+            },
+            {
+                "system": "http://hl7.org/fhir/animal-tissue-type",
+                "code": "100000111164",
+                "display": "Glycerol"
+            },
+            {
+                "system": "http://hl7.org/fhir/animal-tissue-type",
+                "code": "100000125717",
+                "display": "Not applicable"
+            },
+            {
+                "system": "http://hl7.org/fhir/animal-tissue-type",
+                "code": "100000136180",
+                "display": "Meat and offal, milk"
+            },
+            {
+                "system": "http://hl7.org/fhir/animal-tissue-type",
+                "code": "100000136181",
+                "display": "Agar blood"
+            },
+            {
+                "system": "http://hl7.org/fhir/animal-tissue-type",
+                "code": "100000136182",
+                "display": "Casamino acid"
+            },
+            {
+                "system": "http://hl7.org/fhir/animal-tissue-type",
+                "code": "100000136183",
+                "display": "Casein, hydrolysate"
+            },
+            {
+                "system": "http://hl7.org/fhir/animal-tissue-type",
+                "code": "100000136184",
+                "display": "Casein, pancreatic digest"
+            },
+            {
+                "system": "http://hl7.org/fhir/animal-tissue-type",
+                "code": "100000136185",
+                "display": "Casein, peptides N3"
+            },
+            {
+                "system": "http://hl7.org/fhir/animal-tissue-type",
+                "code": "100000136186",
+                "display": "Cells"
+            },
+            {
+                "system": "http://hl7.org/fhir/animal-tissue-type",
+                "code": "100000136187",
+                "display": "Cells, BHK21"
+            },
+            {
+                "system": "http://hl7.org/fhir/animal-tissue-type",
+                "code": "100000136188",
+                "display": "Cells, CHO"
+            },
+            {
+                "system": "http://hl7.org/fhir/animal-tissue-type",
+                "code": "100000136189",
+                "display": "Cells, CRFK"
+            },
+            {
+                "system": "http://hl7.org/fhir/animal-tissue-type",
+                "code": "100000136190",
+                "display": "Cells, embryo SPF"
+            },
+            {
+                "system": "http://hl7.org/fhir/animal-tissue-type",
+                "code": "100000136191",
+                "display": "Cells, IRC5"
+            },
+            {
+                "system": "http://hl7.org/fhir/animal-tissue-type",
+                "code": "100000136192",
+                "display": "Cells, kidney"
+            },
+            {
+                "system": "http://hl7.org/fhir/animal-tissue-type",
+                "code": "100000136193",
+                "display": "Cells, MDCK"
+            },
+            {
+                "system": "http://hl7.org/fhir/animal-tissue-type",
+                "code": "100000136194",
+                "display": "Cells, red blood"
+            },
+            {
+                "system": "http://hl7.org/fhir/animal-tissue-type",
+                "code": "100000136195",
+                "display": "Collagen, hydrolysate"
+            },
+            {
+                "system": "http://hl7.org/fhir/animal-tissue-type",
+                "code": "100000136196",
+                "display": "Cholesterol"
+            },
+            {
+                "system": "http://hl7.org/fhir/animal-tissue-type",
+                "code": "100000136197",
+                "display": "Egg, SPF embryonated"
+            },
+            {
+                "system": "http://hl7.org/fhir/animal-tissue-type",
+                "code": "100000136198",
+                "display": "Enzyme"
+            },
+            {
+                "system": "http://hl7.org/fhir/animal-tissue-type",
+                "code": "100000136199",
+                "display": "Enzyme, pancreatic enzymes"
+            },
+            {
+                "system": "http://hl7.org/fhir/animal-tissue-type",
+                "code": "100000136200",
+                "display": "Enzyme, pancreatin 6NF"
+            },
+            {
+                "system": "http://hl7.org/fhir/animal-tissue-type",
+                "code": "100000136201",
+                "display": "Enzyme, pepsin"
+            },
+            {
+                "system": "http://hl7.org/fhir/animal-tissue-type",
+                "code": "100000136202",
+                "display": "Enzyme, pronase"
+            },
+            {
+                "system": "http://hl7.org/fhir/animal-tissue-type",
+                "code": "100000136203",
+                "display": "Enzyme, trypsin"
+            },
+            {
+                "system": "http://hl7.org/fhir/animal-tissue-type",
+                "code": "100000136204",
+                "display": "Heart, digest"
+            },
+            {
+                "system": "http://hl7.org/fhir/animal-tissue-type",
+                "code": "100000136205",
+                "display": "Heart, extract"
+            },
+            {
+                "system": "http://hl7.org/fhir/animal-tissue-type",
+                "code": "100000136206",
+                "display": "Intestinal mucosae"
+            },
+            {
+                "system": "http://hl7.org/fhir/animal-tissue-type",
+                "code": "100000136207",
+                "display": "Lactalbumin hydrolysate"
+            },
+            {
+                "system": "http://hl7.org/fhir/animal-tissue-type",
+                "code": "100000136208",
+                "display": "Liver, digest"
+            },
+            {
+                "system": "http://hl7.org/fhir/animal-tissue-type",
+                "code": "100000136209",
+                "display": "Lymphocytes"
+            },
+            {
+                "system": "http://hl7.org/fhir/animal-tissue-type",
+                "code": "100000136210",
+                "display": "Meat"
+            },
+            {
+                "system": "http://hl7.org/fhir/animal-tissue-type",
+                "code": "100000136211",
+                "display": "Meat, enzymic hydrolysate"
+            },
+            {
+                "system": "http://hl7.org/fhir/animal-tissue-type",
+                "code": "100000136212",
+                "display": "Medium, cooked meat"
+            },
+            {
+                "system": "http://hl7.org/fhir/animal-tissue-type",
+                "code": "100000136213",
+                "display": "Medium, F10-199 medium"
+            },
+            {
+                "system": "http://hl7.org/fhir/animal-tissue-type",
+                "code": "100000136214",
+                "display": "Medium, FMD culture medium"
+            },
+            {
+                "system": "http://hl7.org/fhir/animal-tissue-type",
+                "code": "100000136215",
+                "display": "Medium, Glasgow MEM culture"
+            },
+            {
+                "system": "http://hl7.org/fhir/animal-tissue-type",
+                "code": "100000136216",
+                "display": "Medium, LB Agar Lennox"
+            },
+            {
+                "system": "http://hl7.org/fhir/animal-tissue-type",
+                "code": "100000136217",
+                "display": "Medium, LB Broth Lennox"
+            },
+            {
+                "system": "http://hl7.org/fhir/animal-tissue-type",
+                "code": "100000136218",
+                "display": "Medium, modified thioglycolate medium"
+            },
+            {
+                "system": "http://hl7.org/fhir/animal-tissue-type",
+                "code": "100000136219",
+                "display": "Medium, trypticase soy broth"
+            },
+            {
+                "system": "http://hl7.org/fhir/animal-tissue-type",
+                "code": "100000136220",
+                "display": "Medium, tryptose phosphate broth"
+            },
+            {
+                "system": "http://hl7.org/fhir/animal-tissue-type",
+                "code": "100000136221",
+                "display": "Milk, skimmed"
+            },
+            {
+                "system": "http://hl7.org/fhir/animal-tissue-type",
+                "code": "100000136222",
+                "display": "Pancreas, extract"
+            },
+            {
+                "system": "http://hl7.org/fhir/animal-tissue-type",
+                "code": "100000136223",
+                "display": "Peptones, casein hydrochloric peptone"
+            },
+            {
+                "system": "http://hl7.org/fhir/animal-tissue-type",
+                "code": "100000136224",
+                "display": "Peptones, casein tryptic peptone"
+            },
+            {
+                "system": "http://hl7.org/fhir/animal-tissue-type",
+                "code": "100000136225",
+                "display": "Pituitary extract"
+            },
+            {
+                "system": "http://hl7.org/fhir/animal-tissue-type",
+                "code": "100000136226",
+                "display": "Rennet"
+            },
+            {
+                "system": "http://hl7.org/fhir/animal-tissue-type",
+                "code": "100000136227",
+                "display": "Medium, nutrient broth"
+            },
+            {
+                "system": "http://hl7.org/fhir/animal-tissue-type",
+                "code": "100000136228",
+                "display": "Medium, NZ-Amine"
+            },
+            {
+                "system": "http://hl7.org/fhir/animal-tissue-type",
+                "code": "100000136229",
+                "display": "Medium, thioglycolate medium"
+            },
+            {
+                "system": "http://hl7.org/fhir/animal-tissue-type",
+                "code": "100000136230",
+                "display": "Peptones, proteose peptone"
+            },
+            {
+                "system": "http://hl7.org/fhir/animal-tissue-type",
+                "code": "100000136231",
+                "display": "Serum"
+            },
+            {
+                "system": "http://hl7.org/fhir/animal-tissue-type",
+                "code": "100000136232",
+                "display": "Serum, albumin"
+            },
+            {
+                "system": "http://hl7.org/fhir/animal-tissue-type",
+                "code": "100000136233",
+                "display": "Serum, Iron fortified calf"
+            },
+            {
+                "system": "http://hl7.org/fhir/animal-tissue-type",
+                "code": "100000136234",
+                "display": "Skin, connective tissue and bone"
+            },
+            {
+                "system": "http://hl7.org/fhir/animal-tissue-type",
+                "code": "100000136235",
+                "display": "Sperm"
+            },
+            {
+                "system": "http://hl7.org/fhir/animal-tissue-type",
+                "code": "100000136236",
+                "display": "Tryptone"
+            },
+            {
+                "system": "http://hl7.org/fhir/animal-tissue-type",
+                "code": "100000136237",
+                "display": "Meat, extract desiccated"
+            },
+            {
+                "system": "http://hl7.org/fhir/animal-tissue-type",
+                "code": "100000136247",
+                "display": "Stomach mucosa"
+            },
+            {
+                "system": "http://hl7.org/fhir/animal-tissue-type",
+                "code": "100000136248",
+                "display": "Transferin"
+            },
+            {
+                "system": "http://hl7.org/fhir/animal-tissue-type",
+                "code": "100000136554",
+                "display": "Non-neural"
+            },
+            {
+                "system": "http://hl7.org/fhir/animal-tissue-type",
+                "code": "100000136555",
+                "display": "Not specified"
+            },
+            {
+                "system": "http://hl7.org/fhir/animal-tissue-type",
+                "code": "100000136556",
+                "display": "Organ tissue"
+            },
+            {
+                "system": "http://hl7.org/fhir/animal-tissue-type",
+                "code": "100000142485",
+                "display": "Skin and fat in natural proportions"
+            }
+        ]
+    }
+}

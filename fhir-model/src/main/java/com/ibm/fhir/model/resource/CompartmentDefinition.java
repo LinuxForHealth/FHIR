@@ -53,7 +53,7 @@ import com.ibm.fhir.model.visitor.Visitor;
     level = "Warning",
     location = "(base)",
     description = "Name should be usable as an identifier for the module by machine processing applications such as code generation",
-    expression = "name.matches('[A-Z]([A-Za-z0-9_]){0,254}')",
+    expression = "name.exists() implies name.matches('[A-Z]([A-Za-z0-9_]){0,254}')",
     source = "http://hl7.org/fhir/StructureDefinition/CompartmentDefinition"
 )
 @Generated("com.ibm.fhir.tools.CodeGenerator")
@@ -71,7 +71,7 @@ public class CompartmentDefinition extends DomainResource {
         bindingName = "PublicationStatus",
         strength = BindingStrength.Value.REQUIRED,
         description = "The lifecycle status of an artifact.",
-        valueSet = "http://hl7.org/fhir/ValueSet/publication-status|4.3.0-CIBUILD"
+        valueSet = "http://hl7.org/fhir/ValueSet/publication-status|4.3.0-cibuild"
     )
     @Required
     private final PublicationStatus status;
@@ -92,7 +92,7 @@ public class CompartmentDefinition extends DomainResource {
         bindingName = "CompartmentType",
         strength = BindingStrength.Value.REQUIRED,
         description = "Which type a compartment definition describes.",
-        valueSet = "http://hl7.org/fhir/ValueSet/compartment-type|4.3.0-CIBUILD"
+        valueSet = "http://hl7.org/fhir/ValueSet/compartment-type|4.3.0-cibuild"
     )
     @Required
     private final CompartmentType code;
@@ -1080,7 +1080,7 @@ public class CompartmentDefinition extends DomainResource {
             bindingName = "ResourceType",
             strength = BindingStrength.Value.REQUIRED,
             description = "One of the resource types defined as part of this version of FHIR.",
-            valueSet = "http://hl7.org/fhir/ValueSet/resource-types|4.3.0-CIBUILD"
+            valueSet = "http://hl7.org/fhir/ValueSet/resource-types|4.3.0-cibuild"
         )
         @Required
         private final ResourceTypeCode code;

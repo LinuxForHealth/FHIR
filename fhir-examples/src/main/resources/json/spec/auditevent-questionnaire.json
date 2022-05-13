@@ -9,8 +9,8 @@
       "status": "active",
       "description": "Type options for AuditEvent.entity.detail.value[x]",
       "expansion": {
-        "identifier": "urn:uuid:9bd1bd1d-39fc-43b3-aed4-2e84a8e249d3",
-        "timestamp": "2022-01-01T15:23:44+00:00",
+        "identifier": "urn:uuid:d92b6ddf-2d70-48e9-aefb-f79e1fc28fbe",
+        "timestamp": "2022-04-23T22:28:32+00:00",
         "contains": [
           {
             "system": "http://hl7.org/fhir/data-types",
@@ -31,9 +31,10 @@
       "system": "urn:ietf:rfc:3986"
     }
   ],
-  "version": "4.3.0-CIBUILD",
+  "version": "4.3.0-cibuild",
   "status": "draft",
-  "date": "2022-01-01T15:17:18+00:00",
+  "experimental": false,
+  "date": "2022-04-23T22:21:35+00:00",
   "publisher": "Health Level Seven International (Security)",
   "item": [
     {
@@ -227,10 +228,9 @@
             {
               "linkId": "AuditEvent.language.value",
               "text": "language",
-              "type": "coding",
+              "type": "choice",
               "required": false,
-              "repeats": false,
-              "answerConstraint": "optionsOnly"
+              "repeats": false
             }
           ]
         },
@@ -394,10 +394,9 @@
             {
               "linkId": "AuditEvent.type.value",
               "text": "Type/identifier of event",
-              "type": "coding",
+              "type": "choice",
               "required": false,
-              "repeats": false,
-              "answerConstraint": "optionsOnly"
+              "repeats": false
             }
           ]
         },
@@ -435,10 +434,9 @@
             {
               "linkId": "AuditEvent.subtype.value",
               "text": "More specific type/id for the event",
-              "type": "coding",
+              "type": "choice",
               "required": false,
-              "repeats": false,
-              "answerConstraint": "optionsOnly"
+              "repeats": false
             }
           ]
         },
@@ -480,10 +478,9 @@
             {
               "linkId": "AuditEvent.action.value",
               "text": "action",
-              "type": "coding",
+              "type": "choice",
               "required": false,
-              "repeats": false,
-              "answerConstraint": "optionsOrType"
+              "repeats": false
             }
           ]
         },
@@ -625,10 +622,9 @@
             {
               "linkId": "AuditEvent.outcome.value",
               "text": "outcome",
-              "type": "coding",
+              "type": "choice",
               "required": false,
-              "repeats": false,
-              "answerConstraint": "optionsOrType"
+              "repeats": false
             }
           ]
         },
@@ -711,10 +707,9 @@
             {
               "linkId": "AuditEvent.purposeOfEvent.coding",
               "text": "code:",
-              "type": "coding",
+              "type": "choice",
               "required": false,
-              "repeats": false,
-              "answerConstraint": "optionsOnly"
+              "repeats": false
             },
             {
               "linkId": "AuditEvent.purposeOfEvent.text",
@@ -901,10 +896,9 @@
                 {
                   "linkId": "AuditEvent.agent.type.coding",
                   "text": "code:",
-                  "type": "coding",
+                  "type": "choice",
                   "required": false,
-                  "repeats": false,
-                  "answerConstraint": "optionsOnly"
+                  "repeats": false
                 },
                 {
                   "linkId": "AuditEvent.agent.type.text",
@@ -950,10 +944,9 @@
                 {
                   "linkId": "AuditEvent.agent.role.coding",
                   "text": "code:",
-                  "type": "coding",
+                  "type": "choice",
                   "required": false,
-                  "repeats": false,
-                  "answerConstraint": "optionsOnly"
+                  "repeats": false
                 },
                 {
                   "linkId": "AuditEvent.agent.role.text",
@@ -1286,10 +1279,9 @@
                 {
                   "linkId": "AuditEvent.agent.media.value",
                   "text": "Type of media",
-                  "type": "coding",
+                  "type": "choice",
                   "required": false,
-                  "repeats": false,
-                  "answerConstraint": "optionsOnly"
+                  "repeats": false
                 }
               ]
             },
@@ -1507,10 +1499,9 @@
                     {
                       "linkId": "AuditEvent.agent.network.type.value",
                       "text": "type",
-                      "type": "coding",
+                      "type": "choice",
                       "required": false,
-                      "repeats": false,
-                      "answerConstraint": "optionsOrType"
+                      "repeats": false
                     }
                   ]
                 }
@@ -1551,10 +1542,9 @@
                 {
                   "linkId": "AuditEvent.agent.purposeOfUse.coding",
                   "text": "code:",
-                  "type": "coding",
+                  "type": "choice",
                   "required": false,
-                  "repeats": false,
-                  "answerConstraint": "optionsOnly"
+                  "repeats": false
                 },
                 {
                   "linkId": "AuditEvent.agent.purposeOfUse.text",
@@ -1844,10 +1834,9 @@
                 {
                   "linkId": "AuditEvent.source.type.value",
                   "text": "The type of source where event originated",
-                  "type": "coding",
+                  "type": "choice",
                   "required": false,
-                  "repeats": false,
-                  "answerConstraint": "optionsOnly"
+                  "repeats": false
                 }
               ]
             }
@@ -2076,10 +2065,9 @@
                 {
                   "linkId": "AuditEvent.entity.type.value",
                   "text": "Type of entity involved",
-                  "type": "coding",
+                  "type": "choice",
                   "required": false,
-                  "repeats": false,
-                  "answerConstraint": "optionsOnly"
+                  "repeats": false
                 }
               ]
             },
@@ -2121,10 +2109,9 @@
                 {
                   "linkId": "AuditEvent.entity.role.value",
                   "text": "What role the entity played",
-                  "type": "coding",
+                  "type": "choice",
                   "required": false,
-                  "repeats": false,
-                  "answerConstraint": "optionsOnly"
+                  "repeats": false
                 }
               ]
             },
@@ -2166,10 +2153,9 @@
                 {
                   "linkId": "AuditEvent.entity.lifecycle.value",
                   "text": "Life-cycle stage for the entity",
-                  "type": "coding",
+                  "type": "choice",
                   "required": false,
-                  "repeats": false,
-                  "answerConstraint": "optionsOnly"
+                  "repeats": false
                 }
               ]
             },
@@ -2207,10 +2193,9 @@
                 {
                   "linkId": "AuditEvent.entity.securityLabel.value",
                   "text": "Security labels on the entity",
-                  "type": "coding",
+                  "type": "choice",
                   "required": false,
-                  "repeats": false,
-                  "answerConstraint": "optionsOnly"
+                  "repeats": false
                 }
               ]
             },
@@ -2553,10 +2538,9 @@
                     {
                       "linkId": "AuditEvent.entity.detail.value[x]._type",
                       "text": "type",
-                      "type": "coding",
+                      "type": "choice",
                       "required": false,
                       "repeats": false,
-                      "answerConstraint": "optionsOnly",
                       "answerValueSet": "#vs2",
                       "item": [
                         {

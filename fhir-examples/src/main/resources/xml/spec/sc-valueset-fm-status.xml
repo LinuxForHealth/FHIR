@@ -31,6 +31,12 @@
           </td>
         </tr>
         <tr>
+          <td colspan="3">Mapping from 
+            <a href="codesystem-fm-status.html">Financial Resource Status Codes</a> to 
+            <a href="codesystem-resource-status.html">Canonical Status Codes for FHIR Resources</a>
+          </td>
+        </tr>
+        <tr>
           <td>entered-in-error</td>
           <td>
             <a href="codesystem-concept-map-equivalence.html#equivalent">is equivalent to</a>
@@ -62,10 +68,11 @@
     </div>
   </text>
   <url value="http://hl7.org/fhir/ConceptMap/sc-fm-status"/>
-  <version value="4.3.0-CIBUILD"/>
+  <version value="4.3.0-cibuild"/>
   <name value="FinancialResourceStatusCodesCanonicalMap"/>
   <title value="Canonical Mapping for &quot;Financial Resource Status Codes&quot;"/>
   <status value="draft"/>
+  <experimental value="false"/>
   <publisher value="Financial Management"/>
   <contact>
     <telecom>
@@ -83,28 +90,28 @@
       <code value="entered-in-error"/>
       <target>
         <code value="error"/>
-        <relationship value="equivalent"/>
+        <equivalence value="equivalent"/>
       </target>
     </element>
     <element>
       <code value="draft"/>
       <target>
         <code value="draft"/>
-        <relationship value="equivalent"/>
+        <equivalence value="equivalent"/>
       </target>
     </element>
     <element>
       <code value="active"/>
       <target>
         <code value="active"/>
-        <relationship value="equivalent"/>
+        <equivalence value="equivalent"/>
       </target>
     </element>
     <element>
       <code value="cancelled"/>
       <target>
         <code value="abandoned"/>
-        <relationship value="equivalent"/>
+        <equivalence value="equivalent"/>
       </target>
     </element>
   </group>

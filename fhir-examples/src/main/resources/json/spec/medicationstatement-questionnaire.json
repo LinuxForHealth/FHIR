@@ -9,8 +9,8 @@
       "status": "active",
       "description": "Type options for MedicationStatement.medication[x]",
       "expansion": {
-        "identifier": "urn:uuid:1c3d6a62-a781-4a7e-8079-671bb925c2a5",
-        "timestamp": "2022-01-01T15:25:08+00:00",
+        "identifier": "urn:uuid:813543c5-f80e-4c7f-b42c-bf4abac2ca5b",
+        "timestamp": "2022-04-23T22:30:00+00:00",
         "contains": [
           {
             "system": "http://hl7.org/fhir/data-types",
@@ -32,8 +32,8 @@
       "status": "active",
       "description": "Type options for MedicationStatement.effective[x]",
       "expansion": {
-        "identifier": "urn:uuid:d0242c31-813e-44ff-89ac-0d5a4c80521b",
-        "timestamp": "2022-01-01T15:25:08+00:00",
+        "identifier": "urn:uuid:02ee4dc8-9a6b-476b-95f8-fed3a4450760",
+        "timestamp": "2022-04-23T22:30:00+00:00",
         "contains": [
           {
             "system": "http://hl7.org/fhir/data-types",
@@ -54,9 +54,10 @@
       "system": "urn:ietf:rfc:3986"
     }
   ],
-  "version": "4.3.0-CIBUILD",
+  "version": "4.3.0-cibuild",
   "status": "draft",
-  "date": "2022-01-01T15:17:18+00:00",
+  "experimental": false,
+  "date": "2022-04-23T22:21:35+00:00",
   "publisher": "Health Level Seven International (Pharmacy)",
   "item": [
     {
@@ -250,10 +251,9 @@
             {
               "linkId": "MedicationStatement.language.value",
               "text": "language",
-              "type": "coding",
+              "type": "choice",
               "required": false,
-              "repeats": false,
-              "answerConstraint": "optionsOnly"
+              "repeats": false
             }
           ]
         },
@@ -572,10 +572,9 @@
             {
               "linkId": "MedicationStatement.status.value",
               "text": "status",
-              "type": "coding",
+              "type": "choice",
               "required": false,
-              "repeats": false,
-              "answerConstraint": "optionsOrType"
+              "repeats": false
             }
           ]
         },
@@ -614,10 +613,9 @@
             {
               "linkId": "MedicationStatement.statusReason.coding",
               "text": "code:",
-              "type": "coding",
+              "type": "choice",
               "required": false,
-              "repeats": false,
-              "answerConstraint": "optionsOnly"
+              "repeats": false
             },
             {
               "linkId": "MedicationStatement.statusReason.text",
@@ -667,10 +665,9 @@
             {
               "linkId": "MedicationStatement.category.coding",
               "text": "code:",
-              "type": "coding",
+              "type": "choice",
               "required": false,
-              "repeats": false,
-              "answerConstraint": "optionsOnly"
+              "repeats": false
             },
             {
               "linkId": "MedicationStatement.category.text",
@@ -720,10 +717,9 @@
             {
               "linkId": "MedicationStatement.medication[x]._type",
               "text": "type",
-              "type": "coding",
+              "type": "choice",
               "required": false,
               "repeats": false,
-              "answerConstraint": "optionsOnly",
               "answerValueSet": "#vs2",
               "item": [
                 {
@@ -739,10 +735,9 @@
                     {
                       "linkId": "MedicationStatement.medication[x]._null.coding",
                       "text": "code:",
-                      "type": "coding",
+                      "type": "choice",
                       "required": false,
-                      "repeats": false,
-                      "answerConstraint": "optionsOnly"
+                      "repeats": false
                     },
                     {
                       "linkId": "MedicationStatement.medication[x]._null.text",
@@ -932,10 +927,9 @@
             {
               "linkId": "MedicationStatement.effective[x]._type",
               "text": "type",
-              "type": "coding",
+              "type": "choice",
               "required": false,
               "repeats": false,
-              "answerConstraint": "optionsOnly",
               "answerValueSet": "#vs3",
               "item": [
                 {
@@ -1169,10 +1163,9 @@
             {
               "linkId": "MedicationStatement.reasonCode.coding",
               "text": "code:",
-              "type": "coding",
+              "type": "choice",
               "required": false,
-              "repeats": false,
-              "answerConstraint": "optionsOnly"
+              "repeats": false
             },
             {
               "linkId": "MedicationStatement.reasonCode.text",

@@ -2,7 +2,7 @@
   "resourceType": "StructureDefinition",
   "id": "Parameters",
   "meta": {
-    "lastUpdated": "2022-01-01T15:17:18.597+00:00"
+    "lastUpdated": "2022-04-23T22:21:35.043+00:00"
   },
   "text": {
     "status": "generated",
@@ -27,10 +27,11 @@
     }
   ],
   "url": "http://hl7.org/fhir/StructureDefinition/Parameters",
-  "version": "4.3.0-CIBUILD",
+  "version": "4.3.0-cibuild",
   "name": "Parameters",
   "status": "active",
-  "date": "2022-01-01T15:17:18+00:00",
+  "experimental": false,
+  "date": "2022-04-23T22:21:35+00:00",
   "publisher": "Health Level Seven International (FHIR Infrastructure)",
   "contact": [
     {
@@ -51,7 +52,7 @@
     }
   ],
   "description": "This resource is a non-persisted resource used to pass information into and back from an [operation](operations.html). It has no other use, and there is no RESTful endpoint associated with it.",
-  "fhirVersion": "4.3.0-CIBUILD",
+  "fhirVersion": "4.3.0-cibuild",
   "mapping": [
     {
       "identity": "v2",
@@ -313,7 +314,7 @@
             "extension": [
               {
                 "url": "http://hl7.org/fhir/StructureDefinition/structuredefinition-fhir-type",
-                "valueUrl": "id"
+                "valueUrl": "string"
               }
             ],
             "code": "http://hl7.org/fhirpath/System.String"

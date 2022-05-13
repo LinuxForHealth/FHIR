@@ -1,0 +1,97 @@
+{
+    "resourceType": "CodeSystem",
+    "id": "contributor-role",
+    "meta": {
+        "lastUpdated": "2022-04-24T09:21:35.043+11:00",
+        "profile": [
+            "http://hl7.org/fhir/StructureDefinition/shareablecodesystem"
+        ]
+    },
+    "text": {
+        "status": "empty",
+        "div": "<div xmlns=\"http://www.w3.org/1999/xhtml\">Redacted for size</div>"
+    },
+    "extension": [
+        {
+            "url": "http://hl7.org/fhir/StructureDefinition/structuredefinition-wg",
+            "valueCode": "cds"
+        },
+        {
+            "url": "http://hl7.org/fhir/StructureDefinition/structuredefinition-standards-status",
+            "valueCode": "trial-use"
+        },
+        {
+            "url": "http://hl7.org/fhir/StructureDefinition/structuredefinition-fmm",
+            "valueInteger": 0
+        }
+    ],
+    "url": "http://terminology.hl7.org/CodeSystem/contributor-role",
+    "identifier": [
+        {
+            "system": "urn:ietf:rfc:3986",
+            "value": "urn:oid:2.16.840.1.113883.4.642.1.0"
+        }
+    ],
+    "version": "4.3.0-cibuild",
+    "name": "ContributorRole",
+    "title": "ContributorRole",
+    "status": "draft",
+    "experimental": false,
+    "date": "2021-03-11T16:55:11+11:00",
+    "publisher": "HL7 (FHIR Project)",
+    "contact": [
+        {
+            "telecom": [
+                {
+                    "system": "url",
+                    "value": "http://hl7.org/fhir"
+                },
+                {
+                    "system": "email",
+                    "value": "fhir@lists.hl7.org"
+                }
+            ]
+        }
+    ],
+    "description": "Used to code the format of the display string.",
+    "caseSensitive": true,
+    "valueSet": "http://hl7.org/fhir/ValueSet/contributor-role",
+    "content": "complete",
+    "concept": [
+        {
+            "code": "publisher",
+            "display": "Publisher",
+            "definition": "Entity that makes the content available for public use"
+        },
+        {
+            "code": "author",
+            "display": "Author/Creator",
+            "definition": "An entity primarily responsible for making the resource, often called author or creator"
+        },
+        {
+            "code": "reviewer",
+            "display": "Reviewer",
+            "definition": "Entity that examines the content, formally or informally, and suggests revisions or comments"
+        },
+        {
+            "code": "endorser",
+            "display": "Endorser",
+            "definition": "Entity that supports, approves, or advocates for the content"
+        },
+        {
+            "code": "editor",
+            "display": "Editor",
+            "definition": "Entity that revises or has authority to control the content"
+        },
+        {
+            "code": "informant",
+            "display": "Informant",
+            "definition": "Entity that supplies information"
+        },
+        {
+            "code": "funder",
+            "display": "Funder",
+            "definition": "Entity that supplies financial support"
+        }
+    ]
+}

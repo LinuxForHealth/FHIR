@@ -9,8 +9,8 @@
       "status": "active",
       "description": "Type options for Specimen.collection.collected[x]",
       "expansion": {
-        "identifier": "urn:uuid:c516c551-834c-413e-b8da-42f0c7a0b70c",
-        "timestamp": "2022-01-01T15:25:52+00:00",
+        "identifier": "urn:uuid:c856fcd2-0a19-4e24-a284-73bdf69cdd2a",
+        "timestamp": "2022-04-23T22:30:46+00:00",
         "contains": [
           {
             "system": "http://hl7.org/fhir/data-types",
@@ -32,8 +32,8 @@
       "status": "active",
       "description": "Type options for Specimen.collection.fastingStatus[x]",
       "expansion": {
-        "identifier": "urn:uuid:13bae304-5f8c-42e6-8a16-862589c019f6",
-        "timestamp": "2022-01-01T15:25:52+00:00",
+        "identifier": "urn:uuid:2b118482-24dc-4c37-a7ed-667779567af5",
+        "timestamp": "2022-04-23T22:30:46+00:00",
         "contains": [
           {
             "system": "http://hl7.org/fhir/data-types",
@@ -55,8 +55,8 @@
       "status": "active",
       "description": "Type options for Specimen.processing.time[x]",
       "expansion": {
-        "identifier": "urn:uuid:a81d92b3-1409-4d74-85ad-6514a354d2fe",
-        "timestamp": "2022-01-01T15:25:52+00:00",
+        "identifier": "urn:uuid:b03ef8f2-89ba-4083-844a-c3bce4ca1f70",
+        "timestamp": "2022-04-23T22:30:46+00:00",
         "contains": [
           {
             "system": "http://hl7.org/fhir/data-types",
@@ -78,8 +78,8 @@
       "status": "active",
       "description": "Type options for Specimen.container.additive[x]",
       "expansion": {
-        "identifier": "urn:uuid:7192fdb7-4900-407f-a5a4-41c8ffaeb2b0",
-        "timestamp": "2022-01-01T15:25:52+00:00",
+        "identifier": "urn:uuid:89d32fe0-59e6-48f3-886f-3aa5cd163d22",
+        "timestamp": "2022-04-23T22:30:46+00:00",
         "contains": [
           {
             "system": "http://hl7.org/fhir/data-types",
@@ -100,9 +100,10 @@
       "system": "urn:ietf:rfc:3986"
     }
   ],
-  "version": "4.3.0-CIBUILD",
+  "version": "4.3.0-cibuild",
   "status": "draft",
-  "date": "2022-01-01T15:17:18+00:00",
+  "experimental": false,
+  "date": "2022-04-23T22:21:35+00:00",
   "publisher": "Health Level Seven International (Orders and Observations)",
   "item": [
     {
@@ -291,10 +292,9 @@
             {
               "linkId": "Specimen.language.value",
               "text": "language",
-              "type": "coding",
+              "type": "choice",
               "required": false,
-              "repeats": false,
-              "answerConstraint": "optionsOnly"
+              "repeats": false
             }
           ]
         },
@@ -568,10 +568,9 @@
             {
               "linkId": "Specimen.status.value",
               "text": "status",
-              "type": "coding",
+              "type": "choice",
               "required": false,
-              "repeats": false,
-              "answerConstraint": "optionsOrType"
+              "repeats": false
             }
           ]
         },
@@ -614,10 +613,9 @@
             {
               "linkId": "Specimen.type.coding",
               "text": "code:",
-              "type": "coding",
+              "type": "choice",
               "required": false,
-              "repeats": false,
-              "answerConstraint": "optionsOnly"
+              "repeats": false
             },
             {
               "linkId": "Specimen.type.text",
@@ -1047,10 +1045,9 @@
                 {
                   "linkId": "Specimen.collection.collected[x]._type",
                   "text": "type",
-                  "type": "coding",
+                  "type": "choice",
                   "required": false,
                   "repeats": false,
-                  "answerConstraint": "optionsOnly",
                   "answerValueSet": "#vs2",
                   "item": [
                     {
@@ -1140,10 +1137,9 @@
                 {
                   "linkId": "Specimen.collection.duration.comparator",
                   "text": "comp:",
-                  "type": "coding",
+                  "type": "choice",
                   "required": false,
-                  "repeats": false,
-                  "answerConstraint": "optionsOnly"
+                  "repeats": false
                 },
                 {
                   "linkId": "Specimen.collection.duration.value",
@@ -1214,10 +1210,9 @@
                 {
                   "linkId": "Specimen.collection.quantity.comparator",
                   "text": "comp:",
-                  "type": "coding",
+                  "type": "choice",
                   "required": false,
-                  "repeats": false,
-                  "answerConstraint": "optionsOnly"
+                  "repeats": false
                 },
                 {
                   "linkId": "Specimen.collection.quantity.value",
@@ -1288,10 +1283,9 @@
                 {
                   "linkId": "Specimen.collection.method.coding",
                   "text": "code:",
-                  "type": "coding",
+                  "type": "choice",
                   "required": false,
-                  "repeats": false,
-                  "answerConstraint": "optionsOnly"
+                  "repeats": false
                 },
                 {
                   "linkId": "Specimen.collection.method.text",
@@ -1341,10 +1335,9 @@
                 {
                   "linkId": "Specimen.collection.bodySite.coding",
                   "text": "code:",
-                  "type": "coding",
+                  "type": "choice",
                   "required": false,
-                  "repeats": false,
-                  "answerConstraint": "optionsOnly"
+                  "repeats": false
                 },
                 {
                   "linkId": "Specimen.collection.bodySite.text",
@@ -1390,10 +1383,9 @@
                 {
                   "linkId": "Specimen.collection.fastingStatus[x]._type",
                   "text": "type",
-                  "type": "coding",
+                  "type": "choice",
                   "required": false,
                   "repeats": false,
-                  "answerConstraint": "optionsOnly",
                   "answerValueSet": "#vs3",
                   "item": [
                     {
@@ -1409,10 +1401,9 @@
                         {
                           "linkId": "Specimen.collection.fastingStatus[x]._null.coding",
                           "text": "code:",
-                          "type": "coding",
+                          "type": "choice",
                           "required": false,
-                          "repeats": false,
-                          "answerConstraint": "optionsOnly"
+                          "repeats": false
                         },
                         {
                           "linkId": "Specimen.collection.fastingStatus[x]._null.text",
@@ -1436,10 +1427,9 @@
                         {
                           "linkId": "Specimen.collection.fastingStatus[x]._null.comparator",
                           "text": "comp:",
-                          "type": "coding",
+                          "type": "choice",
                           "required": false,
-                          "repeats": false,
-                          "answerConstraint": "optionsOnly"
+                          "repeats": false
                         },
                         {
                           "linkId": "Specimen.collection.fastingStatus[x]._null.value",
@@ -1686,10 +1676,9 @@
                 {
                   "linkId": "Specimen.processing.procedure.coding",
                   "text": "code:",
-                  "type": "coding",
+                  "type": "choice",
                   "required": false,
-                  "repeats": false,
-                  "answerConstraint": "optionsOnly"
+                  "repeats": false
                 },
                 {
                   "linkId": "Specimen.processing.procedure.text",
@@ -1785,10 +1774,9 @@
                 {
                   "linkId": "Specimen.processing.time[x]._type",
                   "text": "type",
-                  "type": "coding",
+                  "type": "choice",
                   "required": false,
                   "repeats": false,
-                  "answerConstraint": "optionsOnly",
                   "answerValueSet": "#vs4",
                   "item": [
                     {
@@ -2105,10 +2093,9 @@
                 {
                   "linkId": "Specimen.container.type.coding",
                   "text": "code:",
-                  "type": "coding",
+                  "type": "choice",
                   "required": false,
-                  "repeats": false,
-                  "answerConstraint": "optionsOnly"
+                  "repeats": false
                 },
                 {
                   "linkId": "Specimen.container.type.text",
@@ -2158,10 +2145,9 @@
                 {
                   "linkId": "Specimen.container.capacity.comparator",
                   "text": "comp:",
-                  "type": "coding",
+                  "type": "choice",
                   "required": false,
-                  "repeats": false,
-                  "answerConstraint": "optionsOnly"
+                  "repeats": false
                 },
                 {
                   "linkId": "Specimen.container.capacity.value",
@@ -2232,10 +2218,9 @@
                 {
                   "linkId": "Specimen.container.specimenQuantity.comparator",
                   "text": "comp:",
-                  "type": "coding",
+                  "type": "choice",
                   "required": false,
-                  "repeats": false,
-                  "answerConstraint": "optionsOnly"
+                  "repeats": false
                 },
                 {
                   "linkId": "Specimen.container.specimenQuantity.value",
@@ -2302,10 +2287,9 @@
                 {
                   "linkId": "Specimen.container.additive[x]._type",
                   "text": "type",
-                  "type": "coding",
+                  "type": "choice",
                   "required": false,
                   "repeats": false,
-                  "answerConstraint": "optionsOnly",
                   "answerValueSet": "#vs5",
                   "item": [
                     {
@@ -2321,10 +2305,9 @@
                         {
                           "linkId": "Specimen.container.additive[x]._null.coding",
                           "text": "code:",
-                          "type": "coding",
+                          "type": "choice",
                           "required": false,
-                          "repeats": false,
-                          "answerConstraint": "optionsOnly"
+                          "repeats": false
                         },
                         {
                           "linkId": "Specimen.container.additive[x]._null.text",
@@ -2404,10 +2387,9 @@
             {
               "linkId": "Specimen.condition.coding",
               "text": "code:",
-              "type": "coding",
+              "type": "choice",
               "required": false,
-              "repeats": false,
-              "answerConstraint": "optionsOnly"
+              "repeats": false
             },
             {
               "linkId": "Specimen.condition.text",

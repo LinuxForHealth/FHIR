@@ -1,0 +1,82 @@
+{
+    "resourceType": "CodeSystem",
+    "id": "contributor-summary-source",
+    "meta": {
+        "lastUpdated": "2022-04-24T09:21:35.043+11:00",
+        "profile": [
+            "http://hl7.org/fhir/StructureDefinition/shareablecodesystem"
+        ]
+    },
+    "text": {
+        "status": "empty",
+        "div": "<div xmlns=\"http://www.w3.org/1999/xhtml\">Redacted for size</div>"
+    },
+    "extension": [
+        {
+            "url": "http://hl7.org/fhir/StructureDefinition/structuredefinition-wg",
+            "valueCode": "cds"
+        },
+        {
+            "url": "http://hl7.org/fhir/StructureDefinition/structuredefinition-standards-status",
+            "valueCode": "trial-use"
+        },
+        {
+            "url": "http://hl7.org/fhir/StructureDefinition/structuredefinition-fmm",
+            "valueInteger": 0
+        }
+    ],
+    "url": "http://terminology.hl7.org/CodeSystem/contributor-summary-source",
+    "identifier": [
+        {
+            "system": "urn:ietf:rfc:3986",
+            "value": "urn:oid:2.16.840.1.113883.4.642.1.0"
+        }
+    ],
+    "version": "4.3.0-cibuild",
+    "name": "ContributorSummarySource",
+    "title": "ContributorSummarySource",
+    "status": "draft",
+    "experimental": false,
+    "date": "2020-12-28T16:55:11+11:00",
+    "publisher": "HL7 (FHIR Project)",
+    "contact": [
+        {
+            "telecom": [
+                {
+                    "system": "url",
+                    "value": "http://hl7.org/fhir"
+                },
+                {
+                    "system": "email",
+                    "value": "fhir@lists.hl7.org"
+                }
+            ]
+        }
+    ],
+    "description": "Used to code the producer or rule for creating the display string.",
+    "caseSensitive": true,
+    "valueSet": "http://hl7.org/fhir/ValueSet/contributor-summary-source",
+    "content": "complete",
+    "concept": [
+        {
+            "code": "publisher-data",
+            "display": "Publisher provided",
+            "definition": "Data copied by machine from publisher data."
+        },
+        {
+            "code": "article-copy",
+            "display": "Copied from article",
+            "definition": "Data copied by human from article text."
+        },
+        {
+            "code": "citation-manager",
+            "display": "Reported by citation manager",
+            "definition": "Data copied by machine from citation manager data."
+        },
+        {
+            "code": "custom",
+            "display": "custom format",
+            "definition": "Custom format (may be described in text note)."
+        }
+    ]
+}

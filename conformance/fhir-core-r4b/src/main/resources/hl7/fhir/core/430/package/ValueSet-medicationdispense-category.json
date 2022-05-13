@@ -1,0 +1,87 @@
+{
+    "resourceType": "ValueSet",
+    "id": "medicationdispense-category",
+    "meta": {
+        "lastUpdated": "2022-04-23T22:21:35.043Z",
+        "profile": [
+            "http://hl7.org/fhir/StructureDefinition/shareablevalueset"
+        ]
+    },
+    "extension": [
+        {
+            "url": "http://hl7.org/fhir/StructureDefinition/structuredefinition-wg",
+            "valueCode": "phx"
+        }
+    ],
+    "url": "http://hl7.org/fhir/ValueSet/medicationdispense-category",
+    "identifier": [
+        {
+            "system": "urn:ietf:rfc:3986",
+            "value": "urn:oid:2.16.840.1.113883.4.642.3.1314"
+        }
+    ],
+    "version": "4.3.0-cibuild",
+    "name": "MedicationDispense Category Codes",
+    "status": "draft",
+    "experimental": false,
+    "publisher": "FHIR Project team",
+    "contact": [
+        {
+            "telecom": [
+                {
+                    "system": "url",
+                    "value": "http://hl7.org/fhir"
+                }
+            ]
+        }
+    ],
+    "description": "MedicationDispense Category Codes",
+    "compose": {
+        "include": [
+            {
+                "system": "http://terminology.hl7.org/CodeSystem/medicationdispense-category"
+            }
+        ]
+    },
+    "expansion": {
+        "identifier": "urn:uuid:21b1ff4f-c8a0-4968-9182-b3236700d06c",
+        "timestamp": "2022-04-23T22:23:26Z",
+        "total": 4,
+        "parameter": [
+            {
+                "name": "excludeNested",
+                "valueBoolean": true
+            },
+            {
+                "name": "includeDesignations",
+                "valueBoolean": true
+            },
+            {
+                "name": "version",
+                "valueUri": "http://terminology.hl7.org/CodeSystem/medicationdispense-category|4.3.0-cibuild"
+            }
+        ],
+        "contains": [
+            {
+                "system": "http://terminology.hl7.org/CodeSystem/medicationdispense-category",
+                "code": "inpatient",
+                "display": "Inpatient"
+            },
+            {
+                "system": "http://terminology.hl7.org/CodeSystem/medicationdispense-category",
+                "code": "outpatient",
+                "display": "Outpatient"
+            },
+            {
+                "system": "http://terminology.hl7.org/CodeSystem/medicationdispense-category",
+                "code": "community",
+                "display": "Community"
+            },
+            {
+                "system": "http://terminology.hl7.org/CodeSystem/medicationdispense-category",
+                "code": "discharge",
+                "display": "Discharge"
+            }
+        ]
+    }
+}

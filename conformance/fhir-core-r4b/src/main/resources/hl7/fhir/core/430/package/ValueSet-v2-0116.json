@@ -1,0 +1,125 @@
+{
+    "resourceType": "ValueSet",
+    "id": "v2-0116",
+    "url": "http://terminology.hl7.org/ValueSet/v2-0116",
+    "identifier": [
+        {
+            "system": "urn:ietf:rfc:3986",
+            "value": "urn:oid:2.16.840.1.113883.21.51"
+        }
+    ],
+    "version": "2.0.0",
+    "name": "Hl7VSBedStatus",
+    "title": "hl7VS-bedStatus",
+    "status": "active",
+    "experimental": false,
+    "date": "2019-12-01",
+    "publisher": "HL7, Inc",
+    "contact": [
+        {
+            "telecom": [
+                {
+                    "system": "url",
+                    "value": "https://github.com/HL7/UTG"
+                }
+            ]
+        }
+    ],
+    "description": "Value Set of codes that specify the state of a bed in an inpatient setting, and is used to determine if a patient may be assigned to it or not.",
+    "copyright": "Copyright HL7. Licensed under creative commons public domain",
+    "compose": {
+        "include": [
+            {
+                "system": "http://terminology.hl7.org/CodeSystem/v2-0116",
+                "version": "2.2.0"
+            }
+        ]
+    },
+    "expansion": {
+        "identifier": "urn:uuid:049c6c8c-f783-4991-87d9-48bd2a2c370f",
+        "timestamp": "2022-04-23T22:23:26Z",
+        "total": 6,
+        "parameter": [
+            {
+                "name": "excludeNested",
+                "valueBoolean": true
+            },
+            {
+                "name": "includeDesignations",
+                "valueBoolean": true
+            },
+            {
+                "name": "version",
+                "valueUri": "http://terminology.hl7.org/CodeSystem/v2-0116|2.2.0"
+            }
+        ],
+        "contains": [
+            {
+                "system": "http://terminology.hl7.org/CodeSystem/v2-0116",
+                "code": "C",
+                "display": "Closed",
+                "designation": [
+                    {
+                        "language": "de",
+                        "value": "Nicht verfügbar"
+                    }
+                ]
+            },
+            {
+                "system": "http://terminology.hl7.org/CodeSystem/v2-0116",
+                "code": "H",
+                "display": "Housekeeping",
+                "designation": [
+                    {
+                        "language": "de",
+                        "value": "Reinigung"
+                    }
+                ]
+            },
+            {
+                "system": "http://terminology.hl7.org/CodeSystem/v2-0116",
+                "code": "O",
+                "display": "Occupied",
+                "designation": [
+                    {
+                        "language": "de",
+                        "value": "belegt"
+                    }
+                ]
+            },
+            {
+                "system": "http://terminology.hl7.org/CodeSystem/v2-0116",
+                "code": "U",
+                "display": "Unoccupied",
+                "designation": [
+                    {
+                        "language": "de",
+                        "value": "Frei"
+                    }
+                ]
+            },
+            {
+                "system": "http://terminology.hl7.org/CodeSystem/v2-0116",
+                "code": "K",
+                "display": "Contaminated",
+                "designation": [
+                    {
+                        "language": "de",
+                        "value": "Kontaminiert"
+                    }
+                ]
+            },
+            {
+                "system": "http://terminology.hl7.org/CodeSystem/v2-0116",
+                "code": "I",
+                "display": "Isolated",
+                "designation": [
+                    {
+                        "language": "de",
+                        "value": "Isoliert"
+                    }
+                ]
+            }
+        ]
+    }
+}

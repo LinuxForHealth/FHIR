@@ -1,0 +1,107 @@
+{
+    "resourceType": "ValueSet",
+    "id": "claim-modifiers",
+    "meta": {
+        "lastUpdated": "2022-04-23T22:21:35.043Z",
+        "profile": [
+            "http://hl7.org/fhir/StructureDefinition/shareablevalueset"
+        ]
+    },
+    "extension": [
+        {
+            "url": "http://hl7.org/fhir/StructureDefinition/structuredefinition-wg",
+            "valueCode": "fm"
+        },
+        {
+            "url": "http://hl7.org/fhir/StructureDefinition/structuredefinition-standards-status",
+            "valueCode": "draft"
+        },
+        {
+            "url": "http://hl7.org/fhir/StructureDefinition/structuredefinition-fmm",
+            "valueInteger": 1
+        }
+    ],
+    "url": "http://hl7.org/fhir/ValueSet/claim-modifiers",
+    "identifier": [
+        {
+            "system": "urn:ietf:rfc:3986",
+            "value": "urn:oid:2.16.840.1.113883.4.642.3.536"
+        }
+    ],
+    "version": "4.3.0-cibuild",
+    "name": "ModifierTypeCodes",
+    "title": "Modifier type Codes",
+    "status": "draft",
+    "experimental": true,
+    "publisher": "Financial Management",
+    "contact": [
+        {
+            "telecom": [
+                {
+                    "system": "url",
+                    "value": "http://hl7.org/fhir"
+                }
+            ]
+        }
+    ],
+    "description": "This value set includes sample Modifier type codes.",
+    "copyright": "This is an example set.",
+    "compose": {
+        "include": [
+            {
+                "system": "http://terminology.hl7.org/CodeSystem/modifiers"
+            }
+        ]
+    },
+    "expansion": {
+        "identifier": "urn:uuid:876ca9ea-3744-4e52-a78f-12e980da4a4d",
+        "timestamp": "2022-04-23T22:23:26Z",
+        "total": 6,
+        "parameter": [
+            {
+                "name": "excludeNested",
+                "valueBoolean": true
+            },
+            {
+                "name": "includeDesignations",
+                "valueBoolean": true
+            },
+            {
+                "name": "version",
+                "valueUri": "http://terminology.hl7.org/CodeSystem/modifiers|4.3.0-cibuild"
+            }
+        ],
+        "contains": [
+            {
+                "system": "http://terminology.hl7.org/CodeSystem/modifiers",
+                "code": "a",
+                "display": "Repair of prior service or installation"
+            },
+            {
+                "system": "http://terminology.hl7.org/CodeSystem/modifiers",
+                "code": "b",
+                "display": "Temporary service or installation"
+            },
+            {
+                "system": "http://terminology.hl7.org/CodeSystem/modifiers",
+                "code": "c",
+                "display": "TMJ treatment"
+            },
+            {
+                "system": "http://terminology.hl7.org/CodeSystem/modifiers",
+                "code": "e",
+                "display": "Implant or associated with an implant"
+            },
+            {
+                "system": "http://terminology.hl7.org/CodeSystem/modifiers",
+                "code": "rooh",
+                "display": "Rush or Outside of office hours"
+            },
+            {
+                "system": "http://terminology.hl7.org/CodeSystem/modifiers",
+                "code": "x",
+                "display": "None"
+            }
+        ]
+    }
+}

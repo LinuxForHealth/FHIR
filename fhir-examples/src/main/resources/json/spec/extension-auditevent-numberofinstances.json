@@ -12,9 +12,10 @@
     }
   ],
   "url": "http://hl7.org/fhir/StructureDefinition/auditevent-NumberOfInstances",
-  "version": "4.3.0-CIBUILD",
+  "version": "4.3.0-cibuild",
   "name": "NumberOfInstances",
   "status": "draft",
+  "experimental": false,
   "date": "2021-01-17T07:06:13+11:00",
   "publisher": "Health Level Seven, Inc. - Security WG",
   "contact": [
@@ -28,7 +29,7 @@
     }
   ],
   "description": "The Number of SOP Instances referred to by this entity.",
-  "fhirVersion": "4.3.0-CIBUILD",
+  "fhirVersion": "4.3.0-cibuild",
   "mapping": [
     {
       "identity": "dicom",

@@ -5,8 +5,8 @@
   <text>
     <status value="extensions"/>
     <div xmlns="http://www.w3.org/1999/xhtml">
-      <h2>conforms</h2>
-      <p>OPERATION: conforms</p>
+      <h2>Conforms</h2>
+      <p>OPERATION: Conforms</p>
       <p>The official URL for this operation definition is: </p>
       <pre>http://hl7.org/fhir/OperationDefinition/CapabilityStatement-conforms</pre>
       <div>
@@ -46,7 +46,7 @@
           <td/>
           <td>
             <div>
-              <p>A canonical reference to the left-hand system&#39;s capability statement</p>
+              <p>A canonical reference to the left-hand system's capability statement</p>
 
             </div>
           </td>
@@ -61,7 +61,7 @@
           <td/>
           <td>
             <div>
-              <p>A canonical reference to the right-hand system&#39;s capability statement</p>
+              <p>A canonical reference to the right-hand system's capability statement</p>
 
             </div>
           </td>
@@ -76,7 +76,7 @@
           <td/>
           <td>
             <div>
-              <p>What kind of comparison to perform - server to server, or client to server (use the codes &#39;server/server&#39; or &#39;client/server&#39;)</p>
+              <p>What kind of comparison to perform - server to server, or client to server (use the codes 'server/server' or 'client/server')</p>
 
             </div>
           </td>
@@ -144,12 +144,13 @@
     <valueCode value="trial-use"/>
   </extension>
   <url value="http://hl7.org/fhir/OperationDefinition/CapabilityStatement-conforms"/>
-  <version value="4.3.0-CIBUILD"/>
-  <name value="conforms"/>
-  <title value="Test if a server implements a client&#39;s required operations"/>
+  <version value="4.3.0-cibuild"/>
+  <name value="Conforms"/>
+  <title value="Test if a server implements a client's required operations"/>
   <status value="draft"/>
   <kind value="operation"/>
-  <date value="2022-01-01T15:17:18+00:00"/>
+  <experimental value="false"/>
+  <date value="2022-04-23T22:21:35+00:00"/>
   <publisher value="HL7 (FHIR Project)"/>
   <contact>
     <telecom>
@@ -174,7 +175,7 @@
     <use value="in"/>
     <min value="0"/>
     <max value="1"/>
-    <documentation value="A canonical reference to the left-hand system&#39;s capability statement"/>
+    <documentation value="A canonical reference to the left-hand system's capability statement"/>
     <type value="canonical"/>
   </parameter>
   <parameter>
@@ -182,7 +183,7 @@
     <use value="in"/>
     <min value="0"/>
     <max value="1"/>
-    <documentation value="A canonical reference to the right-hand system&#39;s capability statement"/>
+    <documentation value="A canonical reference to the right-hand system's capability statement"/>
     <type value="canonical"/>
   </parameter>
   <parameter>
@@ -190,7 +191,7 @@
     <use value="in"/>
     <min value="0"/>
     <max value="1"/>
-    <documentation value="What kind of comparison to perform - server to server, or client to server (use the codes &#39;server/server&#39; or &#39;client/server&#39;)"/>
+    <documentation value="What kind of comparison to perform - server to server, or client to server (use the codes 'server/server' or 'client/server')"/>
     <type value="code"/>
   </parameter>
   <parameter>

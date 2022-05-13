@@ -1,0 +1,81 @@
+{
+  "resourceType": "CodeSystem",
+  "id": "substance-structure-technique",
+  "meta": {
+    "lastUpdated": "2022-04-24T09:21:35.043+11:00",
+    "profile": [
+      "http://hl7.org/fhir/StructureDefinition/shareablecodesystem"
+    ]
+  },
+  "text": {
+    "status": "generated",
+    "div": "\u003cdiv xmlns\u003d\"http://www.w3.org/1999/xhtml\"\u003e\u003cp\u003eThis code system http://hl7.org/fhir/substance-structure-technique defines the following codes:\u003c/p\u003e\u003ctable class\u003d\"codes\"\u003e\u003ctr\u003e\u003ctd style\u003d\"white-space:nowrap\"\u003e\u003cb\u003eCode\u003c/b\u003e\u003c/td\u003e\u003ctd\u003e\u003cb\u003eDisplay\u003c/b\u003e\u003c/td\u003e\u003c/tr\u003e\u003ctr\u003e\u003ctd style\u003d\"white-space:nowrap\"\u003eX-Ray\u003ca name\u003d\"substance-structure-technique-X-Ray\"\u003e \u003c/a\u003e\u003c/td\u003e\u003ctd\u003eX-ray\u003c/td\u003e\u003c/tr\u003e\u003ctr\u003e\u003ctd style\u003d\"white-space:nowrap\"\u003eHPLC\u003ca name\u003d\"substance-structure-technique-HPLC\"\u003e \u003c/a\u003e\u003c/td\u003e\u003ctd\u003eHPLC\u003c/td\u003e\u003c/tr\u003e\u003ctr\u003e\u003ctd style\u003d\"white-space:nowrap\"\u003eNMR\u003ca name\u003d\"substance-structure-technique-NMR\"\u003e \u003c/a\u003e\u003c/td\u003e\u003ctd\u003eNMR\u003c/td\u003e\u003c/tr\u003e\u003ctr\u003e\u003ctd style\u003d\"white-space:nowrap\"\u003ePeptideMapping\u003ca name\u003d\"substance-structure-technique-PeptideMapping\"\u003e \u003c/a\u003e\u003c/td\u003e\u003ctd\u003ePeptide mapping\u003c/td\u003e\u003c/tr\u003e\u003ctr\u003e\u003ctd style\u003d\"white-space:nowrap\"\u003eLigandBindingAssay\u003ca name\u003d\"substance-structure-technique-LigandBindingAssay\"\u003e \u003c/a\u003e\u003c/td\u003e\u003ctd\u003eLigand binding assay\u003c/td\u003e\u003c/tr\u003e\u003c/table\u003e\u003c/div\u003e"
+  },
+  "extension": [
+    {
+      "url": "http://hl7.org/fhir/StructureDefinition/structuredefinition-wg",
+      "valueCode": "brr"
+    },
+    {
+      "url": "http://hl7.org/fhir/StructureDefinition/structuredefinition-standards-status",
+      "valueCode": "trial-use"
+    },
+    {
+      "url": "http://hl7.org/fhir/StructureDefinition/structuredefinition-fmm",
+      "valueInteger": 1
+    }
+  ],
+  "url": "http://hl7.org/fhir/substance-structure-technique",
+  "identifier": [
+    {
+      "system": "urn:ietf:rfc:3986",
+      "value": "urn:oid:2.16.840.1.113883.4.642.1.1623"
+    }
+  ],
+  "version": "4.3.0-cibuild",
+  "name": "SubstanceStructureTechnique",
+  "title": "SubstanceStructureTechnique",
+  "status": "draft",
+  "experimental": false,
+  "date": "2021-01-05T10:01:24+11:00",
+  "publisher": "HL7 (FHIR Project)",
+  "contact": [
+    {
+      "telecom": [
+        {
+          "system": "url",
+          "value": "http://hl7.org/fhir"
+        },
+        {
+          "system": "email",
+          "value": "fhir@lists.hl7.org"
+        }
+      ]
+    }
+  ],
+  "caseSensitive": true,
+  "valueSet": "http://hl7.org/fhir/ValueSet/substance-structure-technique",
+  "content": "complete",
+  "concept": [
+    {
+      "code": "X-Ray",
+      "display": "X-ray"
+    },
+    {
+      "code": "HPLC",
+      "display": "HPLC"
+    },
+    {
+      "code": "NMR",
+      "display": "NMR"
+    },
+    {
+      "code": "PeptideMapping",
+      "display": "Peptide mapping"
+    },
+    {
+      "code": "LigandBindingAssay",
+      "display": "Ligand binding assay"
+    }
+  ]
+}

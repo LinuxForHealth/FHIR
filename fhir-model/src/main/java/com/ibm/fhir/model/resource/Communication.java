@@ -71,7 +71,7 @@ public class Communication extends DomainResource {
         bindingName = "CommunicationStatus",
         strength = BindingStrength.Value.REQUIRED,
         description = "The status of the communication.",
-        valueSet = "http://hl7.org/fhir/ValueSet/event-status|4.3.0-CIBUILD"
+        valueSet = "http://hl7.org/fhir/ValueSet/event-status|4.3.0-cibuild"
     )
     @Required
     private final CommunicationStatus status;
@@ -95,7 +95,7 @@ public class Communication extends DomainResource {
         bindingName = "CommunicationPriority",
         strength = BindingStrength.Value.REQUIRED,
         description = "Codes indicating the relative importance of a communication.",
-        valueSet = "http://hl7.org/fhir/ValueSet/request-priority|4.3.0-CIBUILD"
+        valueSet = "http://hl7.org/fhir/ValueSet/request-priority|4.3.0-cibuild"
     )
     private final CommunicationPriority priority;
     @Binding(

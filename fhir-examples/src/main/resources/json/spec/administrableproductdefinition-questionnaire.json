@@ -9,8 +9,8 @@
       "status": "active",
       "description": "Type options for AdministrableProductDefinition.property.value[x]",
       "expansion": {
-        "identifier": "urn:uuid:1e4f8979-6089-41d2-9fb1-e7bfb280debc",
-        "timestamp": "2022-01-01T15:23:40+00:00",
+        "identifier": "urn:uuid:2dffcbf4-5148-423e-845a-2f76d62e122c",
+        "timestamp": "2022-04-23T22:28:29+00:00",
         "contains": [
           {
             "system": "http://hl7.org/fhir/data-types",
@@ -46,14 +46,15 @@
       "system": "urn:ietf:rfc:3986"
     }
   ],
-  "version": "4.3.0-CIBUILD",
+  "version": "4.3.0-cibuild",
   "status": "draft",
-  "date": "2022-01-01T15:17:18+00:00",
+  "experimental": false,
+  "date": "2022-04-23T22:21:35+00:00",
   "publisher": "Health Level Seven International (Biomedical Research and Regulation)",
   "item": [
     {
       "linkId": "AdministrableProductDefinition",
-      "text": "A medicinal product in the final form which is suitable for administering to a patient (after any mixing of multiple components, dissolution etc. has been performed)",
+      "text": "A medicinal product in the final form, suitable for administration - after any mixing of multiple components",
       "type": "group",
       "required": false,
       "repeats": true,
@@ -237,10 +238,9 @@
             {
               "linkId": "AdministrableProductDefinition.language.value",
               "text": "language",
-              "type": "coding",
+              "type": "choice",
               "required": false,
-              "repeats": false,
-              "answerConstraint": "optionsOnly"
+              "repeats": false
             }
           ]
         },
@@ -459,10 +459,9 @@
             {
               "linkId": "AdministrableProductDefinition.status.value",
               "text": "status",
-              "type": "coding",
+              "type": "choice",
               "required": false,
-              "repeats": false,
-              "answerConstraint": "optionsOrType"
+              "repeats": false
             }
           ]
         },
@@ -494,7 +493,7 @@
                 }
               ],
               "linkId": "AdministrableProductDefinition.formOf-flyover",
-              "text": "The medicinal product that this is a prepared administrable form of. This element is not a reference to the item(s) that make up this administrable form (for which see AdministrableProductDefinition.producedFrom). It is medicinal product as a whole, which may have several components (as well as packaging, devices etc.), that are given to the patient in this final administrable form. A single medicinal product may have several different administrable products (e.g. a tablet and a cream), and these could have different administrable forms (e.g. tablet as oral solid, or tablet crushed).",
+              "text": "References a product from which one or more of the constituent parts of that product can be prepared and used as described by this administrable product.  If this administrable product describes the administration of a crushed tablet, the \u0027formOf\u0027 would be the product representing a distribution containing tablets and possibly also a cream.  This is distinct from the \u0027producedFrom\u0027 which refers to the specific components of the product that are used in this preparation, rather than the product as a whole.",
               "type": "display"
             },
             {
@@ -509,7 +508,7 @@
                 }
               ],
               "linkId": "AdministrableProductDefinition.formOf.value",
-              "text": "The medicinal product that this is a prepared administrable form of. This element is not a reference to the item(s) that make up this administrable form (for which see AdministrableProductDefinition.producedFrom). It is medicinal product as a whole, which may have several components (as well as packaging, devices etc.), that are given to the patient in this final administrable form. A single medicinal product may have several different administrable products (e.g. a tablet and a cream), and these could have different administrable forms (e.g. tablet as oral solid, or tablet crushed)",
+              "text": "References a product from which one or more of the constituent parts of that product can be prepared and used as described by this administrable product",
               "type": "reference",
               "required": false,
               "repeats": false
@@ -528,7 +527,7 @@
             }
           ],
           "linkId": "AdministrableProductDefinition.administrableDoseForm",
-          "text": "The dose form of the final product after necessary reconstitution or processing. Contrasts to the manufactured dose form (see ManufacturedItemDefinition). If the manufactured form was \u0027powder for solution for injection\u0027, the administrable dose form could be \u0027solution for injection\u0027 (once mixed with another item having manufactured form \u0027solvent for solution for injection\u0027)",
+          "text": "The dose form of the final product after necessary reconstitution or processing",
           "type": "group",
           "required": false,
           "repeats": true,
@@ -555,10 +554,9 @@
             {
               "linkId": "AdministrableProductDefinition.administrableDoseForm.coding",
               "text": "code:",
-              "type": "coding",
+              "type": "choice",
               "required": false,
-              "repeats": false,
-              "answerConstraint": "optionsOnly"
+              "repeats": false
             },
             {
               "linkId": "AdministrableProductDefinition.administrableDoseForm.text",
@@ -581,7 +579,7 @@
             }
           ],
           "linkId": "AdministrableProductDefinition.unitOfPresentation",
-          "text": "The presentation type in which this item is given to a patient. e.g. for a spray - \u0027puff\u0027 (as in \u0027contains 100 mcg per puff\u0027), or for a liquid - \u0027vial\u0027 (as in \u0027contains 5 ml per vial\u0027)",
+          "text": "The presentation type in which this item is given to a patient. e.g. for a spray - \u0027puff\u0027",
           "type": "group",
           "required": false,
           "repeats": true,
@@ -608,10 +606,9 @@
             {
               "linkId": "AdministrableProductDefinition.unitOfPresentation.coding",
               "text": "code:",
-              "type": "coding",
+              "type": "choice",
               "required": false,
-              "repeats": false,
-              "answerConstraint": "optionsOnly"
+              "repeats": false
             },
             {
               "linkId": "AdministrableProductDefinition.unitOfPresentation.text",
@@ -650,7 +647,7 @@
                 }
               ],
               "linkId": "AdministrableProductDefinition.producedFrom-flyover",
-              "text": "The constituent manufactured item(s) that this administrable product is produced from. Either a single item, or several that are mixed before administration (e.g. a power item and a solvent item, to make a consumable solution). Note the items this is produced from are not raw ingredients (see AdministrableProductDefinition.ingredient), but manufactured medication items (ManufacturedItemDefinitions), which may be combined or prepared and transformed for patient use. The constituent items that this administrable form is produced from are all part of the product (for which see AdministrableProductDefinition.formOf).",
+              "text": "Indicates the specific manufactured items that are part of the \u0027formOf\u0027 product that are used in the preparation of this specific administrable form.  In some cases, an administrable form might use all of the items from the overall product (or there might only be one item), while in other cases, an administrable form might use only a subset of the items available in the overall product.  For example, an administrable form might involve combining a liquid and a powder available as part of an overall product, but not involve applying the also supplied cream.",
               "type": "display"
             },
             {
@@ -665,7 +662,7 @@
                 }
               ],
               "linkId": "AdministrableProductDefinition.producedFrom.value",
-              "text": "The constituent manufactured item(s) that this administrable product is produced from. Either a single item, or several that are mixed before administration (e.g. a power item and a solvent item, to make a consumable solution). Note the items this is produced from are not raw ingredients (see AdministrableProductDefinition.ingredient), but manufactured medication items (ManufacturedItemDefinitions), which may be combined or prepared and transformed for patient use. The constituent items that this administrable form is produced from are all part of the product (for which see AdministrableProductDefinition.formOf)",
+              "text": "Indicates the specific manufactured items that are part of the \u0027formOf\u0027 product that are used in the preparation of this specific administrable form",
               "type": "reference",
               "required": false,
               "repeats": false
@@ -680,7 +677,7 @@
             }
           ],
           "linkId": "AdministrableProductDefinition.ingredient",
-          "text": "The ingredients of this administrable medicinal product. This is only needed if the ingredients are not specified either using ManufacturedItemDefiniton (via AdministrableProductDefinition.producedFrom) to state which component items are used to make this, or using by incoming references from the Ingredient resource, to state in detail which substances exist within this. This element allows a basic coded ingredient to be used",
+          "text": "The ingredients of this administrable medicinal product. This is only needed if the ingredients are not specified either using ManufacturedItemDefiniton, or using by incoming references from the Ingredient resource",
           "type": "group",
           "required": false,
           "repeats": true,
@@ -707,10 +704,9 @@
             {
               "linkId": "AdministrableProductDefinition.ingredient.coding",
               "text": "code:",
-              "type": "coding",
+              "type": "choice",
               "required": false,
-              "repeats": false,
-              "answerConstraint": "optionsOnly"
+              "repeats": false
             },
             {
               "linkId": "AdministrableProductDefinition.ingredient.text",
@@ -768,7 +764,7 @@
                 }
               ],
               "linkId": "AdministrableProductDefinition.device.value",
-              "text": "A device that is integral to the medicinal product, in effect being considered as an \"ingredient\" of the medicinal product. This is not intended for devices that are just co-packaged",
+              "text": "A device that is integral to the medicinal product, in effect being considered as an \"ingredient\" of the medicinal product",
               "type": "reference",
               "required": false,
               "repeats": false
@@ -777,7 +773,7 @@
         },
         {
           "linkId": "AdministrableProductDefinition.property",
-          "text": "Characteristics e.g. a products onset of action",
+          "text": "Characteristics e.g. a product\u0027s onset of action",
           "type": "group",
           "required": false,
           "repeats": true,
@@ -798,7 +794,7 @@
                 }
               ],
               "linkId": "AdministrableProductDefinition.property-flyover",
-              "text": "Characteristics e.g. a products onset of action.",
+              "text": "Characteristics e.g. a product\u0027s onset of action.",
               "type": "display"
             },
             {
@@ -944,10 +940,9 @@
                 {
                   "linkId": "AdministrableProductDefinition.property.type.coding",
                   "text": "code:",
-                  "type": "coding",
+                  "type": "choice",
                   "required": false,
-                  "repeats": false,
-                  "answerConstraint": "optionsOnly"
+                  "repeats": false
                 },
                 {
                   "linkId": "AdministrableProductDefinition.property.type.text",
@@ -993,10 +988,9 @@
                 {
                   "linkId": "AdministrableProductDefinition.property.value[x]._type",
                   "text": "type",
-                  "type": "coding",
+                  "type": "choice",
                   "required": false,
                   "repeats": false,
-                  "answerConstraint": "optionsOnly",
                   "answerValueSet": "#vs2",
                   "item": [
                     {
@@ -1012,10 +1006,9 @@
                         {
                           "linkId": "AdministrableProductDefinition.property.value[x]._null.coding",
                           "text": "code:",
-                          "type": "coding",
+                          "type": "choice",
                           "required": false,
-                          "repeats": false,
-                          "answerConstraint": "optionsOnly"
+                          "repeats": false
                         },
                         {
                           "linkId": "AdministrableProductDefinition.property.value[x]._null.text",
@@ -1039,10 +1032,9 @@
                         {
                           "linkId": "AdministrableProductDefinition.property.value[x]._null.comparator",
                           "text": "comp:",
-                          "type": "coding",
+                          "type": "choice",
                           "required": false,
-                          "repeats": false,
-                          "answerConstraint": "optionsOnly"
+                          "repeats": false
                         },
                         {
                           "linkId": "AdministrableProductDefinition.property.value[x]._null.value",
@@ -1163,10 +1155,9 @@
                 {
                   "linkId": "AdministrableProductDefinition.property.status.coding",
                   "text": "code:",
-                  "type": "coding",
+                  "type": "choice",
                   "required": false,
-                  "repeats": false,
-                  "answerConstraint": "optionsOnly"
+                  "repeats": false
                 },
                 {
                   "linkId": "AdministrableProductDefinition.property.status.text",
@@ -1187,7 +1178,7 @@
             }
           ],
           "linkId": "AdministrableProductDefinition.routeOfAdministration",
-          "text": "The path by which the product is taken into or makes contact with the body. In some regions this is referred to as the licenced or approved route",
+          "text": "The path by which the product is taken into or makes contact with the body",
           "type": "group",
           "required": true,
           "repeats": true,
@@ -1208,7 +1199,7 @@
                 }
               ],
               "linkId": "AdministrableProductDefinition.routeOfAdministration-flyover",
-              "text": "The path by which the product is taken into or makes contact with the body. In some regions this is referred to as the licenced or approved route.",
+              "text": "The path by which the product is taken into or makes contact with the body. In some regions this is referred to as the licenced or approved route. RouteOfAdministration cannot be used when the \u0027formOf\u0027 product already uses MedicinalProductDefinition.route (and vice versa).",
               "type": "display"
             },
             {
@@ -1354,10 +1345,9 @@
                 {
                   "linkId": "AdministrableProductDefinition.routeOfAdministration.code.coding",
                   "text": "code:",
-                  "type": "coding",
+                  "type": "choice",
                   "required": false,
-                  "repeats": false,
-                  "answerConstraint": "optionsOnly"
+                  "repeats": false
                 },
                 {
                   "linkId": "AdministrableProductDefinition.routeOfAdministration.code.text",
@@ -1380,7 +1370,7 @@
                 }
               ],
               "linkId": "AdministrableProductDefinition.routeOfAdministration.firstDose",
-              "text": "The first dose (dose quantity) administered can be specified for the product, using a numerical value and its unit of measurement",
+              "text": "The first dose (dose quantity) administered can be specified for the product",
               "type": "group",
               "required": false,
               "repeats": true,
@@ -1407,10 +1397,9 @@
                 {
                   "linkId": "AdministrableProductDefinition.routeOfAdministration.firstDose.comparator",
                   "text": "comp:",
-                  "type": "coding",
+                  "type": "choice",
                   "required": false,
-                  "repeats": false,
-                  "answerConstraint": "optionsOnly"
+                  "repeats": false
                 },
                 {
                   "linkId": "AdministrableProductDefinition.routeOfAdministration.firstDose.value",
@@ -1454,7 +1443,7 @@
                 }
               ],
               "linkId": "AdministrableProductDefinition.routeOfAdministration.maxSingleDose",
-              "text": "The maximum single dose that can be administered, can be specified using a numerical value and its unit of measurement",
+              "text": "The maximum single dose that can be administered",
               "type": "group",
               "required": false,
               "repeats": true,
@@ -1475,16 +1464,15 @@
                     }
                   ],
                   "linkId": "AdministrableProductDefinition.routeOfAdministration.maxSingleDose-flyover",
-                  "text": "The maximum single dose that can be administered, can be specified using a numerical value and its unit of measurement.",
+                  "text": "The maximum single dose that can be administered, specified using a numerical value and its unit of measurement.",
                   "type": "display"
                 },
                 {
                   "linkId": "AdministrableProductDefinition.routeOfAdministration.maxSingleDose.comparator",
                   "text": "comp:",
-                  "type": "coding",
+                  "type": "choice",
                   "required": false,
-                  "repeats": false,
-                  "answerConstraint": "optionsOnly"
+                  "repeats": false
                 },
                 {
                   "linkId": "AdministrableProductDefinition.routeOfAdministration.maxSingleDose.value",
@@ -1528,7 +1516,7 @@
                 }
               ],
               "linkId": "AdministrableProductDefinition.routeOfAdministration.maxDosePerDay",
-              "text": "The maximum dose per day (maximum dose quantity to be administered in any one 24-h period) that can be administered",
+              "text": "The maximum dose quantity to be administered in any one 24-h period",
               "type": "group",
               "required": false,
               "repeats": true,
@@ -1555,10 +1543,9 @@
                 {
                   "linkId": "AdministrableProductDefinition.routeOfAdministration.maxDosePerDay.comparator",
                   "text": "comp:",
-                  "type": "coding",
+                  "type": "choice",
                   "required": false,
-                  "repeats": false,
-                  "answerConstraint": "optionsOnly"
+                  "repeats": false
                 },
                 {
                   "linkId": "AdministrableProductDefinition.routeOfAdministration.maxDosePerDay.value",
@@ -1661,7 +1648,7 @@
                 }
               ],
               "linkId": "AdministrableProductDefinition.routeOfAdministration.maxTreatmentPeriod",
-              "text": "The maximum treatment period during which an Investigational Medicinal Product can be administered",
+              "text": "The maximum treatment period during which the product can be administered",
               "type": "group",
               "required": false,
               "repeats": true,
@@ -1682,16 +1669,15 @@
                     }
                   ],
                   "linkId": "AdministrableProductDefinition.routeOfAdministration.maxTreatmentPeriod-flyover",
-                  "text": "The maximum treatment period during which an Investigational Medicinal Product can be administered.",
+                  "text": "The maximum treatment period during which the product can be administered.",
                   "type": "display"
                 },
                 {
                   "linkId": "AdministrableProductDefinition.routeOfAdministration.maxTreatmentPeriod.comparator",
                   "text": "comp:",
-                  "type": "coding",
+                  "type": "choice",
                   "required": false,
-                  "repeats": false,
-                  "answerConstraint": "optionsOnly"
+                  "repeats": false
                 },
                 {
                   "linkId": "AdministrableProductDefinition.routeOfAdministration.maxTreatmentPeriod.value",
@@ -1892,10 +1878,9 @@
                     {
                       "linkId": "AdministrableProductDefinition.routeOfAdministration.targetSpecies.code.coding",
                       "text": "code:",
-                      "type": "coding",
+                      "type": "choice",
                       "required": false,
-                      "repeats": false,
-                      "answerConstraint": "optionsOnly"
+                      "repeats": false
                     },
                     {
                       "linkId": "AdministrableProductDefinition.routeOfAdministration.targetSpecies.code.text",
@@ -2048,7 +2033,7 @@
                         }
                       ],
                       "linkId": "AdministrableProductDefinition.routeOfAdministration.targetSpecies.withdrawalPeriod.tissue",
-                      "text": "Coded expression for the type of tissue for which the withdrawal period applues, e.g. meat, milk",
+                      "text": "The type of tissue for which the withdrawal period applies, e.g. meat, milk",
                       "type": "group",
                       "required": true,
                       "repeats": true,
@@ -2069,16 +2054,15 @@
                             }
                           ],
                           "linkId": "AdministrableProductDefinition.routeOfAdministration.targetSpecies.withdrawalPeriod.tissue-flyover",
-                          "text": "Coded expression for the type of tissue for which the withdrawal period applues, e.g. meat, milk.",
+                          "text": "Coded expression for the type of tissue for which the withdrawal period applies, e.g. meat, milk.",
                           "type": "display"
                         },
                         {
                           "linkId": "AdministrableProductDefinition.routeOfAdministration.targetSpecies.withdrawalPeriod.tissue.coding",
                           "text": "code:",
-                          "type": "coding",
+                          "type": "choice",
                           "required": false,
-                          "repeats": false,
-                          "answerConstraint": "optionsOnly"
+                          "repeats": false
                         },
                         {
                           "linkId": "AdministrableProductDefinition.routeOfAdministration.targetSpecies.withdrawalPeriod.tissue.text",
@@ -2132,10 +2116,9 @@
                         {
                           "linkId": "AdministrableProductDefinition.routeOfAdministration.targetSpecies.withdrawalPeriod.value.comparator",
                           "text": "comp:",
-                          "type": "coding",
+                          "type": "choice",
                           "required": false,
-                          "repeats": false,
-                          "answerConstraint": "optionsOnly"
+                          "repeats": false
                         },
                         {
                           "linkId": "AdministrableProductDefinition.routeOfAdministration.targetSpecies.withdrawalPeriod.value.value",

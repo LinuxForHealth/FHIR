@@ -9,8 +9,8 @@
       "status": "active",
       "description": "Type options for Group.characteristic.value[x]",
       "expansion": {
-        "identifier": "urn:uuid:80cd1f37-266d-43a1-93f2-105e973a55bd",
-        "timestamp": "2022-01-01T15:24:40+00:00",
+        "identifier": "urn:uuid:ffc0fd2d-5fbf-452b-a1ac-435bdb6a5e4f",
+        "timestamp": "2022-04-23T22:29:30+00:00",
         "contains": [
           {
             "system": "http://hl7.org/fhir/data-types",
@@ -41,8 +41,9 @@
       "system": "urn:ietf:rfc:3986"
     }
   ],
-  "version": "4.3.0-CIBUILD",
+  "version": "4.3.0-cibuild",
   "status": "draft",
+  "experimental": false,
   "date": "2021-01-16T20:06:13+00:00",
   "publisher": "HL7",
   "item": [
@@ -247,10 +248,9 @@
             {
               "linkId": "Group.language.value",
               "text": "language",
-              "type": "coding",
+              "type": "choice",
               "required": false,
-              "repeats": false,
-              "answerConstraint": "optionsOnly"
+              "repeats": false
             }
           ]
         },
@@ -513,10 +513,9 @@
             {
               "linkId": "Group.type.value",
               "text": "type",
-              "type": "coding",
+              "type": "choice",
               "required": false,
-              "repeats": false,
-              "answerConstraint": "optionsOrType"
+              "repeats": false
             }
           ]
         },
@@ -607,10 +606,9 @@
             {
               "linkId": "Group.code.coding",
               "text": "code:",
-              "type": "coding",
+              "type": "choice",
               "required": false,
-              "repeats": false,
-              "answerConstraint": "optionsOnly"
+              "repeats": false
             },
             {
               "linkId": "Group.code.text",
@@ -943,10 +941,9 @@
                 {
                   "linkId": "Group.characteristic.code.coding",
                   "text": "code:",
-                  "type": "coding",
+                  "type": "choice",
                   "required": false,
-                  "repeats": false,
-                  "answerConstraint": "optionsOnly"
+                  "repeats": false
                 },
                 {
                   "linkId": "Group.characteristic.code.text",
@@ -996,10 +993,9 @@
                 {
                   "linkId": "Group.characteristic.value[x]._type",
                   "text": "type",
-                  "type": "coding",
+                  "type": "choice",
                   "required": false,
                   "repeats": false,
-                  "answerConstraint": "optionsOnly",
                   "answerValueSet": "#vs2",
                   "item": [
                     {
@@ -1015,10 +1011,9 @@
                         {
                           "linkId": "Group.characteristic.value[x]._null.coding",
                           "text": "code:",
-                          "type": "coding",
+                          "type": "choice",
                           "required": false,
-                          "repeats": false,
-                          "answerConstraint": "optionsOnly"
+                          "repeats": false
                         },
                         {
                           "linkId": "Group.characteristic.value[x]._null.text",
@@ -1060,10 +1055,9 @@
                         {
                           "linkId": "Group.characteristic.value[x]._null.comparator",
                           "text": "comp:",
-                          "type": "coding",
+                          "type": "choice",
                           "required": false,
-                          "repeats": false,
-                          "answerConstraint": "optionsOnly"
+                          "repeats": false
                         },
                         {
                           "linkId": "Group.characteristic.value[x]._null.value",

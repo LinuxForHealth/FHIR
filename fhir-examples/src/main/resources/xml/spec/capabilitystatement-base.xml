@@ -2034,11 +2034,11 @@
     </div>
   </text>
   <url value="http://hl7.org/fhir/CapabilityStatement/base"/>
-  <version value="4.3.0-CIBUILD"/>
+  <version value="4.3.0-cibuild"/>
   <name value="Base FHIR Capability Statement (Full)"/>
   <status value="draft"/>
   <experimental value="true"/>
-  <date value="2022-01-01T15:17:18+00:00"/>
+  <date value="2022-04-23T22:21:35+00:00"/>
   <publisher value="FHIR Project Team"/>
   <contact>
     <telecom>
@@ -2051,7 +2051,7 @@
   <software>
     <name value="Insert your software name here..."/>
   </software>
-  <fhirVersion value="4.3.0-CIBUILD"/>
+  <fhirVersion value="4.3.0-cibuild"/>
   <format value="xml"/>
   <format value="json"/>
   <rest>
@@ -3654,7 +3654,7 @@
         <name value="care-team"/>
         <definition value="http://hl7.org/fhir/SearchParameter/CarePlan-care-team"/>
         <type value="reference"/>
-        <documentation value="Who&#39;s involved in plan?"/>
+        <documentation value="Who's involved in plan?"/>
       </searchParam>
       <searchParam>
         <name value="date"/>
@@ -4981,7 +4981,7 @@
         <name value="system"/>
         <definition value="http://hl7.org/fhir/SearchParameter/CodeSystem-system"/>
         <type value="uri"/>
-        <documentation value="The system for any codes defined by this code system (same as &#39;url&#39;)"/>
+        <documentation value="The system for any codes defined by this code system (same as 'url')"/>
       </searchParam>
       <searchParam>
         <name value="context"/>
@@ -8141,7 +8141,7 @@
         <name value="date"/>
         <definition value="http://hl7.org/fhir/SearchParameter/clinical-date"/>
         <type value="date"/>
-        <documentation value="The provided date search value falls within the episode of care&#39;s period"/>
+        <documentation value="The provided date search value falls within the episode of care's period"/>
       </searchParam>
       <searchParam>
         <name value="identifier"/>
@@ -9511,7 +9511,7 @@
         <name value="managing-entity"/>
         <definition value="http://hl7.org/fhir/SearchParameter/Group-managing-entity"/>
         <type value="reference"/>
-        <documentation value="Entity that is the custodian of the Group&#39;s definition"/>
+        <documentation value="Entity that is the custodian of the Group's definition"/>
       </searchParam>
       <searchParam>
         <name value="code"/>
@@ -9753,7 +9753,7 @@
         <name value="characteristic"/>
         <definition value="http://hl7.org/fhir/SearchParameter/HealthcareService-characteristic"/>
         <type value="token"/>
-        <documentation value="One of the HealthcareService&#39;s characteristics"/>
+        <documentation value="One of the HealthcareService's characteristics"/>
       </searchParam>
     </resource>
     <resource>
@@ -10535,7 +10535,7 @@
         <name value="identifier"/>
         <definition value="http://hl7.org/fhir/SearchParameter/InsurancePlan-identifier"/>
         <type value="token"/>
-        <documentation value="Any identifier for the organization (not the accreditation issuer&#39;s identifier)"/>
+        <documentation value="Any identifier for the organization (not the accreditation issuer's identifier)"/>
       </searchParam>
       <searchParam>
         <name value="address"/>
@@ -10589,7 +10589,7 @@
         <name value="phonetic"/>
         <definition value="http://hl7.org/fhir/SearchParameter/InsurancePlan-phonetic"/>
         <type value="string"/>
-        <documentation value="A portion of the organization&#39;s name using some kind of phonetic matching algorithm"/>
+        <documentation value="A portion of the organization's name using some kind of phonetic matching algorithm"/>
       </searchParam>
       <searchParam>
         <name value="address-use"/>
@@ -10601,7 +10601,7 @@
         <name value="name"/>
         <definition value="http://hl7.org/fhir/SearchParameter/InsurancePlan-name"/>
         <type value="string"/>
-        <documentation value="A portion of the organization&#39;s name or alias"/>
+        <documentation value="A portion of the organization's name or alias"/>
       </searchParam>
       <searchParam>
         <name value="address-city"/>
@@ -10995,7 +10995,7 @@
         <name value="source"/>
         <definition value="http://hl7.org/fhir/SearchParameter/Linkage-source"/>
         <type value="reference"/>
-        <documentation value="Matches on any item in the Linkage with a type of &#39;source&#39;"/>
+        <documentation value="Matches on any item in the Linkage with a type of 'source'"/>
       </searchParam>
     </resource>
     <resource>
@@ -11278,7 +11278,7 @@
         <name value="name"/>
         <definition value="http://hl7.org/fhir/SearchParameter/Location-name"/>
         <type value="string"/>
-        <documentation value="A portion of the location&#39;s name or alias"/>
+        <documentation value="A portion of the location's name or alias"/>
       </searchParam>
       <searchParam>
         <name value="near"/>
@@ -14123,7 +14123,7 @@
         <name value="identifier"/>
         <definition value="http://hl7.org/fhir/SearchParameter/Organization-identifier"/>
         <type value="token"/>
-        <documentation value="Any identifier for the organization (not the accreditation issuer&#39;s identifier)"/>
+        <documentation value="Any identifier for the organization (not the accreditation issuer's identifier)"/>
       </searchParam>
       <searchParam>
         <name value="partof"/>
@@ -14177,7 +14177,7 @@
         <name value="phonetic"/>
         <definition value="http://hl7.org/fhir/SearchParameter/Organization-phonetic"/>
         <type value="string"/>
-        <documentation value="A portion of the organization&#39;s name using some kind of phonetic matching algorithm"/>
+        <documentation value="A portion of the organization's name using some kind of phonetic matching algorithm"/>
       </searchParam>
       <searchParam>
         <name value="address-use"/>
@@ -14189,7 +14189,7 @@
         <name value="name"/>
         <definition value="http://hl7.org/fhir/SearchParameter/Organization-name"/>
         <type value="string"/>
-        <documentation value="A portion of the organization&#39;s name or alias"/>
+        <documentation value="A portion of the organization's name or alias"/>
       </searchParam>
       <searchParam>
         <name value="address-city"/>
@@ -14254,7 +14254,7 @@
         <name value="identifier"/>
         <definition value="http://hl7.org/fhir/SearchParameter/OrganizationAffiliation-identifier"/>
         <type value="token"/>
-        <documentation value="An organization affiliation&#39;s Identifier"/>
+        <documentation value="An organization affiliation's Identifier"/>
       </searchParam>
       <searchParam>
         <name value="specialty"/>
@@ -14284,7 +14284,7 @@
         <name value="network"/>
         <definition value="http://hl7.org/fhir/SearchParameter/OrganizationAffiliation-network"/>
         <type value="reference"/>
-        <documentation value="Health insurance provider network in which the participatingOrganization provides the role&#39;s services (if defined) at the indicated locations (if defined)"/>
+        <documentation value="Health insurance provider network in which the participatingOrganization provides the role's services (if defined) at the indicated locations (if defined)"/>
       </searchParam>
       <searchParam>
         <name value="endpoint"/>
@@ -14671,13 +14671,13 @@
         <name value="birthdate"/>
         <definition value="http://hl7.org/fhir/SearchParameter/individual-birthdate"/>
         <type value="date"/>
-        <documentation value="The patient&#39;s date of birth"/>
+        <documentation value="The patient's date of birth"/>
       </searchParam>
       <searchParam>
         <name value="deceased"/>
         <definition value="http://hl7.org/fhir/SearchParameter/Patient-deceased"/>
         <type value="token"/>
-        <documentation value="This patient has been marked as deceased, or as a death date entered"/>
+        <documentation value="This patient has been marked as deceased, or has a death date entered"/>
       </searchParam>
       <searchParam>
         <name value="address-state"/>
@@ -14695,7 +14695,7 @@
         <name value="general-practitioner"/>
         <definition value="http://hl7.org/fhir/SearchParameter/Patient-general-practitioner"/>
         <type value="reference"/>
-        <documentation value="Patient&#39;s nominated general practitioner, not the organization that manages the record"/>
+        <documentation value="Patient's nominated general practitioner, not the organization that manages the record"/>
       </searchParam>
       <searchParam>
         <name value="link"/>
@@ -15031,7 +15031,7 @@
         <name value="birthdate"/>
         <definition value="http://hl7.org/fhir/SearchParameter/individual-birthdate"/>
         <type value="date"/>
-        <documentation value="The person&#39;s date of birth"/>
+        <documentation value="The person's date of birth"/>
       </searchParam>
       <searchParam>
         <name value="address-state"/>
@@ -15511,7 +15511,7 @@
         <name value="identifier"/>
         <definition value="http://hl7.org/fhir/SearchParameter/Practitioner-identifier"/>
         <type value="token"/>
-        <documentation value="A practitioner&#39;s Identifier"/>
+        <documentation value="A practitioner's Identifier"/>
       </searchParam>
       <searchParam>
         <name value="address"/>
@@ -15767,7 +15767,7 @@
         <name value="identifier"/>
         <definition value="http://hl7.org/fhir/SearchParameter/PractitionerRole-identifier"/>
         <type value="token"/>
-        <documentation value="A practitioner&#39;s Identifier"/>
+        <documentation value="A practitioner's Identifier"/>
       </searchParam>
       <searchParam>
         <name value="specialty"/>
@@ -15809,7 +15809,7 @@
         <name value="service"/>
         <definition value="http://hl7.org/fhir/SearchParameter/PractitionerRole-service"/>
         <type value="reference"/>
-        <documentation value="The list of healthcare services that this worker provides for this role&#39;s Organization/Location(s)"/>
+        <documentation value="The list of healthcare services that this worker provides for this role's Organization/Location(s)"/>
       </searchParam>
       <searchParam>
         <name value="organization"/>
@@ -16598,7 +16598,7 @@
         <name value="birthdate"/>
         <definition value="http://hl7.org/fhir/SearchParameter/individual-birthdate"/>
         <type value="date"/>
-        <documentation value="The Related Person&#39;s date of birth"/>
+        <documentation value="The Related Person's date of birth"/>
       </searchParam>
       <searchParam>
         <name value="address-state"/>
@@ -20036,22 +20036,10 @@
       <documentation value="Managing search into contained resources"/>
     </searchParam>
     <searchParam>
-      <name value="_list"/>
-      <definition value="http://hl7.org/fhir/SearchParameter/Resource-list"/>
-      <type value="string"/>
-      <documentation value="All resources in nominated list (by id, Type/id, url or one of the magic List types)"/>
-    </searchParam>
-    <searchParam>
       <name value="_query"/>
       <definition value="http://hl7.org/fhir/SearchParameter/Resource-query"/>
       <type value="token"/>
       <documentation value="A custom search profile that describes a specific defined query operation"/>
-    </searchParam>
-    <searchParam>
-      <name value="_profile"/>
-      <definition value="http://hl7.org/fhir/SearchParameter/Resource-profile"/>
-      <type value="uri"/>
-      <documentation value="Profiles this resource claims to conform to"/>
     </searchParam>
     <searchParam>
       <name value="_lastUpdated"/>
@@ -20060,16 +20048,46 @@
       <documentation value="When the resource version last changed"/>
     </searchParam>
     <searchParam>
+      <name value="_security"/>
+      <definition value="http://hl7.org/fhir/SearchParameter/Resource-security"/>
+      <type value="token"/>
+      <documentation value="Security Labels applied to this resource"/>
+    </searchParam>
+    <searchParam>
+      <name value="_type"/>
+      <definition value="http://hl7.org/fhir/SearchParameter/Resource-type"/>
+      <type value="token"/>
+      <documentation value="Used when a search is performed in a context which doesn't limit the search to indicate which types are being searched. See the FHIR search page for further discussion"/>
+    </searchParam>
+    <searchParam>
+      <name value="_filter"/>
+      <definition value="http://hl7.org/fhir/SearchParameter/Resource-filter"/>
+      <type value="token"/>
+      <documentation value="Filter search parameter which supports a more sophisticated grammar for searching. See [documentation](search_filter.html) for further details"/>
+    </searchParam>
+    <searchParam>
+      <name value="_list"/>
+      <definition value="http://hl7.org/fhir/SearchParameter/Resource-list"/>
+      <type value="string"/>
+      <documentation value="All resources in nominated list (by id, Type/id, url or one of the magic List types)"/>
+    </searchParam>
+    <searchParam>
+      <name value="_profile"/>
+      <definition value="http://hl7.org/fhir/SearchParameter/Resource-profile"/>
+      <type value="uri"/>
+      <documentation value="Profiles this resource claims to conform to"/>
+    </searchParam>
+    <searchParam>
       <name value="_tag"/>
       <definition value="http://hl7.org/fhir/SearchParameter/Resource-tag"/>
       <type value="token"/>
       <documentation value="Tags applied to this resource"/>
     </searchParam>
     <searchParam>
-      <name value="_security"/>
-      <definition value="http://hl7.org/fhir/SearchParameter/Resource-security"/>
-      <type value="token"/>
-      <documentation value="Security Labels applied to this resource"/>
+      <name value="_has"/>
+      <definition value="http://hl7.org/fhir/SearchParameter/Resource-has"/>
+      <type value="string"/>
+      <documentation value="Provides limited support for reverse chaining - that is, selecting resources based on the properties of resources that refer to them (instead of chaining where resources can be selected based on the properties of resources that they refer to). See the FHIR search page for further documentation"/>
     </searchParam>
     <searchParam>
       <name value="_source"/>
@@ -20088,6 +20106,12 @@
       <definition value="http://hl7.org/fhir/SearchParameter/Resource-content"/>
       <type value="string"/>
       <documentation value="Search on the entire content of the resource"/>
+    </searchParam>
+    <searchParam>
+      <name value="_text"/>
+      <definition value="http://hl7.org/fhir/SearchParameter/Resource-text"/>
+      <type value="string"/>
+      <documentation value="Search on the narrative text (html) of the resource"/>
     </searchParam>
     <searchParam>
       <name value="something"/>

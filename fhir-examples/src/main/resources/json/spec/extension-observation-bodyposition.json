@@ -12,10 +12,11 @@
     }
   ],
   "url": "http://hl7.org/fhir/StructureDefinition/observation-bodyPosition",
-  "version": "4.3.0-CIBUILD",
+  "version": "4.3.0-cibuild",
   "name": "bodyPosition",
   "title": "bodyPosition",
   "status": "draft",
+  "experimental": false,
   "date": "2015-03-02",
   "publisher": "Health Level Seven, Inc. - OO WG",
   "contact": [
@@ -29,7 +30,7 @@
     }
   ],
   "description": "The position of the body when the observation was done, e.g. standing, sitting. To be used only when the body position in not precoordinated in the observation code.",
-  "fhirVersion": "4.3.0-CIBUILD",
+  "fhirVersion": "4.3.0-cibuild",
   "mapping": [
     {
       "identity": "rim",

@@ -16,10 +16,11 @@
     }
   ],
   "url": "http://hl7.org/fhir/StructureDefinition/Reference",
-  "version": "4.3.0-CIBUILD",
+  "version": "4.3.0-cibuild",
   "name": "Reference",
   "status": "active",
-  "date": "2022-01-01T15:17:18+00:00",
+  "experimental": false,
+  "date": "2022-04-23T22:21:35+00:00",
   "publisher": "HL7 FHIR Standard",
   "contact": [
     {
@@ -32,7 +33,7 @@
     }
   ],
   "description": "Base StructureDefinition for Reference Type: A reference from one resource to another.",
-  "fhirVersion": "4.3.0-CIBUILD",
+  "fhirVersion": "4.3.0-cibuild",
   "mapping": [
     {
       "identity": "rim",
@@ -86,7 +87,7 @@
             "key": "ref-1",
             "severity": "error",
             "human": "SHALL have a contained resource if a local reference is provided",
-            "expression": "reference.startsWith(\u0027#\u0027).not() or (reference.substring(1).trace(\u0027url\u0027) in %rootResource.contained.id.trace(\u0027ids\u0027))",
+            "expression": "reference.startsWith(\u0027#\u0027).not() or (reference.substring(1).trace(\u0027url\u0027) in %rootResource.contained.id.trace(\u0027ids\u0027)) or (reference\u003d\u0027#\u0027 and %rootResource!\u003d%resource)",
             "xpath": "not(starts-with(f:reference/@value, \u0027#\u0027)) or exists(ancestor::*[self::f:entry or self::f:parameter]/f:resource/f:*/f:contained/f:*[f:id/@value\u003dsubstring-after(current()/f:reference/@value, \u0027#\u0027)]|/*/f:contained/f:*[f:id/@value\u003dsubstring-after(current()/f:reference/@value, \u0027#\u0027)])",
             "source": "http://hl7.org/fhir/StructureDefinition/Reference"
           }
@@ -403,7 +404,7 @@
             "key": "ref-1",
             "severity": "error",
             "human": "SHALL have a contained resource if a local reference is provided",
-            "expression": "reference.startsWith(\u0027#\u0027).not() or (reference.substring(1).trace(\u0027url\u0027) in %rootResource.contained.id.trace(\u0027ids\u0027))",
+            "expression": "reference.startsWith(\u0027#\u0027).not() or (reference.substring(1).trace(\u0027url\u0027) in %rootResource.contained.id.trace(\u0027ids\u0027)) or (reference\u003d\u0027#\u0027 and %rootResource!\u003d%resource)",
             "xpath": "not(starts-with(f:reference/@value, \u0027#\u0027)) or exists(ancestor::*[self::f:entry or self::f:parameter]/f:resource/f:*/f:contained/f:*[f:id/@value\u003dsubstring-after(current()/f:reference/@value, \u0027#\u0027)]|/*/f:contained/f:*[f:id/@value\u003dsubstring-after(current()/f:reference/@value, \u0027#\u0027)])",
             "source": "http://hl7.org/fhir/StructureDefinition/Reference"
           }

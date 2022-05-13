@@ -1,0 +1,862 @@
+{
+  "resourceType": "CodeSystem",
+  "id": "target-species",
+  "meta": {
+    "lastUpdated": "2022-04-24T09:21:35.043+11:00",
+    "profile": [
+      "http://hl7.org/fhir/StructureDefinition/shareablecodesystem"
+    ]
+  },
+  "text": {
+    "status": "generated",
+    "div": "\u003cdiv xmlns\u003d\"http://www.w3.org/1999/xhtml\"\u003e\u003cp\u003eThis code system http://hl7.org/fhir/target-species defines the following codes:\u003c/p\u003e\u003ctable class\u003d\"codes\"\u003e\u003ctr\u003e\u003ctd style\u003d\"white-space:nowrap\"\u003e\u003cb\u003eCode\u003c/b\u003e\u003c/td\u003e\u003ctd\u003e\u003cb\u003eDisplay\u003c/b\u003e\u003c/td\u003e\u003c/tr\u003e\u003ctr\u003e\u003ctd style\u003d\"white-space:nowrap\"\u003e100000108874\u003ca name\u003d\"target-species-100000108874\"\u003e \u003c/a\u003e\u003c/td\u003e\u003ctd\u003eDove\u003c/td\u003e\u003c/tr\u003e\u003ctr\u003e\u003ctd style\u003d\"white-space:nowrap\"\u003e100000108875\u003ca name\u003d\"target-species-100000108875\"\u003e \u003c/a\u003e\u003c/td\u003e\u003ctd\u003eQuail\u003c/td\u003e\u003c/tr\u003e\u003ctr\u003e\u003ctd style\u003d\"white-space:nowrap\"\u003e100000108876\u003ca name\u003d\"target-species-100000108876\"\u003e \u003c/a\u003e\u003c/td\u003e\u003ctd\u003eSnipe\u003c/td\u003e\u003c/tr\u003e\u003ctr\u003e\u003ctd style\u003d\"white-space:nowrap\"\u003e100000108877\u003ca name\u003d\"target-species-100000108877\"\u003e \u003c/a\u003e\u003c/td\u003e\u003ctd\u003eSparrow\u003c/td\u003e\u003c/tr\u003e\u003ctr\u003e\u003ctd style\u003d\"white-space:nowrap\"\u003e100000108878\u003ca name\u003d\"target-species-100000108878\"\u003e \u003c/a\u003e\u003c/td\u003e\u003ctd\u003eStarling\u003c/td\u003e\u003c/tr\u003e\u003ctr\u003e\u003ctd style\u003d\"white-space:nowrap\"\u003e100000108879\u003ca name\u003d\"target-species-100000108879\"\u003e \u003c/a\u003e\u003c/td\u003e\u003ctd\u003eSwan\u003c/td\u003e\u003c/tr\u003e\u003ctr\u003e\u003ctd style\u003d\"white-space:nowrap\"\u003e100000108880\u003ca name\u003d\"target-species-100000108880\"\u003e \u003c/a\u003e\u003c/td\u003e\u003ctd\u003eTurkey hen\u003c/td\u003e\u003c/tr\u003e\u003ctr\u003e\u003ctd style\u003d\"white-space:nowrap\"\u003e100000108881\u003ca name\u003d\"target-species-100000108881\"\u003e \u003c/a\u003e\u003c/td\u003e\u003ctd\u003eTurkey cock\u003c/td\u003e\u003c/tr\u003e\u003ctr\u003e\u003ctd style\u003d\"white-space:nowrap\"\u003e100000108882\u003ca name\u003d\"target-species-100000108882\"\u003e \u003c/a\u003e\u003c/td\u003e\u003ctd\u003eTurkeys\u003c/td\u003e\u003c/tr\u003e\u003ctr\u003e\u003ctd style\u003d\"white-space:nowrap\"\u003e100000108883\u003ca name\u003d\"target-species-100000108883\"\u003e \u003c/a\u003e\u003c/td\u003e\u003ctd\u003eTurkey for reproduction\u003c/td\u003e\u003c/tr\u003e\u003ctr\u003e\u003ctd style\u003d\"white-space:nowrap\"\u003e100000108884\u003ca name\u003d\"target-species-100000108884\"\u003e \u003c/a\u003e\u003c/td\u003e\u003ctd\u003ePoult\u003c/td\u003e\u003c/tr\u003e\u003ctr\u003e\u003ctd style\u003d\"white-space:nowrap\"\u003e100000108885\u003ca name\u003d\"target-species-100000108885\"\u003e \u003c/a\u003e\u003c/td\u003e\u003ctd\u003eTurtle dove\u003c/td\u003e\u003c/tr\u003e\u003ctr\u003e\u003ctd style\u003d\"white-space:nowrap\"\u003e100000108886\u003ca name\u003d\"target-species-100000108886\"\u003e \u003c/a\u003e\u003c/td\u003e\u003ctd\u003eBison\u003c/td\u003e\u003c/tr\u003e\u003ctr\u003e\u003ctd style\u003d\"white-space:nowrap\"\u003e100000108887\u003ca name\u003d\"target-species-100000108887\"\u003e \u003c/a\u003e\u003c/td\u003e\u003ctd\u003eBuffalo\u003c/td\u003e\u003c/tr\u003e\u003ctr\u003e\u003ctd style\u003d\"white-space:nowrap\"\u003e100000108888\u003ca name\u003d\"target-species-100000108888\"\u003e \u003c/a\u003e\u003c/td\u003e\u003ctd\u003eCows\u003c/td\u003e\u003c/tr\u003e\u003ctr\u003e\u003ctd style\u003d\"white-space:nowrap\"\u003e100000108889\u003ca name\u003d\"target-species-100000108889\"\u003e \u003c/a\u003e\u003c/td\u003e\u003ctd\u003eCow for reproduction\u003c/td\u003e\u003c/tr\u003e\u003ctr\u003e\u003ctd style\u003d\"white-space:nowrap\"\u003e100000108890\u003ca name\u003d\"target-species-100000108890\"\u003e \u003c/a\u003e\u003c/td\u003e\u003ctd\u003eBull for reproduction\u003c/td\u003e\u003c/tr\u003e\u003ctr\u003e\u003ctd style\u003d\"white-space:nowrap\"\u003e100000108891\u003ca name\u003d\"target-species-100000108891\"\u003e \u003c/a\u003e\u003c/td\u003e\u003ctd\u003eOx\u003c/td\u003e\u003c/tr\u003e\u003ctr\u003e\u003ctd style\u003d\"white-space:nowrap\"\u003e100000108892\u003ca name\u003d\"target-species-100000108892\"\u003e \u003c/a\u003e\u003c/td\u003e\u003ctd\u003eBullock\u003c/td\u003e\u003c/tr\u003e\u003ctr\u003e\u003ctd style\u003d\"white-space:nowrap\"\u003e100000108893\u003ca name\u003d\"target-species-100000108893\"\u003e \u003c/a\u003e\u003c/td\u003e\u003ctd\u003eCattle\u003c/td\u003e\u003c/tr\u003e\u003ctr\u003e\u003ctd style\u003d\"white-space:nowrap\"\u003e100000108894\u003ca name\u003d\"target-species-100000108894\"\u003e \u003c/a\u003e\u003c/td\u003e\u003ctd\u003eBeef cattle\u003c/td\u003e\u003c/tr\u003e\u003ctr\u003e\u003ctd style\u003d\"white-space:nowrap\"\u003e100000108895\u003ca name\u003d\"target-species-100000108895\"\u003e \u003c/a\u003e\u003c/td\u003e\u003ctd\u003eDairy cattle\u003c/td\u003e\u003c/tr\u003e\u003ctr\u003e\u003ctd style\u003d\"white-space:nowrap\"\u003e100000108896\u003ca name\u003d\"target-species-100000108896\"\u003e \u003c/a\u003e\u003c/td\u003e\u003ctd\u003eDry cow\u003c/td\u003e\u003c/tr\u003e\u003ctr\u003e\u003ctd style\u003d\"white-space:nowrap\"\u003e100000108897\u003ca name\u003d\"target-species-100000108897\"\u003e \u003c/a\u003e\u003c/td\u003e\u003ctd\u003eBull\u003c/td\u003e\u003c/tr\u003e\u003ctr\u003e\u003ctd style\u003d\"white-space:nowrap\"\u003e100000108898\u003ca name\u003d\"target-species-100000108898\"\u003e \u003c/a\u003e\u003c/td\u003e\u003ctd\u003eLactating cow\u003c/td\u003e\u003c/tr\u003e\u003ctr\u003e\u003ctd style\u003d\"white-space:nowrap\"\u003e100000108899\u003ca name\u003d\"target-species-100000108899\"\u003e \u003c/a\u003e\u003c/td\u003e\u003ctd\u003eAll other food producing species\u003c/td\u003e\u003c/tr\u003e\u003ctr\u003e\u003ctd style\u003d\"white-space:nowrap\"\u003e100000108900\u003ca name\u003d\"target-species-100000108900\"\u003e \u003c/a\u003e\u003c/td\u003e\u003ctd\u003eAll non-food producing species\u003c/td\u003e\u003c/tr\u003e\u003ctr\u003e\u003ctd style\u003d\"white-space:nowrap\"\u003e100000108901\u003ca name\u003d\"target-species-100000108901\"\u003e \u003c/a\u003e\u003c/td\u003e\u003ctd\u003eAll species  \u003c/td\u003e\u003c/tr\u003e\u003ctr\u003e\u003ctd style\u003d\"white-space:nowrap\"\u003e100000108902\u003ca name\u003d\"target-species-100000108902\"\u003e \u003c/a\u003e\u003c/td\u003e\u003ctd\u003eCarnivores\u003c/td\u003e\u003c/tr\u003e\u003ctr\u003e\u003ctd style\u003d\"white-space:nowrap\"\u003e100000108903\u003ca name\u003d\"target-species-100000108903\"\u003e \u003c/a\u003e\u003c/td\u003e\u003ctd\u003eDomestic animals\u003c/td\u003e\u003c/tr\u003e\u003ctr\u003e\u003ctd style\u003d\"white-space:nowrap\"\u003e100000108904\u003ca name\u003d\"target-species-100000108904\"\u003e \u003c/a\u003e\u003c/td\u003e\u003ctd\u003eFur animals\u003c/td\u003e\u003c/tr\u003e\u003ctr\u003e\u003ctd style\u003d\"white-space:nowrap\"\u003e100000108905\u003ca name\u003d\"target-species-100000108905\"\u003e \u003c/a\u003e\u003c/td\u003e\u003ctd\u003eGame animals\u003c/td\u003e\u003c/tr\u003e\u003ctr\u003e\u003ctd style\u003d\"white-space:nowrap\"\u003e100000108906\u003ca name\u003d\"target-species-100000108906\"\u003e \u003c/a\u003e\u003c/td\u003e\u003ctd\u003eLaboratory animals\u003c/td\u003e\u003c/tr\u003e\u003ctr\u003e\u003ctd style\u003d\"white-space:nowrap\"\u003e100000108907\u003ca name\u003d\"target-species-100000108907\"\u003e \u003c/a\u003e\u003c/td\u003e\u003ctd\u003eMajor species\u003c/td\u003e\u003c/tr\u003e\u003ctr\u003e\u003ctd style\u003d\"white-space:nowrap\"\u003e100000108908\u003ca name\u003d\"target-species-100000108908\"\u003e \u003c/a\u003e\u003c/td\u003e\u003ctd\u003eMinor species\u003c/td\u003e\u003c/tr\u003e\u003ctr\u003e\u003ctd style\u003d\"white-space:nowrap\"\u003e100000108909\u003ca name\u003d\"target-species-100000108909\"\u003e \u003c/a\u003e\u003c/td\u003e\u003ctd\u003eRuminant\u003c/td\u003e\u003c/tr\u003e\u003ctr\u003e\u003ctd style\u003d\"white-space:nowrap\"\u003e100000108910\u003ca name\u003d\"target-species-100000108910\"\u003e \u003c/a\u003e\u003c/td\u003e\u003ctd\u003eRuminant and porcine\u003c/td\u003e\u003c/tr\u003e\u003ctr\u003e\u003ctd style\u003d\"white-space:nowrap\"\u003e100000108911\u003ca name\u003d\"target-species-100000108911\"\u003e \u003c/a\u003e\u003c/td\u003e\u003ctd\u003eSmall animals\u003c/td\u003e\u003c/tr\u003e\u003ctr\u003e\u003ctd style\u003d\"white-space:nowrap\"\u003e100000108912\u003ca name\u003d\"target-species-100000108912\"\u003e \u003c/a\u003e\u003c/td\u003e\u003ctd\u003eCrocodile\u003c/td\u003e\u003c/tr\u003e\u003ctr\u003e\u003ctd style\u003d\"white-space:nowrap\"\u003e100000108913\u003ca name\u003d\"target-species-100000108913\"\u003e \u003c/a\u003e\u003c/td\u003e\u003ctd\u003eFrog\u003c/td\u003e\u003c/tr\u003e\u003ctr\u003e\u003ctd style\u003d\"white-space:nowrap\"\u003e100000108914\u003ca name\u003d\"target-species-100000108914\"\u003e \u003c/a\u003e\u003c/td\u003e\u003ctd\u003eIguana\u003c/td\u003e\u003c/tr\u003e\u003ctr\u003e\u003ctd style\u003d\"white-space:nowrap\"\u003e100000108915\u003ca name\u003d\"target-species-100000108915\"\u003e \u003c/a\u003e\u003c/td\u003e\u003ctd\u003eLizard\u003c/td\u003e\u003c/tr\u003e\u003ctr\u003e\u003ctd style\u003d\"white-space:nowrap\"\u003e100000108916\u003ca name\u003d\"target-species-100000108916\"\u003e \u003c/a\u003e\u003c/td\u003e\u003ctd\u003eAmphibians\u003c/td\u003e\u003c/tr\u003e\u003ctr\u003e\u003ctd style\u003d\"white-space:nowrap\"\u003e100000108917\u003ca name\u003d\"target-species-100000108917\"\u003e \u003c/a\u003e\u003c/td\u003e\u003ctd\u003eReptiles\u003c/td\u003e\u003c/tr\u003e\u003ctr\u003e\u003ctd style\u003d\"white-space:nowrap\"\u003e100000108918\u003ca name\u003d\"target-species-100000108918\"\u003e \u003c/a\u003e\u003c/td\u003e\u003ctd\u003eReptiles for production\u003c/td\u003e\u003c/tr\u003e\u003ctr\u003e\u003ctd style\u003d\"white-space:nowrap\"\u003e100000108919\u003ca name\u003d\"target-species-100000108919\"\u003e \u003c/a\u003e\u003c/td\u003e\u003ctd\u003eSnake\u003c/td\u003e\u003c/tr\u003e\u003ctr\u003e\u003ctd style\u003d\"white-space:nowrap\"\u003e100000108920\u003ca name\u003d\"target-species-100000108920\"\u003e \u003c/a\u003e\u003c/td\u003e\u003ctd\u003eTortoise\u003c/td\u003e\u003c/tr\u003e\u003ctr\u003e\u003ctd style\u003d\"white-space:nowrap\"\u003e100000108921\u003ca name\u003d\"target-species-100000108921\"\u003e \u003c/a\u003e\u003c/td\u003e\u003ctd\u003eTurtle\u003c/td\u003e\u003c/tr\u003e\u003ctr\u003e\u003ctd style\u003d\"white-space:nowrap\"\u003e100000108922\u003ca name\u003d\"target-species-100000108922\"\u003e \u003c/a\u003e\u003c/td\u003e\u003ctd\u003eHoney bees\u003c/td\u003e\u003c/tr\u003e\u003ctr\u003e\u003ctd style\u003d\"white-space:nowrap\"\u003e100000108923\u003ca name\u003d\"target-species-100000108923\"\u003e \u003c/a\u003e\u003c/td\u003e\u003ctd\u003eCrustacean\u003c/td\u003e\u003c/tr\u003e\u003ctr\u003e\u003ctd style\u003d\"white-space:nowrap\"\u003e100000108924\u003ca name\u003d\"target-species-100000108924\"\u003e \u003c/a\u003e\u003c/td\u003e\u003ctd\u003eSpider\u003c/td\u003e\u003c/tr\u003e\u003ctr\u003e\u003ctd style\u003d\"white-space:nowrap\"\u003e100000108925\u003ca name\u003d\"target-species-100000108925\"\u003e \u003c/a\u003e\u003c/td\u003e\u003ctd\u003eIndian hen\u003c/td\u003e\u003c/tr\u003e\u003ctr\u003e\u003ctd style\u003d\"white-space:nowrap\"\u003e100000108926\u003ca name\u003d\"target-species-100000108926\"\u003e \u003c/a\u003e\u003c/td\u003e\u003ctd\u003eAfrican Goshawk\u003c/td\u003e\u003c/tr\u003e\u003ctr\u003e\u003ctd style\u003d\"white-space:nowrap\"\u003e100000108927\u003ca name\u003d\"target-species-100000108927\"\u003e \u003c/a\u003e\u003c/td\u003e\u003ctd\u003eBlack Kite\u003c/td\u003e\u003c/tr\u003e\u003ctr\u003e\u003ctd style\u003d\"white-space:nowrap\"\u003e100000108928\u003ca name\u003d\"target-species-100000108928\"\u003e \u003c/a\u003e\u003c/td\u003e\u003ctd\u003eBudgerigar\u003c/td\u003e\u003c/tr\u003e\u003ctr\u003e\u003ctd style\u003d\"white-space:nowrap\"\u003e100000108929\u003ca name\u003d\"target-species-100000108929\"\u003e \u003c/a\u003e\u003c/td\u003e\u003ctd\u003eBustard\u003c/td\u003e\u003c/tr\u003e\u003ctr\u003e\u003ctd style\u003d\"white-space:nowrap\"\u003e100000108930\u003ca name\u003d\"target-species-100000108930\"\u003e \u003c/a\u003e\u003c/td\u003e\u003ctd\u003eBuzzard\u003c/td\u003e\u003c/tr\u003e\u003ctr\u003e\u003ctd style\u003d\"white-space:nowrap\"\u003e100000108931\u003ca name\u003d\"target-species-100000108931\"\u003e \u003c/a\u003e\u003c/td\u003e\u003ctd\u003eHen\u003c/td\u003e\u003c/tr\u003e\u003ctr\u003e\u003ctd style\u003d\"white-space:nowrap\"\u003e100000108932\u003ca name\u003d\"target-species-100000108932\"\u003e \u003c/a\u003e\u003c/td\u003e\u003ctd\u003eLayer hen\u003c/td\u003e\u003c/tr\u003e\u003ctr\u003e\u003ctd style\u003d\"white-space:nowrap\"\u003e100000108933\u003ca name\u003d\"target-species-100000108933\"\u003e \u003c/a\u003e\u003c/td\u003e\u003ctd\u003eCock\u003c/td\u003e\u003c/tr\u003e\u003ctr\u003e\u003ctd style\u003d\"white-space:nowrap\"\u003e100000108934\u003ca name\u003d\"target-species-100000108934\"\u003e \u003c/a\u003e\u003c/td\u003e\u003ctd\u003eBroiler\u003c/td\u003e\u003c/tr\u003e\u003ctr\u003e\u003ctd style\u003d\"white-space:nowrap\"\u003e100000108935\u003ca name\u003d\"target-species-100000108935\"\u003e \u003c/a\u003e\u003c/td\u003e\u003ctd\u003eChickens\u003c/td\u003e\u003c/tr\u003e\u003ctr\u003e\u003ctd style\u003d\"white-space:nowrap\"\u003e100000108936\u003ca name\u003d\"target-species-100000108936\"\u003e \u003c/a\u003e\u003c/td\u003e\u003ctd\u003eChicken embryonated eggs\u003c/td\u003e\u003c/tr\u003e\u003ctr\u003e\u003ctd style\u003d\"white-space:nowrap\"\u003e100000108937\u003ca name\u003d\"target-species-100000108937\"\u003e \u003c/a\u003e\u003c/td\u003e\u003ctd\u003eChicken for reproduction\u003c/td\u003e\u003c/tr\u003e\u003ctr\u003e\u003ctd style\u003d\"white-space:nowrap\"\u003e100000108938\u003ca name\u003d\"target-species-100000108938\"\u003e \u003c/a\u003e\u003c/td\u003e\u003ctd\u003eReplacement chick\u003c/td\u003e\u003c/tr\u003e\u003ctr\u003e\u003ctd style\u003d\"white-space:nowrap\"\u003e100000108939\u003ca name\u003d\"target-species-100000108939\"\u003e \u003c/a\u003e\u003c/td\u003e\u003ctd\u003eChick\u003c/td\u003e\u003c/tr\u003e\u003ctr\u003e\u003ctd style\u003d\"white-space:nowrap\"\u003e100000108940\u003ca name\u003d\"target-species-100000108940\"\u003e \u003c/a\u003e\u003c/td\u003e\u003ctd\u003ePullet\u003c/td\u003e\u003c/tr\u003e\u003ctr\u003e\u003ctd style\u003d\"white-space:nowrap\"\u003e100000108941\u003ca name\u003d\"target-species-100000108941\"\u003e \u003c/a\u003e\u003c/td\u003e\u003ctd\u003eCockatiel\u003c/td\u003e\u003c/tr\u003e\u003ctr\u003e\u003ctd style\u003d\"white-space:nowrap\"\u003e100000108942\u003ca name\u003d\"target-species-100000108942\"\u003e \u003c/a\u003e\u003c/td\u003e\u003ctd\u003eCockatoo\u003c/td\u003e\u003c/tr\u003e\u003ctr\u003e\u003ctd style\u003d\"white-space:nowrap\"\u003e100000108943\u003ca name\u003d\"target-species-100000108943\"\u003e \u003c/a\u003e\u003c/td\u003e\u003ctd\u003eCommon canary\u003c/td\u003e\u003c/tr\u003e\u003ctr\u003e\u003ctd style\u003d\"white-space:nowrap\"\u003e100000108944\u003ca name\u003d\"target-species-100000108944\"\u003e \u003c/a\u003e\u003c/td\u003e\u003ctd\u003eCrow\u003c/td\u003e\u003c/tr\u003e\u003ctr\u003e\u003ctd style\u003d\"white-space:nowrap\"\u003e100000108945\u003ca name\u003d\"target-species-100000108945\"\u003e \u003c/a\u003e\u003c/td\u003e\u003ctd\u003eDuck\u003c/td\u003e\u003c/tr\u003e\u003ctr\u003e\u003ctd style\u003d\"white-space:nowrap\"\u003e100000108946\u003ca name\u003d\"target-species-100000108946\"\u003e \u003c/a\u003e\u003c/td\u003e\u003ctd\u003eDuck broiler\u003c/td\u003e\u003c/tr\u003e\u003ctr\u003e\u003ctd style\u003d\"white-space:nowrap\"\u003e100000108947\u003ca name\u003d\"target-species-100000108947\"\u003e \u003c/a\u003e\u003c/td\u003e\u003ctd\u003eDuckling\u003c/td\u003e\u003c/tr\u003e\u003ctr\u003e\u003ctd style\u003d\"white-space:nowrap\"\u003e100000108948\u003ca name\u003d\"target-species-100000108948\"\u003e \u003c/a\u003e\u003c/td\u003e\u003ctd\u003eEagle\u003c/td\u003e\u003c/tr\u003e\u003ctr\u003e\u003ctd style\u003d\"white-space:nowrap\"\u003e100000108949\u003ca name\u003d\"target-species-100000108949\"\u003e \u003c/a\u003e\u003c/td\u003e\u003ctd\u003eEmu\u003c/td\u003e\u003c/tr\u003e\u003ctr\u003e\u003ctd style\u003d\"white-space:nowrap\"\u003e100000108950\u003ca name\u003d\"target-species-100000108950\"\u003e \u003c/a\u003e\u003c/td\u003e\u003ctd\u003eGoose\u003c/td\u003e\u003c/tr\u003e\u003ctr\u003e\u003ctd style\u003d\"white-space:nowrap\"\u003e100000108951\u003ca name\u003d\"target-species-100000108951\"\u003e \u003c/a\u003e\u003c/td\u003e\u003ctd\u003eGuinea fowl\u003c/td\u003e\u003c/tr\u003e\u003ctr\u003e\u003ctd style\u003d\"white-space:nowrap\"\u003e100000108952\u003ca name\u003d\"target-species-100000108952\"\u003e \u003c/a\u003e\u003c/td\u003e\u003ctd\u003eKestrel\u003c/td\u003e\u003c/tr\u003e\u003ctr\u003e\u003ctd style\u003d\"white-space:nowrap\"\u003e100000108953\u003ca name\u003d\"target-species-100000108953\"\u003e \u003c/a\u003e\u003c/td\u003e\u003ctd\u003eKite\u003c/td\u003e\u003c/tr\u003e\u003ctr\u003e\u003ctd style\u003d\"white-space:nowrap\"\u003e100000108954\u003ca name\u003d\"target-species-100000108954\"\u003e \u003c/a\u003e\u003c/td\u003e\u003ctd\u003eMacaw\u003c/td\u003e\u003c/tr\u003e\u003ctr\u003e\u003ctd style\u003d\"white-space:nowrap\"\u003e100000108955\u003ca name\u003d\"target-species-100000108955\"\u003e \u003c/a\u003e\u003c/td\u003e\u003ctd\u003eOstrich\u003c/td\u003e\u003c/tr\u003e\u003ctr\u003e\u003ctd style\u003d\"white-space:nowrap\"\u003e100000108956\u003ca name\u003d\"target-species-100000108956\"\u003e \u003c/a\u003e\u003c/td\u003e\u003ctd\u003eBirds\u003c/td\u003e\u003c/tr\u003e\u003ctr\u003e\u003ctd style\u003d\"white-space:nowrap\"\u003e100000108957\u003ca name\u003d\"target-species-100000108957\"\u003e \u003c/a\u003e\u003c/td\u003e\u003ctd\u003eFowls\u003c/td\u003e\u003c/tr\u003e\u003ctr\u003e\u003ctd style\u003d\"white-space:nowrap\"\u003e100000108958\u003ca name\u003d\"target-species-100000108958\"\u003e \u003c/a\u003e\u003c/td\u003e\u003ctd\u003eFinch\u003c/td\u003e\u003c/tr\u003e\u003ctr\u003e\u003ctd style\u003d\"white-space:nowrap\"\u003e100000108959\u003ca name\u003d\"target-species-100000108959\"\u003e \u003c/a\u003e\u003c/td\u003e\u003ctd\u003eGalliformes\u003c/td\u003e\u003c/tr\u003e\u003ctr\u003e\u003ctd style\u003d\"white-space:nowrap\"\u003e100000108960\u003ca name\u003d\"target-species-100000108960\"\u003e \u003c/a\u003e\u003c/td\u003e\u003ctd\u003eGame birds\u003c/td\u003e\u003c/tr\u003e\u003ctr\u003e\u003ctd style\u003d\"white-space:nowrap\"\u003e100000108961\u003ca name\u003d\"target-species-100000108961\"\u003e \u003c/a\u003e\u003c/td\u003e\u003ctd\u003ePekin duck\u003c/td\u003e\u003c/tr\u003e\u003ctr\u003e\u003ctd style\u003d\"white-space:nowrap\"\u003e100000108962\u003ca name\u003d\"target-species-100000108962\"\u003e \u003c/a\u003e\u003c/td\u003e\u003ctd\u003eOrnamental birds\u003c/td\u003e\u003c/tr\u003e\u003ctr\u003e\u003ctd style\u003d\"white-space:nowrap\"\u003e100000108963\u003ca name\u003d\"target-species-100000108963\"\u003e \u003c/a\u003e\u003c/td\u003e\u003ctd\u003ePoultry\u003c/td\u003e\u003c/tr\u003e\u003ctr\u003e\u003ctd style\u003d\"white-space:nowrap\"\u003e100000108964\u003ca name\u003d\"target-species-100000108964\"\u003e \u003c/a\u003e\u003c/td\u003e\u003ctd\u003eOwl\u003c/td\u003e\u003c/tr\u003e\u003ctr\u003e\u003ctd style\u003d\"white-space:nowrap\"\u003e100000108965\u003ca name\u003d\"target-species-100000108965\"\u003e \u003c/a\u003e\u003c/td\u003e\u003ctd\u003eParakeet\u003c/td\u003e\u003c/tr\u003e\u003ctr\u003e\u003ctd style\u003d\"white-space:nowrap\"\u003e100000108966\u003ca name\u003d\"target-species-100000108966\"\u003e \u003c/a\u003e\u003c/td\u003e\u003ctd\u003eParrot\u003c/td\u003e\u003c/tr\u003e\u003ctr\u003e\u003ctd style\u003d\"white-space:nowrap\"\u003e100000108967\u003ca name\u003d\"target-species-100000108967\"\u003e \u003c/a\u003e\u003c/td\u003e\u003ctd\u003ePartridge\u003c/td\u003e\u003c/tr\u003e\u003ctr\u003e\u003ctd style\u003d\"white-space:nowrap\"\u003e100000108968\u003ca name\u003d\"target-species-100000108968\"\u003e \u003c/a\u003e\u003c/td\u003e\u003ctd\u003ePeregrine Falcon\u003c/td\u003e\u003c/tr\u003e\u003ctr\u003e\u003ctd style\u003d\"white-space:nowrap\"\u003e100000108969\u003ca name\u003d\"target-species-100000108969\"\u003e \u003c/a\u003e\u003c/td\u003e\u003ctd\u003ePheasants\u003c/td\u003e\u003c/tr\u003e\u003ctr\u003e\u003ctd style\u003d\"white-space:nowrap\"\u003e100000108970\u003ca name\u003d\"target-species-100000108970\"\u003e \u003c/a\u003e\u003c/td\u003e\u003ctd\u003eCarrier pigeon\u003c/td\u003e\u003c/tr\u003e\u003ctr\u003e\u003ctd style\u003d\"white-space:nowrap\"\u003e100000108971\u003ca name\u003d\"target-species-100000108971\"\u003e \u003c/a\u003e\u003c/td\u003e\u003ctd\u003eNewborn calves\u003c/td\u003e\u003c/tr\u003e\u003ctr\u003e\u003ctd style\u003d\"white-space:nowrap\"\u003e100000108972\u003ca name\u003d\"target-species-100000108972\"\u003e \u003c/a\u003e\u003c/td\u003e\u003ctd\u003ePregnant cow\u003c/td\u003e\u003c/tr\u003e\u003ctr\u003e\u003ctd style\u003d\"white-space:nowrap\"\u003e100000108973\u003ca name\u003d\"target-species-100000108973\"\u003e \u003c/a\u003e\u003c/td\u003e\u003ctd\u003ePregnant heifer\u003c/td\u003e\u003c/tr\u003e\u003ctr\u003e\u003ctd style\u003d\"white-space:nowrap\"\u003e100000108974\u003ca name\u003d\"target-species-100000108974\"\u003e \u003c/a\u003e\u003c/td\u003e\u003ctd\u003ePre-ruminant cattle\u003c/td\u003e\u003c/tr\u003e\u003ctr\u003e\u003ctd style\u003d\"white-space:nowrap\"\u003e100000108975\u003ca name\u003d\"target-species-100000108975\"\u003e \u003c/a\u003e\u003c/td\u003e\u003ctd\u003eRuminant cattle\u003c/td\u003e\u003c/tr\u003e\u003ctr\u003e\u003ctd style\u003d\"white-space:nowrap\"\u003e100000108976\u003ca name\u003d\"target-species-100000108976\"\u003e \u003c/a\u003e\u003c/td\u003e\u003ctd\u003eWild cattle\u003c/td\u003e\u003c/tr\u003e\u003ctr\u003e\u003ctd style\u003d\"white-space:nowrap\"\u003e100000108977\u003ca name\u003d\"target-species-100000108977\"\u003e \u003c/a\u003e\u003c/td\u003e\u003ctd\u003eCalf\u003c/td\u003e\u003c/tr\u003e\u003ctr\u003e\u003ctd style\u003d\"white-space:nowrap\"\u003e100000108978\u003ca name\u003d\"target-species-100000108978\"\u003e \u003c/a\u003e\u003c/td\u003e\u003ctd\u003eHeifers\u003c/td\u003e\u003c/tr\u003e\u003ctr\u003e\u003ctd style\u003d\"white-space:nowrap\"\u003e100000108979\u003ca name\u003d\"target-species-100000108979\"\u003e \u003c/a\u003e\u003c/td\u003e\u003ctd\u003eOther Bovids\u003c/td\u003e\u003c/tr\u003e\u003ctr\u003e\u003ctd style\u003d\"white-space:nowrap\"\u003e100000108980\u003ca name\u003d\"target-species-100000108980\"\u003e \u003c/a\u003e\u003c/td\u003e\u003ctd\u003eAlpaca\u003c/td\u003e\u003c/tr\u003e\u003ctr\u003e\u003ctd style\u003d\"white-space:nowrap\"\u003e100000108981\u003ca name\u003d\"target-species-100000108981\"\u003e \u003c/a\u003e\u003c/td\u003e\u003ctd\u003eCamel\u003c/td\u003e\u003c/tr\u003e\u003ctr\u003e\u003ctd style\u003d\"white-space:nowrap\"\u003e100000108982\u003ca name\u003d\"target-species-100000108982\"\u003e \u003c/a\u003e\u003c/td\u003e\u003ctd\u003eLlama\u003c/td\u003e\u003c/tr\u003e\u003ctr\u003e\u003ctd style\u003d\"white-space:nowrap\"\u003e100000108983\u003ca name\u003d\"target-species-100000108983\"\u003e \u003c/a\u003e\u003c/td\u003e\u003ctd\u003eOther Camelids\u003c/td\u003e\u003c/tr\u003e\u003ctr\u003e\u003ctd style\u003d\"white-space:nowrap\"\u003e100000108984\u003ca name\u003d\"target-species-100000108984\"\u003e \u003c/a\u003e\u003c/td\u003e\u003ctd\u003eBitch\u003c/td\u003e\u003c/tr\u003e\u003ctr\u003e\u003ctd style\u003d\"white-space:nowrap\"\u003e100000108985\u003ca name\u003d\"target-species-100000108985\"\u003e \u003c/a\u003e\u003c/td\u003e\u003ctd\u003eBitch for reproduction\u003c/td\u003e\u003c/tr\u003e\u003ctr\u003e\u003ctd style\u003d\"white-space:nowrap\"\u003e100000108986\u003ca name\u003d\"target-species-100000108986\"\u003e \u003c/a\u003e\u003c/td\u003e\u003ctd\u003eAdult male dog\u003c/td\u003e\u003c/tr\u003e\u003ctr\u003e\u003ctd style\u003d\"white-space:nowrap\"\u003e100000108987\u003ca name\u003d\"target-species-100000108987\"\u003e \u003c/a\u003e\u003c/td\u003e\u003ctd\u003eAdult male dog for reproduction\u003c/td\u003e\u003c/tr\u003e\u003ctr\u003e\u003ctd style\u003d\"white-space:nowrap\"\u003e100000108988\u003ca name\u003d\"target-species-100000108988\"\u003e \u003c/a\u003e\u003c/td\u003e\u003ctd\u003eDogs\u003c/td\u003e\u003c/tr\u003e\u003ctr\u003e\u003ctd style\u003d\"white-space:nowrap\"\u003e100000108989\u003ca name\u003d\"target-species-100000108989\"\u003e \u003c/a\u003e\u003c/td\u003e\u003ctd\u003eLactating bitch\u003c/td\u003e\u003c/tr\u003e\u003ctr\u003e\u003ctd style\u003d\"white-space:nowrap\"\u003e100000108990\u003ca name\u003d\"target-species-100000108990\"\u003e \u003c/a\u003e\u003c/td\u003e\u003ctd\u003eLarge dog\u003c/td\u003e\u003c/tr\u003e\u003ctr\u003e\u003ctd style\u003d\"white-space:nowrap\"\u003e100000108991\u003ca name\u003d\"target-species-100000108991\"\u003e \u003c/a\u003e\u003c/td\u003e\u003ctd\u003eMedium dog\u003c/td\u003e\u003c/tr\u003e\u003ctr\u003e\u003ctd style\u003d\"white-space:nowrap\"\u003e100000108992\u003ca name\u003d\"target-species-100000108992\"\u003e \u003c/a\u003e\u003c/td\u003e\u003ctd\u003ePregnant bitch\u003c/td\u003e\u003c/tr\u003e\u003ctr\u003e\u003ctd style\u003d\"white-space:nowrap\"\u003e100000108993\u003ca name\u003d\"target-species-100000108993\"\u003e \u003c/a\u003e\u003c/td\u003e\u003ctd\u003eSmall dog\u003c/td\u003e\u003c/tr\u003e\u003ctr\u003e\u003ctd style\u003d\"white-space:nowrap\"\u003e100000108994\u003ca name\u003d\"target-species-100000108994\"\u003e \u003c/a\u003e\u003c/td\u003e\u003ctd\u003eVery large dog\u003c/td\u003e\u003c/tr\u003e\u003ctr\u003e\u003ctd style\u003d\"white-space:nowrap\"\u003e100000108995\u003ca name\u003d\"target-species-100000108995\"\u003e \u003c/a\u003e\u003c/td\u003e\u003ctd\u003eVery small dog\u003c/td\u003e\u003c/tr\u003e\u003ctr\u003e\u003ctd style\u003d\"white-space:nowrap\"\u003e100000108996\u003ca name\u003d\"target-species-100000108996\"\u003e \u003c/a\u003e\u003c/td\u003e\u003ctd\u003ePuppy\u003c/td\u003e\u003c/tr\u003e\u003ctr\u003e\u003ctd style\u003d\"white-space:nowrap\"\u003e100000108997\u003ca name\u003d\"target-species-100000108997\"\u003e \u003c/a\u003e\u003c/td\u003e\u003ctd\u003eFoxes\u003c/td\u003e\u003c/tr\u003e\u003ctr\u003e\u003ctd style\u003d\"white-space:nowrap\"\u003e100000108998\u003ca name\u003d\"target-species-100000108998\"\u003e \u003c/a\u003e\u003c/td\u003e\u003ctd\u003eJackal\u003c/td\u003e\u003c/tr\u003e\u003ctr\u003e\u003ctd style\u003d\"white-space:nowrap\"\u003e100000108999\u003ca name\u003d\"target-species-100000108999\"\u003e \u003c/a\u003e\u003c/td\u003e\u003ctd\u003eOther Canids\u003c/td\u003e\u003c/tr\u003e\u003ctr\u003e\u003ctd style\u003d\"white-space:nowrap\"\u003e100000109000\u003ca name\u003d\"target-species-100000109000\"\u003e \u003c/a\u003e\u003c/td\u003e\u003ctd\u003eRaccoon dogs\u003c/td\u003e\u003c/tr\u003e\u003ctr\u003e\u003ctd style\u003d\"white-space:nowrap\"\u003e100000109001\u003ca name\u003d\"target-species-100000109001\"\u003e \u003c/a\u003e\u003c/td\u003e\u003ctd\u003eWolf\u003c/td\u003e\u003c/tr\u003e\u003ctr\u003e\u003ctd style\u003d\"white-space:nowrap\"\u003e100000109002\u003ca name\u003d\"target-species-100000109002\"\u003e \u003c/a\u003e\u003c/td\u003e\u003ctd\u003eChamois\u003c/td\u003e\u003c/tr\u003e\u003ctr\u003e\u003ctd style\u003d\"white-space:nowrap\"\u003e100000109003\u003ca name\u003d\"target-species-100000109003\"\u003e \u003c/a\u003e\u003c/td\u003e\u003ctd\u003eOther Caprines\u003c/td\u003e\u003c/tr\u003e\u003ctr\u003e\u003ctd style\u003d\"white-space:nowrap\"\u003e100000109004\u003ca name\u003d\"target-species-100000109004\"\u003e \u003c/a\u003e\u003c/td\u003e\u003ctd\u003eAdult female goat\u003c/td\u003e\u003c/tr\u003e\u003ctr\u003e\u003ctd style\u003d\"white-space:nowrap\"\u003e100000109005\u003ca name\u003d\"target-species-100000109005\"\u003e \u003c/a\u003e\u003c/td\u003e\u003ctd\u003eAdult male goat\u003c/td\u003e\u003c/tr\u003e\u003ctr\u003e\u003ctd style\u003d\"white-space:nowrap\"\u003e100000109006\u003ca name\u003d\"target-species-100000109006\"\u003e \u003c/a\u003e\u003c/td\u003e\u003ctd\u003eDry adult female goat\u003c/td\u003e\u003c/tr\u003e\u003ctr\u003e\u003ctd style\u003d\"white-space:nowrap\"\u003e100000109007\u003ca name\u003d\"target-species-100000109007\"\u003e \u003c/a\u003e\u003c/td\u003e\u003ctd\u003eGoats\u003c/td\u003e\u003c/tr\u003e\u003ctr\u003e\u003ctd style\u003d\"white-space:nowrap\"\u003e100000109008\u003ca name\u003d\"target-species-100000109008\"\u003e \u003c/a\u003e\u003c/td\u003e\u003ctd\u003eLactating adult female goat\u003c/td\u003e\u003c/tr\u003e\u003ctr\u003e\u003ctd style\u003d\"white-space:nowrap\"\u003e100000109009\u003ca name\u003d\"target-species-100000109009\"\u003e \u003c/a\u003e\u003c/td\u003e\u003ctd\u003ePregnant adult female goat\u003c/td\u003e\u003c/tr\u003e\u003ctr\u003e\u003ctd style\u003d\"white-space:nowrap\"\u003e100000109010\u003ca name\u003d\"target-species-100000109010\"\u003e \u003c/a\u003e\u003c/td\u003e\u003ctd\u003ePre-ruminant goat\u003c/td\u003e\u003c/tr\u003e\u003ctr\u003e\u003ctd style\u003d\"white-space:nowrap\"\u003e100000109011\u003ca name\u003d\"target-species-100000109011\"\u003e \u003c/a\u003e\u003c/td\u003e\u003ctd\u003eRuminant goat\u003c/td\u003e\u003c/tr\u003e\u003ctr\u003e\u003ctd style\u003d\"white-space:nowrap\"\u003e100000109012\u003ca name\u003d\"target-species-100000109012\"\u003e \u003c/a\u003e\u003c/td\u003e\u003ctd\u003eWild goat\u003c/td\u003e\u003c/tr\u003e\u003ctr\u003e\u003ctd style\u003d\"white-space:nowrap\"\u003e100000109013\u003ca name\u003d\"target-species-100000109013\"\u003e \u003c/a\u003e\u003c/td\u003e\u003ctd\u003eKid\u003c/td\u003e\u003c/tr\u003e\u003ctr\u003e\u003ctd style\u003d\"white-space:nowrap\"\u003e100000109014\u003ca name\u003d\"target-species-100000109014\"\u003e \u003c/a\u003e\u003c/td\u003e\u003ctd\u003eOther Ovids\u003c/td\u003e\u003c/tr\u003e\u003ctr\u003e\u003ctd style\u003d\"white-space:nowrap\"\u003e100000109015\u003ca name\u003d\"target-species-100000109015\"\u003e \u003c/a\u003e\u003c/td\u003e\u003ctd\u003eEwe\u003c/td\u003e\u003c/tr\u003e\u003ctr\u003e\u003ctd style\u003d\"white-space:nowrap\"\u003e100000109016\u003ca name\u003d\"target-species-100000109016\"\u003e \u003c/a\u003e\u003c/td\u003e\u003ctd\u003eRam\u003c/td\u003e\u003c/tr\u003e\u003ctr\u003e\u003ctd style\u003d\"white-space:nowrap\"\u003e100000109017\u003ca name\u003d\"target-species-100000109017\"\u003e \u003c/a\u003e\u003c/td\u003e\u003ctd\u003eDry ewe\u003c/td\u003e\u003c/tr\u003e\u003ctr\u003e\u003ctd style\u003d\"white-space:nowrap\"\u003e100000109018\u003ca name\u003d\"target-species-100000109018\"\u003e \u003c/a\u003e\u003c/td\u003e\u003ctd\u003eLactating ewe\u003c/td\u003e\u003c/tr\u003e\u003ctr\u003e\u003ctd style\u003d\"white-space:nowrap\"\u003e100000109019\u003ca name\u003d\"target-species-100000109019\"\u003e \u003c/a\u003e\u003c/td\u003e\u003ctd\u003ePregnant ewe\u003c/td\u003e\u003c/tr\u003e\u003ctr\u003e\u003ctd style\u003d\"white-space:nowrap\"\u003e100000109020\u003ca name\u003d\"target-species-100000109020\"\u003e \u003c/a\u003e\u003c/td\u003e\u003ctd\u003ePre-ruminant sheep\u003c/td\u003e\u003c/tr\u003e\u003ctr\u003e\u003ctd style\u003d\"white-space:nowrap\"\u003e100000109021\u003ca name\u003d\"target-species-100000109021\"\u003e \u003c/a\u003e\u003c/td\u003e\u003ctd\u003eRuminant sheep\u003c/td\u003e\u003c/tr\u003e\u003ctr\u003e\u003ctd style\u003d\"white-space:nowrap\"\u003e100000109022\u003ca name\u003d\"target-species-100000109022\"\u003e \u003c/a\u003e\u003c/td\u003e\u003ctd\u003eSheep\u003c/td\u003e\u003c/tr\u003e\u003ctr\u003e\u003ctd style\u003d\"white-space:nowrap\"\u003e100000109023\u003ca name\u003d\"target-species-100000109023\"\u003e \u003c/a\u003e\u003c/td\u003e\u003ctd\u003eSheep for meat production\u003c/td\u003e\u003c/tr\u003e\u003ctr\u003e\u003ctd style\u003d\"white-space:nowrap\"\u003e100000109024\u003ca name\u003d\"target-species-100000109024\"\u003e \u003c/a\u003e\u003c/td\u003e\u003ctd\u003eDairy sheep\u003c/td\u003e\u003c/tr\u003e\u003ctr\u003e\u003ctd style\u003d\"white-space:nowrap\"\u003e100000109025\u003ca name\u003d\"target-species-100000109025\"\u003e \u003c/a\u003e\u003c/td\u003e\u003ctd\u003eWild sheep\u003c/td\u003e\u003c/tr\u003e\u003ctr\u003e\u003ctd style\u003d\"white-space:nowrap\"\u003e100000109026\u003ca name\u003d\"target-species-100000109026\"\u003e \u003c/a\u003e\u003c/td\u003e\u003ctd\u003eLamb\u003c/td\u003e\u003c/tr\u003e\u003ctr\u003e\u003ctd style\u003d\"white-space:nowrap\"\u003e100000109027\u003ca name\u003d\"target-species-100000109027\"\u003e \u003c/a\u003e\u003c/td\u003e\u003ctd\u003eElk\u003c/td\u003e\u003c/tr\u003e\u003ctr\u003e\u003ctd style\u003d\"white-space:nowrap\"\u003e100000109028\u003ca name\u003d\"target-species-100000109028\"\u003e \u003c/a\u003e\u003c/td\u003e\u003ctd\u003eFallow deer\u003c/td\u003e\u003c/tr\u003e\u003ctr\u003e\u003ctd style\u003d\"white-space:nowrap\"\u003e100000109029\u003ca name\u003d\"target-species-100000109029\"\u003e \u003c/a\u003e\u003c/td\u003e\u003ctd\u003eMoose\u003c/td\u003e\u003c/tr\u003e\u003ctr\u003e\u003ctd style\u003d\"white-space:nowrap\"\u003e100000109030\u003ca name\u003d\"target-species-100000109030\"\u003e \u003c/a\u003e\u003c/td\u003e\u003ctd\u003eAntelope\u003c/td\u003e\u003c/tr\u003e\u003ctr\u003e\u003ctd style\u003d\"white-space:nowrap\"\u003e100000109031\u003ca name\u003d\"target-species-100000109031\"\u003e \u003c/a\u003e\u003c/td\u003e\u003ctd\u003eCervid\u003c/td\u003e\u003c/tr\u003e\u003ctr\u003e\u003ctd style\u003d\"white-space:nowrap\"\u003e100000109032\u003ca name\u003d\"target-species-100000109032\"\u003e \u003c/a\u003e\u003c/td\u003e\u003ctd\u003eDeer\u003c/td\u003e\u003c/tr\u003e\u003ctr\u003e\u003ctd style\u003d\"white-space:nowrap\"\u003e100000109033\u003ca name\u003d\"target-species-100000109033\"\u003e \u003c/a\u003e\u003c/td\u003e\u003ctd\u003eOther Deer\u003c/td\u003e\u003c/tr\u003e\u003ctr\u003e\u003ctd style\u003d\"white-space:nowrap\"\u003e100000109034\u003ca name\u003d\"target-species-100000109034\"\u003e \u003c/a\u003e\u003c/td\u003e\u003ctd\u003eRed deer\u003c/td\u003e\u003c/tr\u003e\u003ctr\u003e\u003ctd style\u003d\"white-space:nowrap\"\u003e100000109035\u003ca name\u003d\"target-species-100000109035\"\u003e \u003c/a\u003e\u003c/td\u003e\u003ctd\u003eReindeer\u003c/td\u003e\u003c/tr\u003e\u003ctr\u003e\u003ctd style\u003d\"white-space:nowrap\"\u003e100000109036\u003ca name\u003d\"target-species-100000109036\"\u003e \u003c/a\u003e\u003c/td\u003e\u003ctd\u003eRoe deer\u003c/td\u003e\u003c/tr\u003e\u003ctr\u003e\u003ctd style\u003d\"white-space:nowrap\"\u003e100000109037\u003ca name\u003d\"target-species-100000109037\"\u003e \u003c/a\u003e\u003c/td\u003e\u003ctd\u003eDonkey\u003c/td\u003e\u003c/tr\u003e\u003ctr\u003e\u003ctd style\u003d\"white-space:nowrap\"\u003e100000109038\u003ca name\u003d\"target-species-100000109038\"\u003e \u003c/a\u003e\u003c/td\u003e\u003ctd\u003eMare\u003c/td\u003e\u003c/tr\u003e\u003ctr\u003e\u003ctd style\u003d\"white-space:nowrap\"\u003e100000109039\u003ca name\u003d\"target-species-100000109039\"\u003e \u003c/a\u003e\u003c/td\u003e\u003ctd\u003eGelding\u003c/td\u003e\u003c/tr\u003e\u003ctr\u003e\u003ctd style\u003d\"white-space:nowrap\"\u003e100000109040\u003ca name\u003d\"target-species-100000109040\"\u003e \u003c/a\u003e\u003c/td\u003e\u003ctd\u003eHorses\u003c/td\u003e\u003c/tr\u003e\u003ctr\u003e\u003ctd style\u003d\"white-space:nowrap\"\u003e100000109041\u003ca name\u003d\"target-species-100000109041\"\u003e \u003c/a\u003e\u003c/td\u003e\u003ctd\u003eStallion\u003c/td\u003e\u003c/tr\u003e\u003ctr\u003e\u003ctd style\u003d\"white-space:nowrap\"\u003e100000109042\u003ca name\u003d\"target-species-100000109042\"\u003e \u003c/a\u003e\u003c/td\u003e\u003ctd\u003ePony\u003c/td\u003e\u003c/tr\u003e\u003ctr\u003e\u003ctd style\u003d\"white-space:nowrap\"\u003e100000109043\u003ca name\u003d\"target-species-100000109043\"\u003e \u003c/a\u003e\u003c/td\u003e\u003ctd\u003ePregnant mare\u003c/td\u003e\u003c/tr\u003e\u003ctr\u003e\u003ctd style\u003d\"white-space:nowrap\"\u003e100000109044\u003ca name\u003d\"target-species-100000109044\"\u003e \u003c/a\u003e\u003c/td\u003e\u003ctd\u003eNon food-producing horse\u003c/td\u003e\u003c/tr\u003e\u003ctr\u003e\u003ctd style\u003d\"white-space:nowrap\"\u003e100000109045\u003ca name\u003d\"target-species-100000109045\"\u003e \u003c/a\u003e\u003c/td\u003e\u003ctd\u003eSuckling colt\u003c/td\u003e\u003c/tr\u003e\u003ctr\u003e\u003ctd style\u003d\"white-space:nowrap\"\u003e100000109046\u003ca name\u003d\"target-species-100000109046\"\u003e \u003c/a\u003e\u003c/td\u003e\u003ctd\u003eColt\u003c/td\u003e\u003c/tr\u003e\u003ctr\u003e\u003ctd style\u003d\"white-space:nowrap\"\u003e100000109047\u003ca name\u003d\"target-species-100000109047\"\u003e \u003c/a\u003e\u003c/td\u003e\u003ctd\u003eMule\u003c/td\u003e\u003c/tr\u003e\u003ctr\u003e\u003ctd style\u003d\"white-space:nowrap\"\u003e100000109048\u003ca name\u003d\"target-species-100000109048\"\u003e \u003c/a\u003e\u003c/td\u003e\u003ctd\u003eEquid\u003c/td\u003e\u003c/tr\u003e\u003ctr\u003e\u003ctd style\u003d\"white-space:nowrap\"\u003e100000109049\u003ca name\u003d\"target-species-100000109049\"\u003e \u003c/a\u003e\u003c/td\u003e\u003ctd\u003eFemale equid\u003c/td\u003e\u003c/tr\u003e\u003ctr\u003e\u003ctd style\u003d\"white-space:nowrap\"\u003e100000109050\u003ca name\u003d\"target-species-100000109050\"\u003e \u003c/a\u003e\u003c/td\u003e\u003ctd\u003eOther Equids\u003c/td\u003e\u003c/tr\u003e\u003ctr\u003e\u003ctd style\u003d\"white-space:nowrap\"\u003e100000109051\u003ca name\u003d\"target-species-100000109051\"\u003e \u003c/a\u003e\u003c/td\u003e\u003ctd\u003eZebra\u003c/td\u003e\u003c/tr\u003e\u003ctr\u003e\u003ctd style\u003d\"white-space:nowrap\"\u003e100000109052\u003ca name\u003d\"target-species-100000109052\"\u003e \u003c/a\u003e\u003c/td\u003e\u003ctd\u003eBobcat\u003c/td\u003e\u003c/tr\u003e\u003ctr\u003e\u003ctd style\u003d\"white-space:nowrap\"\u003e100000109053\u003ca name\u003d\"target-species-100000109053\"\u003e \u003c/a\u003e\u003c/td\u003e\u003ctd\u003eAdult female cat\u003c/td\u003e\u003c/tr\u003e\u003ctr\u003e\u003ctd style\u003d\"white-space:nowrap\"\u003e100000109054\u003ca name\u003d\"target-species-100000109054\"\u003e \u003c/a\u003e\u003c/td\u003e\u003ctd\u003eAdult female cat for reproduction\u003c/td\u003e\u003c/tr\u003e\u003ctr\u003e\u003ctd style\u003d\"white-space:nowrap\"\u003e100000109055\u003ca name\u003d\"target-species-100000109055\"\u003e \u003c/a\u003e\u003c/td\u003e\u003ctd\u003eAdult male cat\u003c/td\u003e\u003c/tr\u003e\u003ctr\u003e\u003ctd style\u003d\"white-space:nowrap\"\u003e100000109056\u003ca name\u003d\"target-species-100000109056\"\u003e \u003c/a\u003e\u003c/td\u003e\u003ctd\u003eCats\u003c/td\u003e\u003c/tr\u003e\u003ctr\u003e\u003ctd style\u003d\"white-space:nowrap\"\u003e100000109057\u003ca name\u003d\"target-species-100000109057\"\u003e \u003c/a\u003e\u003c/td\u003e\u003ctd\u003eLactating cat\u003c/td\u003e\u003c/tr\u003e\u003ctr\u003e\u003ctd style\u003d\"white-space:nowrap\"\u003e100000109058\u003ca name\u003d\"target-species-100000109058\"\u003e \u003c/a\u003e\u003c/td\u003e\u003ctd\u003eLarge cat\u003c/td\u003e\u003c/tr\u003e\u003ctr\u003e\u003ctd style\u003d\"white-space:nowrap\"\u003e100000109059\u003ca name\u003d\"target-species-100000109059\"\u003e \u003c/a\u003e\u003c/td\u003e\u003ctd\u003eMedium cat\u003c/td\u003e\u003c/tr\u003e\u003ctr\u003e\u003ctd style\u003d\"white-space:nowrap\"\u003e100000109060\u003ca name\u003d\"target-species-100000109060\"\u003e \u003c/a\u003e\u003c/td\u003e\u003ctd\u003ePregnant cat\u003c/td\u003e\u003c/tr\u003e\u003ctr\u003e\u003ctd style\u003d\"white-space:nowrap\"\u003e100000109061\u003ca name\u003d\"target-species-100000109061\"\u003e \u003c/a\u003e\u003c/td\u003e\u003ctd\u003eSmall cat\u003c/td\u003e\u003c/tr\u003e\u003ctr\u003e\u003ctd style\u003d\"white-space:nowrap\"\u003e100000109062\u003ca name\u003d\"target-species-100000109062\"\u003e \u003c/a\u003e\u003c/td\u003e\u003ctd\u003eKitten\u003c/td\u003e\u003c/tr\u003e\u003ctr\u003e\u003ctd style\u003d\"white-space:nowrap\"\u003e100000109063\u003ca name\u003d\"target-species-100000109063\"\u003e \u003c/a\u003e\u003c/td\u003e\u003ctd\u003eCougar\u003c/td\u003e\u003c/tr\u003e\u003ctr\u003e\u003ctd style\u003d\"white-space:nowrap\"\u003e100000109064\u003ca name\u003d\"target-species-100000109064\"\u003e \u003c/a\u003e\u003c/td\u003e\u003ctd\u003eJaguar\u003c/td\u003e\u003c/tr\u003e\u003ctr\u003e\u003ctd style\u003d\"white-space:nowrap\"\u003e100000109065\u003ca name\u003d\"target-species-100000109065\"\u003e \u003c/a\u003e\u003c/td\u003e\u003ctd\u003eLeopard\u003c/td\u003e\u003c/tr\u003e\u003ctr\u003e\u003ctd style\u003d\"white-space:nowrap\"\u003e100000109066\u003ca name\u003d\"target-species-100000109066\"\u003e \u003c/a\u003e\u003c/td\u003e\u003ctd\u003eLion\u003c/td\u003e\u003c/tr\u003e\u003ctr\u003e\u003ctd style\u003d\"white-space:nowrap\"\u003e100000109067\u003ca name\u003d\"target-species-100000109067\"\u003e \u003c/a\u003e\u003c/td\u003e\u003ctd\u003eLynx\u003c/td\u003e\u003c/tr\u003e\u003ctr\u003e\u003ctd style\u003d\"white-space:nowrap\"\u003e100000109068\u003ca name\u003d\"target-species-100000109068\"\u003e \u003c/a\u003e\u003c/td\u003e\u003ctd\u003eOther Felids\u003c/td\u003e\u003c/tr\u003e\u003ctr\u003e\u003ctd style\u003d\"white-space:nowrap\"\u003e100000109069\u003ca name\u003d\"target-species-100000109069\"\u003e \u003c/a\u003e\u003c/td\u003e\u003ctd\u003eTiger\u003c/td\u003e\u003c/tr\u003e\u003ctr\u003e\u003ctd style\u003d\"white-space:nowrap\"\u003e100000109070\u003ca name\u003d\"target-species-100000109070\"\u003e \u003c/a\u003e\u003c/td\u003e\u003ctd\u003eTsushima wild cat\u003c/td\u003e\u003c/tr\u003e\u003ctr\u003e\u003ctd style\u003d\"white-space:nowrap\"\u003e100000109071\u003ca name\u003d\"target-species-100000109071\"\u003e \u003c/a\u003e\u003c/td\u003e\u003ctd\u003eOther Leporids\u003c/td\u003e\u003c/tr\u003e\u003ctr\u003e\u003ctd style\u003d\"white-space:nowrap\"\u003e100000109072\u003ca name\u003d\"target-species-100000109072\"\u003e \u003c/a\u003e\u003c/td\u003e\u003ctd\u003eHare\u003c/td\u003e\u003c/tr\u003e\u003ctr\u003e\u003ctd style\u003d\"white-space:nowrap\"\u003e100000109073\u003ca name\u003d\"target-species-100000109073\"\u003e \u003c/a\u003e\u003c/td\u003e\u003ctd\u003eFemale rabbit for reproduction\u003c/td\u003e\u003c/tr\u003e\u003c/table\u003e\u003c/div\u003e"
+  },
+  "extension": [
+    {
+      "url": "http://hl7.org/fhir/StructureDefinition/structuredefinition-wg",
+      "valueCode": "brr"
+    },
+    {
+      "url": "http://hl7.org/fhir/StructureDefinition/structuredefinition-standards-status",
+      "valueCode": "trial-use"
+    },
+    {
+      "url": "http://hl7.org/fhir/StructureDefinition/structuredefinition-fmm",
+      "valueInteger": 1
+    }
+  ],
+  "url": "http://hl7.org/fhir/target-species",
+  "identifier": [
+    {
+      "system": "urn:ietf:rfc:3986",
+      "value": "urn:oid:2.16.840.1.113883.4.642.1.1589"
+    }
+  ],
+  "version": "4.3.0-cibuild",
+  "name": "TargetSpecies",
+  "title": "TargetSpecies",
+  "status": "draft",
+  "experimental": false,
+  "date": "2021-01-05T10:01:24+11:00",
+  "publisher": "HL7 (FHIR Project)",
+  "contact": [
+    {
+      "telecom": [
+        {
+          "system": "url",
+          "value": "http://hl7.org/fhir"
+        },
+        {
+          "system": "email",
+          "value": "fhir@lists.hl7.org"
+        }
+      ]
+    }
+  ],
+  "description": "A species for which a medicinal product is intended.",
+  "caseSensitive": true,
+  "valueSet": "http://hl7.org/fhir/ValueSet/target-species",
+  "content": "complete",
+  "concept": [
+    {
+      "code": "100000108874",
+      "display": "Dove"
+    },
+    {
+      "code": "100000108875",
+      "display": "Quail"
+    },
+    {
+      "code": "100000108876",
+      "display": "Snipe"
+    },
+    {
+      "code": "100000108877",
+      "display": "Sparrow"
+    },
+    {
+      "code": "100000108878",
+      "display": "Starling"
+    },
+    {
+      "code": "100000108879",
+      "display": "Swan"
+    },
+    {
+      "code": "100000108880",
+      "display": "Turkey hen"
+    },
+    {
+      "code": "100000108881",
+      "display": "Turkey cock"
+    },
+    {
+      "code": "100000108882",
+      "display": "Turkeys"
+    },
+    {
+      "code": "100000108883",
+      "display": "Turkey for reproduction"
+    },
+    {
+      "code": "100000108884",
+      "display": "Poult"
+    },
+    {
+      "code": "100000108885",
+      "display": "Turtle dove"
+    },
+    {
+      "code": "100000108886",
+      "display": "Bison"
+    },
+    {
+      "code": "100000108887",
+      "display": "Buffalo"
+    },
+    {
+      "code": "100000108888",
+      "display": "Cows"
+    },
+    {
+      "code": "100000108889",
+      "display": "Cow for reproduction"
+    },
+    {
+      "code": "100000108890",
+      "display": "Bull for reproduction"
+    },
+    {
+      "code": "100000108891",
+      "display": "Ox"
+    },
+    {
+      "code": "100000108892",
+      "display": "Bullock"
+    },
+    {
+      "code": "100000108893",
+      "display": "Cattle"
+    },
+    {
+      "code": "100000108894",
+      "display": "Beef cattle"
+    },
+    {
+      "code": "100000108895",
+      "display": "Dairy cattle"
+    },
+    {
+      "code": "100000108896",
+      "display": "Dry cow"
+    },
+    {
+      "code": "100000108897",
+      "display": "Bull"
+    },
+    {
+      "code": "100000108898",
+      "display": "Lactating cow"
+    },
+    {
+      "code": "100000108899",
+      "display": "All other food producing species"
+    },
+    {
+      "code": "100000108900",
+      "display": "All non-food producing species"
+    },
+    {
+      "code": "100000108901",
+      "display": "All species  "
+    },
+    {
+      "code": "100000108902",
+      "display": "Carnivores"
+    },
+    {
+      "code": "100000108903",
+      "display": "Domestic animals"
+    },
+    {
+      "code": "100000108904",
+      "display": "Fur animals"
+    },
+    {
+      "code": "100000108905",
+      "display": "Game animals"
+    },
+    {
+      "code": "100000108906",
+      "display": "Laboratory animals"
+    },
+    {
+      "code": "100000108907",
+      "display": "Major species"
+    },
+    {
+      "code": "100000108908",
+      "display": "Minor species"
+    },
+    {
+      "code": "100000108909",
+      "display": "Ruminant"
+    },
+    {
+      "code": "100000108910",
+      "display": "Ruminant and porcine"
+    },
+    {
+      "code": "100000108911",
+      "display": "Small animals"
+    },
+    {
+      "code": "100000108912",
+      "display": "Crocodile"
+    },
+    {
+      "code": "100000108913",
+      "display": "Frog"
+    },
+    {
+      "code": "100000108914",
+      "display": "Iguana"
+    },
+    {
+      "code": "100000108915",
+      "display": "Lizard"
+    },
+    {
+      "code": "100000108916",
+      "display": "Amphibians"
+    },
+    {
+      "code": "100000108917",
+      "display": "Reptiles"
+    },
+    {
+      "code": "100000108918",
+      "display": "Reptiles for production"
+    },
+    {
+      "code": "100000108919",
+      "display": "Snake"
+    },
+    {
+      "code": "100000108920",
+      "display": "Tortoise"
+    },
+    {
+      "code": "100000108921",
+      "display": "Turtle"
+    },
+    {
+      "code": "100000108922",
+      "display": "Honey bees"
+    },
+    {
+      "code": "100000108923",
+      "display": "Crustacean"
+    },
+    {
+      "code": "100000108924",
+      "display": "Spider"
+    },
+    {
+      "code": "100000108925",
+      "display": "Indian hen"
+    },
+    {
+      "code": "100000108926",
+      "display": "African Goshawk"
+    },
+    {
+      "code": "100000108927",
+      "display": "Black Kite"
+    },
+    {
+      "code": "100000108928",
+      "display": "Budgerigar"
+    },
+    {
+      "code": "100000108929",
+      "display": "Bustard"
+    },
+    {
+      "code": "100000108930",
+      "display": "Buzzard"
+    },
+    {
+      "code": "100000108931",
+      "display": "Hen"
+    },
+    {
+      "code": "100000108932",
+      "display": "Layer hen"
+    },
+    {
+      "code": "100000108933",
+      "display": "Cock"
+    },
+    {
+      "code": "100000108934",
+      "display": "Broiler"
+    },
+    {
+      "code": "100000108935",
+      "display": "Chickens"
+    },
+    {
+      "code": "100000108936",
+      "display": "Chicken embryonated eggs"
+    },
+    {
+      "code": "100000108937",
+      "display": "Chicken for reproduction"
+    },
+    {
+      "code": "100000108938",
+      "display": "Replacement chick"
+    },
+    {
+      "code": "100000108939",
+      "display": "Chick"
+    },
+    {
+      "code": "100000108940",
+      "display": "Pullet"
+    },
+    {
+      "code": "100000108941",
+      "display": "Cockatiel"
+    },
+    {
+      "code": "100000108942",
+      "display": "Cockatoo"
+    },
+    {
+      "code": "100000108943",
+      "display": "Common canary"
+    },
+    {
+      "code": "100000108944",
+      "display": "Crow"
+    },
+    {
+      "code": "100000108945",
+      "display": "Duck"
+    },
+    {
+      "code": "100000108946",
+      "display": "Duck broiler"
+    },
+    {
+      "code": "100000108947",
+      "display": "Duckling"
+    },
+    {
+      "code": "100000108948",
+      "display": "Eagle"
+    },
+    {
+      "code": "100000108949",
+      "display": "Emu"
+    },
+    {
+      "code": "100000108950",
+      "display": "Goose"
+    },
+    {
+      "code": "100000108951",
+      "display": "Guinea fowl"
+    },
+    {
+      "code": "100000108952",
+      "display": "Kestrel"
+    },
+    {
+      "code": "100000108953",
+      "display": "Kite"
+    },
+    {
+      "code": "100000108954",
+      "display": "Macaw"
+    },
+    {
+      "code": "100000108955",
+      "display": "Ostrich"
+    },
+    {
+      "code": "100000108956",
+      "display": "Birds"
+    },
+    {
+      "code": "100000108957",
+      "display": "Fowls"
+    },
+    {
+      "code": "100000108958",
+      "display": "Finch"
+    },
+    {
+      "code": "100000108959",
+      "display": "Galliformes"
+    },
+    {
+      "code": "100000108960",
+      "display": "Game birds"
+    },
+    {
+      "code": "100000108961",
+      "display": "Pekin duck"
+    },
+    {
+      "code": "100000108962",
+      "display": "Ornamental birds"
+    },
+    {
+      "code": "100000108963",
+      "display": "Poultry"
+    },
+    {
+      "code": "100000108964",
+      "display": "Owl"
+    },
+    {
+      "code": "100000108965",
+      "display": "Parakeet"
+    },
+    {
+      "code": "100000108966",
+      "display": "Parrot"
+    },
+    {
+      "code": "100000108967",
+      "display": "Partridge"
+    },
+    {
+      "code": "100000108968",
+      "display": "Peregrine Falcon"
+    },
+    {
+      "code": "100000108969",
+      "display": "Pheasants"
+    },
+    {
+      "code": "100000108970",
+      "display": "Carrier pigeon"
+    },
+    {
+      "code": "100000108971",
+      "display": "Newborn calves"
+    },
+    {
+      "code": "100000108972",
+      "display": "Pregnant cow"
+    },
+    {
+      "code": "100000108973",
+      "display": "Pregnant heifer"
+    },
+    {
+      "code": "100000108974",
+      "display": "Pre-ruminant cattle"
+    },
+    {
+      "code": "100000108975",
+      "display": "Ruminant cattle"
+    },
+    {
+      "code": "100000108976",
+      "display": "Wild cattle"
+    },
+    {
+      "code": "100000108977",
+      "display": "Calf"
+    },
+    {
+      "code": "100000108978",
+      "display": "Heifers"
+    },
+    {
+      "code": "100000108979",
+      "display": "Other Bovids"
+    },
+    {
+      "code": "100000108980",
+      "display": "Alpaca"
+    },
+    {
+      "code": "100000108981",
+      "display": "Camel"
+    },
+    {
+      "code": "100000108982",
+      "display": "Llama"
+    },
+    {
+      "code": "100000108983",
+      "display": "Other Camelids"
+    },
+    {
+      "code": "100000108984",
+      "display": "Bitch"
+    },
+    {
+      "code": "100000108985",
+      "display": "Bitch for reproduction"
+    },
+    {
+      "code": "100000108986",
+      "display": "Adult male dog"
+    },
+    {
+      "code": "100000108987",
+      "display": "Adult male dog for reproduction"
+    },
+    {
+      "code": "100000108988",
+      "display": "Dogs"
+    },
+    {
+      "code": "100000108989",
+      "display": "Lactating bitch"
+    },
+    {
+      "code": "100000108990",
+      "display": "Large dog"
+    },
+    {
+      "code": "100000108991",
+      "display": "Medium dog"
+    },
+    {
+      "code": "100000108992",
+      "display": "Pregnant bitch"
+    },
+    {
+      "code": "100000108993",
+      "display": "Small dog"
+    },
+    {
+      "code": "100000108994",
+      "display": "Very large dog"
+    },
+    {
+      "code": "100000108995",
+      "display": "Very small dog"
+    },
+    {
+      "code": "100000108996",
+      "display": "Puppy"
+    },
+    {
+      "code": "100000108997",
+      "display": "Foxes"
+    },
+    {
+      "code": "100000108998",
+      "display": "Jackal"
+    },
+    {
+      "code": "100000108999",
+      "display": "Other Canids"
+    },
+    {
+      "code": "100000109000",
+      "display": "Raccoon dogs"
+    },
+    {
+      "code": "100000109001",
+      "display": "Wolf"
+    },
+    {
+      "code": "100000109002",
+      "display": "Chamois"
+    },
+    {
+      "code": "100000109003",
+      "display": "Other Caprines"
+    },
+    {
+      "code": "100000109004",
+      "display": "Adult female goat"
+    },
+    {
+      "code": "100000109005",
+      "display": "Adult male goat"
+    },
+    {
+      "code": "100000109006",
+      "display": "Dry adult female goat"
+    },
+    {
+      "code": "100000109007",
+      "display": "Goats"
+    },
+    {
+      "code": "100000109008",
+      "display": "Lactating adult female goat"
+    },
+    {
+      "code": "100000109009",
+      "display": "Pregnant adult female goat"
+    },
+    {
+      "code": "100000109010",
+      "display": "Pre-ruminant goat"
+    },
+    {
+      "code": "100000109011",
+      "display": "Ruminant goat"
+    },
+    {
+      "code": "100000109012",
+      "display": "Wild goat"
+    },
+    {
+      "code": "100000109013",
+      "display": "Kid"
+    },
+    {
+      "code": "100000109014",
+      "display": "Other Ovids"
+    },
+    {
+      "code": "100000109015",
+      "display": "Ewe"
+    },
+    {
+      "code": "100000109016",
+      "display": "Ram"
+    },
+    {
+      "code": "100000109017",
+      "display": "Dry ewe"
+    },
+    {
+      "code": "100000109018",
+      "display": "Lactating ewe"
+    },
+    {
+      "code": "100000109019",
+      "display": "Pregnant ewe"
+    },
+    {
+      "code": "100000109020",
+      "display": "Pre-ruminant sheep"
+    },
+    {
+      "code": "100000109021",
+      "display": "Ruminant sheep"
+    },
+    {
+      "code": "100000109022",
+      "display": "Sheep"
+    },
+    {
+      "code": "100000109023",
+      "display": "Sheep for meat production"
+    },
+    {
+      "code": "100000109024",
+      "display": "Dairy sheep"
+    },
+    {
+      "code": "100000109025",
+      "display": "Wild sheep"
+    },
+    {
+      "code": "100000109026",
+      "display": "Lamb"
+    },
+    {
+      "code": "100000109027",
+      "display": "Elk"
+    },
+    {
+      "code": "100000109028",
+      "display": "Fallow deer"
+    },
+    {
+      "code": "100000109029",
+      "display": "Moose"
+    },
+    {
+      "code": "100000109030",
+      "display": "Antelope"
+    },
+    {
+      "code": "100000109031",
+      "display": "Cervid"
+    },
+    {
+      "code": "100000109032",
+      "display": "Deer"
+    },
+    {
+      "code": "100000109033",
+      "display": "Other Deer"
+    },
+    {
+      "code": "100000109034",
+      "display": "Red deer"
+    },
+    {
+      "code": "100000109035",
+      "display": "Reindeer"
+    },
+    {
+      "code": "100000109036",
+      "display": "Roe deer"
+    },
+    {
+      "code": "100000109037",
+      "display": "Donkey"
+    },
+    {
+      "code": "100000109038",
+      "display": "Mare"
+    },
+    {
+      "code": "100000109039",
+      "display": "Gelding"
+    },
+    {
+      "code": "100000109040",
+      "display": "Horses"
+    },
+    {
+      "code": "100000109041",
+      "display": "Stallion"
+    },
+    {
+      "code": "100000109042",
+      "display": "Pony"
+    },
+    {
+      "code": "100000109043",
+      "display": "Pregnant mare"
+    },
+    {
+      "code": "100000109044",
+      "display": "Non food-producing horse"
+    },
+    {
+      "code": "100000109045",
+      "display": "Suckling colt"
+    },
+    {
+      "code": "100000109046",
+      "display": "Colt"
+    },
+    {
+      "code": "100000109047",
+      "display": "Mule"
+    },
+    {
+      "code": "100000109048",
+      "display": "Equid"
+    },
+    {
+      "code": "100000109049",
+      "display": "Female equid"
+    },
+    {
+      "code": "100000109050",
+      "display": "Other Equids"
+    },
+    {
+      "code": "100000109051",
+      "display": "Zebra"
+    },
+    {
+      "code": "100000109052",
+      "display": "Bobcat"
+    },
+    {
+      "code": "100000109053",
+      "display": "Adult female cat"
+    },
+    {
+      "code": "100000109054",
+      "display": "Adult female cat for reproduction"
+    },
+    {
+      "code": "100000109055",
+      "display": "Adult male cat"
+    },
+    {
+      "code": "100000109056",
+      "display": "Cats"
+    },
+    {
+      "code": "100000109057",
+      "display": "Lactating cat"
+    },
+    {
+      "code": "100000109058",
+      "display": "Large cat"
+    },
+    {
+      "code": "100000109059",
+      "display": "Medium cat"
+    },
+    {
+      "code": "100000109060",
+      "display": "Pregnant cat"
+    },
+    {
+      "code": "100000109061",
+      "display": "Small cat"
+    },
+    {
+      "code": "100000109062",
+      "display": "Kitten"
+    },
+    {
+      "code": "100000109063",
+      "display": "Cougar"
+    },
+    {
+      "code": "100000109064",
+      "display": "Jaguar"
+    },
+    {
+      "code": "100000109065",
+      "display": "Leopard"
+    },
+    {
+      "code": "100000109066",
+      "display": "Lion"
+    },
+    {
+      "code": "100000109067",
+      "display": "Lynx"
+    },
+    {
+      "code": "100000109068",
+      "display": "Other Felids"
+    },
+    {
+      "code": "100000109069",
+      "display": "Tiger"
+    },
+    {
+      "code": "100000109070",
+      "display": "Tsushima wild cat"
+    },
+    {
+      "code": "100000109071",
+      "display": "Other Leporids"
+    },
+    {
+      "code": "100000109072",
+      "display": "Hare"
+    },
+    {
+      "code": "100000109073",
+      "display": "Female rabbit for reproduction"
+    }
+  ]
+}

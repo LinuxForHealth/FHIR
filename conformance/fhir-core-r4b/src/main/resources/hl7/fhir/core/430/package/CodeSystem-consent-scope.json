@@ -1,0 +1,58 @@
+{
+    "resourceType": "CodeSystem",
+    "id": "consent-scope",
+    "meta": {
+        "lastUpdated": "2022-04-23T22:21:35.043Z",
+        "profile": [
+            "http://hl7.org/fhir/StructureDefinition/shareablecodesystem"
+        ]
+    },
+    "text": {
+        "status": "empty",
+        "div": "<div xmlns=\"http://www.w3.org/1999/xhtml\">Redacted for size</div>"
+    },
+    "extension": [
+        {
+            "url": "http://hl7.org/fhir/StructureDefinition/structuredefinition-wg",
+            "valueCode": "cbcc"
+        }
+    ],
+    "url": "http://terminology.hl7.org/CodeSystem/consentscope",
+    "identifier": [
+        {
+            "system": "urn:ietf:rfc:3986",
+            "value": "urn:oid:2.16.840.1.113883.4.642.1.1228"
+        }
+    ],
+    "version": "4.3.0-cibuild",
+    "name": "ConsentScopeCodes",
+    "title": "Consent Scope Codes",
+    "status": "draft",
+    "experimental": false,
+    "description": "This value set includes the current scopes for the Consent resources.",
+    "copyright": "This is an example set.",
+    "caseSensitive": true,
+    "content": "complete",
+    "concept": [
+        {
+            "code": "adr",
+            "display": "Advanced Care Directive",
+            "definition": "Actions to be taken if they are no longer able to make decisions for themselves"
+        },
+        {
+            "code": "research",
+            "display": "Research",
+            "definition": "Consent to participate in research protocol and information sharing required"
+        },
+        {
+            "code": "patient-privacy",
+            "display": "Privacy Consent",
+            "definition": "Agreement to collect, access, use or disclose (share) information"
+        },
+        {
+            "code": "treatment",
+            "display": "Treatment",
+            "definition": "Consent to undergo a specific treatment"
+        }
+    ]
+}

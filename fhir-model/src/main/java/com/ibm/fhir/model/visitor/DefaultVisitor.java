@@ -450,13 +450,13 @@ public class DefaultVisitor implements Visitor {
     }
 
     /**
-     * Delegates to {@link #visit(elementName, elementIndex, DataType)}
+     * Delegates to {@link #visit(elementName, elementIndex, Element)}
      * @return
      *     {@inheritDoc}
      */
     @Override
     public boolean visit(java.lang.String elementName, int elementIndex, CodeableReference codeableReference) {
-        return visit(elementName, elementIndex, (DataType) codeableReference);
+        return visit(elementName, elementIndex, (Element) codeableReference);
     }
 
     /**
@@ -627,16 +627,6 @@ public class DefaultVisitor implements Visitor {
     @Override
     public boolean visit(java.lang.String elementName, int elementIndex, DataRequirement dataRequirement) {
         return visit(elementName, elementIndex, (Element) dataRequirement);
-    }
-
-    /**
-     * Delegates to {@link #visit(elementName, elementIndex, Element)}
-     * @return
-     *     {@inheritDoc}
-     */
-    @Override
-    public boolean visit(java.lang.String elementName, int elementIndex, DataType dataType) {
-        return visit(elementName, elementIndex, (Element) dataType);
     }
 
     /**
@@ -1710,13 +1700,13 @@ public class DefaultVisitor implements Visitor {
     }
 
     /**
-     * Delegates to {@link #visit(elementName, elementIndex, DataType)}
+     * Delegates to {@link #visit(elementName, elementIndex, Element)}
      * @return
      *     {@inheritDoc}
      */
     @Override
     public boolean visit(java.lang.String elementName, int elementIndex, RatioRange ratioRange) {
-        return visit(elementName, elementIndex, (DataType) ratioRange);
+        return visit(elementName, elementIndex, (Element) ratioRange);
     }
 
     /**

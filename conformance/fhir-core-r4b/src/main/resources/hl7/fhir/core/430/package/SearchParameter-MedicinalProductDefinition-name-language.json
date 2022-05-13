@@ -1,0 +1,44 @@
+{
+    "resourceType": "SearchParameter",
+    "id": "MedicinalProductDefinition-name-language",
+    "extension": [
+        {
+            "url": "http://hl7.org/fhir/StructureDefinition/structuredefinition-standards-status",
+            "valueCode": "trial-use"
+        }
+    ],
+    "url": "http://hl7.org/fhir/SearchParameter/MedicinalProductDefinition-name-language",
+    "version": "4.3.0-cibuild",
+    "name": "name-language",
+    "status": "draft",
+    "experimental": false,
+    "date": "2022-04-23T22:21:35Z",
+    "publisher": "Health Level Seven International (Biomedical Research and Regulation)",
+    "contact": [
+        {
+            "telecom": [
+                {
+                    "system": "url",
+                    "value": "http://hl7.org/fhir"
+                }
+            ]
+        },
+        {
+            "telecom": [
+                {
+                    "system": "url",
+                    "value": "http://www.hl7.org/Special/committees/rcrim/index.cfm"
+                }
+            ]
+        }
+    ],
+    "description": "Language code for this name",
+    "code": "name-language",
+    "base": [
+        "MedicinalProductDefinition"
+    ],
+    "type": "token",
+    "expression": "MedicinalProductDefinition.name.countryLanguage.language",
+    "xpath": "f:MedicinalProductDefinition/f:name/f:countryLanguage/f:language",
+    "xpathUsage": "normal"
+}

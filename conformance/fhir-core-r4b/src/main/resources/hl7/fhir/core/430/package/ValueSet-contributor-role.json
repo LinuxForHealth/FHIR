@@ -1,0 +1,117 @@
+{
+    "resourceType": "ValueSet",
+    "id": "contributor-role",
+    "meta": {
+        "lastUpdated": "2022-04-24T09:21:35.043+11:00",
+        "profile": [
+            "http://hl7.org/fhir/StructureDefinition/shareablevalueset"
+        ]
+    },
+    "extension": [
+        {
+            "url": "http://hl7.org/fhir/StructureDefinition/structuredefinition-wg",
+            "valueCode": "cds"
+        },
+        {
+            "url": "http://hl7.org/fhir/StructureDefinition/structuredefinition-standards-status",
+            "valueCode": "trial-use"
+        },
+        {
+            "url": "http://hl7.org/fhir/StructureDefinition/structuredefinition-fmm",
+            "valueInteger": 0
+        }
+    ],
+    "url": "http://hl7.org/fhir/ValueSet/contributor-role",
+    "identifier": [
+        {
+            "system": "urn:ietf:rfc:3986",
+            "value": "urn:oid:2.16.840.1.113883.4.642.3.0"
+        }
+    ],
+    "version": "4.3.0-cibuild",
+    "name": "ContributorRole",
+    "title": "ContributorRole",
+    "status": "draft",
+    "experimental": true,
+    "date": "2021-03-11T16:55:11+11:00",
+    "publisher": "HL7 (FHIR Project)",
+    "contact": [
+        {
+            "telecom": [
+                {
+                    "system": "url",
+                    "value": "http://hl7.org/fhir"
+                },
+                {
+                    "system": "email",
+                    "value": "fhir@lists.hl7.org"
+                }
+            ]
+        }
+    ],
+    "description": "Used to code the format of the display string.",
+    "immutable": true,
+    "compose": {
+        "include": [
+            {
+                "system": "http://terminology.hl7.org/CodeSystem/contributor-role"
+            }
+        ]
+    },
+    "expansion": {
+        "identifier": "urn:uuid:404c1b11-b03d-45c6-8a71-e9b5d265a256",
+        "timestamp": "2022-04-23T22:23:26Z",
+        "total": 7,
+        "parameter": [
+            {
+                "name": "excludeNested",
+                "valueBoolean": true
+            },
+            {
+                "name": "includeDesignations",
+                "valueBoolean": true
+            },
+            {
+                "name": "version",
+                "valueUri": "http://terminology.hl7.org/CodeSystem/contributor-role|4.3.0-cibuild"
+            }
+        ],
+        "contains": [
+            {
+                "system": "http://terminology.hl7.org/CodeSystem/contributor-role",
+                "code": "publisher",
+                "display": "Publisher"
+            },
+            {
+                "system": "http://terminology.hl7.org/CodeSystem/contributor-role",
+                "code": "author",
+                "display": "Author/Creator"
+            },
+            {
+                "system": "http://terminology.hl7.org/CodeSystem/contributor-role",
+                "code": "reviewer",
+                "display": "Reviewer"
+            },
+            {
+                "system": "http://terminology.hl7.org/CodeSystem/contributor-role",
+                "code": "endorser",
+                "display": "Endorser"
+            },
+            {
+                "system": "http://terminology.hl7.org/CodeSystem/contributor-role",
+                "code": "editor",
+                "display": "Editor"
+            },
+            {
+                "system": "http://terminology.hl7.org/CodeSystem/contributor-role",
+                "code": "informant",
+                "display": "Informant"
+            },
+            {
+                "system": "http://terminology.hl7.org/CodeSystem/contributor-role",
+                "code": "funder",
+                "display": "Funder"
+            }
+        ]
+    }
+}

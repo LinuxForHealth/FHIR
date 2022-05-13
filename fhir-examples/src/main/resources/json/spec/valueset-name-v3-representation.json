@@ -2,14 +2,14 @@
   "resourceType": "ValueSet",
   "id": "name-v3-representation",
   "meta": {
-    "lastUpdated": "2022-01-01T15:17:18.597+00:00",
+    "lastUpdated": "2022-04-23T22:21:35.043+00:00",
     "profile": [
       "http://hl7.org/fhir/StructureDefinition/shareablevalueset"
     ]
   },
   "text": {
     "status": "extensions",
-    "div": "\u003cdiv xmlns\u003d\"http://www.w3.org/1999/xhtml\"\u003e\u003cul\u003e\u003cli\u003eInclude these codes as defined in \u003ca href\u003d\"http://terminology.hl7.org/3.0.0/CodeSystem-v3-EntityNameUse.html\"\u003e\u003ccode\u003ehttp://terminology.hl7.org/CodeSystem/v3-EntityNameUse\u003c/code\u003e\u003c/a\u003e\u003ctable class\u003d\"none\"\u003e\u003ctr\u003e\u003ctd style\u003d\"white-space:nowrap\"\u003e\u003cb\u003eCode\u003c/b\u003e\u003c/td\u003e\u003ctd\u003e\u003cb\u003eDisplay\u003c/b\u003e\u003c/td\u003e\u003ctd\u003e\u003cb\u003eDefinition\u003c/b\u003e\u003c/td\u003e\u003c/tr\u003e\u003ctr\u003e\u003ctd\u003e\u003ca href\u003d\"http://terminology.hl7.org/3.0.0/CodeSystem-v3-EntityNameUse.html#v3-EntityNameUse-ABC\"\u003eABC\u003c/a\u003e\u003c/td\u003e\u003ctd\u003eAlphabetic\u003c/td\u003e\u003ctd\u003eAlphabetic transcription of name (Japanese: romaji)\u003c/td\u003e\u003c/tr\u003e\u003ctr\u003e\u003ctd\u003e\u003ca href\u003d\"http://terminology.hl7.org/3.0.0/CodeSystem-v3-EntityNameUse.html#v3-EntityNameUse-IDE\"\u003eIDE\u003c/a\u003e\u003c/td\u003e\u003ctd\u003eIdeographic\u003c/td\u003e\u003ctd\u003eIdeographic representation of name (e.g., Japanese kanji, Chinese characters)\u003c/td\u003e\u003c/tr\u003e\u003ctr\u003e\u003ctd\u003e\u003ca href\u003d\"http://terminology.hl7.org/3.0.0/CodeSystem-v3-EntityNameUse.html#v3-EntityNameUse-SYL\"\u003eSYL\u003c/a\u003e\u003c/td\u003e\u003ctd\u003eSyllabic\u003c/td\u003e\u003ctd\u003eSyllabic transcription of name (e.g., Japanese kana, Korean hangul)\u003c/td\u003e\u003c/tr\u003e\u003c/table\u003e\u003c/li\u003e\u003c/ul\u003e\u003c/div\u003e"
+    "div": "\u003cdiv xmlns\u003d\"http://www.w3.org/1999/xhtml\"\u003e\u003cul\u003e\u003cli\u003eInclude these codes as defined in \u003ca href\u003d\"http://terminology.hl7.org/3.1.0/CodeSystem-v3-EntityNameUse.html\"\u003e\u003ccode\u003ehttp://terminology.hl7.org/CodeSystem/v3-EntityNameUse\u003c/code\u003e\u003c/a\u003e\u003ctable class\u003d\"none\"\u003e\u003ctr\u003e\u003ctd style\u003d\"white-space:nowrap\"\u003e\u003cb\u003eCode\u003c/b\u003e\u003c/td\u003e\u003ctd\u003e\u003cb\u003eDisplay\u003c/b\u003e\u003c/td\u003e\u003ctd\u003e\u003cb\u003eDefinition\u003c/b\u003e\u003c/td\u003e\u003c/tr\u003e\u003ctr\u003e\u003ctd\u003e\u003ca href\u003d\"http://terminology.hl7.org/3.1.0/CodeSystem-v3-EntityNameUse.html#v3-EntityNameUse-ABC\"\u003eABC\u003c/a\u003e\u003c/td\u003e\u003ctd\u003eAlphabetic\u003c/td\u003e\u003ctd\u003eAlphabetic transcription of name (Japanese: romaji)\u003c/td\u003e\u003c/tr\u003e\u003ctr\u003e\u003ctd\u003e\u003ca href\u003d\"http://terminology.hl7.org/3.1.0/CodeSystem-v3-EntityNameUse.html#v3-EntityNameUse-IDE\"\u003eIDE\u003c/a\u003e\u003c/td\u003e\u003ctd\u003eIdeographic\u003c/td\u003e\u003ctd\u003eIdeographic representation of name (e.g., Japanese kanji, Chinese characters)\u003c/td\u003e\u003c/tr\u003e\u003ctr\u003e\u003ctd\u003e\u003ca href\u003d\"http://terminology.hl7.org/3.1.0/CodeSystem-v3-EntityNameUse.html#v3-EntityNameUse-SYL\"\u003eSYL\u003c/a\u003e\u003c/td\u003e\u003ctd\u003eSyllabic\u003c/td\u003e\u003ctd\u003eSyllabic transcription of name (e.g., Japanese kana, Korean hangul)\u003c/td\u003e\u003c/tr\u003e\u003c/table\u003e\u003c/li\u003e\u003c/ul\u003e\u003c/div\u003e"
   },
   "extension": [
     {
@@ -24,12 +24,12 @@
       "value": "urn:oid:2.16.840.1.113883.4.642.3.909"
     }
   ],
-  "version": "4.3.0-CIBUILD",
+  "version": "4.3.0-cibuild",
   "name": "NameRepresentationUse",
   "title": "NameRepresentationUse",
   "status": "draft",
   "experimental": false,
-  "date": "2022-01-01T15:17:18+00:00",
+  "date": "2022-04-23T22:21:35+00:00",
   "publisher": "HL7 (FHIR Project)",
   "contact": [
     {

@@ -153,7 +153,7 @@ public class Observation extends DomainResource {
         bindingName = "ObservationStatus",
         strength = BindingStrength.Value.REQUIRED,
         description = "Codes providing the status of an observation.",
-        valueSet = "http://hl7.org/fhir/ValueSet/observation-status|4.3.0-CIBUILD"
+        valueSet = "http://hl7.org/fhir/ValueSet/observation-status|4.3.0-cibuild"
     )
     @Required
     private final ObservationStatus status;

@@ -2,14 +2,14 @@
   "resourceType": "CodeSystem",
   "id": "medicationdispense-category",
   "meta": {
-    "lastUpdated": "2022-01-01T15:17:18.597+00:00",
+    "lastUpdated": "2022-04-23T22:21:35.043+00:00",
     "profile": [
       "http://hl7.org/fhir/StructureDefinition/shareablecodesystem"
     ]
   },
   "text": {
     "status": "generated",
-    "div": "\u003cdiv xmlns\u003d\"http://www.w3.org/1999/xhtml\"\u003e\u003cp\u003eThis code system http://terminology.hl7.org/fhir/CodeSystem/medicationdispense-category defines the following codes:\u003c/p\u003e\u003ctable class\u003d\"codes\"\u003e\u003ctr\u003e\u003ctd style\u003d\"white-space:nowrap\"\u003e\u003cb\u003eCode\u003c/b\u003e\u003c/td\u003e\u003ctd\u003e\u003cb\u003eDisplay\u003c/b\u003e\u003c/td\u003e\u003ctd\u003e\u003cb\u003eDefinition\u003c/b\u003e\u003c/td\u003e\u003c/tr\u003e\u003ctr\u003e\u003ctd style\u003d\"white-space:nowrap\"\u003einpatient\u003ca name\u003d\"medicationdispense-category-inpatient\"\u003e \u003c/a\u003e\u003c/td\u003e\u003ctd\u003eInpatient\u003c/td\u003e\u003ctd\u003eIncludes dispenses for medications to be administered or consumed in an inpatient or acute care setting.\u003c/td\u003e\u003c/tr\u003e\u003ctr\u003e\u003ctd style\u003d\"white-space:nowrap\"\u003eoutpatient\u003ca name\u003d\"medicationdispense-category-outpatient\"\u003e \u003c/a\u003e\u003c/td\u003e\u003ctd\u003eOutpatient\u003c/td\u003e\u003ctd\u003eIncludes dispenses for medications to be administered or consumed in an outpatient setting (for example, Emergency Department, Outpatient Clinic, Outpatient Surgery, Doctor\u0027s office).\u003c/td\u003e\u003c/tr\u003e\u003ctr\u003e\u003ctd style\u003d\"white-space:nowrap\"\u003ecommunity\u003ca name\u003d\"medicationdispense-category-community\"\u003e \u003c/a\u003e\u003c/td\u003e\u003ctd\u003eCommunity\u003c/td\u003e\u003ctd\u003eIncludes dispenses for medications to be administered or consumed by the patient in their home (this would include long term care or nursing homes, hospices, etc.).\u003c/td\u003e\u003c/tr\u003e\u003ctr\u003e\u003ctd style\u003d\"white-space:nowrap\"\u003edischarge\u003ca name\u003d\"medicationdispense-category-discharge\"\u003e \u003c/a\u003e\u003c/td\u003e\u003ctd\u003eDischarge\u003c/td\u003e\u003ctd\u003eIncludes dispenses for medications created when the patient is being released from a facility.\u003c/td\u003e\u003c/tr\u003e\u003c/table\u003e\u003c/div\u003e"
+    "div": "\u003cdiv xmlns\u003d\"http://www.w3.org/1999/xhtml\"\u003e\u003cp\u003eThis code system http://terminology.hl7.org/CodeSystem/medicationdispense-category defines the following codes:\u003c/p\u003e\u003ctable class\u003d\"codes\"\u003e\u003ctr\u003e\u003ctd style\u003d\"white-space:nowrap\"\u003e\u003cb\u003eCode\u003c/b\u003e\u003c/td\u003e\u003ctd\u003e\u003cb\u003eDisplay\u003c/b\u003e\u003c/td\u003e\u003ctd\u003e\u003cb\u003eDefinition\u003c/b\u003e\u003c/td\u003e\u003c/tr\u003e\u003ctr\u003e\u003ctd style\u003d\"white-space:nowrap\"\u003einpatient\u003ca name\u003d\"medicationdispense-category-inpatient\"\u003e \u003c/a\u003e\u003c/td\u003e\u003ctd\u003eInpatient\u003c/td\u003e\u003ctd\u003eIncludes dispenses for medications to be administered or consumed in an inpatient or acute care setting.\u003c/td\u003e\u003c/tr\u003e\u003ctr\u003e\u003ctd style\u003d\"white-space:nowrap\"\u003eoutpatient\u003ca name\u003d\"medicationdispense-category-outpatient\"\u003e \u003c/a\u003e\u003c/td\u003e\u003ctd\u003eOutpatient\u003c/td\u003e\u003ctd\u003eIncludes dispenses for medications to be administered or consumed in an outpatient setting (for example, Emergency Department, Outpatient Clinic, Outpatient Surgery, Doctor\u0027s office).\u003c/td\u003e\u003c/tr\u003e\u003ctr\u003e\u003ctd style\u003d\"white-space:nowrap\"\u003ecommunity\u003ca name\u003d\"medicationdispense-category-community\"\u003e \u003c/a\u003e\u003c/td\u003e\u003ctd\u003eCommunity\u003c/td\u003e\u003ctd\u003eIncludes dispenses for medications to be administered or consumed by the patient in their home (this would include long term care or nursing homes, hospices, etc.).\u003c/td\u003e\u003c/tr\u003e\u003ctr\u003e\u003ctd style\u003d\"white-space:nowrap\"\u003edischarge\u003ca name\u003d\"medicationdispense-category-discharge\"\u003e \u003c/a\u003e\u003c/td\u003e\u003ctd\u003eDischarge\u003c/td\u003e\u003ctd\u003eIncludes dispenses for medications created when the patient is being released from a facility.\u003c/td\u003e\u003c/tr\u003e\u003c/table\u003e\u003c/div\u003e"
   },
   "extension": [
     {
@@ -17,14 +17,14 @@
       "valueCode": "phx"
     }
   ],
-  "url": "http://terminology.hl7.org/fhir/CodeSystem/medicationdispense-category",
+  "url": "http://terminology.hl7.org/CodeSystem/medicationdispense-category",
   "identifier": [
     {
       "system": "urn:ietf:rfc:3986",
       "value": "urn:oid:2.16.840.1.113883.4.642.1.1315"
     }
   ],
-  "version": "4.3.0-CIBUILD",
+  "version": "4.3.0-cibuild",
   "name": "Medication Dispense Category Codes",
   "status": "draft",
   "experimental": false,

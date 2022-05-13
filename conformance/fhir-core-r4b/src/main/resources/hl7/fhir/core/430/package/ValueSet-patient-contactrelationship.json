@@ -1,0 +1,208 @@
+{
+    "resourceType": "ValueSet",
+    "id": "patient-contactrelationship",
+    "meta": {
+        "lastUpdated": "2022-04-23T22:21:35.043Z",
+        "profile": [
+            "http://hl7.org/fhir/StructureDefinition/shareablevalueset"
+        ]
+    },
+    "extension": [
+        {
+            "url": "http://hl7.org/fhir/StructureDefinition/structuredefinition-wg",
+            "valueCode": "pa"
+        },
+        {
+            "url": "http://hl7.org/fhir/StructureDefinition/structuredefinition-standards-status",
+            "valueCode": "normative"
+        },
+        {
+            "url": "http://hl7.org/fhir/StructureDefinition/structuredefinition-normative-version",
+            "valueCode": "4.0.0"
+        },
+        {
+            "url": "http://hl7.org/fhir/StructureDefinition/structuredefinition-fmm",
+            "valueInteger": 5
+        }
+    ],
+    "url": "http://hl7.org/fhir/ValueSet/patient-contactrelationship",
+    "identifier": [
+        {
+            "system": "urn:ietf:rfc:3986",
+            "value": "urn:oid:2.16.840.1.113883.4.642.3.1130"
+        }
+    ],
+    "version": "4.3.0-cibuild",
+    "name": "PatientContactRelationship",
+    "title": "Patient Contact Relationship",
+    "status": "active",
+    "experimental": false,
+    "publisher": "FHIR Project team",
+    "contact": [
+        {
+            "telecom": [
+                {
+                    "system": "url",
+                    "value": "http://hl7.org/fhir"
+                }
+            ]
+        }
+    ],
+    "description": "The nature of the relationship between the patient and the contact person.",
+    "compose": {
+        "include": [
+            {
+                "system": "http://terminology.hl7.org/CodeSystem/v2-0131",
+                "filter": [
+                    {
+                        "property": "concept",
+                        "op": "is-not-a",
+                        "value": "O"
+                    }
+                ]
+            }
+        ]
+    },
+    "expansion": {
+        "identifier": "urn:uuid:3369d2c4-c666-45bb-af7e-d7cfbff1a3bb",
+        "timestamp": "2022-04-23T22:23:26Z",
+        "total": 11,
+        "parameter": [
+            {
+                "name": "excludeNested",
+                "valueBoolean": true
+            },
+            {
+                "name": "includeDesignations",
+                "valueBoolean": true
+            },
+            {
+                "name": "version",
+                "valueUri": "http://terminology.hl7.org/CodeSystem/v2-0131|2.1.0"
+            }
+        ],
+        "contains": [
+            {
+                "system": "http://terminology.hl7.org/CodeSystem/v2-0131",
+                "code": "BP",
+                "display": "Billing contact person",
+                "designation": [
+                    {
+                        "language": "de",
+                        "value": "Kontaktperson für Abrechnung"
+                    }
+                ]
+            },
+            {
+                "system": "http://terminology.hl7.org/CodeSystem/v2-0131",
+                "code": "CP",
+                "display": "Contact person",
+                "designation": [
+                    {
+                        "language": "de",
+                        "value": "Kontaktperson"
+                    }
+                ]
+            },
+            {
+                "system": "http://terminology.hl7.org/CodeSystem/v2-0131",
+                "code": "EP",
+                "display": "Emergency contact person",
+                "designation": [
+                    {
+                        "language": "de",
+                        "value": "Kontaktperson für Notfälle"
+                    }
+                ]
+            },
+            {
+                "system": "http://terminology.hl7.org/CodeSystem/v2-0131",
+                "code": "PR",
+                "display": "Person preparing referral",
+                "designation": [
+                    {
+                        "language": "de",
+                        "value": "Person, die die Überweisung vorbereitet"
+                    }
+                ]
+            },
+            {
+                "system": "http://terminology.hl7.org/CodeSystem/v2-0131",
+                "code": "E",
+                "display": "Employer",
+                "designation": [
+                    {
+                        "language": "de",
+                        "value": "Arbeitgeber"
+                    }
+                ]
+            },
+            {
+                "system": "http://terminology.hl7.org/CodeSystem/v2-0131",
+                "code": "C",
+                "display": "Emergency Contact",
+                "designation": [
+                    {
+                        "language": "de",
+                        "value": "Ansprechpartner in Notfällen"
+                    }
+                ]
+            },
+            {
+                "system": "http://terminology.hl7.org/CodeSystem/v2-0131",
+                "code": "F",
+                "display": "Federal Agency",
+                "designation": [
+                    {
+                        "language": "de",
+                        "value": "Bundesbehörde"
+                    }
+                ]
+            },
+            {
+                "system": "http://terminology.hl7.org/CodeSystem/v2-0131",
+                "code": "I",
+                "display": "Insurance Company",
+                "designation": [
+                    {
+                        "language": "de",
+                        "value": "Versicherung"
+                    }
+                ]
+            },
+            {
+                "system": "http://terminology.hl7.org/CodeSystem/v2-0131",
+                "code": "N",
+                "display": "Next-of-Kin",
+                "designation": [
+                    {
+                        "language": "de",
+                        "value": "Kontaktperson"
+                    }
+                ]
+            },
+            {
+                "system": "http://terminology.hl7.org/CodeSystem/v2-0131",
+                "code": "S",
+                "display": "State Agency",
+                "designation": [
+                    {
+                        "language": "de",
+                        "value": "Landesbehörde"
+                    }
+                ]
+            },
+            {
+                "system": "http://terminology.hl7.org/CodeSystem/v2-0131",
+                "code": "U",
+                "display": "Unknown",
+                "designation": [
+                    {
+                        "language": "de",
+                        "value": "unbekannt"
+                    }
+                ]
+            }
+        ]
+    }
+}

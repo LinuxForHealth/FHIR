@@ -9,8 +9,8 @@
       "status": "active",
       "description": "Type options for RequestGroup.action.relatedAction.offset[x]",
       "expansion": {
-        "identifier": "urn:uuid:7a8e51f5-5c05-42d4-941f-2f41c23b186f",
-        "timestamp": "2022-01-01T15:25:45+00:00",
+        "identifier": "urn:uuid:8a3fcbbe-f2bc-4ab0-a8ee-830a3e74459d",
+        "timestamp": "2022-04-23T22:30:39+00:00",
         "contains": [
           {
             "system": "http://hl7.org/fhir/data-types",
@@ -32,8 +32,8 @@
       "status": "active",
       "description": "Type options for RequestGroup.action.timing[x]",
       "expansion": {
-        "identifier": "urn:uuid:159fedc6-f9a8-4daa-ae1d-b62dc624a807",
-        "timestamp": "2022-01-01T15:25:45+00:00",
+        "identifier": "urn:uuid:41a61574-561d-4161-b963-8a47a33413e2",
+        "timestamp": "2022-04-23T22:30:39+00:00",
         "contains": [
           {
             "system": "http://hl7.org/fhir/data-types",
@@ -74,8 +74,9 @@
       "system": "urn:ietf:rfc:3986"
     }
   ],
-  "version": "4.3.0-CIBUILD",
+  "version": "4.3.0-cibuild",
   "status": "draft",
+  "experimental": false,
   "date": "2021-01-16T20:06:13+00:00",
   "publisher": "HL7",
   "item": [
@@ -275,10 +276,9 @@
             {
               "linkId": "RequestGroup.language.value",
               "text": "language",
-              "type": "coding",
+              "type": "choice",
               "required": false,
-              "repeats": false,
-              "answerConstraint": "optionsOnly"
+              "repeats": false
             }
           ]
         },
@@ -752,10 +752,9 @@
             {
               "linkId": "RequestGroup.status.value",
               "text": "status",
-              "type": "coding",
+              "type": "choice",
               "required": false,
-              "repeats": false,
-              "answerConstraint": "optionsOrType"
+              "repeats": false
             }
           ]
         },
@@ -801,10 +800,9 @@
             {
               "linkId": "RequestGroup.intent.value",
               "text": "intent",
-              "type": "coding",
+              "type": "choice",
               "required": false,
-              "repeats": false,
-              "answerConstraint": "optionsOrType"
+              "repeats": false
             }
           ]
         },
@@ -846,10 +844,9 @@
             {
               "linkId": "RequestGroup.priority.value",
               "text": "priority",
-              "type": "coding",
+              "type": "choice",
               "required": false,
-              "repeats": false,
-              "answerConstraint": "optionsOrType"
+              "repeats": false
             }
           ]
         },
@@ -892,10 +889,9 @@
             {
               "linkId": "RequestGroup.code.coding",
               "text": "code:",
-              "type": "coding",
+              "type": "choice",
               "required": false,
-              "repeats": false,
-              "answerConstraint": "optionsOnly"
+              "repeats": false
             },
             {
               "linkId": "RequestGroup.code.text",
@@ -1147,10 +1143,9 @@
             {
               "linkId": "RequestGroup.reasonCode.coding",
               "text": "code:",
-              "type": "coding",
+              "type": "choice",
               "required": false,
-              "repeats": false,
-              "answerConstraint": "optionsOnly"
+              "repeats": false
             },
             {
               "linkId": "RequestGroup.reasonCode.text",
@@ -1585,10 +1580,9 @@
                 {
                   "linkId": "RequestGroup.action.priority.value",
                   "text": "priority",
-                  "type": "coding",
+                  "type": "choice",
                   "required": false,
-                  "repeats": false,
-                  "answerConstraint": "optionsOrType"
+                  "repeats": false
                 }
               ]
             },
@@ -1627,10 +1621,9 @@
                 {
                   "linkId": "RequestGroup.action.code.coding",
                   "text": "code:",
-                  "type": "coding",
+                  "type": "choice",
                   "required": false,
-                  "repeats": false,
-                  "answerConstraint": "optionsOnly"
+                  "repeats": false
                 },
                 {
                   "linkId": "RequestGroup.action.code.text",
@@ -1842,10 +1835,9 @@
                     {
                       "linkId": "RequestGroup.action.condition.kind.value",
                       "text": "kind",
-                      "type": "coding",
+                      "type": "choice",
                       "required": false,
-                      "repeats": false,
-                      "answerConstraint": "optionsOrType"
+                      "repeats": false
                     }
                   ]
                 },
@@ -2106,10 +2098,9 @@
                     {
                       "linkId": "RequestGroup.action.relatedAction.relationship.value",
                       "text": "relationship",
-                      "type": "coding",
+                      "type": "choice",
                       "required": false,
-                      "repeats": false,
-                      "answerConstraint": "optionsOrType"
+                      "repeats": false
                     }
                   ]
                 },
@@ -2148,10 +2139,9 @@
                     {
                       "linkId": "RequestGroup.action.relatedAction.offset[x]._type",
                       "text": "type",
-                      "type": "coding",
+                      "type": "choice",
                       "required": false,
                       "repeats": false,
-                      "answerConstraint": "optionsOnly",
                       "answerValueSet": "#vs2",
                       "item": [
                         {
@@ -2167,10 +2157,9 @@
                             {
                               "linkId": "RequestGroup.action.relatedAction.offset[x]._null.comparator",
                               "text": "comp:",
-                              "type": "coding",
+                              "type": "choice",
                               "required": false,
-                              "repeats": false,
-                              "answerConstraint": "optionsOnly"
+                              "repeats": false
                             },
                             {
                               "linkId": "RequestGroup.action.relatedAction.offset[x]._null.value",
@@ -2276,10 +2265,9 @@
                 {
                   "linkId": "RequestGroup.action.timing[x]._type",
                   "text": "type",
-                  "type": "coding",
+                  "type": "choice",
                   "required": false,
                   "repeats": false,
-                  "answerConstraint": "optionsOnly",
                   "answerValueSet": "#vs3",
                   "item": [
                     {
@@ -2313,10 +2301,9 @@
                         {
                           "linkId": "RequestGroup.action.timing[x]._null.comparator",
                           "text": "comp:",
-                          "type": "coding",
+                          "type": "choice",
                           "required": false,
-                          "repeats": false,
-                          "answerConstraint": "optionsOnly"
+                          "repeats": false
                         },
                         {
                           "linkId": "RequestGroup.action.timing[x]._null.value",
@@ -2387,10 +2374,9 @@
                         {
                           "linkId": "RequestGroup.action.timing[x]._null.comparator",
                           "text": "comp:",
-                          "type": "coding",
+                          "type": "choice",
                           "required": false,
-                          "repeats": false,
-                          "answerConstraint": "optionsOnly"
+                          "repeats": false
                         },
                         {
                           "linkId": "RequestGroup.action.timing[x]._null.value",
@@ -2595,10 +2581,9 @@
                 {
                   "linkId": "RequestGroup.action.type.coding",
                   "text": "code:",
-                  "type": "coding",
+                  "type": "choice",
                   "required": false,
-                  "repeats": false,
-                  "answerConstraint": "optionsOnly"
+                  "repeats": false
                 },
                 {
                   "linkId": "RequestGroup.action.type.text",
@@ -2647,10 +2632,9 @@
                 {
                   "linkId": "RequestGroup.action.groupingBehavior.value",
                   "text": "grouping behavior",
-                  "type": "coding",
+                  "type": "choice",
                   "required": false,
-                  "repeats": false,
-                  "answerConstraint": "optionsOrType"
+                  "repeats": false
                 }
               ]
             },
@@ -2692,10 +2676,9 @@
                 {
                   "linkId": "RequestGroup.action.selectionBehavior.value",
                   "text": "selection behavior",
-                  "type": "coding",
+                  "type": "choice",
                   "required": false,
-                  "repeats": false,
-                  "answerConstraint": "optionsOrType"
+                  "repeats": false
                 }
               ]
             },
@@ -2737,10 +2720,9 @@
                 {
                   "linkId": "RequestGroup.action.requiredBehavior.value",
                   "text": "required behavior",
-                  "type": "coding",
+                  "type": "choice",
                   "required": false,
-                  "repeats": false,
-                  "answerConstraint": "optionsOrType"
+                  "repeats": false
                 }
               ]
             },
@@ -2782,10 +2764,9 @@
                 {
                   "linkId": "RequestGroup.action.precheckBehavior.value",
                   "text": "precheck behavior",
-                  "type": "coding",
+                  "type": "choice",
                   "required": false,
-                  "repeats": false,
-                  "answerConstraint": "optionsOrType"
+                  "repeats": false
                 }
               ]
             },
@@ -2827,10 +2808,9 @@
                 {
                   "linkId": "RequestGroup.action.cardinalityBehavior.value",
                   "text": "cardinality behavior",
-                  "type": "coding",
+                  "type": "choice",
                   "required": false,
-                  "repeats": false,
-                  "answerConstraint": "optionsOrType"
+                  "repeats": false
                 }
               ]
             },

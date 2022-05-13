@@ -9,7 +9,7 @@
       <display value="test health data"/>
     </security>
   </meta>
-  <text><status value="generated"/><div xmlns="http://www.w3.org/1999/xhtml"><p><b>Generated Narrative</b></p><div><p>Resource "package-with-liquid-and-syringe" </p></div><p><b>packageFor</b>: <a>MedicinalProductDefinition/ProductThatHasThisPackType</a></p><blockquote><p><b>package</b></p><blockquote><p><b>containedItem</b></p><p><b>amount</b>: 20 ml<span> (Details: UCUM code mL = 'mL')</span></p></blockquote><blockquote><p><b>containedItem</b></p></blockquote></blockquote></div></text><contained>
+  <text><status value="generated"/><div xmlns="http://www.w3.org/1999/xhtml"><p><b>Generated Narrative</b></p><div style="display: inline-block; background-color: #d9e0e7; padding: 6px; margin: 4px; border: 1px solid #8da1b4; border-radius: 5px; line-height: 60%"><p style="margin-bottom: 0px">Resource "package-with-liquid-and-syringe" </p></div><p><b>packageFor</b>: <a href="todo.html">MedicinalProductDefinition/ProductThatHasThisPackType</a></p><blockquote><p><b>package</b></p><blockquote><p><b>containedItem</b></p><p><b>amount</b>: 20 ml<span style="background: LightGoldenRodYellow"> (Details: UCUM code mL = 'mL')</span></p></blockquote><blockquote><p><b>containedItem</b></p></blockquote></blockquote></div></text><contained>
 		<DeviceDefinition>
 			<id value="syringeDevice"/>
 			<type>

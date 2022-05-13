@@ -1,0 +1,97 @@
+{
+    "resourceType": "ValueSet",
+    "id": "verificationresult-communication-method",
+    "meta": {
+        "lastUpdated": "2022-04-23T22:21:35.043Z",
+        "profile": [
+            "http://hl7.org/fhir/StructureDefinition/shareablevalueset"
+        ]
+    },
+    "extension": [
+        {
+            "url": "http://hl7.org/fhir/StructureDefinition/structuredefinition-wg",
+            "valueCode": "pa"
+        },
+        {
+            "url": "http://hl7.org/fhir/StructureDefinition/structuredefinition-standards-status",
+            "valueCode": "draft"
+        },
+        {
+            "url": "http://hl7.org/fhir/StructureDefinition/structuredefinition-fmm",
+            "valueInteger": 1
+        }
+    ],
+    "url": "http://hl7.org/fhir/ValueSet/verificationresult-communication-method",
+    "identifier": [
+        {
+            "system": "urn:ietf:rfc:3986",
+            "value": "urn:oid:2.16.840.1.113883.4.642.3.1401"
+        }
+    ],
+    "version": "4.3.0-cibuild",
+    "name": "verificationresult-communication-method",
+    "title": "VerificationResult Communication Method",
+    "status": "active",
+    "experimental": true,
+    "date": "2018-10-31",
+    "publisher": "HL7 International",
+    "contact": [
+        {
+            "telecom": [
+                {
+                    "system": "other",
+                    "value": "http://hl7.org/fhir"
+                }
+            ]
+        }
+    ],
+    "description": "Attested information may be validated by process that are manual or automated. For automated processes it may accomplished by the system of record reaching out through another system's API or information may be sent to the system of record. This value set defines a set of codes to describing the process, the how, a resource or data element is validated.",
+    "compose": {
+        "include": [
+            {
+                "system": "http://terminology.hl7.org/CodeSystem/verificationresult-communication-method"
+            }
+        ]
+    },
+    "expansion": {
+        "identifier": "urn:uuid:bcbc6869-2489-4338-ab85-69645670aeee",
+        "timestamp": "2022-04-23T22:23:26Z",
+        "total": 4,
+        "parameter": [
+            {
+                "name": "excludeNested",
+                "valueBoolean": true
+            },
+            {
+                "name": "includeDesignations",
+                "valueBoolean": true
+            },
+            {
+                "name": "version",
+                "valueUri": "http://terminology.hl7.org/CodeSystem/verificationresult-communication-method|0.1.0"
+            }
+        ],
+        "contains": [
+            {
+                "system": "http://terminology.hl7.org/CodeSystem/verificationresult-communication-method",
+                "code": "manual",
+                "display": "Manual"
+            },
+            {
+                "system": "http://terminology.hl7.org/CodeSystem/verificationresult-communication-method",
+                "code": "portal",
+                "display": "Portal"
+            },
+            {
+                "system": "http://terminology.hl7.org/CodeSystem/verificationresult-communication-method",
+                "code": "pull",
+                "display": "Pull"
+            },
+            {
+                "system": "http://terminology.hl7.org/CodeSystem/verificationresult-communication-method",
+                "code": "push",
+                "display": "Push"
+            }
+        ]
+    }
+}

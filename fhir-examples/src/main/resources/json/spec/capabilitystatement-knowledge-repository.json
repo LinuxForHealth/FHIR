@@ -8,6 +8,7 @@
   "url": "http://hl7.org/fhir/knowledge-repository",
   "name": "Knowledge Repository Service Conformance Statement",
   "status": "draft",
+  "experimental": true,
   "date": "2017-02-25",
   "publisher": "HL7, Inc",
   "contact": [
@@ -26,7 +27,7 @@
   "software": {
     "name": "ACME Knowledge Repository Service"
   },
-  "fhirVersion": "4.3.0-CIBUILD",
+  "fhirVersion": "4.3.0-cibuild",
   "format": [
     "json",
     "xml"

@@ -1,82 +1,235 @@
-<?xml version="1.0" encoding="UTF-8"?><ChargeItemDefinition xmlns="http://hl7.org/fhir"> 
-	<id value="device"/>
-	<meta>
+<?xml version="1.0" encoding="UTF-8"?><ChargeItemDefinition xmlns="http://hl7.org/fhir">
+  <id value="device"/>
+  <meta>
     <security>
       <system value="http://terminology.hl7.org/CodeSystem/v3-ActReason"/>
       <code value="HTEST"/>
       <display value="test health data"/>
     </security>
   </meta>
-  <text><status value="generated"/><div xmlns="http://www.w3.org/1999/xhtml"><p><b>Generated Narrative</b></p><div><p>Resource "device" </p></div><p><b>url</b>: <code>http://sap.org/ChargeItemDefinition/device-123</code></p><p><b>status</b>: active</p><p><b>description</b>: Financial details for  custom made device</p><p><b>instance</b>: <a>Device/12345</a></p><h3>Applicabilities</h3><table><tr><td>-</td><td><b>Description</b></td><td><b>Language</b></td><td><b>Expression</b></td></tr><tr><td>*</td><td>Verify ChargeItem pertains to Device 12345</td><td>text/fhirpath</td><td>%context.service.suppliedItem='Device/12345'</td></tr></table><blockquote><p><b>propertyGroup</b></p><blockquote><p><b>priceComponent</b></p><p><b>type</b>: base</p><p><b>code</b>: Verkaufspreis (netto) <span> (billing-attributes#VK)</span></p></blockquote></blockquote><blockquote><p><b>propertyGroup</b></p><h3>PriceComponents</h3><table><tr><td>-</td><td><b>Type</b></td><td><b>Code</b></td><td><b>Factor</b></td></tr><tr><td>*</td><td>tax</td><td>Mehrwersteuersatz <span> (billing-attributes#MWST)</span></td><td>1.19</td></tr></table></blockquote><blockquote><p><b>propertyGroup</b></p><h3>PriceComponents</h3><table><tr><td>-</td><td><b>Type</b></td><td><b>Code</b></td><td><b>Factor</b></td></tr><tr><td>*</td><td>tax</td><td>Mehrwersteuersatz <span> (billing-attributes#MWST)</span></td><td>1.07</td></tr></table></blockquote></div></text><url value="http://sap.org/ChargeItemDefinition/device-123"/>
-	<status value="active"/> 
-	<description value="Financial details for  custom made device"/>
-	<instance>
-		<reference value="Device/12345"/>
-	</instance>
-	<!--   definition only applicable if the ChargeItem pertains to the device this    -->	
-	<applicability>
-		<description value="Verify ChargeItem pertains to Device 12345"/>
-		<language value="text/fhirpath"/>
-		<!--   syntax of expression may be incorrect, but you get the idea  -->
-		<expression value="%context.service.suppliedItem='Device/12345'"/>
-	</applicability>
-	<!--   the base price for this device is constant, so no additional rules apply  -->
-	<propertyGroup>
-		<priceComponent>
-			<type value="base"/>
-			<code>
-				<coding>
-					<system value="http://fhir.de/CodeSystem/billing-attributes"/>
-					<code value="VK"/>
-					<display value="Verkaufspreis (netto)"/>
-				</coding>
-			</code>
-			<amount>
-				<value value="67.44"/>
-				<currency value="EUR"/>
-			</amount>
-		</priceComponent>
-	</propertyGroup>
-	<!--   the tax applicable to this device changes after 2018-04-01  -->
-	<propertyGroup>
-		<applicability>
-			<description value="Gültigkeit Steuersatz"/>
-			<language value="text/fhirpath"/>
-			<!--   syntax of expression may be incorrect, but you get the idea  -->
-			<expression value="%context.occurenceDateTime &gt; '2018-04-01'"/>
-		</applicability>
-		<priceComponent>
-			<type value="tax"/>
-			<code>
-				<coding>
-					<system value="http://fhir.de/CodeSystem/billing-attributes"/>
-					<code value="MWST"/>
-					<display value="Mehrwersteuersatz"/>
-				</coding>
-			</code>
-			<factor value="1.19"/>
-		</priceComponent>
-	</propertyGroup>
-	<propertyGroup>
-		<applicability>
-			<description value="Gültigkeit Steuersatz"/>
-			<language value="text/fhirpath"/>
-			<!--   syntax of expression may be incorrect, but you get the idea  -->
-			<expression value="%context.occurenceDateTime &lt;= '2018-04-01'"/>
-		</applicability>
-		<priceComponent>
-			<type value="tax"/>
-			<code>
-				<coding>
-					<system value="http://fhir.de/CodeSystem/billing-attributes"/>
-					<code value="MWST"/>
-					<display value="Mehrwersteuersatz"/>
-				</coding>
-			</code>
-			<factor value="1.07"/>
-		</priceComponent>
-	</propertyGroup>
-
-
-
+  <text>
+    <status value="generated"/>
+    <div xmlns="http://www.w3.org/1999/xhtml">
+      <p>
+        <b>Generated Narrative</b>
+      </p>
+      <div style="display: inline-block; background-color: #d9e0e7; padding: 6px; margin: 4px; border: 1px solid #8da1b4; border-radius: 5px; line-height: 60%">
+        <p style="margin-bottom: 0px">Resource "device" </p>
+      </div>
+      <p>
+        <b>url</b>: 
+        <code>http://sap.org/ChargeItemDefinition/device-123</code>
+      </p>
+      <p>
+        <b>status</b>: active
+      </p>
+      <p>
+        <b>description</b>: Financial details for  custom made device
+      </p>
+      <p>
+        <b>instance</b>: 
+        <a href="todo.html">Device/12345</a>
+      </p>
+      <h3>Applicabilities</h3>
+      <table class="grid">
+        <tr>
+          <td>-</td>
+          <td>
+            <b>Description</b>
+          </td>
+          <td>
+            <b>Language</b>
+          </td>
+          <td>
+            <b>Expression</b>
+          </td>
+        </tr>
+        <tr>
+          <td>*</td>
+          <td>Verify ChargeItem pertains to Device 12345</td>
+          <td>text/fhirpath</td>
+          <td>%context.service.suppliedItem='Device/12345'</td>
+        </tr>
+      </table>
+      <blockquote>
+        <p>
+          <b>propertyGroup</b>
+        </p>
+        <blockquote>
+          <p>
+            <b>priceComponent</b>
+          </p>
+          <p>
+            <b>type</b>: base
+          </p>
+          <p>
+            <b>code</b>: Verkaufspreis (netto) 
+            <span style="background: LightGoldenRodYellow; margin: 4px; border: 1px solid khaki"> (billing-attributes#VK)</span>
+          </p>
+        </blockquote>
+      </blockquote>
+      <blockquote>
+        <p>
+          <b>propertyGroup</b>
+        </p>
+        <h3>Applicabilities</h3>
+        <table class="grid">
+          <tr>
+            <td>-</td>
+            <td>
+              <b>Description</b>
+            </td>
+            <td>
+              <b>Language</b>
+            </td>
+            <td>
+              <b>Expression</b>
+            </td>
+          </tr>
+          <tr>
+            <td>*</td>
+            <td>Gültigkeit Steuersatz</td>
+            <td>text/fhirpath</td>
+            <td>%context.occurenceDateTime &gt; '2018-04-01'</td>
+          </tr>
+        </table>
+        <h3>PriceComponents</h3>
+        <table class="grid">
+          <tr>
+            <td>-</td>
+            <td>
+              <b>Type</b>
+            </td>
+            <td>
+              <b>Code</b>
+            </td>
+            <td>
+              <b>Factor</b>
+            </td>
+          </tr>
+          <tr>
+            <td>*</td>
+            <td>tax</td>
+            <td>Mehrwersteuersatz 
+              <span style="background: LightGoldenRodYellow; margin: 4px; border: 1px solid khaki"> (billing-attributes#MWST)</span>
+            </td>
+            <td>1.19</td>
+          </tr>
+        </table>
+      </blockquote>
+      <blockquote>
+        <p>
+          <b>propertyGroup</b>
+        </p>
+        <h3>Applicabilities</h3>
+        <table class="grid">
+          <tr>
+            <td>-</td>
+            <td>
+              <b>Description</b>
+            </td>
+            <td>
+              <b>Language</b>
+            </td>
+            <td>
+              <b>Expression</b>
+            </td>
+          </tr>
+          <tr>
+            <td>*</td>
+            <td>Gültigkeit Steuersatz</td>
+            <td>text/fhirpath</td>
+            <td>%context.occurenceDateTime &lt;= '2018-04-01'</td>
+          </tr>
+        </table>
+        <h3>PriceComponents</h3>
+        <table class="grid">
+          <tr>
+            <td>-</td>
+            <td>
+              <b>Type</b>
+            </td>
+            <td>
+              <b>Code</b>
+            </td>
+            <td>
+              <b>Factor</b>
+            </td>
+          </tr>
+          <tr>
+            <td>*</td>
+            <td>tax</td>
+            <td>Mehrwersteuersatz 
+              <span style="background: LightGoldenRodYellow; margin: 4px; border: 1px solid khaki"> (billing-attributes#MWST)</span>
+            </td>
+            <td>1.07</td>
+          </tr>
+        </table>
+      </blockquote>
+    </div>
+  </text>
+  <url value="http://sap.org/ChargeItemDefinition/device-123"/>
+  <status value="active"/>
+  <experimental value="true"/>
+  <description value="Financial details for  custom made device"/>
+  <instance>
+    <reference value="Device/12345"/>
+  </instance>
+  <applicability>
+    <description value="Verify ChargeItem pertains to Device 12345"/>
+    <language value="text/fhirpath"/>
+    <expression value="%context.service.suppliedItem='Device/12345'"/>
+  </applicability>
+  <propertyGroup>
+    <priceComponent>
+      <type value="base"/>
+      <code>
+        <coding>
+          <system value="http://fhir.de/CodeSystem/billing-attributes"/>
+          <code value="VK"/>
+          <display value="Verkaufspreis (netto)"/>
+        </coding>
+      </code>
+      <amount>
+        <value value="67.44"/>
+        <currency value="EUR"/>
+      </amount>
+    </priceComponent>
+  </propertyGroup>
+  <propertyGroup>
+    <applicability>
+      <description value="Gültigkeit Steuersatz"/>
+      <language value="text/fhirpath"/>
+      <expression value="%context.occurenceDateTime &gt; '2018-04-01'"/>
+    </applicability>
+    <priceComponent>
+      <type value="tax"/>
+      <code>
+        <coding>
+          <system value="http://fhir.de/CodeSystem/billing-attributes"/>
+          <code value="MWST"/>
+          <display value="Mehrwersteuersatz"/>
+        </coding>
+      </code>
+      <factor value="1.19"/>
+    </priceComponent>
+  </propertyGroup>
+  <propertyGroup>
+    <applicability>
+      <description value="Gültigkeit Steuersatz"/>
+      <language value="text/fhirpath"/>
+      <expression value="%context.occurenceDateTime &lt;= '2018-04-01'"/>
+    </applicability>
+    <priceComponent>
+      <type value="tax"/>
+      <code>
+        <coding>
+          <system value="http://fhir.de/CodeSystem/billing-attributes"/>
+          <code value="MWST"/>
+          <display value="Mehrwersteuersatz"/>
+        </coding>
+      </code>
+      <factor value="1.07"/>
+    </priceComponent>
+  </propertyGroup>
 </ChargeItemDefinition>

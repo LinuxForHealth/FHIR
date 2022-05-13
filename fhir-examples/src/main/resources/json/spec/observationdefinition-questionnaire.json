@@ -6,9 +6,10 @@
       "system": "urn:ietf:rfc:3986"
     }
   ],
-  "version": "4.3.0-CIBUILD",
+  "version": "4.3.0-cibuild",
   "status": "draft",
-  "date": "2022-01-01T15:17:18+00:00",
+  "experimental": false,
+  "date": "2022-04-23T22:21:35+00:00",
   "publisher": "Health Level Seven International (Orders and Observations)",
   "item": [
     {
@@ -202,10 +203,9 @@
             {
               "linkId": "ObservationDefinition.language.value",
               "text": "language",
-              "type": "coding",
+              "type": "choice",
               "required": false,
-              "repeats": false,
-              "answerConstraint": "optionsOnly"
+              "repeats": false
             }
           ]
         },
@@ -362,10 +362,9 @@
             {
               "linkId": "ObservationDefinition.category.coding",
               "text": "code:",
-              "type": "coding",
+              "type": "choice",
               "required": false,
-              "repeats": false,
-              "answerConstraint": "optionsOnly"
+              "repeats": false
             },
             {
               "linkId": "ObservationDefinition.category.text",
@@ -419,10 +418,9 @@
             {
               "linkId": "ObservationDefinition.code.coding",
               "text": "code:",
-              "type": "coding",
+              "type": "choice",
               "required": false,
-              "repeats": false,
-              "answerConstraint": "optionsOnly"
+              "repeats": false
             },
             {
               "linkId": "ObservationDefinition.code.text",
@@ -522,10 +520,9 @@
             {
               "linkId": "ObservationDefinition.permittedDataType.value",
               "text": "permitted data type",
-              "type": "coding",
+              "type": "choice",
               "required": false,
-              "repeats": false,
-              "answerConstraint": "optionsOrType"
+              "repeats": false
             }
           ]
         },
@@ -612,10 +609,9 @@
             {
               "linkId": "ObservationDefinition.method.coding",
               "text": "code:",
-              "type": "coding",
+              "type": "choice",
               "required": false,
-              "repeats": false,
-              "answerConstraint": "optionsOnly"
+              "repeats": false
             },
             {
               "linkId": "ObservationDefinition.method.text",
@@ -841,10 +837,9 @@
                 {
                   "linkId": "ObservationDefinition.quantitativeDetails.customaryUnit.coding",
                   "text": "code:",
-                  "type": "coding",
+                  "type": "choice",
                   "required": false,
-                  "repeats": false,
-                  "answerConstraint": "optionsOnly"
+                  "repeats": false
                 },
                 {
                   "linkId": "ObservationDefinition.quantitativeDetails.customaryUnit.text",
@@ -894,10 +889,9 @@
                 {
                   "linkId": "ObservationDefinition.quantitativeDetails.unit.coding",
                   "text": "code:",
-                  "type": "coding",
+                  "type": "choice",
                   "required": false,
-                  "repeats": false,
-                  "answerConstraint": "optionsOnly"
+                  "repeats": false
                 },
                 {
                   "linkId": "ObservationDefinition.quantitativeDetails.unit.text",
@@ -1162,10 +1156,9 @@
                 {
                   "linkId": "ObservationDefinition.qualifiedInterval.category.value",
                   "text": "category",
-                  "type": "coding",
+                  "type": "choice",
                   "required": false,
-                  "repeats": false,
-                  "answerConstraint": "optionsOrType"
+                  "repeats": false
                 }
               ]
             },
@@ -1267,10 +1260,9 @@
                 {
                   "linkId": "ObservationDefinition.qualifiedInterval.context.coding",
                   "text": "code:",
-                  "type": "coding",
+                  "type": "choice",
                   "required": false,
-                  "repeats": false,
-                  "answerConstraint": "optionsOnly"
+                  "repeats": false
                 },
                 {
                   "linkId": "ObservationDefinition.qualifiedInterval.context.text",
@@ -1316,10 +1308,9 @@
                 {
                   "linkId": "ObservationDefinition.qualifiedInterval.appliesTo.coding",
                   "text": "code:",
-                  "type": "coding",
+                  "type": "choice",
                   "required": false,
-                  "repeats": false,
-                  "answerConstraint": "optionsOnly"
+                  "repeats": false
                 },
                 {
                   "linkId": "ObservationDefinition.qualifiedInterval.appliesTo.text",
@@ -1368,10 +1359,9 @@
                 {
                   "linkId": "ObservationDefinition.qualifiedInterval.gender.value",
                   "text": "gender",
-                  "type": "coding",
+                  "type": "choice",
                   "required": false,
-                  "repeats": false,
-                  "answerConstraint": "optionsOrType"
+                  "repeats": false
                 }
               ]
             },

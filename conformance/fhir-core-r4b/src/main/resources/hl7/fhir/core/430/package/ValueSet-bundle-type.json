@@ -1,0 +1,131 @@
+{
+    "resourceType": "ValueSet",
+    "id": "bundle-type",
+    "meta": {
+        "lastUpdated": "2022-04-24T09:21:35.043+11:00",
+        "profile": [
+            "http://hl7.org/fhir/StructureDefinition/shareablevalueset"
+        ]
+    },
+    "extension": [
+        {
+            "url": "http://hl7.org/fhir/StructureDefinition/structuredefinition-wg",
+            "valueCode": "fhir"
+        },
+        {
+            "url": "http://hl7.org/fhir/StructureDefinition/structuredefinition-standards-status",
+            "valueCode": "normative"
+        },
+        {
+            "url": "http://hl7.org/fhir/StructureDefinition/structuredefinition-normative-version",
+            "valueCode": "4.0.0"
+        },
+        {
+            "url": "http://hl7.org/fhir/StructureDefinition/structuredefinition-fmm",
+            "valueInteger": 5
+        }
+    ],
+    "url": "http://hl7.org/fhir/ValueSet/bundle-type",
+    "identifier": [
+        {
+            "system": "urn:ietf:rfc:3986",
+            "value": "urn:oid:2.16.840.1.113883.4.642.3.620"
+        }
+    ],
+    "version": "4.3.0-cibuild",
+    "name": "BundleType",
+    "title": "BundleType",
+    "status": "active",
+    "experimental": false,
+    "date": "2021-01-17T07:06:13+11:00",
+    "publisher": "HL7 (FHIR Project)",
+    "contact": [
+        {
+            "telecom": [
+                {
+                    "system": "url",
+                    "value": "http://hl7.org/fhir"
+                },
+                {
+                    "system": "email",
+                    "value": "fhir@lists.hl7.org"
+                }
+            ]
+        }
+    ],
+    "description": "Indicates the purpose of a bundle - how it is intended to be used.",
+    "immutable": true,
+    "compose": {
+        "include": [
+            {
+                "system": "http://hl7.org/fhir/bundle-type"
+            }
+        ]
+    },
+    "expansion": {
+        "identifier": "urn:uuid:27748d53-6bb8-49c3-a7e4-41f6ce1a6e94",
+        "timestamp": "2022-04-23T22:23:07Z",
+        "total": 9,
+        "parameter": [
+            {
+                "name": "excludeNested",
+                "valueBoolean": true
+            },
+            {
+                "name": "includeDesignations",
+                "valueBoolean": true
+            },
+            {
+                "name": "version",
+                "valueUri": "http://hl7.org/fhir/bundle-type|4.3.0-cibuild"
+            }
+        ],
+        "contains": [
+            {
+                "system": "http://hl7.org/fhir/bundle-type",
+                "code": "document",
+                "display": "Document"
+            },
+            {
+                "system": "http://hl7.org/fhir/bundle-type",
+                "code": "message",
+                "display": "Message"
+            },
+            {
+                "system": "http://hl7.org/fhir/bundle-type",
+                "code": "transaction",
+                "display": "Transaction"
+            },
+            {
+                "system": "http://hl7.org/fhir/bundle-type",
+                "code": "transaction-response",
+                "display": "Transaction Response"
+            },
+            {
+                "system": "http://hl7.org/fhir/bundle-type",
+                "code": "batch",
+                "display": "Batch"
+            },
+            {
+                "system": "http://hl7.org/fhir/bundle-type",
+                "code": "batch-response",
+                "display": "Batch Response"
+            },
+            {
+                "system": "http://hl7.org/fhir/bundle-type",
+                "code": "history",
+                "display": "History List"
+            },
+            {
+                "system": "http://hl7.org/fhir/bundle-type",
+                "code": "searchset",
+                "display": "Search Results"
+            },
+            {
+                "system": "http://hl7.org/fhir/bundle-type",
+                "code": "collection",
+                "display": "Collection"
+            }
+        ]
+    }
+}

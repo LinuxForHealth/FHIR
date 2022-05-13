@@ -1236,6 +1236,8 @@ public class CodeGenerator {
     }
 
     private void generateClass(JsonObject structureDefinition, List<String> paths, CodeBuilder cb, boolean nested) {
+        String name = structureDefinition.getString("name");
+
         for (String path : paths) {
             List<String> mods = new ArrayList<>(mods("public"));
 
@@ -1258,11 +1260,11 @@ public class CodeGenerator {
                     _super = "AbstractVisitable";
 
                    if ("resource".equalsIgnoreCase(structureDefinition.getString("kind"))) {
-                       if (!"Resource".equalsIgnoreCase(structureDefinition.getString("name"))) {
+                       if (!"Resource".equalsIgnoreCase(name)) {
                            _super = "Resource";
                        }
                    } else if (!"logical".equalsIgnoreCase(structureDefinition.getString("kind"))) {
-                       if (!"Element".equalsIgnoreCase(structureDefinition.getString("name"))) {
+                       if (!"Element".equalsIgnoreCase(name)) {
                            _super = "Element";
                        }
                    }
@@ -1290,7 +1292,7 @@ public class CodeGenerator {
             }
             cb.javadoc(javadocLines);
 
-            String className = nested ? titleCase(path.substring(path.lastIndexOf(".") + 1)) : titleCase(structureDefinition.getString("name"));
+            String className = nested ? titleCase(path.substring(path.lastIndexOf(".") + 1)) : titleCase(name);
             if (nested) {
                 String nestedClassName = Arrays.asList(path.split("\\.")).stream().map(s -> titleCase(s)).collect(Collectors.joining("."));
                 generatedClassNames.add(nestedClassName);
@@ -1396,7 +1398,12 @@ public class CodeGenerator {
                     String fieldName = getFieldName(elementDefinition, path);
                     String fieldType = getFieldType(structureDefinition, elementDefinition);
                     if (isSummary(elementDefinition)) {
-                        cb.annotation("Summary");
+                        // special case for Citation which has an inner type named Summary
+                        if ("Citation".equals(name)) {
+                            cb.annotation("com.ibm.fhir.model.annotation.Summary");
+                        } else {
+                            cb.annotation("Summary");
+                        }
                     }
                     if (isRepeating(elementDefinition)) {
                         if (fieldType.equals("List<Reference>")) {
@@ -1760,14 +1767,19 @@ public class CodeGenerator {
                     secondKey = secondKey.substring(0, secondKey.length() - 1);
                 }
 
-                int firstValue = Integer.parseInt(firstKey);
-                int secondValue = Integer.parseInt(secondKey);
+                int firstValue, secondValue;
+                try {
+                    firstValue = Integer.parseInt(firstKey);
+                    secondValue = Integer.parseInt(secondKey);
+                    if (firstValue == secondValue) {
+                        return firstSuffix.compareTo(secondSuffix);
+                    }
 
-                if (firstValue == secondValue) {
-                    return firstSuffix.compareTo(secondSuffix);
+                    return firstValue - secondValue;
+                } catch (NumberFormatException e) {
+                    // fall back to lexical comparison
+                    return firstKey.compareTo(secondKey);
                 }
-
-                return firstValue - secondValue;
             }
         });
 
@@ -2409,7 +2421,10 @@ public class CodeGenerator {
             }
 
             if (isSummary(elementDefinition) && isDeclaredBy(className, elementDefinition)) {
-                imports.add("com.ibm.fhir.model.annotation.Summary");
+                // special case for Citation which has an inner type named Summary
+                if (!"Citation".equals(name)) {
+                    imports.add("com.ibm.fhir.model.annotation.Summary");
+                }
             }
 
             if (isChoiceElement(elementDefinition)) {
@@ -5058,7 +5073,7 @@ public class CodeGenerator {
         Map<String, JsonObject> codeSystemMap = buildResourceMap("./definitions/R4B/valuesets.json", "CodeSystem");
 
         Map<String, JsonObject> valueSetMap = buildResourceMap("./definitions/R4B/valuesets.json", "ValueSet");
-        valueSetMap.putAll(buildResourceMap("./definitions/R4B/fhir-expansions.json", "ValueSet"));
+        valueSetMap.putAll(buildResourceMap("./definitions/R4B/expansions.json", "ValueSet"));
 
         CodeGenerator generator = new CodeGenerator(structureDefinitionMap, codeSystemMap, valueSetMap);
         generator.generate("./src/main/java");

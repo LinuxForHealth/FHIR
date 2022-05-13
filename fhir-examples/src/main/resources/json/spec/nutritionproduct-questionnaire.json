@@ -9,8 +9,8 @@
       "status": "active",
       "description": "Type options for NutritionProduct.productCharacteristic.value[x]",
       "expansion": {
-        "identifier": "urn:uuid:1f7c874c-5476-402d-8f1e-21b9fb15cb2d",
-        "timestamp": "2022-01-01T15:25:16+00:00",
+        "identifier": "urn:uuid:999d6edf-80a2-40e8-af1d-c976c6fe19f3",
+        "timestamp": "2022-04-23T22:30:07+00:00",
         "contains": [
           {
             "system": "http://hl7.org/fhir/data-types",
@@ -51,9 +51,10 @@
       "system": "urn:ietf:rfc:3986"
     }
   ],
-  "version": "4.3.0-CIBUILD",
+  "version": "4.3.0-cibuild",
   "status": "draft",
-  "date": "2022-01-01T15:17:18+00:00",
+  "experimental": false,
+  "date": "2022-04-23T22:21:35+00:00",
   "publisher": "Health Level Seven International (Orders and Observations)",
   "item": [
     {
@@ -242,10 +243,9 @@
             {
               "linkId": "NutritionProduct.language.value",
               "text": "language",
-              "type": "coding",
+              "type": "choice",
               "required": false,
-              "repeats": false,
-              "answerConstraint": "optionsOnly"
+              "repeats": false
             }
           ]
         },
@@ -409,10 +409,9 @@
             {
               "linkId": "NutritionProduct.status.value",
               "text": "status",
-              "type": "coding",
+              "type": "choice",
               "required": false,
-              "repeats": false,
-              "answerConstraint": "optionsOrType"
+              "repeats": false
             }
           ]
         },
@@ -451,10 +450,9 @@
             {
               "linkId": "NutritionProduct.category.coding",
               "text": "code:",
-              "type": "coding",
+              "type": "choice",
               "required": false,
-              "repeats": false,
-              "answerConstraint": "optionsOnly"
+              "repeats": false
             },
             {
               "linkId": "NutritionProduct.category.text",
@@ -504,10 +502,9 @@
             {
               "linkId": "NutritionProduct.code.coding",
               "text": "code:",
-              "type": "coding",
+              "type": "choice",
               "required": false,
-              "repeats": false,
-              "answerConstraint": "optionsOnly"
+              "repeats": false
             },
             {
               "linkId": "NutritionProduct.code.text",
@@ -1208,10 +1205,9 @@
                 {
                   "linkId": "NutritionProduct.productCharacteristic.type.coding",
                   "text": "code:",
-                  "type": "coding",
+                  "type": "choice",
                   "required": false,
-                  "repeats": false,
-                  "answerConstraint": "optionsOnly"
+                  "repeats": false
                 },
                 {
                   "linkId": "NutritionProduct.productCharacteristic.type.text",
@@ -1261,10 +1257,9 @@
                 {
                   "linkId": "NutritionProduct.productCharacteristic.value[x]._type",
                   "text": "type",
-                  "type": "coding",
+                  "type": "choice",
                   "required": false,
                   "repeats": false,
-                  "answerConstraint": "optionsOnly",
                   "answerValueSet": "#vs2",
                   "item": [
                     {
@@ -1280,10 +1275,9 @@
                         {
                           "linkId": "NutritionProduct.productCharacteristic.value[x]._null.coding",
                           "text": "code:",
-                          "type": "coding",
+                          "type": "choice",
                           "required": false,
-                          "repeats": false,
-                          "answerConstraint": "optionsOnly"
+                          "repeats": false
                         },
                         {
                           "linkId": "NutritionProduct.productCharacteristic.value[x]._null.text",
@@ -1325,10 +1319,9 @@
                         {
                           "linkId": "NutritionProduct.productCharacteristic.value[x]._null.comparator",
                           "text": "comp:",
-                          "type": "coding",
+                          "type": "choice",
                           "required": false,
-                          "repeats": false,
-                          "answerConstraint": "optionsOnly"
+                          "repeats": false
                         },
                         {
                           "linkId": "NutritionProduct.productCharacteristic.value[x]._null.value",
@@ -1575,10 +1568,9 @@
                 {
                   "linkId": "NutritionProduct.instance.quantity.comparator",
                   "text": "comp:",
-                  "type": "coding",
+                  "type": "choice",
                   "required": false,
-                  "repeats": false,
-                  "answerConstraint": "optionsOnly"
+                  "repeats": false
                 },
                 {
                   "linkId": "NutritionProduct.instance.quantity.value",

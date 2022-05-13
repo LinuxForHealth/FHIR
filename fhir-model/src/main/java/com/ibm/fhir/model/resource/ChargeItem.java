@@ -68,7 +68,7 @@ public class ChargeItem extends DomainResource {
         bindingName = "ChargeItemStatus",
         strength = BindingStrength.Value.REQUIRED,
         description = "Codes identifying the lifecycle stage of a ChargeItem.",
-        valueSet = "http://hl7.org/fhir/ValueSet/chargeitem-status|4.3.0-CIBUILD"
+        valueSet = "http://hl7.org/fhir/ValueSet/chargeitem-status|4.3.0-cibuild"
     )
     @Required
     private final ChargeItemStatus status;

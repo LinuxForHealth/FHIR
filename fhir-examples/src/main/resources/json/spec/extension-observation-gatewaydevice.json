@@ -12,10 +12,11 @@
     }
   ],
   "url": "http://hl7.org/fhir/StructureDefinition/observation-gatewayDevice",
-  "version": "4.3.0-CIBUILD",
+  "version": "4.3.0-cibuild",
   "name": "gatewayDevice",
   "title": "Gateway Device",
   "status": "draft",
+  "experimental": false,
   "date": "2015-03-02",
   "publisher": "Health Level Seven, Inc. - OO WG",
   "contact": [
@@ -29,7 +30,7 @@
     }
   ],
   "description": "The Provenance/AuditEvent resources can represent the same information.  Note that the Provenance/AuditEvent resources can represent the same information.",
-  "fhirVersion": "4.3.0-CIBUILD",
+  "fhirVersion": "4.3.0-cibuild",
   "mapping": [
     {
       "identity": "rim",

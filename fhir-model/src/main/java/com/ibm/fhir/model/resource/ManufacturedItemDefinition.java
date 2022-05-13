@@ -59,19 +59,37 @@ public class ManufacturedItemDefinition extends DomainResource {
         bindingName = "PublicationStatus",
         strength = BindingStrength.Value.REQUIRED,
         description = "The lifecycle status of an artifact.",
-        valueSet = "http://hl7.org/fhir/ValueSet/publication-status|4.3.0-CIBUILD"
+        valueSet = "http://hl7.org/fhir/ValueSet/publication-status|4.3.0-cibuild"
     )
     @Required
     private final PublicationStatus status;
     @Summary
+    @Binding(
+        bindingName = "ManufacturedDoseForm",
+        strength = BindingStrength.Value.EXAMPLE,
+        description = "Dose form for a medication, in the form suitable for administering to the patient, after mixing, where necessary.",
+        valueSet = "http://hl7.org/fhir/ValueSet/manufactured-dose-form"
+    )
     @Required
     private final CodeableConcept manufacturedDoseForm;
     @Summary
+    @Binding(
+        bindingName = "UnitOfPresentation",
+        strength = BindingStrength.Value.EXAMPLE,
+        description = "The presentation type in which an administrable medicinal product is given to a patient.",
+        valueSet = "http://hl7.org/fhir/ValueSet/unit-of-presentation"
+    )
     private final CodeableConcept unitOfPresentation;
     @Summary
     @ReferenceTarget({ "Organization" })
     private final List<Reference> manufacturer;
     @Summary
+    @Binding(
+        bindingName = "SNOMEDCTSubstanceCodes",
+        strength = BindingStrength.Value.EXAMPLE,
+        description = "This value set includes all substance codes from SNOMED CT - provided as an exemplar value set.",
+        valueSet = "http://hl7.org/fhir/ValueSet/substance-codes"
+    )
     private final List<CodeableConcept> ingredient;
     @Summary
     private final List<Property> property;
@@ -544,7 +562,7 @@ public class ManufacturedItemDefinition extends DomainResource {
          * <p>This element is required.
          * 
          * @param manufacturedDoseForm
-         *     Dose form as manufactured and before any transformation into the pharmaceutical product
+         *     Dose form as manufactured (before any necessary transformation)
          * 
          * @return
          *     A reference to this Builder instance
@@ -558,7 +576,7 @@ public class ManufacturedItemDefinition extends DomainResource {
          * The “real world” units in which the quantity of the manufactured item is described.
          * 
          * @param unitOfPresentation
-         *     The “real world” units in which the quantity of the manufactured item is described
+         *     The “real world” units in which the quantity of the item is described
          * 
          * @return
          *     A reference to this Builder instance
@@ -625,8 +643,8 @@ public class ManufacturedItemDefinition extends DomainResource {
          * If any of the elements are null, calling {@link #build()} will fail.
          * 
          * @param ingredient
-         *     The ingredients of this manufactured item. This is only needed if the ingredients are not specified by incoming 
-         *     references from the Ingredient resource
+         *     The ingredients of this manufactured item. Only needed if these are not specified by incoming references from the 
+         *     Ingredient resource
          * 
          * @return
          *     A reference to this Builder instance
@@ -646,8 +664,8 @@ public class ManufacturedItemDefinition extends DomainResource {
          * If any of the elements are null, calling {@link #build()} will fail.
          * 
          * @param ingredient
-         *     The ingredients of this manufactured item. This is only needed if the ingredients are not specified by incoming 
-         *     references from the Ingredient resource
+         *     The ingredients of this manufactured item. Only needed if these are not specified by incoming references from the 
+         *     Ingredient resource
          * 
          * @return
          *     A reference to this Builder instance
@@ -751,6 +769,12 @@ public class ManufacturedItemDefinition extends DomainResource {
      */
     public static class Property extends BackboneElement {
         @Summary
+        @Binding(
+            bindingName = "SNOMEDCTCharacteristicCodes",
+            strength = BindingStrength.Value.EXAMPLE,
+            description = "This value set includes all observable entity codes from SNOMED CT - provided as an exemplar value set.",
+            valueSet = "http://hl7.org/fhir/ValueSet/product-characteristic-codes"
+        )
         @Required
         private final CodeableConcept type;
         @Summary
