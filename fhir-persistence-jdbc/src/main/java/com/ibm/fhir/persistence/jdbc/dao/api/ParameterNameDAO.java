@@ -8,7 +8,7 @@ package com.ibm.fhir.persistence.jdbc.dao.api;
 
 import java.util.Map;
 
-import com.ibm.fhir.persistence.jdbc.exception.FHIRPersistenceDataAccessException;
+import com.ibm.fhir.persistence.exception.FHIRPersistenceDataAccessException;
 
 /**
  * This Data Access Object interface defines APIs specific to parameter_names table.

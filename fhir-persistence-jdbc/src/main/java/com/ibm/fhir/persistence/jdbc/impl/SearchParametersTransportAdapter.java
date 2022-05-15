@@ -8,6 +8,7 @@ package com.ibm.fhir.persistence.jdbc.impl;
 
 import java.math.BigDecimal;
 import java.sql.Timestamp;
+import java.time.Instant;
 
 import com.ibm.fhir.persistence.index.DateParameter;
 import com.ibm.fhir.persistence.index.LocationParameter;
@@ -39,14 +40,21 @@ public class SearchParametersTransportAdapter implements ParameterValueVisitorAd
      * @param resourceType
      * @param logicalId
      * @param logicalResourceId
+     * @param versionId
+     * @param lastUpdated
      * @param requestShard
+     * @param parameterHash
      */
-    public SearchParametersTransportAdapter(String resourceType, String logicalId, long logicalResourceId, String requestShard) {
+    public SearchParametersTransportAdapter(String resourceType, String logicalId, long logicalResourceId, 
+            int versionId, Instant lastUpdated, String requestShard, String parameterHash) {
         builder = SearchParametersTransport.builder()
             .withResourceType(resourceType)
             .withLogicalId(logicalId)
             .withLogicalResourceId(logicalResourceId)
-            .withRequestShard(requestShard);
+            .withVersionId(versionId)
+            .withLastUpdated(lastUpdated)
+            .withRequestShard(requestShard)
+            .withParameterHash(parameterHash);
     }
 
     /**

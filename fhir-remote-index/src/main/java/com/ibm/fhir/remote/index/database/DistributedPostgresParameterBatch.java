@@ -107,7 +107,7 @@ public class DistributedPostgresParameterBatch {
      * Resets the state of the DAO by closing all statements and
      * setting any batch counts to 0
      */
-    public void reset() {
+    public void close() {
         if (strings != null) {
             try {
                 strings.close();

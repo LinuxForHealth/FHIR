@@ -6,6 +6,7 @@
  
 package com.ibm.fhir.persistence.index;
 
+import java.time.Instant;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -26,6 +27,15 @@ public class SearchParametersTransport {
 
     // The database identifier assigned to this resource
     private long logicalResourceId;
+    
+    // The current version of the resource
+    private int versionId;
+
+    // The parameter hash computed for this set of parameters
+    private String parameterHash;
+
+    // The last_updated time in a fixed format for transport
+    private String lastUpdated;
 
     // The key value used for sharding the data when using a distributed database
     private String requestShard;
@@ -48,6 +58,27 @@ public class SearchParametersTransport {
         return new Builder();
     }
 
+    @Override
+    public String toString() {
+        StringBuilder result = new StringBuilder();
+        result.append("resourceType[");
+        result.append(resourceType);
+        result.append("] ");
+        result.append("logicalId[");
+        result.append(logicalId);
+        result.append("] ");
+        result.append("versionId[");
+        result.append(versionId);
+        result.append("] ");
+//        result.append("parameterHash[");
+//        result.append(parameterHash);
+//        result.append("] ");
+//        result.append("lastUpdated[");
+//        result.append(lastUpdated);
+//        result.append("] ");
+        return result.toString();
+    }
+
     /**
      * A builder to make it easier to construct a {@link SearchParametersTransport}
      */
@@ -66,6 +97,9 @@ public class SearchParametersTransport {
         private String logicalId;
         private long logicalResourceId = -1;
         private String requestShard;
+        private int versionId;
+        private String parameterHash;
+        private String lastUpdated;
 
         /**
          * Set the resourceType
@@ -78,12 +112,37 @@ public class SearchParametersTransport {
         }
 
         /**
+         * Set the parameterHash
+         * @param hash
+         * @return
+         */
+        public Builder withParameterHash(String hash) {
+            this.parameterHash = hash;
+            return this;
+        }
+
+        public Builder withLastUpdated(Instant lastUpdated) {
+            this.lastUpdated = lastUpdated.toString();
+            return this;
+        }
+
+        /**
          * Set the logicalId
          * @param logicalId
          * @return
          */
         public Builder withLogicalId(String logicalId) {
             this.logicalId = logicalId;
+            return this;
+        }
+
+        /**
+         * Set the versionId
+         * @param versionId
+         * @return
+         */
+        public Builder withVersionId(int versionId) {
+            this.versionId = versionId;
             return this;
         }
 
@@ -217,7 +276,10 @@ public class SearchParametersTransport {
             result.resourceType = this.resourceType;
             result.logicalId = this.logicalId;
             result.logicalResourceId = this.logicalResourceId;
+            result.setVersionId(this.versionId);
             result.setRequestShard(this.requestShard);
+            result.setParameterHash(this.parameterHash);
+            result.setLastUpdated(this.lastUpdated);
 
             if (this.stringValues.size() > 0) {
                 result.stringValues = new ArrayList<>(this.stringValues);
@@ -453,5 +515,49 @@ public class SearchParametersTransport {
      */
     public void setSecurityValues(List<SecurityParameter> securityValues) {
         this.securityValues = securityValues;
+    }
+
+
+    /**
+     * @return the versionId
+     */
+    public int getVersionId() {
+        return versionId;
+    }
+
+
+    /**
+     * @param versionId the versionId to set
+     */
+    public void setVersionId(int versionId) {
+        this.versionId = versionId;
+    }
+
+    /**
+     * @return the parameterHash
+     */
+    public String getParameterHash() {
+        return parameterHash;
+    }
+
+    /**
+     * @param parameterHash the parameterHash to set
+     */
+    public void setParameterHash(String parameterHash) {
+        this.parameterHash = parameterHash;
+    }
+
+    /**
+     * @return the lastUpdated
+     */
+    public String getLastUpdated() {
+        return lastUpdated;
+    }
+
+    /**
+     * @param lastUpdated the lastUpdated to set
+     */
+    public void setLastUpdated(String lastUpdated) {
+        this.lastUpdated = lastUpdated;
     }
 }

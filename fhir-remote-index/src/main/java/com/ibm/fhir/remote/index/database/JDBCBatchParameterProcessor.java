@@ -61,7 +61,7 @@ public class JDBCBatchParameterProcessor implements BatchParameterProcessor {
      */
     public void close() {
         for (Map.Entry<String, DistributedPostgresParameterBatch> entry: daoMap.entrySet()) {
-            entry.getValue().reset();
+            entry.getValue().close();
         }
         systemDao.close();
     }
@@ -73,6 +73,17 @@ public class JDBCBatchParameterProcessor implements BatchParameterProcessor {
         resourceTypesInBatch.clear();
     }
 
+    /**
+     * Make sure that each statement that may contain data is cleared before we
+     * retry a batch
+     */
+    public void reset() {
+        for (String resourceType: resourceTypesInBatch) {
+            DistributedPostgresParameterBatch dao = daoMap.get(resourceType);
+            dao.close();
+        }
+        systemDao.close();
+    }
     /**
      * Push any statements that have been batched but not yet executed
      * @throws FHIRPersistenceException

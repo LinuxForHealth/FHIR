@@ -13,7 +13,17 @@ public class RemoteIndexMessage {
     private String tenantId;
     private int messageVersion;
     private SearchParametersTransport data;
-    
+
+    @Override
+    public String toString() {
+        StringBuilder result = new StringBuilder();
+        result.append("tenant[");
+        result.append(tenantId);
+        result.append("] ");
+        result.append(data.toString());
+        return result.toString();
+    }
+
     /**
      * @return the tenantId
      */

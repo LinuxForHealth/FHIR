@@ -12,8 +12,8 @@ import java.sql.Types;
 import java.util.logging.Level;
 import java.util.logging.Logger;
 
+import com.ibm.fhir.persistence.exception.FHIRPersistenceDataAccessException;
 import com.ibm.fhir.persistence.jdbc.dao.impl.ParameterNameDAOImpl;
-import com.ibm.fhir.persistence.jdbc.exception.FHIRPersistenceDataAccessException;
 
 public class PostgresParameterNamesDAO extends ParameterNameDAOImpl {
     private static final String CLASSNAME = PostgresParameterNamesDAO.class.getName();

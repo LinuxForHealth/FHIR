@@ -102,6 +102,7 @@ import com.ibm.fhir.persistence.context.FHIRHistoryContext;
 import com.ibm.fhir.persistence.context.FHIRPersistenceContext;
 import com.ibm.fhir.persistence.context.FHIRPersistenceContextFactory;
 import com.ibm.fhir.persistence.erase.EraseDTO;
+import com.ibm.fhir.persistence.exception.FHIRPersistenceDataAccessException;
 import com.ibm.fhir.persistence.exception.FHIRPersistenceException;
 import com.ibm.fhir.persistence.exception.FHIRPersistenceNotSupportedException;
 import com.ibm.fhir.persistence.exception.FHIRPersistenceResourceDeletedException;
@@ -152,7 +153,6 @@ import com.ibm.fhir.persistence.jdbc.dto.ReferenceParmVal;
 import com.ibm.fhir.persistence.jdbc.dto.StringParmVal;
 import com.ibm.fhir.persistence.jdbc.dto.TokenParmVal;
 import com.ibm.fhir.persistence.jdbc.exception.FHIRPersistenceDBConnectException;
-import com.ibm.fhir.persistence.jdbc.exception.FHIRPersistenceDataAccessException;
 import com.ibm.fhir.persistence.jdbc.exception.FHIRPersistenceFKVException;
 import com.ibm.fhir.persistence.jdbc.util.ExtractedSearchParameters;
 import com.ibm.fhir.persistence.jdbc.util.JDBCParameterBuildingVisitor;
@@ -421,7 +421,8 @@ public class FHIRPersistenceJDBCImpl implements FHIRPersistence, SchemaNameSuppl
                             + ", version=" + resourceDTO.getVersionId());
             }
 
-            sendParametersToRemoteIndexService(resourceDTO.getResourceType(), resourceDTO.getLogicalId(), resourceDTO.getId(), context.getRequestShard(), searchParameters);
+            sendParametersToRemoteIndexService(resourceDTO.getResourceType(), resourceDTO.getLogicalId(), resourceDTO.getId(), 
+                resourceDTO.getVersionId(), resourceDTO.getLastUpdated().toInstant(), context.getRequestShard(), searchParameters);
             SingleResourceResult.Builder<T> resultBuilder = new SingleResourceResult.Builder<T>()
                     .success(true)
                     .interactionStatus(resourceDTO.getInteractionStatus())
@@ -461,15 +462,19 @@ public class FHIRPersistenceJDBCImpl implements FHIRPersistence, SchemaNameSuppl
      * @param resourceType
      * @param logicalId
      * @param logicalResourceId
-     * @param shardKey
+     * @param versionId
+     * @param lastUpdated
+     * @param requestShard
      * @param searchParameters
      */
-    private void sendParametersToRemoteIndexService(String resourceType, String logicalId, long logicalResourceId, String requestShard,
+    private void sendParametersToRemoteIndexService(String resourceType, String logicalId, long logicalResourceId, 
+            int versionId, java.time.Instant lastUpdated, String requestShard, 
             ExtractedSearchParameters searchParameters) throws FHIRPersistenceException {
         FHIRRemoteIndexService remoteIndexService = FHIRRemoteIndexService.getServiceInstance();
         if (remoteIndexService != null) {
             // convert the parameters into a form that will be easy to ship to a remote service
-            SearchParametersTransportAdapter adapter = new SearchParametersTransportAdapter(resourceType, logicalId, logicalResourceId, requestShard);
+            SearchParametersTransportAdapter adapter = new SearchParametersTransportAdapter(resourceType, logicalId, logicalResourceId, 
+                versionId, lastUpdated, requestShard, searchParameters.getParameterHashB64());
             ParameterTransportVisitor visitor = new ParameterTransportVisitor(adapter);
             for (ExtractedParameterValue pv: searchParameters.getParameters()) {
                 pv.accept(visitor);
@@ -478,8 +483,8 @@ public class FHIRPersistenceJDBCImpl implements FHIRPersistence, SchemaNameSuppl
             // Note that the remote index service is supposed to be multi-tenant, using
             // the tenantId from the request context on this thread, so we don't need
             // to pass that here
-            final String partitionKey = resourceType + "/" + logicalId;
-            IndexProviderResponse ipr = remoteIndexService.submit(new RemoteIndexData(partitionKey, adapter.build()));
+            final String kafkaPartitionKey = resourceType + "/" + logicalId;
+            IndexProviderResponse ipr = remoteIndexService.submit(new RemoteIndexData(kafkaPartitionKey, adapter.build()));
             remoteIndexMessageList.add(ipr); // we'll check for an ACK just before we commit the transaction
         }
     }
@@ -672,7 +677,8 @@ public class FHIRPersistenceJDBCImpl implements FHIRPersistence, SchemaNameSuppl
             }
 
             // If configured, send the extracted parameters to the remote indexing service
-            sendParametersToRemoteIndexService(resourceDTO.getResourceType(), resourceDTO.getLogicalId(), resourceDTO.getId(), context.getRequestShard(), searchParameters);
+            sendParametersToRemoteIndexService(resourceDTO.getResourceType(), resourceDTO.getLogicalId(), resourceDTO.getId(), 
+                resourceDTO.getVersionId(), resourceDTO.getLastUpdated().toInstant(), context.getRequestShard(), searchParameters);
 
             SingleResourceResult.Builder<T> resultBuilder = new SingleResourceResult.Builder<T>()
                     .success(true)
@@ -2862,6 +2868,7 @@ public class FHIRPersistenceJDBCImpl implements FHIRPersistence, SchemaNameSuppl
 
         // important to clear this list after each transaction because batch bundles
         // use the same FHIRPersistenceJDBCImpl instance for each entry
+        remoteIndexMessageList.clear();
         payloadPersistenceResponses.clear();
         eraseResourceRecs.clear();
     }

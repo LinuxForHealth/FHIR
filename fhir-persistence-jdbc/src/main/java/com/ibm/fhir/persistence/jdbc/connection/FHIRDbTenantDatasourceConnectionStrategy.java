@@ -23,10 +23,10 @@ import com.ibm.fhir.config.PropertyGroup;
 import com.ibm.fhir.database.utils.api.SchemaType;
 import com.ibm.fhir.database.utils.model.DbType;
 import com.ibm.fhir.exception.FHIRException;
+import com.ibm.fhir.persistence.exception.FHIRPersistenceDataAccessException;
 import com.ibm.fhir.persistence.exception.FHIRPersistenceException;
 import com.ibm.fhir.persistence.jdbc.dao.impl.FHIRDbDAOImpl;
 import com.ibm.fhir.persistence.jdbc.exception.FHIRPersistenceDBConnectException;
-import com.ibm.fhir.persistence.jdbc.exception.FHIRPersistenceDataAccessException;
 
 
 /**

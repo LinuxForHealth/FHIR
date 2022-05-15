@@ -15,13 +15,16 @@ import java.sql.Types;
 import java.util.ArrayList;
 import java.util.Collections;
 import java.util.HashMap;
+import java.util.HashSet;
 import java.util.List;
 import java.util.Map;
+import java.util.Set;
 import java.util.logging.Level;
 import java.util.logging.Logger;
 import java.util.stream.Collectors;
 
 import com.ibm.fhir.database.utils.api.IDatabaseTranslator;
+import com.ibm.fhir.database.utils.common.ResultSetReader;
 import com.ibm.fhir.database.utils.postgres.PostgresTranslator;
 import com.ibm.fhir.persistence.exception.FHIRPersistenceException;
 import com.ibm.fhir.persistence.index.DateParameter;
@@ -29,6 +32,7 @@ import com.ibm.fhir.persistence.index.LocationParameter;
 import com.ibm.fhir.persistence.index.NumberParameter;
 import com.ibm.fhir.persistence.index.ProfileParameter;
 import com.ibm.fhir.persistence.index.QuantityParameter;
+import com.ibm.fhir.persistence.index.RemoteIndexMessage;
 import com.ibm.fhir.persistence.index.SearchParameterValue;
 import com.ibm.fhir.persistence.index.SecurityParameter;
 import com.ibm.fhir.persistence.index.StringParameter;
@@ -104,8 +108,12 @@ public class DistributedPostgresMessageHandler extends BaseMessageHandler {
      * Public constructor
      * 
      * @param connection
+     * @param schemaName
+     * @param cache
+     * @param maxReadyTimeMs
      */
-    public DistributedPostgresMessageHandler(Connection connection, String schemaName, IdentityCache cache) {
+    public DistributedPostgresMessageHandler(Connection connection, String schemaName, IdentityCache cache, long maxReadyTimeMs) {
+        super(maxReadyTimeMs);
         this.connection = connection;
         this.schemaName = schemaName;
         this.identityCache = cache;
@@ -902,4 +910,127 @@ public class DistributedPostgresMessageHandler extends BaseMessageHandler {
         return parameterNameId;
     }
 
+    @Override
+    protected void resetBatch() {
+        // Called when a transaction has been rolled back because of a deadlock
+        // or other retryable error and we want to try and process the batch again
+        batchProcessor.reset();
+    }
+
+    /**
+     * Build the check ready query
+     * @param messagesByResourceType
+     * @return
+     */
+    private String buildCheckReadyQuery(Map<String,List<RemoteIndexMessage>> messagesByResourceType) {
+        StringBuilder select = new StringBuilder();
+        // SELECT lr.shard_key, lr.logical_resource_id, lr.resource_type, lr.logical_id, xlr.version_id, lr.last_updated, lr.parameter_hash
+        //   FROM logical_resources AS lr,
+        //        patient_logical_resources AS xlr
+        //  WHERE lr.logical_resource_id = xlr.logical_resource_id
+        //    AND xlr.logical_resource_id IN (1,2,3,4)
+        //  UNION ALL
+        // SELECT lr.shard_key, lr.logical_resource_id, lr.resource_type, lr.logical_id, xlr.version_id, lr.last_updated, lr.parameter_hash
+        //   FROM logical_resources AS lr,
+        //        observation_logical_resources AS xlr
+        //  WHERE lr.logical_resource_id = xlr.logical_resource_id
+        //    AND xlr.logical_resource_id IN (5,6,7)
+        boolean first = true;
+        for (Map.Entry<String, List<RemoteIndexMessage>> entry: messagesByResourceType.entrySet()) {
+            final String resourceType = entry.getKey();
+            final List<RemoteIndexMessage> messages = entry.getValue();
+            final String inlist = messages.stream().map(m -> Long.toString(m.getData().getLogicalResourceId())).collect(Collectors.joining(","));
+            if (first) {
+                first = false;
+            } else {
+                select.append(" UNION ALL ");
+            }
+            select.append(" SELECT lr.shard_key, lr.logical_resource_id, '" + resourceType + "' AS resource_type, lr.logical_id, xlr.version_id, lr.last_updated, lr.parameter_hash ");
+            select.append("   FROM logical_resources AS lr, ");
+            select.append(resourceType).append("_logical_resources AS xlr ");
+            select.append("  WHERE lr.logical_resource_id = xlr.logical_resource_id ");
+            select.append("    AND xlr.logical_resource_id IN (").append(inlist).append(")");
+        }
+        
+        return select.toString();
+    }
+
+    @Override
+    protected void prepare(List<RemoteIndexMessage> messages, List<RemoteIndexMessage> okToProcess, List<RemoteIndexMessage> notReady) throws FHIRPersistenceException {
+        // Get a list of all the resources for which we can see the current logical resource data.
+        // If the resource doesn't yet exist or its version meta doesn't the message
+        // then we add to the notReady list. If the resource version meta already
+        // exceeds the message, then we'll skip processing altogether because it
+        // means that there should be another message in the queue with more
+        // up-to-date parameters
+        Map<Long,RemoteIndexMessage> messageMap = new HashMap<>();
+        Map<String,List<RemoteIndexMessage>> messagesByResourceType = new HashMap<>();
+        for (RemoteIndexMessage msg: messages) {
+            Long logicalResourceId = msg.getData().getLogicalResourceId();
+            messageMap.put(logicalResourceId, msg);
+
+            // split out the messages per resource type because we need to read from xx_logical_resources
+            List<RemoteIndexMessage> values = messagesByResourceType.computeIfAbsent(msg.getData().getResourceType(), k -> new ArrayList<>());
+            values.add(msg);
+        }
+
+        Set<Long> found = new HashSet<>();
+        final String checkReadyQuery = buildCheckReadyQuery(messagesByResourceType);
+        logger.fine(() -> "check ready query: " + checkReadyQuery);
+        try (PreparedStatement ps = connection.prepareStatement(checkReadyQuery)) {
+            ResultSet rs = ps.executeQuery();
+            // wrap the ResultSet in a reader for easier consumption
+            ResultSetReader rsReader = new ResultSetReader(rs);
+            while (rsReader.next()) {
+                LogicalResourceValue lrv = LogicalResourceValue.builder()
+                        .withShardKey(rsReader.getShort())
+                        .withLogicalResourceId(rsReader.getLong())
+                        .withResourceType(rsReader.getString())
+                        .withLogicalId(rsReader.getString())
+                        .withVersionId(rsReader.getInt())
+                        .withLastUpdated(rsReader.getTimestamp())
+                        .withParameterHash(rsReader.getString())
+                        .build();
+                RemoteIndexMessage m = messageMap.get(lrv.getLogicalResourceId());
+                if (m == null) {
+                    throw new IllegalStateException("query returned a logical resource which we didn't request");
+                }
+
+                // Check the values from the database to see if they match
+                // the information in the message.
+                if (m.getData().getVersionId() == lrv.getVersionId()) {
+                    // only process this message if the parameter hash and lastUpdated
+                    // times match - which is a good check that we're storing parameters
+                    // from the correct transaction. If these don't match, we can simply
+                    // say we found the data but don't need to process the message.
+                    final String lastUpdated = lrv.getLastUpdated().toString();
+                    if (lrv.getParameterHash().equals(m.getData().getParameterHash()) 
+                            && lastUpdated.equals(m.getData().getLastUpdated())) {
+                        okToProcess.add(m);
+                    }
+                    found.add(lrv.getLogicalResourceId()); // won't be marked as missing
+                } else if (m.getData().getVersionId() > lrv.getVersionId()) {
+                    // we can skip processing this record because the database has already
+                    // been updated with a newer version. Identify the record as having been
+                    // found so we don't keep waiting for it
+                    found.add(lrv.getLogicalResourceId());
+                }
+                // if the version in the database is prior to version in the message we
+                // received it means that the server transaction hasn't been committed...
+                // so we have to wait just as though it were missing altogether
+            }
+        } catch (SQLException x) {
+            logger.log(Level.SEVERE, "prepare failed: " + checkReadyQuery, x);
+            throw new FHIRPersistenceException("prepare query failed");
+        }
+
+        if (found.size() < messages.size()) {
+            // identify the missing records and add to the notReady list
+            for (RemoteIndexMessage m: messages) {
+                if (!found.contains(m.getData().getLogicalResourceId())) {
+                    notReady.add(m);
+                }
+            }
+        }
+    }
 }

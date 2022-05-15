@@ -13,10 +13,10 @@ import java.util.logging.Logger;
 import com.ibm.fhir.model.resource.OperationOutcome.Issue;
 import com.ibm.fhir.model.type.code.IssueType;
 import com.ibm.fhir.model.util.FHIRUtil;
+import com.ibm.fhir.persistence.exception.FHIRPersistenceDataAccessException;
 import com.ibm.fhir.persistence.exception.FHIRPersistenceException;
 import com.ibm.fhir.persistence.jdbc.exception.FHIRPersistenceDBCleanupException;
 import com.ibm.fhir.persistence.jdbc.exception.FHIRPersistenceDBConnectException;
-import com.ibm.fhir.persistence.jdbc.exception.FHIRPersistenceDataAccessException;
 
 /**
  * Helper functions used for managing FHIR database interactions

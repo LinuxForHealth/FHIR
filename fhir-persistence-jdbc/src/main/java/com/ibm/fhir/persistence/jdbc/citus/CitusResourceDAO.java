@@ -12,12 +12,12 @@ import java.util.logging.Logger;
 
 import javax.transaction.TransactionSynchronizationRegistry;
 
+import com.ibm.fhir.persistence.exception.FHIRPersistenceDataAccessException;
 import com.ibm.fhir.persistence.jdbc.FHIRPersistenceJDBCCache;
 import com.ibm.fhir.persistence.jdbc.connection.FHIRDbFlavor;
 import com.ibm.fhir.persistence.jdbc.dao.api.IResourceReferenceDAO;
 import com.ibm.fhir.persistence.jdbc.dto.Resource;
 import com.ibm.fhir.persistence.jdbc.exception.FHIRPersistenceDBConnectException;
-import com.ibm.fhir.persistence.jdbc.exception.FHIRPersistenceDataAccessException;
 import com.ibm.fhir.persistence.jdbc.impl.ParameterTransactionDataImpl;
 import com.ibm.fhir.persistence.jdbc.postgres.PostgresResourceDAO;
 

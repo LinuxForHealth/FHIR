@@ -9,6 +9,7 @@ package com.ibm.fhir.persistence.jdbc.exception;
 import java.util.Collection;
 
 import com.ibm.fhir.model.resource.OperationOutcome;
+import com.ibm.fhir.persistence.exception.FHIRPersistenceDataAccessException;
 
 /**
  * This exception class is thrown when Foreign Key violations are encountered while attempting to access data in the FHIR DB.

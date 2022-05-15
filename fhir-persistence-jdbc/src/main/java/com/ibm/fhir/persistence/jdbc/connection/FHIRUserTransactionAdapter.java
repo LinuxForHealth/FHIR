@@ -17,9 +17,9 @@ import javax.transaction.UserTransaction;
 
 import com.ibm.fhir.config.FHIRRequestContext;
 import com.ibm.fhir.persistence.FHIRPersistenceTransaction;
+import com.ibm.fhir.persistence.exception.FHIRPersistenceDataAccessException;
 import com.ibm.fhir.persistence.exception.FHIRPersistenceException;
 import com.ibm.fhir.persistence.jdbc.FHIRPersistenceJDBCCache;
-import com.ibm.fhir.persistence.jdbc.exception.FHIRPersistenceDataAccessException;
 import com.ibm.fhir.persistence.jdbc.impl.CacheTransactionSync;
 
 

@@ -27,6 +27,7 @@ import java.util.stream.Collectors;
 
 import com.ibm.fhir.database.utils.api.IDatabaseTranslator;
 import com.ibm.fhir.database.utils.common.DataDefinitionUtil;
+import com.ibm.fhir.persistence.exception.FHIRPersistenceDataAccessException;
 import com.ibm.fhir.persistence.exception.FHIRPersistenceException;
 import com.ibm.fhir.persistence.jdbc.dao.api.ICommonTokenValuesCache;
 import com.ibm.fhir.persistence.jdbc.dao.api.INameIdCache;
@@ -34,7 +35,6 @@ import com.ibm.fhir.persistence.jdbc.dao.api.IResourceReferenceDAO;
 import com.ibm.fhir.persistence.jdbc.dto.CommonTokenValue;
 import com.ibm.fhir.persistence.jdbc.dto.CommonTokenValueResult;
 import com.ibm.fhir.persistence.jdbc.exception.FHIRPersistenceDBConnectException;
-import com.ibm.fhir.persistence.jdbc.exception.FHIRPersistenceDataAccessException;
 import com.ibm.fhir.schema.control.FhirSchemaConstants;
 
 /**

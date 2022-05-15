@@ -12,12 +12,12 @@ import java.util.Map;
 
 import com.ibm.fhir.database.utils.query.Select;
 import com.ibm.fhir.persistence.context.FHIRPersistenceContext;
+import com.ibm.fhir.persistence.exception.FHIRPersistenceDataAccessException;
 import com.ibm.fhir.persistence.exception.FHIRPersistenceException;
 import com.ibm.fhir.persistence.exception.FHIRPersistenceVersionIdMismatchException;
 import com.ibm.fhir.persistence.jdbc.dto.ExtractedParameterValue;
 import com.ibm.fhir.persistence.jdbc.dto.Resource;
 import com.ibm.fhir.persistence.jdbc.exception.FHIRPersistenceDBConnectException;
-import com.ibm.fhir.persistence.jdbc.exception.FHIRPersistenceDataAccessException;
 
 /**
  * This Data Access Object interface provides methods creating, updating, and retrieving rows in the FHIR Resource tables.

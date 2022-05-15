@@ -60,6 +60,10 @@ public class Main {
     private Duration pollDuration = Duration.ofSeconds(10);
     private long maxBatchCollectTimeMs = 5000;
 
+    // The max time we wait for the database to catch up with what was sent to Kafka
+    // Must be a little longer than the the Liberty transaction timeout
+    private long maxReadyTimeMs = 180000;
+
     // the list of consumers
     private final List<RemoteIndexConsumer> consumers = new ArrayList<>();
 
@@ -119,6 +123,13 @@ public class Main {
                     consumerCount = Integer.parseInt(args[a++]);
                 } else {
                     throw new IllegalArgumentException("Missing value for --consumer-count");
+                }
+                break;
+            case "--max-ready-time-ms":
+                if (a < args.length && !args[a].startsWith("--")) {
+                    maxReadyTimeMs = Long.parseLong(args[a++]);
+                } else {
+                    throw new IllegalArgumentException("Missing value for --max-ready-time-ms");
                 }
                 break;
             default:
@@ -283,7 +294,7 @@ public class Main {
         try {
             // Each handler gets a dedicated database connection so we don't have
             // to deal with contention when grabbing connections from a pool
-            return new DistributedPostgresMessageHandler(connectionProvider.getConnection(), getSchemaName(), identityCache);
+            return new DistributedPostgresMessageHandler(connectionProvider.getConnection(), getSchemaName(), identityCache, maxReadyTimeMs);
         } catch (SQLException x) {
             throw new FHIRPersistenceException("get connection failed", x);
         }

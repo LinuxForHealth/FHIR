@@ -20,7 +20,6 @@ public abstract class FHIRRemoteIndexService {
     // TODO we should be injecting these services to something like the request context
     private static FHIRRemoteIndexService serviceInstance;
 
-//    private ConcurrentHashMap<String, FHIRIndexPo>
     /**
      * Initialize the serviceInstance value
      * @param instance
