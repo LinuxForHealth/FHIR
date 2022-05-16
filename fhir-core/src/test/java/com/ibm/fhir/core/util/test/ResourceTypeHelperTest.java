@@ -33,10 +33,10 @@ public class ResourceTypeHelperTest {
         assertEquals(r4bTypes.size(), 141, "number of r4b resource types");
 
         Set<String> backwardCompatibleTypes = ResourceTypeHelper.getCompatibleResourceTypes(VERSION_40, VERSION_43);
-        assertEquals(backwardCompatibleTypes.size(), 125, "number of r4b resource types that are backwards-scompatible with r4");
+        assertEquals(backwardCompatibleTypes.size(), 126, "number of r4b resource types that are backwards-compatible with r4");
 
         Set<String> forwardCompatibleTypes = ResourceTypeHelper.getCompatibleResourceTypes(VERSION_43, VERSION_40);
-        assertEquals(forwardCompatibleTypes.size(), 123, "number of r4 resource types that are forwards-compatible with r4b");
+        assertEquals(forwardCompatibleTypes.size(), 124, "number of r4 resource types that are forwards-compatible with r4b");
     }
 
     @Test

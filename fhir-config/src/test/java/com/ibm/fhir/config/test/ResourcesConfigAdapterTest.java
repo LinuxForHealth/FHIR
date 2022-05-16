@@ -28,13 +28,13 @@ public class ResourcesConfigAdapterTest {
         ResourcesConfigAdapter resourcesConfigAdapter = new ResourcesConfigAdapter(pg, FHIRVersionParam.VERSION_40);
 
         Set<String> supportedResourceTypes = resourcesConfigAdapter.getSupportedResourceTypes();
-        assertEquals(supportedResourceTypes.size(), 125);
+        assertEquals(supportedResourceTypes.size(), 126);
 
         System.out.println(supportedResourceTypes);
 
         for (Interaction interaction : Interaction.values()) {
             supportedResourceTypes = resourcesConfigAdapter.getSupportedResourceTypes(interaction);
-            assertEquals(supportedResourceTypes.size(), 125);
+            assertEquals(supportedResourceTypes.size(), 126);
         }
     }
 

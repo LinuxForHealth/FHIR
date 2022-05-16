@@ -348,7 +348,7 @@ public class R4ExamplesDriver {
                 } else {
                     // oops, hit an unexpected validation error
                     System.out.println();
-                    logger.log(Level.SEVERE, "validateResource(" + file + ") unexpected failure.", x);
+                    logger.log(Level.SEVERE, "validateResource(" + file + ") unexpected failure: " + x.getMessage());
 
                     // continue processing the other files
                     ExampleProcessorException error =
@@ -399,7 +399,7 @@ public class R4ExamplesDriver {
                     // processing error, but didn't expect it
                     System.out.println();
                     logger.log(Level.SEVERE, "processResource(" + file
-                            + ") unexpected failure: ", x);
+                            + ") unexpected failure: " + x.getMessage());
 
                     // continue processing the other files
                     ExampleProcessorException error =

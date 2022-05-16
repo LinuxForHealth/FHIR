@@ -22,31 +22,26 @@ public class ResourceTypeHelper {
     private static final Set<ResourceType> R4_ENUMS = collectResourceTypesFor(FHIRVersionParam.VERSION_40);
     private static final Set<ResourceType> R4B_ENUMS = collectResourceTypesFor(FHIRVersionParam.VERSION_43);
     private static final Set<ResourceType> R4B_ONLY_RESOURCE_ENUMS = collectR4bOnlyResourceTypes();
-    private static final Set<ResourceType> ABSTRACT_TYPE_ENUMS = Collections.unmodifiableSet(new HashSet<>(
-            Arrays.asList(
+    private static final Set<ResourceType> ABSTRACT_TYPE_ENUMS = Set.of(
                 ResourceType.RESOURCE,
                 ResourceType.DOMAIN_RESOURCE
-            )));
+            );
     /**
      * valid instances from 4.0 may not be valid in 4.3
      */
-    private static final Set<ResourceType> BACKWARD_BREAKING_R4B_ENUMS = Collections.unmodifiableSet(new HashSet<>(
-            Arrays.asList(
-                ResourceType.DEVICE_DEFINITION,
+    private static final Set<ResourceType> BACKWARD_BREAKING_R4B_ENUMS = Set.of(
                 ResourceType.EVIDENCE,
                 ResourceType.EVIDENCE_VARIABLE
-            )));
+            );
     /**
      * valid instances from 4.3 may not be valid in 4.0
      */
-    private static final Set<ResourceType> FORWARD_BREAKING_R4B_ENUMS = Collections.unmodifiableSet(new HashSet<>(
-            Arrays.asList(
-                ResourceType.DEVICE_DEFINITION,
+    private static final Set<ResourceType> FORWARD_BREAKING_R4B_ENUMS = Set.of(
                 ResourceType.EVIDENCE,
                 ResourceType.EVIDENCE_VARIABLE,
                 ResourceType.ACTIVITY_DEFINITION,
                 ResourceType.PLAN_DEFINITION
-            )));
+            );
 
     private static final Set<String> R4_COMPATIBLE_RESOURCES = Collections.unmodifiableSet(new LinkedHashSet<>(
             R4_ENUMS.stream()

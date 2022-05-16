@@ -200,7 +200,7 @@ public class FHIRPersistenceUtilTest {
             Map<String, List<String>> params = new HashMap<>();
             FHIRSystemHistoryContext historyContext = FHIRPersistenceUtil.parseSystemHistoryParameters(params, false, newResourcesConfigAdapter(FHIRVersionParam.VERSION_40));
 
-            assertEquals(historyContext.getResourceTypes().size(), 125, "implicitly scoped to all R4 resource types");
+            assertEquals(historyContext.getResourceTypes().size(), 126, "implicitly scoped to all R4 resource types");
         } finally {
             FHIRRequestContext.get().setTenantId(originalTenantId);
         }

@@ -51,7 +51,6 @@ public class CapabilitiesVersionTest extends FHIRServerTestBase {
         R4B_ONLY_RESOURCES.add(ResourceType.SUBSTANCE_DEFINITION);
         // The following resource types existed in R4, but have breaking changes in R4B.
         // Because we only support the R4B version, we don't want to advertise these in our 4.0.1 statement.
-        R4B_ONLY_RESOURCES.add(ResourceType.DEVICE_DEFINITION);
         R4B_ONLY_RESOURCES.add(ResourceType.EVIDENCE);
         R4B_ONLY_RESOURCES.add(ResourceType.EVIDENCE_VARIABLE);
     }
