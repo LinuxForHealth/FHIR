@@ -1,0 +1,193 @@
+{
+    "resourceType": "ValueSet",
+    "id": "us-core-common-sdoh-assessments",
+    "text": {
+        "status": "empty",
+        "div": "<div xmlns=\"http://www.w3.org/1999/xhtml\">Redacted for size</div>"
+    },
+    "url": "http://hl7.org/fhir/us/core/ValueSet/us-core-common-sdoh-assessments",
+    "version": "5.0.0",
+    "name": "USCoreCommonSDOHAssessments",
+    "title": "US Core Common SDOH Assessments",
+    "status": "active",
+    "experimental": false,
+    "date": "2022-04-14",
+    "publisher": "HL7 International - Cross-Group Projects",
+    "contact": [
+        {
+            "name": "HL7 International - Cross-Group Projects",
+            "telecom": [
+                {
+                    "system": "url",
+                    "value": "http://www.hl7.org/Special/committees/cgp"
+                },
+                {
+                    "system": "email",
+                    "value": "cgp@lists.HL7.org"
+                }
+            ]
+        }
+    ],
+    "description": "Common SDOH assessment concepts covering the following categories (Gravity Project SDOH Domains):\n - Food (Food Insecurity)\n - Housing (Housing Instability)\n - Health (Social Connection, Stress)\n - Employment (Employment Status)\n - Care (SDOH Category Unspecified)\n - Transit (Transportation Insecurity)\n - Money (Financial Insecurity)\n - Goods (Material Hardship)\n - Education (SDOH Category Unspecified)\n - Legal (SDOH Category Unspecified)",
+    "jurisdiction": [
+        {
+            "coding": [
+                {
+                    "system": "urn:iso:std:iso:3166",
+                    "code": "US"
+                }
+            ]
+        }
+    ],
+    "copyright": "This material contains content from LOINC (http://loinc.org). LOINC is copyright © 1995-2020, Regenstrief Institute, Inc. and the Logical Observation Identifiers Names and Codes (LOINC) Committee and is available at no cost under the license at http://loinc.org/license. LOINC® is a registered United States trademark of Regenstrief Institute, Inc",
+    "compose": {
+        "include": [
+            {
+                "system": "http://loinc.org",
+                "concept": [
+                    {
+                        "code": "93028-9"
+                    },
+                    {
+                        "code": "93025-5"
+                    },
+                    {
+                        "code": "69861-3"
+                    },
+                    {
+                        "code": "93027-1"
+                    },
+                    {
+                        "code": "81375-8"
+                    },
+                    {
+                        "code": "93034-7"
+                    },
+                    {
+                        "code": "68516-4"
+                    },
+                    {
+                        "code": "96782-8"
+                    },
+                    {
+                        "code": "93029-7"
+                    },
+                    {
+                        "code": "68517-2"
+                    },
+                    {
+                        "code": "96842-0"
+                    },
+                    {
+                        "code": "88123-5"
+                    },
+                    {
+                        "code": "76501-6"
+                    },
+                    {
+                        "code": "95618-5"
+                    },
+                    {
+                        "code": "93038-8"
+                    },
+                    {
+                        "code": "69858-9"
+                    },
+                    {
+                        "code": "93159-2"
+                    },
+                    {
+                        "code": "96780-2"
+                    },
+                    {
+                        "code": "44250-9"
+                    },
+                    {
+                        "code": "68524-8"
+                    },
+                    {
+                        "code": "88121-9"
+                    },
+                    {
+                        "code": "93026-3"
+                    },
+                    {
+                        "code": "82589-3"
+                    },
+                    {
+                        "code": "89555-7"
+                    },
+                    {
+                        "code": "96781-0"
+                    },
+                    {
+                        "code": "95530-2"
+                    },
+                    {
+                        "code": "56799-0"
+                    },
+                    {
+                        "code": "63586-2"
+                    },
+                    {
+                        "code": "96779-4"
+                    },
+                    {
+                        "code": "93677-3"
+                    },
+                    {
+                        "code": "63512-8"
+                    },
+                    {
+                        "code": "76437-3"
+                    },
+                    {
+                        "code": "88124-3"
+                    },
+                    {
+                        "code": "32624-9"
+                    },
+                    {
+                        "code": "97023-6"
+                    },
+                    {
+                        "code": "93035-4"
+                    },
+                    {
+                        "code": "54899-0"
+                    },
+                    {
+                        "code": "93033-9"
+                    },
+                    {
+                        "code": "93031-3"
+                    },
+                    {
+                        "code": "56051-6"
+                    },
+                    {
+                        "code": "88122-7"
+                    },
+                    {
+                        "code": "93030-5"
+                    },
+                    {
+                        "code": "97027-7"
+                    },
+                    {
+                        "code": "71802-3"
+                    },
+                    {
+                        "code": "44255-8"
+                    },
+                    {
+                        "code": "67875-5"
+                    },
+                    {
+                        "code": "76513-1"
+                    }
+                ]
+            }
+        ]
+    }
+}

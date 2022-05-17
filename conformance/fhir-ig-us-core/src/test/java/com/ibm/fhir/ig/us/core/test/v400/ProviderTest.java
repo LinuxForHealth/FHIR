@@ -37,7 +37,7 @@ public class ProviderTest {
     @Test
     public void testRegistry() {
         StructureDefinition definition = FHIRRegistry.getInstance()
-                .getResource("http://hl7.org/fhir/us/core/StructureDefinition/pediatric-bmi-for-age", StructureDefinition.class);
+                .getResource("http://hl7.org/fhir/us/core/StructureDefinition/pediatric-bmi-for-age|4.0.0", StructureDefinition.class);
         assertNotNull(definition);
         assertEquals(definition.getVersion().getValue(), "4.0.0");
     }

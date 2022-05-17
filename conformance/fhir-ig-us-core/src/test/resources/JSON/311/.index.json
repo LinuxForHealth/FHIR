@@ -1,0 +1,428 @@
+{
+  "index-version": 1,
+  "files": [
+    {
+      "filename": "Condition-example.json",
+      "resourceType": "Condition",
+      "id": "example"
+    },
+    {
+      "filename": "Observation-serum-calcium.json",
+      "resourceType": "Observation",
+      "id": "serum-calcium"
+    },
+    {
+      "filename": "DiagnosticReport-metabolic-panel.json",
+      "resourceType": "DiagnosticReport",
+      "id": "metabolic-panel"
+    },
+    {
+      "filename": "Location-hl7east.json",
+      "resourceType": "Location",
+      "id": "hl7east"
+    },
+    {
+      "filename": "Observation-temperature.json",
+      "resourceType": "Observation",
+      "id": "temperature"
+    },
+    {
+      "filename": "Observation-urine-wbcs.json",
+      "resourceType": "Observation",
+      "id": "urine-wbcs"
+    },
+    {
+      "filename": "Observation-urine-ph.json",
+      "resourceType": "Observation",
+      "id": "urine-ph"
+    },
+    {
+      "filename": "Procedure-defib-implant.json",
+      "resourceType": "Procedure",
+      "id": "defib-implant"
+    },
+    {
+      "filename": "Observation-urine-cells.json",
+      "resourceType": "Observation",
+      "id": "urine-cells"
+    },
+    {
+      "filename": "DiagnosticReport-cardiology-report.json",
+      "resourceType": "DiagnosticReport",
+      "id": "cardiology-report"
+    },
+    {
+      "filename": "Observation-vitals-panel.json",
+      "resourceType": "Observation",
+      "id": "vitals-panel"
+    },
+    {
+      "filename": "Observation-bmi.json",
+      "resourceType": "Observation",
+      "id": "bmi"
+    },
+    {
+      "filename": "CareTeam-example.json",
+      "resourceType": "CareTeam",
+      "id": "example"
+    },
+    {
+      "filename": "Observation-blood-glucose.json",
+      "resourceType": "Observation",
+      "id": "blood-glucose"
+    },
+    {
+      "filename": "Observation-urobilinogen.json",
+      "resourceType": "Observation",
+      "id": "urobilinogen"
+    },
+    {
+      "filename": "Observation-urine-epi-cells.json",
+      "resourceType": "Observation",
+      "id": "urine-epi-cells"
+    },
+    {
+      "filename": "DiagnosticReport-urinalysis.json",
+      "resourceType": "DiagnosticReport",
+      "id": "urinalysis"
+    },
+    {
+      "filename": "Observation-urine-clarity.json",
+      "resourceType": "Observation",
+      "id": "urine-clarity"
+    },
+    {
+      "filename": "AllergyIntolerance-example.json",
+      "resourceType": "AllergyIntolerance",
+      "id": "example"
+    },
+    {
+      "filename": "DiagnosticReport-chest-xray-report.json",
+      "resourceType": "DiagnosticReport",
+      "id": "chest-xray-report"
+    },
+    {
+      "filename": "Patient-child-example.json",
+      "resourceType": "Patient",
+      "id": "child-example"
+    },
+    {
+      "filename": "Observation-ofc-percentile.json",
+      "resourceType": "Observation",
+      "id": "ofc-percentile"
+    },
+    {
+      "filename": "Observation-height.json",
+      "resourceType": "Observation",
+      "id": "height"
+    },
+    {
+      "filename": "Encounter-example-1.json",
+      "resourceType": "Encounter",
+      "id": "example-1"
+    },
+    {
+      "filename": "Device-udi-1.json",
+      "resourceType": "Device",
+      "id": "udi-1"
+    },
+    {
+      "filename": "Observation-urine-nitrite.json",
+      "resourceType": "Observation",
+      "id": "urine-nitrite"
+    },
+    {
+      "filename": "Observation-neutrophils.json",
+      "resourceType": "Observation",
+      "id": "neutrophils"
+    },
+    {
+      "filename": "Observation-urine-hemoglobin.json",
+      "resourceType": "Observation",
+      "id": "urine-hemoglobin"
+    },
+    {
+      "filename": "CarePlan-colonoscopy.json",
+      "resourceType": "CarePlan",
+      "id": "colonoscopy"
+    },
+    {
+      "filename": "Observation-urine-bacteria.json",
+      "resourceType": "Observation",
+      "id": "urine-bacteria"
+    },
+    {
+      "filename": "Observation-urine-ketone.json",
+      "resourceType": "Observation",
+      "id": "urine-ketone"
+    },
+    {
+      "filename": "Observation-urine-protein.json",
+      "resourceType": "Observation",
+      "id": "urine-protein"
+    },
+    {
+      "filename": "Observation-urine-leukocyte-esterase.json",
+      "resourceType": "Observation",
+      "id": "urine-leukocyte-esterase"
+    },
+    {
+      "filename": "Observation-weight.json",
+      "resourceType": "Observation",
+      "id": "weight"
+    },
+    {
+      "filename": "Device-udi-2.json",
+      "resourceType": "Device",
+      "id": "udi-2"
+    },
+    {
+      "filename": "Observation-urine-glucose.json",
+      "resourceType": "Observation",
+      "id": "urine-glucose"
+    },
+    {
+      "filename": "Practitioner-practitioner-2.json",
+      "resourceType": "Practitioner",
+      "id": "practitioner-2"
+    },
+    {
+      "filename": "Observation-serum-creatinine.json",
+      "resourceType": "Observation",
+      "id": "serum-creatinine"
+    },
+    {
+      "filename": "Observation-bun.json",
+      "resourceType": "Observation",
+      "id": "bun"
+    },
+    {
+      "filename": "Immunization-imm-1.json",
+      "resourceType": "Immunization",
+      "id": "imm-1"
+    },
+    {
+      "filename": "Observation-urine-rbcs.json",
+      "resourceType": "Observation",
+      "id": "urine-rbcs"
+    },
+    {
+      "filename": "Medication-uscore-med1.json",
+      "resourceType": "Medication",
+      "id": "uscore-med1"
+    },
+    {
+      "filename": "Observation-urine-bilirubin.json",
+      "resourceType": "Observation",
+      "id": "urine-bilirubin"
+    },
+    {
+      "filename": "Observation-urine-color.json",
+      "resourceType": "Observation",
+      "id": "urine-color"
+    },
+    {
+      "filename": "Observation-mchc.json",
+      "resourceType": "Observation",
+      "id": "mchc"
+    },
+    {
+      "filename": "Procedure-rehab.json",
+      "resourceType": "Procedure",
+      "id": "rehab"
+    },
+    {
+      "filename": "Bundle-66c8856b-ba11-4876-8aa8-467aad8c11a2.json",
+      "resourceType": "Bundle",
+      "id": "66c8856b-ba11-4876-8aa8-467aad8c11a2",
+      "type": "searchset"
+    },
+    {
+      "filename": "DiagnosticReport-cbc.json",
+      "resourceType": "DiagnosticReport",
+      "id": "cbc"
+    },
+    {
+      "filename": "Organization-example-organization-2.json",
+      "resourceType": "Organization",
+      "id": "example-organization-2"
+    },
+    {
+      "filename": "Encounter-1036.json",
+      "resourceType": "Encounter",
+      "id": "1036"
+    },
+    {
+      "filename": "Patient-infant-example.json",
+      "resourceType": "Patient",
+      "id": "infant-example"
+    },
+    {
+      "filename": "Observation-heart-rate.json",
+      "resourceType": "Observation",
+      "id": "heart-rate"
+    },
+    {
+      "filename": "Observation-serum-chloride.json",
+      "resourceType": "Observation",
+      "id": "serum-chloride"
+    },
+    {
+      "filename": "Observation-blood-pressure.json",
+      "resourceType": "Observation",
+      "id": "blood-pressure"
+    },
+    {
+      "filename": "Observation-pediatric-bmi-example.json",
+      "resourceType": "Observation",
+      "id": "pediatric-bmi-example"
+    },
+    {
+      "filename": "MedicationRequest-uscore-mo1.json",
+      "resourceType": "MedicationRequest",
+      "id": "uscore-mo1"
+    },
+    {
+      "filename": "Observation-some-day-smoker.json",
+      "resourceType": "Observation",
+      "id": "some-day-smoker"
+    },
+    {
+      "filename": "Observation-satO2-fiO2.json",
+      "resourceType": "Observation",
+      "id": "satO2-fiO2"
+    },
+    {
+      "filename": "Practitioner-practitioner-1.json",
+      "resourceType": "Practitioner",
+      "id": "practitioner-1"
+    },
+    {
+      "filename": "DocumentReference-episode-summary.json",
+      "resourceType": "DocumentReference",
+      "id": "episode-summary"
+    },
+    {
+      "filename": "Observation-bp-data-absent.json",
+      "resourceType": "Observation",
+      "id": "bp-data-absent"
+    },
+    {
+      "filename": "Condition-hc1.json",
+      "resourceType": "Condition",
+      "id": "hc1"
+    },
+    {
+      "filename": "Organization-saint-luke-w-endpoint.json",
+      "resourceType": "Organization",
+      "id": "saint-luke-w-endpoint"
+    },
+    {
+      "filename": "MedicationRequest-uscore-mo2.json",
+      "resourceType": "MedicationRequest",
+      "id": "uscore-mo2"
+    },
+    {
+      "filename": "Bundle-uscore-mo3.json",
+      "resourceType": "Bundle",
+      "id": "uscore-mo3",
+      "type": "searchset"
+    },
+    {
+      "filename": "Observation-oxygen-saturation.json",
+      "resourceType": "Observation",
+      "id": "oxygen-saturation"
+    },
+    {
+      "filename": "Observation-urine-sediment.json",
+      "resourceType": "Observation",
+      "id": "urine-sediment"
+    },
+    {
+      "filename": "Goal-goal-1.json",
+      "resourceType": "Goal",
+      "id": "goal-1"
+    },
+    {
+      "filename": "Observation-serum-sodium.json",
+      "resourceType": "Observation",
+      "id": "serum-sodium"
+    },
+    {
+      "filename": "Observation-length.json",
+      "resourceType": "Observation",
+      "id": "length"
+    },
+    {
+      "filename": "Medication-uscore-med2.json",
+      "resourceType": "Medication",
+      "id": "uscore-med2"
+    },
+    {
+      "filename": "Observation-hemoglobin.json",
+      "resourceType": "Observation",
+      "id": "hemoglobin"
+    },
+    {
+      "filename": "Observation-serum-potassium.json",
+      "resourceType": "Observation",
+      "id": "serum-potassium"
+    },
+    {
+      "filename": "Observation-usg.json",
+      "resourceType": "Observation",
+      "id": "usg"
+    },
+    {
+      "filename": "Patient-example.json",
+      "resourceType": "Patient",
+      "id": "example"
+    },
+    {
+      "filename": "Bundle-c887e62f-6166-419f-8268-b5ecd6c7b901.json",
+      "resourceType": "Bundle",
+      "id": "c887e62f-6166-419f-8268-b5ecd6c7b901",
+      "type": "searchset"
+    },
+    {
+      "filename": "Observation-serum-total-bilirubin.json",
+      "resourceType": "Observation",
+      "id": "serum-total-bilirubin"
+    },
+    {
+      "filename": "MedicationRequest-self-tylenol.json",
+      "resourceType": "MedicationRequest",
+      "id": "self-tylenol"
+    },
+    {
+      "filename": "Observation-pediatric-wt-example.json",
+      "resourceType": "Observation",
+      "id": "pediatric-wt-example"
+    },
+    {
+      "filename": "Observation-respiratory-rate.json",
+      "resourceType": "Observation",
+      "id": "respiratory-rate"
+    },
+    {
+      "filename": "Device-udi-3.json",
+      "resourceType": "Device",
+      "id": "udi-3"
+    },
+    {
+      "filename": "Observation-erythrocytes.json",
+      "resourceType": "Observation",
+      "id": "erythrocytes"
+    },
+    {
+      "filename": "Organization-acme-lab.json",
+      "resourceType": "Organization",
+      "id": "acme-lab"
+    },
+    {
+      "filename": "Observation-serum-co2.json",
+      "resourceType": "Observation",
+      "id": "serum-co2"
+    }
+  ]
+}

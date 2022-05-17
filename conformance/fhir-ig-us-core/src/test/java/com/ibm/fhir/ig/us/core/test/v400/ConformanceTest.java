@@ -56,7 +56,7 @@ import com.ibm.fhir.validation.FHIRValidator;
 import com.ibm.fhir.validation.exception.FHIRValidationException;
 
 public class ConformanceTest {
-    private static final String US_CORE_PATIENT = "http://hl7.org/fhir/us/core/StructureDefinition/us-core-patient";
+    private static final String US_CORE_PATIENT = "http://hl7.org/fhir/us/core/StructureDefinition/us-core-patient|4.0.0";
 
     @Test
     public void testConformsToWithEmptyContext() throws Exception {

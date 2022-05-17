@@ -1,5 +1,5 @@
 /*
- * (C) Copyright IBM Corp. 2020
+ * (C) Copyright IBM Corp. 2020, 2022
  *
  * SPDX-License-Identifier: Apache-2.0
  */
@@ -10,14 +10,13 @@ import static com.ibm.fhir.validation.util.FHIRValidationUtil.countErrors;
 import static org.testng.Assert.assertEquals;
 import static org.testng.Assert.fail;
 
-import java.io.BufferedReader;
-import java.io.IOException;
 import java.io.Reader;
 import java.nio.file.Files;
 import java.nio.file.Paths;
 import java.util.ArrayList;
 import java.util.List;
 
+import org.testng.ITest;
 import org.testng.annotations.Factory;
 import org.testng.annotations.Test;
 
@@ -25,23 +24,28 @@ import com.ibm.fhir.model.format.Format;
 import com.ibm.fhir.model.parser.FHIRParser;
 import com.ibm.fhir.model.resource.OperationOutcome.Issue;
 import com.ibm.fhir.model.resource.Resource;
+import com.ibm.fhir.registry.test.ExampleIndex;
 import com.ibm.fhir.validation.FHIRValidator;
 
 /**
- * Runs through the Profile index for 4.0.0
+ * Runs through the Profile index for US Core 4.0.0
  */
-public class ProfileTest {
+public class ProfileTest implements ITest {
 
-    private static final String INDEX = "./src/test/resources/JSON/400/index.txt";
+    private static final String EXAMPLES_PATH = "JSON/400/";
 
-    private String path = null;
+    private static final String INDEX_FILE_NAME = ".index.json";
+    private static final String TEST_RESOURCES_PATH = "src/test/resources/";
 
-    public ProfileTest() {
-        // No Operation
-    }
+    private final String path;
 
     public ProfileTest(String path) {
         this.path = path;
+    }
+
+    @Override
+    public String getTestName() {
+        return path.substring(TEST_RESOURCES_PATH.length());
     }
 
     @Test
@@ -56,24 +60,16 @@ public class ProfileTest {
             });
             assertEquals(countErrors(issues), 0);
         } catch (Exception e) {
-            System.out.println("Exception with " + path);
-            fail(e.toString());
+            fail("Exception with " + path, e);
         }
     }
 
     @Factory
     public Object[] createInstances() {
         List<Object> result = new ArrayList<>();
-
-        try (BufferedReader br = Files.newBufferedReader(Paths.get(INDEX))) {
-            String line;
-            while ((line = br.readLine()) != null) {
-                result.add(new ProfileTest(line));
-            }
-        } catch (IOException e) {
-            e.printStackTrace();
+        for (ExampleIndex.Entry entry : ExampleIndex.readIndex(EXAMPLES_PATH + INDEX_FILE_NAME)) {
+            result.add(new ProfileTest(TEST_RESOURCES_PATH + EXAMPLES_PATH + entry.getFileName()));
         }
         return result.toArray();
     }
-
 }

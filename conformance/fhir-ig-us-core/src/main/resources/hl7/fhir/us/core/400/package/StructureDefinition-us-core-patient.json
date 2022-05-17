@@ -439,7 +439,7 @@
                     {
                         "code": "Extension",
                         "profile": [
-                            "http://hl7.org/fhir/us/core/StructureDefinition/us-core-race"
+                            "http://hl7.org/fhir/us/core/StructureDefinition/us-core-race|4.0.0"
                         ]
                     }
                 ],
@@ -490,7 +490,7 @@
                     {
                         "code": "Extension",
                         "profile": [
-                            "http://hl7.org/fhir/us/core/StructureDefinition/us-core-ethnicity"
+                            "http://hl7.org/fhir/us/core/StructureDefinition/us-core-ethnicity|4.0.0"
                         ]
                     }
                 ],
@@ -542,7 +542,7 @@
                     {
                         "code": "Extension",
                         "profile": [
-                            "http://hl7.org/fhir/us/core/StructureDefinition/us-core-birthsex"
+                            "http://hl7.org/fhir/us/core/StructureDefinition/us-core-birthsex|4.0.0"
                         ]
                     }
                 ],
@@ -2740,7 +2740,7 @@
                 "binding": {
                     "strength": "extensible",
                     "description": "Two Letter USPS alphabetic codes.",
-                    "valueSet": "http://hl7.org/fhir/us/core/ValueSet/us-core-usps-state"
+                    "valueSet": "http://hl7.org/fhir/us/core/ValueSet/us-core-usps-state|4.0.0"
                 },
                 "mapping": [
                     {
@@ -4318,7 +4318,7 @@
                     {
                         "code": "Extension",
                         "profile": [
-                            "http://hl7.org/fhir/us/core/StructureDefinition/us-core-race"
+                            "http://hl7.org/fhir/us/core/StructureDefinition/us-core-race|4.0.0"
                         ]
                     }
                 ],
@@ -4340,7 +4340,7 @@
                     {
                         "code": "Extension",
                         "profile": [
-                            "http://hl7.org/fhir/us/core/StructureDefinition/us-core-ethnicity"
+                            "http://hl7.org/fhir/us/core/StructureDefinition/us-core-ethnicity|4.0.0"
                         ]
                     }
                 ],
@@ -4362,7 +4362,7 @@
                     {
                         "code": "Extension",
                         "profile": [
-                            "http://hl7.org/fhir/us/core/StructureDefinition/us-core-birthsex"
+                            "http://hl7.org/fhir/us/core/StructureDefinition/us-core-birthsex|4.0.0"
                         ]
                     }
                 ],
@@ -4669,7 +4669,7 @@
                 "binding": {
                     "strength": "extensible",
                     "description": "Two Letter USPS alphabetic codes.",
-                    "valueSet": "http://hl7.org/fhir/us/core/ValueSet/us-core-usps-state"
+                    "valueSet": "http://hl7.org/fhir/us/core/ValueSet/us-core-usps-state|4.0.0"
                 },
                 "mapping": [
                     {

@@ -1,0 +1,57 @@
+{
+    "resourceType": "ValueSet",
+    "id": "us-core-observation-smoking-status-status",
+    "text": {
+        "status": "empty",
+        "div": "<div xmlns=\"http://www.w3.org/1999/xhtml\">Redacted for size</div>"
+    },
+    "url": "http://hl7.org/fhir/us/core/ValueSet/us-core-observation-smoking-status-status",
+    "version": "5.0.0",
+    "name": "USCoreObservationSmokingStatusStatus",
+    "title": "US Core Status for Smoking Status Observation",
+    "status": "active",
+    "date": "2019-05-21",
+    "publisher": "HL7 International - Cross-Group Projects",
+    "contact": [
+        {
+            "name": "HL7 International - Cross-Group Projects",
+            "telecom": [
+                {
+                    "system": "url",
+                    "value": "http://www.hl7.org/Special/committees/cgp"
+                },
+                {
+                    "system": "email",
+                    "value": "cgp@lists.HL7.org"
+                }
+            ]
+        }
+    ],
+    "description": "Codes providing the status of an observation for smoking status. Constrained to `final`and `entered-in-error`.",
+    "jurisdiction": [
+        {
+            "coding": [
+                {
+                    "system": "urn:iso:std:iso:3166",
+                    "code": "US"
+                }
+            ]
+        }
+    ],
+    "copyright": "Used by permission of HL7 International, all rights reserved Creative Commons License",
+    "compose": {
+        "include": [
+            {
+                "system": "http://hl7.org/fhir/observation-status",
+                "concept": [
+                    {
+                        "code": "final"
+                    },
+                    {
+                        "code": "entered-in-error"
+                    }
+                ]
+            }
+        ]
+    }
+}

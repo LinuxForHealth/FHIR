@@ -1,5 +1,5 @@
 /*
- * (C) Copyright IBM Corp. 2019, 2021
+ * (C) Copyright IBM Corp. 2019, 2022
  *
  * SPDX-License-Identifier: Apache-2.0
  */
@@ -46,6 +46,7 @@ import com.ibm.fhir.path.evaluator.FHIRPathEvaluator;
 import com.ibm.fhir.validation.FHIRValidator;
 
 public class ConformanceTest {
+    private static final String US_CORE_PATIENT = "http://hl7.org/fhir/us/core/StructureDefinition/us-core-patient|3.1.1";
 
     @Test
     public void testConformsToWithEmptyContext() throws Exception {
@@ -282,7 +283,7 @@ public class ConformanceTest {
                 .build();
 
         FHIRValidator validator = FHIRValidator.validator();
-        List<Issue> issues = validator.validate(patient, "http://hl7.org/fhir/us/core/StructureDefinition/us-core-patient|3.1.1");
+        List<Issue> issues = validator.validate(patient, US_CORE_PATIENT);
 
         issues.forEach(System.out::println);
 
@@ -335,7 +336,7 @@ public class ConformanceTest {
                 .build();
 
         FHIRValidator validator = FHIRValidator.validator();
-        List<Issue> issues = validator.validate(patient, "http://hl7.org/fhir/us/core/StructureDefinition/us-core-patient|3.1.1");
+        List<Issue> issues = validator.validate(patient, US_CORE_PATIENT);
 
         issues.forEach(System.out::println);
 
@@ -469,7 +470,7 @@ public class ConformanceTest {
                 .build();
 
         FHIRValidator validator = FHIRValidator.validator();
-        List<Issue> issues = validator.validate(patient, "http://hl7.org/fhir/us/core/StructureDefinition/us-core-patient");
+        List<Issue> issues = validator.validate(patient, US_CORE_PATIENT);
 
         issues.forEach(System.out::println);
 
@@ -518,7 +519,7 @@ public class ConformanceTest {
                 .build();
 
         FHIRValidator validator = FHIRValidator.validator();
-        List<Issue> issues = validator.validate(patient, "http://hl7.org/fhir/us/core/StructureDefinition/us-core-patient");
+        List<Issue> issues = validator.validate(patient, US_CORE_PATIENT);
 
         issues.forEach(System.out::println);
 
