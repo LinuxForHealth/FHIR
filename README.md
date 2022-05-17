@@ -20,7 +20,7 @@ Download the fhir-persistence-schema and fhir-install assets from the [Releases 
 #### From the container image
 Quickstart:
 ```
-docker run -p 9443:9443 -e BOOTSTRAP_DB=true ibmcom/ibm-fhir-server`
+docker run -p 9443:9443 -e BOOTSTRAP_DB=true ibmcom/ibm-fhir-server
 ```
 
 See https://hub.docker.com/r/ibmcom/ibm-fhir-server for more information.
