@@ -59,5 +59,26 @@
                 ]
             }
         ]
+    },
+    "expansion": {
+        "timestamp": "2022-05-18T05:42:12.027757Z",
+        "total": 3,
+        "contains": [
+            {
+                "system": "http://loinc.org",
+                "code": "LP29684-5",
+                "display": "Radiology"
+            },
+            {
+                "system": "http://loinc.org",
+                "code": "LP29708-2",
+                "display": "Cardiology"
+            },
+            {
+                "system": "http://loinc.org",
+                "code": "LP7839-6",
+                "display": "Pathology"
+            }
+        ]
     }
 }

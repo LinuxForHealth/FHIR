@@ -10,8 +10,15 @@ import java.io.BufferedReader;
 import java.io.File;
 import java.io.FileReader;
 import java.io.FileWriter;
+import java.io.Reader;
 import java.util.Collections;
 import java.util.Map;
+
+import com.ibm.fhir.model.format.Format;
+import com.ibm.fhir.model.generator.FHIRGenerator;
+import com.ibm.fhir.model.parser.FHIRParser;
+import com.ibm.fhir.model.resource.ValueSet;
+import com.ibm.fhir.term.util.ValueSetSupport;
 
 import jakarta.json.Json;
 import jakarta.json.JsonBuilderFactory;
@@ -36,8 +43,33 @@ public class ResourceProcessor {
             throw new IllegalArgumentException("Please specify one or more version qualifiers (e.g. '4.0.0 5.0.0')");
         }
 
-        for (String packageVersion : args) {
-            updateInPlace(packageVersion.replace(".", ""));
+        for (String version : args) {
+            String packageVersion = version.replace(".", "");
+            expandValueSets(packageVersion);
+            updateInPlace(packageVersion);
+        }
+    }
+
+    private static void expandValueSets(String packageVersion) throws Exception {
+        File dir = new File("src/main/resources/hl7/fhir/us/core/" + packageVersion + "/package/");
+        for (File file : dir.listFiles()) {
+            String fileName = file.getName();
+            if (!fileName.endsWith(".json") || file.isDirectory()
+                    || !fileName.startsWith("ValueSet")
+                    ) {
+                continue;
+            }
+            ValueSet expandedValueSet;
+            try (Reader reader = new FileReader(file)) {
+                ValueSet vs = FHIRParser.parser(Format.JSON).parse(reader);
+                // Use the Registry to expand the ValueSet.
+                // US Core ValueSets are built on VSAC ValueSets and so in this case, these expansions
+                // indirectly depend on the VSACRegistryResourceProvider for those.
+                expandedValueSet = ValueSetSupport.expand(vs);
+            }
+            try (FileWriter writer = new FileWriter(file)) {
+                FHIRGenerator.generator(Format.JSON, true).generate(expandedValueSet, writer);
+            }
         }
     }
 

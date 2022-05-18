@@ -42,8 +42,7 @@ Source - https://hl7.org/fhir/us/core/stu5/
 
 
 # Steps to update
-
-1. download the npm package for whatever version of us core you want (and note what downloads we used from where in this file)
+1. download the npm package for whatever version of Us Core you want (and note what downloads we used from where in this file)
 2. update `src/main/resources` with the latest conformance artifacts and `src/test/resources` with the latest examples
 3. if its a new version
   - ensure references from the previous package are version-specific (e.g. to avoid a 3.1.1 profile from picking up a 5.0.0 valueset during validation)
@@ -51,5 +50,6 @@ Source - https://hl7.org/fhir/us/core/stu5/
   - create tests for this new version (copy tests from the existing versions into a new package for this version)
 3. update the http://hl7.org/fhir/us/core/ValueSet-us-core-usps-state.html valueset from https://tx.fhir.org (if needed)
   - https://tx.fhir.org/r4/ValueSet/$expand?url=http://hl7.org/fhir/us/core/ValueSet/us-core-usps-state
-4. execute ResourceProcessor.java from src/test/java with the proper arguments
-5. execute SearchParameterAugmenter from src/test/java with the proper arguments
+4. temporarily add your UMLS API Key to VSACRegistryResourceProvider so that we can expand the value sets using the VSAC terminology server
+5. execute ResourceProcessor from src/test/java with the proper arguments
+6. execute SearchParameterAugmenter from src/test/java with the proper arguments
