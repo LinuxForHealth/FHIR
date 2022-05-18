@@ -52,5 +52,41 @@
                 ]
             }
         ]
+    },
+    "expansion": {
+        "timestamp": "2022-05-18T05:56:23.502731Z",
+        "total": 5,
+        "contains": [
+            {
+                "system": "http://terminology.hl7.org/CodeSystem/v3-AdministrativeGender",
+                "version": "20210301",
+                "code": "F",
+                "display": "Female"
+            },
+            {
+                "system": "http://terminology.hl7.org/CodeSystem/v3-AdministrativeGender",
+                "version": "20210301",
+                "code": "M",
+                "display": "Male"
+            },
+            {
+                "system": "http://terminology.hl7.org/CodeSystem/v3-NullFlavor",
+                "version": "20210301",
+                "code": "ASKU",
+                "display": "asked but unknown"
+            },
+            {
+                "system": "http://terminology.hl7.org/CodeSystem/v3-NullFlavor",
+                "version": "20210301",
+                "code": "OTH",
+                "display": "other"
+            },
+            {
+                "system": "http://terminology.hl7.org/CodeSystem/v3-NullFlavor",
+                "version": "20210301",
+                "code": "UNK",
+                "display": "unknown"
+            }
+        ]
     }
 }

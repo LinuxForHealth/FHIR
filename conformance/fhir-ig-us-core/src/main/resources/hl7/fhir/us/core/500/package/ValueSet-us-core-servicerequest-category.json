@@ -69,5 +69,77 @@
                 ]
             }
         ]
+    },
+    "expansion": {
+        "timestamp": "2022-05-18T05:42:12.020069Z",
+        "total": 8,
+        "contains": [
+            {
+                "system": "http://hl7.org/fhir/us/core/CodeSystem/us-core-tags",
+                "version": "5.0.0",
+                "code": "sdoh",
+                "display": "SDOH"
+            },
+            {
+                "system": "http://snomed.info/sct",
+                "code": "386053000",
+                "display": "Evaluation procedure (procedure)"
+            },
+            {
+                "system": "http://snomed.info/sct",
+                "code": "410606002",
+                "display": "Social service procedure (procedure)"
+            },
+            {
+                "system": "http://snomed.info/sct",
+                "code": "108252007",
+                "display": "Laboratory procedure",
+                "designation": [
+                    {
+                        "value": "Laboratory procedure"
+                    }
+                ]
+            },
+            {
+                "system": "http://snomed.info/sct",
+                "code": "363679005",
+                "display": "Imaging",
+                "designation": [
+                    {
+                        "value": "Imaging"
+                    }
+                ]
+            },
+            {
+                "system": "http://snomed.info/sct",
+                "code": "409063005",
+                "display": "Counselling",
+                "designation": [
+                    {
+                        "value": "Counselling"
+                    }
+                ]
+            },
+            {
+                "system": "http://snomed.info/sct",
+                "code": "409073007",
+                "display": "Education",
+                "designation": [
+                    {
+                        "value": "Education"
+                    }
+                ]
+            },
+            {
+                "system": "http://snomed.info/sct",
+                "code": "387713003",
+                "display": "Surgical procedure",
+                "designation": [
+                    {
+                        "value": "Surgical procedure"
+                    }
+                ]
+            }
+        ]
     }
 }

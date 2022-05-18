@@ -17,7 +17,7 @@
         </dependency>
         <dependency>
             <groupId>${project.groupId}</groupId>
-            <artifactId>fhir-registry</artifactId>
+            <artifactId>fhir-profile</artifactId>
             <version>${project.version}</version>
         </dependency>
         <dependency>
@@ -36,6 +36,23 @@
             <groupId>${project.groupId}</groupId>
             <artifactId>fhir-validation</artifactId>
             <version>${project.version}</version>
+            <scope>test</scope>
+        </dependency>
+        <!-- used to look up VSAC ValueSets for expanding US Core ValueSets -->
+        <dependency>
+            <groupId>${project.groupId}</groupId>
+            <artifactId>fhir-provider</artifactId>
+            <version>${project.version}</version>
+            <scope>test</scope>
+        </dependency>
+        <dependency>
+            <groupId>org.apache.cxf</groupId>
+            <artifactId>cxf-rt-rs-client</artifactId>
+            <scope>test</scope>
+        </dependency>
+        <dependency>
+            <groupId>org.apache.cxf</groupId>
+            <artifactId>cxf-rt-transports-http-hc</artifactId>
             <scope>test</scope>
         </dependency>
     </dependencies>

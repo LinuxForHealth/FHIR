@@ -45,5 +45,17 @@
                 "system": "http://hl7.org/fhir/us/core/CodeSystem/us-core-documentreference-category"
             }
         ]
+    },
+    "expansion": {
+        "timestamp": "2022-05-18T05:41:55.519699Z",
+        "total": 1,
+        "contains": [
+            {
+                "system": "http://hl7.org/fhir/us/core/CodeSystem/us-core-documentreference-category",
+                "version": "5.0.0",
+                "code": "clinical-note",
+                "display": "Clinical Note"
+            }
+        ]
     }
 }
