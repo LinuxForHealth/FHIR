@@ -1,5 +1,5 @@
 /*
- * (C) Copyright IBM Corp. 2019, 2021
+ * (C) Copyright IBM Corp. 2019, 2022
  *
  * SPDX-License-Identifier: Apache-2.0
  */
@@ -468,6 +468,20 @@ public class FHIRPathEvaluator {
             if (context != null) {
                 contextStack.push(context);
             }
+        }
+
+        private Collection<FHIRPathNode> repeat(List<ExpressionContext> arguments) {
+            if (arguments.size() != 1) {
+                throw unexpectedNumberOfArguments(arguments.size(), "repeat");
+            }
+            Collection<FHIRPathNode> result = new ArrayList<>();
+            Collection<FHIRPathNode> selectedNodes = select(arguments);
+            while (result.addAll(selectedNodes)) {
+                pushContext(selectedNodes);
+                selectedNodes = select(arguments);
+                popContext();
+            }
+            return result;
         }
 
         private Collection<FHIRPathNode> select(List<ExpressionContext> arguments) {
@@ -1179,6 +1193,9 @@ public class FHIRPathEvaluator {
                 break;
             case "ofType":
                 result = ofType(arguments);
+                break;
+            case "repeat":
+                result = repeat(arguments);
                 break;
             case "select":
                 result = select(arguments);
