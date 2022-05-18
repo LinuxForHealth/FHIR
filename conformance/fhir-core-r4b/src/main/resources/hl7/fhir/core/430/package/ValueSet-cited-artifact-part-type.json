@@ -1,0 +1,127 @@
+{
+    "resourceType": "ValueSet",
+    "id": "cited-artifact-part-type",
+    "meta": {
+        "lastUpdated": "2022-04-24T09:21:35.043+11:00",
+        "profile": [
+            "http://hl7.org/fhir/StructureDefinition/shareablevalueset"
+        ]
+    },
+    "extension": [
+        {
+            "url": "http://hl7.org/fhir/StructureDefinition/structuredefinition-wg",
+            "valueCode": "cds"
+        },
+        {
+            "url": "http://hl7.org/fhir/StructureDefinition/structuredefinition-standards-status",
+            "valueCode": "trial-use"
+        },
+        {
+            "url": "http://hl7.org/fhir/StructureDefinition/structuredefinition-fmm",
+            "valueInteger": 0
+        }
+    ],
+    "url": "http://hl7.org/fhir/ValueSet/cited-artifact-part-type",
+    "identifier": [
+        {
+            "system": "urn:ietf:rfc:3986",
+            "value": "urn:oid:2.16.840.1.113883.4.642.3.1484"
+        }
+    ],
+    "version": "4.3.0-cibuild",
+    "name": "CitedArtifactPartType",
+    "title": "CitedArtifactPartType",
+    "status": "draft",
+    "experimental": true,
+    "date": "2020-12-28T16:55:11+11:00",
+    "publisher": "HL7 (FHIR Project)",
+    "contact": [
+        {
+            "telecom": [
+                {
+                    "system": "url",
+                    "value": "http://hl7.org/fhir"
+                },
+                {
+                    "system": "email",
+                    "value": "fhir@lists.hl7.org"
+                }
+            ]
+        }
+    ],
+    "description": "To describe the reason for the variant citation, such as version number or subpart specification.",
+    "immutable": true,
+    "compose": {
+        "include": [
+            {
+                "system": "http://terminology.hl7.org/CodeSystem/cited-artifact-part-type"
+            }
+        ]
+    },
+    "expansion": {
+        "identifier": "urn:uuid:c8a61742-d1c6-497e-9822-a0cfde854540",
+        "timestamp": "2022-04-23T22:23:26Z",
+        "total": 9,
+        "parameter": [
+            {
+                "name": "excludeNested",
+                "valueBoolean": true
+            },
+            {
+                "name": "includeDesignations",
+                "valueBoolean": true
+            },
+            {
+                "name": "version",
+                "valueUri": "http://terminology.hl7.org/CodeSystem/cited-artifact-part-type|4.3.0-cibuild"
+            }
+        ],
+        "contains": [
+            {
+                "system": "http://terminology.hl7.org/CodeSystem/cited-artifact-part-type",
+                "code": "pages",
+                "display": "pages"
+            },
+            {
+                "system": "http://terminology.hl7.org/CodeSystem/cited-artifact-part-type",
+                "code": "sections",
+                "display": "sections"
+            },
+            {
+                "system": "http://terminology.hl7.org/CodeSystem/cited-artifact-part-type",
+                "code": "paragraphs",
+                "display": "paragraphs"
+            },
+            {
+                "system": "http://terminology.hl7.org/CodeSystem/cited-artifact-part-type",
+                "code": "lines",
+                "display": "lines"
+            },
+            {
+                "system": "http://terminology.hl7.org/CodeSystem/cited-artifact-part-type",
+                "code": "tables",
+                "display": "tables"
+            },
+            {
+                "system": "http://terminology.hl7.org/CodeSystem/cited-artifact-part-type",
+                "code": "figures",
+                "display": "figures"
+            },
+            {
+                "system": "http://terminology.hl7.org/CodeSystem/cited-artifact-part-type",
+                "code": "supplement",
+                "display": "Supplement or Appendix"
+            },
+            {
+                "system": "http://terminology.hl7.org/CodeSystem/cited-artifact-part-type",
+                "code": "supplement-subpart",
+                "display": "Supplement or Appendix Subpart"
+            },
+            {
+                "system": "http://terminology.hl7.org/CodeSystem/cited-artifact-part-type",
+                "code": "article-set",
+                "display": "Part of an article set"
+            }
+        ]
+    }
+}

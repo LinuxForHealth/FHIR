@@ -1,5 +1,5 @@
 /*
- * (C) Copyright IBM Corp. 2019, 2021
+ * (C) Copyright IBM Corp. 2019, 2022
  *
  * SPDX-License-Identifier: Apache-2.0
  */
@@ -107,7 +107,7 @@ public class ImagingStudy extends DomainResource {
         bindingName = "ImagingStudyStatus",
         strength = BindingStrength.Value.REQUIRED,
         description = "The status of the ImagingStudy.",
-        valueSet = "http://hl7.org/fhir/ValueSet/imagingstudy-status|4.0.1"
+        valueSet = "http://hl7.org/fhir/ValueSet/imagingstudy-status|4.3.0-cibuild"
     )
     @Required
     private final ImagingStudyStatus status;
@@ -151,7 +151,7 @@ public class ImagingStudy extends DomainResource {
     @Binding(
         bindingName = "ImagingProcedureCode",
         strength = BindingStrength.Value.EXTENSIBLE,
-        description = "The performed procedure type.",
+        description = "Use of RadLex is preferred",
         valueSet = "http://www.rsna.org/RadLex_Playbook.aspx"
     )
     private final List<CodeableConcept> procedureCode;
@@ -1554,7 +1554,7 @@ public class ImagingStudy extends DomainResource {
         @Binding(
             bindingName = "BodySite",
             strength = BindingStrength.Value.EXAMPLE,
-            description = "Codes describing anatomical locations. May include laterality.",
+            description = "SNOMED CT Body site concepts",
             valueSet = "http://hl7.org/fhir/ValueSet/body-site"
         )
         private final Coding bodySite;

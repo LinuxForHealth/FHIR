@@ -1,0 +1,112 @@
+{
+    "resourceType": "ValueSet",
+    "id": "communication-not-done-reason",
+    "meta": {
+        "lastUpdated": "2022-04-24T09:21:35.043+11:00",
+        "profile": [
+            "http://hl7.org/fhir/StructureDefinition/shareablevalueset"
+        ]
+    },
+    "extension": [
+        {
+            "url": "http://hl7.org/fhir/StructureDefinition/structuredefinition-wg",
+            "valueCode": "pc"
+        },
+        {
+            "url": "http://hl7.org/fhir/StructureDefinition/structuredefinition-standards-status",
+            "valueCode": "draft"
+        },
+        {
+            "url": "http://hl7.org/fhir/StructureDefinition/structuredefinition-fmm",
+            "valueInteger": 1
+        }
+    ],
+    "url": "http://hl7.org/fhir/ValueSet/communication-not-done-reason",
+    "identifier": [
+        {
+            "system": "urn:ietf:rfc:3986",
+            "value": "urn:oid:2.16.840.1.113883.4.642.3.174"
+        }
+    ],
+    "version": "4.3.0-cibuild",
+    "name": "CommunicationNotDoneReason",
+    "title": "CommunicationNotDoneReason",
+    "status": "draft",
+    "experimental": true,
+    "date": "2021-01-17T07:06:13+11:00",
+    "publisher": "HL7 (FHIR Project)",
+    "contact": [
+        {
+            "telecom": [
+                {
+                    "system": "url",
+                    "value": "http://hl7.org/fhir"
+                },
+                {
+                    "system": "email",
+                    "value": "fhir@lists.hl7.org"
+                }
+            ]
+        }
+    ],
+    "description": "Codes for the reason why a communication did not happen.",
+    "immutable": true,
+    "compose": {
+        "include": [
+            {
+                "system": "http://terminology.hl7.org/CodeSystem/communication-not-done-reason"
+            }
+        ]
+    },
+    "expansion": {
+        "identifier": "urn:uuid:e3dd4ece-438f-4747-a4d7-e3f1a112b154",
+        "timestamp": "2022-04-23T22:23:26Z",
+        "total": 6,
+        "parameter": [
+            {
+                "name": "excludeNested",
+                "valueBoolean": true
+            },
+            {
+                "name": "includeDesignations",
+                "valueBoolean": true
+            },
+            {
+                "name": "version",
+                "valueUri": "http://terminology.hl7.org/CodeSystem/communication-not-done-reason|4.3.0-cibuild"
+            }
+        ],
+        "contains": [
+            {
+                "system": "http://terminology.hl7.org/CodeSystem/communication-not-done-reason",
+                "code": "unknown",
+                "display": "Unknown"
+            },
+            {
+                "system": "http://terminology.hl7.org/CodeSystem/communication-not-done-reason",
+                "code": "system-error",
+                "display": "System Error"
+            },
+            {
+                "system": "http://terminology.hl7.org/CodeSystem/communication-not-done-reason",
+                "code": "invalid-phone-number",
+                "display": "Invalid Phone Number"
+            },
+            {
+                "system": "http://terminology.hl7.org/CodeSystem/communication-not-done-reason",
+                "code": "recipient-unavailable",
+                "display": "Recipient Unavailable"
+            },
+            {
+                "system": "http://terminology.hl7.org/CodeSystem/communication-not-done-reason",
+                "code": "family-objection",
+                "display": "Family Objection"
+            },
+            {
+                "system": "http://terminology.hl7.org/CodeSystem/communication-not-done-reason",
+                "code": "patient-objection",
+                "display": "Patient Objection"
+            }
+        ]
+    }
+}

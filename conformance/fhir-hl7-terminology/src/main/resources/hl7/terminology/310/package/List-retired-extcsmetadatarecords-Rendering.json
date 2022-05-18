@@ -1,0 +1,1157 @@
+{
+    "resourceType": "List",
+    "id": "retired-extcsmetadatarecords-Rendering",
+    "text": {
+        "status": "empty",
+        "div": "<div xmlns=\"http://www.w3.org/1999/xhtml\">Redacted for size</div>"
+    },
+    "status": "current",
+    "mode": "working",
+    "title": "Retired Code System Metadata Records Manifest",
+    "code": {
+        "coding": [
+            {
+                "system": "http://terminology.hl7.org/CodeSystem/hl7TermMaintInfra",
+                "code": "UTGCTGManifest"
+            }
+        ]
+    },
+    "orderedBy": {
+        "coding": [
+            {
+                "system": "http://terminology.hl7.org/CodeSystem/list-order",
+                "code": "alphabetic"
+            }
+        ]
+    },
+    "entry": [
+        {
+            "item": {
+                "reference": "CodeSystem/atc",
+                "type": "CodeSystem"
+            }
+        },
+        {
+            "item": {
+                "reference": "CodeSystem/csaid",
+                "type": "CodeSystem"
+            }
+        },
+        {
+            "item": {
+                "reference": "CodeSystem/v3-ISO3166-1retired",
+                "type": "CodeSystem"
+            }
+        },
+        {
+            "item": {
+                "reference": "CodeSystem/iso639-2ret",
+                "type": "CodeSystem"
+            }
+        },
+        {
+            "item": {
+                "reference": "CodeSystem/v3-ISO3166-2retired",
+                "type": "CodeSystem"
+            }
+        },
+        {
+            "item": {
+                "reference": "CodeSystem/v3-ISO3166-3retired",
+                "type": "CodeSystem"
+            }
+        },
+        {
+            "item": {
+                "reference": "CodeSystem/v3-iso4217-HL7",
+                "type": "CodeSystem"
+            }
+        },
+        {
+            "item": {
+                "reference": "CodeSystem/v2-0292",
+                "type": "CodeSystem"
+            }
+        },
+        {
+            "item": {
+                "reference": "http://hl7.org/fhir/sid/icpc-2",
+                "type": "CodeSystem"
+            }
+        },
+        {
+            "item": {
+                "reference": "CodeSystem/ACR",
+                "type": "CodeSystem"
+            }
+        },
+        {
+            "item": {
+                "reference": "CodeSystem/AS4",
+                "type": "CodeSystem"
+            }
+        },
+        {
+            "item": {
+                "reference": "CodeSystem/AS4E",
+                "type": "CodeSystem"
+            }
+        },
+        {
+            "item": {
+                "reference": "CodeSystem/C5",
+                "type": "CodeSystem"
+            }
+        },
+        {
+            "item": {
+                "reference": "CodeSystem/CAS",
+                "type": "CodeSystem"
+            }
+        },
+        {
+            "item": {
+                "reference": "CodeSystem/CD2",
+                "type": "CodeSystem"
+            }
+        },
+        {
+            "item": {
+                "reference": "CodeSystem/CDARUS",
+                "type": "CodeSystem"
+            }
+        },
+        {
+            "item": {
+                "reference": "CodeSystem/CDCA",
+                "type": "CodeSystem"
+            }
+        },
+        {
+            "item": {
+                "reference": "CodeSystem/CDCM",
+                "type": "CodeSystem"
+            }
+        },
+        {
+            "item": {
+                "reference": "CodeSystem/CDS",
+                "type": "CodeSystem"
+            }
+        },
+        {
+            "item": {
+                "reference": "CodeSystem/CE",
+                "type": "CodeSystem"
+            }
+        },
+        {
+            "item": {
+                "reference": "CodeSystem/CLP",
+                "type": "CodeSystem"
+            }
+        },
+        {
+            "item": {
+                "reference": "CodeSystem/CST",
+                "type": "CodeSystem"
+            }
+        },
+        {
+            "item": {
+                "reference": "CodeSystem/DCL",
+                "type": "CodeSystem"
+            }
+        },
+        {
+            "item": {
+                "reference": "CodeSystem/DEEDS",
+                "type": "CodeSystem"
+            }
+        },
+        {
+            "item": {
+                "reference": "CodeSystem/DEEDS210",
+                "type": "CodeSystem"
+            }
+        },
+        {
+            "item": {
+                "reference": "CodeSystem/DEEDS402",
+                "type": "CodeSystem"
+            }
+        },
+        {
+            "item": {
+                "reference": "CodeSystem/DEEDS405",
+                "type": "CodeSystem"
+            }
+        },
+        {
+            "item": {
+                "reference": "CodeSystem/DEEDS407",
+                "type": "CodeSystem"
+            }
+        },
+        {
+            "item": {
+                "reference": "CodeSystem/DEEDS408",
+                "type": "CodeSystem"
+            }
+        },
+        {
+            "item": {
+                "reference": "CodeSystem/DEEDS412",
+                "type": "CodeSystem"
+            }
+        },
+        {
+            "item": {
+                "reference": "CodeSystem/DEEDS414",
+                "type": "CodeSystem"
+            }
+        },
+        {
+            "item": {
+                "reference": "CodeSystem/DEEDS415",
+                "type": "CodeSystem"
+            }
+        },
+        {
+            "item": {
+                "reference": "CodeSystem/DEEDS416",
+                "type": "CodeSystem"
+            }
+        },
+        {
+            "item": {
+                "reference": "CodeSystem/DEEDS418",
+                "type": "CodeSystem"
+            }
+        },
+        {
+            "item": {
+                "reference": "CodeSystem/DEEDS422",
+                "type": "CodeSystem"
+            }
+        },
+        {
+            "item": {
+                "reference": "CodeSystem/DEEDS424",
+                "type": "CodeSystem"
+            }
+        },
+        {
+            "item": {
+                "reference": "CodeSystem/DEEDS427",
+                "type": "CodeSystem"
+            }
+        },
+        {
+            "item": {
+                "reference": "CodeSystem/DEEDS506",
+                "type": "CodeSystem"
+            }
+        },
+        {
+            "item": {
+                "reference": "CodeSystem/DEEDS508",
+                "type": "CodeSystem"
+            }
+        },
+        {
+            "item": {
+                "reference": "CodeSystem/DEEDS519",
+                "type": "CodeSystem"
+            }
+        },
+        {
+            "item": {
+                "reference": "CodeSystem/E5",
+                "type": "CodeSystem"
+            }
+        },
+        {
+            "item": {
+                "reference": "CodeSystem/E6",
+                "type": "CodeSystem"
+            }
+        },
+        {
+            "item": {
+                "reference": "CodeSystem/E7",
+                "type": "CodeSystem"
+            }
+        },
+        {
+            "item": {
+                "reference": "CodeSystem/ENZC",
+                "type": "CodeSystem"
+            }
+        },
+        {
+            "item": {
+                "reference": "CodeSystem/EPSG-GeodeticParameterDataset",
+                "type": "CodeSystem"
+            }
+        },
+        {
+            "item": {
+                "reference": "CodeSystem/FDBHICCode",
+                "type": "CodeSystem"
+            }
+        },
+        {
+            "item": {
+                "reference": "CodeSystem/FDDC",
+                "type": "CodeSystem"
+            }
+        },
+        {
+            "item": {
+                "reference": "CodeSystem/FDDX",
+                "type": "CodeSystem"
+            }
+        },
+        {
+            "item": {
+                "reference": "CodeSystem/GCRT",
+                "type": "CodeSystem"
+            }
+        },
+        {
+            "item": {
+                "reference": "CodeSystem/GCDF",
+                "type": "CodeSystem"
+            }
+        },
+        {
+            "item": {
+                "reference": "CodeSystem/IC2",
+                "type": "CodeSystem"
+            }
+        },
+        {
+            "item": {
+                "reference": "CodeSystem/ICD-10DualCoding",
+                "type": "CodeSystem"
+            }
+        },
+        {
+            "item": {
+                "reference": "CodeSystem/ICD-9CM-diagnosiscodes",
+                "type": "CodeSystem"
+            }
+        },
+        {
+            "item": {
+                "reference": "CodeSystem/ICD-9CM-procedurecodes",
+                "type": "CodeSystem"
+            }
+        },
+        {
+            "item": {
+                "reference": "CodeSystem/ICD-9DualCoding",
+                "type": "CodeSystem"
+            }
+        },
+        {
+            "item": {
+                "reference": "CodeSystem/ICD10dut",
+                "type": "CodeSystem"
+            }
+        },
+        {
+            "item": {
+                "reference": "CodeSystem/ICSD",
+                "type": "CodeSystem"
+            }
+        },
+        {
+            "item": {
+                "reference": "CodeSystem/IETF1766",
+                "type": "CodeSystem"
+            }
+        },
+        {
+            "item": {
+                "reference": "CodeSystem/IUPC",
+                "type": "CodeSystem"
+            }
+        },
+        {
+            "item": {
+                "reference": "CodeSystem/IUPP",
+                "type": "CodeSystem"
+            }
+        },
+        {
+            "item": {
+                "reference": "CodeSystem/JC8",
+                "type": "CodeSystem"
+            }
+        },
+        {
+            "item": {
+                "reference": "CodeSystem/MDDX",
+                "type": "CodeSystem"
+            }
+        },
+        {
+            "item": {
+                "reference": "CodeSystem/MDRAE",
+                "type": "CodeSystem"
+            }
+        },
+        {
+            "item": {
+                "reference": "CodeSystem/MDRDUT",
+                "type": "CodeSystem"
+            }
+        },
+        {
+            "item": {
+                "reference": "CodeSystem/MDREA",
+                "type": "CodeSystem"
+            }
+        },
+        {
+            "item": {
+                "reference": "CodeSystem/MDREX",
+                "type": "CodeSystem"
+            }
+        },
+        {
+            "item": {
+                "reference": "CodeSystem/MDRFRE",
+                "type": "CodeSystem"
+            }
+        },
+        {
+            "item": {
+                "reference": "CodeSystem/MDRGER",
+                "type": "CodeSystem"
+            }
+        },
+        {
+            "item": {
+                "reference": "CodeSystem/MDRPOR",
+                "type": "CodeSystem"
+            }
+        },
+        {
+            "item": {
+                "reference": "CodeSystem/MDRSPA",
+                "type": "CodeSystem"
+            }
+        },
+        {
+            "item": {
+                "reference": "CodeSystem/MEDC",
+                "type": "CodeSystem"
+            }
+        },
+        {
+            "item": {
+                "reference": "CodeSystem/MEDX",
+                "type": "CodeSystem"
+            }
+        },
+        {
+            "item": {
+                "reference": "CodeSystem/MGPI",
+                "type": "CodeSystem"
+            }
+        },
+        {
+            "item": {
+                "reference": "CodeSystem/MTHMDRSPA",
+                "type": "CodeSystem"
+            }
+        },
+        {
+            "item": {
+                "reference": "CodeSystem/NHSNBSIRiskFactors",
+                "type": "CodeSystem"
+            }
+        },
+        {
+            "item": {
+                "reference": "CodeSystem/NHSNHipReplacement",
+                "type": "CodeSystem"
+            }
+        },
+        {
+            "item": {
+                "reference": "CodeSystem/NHSNInfectionType",
+                "type": "CodeSystem"
+            }
+        },
+        {
+            "item": {
+                "reference": "CodeSystem/NHSNKneeReplacement",
+                "type": "CodeSystem"
+            }
+        },
+        {
+            "item": {
+                "reference": "CodeSystem/NHSNLCBIPathways",
+                "type": "CodeSystem"
+            }
+        },
+        {
+            "item": {
+                "reference": "CodeSystem/NHSNOccasionOfDetection",
+                "type": "CodeSystem"
+            }
+        },
+        {
+            "item": {
+                "reference": "CodeSystem/NHSNProcedureCategory",
+                "type": "CodeSystem"
+            }
+        },
+        {
+            "item": {
+                "reference": "CodeSystem/NHSNSSIAnatomicSite",
+                "type": "CodeSystem"
+            }
+        },
+        {
+            "item": {
+                "reference": "CodeSystem/NHSNSSILocationType",
+                "type": "CodeSystem"
+            }
+        },
+        {
+            "item": {
+                "reference": "CodeSystem/NHSNSpinalFusionApproach",
+                "type": "CodeSystem"
+            }
+        },
+        {
+            "item": {
+                "reference": "CodeSystem/NHSNSpinalFusionLevel",
+                "type": "CodeSystem"
+            }
+        },
+        {
+            "item": {
+                "reference": "CodeSystem/NHSNSummaryData",
+                "type": "CodeSystem"
+            }
+        },
+        {
+            "item": {
+                "reference": "CodeSystem/NHSNVocabulary",
+                "type": "CodeSystem"
+            }
+        },
+        {
+            "item": {
+                "reference": "CodeSystem/SCDHEC-GISSpatialAccuracyTiers",
+                "type": "CodeSystem"
+            }
+        },
+        {
+            "item": {
+                "reference": "CodeSystem/SDM",
+                "type": "CodeSystem"
+            }
+        },
+        {
+            "item": {
+                "reference": "CodeSystem/SNM3",
+                "type": "CodeSystem"
+            }
+        },
+        {
+            "item": {
+                "reference": "CodeSystem/SNT",
+                "type": "CodeSystem"
+            }
+        },
+        {
+            "item": {
+                "reference": "CodeSystem/UC",
+                "type": "CodeSystem"
+            }
+        },
+        {
+            "item": {
+                "reference": "CodeSystem/UMD",
+                "type": "CodeSystem"
+            }
+        },
+        {
+            "item": {
+                "reference": "CodeSystem/UML",
+                "type": "CodeSystem"
+            }
+        },
+        {
+            "item": {
+                "reference": "CodeSystem/UPC",
+                "type": "CodeSystem"
+            }
+        },
+        {
+            "item": {
+                "reference": "CodeSystem/USCOC",
+                "type": "CodeSystem"
+            }
+        },
+        {
+            "item": {
+                "reference": "CodeSystem/USZIPCODES",
+                "type": "CodeSystem"
+            }
+        },
+        {
+            "item": {
+                "reference": "CodeSystem/VHA",
+                "type": "CodeSystem"
+            }
+        },
+        {
+            "item": {
+                "reference": "CodeSystem/W1-W2",
+                "type": "CodeSystem"
+            }
+        },
+        {
+            "item": {
+                "reference": "CodeSystem/W4",
+                "type": "CodeSystem"
+            }
+        },
+        {
+            "item": {
+                "reference": "CodeSystem/abcCodes",
+                "type": "CodeSystem"
+            }
+        },
+        {
+            "item": {
+                "reference": "CodeSystem/ahfs",
+                "type": "CodeSystem"
+            }
+        },
+        {
+            "item": {
+                "reference": "CodeSystem/art",
+                "type": "CodeSystem"
+            }
+        },
+        {
+            "item": {
+                "reference": "CodeSystem/camncvs",
+                "type": "CodeSystem"
+            }
+        },
+        {
+            "item": {
+                "reference": "CodeSystem/cpnum",
+                "type": "CodeSystem"
+            }
+        },
+        {
+            "item": {
+                "reference": "CodeSystem/v3-fda-FCE",
+                "type": "CodeSystem"
+            }
+        },
+        {
+            "item": {
+                "reference": "CodeSystem/v3-fda-FFRN",
+                "type": "CodeSystem"
+            }
+        },
+        {
+            "item": {
+                "reference": "CodeSystem/deeds-old",
+                "type": "CodeSystem"
+            }
+        },
+        {
+            "item": {
+                "reference": "CodeSystem/dicomMDLTY",
+                "type": "CodeSystem"
+            }
+        },
+        {
+            "item": {
+                "reference": "CodeSystem/dicomqry",
+                "type": "CodeSystem"
+            }
+        },
+        {
+            "item": {
+                "reference": "CodeSystem/dmdICD10",
+                "type": "CodeSystem"
+            }
+        },
+        {
+            "item": {
+                "reference": "CodeSystem/epsg-ca",
+                "type": "CodeSystem"
+            }
+        },
+        {
+            "item": {
+                "reference": "CodeSystem/epsg-crs",
+                "type": "CodeSystem"
+            }
+        },
+        {
+            "item": {
+                "reference": "CodeSystem/euclides",
+                "type": "CodeSystem"
+            }
+        },
+        {
+            "item": {
+                "reference": "CodeSystem/externalCodeSystems",
+                "type": "CodeSystem"
+            }
+        },
+        {
+            "item": {
+                "reference": "CodeSystem/fdk",
+                "type": "CodeSystem"
+            }
+        },
+        {
+            "item": {
+                "reference": "CodeSystem/fipspub92",
+                "type": "CodeSystem"
+            }
+        },
+        {
+            "item": {
+                "reference": "CodeSystem/hhcc",
+                "type": "CodeSystem"
+            }
+        },
+        {
+            "item": {
+                "reference": "CodeSystem/hi",
+                "type": "CodeSystem"
+            }
+        },
+        {
+            "item": {
+                "reference": "CodeSystem/HCPCS-all-codes",
+                "type": "CodeSystem"
+            }
+        },
+        {
+            "item": {
+                "reference": "CodeSystem/hibccHIN",
+                "type": "CodeSystem"
+            }
+        },
+        {
+            "item": {
+                "reference": "CodeSystem/icd-o",
+                "type": "CodeSystem"
+            }
+        },
+        {
+            "item": {
+                "reference": "CodeSystem/icd10",
+                "type": "CodeSystem"
+            }
+        },
+        {
+            "item": {
+                "reference": "CodeSystem/icd10ae",
+                "type": "CodeSystem"
+            }
+        },
+        {
+            "item": {
+                "reference": "CodeSystem/icd9",
+                "type": "CodeSystem"
+            }
+        },
+        {
+            "item": {
+                "reference": "CodeSystem/icpc-BAQ",
+                "type": "CodeSystem"
+            }
+        },
+        {
+            "item": {
+                "reference": "CodeSystem/icpc-DAN",
+                "type": "CodeSystem"
+            }
+        },
+        {
+            "item": {
+                "reference": "CodeSystem/icpc-DUT",
+                "type": "CodeSystem"
+            }
+        },
+        {
+            "item": {
+                "reference": "CodeSystem/icpc-ENG",
+                "type": "CodeSystem"
+            }
+        },
+        {
+            "item": {
+                "reference": "CodeSystem/icpc-FIN",
+                "type": "CodeSystem"
+            }
+        },
+        {
+            "item": {
+                "reference": "CodeSystem/icpc-FRE",
+                "type": "CodeSystem"
+            }
+        },
+        {
+            "item": {
+                "reference": "CodeSystem/icpc-GER",
+                "type": "CodeSystem"
+            }
+        },
+        {
+            "item": {
+                "reference": "CodeSystem/icpc-HEB",
+                "type": "CodeSystem"
+            }
+        },
+        {
+            "item": {
+                "reference": "CodeSystem/icpc-HUN",
+                "type": "CodeSystem"
+            }
+        },
+        {
+            "item": {
+                "reference": "CodeSystem/icpc-ITA",
+                "type": "CodeSystem"
+            }
+        },
+        {
+            "item": {
+                "reference": "CodeSystem/icpc-NOR",
+                "type": "CodeSystem"
+            }
+        },
+        {
+            "item": {
+                "reference": "CodeSystem/icpc-POR",
+                "type": "CodeSystem"
+            }
+        },
+        {
+            "item": {
+                "reference": "CodeSystem/icpc-SPA",
+                "type": "CodeSystem"
+            }
+        },
+        {
+            "item": {
+                "reference": "CodeSystem/icpc-SWE",
+                "type": "CodeSystem"
+            }
+        },
+        {
+            "item": {
+                "reference": "CodeSystem/icpc2-icd10-DUT",
+                "type": "CodeSystem"
+            }
+        },
+        {
+            "item": {
+                "reference": "CodeSystem/icpc2-icd10-ENG",
+                "type": "CodeSystem"
+            }
+        },
+        {
+            "item": {
+                "reference": "CodeSystem/icpc2-icd10-THSRS",
+                "type": "CodeSystem"
+            }
+        },
+        {
+            "item": {
+                "reference": "CodeSystem/icpc2E-DUT",
+                "type": "CodeSystem"
+            }
+        },
+        {
+            "item": {
+                "reference": "CodeSystem/icpc2E-ENG",
+                "type": "CodeSystem"
+            }
+        },
+        {
+            "item": {
+                "reference": "CodeSystem/icpc2E-P",
+                "type": "CodeSystem"
+            }
+        },
+        {
+            "item": {
+                "reference": "CodeSystem/icpc2E-P-AE",
+                "type": "CodeSystem"
+            }
+        },
+        {
+            "item": {
+                "reference": "CodeSystem/icpc2E-P-AUS",
+                "type": "CodeSystem"
+            }
+        },
+        {
+            "item": {
+                "reference": "CodeSystem/ics",
+                "type": "CodeSystem"
+            }
+        },
+        {
+            "item": {
+                "reference": "CodeSystem/iso21000-6-2004E-RDD",
+                "type": "CodeSystem"
+            }
+        },
+        {
+            "item": {
+                "reference": "CodeSystem/iso3166-1edition2numeric",
+                "type": "CodeSystem"
+            }
+        },
+        {
+            "item": {
+                "reference": "CodeSystem/iso4217",
+                "type": "CodeSystem"
+            }
+        },
+        {
+            "item": {
+                "reference": "CodeSystem/iso639-1",
+                "type": "CodeSystem"
+            }
+        },
+        {
+            "item": {
+                "reference": "CodeSystem/iso639-1ret",
+                "type": "CodeSystem"
+            }
+        },
+        {
+            "item": {
+                "reference": "CodeSystem/iso639-2",
+                "type": "CodeSystem"
+            }
+        },
+        {
+            "item": {
+                "reference": "CodeSystem/iso639-2ret",
+                "type": "CodeSystem"
+            }
+        },
+        {
+            "item": {
+                "reference": "CodeSystem/iso639-3",
+                "type": "CodeSystem"
+            }
+        },
+        {
+            "item": {
+                "reference": "CodeSystem/mddid",
+                "type": "CodeSystem"
+            }
+        },
+        {
+            "item": {
+                "reference": "CodeSystem/medcin",
+                "type": "CodeSystem"
+            }
+        },
+        {
+            "item": {
+                "reference": "CodeSystem/metabolicSyndrome",
+                "type": "CodeSystem"
+            }
+        },
+        {
+            "item": {
+                "reference": "CodeSystem/mth-icpc2-icd10-7B",
+                "type": "CodeSystem"
+            }
+        },
+        {
+            "item": {
+                "reference": "CodeSystem/mth-icpc2-icd10-AE",
+                "type": "CodeSystem"
+            }
+        },
+        {
+            "item": {
+                "reference": "CodeSystem/mthicpc2E-AE",
+                "type": "CodeSystem"
+            }
+        },
+        {
+            "item": {
+                "reference": "CodeSystem/multum",
+                "type": "CodeSystem"
+            }
+        },
+        {
+            "item": {
+                "reference": "CodeSystem/naaccrCodes",
+                "type": "CodeSystem"
+            }
+        },
+        {
+            "item": {
+                "reference": "CodeSystem/naics",
+                "type": "CodeSystem"
+            }
+        },
+        {
+            "item": {
+                "reference": "CodeSystem/nciVersionOfNDF-RT",
+                "type": "CodeSystem"
+            }
+        },
+        {
+            "item": {
+                "reference": "CodeSystem/nddf",
+                "type": "CodeSystem"
+            }
+        },
+        {
+            "item": {
+                "reference": "CodeSystem/nmds",
+                "type": "CodeSystem"
+            }
+        },
+        {
+            "item": {
+                "reference": "CodeSystem/nmmds",
+                "type": "CodeSystem"
+            }
+        },
+        {
+            "item": {
+                "reference": "CodeSystem/pnds",
+                "type": "CodeSystem"
+            }
+        },
+        {
+            "item": {
+                "reference": "CodeSystem/rcFB",
+                "type": "CodeSystem"
+            }
+        },
+        {
+            "item": {
+                "reference": "CodeSystem/rcV2",
+                "type": "CodeSystem"
+            }
+        },
+        {
+            "item": {
+                "reference": "CodeSystem/read-Codes",
+                "type": "CodeSystem"
+            }
+        },
+        {
+            "item": {
+                "reference": "CodeSystem/snm",
+                "type": "CodeSystem"
+            }
+        },
+        {
+            "item": {
+                "reference": "CodeSystem/soc",
+                "type": "CodeSystem"
+            }
+        },
+        {
+            "item": {
+                "reference": "CodeSystem/umls",
+                "type": "CodeSystem"
+            }
+        },
+        {
+            "item": {
+                "reference": "CodeSystem/url",
+                "type": "CodeSystem"
+            }
+        },
+        {
+            "item": {
+                "reference": "CodeSystem/usEPAsrs",
+                "type": "CodeSystem"
+            }
+        },
+        {
+            "item": {
+                "reference": "CodeSystem/whoARTfl",
+                "type": "CodeSystem"
+            }
+        },
+        {
+            "item": {
+                "reference": "CodeSystem/whoFRE",
+                "type": "CodeSystem"
+            }
+        },
+        {
+            "item": {
+                "reference": "CodeSystem/whoGER",
+                "type": "CodeSystem"
+            }
+        },
+        {
+            "item": {
+                "reference": "CodeSystem/whoPOR",
+                "type": "CodeSystem"
+            }
+        },
+        {
+            "item": {
+                "reference": "CodeSystem/whoSPA",
+                "type": "CodeSystem"
+            }
+        },
+        {
+            "item": {
+                "reference": "CodeSystem/v3-brazilianProcedureCodesSUS",
+                "type": "CodeSystem"
+            }
+        },
+        {
+            "item": {
+                "reference": "http://www.iana.org/assignments/media-types",
+                "type": "CodeSystem"
+            }
+        },
+        {
+            "item": {
+                "reference": "http://www.lrg-sequence.org",
+                "type": "CodeSystem"
+            }
+        },
+        {
+            "item": {
+                "reference": "http://www.ncbi.nlm.nih.gov/projects/SNP",
+                "type": "CodeSystem"
+            }
+        },
+        {
+            "item": {
+                "reference": "http://www.ncbi.nlm.nih.gov/refseq",
+                "type": "CodeSystem"
+            }
+        }
+    ]
+}

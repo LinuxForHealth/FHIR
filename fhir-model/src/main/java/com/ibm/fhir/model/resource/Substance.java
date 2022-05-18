@@ -1,5 +1,5 @@
 /*
- * (C) Copyright IBM Corp. 2019, 2021
+ * (C) Copyright IBM Corp. 2019, 2022
  *
  * SPDX-License-Identifier: Apache-2.0
  */
@@ -68,7 +68,7 @@ public class Substance extends DomainResource {
         bindingName = "FHIRSubstanceStatus",
         strength = BindingStrength.Value.REQUIRED,
         description = "A code to indicate if the substance is actively used.",
-        valueSet = "http://hl7.org/fhir/ValueSet/substance-status|4.0.1"
+        valueSet = "http://hl7.org/fhir/ValueSet/substance-status|4.3.0-cibuild"
     )
     private final FHIRSubstanceStatus status;
     @Summary

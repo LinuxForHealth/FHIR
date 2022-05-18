@@ -7,7 +7,7 @@
       <display value="test health data"/>
     </security>
   </meta>
-  <text><status value="generated"/><div xmlns="http://www.w3.org/1999/xhtml"><p><b>Generated Narrative with Details</b></p><p><b>id</b>: example</p><p><b>identifier</b>: 51ebb7a9-4e3a-4360-9a05-0cc2d869086f</p><p><b>status</b>: active</p><p><b>subject</b>: <a>Patient/example</a></p><p><b>device</b>: <a>Device/example</a></p><p><b>reasonReference</b>: <a>Appendectomy (surgery)</a></p></div></text><identifier>
+  <text><status value="generated"/><div xmlns="http://www.w3.org/1999/xhtml"><p><b>Generated Narrative</b></p><div style="display: inline-block; background-color: #d9e0e7; padding: 6px; margin: 4px; border: 1px solid #8da1b4; border-radius: 5px; line-height: 60%"><p style="margin-bottom: 0px">Resource "example" </p></div><p><b>identifier</b>: id: 51ebb7a9-4e3a-4360-9a05-0cc2d869086f</p><p><b>status</b>: active</p><p><b>subject</b>: <a href="patient-example.html">Patient/example</a> "Peter CHALMERS"</p><p><b>device</b>: <a href="device-example.html">Device/example</a></p><p><b>reasonReference</b>: <a href="condition-example.html">Condition/example: PHx of Appendectomy (surgery)</a></p></div></text><identifier>
 		<system value="http:goodhealth.org/identifiers"/>
 		<value value="51ebb7a9-4e3a-4360-9a05-0cc2d869086f"/>
 	</identifier>
@@ -19,7 +19,7 @@
 		<reference value="Device/example"/>
 	</device>
 	<reasonReference>
-		<reference value="Procedure/example"/>
-		<display value="Appendectomy (surgery)"/>
+		<reference value="Condition/example"/>
+		<display value="PHx of Appendectomy (surgery)"/>
 	</reasonReference>
 </DeviceUseStatement>

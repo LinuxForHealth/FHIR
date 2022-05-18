@@ -1,0 +1,46 @@
+{
+    "resourceType": "CodeSystem",
+    "id": "encounter-participant-type",
+    "meta": {
+        "lastUpdated": "2022-04-23T22:21:35.043Z",
+        "profile": [
+            "http://hl7.org/fhir/StructureDefinition/shareablecodesystem"
+        ]
+    },
+    "text": {
+        "status": "empty",
+        "div": "<div xmlns=\"http://www.w3.org/1999/xhtml\">Redacted for size</div>"
+    },
+    "extension": [
+        {
+            "url": "http://hl7.org/fhir/StructureDefinition/structuredefinition-wg",
+            "valueCode": "pa"
+        }
+    ],
+    "url": "http://terminology.hl7.org/CodeSystem/participant-type",
+    "identifier": [
+        {
+            "system": "urn:ietf:rfc:3986",
+            "value": "urn:oid:2.16.840.1.113883.4.642.1.1089"
+        }
+    ],
+    "version": "4.3.0-cibuild",
+    "name": "ParticipantType",
+    "status": "draft",
+    "experimental": false,
+    "description": "This codesystem defines a set of codes that can be used to indicate how an individual participates in an encounter.",
+    "caseSensitive": true,
+    "content": "complete",
+    "concept": [
+        {
+            "code": "translator",
+            "display": "Translator",
+            "definition": "A translator who is facilitating communication with the patient during the encounter."
+        },
+        {
+            "code": "emergency",
+            "display": "Emergency",
+            "definition": "A person to be contacted in case of an emergency during the encounter."
+        }
+    ]
+}

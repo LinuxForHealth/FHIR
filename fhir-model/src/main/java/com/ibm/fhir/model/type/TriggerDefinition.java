@@ -1,5 +1,5 @@
 /*
- * (C) Copyright IBM Corp. 2019, 2021
+ * (C) Copyright IBM Corp. 2019, 2022
  *
  * SPDX-License-Identifier: Apache-2.0
  */
@@ -59,8 +59,7 @@ public class TriggerDefinition extends Element {
     @Binding(
         bindingName = "TriggerType",
         strength = BindingStrength.Value.REQUIRED,
-        description = "The type of trigger.",
-        valueSet = "http://hl7.org/fhir/ValueSet/trigger-type|4.0.1"
+        valueSet = "http://hl7.org/fhir/ValueSet/trigger-type|4.3.0-cibuild"
     )
     @Required
     private final TriggerType type;

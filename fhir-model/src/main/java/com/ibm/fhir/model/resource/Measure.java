@@ -1,5 +1,5 @@
 /*
- * (C) Copyright IBM Corp. 2019, 2021
+ * (C) Copyright IBM Corp. 2019, 2022
  *
  * SPDX-License-Identifier: Apache-2.0
  */
@@ -51,18 +51,18 @@ import com.ibm.fhir.model.visitor.Visitor;
 /**
  * The Measure resource provides the definition of a quality measure.
  * 
- * <p>Maturity level: FMM2 (Trial Use)
+ * <p>Maturity level: FMM3 (Trial Use)
  */
 @Maturity(
-    level = 2,
+    level = 3,
     status = StandardsStatus.Value.TRIAL_USE
 )
 @Constraint(
-    id = "mea-0",
+    id = "cnl-0",
     level = "Warning",
     location = "(base)",
     description = "Name should be usable as an identifier for the module by machine processing applications such as code generation",
-    expression = "name.matches('[A-Z]([A-Za-z0-9_]){0,254}')",
+    expression = "name.exists() implies name.matches('[A-Z]([A-Za-z0-9_]){0,254}')",
     source = "http://hl7.org/fhir/StructureDefinition/Measure"
 )
 @Constraint(
@@ -154,7 +154,7 @@ public class Measure extends DomainResource {
         bindingName = "PublicationStatus",
         strength = BindingStrength.Value.REQUIRED,
         description = "The lifecycle status of an artifact.",
-        valueSet = "http://hl7.org/fhir/ValueSet/publication-status|4.0.1"
+        valueSet = "http://hl7.org/fhir/ValueSet/publication-status|4.3.0-cibuild"
     )
     @Required
     private final PublicationStatus status;
@@ -246,7 +246,7 @@ public class Measure extends DomainResource {
         bindingName = "MeasureImprovementNotation",
         strength = BindingStrength.Value.REQUIRED,
         description = "Observation values that indicate what change in a measurement value or score is indicative of an improvement in the measured item or scored issue.",
-        valueSet = "http://hl7.org/fhir/ValueSet/measure-improvement-notation|4.0.1"
+        valueSet = "http://hl7.org/fhir/ValueSet/measure-improvement-notation|4.3.0-cibuild"
     )
     private final CodeableConcept improvementNotation;
     @Summary
@@ -2506,6 +2506,12 @@ public class Measure extends DomainResource {
      * A group of population criteria for the measure.
      */
     public static class Group extends BackboneElement {
+        @Binding(
+            bindingName = "MeasureGroupExample",
+            strength = BindingStrength.Value.EXAMPLE,
+            description = "Example of measure groups.",
+            valueSet = "http://hl7.org/fhir/ValueSet/measure-group-example"
+        )
         private final CodeableConcept code;
         private final String description;
         private final List<Population> population;
@@ -3261,6 +3267,12 @@ public class Measure extends DomainResource {
          * a referenced library or a valid FHIR Resource Path.
          */
         public static class Stratifier extends BackboneElement {
+            @Binding(
+                bindingName = "MeasureStratifierExample",
+                strength = BindingStrength.Value.EXAMPLE,
+                description = "Meaning of the stratifier.",
+                valueSet = "http://hl7.org/fhir/ValueSet/measure-stratifier-example"
+            )
             private final CodeableConcept code;
             private final String description;
             private final Expression criteria;
@@ -3651,6 +3663,12 @@ public class Measure extends DomainResource {
              * defined within a referenced library or a valid FHIR Resource Path.
              */
             public static class Component extends BackboneElement {
+                @Binding(
+                    bindingName = "MeasureStratifierExample",
+                    strength = BindingStrength.Value.EXAMPLE,
+                    description = "Meaning of the stratifier.",
+                    valueSet = "http://hl7.org/fhir/ValueSet/measure-stratifier-example"
+                )
                 private final CodeableConcept code;
                 private final String description;
                 @Required
@@ -3992,6 +4010,12 @@ public class Measure extends DomainResource {
      * referenced library, or a valid FHIR Resource Path.
      */
     public static class SupplementalData extends BackboneElement {
+        @Binding(
+            bindingName = "MeasureSupplementalDataExample",
+            strength = BindingStrength.Value.EXAMPLE,
+            description = "Meaning of the supplemental data.",
+            valueSet = "http://hl7.org/fhir/ValueSet/measure-supplemental-data-example"
+        )
         private final CodeableConcept code;
         @Binding(
             bindingName = "MeasureDataUsage",

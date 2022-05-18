@@ -1,5 +1,5 @@
 /*
- * (C) Copyright IBM Corp. 2019, 2021
+ * (C) Copyright IBM Corp. 2019, 2022
  *
  * SPDX-License-Identifier: Apache-2.0
  */
@@ -50,9 +50,8 @@ public class Expression extends Element {
     @Binding(
         bindingName = "ExpressionLanguage",
         strength = BindingStrength.Value.EXTENSIBLE,
-        description = "The media type of the expression language.",
         valueSet = "http://hl7.org/fhir/ValueSet/expression-language",
-        maxValueSet = "http://www.rfc-editor.org/bcp/bcp13.txt"
+        maxValueSet = "http://hl7.org/fhir/ValueSet/mimetypes"
     )
     @Required
     private final Code language;
@@ -316,7 +315,7 @@ public class Expression extends Element {
          * <p>This element is required.
          * 
          * @param language
-         *     text/cql | text/fhirpath | application/x-fhir-query | etc.
+         *     text/cql | text/fhirpath | application/x-fhir-query | text/cql-identifier | text/cql-expression | etc.
          * 
          * @return
          *     A reference to this Builder instance

@@ -1,0 +1,77 @@
+{
+  "resourceType": "CodeSystem",
+  "id": "medicinal-product-domain",
+  "meta": {
+    "lastUpdated": "2022-04-24T09:21:35.043+11:00",
+    "profile": [
+      "http://hl7.org/fhir/StructureDefinition/shareablecodesystem"
+    ]
+  },
+  "text": {
+    "status": "generated",
+    "div": "\u003cdiv xmlns\u003d\"http://www.w3.org/1999/xhtml\"\u003e\u003cp\u003eThis code system http://hl7.org/fhir/medicinal-product-domain defines the following codes:\u003c/p\u003e\u003ctable class\u003d\"codes\"\u003e\u003ctr\u003e\u003ctd style\u003d\"white-space:nowrap\"\u003e\u003cb\u003eCode\u003c/b\u003e\u003c/td\u003e\u003ctd\u003e\u003cb\u003eDisplay\u003c/b\u003e\u003c/td\u003e\u003ctd\u003e\u003cb\u003eDefinition\u003c/b\u003e\u003c/td\u003e\u003c/tr\u003e\u003ctr\u003e\u003ctd style\u003d\"white-space:nowrap\"\u003eHuman\u003ca name\u003d\"medicinal-product-domain-Human\"\u003e \u003c/a\u003e\u003c/td\u003e\u003ctd\u003eHuman use\u003c/td\u003e\u003ctd\u003eProduct intended for use with humans\u003c/td\u003e\u003c/tr\u003e\u003ctr\u003e\u003ctd style\u003d\"white-space:nowrap\"\u003eVeterinary\u003ca name\u003d\"medicinal-product-domain-Veterinary\"\u003e \u003c/a\u003e\u003c/td\u003e\u003ctd\u003eVeterinary use\u003c/td\u003e\u003ctd\u003eProduct intended for use with animals\u003c/td\u003e\u003c/tr\u003e\u003ctr\u003e\u003ctd style\u003d\"white-space:nowrap\"\u003eHumanAndVeterinary\u003ca name\u003d\"medicinal-product-domain-HumanAndVeterinary\"\u003e \u003c/a\u003e\u003c/td\u003e\u003ctd\u003eHuman and Veterinary use\u003c/td\u003e\u003ctd\u003eProduct intended for use with both humans and animals\u003c/td\u003e\u003c/tr\u003e\u003c/table\u003e\u003c/div\u003e"
+  },
+  "extension": [
+    {
+      "url": "http://hl7.org/fhir/StructureDefinition/structuredefinition-wg",
+      "valueCode": "brr"
+    },
+    {
+      "url": "http://hl7.org/fhir/StructureDefinition/structuredefinition-standards-status",
+      "valueCode": "trial-use"
+    },
+    {
+      "url": "http://hl7.org/fhir/StructureDefinition/structuredefinition-fmm",
+      "valueInteger": 1
+    }
+  ],
+  "url": "http://hl7.org/fhir/medicinal-product-domain",
+  "identifier": [
+    {
+      "system": "urn:ietf:rfc:3986",
+      "value": "urn:oid:2.16.840.1.113883.4.642.1.1550"
+    }
+  ],
+  "version": "4.3.0-cibuild",
+  "name": "MedicinalProductDomain",
+  "title": "MedicinalProductDomain",
+  "status": "draft",
+  "experimental": false,
+  "date": "2021-01-05T10:01:24+11:00",
+  "publisher": "HL7 (FHIR Project)",
+  "contact": [
+    {
+      "telecom": [
+        {
+          "system": "url",
+          "value": "http://hl7.org/fhir"
+        },
+        {
+          "system": "email",
+          "value": "fhir@lists.hl7.org"
+        }
+      ]
+    }
+  ],
+  "description": "Applicable domain for this product (e.g. human, veterinary).",
+  "caseSensitive": true,
+  "valueSet": "http://hl7.org/fhir/ValueSet/medicinal-product-domain",
+  "content": "complete",
+  "concept": [
+    {
+      "code": "Human",
+      "display": "Human use",
+      "definition": "Product intended for use with humans"
+    },
+    {
+      "code": "Veterinary",
+      "display": "Veterinary use",
+      "definition": "Product intended for use with animals"
+    },
+    {
+      "code": "HumanAndVeterinary",
+      "display": "Human and Veterinary use",
+      "definition": "Product intended for use with both humans and animals"
+    }
+  ]
+}

@@ -1,5 +1,5 @@
 /*
- * (C) Copyright IBM Corp. 2019, 2021
+ * (C) Copyright IBM Corp. 2019, 2022
  *
  * SPDX-License-Identifier: Apache-2.0
  */
@@ -50,7 +50,7 @@ public abstract class Resource extends AbstractVisitable {
     @Binding(
         bindingName = "Language",
         strength = BindingStrength.Value.PREFERRED,
-        description = "A human language.",
+        description = "IETF language tag",
         valueSet = "http://hl7.org/fhir/ValueSet/languages",
         maxValueSet = "http://hl7.org/fhir/ValueSet/all-languages"
     )

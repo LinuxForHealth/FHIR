@@ -1,0 +1,311 @@
+{
+    "resourceType": "CodeSystem",
+    "id": "v2-0365",
+    "text": {
+        "status": "empty",
+        "div": "<div xmlns=\"http://www.w3.org/1999/xhtml\">Redacted for size</div>"
+    },
+    "extension": [
+        {
+            "url": "http://hl7.org/fhir/StructureDefinition/structuredefinition-wg",
+            "valueCode": "oo"
+        }
+    ],
+    "url": "http://terminology.hl7.org/CodeSystem/v2-0365",
+    "identifier": [
+        {
+            "system": "urn:ietf:rfc:3986",
+            "value": "urn:oid:2.16.840.1.113883.18.223"
+        }
+    ],
+    "version": "2.3.0",
+    "name": "EquipmentState",
+    "title": "equipmentState",
+    "status": "active",
+    "experimental": false,
+    "date": "2019-12-01",
+    "publisher": "HL7, Inc",
+    "contact": [
+        {
+            "telecom": [
+                {
+                    "system": "url",
+                    "value": "http://www.hl7.org/"
+                }
+            ]
+        }
+    ],
+    "description": "HL7-defined code system of concepts that identify the status the equipment was in at the time the transaction was initiated.  Used in HL7 Version 2.x messaging in the EQU segment.",
+    "purpose": "Underlying Master Code System for V2 table 0365 (Equipment State)",
+    "copyright": "Copyright HL7. Licensed under creative commons public domain",
+    "caseSensitive": true,
+    "valueSet": "http://terminology.hl7.org/ValueSet/v2-0365",
+    "hierarchyMeaning": "is-a",
+    "compositional": false,
+    "versionNeeded": false,
+    "content": "complete",
+    "property": [
+        {
+            "code": "status",
+            "uri": "http://terminology.hl7.org/CodeSystem/utg-concept-properties#status",
+            "description": "Status of the concept",
+            "type": "code"
+        },
+        {
+            "code": "deprecated",
+            "uri": "http://terminology.hl7.org/CodeSystem/utg-concept-properties#v2-table-deprecated",
+            "description": "Version of HL7 in which the code was deprecated",
+            "type": "code"
+        }
+    ],
+    "concept": [
+        {
+            "id": "3663",
+            "code": "IN",
+            "display": "Initializing",
+            "definition": "Software is ready, hardware not yet",
+            "property": [
+                {
+                    "code": "status",
+                    "valueCode": "A"
+                }
+            ]
+        },
+        {
+            "id": "3664",
+            "code": "CO",
+            "display": "Configuring",
+            "definition": "Configuring",
+            "property": [
+                {
+                    "code": "status",
+                    "valueCode": "A"
+                }
+            ]
+        },
+        {
+            "id": "3665",
+            "code": "PU",
+            "display": "Powered Up",
+            "definition": "Software and hardware are not yet ready",
+            "property": [
+                {
+                    "code": "status",
+                    "valueCode": "A"
+                }
+            ]
+        },
+        {
+            "id": "3666",
+            "code": "RS",
+            "display": "Ready to start",
+            "definition": "Software and hardware are ready, but user action is required to start",
+            "property": [
+                {
+                    "code": "status",
+                    "valueCode": "A"
+                }
+            ]
+        },
+        {
+            "id": "3667",
+            "code": "ID",
+            "display": "Idle",
+            "definition": "Successfully started, new orders can be accepted, currently no orders are present",
+            "property": [
+                {
+                    "code": "status",
+                    "valueCode": "A"
+                }
+            ]
+        },
+        {
+            "id": "3668",
+            "code": "OP",
+            "display": "Normal Operation",
+            "definition": "Successfully started, new orders can be accepted",
+            "property": [
+                {
+                    "code": "status",
+                    "valueCode": "A"
+                }
+            ]
+        },
+        {
+            "id": "3669",
+            "code": "CL",
+            "display": "Clearing",
+            "definition": "Clearing",
+            "property": [
+                {
+                    "code": "status",
+                    "valueCode": "A"
+                }
+            ]
+        },
+        {
+            "id": "3670",
+            "code": "PA",
+            "display": "Pausing",
+            "definition": "Pausing",
+            "property": [
+                {
+                    "code": "status",
+                    "valueCode": "A"
+                }
+            ]
+        },
+        {
+            "id": "3671",
+            "code": "PD",
+            "display": "Paused",
+            "definition": "User action is required to continue",
+            "property": [
+                {
+                    "code": "status",
+                    "valueCode": "A"
+                }
+            ]
+        },
+        {
+            "id": "3672",
+            "code": "ES",
+            "display": "E-stopped",
+            "definition": "Error, remaining orders can be finished, new orders cannot be accepted",
+            "property": [
+                {
+                    "code": "status",
+                    "valueCode": "A"
+                }
+            ]
+        },
+        {
+            "id": "3673",
+            "code": "…",
+            "display": "(null) No state change",
+            "definition": "(null) No state change",
+            "property": [
+                {
+                    "code": "deprecated",
+                    "valueCode": "2.9"
+                },
+                {
+                    "code": "status",
+                    "valueCode": "D"
+                }
+            ]
+        },
+        {
+            "id": "3674",
+            "code": "TS",
+            "display": "Transport stopped",
+            "definition": "Transport stopped",
+            "property": [
+                {
+                    "code": "status",
+                    "valueCode": "A"
+                }
+            ]
+        },
+        {
+            "id": "3675",
+            "code": "SS",
+            "display": "Sampling stopped",
+            "definition": "Sampling stopped",
+            "property": [
+                {
+                    "code": "status",
+                    "valueCode": "A"
+                }
+            ]
+        },
+        {
+            "id": "3676",
+            "code": "SD",
+            "display": "Shutting down",
+            "definition": "Shutting down",
+            "property": [
+                {
+                    "code": "status",
+                    "valueCode": "A"
+                }
+            ]
+        },
+        {
+            "id": "3677",
+            "code": "DI",
+            "display": "Diagnose",
+            "definition": "Diagnose",
+            "property": [
+                {
+                    "code": "status",
+                    "valueCode": "A"
+                }
+            ]
+        },
+        {
+            "id": "3678",
+            "code": "...",
+            "display": "(null) No state change",
+            "definition": "(null) No state change",
+            "property": [
+                {
+                    "code": "deprecated",
+                    "valueCode": "2.9"
+                },
+                {
+                    "code": "status",
+                    "valueCode": "D"
+                }
+            ]
+        },
+        {
+            "id": "3679",
+            "code": "MA",
+            "display": "Maintenance",
+            "definition": "Maintenance",
+            "property": [
+                {
+                    "code": "status",
+                    "valueCode": "A"
+                }
+            ]
+        },
+        {
+            "id": "3680",
+            "code": "FL",
+            "display": "Failure",
+            "definition": "Failure, remaining orders are aborted, new orders cannot be accepted",
+            "property": [
+                {
+                    "code": "status",
+                    "valueCode": "A"
+                }
+            ]
+        },
+        {
+            "id": "3681",
+            "code": "UNK",
+            "display": "Unknown",
+            "definition": "Unknown",
+            "property": [
+                {
+                    "code": "status",
+                    "valueCode": "A"
+                }
+            ]
+        },
+        {
+            "id": "3682",
+            "code": "LT",
+            "display": "Limited test menu",
+            "definition": "For diagnostic instruments: some test types are unavailable",
+            "property": [
+                {
+                    "code": "status",
+                    "valueCode": "A"
+                }
+            ]
+        }
+    ]
+}

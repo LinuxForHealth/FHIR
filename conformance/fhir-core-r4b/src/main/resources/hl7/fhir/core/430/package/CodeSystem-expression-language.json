@@ -1,0 +1,84 @@
+{
+    "resourceType": "CodeSystem",
+    "id": "expression-language",
+    "meta": {
+        "lastUpdated": "2022-04-23T22:21:35.043Z"
+    },
+    "text": {
+        "status": "empty",
+        "div": "<div xmlns=\"http://www.w3.org/1999/xhtml\">Redacted for size</div>"
+    },
+    "extension": [
+        {
+            "url": "http://hl7.org/fhir/StructureDefinition/structuredefinition-wg",
+            "valueCode": "fhir"
+        },
+        {
+            "url": "http://hl7.org/fhir/StructureDefinition/structuredefinition-standards-status",
+            "valueCode": "trial-use"
+        },
+        {
+            "url": "http://hl7.org/fhir/StructureDefinition/structuredefinition-fmm",
+            "valueInteger": 5
+        }
+    ],
+    "url": "http://hl7.org/fhir/expression-language",
+    "identifier": [
+        {
+            "system": "urn:ietf:rfc:3986",
+            "value": "urn:oid:2.16.840.1.113883.4.642.1.106"
+        }
+    ],
+    "version": "4.3.0-cibuild",
+    "name": "ExpressionLanguage",
+    "title": "ExpressionLanguage",
+    "status": "draft",
+    "experimental": false,
+    "date": "2022-04-23T22:21:35Z",
+    "publisher": "HL7 (FHIR Project)",
+    "contact": [
+        {
+            "telecom": [
+                {
+                    "system": "url",
+                    "value": "http://hl7.org/fhir"
+                },
+                {
+                    "system": "email",
+                    "value": "fhir@lists.hl7.org"
+                }
+            ]
+        }
+    ],
+    "description": "The media type of the expression language.",
+    "caseSensitive": true,
+    "valueSet": "http://hl7.org/fhir/ValueSet/expression-language",
+    "content": "complete",
+    "concept": [
+        {
+            "code": "text/cql",
+            "display": "CQL",
+            "definition": "Clinical Quality Language."
+        },
+        {
+            "code": "text/fhirpath",
+            "display": "FHIRPath",
+            "definition": "FHIRPath."
+        },
+        {
+            "code": "application/x-fhir-query",
+            "display": "FHIR Query",
+            "definition": "FHIR's RESTful query syntax - typically independent of base URL."
+        },
+        {
+            "code": "text/cql-identifier",
+            "display": "CQL Identifier",
+            "definition": "A valid Clinical Quality Language identifier."
+        },
+        {
+            "code": "text/cql-expression",
+            "display": "CQL Expression",
+            "definition": "A Clinical Quality Language expression."
+        }
+    ]
+}

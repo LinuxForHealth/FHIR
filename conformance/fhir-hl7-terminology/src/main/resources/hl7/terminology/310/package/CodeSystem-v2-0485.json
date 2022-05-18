@@ -1,0 +1,311 @@
+{
+    "resourceType": "CodeSystem",
+    "id": "v2-0485",
+    "text": {
+        "status": "empty",
+        "div": "<div xmlns=\"http://www.w3.org/1999/xhtml\">Redacted for size</div>"
+    },
+    "extension": [
+        {
+            "url": "http://hl7.org/fhir/StructureDefinition/structuredefinition-wg",
+            "valueCode": "oo"
+        }
+    ],
+    "url": "http://terminology.hl7.org/CodeSystem/v2-0485",
+    "identifier": [
+        {
+            "system": "urn:ietf:rfc:3986",
+            "value": "urn:oid:2.16.840.1.113883.18.310"
+        }
+    ],
+    "version": "2.2.0",
+    "name": "ExtendedPriorityCodes",
+    "title": "extendedPriorityCodes",
+    "status": "active",
+    "experimental": false,
+    "date": "2019-12-01",
+    "publisher": "HL7, Inc",
+    "contact": [
+        {
+            "telecom": [
+                {
+                    "system": "url",
+                    "value": "http://www.hl7.org/"
+                }
+            ]
+        }
+    ],
+    "description": "Code system of concepts describing the urgency of a request carried in an order.  Used in HL7 Version 2.x messaging in timing/quantity; in older versions of the Standard was used in the TQ datatype, but in later versions it is used in the TQ1 segment (which replaced the TQ datatype which has been withdrawn).",
+    "purpose": "Underlying Master Code System for V2 table 0485 (Extended Priority Codes)",
+    "copyright": "Copyright HL7. Licensed under creative commons public domain",
+    "caseSensitive": true,
+    "valueSet": "http://terminology.hl7.org/ValueSet/v2-0485",
+    "hierarchyMeaning": "is-a",
+    "compositional": false,
+    "versionNeeded": false,
+    "content": "complete",
+    "property": [
+        {
+            "code": "status",
+            "uri": "http://terminology.hl7.org/CodeSystem/utg-concept-properties#status",
+            "description": "Status of the concept",
+            "type": "code"
+        },
+        {
+            "code": "deprecated",
+            "uri": "http://terminology.hl7.org/CodeSystem/utg-concept-properties#v2-table-deprecated",
+            "description": "Version of HL7 in which the code was deprecated",
+            "type": "code"
+        },
+        {
+            "code": "v2-concComment",
+            "uri": "http://terminology.hl7.org/CodeSystem/utg-concept-properties#v2-concComment",
+            "description": "V2 Concept Comment",
+            "type": "string"
+        },
+        {
+            "code": "v2-concCommentAsPub",
+            "uri": "http://terminology.hl7.org/CodeSystem/utg-concept-properties#v2-concCommentAsPub",
+            "description": "V2 Concept Comment As Published",
+            "type": "string"
+        }
+    ],
+    "concept": [
+        {
+            "id": "4922",
+            "code": "S",
+            "display": "Stat",
+            "definition": "Stat",
+            "property": [
+                {
+                    "code": "v2-concComment",
+                    "valueString": "With highest priority"
+                },
+                {
+                    "code": "v2-concCommentAsPub",
+                    "valueString": "With highest priority"
+                },
+                {
+                    "code": "status",
+                    "valueCode": "A"
+                }
+            ]
+        },
+        {
+            "id": "4923",
+            "code": "A",
+            "display": "ASAP",
+            "definition": "ASAP",
+            "property": [
+                {
+                    "code": "v2-concComment",
+                    "valueString": "Fill after S orders"
+                },
+                {
+                    "code": "v2-concCommentAsPub",
+                    "valueString": "Fill after S orders"
+                },
+                {
+                    "code": "status",
+                    "valueCode": "A"
+                }
+            ]
+        },
+        {
+            "id": "4924",
+            "code": "R",
+            "display": "Routine",
+            "definition": "Routine",
+            "property": [
+                {
+                    "code": "v2-concComment",
+                    "valueString": "Default"
+                },
+                {
+                    "code": "v2-concCommentAsPub",
+                    "valueString": "Default"
+                },
+                {
+                    "code": "status",
+                    "valueCode": "A"
+                }
+            ]
+        },
+        {
+            "id": "4925",
+            "code": "P",
+            "display": "Preop",
+            "definition": "Preop",
+            "property": [
+                {
+                    "code": "status",
+                    "valueCode": "A"
+                }
+            ]
+        },
+        {
+            "id": "4926",
+            "code": "C",
+            "display": "Callback",
+            "definition": "Callback",
+            "property": [
+                {
+                    "code": "status",
+                    "valueCode": "A"
+                }
+            ]
+        },
+        {
+            "id": "4927",
+            "code": "T",
+            "display": "Timing critical",
+            "definition": "Timing critical",
+            "property": [
+                {
+                    "code": "v2-concComment",
+                    "valueString": "A request implying that it is critical to come as close as possible to the requested time, e.g., for a trough anti-microbial level."
+                },
+                {
+                    "code": "v2-concCommentAsPub",
+                    "valueString": "A request implying that it is critical to come as close as possible to the requested time, e.g., for a trough anti-microbial level."
+                },
+                {
+                    "code": "status",
+                    "valueCode": "A"
+                }
+            ]
+        },
+        {
+            "id": "4928",
+            "code": "TS<integer>",
+            "display": "Timing critical within <integer> seconds.",
+            "definition": "Timing critical within <integer> seconds.",
+            "property": [
+                {
+                    "code": "v2-concComment",
+                    "valueString": "This is not a real code, but guidelines how to construct the codes."
+                },
+                {
+                    "code": "v2-concCommentAsPub",
+                    "valueString": "Timing critical within <integer> seconds."
+                },
+                {
+                    "code": "status",
+                    "valueCode": "D"
+                }
+            ]
+        },
+        {
+            "id": "4929",
+            "code": "TM<integer>",
+            "display": "Timing critical within <integer> minutes.",
+            "definition": "Timing critical within <integer> minutes.",
+            "property": [
+                {
+                    "code": "v2-concComment",
+                    "valueString": "This is not a real code, but guidelines how to construct the codes."
+                },
+                {
+                    "code": "v2-concCommentAsPub",
+                    "valueString": "Timing critical within <integer> minutes."
+                },
+                {
+                    "code": "status",
+                    "valueCode": "D"
+                }
+            ]
+        },
+        {
+            "id": "4930",
+            "code": "TH<integer>",
+            "display": "Timing critical within <integer> hours.",
+            "definition": "Timing critical within <integer> hours.",
+            "property": [
+                {
+                    "code": "v2-concComment",
+                    "valueString": "This is not a real code, but guidelines how to construct the codes."
+                },
+                {
+                    "code": "v2-concCommentAsPub",
+                    "valueString": "Timing critical within <integer> hours."
+                },
+                {
+                    "code": "status",
+                    "valueCode": "D"
+                }
+            ]
+        },
+        {
+            "id": "4931",
+            "code": "TD<integer>",
+            "display": "Timing critical within <integer> days.",
+            "definition": "Timing critical within <integer> days.",
+            "property": [
+                {
+                    "code": "v2-concComment",
+                    "valueString": "This is not a real code, but guidelines how to construct the codes."
+                },
+                {
+                    "code": "v2-concCommentAsPub",
+                    "valueString": "Timing critical within <integer> days."
+                },
+                {
+                    "code": "status",
+                    "valueCode": "D"
+                }
+            ]
+        },
+        {
+            "id": "4932",
+            "code": "TW<integer>",
+            "display": "Timing critical within <integer> weeks.",
+            "definition": "Timing critical within <integer> weeks.",
+            "property": [
+                {
+                    "code": "v2-concComment",
+                    "valueString": "This is not a real code, but guidelines how to construct the codes."
+                },
+                {
+                    "code": "v2-concCommentAsPub",
+                    "valueString": "Timing critical within <integer> weeks."
+                },
+                {
+                    "code": "status",
+                    "valueCode": "D"
+                }
+            ]
+        },
+        {
+            "id": "4933",
+            "code": "TL<integer>",
+            "display": "Timing critical within <integer> months.",
+            "definition": "Timing critical within <integer> months.",
+            "property": [
+                {
+                    "code": "v2-concComment",
+                    "valueString": "This is not a real code, but guidelines how to construct the codes."
+                },
+                {
+                    "code": "v2-concCommentAsPub",
+                    "valueString": "Timing critical within <integer> months."
+                },
+                {
+                    "code": "status",
+                    "valueCode": "D"
+                }
+            ]
+        },
+        {
+            "id": "4934",
+            "code": "PRN",
+            "display": "As needed",
+            "definition": "As needed",
+            "property": [
+                {
+                    "code": "status",
+                    "valueCode": "A"
+                }
+            ]
+        }
+    ]
+}

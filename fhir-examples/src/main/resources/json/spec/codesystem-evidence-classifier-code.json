@@ -1,0 +1,216 @@
+{
+  "resourceType": "CodeSystem",
+  "id": "evidence-classifier-code",
+  "meta": {
+    "lastUpdated": "2022-04-24T09:21:35.043+11:00",
+    "profile": [
+      "http://hl7.org/fhir/StructureDefinition/shareablecodesystem"
+    ]
+  },
+  "text": {
+    "status": "generated",
+    "div": "\u003cdiv xmlns\u003d\"http://www.w3.org/1999/xhtml\"\u003e\n      \n      \u003cp\u003eThis code system http://terminology.hl7.org/CodeSystem/evidence-classifier-code defines the following codes:\u003c/p\u003e\n      \n      \u003ctable class\u003d\"codes\"\u003e\n        \n        \u003ctr\u003e\n          \n          \u003ctd style\u003d\"white-space:nowrap\"\u003e\n            \n            \u003cb\u003eCode\u003c/b\u003e\n          \n          \u003c/td\u003e\n          \n          \u003ctd\u003e\n            \n            \u003cb\u003eDisplay\u003c/b\u003e\n          \n          \u003c/td\u003e\n          \n          \u003ctd\u003e\n            \n            \u003cb\u003eDefinition\u003c/b\u003e\n          \n          \u003c/td\u003e\n        \n        \u003c/tr\u003e\n        \n        \u003ctr\u003e\n          \n          \u003ctd style\u003d\"white-space:nowrap\"\u003eCOVID19Specific\n            \n            \u003ca name\u003d\"evidence-classifier-code-COVID19Specific\"\u003e \u003c/a\u003e\n          \n          \u003c/td\u003e\n          \n          \u003ctd\u003eCOVID-19 specific article\u003c/td\u003e\n          \n          \u003ctd\u003eAbout COVID-19.\u003c/td\u003e\n        \n        \u003c/tr\u003e\n        \n        \u003ctr\u003e\n          \n          \u003ctd style\u003d\"white-space:nowrap\"\u003eCOVID19Relevant\n            \n            \u003ca name\u003d\"evidence-classifier-code-COVID19Relevant\"\u003e \u003c/a\u003e\n          \n          \u003c/td\u003e\n          \n          \u003ctd\u003eCOVID-19 relevant (but not specific) article\u003c/td\u003e\n          \n          \u003ctd\u003eNot about COVID-19 but relevant to COVID-19 management or understanding.\u003c/td\u003e\n        \n        \u003c/tr\u003e\n        \n        \u003ctr\u003e\n          \n          \u003ctd style\u003d\"white-space:nowrap\"\u003eCOVID19HumanResearch\n            \n            \u003ca name\u003d\"evidence-classifier-code-COVID19HumanResearch\"\u003e \u003c/a\u003e\n          \n          \u003c/td\u003e\n          \n          \u003ctd\u003eCOVID-19 human data in population, exposure, or outcome\u003c/td\u003e\n          \n          \u003ctd\u003econtains human COVID-19 disease in the research data as any variable (population, exposure or outcome).\u003c/td\u003e\n        \n        \u003c/tr\u003e\n        \n        \u003ctr\u003e\n          \n          \u003ctd style\u003d\"white-space:nowrap\"\u003eOriginalResearch\n            \n            \u003ca name\u003d\"evidence-classifier-code-OriginalResearch\"\u003e \u003c/a\u003e\n          \n          \u003c/td\u003e\n          \n          \u003ctd\u003eArticle includes original research\u003c/td\u003e\n          \n          \u003ctd\u003esuch as randomized trial, observational study.\u003c/td\u003e\n        \n        \u003c/tr\u003e\n        \n        \u003ctr\u003e\n          \n          \u003ctd style\u003d\"white-space:nowrap\"\u003eResearchSynthesis\n            \n            \u003ca name\u003d\"evidence-classifier-code-ResearchSynthesis\"\u003e \u003c/a\u003e\n          \n          \u003c/td\u003e\n          \n          \u003ctd\u003eArticle includes synthesis of research\u003c/td\u003e\n          \n          \u003ctd\u003esuch as systematic review, meta-analysis, rapid review.\u003c/td\u003e\n        \n        \u003c/tr\u003e\n        \n        \u003ctr\u003e\n          \n          \u003ctd style\u003d\"white-space:nowrap\"\u003eGuideline\n            \n            \u003ca name\u003d\"evidence-classifier-code-Guideline\"\u003e \u003c/a\u003e\n          \n          \u003c/td\u003e\n          \n          \u003ctd\u003eArticle includes guideline\u003c/td\u003e\n          \n          \u003ctd\u003efor clinical practice guidelines.\u003c/td\u003e\n        \n        \u003c/tr\u003e\n        \n        \u003ctr\u003e\n          \n          \u003ctd style\u003d\"white-space:nowrap\"\u003eResearchProtocol\n            \n            \u003ca name\u003d\"evidence-classifier-code-ResearchProtocol\"\u003e \u003c/a\u003e\n          \n          \u003c/td\u003e\n          \n          \u003ctd\u003eArticle provides protocol without results\u003c/td\u003e\n          \n          \u003ctd\u003efor research protocols.\u003c/td\u003e\n        \n        \u003c/tr\u003e\n        \n        \u003ctr\u003e\n          \n          \u003ctd style\u003d\"white-space:nowrap\"\u003eNotResearchNotGuideline\n            \n            \u003ca name\u003d\"evidence-classifier-code-NotResearchNotGuideline\"\u003e \u003c/a\u003e\n          \n          \u003c/td\u003e\n          \n          \u003ctd\u003eArticle is neither research nor guideline\u003c/td\u003e\n          \n          \u003ctd\u003efor things that are not research reports, research protocols or guidelines.\u003c/td\u003e\n        \n        \u003c/tr\u003e\n        \n        \u003ctr\u003e\n          \n          \u003ctd style\u003d\"white-space:nowrap\"\u003eTreatment\n            \n            \u003ca name\u003d\"evidence-classifier-code-Treatment\"\u003e \u003c/a\u003e\n          \n          \u003c/td\u003e\n          \n          \u003ctd\u003eArticle about treatment\u003c/td\u003e\n          \n          \u003ctd\u003eabout therapeutic interventions.\u003c/td\u003e\n        \n        \u003c/tr\u003e\n        \n        \u003ctr\u003e\n          \n          \u003ctd style\u003d\"white-space:nowrap\"\u003ePreventionAndControl\n            \n            \u003ca name\u003d\"evidence-classifier-code-PreventionAndControl\"\u003e \u003c/a\u003e\n          \n          \u003c/td\u003e\n          \n          \u003ctd\u003eArticle about prevention and control\u003c/td\u003e\n          \n          \u003ctd\u003eabout preventive care and interventions.\u003c/td\u003e\n        \n        \u003c/tr\u003e\n        \n        \u003ctr\u003e\n          \n          \u003ctd style\u003d\"white-space:nowrap\"\u003eDiagnosis\n            \n            \u003ca name\u003d\"evidence-classifier-code-Diagnosis\"\u003e \u003c/a\u003e\n          \n          \u003c/td\u003e\n          \n          \u003ctd\u003eArticle about diagnosis\u003c/td\u003e\n          \n          \u003ctd\u003eabout methods to distinguish having or not having a condition.\u003c/td\u003e\n        \n        \u003c/tr\u003e\n        \n        \u003ctr\u003e\n          \n          \u003ctd style\u003d\"white-space:nowrap\"\u003ePrognosisPrediction\n            \n            \u003ca name\u003d\"evidence-classifier-code-PrognosisPrediction\"\u003e \u003c/a\u003e\n          \n          \u003c/td\u003e\n          \n          \u003ctd\u003eArticle about prognosis or prediction\u003c/td\u003e\n          \n          \u003ctd\u003eabout predicting risk for something or risk factors for it.\u003c/td\u003e\n        \n        \u003c/tr\u003e\n        \n        \u003ctr\u003e\n          \n          \u003ctd style\u003d\"white-space:nowrap\"\u003eRatedAsYes\n            \n            \u003ca name\u003d\"evidence-classifier-code-RatedAsYes\"\u003e \u003c/a\u003e\n          \n          \u003c/td\u003e\n          \n          \u003ctd\u003eRated as yes, affirmative, positive, present, or include\u003c/td\u003e\n          \n          \u003ctd/\u003e\n        \n        \u003c/tr\u003e\n        \n        \u003ctr\u003e\n          \n          \u003ctd style\u003d\"white-space:nowrap\"\u003eRatedAsNo\n            \n            \u003ca name\u003d\"evidence-classifier-code-RatedAsNo\"\u003e \u003c/a\u003e\n          \n          \u003c/td\u003e\n          \n          \u003ctd\u003eRated as no, negative, absent, or exclude\u003c/td\u003e\n          \n          \u003ctd\u003eRated as no, negative, absent, or exclude.\u003c/td\u003e\n        \n        \u003c/tr\u003e\n        \n        \u003ctr\u003e\n          \n          \u003ctd style\u003d\"white-space:nowrap\"\u003eNotAssessed\n            \n            \u003ca name\u003d\"evidence-classifier-code-NotAssessed\"\u003e \u003c/a\u003e\n          \n          \u003c/td\u003e\n          \n          \u003ctd\u003eNot rated, not assessed\u003c/td\u003e\n          \n          \u003ctd\u003eNeither rated as yes nor rated as no.\u003c/td\u003e\n        \n        \u003c/tr\u003e\n        \n        \u003ctr\u003e\n          \n          \u003ctd style\u003d\"white-space:nowrap\"\u003eRatedAsRCT\n            \n            \u003ca name\u003d\"evidence-classifier-code-RatedAsRCT\"\u003e \u003c/a\u003e\n          \n          \u003c/td\u003e\n          \n          \u003ctd\u003eclassified as randomized controlled trial\u003c/td\u003e\n          \n          \u003ctd\u003eclassified as randomized controlled trial.\u003c/td\u003e\n        \n        \u003c/tr\u003e\n        \n        \u003ctr\u003e\n          \n          \u003ctd style\u003d\"white-space:nowrap\"\u003eRatedAsControlledTrial\n            \n            \u003ca name\u003d\"evidence-classifier-code-RatedAsControlledTrial\"\u003e \u003c/a\u003e\n          \n          \u003c/td\u003e\n          \n          \u003ctd\u003eclassified as nonrandomized controlled trial (experimental)\u003c/td\u003e\n          \n          \u003ctd\u003eclassified as nonrandomized controlled trial (experimental).\u003c/td\u003e\n        \n        \u003c/tr\u003e\n        \n        \u003ctr\u003e\n          \n          \u003ctd style\u003d\"white-space:nowrap\"\u003eRatedAsComparativeCohort\n            \n            \u003ca name\u003d\"evidence-classifier-code-RatedAsComparativeCohort\"\u003e \u003c/a\u003e\n          \n          \u003c/td\u003e\n          \n          \u003ctd\u003eclassified as comparative cohort study (observational)\u003c/td\u003e\n          \n          \u003ctd\u003eclassified as comparative cohort study (observational).\u003c/td\u003e\n        \n        \u003c/tr\u003e\n        \n        \u003ctr\u003e\n          \n          \u003ctd style\u003d\"white-space:nowrap\"\u003eRatedAsCaseControl\n            \n            \u003ca name\u003d\"evidence-classifier-code-RatedAsCaseControl\"\u003e \u003c/a\u003e\n          \n          \u003c/td\u003e\n          \n          \u003ctd\u003eclassified as case-control study\u003c/td\u003e\n          \n          \u003ctd\u003eclassified as case-control study.\u003c/td\u003e\n        \n        \u003c/tr\u003e\n        \n        \u003ctr\u003e\n          \n          \u003ctd style\u003d\"white-space:nowrap\"\u003eRatedAsUncontrolledSeries\n            \n            \u003ca name\u003d\"evidence-classifier-code-RatedAsUncontrolledSeries\"\u003e \u003c/a\u003e\n          \n          \u003c/td\u003e\n          \n          \u003ctd\u003eclassified as uncontrolled cohort (case series)\u003c/td\u003e\n          \n          \u003ctd\u003eclassified as uncontrolled cohort (case series).\u003c/td\u003e\n        \n        \u003c/tr\u003e\n        \n        \u003ctr\u003e\n          \n          \u003ctd style\u003d\"white-space:nowrap\"\u003eRatedAsMixedMethods\n            \n            \u003ca name\u003d\"evidence-classifier-code-RatedAsMixedMethods\"\u003e \u003c/a\u003e\n          \n          \u003c/td\u003e\n          \n          \u003ctd\u003eclassified as mixed-methods study\u003c/td\u003e\n          \n          \u003ctd\u003eclassified as mixed-methods study.\u003c/td\u003e\n        \n        \u003c/tr\u003e\n        \n        \u003ctr\u003e\n          \n          \u003ctd style\u003d\"white-space:nowrap\"\u003eRatedAsOther\n            \n            \u003ca name\u003d\"evidence-classifier-code-RatedAsOther\"\u003e \u003c/a\u003e\n          \n          \u003c/td\u003e\n          \n          \u003ctd\u003eclassified as other concept (not elsewhere classified)\u003c/td\u003e\n          \n          \u003ctd\u003eclassified as other concept (not elsewhere classified).\u003c/td\u003e\n        \n        \u003c/tr\u003e\n        \n        \u003ctr\u003e\n          \n          \u003ctd style\u003d\"white-space:nowrap\"\u003eRiskOfBias\n            \n            \u003ca name\u003d\"evidence-classifier-code-RiskOfBias\"\u003e \u003c/a\u003e\n          \n          \u003c/td\u003e\n          \n          \u003ctd\u003eRisk of bias assessment\u003c/td\u003e\n          \n          \u003ctd\u003eRisk of bias assessment.\u003c/td\u003e\n        \n        \u003c/tr\u003e\n        \n        \u003ctr\u003e\n          \n          \u003ctd style\u003d\"white-space:nowrap\"\u003eNoBlinding\n            \n            \u003ca name\u003d\"evidence-classifier-code-NoBlinding\"\u003e \u003c/a\u003e\n          \n          \u003c/td\u003e\n          \n          \u003ctd\u003eNo blinding\u003c/td\u003e\n          \n          \u003ctd\u003eNo blinding.\u003c/td\u003e\n        \n        \u003c/tr\u003e\n        \n        \u003ctr\u003e\n          \n          \u003ctd style\u003d\"white-space:nowrap\"\u003eAllocConcealNotStated\n            \n            \u003ca name\u003d\"evidence-classifier-code-AllocConcealNotStated\"\u003e \u003c/a\u003e\n          \n          \u003c/td\u003e\n          \n          \u003ctd\u003eAllocation concealment not stated\u003c/td\u003e\n          \n          \u003ctd\u003eAllocation concealment not stated.\u003c/td\u003e\n        \n        \u003c/tr\u003e\n        \n        \u003ctr\u003e\n          \n          \u003ctd style\u003d\"white-space:nowrap\"\u003eEarlyTrialTermination\n            \n            \u003ca name\u003d\"evidence-classifier-code-EarlyTrialTermination\"\u003e \u003c/a\u003e\n          \n          \u003c/td\u003e\n          \n          \u003ctd\u003eEarly trial termination\u003c/td\u003e\n          \n          \u003ctd\u003eEarly trial termination.\u003c/td\u003e\n        \n        \u003c/tr\u003e\n        \n        \u003ctr\u003e\n          \n          \u003ctd style\u003d\"white-space:nowrap\"\u003eNoITT\n            \n            \u003ca name\u003d\"evidence-classifier-code-NoITT\"\u003e \u003c/a\u003e\n          \n          \u003c/td\u003e\n          \n          \u003ctd\u003eNo intention-to-treat analysis\u003c/td\u003e\n          \n          \u003ctd\u003eNo intention-to-treat analysis.\u003c/td\u003e\n        \n        \u003c/tr\u003e\n        \n        \u003ctr\u003e\n          \n          \u003ctd style\u003d\"white-space:nowrap\"\u003ePreprint\n            \n            \u003ca name\u003d\"evidence-classifier-code-Preprint\"\u003e \u003c/a\u003e\n          \n          \u003c/td\u003e\n          \n          \u003ctd\u003ePreprint (not final publication)\u003c/td\u003e\n          \n          \u003ctd\u003eResults presented in preprint (pre-final publication) form.\u003c/td\u003e\n        \n        \u003c/tr\u003e\n        \n        \u003ctr\u003e\n          \n          \u003ctd style\u003d\"white-space:nowrap\"\u003ePreliminaryAnalysis\n            \n            \u003ca name\u003d\"evidence-classifier-code-PreliminaryAnalysis\"\u003e \u003c/a\u003e\n          \n          \u003c/td\u003e\n          \n          \u003ctd\u003ePreliminary analysis\u003c/td\u003e\n          \n          \u003ctd\u003ePreliminary analysis.\u003c/td\u003e\n        \n        \u003c/tr\u003e\n        \n        \u003ctr\u003e\n          \n          \u003ctd style\u003d\"white-space:nowrap\"\u003eBaselineImbalance\n            \n            \u003ca name\u003d\"evidence-classifier-code-BaselineImbalance\"\u003e \u003c/a\u003e\n          \n          \u003c/td\u003e\n          \n          \u003ctd\u003eBaseline imbalances\u003c/td\u003e\n          \n          \u003ctd\u003eDifferences between groups at start of trial may confound or bias the findings.\u003c/td\u003e\n        \n        \u003c/tr\u003e\n        \n        \u003ctr\u003e\n          \n          \u003ctd style\u003d\"white-space:nowrap\"\u003eSubgroupAnalysis\n            \n            \u003ca name\u003d\"evidence-classifier-code-SubgroupAnalysis\"\u003e \u003c/a\u003e\n          \n          \u003c/td\u003e\n          \n          \u003ctd\u003eSubgroup analysis\u003c/td\u003e\n          \n          \u003ctd\u003eSubgroup analysis.\u003c/td\u003e\n        \n        \u003c/tr\u003e\n      \n      \u003c/table\u003e\n    \n    \u003c/div\u003e"
+  },
+  "extension": [
+    {
+      "url": "http://hl7.org/fhir/StructureDefinition/structuredefinition-wg",
+      "valueCode": "cds"
+    },
+    {
+      "url": "http://hl7.org/fhir/StructureDefinition/structuredefinition-standards-status",
+      "valueCode": "trial-use"
+    },
+    {
+      "url": "http://hl7.org/fhir/StructureDefinition/structuredefinition-fmm",
+      "valueInteger": 0
+    }
+  ],
+  "url": "http://terminology.hl7.org/CodeSystem/evidence-classifier-code",
+  "identifier": [
+    {
+      "system": "urn:ietf:rfc:3986",
+      "value": "urn:oid:2.16.840.1.113883.4.642.1.0"
+    }
+  ],
+  "version": "4.3.0-cibuild",
+  "name": "EvidenceClassifier",
+  "title": "EvidenceClassifier",
+  "status": "draft",
+  "experimental": false,
+  "date": "2020-12-28T16:55:11+11:00",
+  "publisher": "HL7 (FHIR Project)",
+  "contact": [
+    {
+      "telecom": [
+        {
+          "system": "url",
+          "value": "http://hl7.org/fhir"
+        },
+        {
+          "system": "email",
+          "value": "fhir@lists.hl7.org"
+        }
+      ]
+    }
+  ],
+  "description": "Commonly used classifiers for evidence sets.",
+  "caseSensitive": true,
+  "valueSet": "http://hl7.org/fhir/ValueSet/evidence-classifier-code",
+  "content": "complete",
+  "concept": [
+    {
+      "code": "COVID19Specific",
+      "display": "COVID-19 specific article",
+      "definition": "About COVID-19."
+    },
+    {
+      "code": "COVID19Relevant",
+      "display": "COVID-19 relevant (but not specific) article",
+      "definition": "Not about COVID-19 but relevant to COVID-19 management or understanding."
+    },
+    {
+      "code": "COVID19HumanResearch",
+      "display": "COVID-19 human data in population, exposure, or outcome",
+      "definition": "contains human COVID-19 disease in the research data as any variable (population, exposure or outcome)."
+    },
+    {
+      "code": "OriginalResearch",
+      "display": "Article includes original research",
+      "definition": "such as randomized trial, observational study."
+    },
+    {
+      "code": "ResearchSynthesis",
+      "display": "Article includes synthesis of research",
+      "definition": "such as systematic review, meta-analysis, rapid review."
+    },
+    {
+      "code": "Guideline",
+      "display": "Article includes guideline",
+      "definition": "for clinical practice guidelines."
+    },
+    {
+      "code": "ResearchProtocol",
+      "display": "Article provides protocol without results",
+      "definition": "for research protocols."
+    },
+    {
+      "code": "NotResearchNotGuideline",
+      "display": "Article is neither research nor guideline",
+      "definition": "for things that are not research reports, research protocols or guidelines."
+    },
+    {
+      "code": "Treatment",
+      "display": "Article about treatment",
+      "definition": "about therapeutic interventions."
+    },
+    {
+      "code": "PreventionAndControl",
+      "display": "Article about prevention and control",
+      "definition": "about preventive care and interventions."
+    },
+    {
+      "code": "Diagnosis",
+      "display": "Article about diagnosis",
+      "definition": "about methods to distinguish having or not having a condition."
+    },
+    {
+      "code": "PrognosisPrediction",
+      "display": "Article about prognosis or prediction",
+      "definition": "about predicting risk for something or risk factors for it."
+    },
+    {
+      "code": "RatedAsYes",
+      "display": "Rated as yes, affirmative, positive, present, or include"
+    },
+    {
+      "code": "RatedAsNo",
+      "display": "Rated as no, negative, absent, or exclude",
+      "definition": "Rated as no, negative, absent, or exclude."
+    },
+    {
+      "code": "NotAssessed",
+      "display": "Not rated, not assessed",
+      "definition": "Neither rated as yes nor rated as no."
+    },
+    {
+      "code": "RatedAsRCT",
+      "display": "classified as randomized controlled trial",
+      "definition": "classified as randomized controlled trial."
+    },
+    {
+      "code": "RatedAsControlledTrial",
+      "display": "classified as nonrandomized controlled trial (experimental)",
+      "definition": "classified as nonrandomized controlled trial (experimental)."
+    },
+    {
+      "code": "RatedAsComparativeCohort",
+      "display": "classified as comparative cohort study (observational)",
+      "definition": "classified as comparative cohort study (observational)."
+    },
+    {
+      "code": "RatedAsCaseControl",
+      "display": "classified as case-control study",
+      "definition": "classified as case-control study."
+    },
+    {
+      "code": "RatedAsUncontrolledSeries",
+      "display": "classified as uncontrolled cohort (case series)",
+      "definition": "classified as uncontrolled cohort (case series)."
+    },
+    {
+      "code": "RatedAsMixedMethods",
+      "display": "classified as mixed-methods study",
+      "definition": "classified as mixed-methods study."
+    },
+    {
+      "code": "RatedAsOther",
+      "display": "classified as other concept (not elsewhere classified)",
+      "definition": "classified as other concept (not elsewhere classified)."
+    },
+    {
+      "code": "RiskOfBias",
+      "display": "Risk of bias assessment",
+      "definition": "Risk of bias assessment."
+    },
+    {
+      "code": "NoBlinding",
+      "display": "No blinding",
+      "definition": "No blinding."
+    },
+    {
+      "code": "AllocConcealNotStated",
+      "display": "Allocation concealment not stated",
+      "definition": "Allocation concealment not stated."
+    },
+    {
+      "code": "EarlyTrialTermination",
+      "display": "Early trial termination",
+      "definition": "Early trial termination."
+    },
+    {
+      "code": "NoITT",
+      "display": "No intention-to-treat analysis",
+      "definition": "No intention-to-treat analysis."
+    },
+    {
+      "code": "Preprint",
+      "display": "Preprint (not final publication)",
+      "definition": "Results presented in preprint (pre-final publication) form."
+    },
+    {
+      "code": "PreliminaryAnalysis",
+      "display": "Preliminary analysis",
+      "definition": "Preliminary analysis."
+    },
+    {
+      "code": "BaselineImbalance",
+      "display": "Baseline imbalances",
+      "definition": "Differences between groups at start of trial may confound or bias the findings."
+    },
+    {
+      "code": "SubgroupAnalysis",
+      "display": "Subgroup analysis",
+      "definition": "Subgroup analysis."
+    }
+  ]
+}

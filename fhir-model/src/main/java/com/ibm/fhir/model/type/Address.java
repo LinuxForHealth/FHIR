@@ -1,5 +1,5 @@
 /*
- * (C) Copyright IBM Corp. 2019, 2021
+ * (C) Copyright IBM Corp. 2019, 2022
  *
  * SPDX-License-Identifier: Apache-2.0
  */
@@ -33,8 +33,8 @@ public class Address extends Element {
     @Binding(
         bindingName = "AddressUse",
         strength = BindingStrength.Value.REQUIRED,
-        description = "The use of an address.",
-        valueSet = "http://hl7.org/fhir/ValueSet/address-use|4.0.1"
+        description = "The use of an address (home / work / etc.).",
+        valueSet = "http://hl7.org/fhir/ValueSet/address-use|4.3.0-cibuild"
     )
     private final AddressUse use;
     @Summary
@@ -42,7 +42,7 @@ public class Address extends Element {
         bindingName = "AddressType",
         strength = BindingStrength.Value.REQUIRED,
         description = "The type of an address (physical / postal).",
-        valueSet = "http://hl7.org/fhir/ValueSet/address-type|4.0.1"
+        valueSet = "http://hl7.org/fhir/ValueSet/address-type|4.3.0-cibuild"
     )
     private final AddressType type;
     @Summary

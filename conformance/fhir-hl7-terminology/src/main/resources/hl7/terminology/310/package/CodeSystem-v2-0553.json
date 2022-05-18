@@ -1,0 +1,319 @@
+{
+    "resourceType": "CodeSystem",
+    "id": "v2-0553",
+    "text": {
+        "status": "empty",
+        "div": "<div xmlns=\"http://www.w3.org/1999/xhtml\">Redacted for size</div>"
+    },
+    "extension": [
+        {
+            "url": "http://hl7.org/fhir/StructureDefinition/structuredefinition-wg",
+            "valueCode": "fm"
+        }
+    ],
+    "url": "http://terminology.hl7.org/CodeSystem/v2-0553",
+    "identifier": [
+        {
+            "system": "urn:ietf:rfc:3986",
+            "value": "urn:oid:2.16.840.1.113883.18.357"
+        }
+    ],
+    "version": "2.1.0",
+    "name": "InvoiceControl",
+    "title": "invoiceControl",
+    "status": "active",
+    "experimental": false,
+    "date": "2019-12-01",
+    "publisher": "HL7, Inc",
+    "contact": [
+        {
+            "telecom": [
+                {
+                    "system": "url",
+                    "value": "http://www.hl7.org/"
+                }
+            ]
+        }
+    ],
+    "description": "Code system of concepts used to specify what action is being performed by this message.  Used in the Invoice (IVC) segment in HL7 Version 2.x messaging.",
+    "purpose": "Underlying Master Code System for V2 table 0553 (Invoice Control Code)",
+    "copyright": "Copyright HL7. Licensed under creative commons public domain",
+    "caseSensitive": true,
+    "valueSet": "http://terminology.hl7.org/ValueSet/v2-0553",
+    "hierarchyMeaning": "is-a",
+    "compositional": false,
+    "versionNeeded": false,
+    "content": "complete",
+    "property": [
+        {
+            "code": "status",
+            "uri": "http://terminology.hl7.org/CodeSystem/utg-concept-properties#status",
+            "description": "Status of the concept",
+            "type": "code"
+        },
+        {
+            "code": "deprecated",
+            "uri": "http://terminology.hl7.org/CodeSystem/utg-concept-properties#v2-table-deprecated",
+            "description": "Version of HL7 in which the code was deprecated",
+            "type": "code"
+        },
+        {
+            "code": "v2-concComment",
+            "uri": "http://terminology.hl7.org/CodeSystem/utg-concept-properties#v2-concComment",
+            "description": "V2 Concept Comment",
+            "type": "string"
+        },
+        {
+            "code": "v2-concCommentAsPub",
+            "uri": "http://terminology.hl7.org/CodeSystem/utg-concept-properties#v2-concCommentAsPub",
+            "description": "V2 Concept Comment As Published",
+            "type": "string"
+        }
+    ],
+    "concept": [
+        {
+            "id": "6146",
+            "code": "OR",
+            "display": "Original Invoice",
+            "definition": "Original Invoice",
+            "property": [
+                {
+                    "code": "status",
+                    "valueCode": "A"
+                }
+            ]
+        },
+        {
+            "id": "6147",
+            "code": "CN",
+            "display": "Cancel Invoice",
+            "definition": "Cancel Invoice",
+            "property": [
+                {
+                    "code": "v2-concComment",
+                    "valueString": "Can be used to reverse or cancel an invoice in progress or reverse a paid invoice.  Receiver may only mark Invoice as cancelled, not purge records"
+                },
+                {
+                    "code": "v2-concCommentAsPub",
+                    "valueString": "Can be used to reverse or cancel an invoice in progress or reverse a paid invoice.  Receiver may only mark Invoice as cancelled, not purge records"
+                },
+                {
+                    "code": "status",
+                    "valueCode": "A"
+                }
+            ]
+        },
+        {
+            "id": "6148",
+            "code": "CG",
+            "display": "Cancel Invoice Product/Service Group",
+            "definition": "Cancel Invoice Product/Service Group",
+            "property": [
+                {
+                    "code": "v2-concComment",
+                    "valueString": "Cancel a specific Product/Service Group in an Invoice"
+                },
+                {
+                    "code": "v2-concCommentAsPub",
+                    "valueString": "Cancel a specific Product/Service Group in an Invoice"
+                },
+                {
+                    "code": "status",
+                    "valueCode": "A"
+                }
+            ]
+        },
+        {
+            "id": "6149",
+            "code": "CL",
+            "display": "Cancel Invoice Product/Service Line Item",
+            "definition": "Cancel Invoice Product/Service Line Item",
+            "property": [
+                {
+                    "code": "v2-concComment",
+                    "valueString": "Cancel a specific Product/Service Line Item in an Invoice"
+                },
+                {
+                    "code": "v2-concCommentAsPub",
+                    "valueString": "Cancel a specific Product/Service Line Item in an Invoice"
+                },
+                {
+                    "code": "status",
+                    "valueCode": "A"
+                }
+            ]
+        },
+        {
+            "id": "6150",
+            "code": "PD",
+            "display": "Pre-Determination Invoice",
+            "definition": "Pre-Determination Invoice",
+            "property": [
+                {
+                    "code": "v2-concComment",
+                    "valueString": "Can be used to submit an invoice through a Payer's edit and adjudication engine to determine if the invoice will be paid - does not result in payment by Payer"
+                },
+                {
+                    "code": "v2-concCommentAsPub",
+                    "valueString": "Can be used to submit an invoice through a Payer's edit and adjudication engine to determine if the invoice will be paid - does not result in payment by Payer"
+                },
+                {
+                    "code": "status",
+                    "valueCode": "A"
+                }
+            ]
+        },
+        {
+            "id": "6151",
+            "code": "RA",
+            "display": "Re-Assessment",
+            "definition": "Re-Assessment",
+            "property": [
+                {
+                    "code": "v2-concComment",
+                    "valueString": "Used on EHC^E04 only"
+                },
+                {
+                    "code": "v2-concCommentAsPub",
+                    "valueString": "Used on EHC^E04 only"
+                },
+                {
+                    "code": "status",
+                    "valueCode": "A"
+                }
+            ]
+        },
+        {
+            "id": "6152",
+            "code": "OA",
+            "display": "Original Authorization",
+            "definition": "Original Authorization",
+            "property": [
+                {
+                    "code": "status",
+                    "valueCode": "A"
+                }
+            ]
+        },
+        {
+            "id": "6153",
+            "code": "SA",
+            "display": "Special Authorization",
+            "definition": "Special Authorization",
+            "property": [
+                {
+                    "code": "status",
+                    "valueCode": "A"
+                }
+            ]
+        },
+        {
+            "id": "6154",
+            "code": "AI",
+            "display": "Combined Authorization and Adjudication request",
+            "definition": "Combined Authorization and Adjudication request",
+            "property": [
+                {
+                    "code": "status",
+                    "valueCode": "A"
+                }
+            ]
+        },
+        {
+            "id": "6155",
+            "code": "PA",
+            "display": "Pre-Authorization",
+            "definition": "Pre-Authorization",
+            "property": [
+                {
+                    "code": "status",
+                    "valueCode": "A"
+                }
+            ]
+        },
+        {
+            "id": "6156",
+            "code": "AA",
+            "display": "Authorization request for inpatient admission",
+            "definition": "Authorization request for inpatient admission",
+            "property": [
+                {
+                    "code": "status",
+                    "valueCode": "A"
+                }
+            ]
+        },
+        {
+            "id": "6157",
+            "code": "EA",
+            "display": "Authorization request for inpatient stay extension",
+            "definition": "Authorization request for inpatient stay extension",
+            "property": [
+                {
+                    "code": "status",
+                    "valueCode": "A"
+                }
+            ]
+        },
+        {
+            "id": "6158",
+            "code": "RC",
+            "display": "Referral Pre-Authorization",
+            "definition": "Referral Pre-Authorization",
+            "property": [
+                {
+                    "code": "status",
+                    "valueCode": "A"
+                }
+            ]
+        },
+        {
+            "id": "6159",
+            "code": "CA",
+            "display": "Cancel Authorization request",
+            "definition": "Cancel Authorization request",
+            "property": [
+                {
+                    "code": "status",
+                    "valueCode": "A"
+                }
+            ]
+        },
+        {
+            "id": "6160",
+            "code": "CP",
+            "display": "Copy of Invoice",
+            "definition": "Copy of Invoice",
+            "property": [
+                {
+                    "code": "status",
+                    "valueCode": "A"
+                }
+            ]
+        },
+        {
+            "id": "6161",
+            "code": "CQ",
+            "display": "Coverage Register Query",
+            "definition": "Coverage Register Query",
+            "property": [
+                {
+                    "code": "status",
+                    "valueCode": "A"
+                }
+            ]
+        },
+        {
+            "id": "6162",
+            "code": "RU",
+            "display": "Referral authorization",
+            "definition": "Referral authorization",
+            "property": [
+                {
+                    "code": "status",
+                    "valueCode": "A"
+                }
+            ]
+        }
+    ]
+}

@@ -1,0 +1,115 @@
+<?xml version="1.0" encoding="UTF-8"?><SubstanceDefinition xmlns="http://hl7.org/fhir">
+   <id value="example"/>
+   <meta>
+    <security>
+      <system value="http://terminology.hl7.org/CodeSystem/v3-ActReason"/>
+      <code value="HTEST"/>
+      <display value="test health data"/>
+    </security>
+  </meta>
+  <text><status value="generated"/><div xmlns="http://www.w3.org/1999/xhtml"><p><b>Generated Narrative</b></p><div style="display: inline-block; background-color: #d9e0e7; padding: 6px; margin: 4px; border: 1px solid #8da1b4; border-radius: 5px; line-height: 60%"><p style="margin-bottom: 0px">Resource "example" </p></div><p><b>identifier</b>: id: 100000099270</p><p><b>status</b>: Current <span style="background: LightGoldenRodYellow; margin: 4px; border: 1px solid khaki"> (Status#200000005004)</span></p><p><b>classification</b>: Chemical <span style="background: LightGoldenRodYellow; margin: 4px; border: 1px solid khaki"> (SubstanceType#100000075670)</span></p><p><b>domain</b>: Human use <span style="background: LightGoldenRodYellow; margin: 4px; border: 1px solid khaki"> (Domain#100000000012)</span></p><h3>Codes</h3><table class="grid"><tr><td>-</td><td><b>Code</b></td></tr><tr><td>*</td><td>SUB99611MIG <span style="background: LightGoldenRodYellow; margin: 4px; border: 1px solid khaki"> (Substance#SUB99611MIG)</span></td></tr></table><blockquote><p><b>name</b></p><p><b>name</b>: PARACETAMOL</p><p><b>status</b>: Current <span style="background: LightGoldenRodYellow; margin: 4px; border: 1px solid khaki"> (Status#200000005004)</span></p><p><b>preferred</b>: true</p><p><b>language</b>: English <span style="background: LightGoldenRodYellow; margin: 4px; border: 1px solid khaki"> (Language#100000072147)</span></p></blockquote><blockquote><p><b>name</b></p><p><b>name</b>: ΠΑΡΑΚΕΤΑΜΌΛΗ</p><p><b>status</b>: Current <span style="background: LightGoldenRodYellow; margin: 4px; border: 1px solid khaki"> (Status#200000005004)</span></p><p><b>preferred</b>: false</p><p><b>language</b>: Greek, Modern (1453-) <span style="background: LightGoldenRodYellow; margin: 4px; border: 1px solid khaki"> (Language#100000072181)</span></p></blockquote><blockquote><p><b>name</b></p><p><b>name</b>: ПАРАЦЕТАМОЛ</p><p><b>status</b>: Current <span style="background: LightGoldenRodYellow; margin: 4px; border: 1px solid khaki"> (Status#200000005004)</span></p><p><b>preferred</b>: false</p><p><b>language</b>: Bulgarian <span style="background: LightGoldenRodYellow; margin: 4px; border: 1px solid khaki"> (Language#100000072142)</span></p></blockquote><blockquote><p><b>name</b></p><p><b>name</b>: ACETAMINOPHEN</p><p><b>status</b>: Current <span style="background: LightGoldenRodYellow; margin: 4px; border: 1px solid khaki"> (Status#200000005004)</span></p><p><b>preferred</b>: false</p><p><b>language</b>: English <span style="background: LightGoldenRodYellow; margin: 4px; border: 1px solid khaki"> (Language#100000072147)</span></p></blockquote></div></text><identifier>
+      <system value="http://example.europa.eu/fhir/SMSId"/>
+      <value value="100000099270"/>
+   </identifier>
+   <status>
+      <coding>
+         <system value="http://example.europa.eu/fhir/Status"/>
+         <code value="200000005004"/>
+         <display value="Current"/>
+      </coding>
+   </status>
+   <classification>
+      <coding>
+         <system value="http://example.europa.eu/fhir/SubstanceType"/>
+         <code value="100000075670"/>
+         <display value="Chemical"/>
+      </coding>
+   </classification>
+   <domain>
+      <coding>
+         <system value="http://example.europa.eu/fhir/Domain"/>
+         <code value="100000000012"/>
+         <display value="Human use"/>
+      </coding>
+   </domain>
+   <code>
+      <code>
+         <coding>
+            <system value="http://example.europa.eu/fhir/Substance"/>
+            <code value="SUB99611MIG"/>
+         </coding>
+      </code>
+   </code>
+   <name>
+      <name value="PARACETAMOL"/>
+      <status>
+         <coding>
+            <system value="http://example.europa.eu/fhir/Status"/>
+            <code value="200000005004"/>
+            <display value="Current"/>
+         </coding>
+      </status>
+      <preferred value="true"/>
+      <language>
+         <coding>
+            <system value="http://example.europa.eu/fhir/Language"/>
+            <code value="100000072147"/>
+            <display value="English"/>
+         </coding>
+      </language>
+   </name>
+   <name>
+      <name value="ΠΑΡΑΚΕΤΑΜΌΛΗ"/>
+      <status>
+         <coding>
+            <system value="http://example.europa.eu/fhir/Status"/>
+            <code value="200000005004"/>
+            <display value="Current"/>
+         </coding>
+      </status>
+      <preferred value="false"/>
+      <language>
+         <coding>
+            <system value="http://example.europa.eu/fhir/Language"/>
+            <code value="100000072181"/>
+            <display value="Greek, Modern (1453-)"/>
+         </coding>
+      </language>
+   </name>
+   <name>
+      <name value="ПАРАЦЕТАМОЛ"/>
+      <status>
+         <coding>
+            <system value="http://example.europa.eu/fhir/Status"/>
+            <code value="200000005004"/>
+            <display value="Current"/>
+         </coding>
+      </status>
+      <preferred value="false"/>
+      <language>
+         <coding>
+            <system value="http://example.europa.eu/fhir/Language"/>
+            <code value="100000072142"/>
+            <display value="Bulgarian"/>
+         </coding>
+      </language>
+   </name>
+   <name>
+      <name value="ACETAMINOPHEN"/>
+      <status>
+         <coding>
+            <system value="http://example.europa.eu/fhir/Status"/>
+            <code value="200000005004"/>
+            <display value="Current"/>
+         </coding>
+      </status>
+      <preferred value="false"/>
+      <language>
+         <coding>
+            <system value="http://example.europa.eu/fhir/Language"/>
+            <code value="100000072147"/>
+            <display value="English"/>
+         </coding>
+      </language>
+   </name>
+</SubstanceDefinition>

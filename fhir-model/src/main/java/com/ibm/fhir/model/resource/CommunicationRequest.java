@@ -1,5 +1,5 @@
 /*
- * (C) Copyright IBM Corp. 2019, 2021
+ * (C) Copyright IBM Corp. 2019, 2022
  *
  * SPDX-License-Identifier: Apache-2.0
  */
@@ -69,7 +69,7 @@ public class CommunicationRequest extends DomainResource {
         bindingName = "CommunicationRequestStatus",
         strength = BindingStrength.Value.REQUIRED,
         description = "The status of the communication request.",
-        valueSet = "http://hl7.org/fhir/ValueSet/request-status|4.0.1"
+        valueSet = "http://hl7.org/fhir/ValueSet/request-status|4.3.0-cibuild"
     )
     @Required
     private final CommunicationRequestStatus status;
@@ -91,7 +91,7 @@ public class CommunicationRequest extends DomainResource {
         bindingName = "CommunicationPriority",
         strength = BindingStrength.Value.REQUIRED,
         description = "Codes indicating the relative importance of a communication request.",
-        valueSet = "http://hl7.org/fhir/ValueSet/request-priority|4.0.1"
+        valueSet = "http://hl7.org/fhir/ValueSet/request-priority|4.3.0-cibuild"
     )
     private final CommunicationPriority priority;
     @Summary

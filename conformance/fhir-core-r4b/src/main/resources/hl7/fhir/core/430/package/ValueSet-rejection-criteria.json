@@ -1,0 +1,107 @@
+{
+    "resourceType": "ValueSet",
+    "id": "rejection-criteria",
+    "meta": {
+        "lastUpdated": "2022-04-24T09:21:35.043+11:00",
+        "profile": [
+            "http://hl7.org/fhir/StructureDefinition/shareablevalueset"
+        ]
+    },
+    "extension": [
+        {
+            "url": "http://hl7.org/fhir/StructureDefinition/structuredefinition-wg",
+            "valueCode": "oo"
+        },
+        {
+            "url": "http://hl7.org/fhir/StructureDefinition/structuredefinition-standards-status",
+            "valueCode": "draft"
+        },
+        {
+            "url": "http://hl7.org/fhir/StructureDefinition/structuredefinition-fmm",
+            "valueInteger": 1
+        }
+    ],
+    "url": "http://hl7.org/fhir/ValueSet/rejection-criteria",
+    "identifier": [
+        {
+            "system": "urn:ietf:rfc:3986",
+            "value": "urn:oid:2.16.840.1.113883.4.642.3.856"
+        }
+    ],
+    "version": "4.3.0-cibuild",
+    "name": "RejectionCriterion",
+    "title": "RejectionCriterion",
+    "status": "draft",
+    "experimental": true,
+    "date": "2021-01-17T07:06:13+11:00",
+    "publisher": "HL7 (FHIR Project)",
+    "contact": [
+        {
+            "telecom": [
+                {
+                    "system": "url",
+                    "value": "http://hl7.org/fhir"
+                },
+                {
+                    "system": "email",
+                    "value": "fhir@lists.hl7.org"
+                }
+            ]
+        }
+    ],
+    "description": "Criterion for rejection of the specimen by laboratory.",
+    "immutable": true,
+    "compose": {
+        "include": [
+            {
+                "system": "http://terminology.hl7.org/CodeSystem/rejection-criteria"
+            }
+        ]
+    },
+    "expansion": {
+        "identifier": "urn:uuid:9bacf765-799c-43a9-8fcd-ce6c3961ccb8",
+        "timestamp": "2022-04-23T22:23:26Z",
+        "total": 5,
+        "parameter": [
+            {
+                "name": "excludeNested",
+                "valueBoolean": true
+            },
+            {
+                "name": "includeDesignations",
+                "valueBoolean": true
+            },
+            {
+                "name": "version",
+                "valueUri": "http://terminology.hl7.org/CodeSystem/rejection-criteria|4.3.0-cibuild"
+            }
+        ],
+        "contains": [
+            {
+                "system": "http://terminology.hl7.org/CodeSystem/rejection-criteria",
+                "code": "hemolized",
+                "display": "hemolized specimen"
+            },
+            {
+                "system": "http://terminology.hl7.org/CodeSystem/rejection-criteria",
+                "code": "insufficient",
+                "display": "insufficient specimen volume"
+            },
+            {
+                "system": "http://terminology.hl7.org/CodeSystem/rejection-criteria",
+                "code": "broken",
+                "display": "broken specimen container"
+            },
+            {
+                "system": "http://terminology.hl7.org/CodeSystem/rejection-criteria",
+                "code": "clotted",
+                "display": "specimen clotted"
+            },
+            {
+                "system": "http://terminology.hl7.org/CodeSystem/rejection-criteria",
+                "code": "wrong-temperature",
+                "display": "specimen temperature inappropriate"
+            }
+        ]
+    }
+}

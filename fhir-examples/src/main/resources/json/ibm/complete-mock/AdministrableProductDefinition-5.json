@@ -1,0 +1,336 @@
+{
+    "resourceType": "AdministrableProductDefinition",
+    "meta": {
+        "versionId": "8-2DjanpzY",
+        "lastUpdated": "2022-05-13T14:23:00.411898-04:00",
+        "source": "UW_nBIvw4_",
+        "profile": [
+            "n0GT9yzhF0"
+        ],
+        "security": [
+            {
+                "system": "oMMsAVzL5U",
+                "version": "2kg1ndi5EZ",
+                "code": "rREo82VEYG",
+                "display": "T9JbfsMQCs",
+                "userSelected": true
+            }
+        ],
+        "tag": [
+            {
+                "system": "FbNzNEEQgj",
+                "version": "MDBAkgQ2jZ",
+                "code": "LZbGXYpJLy",
+                "display": "eeCMmjTcQD",
+                "userSelected": true
+            },
+            {
+                "code": "ibm/complete-mock"
+            }
+        ]
+    },
+    "implicitRules": "6vkHoAF4QA",
+    "language": "en-US",
+    "text": {
+        "status": "generated",
+        "div": "<div xmlns=\"http://www.w3.org/1999/xhtml\"></div>"
+    },
+    "identifier": [
+        {
+            "use": "temp",
+            "type": {
+                "coding": [
+                    {
+                        "system": "dYrz3vuQvk",
+                        "version": "T31WweIJMk",
+                        "code": "goIbq38mh3",
+                        "display": "Ln8BR8Bj_d",
+                        "userSelected": true
+                    }
+                ],
+                "text": "HNfxHxhKiC"
+            },
+            "system": "Cpyq0TVxhT",
+            "value": "7J407y7BG8",
+            "period": {
+                "extension": [
+                    {
+                        "url": "http://hl7.org/fhir/StructureDefinition/data-absent-reason",
+                        "valueCode": "unknown"
+                    }
+                ]
+            }
+        }
+    ],
+    "status": "unknown",
+    "formOf": [
+        {
+            "reference": "MedicinalProductDefinition/lmYPEzS0H6",
+            "type": "MedicinalProductDefinition",
+            "identifier": {
+                "use": "old",
+                "type": {
+                    "coding": [
+                        {
+                            "system": "aQW_m2FmoS",
+                            "version": "LybH1zsSbF",
+                            "code": "cXd8qOK8rO",
+                            "display": "bmcGGwlCOO",
+                            "userSelected": true
+                        }
+                    ],
+                    "text": "EM4GOhEwy2"
+                },
+                "system": "a2TpQd83vj",
+                "value": "YkuFRnXSR6",
+                "period": {
+                    "extension": [
+                        {
+                            "url": "http://hl7.org/fhir/StructureDefinition/data-absent-reason",
+                            "valueCode": "unknown"
+                        }
+                    ]
+                }
+            },
+            "display": "zMxloFSCrj"
+        }
+    ],
+    "administrableDoseForm": {
+        "coding": [
+            {
+                "system": "uQweloYGQg",
+                "version": "8FtVkNwS7s",
+                "code": "EWVPummKWP",
+                "display": "WFL4IkfMwi",
+                "userSelected": true
+            }
+        ],
+        "text": "CuILW_cwUq"
+    },
+    "unitOfPresentation": {
+        "coding": [
+            {
+                "system": "G5SDV6v945",
+                "version": "SpUZ5tqWj0",
+                "code": "0oW6sTMbMi",
+                "display": "KQaHuLqTCa",
+                "userSelected": true
+            }
+        ],
+        "text": "lA83ef6af2"
+    },
+    "producedFrom": [
+        {
+            "reference": "ManufacturedItemDefinition/sRXGxch8nF",
+            "type": "ManufacturedItemDefinition",
+            "identifier": {
+                "use": "official",
+                "type": {
+                    "coding": [
+                        {
+                            "system": "RkYBkf7Xxd",
+                            "version": "pHf3kjtiOE",
+                            "code": "TBuASsLhqf",
+                            "display": "1c0cogKJMl",
+                            "userSelected": true
+                        }
+                    ],
+                    "text": "cGSNXqL0wy"
+                },
+                "system": "47oHEKFRBn",
+                "value": "UdnKXE6PuI",
+                "period": {
+                    "extension": [
+                        {
+                            "url": "http://hl7.org/fhir/StructureDefinition/data-absent-reason",
+                            "valueCode": "unknown"
+                        }
+                    ]
+                }
+            },
+            "display": "9qNdSKqF2u"
+        }
+    ],
+    "ingredient": [
+        {
+            "coding": [
+                {
+                    "system": "MKkDl12VJ8",
+                    "version": "kRZDyvcAyQ",
+                    "code": "C6M26cdKW9",
+                    "display": "1T6I7LIEc_",
+                    "userSelected": true
+                }
+            ],
+            "text": "ntiil_NjSL"
+        }
+    ],
+    "device": {
+        "reference": "DeviceDefinition/s62X-EYmDo",
+        "type": "DeviceDefinition",
+        "identifier": {
+            "use": "old",
+            "type": {
+                "coding": [
+                    {
+                        "system": "fnR_SGpOx_",
+                        "version": "u5LwhURFqB",
+                        "code": "ZrKOT9v5Cc",
+                        "display": "ZkEAXefPKl",
+                        "userSelected": true
+                    }
+                ],
+                "text": "eV45IGWwwb"
+            },
+            "system": "sQPU175dCB",
+            "value": "WXURmeRDrv",
+            "period": {
+                "extension": [
+                    {
+                        "url": "http://hl7.org/fhir/StructureDefinition/data-absent-reason",
+                        "valueCode": "unknown"
+                    }
+                ]
+            }
+        },
+        "display": "FhPIxJ6J8s"
+    },
+    "property": [
+        {
+            "type": {
+                "coding": [
+                    {
+                        "system": "hlz_LTs0Y_",
+                        "version": "Ps47KIoyLJ",
+                        "code": "tcS2srKSr4",
+                        "display": "zfuBnoI3i_",
+                        "userSelected": true
+                    }
+                ],
+                "text": "iuVAlmn7Ma"
+            },
+            "valueAttachment": {
+                "contentType": "wLA7edQkI6",
+                "language": "en-US",
+                "data": "fE9BXjw=",
+                "url": "lVdfe4XzgQ",
+                "size": 1878620349,
+                "hash": "ZwowWn4=",
+                "title": "RmU5GSvfrQ",
+                "creation": "2022-05-13T14:23:00.4186-04:00"
+            },
+            "status": {
+                "coding": [
+                    {
+                        "system": "http://hl7.org/fhir/publication-status",
+                        "version": "4.3.0",
+                        "code": "draft",
+                        "display": "Draft",
+                        "userSelected": false
+                    }
+                ],
+                "text": "draft"
+            }
+        }
+    ],
+    "routeOfAdministration": [
+        {
+            "code": {
+                "coding": [
+                    {
+                        "system": "WwHI4RsZVK",
+                        "version": "hv6s6hWDhG",
+                        "code": "o2Y9cQYD7d",
+                        "display": "aGIwgw8DFL",
+                        "userSelected": true
+                    }
+                ],
+                "text": "n_wSLF_qX9"
+            },
+            "firstDose": {
+                "value": 0.35829338340733019041550733163603581488132476806640625,
+                "comparator": ">=",
+                "unit": "cGLHoqn0k8",
+                "system": "W1iuRAPape",
+                "code": "6hQvjxlKD9"
+            },
+            "maxSingleDose": {
+                "value": 0.59619787672892543550773325478076003491878509521484375,
+                "comparator": "<=",
+                "unit": "25PhE2Q1tD",
+                "system": "RIQB2o54Hd",
+                "code": "qOCjT4cM1N"
+            },
+            "maxDosePerDay": {
+                "value": 0.592745649135179686339824911556206643581390380859375,
+                "comparator": "<",
+                "unit": "6L_GjcsfLb",
+                "system": "esLx3eltdT",
+                "code": "hs6VLTZqWn"
+            },
+            "maxDosePerTreatmentPeriod": {
+                "numerator": {
+                    "value": 0.554461458640675086684268535464070737361907958984375,
+                    "comparator": "<=",
+                    "unit": "oQm8KfiD8p",
+                    "system": "8hapilD5l9",
+                    "code": "B8LDBAtnh9"
+                },
+                "denominator": {
+                    "value": 0.5128035532906711768674767881748266518115997314453125,
+                    "comparator": ">",
+                    "unit": "OUBfhpE1GL",
+                    "system": "_QLdJ4miro",
+                    "code": "LOsWCr7TFz"
+                }
+            },
+            "maxTreatmentPeriod": {
+                "value": 0.12925183294560060875966200910625047981739044189453125,
+                "comparator": "<=",
+                "unit": "XbHti4py6v",
+                "system": "http://unitsofmeasure.org",
+                "code": "h"
+            },
+            "targetSpecies": [
+                {
+                    "code": {
+                        "coding": [
+                            {
+                                "system": "VeanrShuOp",
+                                "version": "BUhfVSipCH",
+                                "code": "Shrutal5G4",
+                                "display": "ZEi6Cuz8zR",
+                                "userSelected": true
+                            }
+                        ],
+                        "text": "5aMOewPyGA"
+                    },
+                    "withdrawalPeriod": [
+                        {
+                            "tissue": {
+                                "coding": [
+                                    {
+                                        "system": "cuyW5uS3Yp",
+                                        "version": "nl7uohvUea",
+                                        "code": "dK1flZdSff",
+                                        "display": "_JUaMRfsgs",
+                                        "userSelected": true
+                                    }
+                                ],
+                                "text": "jMiAze98FL"
+                            },
+                            "value": {
+                                "value": 0.55818214183299474928645622640033252537250518798828125,
+                                "comparator": ">",
+                                "unit": "f1LHwILnN3",
+                                "system": "w0UVzr3e2M",
+                                "code": "Tj1MQmLmOs"
+                            },
+                            "supportingInformation": "Vp458oFlC0"
+                        }
+                    ]
+                }
+            ]
+        }
+    ]
+}

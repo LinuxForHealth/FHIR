@@ -1,5 +1,5 @@
 /*
- * (C) Copyright IBM Corp. 2019, 2021
+ * (C) Copyright IBM Corp. 2019, 2022
  *
  * SPDX-License-Identifier: Apache-2.0
  */
@@ -78,7 +78,7 @@ public class InsurancePlan extends DomainResource {
         bindingName = "PublicationStatus",
         strength = BindingStrength.Value.REQUIRED,
         description = "The lifecycle status of an artifact.",
-        valueSet = "http://hl7.org/fhir/ValueSet/publication-status|4.0.1"
+        valueSet = "http://hl7.org/fhir/ValueSet/publication-status|4.3.0-cibuild"
     )
     private final PublicationStatus status;
     @Summary
@@ -4144,7 +4144,7 @@ public class InsurancePlan extends DomainResource {
                         bindingName = "BenefitCostApplicability",
                         strength = BindingStrength.Value.REQUIRED,
                         description = "Whether the cost applies to in-network or out-of-network providers.",
-                        valueSet = "http://hl7.org/fhir/ValueSet/insuranceplan-applicability|4.0.1"
+                        valueSet = "http://hl7.org/fhir/ValueSet/insuranceplan-applicability|4.3.0-cibuild"
                     )
                     private final CodeableConcept applicability;
                     private final List<CodeableConcept> qualifiers;
@@ -4504,7 +4504,6 @@ public class InsurancePlan extends DomainResource {
                             super.validate(cost);
                             ValidationSupport.requireNonNull(cost.type, "type");
                             ValidationSupport.checkList(cost.qualifiers, "qualifiers", CodeableConcept.class);
-                            ValidationSupport.checkValueSetBinding(cost.applicability, "applicability", "http://hl7.org/fhir/ValueSet/insuranceplan-applicability", "http://terminology.hl7.org/CodeSystem/applicability", "in-network", "out-of-network", "other");
                             ValidationSupport.requireValueOrChildren(cost);
                         }
 

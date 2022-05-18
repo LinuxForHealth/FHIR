@@ -1,5 +1,5 @@
 /*
- * (C) Copyright IBM Corp. 2019, 2021
+ * (C) Copyright IBM Corp. 2019, 2022
  *
  * SPDX-License-Identifier: Apache-2.0
  */
@@ -93,7 +93,7 @@ public class FamilyMemberHistory extends DomainResource {
         bindingName = "FamilyHistoryStatus",
         strength = BindingStrength.Value.REQUIRED,
         description = "A code that identifies the status of the family history record.",
-        valueSet = "http://hl7.org/fhir/ValueSet/history-status|4.0.1"
+        valueSet = "http://hl7.org/fhir/ValueSet/history-status|4.3.0-cibuild"
     )
     @Required
     private final FamilyHistoryStatus status;

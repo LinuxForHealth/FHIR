@@ -1,0 +1,243 @@
+{
+    "resourceType": "CodeSystem",
+    "id": "v2-0906",
+    "text": {
+        "status": "empty",
+        "div": "<div xmlns=\"http://www.w3.org/1999/xhtml\">Redacted for size</div>"
+    },
+    "extension": [
+        {
+            "url": "http://hl7.org/fhir/StructureDefinition/structuredefinition-wg",
+            "valueCode": "oo"
+        }
+    ],
+    "url": "http://terminology.hl7.org/CodeSystem/v2-0906",
+    "identifier": [
+        {
+            "system": "urn:ietf:rfc:3986",
+            "value": "urn:oid:2.16.840.1.113883.18.417"
+        }
+    ],
+    "version": "2.1.0",
+    "name": "Actpriority",
+    "title": "actpriority",
+    "status": "active",
+    "experimental": false,
+    "date": "2019-12-01",
+    "publisher": "HL7, Inc",
+    "contact": [
+        {
+            "telecom": [
+                {
+                    "system": "url",
+                    "value": "http://www.hl7.org/"
+                }
+            ]
+        }
+    ],
+    "description": "HL7-defined code system of concepts specifying the priority for the shipment.  Used in HL7 Version 2.x messaging in the SHP segment.",
+    "purpose": "Underlying Master Code System for V2 table 0906 (ActPriority)",
+    "copyright": "Copyright HL7. Licensed under creative commons public domain",
+    "caseSensitive": true,
+    "valueSet": "http://terminology.hl7.org/ValueSet/v2-0906",
+    "hierarchyMeaning": "is-a",
+    "compositional": false,
+    "versionNeeded": false,
+    "content": "complete",
+    "property": [
+        {
+            "code": "status",
+            "uri": "http://terminology.hl7.org/CodeSystem/utg-concept-properties#status",
+            "description": "Status of the concept",
+            "type": "code"
+        },
+        {
+            "code": "deprecated",
+            "uri": "http://terminology.hl7.org/CodeSystem/utg-concept-properties#v2-table-deprecated",
+            "description": "Version of HL7 in which the code was deprecated",
+            "type": "code"
+        }
+    ],
+    "concept": [
+        {
+            "id": "6530",
+            "code": "A",
+            "display": "ASAP - As soon as possible, next highest priority after stat",
+            "definition": "ASAP - As soon as possible, next highest priority after stat",
+            "property": [
+                {
+                    "code": "status",
+                    "valueCode": "A"
+                }
+            ]
+        },
+        {
+            "id": "6531",
+            "code": "CR",
+            "display": "Callback results - filler should contact the placer as soon as results are available, even for preliminary results",
+            "definition": "Callback results - filler should contact the placer as soon as results are available, even for preliminary results",
+            "property": [
+                {
+                    "code": "status",
+                    "valueCode": "A"
+                }
+            ]
+        },
+        {
+            "id": "6532",
+            "code": "CS",
+            "display": "Callback for scheduling - Filler should contact the placer (or target) to schedule the service.",
+            "definition": "Callback for scheduling - Filler should contact the placer (or target) to schedule the service.",
+            "property": [
+                {
+                    "code": "status",
+                    "valueCode": "A"
+                }
+            ]
+        },
+        {
+            "id": "6533",
+            "code": "CSP",
+            "display": "Callback placer for scheduling - filler should contact the placer to schedule the service",
+            "definition": "Callback placer for scheduling - filler should contact the placer to schedule the service",
+            "property": [
+                {
+                    "code": "status",
+                    "valueCode": "A"
+                }
+            ]
+        },
+        {
+            "id": "6534",
+            "code": "CSR",
+            "display": "Contact recipient for scheduling - Filler should contact the service recipient (target) to schedule the service",
+            "definition": "Contact recipient for scheduling - Filler should contact the service recipient (target) to schedule the service",
+            "property": [
+                {
+                    "code": "status",
+                    "valueCode": "A"
+                }
+            ]
+        },
+        {
+            "id": "6535",
+            "code": "EL",
+            "display": "Elective - Beneficial to the patient but not essential for survival.",
+            "definition": "Elective - Beneficial to the patient but not essential for survival.",
+            "property": [
+                {
+                    "code": "status",
+                    "valueCode": "A"
+                }
+            ]
+        },
+        {
+            "id": "6536",
+            "code": "EM",
+            "display": "Emergency - An unforeseen combination of circumstances or the resulting state that calls for immediate action",
+            "definition": "Emergency - An unforeseen combination of circumstances or the resulting state that calls for immediate action",
+            "property": [
+                {
+                    "code": "status",
+                    "valueCode": "A"
+                }
+            ]
+        },
+        {
+            "id": "6537",
+            "code": "P",
+            "display": "Preop - Used to indicate that a service is to be performed prior to a scheduled surgery.  When ordering a service and using the pre-op priority, a check is done to see the amount of time that must be allowed for performance of the service.  When the order",
+            "definition": "Preop – Used to indicate that a service is to be performed prior to a scheduled surgery.  When ordering a service and using the pre-op priority, a check is done to see the amount of time that must be allowed for performance of the service.  When the order is placed, a message can be generated indicating the time needed for the service so that it is not ordered in conflict with a scheduled operation.",
+            "property": [
+                {
+                    "code": "status",
+                    "valueCode": "A"
+                }
+            ]
+        },
+        {
+            "id": "6538",
+            "code": "PRN",
+            "display": "As needed - An \"as needed\" order should be accompanied by a description of what constitutes a need.  This description is represented by an observation service predicate as a precondition.",
+            "definition": "As needed - An \"as needed\" order should be accompanied by a description of what constitutes a need.  This description is represented by an observation service predicate as a precondition.",
+            "property": [
+                {
+                    "code": "status",
+                    "valueCode": "A"
+                }
+            ]
+        },
+        {
+            "id": "6539",
+            "code": "R",
+            "display": "Routine - Routine service, do at usual work hours",
+            "definition": "Routine - Routine service, do at usual work hours",
+            "property": [
+                {
+                    "code": "status",
+                    "valueCode": "A"
+                }
+            ]
+        },
+        {
+            "id": "6540",
+            "code": "RR",
+            "display": "Rush reporting - A report should be prepared and sent as quickly as possible",
+            "definition": "Rush reporting - A report should be prepared and sent as quickly as possible",
+            "property": [
+                {
+                    "code": "status",
+                    "valueCode": "A"
+                }
+            ]
+        },
+        {
+            "id": "6541",
+            "code": "S",
+            "display": "Stat - With highest priority (e.g. emergency).",
+            "definition": "Stat - With highest priority (e.g. emergency).",
+            "property": [
+                {
+                    "code": "status",
+                    "valueCode": "A"
+                }
+            ]
+        },
+        {
+            "id": "6542",
+            "code": "T",
+            "display": "Timing critical - It is critical to come as close as possible to the requested time (e.g. for a through antimicrobial level).",
+            "definition": "Timing critical - It is critical to come as close as possible to the requested time (e.g. for a through antimicrobial level).",
+            "property": [
+                {
+                    "code": "status",
+                    "valueCode": "A"
+                }
+            ]
+        },
+        {
+            "id": "6543",
+            "code": "UD",
+            "display": "Use as directed - Drug is to be used as directed by the prescriber.",
+            "definition": "Use as directed - Drug is to be used as directed by the prescriber.",
+            "property": [
+                {
+                    "code": "status",
+                    "valueCode": "A"
+                }
+            ]
+        },
+        {
+            "id": "6544",
+            "code": "UR",
+            "display": "Urgent - Calls for prompt action",
+            "definition": "Urgent - Calls for prompt action",
+            "property": [
+                {
+                    "code": "status",
+                    "valueCode": "A"
+                }
+            ]
+        }
+    ]
+}

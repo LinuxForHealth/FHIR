@@ -1,0 +1,477 @@
+{
+    "resourceType": "ValueSet",
+    "id": "statistic-model-code",
+    "meta": {
+        "lastUpdated": "2022-04-24T09:21:35+11:00",
+        "profile": [
+            "http://hl7.org/fhir/StructureDefinition/shareablevalueset"
+        ]
+    },
+    "extension": [
+        {
+            "url": "http://hl7.org/fhir/StructureDefinition/structuredefinition-wg",
+            "valueCode": "cds"
+        },
+        {
+            "url": "http://hl7.org/fhir/StructureDefinition/structuredefinition-standards-status",
+            "valueCode": "trial-use"
+        },
+        {
+            "url": "http://hl7.org/fhir/StructureDefinition/structuredefinition-fmm",
+            "valueInteger": 1
+        }
+    ],
+    "url": "http://hl7.org/fhir/ValueSet/statistic-model-code",
+    "identifier": [
+        {
+            "system": "urn:ietf:rfc:3986",
+            "value": "urn:oid:2.16.840.1.113883.4.642.3.1540"
+        }
+    ],
+    "version": "4.3.0-cibuild",
+    "name": "StatisticModelCode",
+    "title": "StatisticModelCode",
+    "status": "draft",
+    "experimental": true,
+    "date": "2021-08-05T12:00:00+11:00",
+    "publisher": "HL7 (FHIR Project)",
+    "contact": [
+        {
+            "telecom": [
+                {
+                    "system": "url",
+                    "value": "http://hl7.org/fhir"
+                },
+                {
+                    "system": "email",
+                    "value": "fhir@lists.hl7.org"
+                }
+            ]
+        }
+    ],
+    "description": "The handling of the variable in statistical analysis for exposures or outcomes.",
+    "immutable": true,
+    "compose": {
+        "include": [
+            {
+                "system": "http://terminology.hl7.org/CodeSystem/statistic-model-code"
+            }
+        ]
+    },
+    "expansion": {
+        "identifier": "urn:uuid:a90d494f-fc0e-4434-a9c5-ca2b57d3197e",
+        "timestamp": "2022-04-23T22:23:26Z",
+        "total": 79,
+        "parameter": [
+            {
+                "name": "excludeNested",
+                "valueBoolean": true
+            },
+            {
+                "name": "includeDesignations",
+                "valueBoolean": true
+            },
+            {
+                "name": "version",
+                "valueUri": "http://terminology.hl7.org/CodeSystem/statistic-model-code|4.3.0-cibuild"
+            }
+        ],
+        "contains": [
+            {
+                "system": "http://terminology.hl7.org/CodeSystem/statistic-model-code",
+                "code": "oneTailedTest",
+                "display": "one-tailed test (1 threshold)"
+            },
+            {
+                "system": "http://terminology.hl7.org/CodeSystem/statistic-model-code",
+                "code": "twoTailedTest",
+                "display": "two-tailed test (2 thresholds)"
+            },
+            {
+                "system": "http://terminology.hl7.org/CodeSystem/statistic-model-code",
+                "code": "zTest",
+                "display": "z-test"
+            },
+            {
+                "system": "http://terminology.hl7.org/CodeSystem/statistic-model-code",
+                "code": "oneSampleTTest",
+                "display": "1-sample t-test"
+            },
+            {
+                "system": "http://terminology.hl7.org/CodeSystem/statistic-model-code",
+                "code": "twoSampleTTest",
+                "display": "2-sample t-test"
+            },
+            {
+                "system": "http://terminology.hl7.org/CodeSystem/statistic-model-code",
+                "code": "pairedTTest",
+                "display": "paired t-test"
+            },
+            {
+                "system": "http://terminology.hl7.org/CodeSystem/statistic-model-code",
+                "code": "chiSquareTest",
+                "display": "Chi-square test"
+            },
+            {
+                "system": "http://terminology.hl7.org/CodeSystem/statistic-model-code",
+                "code": "chiSquareTestTrend",
+                "display": "Chi-square test for trend"
+            },
+            {
+                "system": "http://terminology.hl7.org/CodeSystem/statistic-model-code",
+                "code": "pearsonCorrelation",
+                "display": "Pearson correlation"
+            },
+            {
+                "system": "http://terminology.hl7.org/CodeSystem/statistic-model-code",
+                "code": "anova",
+                "display": "ANOVA (ANalysis Of VAriance)"
+            },
+            {
+                "system": "http://terminology.hl7.org/CodeSystem/statistic-model-code",
+                "code": "anovaOneWay",
+                "display": "one-way ANOVA"
+            },
+            {
+                "system": "http://terminology.hl7.org/CodeSystem/statistic-model-code",
+                "code": "anovaTwoWay",
+                "display": "2-way ANOVA without replication"
+            },
+            {
+                "system": "http://terminology.hl7.org/CodeSystem/statistic-model-code",
+                "code": "anovaTwoWayReplication",
+                "display": "2-way ANOVA with replication"
+            },
+            {
+                "system": "http://terminology.hl7.org/CodeSystem/statistic-model-code",
+                "code": "manova",
+                "display": "multivariate ANOVA (MANOVA)"
+            },
+            {
+                "system": "http://terminology.hl7.org/CodeSystem/statistic-model-code",
+                "code": "anovaThreeWay",
+                "display": "3-way ANOVA"
+            },
+            {
+                "system": "http://terminology.hl7.org/CodeSystem/statistic-model-code",
+                "code": "signTest",
+                "display": "sign test"
+            },
+            {
+                "system": "http://terminology.hl7.org/CodeSystem/statistic-model-code",
+                "code": "wilcoxonSignedRankTest",
+                "display": "Wilcoxon signed-rank test"
+            },
+            {
+                "system": "http://terminology.hl7.org/CodeSystem/statistic-model-code",
+                "code": "wilcoxonRankSumTest",
+                "display": "Wilcoxon rank-sum test"
+            },
+            {
+                "system": "http://terminology.hl7.org/CodeSystem/statistic-model-code",
+                "code": "mannWhitneyUTest",
+                "display": "Mann-Whitney U test"
+            },
+            {
+                "system": "http://terminology.hl7.org/CodeSystem/statistic-model-code",
+                "code": "fishersExactTest",
+                "display": "Fisher’s exact test"
+            },
+            {
+                "system": "http://terminology.hl7.org/CodeSystem/statistic-model-code",
+                "code": "mcnemarsTest",
+                "display": "McNemar’s test"
+            },
+            {
+                "system": "http://terminology.hl7.org/CodeSystem/statistic-model-code",
+                "code": "kruskalWallisTest",
+                "display": "Kruskal Wallis test"
+            },
+            {
+                "system": "http://terminology.hl7.org/CodeSystem/statistic-model-code",
+                "code": "spearmanCorrelation",
+                "display": "Spearman correlation"
+            },
+            {
+                "system": "http://terminology.hl7.org/CodeSystem/statistic-model-code",
+                "code": "kendallCorrelation",
+                "display": "Kendall correlation"
+            },
+            {
+                "system": "http://terminology.hl7.org/CodeSystem/statistic-model-code",
+                "code": "friedmanTest",
+                "display": "Friedman test"
+            },
+            {
+                "system": "http://terminology.hl7.org/CodeSystem/statistic-model-code",
+                "code": "goodmanKruskasGamma",
+                "display": "Goodman Kruska’s Gamma"
+            },
+            {
+                "system": "http://terminology.hl7.org/CodeSystem/statistic-model-code",
+                "code": "glm",
+                "display": "GLM (Generalized Linear Model)"
+            },
+            {
+                "system": "http://terminology.hl7.org/CodeSystem/statistic-model-code",
+                "code": "glmProbit",
+                "display": "GLM with probit link"
+            },
+            {
+                "system": "http://terminology.hl7.org/CodeSystem/statistic-model-code",
+                "code": "glmLogit",
+                "display": "GLM with logit link"
+            },
+            {
+                "system": "http://terminology.hl7.org/CodeSystem/statistic-model-code",
+                "code": "glmIdentity",
+                "display": "GLM with identity link"
+            },
+            {
+                "system": "http://terminology.hl7.org/CodeSystem/statistic-model-code",
+                "code": "glmLog",
+                "display": "GLM with log link"
+            },
+            {
+                "system": "http://terminology.hl7.org/CodeSystem/statistic-model-code",
+                "code": "glmGeneralizedLogit",
+                "display": "GLM with generalized logit link"
+            },
+            {
+                "system": "http://terminology.hl7.org/CodeSystem/statistic-model-code",
+                "code": "glmm",
+                "display": "Generalized linear mixed model (GLMM)"
+            },
+            {
+                "system": "http://terminology.hl7.org/CodeSystem/statistic-model-code",
+                "code": "glmmProbit",
+                "display": "GLMM with probit link"
+            },
+            {
+                "system": "http://terminology.hl7.org/CodeSystem/statistic-model-code",
+                "code": "glmmLogit",
+                "display": "GLMM with logit link"
+            },
+            {
+                "system": "http://terminology.hl7.org/CodeSystem/statistic-model-code",
+                "code": "glmmIdentity",
+                "display": "GLMM with identity link"
+            },
+            {
+                "system": "http://terminology.hl7.org/CodeSystem/statistic-model-code",
+                "code": "glmmLog",
+                "display": "GLMM with log link"
+            },
+            {
+                "system": "http://terminology.hl7.org/CodeSystem/statistic-model-code",
+                "code": "glmmGeneralizedLogit",
+                "display": "GLMM with generalized logit link"
+            },
+            {
+                "system": "http://terminology.hl7.org/CodeSystem/statistic-model-code",
+                "code": "linearRegression",
+                "display": "Linear Regression"
+            },
+            {
+                "system": "http://terminology.hl7.org/CodeSystem/statistic-model-code",
+                "code": "logisticRegression",
+                "display": "Logistic Regression"
+            },
+            {
+                "system": "http://terminology.hl7.org/CodeSystem/statistic-model-code",
+                "code": "polynomialRegression",
+                "display": "Polynomial Regression"
+            },
+            {
+                "system": "http://terminology.hl7.org/CodeSystem/statistic-model-code",
+                "code": "coxProportionalHazards",
+                "display": "Cox Proportional Hazards"
+            },
+            {
+                "system": "http://terminology.hl7.org/CodeSystem/statistic-model-code",
+                "code": "binomialDistributionRegression",
+                "display": "Binomial Distribution for Regression"
+            },
+            {
+                "system": "http://terminology.hl7.org/CodeSystem/statistic-model-code",
+                "code": "multinomialDistributionRegression",
+                "display": "Multinomial Distribution for Regression"
+            },
+            {
+                "system": "http://terminology.hl7.org/CodeSystem/statistic-model-code",
+                "code": "poissonRegression",
+                "display": "Poisson Regression"
+            },
+            {
+                "system": "http://terminology.hl7.org/CodeSystem/statistic-model-code",
+                "code": "negativeBinomialRegression",
+                "display": "Negative Binomial Regression"
+            },
+            {
+                "system": "http://terminology.hl7.org/CodeSystem/statistic-model-code",
+                "code": "zeroCellConstant",
+                "display": "Zero-cell adjustment with constant"
+            },
+            {
+                "system": "http://terminology.hl7.org/CodeSystem/statistic-model-code",
+                "code": "zeroCellContinuityCorrection",
+                "display": "Zero-cell adjustment with continuity correction"
+            },
+            {
+                "system": "http://terminology.hl7.org/CodeSystem/statistic-model-code",
+                "code": "adjusted",
+                "display": "Adjusted analysis"
+            },
+            {
+                "system": "http://terminology.hl7.org/CodeSystem/statistic-model-code",
+                "code": "interactionTerm",
+                "display": "Interaction term"
+            },
+            {
+                "system": "http://terminology.hl7.org/CodeSystem/statistic-model-code",
+                "code": "manteHaenszelMethod",
+                "display": "Mantel-Haenszel method"
+            },
+            {
+                "system": "http://terminology.hl7.org/CodeSystem/statistic-model-code",
+                "code": "metaAnalysis",
+                "display": "Meta-analysis"
+            },
+            {
+                "system": "http://terminology.hl7.org/CodeSystem/statistic-model-code",
+                "code": "inverseVariance",
+                "display": "Inverse variance method"
+            },
+            {
+                "system": "http://terminology.hl7.org/CodeSystem/statistic-model-code",
+                "code": "petoMethod",
+                "display": "Peto method"
+            },
+            {
+                "system": "http://terminology.hl7.org/CodeSystem/statistic-model-code",
+                "code": "hartungKnapp",
+                "display": "Hartung-Knapp adjustment"
+            },
+            {
+                "system": "http://terminology.hl7.org/CodeSystem/statistic-model-code",
+                "code": "modifiedHartungKnapp",
+                "display": "Modified Hartung-Knapp adjustment"
+            },
+            {
+                "system": "http://terminology.hl7.org/CodeSystem/statistic-model-code",
+                "code": "effectsFixed",
+                "display": "Fixed-effects"
+            },
+            {
+                "system": "http://terminology.hl7.org/CodeSystem/statistic-model-code",
+                "code": "effectsRandom",
+                "display": "Random-effects"
+            },
+            {
+                "system": "http://terminology.hl7.org/CodeSystem/statistic-model-code",
+                "code": "chiSquareTestHomogeneity",
+                "display": "Chi-square test for homogeneity"
+            },
+            {
+                "system": "http://terminology.hl7.org/CodeSystem/statistic-model-code",
+                "code": "dersimonianLairdMethod",
+                "display": "Dersimonian-Laird method"
+            },
+            {
+                "system": "http://terminology.hl7.org/CodeSystem/statistic-model-code",
+                "code": "pauleMandelMethod",
+                "display": "Paule-Mandel method"
+            },
+            {
+                "system": "http://terminology.hl7.org/CodeSystem/statistic-model-code",
+                "code": "restrictedLikelihood",
+                "display": "Restricted Maximum Likelihood method"
+            },
+            {
+                "system": "http://terminology.hl7.org/CodeSystem/statistic-model-code",
+                "code": "maximumLikelihood",
+                "display": "Maximum Likelihood method"
+            },
+            {
+                "system": "http://terminology.hl7.org/CodeSystem/statistic-model-code",
+                "code": "empiricalBayes",
+                "display": "Empirical Bayes method"
+            },
+            {
+                "system": "http://terminology.hl7.org/CodeSystem/statistic-model-code",
+                "code": "hunterSchmidt",
+                "display": "Hunter-Schmidt method"
+            },
+            {
+                "system": "http://terminology.hl7.org/CodeSystem/statistic-model-code",
+                "code": "sidikJonkman",
+                "display": "Sidik-Jonkman method"
+            },
+            {
+                "system": "http://terminology.hl7.org/CodeSystem/statistic-model-code",
+                "code": "hedgesMethod",
+                "display": "Hedges method"
+            },
+            {
+                "system": "http://terminology.hl7.org/CodeSystem/statistic-model-code",
+                "code": "tauDersimonianLaird",
+                "display": "Dersimonian-Laird method"
+            },
+            {
+                "system": "http://terminology.hl7.org/CodeSystem/statistic-model-code",
+                "code": "tauPauleMandel",
+                "display": "Paule-Mandel method"
+            },
+            {
+                "system": "http://terminology.hl7.org/CodeSystem/statistic-model-code",
+                "code": "tauRestrictedMaximumLikelihood",
+                "display": "Restricted Maximum Likelihood method"
+            },
+            {
+                "system": "http://terminology.hl7.org/CodeSystem/statistic-model-code",
+                "code": "tauMaximumLikelihood",
+                "display": "Maximum Likelihood method"
+            },
+            {
+                "system": "http://terminology.hl7.org/CodeSystem/statistic-model-code",
+                "code": "tauEmpiricalBayes",
+                "display": "Empirical Bayes method"
+            },
+            {
+                "system": "http://terminology.hl7.org/CodeSystem/statistic-model-code",
+                "code": "tauHunterSchmidt",
+                "display": "Hunter-Schmidt method"
+            },
+            {
+                "system": "http://terminology.hl7.org/CodeSystem/statistic-model-code",
+                "code": "tauSidikJonkman",
+                "display": "Sidik-Jonkman method"
+            },
+            {
+                "system": "http://terminology.hl7.org/CodeSystem/statistic-model-code",
+                "code": "tauHedges",
+                "display": "Hedges method"
+            },
+            {
+                "system": "http://terminology.hl7.org/CodeSystem/statistic-model-code",
+                "code": "poolMantelHaenzsel",
+                "display": "Mantel-Haenszel method"
+            },
+            {
+                "system": "http://terminology.hl7.org/CodeSystem/statistic-model-code",
+                "code": "poolInverseVariance",
+                "display": "Inverse variance method"
+            },
+            {
+                "system": "http://terminology.hl7.org/CodeSystem/statistic-model-code",
+                "code": "poolPeto",
+                "display": "Peto method"
+            },
+            {
+                "system": "http://terminology.hl7.org/CodeSystem/statistic-model-code",
+                "code": "poolGeneralizedLinearMixedModel",
+                "display": "Generalized linear mixed model (GLMM)"
+            }
+        ]
+    }
+}

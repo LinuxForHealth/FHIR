@@ -1,0 +1,139 @@
+{
+    "resourceType": "CodeSystem",
+    "id": "v2-0207",
+    "text": {
+        "status": "empty",
+        "div": "<div xmlns=\"http://www.w3.org/1999/xhtml\">Redacted for size</div>"
+    },
+    "extension": [
+        {
+            "url": "http://hl7.org/fhir/StructureDefinition/structuredefinition-wg",
+            "valueCode": "inm"
+        }
+    ],
+    "url": "http://terminology.hl7.org/CodeSystem/v2-0207",
+    "identifier": [
+        {
+            "system": "urn:ietf:rfc:3986",
+            "value": "urn:oid:2.16.840.1.113883.18.112"
+        }
+    ],
+    "version": "2.2.0",
+    "name": "ProcessingMode",
+    "title": "processingMode",
+    "status": "active",
+    "experimental": false,
+    "date": "2019-12-01",
+    "publisher": "HL7, Inc",
+    "contact": [
+        {
+            "telecom": [
+                {
+                    "system": "url",
+                    "value": "http://www.hl7.org/"
+                }
+            ]
+        }
+    ],
+    "description": "HL7-defined code system of concepts that indicate an archival process or an initial load process.  Used in HL7 Version 2.x messaging in the PT datatype.",
+    "purpose": "Underlying Master Code System for V2 table 0207 (Processing Mode)",
+    "copyright": "Copyright HL7. Licensed under creative commons public domain",
+    "caseSensitive": true,
+    "valueSet": "http://terminology.hl7.org/ValueSet/v2-0207",
+    "hierarchyMeaning": "is-a",
+    "compositional": false,
+    "versionNeeded": false,
+    "content": "complete",
+    "property": [
+        {
+            "code": "status",
+            "uri": "http://terminology.hl7.org/CodeSystem/utg-concept-properties#status",
+            "description": "Status of the concept",
+            "type": "code"
+        },
+        {
+            "code": "deprecated",
+            "uri": "http://terminology.hl7.org/CodeSystem/utg-concept-properties#v2-table-deprecated",
+            "description": "Version of HL7 in which the code was deprecated",
+            "type": "code"
+        }
+    ],
+    "concept": [
+        {
+            "id": "2120",
+            "code": "A",
+            "display": "Archive",
+            "definition": "Archive",
+            "property": [
+                {
+                    "code": "status",
+                    "valueCode": "A"
+                }
+            ]
+        },
+        {
+            "id": "2121",
+            "code": "R",
+            "display": "Restore from archive",
+            "definition": "Restore from archive",
+            "property": [
+                {
+                    "code": "status",
+                    "valueCode": "A"
+                }
+            ]
+        },
+        {
+            "id": "2122",
+            "code": "I",
+            "display": "Initial load",
+            "definition": "Initial load",
+            "property": [
+                {
+                    "code": "status",
+                    "valueCode": "A"
+                }
+            ]
+        },
+        {
+            "id": "2123",
+            "code": "T",
+            "display": "Current processing, transmitted at intervals (scheduled or on demand)",
+            "definition": "Current processing, transmitted at intervals (scheduled or on demand)",
+            "property": [
+                {
+                    "code": "status",
+                    "valueCode": "A"
+                }
+            ]
+        },
+        {
+            "id": "2124",
+            "code": "Not present",
+            "display": "Not present (the default, meaning current  processing)",
+            "definition": "Not present (the default, meaning current  processing)",
+            "property": [
+                {
+                    "code": "status",
+                    "valueCode": "D"
+                }
+            ]
+        },
+        {
+            "id": "2125",
+            "code": "not present",
+            "display": "Not present (the default, meaning current  processing)",
+            "definition": "Not present (the default, meaning current  processing)",
+            "property": [
+                {
+                    "code": "deprecated",
+                    "valueCode": "2.9"
+                },
+                {
+                    "code": "status",
+                    "valueCode": "D"
+                }
+            ]
+        }
+    ]
+}

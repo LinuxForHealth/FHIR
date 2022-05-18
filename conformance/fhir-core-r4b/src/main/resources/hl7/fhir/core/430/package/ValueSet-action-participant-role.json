@@ -1,0 +1,88 @@
+{
+    "resourceType": "ValueSet",
+    "id": "action-participant-role",
+    "meta": {
+        "lastUpdated": "2017-02-15T16:33:00-07:00",
+        "profile": [
+            "http://hl7.org/fhir/StructureDefinition/shareablevalueset"
+        ]
+    },
+    "url": "http://terminology.hl7.org/ValueSet/action-participant-role",
+    "version": "0.1.0",
+    "name": "ActionParticipantRole",
+    "status": "draft",
+    "experimental": false,
+    "date": "2017-02-15T16:33:00-07:00",
+    "publisher": "HL7 (FHIR Project)",
+    "contact": [
+        {
+            "telecom": [
+                {
+                    "system": "other",
+                    "value": "http://hl7.org/fhir"
+                },
+                {
+                    "system": "email",
+                    "value": "fhir@lists.hl7.org"
+                }
+            ]
+        }
+    ],
+    "description": "Either a practitioner role or a relationship type.  Note from UTG import - may have been a temporary entry that subsequently disappeared from the FHIR source; unable to locate.   Version set to 0.1.0",
+    "compose": {
+        "include": [
+            {
+                "valueSet": [
+                    "http://hl7.org/fhir/ValueSet/practitioner-role",
+                    "http://hl7.org/fhir/ValueSet/relatedperson-relationshiptype"
+                ]
+            }
+        ]
+    },
+    "expansion": {
+        "identifier": "urn:uuid:a51b1915-93e7-4fdd-934a-fde3a29b9554",
+        "timestamp": "2022-04-05T02:15:57.585Z",
+        "parameter": [
+            {
+                "name": "expansion-source",
+                "valueUri": "ValueSet/action-participant-role"
+            },
+            {
+                "name": "limitedExpansion",
+                "valueBoolean": true
+            },
+            {
+                "name": "includeDesignations",
+                "valueBoolean": true
+            },
+            {
+                "name": "excludeNested",
+                "valueBoolean": true
+            },
+            {
+                "name": "expansion-source",
+                "valueUri": "ValueSet/practitioner-role"
+            },
+            {
+                "name": "limitedExpansion",
+                "valueBoolean": true
+            },
+            {
+                "name": "includeDesignations",
+                "valueBoolean": true
+            },
+            {
+                "name": "excludeNested",
+                "valueBoolean": true
+            },
+            {
+                "name": "version",
+                "valueUri": "http://terminology.hl7.org/CodeSystem/practitioner-role|4.0.1"
+            },
+            {
+                "name": "version",
+                "valueUri": "http://snomed.info/sct|http://snomed.info/sct/900000000000207008/version/20200731"
+            }
+        ]
+    }
+}

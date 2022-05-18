@@ -3,10 +3,10 @@
 <OperationDefinition xmlns="http://hl7.org/fhir">
   <id value="Measure-collect-data"/>
   <text>
-    <status value="generated"/>
+    <status value="extensions"/>
     <div xmlns="http://www.w3.org/1999/xhtml">
-      <h2>Collect Data</h2>
-      <p>OPERATION: Collect Data</p>
+      <h2>CollectData</h2>
+      <p>OPERATION: CollectData</p>
       <p>The official URL for this operation definition is: </p>
       <pre>http://hl7.org/fhir/OperationDefinition/Measure-collect-data</pre>
       <div>
@@ -171,17 +171,19 @@
     </div>
   </text>
   <extension url="http://hl7.org/fhir/StructureDefinition/structuredefinition-fmm">
-    <valueInteger value="2"/>
+    <valueInteger value="3"/>
   </extension>
   <extension url="http://hl7.org/fhir/StructureDefinition/structuredefinition-standards-status">
     <valueCode value="trial-use"/>
   </extension>
   <url value="http://hl7.org/fhir/OperationDefinition/Measure-collect-data"/>
-  <version value="4.0.1"/>
-  <name value="Collect Data"/>
+  <version value="4.3.0-cibuild"/>
+  <name value="CollectData"/>
+  <title value="Collect Data"/>
   <status value="draft"/>
   <kind value="operation"/>
-  <date value="2019-11-01T09:29:23+11:00"/>
+  <experimental value="false"/>
+  <date value="2022-04-23T22:21:35+00:00"/>
   <publisher value="HL7 (FHIR Project)"/>
   <contact>
     <telecom>
@@ -194,6 +196,7 @@
     </telecom>
   </contact>
   <description value="The collect-data operation is used to collect the data-of-interest for the given measure."/>
+  <affectsState value="false"/>
   <code value="collect-data"/>
   <comment value="The effect of invoking this operation is to gather the data required to perform an evaluation of the measure. If the lastReceivedOn parameter is supplied, only data that is new or has been changed since the lastReceivedOn date is included in the response. Note that the resulting MeasureReport is a transient resource"/>
   <resource value="Measure"/>

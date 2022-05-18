@@ -1,0 +1,38 @@
+{
+    "resourceType": "ValueSet",
+    "id": "mif-conceptRelationshipTransitivity",
+    "text": {
+        "status": "empty",
+        "div": "<div xmlns=\"http://www.w3.org/1999/xhtml\">Redacted for size</div>"
+    },
+    "url": "http://terminology.hl7.org/ValueSet/mif-conceptRelationshipTransitivity",
+    "name": "MIFConceptRelationshipTransitivity",
+    "title": "MIF Concept Relationship Transitivity",
+    "status": "draft",
+    "date": "2022-02-23T20:36:09-07:00",
+    "description": "Codes for use in the ext-mif-relationship-transitivity to capture V3 Model Interchange Format (MIF) SupportedConceptRelationship.transitivity values",
+    "compose": {
+        "include": [
+            {
+                "system": "http://terminology.hl7.org/CodeSystem/hl7TermMaintInfra",
+                "filter": [
+                    {
+                        "property": "concept",
+                        "op": "is-a",
+                        "value": "MIF-ConceptRelationshipTransitivity"
+                    }
+                ]
+            }
+        ],
+        "exclude": [
+            {
+                "system": "http://terminology.hl7.org/CodeSystem/hl7TermMaintInfra",
+                "concept": [
+                    {
+                        "code": "MIF-ConceptRelationshipTransitivity"
+                    }
+                ]
+            }
+        ]
+    }
+}

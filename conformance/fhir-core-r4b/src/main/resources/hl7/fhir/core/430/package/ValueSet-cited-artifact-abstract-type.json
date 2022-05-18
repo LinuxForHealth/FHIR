@@ -1,0 +1,137 @@
+{
+    "resourceType": "ValueSet",
+    "id": "cited-artifact-abstract-type",
+    "meta": {
+        "lastUpdated": "2022-04-24T09:21:35.043+11:00",
+        "profile": [
+            "http://hl7.org/fhir/StructureDefinition/shareablevalueset"
+        ]
+    },
+    "extension": [
+        {
+            "url": "http://hl7.org/fhir/StructureDefinition/structuredefinition-wg",
+            "valueCode": "cds"
+        },
+        {
+            "url": "http://hl7.org/fhir/StructureDefinition/structuredefinition-standards-status",
+            "valueCode": "trial-use"
+        },
+        {
+            "url": "http://hl7.org/fhir/StructureDefinition/structuredefinition-fmm",
+            "valueInteger": 0
+        }
+    ],
+    "url": "http://hl7.org/fhir/ValueSet/cited-artifact-abstract-type",
+    "identifier": [
+        {
+            "system": "urn:ietf:rfc:3986",
+            "value": "urn:oid:2.16.840.1.113883.4.642.3.0"
+        }
+    ],
+    "version": "4.3.0-cibuild",
+    "name": "CitedArtifactAbstractType",
+    "title": "CitedArtifactAbstractType",
+    "status": "draft",
+    "experimental": true,
+    "date": "2020-12-28T16:55:11+11:00",
+    "publisher": "HL7 (FHIR Project)",
+    "contact": [
+        {
+            "telecom": [
+                {
+                    "system": "url",
+                    "value": "http://hl7.org/fhir"
+                },
+                {
+                    "system": "email",
+                    "value": "fhir@lists.hl7.org"
+                }
+            ]
+        }
+    ],
+    "description": "Used to express the reason and specific aspect for the variant abstract, such as language and specific language.",
+    "immutable": true,
+    "compose": {
+        "include": [
+            {
+                "system": "http://terminology.hl7.org/CodeSystem/cited-artifact-abstract-type"
+            }
+        ]
+    },
+    "expansion": {
+        "identifier": "urn:uuid:beccfd8e-106a-4bb6-b3dd-b5a24ffd920b",
+        "timestamp": "2022-04-23T22:23:26Z",
+        "total": 11,
+        "parameter": [
+            {
+                "name": "excludeNested",
+                "valueBoolean": true
+            },
+            {
+                "name": "includeDesignations",
+                "valueBoolean": true
+            },
+            {
+                "name": "version",
+                "valueUri": "http://terminology.hl7.org/CodeSystem/cited-artifact-abstract-type|4.3.0-cibuild"
+            }
+        ],
+        "contains": [
+            {
+                "system": "http://terminology.hl7.org/CodeSystem/cited-artifact-abstract-type",
+                "code": "primary-human-use",
+                "display": "Primary human use"
+            },
+            {
+                "system": "http://terminology.hl7.org/CodeSystem/cited-artifact-abstract-type",
+                "code": "primary-machine-use",
+                "display": "Primary machine use"
+            },
+            {
+                "system": "http://terminology.hl7.org/CodeSystem/cited-artifact-abstract-type",
+                "code": "truncated",
+                "display": "Truncated"
+            },
+            {
+                "system": "http://terminology.hl7.org/CodeSystem/cited-artifact-abstract-type",
+                "code": "short-abstract",
+                "display": "Short abstract"
+            },
+            {
+                "system": "http://terminology.hl7.org/CodeSystem/cited-artifact-abstract-type",
+                "code": "long-abstract",
+                "display": "Long abstract"
+            },
+            {
+                "system": "http://terminology.hl7.org/CodeSystem/cited-artifact-abstract-type",
+                "code": "plain-language",
+                "display": "Plain language"
+            },
+            {
+                "system": "http://terminology.hl7.org/CodeSystem/cited-artifact-abstract-type",
+                "code": "different-publisher",
+                "display": "Different publisher for abstract"
+            },
+            {
+                "system": "http://terminology.hl7.org/CodeSystem/cited-artifact-abstract-type",
+                "code": "language",
+                "display": "Different language"
+            },
+            {
+                "system": "http://terminology.hl7.org/CodeSystem/cited-artifact-abstract-type",
+                "code": "autotranslated",
+                "display": "Different language derived from autotranslation"
+            },
+            {
+                "system": "http://terminology.hl7.org/CodeSystem/cited-artifact-abstract-type",
+                "code": "duplicate-pmid",
+                "display": "Different text in additional Medline entry"
+            },
+            {
+                "system": "http://terminology.hl7.org/CodeSystem/cited-artifact-abstract-type",
+                "code": "earlier-abstract",
+                "display": "Different text in an earlier version"
+            }
+        ]
+    }
+}

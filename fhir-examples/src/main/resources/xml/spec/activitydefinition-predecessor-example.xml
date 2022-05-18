@@ -10,92 +10,178 @@
   <text>
     <status value="generated"/>
     <div xmlns="http://www.w3.org/1999/xhtml">
-         <table class="grid dict">
-            <tr>
-               <td>
-                  <b>Id: </b>
-               </td>
-            </tr>
-            <tr>
-               <td style="padding-left: 25px; padding-right: 25px;">ActivityDefinition/referralPrimaryCareMentalHealth-initial</td>
-            </tr>
-         </table>
-         <p/>
-         <table class="grid dict">
-            <tr>
-               <td>
-                  <b>Status: </b>
-               </td>
-            </tr>
-            <tr>
-               <td style="padding-left: 25px; padding-right: 25px;">draft</td>
-            </tr>
-         </table>
-         <p/>
-         <table class="grid dict">
-            <tr>
-               <td>
-                  <b>Description: </b>
-               </td>
-            </tr>
-            <tr>
-               <td style="padding-left: 25px; padding-right: 25px;">refer to primary care mental-health integrated care program for evaluation and treatment of mental health conditions now</td>
-            </tr>
-         </table>
-         <p/>
-         <table class="grid dict">
-            <tr>
-               <td>
-                  <b>Category: </b>
-               </td>
-            </tr>
-            <tr>
-               <td style="padding-left: 25px; padding-right: 25px;">referral</td>
-            </tr>
-         </table>
-         <p/>
-         <table class="grid dict">
-            <tr>
-               <td>
-                  <b>Code: </b>
-               </td>
-            </tr>
-            <tr>
-               <td style="padding-right: 25px;">
-                  <span style="padding-left: 25px;">
-                     <b>text: </b>
-                     <span>Referral to service (procedure)</span>
-                     <br/>
-                  </span>
-                  <span>
-                     <span>
-                        <span style="padding-left: 25px;">
-                           <b>system: </b>
-                           <span>http://snomed.info/sct</span>
-                           <br/>
-                        </span>
-                        <span style="padding-left: 25px;">
-                           <b>code: </b>
-                           <span>306206005</span>
-                           <br/>
-                        </span>
-                     </span>
-                  </span>
-               </td>
-            </tr>
-         </table>
-         <p/>
-         <table class="grid dict">
-            <tr>
-               <td>
-                  <b>Participant: </b>
-               </td>
-            </tr>
-            <tr style="vertical-align: top;">
-               <td style="padding-left: 25px; padding-right: 25px;">practitioner</td>
-            </tr>
-         </table>
-      </div>
+         
+      <table class="grid dict">
+            
+        <tr>
+               
+          <td>
+                  
+            <b>Id: </b>
+               
+          </td>
+            
+        </tr>
+            
+        <tr>
+               
+          <td style="padding-left: 25px; padding-right: 25px;">ActivityDefinition/referralPrimaryCareMentalHealth-initial</td>
+            
+        </tr>
+         
+      </table>
+         
+      <p/>
+         
+      <table class="grid dict">
+            
+        <tr>
+               
+          <td>
+                  
+            <b>Status: </b>
+               
+          </td>
+            
+        </tr>
+            
+        <tr>
+               
+          <td style="padding-left: 25px; padding-right: 25px;">draft</td>
+            
+        </tr>
+         
+      </table>
+         
+      <p/>
+         
+      <table class="grid dict">
+            
+        <tr>
+               
+          <td>
+                  
+            <b>Description: </b>
+               
+          </td>
+            
+        </tr>
+            
+        <tr>
+               
+          <td style="padding-left: 25px; padding-right: 25px;">refer to primary care mental-health integrated care program for evaluation and treatment of mental health conditions now</td>
+            
+        </tr>
+         
+      </table>
+         
+      <p/>
+         
+      <table class="grid dict">
+            
+        <tr>
+               
+          <td>
+                  
+            <b>Category: </b>
+               
+          </td>
+            
+        </tr>
+            
+        <tr>
+               
+          <td style="padding-left: 25px; padding-right: 25px;">referral</td>
+            
+        </tr>
+         
+      </table>
+         
+      <p/>
+         
+      <table class="grid dict">
+            
+        <tr>
+               
+          <td>
+                  
+            <b>Code: </b>
+               
+          </td>
+            
+        </tr>
+            
+        <tr>
+               
+          <td style="padding-right: 25px;">
+                  
+            <span style="padding-left: 25px;">
+                     
+              <b>text: </b>
+                     
+              <span>Referral to service (procedure)</span>
+                     
+              <br/>
+                  
+            </span>
+                  
+            <span>
+                     
+              <span>
+                        
+                <span style="padding-left: 25px;">
+                           
+                  <b>system: </b>
+                           
+                  <span>http://snomed.info/sct</span>
+                           
+                  <br/>
+                        
+                </span>
+                        
+                <span style="padding-left: 25px;">
+                           
+                  <b>code: </b>
+                           
+                  <span>306206005</span>
+                           
+                  <br/>
+                        
+                </span>
+                     
+              </span>
+                  
+            </span>
+               
+          </td>
+            
+        </tr>
+         
+      </table>
+         
+      <p/>
+         
+      <table class="grid dict">
+            
+        <tr>
+               
+          <td>
+                  
+            <b>Participant: </b>
+               
+          </td>
+            
+        </tr>
+            
+        <tr style="vertical-align: top;">
+               
+          <td style="padding-left: 25px; padding-right: 25px;">practitioner</td>
+            
+        </tr>
+         
+      </table>
+      
+    </div>
   </text>
   <url value="http://motivemi.com/artifacts/ActivityDefinition/referralPrimaryCareMentalHealth"/>
   <identifier>
@@ -235,26 +321,28 @@
   <author>
     <name value="Motive Medical Intelligence"/>
     <telecom>
-	  <system value="phone"/>
-	  <value value="415-362-4007"/>
-	  <use value="work"/>
+      <system value="phone"/>
+      <value value="415-362-4007"/>
+      <use value="work"/>
     </telecom>
     <telecom>
-  	  <system value="email"/>
-	  <value value="info@motivemi.com"/>
-	  <use value="work"/>
+      <system value="email"/>
+      <value value="info@motivemi.com"/>
+      <use value="work"/>
     </telecom>
   </author>
   <relatedArtifact>
     <type value="citation"/>
     <display value="Practice Guideline for the Treatment of Patients with Major Depressive Disorder"/>
     <url value="http://psychiatryonline.org/pb/assets/raw/sitewide/practice_guidelines/guidelines/mdd.pdf"/>
+    <document>
+      <url value="http://psychiatryonline.org/pb/assets/raw/sitewide/practice_guidelines/guidelines/mdd.pdf"/>
+    </document>
   </relatedArtifact>
   <relatedArtifact>
     <type value="successor"/>
-    <resource value="ActivityDefinition/referralPrimaryCareMentalHealth"/>
+    <resource value="http://example.org/fhir/ActivityDefinition/referralPrimaryCareMentalHealth"/>
   </relatedArtifact>
-  <!--  Kind indicates the type of resource that is defined by this activity, a ServiceRequest in this case  -->
   <kind value="ServiceRequest"/>
   <code>
     <coding>
@@ -265,8 +353,6 @@
   </code>
   <timingTiming>
     <event>
-	  <!--  The expression here specifies the value for the timing of the resulting resource.
-		   In this case, ServiceRequest.fulfillmentTime.start  -->
       <extension url="http://hl7.org/fhir/StructureDefinition/cqf-expression">
         <valueExpression>
           <language value="text/cql"/>
@@ -276,6 +362,6 @@
     </event>
   </timingTiming>
   <participant>
-		<type value="practitioner"/>
+    <type value="practitioner"/>
   </participant>
 </ActivityDefinition>

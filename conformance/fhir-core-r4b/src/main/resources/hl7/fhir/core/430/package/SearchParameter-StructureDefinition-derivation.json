@@ -1,0 +1,48 @@
+{
+    "resourceType": "SearchParameter",
+    "id": "StructureDefinition-derivation",
+    "extension": [
+        {
+            "url": "http://hl7.org/fhir/StructureDefinition/structuredefinition-standards-status",
+            "valueCode": "trial-use"
+        },
+        {
+            "url": "http://ibm.com/fhir/extension/implicit-system",
+            "valueUri": "http://hl7.org/fhir/type-derivation-rule"
+        }
+    ],
+    "url": "http://hl7.org/fhir/SearchParameter/StructureDefinition-derivation",
+    "version": "4.3.0-cibuild",
+    "name": "derivation",
+    "status": "draft",
+    "experimental": false,
+    "date": "2022-04-23T22:21:35Z",
+    "publisher": "Health Level Seven International (FHIR Infrastructure)",
+    "contact": [
+        {
+            "telecom": [
+                {
+                    "system": "url",
+                    "value": "http://hl7.org/fhir"
+                }
+            ]
+        },
+        {
+            "telecom": [
+                {
+                    "system": "url",
+                    "value": "http://www.hl7.org/Special/committees/fiwg/index.cfm"
+                }
+            ]
+        }
+    ],
+    "description": "specialization | constraint - How relates to base definition",
+    "code": "derivation",
+    "base": [
+        "StructureDefinition"
+    ],
+    "type": "token",
+    "expression": "StructureDefinition.derivation",
+    "xpath": "f:StructureDefinition/f:derivation",
+    "xpathUsage": "normal"
+}

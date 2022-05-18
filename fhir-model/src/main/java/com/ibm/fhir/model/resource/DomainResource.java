@@ -1,5 +1,5 @@
 /*
- * (C) Copyright IBM Corp. 2019, 2021
+ * (C) Copyright IBM Corp. 2019, 2022
  *
  * SPDX-License-Identifier: Apache-2.0
  */
@@ -45,7 +45,7 @@ import com.ibm.fhir.model.util.ValidationSupport;
     level = "Rule",
     location = "(base)",
     description = "If the resource is contained in another resource, it SHALL be referred to from elsewhere in the resource or SHALL refer to the containing resource",
-    expression = "contained.where((('#'+id in (%resource.descendants().reference | %resource.descendants().as(canonical) | %resource.descendants().as(uri) | %resource.descendants().as(url))) or descendants().where(reference = '#').exists() or descendants().where(as(canonical) = '#').exists() or descendants().where(as(canonical) = '#').exists()).not()).trace('unmatched', id).empty()",
+    expression = "contained.where(((id.exists() and ('#'+id in (%resource.descendants().reference | %resource.descendants().as(canonical) | %resource.descendants().as(uri) | %resource.descendants().as(url)))) or descendants().where(reference = '#').exists() or descendants().where(as(canonical) = '#').exists() or descendants().where(as(uri) = '#').exists()).not()).trace('unmatched', id).empty()",
     source = "http://hl7.org/fhir/StructureDefinition/DomainResource"
 )
 @Constraint(
@@ -70,6 +70,14 @@ import com.ibm.fhir.model.util.ValidationSupport;
     location = "(base)",
     description = "A resource should have narrative for robust management",
     expression = "text.`div`.exists()",
+    source = "http://hl7.org/fhir/StructureDefinition/DomainResource"
+)
+@Constraint(
+    id = "dom-r4b",
+    level = "Warning",
+    location = "DomainResource.contained",
+    description = "Containing new R4B resources within R4 resources may cause interoperability issues if instances are shared with R4 systems",
+    expression = "($this is Citation or $this is Evidence or $this is EvidenceReport or $this is EvidenceVariable or $this is MedicinalProductDefinition or $this is PackagedProductDefinition or $this is AdministrableProductDefinition or $this is Ingredient or $this is ClinicalUseDefinition or $this is RegulatedAuthorization or $this is SubstanceDefinition or $this is SubscriptionStatus or $this is SubscriptionTopic) implies (%resource is Citation or %resource is Evidence or %resource is EvidenceReport or %resource is EvidenceVariable or %resource is MedicinalProductDefinition or %resource is PackagedProductDefinition or %resource is AdministrableProductDefinition or %resource is Ingredient or %resource is ClinicalUseDefinition or %resource is RegulatedAuthorization or %resource is SubstanceDefinition or %resource is SubscriptionStatus or %resource is SubscriptionTopic)",
     source = "http://hl7.org/fhir/StructureDefinition/DomainResource"
 )
 @Generated("com.ibm.fhir.tools.CodeGenerator")

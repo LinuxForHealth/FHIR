@@ -1,0 +1,44 @@
+{
+    "resourceType": "SearchParameter",
+    "id": "SubstanceDefinition-classification",
+    "extension": [
+        {
+            "url": "http://hl7.org/fhir/StructureDefinition/structuredefinition-standards-status",
+            "valueCode": "trial-use"
+        }
+    ],
+    "url": "http://hl7.org/fhir/SearchParameter/SubstanceDefinition-classification",
+    "version": "4.3.0-cibuild",
+    "name": "classification",
+    "status": "draft",
+    "experimental": false,
+    "date": "2022-04-23T22:21:35Z",
+    "publisher": "Health Level Seven International (Biomedical Research and Regulation)",
+    "contact": [
+        {
+            "telecom": [
+                {
+                    "system": "url",
+                    "value": "http://hl7.org/fhir"
+                }
+            ]
+        },
+        {
+            "telecom": [
+                {
+                    "system": "url",
+                    "value": "http://www.hl7.org/Special/committees/rcrim/index.cfm"
+                }
+            ]
+        }
+    ],
+    "description": "High or low level categorization, e.g. polymer vs. nucleic acid or linear vs. branch chain",
+    "code": "classification",
+    "base": [
+        "SubstanceDefinition"
+    ],
+    "type": "token",
+    "expression": "SubstanceDefinition.classification",
+    "xpath": "f:SubstanceDefinition/f:classification",
+    "xpathUsage": "normal"
+}

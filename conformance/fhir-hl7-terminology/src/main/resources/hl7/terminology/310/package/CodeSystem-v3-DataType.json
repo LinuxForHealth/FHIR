@@ -1,0 +1,1602 @@
+{
+    "resourceType": "CodeSystem",
+    "id": "v3-DataType",
+    "language": "en",
+    "text": {
+        "status": "empty",
+        "div": "<div xmlns=\"http://www.w3.org/1999/xhtml\">Redacted for size</div>"
+    },
+    "url": "http://terminology.hl7.org/CodeSystem/v3-DataType",
+    "identifier": [
+        {
+            "system": "urn:ietf:rfc:3986",
+            "value": "urn:oid:2.16.840.1.113883.5.1007"
+        }
+    ],
+    "version": "2.0.0",
+    "name": "DataType",
+    "title": "DataType",
+    "status": "retired",
+    "date": "2019-03-20",
+    "publisher": "Health Level 7",
+    "contact": [
+        {
+            "name": "Health Level Seven"
+        }
+    ],
+    "description": "Code system retired.",
+    "hierarchyMeaning": "is-a",
+    "content": "complete",
+    "property": [
+        {
+            "extension": [
+                {
+                    "url": "http://terminology.hl7.org/StructureDefinition/ext-mif-relationship-symmetry",
+                    "valueCode": "antisymmetric"
+                },
+                {
+                    "url": "http://terminology.hl7.org/StructureDefinition/ext-mif-relationship-transitivity",
+                    "valueCode": "transitive"
+                },
+                {
+                    "url": "http://terminology.hl7.org/StructureDefinition/ext-mif-relationship-reflexivity",
+                    "valueCode": "irreflexive"
+                },
+                {
+                    "url": "http://terminology.hl7.org/StructureDefinition/ext-mif-relationship-isNavigable",
+                    "valueBoolean": true
+                },
+                {
+                    "url": "http://terminology.hl7.org/StructureDefinition/ext-mif-relationship-relationshipKind",
+                    "valueCode": "Specializes"
+                },
+                {
+                    "url": "http://terminology.hl7.org/StructureDefinition/ext-mif-relationship-inverseName",
+                    "valueString": "Generalizes"
+                }
+            ],
+            "code": "Specializes",
+            "description": "The child code is a more narrow version of the concept represented by the parent code.  I.e. Every child concept is also a valid parent concept.  Used to allow determination of subsumption.  Must be transitive, irreflexive, antisymmetric.",
+            "type": "Coding"
+        },
+        {
+            "extension": [
+                {
+                    "url": "http://terminology.hl7.org/StructureDefinition/ext-mif-relationship-symmetry",
+                    "valueCode": "antisymmetric"
+                },
+                {
+                    "url": "http://terminology.hl7.org/StructureDefinition/ext-mif-relationship-transitivity",
+                    "valueCode": "transitive"
+                },
+                {
+                    "url": "http://terminology.hl7.org/StructureDefinition/ext-mif-relationship-reflexivity",
+                    "valueCode": "irreflexive"
+                },
+                {
+                    "url": "http://terminology.hl7.org/StructureDefinition/ext-mif-relationship-isNavigable",
+                    "valueBoolean": true
+                },
+                {
+                    "url": "http://terminology.hl7.org/StructureDefinition/ext-mif-relationship-relationshipKind",
+                    "valueCode": "Generalizes"
+                },
+                {
+                    "url": "http://terminology.hl7.org/StructureDefinition/ext-mif-relationship-inverseName",
+                    "valueString": "Specializes"
+                }
+            ],
+            "code": "Generalizes",
+            "description": "Inverse of Specializes.  Only included as a derived relationship.",
+            "type": "Coding"
+        },
+        {
+            "code": "internalId",
+            "uri": "http://terminology.hl7.org/CodeSystem/utg-concept-properties#v3-internal-id",
+            "description": "The internal identifier for the concept in the HL7 Access database repository.",
+            "type": "code"
+        },
+        {
+            "code": "status",
+            "uri": "http://hl7.org/fhir/concept-properties#status",
+            "description": "Designation of a concept's state. Normally is not populated unless the state is retired.",
+            "type": "code"
+        },
+        {
+            "code": "subsumedBy",
+            "uri": "http://hl7.org/fhir/concept-properties#parent",
+            "description": "The concept code of a parent concept",
+            "type": "code"
+        }
+    ],
+    "concept": [
+        {
+            "code": "ANY",
+            "display": "ANY",
+            "property": [
+                {
+                    "code": "status",
+                    "valueCode": "active"
+                },
+                {
+                    "code": "internalId",
+                    "valueCode": "20839"
+                }
+            ]
+        },
+        {
+            "code": "SET<INT>",
+            "display": "Set Of Integer Numbers",
+            "designation": [
+                {
+                    "language": "en",
+                    "use": {
+                        "system": "http://snomed.info/sct",
+                        "code": "900000000000013009"
+                    },
+                    "value": "DataTypeSetOfIntegerNumbers"
+                }
+            ],
+            "property": [
+                {
+                    "code": "status",
+                    "valueCode": "active"
+                },
+                {
+                    "code": "internalId",
+                    "valueCode": "10867"
+                }
+            ]
+        },
+        {
+            "code": "SET<REAL>",
+            "display": "Set Of Real Numbers",
+            "designation": [
+                {
+                    "language": "en",
+                    "use": {
+                        "system": "http://snomed.info/sct",
+                        "code": "900000000000013009"
+                    },
+                    "value": "DataTypeSetOfRealNumbers"
+                }
+            ],
+            "property": [
+                {
+                    "code": "status",
+                    "valueCode": "active"
+                },
+                {
+                    "code": "internalId",
+                    "valueCode": "10868"
+                }
+            ]
+        },
+        {
+            "code": "ANT<CD>",
+            "display": "Annotated Concept Descriptor",
+            "property": [
+                {
+                    "code": "status",
+                    "valueCode": "active"
+                },
+                {
+                    "code": "internalId",
+                    "valueCode": "10846"
+                },
+                {
+                    "code": "subsumedBy",
+                    "valueCode": "ANT<ANY>"
+                }
+            ]
+        },
+        {
+            "code": "ANT<PQ>",
+            "display": "Annotated Physical Quantity",
+            "property": [
+                {
+                    "code": "status",
+                    "valueCode": "active"
+                },
+                {
+                    "code": "internalId",
+                    "valueCode": "10848"
+                },
+                {
+                    "code": "subsumedBy",
+                    "valueCode": "ANT<ANY>"
+                }
+            ]
+        },
+        {
+            "code": "ANT<ANY>",
+            "display": "Annotated",
+            "property": [
+                {
+                    "code": "status",
+                    "valueCode": "active"
+                },
+                {
+                    "code": "internalId",
+                    "valueCode": "10845"
+                },
+                {
+                    "code": "subsumedBy",
+                    "valueCode": "ANY"
+                }
+            ]
+        },
+        {
+            "code": "BAG<ANY>",
+            "display": "Bag",
+            "property": [
+                {
+                    "code": "status",
+                    "valueCode": "active"
+                },
+                {
+                    "code": "internalId",
+                    "valueCode": "10831"
+                },
+                {
+                    "code": "subsumedBy",
+                    "valueCode": "ANY"
+                }
+            ]
+        },
+        {
+            "code": "BL",
+            "display": "Boolean",
+            "property": [
+                {
+                    "code": "status",
+                    "valueCode": "active"
+                },
+                {
+                    "code": "internalId",
+                    "valueCode": "10776"
+                },
+                {
+                    "code": "subsumedBy",
+                    "valueCode": "ANY"
+                }
+            ]
+        },
+        {
+            "code": "CD",
+            "display": "Concept Descriptor",
+            "property": [
+                {
+                    "code": "status",
+                    "valueCode": "active"
+                },
+                {
+                    "code": "internalId",
+                    "valueCode": "10780"
+                },
+                {
+                    "code": "subsumedBy",
+                    "valueCode": "ANY"
+                }
+            ]
+        },
+        {
+            "code": "CR",
+            "display": "Concept Role",
+            "property": [
+                {
+                    "code": "status",
+                    "valueCode": "active"
+                },
+                {
+                    "code": "internalId",
+                    "valueCode": "10781"
+                },
+                {
+                    "code": "subsumedBy",
+                    "valueCode": "ANY"
+                }
+            ]
+        },
+        {
+            "code": "HXIT<ANY>",
+            "display": "Historical",
+            "property": [
+                {
+                    "code": "status",
+                    "valueCode": "active"
+                },
+                {
+                    "code": "internalId",
+                    "valueCode": "10850"
+                },
+                {
+                    "code": "subsumedBy",
+                    "valueCode": "ANY"
+                }
+            ]
+        },
+        {
+            "code": "II",
+            "display": "Instance Identifier",
+            "property": [
+                {
+                    "code": "status",
+                    "valueCode": "active"
+                },
+                {
+                    "code": "internalId",
+                    "valueCode": "10785"
+                },
+                {
+                    "code": "subsumedBy",
+                    "valueCode": "ANY"
+                }
+            ]
+        },
+        {
+            "code": "IVL<QTY>",
+            "display": "Interval",
+            "designation": [
+                {
+                    "language": "en",
+                    "use": {
+                        "system": "http://snomed.info/sct",
+                        "code": "900000000000013009"
+                    },
+                    "value": "DataTypeInterval"
+                }
+            ],
+            "property": [
+                {
+                    "code": "status",
+                    "valueCode": "active"
+                },
+                {
+                    "code": "internalId",
+                    "valueCode": "10834"
+                },
+                {
+                    "code": "subsumedBy",
+                    "valueCode": "ANY"
+                }
+            ]
+        },
+        {
+            "code": "LIST<ANY>",
+            "display": "Sequence",
+            "property": [
+                {
+                    "code": "status",
+                    "valueCode": "active"
+                },
+                {
+                    "code": "internalId",
+                    "valueCode": "10821"
+                },
+                {
+                    "code": "subsumedBy",
+                    "valueCode": "ANY"
+                }
+            ]
+        },
+        {
+            "code": "OID",
+            "display": "Object Identifier",
+            "property": [
+                {
+                    "code": "status",
+                    "valueCode": "active"
+                },
+                {
+                    "code": "internalId",
+                    "valueCode": "10786"
+                },
+                {
+                    "code": "subsumedBy",
+                    "valueCode": "ANY"
+                }
+            ]
+        },
+        {
+            "code": "QTY",
+            "display": "Quantity",
+            "property": [
+                {
+                    "code": "status",
+                    "valueCode": "active"
+                },
+                {
+                    "code": "internalId",
+                    "valueCode": "20840"
+                },
+                {
+                    "code": "subsumedBy",
+                    "valueCode": "ANY"
+                }
+            ]
+        },
+        {
+            "code": "SET<ANY>",
+            "display": "Set",
+            "property": [
+                {
+                    "code": "status",
+                    "valueCode": "active"
+                },
+                {
+                    "code": "internalId",
+                    "valueCode": "10801"
+                },
+                {
+                    "code": "subsumedBy",
+                    "valueCode": "ANY"
+                }
+            ]
+        },
+        {
+            "code": "URL",
+            "display": "Universal Resource Locator",
+            "property": [
+                {
+                    "code": "status",
+                    "valueCode": "active"
+                },
+                {
+                    "code": "internalId",
+                    "valueCode": "10788"
+                },
+                {
+                    "code": "subsumedBy",
+                    "valueCode": "ANY"
+                }
+            ]
+        },
+        {
+            "code": "UVN<ANY>",
+            "display": "Uncertain Value Narrative",
+            "property": [
+                {
+                    "code": "status",
+                    "valueCode": "active"
+                },
+                {
+                    "code": "internalId",
+                    "valueCode": "10853"
+                },
+                {
+                    "code": "subsumedBy",
+                    "valueCode": "ANY"
+                }
+            ]
+        },
+        {
+            "code": "UVP<ANY>",
+            "display": "Uncertain Value Probabilistic",
+            "property": [
+                {
+                    "code": "status",
+                    "valueCode": "active"
+                },
+                {
+                    "code": "internalId",
+                    "valueCode": "10856"
+                },
+                {
+                    "code": "subsumedBy",
+                    "valueCode": "ANY"
+                }
+            ]
+        },
+        {
+            "code": "BAG<CD>",
+            "display": "Bag Of Concept Descriptors",
+            "property": [
+                {
+                    "code": "status",
+                    "valueCode": "active"
+                },
+                {
+                    "code": "internalId",
+                    "valueCode": "10832"
+                },
+                {
+                    "code": "subsumedBy",
+                    "valueCode": "BAG<ANY>"
+                }
+            ]
+        },
+        {
+            "code": "BAG<PQ>",
+            "display": "Bag Of Physical Quantities",
+            "property": [
+                {
+                    "code": "status",
+                    "valueCode": "active"
+                },
+                {
+                    "code": "internalId",
+                    "valueCode": "10833"
+                },
+                {
+                    "code": "subsumedBy",
+                    "valueCode": "BAG<ANY>"
+                }
+            ]
+        },
+        {
+            "code": "ED",
+            "display": "Encoded Data",
+            "property": [
+                {
+                    "code": "status",
+                    "valueCode": "active"
+                },
+                {
+                    "code": "internalId",
+                    "valueCode": "10778"
+                },
+                {
+                    "code": "subsumedBy",
+                    "valueCode": "BIN"
+                }
+            ]
+        },
+        {
+            "code": "CE",
+            "display": "Coded With Equivalents",
+            "property": [
+                {
+                    "code": "status",
+                    "valueCode": "active"
+                },
+                {
+                    "code": "internalId",
+                    "valueCode": "10784"
+                },
+                {
+                    "code": "subsumedBy",
+                    "valueCode": "CD"
+                }
+            ]
+        },
+        {
+            "code": "CS",
+            "display": "Coded Simple Value",
+            "property": [
+                {
+                    "code": "status",
+                    "valueCode": "active"
+                },
+                {
+                    "code": "internalId",
+                    "valueCode": "10782"
+                },
+                {
+                    "code": "subsumedBy",
+                    "valueCode": "CD"
+                }
+            ]
+        },
+        {
+            "code": "CV",
+            "display": "Coded Value",
+            "property": [
+                {
+                    "code": "status",
+                    "valueCode": "active"
+                },
+                {
+                    "code": "internalId",
+                    "valueCode": "10783"
+                },
+                {
+                    "code": "subsumedBy",
+                    "valueCode": "CD"
+                }
+            ]
+        },
+        {
+            "code": "ST",
+            "display": "Character String",
+            "property": [
+                {
+                    "code": "status",
+                    "valueCode": "active"
+                },
+                {
+                    "code": "internalId",
+                    "valueCode": "10779"
+                },
+                {
+                    "code": "subsumedBy",
+                    "valueCode": "ED"
+                }
+            ]
+        },
+        {
+            "code": "HXIT<AD>",
+            "display": "Historical Address",
+            "property": [
+                {
+                    "code": "status",
+                    "valueCode": "active"
+                },
+                {
+                    "code": "internalId",
+                    "valueCode": "10851"
+                },
+                {
+                    "code": "subsumedBy",
+                    "valueCode": "HXIT<ANY>"
+                }
+            ]
+        },
+        {
+            "code": "UVP<IVL<PQ>>",
+            "display": "Uncertain Probabilistic Interval Of Physical Quant",
+            "property": [
+                {
+                    "code": "status",
+                    "valueCode": "active"
+                },
+                {
+                    "code": "internalId",
+                    "valueCode": "10859"
+                },
+                {
+                    "code": "subsumedBy",
+                    "valueCode": "IVL<PQ>"
+                },
+                {
+                    "code": "subsumedBy",
+                    "valueCode": "UVP<ANY>"
+                }
+            ]
+        },
+        {
+            "code": "IVL<INT>",
+            "display": "Interval Of Integer Numbers",
+            "property": [
+                {
+                    "code": "status",
+                    "valueCode": "active"
+                },
+                {
+                    "code": "internalId",
+                    "valueCode": "10835"
+                },
+                {
+                    "code": "subsumedBy",
+                    "valueCode": "IVL<QTY>"
+                },
+                {
+                    "code": "subsumedBy",
+                    "valueCode": "SET<INT>"
+                }
+            ]
+        },
+        {
+            "code": "IVL<PQ>",
+            "display": "Interval Of Physical Quantities",
+            "property": [
+                {
+                    "code": "status",
+                    "valueCode": "active"
+                },
+                {
+                    "code": "internalId",
+                    "valueCode": "10839"
+                },
+                {
+                    "code": "subsumedBy",
+                    "valueCode": "IVL<QTY>"
+                }
+            ]
+        },
+        {
+            "code": "IVL<REAL>",
+            "display": "Interval Of Real Numbers",
+            "property": [
+                {
+                    "code": "status",
+                    "valueCode": "active"
+                },
+                {
+                    "code": "internalId",
+                    "valueCode": "10837"
+                },
+                {
+                    "code": "subsumedBy",
+                    "valueCode": "IVL<QTY>"
+                },
+                {
+                    "code": "subsumedBy",
+                    "valueCode": "SET<REAL>"
+                }
+            ]
+        },
+        {
+            "code": "IVL<TS>",
+            "display": "Interval Of Points In Time",
+            "property": [
+                {
+                    "code": "status",
+                    "valueCode": "active"
+                },
+                {
+                    "code": "internalId",
+                    "valueCode": "10841"
+                },
+                {
+                    "code": "subsumedBy",
+                    "valueCode": "IVL<QTY>"
+                }
+            ]
+        },
+        {
+            "code": "SET<TS>",
+            "display": "Set Of Points In Time",
+            "designation": [
+                {
+                    "language": "en",
+                    "use": {
+                        "system": "http://snomed.info/sct",
+                        "code": "900000000000013009"
+                    },
+                    "value": "DataTypeSetOfPointsInTime"
+                }
+            ],
+            "property": [
+                {
+                    "code": "status",
+                    "valueCode": "active"
+                },
+                {
+                    "code": "internalId",
+                    "valueCode": "10807"
+                },
+                {
+                    "code": "subsumedBy",
+                    "valueCode": "IVL<TS>"
+                }
+            ]
+        },
+        {
+            "code": "AD",
+            "display": "Postal And Residential Address",
+            "property": [
+                {
+                    "code": "status",
+                    "valueCode": "active"
+                },
+                {
+                    "code": "internalId",
+                    "valueCode": "10791"
+                },
+                {
+                    "code": "subsumedBy",
+                    "valueCode": "LIST<ADXP>"
+                }
+            ]
+        },
+        {
+            "code": "LIST<BL>",
+            "display": "Sequence Of Booleans",
+            "property": [
+                {
+                    "code": "status",
+                    "valueCode": "active"
+                },
+                {
+                    "code": "internalId",
+                    "valueCode": "10822"
+                },
+                {
+                    "code": "subsumedBy",
+                    "valueCode": "LIST<ANY>"
+                }
+            ]
+        },
+        {
+            "code": "LIST<LIST<ANY>>",
+            "display": "Sequence Of Sequences Of Data Values",
+            "property": [
+                {
+                    "code": "status",
+                    "valueCode": "active"
+                },
+                {
+                    "code": "internalId",
+                    "valueCode": "10823"
+                },
+                {
+                    "code": "subsumedBy",
+                    "valueCode": "LIST<ANY>"
+                }
+            ]
+        },
+        {
+            "code": "LIST<ED>",
+            "display": "Sequence Of Encoded Data",
+            "property": [
+                {
+                    "code": "status",
+                    "valueCode": "active"
+                },
+                {
+                    "code": "internalId",
+                    "valueCode": "10826"
+                },
+                {
+                    "code": "subsumedBy",
+                    "valueCode": "LIST<BIN>"
+                }
+            ]
+        },
+        {
+            "code": "BIN",
+            "display": "Binary Data",
+            "property": [
+                {
+                    "code": "status",
+                    "valueCode": "active"
+                },
+                {
+                    "code": "internalId",
+                    "valueCode": "10777"
+                },
+                {
+                    "code": "subsumedBy",
+                    "valueCode": "LIST<BL>"
+                }
+            ]
+        },
+        {
+            "code": "LIST<ST>",
+            "display": "Sequence Of Character Strings",
+            "property": [
+                {
+                    "code": "status",
+                    "valueCode": "active"
+                },
+                {
+                    "code": "internalId",
+                    "valueCode": "10827"
+                },
+                {
+                    "code": "subsumedBy",
+                    "valueCode": "LIST<ED>"
+                }
+            ]
+        },
+        {
+            "code": "LIST<LIST<BL>>",
+            "display": "Sequence Of Sequence Of Booleans",
+            "property": [
+                {
+                    "code": "status",
+                    "valueCode": "active"
+                },
+                {
+                    "code": "internalId",
+                    "valueCode": "10824"
+                },
+                {
+                    "code": "subsumedBy",
+                    "valueCode": "LIST<LIST<ANY>>"
+                }
+            ]
+        },
+        {
+            "code": "LIST<BIN>",
+            "display": "Sequence Of Binary Data",
+            "property": [
+                {
+                    "code": "status",
+                    "valueCode": "active"
+                },
+                {
+                    "code": "internalId",
+                    "valueCode": "10825"
+                },
+                {
+                    "code": "subsumedBy",
+                    "valueCode": "LIST<LIST<BL>>"
+                }
+            ]
+        },
+        {
+            "code": "PN",
+            "display": "Person Name Type",
+            "property": [
+                {
+                    "code": "status",
+                    "valueCode": "active"
+                },
+                {
+                    "code": "internalId",
+                    "valueCode": "10789"
+                },
+                {
+                    "code": "subsumedBy",
+                    "valueCode": "LIST<PNXP>"
+                }
+            ]
+        },
+        {
+            "code": "LIST<ADXP>",
+            "display": "Sequence Of Postal Address Parts",
+            "property": [
+                {
+                    "code": "status",
+                    "valueCode": "active"
+                },
+                {
+                    "code": "internalId",
+                    "valueCode": "10829"
+                },
+                {
+                    "code": "subsumedBy",
+                    "valueCode": "LIST<ST>"
+                }
+            ]
+        },
+        {
+            "code": "LIST<PNXP>",
+            "display": "Sequence Of Person Name Parts",
+            "property": [
+                {
+                    "code": "status",
+                    "valueCode": "active"
+                },
+                {
+                    "code": "internalId",
+                    "valueCode": "10828"
+                },
+                {
+                    "code": "subsumedBy",
+                    "valueCode": "LIST<ST>"
+                }
+            ]
+        },
+        {
+            "code": "PPD<PQ>",
+            "display": "Parametric Probability Distribution Of Physical Quantity",
+            "property": [
+                {
+                    "code": "status",
+                    "valueCode": "active"
+                },
+                {
+                    "code": "internalId",
+                    "valueCode": "10866"
+                },
+                {
+                    "code": "subsumedBy",
+                    "valueCode": "PQ"
+                }
+            ]
+        },
+        {
+            "code": "INT",
+            "display": "Integer Number",
+            "property": [
+                {
+                    "code": "status",
+                    "valueCode": "active"
+                },
+                {
+                    "code": "internalId",
+                    "valueCode": "10795"
+                },
+                {
+                    "code": "subsumedBy",
+                    "valueCode": "QTY"
+                }
+            ]
+        },
+        {
+            "code": "MO",
+            "display": "Monetary Amount",
+            "property": [
+                {
+                    "code": "status",
+                    "valueCode": "active"
+                },
+                {
+                    "code": "internalId",
+                    "valueCode": "10798"
+                },
+                {
+                    "code": "subsumedBy",
+                    "valueCode": "QTY"
+                }
+            ]
+        },
+        {
+            "code": "PPD<QTY>",
+            "display": "Parametric Probability Distribution",
+            "property": [
+                {
+                    "code": "status",
+                    "valueCode": "active"
+                },
+                {
+                    "code": "internalId",
+                    "valueCode": "10864"
+                },
+                {
+                    "code": "subsumedBy",
+                    "valueCode": "QTY"
+                }
+            ]
+        },
+        {
+            "code": "PQ",
+            "display": "Physical Quantity",
+            "property": [
+                {
+                    "code": "status",
+                    "valueCode": "active"
+                },
+                {
+                    "code": "internalId",
+                    "valueCode": "10797"
+                },
+                {
+                    "code": "subsumedBy",
+                    "valueCode": "QTY"
+                }
+            ]
+        },
+        {
+            "code": "REAL",
+            "display": "Real Number",
+            "property": [
+                {
+                    "code": "status",
+                    "valueCode": "active"
+                },
+                {
+                    "code": "internalId",
+                    "valueCode": "10796"
+                },
+                {
+                    "code": "subsumedBy",
+                    "valueCode": "QTY"
+                }
+            ]
+        },
+        {
+            "code": "RTO",
+            "display": "Ratio",
+            "property": [
+                {
+                    "code": "status",
+                    "valueCode": "active"
+                },
+                {
+                    "code": "internalId",
+                    "valueCode": "10800"
+                },
+                {
+                    "code": "subsumedBy",
+                    "valueCode": "QTY"
+                }
+            ]
+        },
+        {
+            "code": "TS",
+            "display": "Point In Time",
+            "property": [
+                {
+                    "code": "status",
+                    "valueCode": "active"
+                },
+                {
+                    "code": "internalId",
+                    "valueCode": "10799"
+                },
+                {
+                    "code": "subsumedBy",
+                    "valueCode": "QTY"
+                }
+            ]
+        },
+        {
+            "code": "PPD<REAL>",
+            "display": "Parametric Probability Distribution Of Real Number",
+            "property": [
+                {
+                    "code": "status",
+                    "valueCode": "active"
+                },
+                {
+                    "code": "internalId",
+                    "valueCode": "10865"
+                },
+                {
+                    "code": "subsumedBy",
+                    "valueCode": "REAL"
+                }
+            ]
+        },
+        {
+            "code": "SET<HXIT<AD>>",
+            "display": "Set Of Historical Addresses",
+            "property": [
+                {
+                    "code": "status",
+                    "valueCode": "active"
+                },
+                {
+                    "code": "internalId",
+                    "valueCode": "10812"
+                },
+                {
+                    "code": "subsumedBy",
+                    "valueCode": "SET<AD>"
+                }
+            ]
+        },
+        {
+            "code": "SET<CD>",
+            "display": "Set Of Concept Descriptors",
+            "property": [
+                {
+                    "code": "status",
+                    "valueCode": "active"
+                },
+                {
+                    "code": "internalId",
+                    "valueCode": "10802"
+                },
+                {
+                    "code": "subsumedBy",
+                    "valueCode": "SET<ANY>"
+                }
+            ]
+        },
+        {
+            "code": "SET<IVL<PQ>>",
+            "display": "Set Of Intervals Of Physical Quantity",
+            "property": [
+                {
+                    "code": "status",
+                    "valueCode": "active"
+                },
+                {
+                    "code": "internalId",
+                    "valueCode": "10869"
+                },
+                {
+                    "code": "subsumedBy",
+                    "valueCode": "SET<ANY>"
+                }
+            ]
+        },
+        {
+            "code": "SET<LIST<ST>>",
+            "display": "Set Of Sequences Of Character Strings",
+            "property": [
+                {
+                    "code": "status",
+                    "valueCode": "active"
+                },
+                {
+                    "code": "internalId",
+                    "valueCode": "10810"
+                },
+                {
+                    "code": "subsumedBy",
+                    "valueCode": "SET<ANY>"
+                }
+            ]
+        },
+        {
+            "code": "SET<PQ>",
+            "display": "Set Of Physical Quantities",
+            "property": [
+                {
+                    "code": "status",
+                    "valueCode": "active"
+                },
+                {
+                    "code": "internalId",
+                    "valueCode": "10818"
+                },
+                {
+                    "code": "subsumedBy",
+                    "valueCode": "SET<ANY>"
+                }
+            ]
+        },
+        {
+            "code": "SET<ST>",
+            "display": "Set Of Character Strings",
+            "property": [
+                {
+                    "code": "status",
+                    "valueCode": "active"
+                },
+                {
+                    "code": "internalId",
+                    "valueCode": "10809"
+                },
+                {
+                    "code": "subsumedBy",
+                    "valueCode": "SET<ANY>"
+                }
+            ]
+        },
+        {
+            "code": "SET<UVP<ANY>>",
+            "display": "Set Of Uncertain Value Probabilistic",
+            "property": [
+                {
+                    "code": "status",
+                    "valueCode": "active"
+                },
+                {
+                    "code": "internalId",
+                    "valueCode": "10814"
+                },
+                {
+                    "code": "subsumedBy",
+                    "valueCode": "SET<ANY>"
+                }
+            ]
+        },
+        {
+            "code": "SET<UVP<CD>>",
+            "display": "Set Of Uncertain Probabilistic Concept Descriptor",
+            "property": [
+                {
+                    "code": "status",
+                    "valueCode": "active"
+                },
+                {
+                    "code": "internalId",
+                    "valueCode": "10816"
+                },
+                {
+                    "code": "subsumedBy",
+                    "valueCode": "SET<ANY>"
+                },
+                {
+                    "code": "subsumedBy",
+                    "valueCode": "SET<CD>"
+                }
+            ]
+        },
+        {
+            "code": "SET<UVP<IVL<PQ>>>",
+            "display": "Set Of Uncertain Probabilistic Interval Of Physical Quantities",
+            "property": [
+                {
+                    "code": "status",
+                    "valueCode": "active"
+                },
+                {
+                    "code": "internalId",
+                    "valueCode": "10819"
+                },
+                {
+                    "code": "subsumedBy",
+                    "valueCode": "SET<ANY>"
+                },
+                {
+                    "code": "subsumedBy",
+                    "valueCode": "SET<IVL<PQ>>"
+                }
+            ]
+        },
+        {
+            "code": "SET<CE>",
+            "display": "Set Of Coded With Equivalents",
+            "property": [
+                {
+                    "code": "status",
+                    "valueCode": "active"
+                },
+                {
+                    "code": "internalId",
+                    "valueCode": "10805"
+                },
+                {
+                    "code": "subsumedBy",
+                    "valueCode": "SET<CD>"
+                }
+            ]
+        },
+        {
+            "code": "SET<CS>",
+            "display": "Set Of Coded Simple Value",
+            "property": [
+                {
+                    "code": "status",
+                    "valueCode": "active"
+                },
+                {
+                    "code": "internalId",
+                    "valueCode": "10803"
+                },
+                {
+                    "code": "subsumedBy",
+                    "valueCode": "SET<CD>"
+                }
+            ]
+        },
+        {
+            "code": "SET<CV>",
+            "display": "Set Of Coded Value",
+            "property": [
+                {
+                    "code": "status",
+                    "valueCode": "active"
+                },
+                {
+                    "code": "internalId",
+                    "valueCode": "10804"
+                },
+                {
+                    "code": "subsumedBy",
+                    "valueCode": "SET<CD>"
+                }
+            ]
+        },
+        {
+            "code": "HIST<AD>",
+            "display": "History Of Address",
+            "property": [
+                {
+                    "code": "status",
+                    "valueCode": "active"
+                },
+                {
+                    "code": "internalId",
+                    "valueCode": "10813"
+                },
+                {
+                    "code": "subsumedBy",
+                    "valueCode": "SET<HXIT<AD>>"
+                }
+            ]
+        },
+        {
+            "code": "SET<AD>",
+            "display": "Set Of Addresses",
+            "property": [
+                {
+                    "code": "status",
+                    "valueCode": "active"
+                },
+                {
+                    "code": "internalId",
+                    "valueCode": "10811"
+                },
+                {
+                    "code": "subsumedBy",
+                    "valueCode": "SET<LIST<ST>>"
+                }
+            ]
+        },
+        {
+            "code": "EIVL<TS>",
+            "display": "Event Related Interval",
+            "property": [
+                {
+                    "code": "status",
+                    "valueCode": "active"
+                },
+                {
+                    "code": "internalId",
+                    "valueCode": "10844"
+                },
+                {
+                    "code": "subsumedBy",
+                    "valueCode": "SET<TS>"
+                }
+            ]
+        },
+        {
+            "code": "GTS",
+            "display": "General Timing Specification",
+            "property": [
+                {
+                    "code": "status",
+                    "valueCode": "active"
+                },
+                {
+                    "code": "internalId",
+                    "valueCode": "10808"
+                },
+                {
+                    "code": "subsumedBy",
+                    "valueCode": "SET<TS>"
+                }
+            ]
+        },
+        {
+            "code": "PIVL<TS>",
+            "display": "Periodic Interval Of Time",
+            "property": [
+                {
+                    "code": "status",
+                    "valueCode": "active"
+                },
+                {
+                    "code": "internalId",
+                    "valueCode": "10843"
+                },
+                {
+                    "code": "subsumedBy",
+                    "valueCode": "SET<TS>"
+                }
+            ]
+        },
+        {
+            "code": "NPPD<ANY>",
+            "display": "Non Parametric Probability Distribution",
+            "property": [
+                {
+                    "code": "status",
+                    "valueCode": "active"
+                },
+                {
+                    "code": "internalId",
+                    "valueCode": "10815"
+                },
+                {
+                    "code": "subsumedBy",
+                    "valueCode": "SET<UVP<ANY>>"
+                }
+            ]
+        },
+        {
+            "code": "NPPD<CD>",
+            "display": "Non Parametric Probability Distribution Of Concept Descriptors",
+            "property": [
+                {
+                    "code": "status",
+                    "valueCode": "active"
+                },
+                {
+                    "code": "internalId",
+                    "valueCode": "10862"
+                },
+                {
+                    "code": "subsumedBy",
+                    "valueCode": "SET<UVP<CD>>"
+                }
+            ]
+        },
+        {
+            "code": "NPPD<IVL<PQ>>",
+            "display": "Non Parametric Probability Distribution Of Intervals of Physical Quantities",
+            "property": [
+                {
+                    "code": "status",
+                    "valueCode": "active"
+                },
+                {
+                    "code": "internalId",
+                    "valueCode": "10863"
+                },
+                {
+                    "code": "subsumedBy",
+                    "valueCode": "SET<UVP<IVL<PQ>>>"
+                }
+            ]
+        },
+        {
+            "code": "ADXP",
+            "display": "Address Part",
+            "property": [
+                {
+                    "code": "status",
+                    "valueCode": "active"
+                },
+                {
+                    "code": "internalId",
+                    "valueCode": "10792"
+                },
+                {
+                    "code": "subsumedBy",
+                    "valueCode": "ST"
+                }
+            ]
+        },
+        {
+            "code": "ON",
+            "display": "Organization Name",
+            "property": [
+                {
+                    "code": "status",
+                    "valueCode": "active"
+                },
+                {
+                    "code": "internalId",
+                    "valueCode": "10793"
+                },
+                {
+                    "code": "subsumedBy",
+                    "valueCode": "ST"
+                }
+            ]
+        },
+        {
+            "code": "PNXP",
+            "display": "Person Name Part",
+            "property": [
+                {
+                    "code": "status",
+                    "valueCode": "active"
+                },
+                {
+                    "code": "internalId",
+                    "valueCode": "10790"
+                },
+                {
+                    "code": "subsumedBy",
+                    "valueCode": "ST"
+                }
+            ]
+        },
+        {
+            "code": "TEL",
+            "display": "Telecommunication Address",
+            "property": [
+                {
+                    "code": "status",
+                    "valueCode": "active"
+                },
+                {
+                    "code": "internalId",
+                    "valueCode": "10787"
+                },
+                {
+                    "code": "subsumedBy",
+                    "valueCode": "URL"
+                }
+            ]
+        },
+        {
+            "code": "UVN<CD>",
+            "display": "Uncertain Narrative Concept Descriptor",
+            "property": [
+                {
+                    "code": "status",
+                    "valueCode": "active"
+                },
+                {
+                    "code": "internalId",
+                    "valueCode": "10854"
+                },
+                {
+                    "code": "subsumedBy",
+                    "valueCode": "UVN<ANY>"
+                }
+            ]
+        },
+        {
+            "code": "UVP<CD>",
+            "display": "Uncertain Probabilistic Concept Descriptor",
+            "property": [
+                {
+                    "code": "status",
+                    "valueCode": "active"
+                },
+                {
+                    "code": "internalId",
+                    "valueCode": "10857"
+                },
+                {
+                    "code": "subsumedBy",
+                    "valueCode": "UVP<ANY>"
+                }
+            ]
+        }
+    ]
+}

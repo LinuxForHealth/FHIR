@@ -1,5 +1,5 @@
 /*
- * (C) Copyright IBM Corp. 2019, 2021
+ * (C) Copyright IBM Corp. 2019, 2022
  *
  * SPDX-License-Identifier: Apache-2.0
  */
@@ -1705,7 +1705,7 @@ public class MessageHeader extends DomainResource {
             bindingName = "ResponseType",
             strength = BindingStrength.Value.REQUIRED,
             description = "The kind of response to a message.",
-            valueSet = "http://hl7.org/fhir/ValueSet/response-code|4.0.1"
+            valueSet = "http://hl7.org/fhir/ValueSet/response-code|4.3.0-cibuild"
         )
         @Required
         private final ResponseType code;

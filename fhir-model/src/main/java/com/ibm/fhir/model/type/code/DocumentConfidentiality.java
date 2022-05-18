@@ -1,5 +1,5 @@
 /*
- * (C) Copyright IBM Corp. 2019, 2021
+ * (C) Copyright IBM Corp. 2019, 2022
  *
  * SPDX-License-Identifier: Apache-2.0
  */
@@ -19,8 +19,6 @@ import javax.annotation.Generated;
 @System("http://terminology.hl7.org/CodeSystem/v3-Confidentiality")
 @Generated("com.ibm.fhir.tools.CodeGenerator")
 public class DocumentConfidentiality extends Code {
-    public static final DocumentConfidentiality U = DocumentConfidentiality.builder().value(Value.U).build();
-
     public static final DocumentConfidentiality L = DocumentConfidentiality.builder().value(Value.L).build();
 
     public static final DocumentConfidentiality M = DocumentConfidentiality.builder().value(Value.M).build();
@@ -28,6 +26,8 @@ public class DocumentConfidentiality extends Code {
     public static final DocumentConfidentiality N = DocumentConfidentiality.builder().value(Value.N).build();
 
     public static final DocumentConfidentiality R = DocumentConfidentiality.builder().value(Value.R).build();
+
+    public static final DocumentConfidentiality U = DocumentConfidentiality.builder().value(Value.U).build();
 
     public static final DocumentConfidentiality V = DocumentConfidentiality.builder().value(Value.V).build();
 
@@ -49,8 +49,6 @@ public class DocumentConfidentiality extends Code {
      */
     public static DocumentConfidentiality of(Value value) {
         switch (value) {
-        case U:
-            return U;
         case L:
             return L;
         case M:
@@ -59,6 +57,8 @@ public class DocumentConfidentiality extends Code {
             return N;
         case R:
             return R;
+        case U:
+            return U;
         case V:
             return V;
         default:
@@ -193,8 +193,6 @@ public class DocumentConfidentiality extends Code {
     }
 
     public enum Value {
-        U("U"),
-
         L("L"),
 
         M("M"),
@@ -202,6 +200,8 @@ public class DocumentConfidentiality extends Code {
         N("N"),
 
         R("R"),
+
+        U("U"),
 
         V("V");
 
@@ -234,8 +234,6 @@ public class DocumentConfidentiality extends Code {
                 return null;
             }
             switch (value) {
-            case "U":
-                return U;
             case "L":
                 return L;
             case "M":
@@ -244,6 +242,8 @@ public class DocumentConfidentiality extends Code {
                 return N;
             case "R":
                 return R;
+            case "U":
+                return U;
             case "V":
                 return V;
             default:

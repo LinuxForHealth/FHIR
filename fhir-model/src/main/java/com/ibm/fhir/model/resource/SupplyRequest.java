@@ -1,5 +1,5 @@
 /*
- * (C) Copyright IBM Corp. 2019, 2021
+ * (C) Copyright IBM Corp. 2019, 2022
  *
  * SPDX-License-Identifier: Apache-2.0
  */
@@ -61,7 +61,7 @@ public class SupplyRequest extends DomainResource {
         bindingName = "SupplyRequestStatus",
         strength = BindingStrength.Value.REQUIRED,
         description = "Status of the supply request.",
-        valueSet = "http://hl7.org/fhir/ValueSet/supplyrequest-status|4.0.1"
+        valueSet = "http://hl7.org/fhir/ValueSet/supplyrequest-status|4.3.0-cibuild"
     )
     private final SupplyRequestStatus status;
     @Summary
@@ -77,7 +77,7 @@ public class SupplyRequest extends DomainResource {
         bindingName = "RequestPriority",
         strength = BindingStrength.Value.REQUIRED,
         description = "Identifies the level of importance to be assigned to actioning the request.",
-        valueSet = "http://hl7.org/fhir/ValueSet/request-priority|4.0.1"
+        valueSet = "http://hl7.org/fhir/ValueSet/request-priority|4.3.0-cibuild"
     )
     private final RequestPriority priority;
     @Summary

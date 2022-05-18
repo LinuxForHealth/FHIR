@@ -25,13 +25,16 @@ import java.util.concurrent.ThreadLocalRandom;
 import javax.xml.datatype.DatatypeConfigurationException;
 
 import com.ibm.fhir.core.FHIRConstants;
+import com.ibm.fhir.core.ResourceType;
 import com.ibm.fhir.model.builder.Builder;
+import com.ibm.fhir.model.resource.AdministrableProductDefinition;
 import com.ibm.fhir.model.resource.AdverseEvent;
 import com.ibm.fhir.model.resource.AllergyIntolerance;
 import com.ibm.fhir.model.resource.Appointment;
 import com.ibm.fhir.model.resource.AuditEvent;
 import com.ibm.fhir.model.resource.CarePlan;
 import com.ibm.fhir.model.resource.ClaimResponse;
+import com.ibm.fhir.model.resource.ClinicalUseDefinition;
 import com.ibm.fhir.model.resource.CodeSystem;
 import com.ibm.fhir.model.resource.Composition;
 import com.ibm.fhir.model.resource.Condition;
@@ -42,6 +45,7 @@ import com.ibm.fhir.model.resource.HealthcareService;
 import com.ibm.fhir.model.resource.InsurancePlan;
 import com.ibm.fhir.model.resource.Measure;
 import com.ibm.fhir.model.resource.MeasureReport;
+import com.ibm.fhir.model.resource.MedicinalProductDefinition;
 import com.ibm.fhir.model.resource.MessageDefinition;
 import com.ibm.fhir.model.resource.MolecularSequence;
 import com.ibm.fhir.model.resource.Observation;
@@ -51,6 +55,7 @@ import com.ibm.fhir.model.resource.Questionnaire;
 import com.ibm.fhir.model.resource.RelatedPerson;
 import com.ibm.fhir.model.resource.Resource;
 import com.ibm.fhir.model.resource.RiskAssessment;
+import com.ibm.fhir.model.resource.SubstanceDefinition;
 import com.ibm.fhir.model.resource.SupplyDelivery;
 import com.ibm.fhir.model.resource.Task;
 import com.ibm.fhir.model.resource.ValueSet;
@@ -87,6 +92,7 @@ import com.ibm.fhir.model.type.code.CompartmentType;
 import com.ibm.fhir.model.type.code.ContactPointUse;
 import com.ibm.fhir.model.type.code.QuestionnaireItemOperator;
 import com.ibm.fhir.model.type.code.QuestionnaireItemType;
+import com.ibm.fhir.model.type.code.ResourceTypeCode;
 import com.ibm.fhir.model.type.code.TriggerType;
 import com.ibm.fhir.model.util.ValidationSupport;
 
@@ -196,12 +202,29 @@ public class CompleteMockDataCreator extends DataCreatorBase {
                         builder instanceof AuditEvent.Entity.Builder && method.getName().equals("query") ||
                         // mea-1: Stratifier SHALL be either a single criteria or a set of criteria components
                         builder instanceof Measure.Group.Stratifier.Builder && method.getName().equals("component") ||
+                        // cud-1: Indication, Contraindication, Interaction, UndesirableEffect and Warning cannot be used in the same instance
+                        // special-case this one so that we get one of each type (i.e. like a choice type with 5 choices)
+                        builder instanceof ClinicalUseDefinition.Builder && choiceIndicator % 5 != 0 && method.getName().equals("indication") ||
+                        builder instanceof ClinicalUseDefinition.Builder && choiceIndicator % 5 != 1 && method.getName().equals("contraindication") ||
+                        builder instanceof ClinicalUseDefinition.Builder && choiceIndicator % 5 != 2 && method.getName().equals("interaction") ||
+                        builder instanceof ClinicalUseDefinition.Builder && choiceIndicator % 5 != 3 && method.getName().equals("undesirableEffect") ||
+                        builder instanceof ClinicalUseDefinition.Builder && choiceIndicator % 5 != 4 && method.getName().equals("warning") ||
                         // cpl-3: Provide a reference or detail, not both
                         builder instanceof CarePlan.Activity.Builder && method.getName().equals("detail") ||
                         // per-1: If present, start SHALL have a lower or equal value than end
                         builder instanceof Period.Builder && method.getName().equals("start")) {
 
                         continue;
+                    }
+                    // per-1: If present, start SHALL have a lower value than end
+                    if (builder instanceof Period.Builder) {
+                        if (choiceIndicator % 2 == 0 && method.getName().equals("start")) {
+                            // on evens, skip start
+                            continue;
+                        } else if (method.getName().equals("end")) {
+                            // on odds, skip end
+                            continue;
+                        }
                     }
                     /////////////////
                     // Special values
@@ -217,12 +240,14 @@ public class CompleteMockDataCreator extends DataCreatorBase {
                     else if ((builder instanceof ClaimResponse.ProcessNote.Builder && "language".equals(method.getName()))
                             || (builder instanceof ExplanationOfBenefit.ProcessNote.Builder && "language".equals(method.getName()))
                             || (builder instanceof Patient.Communication.Builder && "language".equals(method.getName()))
-                            || (builder instanceof RelatedPerson.Communication.Builder && "language".equals(method.getName()))) {
+                            || (builder instanceof RelatedPerson.Communication.Builder && "language".equals(method.getName()))
+                            || (builder instanceof MedicinalProductDefinition.Name.CountryLanguage.Builder && "language".equals(method.getName()))) {
                         argument = CodeableConcept.builder().coding(Coding.builder().system(Uri.of(ValidationSupport.BCP_47_URN)).code(Code.of(ENGLISH_US)).build()).build();
                     }
                     // Must contain a valid BCP-47 system and code (List<CodeableConcept>)
                     else if ((builder instanceof HealthcareService.Builder && "communication".equals(method.getName()))
-                            || (builder instanceof Practitioner.Builder && "communication".equals(method.getName()))) {
+                            || (builder instanceof Practitioner.Builder && "communication".equals(method.getName()))
+                            || (builder instanceof SubstanceDefinition.Name.Builder && "language".equals(method.getName()))) {
                         argument = Collections.singletonList(CodeableConcept.builder().coding(Coding.builder().system(Uri.of(ValidationSupport.BCP_47_URN)).code(Code.of(ENGLISH_US)).build()).build());
                     }
                     // drt-1: There SHALL be a code if there is a value and it SHALL be an expression of time.  If system is present, it SHALL be UCUM.
@@ -266,7 +291,19 @@ public class CompleteMockDataCreator extends DataCreatorBase {
                     }
 
                     // CodeableConcepts with required bindings
-                    else if (builder instanceof AdverseEvent.Builder && method.getName().equals("severity")) {
+                    else if (builder instanceof AdministrableProductDefinition.Property.Builder && method.getName().equals("status")) {
+                        String value = "draft";
+                        argument = CodeableConcept.builder()
+                                .coding(Coding.builder()
+                                    .system(Uri.of("http://hl7.org/fhir/publication-status"))
+                                    .version("4.3.0")
+                                    .code(Code.of(value))
+                                    .display(titleCase(value))
+                                    .userSelected(com.ibm.fhir.model.type.Boolean.FALSE)
+                                    .build())
+                                .text(string(value))
+                                .build();
+                    } else if (builder instanceof AdverseEvent.Builder && method.getName().equals("severity")) {
                         String value = "mild";
                         argument = CodeableConcept.builder()
                                 .coding(Coding.builder()
@@ -505,8 +542,16 @@ public class CompleteMockDataCreator extends DataCreatorBase {
 
     protected void handleCode(Code.Builder code) throws IllegalAccessException, IllegalArgumentException, InvocationTargetException, NoSuchMethodException, SecurityException {
         Class<?> elementClass = code.getClass().getEnclosingClass();
-
         Class<?>[] classes = elementClass.getClasses();
+
+        // Special case for ResourceType
+        if (code instanceof ResourceTypeCode.Builder) {
+            ResourceType[] enumConstants = ResourceType.values();
+            ResourceType enumConstant = enumConstants[ThreadLocalRandom.current().nextInt(0, enumConstants.length)];
+            code.value(enumConstant.value());
+            return;
+        }
+
         // If the element has a ValueSet, set one of the values randomly
         for (Class<?> clazz : classes) {
             if ("Value".equals(clazz.getSimpleName())) {

@@ -1,0 +1,86 @@
+{
+    "resourceType": "ValueSet",
+    "id": "measurereport-stratifier-value-example",
+    "meta": {
+        "lastUpdated": "2022-04-23T22:21:35.043Z",
+        "profile": [
+            "http://hl7.org/fhir/StructureDefinition/shareablevalueset"
+        ]
+    },
+    "extension": [
+        {
+            "url": "http://hl7.org/fhir/StructureDefinition/structuredefinition-wg",
+            "valueCode": "cqi"
+        },
+        {
+            "url": "http://hl7.org/fhir/StructureDefinition/structuredefinition-standards-status",
+            "valueCode": "draft"
+        },
+        {
+            "url": "http://hl7.org/fhir/StructureDefinition/structuredefinition-fmm",
+            "valueInteger": 1
+        }
+    ],
+    "url": "http://hl7.org/fhir/ValueSet/measurereport-stratifier-value-example",
+    "identifier": [
+        {
+            "system": "urn:ietf:rfc:3986",
+            "value": "urn:oid:2.16.840.1.113883.4.642.3.0"
+        }
+    ],
+    "version": "4.3.0-cibuild",
+    "name": "MeasureReportStratifierValueExample",
+    "title": "MeasureReportStratifierValueExample",
+    "status": "draft",
+    "experimental": true,
+    "publisher": "Clinical Quality Information Workgroup",
+    "description": "Example Measure Stratification Value for MeasureReports Resource.",
+    "compose": {
+        "include": [
+            {
+                "system": "http://terminology.hl7.org/CodeSystem/measurereport-stratifier-value-example"
+            }
+        ]
+    },
+    "expansion": {
+        "identifier": "urn:uuid:85e30014-79dd-4a30-bc58-e2edf8fa62e8",
+        "timestamp": "2022-04-23T22:23:26Z",
+        "total": 4,
+        "parameter": [
+            {
+                "name": "excludeNested",
+                "valueBoolean": true
+            },
+            {
+                "name": "includeDesignations",
+                "valueBoolean": true
+            },
+            {
+                "name": "version",
+                "valueUri": "http://terminology.hl7.org/CodeSystem/measurereport-stratifier-value-example|4.3.0-cibuild"
+            }
+        ],
+        "contains": [
+            {
+                "system": "http://terminology.hl7.org/CodeSystem/measurereport-stratifier-value-example",
+                "code": "northwest",
+                "display": "Northwest"
+            },
+            {
+                "system": "http://terminology.hl7.org/CodeSystem/measurereport-stratifier-value-example",
+                "code": "northeast",
+                "display": "Northeast"
+            },
+            {
+                "system": "http://terminology.hl7.org/CodeSystem/measurereport-stratifier-value-example",
+                "code": "southwest",
+                "display": "Soutwest"
+            },
+            {
+                "system": "http://terminology.hl7.org/CodeSystem/measurereport-stratifier-value-example",
+                "code": "southeast",
+                "display": "Southeast"
+            }
+        ]
+    }
+}

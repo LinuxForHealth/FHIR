@@ -1,0 +1,135 @@
+{
+    "resourceType": "CodeSystem",
+    "id": "v2-0642",
+    "text": {
+        "status": "empty",
+        "div": "<div xmlns=\"http://www.w3.org/1999/xhtml\">Redacted for size</div>"
+    },
+    "extension": [
+        {
+            "url": "http://hl7.org/fhir/StructureDefinition/structuredefinition-wg",
+            "valueCode": "oo"
+        }
+    ],
+    "url": "http://terminology.hl7.org/CodeSystem/v2-0642",
+    "identifier": [
+        {
+            "system": "urn:ietf:rfc:3986",
+            "value": "urn:oid:2.16.840.1.113883.18.379"
+        }
+    ],
+    "version": "2.1.0",
+    "name": "ReorderTheory",
+    "title": "reorderTheory",
+    "status": "active",
+    "experimental": false,
+    "date": "2019-12-01",
+    "publisher": "HL7, Inc",
+    "contact": [
+        {
+            "telecom": [
+                {
+                    "system": "url",
+                    "value": "http://www.hl7.org/"
+                }
+            ]
+        }
+    ],
+    "description": "Code system of concepts that identify the calculation method used to determine the resupply schedule. Used in HL7 Version 2.x messaging in the IVT segment.",
+    "purpose": "Underlying Master Code System for V2 table 0642 (Reorder Theory Codes)",
+    "copyright": "Copyright HL7. Licensed under creative commons public domain",
+    "caseSensitive": true,
+    "valueSet": "http://terminology.hl7.org/ValueSet/v2-0642",
+    "hierarchyMeaning": "is-a",
+    "compositional": false,
+    "versionNeeded": false,
+    "content": "complete",
+    "property": [
+        {
+            "code": "status",
+            "uri": "http://terminology.hl7.org/CodeSystem/utg-concept-properties#status",
+            "description": "Status of the concept",
+            "type": "code"
+        },
+        {
+            "code": "deprecated",
+            "uri": "http://terminology.hl7.org/CodeSystem/utg-concept-properties#v2-table-deprecated",
+            "description": "Version of HL7 in which the code was deprecated",
+            "type": "code"
+        },
+        {
+            "code": "v2-concComment",
+            "uri": "http://terminology.hl7.org/CodeSystem/utg-concept-properties#v2-concComment",
+            "description": "V2 Concept Comment",
+            "type": "string"
+        },
+        {
+            "code": "v2-concCommentAsPub",
+            "uri": "http://terminology.hl7.org/CodeSystem/utg-concept-properties#v2-concCommentAsPub",
+            "description": "V2 Concept Comment As Published",
+            "type": "string"
+        }
+    ],
+    "concept": [
+        {
+            "id": "6269",
+            "code": "D",
+            "display": "DOP/DOQ",
+            "definition": "DOP/DOQ",
+            "property": [
+                {
+                    "code": "v2-concComment",
+                    "valueString": "Corresponds to the theory that calculates the appropriate order point and recommends the quantity to order based on system parameters and historical trends.  DOP stands for Dynamic Order Point, and DOQ stands for Dynamic Order Quantity."
+                },
+                {
+                    "code": "v2-concCommentAsPub",
+                    "valueString": "Corresponds to the theory that calculates the appropriate order point and recommends the quantity to order based on system parameters and historical trends.  DOP stands for Dynamic Order Point, and DOQ stands for Dynamic Order Quantity."
+                },
+                {
+                    "code": "status",
+                    "valueCode": "A"
+                }
+            ]
+        },
+        {
+            "id": "6270",
+            "code": "M",
+            "display": "MIN/MAX",
+            "definition": "MIN/MAX",
+            "property": [
+                {
+                    "code": "v2-concComment",
+                    "valueString": "Corresponds to theory - the quantity recommended is the Order Quantity, less the On Hand Quantity, and less the On Order Quantity.  The Order Amount is the desired Maximum On Hand Quantity."
+                },
+                {
+                    "code": "v2-concCommentAsPub",
+                    "valueString": "Corresponds to theory - the quantity recommended is the Order Quantity, less the On Hand Quantity, and less the On Order Quantity.  The Order Amount is the desired Maximum On Hand Quantity."
+                },
+                {
+                    "code": "status",
+                    "valueCode": "A"
+                }
+            ]
+        },
+        {
+            "id": "6271",
+            "code": "O",
+            "display": "Override",
+            "definition": "Override",
+            "property": [
+                {
+                    "code": "v2-concComment",
+                    "valueString": "The quantity recommended is the Order Quantity, less the On Order Quantity.  The Order Amount is the amount to order when the On Hand reaches the Order Point."
+                },
+                {
+                    "code": "v2-concCommentAsPub",
+                    "valueString": "The quantity recommended is the Order Quantity, less the On Order Quantity.  The Order Amount is the amount to order when the On Hand reaches the Order Point."
+                },
+                {
+                    "code": "status",
+                    "valueCode": "A"
+                }
+            ]
+        }
+    ]
+}

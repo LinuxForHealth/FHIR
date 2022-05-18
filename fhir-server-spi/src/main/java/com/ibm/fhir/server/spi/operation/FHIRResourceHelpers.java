@@ -79,7 +79,8 @@ public interface FHIRResourceHelpers {
      * @param interaction
      *            the interaction to be performed
      * @param resourceType
-     *            the resource type against which the interaction is to be performed
+     *            the resource type against which the interaction is to be performed; use "Resource"
+     *            for whole-system interactions
      * @throws FHIROperationException
      */
     void validateInteraction(Interaction interaction, String resourceType) throws FHIROperationException;

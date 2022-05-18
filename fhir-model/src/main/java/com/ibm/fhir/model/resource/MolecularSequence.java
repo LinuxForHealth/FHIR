@@ -1,5 +1,5 @@
 /*
- * (C) Copyright IBM Corp. 2019, 2021
+ * (C) Copyright IBM Corp. 2019, 2022
  *
  * SPDX-License-Identifier: Apache-2.0
  */
@@ -86,7 +86,7 @@ public class MolecularSequence extends DomainResource {
         bindingName = "sequenceType",
         strength = BindingStrength.Value.REQUIRED,
         description = "Type if a sequence -- DNA, RNA, or amino acid sequence.",
-        valueSet = "http://hl7.org/fhir/ValueSet/sequence-type|4.0.1"
+        valueSet = "http://hl7.org/fhir/ValueSet/sequence-type|4.3.0-cibuild"
     )
     private final SequenceType type;
     @Summary
@@ -1221,7 +1221,7 @@ public class MolecularSequence extends DomainResource {
         @Binding(
             bindingName = "chromosome-human",
             strength = BindingStrength.Value.EXAMPLE,
-            description = "Chromosome number for human.",
+            description = "The chromosome containing the genetic finding",
             valueSet = "http://hl7.org/fhir/ValueSet/chromosome-human"
         )
         private final CodeableConcept chromosome;
@@ -1231,15 +1231,15 @@ public class MolecularSequence extends DomainResource {
         @Binding(
             bindingName = "orientationType",
             strength = BindingStrength.Value.REQUIRED,
-            description = "Type for orientation.",
-            valueSet = "http://hl7.org/fhir/ValueSet/orientation-type|4.0.1"
+            description = "Type for orientation",
+            valueSet = "http://hl7.org/fhir/ValueSet/orientation-type|4.3.0-cibuild"
         )
         private final OrientationType orientation;
         @Summary
         @Binding(
             bindingName = "sequenceReference",
             strength = BindingStrength.Value.EXAMPLE,
-            description = "Reference identifier.",
+            description = "Reference identifier for reference sequence",
             valueSet = "http://hl7.org/fhir/ValueSet/sequence-referenceSeq"
         )
         private final CodeableConcept referenceSeqId;
@@ -1252,8 +1252,8 @@ public class MolecularSequence extends DomainResource {
         @Binding(
             bindingName = "strandType",
             strength = BindingStrength.Value.REQUIRED,
-            description = "Type for strand.",
-            valueSet = "http://hl7.org/fhir/ValueSet/strand-type|4.0.1"
+            description = "Type for strand",
+            valueSet = "http://hl7.org/fhir/ValueSet/strand-type|4.3.0-cibuild"
         )
         private final StrandType strand;
         @Summary
@@ -2372,8 +2372,8 @@ public class MolecularSequence extends DomainResource {
         @Binding(
             bindingName = "qualityType",
             strength = BindingStrength.Value.REQUIRED,
-            description = "Type for quality report.",
-            valueSet = "http://hl7.org/fhir/ValueSet/quality-type|4.0.1"
+            description = "Type for quality",
+            valueSet = "http://hl7.org/fhir/ValueSet/quality-type|4.3.0-cibuild"
         )
         @Required
         private final QualityType type;
@@ -2381,7 +2381,7 @@ public class MolecularSequence extends DomainResource {
         @Binding(
             bindingName = "qualityStandardSequence",
             strength = BindingStrength.Value.EXAMPLE,
-            description = "Reference identifier of the sequence that used to mark the quality of tested samples.",
+            description = "Reference identifier for standard sequence",
             valueSet = "http://hl7.org/fhir/ValueSet/sequence-quality-standardSequence"
         )
         private final CodeableConcept standardSequence;
@@ -2395,7 +2395,7 @@ public class MolecularSequence extends DomainResource {
         @Binding(
             bindingName = "qualityMethod",
             strength = BindingStrength.Value.EXAMPLE,
-            description = "The method used to evaluate the numerical quality of the observed sequence.",
+            description = "How to get the numerical score",
             valueSet = "http://hl7.org/fhir/ValueSet/sequence-quality-method"
         )
         private final CodeableConcept method;
@@ -3872,8 +3872,8 @@ public class MolecularSequence extends DomainResource {
         @Binding(
             bindingName = "repositoryType",
             strength = BindingStrength.Value.REQUIRED,
-            description = "Type for access of external URI.",
-            valueSet = "http://hl7.org/fhir/ValueSet/repository-type|4.0.1"
+            description = "Type for repository",
+            valueSet = "http://hl7.org/fhir/ValueSet/repository-type|4.3.0-cibuild"
         )
         @Required
         private final RepositoryType type;
@@ -4367,7 +4367,7 @@ public class MolecularSequence extends DomainResource {
             bindingName = "LOINC LL379-9 answerlist",
             strength = BindingStrength.Value.REQUIRED,
             description = "DNA change type.",
-            valueSet = "http://loinc.org/vs/LL379-9|4.0.1"
+            valueSet = "http://loinc.org/vs/LL379-9|4.3.0-cibuild"
         )
         private final CodeableConcept variantType;
         @Summary

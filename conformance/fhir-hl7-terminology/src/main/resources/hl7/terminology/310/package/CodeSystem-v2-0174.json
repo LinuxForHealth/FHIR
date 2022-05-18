@@ -1,0 +1,229 @@
+{
+    "resourceType": "CodeSystem",
+    "id": "v2-0174",
+    "text": {
+        "status": "empty",
+        "div": "<div xmlns=\"http://www.w3.org/1999/xhtml\">Redacted for size</div>"
+    },
+    "extension": [
+        {
+            "url": "http://hl7.org/fhir/StructureDefinition/structuredefinition-wg",
+            "valueCode": "inm"
+        },
+        {
+            "url": "http://hl7.org/fhir/StructureDefinition/structuredefinition-wg",
+            "valueCode": "oo"
+        }
+    ],
+    "url": "http://terminology.hl7.org/CodeSystem/v2-0174",
+    "identifier": [
+        {
+            "system": "urn:ietf:rfc:3986",
+            "value": "urn:oid:2.16.840.1.113883.18.90"
+        }
+    ],
+    "version": "2.1.0",
+    "name": "NatureOfServiceTestObservation",
+    "title": "natureOfServiceTestObservation",
+    "status": "active",
+    "experimental": false,
+    "date": "2019-12-01",
+    "publisher": "HL7, Inc",
+    "contact": [
+        {
+            "telecom": [
+                {
+                    "system": "url",
+                    "value": "http://www.hl7.org/"
+                }
+            ]
+        }
+    ],
+    "description": "Code system of concepts specifying an identification of a test battery, an entire functional procedure or study, a single test value (observation), multiple test batteries or functional procedures as an orderable unit (profile), or a single test value (observation) calculated from other independent observations, typically used as an indicator for Master Files.  Used in HL7 Version 2.x messaging in the OM1 segment.",
+    "purpose": "Underlying Master Code System for V2 table 0174 (Nature of Service/Test/Observation)",
+    "copyright": "Copyright HL7. Licensed under creative commons public domain",
+    "caseSensitive": true,
+    "valueSet": "http://terminology.hl7.org/ValueSet/v2-0174",
+    "hierarchyMeaning": "is-a",
+    "compositional": false,
+    "versionNeeded": false,
+    "content": "complete",
+    "property": [
+        {
+            "code": "status",
+            "uri": "http://terminology.hl7.org/CodeSystem/utg-concept-properties#status",
+            "description": "Status of the concept",
+            "type": "code"
+        },
+        {
+            "code": "deprecated",
+            "uri": "http://terminology.hl7.org/CodeSystem/utg-concept-properties#v2-table-deprecated",
+            "description": "Version of HL7 in which the code was deprecated",
+            "type": "code"
+        },
+        {
+            "code": "v2-concComment",
+            "uri": "http://terminology.hl7.org/CodeSystem/utg-concept-properties#v2-concComment",
+            "description": "V2 Concept Comment",
+            "type": "string"
+        },
+        {
+            "code": "v2-concCommentAsPub",
+            "uri": "http://terminology.hl7.org/CodeSystem/utg-concept-properties#v2-concCommentAsPub",
+            "description": "V2 Concept Comment As Published",
+            "type": "string"
+        }
+    ],
+    "concept": [
+        {
+            "id": "1822",
+            "code": "P",
+            "display": "Profile or battery consisting of many independent atomic observations (e.g., SMA12, electrolytes), usually done at one instrument on one specimen",
+            "definition": "Profile or battery consisting of many independent atomic observations (e.g., SMA12, electrolytes), usually done at one instrument on one specimen",
+            "designation": [
+                {
+                    "language": "de",
+                    "use": {
+                        "system": "http://terminology.hl7.org/CodeSystem/hl7TermMaintInfra",
+                        "code": "preferredForLanguage"
+                    },
+                    "value": "Batterieanordnung"
+                }
+            ],
+            "property": [
+                {
+                    "code": "v2-concComment",
+                    "valueString": "can be associated with one or more OM4 (specimen) segments<p>See comment for value S"
+                },
+                {
+                    "code": "v2-concCommentAsPub",
+                    "valueString": "can be associated with one or more OM4 (specimen) segments<p>See comment for value S"
+                },
+                {
+                    "code": "status",
+                    "valueCode": "A"
+                }
+            ]
+        },
+        {
+            "id": "1823",
+            "code": "F",
+            "display": "Functional procedure that may consist of one or more interrelated measures (e.g., glucose tolerance test, creatinine clearance), usually done at different times and/or on different specimens",
+            "definition": "Functional procedure that may consist of one or more interrelated measures (e.g., glucose tolerance test, creatinine clearance), usually done at different times and/or on different specimens",
+            "designation": [
+                {
+                    "language": "de",
+                    "use": {
+                        "system": "http://terminology.hl7.org/CodeSystem/hl7TermMaintInfra",
+                        "code": "preferredForLanguage"
+                    },
+                    "value": "Funktionstest"
+                }
+            ],
+            "property": [
+                {
+                    "code": "v2-concComment",
+                    "valueString": "can be associated with one or more OM4 (specimen) segments<p>See comment for value S"
+                },
+                {
+                    "code": "v2-concCommentAsPub",
+                    "valueString": "can be associated with one or more OM4 (specimen) segments<p>See comment for value S"
+                },
+                {
+                    "code": "status",
+                    "valueCode": "A"
+                }
+            ]
+        },
+        {
+            "id": "1824",
+            "code": "A",
+            "display": "Atomic service/test/observation (test code or treatment code)",
+            "definition": "Atomic service/test/observation (test code or treatment code)",
+            "designation": [
+                {
+                    "language": "de",
+                    "use": {
+                        "system": "http://terminology.hl7.org/CodeSystem/hl7TermMaintInfra",
+                        "code": "preferredForLanguage"
+                    },
+                    "value": "Einzeluntersuchung"
+                }
+            ],
+            "property": [
+                {
+                    "code": "v2-concComment",
+                    "valueString": "can be associated with one or more OM4 (specimen) segments<p>a single direct observation and would usually be associated with an OM2 and/or OM3 segments"
+                },
+                {
+                    "code": "v2-concCommentAsPub",
+                    "valueString": "can be associated with one or more OM4 (specimen) segments<p>a single direct observation and would usually be associated with an OM2 and/or OM3 segments"
+                },
+                {
+                    "code": "status",
+                    "valueCode": "A"
+                }
+            ]
+        },
+        {
+            "id": "1825",
+            "code": "S",
+            "display": "Superset-a set of batteries or procedures ordered under a single code unit but processed as separate batteries (e.g., routines = CBC, UA, electrolytes)<p>This set indicates that the code being described is used to order multiple service/test/observation b",
+            "definition": "Superset—a set of batteries or procedures ordered under a single code unit but processed as separate batteries (e.g., routines = CBC, UA, electrolytes)\r\nThis set indicates that the code being described is used to order multiple service/test/observation batteries.  For example, a client who routinely orders a CBC, a differential, and a thyroxine as an outpatient profile might use a single, special code to order all three test batteries, instead of having to submit three separate order codes.",
+            "designation": [
+                {
+                    "language": "de",
+                    "use": {
+                        "system": "http://terminology.hl7.org/CodeSystem/hl7TermMaintInfra",
+                        "code": "preferredForLanguage"
+                    },
+                    "value": "Latte von mehreren Batterieanforderungen (Aufnahmelatte)"
+                }
+            ],
+            "property": [
+                {
+                    "code": "v2-concComment",
+                    "valueString": "can be associated with one or more OM4 (specimen) segments\r\nCodes P, F, and S identify sets (batteries) and should be associated with an OM5 segment that defines the list of elements.  The definitions for the contained elements would have to be sent in other independent OMx segments, one for each contained element.  In the ASTM context, most text reports – such as discharge summaries, admission H&Ps, and chest X-ray reports – are considered as sets, in which each section of the report (e.g., description, impression, and recommendation of an X-ray report) is considered a separate observation"
+                },
+                {
+                    "code": "v2-concCommentAsPub",
+                    "valueString": "can be associated with one or more OM4 (specimen) segments\r\nCodes P, F, and S identify sets (batteries) and should be associated with an OM5 segment that defines the list of elements.  The definitions for the contained elements would have to be sent in other independent OMx segments, one for each contained element.  In the ASTM context, most text reports – such as discharge summaries, admission H&Ps, and chest X-ray reports – are considered as sets, in which each section of the report (e.g., description, impression, and recommendation of an X-ray report) is considered a separate observation"
+                },
+                {
+                    "code": "status",
+                    "valueCode": "A"
+                }
+            ]
+        },
+        {
+            "id": "1826",
+            "code": "C",
+            "display": "Single observation calculated via a rule or formula from other independent observations (e.g., Alveolar-arterial ratio, cardiac output)",
+            "definition": "Single observation calculated via a rule or formula from other independent observations (e.g., Alveolar-arterial ratio, cardiac output)",
+            "designation": [
+                {
+                    "language": "de",
+                    "use": {
+                        "system": "http://terminology.hl7.org/CodeSystem/hl7TermMaintInfra",
+                        "code": "preferredForLanguage"
+                    },
+                    "value": "Berechnetes Einzelergebnis"
+                }
+            ],
+            "property": [
+                {
+                    "code": "v2-concComment",
+                    "valueString": "can be associated with one or more OM4 (specimen) segments<p>a derived quantity and would usually be associated with an OM6 segment"
+                },
+                {
+                    "code": "v2-concCommentAsPub",
+                    "valueString": "can be associated with one or more OM4 (specimen) segments<p>a derived quantity and would usually be associated with an OM6 segment"
+                },
+                {
+                    "code": "status",
+                    "valueCode": "A"
+                }
+            ]
+        }
+    ]
+}

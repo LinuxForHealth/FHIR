@@ -72,7 +72,7 @@ public class Create extends FHIRResource {
             checkInitComplete();
             checkType(type);
 
-            FHIRRestHelper helper = new FHIRRestHelper(getPersistenceImpl(), getSearchHelper());
+            FHIRRestHelper helper = new FHIRRestHelper(getPersistenceImpl(), getSearchHelper(), getFhirVersion());
             ior = helper.doCreate(type, resource, ifNoneExist);
 
             ResponseBuilder response =

@@ -2,14 +2,14 @@
   "resourceType": "ValueSet",
   "id": "medication-codes",
   "meta": {
-    "lastUpdated": "2019-11-01T09:29:23.356+11:00",
+    "lastUpdated": "2022-04-23T22:21:35.043+00:00",
     "profile": [
       "http://hl7.org/fhir/StructureDefinition/shareablevalueset"
     ]
   },
   "text": {
     "status": "generated",
-    "div": "\u003cdiv xmlns\u003d\"http://www.w3.org/1999/xhtml\"\u003e\n\t\t\t\n\t\t\u003cp\u003eThe value set to instantiate this attribute should be drawn from a terminologically robust code system that consists of or contains medictation concepts.\u003c/p\u003e\n\t\t\t\t\t\u003cp\u003ePossible sources include:\u003c/p\u003e\n\t\t\t\n\t\t\u003cul\u003e\n\n\t\t\t\u003cli\u003eInclude codes from http://snomed.info/sct where concept  is-a  410942007\u003c/li\u003e\n\t\t\t\t\n\t\t\t\u003cli\u003eInclude codes from http://snomed.info/sct where concept  is-a  373873005\u003c/li\u003e\n\t\t\t\n\t\t\t\u003cli\u003eInclude codes from http://snomed.info/sct where concept  is-a  106181007\u003c/li\u003e\n\t\t\t\n\t\t\u003c/ul\u003e\n\t\t\t\n\t\t\u003cp\u003eSNOMED CT is being used here as the example terminology.\u003c/p\u003e\n\t\t\t\n\t\t\u003cp\u003eThis value set includes content from SNOMED CT, which is copyright © 2002 International Health Terminology Standards Development Organisation (IHTSDO), and distributed by agreement between IHTSDO and HL7. Implementer use of SNOMED CT is not covered by this agreement.\u003c/p\u003e\n\n\t\u003c/div\u003e"
+    "div": "\u003cdiv xmlns\u003d\"http://www.w3.org/1999/xhtml\"\u003e\n\t\t\t\n\t\t\n      \u003cp\u003eThe value set to instantiate this attribute should be drawn from a terminologically robust code system that consists of or contains medictation concepts.\u003c/p\u003e\n\t\t\t\t\t\n      \u003cp\u003ePossible sources include:\u003c/p\u003e\n\t\t\t\n\t\t\n      \u003cul\u003e\n\n\t\t\t\n        \u003cli\u003eInclude codes from http://snomed.info/sct where concept  is-a 763158003\u003c/li\u003e\n\t\t\t\n\t\t\n      \u003c/ul\u003e\n\t\t\t\n\t\t\n      \u003cp\u003eSNOMED CT is being used here as the example terminology.\u003c/p\u003e\n\t\t\t\n\t\t\n      \u003cp\u003eThis value set includes content from SNOMED CT, which is copyright © 2002 International Health Terminology Standards Development Organisation (IHTSDO), and distributed by agreement between IHTSDO and HL7. Implementer use of SNOMED CT is not covered by this agreement.\u003c/p\u003e\n\n\t\n    \u003c/div\u003e"
   },
   "extension": [
     {
@@ -32,12 +32,11 @@
       "value": "urn:oid:2.16.840.1.113883.4.642.3.375"
     }
   ],
-  "version": "4.0.1",
+  "version": "4.3.0-cibuild",
   "name": "SNOMEDCTMedicationCodes",
   "title": "SNOMED CT Medication Codes",
   "status": "draft",
-  "experimental": false,
-  "date": "2019-11-01T09:29:23+11:00",
+  "experimental": true,
   "publisher": "FHIR Project team",
   "contact": [
     {
@@ -59,27 +58,7 @@
           {
             "property": "concept",
             "op": "is-a",
-            "value": "410942007"
-          }
-        ]
-      },
-      {
-        "system": "http://snomed.info/sct",
-        "filter": [
-          {
-            "property": "concept",
-            "op": "is-a",
-            "value": "373873005"
-          }
-        ]
-      },
-      {
-        "system": "http://snomed.info/sct",
-        "filter": [
-          {
-            "property": "concept",
-            "op": "is-a",
-            "value": "106181007"
+            "value": "763158003"
           }
         ]
       }

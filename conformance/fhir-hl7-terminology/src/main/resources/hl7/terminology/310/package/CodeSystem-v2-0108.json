@@ -1,0 +1,145 @@
+{
+    "resourceType": "CodeSystem",
+    "id": "v2-0108",
+    "text": {
+        "status": "empty",
+        "div": "<div xmlns=\"http://www.w3.org/1999/xhtml\">Redacted for size</div>"
+    },
+    "url": "http://terminology.hl7.org/CodeSystem/v2-0108",
+    "identifier": [
+        {
+            "system": "urn:ietf:rfc:3986",
+            "value": "urn:oid:2.16.840.1.113883.18.45"
+        }
+    ],
+    "version": "2.2.0",
+    "name": "QueryResultsLevel",
+    "title": "queryResultsLevel",
+    "status": "active",
+    "experimental": false,
+    "date": "2019-12-01",
+    "publisher": "HL7, Inc",
+    "contact": [
+        {
+            "telecom": [
+                {
+                    "system": "url",
+                    "value": "http://www.hl7.org/"
+                }
+            ]
+        }
+    ],
+    "description": "HL7-defined code system of concepts which are used to control level of detail in query results.   Used in HL7 Version 2 messaging in the URD segment.",
+    "purpose": "Underlying Master Code System for V2 table 0108 (Query results level)",
+    "copyright": "Copyright HL7. Licensed under creative commons public domain",
+    "caseSensitive": true,
+    "valueSet": "http://terminology.hl7.org/ValueSet/v2-0108",
+    "hierarchyMeaning": "is-a",
+    "compositional": false,
+    "versionNeeded": false,
+    "content": "complete",
+    "property": [
+        {
+            "code": "status",
+            "uri": "http://terminology.hl7.org/CodeSystem/utg-concept-properties#status",
+            "description": "Status of the concept",
+            "type": "code"
+        },
+        {
+            "code": "deprecated",
+            "uri": "http://terminology.hl7.org/CodeSystem/utg-concept-properties#v2-table-deprecated",
+            "description": "Version of HL7 in which the code was deprecated",
+            "type": "code"
+        }
+    ],
+    "concept": [
+        {
+            "id": "1346",
+            "code": "O",
+            "display": "Order plus order status",
+            "definition": "Order plus order status",
+            "designation": [
+                {
+                    "language": "de",
+                    "use": {
+                        "system": "http://terminology.hl7.org/CodeSystem/hl7TermMaintInfra",
+                        "code": "preferredForLanguage"
+                    },
+                    "value": "Auftrag und Auftragsstatus"
+                }
+            ],
+            "property": [
+                {
+                    "code": "status",
+                    "valueCode": "A"
+                }
+            ]
+        },
+        {
+            "id": "1347",
+            "code": "R",
+            "display": "Results without bulk text",
+            "definition": "Results without bulk text",
+            "designation": [
+                {
+                    "language": "de",
+                    "use": {
+                        "system": "http://terminology.hl7.org/CodeSystem/hl7TermMaintInfra",
+                        "code": "preferredForLanguage"
+                    },
+                    "value": "Ergebnisse / Befunde ohne umfänglichen Text"
+                }
+            ],
+            "property": [
+                {
+                    "code": "status",
+                    "valueCode": "A"
+                }
+            ]
+        },
+        {
+            "id": "1348",
+            "code": "S",
+            "display": "Status only",
+            "definition": "Status only",
+            "designation": [
+                {
+                    "language": "de",
+                    "use": {
+                        "system": "http://terminology.hl7.org/CodeSystem/hl7TermMaintInfra",
+                        "code": "preferredForLanguage"
+                    },
+                    "value": "nur Statusinformation"
+                }
+            ],
+            "property": [
+                {
+                    "code": "status",
+                    "valueCode": "A"
+                }
+            ]
+        },
+        {
+            "id": "1349",
+            "code": "T",
+            "display": "Full results",
+            "definition": "Full results",
+            "designation": [
+                {
+                    "language": "de",
+                    "use": {
+                        "system": "http://terminology.hl7.org/CodeSystem/hl7TermMaintInfra",
+                        "code": "preferredForLanguage"
+                    },
+                    "value": "Komplette Ergebnisse / Befunde"
+                }
+            ],
+            "property": [
+                {
+                    "code": "status",
+                    "valueCode": "A"
+                }
+            ]
+        }
+    ]
+}

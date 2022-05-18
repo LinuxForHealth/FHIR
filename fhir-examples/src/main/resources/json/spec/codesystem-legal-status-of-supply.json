@@ -1,0 +1,94 @@
+{
+  "resourceType": "CodeSystem",
+  "id": "legal-status-of-supply",
+  "meta": {
+    "lastUpdated": "2022-04-24T09:21:35.043+11:00",
+    "profile": [
+      "http://hl7.org/fhir/StructureDefinition/shareablecodesystem"
+    ]
+  },
+  "text": {
+    "status": "generated",
+    "div": "\u003cdiv xmlns\u003d\"http://www.w3.org/1999/xhtml\"\u003e\u003cp\u003eThis code system http://hl7.org/fhir/legal-status-of-supply defines the following codes:\u003c/p\u003e\u003ctable class\u003d\"codes\"\u003e\u003ctr\u003e\u003ctd style\u003d\"white-space:nowrap\"\u003e\u003cb\u003eCode\u003c/b\u003e\u003c/td\u003e\u003ctd\u003e\u003cb\u003eDisplay\u003c/b\u003e\u003c/td\u003e\u003c/tr\u003e\u003ctr\u003e\u003ctd style\u003d\"white-space:nowrap\"\u003e100000072076\u003ca name\u003d\"legal-status-of-supply-100000072076\"\u003e \u003c/a\u003e\u003c/td\u003e\u003ctd\u003eMedicinal product not subject to medical prescription\u003c/td\u003e\u003c/tr\u003e\u003ctr\u003e\u003ctd style\u003d\"white-space:nowrap\"\u003e100000072077\u003ca name\u003d\"legal-status-of-supply-100000072077\"\u003e \u003c/a\u003e\u003c/td\u003e\u003ctd\u003eMedicinal product on medical prescription for renewable or non-renewable delivery\u003c/td\u003e\u003c/tr\u003e\u003ctr\u003e\u003ctd style\u003d\"white-space:nowrap\"\u003e100000072078\u003ca name\u003d\"legal-status-of-supply-100000072078\"\u003e \u003c/a\u003e\u003c/td\u003e\u003ctd\u003eMedicinal product subject to restricted medical prescription\u003c/td\u003e\u003c/tr\u003e\u003ctr\u003e\u003ctd style\u003d\"white-space:nowrap\"\u003e100000072079\u003ca name\u003d\"legal-status-of-supply-100000072079\"\u003e \u003c/a\u003e\u003c/td\u003e\u003ctd\u003eMedicinal product on medical prescription for non-renewable delivery\u003c/td\u003e\u003c/tr\u003e\u003ctr\u003e\u003ctd style\u003d\"white-space:nowrap\"\u003e100000072084\u003ca name\u003d\"legal-status-of-supply-100000072084\"\u003e \u003c/a\u003e\u003c/td\u003e\u003ctd\u003eMedicinal product subject to medical prescription\u003c/td\u003e\u003c/tr\u003e\u003ctr\u003e\u003ctd style\u003d\"white-space:nowrap\"\u003e100000072085\u003ca name\u003d\"legal-status-of-supply-100000072085\"\u003e \u003c/a\u003e\u003c/td\u003e\u003ctd\u003eMedicinal product subject to special medical prescription\u003c/td\u003e\u003c/tr\u003e\u003ctr\u003e\u003ctd style\u003d\"white-space:nowrap\"\u003e100000072086\u003ca name\u003d\"legal-status-of-supply-100000072086\"\u003e \u003c/a\u003e\u003c/td\u003e\u003ctd\u003eMedicinal product on medical prescription for renewable delivery\u003c/td\u003e\u003c/tr\u003e\u003ctr\u003e\u003ctd style\u003d\"white-space:nowrap\"\u003e100000157313\u003ca name\u003d\"legal-status-of-supply-100000157313\"\u003e \u003c/a\u003e\u003c/td\u003e\u003ctd\u003eMedicinal product subject to special and restricted medical prescription\u003c/td\u003e\u003c/tr\u003e\u003c/table\u003e\u003c/div\u003e"
+  },
+  "extension": [
+    {
+      "url": "http://hl7.org/fhir/StructureDefinition/structuredefinition-wg",
+      "valueCode": "brr"
+    },
+    {
+      "url": "http://hl7.org/fhir/StructureDefinition/structuredefinition-standards-status",
+      "valueCode": "trial-use"
+    },
+    {
+      "url": "http://hl7.org/fhir/StructureDefinition/structuredefinition-fmm",
+      "valueInteger": 1
+    }
+  ],
+  "url": "http://hl7.org/fhir/legal-status-of-supply",
+  "identifier": [
+    {
+      "system": "urn:ietf:rfc:3986",
+      "value": "urn:oid:2.16.840.1.113883.4.642.1.1556"
+    }
+  ],
+  "version": "4.3.0-cibuild",
+  "name": "LegalStatusOfSupply",
+  "title": "LegalStatusOfSupply",
+  "status": "draft",
+  "experimental": false,
+  "date": "2021-01-05T10:01:24+11:00",
+  "publisher": "HL7 (FHIR Project)",
+  "contact": [
+    {
+      "telecom": [
+        {
+          "system": "url",
+          "value": "http://hl7.org/fhir"
+        },
+        {
+          "system": "email",
+          "value": "fhir@lists.hl7.org"
+        }
+      ]
+    }
+  ],
+  "description": "The prescription supply types appropriate to a medicinal product",
+  "caseSensitive": true,
+  "valueSet": "http://hl7.org/fhir/ValueSet/legal-status-of-supply",
+  "content": "complete",
+  "concept": [
+    {
+      "code": "100000072076",
+      "display": "Medicinal product not subject to medical prescription"
+    },
+    {
+      "code": "100000072077",
+      "display": "Medicinal product on medical prescription for renewable or non-renewable delivery"
+    },
+    {
+      "code": "100000072078",
+      "display": "Medicinal product subject to restricted medical prescription"
+    },
+    {
+      "code": "100000072079",
+      "display": "Medicinal product on medical prescription for non-renewable delivery"
+    },
+    {
+      "code": "100000072084",
+      "display": "Medicinal product subject to medical prescription"
+    },
+    {
+      "code": "100000072085",
+      "display": "Medicinal product subject to special medical prescription"
+    },
+    {
+      "code": "100000072086",
+      "display": "Medicinal product on medical prescription for renewable delivery"
+    },
+    {
+      "code": "100000157313",
+      "display": "Medicinal product subject to special and restricted medical prescription"
+    }
+  ]
+}

@@ -1,0 +1,40 @@
+{
+    "resourceType": "CodeSystem",
+    "id": "CVX",
+    "text": {
+        "status": "empty",
+        "div": "<div xmlns=\"http://www.w3.org/1999/xhtml\">Redacted for size</div>"
+    },
+    "url": "http://hl7.org/fhir/sid/cvx",
+    "identifier": [
+        {
+            "system": "urn:ietf:rfc:3986",
+            "value": "urn:oid:2.16.840.1.113883.12.292"
+        }
+    ],
+    "version": "3.0.0",
+    "name": "CVX",
+    "title": "Vaccine Administered Code Set (CVX)",
+    "status": "active",
+    "experimental": false,
+    "date": "2021-10-04T00:00:00-04:00",
+    "publisher": "CDC, National Centers for Immunization and Respiratory Diseases; Immunization Information System Support Branch - Informatics",
+    "contact": [
+        {
+            "name": "CDC, National Centers for Immunization and Respiratory Diseases; Immunization Information System Support Branch - Informatics; 1600 Clifton Road, Mailstop: E-62, Atlanta, GA 30333",
+            "telecom": [
+                {
+                    "system": "email",
+                    "value": "iisinfo@cdc.gov"
+                },
+                {
+                    "system": "url",
+                    "value": "https://www.cdc.gov/vaccines/programs/iis/index.html"
+                }
+            ]
+        }
+    ],
+    "description": "The CDC's National Center of Immunization and Respiratory Diseases (NCIRD - see https://www.cdc.gov/ncird/) developed and maintains the CVX (vaccine administered) code set. It includes both active and inactive vaccines available in the US. CVX codes for inactive vaccines allow transmission of historical immunization records. When a MVX (manufacturer) code is paired with a CVX (vaccine administered) code, the specific trade named vaccine may be indicated. These codes should be used for immunization messages using either HL7 Version 2.3.1 or HL7 Version 2.5.1. The version of the CVX code set for certification can be found on the archive page:https://www2a.cdc.gov/vaccines/iis/iisstandards/mu3versioned_codes.asp \r\n\r\nThe Status column indicates if the vaccine is currently available in the United States.\r\n\r\n*  Active: A currently available administrable vaccine \r\n\r\n*  Inactive: An administrable vaccine formulation that is no longer available for patient administration, but can be found in historical patient records OR A historical record of a vaccine administered where the exact formulation is unknown \r\n\r\n*  Pending: A vaccine that is expected to become active in the future \r\n\r\n*  Non-US: A vaccine that available outside the US only \r\n\r\n*  Never Active: A vaccine that was never available and is not in the pipeline of new vaccines \r\n\r\nThe Last Updated column indicates the last time this particular vaccine code was updated in this table.\r\n\r\nQuestions regarding this table should be directed to the IIS Technical Assistance Team via iisinfo@cdc.gov (or use mailing address via https://www2a.cdc.gov/vaccines/iis/iisstandards/vaccines.asp?rpt=cvx#addr) \r\n\r\nHL7 Implementers should note that 'Status' IS NOT CONCEPT STATUS as all codes are ACTIVE in this code system.\r\n\r\nThe current code system is available via https://www2a.cdc.gov/vaccines/iis/iisstandards/vaccines.asp?rpt=cvx",
+    "copyright": "Most of the information on the CDC and ATSDR websites is not subject to copyright, is in the public domain, and may be freely used or reproduced without obtaining copyright permission. For information and exceptions regarding use of CDC material please see https://www.cdc.gov/other/agencymaterials.html",
+    "content": "not-present"
+}

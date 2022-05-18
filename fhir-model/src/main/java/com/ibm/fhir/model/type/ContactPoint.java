@@ -1,5 +1,5 @@
 /*
- * (C) Copyright IBM Corp. 2019, 2021
+ * (C) Copyright IBM Corp. 2019, 2022
  *
  * SPDX-License-Identifier: Apache-2.0
  */
@@ -38,8 +38,7 @@ public class ContactPoint extends Element {
     @Binding(
         bindingName = "ContactPointSystem",
         strength = BindingStrength.Value.REQUIRED,
-        description = "Telecommunications form for contact point.",
-        valueSet = "http://hl7.org/fhir/ValueSet/contact-point-system|4.0.1"
+        valueSet = "http://hl7.org/fhir/ValueSet/contact-point-system|4.3.0-cibuild"
     )
     private final ContactPointSystem system;
     @Summary
@@ -48,8 +47,7 @@ public class ContactPoint extends Element {
     @Binding(
         bindingName = "ContactPointUse",
         strength = BindingStrength.Value.REQUIRED,
-        description = "Use of contact point.",
-        valueSet = "http://hl7.org/fhir/ValueSet/contact-point-use|4.0.1"
+        valueSet = "http://hl7.org/fhir/ValueSet/contact-point-use|4.3.0-cibuild"
     )
     private final ContactPointUse use;
     @Summary

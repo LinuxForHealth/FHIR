@@ -1,0 +1,5701 @@
+{
+    "resourceType": "CodeSystem",
+    "id": "v2-0487",
+    "text": {
+        "status": "empty",
+        "div": "<div xmlns=\"http://www.w3.org/1999/xhtml\">Redacted for size</div>"
+    },
+    "url": "http://terminology.hl7.org/CodeSystem/v2-0487",
+    "identifier": [
+        {
+            "system": "urn:ietf:rfc:3986",
+            "value": "urn:oid:2.16.840.1.113883.18.311"
+        }
+    ],
+    "version": "2.3.0",
+    "name": "SpecimenType",
+    "title": "specimenType",
+    "status": "active",
+    "experimental": false,
+    "date": "2019-12-01",
+    "publisher": "HL7, Inc",
+    "contact": [
+        {
+            "telecom": [
+                {
+                    "system": "url",
+                    "value": "http://www.hl7.org/"
+                }
+            ]
+        }
+    ],
+    "description": "HL7-defined code system of concepts that describe the precise nature of an entity that may be used as the source material for an observation.  This is one of two code systems that are used instead of table 0070 (code system 2.16.840.1.113883.18.28) which conflated specimen types and specimen collection methods.   Used in HL7 Version 2.x messaging in the SPM segment.",
+    "purpose": "Underlying Master Code System for V2 table 0487 (Specimen Type)",
+    "copyright": "Copyright HL7. Licensed under creative commons public domain",
+    "caseSensitive": true,
+    "valueSet": "http://terminology.hl7.org/ValueSet/v2-0487",
+    "hierarchyMeaning": "is-a",
+    "compositional": false,
+    "versionNeeded": false,
+    "content": "complete",
+    "property": [
+        {
+            "code": "status",
+            "uri": "http://terminology.hl7.org/CodeSystem/utg-concept-properties#status",
+            "description": "Status of the concept",
+            "type": "code"
+        },
+        {
+            "code": "deprecated",
+            "uri": "http://terminology.hl7.org/CodeSystem/utg-concept-properties#v2-table-deprecated",
+            "description": "Version of HL7 in which the code was deprecated",
+            "type": "code"
+        },
+        {
+            "code": "v2-concComment",
+            "uri": "http://terminology.hl7.org/CodeSystem/utg-concept-properties#v2-concComment",
+            "description": "V2 Concept Comment",
+            "type": "string"
+        },
+        {
+            "code": "v2-concCommentAsPub",
+            "uri": "http://terminology.hl7.org/CodeSystem/utg-concept-properties#v2-concCommentAsPub",
+            "description": "V2 Concept Comment As Published",
+            "type": "string"
+        }
+    ],
+    "concept": [
+        {
+            "id": "4935",
+            "code": "ABS",
+            "display": "Abscess",
+            "definition": "Abscess",
+            "designation": [
+                {
+                    "language": "de",
+                    "use": {
+                        "system": "http://terminology.hl7.org/CodeSystem/hl7TermMaintInfra",
+                        "code": "preferredForLanguage"
+                    },
+                    "value": "Abszeß"
+                }
+            ],
+            "property": [
+                {
+                    "code": "status",
+                    "valueCode": "A"
+                }
+            ]
+        },
+        {
+            "id": "4936",
+            "code": "...",
+            "display": "No suggested values",
+            "definition": "No suggested values",
+            "designation": [
+                {
+                    "language": "de",
+                    "use": {
+                        "system": "http://terminology.hl7.org/CodeSystem/hl7TermMaintInfra",
+                        "code": "preferredForLanguage"
+                    },
+                    "value": "keine Werte vorgeschlagen"
+                }
+            ],
+            "property": [
+                {
+                    "code": "deprecated",
+                    "valueCode": "2.9"
+                },
+                {
+                    "code": "status",
+                    "valueCode": "D"
+                }
+            ]
+        },
+        {
+            "id": "4937",
+            "code": "ACNE",
+            "display": "Tissue, Acne",
+            "definition": "Tissue, Acne",
+            "property": [
+                {
+                    "code": "v2-concComment",
+                    "valueString": "Tissue"
+                },
+                {
+                    "code": "v2-concCommentAsPub",
+                    "valueString": "Tissue"
+                },
+                {
+                    "code": "status",
+                    "valueCode": "A"
+                }
+            ]
+        },
+        {
+            "id": "4938",
+            "code": "ACNFLD",
+            "display": "Fluid, Acne",
+            "definition": "Fluid, Acne",
+            "property": [
+                {
+                    "code": "v2-concComment",
+                    "valueString": "Fluid"
+                },
+                {
+                    "code": "v2-concCommentAsPub",
+                    "valueString": "Fluid"
+                },
+                {
+                    "code": "status",
+                    "valueCode": "A"
+                }
+            ]
+        },
+        {
+            "id": "4939",
+            "code": "AIRS",
+            "display": "Air Sample",
+            "definition": "Air Sample",
+            "property": [
+                {
+                    "code": "v2-concComment",
+                    "valueString": "Environment"
+                },
+                {
+                    "code": "v2-concCommentAsPub",
+                    "valueString": "Environment"
+                },
+                {
+                    "code": "status",
+                    "valueCode": "A"
+                }
+            ]
+        },
+        {
+            "id": "4940",
+            "code": "ALL",
+            "display": "Allograft",
+            "definition": "Allograft",
+            "property": [
+                {
+                    "code": "v2-concComment",
+                    "valueString": "Tissue"
+                },
+                {
+                    "code": "v2-concCommentAsPub",
+                    "valueString": "Tissue"
+                },
+                {
+                    "code": "status",
+                    "valueCode": "A"
+                }
+            ]
+        },
+        {
+            "id": "4941",
+            "code": "AMN",
+            "display": "Amniotic fluid",
+            "definition": "Amniotic fluid",
+            "property": [
+                {
+                    "code": "status",
+                    "valueCode": "A"
+                }
+            ]
+        },
+        {
+            "id": "4942",
+            "code": "AMP",
+            "display": "Amputation",
+            "definition": "Amputation",
+            "property": [
+                {
+                    "code": "v2-concComment",
+                    "valueString": "Tissue"
+                },
+                {
+                    "code": "v2-concCommentAsPub",
+                    "valueString": "Tissue"
+                },
+                {
+                    "code": "status",
+                    "valueCode": "A"
+                }
+            ]
+        },
+        {
+            "id": "4943",
+            "code": "ANGI",
+            "display": "Catheter Tip, Angio",
+            "definition": "Catheter Tip, Angio",
+            "property": [
+                {
+                    "code": "v2-concComment",
+                    "valueString": "Device"
+                },
+                {
+                    "code": "v2-concCommentAsPub",
+                    "valueString": "Device"
+                },
+                {
+                    "code": "status",
+                    "valueCode": "A"
+                }
+            ]
+        },
+        {
+            "id": "4944",
+            "code": "ARTC",
+            "display": "Catheter Tip, Arterial",
+            "definition": "Catheter Tip, Arterial",
+            "property": [
+                {
+                    "code": "v2-concComment",
+                    "valueString": "Device"
+                },
+                {
+                    "code": "v2-concCommentAsPub",
+                    "valueString": "Device"
+                },
+                {
+                    "code": "status",
+                    "valueCode": "A"
+                }
+            ]
+        },
+        {
+            "id": "4945",
+            "code": "ASERU",
+            "display": "Serum, Acute",
+            "definition": "Serum, Acute",
+            "property": [
+                {
+                    "code": "v2-concComment",
+                    "valueString": "Blood"
+                },
+                {
+                    "code": "v2-concCommentAsPub",
+                    "valueString": "Blood"
+                },
+                {
+                    "code": "status",
+                    "valueCode": "A"
+                }
+            ]
+        },
+        {
+            "id": "4946",
+            "code": "ASP",
+            "display": "Aspirate",
+            "definition": "Aspirate",
+            "property": [
+                {
+                    "code": "status",
+                    "valueCode": "A"
+                }
+            ]
+        },
+        {
+            "id": "4947",
+            "code": "ATTE",
+            "display": "Environment, Attest",
+            "definition": "Environment, Attest",
+            "property": [
+                {
+                    "code": "v2-concComment",
+                    "valueString": "Environment"
+                },
+                {
+                    "code": "v2-concCommentAsPub",
+                    "valueString": "Environment"
+                },
+                {
+                    "code": "status",
+                    "valueCode": "D"
+                }
+            ]
+        },
+        {
+            "id": "4948",
+            "code": "AUTOA",
+            "display": "Environmental, Autoclave Ampule",
+            "definition": "Environmental, Autoclave Ampule",
+            "property": [
+                {
+                    "code": "v2-concComment",
+                    "valueString": "Environment"
+                },
+                {
+                    "code": "v2-concCommentAsPub",
+                    "valueString": "Environment"
+                },
+                {
+                    "code": "status",
+                    "valueCode": "A"
+                }
+            ]
+        },
+        {
+            "id": "4949",
+            "code": "AUTOC",
+            "display": "Environmental, Autoclave Capsule",
+            "definition": "Environmental, Autoclave Capsule",
+            "property": [
+                {
+                    "code": "v2-concComment",
+                    "valueString": "Environment"
+                },
+                {
+                    "code": "v2-concCommentAsPub",
+                    "valueString": "Environment"
+                },
+                {
+                    "code": "status",
+                    "valueCode": "D"
+                }
+            ]
+        },
+        {
+            "id": "4950",
+            "code": "AUTP",
+            "display": "Autopsy",
+            "definition": "Autopsy",
+            "property": [
+                {
+                    "code": "v2-concComment",
+                    "valueString": "Tissue"
+                },
+                {
+                    "code": "v2-concCommentAsPub",
+                    "valueString": "Tissue"
+                },
+                {
+                    "code": "status",
+                    "valueCode": "A"
+                }
+            ]
+        },
+        {
+            "id": "4951",
+            "code": "BBL",
+            "display": "Blood bag",
+            "definition": "Blood bag",
+            "property": [
+                {
+                    "code": "v2-concComment",
+                    "valueString": "Blood"
+                },
+                {
+                    "code": "v2-concCommentAsPub",
+                    "valueString": "Blood"
+                },
+                {
+                    "code": "status",
+                    "valueCode": "A"
+                }
+            ]
+        },
+        {
+            "id": "4952",
+            "code": "BCYST",
+            "display": "Cyst, Baker's",
+            "definition": "Cyst, Baker's",
+            "property": [
+                {
+                    "code": "v2-concComment",
+                    "valueString": "Condition"
+                },
+                {
+                    "code": "v2-concCommentAsPub",
+                    "valueString": "Condition"
+                },
+                {
+                    "code": "status",
+                    "valueCode": "A"
+                }
+            ]
+        },
+        {
+            "id": "4953",
+            "code": "BDY",
+            "display": "Whole body",
+            "definition": "Whole body",
+            "property": [
+                {
+                    "code": "v2-concComment",
+                    "valueString": "Body submitted for autopsy / carcass submitted"
+                },
+                {
+                    "code": "v2-concCommentAsPub",
+                    "valueString": "Body submitted for autopsy / carcass submitted"
+                },
+                {
+                    "code": "status",
+                    "valueCode": "A"
+                }
+            ]
+        },
+        {
+            "id": "4954",
+            "code": "BIFL",
+            "display": "Bile Fluid",
+            "definition": "Bile Fluid",
+            "property": [
+                {
+                    "code": "status",
+                    "valueCode": "A"
+                }
+            ]
+        },
+        {
+            "id": "4955",
+            "code": "BITE",
+            "display": "Bite",
+            "definition": "Bite",
+            "property": [
+                {
+                    "code": "v2-concComment",
+                    "valueString": "Conditions"
+                },
+                {
+                    "code": "v2-concCommentAsPub",
+                    "valueString": "Conditions"
+                },
+                {
+                    "code": "status",
+                    "valueCode": "A"
+                }
+            ]
+        },
+        {
+            "id": "4956",
+            "code": "BLD",
+            "display": "Whole blood",
+            "definition": "Whole blood",
+            "property": [
+                {
+                    "code": "status",
+                    "valueCode": "A"
+                }
+            ]
+        },
+        {
+            "id": "4957",
+            "code": "BLDA",
+            "display": "Blood arterial",
+            "definition": "Blood arterial",
+            "property": [
+                {
+                    "code": "status",
+                    "valueCode": "A"
+                }
+            ]
+        },
+        {
+            "id": "4958",
+            "code": "BLDCO",
+            "display": "Cord blood",
+            "definition": "Cord blood",
+            "property": [
+                {
+                    "code": "status",
+                    "valueCode": "A"
+                }
+            ]
+        },
+        {
+            "id": "4959",
+            "code": "BLDV",
+            "display": "Blood venous",
+            "definition": "Blood venous",
+            "property": [
+                {
+                    "code": "status",
+                    "valueCode": "A"
+                }
+            ]
+        },
+        {
+            "id": "4960",
+            "code": "BLEB",
+            "display": "Bleb",
+            "definition": "Bleb",
+            "property": [
+                {
+                    "code": "v2-concComment",
+                    "valueString": "Condition, Fluid/Tissue"
+                },
+                {
+                    "code": "v2-concCommentAsPub",
+                    "valueString": "Condition, Fluid/Tissue"
+                },
+                {
+                    "code": "status",
+                    "valueCode": "A"
+                }
+            ]
+        },
+        {
+            "id": "4961",
+            "code": "BLIST",
+            "display": "Blister",
+            "definition": "Blister",
+            "property": [
+                {
+                    "code": "v2-concComment",
+                    "valueString": "Condition, Fluid/Tissue"
+                },
+                {
+                    "code": "v2-concCommentAsPub",
+                    "valueString": "Condition, Fluid/Tissue"
+                },
+                {
+                    "code": "status",
+                    "valueCode": "A"
+                }
+            ]
+        },
+        {
+            "id": "4962",
+            "code": "BOIL",
+            "display": "Boil",
+            "definition": "Boil",
+            "property": [
+                {
+                    "code": "v2-concComment",
+                    "valueString": "Condition"
+                },
+                {
+                    "code": "v2-concCommentAsPub",
+                    "valueString": "Condition"
+                },
+                {
+                    "code": "status",
+                    "valueCode": "A"
+                }
+            ]
+        },
+        {
+            "id": "4963",
+            "code": "BON",
+            "display": "Bone",
+            "definition": "Bone",
+            "property": [
+                {
+                    "code": "status",
+                    "valueCode": "A"
+                }
+            ]
+        },
+        {
+            "id": "4964",
+            "code": "BOWL",
+            "display": "Bowel contents",
+            "definition": "Bowel contents",
+            "property": [
+                {
+                    "code": "v2-concComment",
+                    "valueString": "Condition"
+                },
+                {
+                    "code": "v2-concCommentAsPub",
+                    "valueString": "Condition"
+                },
+                {
+                    "code": "status",
+                    "valueCode": "A"
+                }
+            ]
+        },
+        {
+            "id": "4965",
+            "code": "BPH",
+            "display": "Basophils",
+            "definition": "Basophils",
+            "property": [
+                {
+                    "code": "status",
+                    "valueCode": "A"
+                }
+            ]
+        },
+        {
+            "id": "4966",
+            "code": "BPU",
+            "display": "Blood product unit",
+            "definition": "Blood product unit",
+            "property": [
+                {
+                    "code": "v2-concComment",
+                    "valueString": "Blood"
+                },
+                {
+                    "code": "v2-concCommentAsPub",
+                    "valueString": "Blood"
+                },
+                {
+                    "code": "status",
+                    "valueCode": "A"
+                }
+            ]
+        },
+        {
+            "id": "4967",
+            "code": "BRN",
+            "display": "Burn",
+            "definition": "Burn",
+            "property": [
+                {
+                    "code": "status",
+                    "valueCode": "A"
+                }
+            ]
+        },
+        {
+            "id": "4968",
+            "code": "BRSH",
+            "display": "Brush",
+            "definition": "Brush",
+            "property": [
+                {
+                    "code": "v2-concComment",
+                    "valueString": "Product; Brush or brushing (these may be 2 separate entries as in a physical brush or a portion thereof vs the substance obtained after a surface has been brushed)"
+                },
+                {
+                    "code": "v2-concCommentAsPub",
+                    "valueString": "Product; Brush or brushing (these may be 2 separate entries as in a physical brush or a portion thereof vs the substance obtained after a surface has been brushed)"
+                },
+                {
+                    "code": "status",
+                    "valueCode": "A"
+                }
+            ]
+        },
+        {
+            "id": "4969",
+            "code": "BRTH",
+            "display": "Breath (use EXHLD)",
+            "definition": "Breath (use EXHLD)",
+            "property": [
+                {
+                    "code": "status",
+                    "valueCode": "A"
+                }
+            ]
+        },
+        {
+            "id": "4970",
+            "code": "BRUS",
+            "display": "Brushing",
+            "definition": "Brushing",
+            "property": [
+                {
+                    "code": "v2-concComment",
+                    "valueString": "Product"
+                },
+                {
+                    "code": "v2-concCommentAsPub",
+                    "valueString": "Product"
+                },
+                {
+                    "code": "status",
+                    "valueCode": "A"
+                }
+            ]
+        },
+        {
+            "id": "4971",
+            "code": "BUB",
+            "display": "Bubo",
+            "definition": "Bubo",
+            "property": [
+                {
+                    "code": "v2-concComment",
+                    "valueString": "Condition"
+                },
+                {
+                    "code": "v2-concCommentAsPub",
+                    "valueString": "Condition"
+                },
+                {
+                    "code": "status",
+                    "valueCode": "A"
+                }
+            ]
+        },
+        {
+            "id": "4972",
+            "code": "BULLA",
+            "display": "Bulla/Bullae",
+            "definition": "Bulla/Bullae",
+            "property": [
+                {
+                    "code": "v2-concComment",
+                    "valueString": "Condition"
+                },
+                {
+                    "code": "v2-concCommentAsPub",
+                    "valueString": "Condition"
+                },
+                {
+                    "code": "status",
+                    "valueCode": "A"
+                }
+            ]
+        },
+        {
+            "id": "4973",
+            "code": "BX",
+            "display": "Biopsy",
+            "definition": "Biopsy",
+            "property": [
+                {
+                    "code": "v2-concComment",
+                    "valueString": "Tissue"
+                },
+                {
+                    "code": "v2-concCommentAsPub",
+                    "valueString": "Tissue"
+                },
+                {
+                    "code": "status",
+                    "valueCode": "A"
+                }
+            ]
+        },
+        {
+            "id": "4974",
+            "code": "CALC",
+            "display": "Calculus (=Stone)",
+            "definition": "Calculus (=Stone)",
+            "property": [
+                {
+                    "code": "status",
+                    "valueCode": "A"
+                }
+            ]
+        },
+        {
+            "id": "4975",
+            "code": "BONE",
+            "display": "Bone",
+            "definition": "Bone",
+            "property": [
+                {
+                    "code": "deprecated",
+                    "valueCode": "2.9"
+                },
+                {
+                    "code": "status",
+                    "valueCode": "A"
+                }
+            ]
+        },
+        {
+            "id": "4976",
+            "code": "CARBU",
+            "display": "Carbuncle",
+            "definition": "Carbuncle",
+            "property": [
+                {
+                    "code": "v2-concComment",
+                    "valueString": "Condition"
+                },
+                {
+                    "code": "v2-concCommentAsPub",
+                    "valueString": "Condition"
+                },
+                {
+                    "code": "status",
+                    "valueCode": "A"
+                }
+            ]
+        },
+        {
+            "id": "4977",
+            "code": "CAT",
+            "display": "Catheter",
+            "definition": "Catheter",
+            "property": [
+                {
+                    "code": "v2-concComment",
+                    "valueString": "Device"
+                },
+                {
+                    "code": "v2-concCommentAsPub",
+                    "valueString": "Device"
+                },
+                {
+                    "code": "status",
+                    "valueCode": "A"
+                }
+            ]
+        },
+        {
+            "id": "4978",
+            "code": "CBITE",
+            "display": "Bite, Cat",
+            "definition": "Bite, Cat",
+            "property": [
+                {
+                    "code": "v2-concComment",
+                    "valueString": "Conditions"
+                },
+                {
+                    "code": "v2-concCommentAsPub",
+                    "valueString": "Conditions"
+                },
+                {
+                    "code": "status",
+                    "valueCode": "A"
+                }
+            ]
+        },
+        {
+            "id": "4979",
+            "code": "CDM",
+            "display": "Cardiac muscle",
+            "definition": "Cardiac muscle",
+            "property": [
+                {
+                    "code": "status",
+                    "valueCode": "A"
+                }
+            ]
+        },
+        {
+            "id": "4980",
+            "code": "CLIPP",
+            "display": "Clippings",
+            "definition": "Clippings",
+            "property": [
+                {
+                    "code": "v2-concComment",
+                    "valueString": "Condition"
+                },
+                {
+                    "code": "v2-concCommentAsPub",
+                    "valueString": "Condition"
+                },
+                {
+                    "code": "status",
+                    "valueCode": "A"
+                }
+            ]
+        },
+        {
+            "id": "4981",
+            "code": "CNJT",
+            "display": "Conjunctiva",
+            "definition": "Conjunctiva",
+            "property": [
+                {
+                    "code": "status",
+                    "valueCode": "A"
+                }
+            ]
+        },
+        {
+            "id": "4982",
+            "code": "CNL",
+            "display": "Cannula",
+            "definition": "Cannula",
+            "property": [
+                {
+                    "code": "status",
+                    "valueCode": "A"
+                }
+            ]
+        },
+        {
+            "id": "4983",
+            "code": "COL",
+            "display": "Colostrum",
+            "definition": "Colostrum",
+            "property": [
+                {
+                    "code": "status",
+                    "valueCode": "A"
+                }
+            ]
+        },
+        {
+            "id": "4984",
+            "code": "CONE",
+            "display": "Biospy, Cone",
+            "definition": "Biospy, Cone",
+            "property": [
+                {
+                    "code": "v2-concComment",
+                    "valueString": "Tissue"
+                },
+                {
+                    "code": "v2-concCommentAsPub",
+                    "valueString": "Tissue"
+                },
+                {
+                    "code": "status",
+                    "valueCode": "A"
+                }
+            ]
+        },
+        {
+            "id": "4985",
+            "code": "CSCR",
+            "display": "Scratch, Cat",
+            "definition": "Scratch, Cat",
+            "property": [
+                {
+                    "code": "v2-concComment",
+                    "valueString": "Condition"
+                },
+                {
+                    "code": "v2-concCommentAsPub",
+                    "valueString": "Condition"
+                },
+                {
+                    "code": "status",
+                    "valueCode": "A"
+                }
+            ]
+        },
+        {
+            "id": "4986",
+            "code": "CSERU",
+            "display": "Serum, Convalescent",
+            "definition": "Serum, Convalescent",
+            "property": [
+                {
+                    "code": "v2-concComment",
+                    "valueString": "Blood"
+                },
+                {
+                    "code": "v2-concCommentAsPub",
+                    "valueString": "Blood"
+                },
+                {
+                    "code": "status",
+                    "valueCode": "A"
+                }
+            ]
+        },
+        {
+            "id": "4987",
+            "code": "CSF",
+            "display": "Cerebral spinal fluid",
+            "definition": "Cerebral spinal fluid",
+            "property": [
+                {
+                    "code": "status",
+                    "valueCode": "A"
+                }
+            ]
+        },
+        {
+            "id": "4988",
+            "code": "CSITE",
+            "display": "Catheter Insertion Site",
+            "definition": "Catheter Insertion Site",
+            "property": [
+                {
+                    "code": "v2-concComment",
+                    "valueString": "Device"
+                },
+                {
+                    "code": "v2-concCommentAsPub",
+                    "valueString": "Device"
+                },
+                {
+                    "code": "status",
+                    "valueCode": "A"
+                }
+            ]
+        },
+        {
+            "id": "4989",
+            "code": "CSMY",
+            "display": "Fluid,  Cystostomy Tube",
+            "definition": "Fluid,  Cystostomy Tube",
+            "property": [
+                {
+                    "code": "v2-concComment",
+                    "valueString": "Fluid"
+                },
+                {
+                    "code": "v2-concCommentAsPub",
+                    "valueString": "Fluid"
+                },
+                {
+                    "code": "status",
+                    "valueCode": "A"
+                }
+            ]
+        },
+        {
+            "id": "4990",
+            "code": "CST",
+            "display": "Fluid, Cyst",
+            "definition": "Fluid, Cyst",
+            "property": [
+                {
+                    "code": "v2-concComment",
+                    "valueString": "Fluid"
+                },
+                {
+                    "code": "v2-concCommentAsPub",
+                    "valueString": "Fluid"
+                },
+                {
+                    "code": "status",
+                    "valueCode": "A"
+                }
+            ]
+        },
+        {
+            "id": "4991",
+            "code": "CSVR",
+            "display": "Blood, Cell Saver",
+            "definition": "Blood, Cell Saver",
+            "property": [
+                {
+                    "code": "v2-concComment",
+                    "valueString": "Transfusion"
+                },
+                {
+                    "code": "v2-concCommentAsPub",
+                    "valueString": "Transfusion"
+                },
+                {
+                    "code": "status",
+                    "valueCode": "A"
+                }
+            ]
+        },
+        {
+            "id": "4992",
+            "code": "CTP",
+            "display": "Catheter tip",
+            "definition": "Catheter tip",
+            "property": [
+                {
+                    "code": "v2-concComment",
+                    "valueString": "Device"
+                },
+                {
+                    "code": "v2-concCommentAsPub",
+                    "valueString": "Device"
+                },
+                {
+                    "code": "status",
+                    "valueCode": "A"
+                }
+            ]
+        },
+        {
+            "id": "4993",
+            "code": "CUR",
+            "display": "Curretage",
+            "definition": "Curretage",
+            "property": [
+                {
+                    "code": "v2-concComment",
+                    "valueString": "Uterine specimen obtained by curettage = Currettings"
+                },
+                {
+                    "code": "v2-concCommentAsPub",
+                    "valueString": "Uterine specimen obtained by curettage = Currettings"
+                },
+                {
+                    "code": "status",
+                    "valueCode": "A"
+                }
+            ]
+        },
+        {
+            "id": "4994",
+            "code": "CVM",
+            "display": "Cervical Mucus",
+            "definition": "Cervical Mucus",
+            "property": [
+                {
+                    "code": "status",
+                    "valueCode": "A"
+                }
+            ]
+        },
+        {
+            "id": "4995",
+            "code": "CVPS",
+            "display": "Site, CVP",
+            "definition": "Site, CVP",
+            "property": [
+                {
+                    "code": "v2-concComment",
+                    "valueString": "Site"
+                },
+                {
+                    "code": "v2-concCommentAsPub",
+                    "valueString": "Site"
+                },
+                {
+                    "code": "status",
+                    "valueCode": "A"
+                }
+            ]
+        },
+        {
+            "id": "4996",
+            "code": "CVPT",
+            "display": "Catheter Tip, CVP",
+            "definition": "Catheter Tip, CVP",
+            "property": [
+                {
+                    "code": "v2-concComment",
+                    "valueString": "Device"
+                },
+                {
+                    "code": "v2-concCommentAsPub",
+                    "valueString": "Device"
+                },
+                {
+                    "code": "status",
+                    "valueCode": "A"
+                }
+            ]
+        },
+        {
+            "id": "4997",
+            "code": "CYN",
+            "display": "Nodule, Cystic",
+            "definition": "Nodule, Cystic",
+            "property": [
+                {
+                    "code": "v2-concComment",
+                    "valueString": "Condition"
+                },
+                {
+                    "code": "v2-concCommentAsPub",
+                    "valueString": "Condition"
+                },
+                {
+                    "code": "status",
+                    "valueCode": "A"
+                }
+            ]
+        },
+        {
+            "id": "4998",
+            "code": "CYST",
+            "display": "Cyst",
+            "definition": "Cyst",
+            "property": [
+                {
+                    "code": "status",
+                    "valueCode": "A"
+                }
+            ]
+        },
+        {
+            "id": "4999",
+            "code": "DBITE",
+            "display": "Bite, Dog",
+            "definition": "Bite, Dog",
+            "property": [
+                {
+                    "code": "v2-concComment",
+                    "valueString": "Conditions"
+                },
+                {
+                    "code": "v2-concCommentAsPub",
+                    "valueString": "Conditions"
+                },
+                {
+                    "code": "status",
+                    "valueCode": "A"
+                }
+            ]
+        },
+        {
+            "id": "5000",
+            "code": "DCS",
+            "display": "Sputum, Deep Cough",
+            "definition": "Sputum, Deep Cough",
+            "property": [
+                {
+                    "code": "v2-concComment",
+                    "valueString": "Condition"
+                },
+                {
+                    "code": "v2-concCommentAsPub",
+                    "valueString": "Condition"
+                },
+                {
+                    "code": "status",
+                    "valueCode": "A"
+                }
+            ]
+        },
+        {
+            "id": "5001",
+            "code": "DEC",
+            "display": "Ulcer, Decubitus",
+            "definition": "Ulcer, Decubitus",
+            "property": [
+                {
+                    "code": "v2-concComment",
+                    "valueString": "Condition"
+                },
+                {
+                    "code": "v2-concCommentAsPub",
+                    "valueString": "Condition"
+                },
+                {
+                    "code": "status",
+                    "valueCode": "A"
+                }
+            ]
+        },
+        {
+            "id": "5002",
+            "code": "DEION",
+            "display": "Environmental, Water  (Deionized)",
+            "definition": "Environmental, Water  (Deionized)",
+            "property": [
+                {
+                    "code": "v2-concComment",
+                    "valueString": "Environment"
+                },
+                {
+                    "code": "v2-concCommentAsPub",
+                    "valueString": "Environment"
+                },
+                {
+                    "code": "status",
+                    "valueCode": "A"
+                }
+            ]
+        },
+        {
+            "id": "5003",
+            "code": "DIA",
+            "display": "Dialysate",
+            "definition": "Dialysate",
+            "property": [
+                {
+                    "code": "v2-concComment",
+                    "valueString": "Condition"
+                },
+                {
+                    "code": "v2-concCommentAsPub",
+                    "valueString": "Condition"
+                },
+                {
+                    "code": "status",
+                    "valueCode": "A"
+                }
+            ]
+        },
+        {
+            "id": "5004",
+            "code": "DIAF",
+            "display": "Dialysis Fluid",
+            "definition": "Dialysis Fluid",
+            "property": [
+                {
+                    "code": "v2-concComment",
+                    "valueString": "Fluid used for dialysis - is a product"
+                },
+                {
+                    "code": "v2-concCommentAsPub",
+                    "valueString": "Fluid used for dialysis - is a product"
+                },
+                {
+                    "code": "status",
+                    "valueCode": "A"
+                }
+            ]
+        },
+        {
+            "id": "5005",
+            "code": "DISCHG",
+            "display": "Discharge",
+            "definition": "Discharge",
+            "property": [
+                {
+                    "code": "v2-concComment",
+                    "valueString": "Condition"
+                },
+                {
+                    "code": "v2-concCommentAsPub",
+                    "valueString": "Condition"
+                },
+                {
+                    "code": "status",
+                    "valueCode": "A"
+                }
+            ]
+        },
+        {
+            "id": "5006",
+            "code": "DIV",
+            "display": "Diverticulum",
+            "definition": "Diverticulum",
+            "property": [
+                {
+                    "code": "v2-concComment",
+                    "valueString": "Condition"
+                },
+                {
+                    "code": "v2-concCommentAsPub",
+                    "valueString": "Condition"
+                },
+                {
+                    "code": "status",
+                    "valueCode": "A"
+                }
+            ]
+        },
+        {
+            "id": "5007",
+            "code": "DRN",
+            "display": "Drain",
+            "definition": "Drain",
+            "property": [
+                {
+                    "code": "v2-concComment",
+                    "valueString": "Device"
+                },
+                {
+                    "code": "v2-concCommentAsPub",
+                    "valueString": "Device"
+                },
+                {
+                    "code": "status",
+                    "valueCode": "A"
+                }
+            ]
+        },
+        {
+            "id": "5008",
+            "code": "DRNG",
+            "display": "Drainage, Tube",
+            "definition": "Drainage, Tube",
+            "property": [
+                {
+                    "code": "v2-concComment",
+                    "valueString": "Device"
+                },
+                {
+                    "code": "v2-concCommentAsPub",
+                    "valueString": "Device"
+                },
+                {
+                    "code": "status",
+                    "valueCode": "A"
+                }
+            ]
+        },
+        {
+            "id": "5009",
+            "code": "DRNGP",
+            "display": "Drainage, Penrose",
+            "definition": "Drainage, Penrose",
+            "property": [
+                {
+                    "code": "v2-concComment",
+                    "valueString": "Condition"
+                },
+                {
+                    "code": "v2-concCommentAsPub",
+                    "valueString": "Condition"
+                },
+                {
+                    "code": "status",
+                    "valueCode": "A"
+                }
+            ]
+        },
+        {
+            "id": "5010",
+            "code": "DUFL",
+            "display": "Duodenal fluid",
+            "definition": "Duodenal fluid",
+            "property": [
+                {
+                    "code": "status",
+                    "valueCode": "A"
+                }
+            ]
+        },
+        {
+            "id": "5011",
+            "code": "EARW",
+            "display": "Ear wax (cerumen)",
+            "definition": "Ear wax (cerumen)",
+            "property": [
+                {
+                    "code": "status",
+                    "valueCode": "A"
+                }
+            ]
+        },
+        {
+            "id": "5012",
+            "code": "EBRUSH",
+            "display": "Brush, Esophageal",
+            "definition": "Brush, Esophageal",
+            "property": [
+                {
+                    "code": "v2-concComment",
+                    "valueString": "Product"
+                },
+                {
+                    "code": "v2-concCommentAsPub",
+                    "valueString": "Product"
+                },
+                {
+                    "code": "status",
+                    "valueCode": "A"
+                }
+            ]
+        },
+        {
+            "id": "5013",
+            "code": "EEYE",
+            "display": "Environmental, Eye Wash",
+            "definition": "Environmental, Eye Wash",
+            "property": [
+                {
+                    "code": "v2-concComment",
+                    "valueString": "Environment"
+                },
+                {
+                    "code": "v2-concCommentAsPub",
+                    "valueString": "Environment"
+                },
+                {
+                    "code": "status",
+                    "valueCode": "A"
+                }
+            ]
+        },
+        {
+            "id": "5014",
+            "code": "EFF",
+            "display": "Environmental, Effluent",
+            "definition": "Environmental, Effluent",
+            "property": [
+                {
+                    "code": "v2-concComment",
+                    "valueString": "Environment"
+                },
+                {
+                    "code": "v2-concCommentAsPub",
+                    "valueString": "Environment"
+                },
+                {
+                    "code": "status",
+                    "valueCode": "A"
+                }
+            ]
+        },
+        {
+            "id": "5015",
+            "code": "EFFUS",
+            "display": "Effusion",
+            "definition": "Effusion",
+            "property": [
+                {
+                    "code": "v2-concComment",
+                    "valueString": "Condition"
+                },
+                {
+                    "code": "v2-concCommentAsPub",
+                    "valueString": "Condition"
+                },
+                {
+                    "code": "status",
+                    "valueCode": "A"
+                }
+            ]
+        },
+        {
+            "id": "5016",
+            "code": "EFOD",
+            "display": "Environmental, Food",
+            "definition": "Environmental, Food",
+            "property": [
+                {
+                    "code": "v2-concComment",
+                    "valueString": "Environment"
+                },
+                {
+                    "code": "v2-concCommentAsPub",
+                    "valueString": "Environment"
+                },
+                {
+                    "code": "status",
+                    "valueCode": "A"
+                }
+            ]
+        },
+        {
+            "id": "5017",
+            "code": "EISO",
+            "display": "Environmental, Isolette",
+            "definition": "Environmental, Isolette",
+            "property": [
+                {
+                    "code": "v2-concComment",
+                    "valueString": "Environment"
+                },
+                {
+                    "code": "v2-concCommentAsPub",
+                    "valueString": "Environment"
+                },
+                {
+                    "code": "status",
+                    "valueCode": "A"
+                }
+            ]
+        },
+        {
+            "id": "5018",
+            "code": "ELT",
+            "display": "Electrode",
+            "definition": "Electrode",
+            "property": [
+                {
+                    "code": "status",
+                    "valueCode": "A"
+                }
+            ]
+        },
+        {
+            "id": "5019",
+            "code": "ENVIR",
+            "display": "Environmental, Unidentified Substance",
+            "definition": "Environmental, Unidentified Substance",
+            "property": [
+                {
+                    "code": "v2-concComment",
+                    "valueString": "Environment"
+                },
+                {
+                    "code": "v2-concCommentAsPub",
+                    "valueString": "Environment"
+                },
+                {
+                    "code": "status",
+                    "valueCode": "A"
+                }
+            ]
+        },
+        {
+            "id": "5020",
+            "code": "EOS",
+            "display": "Eosinophils",
+            "definition": "Eosinophils",
+            "property": [
+                {
+                    "code": "status",
+                    "valueCode": "A"
+                }
+            ]
+        },
+        {
+            "id": "5021",
+            "code": "EOTH",
+            "display": "Environmental, Other Substance",
+            "definition": "Environmental, Other Substance",
+            "property": [
+                {
+                    "code": "v2-concComment",
+                    "valueString": "Environment; (Substance is Known but not in code Table)"
+                },
+                {
+                    "code": "v2-concCommentAsPub",
+                    "valueString": "Environment; (Substance is Known but not in code Table)"
+                },
+                {
+                    "code": "status",
+                    "valueCode": "A"
+                }
+            ]
+        },
+        {
+            "id": "5022",
+            "code": "ESOI",
+            "display": "Environmental, Soil",
+            "definition": "Environmental, Soil",
+            "property": [
+                {
+                    "code": "v2-concComment",
+                    "valueString": "Environment"
+                },
+                {
+                    "code": "v2-concCommentAsPub",
+                    "valueString": "Environment"
+                },
+                {
+                    "code": "status",
+                    "valueCode": "A"
+                }
+            ]
+        },
+        {
+            "id": "5023",
+            "code": "ESOS",
+            "display": "Environmental, Solution (Sterile)",
+            "definition": "Environmental, Solution (Sterile)",
+            "property": [
+                {
+                    "code": "v2-concComment",
+                    "valueString": "Environment"
+                },
+                {
+                    "code": "v2-concCommentAsPub",
+                    "valueString": "Environment"
+                },
+                {
+                    "code": "status",
+                    "valueCode": "A"
+                }
+            ]
+        },
+        {
+            "id": "5024",
+            "code": "ETA",
+            "display": "Aspirate,  Endotrach",
+            "definition": "Aspirate,  Endotrach",
+            "property": [
+                {
+                    "code": "v2-concComment",
+                    "valueString": "Aspirate"
+                },
+                {
+                    "code": "v2-concCommentAsPub",
+                    "valueString": "Aspirate"
+                },
+                {
+                    "code": "status",
+                    "valueCode": "A"
+                }
+            ]
+        },
+        {
+            "id": "5025",
+            "code": "ETTP",
+            "display": "Catheter Tip, Endotracheal",
+            "definition": "Catheter Tip, Endotracheal",
+            "property": [
+                {
+                    "code": "v2-concComment",
+                    "valueString": "Device"
+                },
+                {
+                    "code": "v2-concCommentAsPub",
+                    "valueString": "Device"
+                },
+                {
+                    "code": "status",
+                    "valueCode": "A"
+                }
+            ]
+        },
+        {
+            "id": "5026",
+            "code": "ETTUB",
+            "display": "Tube, Endotracheal",
+            "definition": "Tube, Endotracheal",
+            "property": [
+                {
+                    "code": "v2-concComment",
+                    "valueString": "Device"
+                },
+                {
+                    "code": "v2-concCommentAsPub",
+                    "valueString": "Device"
+                },
+                {
+                    "code": "status",
+                    "valueCode": "A"
+                }
+            ]
+        },
+        {
+            "id": "5027",
+            "code": "EWHI",
+            "display": "Environmental, Whirlpool",
+            "definition": "Environmental, Whirlpool",
+            "property": [
+                {
+                    "code": "v2-concComment",
+                    "valueString": "Environment"
+                },
+                {
+                    "code": "v2-concCommentAsPub",
+                    "valueString": "Environment"
+                },
+                {
+                    "code": "status",
+                    "valueCode": "A"
+                }
+            ]
+        },
+        {
+            "id": "5028",
+            "code": "EXG",
+            "display": "Gas, exhaled (=breath)",
+            "definition": "Gas, exhaled (=breath)",
+            "property": [
+                {
+                    "code": "status",
+                    "valueCode": "A"
+                }
+            ]
+        },
+        {
+            "id": "5029",
+            "code": "EXS",
+            "display": "Shunt, External",
+            "definition": "Shunt, External",
+            "property": [
+                {
+                    "code": "v2-concComment",
+                    "valueString": "Condition"
+                },
+                {
+                    "code": "v2-concCommentAsPub",
+                    "valueString": "Condition"
+                },
+                {
+                    "code": "status",
+                    "valueCode": "A"
+                }
+            ]
+        },
+        {
+            "id": "5030",
+            "code": "EXUDTE",
+            "display": "Exudate",
+            "definition": "Exudate",
+            "property": [
+                {
+                    "code": "v2-concComment",
+                    "valueString": "Condition"
+                },
+                {
+                    "code": "v2-concCommentAsPub",
+                    "valueString": "Condition"
+                },
+                {
+                    "code": "status",
+                    "valueCode": "A"
+                }
+            ]
+        },
+        {
+            "id": "5031",
+            "code": "FAW",
+            "display": "Environmental, Water  (Well)",
+            "definition": "Environmental, Water  (Well)",
+            "property": [
+                {
+                    "code": "v2-concComment",
+                    "valueString": "Environment"
+                },
+                {
+                    "code": "v2-concCommentAsPub",
+                    "valueString": "Environment"
+                },
+                {
+                    "code": "status",
+                    "valueCode": "A"
+                }
+            ]
+        },
+        {
+            "id": "5032",
+            "code": "FBLOOD",
+            "display": "Blood, Fetal",
+            "definition": "Blood, Fetal",
+            "property": [
+                {
+                    "code": "v2-concComment",
+                    "valueString": "Blood"
+                },
+                {
+                    "code": "v2-concCommentAsPub",
+                    "valueString": "Blood"
+                },
+                {
+                    "code": "status",
+                    "valueCode": "A"
+                }
+            ]
+        },
+        {
+            "id": "5033",
+            "code": "FGA",
+            "display": "Fluid,  Abdomen",
+            "definition": "Fluid,  Abdomen",
+            "property": [
+                {
+                    "code": "v2-concComment",
+                    "valueString": "Fluid"
+                },
+                {
+                    "code": "v2-concCommentAsPub",
+                    "valueString": "Fluid"
+                },
+                {
+                    "code": "status",
+                    "valueCode": "A"
+                }
+            ]
+        },
+        {
+            "id": "5034",
+            "code": "FIB",
+            "display": "Fibroblasts",
+            "definition": "Fibroblasts",
+            "property": [
+                {
+                    "code": "status",
+                    "valueCode": "A"
+                }
+            ]
+        },
+        {
+            "id": "5035",
+            "code": "FIST",
+            "display": "Fistula",
+            "definition": "Fistula",
+            "property": [
+                {
+                    "code": "status",
+                    "valueCode": "A"
+                }
+            ]
+        },
+        {
+            "id": "5036",
+            "code": "FLD",
+            "display": "Fluid, Other",
+            "definition": "Fluid, Other",
+            "property": [
+                {
+                    "code": "v2-concComment",
+                    "valueString": "Fluid"
+                },
+                {
+                    "code": "v2-concCommentAsPub",
+                    "valueString": "Fluid"
+                },
+                {
+                    "code": "status",
+                    "valueCode": "A"
+                }
+            ]
+        },
+        {
+            "id": "5037",
+            "code": "FLT",
+            "display": "Filter",
+            "definition": "Filter",
+            "property": [
+                {
+                    "code": "status",
+                    "valueCode": "A"
+                }
+            ]
+        },
+        {
+            "id": "5038",
+            "code": "FLU",
+            "display": "Fluid, Body unsp",
+            "definition": "Fluid, Body unsp",
+            "property": [
+                {
+                    "code": "status",
+                    "valueCode": "A"
+                }
+            ]
+        },
+        {
+            "id": "5039",
+            "code": "FLUID",
+            "display": "Fluid",
+            "definition": "Fluid",
+            "property": [
+                {
+                    "code": "v2-concComment",
+                    "valueString": "Fluid"
+                },
+                {
+                    "code": "v2-concCommentAsPub",
+                    "valueString": "Fluid"
+                },
+                {
+                    "code": "status",
+                    "valueCode": "A"
+                }
+            ]
+        },
+        {
+            "id": "5040",
+            "code": "FOLEY",
+            "display": "Catheter Tip, Foley",
+            "definition": "Catheter Tip, Foley",
+            "property": [
+                {
+                    "code": "v2-concComment",
+                    "valueString": "Device"
+                },
+                {
+                    "code": "v2-concCommentAsPub",
+                    "valueString": "Device"
+                },
+                {
+                    "code": "status",
+                    "valueCode": "A"
+                }
+            ]
+        },
+        {
+            "id": "5041",
+            "code": "FRS",
+            "display": "Fluid, Respiratory",
+            "definition": "Fluid, Respiratory",
+            "property": [
+                {
+                    "code": "v2-concComment",
+                    "valueString": "Fluid"
+                },
+                {
+                    "code": "v2-concCommentAsPub",
+                    "valueString": "Fluid"
+                },
+                {
+                    "code": "status",
+                    "valueCode": "A"
+                }
+            ]
+        },
+        {
+            "id": "5042",
+            "code": "FSCLP",
+            "display": "Scalp, Fetal",
+            "definition": "Scalp, Fetal",
+            "property": [
+                {
+                    "code": "v2-concComment",
+                    "valueString": "Condition"
+                },
+                {
+                    "code": "v2-concCommentAsPub",
+                    "valueString": "Condition"
+                },
+                {
+                    "code": "status",
+                    "valueCode": "A"
+                }
+            ]
+        },
+        {
+            "id": "5043",
+            "code": "FUR",
+            "display": "Furuncle",
+            "definition": "Furuncle",
+            "property": [
+                {
+                    "code": "v2-concComment",
+                    "valueString": "Condition"
+                },
+                {
+                    "code": "v2-concCommentAsPub",
+                    "valueString": "Condition"
+                },
+                {
+                    "code": "status",
+                    "valueCode": "A"
+                }
+            ]
+        },
+        {
+            "id": "5044",
+            "code": "GAS",
+            "display": "Gas",
+            "definition": "Gas",
+            "property": [
+                {
+                    "code": "status",
+                    "valueCode": "A"
+                }
+            ]
+        },
+        {
+            "id": "5045",
+            "code": "GASA",
+            "display": "Aspirate, Gastric",
+            "definition": "Aspirate, Gastric",
+            "property": [
+                {
+                    "code": "v2-concComment",
+                    "valueString": "Aspirate"
+                },
+                {
+                    "code": "v2-concCommentAsPub",
+                    "valueString": "Aspirate"
+                },
+                {
+                    "code": "status",
+                    "valueCode": "A"
+                }
+            ]
+        },
+        {
+            "id": "5046",
+            "code": "GASAN",
+            "display": "Antrum, Gastric",
+            "definition": "Antrum, Gastric",
+            "property": [
+                {
+                    "code": "v2-concComment",
+                    "valueString": "Tissue"
+                },
+                {
+                    "code": "v2-concCommentAsPub",
+                    "valueString": "Tissue"
+                },
+                {
+                    "code": "status",
+                    "valueCode": "A"
+                }
+            ]
+        },
+        {
+            "id": "5047",
+            "code": "GASBR",
+            "display": "Brushing, Gastric",
+            "definition": "Brushing, Gastric",
+            "property": [
+                {
+                    "code": "v2-concComment",
+                    "valueString": "Product"
+                },
+                {
+                    "code": "v2-concCommentAsPub",
+                    "valueString": "Product"
+                },
+                {
+                    "code": "status",
+                    "valueCode": "A"
+                }
+            ]
+        },
+        {
+            "id": "5048",
+            "code": "GASD",
+            "display": "Drainage, Gastric",
+            "definition": "Drainage, Gastric",
+            "property": [
+                {
+                    "code": "v2-concComment",
+                    "valueString": "Condition"
+                },
+                {
+                    "code": "v2-concCommentAsPub",
+                    "valueString": "Condition"
+                },
+                {
+                    "code": "status",
+                    "valueCode": "A"
+                }
+            ]
+        },
+        {
+            "id": "5049",
+            "code": "GAST",
+            "display": "Fluid/contents, Gastric",
+            "definition": "Fluid/contents, Gastric",
+            "property": [
+                {
+                    "code": "status",
+                    "valueCode": "A"
+                }
+            ]
+        },
+        {
+            "id": "5050",
+            "code": "GENL",
+            "display": "Genital lochia",
+            "definition": "Genital lochia",
+            "property": [
+                {
+                    "code": "status",
+                    "valueCode": "A"
+                }
+            ]
+        },
+        {
+            "id": "5051",
+            "code": "GENV",
+            "display": "Genital vaginal",
+            "definition": "Genital vaginal",
+            "property": [
+                {
+                    "code": "status",
+                    "valueCode": "A"
+                }
+            ]
+        },
+        {
+            "id": "5052",
+            "code": "GRAFT",
+            "display": "Graft",
+            "definition": "Graft",
+            "property": [
+                {
+                    "code": "v2-concComment",
+                    "valueString": "Condition"
+                },
+                {
+                    "code": "v2-concCommentAsPub",
+                    "valueString": "Condition"
+                },
+                {
+                    "code": "status",
+                    "valueCode": "A"
+                }
+            ]
+        },
+        {
+            "id": "5053",
+            "code": "GRAFTS",
+            "display": "Graft Site",
+            "definition": "Graft Site",
+            "property": [
+                {
+                    "code": "v2-concComment",
+                    "valueString": "Condition"
+                },
+                {
+                    "code": "v2-concCommentAsPub",
+                    "valueString": "Condition"
+                },
+                {
+                    "code": "status",
+                    "valueCode": "A"
+                }
+            ]
+        },
+        {
+            "id": "5054",
+            "code": "GRANU",
+            "display": "Granuloma",
+            "definition": "Granuloma",
+            "property": [
+                {
+                    "code": "v2-concComment",
+                    "valueString": "Condition"
+                },
+                {
+                    "code": "v2-concCommentAsPub",
+                    "valueString": "Condition"
+                },
+                {
+                    "code": "status",
+                    "valueCode": "A"
+                }
+            ]
+        },
+        {
+            "id": "5055",
+            "code": "GROSH",
+            "display": "Catheter, Groshong",
+            "definition": "Catheter, Groshong",
+            "property": [
+                {
+                    "code": "v2-concComment",
+                    "valueString": "Device"
+                },
+                {
+                    "code": "v2-concCommentAsPub",
+                    "valueString": "Device"
+                },
+                {
+                    "code": "status",
+                    "valueCode": "A"
+                }
+            ]
+        },
+        {
+            "id": "5056",
+            "code": "GSOL",
+            "display": "Solution, Gastrostomy",
+            "definition": "Solution, Gastrostomy",
+            "property": [
+                {
+                    "code": "v2-concComment",
+                    "valueString": "Product"
+                },
+                {
+                    "code": "v2-concCommentAsPub",
+                    "valueString": "Product"
+                },
+                {
+                    "code": "status",
+                    "valueCode": "A"
+                }
+            ]
+        },
+        {
+            "id": "5057",
+            "code": "GSPEC",
+            "display": "Biopsy, Gastric",
+            "definition": "Biopsy, Gastric",
+            "property": [
+                {
+                    "code": "v2-concComment",
+                    "valueString": "Tissue"
+                },
+                {
+                    "code": "v2-concCommentAsPub",
+                    "valueString": "Tissue"
+                },
+                {
+                    "code": "status",
+                    "valueCode": "A"
+                }
+            ]
+        },
+        {
+            "id": "5058",
+            "code": "GT",
+            "display": "Tube, Gastric",
+            "definition": "Tube, Gastric",
+            "property": [
+                {
+                    "code": "v2-concComment",
+                    "valueString": "Device"
+                },
+                {
+                    "code": "v2-concCommentAsPub",
+                    "valueString": "Device"
+                },
+                {
+                    "code": "status",
+                    "valueCode": "A"
+                }
+            ]
+        },
+        {
+            "id": "5059",
+            "code": "GTUBE",
+            "display": "Drainage Tube, Drainage (Gastrostomy)",
+            "definition": "Drainage Tube, Drainage (Gastrostomy)",
+            "property": [
+                {
+                    "code": "v2-concComment",
+                    "valueString": "Condition"
+                },
+                {
+                    "code": "v2-concCommentAsPub",
+                    "valueString": "Condition"
+                },
+                {
+                    "code": "status",
+                    "valueCode": "A"
+                }
+            ]
+        },
+        {
+            "id": "5060",
+            "code": "HAR",
+            "display": "Hair",
+            "definition": "Hair",
+            "property": [
+                {
+                    "code": "status",
+                    "valueCode": "A"
+                }
+            ]
+        },
+        {
+            "id": "5061",
+            "code": "HBITE",
+            "display": "Bite, Human",
+            "definition": "Bite, Human",
+            "property": [
+                {
+                    "code": "v2-concComment",
+                    "valueString": "Conditions"
+                },
+                {
+                    "code": "v2-concCommentAsPub",
+                    "valueString": "Conditions"
+                },
+                {
+                    "code": "status",
+                    "valueCode": "A"
+                }
+            ]
+        },
+        {
+            "id": "5062",
+            "code": "HBLUD",
+            "display": "Blood, Autopsy",
+            "definition": "Blood, Autopsy",
+            "property": [
+                {
+                    "code": "v2-concComment",
+                    "valueString": "Blood"
+                },
+                {
+                    "code": "v2-concCommentAsPub",
+                    "valueString": "Blood"
+                },
+                {
+                    "code": "status",
+                    "valueCode": "A"
+                }
+            ]
+        },
+        {
+            "id": "5063",
+            "code": "HEMAQ",
+            "display": "Catheter Tip, Hemaquit",
+            "definition": "Catheter Tip, Hemaquit",
+            "property": [
+                {
+                    "code": "v2-concComment",
+                    "valueString": "Device"
+                },
+                {
+                    "code": "v2-concCommentAsPub",
+                    "valueString": "Device"
+                },
+                {
+                    "code": "status",
+                    "valueCode": "A"
+                }
+            ]
+        },
+        {
+            "id": "5064",
+            "code": "HEMO",
+            "display": "Catheter Tip, Hemovac",
+            "definition": "Catheter Tip, Hemovac",
+            "property": [
+                {
+                    "code": "v2-concComment",
+                    "valueString": "Device"
+                },
+                {
+                    "code": "v2-concCommentAsPub",
+                    "valueString": "Device"
+                },
+                {
+                    "code": "status",
+                    "valueCode": "A"
+                }
+            ]
+        },
+        {
+            "id": "5065",
+            "code": "HERNI",
+            "display": "Tissue, Herniated",
+            "definition": "Tissue, Herniated",
+            "property": [
+                {
+                    "code": "v2-concComment",
+                    "valueString": "Tissue"
+                },
+                {
+                    "code": "v2-concCommentAsPub",
+                    "valueString": "Tissue"
+                },
+                {
+                    "code": "status",
+                    "valueCode": "A"
+                }
+            ]
+        },
+        {
+            "id": "5066",
+            "code": "HEV",
+            "display": "Drain, Hemovac",
+            "definition": "Drain, Hemovac",
+            "property": [
+                {
+                    "code": "v2-concComment",
+                    "valueString": "Device"
+                },
+                {
+                    "code": "v2-concCommentAsPub",
+                    "valueString": "Device"
+                },
+                {
+                    "code": "status",
+                    "valueCode": "A"
+                }
+            ]
+        },
+        {
+            "id": "5067",
+            "code": "HIC",
+            "display": "Catheter, Hickman",
+            "definition": "Catheter, Hickman",
+            "property": [
+                {
+                    "code": "v2-concComment",
+                    "valueString": "Device"
+                },
+                {
+                    "code": "v2-concCommentAsPub",
+                    "valueString": "Device"
+                },
+                {
+                    "code": "status",
+                    "valueCode": "A"
+                }
+            ]
+        },
+        {
+            "id": "5068",
+            "code": "HYDC",
+            "display": "Fluid, Hydrocele",
+            "definition": "Fluid, Hydrocele",
+            "property": [
+                {
+                    "code": "v2-concComment",
+                    "valueString": "Fluid"
+                },
+                {
+                    "code": "v2-concCommentAsPub",
+                    "valueString": "Fluid"
+                },
+                {
+                    "code": "status",
+                    "valueCode": "A"
+                }
+            ]
+        },
+        {
+            "id": "5069",
+            "code": "IBITE",
+            "display": "Bite, Insect",
+            "definition": "Bite, Insect",
+            "property": [
+                {
+                    "code": "v2-concComment",
+                    "valueString": "Conditions"
+                },
+                {
+                    "code": "v2-concCommentAsPub",
+                    "valueString": "Conditions"
+                },
+                {
+                    "code": "status",
+                    "valueCode": "A"
+                }
+            ]
+        },
+        {
+            "id": "5070",
+            "code": "ICYST",
+            "display": "Cyst, Inclusion",
+            "definition": "Cyst, Inclusion",
+            "property": [
+                {
+                    "code": "v2-concComment",
+                    "valueString": "Condition"
+                },
+                {
+                    "code": "v2-concCommentAsPub",
+                    "valueString": "Condition"
+                },
+                {
+                    "code": "status",
+                    "valueCode": "A"
+                }
+            ]
+        },
+        {
+            "id": "5071",
+            "code": "IDC",
+            "display": "Catheter Tip, Indwelling",
+            "definition": "Catheter Tip, Indwelling",
+            "property": [
+                {
+                    "code": "v2-concComment",
+                    "valueString": "Device"
+                },
+                {
+                    "code": "v2-concCommentAsPub",
+                    "valueString": "Device"
+                },
+                {
+                    "code": "status",
+                    "valueCode": "A"
+                }
+            ]
+        },
+        {
+            "id": "5072",
+            "code": "IHG",
+            "display": "Gas, Inhaled",
+            "definition": "Gas, Inhaled",
+            "property": [
+                {
+                    "code": "status",
+                    "valueCode": "A"
+                }
+            ]
+        },
+        {
+            "id": "5073",
+            "code": "ILEO",
+            "display": "Drainage, Ileostomy",
+            "definition": "Drainage, Ileostomy",
+            "property": [
+                {
+                    "code": "v2-concComment",
+                    "valueString": "Condition"
+                },
+                {
+                    "code": "v2-concCommentAsPub",
+                    "valueString": "Condition"
+                },
+                {
+                    "code": "status",
+                    "valueCode": "A"
+                }
+            ]
+        },
+        {
+            "id": "5074",
+            "code": "ILLEG",
+            "display": "Source of Specimen Is Illegible",
+            "definition": "Source of Specimen Is Illegible",
+            "property": [
+                {
+                    "code": "status",
+                    "valueCode": "A"
+                }
+            ]
+        },
+        {
+            "id": "5075",
+            "code": "IMP",
+            "display": "Implant",
+            "definition": "Implant",
+            "property": [
+                {
+                    "code": "v2-concComment",
+                    "valueString": "Device"
+                },
+                {
+                    "code": "v2-concCommentAsPub",
+                    "valueString": "Device"
+                },
+                {
+                    "code": "status",
+                    "valueCode": "A"
+                }
+            ]
+        },
+        {
+            "id": "5076",
+            "code": "INCI",
+            "display": "Site, Incision/Surgical",
+            "definition": "Site, Incision/Surgical",
+            "property": [
+                {
+                    "code": "v2-concComment",
+                    "valueString": "Site"
+                },
+                {
+                    "code": "v2-concCommentAsPub",
+                    "valueString": "Site"
+                },
+                {
+                    "code": "status",
+                    "valueCode": "A"
+                }
+            ]
+        },
+        {
+            "id": "5077",
+            "code": "INFIL",
+            "display": "Infiltrate",
+            "definition": "Infiltrate",
+            "property": [
+                {
+                    "code": "v2-concComment",
+                    "valueString": "Condition"
+                },
+                {
+                    "code": "v2-concCommentAsPub",
+                    "valueString": "Condition"
+                },
+                {
+                    "code": "status",
+                    "valueCode": "A"
+                }
+            ]
+        },
+        {
+            "id": "5078",
+            "code": "INS",
+            "display": "Insect",
+            "definition": "Insect",
+            "property": [
+                {
+                    "code": "v2-concComment",
+                    "valueString": "Object"
+                },
+                {
+                    "code": "v2-concCommentAsPub",
+                    "valueString": "Object"
+                },
+                {
+                    "code": "status",
+                    "valueCode": "A"
+                }
+            ]
+        },
+        {
+            "id": "5079",
+            "code": "INTRD",
+            "display": "Catheter Tip, Introducer",
+            "definition": "Catheter Tip, Introducer",
+            "property": [
+                {
+                    "code": "v2-concComment",
+                    "valueString": "Device"
+                },
+                {
+                    "code": "v2-concCommentAsPub",
+                    "valueString": "Device"
+                },
+                {
+                    "code": "status",
+                    "valueCode": "A"
+                }
+            ]
+        },
+        {
+            "id": "5080",
+            "code": "ISLT",
+            "display": "Isolate",
+            "definition": "Isolate",
+            "property": [
+                {
+                    "code": "status",
+                    "valueCode": "A"
+                }
+            ]
+        },
+        {
+            "id": "5081",
+            "code": "IT",
+            "display": "Intubation tube",
+            "definition": "Intubation tube",
+            "property": [
+                {
+                    "code": "status",
+                    "valueCode": "A"
+                }
+            ]
+        },
+        {
+            "id": "5082",
+            "code": "IUD",
+            "display": "Intrauterine Device",
+            "definition": "Intrauterine Device",
+            "property": [
+                {
+                    "code": "v2-concComment",
+                    "valueString": "Device (Common Usage)"
+                },
+                {
+                    "code": "v2-concCommentAsPub",
+                    "valueString": "Device (Common Usage)"
+                },
+                {
+                    "code": "status",
+                    "valueCode": "A"
+                }
+            ]
+        },
+        {
+            "id": "5083",
+            "code": "IVCAT",
+            "display": "Catheter Tip, IV",
+            "definition": "Catheter Tip, IV",
+            "property": [
+                {
+                    "code": "v2-concComment",
+                    "valueString": "Device"
+                },
+                {
+                    "code": "v2-concCommentAsPub",
+                    "valueString": "Device"
+                },
+                {
+                    "code": "status",
+                    "valueCode": "A"
+                }
+            ]
+        },
+        {
+            "id": "5084",
+            "code": "IVFLD",
+            "display": "Fluid, IV",
+            "definition": "Fluid, IV",
+            "property": [
+                {
+                    "code": "v2-concComment",
+                    "valueString": "Fluid"
+                },
+                {
+                    "code": "v2-concCommentAsPub",
+                    "valueString": "Fluid"
+                },
+                {
+                    "code": "status",
+                    "valueCode": "A"
+                }
+            ]
+        },
+        {
+            "id": "5085",
+            "code": "IVTIP",
+            "display": "Tubing Tip, IV",
+            "definition": "Tubing Tip, IV",
+            "property": [
+                {
+                    "code": "v2-concComment",
+                    "valueString": "Device"
+                },
+                {
+                    "code": "v2-concCommentAsPub",
+                    "valueString": "Device"
+                },
+                {
+                    "code": "status",
+                    "valueCode": "A"
+                }
+            ]
+        },
+        {
+            "id": "5086",
+            "code": "JEJU",
+            "display": "Drainage, Jejunal",
+            "definition": "Drainage, Jejunal",
+            "property": [
+                {
+                    "code": "v2-concComment",
+                    "valueString": "Condition"
+                },
+                {
+                    "code": "v2-concCommentAsPub",
+                    "valueString": "Condition"
+                },
+                {
+                    "code": "status",
+                    "valueCode": "A"
+                }
+            ]
+        },
+        {
+            "id": "5087",
+            "code": "JNTFLD",
+            "display": "Fluid, Joint",
+            "definition": "Fluid, Joint",
+            "property": [
+                {
+                    "code": "v2-concComment",
+                    "valueString": "Fluid"
+                },
+                {
+                    "code": "v2-concCommentAsPub",
+                    "valueString": "Fluid"
+                },
+                {
+                    "code": "status",
+                    "valueCode": "A"
+                }
+            ]
+        },
+        {
+            "id": "5088",
+            "code": "JP",
+            "display": "Drainage, Jackson Pratt",
+            "definition": "Drainage, Jackson Pratt",
+            "property": [
+                {
+                    "code": "v2-concComment",
+                    "valueString": "Condition"
+                },
+                {
+                    "code": "v2-concCommentAsPub",
+                    "valueString": "Condition"
+                },
+                {
+                    "code": "status",
+                    "valueCode": "A"
+                }
+            ]
+        },
+        {
+            "id": "5089",
+            "code": "KELOI",
+            "display": "Lavage",
+            "definition": "Lavage",
+            "property": [
+                {
+                    "code": "v2-concComment",
+                    "valueString": "Product"
+                },
+                {
+                    "code": "v2-concCommentAsPub",
+                    "valueString": "Product"
+                },
+                {
+                    "code": "status",
+                    "valueCode": "A"
+                }
+            ]
+        },
+        {
+            "id": "5090",
+            "code": "KIDFLD",
+            "display": "Fluid, Kidney",
+            "definition": "Fluid, Kidney",
+            "property": [
+                {
+                    "code": "v2-concComment",
+                    "valueString": "Fluid"
+                },
+                {
+                    "code": "v2-concCommentAsPub",
+                    "valueString": "Fluid"
+                },
+                {
+                    "code": "status",
+                    "valueCode": "A"
+                }
+            ]
+        },
+        {
+            "id": "5091",
+            "code": "LAVG",
+            "display": "Lavage, Bronhial",
+            "definition": "Lavage, Bronhial",
+            "property": [
+                {
+                    "code": "v2-concComment",
+                    "valueString": "Product"
+                },
+                {
+                    "code": "v2-concCommentAsPub",
+                    "valueString": "Product"
+                },
+                {
+                    "code": "status",
+                    "valueCode": "A"
+                }
+            ]
+        },
+        {
+            "id": "5092",
+            "code": "LAVGG",
+            "display": "Lavage, Gastric",
+            "definition": "Lavage, Gastric",
+            "property": [
+                {
+                    "code": "v2-concComment",
+                    "valueString": "Product"
+                },
+                {
+                    "code": "v2-concCommentAsPub",
+                    "valueString": "Product"
+                },
+                {
+                    "code": "status",
+                    "valueCode": "A"
+                }
+            ]
+        },
+        {
+            "id": "5093",
+            "code": "LAVGP",
+            "display": "Lavage, Peritoneal",
+            "definition": "Lavage, Peritoneal",
+            "property": [
+                {
+                    "code": "v2-concComment",
+                    "valueString": "Product"
+                },
+                {
+                    "code": "v2-concCommentAsPub",
+                    "valueString": "Product"
+                },
+                {
+                    "code": "status",
+                    "valueCode": "A"
+                }
+            ]
+        },
+        {
+            "id": "5094",
+            "code": "LAVPG",
+            "display": "Lavage, Pre-Bronch",
+            "definition": "Lavage, Pre-Bronch",
+            "property": [
+                {
+                    "code": "v2-concComment",
+                    "valueString": "Product"
+                },
+                {
+                    "code": "v2-concCommentAsPub",
+                    "valueString": "Product"
+                },
+                {
+                    "code": "status",
+                    "valueCode": "A"
+                }
+            ]
+        },
+        {
+            "id": "5095",
+            "code": "LENS1",
+            "display": "Contact Lens",
+            "definition": "Contact Lens",
+            "property": [
+                {
+                    "code": "v2-concComment",
+                    "valueString": "Device"
+                },
+                {
+                    "code": "v2-concCommentAsPub",
+                    "valueString": "Device"
+                },
+                {
+                    "code": "status",
+                    "valueCode": "A"
+                }
+            ]
+        },
+        {
+            "id": "5096",
+            "code": "LENS2",
+            "display": "Contact Lens Case",
+            "definition": "Contact Lens Case",
+            "property": [
+                {
+                    "code": "v2-concComment",
+                    "valueString": "Device"
+                },
+                {
+                    "code": "v2-concCommentAsPub",
+                    "valueString": "Device"
+                },
+                {
+                    "code": "status",
+                    "valueCode": "A"
+                }
+            ]
+        },
+        {
+            "id": "5097",
+            "code": "LESN",
+            "display": "Lesion",
+            "definition": "Lesion",
+            "property": [
+                {
+                    "code": "v2-concComment",
+                    "valueString": "Condition"
+                },
+                {
+                    "code": "v2-concCommentAsPub",
+                    "valueString": "Condition"
+                },
+                {
+                    "code": "status",
+                    "valueCode": "A"
+                }
+            ]
+        },
+        {
+            "id": "5098",
+            "code": "LIQ",
+            "display": "Liquid, Unspecified",
+            "definition": "Liquid, Unspecified",
+            "property": [
+                {
+                    "code": "status",
+                    "valueCode": "A"
+                }
+            ]
+        },
+        {
+            "id": "5099",
+            "code": "LIQO",
+            "display": "Liquid, Other",
+            "definition": "Liquid, Other",
+            "property": [
+                {
+                    "code": "status",
+                    "valueCode": "A"
+                }
+            ]
+        },
+        {
+            "id": "5100",
+            "code": "LNA",
+            "display": "Line arterial",
+            "definition": "Line arterial",
+            "property": [
+                {
+                    "code": "v2-concComment",
+                    "valueString": "Arterial blood collected via arterial line"
+                },
+                {
+                    "code": "v2-concCommentAsPub",
+                    "valueString": "Arterial blood collected via arterial line"
+                },
+                {
+                    "code": "status",
+                    "valueCode": "A"
+                }
+            ]
+        },
+        {
+            "id": "5101",
+            "code": "LNV",
+            "display": "Line venous",
+            "definition": "Line venous",
+            "property": [
+                {
+                    "code": "v2-concComment",
+                    "valueString": "Venous blood collected via venous line"
+                },
+                {
+                    "code": "v2-concCommentAsPub",
+                    "valueString": "Venous blood collected via venous line"
+                },
+                {
+                    "code": "status",
+                    "valueCode": "A"
+                }
+            ]
+        },
+        {
+            "id": "5102",
+            "code": "LSAC",
+            "display": "Fluid, Lumbar Sac",
+            "definition": "Fluid, Lumbar Sac",
+            "property": [
+                {
+                    "code": "v2-concComment",
+                    "valueString": "Fluid"
+                },
+                {
+                    "code": "v2-concCommentAsPub",
+                    "valueString": "Fluid"
+                },
+                {
+                    "code": "status",
+                    "valueCode": "A"
+                }
+            ]
+        },
+        {
+            "id": "5103",
+            "code": "LYM",
+            "display": "Lymphocytes",
+            "definition": "Lymphocytes",
+            "property": [
+                {
+                    "code": "status",
+                    "valueCode": "A"
+                }
+            ]
+        },
+        {
+            "id": "5104",
+            "code": "MAC",
+            "display": "Macrophages",
+            "definition": "Macrophages",
+            "property": [
+                {
+                    "code": "status",
+                    "valueCode": "A"
+                }
+            ]
+        },
+        {
+            "id": "5105",
+            "code": "MAHUR",
+            "display": "Catheter Tip, Makurkour",
+            "definition": "Catheter Tip, Makurkour",
+            "property": [
+                {
+                    "code": "v2-concComment",
+                    "valueString": "Device"
+                },
+                {
+                    "code": "v2-concCommentAsPub",
+                    "valueString": "Device"
+                },
+                {
+                    "code": "status",
+                    "valueCode": "A"
+                }
+            ]
+        },
+        {
+            "id": "5106",
+            "code": "MAR",
+            "display": "Marrow",
+            "definition": "Marrow",
+            "property": [
+                {
+                    "code": "v2-concComment",
+                    "valueString": "Bone marrow"
+                },
+                {
+                    "code": "v2-concCommentAsPub",
+                    "valueString": "Bone marrow"
+                },
+                {
+                    "code": "status",
+                    "valueCode": "A"
+                }
+            ]
+        },
+        {
+            "id": "5107",
+            "code": "MASS",
+            "display": "Mass",
+            "definition": "Mass",
+            "property": [
+                {
+                    "code": "v2-concComment",
+                    "valueString": "Condition"
+                },
+                {
+                    "code": "v2-concCommentAsPub",
+                    "valueString": "Condition"
+                },
+                {
+                    "code": "status",
+                    "valueCode": "A"
+                }
+            ]
+        },
+        {
+            "id": "5108",
+            "code": "MBLD",
+            "display": "Blood, Menstrual",
+            "definition": "Blood, Menstrual",
+            "property": [
+                {
+                    "code": "v2-concComment",
+                    "valueString": "Blood"
+                },
+                {
+                    "code": "v2-concCommentAsPub",
+                    "valueString": "Blood"
+                },
+                {
+                    "code": "status",
+                    "valueCode": "A"
+                }
+            ]
+        },
+        {
+            "id": "5109",
+            "code": "MEC",
+            "display": "Meconium",
+            "definition": "Meconium",
+            "property": [
+                {
+                    "code": "status",
+                    "valueCode": "A"
+                }
+            ]
+        },
+        {
+            "id": "5110",
+            "code": "MILK",
+            "display": "Breast milk",
+            "definition": "Breast milk",
+            "property": [
+                {
+                    "code": "v2-concComment",
+                    "valueString": "Mother's milk specimen"
+                },
+                {
+                    "code": "v2-concCommentAsPub",
+                    "valueString": "Mother's milk specimen"
+                },
+                {
+                    "code": "status",
+                    "valueCode": "A"
+                }
+            ]
+        },
+        {
+            "id": "5111",
+            "code": "MLK",
+            "display": "Milk",
+            "definition": "Milk",
+            "property": [
+                {
+                    "code": "v2-concComment",
+                    "valueString": "Food specimen"
+                },
+                {
+                    "code": "v2-concCommentAsPub",
+                    "valueString": "Food specimen"
+                },
+                {
+                    "code": "status",
+                    "valueCode": "A"
+                }
+            ]
+        },
+        {
+            "id": "5112",
+            "code": "MUCOS",
+            "display": "Mucosa",
+            "definition": "Mucosa",
+            "property": [
+                {
+                    "code": "v2-concComment",
+                    "valueString": "Condition"
+                },
+                {
+                    "code": "v2-concCommentAsPub",
+                    "valueString": "Condition"
+                },
+                {
+                    "code": "status",
+                    "valueCode": "A"
+                }
+            ]
+        },
+        {
+            "id": "5113",
+            "code": "MUCUS",
+            "display": "Mucus",
+            "definition": "Mucus",
+            "property": [
+                {
+                    "code": "v2-concComment",
+                    "valueString": "Condition"
+                },
+                {
+                    "code": "v2-concCommentAsPub",
+                    "valueString": "Condition"
+                },
+                {
+                    "code": "status",
+                    "valueCode": "A"
+                }
+            ]
+        },
+        {
+            "id": "5114",
+            "code": "NAIL",
+            "display": "Nail",
+            "definition": "Nail",
+            "property": [
+                {
+                    "code": "v2-concComment",
+                    "valueString": "Finger or toe nail sample"
+                },
+                {
+                    "code": "v2-concCommentAsPub",
+                    "valueString": "Finger or toe nail sample"
+                },
+                {
+                    "code": "status",
+                    "valueCode": "A"
+                }
+            ]
+        },
+        {
+            "id": "5115",
+            "code": "NASDR",
+            "display": "Drainage, Nasal",
+            "definition": "Drainage, Nasal",
+            "property": [
+                {
+                    "code": "v2-concComment",
+                    "valueString": "Condition"
+                },
+                {
+                    "code": "v2-concCommentAsPub",
+                    "valueString": "Condition"
+                },
+                {
+                    "code": "status",
+                    "valueCode": "A"
+                }
+            ]
+        },
+        {
+            "id": "5116",
+            "code": "NEDL",
+            "display": "Needle",
+            "definition": "Needle",
+            "property": [
+                {
+                    "code": "v2-concComment",
+                    "valueString": "Device"
+                },
+                {
+                    "code": "v2-concCommentAsPub",
+                    "valueString": "Device"
+                },
+                {
+                    "code": "status",
+                    "valueCode": "A"
+                }
+            ]
+        },
+        {
+            "id": "5117",
+            "code": "NEPH",
+            "display": "Site, Nephrostomy",
+            "definition": "Site, Nephrostomy",
+            "property": [
+                {
+                    "code": "v2-concComment",
+                    "valueString": "Site"
+                },
+                {
+                    "code": "v2-concCommentAsPub",
+                    "valueString": "Site"
+                },
+                {
+                    "code": "status",
+                    "valueCode": "A"
+                }
+            ]
+        },
+        {
+            "id": "5118",
+            "code": "NGASP",
+            "display": "Aspirate, Nasogastric",
+            "definition": "Aspirate, Nasogastric",
+            "property": [
+                {
+                    "code": "v2-concComment",
+                    "valueString": "Aspirate"
+                },
+                {
+                    "code": "v2-concCommentAsPub",
+                    "valueString": "Aspirate"
+                },
+                {
+                    "code": "status",
+                    "valueCode": "A"
+                }
+            ]
+        },
+        {
+            "id": "5119",
+            "code": "NGAST",
+            "display": "Drainage, Nasogastric",
+            "definition": "Drainage, Nasogastric",
+            "property": [
+                {
+                    "code": "v2-concComment",
+                    "valueString": "Condition"
+                },
+                {
+                    "code": "v2-concCommentAsPub",
+                    "valueString": "Condition"
+                },
+                {
+                    "code": "status",
+                    "valueCode": "A"
+                }
+            ]
+        },
+        {
+            "id": "5120",
+            "code": "NGS",
+            "display": "Site, Naso/Gastric",
+            "definition": "Site, Naso/Gastric",
+            "property": [
+                {
+                    "code": "v2-concComment",
+                    "valueString": "Site"
+                },
+                {
+                    "code": "v2-concCommentAsPub",
+                    "valueString": "Site"
+                },
+                {
+                    "code": "status",
+                    "valueCode": "A"
+                }
+            ]
+        },
+        {
+            "id": "5121",
+            "code": "NODUL",
+            "display": "Nodule(s)",
+            "definition": "Nodule(s)",
+            "property": [
+                {
+                    "code": "v2-concComment",
+                    "valueString": "Condition"
+                },
+                {
+                    "code": "v2-concCommentAsPub",
+                    "valueString": "Condition"
+                },
+                {
+                    "code": "status",
+                    "valueCode": "A"
+                }
+            ]
+        },
+        {
+            "id": "5122",
+            "code": "NSECR",
+            "display": "Secretion, Nasal",
+            "definition": "Secretion, Nasal",
+            "property": [
+                {
+                    "code": "v2-concComment",
+                    "valueString": "Condition"
+                },
+                {
+                    "code": "v2-concCommentAsPub",
+                    "valueString": "Condition"
+                },
+                {
+                    "code": "status",
+                    "valueCode": "A"
+                }
+            ]
+        },
+        {
+            "id": "5123",
+            "code": "ORH",
+            "display": "Other",
+            "definition": "Other",
+            "property": [
+                {
+                    "code": "status",
+                    "valueCode": "A"
+                }
+            ]
+        },
+        {
+            "id": "5124",
+            "code": "ORL",
+            "display": "Lesion, Oral",
+            "definition": "Lesion, Oral",
+            "property": [
+                {
+                    "code": "v2-concComment",
+                    "valueString": "Condition (Common Usage)"
+                },
+                {
+                    "code": "v2-concCommentAsPub",
+                    "valueString": "Condition (Common Usage)"
+                },
+                {
+                    "code": "status",
+                    "valueCode": "A"
+                }
+            ]
+        },
+        {
+            "id": "5125",
+            "code": "OTH",
+            "display": "Source, Other",
+            "definition": "Source, Other",
+            "property": [
+                {
+                    "code": "status",
+                    "valueCode": "A"
+                }
+            ]
+        },
+        {
+            "id": "5126",
+            "code": "PACEM",
+            "display": "Pacemaker",
+            "definition": "Pacemaker",
+            "property": [
+                {
+                    "code": "v2-concComment",
+                    "valueString": "Device"
+                },
+                {
+                    "code": "v2-concCommentAsPub",
+                    "valueString": "Device"
+                },
+                {
+                    "code": "status",
+                    "valueCode": "A"
+                }
+            ]
+        },
+        {
+            "id": "5127",
+            "code": "PAFL",
+            "display": "Pancreatic fluid",
+            "definition": "Pancreatic fluid",
+            "property": [
+                {
+                    "code": "status",
+                    "valueCode": "A"
+                }
+            ]
+        },
+        {
+            "id": "5128",
+            "code": "PCFL",
+            "display": "Fluid, Pericardial",
+            "definition": "Fluid, Pericardial",
+            "property": [
+                {
+                    "code": "status",
+                    "valueCode": "A"
+                }
+            ]
+        },
+        {
+            "id": "5129",
+            "code": "PDSIT",
+            "display": "Site, Peritoneal Dialysis",
+            "definition": "Site, Peritoneal Dialysis",
+            "property": [
+                {
+                    "code": "v2-concComment",
+                    "valueString": "Site"
+                },
+                {
+                    "code": "v2-concCommentAsPub",
+                    "valueString": "Site"
+                },
+                {
+                    "code": "status",
+                    "valueCode": "A"
+                }
+            ]
+        },
+        {
+            "id": "5130",
+            "code": "PDTS",
+            "display": "Site, Peritoneal Dialysis Tunnel",
+            "definition": "Site, Peritoneal Dialysis Tunnel",
+            "property": [
+                {
+                    "code": "v2-concComment",
+                    "valueString": "Site"
+                },
+                {
+                    "code": "v2-concCommentAsPub",
+                    "valueString": "Site"
+                },
+                {
+                    "code": "status",
+                    "valueCode": "A"
+                }
+            ]
+        },
+        {
+            "id": "5131",
+            "code": "PELVA",
+            "display": "Abscess, Pelvic",
+            "definition": "Abscess, Pelvic",
+            "property": [
+                {
+                    "code": "v2-concComment",
+                    "valueString": "Condition"
+                },
+                {
+                    "code": "v2-concCommentAsPub",
+                    "valueString": "Condition"
+                },
+                {
+                    "code": "status",
+                    "valueCode": "A"
+                }
+            ]
+        },
+        {
+            "id": "5132",
+            "code": "PENIL",
+            "display": "Lesion, Penile",
+            "definition": "Lesion, Penile",
+            "property": [
+                {
+                    "code": "v2-concComment",
+                    "valueString": "Condition (Common Usage)"
+                },
+                {
+                    "code": "v2-concCommentAsPub",
+                    "valueString": "Condition (Common Usage)"
+                },
+                {
+                    "code": "status",
+                    "valueCode": "A"
+                }
+            ]
+        },
+        {
+            "id": "5133",
+            "code": "PERIA",
+            "display": "Abscess, Perianal",
+            "definition": "Abscess, Perianal",
+            "property": [
+                {
+                    "code": "v2-concComment",
+                    "valueString": "Condition, Abscess & Body Part"
+                },
+                {
+                    "code": "v2-concCommentAsPub",
+                    "valueString": "Condition, Abscess & Body Part"
+                },
+                {
+                    "code": "status",
+                    "valueCode": "A"
+                }
+            ]
+        },
+        {
+            "id": "5134",
+            "code": "PILOC",
+            "display": "Cyst, Pilonidal",
+            "definition": "Cyst, Pilonidal",
+            "property": [
+                {
+                    "code": "v2-concComment",
+                    "valueString": "Condition"
+                },
+                {
+                    "code": "v2-concCommentAsPub",
+                    "valueString": "Condition"
+                },
+                {
+                    "code": "status",
+                    "valueCode": "A"
+                }
+            ]
+        },
+        {
+            "id": "5135",
+            "code": "PINS",
+            "display": "Site, Pin",
+            "definition": "Site, Pin",
+            "property": [
+                {
+                    "code": "v2-concComment",
+                    "valueString": "Site"
+                },
+                {
+                    "code": "v2-concCommentAsPub",
+                    "valueString": "Site"
+                },
+                {
+                    "code": "status",
+                    "valueCode": "A"
+                }
+            ]
+        },
+        {
+            "id": "5136",
+            "code": "PIS",
+            "display": "Site, Pacemaker Insetion",
+            "definition": "Site, Pacemaker Insetion",
+            "property": [
+                {
+                    "code": "v2-concComment",
+                    "valueString": "Site"
+                },
+                {
+                    "code": "v2-concCommentAsPub",
+                    "valueString": "Site"
+                },
+                {
+                    "code": "status",
+                    "valueCode": "A"
+                }
+            ]
+        },
+        {
+            "id": "5137",
+            "code": "PLAN",
+            "display": "Plant Material",
+            "definition": "Plant Material",
+            "property": [
+                {
+                    "code": "v2-concComment",
+                    "valueString": "Object"
+                },
+                {
+                    "code": "v2-concCommentAsPub",
+                    "valueString": "Object"
+                },
+                {
+                    "code": "status",
+                    "valueCode": "A"
+                }
+            ]
+        },
+        {
+            "id": "5138",
+            "code": "PLAS",
+            "display": "Plasma",
+            "definition": "Plasma",
+            "property": [
+                {
+                    "code": "v2-concComment",
+                    "valueString": "Blood"
+                },
+                {
+                    "code": "v2-concCommentAsPub",
+                    "valueString": "Blood"
+                },
+                {
+                    "code": "status",
+                    "valueCode": "A"
+                }
+            ]
+        },
+        {
+            "id": "5139",
+            "code": "PLB",
+            "display": "Plasma bag",
+            "definition": "Plasma bag",
+            "property": [
+                {
+                    "code": "v2-concComment",
+                    "valueString": "Blood"
+                },
+                {
+                    "code": "v2-concCommentAsPub",
+                    "valueString": "Blood"
+                },
+                {
+                    "code": "status",
+                    "valueCode": "A"
+                }
+            ]
+        },
+        {
+            "id": "5140",
+            "code": "PLC",
+            "display": "Placenta",
+            "definition": "Placenta",
+            "property": [
+                {
+                    "code": "status",
+                    "valueCode": "A"
+                }
+            ]
+        },
+        {
+            "id": "5141",
+            "code": "PLEVS",
+            "display": "Serum, Peak Level",
+            "definition": "Serum, Peak Level",
+            "property": [
+                {
+                    "code": "v2-concComment",
+                    "valueString": "Blood"
+                },
+                {
+                    "code": "v2-concCommentAsPub",
+                    "valueString": "Blood"
+                },
+                {
+                    "code": "status",
+                    "valueCode": "A"
+                }
+            ]
+        },
+        {
+            "id": "5142",
+            "code": "PLR",
+            "display": "Pleural fluid (thoracentesis fluid)",
+            "definition": "Pleural fluid (thoracentesis fluid)",
+            "property": [
+                {
+                    "code": "status",
+                    "valueCode": "A"
+                }
+            ]
+        },
+        {
+            "id": "5143",
+            "code": "PMN",
+            "display": "Polymorphonuclear neutrophils",
+            "definition": "Polymorphonuclear neutrophils",
+            "property": [
+                {
+                    "code": "status",
+                    "valueCode": "A"
+                }
+            ]
+        },
+        {
+            "id": "5144",
+            "code": "PND",
+            "display": "Drainage, Penile",
+            "definition": "Drainage, Penile",
+            "property": [
+                {
+                    "code": "v2-concComment",
+                    "valueString": "Condition"
+                },
+                {
+                    "code": "v2-concCommentAsPub",
+                    "valueString": "Condition"
+                },
+                {
+                    "code": "status",
+                    "valueCode": "A"
+                }
+            ]
+        },
+        {
+            "id": "5145",
+            "code": "POL",
+            "display": "Polyps",
+            "definition": "Polyps",
+            "property": [
+                {
+                    "code": "v2-concComment",
+                    "valueString": "Condition"
+                },
+                {
+                    "code": "v2-concCommentAsPub",
+                    "valueString": "Condition"
+                },
+                {
+                    "code": "status",
+                    "valueCode": "A"
+                }
+            ]
+        },
+        {
+            "id": "5146",
+            "code": "POPGS",
+            "display": "Graft Site, Popliteal",
+            "definition": "Graft Site, Popliteal",
+            "property": [
+                {
+                    "code": "v2-concComment",
+                    "valueString": "Condition"
+                },
+                {
+                    "code": "v2-concCommentAsPub",
+                    "valueString": "Condition"
+                },
+                {
+                    "code": "status",
+                    "valueCode": "A"
+                }
+            ]
+        },
+        {
+            "id": "5147",
+            "code": "POPLG",
+            "display": "Graft, Popliteal",
+            "definition": "Graft, Popliteal",
+            "property": [
+                {
+                    "code": "v2-concComment",
+                    "valueString": "Condition"
+                },
+                {
+                    "code": "v2-concCommentAsPub",
+                    "valueString": "Condition"
+                },
+                {
+                    "code": "status",
+                    "valueCode": "A"
+                }
+            ]
+        },
+        {
+            "id": "5148",
+            "code": "POPLV",
+            "display": "Site, Popliteal Vein",
+            "definition": "Site, Popliteal Vein",
+            "property": [
+                {
+                    "code": "v2-concComment",
+                    "valueString": "Site"
+                },
+                {
+                    "code": "v2-concCommentAsPub",
+                    "valueString": "Site"
+                },
+                {
+                    "code": "status",
+                    "valueCode": "A"
+                }
+            ]
+        },
+        {
+            "id": "5149",
+            "code": "PORTA",
+            "display": "Catheter, Porta",
+            "definition": "Catheter, Porta",
+            "property": [
+                {
+                    "code": "v2-concComment",
+                    "valueString": "Device"
+                },
+                {
+                    "code": "v2-concCommentAsPub",
+                    "valueString": "Device"
+                },
+                {
+                    "code": "status",
+                    "valueCode": "A"
+                }
+            ]
+        },
+        {
+            "id": "5150",
+            "code": "PPP",
+            "display": "Plasma, Platelet poor",
+            "definition": "Plasma, Platelet poor",
+            "property": [
+                {
+                    "code": "v2-concComment",
+                    "valueString": "Blood"
+                },
+                {
+                    "code": "v2-concCommentAsPub",
+                    "valueString": "Blood"
+                },
+                {
+                    "code": "status",
+                    "valueCode": "A"
+                }
+            ]
+        },
+        {
+            "id": "5151",
+            "code": "PROST",
+            "display": "Prosthetic Device",
+            "definition": "Prosthetic Device",
+            "property": [
+                {
+                    "code": "v2-concComment",
+                    "valueString": "Device"
+                },
+                {
+                    "code": "v2-concCommentAsPub",
+                    "valueString": "Device"
+                },
+                {
+                    "code": "status",
+                    "valueCode": "A"
+                }
+            ]
+        },
+        {
+            "id": "5152",
+            "code": "PRP",
+            "display": "Plasma, Platelet rich",
+            "definition": "Plasma, Platelet rich",
+            "property": [
+                {
+                    "code": "v2-concComment",
+                    "valueString": "Blood"
+                },
+                {
+                    "code": "v2-concCommentAsPub",
+                    "valueString": "Blood"
+                },
+                {
+                    "code": "status",
+                    "valueCode": "A"
+                }
+            ]
+        },
+        {
+            "id": "5153",
+            "code": "PSC",
+            "display": "Pseudocyst",
+            "definition": "Pseudocyst",
+            "property": [
+                {
+                    "code": "v2-concComment",
+                    "valueString": "Condition"
+                },
+                {
+                    "code": "v2-concCommentAsPub",
+                    "valueString": "Condition"
+                },
+                {
+                    "code": "status",
+                    "valueCode": "A"
+                }
+            ]
+        },
+        {
+            "id": "5154",
+            "code": "PUNCT",
+            "display": "Wound, Puncture",
+            "definition": "Wound, Puncture",
+            "property": [
+                {
+                    "code": "v2-concComment",
+                    "valueString": "Condition"
+                },
+                {
+                    "code": "v2-concCommentAsPub",
+                    "valueString": "Condition"
+                },
+                {
+                    "code": "status",
+                    "valueCode": "A"
+                }
+            ]
+        },
+        {
+            "id": "5155",
+            "code": "PUS",
+            "display": "Pus",
+            "definition": "Pus",
+            "property": [
+                {
+                    "code": "status",
+                    "valueCode": "A"
+                }
+            ]
+        },
+        {
+            "id": "5156",
+            "code": "PUSFR",
+            "display": "Pustule",
+            "definition": "Pustule",
+            "property": [
+                {
+                    "code": "v2-concComment",
+                    "valueString": "Condition"
+                },
+                {
+                    "code": "v2-concCommentAsPub",
+                    "valueString": "Condition"
+                },
+                {
+                    "code": "status",
+                    "valueCode": "A"
+                }
+            ]
+        },
+        {
+            "id": "5157",
+            "code": "PUST",
+            "display": "Pus",
+            "definition": "Pus",
+            "property": [
+                {
+                    "code": "v2-concComment",
+                    "valueString": "Condition"
+                },
+                {
+                    "code": "v2-concCommentAsPub",
+                    "valueString": "Condition"
+                },
+                {
+                    "code": "status",
+                    "valueCode": "A"
+                }
+            ]
+        },
+        {
+            "id": "5158",
+            "code": "QC3",
+            "display": "Quality Control",
+            "definition": "Quality Control",
+            "property": [
+                {
+                    "code": "v2-concComment",
+                    "valueString": "Environment"
+                },
+                {
+                    "code": "v2-concCommentAsPub",
+                    "valueString": "Environment"
+                },
+                {
+                    "code": "status",
+                    "valueCode": "A"
+                }
+            ]
+        },
+        {
+            "id": "5159",
+            "code": "RANDU",
+            "display": "Urine, Random",
+            "definition": "Urine, Random",
+            "property": [
+                {
+                    "code": "v2-concComment",
+                    "valueString": "Condition"
+                },
+                {
+                    "code": "v2-concCommentAsPub",
+                    "valueString": "Condition"
+                },
+                {
+                    "code": "status",
+                    "valueCode": "A"
+                }
+            ]
+        },
+        {
+            "id": "5160",
+            "code": "RBC",
+            "display": "Erythrocytes",
+            "definition": "Erythrocytes",
+            "property": [
+                {
+                    "code": "status",
+                    "valueCode": "A"
+                }
+            ]
+        },
+        {
+            "id": "5161",
+            "code": "RBITE",
+            "display": "Bite, Reptile",
+            "definition": "Bite, Reptile",
+            "property": [
+                {
+                    "code": "v2-concComment",
+                    "valueString": "Conditions"
+                },
+                {
+                    "code": "v2-concCommentAsPub",
+                    "valueString": "Conditions"
+                },
+                {
+                    "code": "status",
+                    "valueCode": "A"
+                }
+            ]
+        },
+        {
+            "id": "5162",
+            "code": "RECT",
+            "display": "Drainage, Rectal",
+            "definition": "Drainage, Rectal",
+            "property": [
+                {
+                    "code": "v2-concComment",
+                    "valueString": "Condition"
+                },
+                {
+                    "code": "v2-concCommentAsPub",
+                    "valueString": "Condition"
+                },
+                {
+                    "code": "status",
+                    "valueCode": "A"
+                }
+            ]
+        },
+        {
+            "id": "5163",
+            "code": "RECTA",
+            "display": "Abscess, Rectal",
+            "definition": "Abscess, Rectal",
+            "property": [
+                {
+                    "code": "v2-concComment",
+                    "valueString": "Condition"
+                },
+                {
+                    "code": "v2-concCommentAsPub",
+                    "valueString": "Condition"
+                },
+                {
+                    "code": "status",
+                    "valueCode": "A"
+                }
+            ]
+        },
+        {
+            "id": "5164",
+            "code": "RENALC",
+            "display": "Cyst, Renal",
+            "definition": "Cyst, Renal",
+            "property": [
+                {
+                    "code": "v2-concComment",
+                    "valueString": "Condition"
+                },
+                {
+                    "code": "v2-concCommentAsPub",
+                    "valueString": "Condition"
+                },
+                {
+                    "code": "status",
+                    "valueCode": "A"
+                }
+            ]
+        },
+        {
+            "id": "5165",
+            "code": "RENC",
+            "display": "Fluid, Renal Cyst",
+            "definition": "Fluid, Renal Cyst",
+            "property": [
+                {
+                    "code": "v2-concComment",
+                    "valueString": "Fluid"
+                },
+                {
+                    "code": "v2-concCommentAsPub",
+                    "valueString": "Fluid"
+                },
+                {
+                    "code": "status",
+                    "valueCode": "A"
+                }
+            ]
+        },
+        {
+            "id": "5166",
+            "code": "RES",
+            "display": "Respiratory",
+            "definition": "Respiratory",
+            "property": [
+                {
+                    "code": "v2-concComment",
+                    "valueString": "Condition (Ambiguous)"
+                },
+                {
+                    "code": "v2-concCommentAsPub",
+                    "valueString": "Condition (Ambiguous)"
+                },
+                {
+                    "code": "status",
+                    "valueCode": "A"
+                }
+            ]
+        },
+        {
+            "id": "5167",
+            "code": "SAL",
+            "display": "Saliva",
+            "definition": "Saliva",
+            "property": [
+                {
+                    "code": "status",
+                    "valueCode": "A"
+                }
+            ]
+        },
+        {
+            "id": "5168",
+            "code": "SCAR",
+            "display": "Tissue, Keloid (Scar)",
+            "definition": "Tissue, Keloid (Scar)",
+            "property": [
+                {
+                    "code": "v2-concComment",
+                    "valueString": "Tissue"
+                },
+                {
+                    "code": "v2-concCommentAsPub",
+                    "valueString": "Tissue"
+                },
+                {
+                    "code": "status",
+                    "valueCode": "A"
+                }
+            ]
+        },
+        {
+            "id": "5169",
+            "code": "SCLV",
+            "display": "Catheter Tip, Subclavian",
+            "definition": "Catheter Tip, Subclavian",
+            "property": [
+                {
+                    "code": "v2-concComment",
+                    "valueString": "Device"
+                },
+                {
+                    "code": "v2-concCommentAsPub",
+                    "valueString": "Device"
+                },
+                {
+                    "code": "status",
+                    "valueCode": "A"
+                }
+            ]
+        },
+        {
+            "id": "5170",
+            "code": "SCROA",
+            "display": "Abscess, Scrotal",
+            "definition": "Abscess, Scrotal",
+            "property": [
+                {
+                    "code": "v2-concComment",
+                    "valueString": "Condition"
+                },
+                {
+                    "code": "v2-concCommentAsPub",
+                    "valueString": "Condition"
+                },
+                {
+                    "code": "status",
+                    "valueCode": "A"
+                }
+            ]
+        },
+        {
+            "id": "5171",
+            "code": "SECRE",
+            "display": "Secretion(s)",
+            "definition": "Secretion(s)",
+            "property": [
+                {
+                    "code": "v2-concComment",
+                    "valueString": "Fluid/Secretion"
+                },
+                {
+                    "code": "v2-concCommentAsPub",
+                    "valueString": "Fluid/Secretion"
+                },
+                {
+                    "code": "status",
+                    "valueCode": "A"
+                }
+            ]
+        },
+        {
+            "id": "5172",
+            "code": "SER",
+            "display": "Serum",
+            "definition": "Serum",
+            "property": [
+                {
+                    "code": "status",
+                    "valueCode": "A"
+                }
+            ]
+        },
+        {
+            "id": "5173",
+            "code": "SHU",
+            "display": "Site, Shunt",
+            "definition": "Site, Shunt",
+            "property": [
+                {
+                    "code": "v2-concComment",
+                    "valueString": "Site"
+                },
+                {
+                    "code": "v2-concCommentAsPub",
+                    "valueString": "Site"
+                },
+                {
+                    "code": "status",
+                    "valueCode": "A"
+                }
+            ]
+        },
+        {
+            "id": "5174",
+            "code": "SHUNF",
+            "display": "Fluid, Shunt",
+            "definition": "Fluid, Shunt",
+            "property": [
+                {
+                    "code": "v2-concComment",
+                    "valueString": "Fluid"
+                },
+                {
+                    "code": "v2-concCommentAsPub",
+                    "valueString": "Fluid"
+                },
+                {
+                    "code": "status",
+                    "valueCode": "A"
+                }
+            ]
+        },
+        {
+            "id": "5175",
+            "code": "SHUNT",
+            "display": "Shunt",
+            "definition": "Shunt",
+            "property": [
+                {
+                    "code": "v2-concComment",
+                    "valueString": "Condition"
+                },
+                {
+                    "code": "v2-concCommentAsPub",
+                    "valueString": "Condition"
+                },
+                {
+                    "code": "status",
+                    "valueCode": "A"
+                }
+            ]
+        },
+        {
+            "id": "5176",
+            "code": "SITE",
+            "display": "Site",
+            "definition": "Site",
+            "property": [
+                {
+                    "code": "v2-concComment",
+                    "valueString": "Site"
+                },
+                {
+                    "code": "v2-concCommentAsPub",
+                    "valueString": "Site"
+                },
+                {
+                    "code": "status",
+                    "valueCode": "A"
+                }
+            ]
+        },
+        {
+            "id": "5177",
+            "code": "SKBP",
+            "display": "Biopsy, Skin",
+            "definition": "Biopsy, Skin",
+            "property": [
+                {
+                    "code": "v2-concComment",
+                    "valueString": "Tissue"
+                },
+                {
+                    "code": "v2-concCommentAsPub",
+                    "valueString": "Tissue"
+                },
+                {
+                    "code": "status",
+                    "valueCode": "A"
+                }
+            ]
+        },
+        {
+            "id": "5178",
+            "code": "SKN",
+            "display": "Skin",
+            "definition": "Skin",
+            "property": [
+                {
+                    "code": "status",
+                    "valueCode": "A"
+                }
+            ]
+        },
+        {
+            "id": "5179",
+            "code": "SMM",
+            "display": "Mass, Sub-Mandibular",
+            "definition": "Mass, Sub-Mandibular",
+            "property": [
+                {
+                    "code": "v2-concComment",
+                    "valueString": "Condition"
+                },
+                {
+                    "code": "v2-concCommentAsPub",
+                    "valueString": "Condition"
+                },
+                {
+                    "code": "status",
+                    "valueCode": "A"
+                }
+            ]
+        },
+        {
+            "id": "5180",
+            "code": "SMN",
+            "display": "Seminal fluid",
+            "definition": "Seminal fluid",
+            "property": [
+                {
+                    "code": "status",
+                    "valueCode": "A"
+                }
+            ]
+        },
+        {
+            "id": "5181",
+            "code": "SNV",
+            "display": "Fluid, synovial (Joint fluid)",
+            "definition": "Fluid, synovial (Joint fluid)",
+            "property": [
+                {
+                    "code": "status",
+                    "valueCode": "A"
+                }
+            ]
+        },
+        {
+            "id": "5182",
+            "code": "SPRM",
+            "display": "Spermatozoa",
+            "definition": "Spermatozoa",
+            "property": [
+                {
+                    "code": "status",
+                    "valueCode": "A"
+                }
+            ]
+        },
+        {
+            "id": "5183",
+            "code": "SPRP",
+            "display": "Catheter Tip, Suprapubic",
+            "definition": "Catheter Tip, Suprapubic",
+            "property": [
+                {
+                    "code": "v2-concComment",
+                    "valueString": "Device"
+                },
+                {
+                    "code": "v2-concCommentAsPub",
+                    "valueString": "Device"
+                },
+                {
+                    "code": "status",
+                    "valueCode": "A"
+                }
+            ]
+        },
+        {
+            "id": "5184",
+            "code": "SPRPB",
+            "display": "Cathether Tip, Suprapubic",
+            "definition": "Cathether Tip, Suprapubic",
+            "property": [
+                {
+                    "code": "v2-concComment",
+                    "valueString": "Device"
+                },
+                {
+                    "code": "v2-concCommentAsPub",
+                    "valueString": "Device"
+                },
+                {
+                    "code": "status",
+                    "valueCode": "A"
+                }
+            ]
+        },
+        {
+            "id": "5185",
+            "code": "SPS",
+            "display": "Environmental, Spore Strip",
+            "definition": "Environmental, Spore Strip",
+            "property": [
+                {
+                    "code": "v2-concComment",
+                    "valueString": "Environment"
+                },
+                {
+                    "code": "v2-concCommentAsPub",
+                    "valueString": "Environment"
+                },
+                {
+                    "code": "status",
+                    "valueCode": "A"
+                }
+            ]
+        },
+        {
+            "id": "5186",
+            "code": "SPT",
+            "display": "Sputum",
+            "definition": "Sputum",
+            "property": [
+                {
+                    "code": "status",
+                    "valueCode": "A"
+                }
+            ]
+        },
+        {
+            "id": "5187",
+            "code": "SPTC",
+            "display": "Sputum - coughed",
+            "definition": "Sputum - coughed",
+            "property": [
+                {
+                    "code": "status",
+                    "valueCode": "A"
+                }
+            ]
+        },
+        {
+            "id": "5188",
+            "code": "SPTT",
+            "display": "Sputum - tracheal aspirate",
+            "definition": "Sputum - tracheal aspirate",
+            "property": [
+                {
+                    "code": "status",
+                    "valueCode": "A"
+                }
+            ]
+        },
+        {
+            "id": "5189",
+            "code": "SPUT1",
+            "display": "Sputum, Simulated",
+            "definition": "Sputum, Simulated",
+            "property": [
+                {
+                    "code": "v2-concComment",
+                    "valueString": "Condition"
+                },
+                {
+                    "code": "v2-concCommentAsPub",
+                    "valueString": "Condition"
+                },
+                {
+                    "code": "status",
+                    "valueCode": "A"
+                }
+            ]
+        },
+        {
+            "id": "5190",
+            "code": "SPUTIN",
+            "display": "Sputum, Inducted",
+            "definition": "Sputum, Inducted",
+            "property": [
+                {
+                    "code": "v2-concComment",
+                    "valueString": "Condition"
+                },
+                {
+                    "code": "v2-concCommentAsPub",
+                    "valueString": "Condition"
+                },
+                {
+                    "code": "status",
+                    "valueCode": "A"
+                }
+            ]
+        },
+        {
+            "id": "5191",
+            "code": "SPUTSP",
+            "display": "Sputum, Spontaneous",
+            "definition": "Sputum, Spontaneous",
+            "property": [
+                {
+                    "code": "v2-concComment",
+                    "valueString": "Condition"
+                },
+                {
+                    "code": "v2-concCommentAsPub",
+                    "valueString": "Condition"
+                },
+                {
+                    "code": "status",
+                    "valueCode": "A"
+                }
+            ]
+        },
+        {
+            "id": "5192",
+            "code": "STER",
+            "display": "Environmental, Sterrad",
+            "definition": "Environmental, Sterrad",
+            "property": [
+                {
+                    "code": "v2-concComment",
+                    "valueString": "Environment"
+                },
+                {
+                    "code": "v2-concCommentAsPub",
+                    "valueString": "Environment"
+                },
+                {
+                    "code": "status",
+                    "valueCode": "A"
+                }
+            ]
+        },
+        {
+            "id": "5193",
+            "code": "STL",
+            "display": "Stool = Fecal",
+            "definition": "Stool = Fecal",
+            "property": [
+                {
+                    "code": "status",
+                    "valueCode": "A"
+                }
+            ]
+        },
+        {
+            "id": "5194",
+            "code": "STONE",
+            "display": "Stone, Kidney",
+            "definition": "Stone, Kidney",
+            "property": [
+                {
+                    "code": "v2-concComment",
+                    "valueString": "Condition"
+                },
+                {
+                    "code": "v2-concCommentAsPub",
+                    "valueString": "Condition"
+                },
+                {
+                    "code": "status",
+                    "valueCode": "A"
+                }
+            ]
+        },
+        {
+            "id": "5195",
+            "code": "SUBMA",
+            "display": "Abscess, Submandibular",
+            "definition": "Abscess, Submandibular",
+            "property": [
+                {
+                    "code": "v2-concComment",
+                    "valueString": "Condition"
+                },
+                {
+                    "code": "v2-concCommentAsPub",
+                    "valueString": "Condition"
+                },
+                {
+                    "code": "status",
+                    "valueCode": "A"
+                }
+            ]
+        },
+        {
+            "id": "5196",
+            "code": "SUBMX",
+            "display": "Abscess, Submaxillary",
+            "definition": "Abscess, Submaxillary",
+            "property": [
+                {
+                    "code": "v2-concComment",
+                    "valueString": "Condition"
+                },
+                {
+                    "code": "v2-concCommentAsPub",
+                    "valueString": "Condition"
+                },
+                {
+                    "code": "status",
+                    "valueCode": "A"
+                }
+            ]
+        },
+        {
+            "id": "5197",
+            "code": "SUMP",
+            "display": "Drainage, Sump",
+            "definition": "Drainage, Sump",
+            "property": [
+                {
+                    "code": "v2-concComment",
+                    "valueString": "Condition"
+                },
+                {
+                    "code": "v2-concCommentAsPub",
+                    "valueString": "Condition"
+                },
+                {
+                    "code": "status",
+                    "valueCode": "A"
+                }
+            ]
+        },
+        {
+            "id": "5198",
+            "code": "SUP",
+            "display": "Suprapubic Tap",
+            "definition": "Suprapubic Tap",
+            "property": [
+                {
+                    "code": "v2-concComment",
+                    "valueString": "Product"
+                },
+                {
+                    "code": "v2-concCommentAsPub",
+                    "valueString": "Product"
+                },
+                {
+                    "code": "status",
+                    "valueCode": "A"
+                }
+            ]
+        },
+        {
+            "id": "5199",
+            "code": "SUTUR",
+            "display": "Suture",
+            "definition": "Suture",
+            "property": [
+                {
+                    "code": "v2-concComment",
+                    "valueString": "Object"
+                },
+                {
+                    "code": "v2-concCommentAsPub",
+                    "valueString": "Object"
+                },
+                {
+                    "code": "status",
+                    "valueCode": "A"
+                }
+            ]
+        },
+        {
+            "id": "5200",
+            "code": "SWGZ",
+            "display": "Catheter Tip, Swan Gantz",
+            "definition": "Catheter Tip, Swan Gantz",
+            "property": [
+                {
+                    "code": "v2-concComment",
+                    "valueString": "Device"
+                },
+                {
+                    "code": "v2-concCommentAsPub",
+                    "valueString": "Device"
+                },
+                {
+                    "code": "status",
+                    "valueCode": "A"
+                }
+            ]
+        },
+        {
+            "id": "5201",
+            "code": "SWT",
+            "display": "Sweat",
+            "definition": "Sweat",
+            "property": [
+                {
+                    "code": "status",
+                    "valueCode": "A"
+                }
+            ]
+        },
+        {
+            "id": "5202",
+            "code": "TASP",
+            "display": "Aspirate, Tracheal",
+            "definition": "Aspirate, Tracheal",
+            "property": [
+                {
+                    "code": "v2-concComment",
+                    "valueString": "Aspirate"
+                },
+                {
+                    "code": "v2-concCommentAsPub",
+                    "valueString": "Aspirate"
+                },
+                {
+                    "code": "status",
+                    "valueCode": "A"
+                }
+            ]
+        },
+        {
+            "id": "5203",
+            "code": "TEAR",
+            "display": "Tears",
+            "definition": "Tears",
+            "property": [
+                {
+                    "code": "status",
+                    "valueCode": "A"
+                }
+            ]
+        },
+        {
+            "id": "5204",
+            "code": "THRB",
+            "display": "Thrombocyte (platelet)",
+            "definition": "Thrombocyte (platelet)",
+            "property": [
+                {
+                    "code": "status",
+                    "valueCode": "A"
+                }
+            ]
+        },
+        {
+            "id": "5205",
+            "code": "TISS",
+            "display": "Tissue",
+            "definition": "Tissue",
+            "property": [
+                {
+                    "code": "status",
+                    "valueCode": "A"
+                }
+            ]
+        },
+        {
+            "id": "5206",
+            "code": "TISU",
+            "display": "Tissue ulcer",
+            "definition": "Tissue ulcer",
+            "property": [
+                {
+                    "code": "status",
+                    "valueCode": "A"
+                }
+            ]
+        },
+        {
+            "id": "5207",
+            "code": "TLC",
+            "display": "Cathether Tip, Triple Lumen",
+            "definition": "Cathether Tip, Triple Lumen",
+            "property": [
+                {
+                    "code": "v2-concComment",
+                    "valueString": "Device"
+                },
+                {
+                    "code": "v2-concCommentAsPub",
+                    "valueString": "Device"
+                },
+                {
+                    "code": "status",
+                    "valueCode": "A"
+                }
+            ]
+        },
+        {
+            "id": "5208",
+            "code": "TRAC",
+            "display": "Site, Tracheostomy",
+            "definition": "Site, Tracheostomy",
+            "property": [
+                {
+                    "code": "v2-concComment",
+                    "valueString": "Site"
+                },
+                {
+                    "code": "v2-concCommentAsPub",
+                    "valueString": "Site"
+                },
+                {
+                    "code": "status",
+                    "valueCode": "A"
+                }
+            ]
+        },
+        {
+            "id": "5209",
+            "code": "TRANS",
+            "display": "Transudate",
+            "definition": "Transudate",
+            "property": [
+                {
+                    "code": "v2-concComment",
+                    "valueString": "Condition"
+                },
+                {
+                    "code": "v2-concCommentAsPub",
+                    "valueString": "Condition"
+                },
+                {
+                    "code": "status",
+                    "valueCode": "A"
+                }
+            ]
+        },
+        {
+            "id": "5210",
+            "code": "TSERU",
+            "display": "Serum, Trough",
+            "definition": "Serum, Trough",
+            "property": [
+                {
+                    "code": "v2-concComment",
+                    "valueString": "Blood"
+                },
+                {
+                    "code": "v2-concCommentAsPub",
+                    "valueString": "Blood"
+                },
+                {
+                    "code": "status",
+                    "valueCode": "A"
+                }
+            ]
+        },
+        {
+            "id": "5211",
+            "code": "TSTES",
+            "display": "Abscess, Testicular",
+            "definition": "Abscess, Testicular",
+            "property": [
+                {
+                    "code": "v2-concComment",
+                    "valueString": "Condition"
+                },
+                {
+                    "code": "v2-concCommentAsPub",
+                    "valueString": "Condition"
+                },
+                {
+                    "code": "status",
+                    "valueCode": "A"
+                }
+            ]
+        },
+        {
+            "id": "5212",
+            "code": "TTRA",
+            "display": "Aspirate, Transtracheal",
+            "definition": "Aspirate, Transtracheal",
+            "property": [
+                {
+                    "code": "v2-concComment",
+                    "valueString": "Aspirate"
+                },
+                {
+                    "code": "v2-concCommentAsPub",
+                    "valueString": "Aspirate"
+                },
+                {
+                    "code": "status",
+                    "valueCode": "A"
+                }
+            ]
+        },
+        {
+            "id": "5213",
+            "code": "TUBES",
+            "display": "Tubes",
+            "definition": "Tubes",
+            "property": [
+                {
+                    "code": "v2-concComment",
+                    "valueString": "Device"
+                },
+                {
+                    "code": "v2-concCommentAsPub",
+                    "valueString": "Device"
+                },
+                {
+                    "code": "status",
+                    "valueCode": "A"
+                }
+            ]
+        },
+        {
+            "id": "5214",
+            "code": "TUMOR",
+            "display": "Tumor",
+            "definition": "Tumor",
+            "property": [
+                {
+                    "code": "v2-concComment",
+                    "valueString": "Condition"
+                },
+                {
+                    "code": "v2-concCommentAsPub",
+                    "valueString": "Condition"
+                },
+                {
+                    "code": "status",
+                    "valueCode": "A"
+                }
+            ]
+        },
+        {
+            "id": "5215",
+            "code": "TZANC",
+            "display": "Smear, Tzanck",
+            "definition": "Smear, Tzanck",
+            "property": [
+                {
+                    "code": "status",
+                    "valueCode": "A"
+                }
+            ]
+        },
+        {
+            "id": "5216",
+            "code": "UDENT",
+            "display": "Source, Unidentified",
+            "definition": "Source, Unidentified",
+            "property": [
+                {
+                    "code": "status",
+                    "valueCode": "A"
+                }
+            ]
+        },
+        {
+            "id": "5217",
+            "code": "UMED",
+            "display": "Unknown Medicine",
+            "definition": "Unknown Medicine",
+            "property": [
+                {
+                    "code": "v2-concComment",
+                    "valueString": "for forensic and possibly chemistry testing"
+                },
+                {
+                    "code": "v2-concCommentAsPub",
+                    "valueString": "for forensic and possibly chemistry testing"
+                },
+                {
+                    "code": "status",
+                    "valueCode": "A"
+                }
+            ]
+        },
+        {
+            "id": "5218",
+            "code": "UR",
+            "display": "Urine",
+            "definition": "Urine",
+            "property": [
+                {
+                    "code": "status",
+                    "valueCode": "A"
+                }
+            ]
+        },
+        {
+            "id": "5219",
+            "code": "URC",
+            "display": "Urine clean catch",
+            "definition": "Urine clean catch",
+            "property": [
+                {
+                    "code": "status",
+                    "valueCode": "A"
+                }
+            ]
+        },
+        {
+            "id": "5220",
+            "code": "URINB",
+            "display": "Urine, Bladder Washings",
+            "definition": "Urine, Bladder Washings",
+            "property": [
+                {
+                    "code": "v2-concComment",
+                    "valueString": "Condition"
+                },
+                {
+                    "code": "v2-concCommentAsPub",
+                    "valueString": "Condition"
+                },
+                {
+                    "code": "status",
+                    "valueCode": "A"
+                }
+            ]
+        },
+        {
+            "id": "5221",
+            "code": "URINC",
+            "display": "Urine, Catheterized",
+            "definition": "Urine, Catheterized",
+            "property": [
+                {
+                    "code": "v2-concComment",
+                    "valueString": "Condition"
+                },
+                {
+                    "code": "v2-concCommentAsPub",
+                    "valueString": "Condition"
+                },
+                {
+                    "code": "status",
+                    "valueCode": "A"
+                }
+            ]
+        },
+        {
+            "id": "5222",
+            "code": "URINM",
+            "display": "Urine, Midstream",
+            "definition": "Urine, Midstream",
+            "property": [
+                {
+                    "code": "v2-concComment",
+                    "valueString": "Condition"
+                },
+                {
+                    "code": "v2-concCommentAsPub",
+                    "valueString": "Condition"
+                },
+                {
+                    "code": "status",
+                    "valueCode": "A"
+                }
+            ]
+        },
+        {
+            "id": "5223",
+            "code": "URINN",
+            "display": "Urine, Nephrostomy",
+            "definition": "Urine, Nephrostomy",
+            "property": [
+                {
+                    "code": "v2-concComment",
+                    "valueString": "Condition"
+                },
+                {
+                    "code": "v2-concCommentAsPub",
+                    "valueString": "Condition"
+                },
+                {
+                    "code": "status",
+                    "valueCode": "A"
+                }
+            ]
+        },
+        {
+            "id": "5224",
+            "code": "URINP",
+            "display": "Urine, Pedibag",
+            "definition": "Urine, Pedibag",
+            "property": [
+                {
+                    "code": "v2-concComment",
+                    "valueString": "Device"
+                },
+                {
+                    "code": "v2-concCommentAsPub",
+                    "valueString": "Device"
+                },
+                {
+                    "code": "status",
+                    "valueCode": "A"
+                }
+            ]
+        },
+        {
+            "id": "5225",
+            "code": "URNS",
+            "display": "Urine sediment",
+            "definition": "Urine sediment",
+            "property": [
+                {
+                    "code": "status",
+                    "valueCode": "A"
+                }
+            ]
+        },
+        {
+            "id": "5226",
+            "code": "URT",
+            "display": "Urine catheter",
+            "definition": "Urine catheter",
+            "property": [
+                {
+                    "code": "status",
+                    "valueCode": "A"
+                }
+            ]
+        },
+        {
+            "id": "5227",
+            "code": "USCOP",
+            "display": "Urine, Cystoscopy",
+            "definition": "Urine, Cystoscopy",
+            "property": [
+                {
+                    "code": "v2-concComment",
+                    "valueString": "Condition"
+                },
+                {
+                    "code": "v2-concCommentAsPub",
+                    "valueString": "Condition"
+                },
+                {
+                    "code": "status",
+                    "valueCode": "A"
+                }
+            ]
+        },
+        {
+            "id": "5228",
+            "code": "USPEC",
+            "display": "Source, Unspecified",
+            "definition": "Source, Unspecified",
+            "property": [
+                {
+                    "code": "status",
+                    "valueCode": "A"
+                }
+            ]
+        },
+        {
+            "id": "5229",
+            "code": "USUB",
+            "display": "Unkown substance",
+            "definition": "Unkown substance",
+            "property": [
+                {
+                    "code": "status",
+                    "valueCode": "A"
+                }
+            ]
+        },
+        {
+            "id": "5230",
+            "code": "VASTIP",
+            "display": "Catheter Tip, Vas",
+            "definition": "Catheter Tip, Vas",
+            "property": [
+                {
+                    "code": "v2-concComment",
+                    "valueString": "Device"
+                },
+                {
+                    "code": "v2-concCommentAsPub",
+                    "valueString": "Device"
+                },
+                {
+                    "code": "status",
+                    "valueCode": "A"
+                }
+            ]
+        },
+        {
+            "id": "5231",
+            "code": "VENT",
+            "display": "Catheter Tip, Ventricular",
+            "definition": "Catheter Tip, Ventricular",
+            "property": [
+                {
+                    "code": "v2-concComment",
+                    "valueString": "Device"
+                },
+                {
+                    "code": "v2-concCommentAsPub",
+                    "valueString": "Device"
+                },
+                {
+                    "code": "status",
+                    "valueCode": "A"
+                }
+            ]
+        },
+        {
+            "id": "5232",
+            "code": "VITF",
+            "display": "Vitreous Fluid",
+            "definition": "Vitreous Fluid",
+            "property": [
+                {
+                    "code": "status",
+                    "valueCode": "A"
+                }
+            ]
+        },
+        {
+            "id": "5233",
+            "code": "VOM",
+            "display": "Vomitus",
+            "definition": "Vomitus",
+            "property": [
+                {
+                    "code": "status",
+                    "valueCode": "A"
+                }
+            ]
+        },
+        {
+            "id": "5234",
+            "code": "WASH",
+            "display": "Wash",
+            "definition": "Wash",
+            "property": [
+                {
+                    "code": "v2-concComment",
+                    "valueString": "Product"
+                },
+                {
+                    "code": "v2-concCommentAsPub",
+                    "valueString": "Product"
+                },
+                {
+                    "code": "status",
+                    "valueCode": "A"
+                }
+            ]
+        },
+        {
+            "id": "5235",
+            "code": "WASI",
+            "display": "Washing, e.g. bronchial washing",
+            "definition": "Washing, e.g. bronchial washing",
+            "property": [
+                {
+                    "code": "v2-concComment",
+                    "valueString": "Product"
+                },
+                {
+                    "code": "v2-concCommentAsPub",
+                    "valueString": "Product"
+                },
+                {
+                    "code": "status",
+                    "valueCode": "A"
+                }
+            ]
+        },
+        {
+            "id": "5236",
+            "code": "WAT",
+            "display": "Water",
+            "definition": "Water",
+            "property": [
+                {
+                    "code": "status",
+                    "valueCode": "A"
+                }
+            ]
+        },
+        {
+            "id": "5237",
+            "code": "WB",
+            "display": "Blood, Whole",
+            "definition": "Blood, Whole",
+            "property": [
+                {
+                    "code": "v2-concComment",
+                    "valueString": "Blood"
+                },
+                {
+                    "code": "v2-concCommentAsPub",
+                    "valueString": "Blood"
+                },
+                {
+                    "code": "status",
+                    "valueCode": "A"
+                }
+            ]
+        },
+        {
+            "id": "5238",
+            "code": "WBC",
+            "display": "Leukocytes",
+            "definition": "Leukocytes",
+            "property": [
+                {
+                    "code": "status",
+                    "valueCode": "A"
+                }
+            ]
+        },
+        {
+            "id": "5239",
+            "code": "WEN",
+            "display": "Wen",
+            "definition": "Wen",
+            "property": [
+                {
+                    "code": "v2-concComment",
+                    "valueString": "Tissue"
+                },
+                {
+                    "code": "v2-concCommentAsPub",
+                    "valueString": "Tissue"
+                },
+                {
+                    "code": "status",
+                    "valueCode": "A"
+                }
+            ]
+        },
+        {
+            "id": "5240",
+            "code": "WICK",
+            "display": "Wick",
+            "definition": "Wick",
+            "property": [
+                {
+                    "code": "status",
+                    "valueCode": "A"
+                }
+            ]
+        },
+        {
+            "id": "5241",
+            "code": "WND",
+            "display": "Wound",
+            "definition": "Wound",
+            "property": [
+                {
+                    "code": "status",
+                    "valueCode": "A"
+                }
+            ]
+        },
+        {
+            "id": "5242",
+            "code": "WNDA",
+            "display": "Wound abscess",
+            "definition": "Wound abscess",
+            "property": [
+                {
+                    "code": "status",
+                    "valueCode": "A"
+                }
+            ]
+        },
+        {
+            "id": "5243",
+            "code": "WNDD",
+            "display": "Wound drainage",
+            "definition": "Wound drainage",
+            "property": [
+                {
+                    "code": "status",
+                    "valueCode": "A"
+                }
+            ]
+        },
+        {
+            "id": "5244",
+            "code": "WNDE",
+            "display": "Wound exudate",
+            "definition": "Wound exudate",
+            "property": [
+                {
+                    "code": "status",
+                    "valueCode": "A"
+                }
+            ]
+        },
+        {
+            "id": "5245",
+            "code": "WORM",
+            "display": "Worm",
+            "definition": "Worm",
+            "property": [
+                {
+                    "code": "v2-concComment",
+                    "valueString": "Object"
+                },
+                {
+                    "code": "v2-concCommentAsPub",
+                    "valueString": "Object"
+                },
+                {
+                    "code": "status",
+                    "valueCode": "A"
+                }
+            ]
+        },
+        {
+            "id": "5246",
+            "code": "WRT",
+            "display": "Wart",
+            "definition": "Wart",
+            "property": [
+                {
+                    "code": "v2-concComment",
+                    "valueString": "Tissue"
+                },
+                {
+                    "code": "v2-concCommentAsPub",
+                    "valueString": "Tissue"
+                },
+                {
+                    "code": "status",
+                    "valueCode": "A"
+                }
+            ]
+        },
+        {
+            "id": "5247",
+            "code": "WWA",
+            "display": "Environmental, Water",
+            "definition": "Environmental, Water",
+            "property": [
+                {
+                    "code": "v2-concComment",
+                    "valueString": "Environment"
+                },
+                {
+                    "code": "v2-concCommentAsPub",
+                    "valueString": "Environment"
+                },
+                {
+                    "code": "status",
+                    "valueCode": "A"
+                }
+            ]
+        },
+        {
+            "id": "5248",
+            "code": "WWO",
+            "display": "Environmental, Water (Ocean)",
+            "definition": "Environmental, Water (Ocean)",
+            "property": [
+                {
+                    "code": "status",
+                    "valueCode": "A"
+                }
+            ]
+        },
+        {
+            "id": "5249",
+            "code": "WWT",
+            "display": "Environmental, Water  (Tap)",
+            "definition": "Environmental, Water  (Tap)",
+            "property": [
+                {
+                    "code": "v2-concComment",
+                    "valueString": "Environment"
+                },
+                {
+                    "code": "v2-concCommentAsPub",
+                    "valueString": "Environment"
+                },
+                {
+                    "code": "status",
+                    "valueCode": "A"
+                }
+            ]
+        }
+    ]
+}

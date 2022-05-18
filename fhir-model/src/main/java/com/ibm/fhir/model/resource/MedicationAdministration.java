@@ -1,5 +1,5 @@
 /*
- * (C) Copyright IBM Corp. 2019, 2021
+ * (C) Copyright IBM Corp. 2019, 2022
  *
  * SPDX-License-Identifier: Apache-2.0
  */
@@ -84,7 +84,7 @@ public class MedicationAdministration extends DomainResource {
         bindingName = "MedicationAdministrationStatus",
         strength = BindingStrength.Value.REQUIRED,
         description = "A set of codes indicating the current status of a MedicationAdministration.",
-        valueSet = "http://hl7.org/fhir/ValueSet/medication-admin-status|4.0.1"
+        valueSet = "http://hl7.org/fhir/ValueSet/medication-admin-status|4.3.0-cibuild"
     )
     @Required
     private final MedicationAdministrationStatus status;

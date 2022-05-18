@@ -3,14 +3,14 @@
 <ConceptMap xmlns="http://hl7.org/fhir">
   <id value="sc-subscription-status"/>
   <text>
-    <status value="generated"/>
+    <status value="extensions"/>
     <div xmlns="http://www.w3.org/1999/xhtml">
-      <h2>SubscriptionStatusCanonicalMap (http://hl7.org/fhir/ConceptMap/sc-subscription-status)</h2>
+      <h2>SubscriptionStatusCodesCanonicalMap (http://hl7.org/fhir/ConceptMap/sc-subscription-status)</h2>
       <p>Mapping from 
         <a href="valueset-subscription-status.html">http://hl7.org/fhir/ValueSet/subscription-status</a> to 
         <a href="valueset-resource-status.html">http://hl7.org/fhir/ValueSet/resource-status</a>
       </p>
-      <p>DRAFT. Published on 01/11/2019 9:29:23 AM by HL7 (FHIR Project) (
+      <p>DRAFT. Published on 2021-01-16T20:06:13Z by HL7 (FHIR Project) (
         <a href="http://hl7.org/fhir">http://hl7.org/fhir</a>, 
         <a href="mailto:fhir@lists.hl7.org">fhir@lists.hl7.org</a>). 
       </p>
@@ -25,46 +25,56 @@
             <b>Source Code</b>
           </td>
           <td>
-            <b>Equivalence</b>
+            <b>Relationship</b>
           </td>
           <td>
             <b>Destination Code</b>
           </td>
         </tr>
         <tr>
-          <td>entered-in-error</td>
-          <td>equivalent</td>
-          <td>error</td>
+          <td colspan="3">Mapping from 
+            <a href="codesystem-subscription-status.html">SubscriptionStatus</a> to 
+            <a href="codesystem-resource-status.html">Canonical Status Codes for FHIR Resources</a>
+          </td>
         </tr>
         <tr>
           <td>requested</td>
-          <td>equivalent</td>
+          <td>
+            <a href="codesystem-concept-map-equivalence.html#equivalent">is equivalent to</a>
+          </td>
           <td>requested</td>
         </tr>
         <tr>
           <td>active</td>
-          <td>equivalent</td>
+          <td>
+            <a href="codesystem-concept-map-equivalence.html#equivalent">is equivalent to</a>
+          </td>
           <td>active</td>
         </tr>
         <tr>
           <td>error</td>
-          <td>equivalent</td>
+          <td>
+            <a href="codesystem-concept-map-equivalence.html#equivalent">is equivalent to</a>
+          </td>
           <td>failed</td>
         </tr>
         <tr>
           <td>off</td>
-          <td>equivalent</td>
+          <td>
+            <a href="codesystem-concept-map-equivalence.html#equivalent">is equivalent to</a>
+          </td>
           <td>inactive</td>
         </tr>
       </table>
     </div>
   </text>
   <url value="http://hl7.org/fhir/ConceptMap/sc-subscription-status"/>
-  <version value="4.0.1"/>
-  <name value="SubscriptionStatusCanonicalMap"/>
-  <title value="Canonical Mapping for &quot;SubscriptionStatus&quot;"/>
+  <version value="4.3.0-cibuild"/>
+  <name value="SubscriptionStatusCodesCanonicalMap"/>
+  <title value="Canonical Mapping for &quot;SubscriptionStatusCodes&quot;"/>
   <status value="draft"/>
-  <date value="2019-11-01T09:29:23+11:00"/>
+  <experimental value="false"/>
+  <date value="2021-01-16T20:06:13+00:00"/>
   <publisher value="HL7 (FHIR Project)"/>
   <contact>
     <telecom>
@@ -82,13 +92,6 @@
   <group>
     <source value="http://hl7.org/fhir/subscription-status"/>
     <target value="http://hl7.org/fhir/resource-status"/>
-    <element>
-      <code value="entered-in-error"/>
-      <target>
-        <code value="error"/>
-        <equivalence value="equivalent"/>
-      </target>
-    </element>
     <element>
       <code value="requested"/>
       <target>

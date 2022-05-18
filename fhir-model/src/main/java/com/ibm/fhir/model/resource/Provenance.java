@@ -1,5 +1,5 @@
 /*
- * (C) Copyright IBM Corp. 2019, 2021
+ * (C) Copyright IBM Corp. 2019, 2022
  *
  * SPDX-License-Identifier: Apache-2.0
  */
@@ -1391,7 +1391,7 @@ public class Provenance extends DomainResource {
             bindingName = "ProvenanceEntityRole",
             strength = BindingStrength.Value.REQUIRED,
             description = "How an entity was used in an activity.",
-            valueSet = "http://hl7.org/fhir/ValueSet/provenance-entity-role|4.0.1"
+            valueSet = "http://hl7.org/fhir/ValueSet/provenance-entity-role|4.3.0-cibuild"
         )
         @Required
         private final ProvenanceEntityRole role;

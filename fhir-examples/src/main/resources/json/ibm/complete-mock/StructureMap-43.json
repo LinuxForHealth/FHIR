@@ -1,27 +1,27 @@
 {
     "resourceType": "StructureMap",
     "meta": {
-        "versionId": "fSqlSBmN-4",
-        "lastUpdated": "2021-04-12T14:34:26.454-05:00",
-        "source": "rFV52BlPGH",
+        "versionId": "-2jrVPdlvD",
+        "lastUpdated": "2022-05-13T14:23:04.964454-04:00",
+        "source": "yiTDE8sSN0",
         "profile": [
-            "8BoiQgQZts"
+            "N12IHbO0i_"
         ],
         "security": [
             {
-                "system": "sbkzal45_f",
-                "version": "t6eC3jGwjt",
-                "code": "VxubGBoDnV",
-                "display": "NCgpG7PFBO",
+                "system": "SsbpTeP7vr",
+                "version": "p913TFF8I2",
+                "code": "IQrxU60ajR",
+                "display": "Wld0hhwuVs",
                 "userSelected": true
             }
         ],
         "tag": [
             {
-                "system": "Acktq09iTK",
-                "version": "bM1dkMpo04",
-                "code": "ebrfugcP7g",
-                "display": "k1dNrM_vd3",
+                "system": "TmN7XAa7H9",
+                "version": "oarSkyrlNj",
+                "code": "_fOcAi_CjK",
+                "display": "MxW7D30nxI",
                 "userSelected": true
             },
             {
@@ -29,95 +29,107 @@
             }
         ]
     },
-    "implicitRules": "AiI953DKgZ",
+    "implicitRules": "oSvKOk7iBw",
     "language": "en-US",
     "text": {
-        "status": "extensions",
+        "status": "generated",
         "div": "<div xmlns=\"http://www.w3.org/1999/xhtml\"></div>"
     },
-    "url": "dLqvCFyEPO",
+    "url": "DT3kyhUsYs",
     "identifier": [
         {
-            "use": "usual",
+            "use": "old",
             "type": {
                 "coding": [
                     {
-                        "system": "Sy7mFaLyO7",
-                        "version": "by5zTNAzrJ",
-                        "code": "9NuEyHdCbI",
-                        "display": "i83sQuCasV",
+                        "system": "HhTfWRizOD",
+                        "version": "066tEKsLY6",
+                        "code": "x7PaNUHFNu",
+                        "display": "_cN1HeQq8h",
                         "userSelected": true
                     }
                 ],
-                "text": "4_bGGUCRzU"
+                "text": "n3hqI4lLxN"
             },
-            "system": "itOOmlzyuf",
-            "value": "7k3xuPlVmg",
+            "system": "Jmr9L08s_X",
+            "value": "IEHGK3cn7s",
             "period": {
-                "start": "2021-04-12T14:34:26.449-05:00",
-                "end": "2021-04-12T14:34:26.449-05:00"
+                "extension": [
+                    {
+                        "url": "http://hl7.org/fhir/StructureDefinition/data-absent-reason",
+                        "valueCode": "unknown"
+                    }
+                ]
             }
         }
     ],
-    "version": "glVUXQKRn9",
-    "name": "9vIk4PwQLG",
-    "title": "OcSVRjf4tE",
-    "status": "active",
+    "version": "ro6G4mrNm5",
+    "name": "oYTu0TXj_E",
+    "title": "998Ce0L2rI",
+    "status": "draft",
     "experimental": true,
-    "date": "2021-04-12T14:34:26.453-05:00",
-    "publisher": "3ZwNeK_Smn",
+    "date": "2022-05-13T14:23:04.966881-04:00",
+    "publisher": "VC6H1mcNIQ",
     "contact": [
         {
-            "name": "0GZbPEx2yI",
+            "name": "JMLGwkgxzm",
             "telecom": [
                 {
-                    "system": "email",
-                    "value": "Ir4DtRveZI",
-                    "use": "work",
-                    "rank": 1093544898,
+                    "system": "pager",
+                    "value": "hazNUTjvvz",
+                    "use": "old",
+                    "rank": 112416937,
                     "period": {
-                        "start": "2021-04-12T14:34:26.45-05:00",
-                        "end": "2021-04-12T14:34:26.45-05:00"
+                        "extension": [
+                            {
+                                "url": "http://hl7.org/fhir/StructureDefinition/data-absent-reason",
+                                "valueCode": "unknown"
+                            }
+                        ]
                     }
                 }
             ]
         }
     ],
-    "description": "jUYbRkk4A9",
+    "description": "i2NTAhtcG0",
     "useContext": [
         {
             "code": {
-                "system": "HfZn9la4nu",
-                "version": "u6zjOGeUlF",
-                "code": "mMy3G9Gf6r",
-                "display": "ZScHJbtDeq",
+                "system": "jork5GLdTK",
+                "version": "9hDTO3OlW2",
+                "code": "MLj1S_hWaP",
+                "display": "_gDuOh7Zab",
                 "userSelected": true
             },
             "valueReference": {
-                "reference": "Organization/3bqMWguRRB",
+                "reference": "Organization/MD6QlDVGul",
                 "type": "Organization",
                 "identifier": {
-                    "use": "old",
+                    "use": "official",
                     "type": {
                         "coding": [
                             {
-                                "system": "OqkVzwStDl",
-                                "version": "98EJDgLQfN",
-                                "code": "7sziUUZjOd",
-                                "display": "3iwB9MgVcD",
+                                "system": "VgZCelWuQC",
+                                "version": "oJJJhpNy3y",
+                                "code": "nDhiQECaNU",
+                                "display": "uN46bYVdOe",
                                 "userSelected": true
                             }
                         ],
-                        "text": "Uu_An0wVG2"
+                        "text": "f_wlFZ0hoG"
                     },
-                    "system": "hTKGQwNBw1",
-                    "value": "kjL3f7kkiG",
+                    "system": "FRh2wY9KCZ",
+                    "value": "z68CSFW06t",
                     "period": {
-                        "start": "2021-04-12T14:34:26.446-05:00",
-                        "end": "2021-04-12T14:34:26.447-05:00"
+                        "extension": [
+                            {
+                                "url": "http://hl7.org/fhir/StructureDefinition/data-absent-reason",
+                                "valueCode": "unknown"
+                            }
+                        ]
                     }
                 },
-                "display": "ADqFIPShbO"
+                "display": "d1GXphMm9o"
             }
         }
     ],
@@ -125,88 +137,88 @@
         {
             "coding": [
                 {
-                    "system": "ZBDPfUzCnB",
-                    "version": "aC09QkXnqq",
-                    "code": "1191UarLZH",
-                    "display": "PmRl6_QoTS",
+                    "system": "5KaJd_aFcC",
+                    "version": "Ng5FzUn24f",
+                    "code": "gPU4PREwL5",
+                    "display": "voJxbbDm5G",
                     "userSelected": true
                 }
             ],
-            "text": "Akh3ZZD5Vh"
+            "text": "cP5hPiSHrt"
         }
     ],
-    "purpose": "sYMIFzAbQQ",
-    "copyright": "B3RXrKMYxp",
+    "purpose": "fAj8z6ILMu",
+    "copyright": "hDkyUyA6wU",
     "structure": [
         {
-            "url": "Eqr_LfTkr7",
+            "url": "n8GQZfNWu7",
             "mode": "source",
-            "alias": "7pjO07E67C",
-            "documentation": "wfsLpIfpAE"
+            "alias": "RcDCZEUoFQ",
+            "documentation": "BnU9fEvqyv"
         }
     ],
     "import": [
-        "yAyCyhJC7v"
+        "OR4ho88NCU"
     ],
     "group": [
         {
-            "name": "Yf5oa1DV67",
-            "extends": "XEf-RH7-eK",
-            "typeMode": "type-and-types",
-            "documentation": "_JR8dtLspv",
+            "name": "4m25Fi-54G",
+            "extends": "yQv-fcHtFl",
+            "typeMode": "types",
+            "documentation": "Ju37o774rf",
             "input": [
                 {
-                    "name": "RDz3dHmxpD",
-                    "type": "iZq6rzrp1y",
+                    "name": "0cqN9OnpFv",
+                    "type": "raZmfrxDhG",
                     "mode": "source",
-                    "documentation": "60AOkc9MIw"
+                    "documentation": "5vX3tZtGsb"
                 }
             ],
             "rule": [
                 {
-                    "name": "iPWW36LIkQ",
+                    "name": "r3u1Oe-iml",
                     "source": [
                         {
-                            "context": "YEkL-HJj8W",
-                            "min": 1664223659,
-                            "max": "JT1fWF7vrs",
-                            "type": "Dp3s0SufkY",
-                            "defaultValueDecimal": 271126308682,
-                            "element": "2iGskAI1EP",
+                            "context": "N6DVH0ItZQ",
+                            "min": 178093973,
+                            "max": "HEuJ164hXb",
+                            "type": "Ku52ifvCBp",
+                            "defaultValueDecimal": 0.407780404101328652899383087060414254665374755859375,
+                            "element": "cwzMLkKZ4z",
                             "listMode": "last",
-                            "variable": "TmFCXxt8X6",
-                            "condition": "dTvZ4ip8FI",
-                            "check": "yHnRKRZUnS",
-                            "logMessage": "7vsHyreXOX"
+                            "variable": "FTUNjuHLsD",
+                            "condition": "2O1hLg0qOw",
+                            "check": "JAukhy44vH",
+                            "logMessage": "tdTO7mWfnQ"
                         }
                     ],
                     "target": [
                         {
-                            "context": "2JVeU0k8ib",
+                            "context": "UyI66QNNOm",
                             "contextType": "variable",
-                            "element": "sR4mzb5n1F",
-                            "variable": "WwlulBUveP",
+                            "element": "zbAWKMWpcf",
+                            "variable": "4y3FtzcrMp",
                             "listMode": [
-                                "last"
+                                "first"
                             ],
-                            "listRuleId": "Wz5PvUW4wL",
-                            "transform": "cp",
+                            "listRuleId": "pmeCRFNhry",
+                            "transform": "append",
                             "parameter": [
                                 {
-                                    "valueDecimal": 391051027232
+                                    "valueDecimal": 0.70074571925727202614808675207314081490039825439453125
                                 }
                             ]
                         }
                     ],
                     "dependent": [
                         {
-                            "name": "H4rwPO-3eU",
+                            "name": "cFiDnD6k9E",
                             "variable": [
-                                "otJnIjfBIv"
+                                "If1DbaOaLR"
                             ]
                         }
                     ],
-                    "documentation": "eLPiASloEb"
+                    "documentation": "YzhK5L2sng"
                 }
             ]
         }

@@ -27,6 +27,7 @@
   ],
   "title": "This example illustrates relationships between actions.",
   "status": "draft",
+  "experimental": true,
   "action": [
     {
       "groupingBehavior": "logical-group",
@@ -46,7 +47,9 @@
               "relationship": "after-end",
               "offsetDuration": {
                 "value": 1,
-                "unit": "h"
+                "unit": "h",
+                "system": "http://unitsofmeasure.org",
+                "code": "h"
               }
             }
           ],

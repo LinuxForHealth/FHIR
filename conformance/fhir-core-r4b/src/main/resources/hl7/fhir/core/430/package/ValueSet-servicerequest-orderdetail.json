@@ -1,0 +1,178 @@
+{
+    "resourceType": "ValueSet",
+    "id": "servicerequest-orderdetail",
+    "meta": {
+        "lastUpdated": "2022-04-23T22:21:35.043Z",
+        "profile": [
+            "http://hl7.org/fhir/StructureDefinition/shareablevalueset"
+        ]
+    },
+    "extension": [
+        {
+            "url": "http://hl7.org/fhir/StructureDefinition/structuredefinition-wg",
+            "valueCode": "oo"
+        },
+        {
+            "url": "http://hl7.org/fhir/StructureDefinition/structuredefinition-standards-status",
+            "valueCode": "draft"
+        },
+        {
+            "url": "http://hl7.org/fhir/StructureDefinition/structuredefinition-fmm",
+            "valueInteger": 1
+        }
+    ],
+    "url": "http://hl7.org/fhir/ValueSet/servicerequest-orderdetail",
+    "identifier": [
+        {
+            "system": "urn:ietf:rfc:3986",
+            "value": "urn:oid:2.16.840.1.113883.4.642.3.435"
+        }
+    ],
+    "version": "4.3.0-cibuild",
+    "name": "ServiceRequestOrderDetailsCodes",
+    "title": "Service Request Order Details Codes",
+    "status": "draft",
+    "experimental": true,
+    "publisher": "Orders and Observations Workgroup",
+    "contact": [
+        {
+            "telecom": [
+                {
+                    "system": "url",
+                    "value": "http://www.hl7.org/Special/committees/orders/index.cfm"
+                }
+            ]
+        }
+    ],
+    "description": "An example value set of Codified order entry details concepts.  These concepts only make sense in the context of what is being ordered.  This example is for a patient ventilation order",
+    "copyright": "This specification includes content from SNOMED Clinical Terms® (SNOMED CT®) which is copyright of the International Health Terminology Standards Development Organisation (IHTSDO). Implementers of these specifications must have the appropriate SNOMED CT Affiliate license - for more information contact http://www.snomed.org/snomed-ct/get-snomed-ct  or info@snomed.org.",
+    "compose": {
+        "include": [
+            {
+                "system": "http://snomed.info/sct",
+                "concept": [
+                    {
+                        "code": "47545007",
+                        "display": "Continuous positive airway pressure ventilation treatment (regime/therapy)",
+                        "designation": [
+                            {
+                                "value": "CPAP"
+                            }
+                        ]
+                    },
+                    {
+                        "code": "286812008",
+                        "display": "Pressure controlled ventilation (procedure)",
+                        "designation": [
+                            {
+                                "value": "PCV"
+                            }
+                        ]
+                    },
+                    {
+                        "code": "243144002",
+                        "display": "Patient triggered inspiratory assistance (procedure)",
+                        "designation": [
+                            {
+                                "value": "IPPB"
+                            }
+                        ]
+                    },
+                    {
+                        "code": "243150007",
+                        "display": "Assisted controlled mandatory ventilation (procedure)",
+                        "designation": [
+                            {
+                                "value": "ACV"
+                            }
+                        ]
+                    },
+                    {
+                        "code": "59427005",
+                        "display": "Synchronized intermittent mandatory ventilation (procedure)",
+                        "designation": [
+                            {
+                                "value": "SIMV"
+                            }
+                        ]
+                    }
+                ]
+            }
+        ]
+    },
+    "expansion": {
+        "identifier": "urn:uuid:7e560226-bec3-4bf4-b16c-f25c6b232fc5",
+        "timestamp": "2022-04-23T22:23:26Z",
+        "total": 5,
+        "parameter": [
+            {
+                "name": "excludeNested",
+                "valueBoolean": true
+            },
+            {
+                "name": "includeDesignations",
+                "valueBoolean": true
+            },
+            {
+                "name": "limitedExpansion",
+                "valueBoolean": true
+            },
+            {
+                "name": "version",
+                "valueUri": "http://snomed.info/sct|http://snomed.info/sct/900000000000207008/version/20200731"
+            }
+        ],
+        "contains": [
+            {
+                "system": "http://snomed.info/sct",
+                "code": "47545007",
+                "display": "CPAP",
+                "designation": [
+                    {
+                        "value": "CPAP"
+                    }
+                ]
+            },
+            {
+                "system": "http://snomed.info/sct",
+                "code": "286812008",
+                "display": "PCV",
+                "designation": [
+                    {
+                        "value": "PCV"
+                    }
+                ]
+            },
+            {
+                "system": "http://snomed.info/sct",
+                "code": "243144002",
+                "display": "IPPB",
+                "designation": [
+                    {
+                        "value": "IPPB"
+                    }
+                ]
+            },
+            {
+                "system": "http://snomed.info/sct",
+                "code": "243150007",
+                "display": "ACV",
+                "designation": [
+                    {
+                        "value": "ACV"
+                    }
+                ]
+            },
+            {
+                "system": "http://snomed.info/sct",
+                "code": "59427005",
+                "display": "SIMV",
+                "designation": [
+                    {
+                        "value": "SIMV"
+                    }
+                ]
+            }
+        ]
+    }
+}

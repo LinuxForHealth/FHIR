@@ -103,6 +103,27 @@ public class FHIRModelResolverTest {
                 case "DataElement constraint on ElementDefinition data type":
                 case "question":
                 case "allowedUnits":
+                // IBM FHIR only supports FHIR 4.3.0, so these types won't be found
+                case "SubstancePolymer":
+                case "MedicinalProductManufactured":
+                case "EffectEvidenceSynthesis":
+                case "MedicinalProductIngredient":
+                case "MedicinalProductContraindication":
+                case "SubstanceSourceMaterial":
+                case "MedicinalProduct":
+                case "SubstanceReferenceInformation":
+                case "MedicinalProductIndication":
+                case "MedicinalProductPharmaceutical":
+                case "SubstanceNucleicAcid":
+                case "RiskEvidenceSynthesis":
+                case "MedicinalProductPackaged":
+                case "MedicinalProductUndesirableEffect":
+                case "SubstanceProtein":
+                case "SubstanceSpecification":
+                case "MedicinalProductInteraction":
+                case "MedicinalProductAuthorization":
+                case "SubstanceAmount":
+                case "SubstanceAmount.ReferenceRange":
                     continue;
                 }
 

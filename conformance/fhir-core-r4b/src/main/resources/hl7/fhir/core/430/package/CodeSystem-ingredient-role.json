@@ -1,0 +1,98 @@
+{
+    "resourceType": "CodeSystem",
+    "id": "ingredient-role",
+    "meta": {
+        "lastUpdated": "2022-04-24T09:21:35.043+11:00",
+        "profile": [
+            "http://hl7.org/fhir/StructureDefinition/shareablecodesystem"
+        ]
+    },
+    "text": {
+        "status": "empty",
+        "div": "<div xmlns=\"http://www.w3.org/1999/xhtml\">Redacted for size</div>"
+    },
+    "extension": [
+        {
+            "url": "http://hl7.org/fhir/StructureDefinition/structuredefinition-wg",
+            "valueCode": "brr"
+        },
+        {
+            "url": "http://hl7.org/fhir/StructureDefinition/structuredefinition-standards-status",
+            "valueCode": "trial-use"
+        },
+        {
+            "url": "http://hl7.org/fhir/StructureDefinition/structuredefinition-fmm",
+            "valueInteger": 1
+        }
+    ],
+    "url": "http://hl7.org/fhir/ingredient-role",
+    "identifier": [
+        {
+            "system": "urn:ietf:rfc:3986",
+            "value": "urn:oid:2.16.840.1.113883.4.642.1.1595"
+        }
+    ],
+    "version": "4.3.0-cibuild",
+    "name": "IngredientRole",
+    "title": "IngredientRole",
+    "status": "draft",
+    "experimental": false,
+    "date": "2021-01-05T10:01:24+11:00",
+    "publisher": "HL7 (FHIR Project)",
+    "contact": [
+        {
+            "telecom": [
+                {
+                    "system": "url",
+                    "value": "http://hl7.org/fhir"
+                },
+                {
+                    "system": "email",
+                    "value": "fhir@lists.hl7.org"
+                }
+            ]
+        }
+    ],
+    "description": "A classification of the ingredient identifying its purpose within the product, e.g. active, inactive.",
+    "caseSensitive": true,
+    "valueSet": "http://hl7.org/fhir/ValueSet/ingredient-role",
+    "content": "complete",
+    "concept": [
+        {
+            "code": "100000072072",
+            "display": "Active"
+        },
+        {
+            "code": "100000072073",
+            "display": "Adjuvant"
+        },
+        {
+            "code": "100000072082",
+            "display": "Excipient"
+        },
+        {
+            "code": "100000136065",
+            "display": "Starting material for excipient"
+        },
+        {
+            "code": "100000136066",
+            "display": "Solvent / Diluent"
+        },
+        {
+            "code": "100000136178",
+            "display": "Raw materials used in the manufacture of the product"
+        },
+        {
+            "code": "100000136179",
+            "display": "Starting material for active substance"
+        },
+        {
+            "code": "100000136561",
+            "display": "Overage"
+        },
+        {
+            "code": "200000003427",
+            "display": "bioenhancer"
+        }
+    ]
+}

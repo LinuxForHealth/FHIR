@@ -1,5 +1,5 @@
 /*
- * (C) Copyright IBM Corp. 2019, 2021
+ * (C) Copyright IBM Corp. 2019, 2022
  *
  * SPDX-License-Identifier: Apache-2.0
  */
@@ -74,7 +74,7 @@ public class DiagnosticReport extends DomainResource {
         bindingName = "DiagnosticReportStatus",
         strength = BindingStrength.Value.REQUIRED,
         description = "The status of the diagnostic report.",
-        valueSet = "http://hl7.org/fhir/ValueSet/diagnostic-report-status|4.0.1"
+        valueSet = "http://hl7.org/fhir/ValueSet/diagnostic-report-status|4.3.0-cibuild"
     )
     @Required
     private final DiagnosticReportStatus status;
@@ -82,7 +82,7 @@ public class DiagnosticReport extends DomainResource {
     @Binding(
         bindingName = "DiagnosticServiceSection",
         strength = BindingStrength.Value.EXAMPLE,
-        description = "Codes for diagnostic service sections.",
+        description = "HL7 V2 table 0074",
         valueSet = "http://hl7.org/fhir/ValueSet/diagnostic-service-sections"
     )
     private final List<CodeableConcept> category;
@@ -90,13 +90,13 @@ public class DiagnosticReport extends DomainResource {
     @Binding(
         bindingName = "DiagnosticReportCodes",
         strength = BindingStrength.Value.PREFERRED,
-        description = "Codes that describe Diagnostic Reports.",
+        description = "LOINC Codes for Diagnostic Reports",
         valueSet = "http://hl7.org/fhir/ValueSet/report-codes"
     )
     @Required
     private final CodeableConcept code;
     @Summary
-    @ReferenceTarget({ "Patient", "Group", "Device", "Location" })
+    @ReferenceTarget({ "Patient", "Group", "Device", "Location", "Organization", "Procedure", "Practitioner", "Medication", "Substance" })
     private final Reference subject;
     @Summary
     @ReferenceTarget({ "Encounter" })
@@ -124,7 +124,7 @@ public class DiagnosticReport extends DomainResource {
     @Binding(
         bindingName = "AdjunctDiagnosis",
         strength = BindingStrength.Value.EXAMPLE,
-        description = "Diagnosis codes provided as adjuncts to the report.",
+        description = "SNOMED CT Clinical Findings",
         valueSet = "http://hl7.org/fhir/ValueSet/clinical-findings"
     )
     private final List<CodeableConcept> conclusionCode;
@@ -900,6 +900,11 @@ public class DiagnosticReport extends DomainResource {
          * <li>{@link Group}</li>
          * <li>{@link Device}</li>
          * <li>{@link Location}</li>
+         * <li>{@link Organization}</li>
+         * <li>{@link Procedure}</li>
+         * <li>{@link Practitioner}</li>
+         * <li>{@link Medication}</li>
+         * <li>{@link Substance}</li>
          * </ul>
          * 
          * @param subject
@@ -1437,7 +1442,7 @@ public class DiagnosticReport extends DomainResource {
             ValidationSupport.checkList(diagnosticReport.conclusionCode, "conclusionCode", CodeableConcept.class);
             ValidationSupport.checkList(diagnosticReport.presentedForm, "presentedForm", Attachment.class);
             ValidationSupport.checkReferenceType(diagnosticReport.basedOn, "basedOn", "CarePlan", "ImmunizationRecommendation", "MedicationRequest", "NutritionOrder", "ServiceRequest");
-            ValidationSupport.checkReferenceType(diagnosticReport.subject, "subject", "Patient", "Group", "Device", "Location");
+            ValidationSupport.checkReferenceType(diagnosticReport.subject, "subject", "Patient", "Group", "Device", "Location", "Organization", "Procedure", "Practitioner", "Medication", "Substance");
             ValidationSupport.checkReferenceType(diagnosticReport.encounter, "encounter", "Encounter");
             ValidationSupport.checkReferenceType(diagnosticReport.performer, "performer", "Practitioner", "PractitionerRole", "Organization", "CareTeam");
             ValidationSupport.checkReferenceType(diagnosticReport.resultsInterpreter, "resultsInterpreter", "Practitioner", "PractitionerRole", "Organization", "CareTeam");

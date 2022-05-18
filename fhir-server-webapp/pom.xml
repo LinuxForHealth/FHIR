@@ -5,7 +5,7 @@
     <parent>
         <groupId>com.ibm.fhir</groupId>
         <artifactId>fhir-parent</artifactId>
-        <version>4.11.0-SNAPSHOT</version>
+        <version>5.0.0-SNAPSHOT</version>
         <relativePath>../fhir-parent</relativePath>
     </parent>
 
@@ -15,7 +15,7 @@
     
     <properties>
         <fhir.server.war.name>fhir-server</fhir.server.war.name>
-        <liberty.var.DB_LOC>${project.basedir}/../derby/fhirDB</liberty.var.DB_LOC>
+        <liberty.var.DB_LOC>${project.basedir}/../derby</liberty.var.DB_LOC>
     </properties>
 
     <dependencies>
@@ -164,6 +164,33 @@
                         </dependencyGroup>
                     </copyDependencies>
                 </configuration>
+                <executions>
+                    <execution>
+                        <id>default-cli</id>
+                        <goals>
+                            <goal>run</goal>
+                            <goal>start</goal>
+                            <goal>dev</goal>
+                            <goal>devc</goal>
+                        </goals>
+                        <configuration>
+                            <configDirectory>${basedir}/src/test/liberty/config</configDirectory>
+                            <copyDependencies>
+                                <dependency>
+                                    <groupId>${project.groupId}</groupId>
+                                    <artifactId>fhir-operation-test</artifactId>
+                                    <version>${project.version}</version>
+                                </dependency>
+                                <dependency>
+                                    <groupId>${project.groupId}</groupId>
+                                    <artifactId>fhir-operation-term-cache</artifactId>
+                                    <version>${project.version}</version>
+                                </dependency>
+                                <location>userlib</location>
+                            </copyDependencies>
+                        </configuration>
+                    </execution>
+                </executions>
             </plugin>
         </plugins>
     </build>

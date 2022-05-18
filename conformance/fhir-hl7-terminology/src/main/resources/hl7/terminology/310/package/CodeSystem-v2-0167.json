@@ -1,0 +1,225 @@
+{
+    "resourceType": "CodeSystem",
+    "id": "v2-0167",
+    "text": {
+        "status": "empty",
+        "div": "<div xmlns=\"http://www.w3.org/1999/xhtml\">Redacted for size</div>"
+    },
+    "extension": [
+        {
+            "url": "http://hl7.org/fhir/StructureDefinition/structuredefinition-wg",
+            "valueCode": "oo"
+        }
+    ],
+    "url": "http://terminology.hl7.org/CodeSystem/v2-0167",
+    "identifier": [
+        {
+            "system": "urn:ietf:rfc:3986",
+            "value": "urn:oid:2.16.840.1.113883.18.85"
+        }
+    ],
+    "version": "2.2.0",
+    "name": "SubstitutionStatus",
+    "title": "substitutionStatus",
+    "status": "active",
+    "experimental": false,
+    "date": "2019-12-01",
+    "publisher": "HL7, Inc",
+    "contact": [
+        {
+            "telecom": [
+                {
+                    "system": "url",
+                    "value": "http://www.hl7.org/"
+                }
+            ]
+        }
+    ],
+    "description": "HL7-defined code system of concepts  which specify the substitution status.  Used in HL7 Version 2.x messaging in the RXE, RXD, and RXG segments.",
+    "purpose": "Underlying Master Code System for V2 table 0167 (Substitution Status)",
+    "copyright": "Copyright HL7. Licensed under creative commons public domain",
+    "caseSensitive": true,
+    "valueSet": "http://terminology.hl7.org/ValueSet/v2-0167",
+    "hierarchyMeaning": "is-a",
+    "compositional": false,
+    "versionNeeded": false,
+    "content": "complete",
+    "property": [
+        {
+            "code": "status",
+            "uri": "http://terminology.hl7.org/CodeSystem/utg-concept-properties#status",
+            "description": "Status of the concept",
+            "type": "code"
+        },
+        {
+            "code": "deprecated",
+            "uri": "http://terminology.hl7.org/CodeSystem/utg-concept-properties#v2-table-deprecated",
+            "description": "Version of HL7 in which the code was deprecated",
+            "type": "code"
+        }
+    ],
+    "concept": [
+        {
+            "id": "1797",
+            "code": "N",
+            "display": "No substitute was dispensed.  This is equivalent to the default (null) value.",
+            "definition": "No substitute was dispensed.  This is equivalent to the default (null) value.",
+            "designation": [
+                {
+                    "language": "de",
+                    "use": {
+                        "system": "http://terminology.hl7.org/CodeSystem/hl7TermMaintInfra",
+                        "code": "preferredForLanguage"
+                    },
+                    "value": "keine Substitution"
+                }
+            ],
+            "property": [
+                {
+                    "code": "status",
+                    "valueCode": "A"
+                }
+            ]
+        },
+        {
+            "id": "1798",
+            "code": "G",
+            "display": "A generic substitution was dispensed.",
+            "definition": "A generic substitution was dispensed.",
+            "designation": [
+                {
+                    "language": "de",
+                    "use": {
+                        "system": "http://terminology.hl7.org/CodeSystem/hl7TermMaintInfra",
+                        "code": "preferredForLanguage"
+                    },
+                    "value": "Substitution durch Generika"
+                }
+            ],
+            "property": [
+                {
+                    "code": "status",
+                    "valueCode": "A"
+                }
+            ]
+        },
+        {
+            "id": "1799",
+            "code": "T",
+            "display": "A therapeutic substitution was dispensed.",
+            "definition": "A therapeutic substitution was dispensed.",
+            "designation": [
+                {
+                    "language": "de",
+                    "use": {
+                        "system": "http://terminology.hl7.org/CodeSystem/hl7TermMaintInfra",
+                        "code": "preferredForLanguage"
+                    },
+                    "value": "therapieorientierte Substitution"
+                }
+            ],
+            "property": [
+                {
+                    "code": "status",
+                    "valueCode": "A"
+                }
+            ]
+        },
+        {
+            "id": "1800",
+            "code": "0",
+            "display": "No product selection indicated",
+            "definition": "No product selection indicated",
+            "property": [
+                {
+                    "code": "status",
+                    "valueCode": "A"
+                }
+            ]
+        },
+        {
+            "id": "1801",
+            "code": "1",
+            "display": "Substitution not allowed by prescriber",
+            "definition": "Substitution not allowed by prescriber",
+            "property": [
+                {
+                    "code": "status",
+                    "valueCode": "A"
+                }
+            ]
+        },
+        {
+            "id": "1802",
+            "code": "2",
+            "display": "Substitution allowed - patient requested product dispensed",
+            "definition": "Substitution allowed - patient requested product dispensed",
+            "property": [
+                {
+                    "code": "status",
+                    "valueCode": "A"
+                }
+            ]
+        },
+        {
+            "id": "1803",
+            "code": "3",
+            "display": "Substitution allowed - pharmacist selected product dispensed",
+            "definition": "Substitution allowed - pharmacist selected product dispensed",
+            "property": [
+                {
+                    "code": "status",
+                    "valueCode": "A"
+                }
+            ]
+        },
+        {
+            "id": "1804",
+            "code": "4",
+            "display": "Substitution allowed - generic drug not in stock",
+            "definition": "Substitution allowed - generic drug not in stock",
+            "property": [
+                {
+                    "code": "status",
+                    "valueCode": "A"
+                }
+            ]
+        },
+        {
+            "id": "1805",
+            "code": "5",
+            "display": "Substitution allowed - brand drug dispensed as a generic",
+            "definition": "Substitution allowed - brand drug dispensed as a generic",
+            "property": [
+                {
+                    "code": "status",
+                    "valueCode": "A"
+                }
+            ]
+        },
+        {
+            "id": "1806",
+            "code": "7",
+            "display": "Substitution not allowed - brand drug mandated by law",
+            "definition": "Substitution not allowed - brand drug mandated by law",
+            "property": [
+                {
+                    "code": "status",
+                    "valueCode": "A"
+                }
+            ]
+        },
+        {
+            "id": "1807",
+            "code": "8",
+            "display": "Substitution allowed - generic drug not available in marketplace",
+            "definition": "Substitution allowed - generic drug not available in marketplace",
+            "property": [
+                {
+                    "code": "status",
+                    "valueCode": "A"
+                }
+            ]
+        }
+    ]
+}

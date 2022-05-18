@@ -1,0 +1,39 @@
+{
+    "resourceType": "ValueSet",
+    "id": "v3-QualityMeasureSectionType",
+    "text": {
+        "status": "empty",
+        "div": "<div xmlns=\"http://www.w3.org/1999/xhtml\">Redacted for size</div>"
+    },
+    "url": "http://terminology.hl7.org/ValueSet/v3-QualityMeasureSectionType",
+    "identifier": [
+        {
+            "system": "urn:ietf:rfc:3986",
+            "value": "urn:oid:2.16.840.1.113883.1.11.20364"
+        }
+    ],
+    "version": "2.0.0",
+    "name": "QualityMeasureSectionType",
+    "title": "QualityMeasureSectionType",
+    "status": "active",
+    "date": "2014-03-14",
+    "description": "A type of document section within a health quality measure (aka eMeasure), used to cluster the various parts of the eMeasure into a more human navigable format.",
+    "compose": {
+        "include": [
+            {
+                "system": "http://loinc.org",
+                "concept": [
+                    {
+                        "code": "57025-9"
+                    },
+                    {
+                        "code": "57026-7"
+                    },
+                    {
+                        "code": "57027-5"
+                    }
+                ]
+            }
+        ]
+    }
+}

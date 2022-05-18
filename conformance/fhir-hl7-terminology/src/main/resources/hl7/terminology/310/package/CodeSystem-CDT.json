@@ -1,0 +1,39 @@
+{
+    "resourceType": "CodeSystem",
+    "id": "CDT",
+    "text": {
+        "status": "empty",
+        "div": "<div xmlns=\"http://www.w3.org/1999/xhtml\">Redacted for size</div>"
+    },
+    "url": "http://www.ada.org/cdt",
+    "identifier": [
+        {
+            "system": "urn:ietf:rfc:3986",
+            "value": "urn:oid:2.16.840.1.113883.6.13"
+        }
+    ],
+    "version": "3.0.0",
+    "name": "CDT",
+    "title": "Code on Dental Procedures and Nomenclature",
+    "status": "active",
+    "experimental": false,
+    "date": "2021-04-05T00:00:00-00:00",
+    "publisher": "American Dental Association",
+    "contact": [
+        {
+            "name": "American Dental Association",
+            "telecom": [
+                {
+                    "system": "url",
+                    "value": "www.ada.org"
+                },
+                {
+                    "system": "email",
+                    "value": "dentalcode@ada.org"
+                }
+            ]
+        }
+    ],
+    "description": "The purpose of the CDT Code is to achieve uniformity, consistency and specificity in accurately documenting dental treatment. One use of the CDT Code is to provide for the efficient processing of dental claims, and another is to populate an Electronic Health Record.",
+    "content": "not-present"
+}

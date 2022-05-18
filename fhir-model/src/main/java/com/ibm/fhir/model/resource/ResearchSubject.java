@@ -1,5 +1,5 @@
 /*
- * (C) Copyright IBM Corp. 2019, 2021
+ * (C) Copyright IBM Corp. 2019, 2022
  *
  * SPDX-License-Identifier: Apache-2.0
  */
@@ -37,10 +37,10 @@ import com.ibm.fhir.model.visitor.Visitor;
 /**
  * A physical entity which is the primary unit of operational and/or administrative interest in a study.
  * 
- * <p>Maturity level: FMM1 (Trial Use)
+ * <p>Maturity level: FMM0 (Trial Use)
  */
 @Maturity(
-    level = 1,
+    level = 0,
     status = StandardsStatus.Value.TRIAL_USE
 )
 @Generated("com.ibm.fhir.tools.CodeGenerator")
@@ -52,7 +52,7 @@ public class ResearchSubject extends DomainResource {
         bindingName = "ResearchSubjectStatus",
         strength = BindingStrength.Value.REQUIRED,
         description = "Indicates the progression of a study subject through a study.",
-        valueSet = "http://hl7.org/fhir/ValueSet/research-subject-status|4.0.1"
+        valueSet = "http://hl7.org/fhir/ValueSet/research-subject-status|4.3.0-cibuild"
     )
     @Required
     private final ResearchSubjectStatus status;

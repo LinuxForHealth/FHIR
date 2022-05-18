@@ -1,0 +1,112 @@
+{
+  "resourceType": "CodeSystem",
+  "id": "warning-type",
+  "meta": {
+    "lastUpdated": "2022-04-24T09:21:35.043+11:00",
+    "profile": [
+      "http://hl7.org/fhir/StructureDefinition/shareablecodesystem"
+    ]
+  },
+  "text": {
+    "status": "generated",
+    "div": "\u003cdiv xmlns\u003d\"http://www.w3.org/1999/xhtml\"\u003e\u003cp\u003eThis code system http://hl7.org/fhir/warning-type defines the following codes:\u003c/p\u003e\u003ctable class\u003d\"codes\"\u003e\u003ctr\u003e\u003ctd style\u003d\"white-space:nowrap\"\u003e\u003cb\u003eCode\u003c/b\u003e\u003c/td\u003e\u003ctd\u003e\u003cb\u003eDisplay\u003c/b\u003e\u003c/td\u003e\u003ctd\u003e\u003cb\u003eDefinition\u003c/b\u003e\u003c/td\u003e\u003c/tr\u003e\u003ctr\u003e\u003ctd style\u003d\"white-space:nowrap\"\u003eP313\u003ca name\u003d\"warning-type-P313\"\u003e \u003c/a\u003e\u003c/td\u003e\u003ctd\u003eGet medical advice/attention.\u003c/td\u003e\u003ctd\u003eGet medical advice/attention.\u003c/td\u003e\u003c/tr\u003e\u003ctr\u003e\u003ctd style\u003d\"white-space:nowrap\"\u003eP314\u003ca name\u003d\"warning-type-P314\"\u003e \u003c/a\u003e\u003c/td\u003e\u003ctd\u003eGet medical advice/attention if you feel unwell.\u003c/td\u003e\u003ctd\u003eGet medical advice/attention if you feel unwell.\u003c/td\u003e\u003c/tr\u003e\u003ctr\u003e\u003ctd style\u003d\"white-space:nowrap\"\u003eP315\u003ca name\u003d\"warning-type-P315\"\u003e \u003c/a\u003e\u003c/td\u003e\u003ctd\u003eGet immediate medical advice/attention.\u003c/td\u003e\u003ctd\u003eGet immediate medical advice/attention.\u003c/td\u003e\u003c/tr\u003e\u003ctr\u003e\u003ctd style\u003d\"white-space:nowrap\"\u003eP320\u003ca name\u003d\"warning-type-P320\"\u003e \u003c/a\u003e\u003c/td\u003e\u003ctd\u003eSpecific treatment is urgent (see ... on this label).\u003c/td\u003e\u003ctd\u003eSpecific treatment is urgent (see ... on this label).\u003c/td\u003e\u003c/tr\u003e\u003ctr\u003e\u003ctd style\u003d\"white-space:nowrap\"\u003eP321\u003ca name\u003d\"warning-type-P321\"\u003e \u003c/a\u003e\u003c/td\u003e\u003ctd\u003eSpecific treatment (see ... on this label).\u003c/td\u003e\u003ctd\u003eSpecific treatment (see ... on this label).\u003c/td\u003e\u003c/tr\u003e\u003ctr\u003e\u003ctd style\u003d\"white-space:nowrap\"\u003eP322\u003ca name\u003d\"warning-type-P322\"\u003e \u003c/a\u003e\u003c/td\u003e\u003ctd\u003eSpecific measures (see ... on this label).\u003c/td\u003e\u003ctd\u003eSpecific measures (see ... on this label).\u003c/td\u003e\u003c/tr\u003e\u003ctr\u003e\u003ctd style\u003d\"white-space:nowrap\"\u003eP330\u003ca name\u003d\"warning-type-P330\"\u003e \u003c/a\u003e\u003c/td\u003e\u003ctd\u003eRinse mouth.\u003c/td\u003e\u003ctd\u003eRinse mouth.\u003c/td\u003e\u003c/tr\u003e\u003ctr\u003e\u003ctd style\u003d\"white-space:nowrap\"\u003eP331\u003ca name\u003d\"warning-type-P331\"\u003e \u003c/a\u003e\u003c/td\u003e\u003ctd\u003eDo NOT induce vomiting.\u003c/td\u003e\u003ctd\u003eDo NOT induce vomiting.\u003c/td\u003e\u003c/tr\u003e\u003ctr\u003e\u003ctd style\u003d\"white-space:nowrap\"\u003eP361\u003ca name\u003d\"warning-type-P361\"\u003e \u003c/a\u003e\u003c/td\u003e\u003ctd\u003eRemove/Take off immediately all contaminated clothing.\u003c/td\u003e\u003ctd\u003eRemove/Take off immediately all contaminated clothing.\u003c/td\u003e\u003c/tr\u003e\u003ctr\u003e\u003ctd style\u003d\"white-space:nowrap\"\u003eP363\u003ca name\u003d\"warning-type-P363\"\u003e \u003c/a\u003e\u003c/td\u003e\u003ctd\u003eWash contaminated clothing before reuse..\u003c/td\u003e\u003ctd\u003eWash contaminated clothing before reuse.\u003c/td\u003e\u003c/tr\u003e\u003c/table\u003e\u003c/div\u003e"
+  },
+  "extension": [
+    {
+      "url": "http://hl7.org/fhir/StructureDefinition/structuredefinition-wg",
+      "valueCode": "brr"
+    },
+    {
+      "url": "http://hl7.org/fhir/StructureDefinition/structuredefinition-standards-status",
+      "valueCode": "trial-use"
+    },
+    {
+      "url": "http://hl7.org/fhir/StructureDefinition/structuredefinition-fmm",
+      "valueInteger": 1
+    }
+  ],
+  "url": "http://hl7.org/fhir/warning-type",
+  "identifier": [
+    {
+      "system": "urn:ietf:rfc:3986",
+      "value": "urn:oid:2.16.840.1.113883.4.642.1.1546"
+    }
+  ],
+  "version": "4.3.0-cibuild",
+  "name": "WarningType",
+  "title": "WarningType",
+  "status": "draft",
+  "experimental": false,
+  "date": "2021-08-15T16:55:11+11:00",
+  "publisher": "HL7 (FHIR Project)",
+  "contact": [
+    {
+      "telecom": [
+        {
+          "system": "url",
+          "value": "http://hl7.org/fhir"
+        },
+        {
+          "system": "email",
+          "value": "fhir@lists.hl7.org"
+        }
+      ]
+    }
+  ],
+  "description": "Classification of warning type.",
+  "caseSensitive": true,
+  "valueSet": "http://hl7.org/fhir/ValueSet/warning-type",
+  "content": "complete",
+  "concept": [
+    {
+      "code": "P313",
+      "display": "Get medical advice/attention.",
+      "definition": "Get medical advice/attention."
+    },
+    {
+      "code": "P314",
+      "display": "Get medical advice/attention if you feel unwell.",
+      "definition": "Get medical advice/attention if you feel unwell."
+    },
+    {
+      "code": "P315",
+      "display": "Get immediate medical advice/attention.",
+      "definition": "Get immediate medical advice/attention."
+    },
+    {
+      "code": "P320",
+      "display": "Specific treatment is urgent (see ... on this label).",
+      "definition": "Specific treatment is urgent (see ... on this label)."
+    },
+    {
+      "code": "P321",
+      "display": "Specific treatment (see ... on this label).",
+      "definition": "Specific treatment (see ... on this label)."
+    },
+    {
+      "code": "P322",
+      "display": "Specific measures (see ... on this label).",
+      "definition": "Specific measures (see ... on this label)."
+    },
+    {
+      "code": "P330",
+      "display": "Rinse mouth.",
+      "definition": "Rinse mouth."
+    },
+    {
+      "code": "P331",
+      "display": "Do NOT induce vomiting.",
+      "definition": "Do NOT induce vomiting."
+    },
+    {
+      "code": "P361",
+      "display": "Remove/Take off immediately all contaminated clothing.",
+      "definition": "Remove/Take off immediately all contaminated clothing."
+    },
+    {
+      "code": "P363",
+      "display": "Wash contaminated clothing before reuse..",
+      "definition": "Wash contaminated clothing before reuse."
+    }
+  ]
+}

@@ -1,0 +1,251 @@
+{
+    "resourceType": "ValueSet",
+    "id": "bodystructure-relative-location",
+    "meta": {
+        "lastUpdated": "2022-04-23T22:21:35.043Z",
+        "profile": [
+            "http://hl7.org/fhir/StructureDefinition/shareablevalueset"
+        ]
+    },
+    "extension": [
+        {
+            "url": "http://hl7.org/fhir/StructureDefinition/structuredefinition-wg",
+            "valueCode": "oo"
+        },
+        {
+            "url": "http://hl7.org/fhir/StructureDefinition/structuredefinition-standards-status",
+            "valueCode": "draft"
+        },
+        {
+            "url": "http://hl7.org/fhir/StructureDefinition/structuredefinition-fmm",
+            "valueInteger": 1
+        }
+    ],
+    "url": "http://hl7.org/fhir/ValueSet/bodystructure-relative-location",
+    "identifier": [
+        {
+            "system": "urn:ietf:rfc:3986",
+            "value": "urn:oid:2.16.840.1.113883.4.642.3.140"
+        }
+    ],
+    "version": "4.3.0-cibuild",
+    "name": "BodystructureLocationQualifier",
+    "title": "Bodystructure Location Qualifier",
+    "status": "draft",
+    "experimental": true,
+    "publisher": "Order and Observation Workgroup",
+    "contact": [
+        {
+            "telecom": [
+                {
+                    "system": "url",
+                    "value": "http://hl7.org/fhir"
+                }
+            ]
+        }
+    ],
+    "description": "SNOMED-CT concepts modifying the anatomic location",
+    "copyright": "This value set includes content from SNOMED CT, which is copyright © 2002+ International Health Terminology Standards Development Organisation (IHTSDO), and distributed by agreement between IHTSDO and HL7. Implementer use of SNOMED CT is not covered by this agreement",
+    "compose": {
+        "include": [
+            {
+                "system": "http://snomed.info/sct",
+                "concept": [
+                    {
+                        "code": "419161000",
+                        "display": "Unilateral left"
+                    },
+                    {
+                        "code": "419465000",
+                        "display": "Unilateral right"
+                    },
+                    {
+                        "code": "51440002",
+                        "display": "Bilateral"
+                    },
+                    {
+                        "code": "261183002",
+                        "display": "Upper"
+                    },
+                    {
+                        "code": "261122009",
+                        "display": "Lower"
+                    },
+                    {
+                        "code": "255561001",
+                        "display": "Medial"
+                    },
+                    {
+                        "code": "49370004",
+                        "display": "Lateral"
+                    },
+                    {
+                        "code": "264217000",
+                        "display": "Superior"
+                    },
+                    {
+                        "code": "261089000",
+                        "display": "Inferior"
+                    },
+                    {
+                        "code": "255551008",
+                        "display": "Posterior"
+                    },
+                    {
+                        "code": "351726001",
+                        "display": "Below"
+                    },
+                    {
+                        "code": "352730000",
+                        "display": "Above"
+                    }
+                ]
+            }
+        ]
+    },
+    "expansion": {
+        "identifier": "urn:uuid:47daf6c6-b25d-4c93-9737-fd3b13f45a06",
+        "timestamp": "2022-04-23T22:23:26Z",
+        "total": 12,
+        "parameter": [
+            {
+                "name": "excludeNested",
+                "valueBoolean": true
+            },
+            {
+                "name": "includeDesignations",
+                "valueBoolean": true
+            },
+            {
+                "name": "limitedExpansion",
+                "valueBoolean": true
+            },
+            {
+                "name": "version",
+                "valueUri": "http://snomed.info/sct|http://snomed.info/sct/900000000000207008/version/20200731"
+            }
+        ],
+        "contains": [
+            {
+                "system": "http://snomed.info/sct",
+                "code": "419161000",
+                "display": "Unilateral left",
+                "designation": [
+                    {
+                        "value": "Unilateral left"
+                    }
+                ]
+            },
+            {
+                "system": "http://snomed.info/sct",
+                "code": "419465000",
+                "display": "Unilateral right",
+                "designation": [
+                    {
+                        "value": "Unilateral right"
+                    }
+                ]
+            },
+            {
+                "system": "http://snomed.info/sct",
+                "code": "51440002",
+                "display": "Bilateral",
+                "designation": [
+                    {
+                        "value": "Bilateral"
+                    }
+                ]
+            },
+            {
+                "system": "http://snomed.info/sct",
+                "code": "261183002",
+                "display": "Upper",
+                "designation": [
+                    {
+                        "value": "Upper"
+                    }
+                ]
+            },
+            {
+                "system": "http://snomed.info/sct",
+                "code": "261122009",
+                "display": "Lower",
+                "designation": [
+                    {
+                        "value": "Lower"
+                    }
+                ]
+            },
+            {
+                "system": "http://snomed.info/sct",
+                "code": "255561001",
+                "display": "Medial",
+                "designation": [
+                    {
+                        "value": "Medial"
+                    }
+                ]
+            },
+            {
+                "system": "http://snomed.info/sct",
+                "code": "49370004",
+                "display": "Lateral",
+                "designation": [
+                    {
+                        "value": "Lateral"
+                    }
+                ]
+            },
+            {
+                "system": "http://snomed.info/sct",
+                "code": "264217000",
+                "display": "Superior",
+                "designation": [
+                    {
+                        "value": "Superior"
+                    }
+                ]
+            },
+            {
+                "system": "http://snomed.info/sct",
+                "code": "261089000",
+                "display": "Inferior",
+                "designation": [
+                    {
+                        "value": "Inferior"
+                    }
+                ]
+            },
+            {
+                "system": "http://snomed.info/sct",
+                "code": "255551008",
+                "display": "Posterior",
+                "designation": [
+                    {
+                        "value": "Posterior"
+                    }
+                ]
+            },
+            {
+                "system": "http://snomed.info/sct",
+                "code": "351726001",
+                "display": "Below",
+                "designation": [
+                    {
+                        "value": "Below"
+                    }
+                ]
+            },
+            {
+                "system": "http://snomed.info/sct",
+                "code": "352730000",
+                "display": "Above",
+                "designation": [
+                    {
+                        "value": "Above"
+                    }
+                ]
+            }
+        ]
+    }
+}

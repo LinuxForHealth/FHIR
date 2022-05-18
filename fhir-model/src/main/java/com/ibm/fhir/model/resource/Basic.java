@@ -1,5 +1,5 @@
 /*
- * (C) Copyright IBM Corp. 2019, 2021
+ * (C) Copyright IBM Corp. 2019, 2022
  *
  * SPDX-License-Identifier: Apache-2.0
  */
@@ -51,7 +51,7 @@ public class Basic extends DomainResource {
     @Binding(
         bindingName = "BasicResourceType",
         strength = BindingStrength.Value.EXAMPLE,
-        description = "Codes for identifying types of resources not yet defined by FHIR.",
+        description = "HL7-maintained set of codes for \"Basic\" resources",
         valueSet = "http://hl7.org/fhir/ValueSet/basic-resource-type"
     )
     @Required

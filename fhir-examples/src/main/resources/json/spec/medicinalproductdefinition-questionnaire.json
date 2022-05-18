@@ -1,0 +1,3335 @@
+{
+  "resourceType": "Questionnaire",
+  "id": "qs1",
+  "contained": [
+    {
+      "resourceType": "ValueSet",
+      "id": "vs2",
+      "name": "Type options for MedicinalProductDefinition.characteristic.value[x]",
+      "status": "active",
+      "description": "Type options for MedicinalProductDefinition.characteristic.value[x]",
+      "expansion": {
+        "identifier": "urn:uuid:edde856e-e896-460d-a668-f57bf5c22a02",
+        "timestamp": "2022-04-23T22:30:01+00:00",
+        "contains": [
+          {
+            "system": "http://hl7.org/fhir/data-types",
+            "code": "CodeableConcept",
+            "display": "CodeableConcept"
+          },
+          {
+            "system": "http://hl7.org/fhir/data-types",
+            "code": "Quantity",
+            "display": "Quantity"
+          },
+          {
+            "system": "http://hl7.org/fhir/data-types",
+            "code": "date",
+            "display": "date"
+          },
+          {
+            "system": "http://hl7.org/fhir/data-types",
+            "code": "boolean",
+            "display": "boolean"
+          },
+          {
+            "system": "http://hl7.org/fhir/data-types",
+            "code": "Attachment",
+            "display": "Attachment"
+          }
+        ]
+      }
+    }
+  ],
+  "identifier": [
+    {
+      "system": "urn:ietf:rfc:3986"
+    }
+  ],
+  "version": "4.3.0-cibuild",
+  "status": "draft",
+  "experimental": false,
+  "date": "2022-04-23T22:21:35+00:00",
+  "publisher": "Health Level Seven International (Biomedical Research and Regulation)",
+  "item": [
+    {
+      "linkId": "MedicinalProductDefinition",
+      "text": "Detailed definition of a medicinal product",
+      "type": "group",
+      "required": false,
+      "repeats": true,
+      "item": [
+        {
+          "extension": [
+            {
+              "url": "http://hl7.org/fhir/StructureDefinition/questionnaire-itemControl",
+              "valueCodeableConcept": {
+                "coding": [
+                  {
+                    "system": "http://hl7.org/fhir/questionnaire-item-control",
+                    "code": "flyover",
+                    "display": "Fly-over"
+                  }
+                ]
+              }
+            }
+          ],
+          "linkId": "MedicinalProductDefinition-flyover",
+          "text": "A medicinal product, being a substance or combination of substances that is intended to treat, prevent or diagnose a disease, or to restore, correct or modify physiological functions by exerting a pharmacological, immunological or metabolic action. This resource is intended to define and detail such products and their properties, for uses other than direct patient care (e.g. regulatory use, or drug catalogs).",
+          "type": "display"
+        },
+        {
+          "extension": [
+            {
+              "url": "http://hl7.org/fhir/StructureDefinition/questionnaire-maxOccurs",
+              "valueInteger": 1
+            },
+            {
+              "url": "http://hl7.org/fhir/StructureDefinition/questionnaire-fhirType",
+              "valueString": "string"
+            }
+          ],
+          "linkId": "MedicinalProductDefinition.id",
+          "type": "group",
+          "required": false,
+          "repeats": true,
+          "item": [
+            {
+              "extension": [
+                {
+                  "url": "http://hl7.org/fhir/StructureDefinition/questionnaire-itemControl",
+                  "valueCodeableConcept": {
+                    "coding": [
+                      {
+                        "system": "http://hl7.org/fhir/questionnaire-item-control",
+                        "code": "flyover",
+                        "display": "Fly-over"
+                      }
+                    ]
+                  }
+                }
+              ],
+              "linkId": "MedicinalProductDefinition.id-flyover",
+              "text": "The logical id of the resource, as used in the URL for the resource. Once assigned, this value never changes. The only time that a resource does not have an id is when it is being submitted to the server using a create operation.",
+              "type": "display"
+            },
+            {
+              "linkId": "MedicinalProductDefinition.id.value",
+              "text": "Logical id of this artifact",
+              "type": "string",
+              "required": false,
+              "repeats": false
+            }
+          ]
+        },
+        {
+          "extension": [
+            {
+              "url": "http://hl7.org/fhir/StructureDefinition/questionnaire-maxOccurs",
+              "valueInteger": 1
+            }
+          ],
+          "linkId": "MedicinalProductDefinition.meta",
+          "text": "Metadata about the resource",
+          "type": "group",
+          "required": false,
+          "repeats": true,
+          "item": [
+            {
+              "extension": [
+                {
+                  "url": "http://hl7.org/fhir/StructureDefinition/questionnaire-itemControl",
+                  "valueCodeableConcept": {
+                    "coding": [
+                      {
+                        "system": "http://hl7.org/fhir/questionnaire-item-control",
+                        "code": "flyover",
+                        "display": "Fly-over"
+                      }
+                    ]
+                  }
+                }
+              ],
+              "linkId": "MedicinalProductDefinition.meta-flyover",
+              "text": "The metadata about the resource. This is content that is maintained by the infrastructure. Changes to the content might not always be associated with version changes to the resource.",
+              "type": "display"
+            }
+          ]
+        },
+        {
+          "extension": [
+            {
+              "url": "http://hl7.org/fhir/StructureDefinition/questionnaire-maxOccurs",
+              "valueInteger": 1
+            },
+            {
+              "url": "http://hl7.org/fhir/StructureDefinition/questionnaire-fhirType",
+              "valueString": "uri"
+            }
+          ],
+          "linkId": "MedicinalProductDefinition.implicitRules",
+          "type": "group",
+          "required": false,
+          "repeats": true,
+          "item": [
+            {
+              "extension": [
+                {
+                  "url": "http://hl7.org/fhir/StructureDefinition/questionnaire-itemControl",
+                  "valueCodeableConcept": {
+                    "coding": [
+                      {
+                        "system": "http://hl7.org/fhir/questionnaire-item-control",
+                        "code": "flyover",
+                        "display": "Fly-over"
+                      }
+                    ]
+                  }
+                }
+              ],
+              "linkId": "MedicinalProductDefinition.implicitRules-flyover",
+              "text": "A reference to a set of rules that were followed when the resource was constructed, and which must be understood when processing the content. Often, this is a reference to an implementation guide that defines the special rules along with other profiles etc. Asserting this rule set restricts the content to be only understood by a limited set of trading partners. This inherently limits the usefulness of the data in the long term. However, the existing health eco-system is highly fractured, and not yet ready to define, collect, and exchange data in a generally computable sense. Wherever possible, implementers and/or specification writers should avoid using this element. Often, when used, the URL is a reference to an implementation guide that defines these special rules as part of it\u0027s narrative along with other profiles, value sets, etc.",
+              "type": "display"
+            },
+            {
+              "linkId": "MedicinalProductDefinition.implicitRules.value",
+              "text": "A set of rules under which this content was created",
+              "type": "string",
+              "required": false,
+              "repeats": false
+            }
+          ]
+        },
+        {
+          "extension": [
+            {
+              "url": "http://hl7.org/fhir/StructureDefinition/questionnaire-maxOccurs",
+              "valueInteger": 1
+            },
+            {
+              "url": "http://hl7.org/fhir/StructureDefinition/questionnaire-fhirType",
+              "valueString": "code"
+            }
+          ],
+          "linkId": "MedicinalProductDefinition.language",
+          "type": "group",
+          "required": false,
+          "repeats": true,
+          "item": [
+            {
+              "extension": [
+                {
+                  "url": "http://hl7.org/fhir/StructureDefinition/questionnaire-itemControl",
+                  "valueCodeableConcept": {
+                    "coding": [
+                      {
+                        "system": "http://hl7.org/fhir/questionnaire-item-control",
+                        "code": "flyover",
+                        "display": "Fly-over"
+                      }
+                    ]
+                  }
+                }
+              ],
+              "linkId": "MedicinalProductDefinition.language-flyover",
+              "text": "The base language in which the resource is written. Language is provided to support indexing and accessibility (typically, services such as text to speech use the language tag). The html language tag in the narrative applies  to the narrative. The language tag on the resource may be used to specify the language of other presentations generated from the data in the resource. Not all the content has to be in the base language. The Resource.language should not be assumed to apply to the narrative automatically. If a language is specified, it should it also be specified on the div element in the html (see rules in HTML5 for information about the relationship between xml:lang and the html lang attribute).",
+              "type": "display"
+            },
+            {
+              "linkId": "MedicinalProductDefinition.language.value",
+              "text": "language",
+              "type": "choice",
+              "required": false,
+              "repeats": false
+            }
+          ]
+        },
+        {
+          "extension": [
+            {
+              "url": "http://hl7.org/fhir/StructureDefinition/questionnaire-maxOccurs",
+              "valueInteger": 1
+            }
+          ],
+          "linkId": "MedicinalProductDefinition.text",
+          "text": "Text summary of the resource, for human interpretation",
+          "type": "group",
+          "required": false,
+          "repeats": true,
+          "item": [
+            {
+              "extension": [
+                {
+                  "url": "http://hl7.org/fhir/StructureDefinition/questionnaire-itemControl",
+                  "valueCodeableConcept": {
+                    "coding": [
+                      {
+                        "system": "http://hl7.org/fhir/questionnaire-item-control",
+                        "code": "flyover",
+                        "display": "Fly-over"
+                      }
+                    ]
+                  }
+                }
+              ],
+              "linkId": "MedicinalProductDefinition.text-flyover",
+              "text": "A human-readable narrative that contains a summary of the resource and can be used to represent the content of the resource to a human. The narrative need not encode all the structured data, but is required to contain sufficient detail to make it \"clinically safe\" for a human to just read the narrative. Resource definitions may define what content should be represented in the narrative to ensure clinical safety. Contained resources do not have narrative. Resources that are not contained SHOULD have a narrative. In some cases, a resource may only have text with little or no additional discrete data (as long as all minOccurs\u003d1 elements are satisfied).  This may be necessary for data from legacy systems where information is captured as a \"text blob\" or where text is additionally entered raw or narrated and encoded information is added later.",
+              "type": "display"
+            }
+          ]
+        },
+        {
+          "linkId": "MedicinalProductDefinition.contained",
+          "text": "Contained, inline Resources",
+          "type": "group",
+          "required": false,
+          "repeats": true,
+          "item": [
+            {
+              "extension": [
+                {
+                  "url": "http://hl7.org/fhir/StructureDefinition/questionnaire-itemControl",
+                  "valueCodeableConcept": {
+                    "coding": [
+                      {
+                        "system": "http://hl7.org/fhir/questionnaire-item-control",
+                        "code": "flyover",
+                        "display": "Fly-over"
+                      }
+                    ]
+                  }
+                }
+              ],
+              "linkId": "MedicinalProductDefinition.contained-flyover",
+              "text": "These resources do not have an independent existence apart from the resource that contains them - they cannot be identified independently, and nor can they have their own independent transaction scope. This should never be done when the content can be identified properly, as once identification is lost, it is extremely difficult (and context dependent) to restore it again. Contained resources may have profiles and tags In their meta elements, but SHALL NOT have security labels.",
+              "type": "display"
+            }
+          ]
+        },
+        {
+          "linkId": "MedicinalProductDefinition.extension",
+          "text": "Additional content defined by implementations",
+          "type": "group",
+          "required": false,
+          "repeats": true,
+          "item": [
+            {
+              "extension": [
+                {
+                  "url": "http://hl7.org/fhir/StructureDefinition/questionnaire-itemControl",
+                  "valueCodeableConcept": {
+                    "coding": [
+                      {
+                        "system": "http://hl7.org/fhir/questionnaire-item-control",
+                        "code": "flyover",
+                        "display": "Fly-over"
+                      }
+                    ]
+                  }
+                }
+              ],
+              "linkId": "MedicinalProductDefinition.extension-flyover",
+              "text": "May be used to represent additional information that is not part of the basic definition of the resource. To make the use of extensions safe and manageable, there is a strict set of governance  applied to the definition and use of extensions. Though any implementer can define an extension, there is a set of requirements that SHALL be met as part of the definition of the extension. There can be no stigma associated with the use of extensions by any application, project, or standard - regardless of the institution or jurisdiction that uses or defines the extensions.  The use of extensions is what allows the FHIR specification to retain a core level of simplicity for everyone.",
+              "type": "display"
+            }
+          ]
+        },
+        {
+          "linkId": "MedicinalProductDefinition.modifierExtension",
+          "text": "Extensions that cannot be ignored",
+          "type": "group",
+          "required": false,
+          "repeats": true,
+          "item": [
+            {
+              "extension": [
+                {
+                  "url": "http://hl7.org/fhir/StructureDefinition/questionnaire-itemControl",
+                  "valueCodeableConcept": {
+                    "coding": [
+                      {
+                        "system": "http://hl7.org/fhir/questionnaire-item-control",
+                        "code": "flyover",
+                        "display": "Fly-over"
+                      }
+                    ]
+                  }
+                }
+              ],
+              "linkId": "MedicinalProductDefinition.modifierExtension-flyover",
+              "text": "May be used to represent additional information that is not part of the basic definition of the resource and that modifies the understanding of the element that contains it and/or the understanding of the containing element\u0027s descendants. Usually modifier elements provide negation or qualification. To make the use of extensions safe and manageable, there is a strict set of governance applied to the definition and use of extensions. Though any implementer is allowed to define an extension, there is a set of requirements that SHALL be met as part of the definition of the extension. Applications processing a resource are required to check for modifier extensions.\n\nModifier extensions SHALL NOT change the meaning of any elements on Resource or DomainResource (including cannot change the meaning of modifierExtension itself). There can be no stigma associated with the use of extensions by any application, project, or standard - regardless of the institution or jurisdiction that uses or defines the extensions.  The use of extensions is what allows the FHIR specification to retain a core level of simplicity for everyone.",
+              "type": "display"
+            }
+          ]
+        },
+        {
+          "extension": [
+            {
+              "url": "http://hl7.org/fhir/StructureDefinition/questionnaire-fhirType",
+              "valueString": "Identifier"
+            }
+          ],
+          "linkId": "MedicinalProductDefinition.identifier",
+          "text": "Business identifier for this product. Could be an MPID",
+          "type": "group",
+          "required": false,
+          "repeats": true,
+          "item": [
+            {
+              "extension": [
+                {
+                  "url": "http://hl7.org/fhir/StructureDefinition/questionnaire-itemControl",
+                  "valueCodeableConcept": {
+                    "coding": [
+                      {
+                        "system": "http://hl7.org/fhir/questionnaire-item-control",
+                        "code": "flyover",
+                        "display": "Fly-over"
+                      }
+                    ]
+                  }
+                }
+              ],
+              "linkId": "MedicinalProductDefinition.identifier-flyover",
+              "text": "Business identifier for this product. Could be an MPID. When in development or being regulated, products are typically referenced by official identifiers, assigned by a manufacturer or regulator, and unique to a product (which, when compared to a product instance being prescribed, is actually a product type). See also MedicinalProductDefinition.code.",
+              "type": "display"
+            },
+            {
+              "linkId": "MedicinalProductDefinition.identifier.label",
+              "text": "label:",
+              "type": "string",
+              "required": false,
+              "repeats": false
+            },
+            {
+              "linkId": "MedicinalProductDefinition.identifier.system",
+              "text": "system:",
+              "type": "string",
+              "required": false,
+              "repeats": false
+            },
+            {
+              "linkId": "MedicinalProductDefinition.identifier.value",
+              "text": "value:",
+              "type": "string",
+              "required": false,
+              "repeats": false
+            }
+          ]
+        },
+        {
+          "extension": [
+            {
+              "url": "http://hl7.org/fhir/StructureDefinition/questionnaire-maxOccurs",
+              "valueInteger": 1
+            },
+            {
+              "url": "http://hl7.org/fhir/StructureDefinition/questionnaire-fhirType",
+              "valueString": "CodeableConcept"
+            }
+          ],
+          "linkId": "MedicinalProductDefinition.type",
+          "text": "Regulatory type, e.g. Investigational or Authorized",
+          "type": "group",
+          "required": false,
+          "repeats": true,
+          "item": [
+            {
+              "extension": [
+                {
+                  "url": "http://hl7.org/fhir/StructureDefinition/questionnaire-itemControl",
+                  "valueCodeableConcept": {
+                    "coding": [
+                      {
+                        "system": "http://hl7.org/fhir/questionnaire-item-control",
+                        "code": "flyover",
+                        "display": "Fly-over"
+                      }
+                    ]
+                  }
+                }
+              ],
+              "linkId": "MedicinalProductDefinition.type-flyover",
+              "text": "Regulatory type, e.g. Investigational or Authorized.",
+              "type": "display"
+            },
+            {
+              "linkId": "MedicinalProductDefinition.type.coding",
+              "text": "code:",
+              "type": "choice",
+              "required": false,
+              "repeats": false
+            },
+            {
+              "linkId": "MedicinalProductDefinition.type.text",
+              "text": "text:",
+              "type": "string",
+              "required": false,
+              "repeats": false
+            }
+          ]
+        },
+        {
+          "extension": [
+            {
+              "url": "http://hl7.org/fhir/StructureDefinition/questionnaire-maxOccurs",
+              "valueInteger": 1
+            },
+            {
+              "url": "http://hl7.org/fhir/StructureDefinition/questionnaire-fhirType",
+              "valueString": "CodeableConcept"
+            }
+          ],
+          "linkId": "MedicinalProductDefinition.domain",
+          "text": "If this medicine applies to human or veterinary uses",
+          "type": "group",
+          "required": false,
+          "repeats": true,
+          "item": [
+            {
+              "extension": [
+                {
+                  "url": "http://hl7.org/fhir/StructureDefinition/questionnaire-itemControl",
+                  "valueCodeableConcept": {
+                    "coding": [
+                      {
+                        "system": "http://hl7.org/fhir/questionnaire-item-control",
+                        "code": "flyover",
+                        "display": "Fly-over"
+                      }
+                    ]
+                  }
+                }
+              ],
+              "linkId": "MedicinalProductDefinition.domain-flyover",
+              "text": "If this medicine applies to human or veterinary uses.",
+              "type": "display"
+            },
+            {
+              "linkId": "MedicinalProductDefinition.domain.coding",
+              "text": "code:",
+              "type": "choice",
+              "required": false,
+              "repeats": false
+            },
+            {
+              "linkId": "MedicinalProductDefinition.domain.text",
+              "text": "text:",
+              "type": "string",
+              "required": false,
+              "repeats": false
+            }
+          ]
+        },
+        {
+          "extension": [
+            {
+              "url": "http://hl7.org/fhir/StructureDefinition/questionnaire-maxOccurs",
+              "valueInteger": 1
+            },
+            {
+              "url": "http://hl7.org/fhir/StructureDefinition/questionnaire-fhirType",
+              "valueString": "string"
+            }
+          ],
+          "linkId": "MedicinalProductDefinition.version",
+          "type": "group",
+          "required": false,
+          "repeats": true,
+          "item": [
+            {
+              "extension": [
+                {
+                  "url": "http://hl7.org/fhir/StructureDefinition/questionnaire-itemControl",
+                  "valueCodeableConcept": {
+                    "coding": [
+                      {
+                        "system": "http://hl7.org/fhir/questionnaire-item-control",
+                        "code": "flyover",
+                        "display": "Fly-over"
+                      }
+                    ]
+                  }
+                }
+              ],
+              "linkId": "MedicinalProductDefinition.version-flyover",
+              "text": "A business identifier relating to a specific version of the product, this is commonly used to support revisions to an existing product.",
+              "type": "display"
+            },
+            {
+              "linkId": "MedicinalProductDefinition.version.value",
+              "text": "A business identifier relating to a specific version of the product",
+              "type": "string",
+              "required": false,
+              "repeats": false
+            }
+          ]
+        },
+        {
+          "extension": [
+            {
+              "url": "http://hl7.org/fhir/StructureDefinition/questionnaire-maxOccurs",
+              "valueInteger": 1
+            },
+            {
+              "url": "http://hl7.org/fhir/StructureDefinition/questionnaire-fhirType",
+              "valueString": "CodeableConcept"
+            }
+          ],
+          "linkId": "MedicinalProductDefinition.status",
+          "text": "The status within the lifecycle of this product record",
+          "type": "group",
+          "required": false,
+          "repeats": true,
+          "item": [
+            {
+              "extension": [
+                {
+                  "url": "http://hl7.org/fhir/StructureDefinition/questionnaire-itemControl",
+                  "valueCodeableConcept": {
+                    "coding": [
+                      {
+                        "system": "http://hl7.org/fhir/questionnaire-item-control",
+                        "code": "flyover",
+                        "display": "Fly-over"
+                      }
+                    ]
+                  }
+                }
+              ],
+              "linkId": "MedicinalProductDefinition.status-flyover",
+              "text": "The status within the lifecycle of this product record. A high-level status, this is not intended to duplicate details carried elsewhere such as legal status, or authorization status.",
+              "type": "display"
+            },
+            {
+              "linkId": "MedicinalProductDefinition.status.coding",
+              "text": "code:",
+              "type": "choice",
+              "required": false,
+              "repeats": false
+            },
+            {
+              "linkId": "MedicinalProductDefinition.status.text",
+              "text": "text:",
+              "type": "string",
+              "required": false,
+              "repeats": false
+            }
+          ]
+        },
+        {
+          "extension": [
+            {
+              "url": "http://hl7.org/fhir/StructureDefinition/questionnaire-maxOccurs",
+              "valueInteger": 1
+            },
+            {
+              "url": "http://hl7.org/fhir/StructureDefinition/questionnaire-fhirType",
+              "valueString": "datetime"
+            }
+          ],
+          "linkId": "MedicinalProductDefinition.statusDate",
+          "type": "group",
+          "required": false,
+          "repeats": true,
+          "item": [
+            {
+              "extension": [
+                {
+                  "url": "http://hl7.org/fhir/StructureDefinition/questionnaire-itemControl",
+                  "valueCodeableConcept": {
+                    "coding": [
+                      {
+                        "system": "http://hl7.org/fhir/questionnaire-item-control",
+                        "code": "flyover",
+                        "display": "Fly-over"
+                      }
+                    ]
+                  }
+                }
+              ],
+              "linkId": "MedicinalProductDefinition.statusDate-flyover",
+              "text": "The date at which the given status became applicable.",
+              "type": "display"
+            },
+            {
+              "linkId": "MedicinalProductDefinition.statusDate.value",
+              "text": "The date at which the given status became applicable",
+              "type": "dateTime",
+              "required": false,
+              "repeats": false
+            }
+          ]
+        },
+        {
+          "extension": [
+            {
+              "url": "http://hl7.org/fhir/StructureDefinition/questionnaire-maxOccurs",
+              "valueInteger": 1
+            },
+            {
+              "url": "http://hl7.org/fhir/StructureDefinition/questionnaire-fhirType",
+              "valueString": "string"
+            }
+          ],
+          "linkId": "MedicinalProductDefinition.description",
+          "type": "group",
+          "required": false,
+          "repeats": true,
+          "item": [
+            {
+              "extension": [
+                {
+                  "url": "http://hl7.org/fhir/StructureDefinition/questionnaire-itemControl",
+                  "valueCodeableConcept": {
+                    "coding": [
+                      {
+                        "system": "http://hl7.org/fhir/questionnaire-item-control",
+                        "code": "flyover",
+                        "display": "Fly-over"
+                      }
+                    ]
+                  }
+                }
+              ],
+              "linkId": "MedicinalProductDefinition.description-flyover",
+              "text": "General description of this product.",
+              "type": "display"
+            },
+            {
+              "linkId": "MedicinalProductDefinition.description.value",
+              "text": "General description of this product",
+              "type": "string",
+              "required": false,
+              "repeats": false
+            }
+          ]
+        },
+        {
+          "extension": [
+            {
+              "url": "http://hl7.org/fhir/StructureDefinition/questionnaire-maxOccurs",
+              "valueInteger": 1
+            },
+            {
+              "url": "http://hl7.org/fhir/StructureDefinition/questionnaire-fhirType",
+              "valueString": "CodeableConcept"
+            }
+          ],
+          "linkId": "MedicinalProductDefinition.combinedPharmaceuticalDoseForm",
+          "text": "The dose form for a single part product, or combined form of a multiple part product",
+          "type": "group",
+          "required": false,
+          "repeats": true,
+          "item": [
+            {
+              "extension": [
+                {
+                  "url": "http://hl7.org/fhir/StructureDefinition/questionnaire-itemControl",
+                  "valueCodeableConcept": {
+                    "coding": [
+                      {
+                        "system": "http://hl7.org/fhir/questionnaire-item-control",
+                        "code": "flyover",
+                        "display": "Fly-over"
+                      }
+                    ]
+                  }
+                }
+              ],
+              "linkId": "MedicinalProductDefinition.combinedPharmaceuticalDoseForm-flyover",
+              "text": "The dose form for a single part product, or combined form of a multiple part product. This is one concept that describes all the components. It does not represent the form with components physically mixed, if that might be necessary, for which see (AdministrableProductDefinition.administrableDoseForm).",
+              "type": "display"
+            },
+            {
+              "linkId": "MedicinalProductDefinition.combinedPharmaceuticalDoseForm.coding",
+              "text": "code:",
+              "type": "choice",
+              "required": false,
+              "repeats": false
+            },
+            {
+              "linkId": "MedicinalProductDefinition.combinedPharmaceuticalDoseForm.text",
+              "text": "text:",
+              "type": "string",
+              "required": false,
+              "repeats": false
+            }
+          ]
+        },
+        {
+          "extension": [
+            {
+              "url": "http://hl7.org/fhir/StructureDefinition/questionnaire-fhirType",
+              "valueString": "CodeableConcept"
+            }
+          ],
+          "linkId": "MedicinalProductDefinition.route",
+          "text": "The path by which the product is taken into or makes contact with the body",
+          "type": "group",
+          "required": false,
+          "repeats": true,
+          "item": [
+            {
+              "extension": [
+                {
+                  "url": "http://hl7.org/fhir/StructureDefinition/questionnaire-itemControl",
+                  "valueCodeableConcept": {
+                    "coding": [
+                      {
+                        "system": "http://hl7.org/fhir/questionnaire-item-control",
+                        "code": "flyover",
+                        "display": "Fly-over"
+                      }
+                    ]
+                  }
+                }
+              ],
+              "linkId": "MedicinalProductDefinition.route-flyover",
+              "text": "The path by which the product is taken into or makes contact with the body. In some regions this is referred to as the licenced or approved route. See also AdministrableProductDefinition resource. MedicinalProductDefinition.route is the same concept as AdministrableProductDefinition.routeOfAdministration.code, and they cannot be used together.",
+              "type": "display"
+            },
+            {
+              "linkId": "MedicinalProductDefinition.route.coding",
+              "text": "code:",
+              "type": "choice",
+              "required": false,
+              "repeats": false
+            },
+            {
+              "linkId": "MedicinalProductDefinition.route.text",
+              "text": "text:",
+              "type": "string",
+              "required": false,
+              "repeats": false
+            }
+          ]
+        },
+        {
+          "extension": [
+            {
+              "url": "http://hl7.org/fhir/StructureDefinition/questionnaire-maxOccurs",
+              "valueInteger": 1
+            },
+            {
+              "url": "http://hl7.org/fhir/StructureDefinition/questionnaire-fhirType",
+              "valueString": "string"
+            }
+          ],
+          "linkId": "MedicinalProductDefinition.indication",
+          "type": "group",
+          "required": false,
+          "repeats": true,
+          "item": [
+            {
+              "extension": [
+                {
+                  "url": "http://hl7.org/fhir/StructureDefinition/questionnaire-itemControl",
+                  "valueCodeableConcept": {
+                    "coding": [
+                      {
+                        "system": "http://hl7.org/fhir/questionnaire-item-control",
+                        "code": "flyover",
+                        "display": "Fly-over"
+                      }
+                    ]
+                  }
+                }
+              ],
+              "linkId": "MedicinalProductDefinition.indication-flyover",
+              "text": "Description of indication(s) for this product, used when structured indications are not required. In cases where structured indications are required, they are captured using the ClinicalUseDefinition resource. An indication is a medical situation for which using the product is appropriate.",
+              "type": "display"
+            },
+            {
+              "linkId": "MedicinalProductDefinition.indication.value",
+              "text": "Description of indication(s) for this product, used when structured indications are not required",
+              "type": "string",
+              "required": false,
+              "repeats": false
+            }
+          ]
+        },
+        {
+          "extension": [
+            {
+              "url": "http://hl7.org/fhir/StructureDefinition/questionnaire-maxOccurs",
+              "valueInteger": 1
+            },
+            {
+              "url": "http://hl7.org/fhir/StructureDefinition/questionnaire-fhirType",
+              "valueString": "CodeableConcept"
+            }
+          ],
+          "linkId": "MedicinalProductDefinition.legalStatusOfSupply",
+          "text": "The legal status of supply of the medicinal product as classified by the regulator",
+          "type": "group",
+          "required": false,
+          "repeats": true,
+          "item": [
+            {
+              "extension": [
+                {
+                  "url": "http://hl7.org/fhir/StructureDefinition/questionnaire-itemControl",
+                  "valueCodeableConcept": {
+                    "coding": [
+                      {
+                        "system": "http://hl7.org/fhir/questionnaire-item-control",
+                        "code": "flyover",
+                        "display": "Fly-over"
+                      }
+                    ]
+                  }
+                }
+              ],
+              "linkId": "MedicinalProductDefinition.legalStatusOfSupply-flyover",
+              "text": "The legal status of supply of the medicinal product as classified by the regulator.",
+              "type": "display"
+            },
+            {
+              "linkId": "MedicinalProductDefinition.legalStatusOfSupply.coding",
+              "text": "code:",
+              "type": "choice",
+              "required": false,
+              "repeats": false
+            },
+            {
+              "linkId": "MedicinalProductDefinition.legalStatusOfSupply.text",
+              "text": "text:",
+              "type": "string",
+              "required": false,
+              "repeats": false
+            }
+          ]
+        },
+        {
+          "extension": [
+            {
+              "url": "http://hl7.org/fhir/StructureDefinition/questionnaire-maxOccurs",
+              "valueInteger": 1
+            },
+            {
+              "url": "http://hl7.org/fhir/StructureDefinition/questionnaire-fhirType",
+              "valueString": "CodeableConcept"
+            }
+          ],
+          "linkId": "MedicinalProductDefinition.additionalMonitoringIndicator",
+          "text": "Whether the Medicinal Product is subject to additional monitoring for regulatory reasons",
+          "type": "group",
+          "required": false,
+          "repeats": true,
+          "item": [
+            {
+              "extension": [
+                {
+                  "url": "http://hl7.org/fhir/StructureDefinition/questionnaire-itemControl",
+                  "valueCodeableConcept": {
+                    "coding": [
+                      {
+                        "system": "http://hl7.org/fhir/questionnaire-item-control",
+                        "code": "flyover",
+                        "display": "Fly-over"
+                      }
+                    ]
+                  }
+                }
+              ],
+              "linkId": "MedicinalProductDefinition.additionalMonitoringIndicator-flyover",
+              "text": "Whether the Medicinal Product is subject to additional monitoring for regulatory reasons, such as heightened reporting requirements.",
+              "type": "display"
+            },
+            {
+              "linkId": "MedicinalProductDefinition.additionalMonitoringIndicator.coding",
+              "text": "code:",
+              "type": "choice",
+              "required": false,
+              "repeats": false
+            },
+            {
+              "linkId": "MedicinalProductDefinition.additionalMonitoringIndicator.text",
+              "text": "text:",
+              "type": "string",
+              "required": false,
+              "repeats": false
+            }
+          ]
+        },
+        {
+          "extension": [
+            {
+              "url": "http://hl7.org/fhir/StructureDefinition/questionnaire-fhirType",
+              "valueString": "CodeableConcept"
+            }
+          ],
+          "linkId": "MedicinalProductDefinition.specialMeasures",
+          "text": "Whether the Medicinal Product is subject to special measures for regulatory reasons",
+          "type": "group",
+          "required": false,
+          "repeats": true,
+          "item": [
+            {
+              "extension": [
+                {
+                  "url": "http://hl7.org/fhir/StructureDefinition/questionnaire-itemControl",
+                  "valueCodeableConcept": {
+                    "coding": [
+                      {
+                        "system": "http://hl7.org/fhir/questionnaire-item-control",
+                        "code": "flyover",
+                        "display": "Fly-over"
+                      }
+                    ]
+                  }
+                }
+              ],
+              "linkId": "MedicinalProductDefinition.specialMeasures-flyover",
+              "text": "Whether the Medicinal Product is subject to special measures for regulatory reasons, such as a requirement to conduct post-authorisation studies.",
+              "type": "display"
+            },
+            {
+              "linkId": "MedicinalProductDefinition.specialMeasures.coding",
+              "text": "code:",
+              "type": "choice",
+              "required": false,
+              "repeats": false
+            },
+            {
+              "linkId": "MedicinalProductDefinition.specialMeasures.text",
+              "text": "text:",
+              "type": "string",
+              "required": false,
+              "repeats": false
+            }
+          ]
+        },
+        {
+          "extension": [
+            {
+              "url": "http://hl7.org/fhir/StructureDefinition/questionnaire-maxOccurs",
+              "valueInteger": 1
+            },
+            {
+              "url": "http://hl7.org/fhir/StructureDefinition/questionnaire-fhirType",
+              "valueString": "CodeableConcept"
+            }
+          ],
+          "linkId": "MedicinalProductDefinition.pediatricUseIndicator",
+          "text": "If authorised for use in children",
+          "type": "group",
+          "required": false,
+          "repeats": true,
+          "item": [
+            {
+              "extension": [
+                {
+                  "url": "http://hl7.org/fhir/StructureDefinition/questionnaire-itemControl",
+                  "valueCodeableConcept": {
+                    "coding": [
+                      {
+                        "system": "http://hl7.org/fhir/questionnaire-item-control",
+                        "code": "flyover",
+                        "display": "Fly-over"
+                      }
+                    ]
+                  }
+                }
+              ],
+              "linkId": "MedicinalProductDefinition.pediatricUseIndicator-flyover",
+              "text": "If authorised for use in children, or infants, neonates etc.",
+              "type": "display"
+            },
+            {
+              "linkId": "MedicinalProductDefinition.pediatricUseIndicator.coding",
+              "text": "code:",
+              "type": "choice",
+              "required": false,
+              "repeats": false
+            },
+            {
+              "linkId": "MedicinalProductDefinition.pediatricUseIndicator.text",
+              "text": "text:",
+              "type": "string",
+              "required": false,
+              "repeats": false
+            }
+          ]
+        },
+        {
+          "extension": [
+            {
+              "url": "http://hl7.org/fhir/StructureDefinition/questionnaire-fhirType",
+              "valueString": "CodeableConcept"
+            }
+          ],
+          "linkId": "MedicinalProductDefinition.classification",
+          "text": "Allows the product to be classified by various systems",
+          "type": "group",
+          "required": false,
+          "repeats": true,
+          "item": [
+            {
+              "extension": [
+                {
+                  "url": "http://hl7.org/fhir/StructureDefinition/questionnaire-itemControl",
+                  "valueCodeableConcept": {
+                    "coding": [
+                      {
+                        "system": "http://hl7.org/fhir/questionnaire-item-control",
+                        "code": "flyover",
+                        "display": "Fly-over"
+                      }
+                    ]
+                  }
+                }
+              ],
+              "linkId": "MedicinalProductDefinition.classification-flyover",
+              "text": "Allows the product to be classified by various systems, commonly WHO ATC.",
+              "type": "display"
+            },
+            {
+              "linkId": "MedicinalProductDefinition.classification.coding",
+              "text": "code:",
+              "type": "choice",
+              "required": false,
+              "repeats": false
+            },
+            {
+              "linkId": "MedicinalProductDefinition.classification.text",
+              "text": "text:",
+              "type": "string",
+              "required": false,
+              "repeats": false
+            }
+          ]
+        },
+        {
+          "linkId": "MedicinalProductDefinition.marketingStatus",
+          "text": "Marketing status of the medicinal product, in contrast to marketing authorization",
+          "type": "group",
+          "required": false,
+          "repeats": true,
+          "item": [
+            {
+              "extension": [
+                {
+                  "url": "http://hl7.org/fhir/StructureDefinition/questionnaire-itemControl",
+                  "valueCodeableConcept": {
+                    "coding": [
+                      {
+                        "system": "http://hl7.org/fhir/questionnaire-item-control",
+                        "code": "flyover",
+                        "display": "Fly-over"
+                      }
+                    ]
+                  }
+                }
+              ],
+              "linkId": "MedicinalProductDefinition.marketingStatus-flyover",
+              "text": "Marketing status of the medicinal product, in contrast to marketing authorization. This refers to the product being actually \u0027on the market\u0027 as opposed to being allowed to be on the market (which is an authorization).",
+              "type": "display"
+            }
+          ]
+        },
+        {
+          "extension": [
+            {
+              "url": "http://hl7.org/fhir/StructureDefinition/questionnaire-fhirType",
+              "valueString": "CodeableConcept"
+            }
+          ],
+          "linkId": "MedicinalProductDefinition.packagedMedicinalProduct",
+          "text": "Package type for the product",
+          "type": "group",
+          "required": false,
+          "repeats": true,
+          "item": [
+            {
+              "extension": [
+                {
+                  "url": "http://hl7.org/fhir/StructureDefinition/questionnaire-itemControl",
+                  "valueCodeableConcept": {
+                    "coding": [
+                      {
+                        "system": "http://hl7.org/fhir/questionnaire-item-control",
+                        "code": "flyover",
+                        "display": "Fly-over"
+                      }
+                    ]
+                  }
+                }
+              ],
+              "linkId": "MedicinalProductDefinition.packagedMedicinalProduct-flyover",
+              "text": "Package type for the product. See also the PackagedProductDefinition resource.",
+              "type": "display"
+            },
+            {
+              "linkId": "MedicinalProductDefinition.packagedMedicinalProduct.coding",
+              "text": "code:",
+              "type": "choice",
+              "required": false,
+              "repeats": false
+            },
+            {
+              "linkId": "MedicinalProductDefinition.packagedMedicinalProduct.text",
+              "text": "text:",
+              "type": "string",
+              "required": false,
+              "repeats": false
+            }
+          ]
+        },
+        {
+          "extension": [
+            {
+              "url": "http://hl7.org/fhir/StructureDefinition/questionnaire-fhirType",
+              "valueString": "CodeableConcept"
+            }
+          ],
+          "linkId": "MedicinalProductDefinition.ingredient",
+          "text": "The ingredients of this medicinal product - when not detailed in other resources",
+          "type": "group",
+          "required": false,
+          "repeats": true,
+          "item": [
+            {
+              "extension": [
+                {
+                  "url": "http://hl7.org/fhir/StructureDefinition/questionnaire-itemControl",
+                  "valueCodeableConcept": {
+                    "coding": [
+                      {
+                        "system": "http://hl7.org/fhir/questionnaire-item-control",
+                        "code": "flyover",
+                        "display": "Fly-over"
+                      }
+                    ]
+                  }
+                }
+              ],
+              "linkId": "MedicinalProductDefinition.ingredient-flyover",
+              "text": "The ingredients of this medicinal product - when not detailed in other resources. This is only needed if the ingredients are not specified by incoming references from the Ingredient resource, or indirectly via incoming AdministrableProductDefinition, PackagedProductDefinition or ManufacturedItemDefinition references. In cases where those levels of detail are not used, the ingredients may be specified directly here as codes.",
+              "type": "display"
+            },
+            {
+              "linkId": "MedicinalProductDefinition.ingredient.coding",
+              "text": "code:",
+              "type": "choice",
+              "required": false,
+              "repeats": false
+            },
+            {
+              "linkId": "MedicinalProductDefinition.ingredient.text",
+              "text": "text:",
+              "type": "string",
+              "required": false,
+              "repeats": false
+            }
+          ]
+        },
+        {
+          "linkId": "MedicinalProductDefinition.impurity",
+          "text": "Any component of the drug product which is not the chemical entity defined as the drug substance, or an excipient in the drug product",
+          "type": "group",
+          "required": false,
+          "repeats": true,
+          "item": [
+            {
+              "extension": [
+                {
+                  "url": "http://hl7.org/fhir/StructureDefinition/questionnaire-itemControl",
+                  "valueCodeableConcept": {
+                    "coding": [
+                      {
+                        "system": "http://hl7.org/fhir/questionnaire-item-control",
+                        "code": "flyover",
+                        "display": "Fly-over"
+                      }
+                    ]
+                  }
+                }
+              ],
+              "linkId": "MedicinalProductDefinition.impurity-flyover",
+              "text": "Any component of the drug product which is not the chemical entity defined as the drug substance, or an excipient in the drug product. This includes process-related impurities and contaminants, product-related impurities including degradation products.",
+              "type": "display"
+            }
+          ]
+        },
+        {
+          "extension": [
+            {
+              "url": "http://hl7.org/fhir/StructureDefinition/questionnaire-fhirType",
+              "valueString": "Reference"
+            }
+          ],
+          "linkId": "MedicinalProductDefinition.attachedDocument",
+          "type": "group",
+          "required": false,
+          "repeats": true,
+          "item": [
+            {
+              "extension": [
+                {
+                  "url": "http://hl7.org/fhir/StructureDefinition/questionnaire-itemControl",
+                  "valueCodeableConcept": {
+                    "coding": [
+                      {
+                        "system": "http://hl7.org/fhir/questionnaire-item-control",
+                        "code": "flyover",
+                        "display": "Fly-over"
+                      }
+                    ]
+                  }
+                }
+              ],
+              "linkId": "MedicinalProductDefinition.attachedDocument-flyover",
+              "text": "Additional information or supporting documentation about the medicinal product.",
+              "type": "display"
+            },
+            {
+              "extension": [
+                {
+                  "url": "http://hl7.org/fhir/StructureDefinition/questionnaire-allowedResource",
+                  "valueCode": "DocumentReference"
+                },
+                {
+                  "url": "http://hl7.org/fhir/StructureDefinition/questionnaire-referenceFilter",
+                  "valueString": "subject\u003d$subj\u0026patient\u003d$subj\u0026encounter\u003d$encounter"
+                }
+              ],
+              "linkId": "MedicinalProductDefinition.attachedDocument.value",
+              "text": "Additional documentation about the medicinal product",
+              "type": "reference",
+              "required": false,
+              "repeats": false
+            }
+          ]
+        },
+        {
+          "extension": [
+            {
+              "url": "http://hl7.org/fhir/StructureDefinition/questionnaire-fhirType",
+              "valueString": "Reference"
+            }
+          ],
+          "linkId": "MedicinalProductDefinition.masterFile",
+          "type": "group",
+          "required": false,
+          "repeats": true,
+          "item": [
+            {
+              "extension": [
+                {
+                  "url": "http://hl7.org/fhir/StructureDefinition/questionnaire-itemControl",
+                  "valueCodeableConcept": {
+                    "coding": [
+                      {
+                        "system": "http://hl7.org/fhir/questionnaire-item-control",
+                        "code": "flyover",
+                        "display": "Fly-over"
+                      }
+                    ]
+                  }
+                }
+              ],
+              "linkId": "MedicinalProductDefinition.masterFile-flyover",
+              "text": "A master file for the medicinal product (e.g. Pharmacovigilance System Master File). Drug master files (DMFs) are documents submitted to regulatory agencies to provide confidential detailed information about facilities, processes or articles used in the manufacturing, processing, packaging and storing of drug products.",
+              "type": "display"
+            },
+            {
+              "extension": [
+                {
+                  "url": "http://hl7.org/fhir/StructureDefinition/questionnaire-allowedResource",
+                  "valueCode": "DocumentReference"
+                },
+                {
+                  "url": "http://hl7.org/fhir/StructureDefinition/questionnaire-referenceFilter",
+                  "valueString": "subject\u003d$subj\u0026patient\u003d$subj\u0026encounter\u003d$encounter"
+                }
+              ],
+              "linkId": "MedicinalProductDefinition.masterFile.value",
+              "text": "A master file for the medicinal product (e.g. Pharmacovigilance System Master File)",
+              "type": "reference",
+              "required": false,
+              "repeats": false
+            }
+          ]
+        },
+        {
+          "linkId": "MedicinalProductDefinition.contact",
+          "text": "A product specific contact, person (in a role), or an organization",
+          "type": "group",
+          "required": false,
+          "repeats": true,
+          "item": [
+            {
+              "extension": [
+                {
+                  "url": "http://hl7.org/fhir/StructureDefinition/questionnaire-itemControl",
+                  "valueCodeableConcept": {
+                    "coding": [
+                      {
+                        "system": "http://hl7.org/fhir/questionnaire-item-control",
+                        "code": "flyover",
+                        "display": "Fly-over"
+                      }
+                    ]
+                  }
+                }
+              ],
+              "linkId": "MedicinalProductDefinition.contact-flyover",
+              "text": "A product specific contact, person (in a role), or an organization.",
+              "type": "display"
+            },
+            {
+              "extension": [
+                {
+                  "url": "http://hl7.org/fhir/StructureDefinition/questionnaire-maxOccurs",
+                  "valueInteger": 1
+                },
+                {
+                  "url": "http://hl7.org/fhir/StructureDefinition/questionnaire-fhirType",
+                  "valueString": "string"
+                }
+              ],
+              "linkId": "MedicinalProductDefinition.contact.id",
+              "type": "group",
+              "required": false,
+              "repeats": true,
+              "item": [
+                {
+                  "extension": [
+                    {
+                      "url": "http://hl7.org/fhir/StructureDefinition/questionnaire-itemControl",
+                      "valueCodeableConcept": {
+                        "coding": [
+                          {
+                            "system": "http://hl7.org/fhir/questionnaire-item-control",
+                            "code": "flyover",
+                            "display": "Fly-over"
+                          }
+                        ]
+                      }
+                    }
+                  ],
+                  "linkId": "MedicinalProductDefinition.contact.id-flyover",
+                  "text": "Unique id for the element within a resource (for internal references). This may be any string value that does not contain spaces.",
+                  "type": "display"
+                },
+                {
+                  "linkId": "MedicinalProductDefinition.contact.id.value",
+                  "text": "Unique id for inter-element referencing",
+                  "type": "string",
+                  "required": false,
+                  "repeats": false
+                }
+              ]
+            },
+            {
+              "linkId": "MedicinalProductDefinition.contact.extension",
+              "text": "Additional content defined by implementations",
+              "type": "group",
+              "required": false,
+              "repeats": true,
+              "item": [
+                {
+                  "extension": [
+                    {
+                      "url": "http://hl7.org/fhir/StructureDefinition/questionnaire-itemControl",
+                      "valueCodeableConcept": {
+                        "coding": [
+                          {
+                            "system": "http://hl7.org/fhir/questionnaire-item-control",
+                            "code": "flyover",
+                            "display": "Fly-over"
+                          }
+                        ]
+                      }
+                    }
+                  ],
+                  "linkId": "MedicinalProductDefinition.contact.extension-flyover",
+                  "text": "May be used to represent additional information that is not part of the basic definition of the element. To make the use of extensions safe and manageable, there is a strict set of governance  applied to the definition and use of extensions. Though any implementer can define an extension, there is a set of requirements that SHALL be met as part of the definition of the extension. There can be no stigma associated with the use of extensions by any application, project, or standard - regardless of the institution or jurisdiction that uses or defines the extensions.  The use of extensions is what allows the FHIR specification to retain a core level of simplicity for everyone.",
+                  "type": "display"
+                }
+              ]
+            },
+            {
+              "linkId": "MedicinalProductDefinition.contact.modifierExtension",
+              "text": "Extensions that cannot be ignored even if unrecognized",
+              "type": "group",
+              "required": false,
+              "repeats": true,
+              "item": [
+                {
+                  "extension": [
+                    {
+                      "url": "http://hl7.org/fhir/StructureDefinition/questionnaire-itemControl",
+                      "valueCodeableConcept": {
+                        "coding": [
+                          {
+                            "system": "http://hl7.org/fhir/questionnaire-item-control",
+                            "code": "flyover",
+                            "display": "Fly-over"
+                          }
+                        ]
+                      }
+                    }
+                  ],
+                  "linkId": "MedicinalProductDefinition.contact.modifierExtension-flyover",
+                  "text": "May be used to represent additional information that is not part of the basic definition of the element and that modifies the understanding of the element in which it is contained and/or the understanding of the containing element\u0027s descendants. Usually modifier elements provide negation or qualification. To make the use of extensions safe and manageable, there is a strict set of governance applied to the definition and use of extensions. Though any implementer can define an extension, there is a set of requirements that SHALL be met as part of the definition of the extension. Applications processing a resource are required to check for modifier extensions.\n\nModifier extensions SHALL NOT change the meaning of any elements on Resource or DomainResource (including cannot change the meaning of modifierExtension itself). There can be no stigma associated with the use of extensions by any application, project, or standard - regardless of the institution or jurisdiction that uses or defines the extensions.  The use of extensions is what allows the FHIR specification to retain a core level of simplicity for everyone.",
+                  "type": "display"
+                }
+              ]
+            },
+            {
+              "extension": [
+                {
+                  "url": "http://hl7.org/fhir/StructureDefinition/questionnaire-maxOccurs",
+                  "valueInteger": 1
+                },
+                {
+                  "url": "http://hl7.org/fhir/StructureDefinition/questionnaire-fhirType",
+                  "valueString": "CodeableConcept"
+                }
+              ],
+              "linkId": "MedicinalProductDefinition.contact.type",
+              "text": "Allows the contact to be classified, for example QPPV, Pharmacovigilance Enquiry Information",
+              "type": "group",
+              "required": false,
+              "repeats": true,
+              "item": [
+                {
+                  "extension": [
+                    {
+                      "url": "http://hl7.org/fhir/StructureDefinition/questionnaire-itemControl",
+                      "valueCodeableConcept": {
+                        "coding": [
+                          {
+                            "system": "http://hl7.org/fhir/questionnaire-item-control",
+                            "code": "flyover",
+                            "display": "Fly-over"
+                          }
+                        ]
+                      }
+                    }
+                  ],
+                  "linkId": "MedicinalProductDefinition.contact.type-flyover",
+                  "text": "Allows the contact to be classified, for example QPPV, Pharmacovigilance Enquiry Information.",
+                  "type": "display"
+                },
+                {
+                  "linkId": "MedicinalProductDefinition.contact.type.coding",
+                  "text": "code:",
+                  "type": "choice",
+                  "required": false,
+                  "repeats": false
+                },
+                {
+                  "linkId": "MedicinalProductDefinition.contact.type.text",
+                  "text": "text:",
+                  "type": "string",
+                  "required": false,
+                  "repeats": false
+                }
+              ]
+            },
+            {
+              "extension": [
+                {
+                  "url": "http://hl7.org/fhir/StructureDefinition/questionnaire-minOccurs",
+                  "valueInteger": 1
+                },
+                {
+                  "url": "http://hl7.org/fhir/StructureDefinition/questionnaire-maxOccurs",
+                  "valueInteger": 1
+                },
+                {
+                  "url": "http://hl7.org/fhir/StructureDefinition/questionnaire-fhirType",
+                  "valueString": "Reference"
+                }
+              ],
+              "linkId": "MedicinalProductDefinition.contact.contact",
+              "type": "group",
+              "required": true,
+              "repeats": true,
+              "item": [
+                {
+                  "extension": [
+                    {
+                      "url": "http://hl7.org/fhir/StructureDefinition/questionnaire-itemControl",
+                      "valueCodeableConcept": {
+                        "coding": [
+                          {
+                            "system": "http://hl7.org/fhir/questionnaire-item-control",
+                            "code": "flyover",
+                            "display": "Fly-over"
+                          }
+                        ]
+                      }
+                    }
+                  ],
+                  "linkId": "MedicinalProductDefinition.contact.contact-flyover",
+                  "text": "A product specific contact, person (in a role), or an organization.",
+                  "type": "display"
+                },
+                {
+                  "extension": [
+                    {
+                      "url": "http://hl7.org/fhir/StructureDefinition/questionnaire-allowedResource",
+                      "valueCode": "Organization, PractitionerRole"
+                    },
+                    {
+                      "url": "http://hl7.org/fhir/StructureDefinition/questionnaire-referenceFilter",
+                      "valueString": "subject\u003d$subj\u0026patient\u003d$subj\u0026encounter\u003d$encounter"
+                    }
+                  ],
+                  "linkId": "MedicinalProductDefinition.contact.contact.value",
+                  "text": "A product specific contact, person (in a role), or an organization",
+                  "type": "reference",
+                  "required": false,
+                  "repeats": false
+                }
+              ]
+            }
+          ]
+        },
+        {
+          "extension": [
+            {
+              "url": "http://hl7.org/fhir/StructureDefinition/questionnaire-fhirType",
+              "valueString": "Reference"
+            }
+          ],
+          "linkId": "MedicinalProductDefinition.clinicalTrial",
+          "type": "group",
+          "required": false,
+          "repeats": true,
+          "item": [
+            {
+              "extension": [
+                {
+                  "url": "http://hl7.org/fhir/StructureDefinition/questionnaire-itemControl",
+                  "valueCodeableConcept": {
+                    "coding": [
+                      {
+                        "system": "http://hl7.org/fhir/questionnaire-item-control",
+                        "code": "flyover",
+                        "display": "Fly-over"
+                      }
+                    ]
+                  }
+                }
+              ],
+              "linkId": "MedicinalProductDefinition.clinicalTrial-flyover",
+              "text": "Clinical trials or studies that this product is involved in.",
+              "type": "display"
+            },
+            {
+              "extension": [
+                {
+                  "url": "http://hl7.org/fhir/StructureDefinition/questionnaire-allowedResource",
+                  "valueCode": "ResearchStudy"
+                },
+                {
+                  "url": "http://hl7.org/fhir/StructureDefinition/questionnaire-referenceFilter",
+                  "valueString": "subject\u003d$subj\u0026patient\u003d$subj\u0026encounter\u003d$encounter"
+                }
+              ],
+              "linkId": "MedicinalProductDefinition.clinicalTrial.value",
+              "text": "Clinical trials or studies that this product is involved in",
+              "type": "reference",
+              "required": false,
+              "repeats": false
+            }
+          ]
+        },
+        {
+          "extension": [
+            {
+              "url": "http://hl7.org/fhir/StructureDefinition/questionnaire-fhirType",
+              "valueString": "Coding"
+            }
+          ],
+          "linkId": "MedicinalProductDefinition.code",
+          "type": "group",
+          "required": false,
+          "repeats": true,
+          "item": [
+            {
+              "extension": [
+                {
+                  "url": "http://hl7.org/fhir/StructureDefinition/questionnaire-itemControl",
+                  "valueCodeableConcept": {
+                    "coding": [
+                      {
+                        "system": "http://hl7.org/fhir/questionnaire-item-control",
+                        "code": "flyover",
+                        "display": "Fly-over"
+                      }
+                    ]
+                  }
+                }
+              ],
+              "linkId": "MedicinalProductDefinition.code-flyover",
+              "text": "A code that this product is known by, usually within some formal terminology, perhaps assigned by a third party (i.e. not the manufacturer or regulator). Products (types of medications) tend to be known by identifiers during development and within regulatory process. However when they are prescribed they tend to be identified by codes. The same product may be have multiple codes, applied to it by multiple organizations.",
+              "type": "display"
+            },
+            {
+              "linkId": "MedicinalProductDefinition.code.value",
+              "text": "A code that this product is known by, within some formal terminology",
+              "type": "choice",
+              "required": false,
+              "repeats": false
+            }
+          ]
+        },
+        {
+          "extension": [
+            {
+              "url": "http://hl7.org/fhir/StructureDefinition/questionnaire-minOccurs",
+              "valueInteger": 1
+            }
+          ],
+          "linkId": "MedicinalProductDefinition.name",
+          "text": "The product\u0027s name, including full name and possibly coded parts",
+          "type": "group",
+          "required": true,
+          "repeats": true,
+          "item": [
+            {
+              "extension": [
+                {
+                  "url": "http://hl7.org/fhir/StructureDefinition/questionnaire-itemControl",
+                  "valueCodeableConcept": {
+                    "coding": [
+                      {
+                        "system": "http://hl7.org/fhir/questionnaire-item-control",
+                        "code": "flyover",
+                        "display": "Fly-over"
+                      }
+                    ]
+                  }
+                }
+              ],
+              "linkId": "MedicinalProductDefinition.name-flyover",
+              "text": "The product\u0027s name, including full name and possibly coded parts.",
+              "type": "display"
+            },
+            {
+              "extension": [
+                {
+                  "url": "http://hl7.org/fhir/StructureDefinition/questionnaire-maxOccurs",
+                  "valueInteger": 1
+                },
+                {
+                  "url": "http://hl7.org/fhir/StructureDefinition/questionnaire-fhirType",
+                  "valueString": "string"
+                }
+              ],
+              "linkId": "MedicinalProductDefinition.name.id",
+              "type": "group",
+              "required": false,
+              "repeats": true,
+              "item": [
+                {
+                  "extension": [
+                    {
+                      "url": "http://hl7.org/fhir/StructureDefinition/questionnaire-itemControl",
+                      "valueCodeableConcept": {
+                        "coding": [
+                          {
+                            "system": "http://hl7.org/fhir/questionnaire-item-control",
+                            "code": "flyover",
+                            "display": "Fly-over"
+                          }
+                        ]
+                      }
+                    }
+                  ],
+                  "linkId": "MedicinalProductDefinition.name.id-flyover",
+                  "text": "Unique id for the element within a resource (for internal references). This may be any string value that does not contain spaces.",
+                  "type": "display"
+                },
+                {
+                  "linkId": "MedicinalProductDefinition.name.id.value",
+                  "text": "Unique id for inter-element referencing",
+                  "type": "string",
+                  "required": false,
+                  "repeats": false
+                }
+              ]
+            },
+            {
+              "linkId": "MedicinalProductDefinition.name.extension",
+              "text": "Additional content defined by implementations",
+              "type": "group",
+              "required": false,
+              "repeats": true,
+              "item": [
+                {
+                  "extension": [
+                    {
+                      "url": "http://hl7.org/fhir/StructureDefinition/questionnaire-itemControl",
+                      "valueCodeableConcept": {
+                        "coding": [
+                          {
+                            "system": "http://hl7.org/fhir/questionnaire-item-control",
+                            "code": "flyover",
+                            "display": "Fly-over"
+                          }
+                        ]
+                      }
+                    }
+                  ],
+                  "linkId": "MedicinalProductDefinition.name.extension-flyover",
+                  "text": "May be used to represent additional information that is not part of the basic definition of the element. To make the use of extensions safe and manageable, there is a strict set of governance  applied to the definition and use of extensions. Though any implementer can define an extension, there is a set of requirements that SHALL be met as part of the definition of the extension. There can be no stigma associated with the use of extensions by any application, project, or standard - regardless of the institution or jurisdiction that uses or defines the extensions.  The use of extensions is what allows the FHIR specification to retain a core level of simplicity for everyone.",
+                  "type": "display"
+                }
+              ]
+            },
+            {
+              "linkId": "MedicinalProductDefinition.name.modifierExtension",
+              "text": "Extensions that cannot be ignored even if unrecognized",
+              "type": "group",
+              "required": false,
+              "repeats": true,
+              "item": [
+                {
+                  "extension": [
+                    {
+                      "url": "http://hl7.org/fhir/StructureDefinition/questionnaire-itemControl",
+                      "valueCodeableConcept": {
+                        "coding": [
+                          {
+                            "system": "http://hl7.org/fhir/questionnaire-item-control",
+                            "code": "flyover",
+                            "display": "Fly-over"
+                          }
+                        ]
+                      }
+                    }
+                  ],
+                  "linkId": "MedicinalProductDefinition.name.modifierExtension-flyover",
+                  "text": "May be used to represent additional information that is not part of the basic definition of the element and that modifies the understanding of the element in which it is contained and/or the understanding of the containing element\u0027s descendants. Usually modifier elements provide negation or qualification. To make the use of extensions safe and manageable, there is a strict set of governance applied to the definition and use of extensions. Though any implementer can define an extension, there is a set of requirements that SHALL be met as part of the definition of the extension. Applications processing a resource are required to check for modifier extensions.\n\nModifier extensions SHALL NOT change the meaning of any elements on Resource or DomainResource (including cannot change the meaning of modifierExtension itself). There can be no stigma associated with the use of extensions by any application, project, or standard - regardless of the institution or jurisdiction that uses or defines the extensions.  The use of extensions is what allows the FHIR specification to retain a core level of simplicity for everyone.",
+                  "type": "display"
+                }
+              ]
+            },
+            {
+              "extension": [
+                {
+                  "url": "http://hl7.org/fhir/StructureDefinition/questionnaire-minOccurs",
+                  "valueInteger": 1
+                },
+                {
+                  "url": "http://hl7.org/fhir/StructureDefinition/questionnaire-maxOccurs",
+                  "valueInteger": 1
+                },
+                {
+                  "url": "http://hl7.org/fhir/StructureDefinition/questionnaire-fhirType",
+                  "valueString": "string"
+                }
+              ],
+              "linkId": "MedicinalProductDefinition.name.productName",
+              "type": "group",
+              "required": true,
+              "repeats": true,
+              "item": [
+                {
+                  "extension": [
+                    {
+                      "url": "http://hl7.org/fhir/StructureDefinition/questionnaire-itemControl",
+                      "valueCodeableConcept": {
+                        "coding": [
+                          {
+                            "system": "http://hl7.org/fhir/questionnaire-item-control",
+                            "code": "flyover",
+                            "display": "Fly-over"
+                          }
+                        ]
+                      }
+                    }
+                  ],
+                  "linkId": "MedicinalProductDefinition.name.productName-flyover",
+                  "text": "The full product name.",
+                  "type": "display"
+                },
+                {
+                  "linkId": "MedicinalProductDefinition.name.productName.value",
+                  "text": "The full product name",
+                  "type": "string",
+                  "required": false,
+                  "repeats": false
+                }
+              ]
+            },
+            {
+              "extension": [
+                {
+                  "url": "http://hl7.org/fhir/StructureDefinition/questionnaire-maxOccurs",
+                  "valueInteger": 1
+                },
+                {
+                  "url": "http://hl7.org/fhir/StructureDefinition/questionnaire-fhirType",
+                  "valueString": "CodeableConcept"
+                }
+              ],
+              "linkId": "MedicinalProductDefinition.name.type",
+              "text": "Type of product name, such as rINN, BAN, Proprietary, Non-Proprietary",
+              "type": "group",
+              "required": false,
+              "repeats": true,
+              "item": [
+                {
+                  "extension": [
+                    {
+                      "url": "http://hl7.org/fhir/StructureDefinition/questionnaire-itemControl",
+                      "valueCodeableConcept": {
+                        "coding": [
+                          {
+                            "system": "http://hl7.org/fhir/questionnaire-item-control",
+                            "code": "flyover",
+                            "display": "Fly-over"
+                          }
+                        ]
+                      }
+                    }
+                  ],
+                  "linkId": "MedicinalProductDefinition.name.type-flyover",
+                  "text": "Type of product name, such as rINN, BAN, Proprietary, Non-Proprietary.",
+                  "type": "display"
+                },
+                {
+                  "linkId": "MedicinalProductDefinition.name.type.coding",
+                  "text": "code:",
+                  "type": "choice",
+                  "required": false,
+                  "repeats": false
+                },
+                {
+                  "linkId": "MedicinalProductDefinition.name.type.text",
+                  "text": "text:",
+                  "type": "string",
+                  "required": false,
+                  "repeats": false
+                }
+              ]
+            },
+            {
+              "linkId": "MedicinalProductDefinition.name.namePart",
+              "text": "Coding words or phrases of the name",
+              "type": "group",
+              "required": false,
+              "repeats": true,
+              "item": [
+                {
+                  "extension": [
+                    {
+                      "url": "http://hl7.org/fhir/StructureDefinition/questionnaire-itemControl",
+                      "valueCodeableConcept": {
+                        "coding": [
+                          {
+                            "system": "http://hl7.org/fhir/questionnaire-item-control",
+                            "code": "flyover",
+                            "display": "Fly-over"
+                          }
+                        ]
+                      }
+                    }
+                  ],
+                  "linkId": "MedicinalProductDefinition.name.namePart-flyover",
+                  "text": "Coding words or phrases of the name.",
+                  "type": "display"
+                },
+                {
+                  "extension": [
+                    {
+                      "url": "http://hl7.org/fhir/StructureDefinition/questionnaire-maxOccurs",
+                      "valueInteger": 1
+                    },
+                    {
+                      "url": "http://hl7.org/fhir/StructureDefinition/questionnaire-fhirType",
+                      "valueString": "string"
+                    }
+                  ],
+                  "linkId": "MedicinalProductDefinition.name.namePart.id",
+                  "type": "group",
+                  "required": false,
+                  "repeats": true,
+                  "item": [
+                    {
+                      "extension": [
+                        {
+                          "url": "http://hl7.org/fhir/StructureDefinition/questionnaire-itemControl",
+                          "valueCodeableConcept": {
+                            "coding": [
+                              {
+                                "system": "http://hl7.org/fhir/questionnaire-item-control",
+                                "code": "flyover",
+                                "display": "Fly-over"
+                              }
+                            ]
+                          }
+                        }
+                      ],
+                      "linkId": "MedicinalProductDefinition.name.namePart.id-flyover",
+                      "text": "Unique id for the element within a resource (for internal references). This may be any string value that does not contain spaces.",
+                      "type": "display"
+                    },
+                    {
+                      "linkId": "MedicinalProductDefinition.name.namePart.id.value",
+                      "text": "Unique id for inter-element referencing",
+                      "type": "string",
+                      "required": false,
+                      "repeats": false
+                    }
+                  ]
+                },
+                {
+                  "linkId": "MedicinalProductDefinition.name.namePart.extension",
+                  "text": "Additional content defined by implementations",
+                  "type": "group",
+                  "required": false,
+                  "repeats": true,
+                  "item": [
+                    {
+                      "extension": [
+                        {
+                          "url": "http://hl7.org/fhir/StructureDefinition/questionnaire-itemControl",
+                          "valueCodeableConcept": {
+                            "coding": [
+                              {
+                                "system": "http://hl7.org/fhir/questionnaire-item-control",
+                                "code": "flyover",
+                                "display": "Fly-over"
+                              }
+                            ]
+                          }
+                        }
+                      ],
+                      "linkId": "MedicinalProductDefinition.name.namePart.extension-flyover",
+                      "text": "May be used to represent additional information that is not part of the basic definition of the element. To make the use of extensions safe and manageable, there is a strict set of governance  applied to the definition and use of extensions. Though any implementer can define an extension, there is a set of requirements that SHALL be met as part of the definition of the extension. There can be no stigma associated with the use of extensions by any application, project, or standard - regardless of the institution or jurisdiction that uses or defines the extensions.  The use of extensions is what allows the FHIR specification to retain a core level of simplicity for everyone.",
+                      "type": "display"
+                    }
+                  ]
+                },
+                {
+                  "linkId": "MedicinalProductDefinition.name.namePart.modifierExtension",
+                  "text": "Extensions that cannot be ignored even if unrecognized",
+                  "type": "group",
+                  "required": false,
+                  "repeats": true,
+                  "item": [
+                    {
+                      "extension": [
+                        {
+                          "url": "http://hl7.org/fhir/StructureDefinition/questionnaire-itemControl",
+                          "valueCodeableConcept": {
+                            "coding": [
+                              {
+                                "system": "http://hl7.org/fhir/questionnaire-item-control",
+                                "code": "flyover",
+                                "display": "Fly-over"
+                              }
+                            ]
+                          }
+                        }
+                      ],
+                      "linkId": "MedicinalProductDefinition.name.namePart.modifierExtension-flyover",
+                      "text": "May be used to represent additional information that is not part of the basic definition of the element and that modifies the understanding of the element in which it is contained and/or the understanding of the containing element\u0027s descendants. Usually modifier elements provide negation or qualification. To make the use of extensions safe and manageable, there is a strict set of governance applied to the definition and use of extensions. Though any implementer can define an extension, there is a set of requirements that SHALL be met as part of the definition of the extension. Applications processing a resource are required to check for modifier extensions.\n\nModifier extensions SHALL NOT change the meaning of any elements on Resource or DomainResource (including cannot change the meaning of modifierExtension itself). There can be no stigma associated with the use of extensions by any application, project, or standard - regardless of the institution or jurisdiction that uses or defines the extensions.  The use of extensions is what allows the FHIR specification to retain a core level of simplicity for everyone.",
+                      "type": "display"
+                    }
+                  ]
+                },
+                {
+                  "extension": [
+                    {
+                      "url": "http://hl7.org/fhir/StructureDefinition/questionnaire-minOccurs",
+                      "valueInteger": 1
+                    },
+                    {
+                      "url": "http://hl7.org/fhir/StructureDefinition/questionnaire-maxOccurs",
+                      "valueInteger": 1
+                    },
+                    {
+                      "url": "http://hl7.org/fhir/StructureDefinition/questionnaire-fhirType",
+                      "valueString": "string"
+                    }
+                  ],
+                  "linkId": "MedicinalProductDefinition.name.namePart.part",
+                  "type": "group",
+                  "required": true,
+                  "repeats": true,
+                  "item": [
+                    {
+                      "extension": [
+                        {
+                          "url": "http://hl7.org/fhir/StructureDefinition/questionnaire-itemControl",
+                          "valueCodeableConcept": {
+                            "coding": [
+                              {
+                                "system": "http://hl7.org/fhir/questionnaire-item-control",
+                                "code": "flyover",
+                                "display": "Fly-over"
+                              }
+                            ]
+                          }
+                        }
+                      ],
+                      "linkId": "MedicinalProductDefinition.name.namePart.part-flyover",
+                      "text": "A fragment of a product name.",
+                      "type": "display"
+                    },
+                    {
+                      "linkId": "MedicinalProductDefinition.name.namePart.part.value",
+                      "text": "A fragment of a product name",
+                      "type": "string",
+                      "required": false,
+                      "repeats": false
+                    }
+                  ]
+                },
+                {
+                  "extension": [
+                    {
+                      "url": "http://hl7.org/fhir/StructureDefinition/questionnaire-minOccurs",
+                      "valueInteger": 1
+                    },
+                    {
+                      "url": "http://hl7.org/fhir/StructureDefinition/questionnaire-maxOccurs",
+                      "valueInteger": 1
+                    },
+                    {
+                      "url": "http://hl7.org/fhir/StructureDefinition/questionnaire-fhirType",
+                      "valueString": "CodeableConcept"
+                    }
+                  ],
+                  "linkId": "MedicinalProductDefinition.name.namePart.type",
+                  "text": "Identifying type for this part of the name (e.g. strength part)",
+                  "type": "group",
+                  "required": true,
+                  "repeats": true,
+                  "item": [
+                    {
+                      "extension": [
+                        {
+                          "url": "http://hl7.org/fhir/StructureDefinition/questionnaire-itemControl",
+                          "valueCodeableConcept": {
+                            "coding": [
+                              {
+                                "system": "http://hl7.org/fhir/questionnaire-item-control",
+                                "code": "flyover",
+                                "display": "Fly-over"
+                              }
+                            ]
+                          }
+                        }
+                      ],
+                      "linkId": "MedicinalProductDefinition.name.namePart.type-flyover",
+                      "text": "Identifying type for this part of the name (e.g. strength part).",
+                      "type": "display"
+                    },
+                    {
+                      "linkId": "MedicinalProductDefinition.name.namePart.type.coding",
+                      "text": "code:",
+                      "type": "choice",
+                      "required": false,
+                      "repeats": false
+                    },
+                    {
+                      "linkId": "MedicinalProductDefinition.name.namePart.type.text",
+                      "text": "text:",
+                      "type": "string",
+                      "required": false,
+                      "repeats": false
+                    }
+                  ]
+                }
+              ]
+            },
+            {
+              "linkId": "MedicinalProductDefinition.name.countryLanguage",
+              "text": "Country and jurisdiction where the name applies",
+              "type": "group",
+              "required": false,
+              "repeats": true,
+              "item": [
+                {
+                  "extension": [
+                    {
+                      "url": "http://hl7.org/fhir/StructureDefinition/questionnaire-itemControl",
+                      "valueCodeableConcept": {
+                        "coding": [
+                          {
+                            "system": "http://hl7.org/fhir/questionnaire-item-control",
+                            "code": "flyover",
+                            "display": "Fly-over"
+                          }
+                        ]
+                      }
+                    }
+                  ],
+                  "linkId": "MedicinalProductDefinition.name.countryLanguage-flyover",
+                  "text": "Country and jurisdiction where the name applies, and associated language.",
+                  "type": "display"
+                },
+                {
+                  "extension": [
+                    {
+                      "url": "http://hl7.org/fhir/StructureDefinition/questionnaire-maxOccurs",
+                      "valueInteger": 1
+                    },
+                    {
+                      "url": "http://hl7.org/fhir/StructureDefinition/questionnaire-fhirType",
+                      "valueString": "string"
+                    }
+                  ],
+                  "linkId": "MedicinalProductDefinition.name.countryLanguage.id",
+                  "type": "group",
+                  "required": false,
+                  "repeats": true,
+                  "item": [
+                    {
+                      "extension": [
+                        {
+                          "url": "http://hl7.org/fhir/StructureDefinition/questionnaire-itemControl",
+                          "valueCodeableConcept": {
+                            "coding": [
+                              {
+                                "system": "http://hl7.org/fhir/questionnaire-item-control",
+                                "code": "flyover",
+                                "display": "Fly-over"
+                              }
+                            ]
+                          }
+                        }
+                      ],
+                      "linkId": "MedicinalProductDefinition.name.countryLanguage.id-flyover",
+                      "text": "Unique id for the element within a resource (for internal references). This may be any string value that does not contain spaces.",
+                      "type": "display"
+                    },
+                    {
+                      "linkId": "MedicinalProductDefinition.name.countryLanguage.id.value",
+                      "text": "Unique id for inter-element referencing",
+                      "type": "string",
+                      "required": false,
+                      "repeats": false
+                    }
+                  ]
+                },
+                {
+                  "linkId": "MedicinalProductDefinition.name.countryLanguage.extension",
+                  "text": "Additional content defined by implementations",
+                  "type": "group",
+                  "required": false,
+                  "repeats": true,
+                  "item": [
+                    {
+                      "extension": [
+                        {
+                          "url": "http://hl7.org/fhir/StructureDefinition/questionnaire-itemControl",
+                          "valueCodeableConcept": {
+                            "coding": [
+                              {
+                                "system": "http://hl7.org/fhir/questionnaire-item-control",
+                                "code": "flyover",
+                                "display": "Fly-over"
+                              }
+                            ]
+                          }
+                        }
+                      ],
+                      "linkId": "MedicinalProductDefinition.name.countryLanguage.extension-flyover",
+                      "text": "May be used to represent additional information that is not part of the basic definition of the element. To make the use of extensions safe and manageable, there is a strict set of governance  applied to the definition and use of extensions. Though any implementer can define an extension, there is a set of requirements that SHALL be met as part of the definition of the extension. There can be no stigma associated with the use of extensions by any application, project, or standard - regardless of the institution or jurisdiction that uses or defines the extensions.  The use of extensions is what allows the FHIR specification to retain a core level of simplicity for everyone.",
+                      "type": "display"
+                    }
+                  ]
+                },
+                {
+                  "linkId": "MedicinalProductDefinition.name.countryLanguage.modifierExtension",
+                  "text": "Extensions that cannot be ignored even if unrecognized",
+                  "type": "group",
+                  "required": false,
+                  "repeats": true,
+                  "item": [
+                    {
+                      "extension": [
+                        {
+                          "url": "http://hl7.org/fhir/StructureDefinition/questionnaire-itemControl",
+                          "valueCodeableConcept": {
+                            "coding": [
+                              {
+                                "system": "http://hl7.org/fhir/questionnaire-item-control",
+                                "code": "flyover",
+                                "display": "Fly-over"
+                              }
+                            ]
+                          }
+                        }
+                      ],
+                      "linkId": "MedicinalProductDefinition.name.countryLanguage.modifierExtension-flyover",
+                      "text": "May be used to represent additional information that is not part of the basic definition of the element and that modifies the understanding of the element in which it is contained and/or the understanding of the containing element\u0027s descendants. Usually modifier elements provide negation or qualification. To make the use of extensions safe and manageable, there is a strict set of governance applied to the definition and use of extensions. Though any implementer can define an extension, there is a set of requirements that SHALL be met as part of the definition of the extension. Applications processing a resource are required to check for modifier extensions.\n\nModifier extensions SHALL NOT change the meaning of any elements on Resource or DomainResource (including cannot change the meaning of modifierExtension itself). There can be no stigma associated with the use of extensions by any application, project, or standard - regardless of the institution or jurisdiction that uses or defines the extensions.  The use of extensions is what allows the FHIR specification to retain a core level of simplicity for everyone.",
+                      "type": "display"
+                    }
+                  ]
+                },
+                {
+                  "extension": [
+                    {
+                      "url": "http://hl7.org/fhir/StructureDefinition/questionnaire-minOccurs",
+                      "valueInteger": 1
+                    },
+                    {
+                      "url": "http://hl7.org/fhir/StructureDefinition/questionnaire-maxOccurs",
+                      "valueInteger": 1
+                    },
+                    {
+                      "url": "http://hl7.org/fhir/StructureDefinition/questionnaire-fhirType",
+                      "valueString": "CodeableConcept"
+                    }
+                  ],
+                  "linkId": "MedicinalProductDefinition.name.countryLanguage.country",
+                  "text": "Country code for where this name applies",
+                  "type": "group",
+                  "required": true,
+                  "repeats": true,
+                  "item": [
+                    {
+                      "extension": [
+                        {
+                          "url": "http://hl7.org/fhir/StructureDefinition/questionnaire-itemControl",
+                          "valueCodeableConcept": {
+                            "coding": [
+                              {
+                                "system": "http://hl7.org/fhir/questionnaire-item-control",
+                                "code": "flyover",
+                                "display": "Fly-over"
+                              }
+                            ]
+                          }
+                        }
+                      ],
+                      "linkId": "MedicinalProductDefinition.name.countryLanguage.country-flyover",
+                      "text": "Country code for where this name applies.",
+                      "type": "display"
+                    },
+                    {
+                      "linkId": "MedicinalProductDefinition.name.countryLanguage.country.coding",
+                      "text": "code:",
+                      "type": "choice",
+                      "required": false,
+                      "repeats": false
+                    },
+                    {
+                      "linkId": "MedicinalProductDefinition.name.countryLanguage.country.text",
+                      "text": "text:",
+                      "type": "string",
+                      "required": false,
+                      "repeats": false
+                    }
+                  ]
+                },
+                {
+                  "extension": [
+                    {
+                      "url": "http://hl7.org/fhir/StructureDefinition/questionnaire-maxOccurs",
+                      "valueInteger": 1
+                    },
+                    {
+                      "url": "http://hl7.org/fhir/StructureDefinition/questionnaire-fhirType",
+                      "valueString": "CodeableConcept"
+                    }
+                  ],
+                  "linkId": "MedicinalProductDefinition.name.countryLanguage.jurisdiction",
+                  "text": "Jurisdiction code for where this name applies",
+                  "type": "group",
+                  "required": false,
+                  "repeats": true,
+                  "item": [
+                    {
+                      "extension": [
+                        {
+                          "url": "http://hl7.org/fhir/StructureDefinition/questionnaire-itemControl",
+                          "valueCodeableConcept": {
+                            "coding": [
+                              {
+                                "system": "http://hl7.org/fhir/questionnaire-item-control",
+                                "code": "flyover",
+                                "display": "Fly-over"
+                              }
+                            ]
+                          }
+                        }
+                      ],
+                      "linkId": "MedicinalProductDefinition.name.countryLanguage.jurisdiction-flyover",
+                      "text": "Jurisdiction code for where this name applies. A jurisdiction may be a sub- or supra-national entity (e.g. a state or a geographic region).",
+                      "type": "display"
+                    },
+                    {
+                      "linkId": "MedicinalProductDefinition.name.countryLanguage.jurisdiction.coding",
+                      "text": "code:",
+                      "type": "choice",
+                      "required": false,
+                      "repeats": false
+                    },
+                    {
+                      "linkId": "MedicinalProductDefinition.name.countryLanguage.jurisdiction.text",
+                      "text": "text:",
+                      "type": "string",
+                      "required": false,
+                      "repeats": false
+                    }
+                  ]
+                },
+                {
+                  "extension": [
+                    {
+                      "url": "http://hl7.org/fhir/StructureDefinition/questionnaire-minOccurs",
+                      "valueInteger": 1
+                    },
+                    {
+                      "url": "http://hl7.org/fhir/StructureDefinition/questionnaire-maxOccurs",
+                      "valueInteger": 1
+                    },
+                    {
+                      "url": "http://hl7.org/fhir/StructureDefinition/questionnaire-fhirType",
+                      "valueString": "CodeableConcept"
+                    }
+                  ],
+                  "linkId": "MedicinalProductDefinition.name.countryLanguage.language",
+                  "text": "Language code for this name",
+                  "type": "group",
+                  "required": true,
+                  "repeats": true,
+                  "item": [
+                    {
+                      "extension": [
+                        {
+                          "url": "http://hl7.org/fhir/StructureDefinition/questionnaire-itemControl",
+                          "valueCodeableConcept": {
+                            "coding": [
+                              {
+                                "system": "http://hl7.org/fhir/questionnaire-item-control",
+                                "code": "flyover",
+                                "display": "Fly-over"
+                              }
+                            ]
+                          }
+                        }
+                      ],
+                      "linkId": "MedicinalProductDefinition.name.countryLanguage.language-flyover",
+                      "text": "Language code for this name.",
+                      "type": "display"
+                    },
+                    {
+                      "linkId": "MedicinalProductDefinition.name.countryLanguage.language.coding",
+                      "text": "code:",
+                      "type": "choice",
+                      "required": false,
+                      "repeats": false
+                    },
+                    {
+                      "linkId": "MedicinalProductDefinition.name.countryLanguage.language.text",
+                      "text": "text:",
+                      "type": "string",
+                      "required": false,
+                      "repeats": false
+                    }
+                  ]
+                }
+              ]
+            }
+          ]
+        },
+        {
+          "linkId": "MedicinalProductDefinition.crossReference",
+          "text": "Reference to another product, e.g. for linking authorised to investigational product",
+          "type": "group",
+          "required": false,
+          "repeats": true,
+          "item": [
+            {
+              "extension": [
+                {
+                  "url": "http://hl7.org/fhir/StructureDefinition/questionnaire-itemControl",
+                  "valueCodeableConcept": {
+                    "coding": [
+                      {
+                        "system": "http://hl7.org/fhir/questionnaire-item-control",
+                        "code": "flyover",
+                        "display": "Fly-over"
+                      }
+                    ]
+                  }
+                }
+              ],
+              "linkId": "MedicinalProductDefinition.crossReference-flyover",
+              "text": "Reference to another product, e.g. for linking authorised to investigational product, or a virtual product.",
+              "type": "display"
+            },
+            {
+              "extension": [
+                {
+                  "url": "http://hl7.org/fhir/StructureDefinition/questionnaire-maxOccurs",
+                  "valueInteger": 1
+                },
+                {
+                  "url": "http://hl7.org/fhir/StructureDefinition/questionnaire-fhirType",
+                  "valueString": "string"
+                }
+              ],
+              "linkId": "MedicinalProductDefinition.crossReference.id",
+              "type": "group",
+              "required": false,
+              "repeats": true,
+              "item": [
+                {
+                  "extension": [
+                    {
+                      "url": "http://hl7.org/fhir/StructureDefinition/questionnaire-itemControl",
+                      "valueCodeableConcept": {
+                        "coding": [
+                          {
+                            "system": "http://hl7.org/fhir/questionnaire-item-control",
+                            "code": "flyover",
+                            "display": "Fly-over"
+                          }
+                        ]
+                      }
+                    }
+                  ],
+                  "linkId": "MedicinalProductDefinition.crossReference.id-flyover",
+                  "text": "Unique id for the element within a resource (for internal references). This may be any string value that does not contain spaces.",
+                  "type": "display"
+                },
+                {
+                  "linkId": "MedicinalProductDefinition.crossReference.id.value",
+                  "text": "Unique id for inter-element referencing",
+                  "type": "string",
+                  "required": false,
+                  "repeats": false
+                }
+              ]
+            },
+            {
+              "linkId": "MedicinalProductDefinition.crossReference.extension",
+              "text": "Additional content defined by implementations",
+              "type": "group",
+              "required": false,
+              "repeats": true,
+              "item": [
+                {
+                  "extension": [
+                    {
+                      "url": "http://hl7.org/fhir/StructureDefinition/questionnaire-itemControl",
+                      "valueCodeableConcept": {
+                        "coding": [
+                          {
+                            "system": "http://hl7.org/fhir/questionnaire-item-control",
+                            "code": "flyover",
+                            "display": "Fly-over"
+                          }
+                        ]
+                      }
+                    }
+                  ],
+                  "linkId": "MedicinalProductDefinition.crossReference.extension-flyover",
+                  "text": "May be used to represent additional information that is not part of the basic definition of the element. To make the use of extensions safe and manageable, there is a strict set of governance  applied to the definition and use of extensions. Though any implementer can define an extension, there is a set of requirements that SHALL be met as part of the definition of the extension. There can be no stigma associated with the use of extensions by any application, project, or standard - regardless of the institution or jurisdiction that uses or defines the extensions.  The use of extensions is what allows the FHIR specification to retain a core level of simplicity for everyone.",
+                  "type": "display"
+                }
+              ]
+            },
+            {
+              "linkId": "MedicinalProductDefinition.crossReference.modifierExtension",
+              "text": "Extensions that cannot be ignored even if unrecognized",
+              "type": "group",
+              "required": false,
+              "repeats": true,
+              "item": [
+                {
+                  "extension": [
+                    {
+                      "url": "http://hl7.org/fhir/StructureDefinition/questionnaire-itemControl",
+                      "valueCodeableConcept": {
+                        "coding": [
+                          {
+                            "system": "http://hl7.org/fhir/questionnaire-item-control",
+                            "code": "flyover",
+                            "display": "Fly-over"
+                          }
+                        ]
+                      }
+                    }
+                  ],
+                  "linkId": "MedicinalProductDefinition.crossReference.modifierExtension-flyover",
+                  "text": "May be used to represent additional information that is not part of the basic definition of the element and that modifies the understanding of the element in which it is contained and/or the understanding of the containing element\u0027s descendants. Usually modifier elements provide negation or qualification. To make the use of extensions safe and manageable, there is a strict set of governance applied to the definition and use of extensions. Though any implementer can define an extension, there is a set of requirements that SHALL be met as part of the definition of the extension. Applications processing a resource are required to check for modifier extensions.\n\nModifier extensions SHALL NOT change the meaning of any elements on Resource or DomainResource (including cannot change the meaning of modifierExtension itself). There can be no stigma associated with the use of extensions by any application, project, or standard - regardless of the institution or jurisdiction that uses or defines the extensions.  The use of extensions is what allows the FHIR specification to retain a core level of simplicity for everyone.",
+                  "type": "display"
+                }
+              ]
+            },
+            {
+              "extension": [
+                {
+                  "url": "http://hl7.org/fhir/StructureDefinition/questionnaire-minOccurs",
+                  "valueInteger": 1
+                },
+                {
+                  "url": "http://hl7.org/fhir/StructureDefinition/questionnaire-maxOccurs",
+                  "valueInteger": 1
+                }
+              ],
+              "linkId": "MedicinalProductDefinition.crossReference.product",
+              "text": "Reference to another product, e.g. for linking authorised to investigational product",
+              "type": "group",
+              "required": true,
+              "repeats": false,
+              "item": [
+                {
+                  "extension": [
+                    {
+                      "url": "http://hl7.org/fhir/StructureDefinition/questionnaire-itemControl",
+                      "valueCodeableConcept": {
+                        "coding": [
+                          {
+                            "system": "http://hl7.org/fhir/questionnaire-item-control",
+                            "code": "flyover",
+                            "display": "Fly-over"
+                          }
+                        ]
+                      }
+                    }
+                  ],
+                  "linkId": "MedicinalProductDefinition.crossReference.product-flyover",
+                  "text": "Reference to another product, e.g. for linking authorised to investigational product.",
+                  "type": "display"
+                }
+              ]
+            },
+            {
+              "extension": [
+                {
+                  "url": "http://hl7.org/fhir/StructureDefinition/questionnaire-maxOccurs",
+                  "valueInteger": 1
+                },
+                {
+                  "url": "http://hl7.org/fhir/StructureDefinition/questionnaire-fhirType",
+                  "valueString": "CodeableConcept"
+                }
+              ],
+              "linkId": "MedicinalProductDefinition.crossReference.type",
+              "text": "The type of relationship, for instance branded to generic or virtual to actual product",
+              "type": "group",
+              "required": false,
+              "repeats": true,
+              "item": [
+                {
+                  "extension": [
+                    {
+                      "url": "http://hl7.org/fhir/StructureDefinition/questionnaire-itemControl",
+                      "valueCodeableConcept": {
+                        "coding": [
+                          {
+                            "system": "http://hl7.org/fhir/questionnaire-item-control",
+                            "code": "flyover",
+                            "display": "Fly-over"
+                          }
+                        ]
+                      }
+                    }
+                  ],
+                  "linkId": "MedicinalProductDefinition.crossReference.type-flyover",
+                  "text": "The type of relationship, for instance branded to generic, virtual to actual product, product to development product (investigational), parallel import version.",
+                  "type": "display"
+                },
+                {
+                  "linkId": "MedicinalProductDefinition.crossReference.type.coding",
+                  "text": "code:",
+                  "type": "choice",
+                  "required": false,
+                  "repeats": false
+                },
+                {
+                  "linkId": "MedicinalProductDefinition.crossReference.type.text",
+                  "text": "text:",
+                  "type": "string",
+                  "required": false,
+                  "repeats": false
+                }
+              ]
+            }
+          ]
+        },
+        {
+          "linkId": "MedicinalProductDefinition.operation",
+          "text": "A manufacturing or administrative process for the medicinal product",
+          "type": "group",
+          "required": false,
+          "repeats": true,
+          "item": [
+            {
+              "extension": [
+                {
+                  "url": "http://hl7.org/fhir/StructureDefinition/questionnaire-itemControl",
+                  "valueCodeableConcept": {
+                    "coding": [
+                      {
+                        "system": "http://hl7.org/fhir/questionnaire-item-control",
+                        "code": "flyover",
+                        "display": "Fly-over"
+                      }
+                    ]
+                  }
+                }
+              ],
+              "linkId": "MedicinalProductDefinition.operation-flyover",
+              "text": "A manufacturing or administrative process or step associated with (or performed on) the medicinal product.",
+              "type": "display"
+            },
+            {
+              "extension": [
+                {
+                  "url": "http://hl7.org/fhir/StructureDefinition/questionnaire-maxOccurs",
+                  "valueInteger": 1
+                },
+                {
+                  "url": "http://hl7.org/fhir/StructureDefinition/questionnaire-fhirType",
+                  "valueString": "string"
+                }
+              ],
+              "linkId": "MedicinalProductDefinition.operation.id",
+              "type": "group",
+              "required": false,
+              "repeats": true,
+              "item": [
+                {
+                  "extension": [
+                    {
+                      "url": "http://hl7.org/fhir/StructureDefinition/questionnaire-itemControl",
+                      "valueCodeableConcept": {
+                        "coding": [
+                          {
+                            "system": "http://hl7.org/fhir/questionnaire-item-control",
+                            "code": "flyover",
+                            "display": "Fly-over"
+                          }
+                        ]
+                      }
+                    }
+                  ],
+                  "linkId": "MedicinalProductDefinition.operation.id-flyover",
+                  "text": "Unique id for the element within a resource (for internal references). This may be any string value that does not contain spaces.",
+                  "type": "display"
+                },
+                {
+                  "linkId": "MedicinalProductDefinition.operation.id.value",
+                  "text": "Unique id for inter-element referencing",
+                  "type": "string",
+                  "required": false,
+                  "repeats": false
+                }
+              ]
+            },
+            {
+              "linkId": "MedicinalProductDefinition.operation.extension",
+              "text": "Additional content defined by implementations",
+              "type": "group",
+              "required": false,
+              "repeats": true,
+              "item": [
+                {
+                  "extension": [
+                    {
+                      "url": "http://hl7.org/fhir/StructureDefinition/questionnaire-itemControl",
+                      "valueCodeableConcept": {
+                        "coding": [
+                          {
+                            "system": "http://hl7.org/fhir/questionnaire-item-control",
+                            "code": "flyover",
+                            "display": "Fly-over"
+                          }
+                        ]
+                      }
+                    }
+                  ],
+                  "linkId": "MedicinalProductDefinition.operation.extension-flyover",
+                  "text": "May be used to represent additional information that is not part of the basic definition of the element. To make the use of extensions safe and manageable, there is a strict set of governance  applied to the definition and use of extensions. Though any implementer can define an extension, there is a set of requirements that SHALL be met as part of the definition of the extension. There can be no stigma associated with the use of extensions by any application, project, or standard - regardless of the institution or jurisdiction that uses or defines the extensions.  The use of extensions is what allows the FHIR specification to retain a core level of simplicity for everyone.",
+                  "type": "display"
+                }
+              ]
+            },
+            {
+              "linkId": "MedicinalProductDefinition.operation.modifierExtension",
+              "text": "Extensions that cannot be ignored even if unrecognized",
+              "type": "group",
+              "required": false,
+              "repeats": true,
+              "item": [
+                {
+                  "extension": [
+                    {
+                      "url": "http://hl7.org/fhir/StructureDefinition/questionnaire-itemControl",
+                      "valueCodeableConcept": {
+                        "coding": [
+                          {
+                            "system": "http://hl7.org/fhir/questionnaire-item-control",
+                            "code": "flyover",
+                            "display": "Fly-over"
+                          }
+                        ]
+                      }
+                    }
+                  ],
+                  "linkId": "MedicinalProductDefinition.operation.modifierExtension-flyover",
+                  "text": "May be used to represent additional information that is not part of the basic definition of the element and that modifies the understanding of the element in which it is contained and/or the understanding of the containing element\u0027s descendants. Usually modifier elements provide negation or qualification. To make the use of extensions safe and manageable, there is a strict set of governance applied to the definition and use of extensions. Though any implementer can define an extension, there is a set of requirements that SHALL be met as part of the definition of the extension. Applications processing a resource are required to check for modifier extensions.\n\nModifier extensions SHALL NOT change the meaning of any elements on Resource or DomainResource (including cannot change the meaning of modifierExtension itself). There can be no stigma associated with the use of extensions by any application, project, or standard - regardless of the institution or jurisdiction that uses or defines the extensions.  The use of extensions is what allows the FHIR specification to retain a core level of simplicity for everyone.",
+                  "type": "display"
+                }
+              ]
+            },
+            {
+              "extension": [
+                {
+                  "url": "http://hl7.org/fhir/StructureDefinition/questionnaire-maxOccurs",
+                  "valueInteger": 1
+                }
+              ],
+              "linkId": "MedicinalProductDefinition.operation.type",
+              "text": "The type of manufacturing operation e.g. manufacturing itself, re-packaging",
+              "type": "group",
+              "required": false,
+              "repeats": false,
+              "item": [
+                {
+                  "extension": [
+                    {
+                      "url": "http://hl7.org/fhir/StructureDefinition/questionnaire-itemControl",
+                      "valueCodeableConcept": {
+                        "coding": [
+                          {
+                            "system": "http://hl7.org/fhir/questionnaire-item-control",
+                            "code": "flyover",
+                            "display": "Fly-over"
+                          }
+                        ]
+                      }
+                    }
+                  ],
+                  "linkId": "MedicinalProductDefinition.operation.type-flyover",
+                  "text": "The type of manufacturing operation e.g. manufacturing itself, re-packaging. For the authorization of this, a RegulatedAuthorization would point to the same plan or activity referenced here.",
+                  "type": "display"
+                }
+              ]
+            },
+            {
+              "extension": [
+                {
+                  "url": "http://hl7.org/fhir/StructureDefinition/questionnaire-maxOccurs",
+                  "valueInteger": 1
+                },
+                {
+                  "url": "http://hl7.org/fhir/StructureDefinition/questionnaire-fhirType",
+                  "valueString": "Period"
+                }
+              ],
+              "linkId": "MedicinalProductDefinition.operation.effectiveDate",
+              "text": "Date range of applicability",
+              "type": "group",
+              "required": false,
+              "repeats": true,
+              "item": [
+                {
+                  "extension": [
+                    {
+                      "url": "http://hl7.org/fhir/StructureDefinition/questionnaire-itemControl",
+                      "valueCodeableConcept": {
+                        "coding": [
+                          {
+                            "system": "http://hl7.org/fhir/questionnaire-item-control",
+                            "code": "flyover",
+                            "display": "Fly-over"
+                          }
+                        ]
+                      }
+                    }
+                  ],
+                  "linkId": "MedicinalProductDefinition.operation.effectiveDate-flyover",
+                  "text": "Date range of applicability.",
+                  "type": "display"
+                },
+                {
+                  "linkId": "MedicinalProductDefinition.operation.effectiveDate.low",
+                  "text": "start:",
+                  "type": "dateTime",
+                  "required": false,
+                  "repeats": false
+                },
+                {
+                  "linkId": "MedicinalProductDefinition.operation.effectiveDate.end",
+                  "text": "end:",
+                  "type": "dateTime",
+                  "required": false,
+                  "repeats": false
+                }
+              ]
+            },
+            {
+              "extension": [
+                {
+                  "url": "http://hl7.org/fhir/StructureDefinition/questionnaire-fhirType",
+                  "valueString": "Reference"
+                }
+              ],
+              "linkId": "MedicinalProductDefinition.operation.organization",
+              "type": "group",
+              "required": false,
+              "repeats": true,
+              "item": [
+                {
+                  "extension": [
+                    {
+                      "url": "http://hl7.org/fhir/StructureDefinition/questionnaire-itemControl",
+                      "valueCodeableConcept": {
+                        "coding": [
+                          {
+                            "system": "http://hl7.org/fhir/questionnaire-item-control",
+                            "code": "flyover",
+                            "display": "Fly-over"
+                          }
+                        ]
+                      }
+                    }
+                  ],
+                  "linkId": "MedicinalProductDefinition.operation.organization-flyover",
+                  "text": "The organization or establishment responsible for (or associated with) the particular process or step, examples include the manufacturer, importer, agent.",
+                  "type": "display"
+                },
+                {
+                  "extension": [
+                    {
+                      "url": "http://hl7.org/fhir/StructureDefinition/questionnaire-allowedResource",
+                      "valueCode": "Organization"
+                    },
+                    {
+                      "url": "http://hl7.org/fhir/StructureDefinition/questionnaire-referenceFilter",
+                      "valueString": "subject\u003d$subj\u0026patient\u003d$subj\u0026encounter\u003d$encounter"
+                    }
+                  ],
+                  "linkId": "MedicinalProductDefinition.operation.organization.value",
+                  "text": "The organization responsible for the particular process, e.g. the manufacturer or importer",
+                  "type": "reference",
+                  "required": false,
+                  "repeats": false
+                }
+              ]
+            },
+            {
+              "extension": [
+                {
+                  "url": "http://hl7.org/fhir/StructureDefinition/questionnaire-maxOccurs",
+                  "valueInteger": 1
+                },
+                {
+                  "url": "http://hl7.org/fhir/StructureDefinition/questionnaire-fhirType",
+                  "valueString": "CodeableConcept"
+                }
+              ],
+              "linkId": "MedicinalProductDefinition.operation.confidentialityIndicator",
+              "text": "Specifies whether this process is considered proprietary or confidential",
+              "type": "group",
+              "required": false,
+              "repeats": true,
+              "item": [
+                {
+                  "extension": [
+                    {
+                      "url": "http://hl7.org/fhir/StructureDefinition/questionnaire-itemControl",
+                      "valueCodeableConcept": {
+                        "coding": [
+                          {
+                            "system": "http://hl7.org/fhir/questionnaire-item-control",
+                            "code": "flyover",
+                            "display": "Fly-over"
+                          }
+                        ]
+                      }
+                    }
+                  ],
+                  "linkId": "MedicinalProductDefinition.operation.confidentialityIndicator-flyover",
+                  "text": "Specifies whether this particular business or manufacturing process is considered proprietary or confidential.",
+                  "type": "display"
+                },
+                {
+                  "linkId": "MedicinalProductDefinition.operation.confidentialityIndicator.coding",
+                  "text": "code:",
+                  "type": "choice",
+                  "required": false,
+                  "repeats": false
+                },
+                {
+                  "linkId": "MedicinalProductDefinition.operation.confidentialityIndicator.text",
+                  "text": "text:",
+                  "type": "string",
+                  "required": false,
+                  "repeats": false
+                }
+              ]
+            }
+          ]
+        },
+        {
+          "linkId": "MedicinalProductDefinition.characteristic",
+          "text": "Key product features such as \"sugar free\", \"modified release\"",
+          "type": "group",
+          "required": false,
+          "repeats": true,
+          "item": [
+            {
+              "extension": [
+                {
+                  "url": "http://hl7.org/fhir/StructureDefinition/questionnaire-itemControl",
+                  "valueCodeableConcept": {
+                    "coding": [
+                      {
+                        "system": "http://hl7.org/fhir/questionnaire-item-control",
+                        "code": "flyover",
+                        "display": "Fly-over"
+                      }
+                    ]
+                  }
+                }
+              ],
+              "linkId": "MedicinalProductDefinition.characteristic-flyover",
+              "text": "Allows the key product features to be recorded, such as \"sugar free\", \"modified release\", \"parallel import\".",
+              "type": "display"
+            },
+            {
+              "extension": [
+                {
+                  "url": "http://hl7.org/fhir/StructureDefinition/questionnaire-maxOccurs",
+                  "valueInteger": 1
+                },
+                {
+                  "url": "http://hl7.org/fhir/StructureDefinition/questionnaire-fhirType",
+                  "valueString": "string"
+                }
+              ],
+              "linkId": "MedicinalProductDefinition.characteristic.id",
+              "type": "group",
+              "required": false,
+              "repeats": true,
+              "item": [
+                {
+                  "extension": [
+                    {
+                      "url": "http://hl7.org/fhir/StructureDefinition/questionnaire-itemControl",
+                      "valueCodeableConcept": {
+                        "coding": [
+                          {
+                            "system": "http://hl7.org/fhir/questionnaire-item-control",
+                            "code": "flyover",
+                            "display": "Fly-over"
+                          }
+                        ]
+                      }
+                    }
+                  ],
+                  "linkId": "MedicinalProductDefinition.characteristic.id-flyover",
+                  "text": "Unique id for the element within a resource (for internal references). This may be any string value that does not contain spaces.",
+                  "type": "display"
+                },
+                {
+                  "linkId": "MedicinalProductDefinition.characteristic.id.value",
+                  "text": "Unique id for inter-element referencing",
+                  "type": "string",
+                  "required": false,
+                  "repeats": false
+                }
+              ]
+            },
+            {
+              "linkId": "MedicinalProductDefinition.characteristic.extension",
+              "text": "Additional content defined by implementations",
+              "type": "group",
+              "required": false,
+              "repeats": true,
+              "item": [
+                {
+                  "extension": [
+                    {
+                      "url": "http://hl7.org/fhir/StructureDefinition/questionnaire-itemControl",
+                      "valueCodeableConcept": {
+                        "coding": [
+                          {
+                            "system": "http://hl7.org/fhir/questionnaire-item-control",
+                            "code": "flyover",
+                            "display": "Fly-over"
+                          }
+                        ]
+                      }
+                    }
+                  ],
+                  "linkId": "MedicinalProductDefinition.characteristic.extension-flyover",
+                  "text": "May be used to represent additional information that is not part of the basic definition of the element. To make the use of extensions safe and manageable, there is a strict set of governance  applied to the definition and use of extensions. Though any implementer can define an extension, there is a set of requirements that SHALL be met as part of the definition of the extension. There can be no stigma associated with the use of extensions by any application, project, or standard - regardless of the institution or jurisdiction that uses or defines the extensions.  The use of extensions is what allows the FHIR specification to retain a core level of simplicity for everyone.",
+                  "type": "display"
+                }
+              ]
+            },
+            {
+              "linkId": "MedicinalProductDefinition.characteristic.modifierExtension",
+              "text": "Extensions that cannot be ignored even if unrecognized",
+              "type": "group",
+              "required": false,
+              "repeats": true,
+              "item": [
+                {
+                  "extension": [
+                    {
+                      "url": "http://hl7.org/fhir/StructureDefinition/questionnaire-itemControl",
+                      "valueCodeableConcept": {
+                        "coding": [
+                          {
+                            "system": "http://hl7.org/fhir/questionnaire-item-control",
+                            "code": "flyover",
+                            "display": "Fly-over"
+                          }
+                        ]
+                      }
+                    }
+                  ],
+                  "linkId": "MedicinalProductDefinition.characteristic.modifierExtension-flyover",
+                  "text": "May be used to represent additional information that is not part of the basic definition of the element and that modifies the understanding of the element in which it is contained and/or the understanding of the containing element\u0027s descendants. Usually modifier elements provide negation or qualification. To make the use of extensions safe and manageable, there is a strict set of governance applied to the definition and use of extensions. Though any implementer can define an extension, there is a set of requirements that SHALL be met as part of the definition of the extension. Applications processing a resource are required to check for modifier extensions.\n\nModifier extensions SHALL NOT change the meaning of any elements on Resource or DomainResource (including cannot change the meaning of modifierExtension itself). There can be no stigma associated with the use of extensions by any application, project, or standard - regardless of the institution or jurisdiction that uses or defines the extensions.  The use of extensions is what allows the FHIR specification to retain a core level of simplicity for everyone.",
+                  "type": "display"
+                }
+              ]
+            },
+            {
+              "extension": [
+                {
+                  "url": "http://hl7.org/fhir/StructureDefinition/questionnaire-minOccurs",
+                  "valueInteger": 1
+                },
+                {
+                  "url": "http://hl7.org/fhir/StructureDefinition/questionnaire-maxOccurs",
+                  "valueInteger": 1
+                },
+                {
+                  "url": "http://hl7.org/fhir/StructureDefinition/questionnaire-fhirType",
+                  "valueString": "CodeableConcept"
+                }
+              ],
+              "linkId": "MedicinalProductDefinition.characteristic.type",
+              "text": "A code expressing the type of characteristic",
+              "type": "group",
+              "required": true,
+              "repeats": true,
+              "item": [
+                {
+                  "extension": [
+                    {
+                      "url": "http://hl7.org/fhir/StructureDefinition/questionnaire-itemControl",
+                      "valueCodeableConcept": {
+                        "coding": [
+                          {
+                            "system": "http://hl7.org/fhir/questionnaire-item-control",
+                            "code": "flyover",
+                            "display": "Fly-over"
+                          }
+                        ]
+                      }
+                    }
+                  ],
+                  "linkId": "MedicinalProductDefinition.characteristic.type-flyover",
+                  "text": "A code expressing the type of characteristic.",
+                  "type": "display"
+                },
+                {
+                  "linkId": "MedicinalProductDefinition.characteristic.type.coding",
+                  "text": "code:",
+                  "type": "choice",
+                  "required": false,
+                  "repeats": false
+                },
+                {
+                  "linkId": "MedicinalProductDefinition.characteristic.type.text",
+                  "text": "text:",
+                  "type": "string",
+                  "required": false,
+                  "repeats": false
+                }
+              ]
+            },
+            {
+              "extension": [
+                {
+                  "url": "http://hl7.org/fhir/StructureDefinition/questionnaire-maxOccurs",
+                  "valueInteger": 1
+                }
+              ],
+              "linkId": "MedicinalProductDefinition.characteristic.value[x]",
+              "text": "A value for the characteristic",
+              "type": "group",
+              "required": false,
+              "repeats": true,
+              "item": [
+                {
+                  "extension": [
+                    {
+                      "url": "http://hl7.org/fhir/StructureDefinition/questionnaire-itemControl",
+                      "valueCodeableConcept": {
+                        "coding": [
+                          {
+                            "system": "http://hl7.org/fhir/questionnaire-item-control",
+                            "code": "flyover",
+                            "display": "Fly-over"
+                          }
+                        ]
+                      }
+                    }
+                  ],
+                  "linkId": "MedicinalProductDefinition.characteristic.value[x]-flyover",
+                  "text": "A value for the characteristic.",
+                  "type": "display"
+                },
+                {
+                  "linkId": "MedicinalProductDefinition.characteristic.value[x]._type",
+                  "text": "type",
+                  "type": "choice",
+                  "required": false,
+                  "repeats": false,
+                  "answerValueSet": "#vs2",
+                  "item": [
+                    {
+                      "extension": [
+                        {
+                          "url": "http://hl7.org/fhir/StructureDefinition/questionnaire-fhirType",
+                          "valueString": "CodeableConcept"
+                        }
+                      ],
+                      "linkId": "MedicinalProductDefinition.characteristic.value[x]._null",
+                      "type": "group",
+                      "item": [
+                        {
+                          "linkId": "MedicinalProductDefinition.characteristic.value[x]._null.coding",
+                          "text": "code:",
+                          "type": "choice",
+                          "required": false,
+                          "repeats": false
+                        },
+                        {
+                          "linkId": "MedicinalProductDefinition.characteristic.value[x]._null.text",
+                          "text": "text:",
+                          "type": "string",
+                          "required": false,
+                          "repeats": false
+                        }
+                      ]
+                    },
+                    {
+                      "extension": [
+                        {
+                          "url": "http://hl7.org/fhir/StructureDefinition/questionnaire-fhirType",
+                          "valueString": "Quantity"
+                        }
+                      ],
+                      "linkId": "MedicinalProductDefinition.characteristic.value[x]._null",
+                      "type": "group",
+                      "item": [
+                        {
+                          "linkId": "MedicinalProductDefinition.characteristic.value[x]._null.comparator",
+                          "text": "comp:",
+                          "type": "choice",
+                          "required": false,
+                          "repeats": false
+                        },
+                        {
+                          "linkId": "MedicinalProductDefinition.characteristic.value[x]._null.value",
+                          "text": "value:",
+                          "type": "decimal",
+                          "required": false,
+                          "repeats": false
+                        },
+                        {
+                          "linkId": "MedicinalProductDefinition.characteristic.value[x]._null.units",
+                          "text": "units:",
+                          "type": "string",
+                          "required": false,
+                          "repeats": false
+                        },
+                        {
+                          "linkId": "MedicinalProductDefinition.characteristic.value[x]._null.code",
+                          "text": "coded units:",
+                          "type": "string",
+                          "required": false,
+                          "repeats": false
+                        },
+                        {
+                          "linkId": "MedicinalProductDefinition.characteristic.value[x]._null.system",
+                          "text": "units system:",
+                          "type": "string",
+                          "required": false,
+                          "repeats": false
+                        }
+                      ]
+                    },
+                    {
+                      "extension": [
+                        {
+                          "url": "http://hl7.org/fhir/StructureDefinition/questionnaire-fhirType",
+                          "valueString": "datetime"
+                        }
+                      ],
+                      "linkId": "MedicinalProductDefinition.characteristic.value[x]._null",
+                      "type": "group",
+                      "item": [
+                        {
+                          "linkId": "MedicinalProductDefinition.characteristic.value[x]._null.value",
+                          "type": "dateTime",
+                          "required": false,
+                          "repeats": false
+                        }
+                      ]
+                    },
+                    {
+                      "extension": [
+                        {
+                          "url": "http://hl7.org/fhir/StructureDefinition/questionnaire-fhirType",
+                          "valueString": "boolean"
+                        }
+                      ],
+                      "linkId": "MedicinalProductDefinition.characteristic.value[x]._null",
+                      "type": "group",
+                      "item": [
+                        {
+                          "linkId": "MedicinalProductDefinition.characteristic.value[x]._null.value",
+                          "type": "boolean",
+                          "required": false,
+                          "repeats": false
+                        }
+                      ]
+                    },
+                    {
+                      "extension": [
+                        {
+                          "url": "http://hl7.org/fhir/StructureDefinition/questionnaire-fhirType",
+                          "valueString": "Attachment"
+                        }
+                      ],
+                      "linkId": "MedicinalProductDefinition.characteristic.value[x]._null",
+                      "type": "group"
+                    }
+                  ]
+                }
+              ]
+            }
+          ]
+        }
+      ]
+    }
+  ],
+  "meta": {
+    "tag": [
+      {
+        "system": "http://terminology.hl7.org/CodeSystem/v3-ActReason",
+        "code": "HTEST",
+        "display": "test health data"
+      }
+    ]
+  }
+}

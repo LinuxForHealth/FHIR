@@ -1,10 +1,6 @@
 {
   "resourceType": "CapabilityStatement",
   "id": "terminology-server",
-  "text": {
-    "status": "generated",
-    "div": "\u003cdiv xmlns\u003d\"http://www.w3.org/1999/xhtml\"\u003e\n      \u003ch2\u003eTerminology Service Capability Statement\u003c/h2\u003e\n      \u003cdiv\u003e\n        \u003cp\u003eBasic capability statement for a Terminology Server. A server can support more fucntionality than defined here, but this is the minimum amount\u003c/p\u003e\n\n      \u003c/div\u003e\n      \u003ctable\u003e\n        \u003ctr\u003e\n          \u003ctd\u003eMode\u003c/td\u003e\n          \u003ctd\u003eSERVER\u003c/td\u003e\n        \u003c/tr\u003e\n        \u003ctr\u003e\n          \u003ctd\u003eDescription\u003c/td\u003e\n          \u003ctd\u003eRESTful Terminology Server\u003c/td\u003e\n        \u003c/tr\u003e\n        \u003ctr\u003e\n          \u003ctd\u003eTransaction\u003c/td\u003e\n          \u003ctd/\u003e\n        \u003c/tr\u003e\n        \u003ctr\u003e\n          \u003ctd\u003eSystem History\u003c/td\u003e\n          \u003ctd/\u003e\n        \u003c/tr\u003e\n        \u003ctr\u003e\n          \u003ctd\u003eSystem Search\u003c/td\u003e\n          \u003ctd/\u003e\n        \u003c/tr\u003e\n      \u003c/table\u003e\n      \u003ctable\u003e\n        \u003ctr\u003e\n          \u003cth\u003e\n            \u003cb\u003eResource Type\u003c/b\u003e\n          \u003c/th\u003e\n          \u003cth\u003e\n            \u003cb\u003eProfile\u003c/b\u003e\n          \u003c/th\u003e\n          \u003cth\u003e\n            \u003cb title\u003d\"GET a resource (read interaction)\"\u003eRead\u003c/b\u003e\n          \u003c/th\u003e\n          \u003cth\u003e\n            \u003cb title\u003d\"GET all set of resources of the type (search interaction)\"\u003eSearch\u003c/b\u003e\n          \u003c/th\u003e\n          \u003cth\u003e\n            \u003cb title\u003d\"PUT a new resource version (update interaction)\"\u003eUpdate\u003c/b\u003e\n          \u003c/th\u003e\n          \u003cth\u003e\n            \u003cb title\u003d\"POST a new resource (create interaction)\"\u003eCreate\u003c/b\u003e\n          \u003c/th\u003e\n        \u003c/tr\u003e\n        \u003ctr\u003e\n          \u003ctd\u003eValueSet\u003c/td\u003e\n          \u003ctd\u003e\n            \u003ca href\u003d\"StructureDefinition/ValueSet\"\u003eStructureDefinition/ValueSet\u003c/a\u003e\n          \u003c/td\u003e\n          \u003ctd\u003ey\u003c/td\u003e\n          \u003ctd\u003ey\u003c/td\u003e\n          \u003ctd/\u003e\n          \u003ctd/\u003e\n        \u003c/tr\u003e\n        \u003ctr\u003e\n          \u003ctd\u003eConceptMap\u003c/td\u003e\n          \u003ctd\u003e\n            \u003ca href\u003d\"StructureDefinition/ConceptMap\"\u003eStructureDefinition/ConceptMap\u003c/a\u003e\n          \u003c/td\u003e\n          \u003ctd\u003ey\u003c/td\u003e\n          \u003ctd\u003ey\u003c/td\u003e\n          \u003ctd/\u003e\n          \u003ctd/\u003e\n        \u003c/tr\u003e\n      \u003c/table\u003e\n    \u003c/div\u003e"
-  },
   "extension": [
     {
       "url": "http://hl7.org/fhir/StructureDefinition/capabilitystatement-supported-system",
@@ -12,9 +8,9 @@
     }
   ],
   "url": "http://hl7.org/fhir/terminology-server",
-  "version": "4.0.1",
   "name": "Terminology Service Capability Statement",
   "status": "draft",
+  "experimental": true,
   "date": "2015-07-05",
   "publisher": "HL7, Inc",
   "contact": [
@@ -33,7 +29,7 @@
   "software": {
     "name": "ACME Terminology Server"
   },
-  "fhirVersion": "4.0.1",
+  "fhirVersion": "4.3.0-cibuild",
   "format": [
     "json",
     "xml"
@@ -58,7 +54,7 @@
       "resource": [
         {
           "type": "ValueSet",
-          "profile": "StructureDefinition/ValueSet",
+          "profile": "http://hl7.org/fhir/StructureDefinition/ValueSet",
           "interaction": [
             {
               "extension": [
@@ -95,7 +91,7 @@
             {
               "name": "reference",
               "definition": "http://hl7.org/fhir/SearchParameter/ValueSet-reference",
-              "type": "token"
+              "type": "uri"
             },
             {
               "name": "status",
@@ -116,7 +112,7 @@
         },
         {
           "type": "ConceptMap",
-          "profile": "StructureDefinition/ConceptMap",
+          "profile": "http://hl7.org/fhir/StructureDefinition/ConceptMap",
           "interaction": [
             {
               "extension": [
@@ -158,12 +154,12 @@
             {
               "name": "source",
               "definition": "http://hl7.org/fhir/SearchParameter/ConceptMap-source",
-              "type": "uri"
+              "type": "reference"
             },
             {
               "name": "target",
               "definition": "http://hl7.org/fhir/SearchParameter/ConceptMap-target",
-              "type": "uri"
+              "type": "reference"
             },
             {
               "name": "url",
@@ -187,7 +183,7 @@
             }
           ],
           "name": "expand",
-          "definition": "OperationDefinition/ValueSet-expand"
+          "definition": "http://hl7.org/fhir/OperationDefinition/ValueSet-expand"
         },
         {
           "extension": [
@@ -197,7 +193,7 @@
             }
           ],
           "name": "lookup",
-          "definition": "OperationDefinition/CodeSystem-lookup"
+          "definition": "http://hl7.org/fhir/OperationDefinition/CodeSystem-lookup"
         },
         {
           "extension": [
@@ -207,7 +203,7 @@
             }
           ],
           "name": "validate-code",
-          "definition": "OperationDefinition/ValueSet-validate-code"
+          "definition": "http://hl7.org/fhir/OperationDefinition/ValueSet-validate-code"
         },
         {
           "extension": [
@@ -217,7 +213,7 @@
             }
           ],
           "name": "translate",
-          "definition": "OperationDefinition/ConceptMap-translate"
+          "definition": "http://hl7.org/fhir/OperationDefinition/ConceptMap-translate"
         },
         {
           "extension": [
@@ -227,7 +223,7 @@
             }
           ],
           "name": "closure",
-          "definition": "OperationDefinition/ConceptMap-closure"
+          "definition": "http://hl7.org/fhir/OperationDefinition/ConceptMap-closure"
         }
       ]
     }

@@ -1,0 +1,195 @@
+{
+    "resourceType": "CodeSystem",
+    "id": "v2-0508",
+    "text": {
+        "status": "empty",
+        "div": "<div xmlns=\"http://www.w3.org/1999/xhtml\">Redacted for size</div>"
+    },
+    "extension": [
+        {
+            "url": "http://hl7.org/fhir/StructureDefinition/structuredefinition-wg",
+            "valueCode": "oo"
+        }
+    ],
+    "url": "http://terminology.hl7.org/CodeSystem/v2-0508",
+    "identifier": [
+        {
+            "system": "urn:ietf:rfc:3986",
+            "value": "urn:oid:2.16.840.1.113883.18.332"
+        }
+    ],
+    "version": "2.1.0",
+    "name": "BloodProductProcessingRequirements",
+    "title": "bloodProductProcessingRequirements",
+    "status": "active",
+    "experimental": false,
+    "date": "2019-12-01",
+    "publisher": "HL7, Inc",
+    "contact": [
+        {
+            "telecom": [
+                {
+                    "system": "url",
+                    "value": "http://www.hl7.org/"
+                }
+            ]
+        }
+    ],
+    "description": "Code system of concepts used to specify additional information about the blood component class associated with the Universal Service ID.  The placer of the order can specify any required processing of the blood product that must be completed prior to transfusion to the intended recipient.  Used in the Blood Product Order (BPO) segment in HL7 Version 2.x messaging.",
+    "purpose": "Underlying Master Code System for V2 table 0508 (Blood Product Processing Requirements)",
+    "copyright": "Copyright HL7. Licensed under creative commons public domain",
+    "caseSensitive": true,
+    "valueSet": "http://terminology.hl7.org/ValueSet/v2-0508",
+    "hierarchyMeaning": "is-a",
+    "compositional": false,
+    "versionNeeded": false,
+    "content": "complete",
+    "property": [
+        {
+            "code": "status",
+            "uri": "http://terminology.hl7.org/CodeSystem/utg-concept-properties#status",
+            "description": "Status of the concept",
+            "type": "code"
+        },
+        {
+            "code": "deprecated",
+            "uri": "http://terminology.hl7.org/CodeSystem/utg-concept-properties#v2-table-deprecated",
+            "description": "Version of HL7 in which the code was deprecated",
+            "type": "code"
+        }
+    ],
+    "concept": [
+        {
+            "id": "5532",
+            "code": "LR",
+            "display": "Leukoreduced",
+            "definition": "Leukoreduced",
+            "property": [
+                {
+                    "code": "status",
+                    "valueCode": "A"
+                }
+            ]
+        },
+        {
+            "id": "5533",
+            "code": "IR",
+            "display": "Irradiated",
+            "definition": "Irradiated",
+            "property": [
+                {
+                    "code": "status",
+                    "valueCode": "A"
+                }
+            ]
+        },
+        {
+            "id": "5534",
+            "code": "CS",
+            "display": "CMV Safe",
+            "definition": "CMV Safe",
+            "property": [
+                {
+                    "code": "status",
+                    "valueCode": "A"
+                }
+            ]
+        },
+        {
+            "id": "5535",
+            "code": "FR",
+            "display": "Fresh unit",
+            "definition": "Fresh unit",
+            "property": [
+                {
+                    "code": "status",
+                    "valueCode": "A"
+                }
+            ]
+        },
+        {
+            "id": "5536",
+            "code": "AU",
+            "display": "Autologous Unit",
+            "definition": "Autologous Unit",
+            "property": [
+                {
+                    "code": "status",
+                    "valueCode": "A"
+                }
+            ]
+        },
+        {
+            "id": "5537",
+            "code": "DI",
+            "display": "Directed Unit",
+            "definition": "Directed Unit",
+            "property": [
+                {
+                    "code": "status",
+                    "valueCode": "A"
+                }
+            ]
+        },
+        {
+            "id": "5538",
+            "code": "HL",
+            "display": "HLA Matched",
+            "definition": "HLA Matched",
+            "property": [
+                {
+                    "code": "status",
+                    "valueCode": "A"
+                }
+            ]
+        },
+        {
+            "id": "5539",
+            "code": "CM",
+            "display": "CMV Negative",
+            "definition": "CMV Negative",
+            "property": [
+                {
+                    "code": "status",
+                    "valueCode": "A"
+                }
+            ]
+        },
+        {
+            "id": "5540",
+            "code": "HB",
+            "display": "Hemoglobin S Negative",
+            "definition": "Hemoglobin S Negative",
+            "property": [
+                {
+                    "code": "status",
+                    "valueCode": "A"
+                }
+            ]
+        },
+        {
+            "id": "5541",
+            "code": "WA",
+            "display": "Washed",
+            "definition": "Washed",
+            "property": [
+                {
+                    "code": "status",
+                    "valueCode": "A"
+                }
+            ]
+        },
+        {
+            "id": "5542",
+            "code": "IG",
+            "display": "IgA Deficient",
+            "definition": "IgA Deficient",
+            "property": [
+                {
+                    "code": "status",
+                    "valueCode": "A"
+                }
+            ]
+        }
+    ]
+}

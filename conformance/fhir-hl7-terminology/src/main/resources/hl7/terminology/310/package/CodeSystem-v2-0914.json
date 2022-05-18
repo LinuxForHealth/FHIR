@@ -1,0 +1,201 @@
+{
+    "resourceType": "CodeSystem",
+    "id": "v2-0914",
+    "text": {
+        "status": "empty",
+        "div": "<div xmlns=\"http://www.w3.org/1999/xhtml\">Redacted for size</div>"
+    },
+    "extension": [
+        {
+            "url": "http://hl7.org/fhir/StructureDefinition/structuredefinition-wg",
+            "valueCode": "oo"
+        }
+    ],
+    "url": "http://terminology.hl7.org/CodeSystem/v2-0914",
+    "identifier": [
+        {
+            "system": "urn:ietf:rfc:3986",
+            "value": "urn:oid:2.16.840.1.113883.18.421"
+        }
+    ],
+    "version": "2.1.0",
+    "name": "RootCause",
+    "title": "rootCause",
+    "status": "active",
+    "experimental": false,
+    "date": "2019-12-01",
+    "publisher": "HL7, Inc",
+    "contact": [
+        {
+            "telecom": [
+                {
+                    "system": "url",
+                    "value": "http://www.hl7.org/"
+                }
+            ]
+        }
+    ],
+    "description": "Code system of concepts specifying the root cause.  Used in HL7 Version 2.x messaging in the OBX segment.",
+    "purpose": "Underlying Master Code System for V2 table 0914 (Root Cause)",
+    "copyright": "Copyright HL7. Licensed under creative commons public domain",
+    "caseSensitive": true,
+    "valueSet": "http://terminology.hl7.org/ValueSet/v2-0914",
+    "hierarchyMeaning": "is-a",
+    "compositional": false,
+    "versionNeeded": false,
+    "content": "complete",
+    "property": [
+        {
+            "code": "status",
+            "uri": "http://terminology.hl7.org/CodeSystem/utg-concept-properties#status",
+            "description": "Status of the concept",
+            "type": "code"
+        },
+        {
+            "code": "deprecated",
+            "uri": "http://terminology.hl7.org/CodeSystem/utg-concept-properties#v2-table-deprecated",
+            "description": "Version of HL7 in which the code was deprecated",
+            "type": "code"
+        },
+        {
+            "code": "v2-concComment",
+            "uri": "http://terminology.hl7.org/CodeSystem/utg-concept-properties#v2-concComment",
+            "description": "V2 Concept Comment",
+            "type": "string"
+        },
+        {
+            "code": "v2-concCommentAsPub",
+            "uri": "http://terminology.hl7.org/CodeSystem/utg-concept-properties#v2-concCommentAsPub",
+            "description": "V2 Concept Comment As Published",
+            "type": "string"
+        },
+        {
+            "code": "HL7usageNotes",
+            "uri": "http://terminology.hl7.org/CodeSystem/utg-concept-properties#HL7usageNotes",
+            "description": "HL7 Concept Usage Notes",
+            "type": "string"
+        }
+    ],
+    "concept": [
+        {
+            "id": "6619",
+            "code": "AP",
+            "display": "Analysis Process",
+            "definition": "Analysis Process",
+            "property": [
+                {
+                    "code": "v2-concComment",
+                    "valueString": "Enter (AP) when ANALYSIS PROCESS is the reason due to:\r\n• Product or supply failure (reagents, calibrators, QC material)\r\n• Equipment or instrumentation failure"
+                },
+                {
+                    "code": "v2-concCommentAsPub",
+                    "valueString": "Enter (AP) when ANALYSIS PROCESS is the reason due to:\r\n• Product or supply failure (reagents, calibrators, QC material)\r\n• Equipment or instrumentation failure"
+                },
+                {
+                    "code": "HL7usageNotes",
+                    "valueString": "Enter (AP) when ANALYSIS PROCESS is the reason due to:\r\n• Product or supply failure (reagents, calibrators, QC material)\r\n• Equipment or instrumentation failure"
+                },
+                {
+                    "code": "status",
+                    "valueCode": "A"
+                }
+            ]
+        },
+        {
+            "id": "6620",
+            "code": "IM",
+            "display": "Information Management",
+            "definition": "Information Management",
+            "property": [
+                {
+                    "code": "v2-concComment",
+                    "valueString": "Enter (IM) when INFORMATION MANAGEMENT is the reason due to:\r\n• Database or Programming issues\r\n• Overriding of test results\r\n• Inaccurate calculations\r\n• Inaccurate flagging, reference ranges, units of measure\r\n• Incomplete/inaccurate transmission of test results\r\n• Other"
+                },
+                {
+                    "code": "v2-concCommentAsPub",
+                    "valueString": "Enter (IM) when INFORMATION MANAGEMENT is the reason due to:\r\n• Database or Programming issues\r\n• Overriding of test results\r\n• Inaccurate calculations\r\n• Inaccurate flagging, reference ranges, units of measure\r\n• Incomplete/inaccurate transmission of test results\r\n• Other"
+                },
+                {
+                    "code": "HL7usageNotes",
+                    "valueString": "Enter (IM) when INFORMATION MANAGEMENT is the reason due to:\r\n• Database or Programming issues\r\n• Overriding of test results\r\n• Inaccurate calculations\r\n• Inaccurate flagging, reference ranges, units of measure\r\n• Incomplete/inaccurate transmission of test results\r\n• Other"
+                },
+                {
+                    "code": "status",
+                    "valueCode": "A"
+                }
+            ]
+        },
+        {
+            "id": "6621",
+            "code": "L",
+            "display": "Laboratory",
+            "definition": "Laboratory",
+            "property": [
+                {
+                    "code": "v2-concComment",
+                    "valueString": "Enter (L) when LABORATORY is the reason due to:<p>• Data Entry error<p>• Testing/Technical error<p>• Repeat testing causing change to test result"
+                },
+                {
+                    "code": "v2-concCommentAsPub",
+                    "valueString": "Enter (L) when LABORATORY is the reason due to:<p>â¢ Data Entry error<p>â¢ Testing/Technical error<p>â¢ Repeat testing causing change to test result"
+                },
+                {
+                    "code": "HL7usageNotes",
+                    "valueString": "Enter (L) when LABORATORY is the reason due to:\r\n• Data Entry error\r\n• Testing/Technical error\r\n• Repeat testing causing change to test result"
+                },
+                {
+                    "code": "status",
+                    "valueCode": "A"
+                }
+            ]
+        },
+        {
+            "id": "6622",
+            "code": "NA",
+            "display": "Not Applicable",
+            "definition": "Not Applicable",
+            "property": [
+                {
+                    "code": "v2-concComment",
+                    "valueString": "Enter (NA) when NOT-APPLICABLE is the reason due to:\r\n• If no revisions performed or \r\n• unable to determine reason for revision\r\nNote:  Do not use NA if result code status is not corrected (revised) or if a preliminary release of results with a correction (revision)"
+                },
+                {
+                    "code": "v2-concCommentAsPub",
+                    "valueString": "Enter (NA) when NOT-APPLICABLE is the reason due to:\r\n• If no revisions performed or \r\n• unable to determine reason for revision\r\nNote:  Do not use NA if result code status is not corrected (revised) or if a preliminary release of results with a correction (revision)"
+                },
+                {
+                    "code": "HL7usageNotes",
+                    "valueString": "Enter (NA) when NOT-APPLICABLE is the reason due to:\r\n• If no revisions performed or\r\n• unable to determine reason for revision\r\nNote: Do not use NA if result code status is not corrected (revised) or if a preliminary release of results with a correction (revision)"
+                },
+                {
+                    "code": "status",
+                    "valueCode": "A"
+                }
+            ]
+        },
+        {
+            "id": "6623",
+            "code": "PD",
+            "display": "Placer Data",
+            "definition": "Placer Data",
+            "property": [
+                {
+                    "code": "v2-concComment",
+                    "valueString": "Enter (PD) when new or changed PLACER DATA information is the reason due to:\r\n• Changed patient demographics or\r\n• Result code data provided by the client on the requisition or specimen manifest that will be entered during order entry (i.e. Previous Biopsy Date, Clinical Information, Source, etc...)"
+                },
+                {
+                    "code": "v2-concCommentAsPub",
+                    "valueString": "Enter (PD) when new or changed PLACER DATA information is the reason due to:\r\n• Changed patient demographics or\r\n• Result code data provided by the client on the requisition or specimen manifest that will be entered during order entry (i.e. Previous Biopsy Date, Clinical Information, Source, etc...)"
+                },
+                {
+                    "code": "HL7usageNotes",
+                    "valueString": "Enter (PD) when new or changed PLACER DATA information is the reason due to:\r\n• Changed patient demographics or\r\n• Result code data provided by the client on the requisition or specimen manifest that will be entered during order entry (i.e. Previous Biopsy Date, Clinical Information, Source, etc...)"
+                },
+                {
+                    "code": "status",
+                    "valueCode": "A"
+                }
+            ]
+        }
+    ]
+}

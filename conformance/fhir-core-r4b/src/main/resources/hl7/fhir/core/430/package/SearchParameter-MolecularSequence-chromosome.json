@@ -1,0 +1,44 @@
+{
+    "resourceType": "SearchParameter",
+    "id": "MolecularSequence-chromosome",
+    "extension": [
+        {
+            "url": "http://hl7.org/fhir/StructureDefinition/structuredefinition-standards-status",
+            "valueCode": "trial-use"
+        }
+    ],
+    "url": "http://hl7.org/fhir/SearchParameter/MolecularSequence-chromosome",
+    "version": "4.3.0-cibuild",
+    "name": "chromosome",
+    "status": "draft",
+    "experimental": false,
+    "date": "2022-04-23T22:21:35Z",
+    "publisher": "Health Level Seven International (Clinical Genomics)",
+    "contact": [
+        {
+            "telecom": [
+                {
+                    "system": "url",
+                    "value": "http://hl7.org/fhir"
+                }
+            ]
+        },
+        {
+            "telecom": [
+                {
+                    "system": "url",
+                    "value": "http://www.hl7.org/Special/committees/clingenomics/index.cfm"
+                }
+            ]
+        }
+    ],
+    "description": "Chromosome number of the reference sequence",
+    "code": "chromosome",
+    "base": [
+        "MolecularSequence"
+    ],
+    "type": "token",
+    "expression": "MolecularSequence.referenceSeq.chromosome",
+    "xpath": "f:MolecularSequence/f:referenceSeq/f:chromosome",
+    "xpathUsage": "normal"
+}

@@ -3,14 +3,14 @@
 <ConceptMap xmlns="http://hl7.org/fhir">
   <id value="sc-contract-status"/>
   <text>
-    <status value="generated"/>
+    <status value="extensions"/>
     <div xmlns="http://www.w3.org/1999/xhtml">
       <h2>ContractResourceStatusCodesCanonicalMap (http://hl7.org/fhir/ConceptMap/sc-contract-status)</h2>
       <p>Mapping from 
         <a href="valueset-contract-status.html">http://hl7.org/fhir/ValueSet/contract-status</a> to 
         <a href="valueset-resource-status.html">http://hl7.org/fhir/ValueSet/resource-status</a>
       </p>
-      <p>DRAFT. Published on 01/11/2019 9:29:23 AM by Financial Management (
+      <p>DRAFT. Published on ?ngen-10? by Financial Management (
         <a href="http://hl7.org/fhir">http://hl7.org/fhir</a>). 
       </p>
       <div>
@@ -24,66 +24,90 @@
             <b>Source Code</b>
           </td>
           <td>
-            <b>Equivalence</b>
+            <b>Relationship</b>
           </td>
           <td>
             <b>Destination Code</b>
           </td>
         </tr>
         <tr>
+          <td colspan="3">Mapping from 
+            <a href="codesystem-contract-status.html">ContractStatus</a> to 
+            <a href="codesystem-resource-status.html">Canonical Status Codes for FHIR Resources</a>
+          </td>
+        </tr>
+        <tr>
           <td>entered-in-error</td>
-          <td>equivalent</td>
+          <td>
+            <a href="codesystem-concept-map-equivalence.html#equivalent">is equivalent to</a>
+          </td>
           <td>error</td>
         </tr>
         <tr>
           <td>offered</td>
-          <td>equivalent</td>
+          <td>
+            <a href="codesystem-concept-map-equivalence.html#equivalent">is equivalent to</a>
+          </td>
           <td>proposed</td>
         </tr>
         <tr>
           <td>negotiable,policy</td>
-          <td>equivalent</td>
+          <td>
+            <a href="codesystem-concept-map-equivalence.html#equivalent">is equivalent to</a>
+          </td>
           <td>draft</td>
         </tr>
         <tr>
           <td>executable,resolved</td>
-          <td>equivalent</td>
+          <td>
+            <a href="codesystem-concept-map-equivalence.html#equivalent">is equivalent to</a>
+          </td>
           <td>active</td>
         </tr>
         <tr>
           <td>disputed</td>
-          <td>equivalent</td>
+          <td>
+            <a href="codesystem-concept-map-equivalence.html#equivalent">is equivalent to</a>
+          </td>
           <td>suspended</td>
         </tr>
         <tr>
           <td>revoked</td>
-          <td>equivalent</td>
+          <td>
+            <a href="codesystem-concept-map-equivalence.html#equivalent">is equivalent to</a>
+          </td>
           <td>failed</td>
         </tr>
         <tr>
           <td>amended,appended,renewed</td>
-          <td>equivalent</td>
+          <td>
+            <a href="codesystem-concept-map-equivalence.html#equivalent">is equivalent to</a>
+          </td>
           <td>replaced</td>
         </tr>
         <tr>
           <td>executed</td>
-          <td>equivalent</td>
+          <td>
+            <a href="codesystem-concept-map-equivalence.html#equivalent">is equivalent to</a>
+          </td>
           <td>complete</td>
         </tr>
         <tr>
           <td>cancelled,rejected,terminated</td>
-          <td>equivalent</td>
+          <td>
+            <a href="codesystem-concept-map-equivalence.html#equivalent">is equivalent to</a>
+          </td>
           <td>abandoned</td>
         </tr>
       </table>
     </div>
   </text>
   <url value="http://hl7.org/fhir/ConceptMap/sc-contract-status"/>
-  <version value="4.0.1"/>
+  <version value="4.3.0-cibuild"/>
   <name value="ContractResourceStatusCodesCanonicalMap"/>
   <title value="Canonical Mapping for &quot;Contract Resource Status Codes&quot;"/>
   <status value="draft"/>
-  <date value="2019-11-01T09:29:23+11:00"/>
+  <experimental value="false"/>
   <publisher value="Financial Management"/>
   <contact>
     <telecom>

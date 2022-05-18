@@ -21,10 +21,14 @@
     {
       "url": "http://hl7.org/fhir/StructureDefinition/structuredefinition-standards-status",
       "valueCode": "trial-use"
+    },
+    {
+      "url": "http://hl7.org/fhir/build/StructureDefinition/summary",
+      "valueString": "This is a test summary [lipids](observation.html)"
     }
   ],
   "url": "http://hl7.org/fhir/StructureDefinition/lipidprofile",
-  "version": "4.0.1",
+  "version": "4.3.0-cibuild",
   "name": "Example Lipid Profile",
   "status": "draft",
   "experimental": true,
@@ -41,7 +45,7 @@
     }
   ],
   "description": "Lipid Lab Report",
-  "fhirVersion": "4.0.1",
+  "fhirVersion": "4.3.0-cibuild",
   "mapping": [
     {
       "identity": "workflow",
@@ -105,8 +109,8 @@
             "key": "dom-3",
             "severity": "error",
             "human": "If the resource is contained in another resource, it SHALL be referred to from elsewhere in the resource or SHALL refer to the containing resource",
-            "expression": "contained.where(((\u0027#\u0027+id in (%resource.descendants().reference | %resource.descendants().as(canonical) | %resource.descendants().as(uri) | %resource.descendants().as(url))) or descendants().where(reference \u003d \u0027#\u0027).exists() or descendants().where(as(canonical) \u003d \u0027#\u0027).exists() or descendants().where(as(canonical) \u003d \u0027#\u0027).exists()).not()).trace(\u0027unmatched\u0027, id).empty()",
-            "xpath": "not(exists(for $id in f:contained/*/f:id/@value return $contained[not(parent::*/descendant::f:reference/@value\u003dconcat(\u0027#\u0027, $contained/*/id/@value) or descendant::f:reference[@value\u003d\u0027#\u0027])]))",
+            "expression": "contained.where(((id.exists() and (\u0027#\u0027+id in (%resource.descendants().reference | %resource.descendants().as(canonical) | %resource.descendants().as(uri) | %resource.descendants().as(url)))) or descendants().where(reference \u003d \u0027#\u0027).exists() or descendants().where(as(canonical) \u003d \u0027#\u0027).exists() or descendants().where(as(uri) \u003d \u0027#\u0027).exists()).not()).trace(\u0027unmatched\u0027, id).empty()",
+            "xpath": "not(exists(for $contained in f:contained return $contained[not(exists(parent::*/descendant::f:reference/@value\u003dconcat(\u0027#\u0027, $contained/*/f:id/@value)) or exists(descendant::f:reference[@value\u003d\u0027#\u0027]))]))",
             "source": "http://hl7.org/fhir/StructureDefinition/DomainResource"
           },
           {
@@ -144,6 +148,7 @@
             "source": "http://hl7.org/fhir/StructureDefinition/DomainResource"
           }
         ],
+        "mustSupport": false,
         "isModifier": false,
         "isSummary": false,
         "mapping": [
@@ -162,6 +167,10 @@
           {
             "identity": "rim",
             "map": "Observation[classCode\u003dOBS, moodCode\u003dEVN]"
+          },
+          {
+            "identity": "w5",
+            "map": "clinical.diagnostics"
           }
         ]
       },
@@ -183,12 +192,13 @@
             "extension": [
               {
                 "url": "http://hl7.org/fhir/StructureDefinition/structuredefinition-fhir-type",
-                "valueUrl": "string"
+                "valueUrl": "id"
               }
             ],
             "code": "http://hl7.org/fhirpath/System.String"
           }
         ],
+        "mustSupport": false,
         "isModifier": false,
         "isSummary": true
       },
@@ -219,6 +229,7 @@
             "source": "http://hl7.org/fhir/StructureDefinition/Element"
           }
         ],
+        "mustSupport": false,
         "isModifier": false,
         "isSummary": true
       },
@@ -250,6 +261,7 @@
             "source": "http://hl7.org/fhir/StructureDefinition/Element"
           }
         ],
+        "mustSupport": false,
         "isModifier": true,
         "isModifierReason": "This element is labeled as a modifier because the implicit rules may provide additional knowledge about the resource that modifies it\u0027s meaning or interpretation",
         "isSummary": true
@@ -282,6 +294,7 @@
             "source": "http://hl7.org/fhir/StructureDefinition/Element"
           }
         ],
+        "mustSupport": false,
         "isModifier": false,
         "isSummary": false,
         "binding": {
@@ -300,7 +313,7 @@
             }
           ],
           "strength": "preferred",
-          "description": "A human language.",
+          "description": "IETF language tag",
           "valueSet": "http://hl7.org/fhir/ValueSet/languages"
         }
       },
@@ -338,6 +351,7 @@
             "source": "http://hl7.org/fhir/StructureDefinition/Element"
           }
         ],
+        "mustSupport": false,
         "isModifier": false,
         "isSummary": false,
         "mapping": [
@@ -370,6 +384,17 @@
             "code": "Resource"
           }
         ],
+        "constraint": [
+          {
+            "key": "dom-r4b",
+            "severity": "warning",
+            "human": "Containing new R4B resources within R4 resources may cause interoperability issues if instances are shared with R4 systems",
+            "expression": "($this is Citation or $this is Evidence or $this is EvidenceReport or $this is EvidenceVariable or $this is MedicinalProductDefinition or $this is PackagedProductDefinition or $this is AdministrableProductDefinition or $this is Ingredient or $this is ClinicalUseDefinition or $this is RegulatedAuthorization or $this is SubstanceDefinition or $this is SubscriptionStatus or $this is SubscriptionTopic) implies (%resource is Citation or %resource is Evidence or %resource is EvidenceReport or %resource is EvidenceVariable or %resource is MedicinalProductDefinition or %resource is PackagedProductDefinition or %resource is AdministrableProductDefinition or %resource is Ingredient or %resource is ClinicalUseDefinition or %resource is RegulatedAuthorization or %resource is SubstanceDefinition or %resource is SubscriptionStatus or %resource is SubscriptionTopic)",
+            "xpath": "not(f:Citation|f:Evidence|f:EvidenceReport|f:EvidenceVariable|f:MedicinalProductDefinition|f:PackagedProductDefinition|f:AdministrableProductDefinition|f:Ingredient|f:ClinicalUseDefinition|f:RegulatedAuthorization|f:SubstanceDefinition|f:SubscriptionStatus|f:SubscriptionTopic) or not(parent::f:Citation|parent::f:Evidence|parent::f:EvidenceReport|parent::f:EvidenceVariable|parent::f:MedicinalProductDefinition|parent::f:PackagedProductDefinition|parent::f:AdministrableProductDefinition|parent::f:Ingredient|parent::f:ClinicalUseDefinition|parent::f:RegulatedAuthorization|parent::f:SubstanceDefinition|f:SubscriptionStatus|f:SubscriptionTopic)",
+            "source": "http://hl7.org/fhir/StructureDefinition/DiagnosticReport"
+          }
+        ],
+        "mustSupport": false,
         "isModifier": false,
         "isSummary": false,
         "mapping": [
@@ -419,6 +444,7 @@
             "source": "http://hl7.org/fhir/StructureDefinition/Extension"
           }
         ],
+        "mustSupport": false,
         "isModifier": false,
         "isSummary": false,
         "mapping": [
@@ -434,7 +460,7 @@
         "short": "Extensions that cannot be ignored",
         "definition": "May be used to represent additional information that is not part of the basic definition of the resource and that modifies the understanding of the element that contains it and/or the understanding of the containing element\u0027s descendants. Usually modifier elements provide negation or qualification. To make the use of extensions safe and manageable, there is a strict set of governance applied to the definition and use of extensions. Though any implementer is allowed to define an extension, there is a set of requirements that SHALL be met as part of the definition of the extension. Applications processing a resource are required to check for modifier extensions.\n\nModifier extensions SHALL NOT change the meaning of any elements on Resource or DomainResource (including cannot change the meaning of modifierExtension itself).",
         "comment": "There can be no stigma associated with the use of extensions by any application, project, or standard - regardless of the institution or jurisdiction that uses or defines the extensions.  The use of extensions is what allows the FHIR specification to retain a core level of simplicity for everyone.",
-        "requirements": "Modifier extensions allow for extensions that *cannot* be safely ignored to be clearly distinguished from the vast majority of extensions which can be safely ignored.  This promotes interoperability by eliminating the need for implementers to prohibit the presence of extensions. For further information, see the [definition of modifier extensions](http://hl7.org/fhir/extensibility.html#modifierExtension).",
+        "requirements": "Modifier extensions allow for extensions that *cannot* be safely ignored to be clearly distinguished from the vast majority of extensions which can be safely ignored.  This promotes interoperability by eliminating the need for implementers to prohibit the presence of extensions. For further information, see the [definition of modifier extensions](extensibility.html#modifierExtension).",
         "alias": [
           "extensions",
           "user content"
@@ -469,6 +495,7 @@
             "source": "http://hl7.org/fhir/StructureDefinition/Extension"
           }
         ],
+        "mustSupport": false,
         "isModifier": true,
         "isModifierReason": "Modifier extensions are expected to modify the meaning or interpretation of the resource that contains them",
         "isSummary": false,
@@ -513,6 +540,7 @@
             "source": "http://hl7.org/fhir/StructureDefinition/Element"
           }
         ],
+        "mustSupport": false,
         "isModifier": false,
         "isSummary": true,
         "mapping": [
@@ -573,6 +601,7 @@
             "source": "http://hl7.org/fhir/StructureDefinition/Element"
           }
         ],
+        "mustSupport": false,
         "isModifier": false,
         "isSummary": false,
         "mapping": [
@@ -618,6 +647,7 @@
             "source": "http://hl7.org/fhir/StructureDefinition/Element"
           }
         ],
+        "mustSupport": false,
         "isModifier": true,
         "isModifierReason": "This element is labeled as a modifier because it is a status element that contains status entered-in-error which means that the resource should not be treated as valid",
         "isSummary": true,
@@ -630,7 +660,7 @@
           ],
           "strength": "required",
           "description": "The status of the diagnostic report.",
-          "valueSet": "http://hl7.org/fhir/ValueSet/diagnostic-report-status|4.0.1"
+          "valueSet": "http://hl7.org/fhir/ValueSet/diagnostic-report-status|4.3.0-cibuild"
         },
         "mapping": [
           {
@@ -685,6 +715,7 @@
             "source": "http://hl7.org/fhir/StructureDefinition/Element"
           }
         ],
+        "mustSupport": false,
         "isModifier": false,
         "isSummary": true,
         "binding": {
@@ -695,7 +726,7 @@
             }
           ],
           "strength": "example",
-          "description": "Codes for diagnostic service sections.",
+          "description": "HL7 V2 table 0074",
           "valueSet": "http://hl7.org/fhir/ValueSet/diagnostic-service-sections"
         },
         "mapping": [
@@ -734,7 +765,7 @@
             "code": "CodeableConcept"
           }
         ],
-        "fixedCodeableConcept": {
+        "patternCodeableConcept": {
           "coding": [
             {
               "system": "http://loinc.org",
@@ -753,6 +784,7 @@
             "source": "http://hl7.org/fhir/StructureDefinition/Element"
           }
         ],
+        "mustSupport": false,
         "isModifier": false,
         "isSummary": true,
         "binding": {
@@ -763,7 +795,7 @@
             }
           ],
           "strength": "preferred",
-          "description": "Codes that describe Diagnostic Reports.",
+          "description": "LOINC Codes for Diagnostic Reports",
           "valueSet": "http://hl7.org/fhir/ValueSet/report-codes"
         },
         "mapping": [
@@ -808,7 +840,12 @@
               "http://hl7.org/fhir/StructureDefinition/Patient",
               "http://hl7.org/fhir/StructureDefinition/Group",
               "http://hl7.org/fhir/StructureDefinition/Device",
-              "http://hl7.org/fhir/StructureDefinition/Location"
+              "http://hl7.org/fhir/StructureDefinition/Location",
+              "http://hl7.org/fhir/StructureDefinition/Organization",
+              "http://hl7.org/fhir/StructureDefinition/Procedure",
+              "http://hl7.org/fhir/StructureDefinition/Practitioner",
+              "http://hl7.org/fhir/StructureDefinition/Medication",
+              "http://hl7.org/fhir/StructureDefinition/Substance"
             ]
           }
         ],
@@ -822,6 +859,7 @@
             "source": "http://hl7.org/fhir/StructureDefinition/Element"
           }
         ],
+        "mustSupport": false,
         "isModifier": false,
         "isSummary": true,
         "mapping": [
@@ -882,6 +920,7 @@
             "source": "http://hl7.org/fhir/StructureDefinition/Element"
           }
         ],
+        "mustSupport": false,
         "isModifier": false,
         "isSummary": true,
         "mapping": [
@@ -940,6 +979,7 @@
             "source": "http://hl7.org/fhir/StructureDefinition/Element"
           }
         ],
+        "mustSupport": false,
         "isModifier": false,
         "isSummary": true,
         "mapping": [
@@ -995,6 +1035,7 @@
             "source": "http://hl7.org/fhir/StructureDefinition/Element"
           }
         ],
+        "mustSupport": false,
         "isModifier": false,
         "isSummary": true,
         "mapping": [
@@ -1056,6 +1097,7 @@
             "source": "http://hl7.org/fhir/StructureDefinition/Element"
           }
         ],
+        "mustSupport": false,
         "isModifier": false,
         "isSummary": true,
         "mapping": [
@@ -1116,6 +1158,7 @@
             "source": "http://hl7.org/fhir/StructureDefinition/Element"
           }
         ],
+        "mustSupport": false,
         "isModifier": false,
         "isSummary": true,
         "mapping": [
@@ -1169,6 +1212,7 @@
             "source": "http://hl7.org/fhir/StructureDefinition/Element"
           }
         ],
+        "mustSupport": false,
         "isModifier": false,
         "isSummary": false,
         "mapping": [
@@ -1196,7 +1240,7 @@
           "rules": "closed"
         },
         "short": "Observations",
-        "definition": "[Observations](http://hl7.org/fhir/observation.html)  that are part of this diagnostic report.",
+        "definition": "[Observations](observation.html)  that are part of this diagnostic report.",
         "comment": "Observations can contain observations.",
         "requirements": "Need to support individual results, or  groups of results, where the result grouping is arbitrary, but meaningful.",
         "alias": [
@@ -1235,6 +1279,7 @@
             "source": "http://hl7.org/fhir/StructureDefinition/Element"
           }
         ],
+        "mustSupport": false,
         "isModifier": false,
         "isSummary": false,
         "mapping": [
@@ -1511,6 +1556,7 @@
             "source": "http://hl7.org/fhir/StructureDefinition/Element"
           }
         ],
+        "mustSupport": false,
         "isModifier": false,
         "isSummary": false,
         "mapping": [
@@ -1547,12 +1593,13 @@
           {
             "key": "ele-1",
             "severity": "error",
-            "human": "All FHIR elements must have a @value or children",
-            "expression": "hasValue() or (children().count() \u003e id.count())",
-            "xpath": "@value|f:*|h:div",
+            "human": "All FHIR elements must have a @value or children unless an empty Parameters resource",
+            "expression": "hasValue() or (children().count() \u003e id.count()) or $this is Parameters",
+            "xpath": "@value|f:*|h:div|self::f:Parameters",
             "source": "http://hl7.org/fhir/StructureDefinition/Element"
           }
         ],
+        "mustSupport": false,
         "isModifier": false,
         "isSummary": true,
         "mapping": [
@@ -1656,7 +1703,7 @@
         "short": "Extensions that cannot be ignored even if unrecognized",
         "definition": "May be used to represent additional information that is not part of the basic definition of the element and that modifies the understanding of the element in which it is contained and/or the understanding of the containing element\u0027s descendants. Usually modifier elements provide negation or qualification. To make the use of extensions safe and manageable, there is a strict set of governance applied to the definition and use of extensions. Though any implementer can define an extension, there is a set of requirements that SHALL be met as part of the definition of the extension. Applications processing a resource are required to check for modifier extensions.\n\nModifier extensions SHALL NOT change the meaning of any elements on Resource or DomainResource (including cannot change the meaning of modifierExtension itself).",
         "comment": "There can be no stigma associated with the use of extensions by any application, project, or standard - regardless of the institution or jurisdiction that uses or defines the extensions.  The use of extensions is what allows the FHIR specification to retain a core level of simplicity for everyone.",
-        "requirements": "Modifier extensions allow for extensions that *cannot* be safely ignored to be clearly distinguished from the vast majority of extensions which can be safely ignored.  This promotes interoperability by eliminating the need for implementers to prohibit the presence of extensions. For further information, see the [definition of modifier extensions](http://hl7.org/fhir/extensibility.html#modifierExtension).",
+        "requirements": "Modifier extensions allow for extensions that *cannot* be safely ignored to be clearly distinguished from the vast majority of extensions which can be safely ignored.  This promotes interoperability by eliminating the need for implementers to prohibit the presence of extensions. For further information, see the [definition of modifier extensions](extensibility.html#modifierExtension).",
         "alias": [
           "extensions",
           "user content",
@@ -1731,6 +1778,7 @@
             "source": "http://hl7.org/fhir/StructureDefinition/Element"
           }
         ],
+        "mustSupport": false,
         "isModifier": false,
         "isSummary": false,
         "mapping": [
@@ -1770,6 +1818,7 @@
             "source": "http://hl7.org/fhir/StructureDefinition/Element"
           }
         ],
+        "mustSupport": false,
         "isModifier": false,
         "isSummary": true,
         "mapping": [
@@ -1853,6 +1902,7 @@
             "source": "http://hl7.org/fhir/StructureDefinition/Element"
           }
         ],
+        "mustSupport": false,
         "isModifier": false,
         "isSummary": false,
         "binding": {
@@ -1863,7 +1913,7 @@
             }
           ],
           "strength": "example",
-          "description": "Diagnosis codes provided as adjuncts to the report.",
+          "description": "SNOMED CT Clinical Findings",
           "valueSet": "http://hl7.org/fhir/ValueSet/clinical-findings"
         },
         "mapping": [
@@ -1906,6 +1956,7 @@
             "source": "http://hl7.org/fhir/StructureDefinition/Element"
           }
         ],
+        "mustSupport": false,
         "isModifier": false,
         "isSummary": false,
         "mapping": [
@@ -1945,7 +1996,7 @@
             "code": "CodeableConcept"
           }
         ],
-        "fixedCodeableConcept": {
+        "patternCodeableConcept": {
           "coding": [
             {
               "system": "http://loinc.org",

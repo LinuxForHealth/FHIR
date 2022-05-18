@@ -1,0 +1,3599 @@
+{
+    "resourceType": "CodeSystem",
+    "id": "v2-0076",
+    "text": {
+        "status": "empty",
+        "div": "<div xmlns=\"http://www.w3.org/1999/xhtml\">Redacted for size</div>"
+    },
+    "extension": [
+        {
+            "url": "http://hl7.org/fhir/StructureDefinition/structuredefinition-wg",
+            "valueCode": "inm"
+        }
+    ],
+    "url": "http://terminology.hl7.org/CodeSystem/v2-0076",
+    "identifier": [
+        {
+            "system": "urn:ietf:rfc:3986",
+            "value": "urn:oid:2.16.840.1.113883.18.30"
+        }
+    ],
+    "version": "2.12.0",
+    "name": "MessageType",
+    "title": "messageType",
+    "status": "active",
+    "experimental": false,
+    "date": "2019-12-01",
+    "publisher": "HL7, Inc",
+    "contact": [
+        {
+            "telecom": [
+                {
+                    "system": "url",
+                    "value": "http://www.hl7.org/"
+                }
+            ]
+        }
+    ],
+    "description": "HL7-defined code system of concepts which specify message types.  Used in HL7 Version 2.x messaging in the MSH segment.",
+    "purpose": "Underlying Master Code System for V2 table 0076 (Message Type)",
+    "copyright": "Copyright HL7. Licensed under creative commons public domain",
+    "caseSensitive": true,
+    "valueSet": "http://terminology.hl7.org/ValueSet/v2-0076",
+    "hierarchyMeaning": "is-a",
+    "compositional": false,
+    "versionNeeded": false,
+    "content": "complete",
+    "property": [
+        {
+            "code": "status",
+            "uri": "http://terminology.hl7.org/CodeSystem/utg-concept-properties#status",
+            "description": "Status of the concept",
+            "type": "code"
+        },
+        {
+            "code": "deprecated",
+            "uri": "http://terminology.hl7.org/CodeSystem/utg-concept-properties#v2-table-deprecated",
+            "description": "Version of HL7 in which the code was deprecated",
+            "type": "code"
+        },
+        {
+            "code": "v2-concComment",
+            "uri": "http://terminology.hl7.org/CodeSystem/utg-concept-properties#v2-concComment",
+            "description": "V2 Concept Comment",
+            "type": "string"
+        },
+        {
+            "code": "v2-concCommentAsPub",
+            "uri": "http://terminology.hl7.org/CodeSystem/utg-concept-properties#v2-concCommentAsPub",
+            "description": "V2 Concept Comment As Published",
+            "type": "string"
+        }
+    ],
+    "concept": [
+        {
+            "id": "1081",
+            "code": "ACK",
+            "display": "General acknowledgment message",
+            "definition": "General acknowledgment message",
+            "designation": [
+                {
+                    "language": "de",
+                    "use": {
+                        "system": "http://terminology.hl7.org/CodeSystem/hl7TermMaintInfra",
+                        "code": "preferredForLanguage"
+                    },
+                    "value": "Empfangsbestätigung"
+                }
+            ],
+            "property": [
+                {
+                    "code": "v2-concComment",
+                    "valueString": "2"
+                },
+                {
+                    "code": "v2-concCommentAsPub",
+                    "valueString": "2"
+                },
+                {
+                    "code": "status",
+                    "valueCode": "A"
+                }
+            ]
+        },
+        {
+            "id": "1082",
+            "code": "ADR",
+            "display": "ADT response",
+            "definition": "ADT response",
+            "designation": [
+                {
+                    "language": "de",
+                    "use": {
+                        "system": "http://terminology.hl7.org/CodeSystem/hl7TermMaintInfra",
+                        "code": "preferredForLanguage"
+                    },
+                    "value": "Antwort auf Anfrage bezüglich Aufnahme / Verlegung / Entlassung von Patienten"
+                }
+            ],
+            "property": [
+                {
+                    "code": "v2-concComment",
+                    "valueString": "3 - Deprecated"
+                },
+                {
+                    "code": "v2-concCommentAsPub",
+                    "valueString": "3 - Deprecated"
+                },
+                {
+                    "code": "status",
+                    "valueCode": "A"
+                }
+            ]
+        },
+        {
+            "id": "1083",
+            "code": "ARD",
+            "display": "Ancillary RPT (display) (for backward compatibility only)",
+            "definition": "Ancillary RPT (display) (for backward compatibility only)",
+            "designation": [
+                {
+                    "language": "de",
+                    "use": {
+                        "system": "http://terminology.hl7.org/CodeSystem/hl7TermMaintInfra",
+                        "code": "preferredForLanguage"
+                    },
+                    "value": "Befundbericht"
+                }
+            ],
+            "property": [
+                {
+                    "code": "deprecated",
+                    "valueCode": "2.9"
+                },
+                {
+                    "code": "status",
+                    "valueCode": "A"
+                }
+            ]
+        },
+        {
+            "id": "1084",
+            "code": "ADT",
+            "display": "ADT message",
+            "definition": "ADT message",
+            "designation": [
+                {
+                    "language": "de",
+                    "use": {
+                        "system": "http://terminology.hl7.org/CodeSystem/hl7TermMaintInfra",
+                        "code": "preferredForLanguage"
+                    },
+                    "value": "Aufnahme / Entlassung / Verlegung"
+                }
+            ],
+            "property": [
+                {
+                    "code": "v2-concComment",
+                    "valueString": "3"
+                },
+                {
+                    "code": "v2-concCommentAsPub",
+                    "valueString": "3"
+                },
+                {
+                    "code": "status",
+                    "valueCode": "A"
+                }
+            ]
+        },
+        {
+            "id": "1085",
+            "code": "BAR",
+            "display": "Add/change billing account",
+            "definition": "Add/change billing account",
+            "designation": [
+                {
+                    "language": "de",
+                    "use": {
+                        "system": "http://terminology.hl7.org/CodeSystem/hl7TermMaintInfra",
+                        "code": "preferredForLanguage"
+                    },
+                    "value": "Hinzufügen / Ändern von Abrechnungsdaten"
+                }
+            ],
+            "property": [
+                {
+                    "code": "v2-concComment",
+                    "valueString": "6"
+                },
+                {
+                    "code": "v2-concCommentAsPub",
+                    "valueString": "6"
+                },
+                {
+                    "code": "status",
+                    "valueCode": "A"
+                }
+            ]
+        },
+        {
+            "id": "1086",
+            "code": "BPS",
+            "display": "Blood product dispense status message",
+            "definition": "Blood product dispense status message",
+            "property": [
+                {
+                    "code": "v2-concComment",
+                    "valueString": "4"
+                },
+                {
+                    "code": "v2-concCommentAsPub",
+                    "valueString": "4"
+                },
+                {
+                    "code": "status",
+                    "valueCode": "A"
+                }
+            ]
+        },
+        {
+            "id": "1087",
+            "code": "CNQ",
+            "display": "Cancel query",
+            "definition": "Cancel query",
+            "designation": [
+                {
+                    "language": "de",
+                    "use": {
+                        "system": "http://terminology.hl7.org/CodeSystem/hl7TermMaintInfra",
+                        "code": "preferredForLanguage"
+                    },
+                    "value": "Stornierung der Anfrage"
+                }
+            ],
+            "property": [
+                {
+                    "code": "deprecated",
+                    "valueCode": "2.9"
+                },
+                {
+                    "code": "status",
+                    "valueCode": "A"
+                }
+            ]
+        },
+        {
+            "id": "1088",
+            "code": "BRP",
+            "display": "Blood product dispense status acknowledgement message",
+            "definition": "Blood product dispense status acknowledgement message",
+            "property": [
+                {
+                    "code": "v2-concComment",
+                    "valueString": "4"
+                },
+                {
+                    "code": "v2-concCommentAsPub",
+                    "valueString": "4"
+                },
+                {
+                    "code": "status",
+                    "valueCode": "A"
+                }
+            ]
+        },
+        {
+            "id": "1089",
+            "code": "BRT",
+            "display": "Blood product transfusion/disposition acknowledgement message",
+            "definition": "Blood product transfusion/disposition acknowledgement message",
+            "property": [
+                {
+                    "code": "v2-concComment",
+                    "valueString": "4"
+                },
+                {
+                    "code": "v2-concCommentAsPub",
+                    "valueString": "4"
+                },
+                {
+                    "code": "status",
+                    "valueCode": "A"
+                }
+            ]
+        },
+        {
+            "id": "1090",
+            "code": "BTS",
+            "display": "Blood product transfusion/disposition message",
+            "definition": "Blood product transfusion/disposition message",
+            "property": [
+                {
+                    "code": "v2-concComment",
+                    "valueString": "4"
+                },
+                {
+                    "code": "v2-concCommentAsPub",
+                    "valueString": "4"
+                },
+                {
+                    "code": "status",
+                    "valueCode": "A"
+                }
+            ]
+        },
+        {
+            "id": "1091",
+            "code": "CCF",
+            "display": "Collaborative Care Fetch",
+            "definition": "Collaborative Care Fetch",
+            "property": [
+                {
+                    "code": "v2-concComment",
+                    "valueString": "7"
+                },
+                {
+                    "code": "v2-concCommentAsPub",
+                    "valueString": "7"
+                },
+                {
+                    "code": "status",
+                    "valueCode": "A"
+                }
+            ]
+        },
+        {
+            "id": "1092",
+            "code": "CCI",
+            "display": "Collaborative Care Information",
+            "definition": "Collaborative Care Information",
+            "property": [
+                {
+                    "code": "v2-concComment",
+                    "valueString": "7"
+                },
+                {
+                    "code": "v2-concCommentAsPub",
+                    "valueString": "7"
+                },
+                {
+                    "code": "status",
+                    "valueCode": "A"
+                }
+            ]
+        },
+        {
+            "id": "1093",
+            "code": "CCM",
+            "display": "Collaborative Care Message",
+            "definition": "Collaborative Care Message",
+            "property": [
+                {
+                    "code": "v2-concComment",
+                    "valueString": "7"
+                },
+                {
+                    "code": "v2-concCommentAsPub",
+                    "valueString": "7"
+                },
+                {
+                    "code": "status",
+                    "valueCode": "A"
+                }
+            ]
+        },
+        {
+            "id": "1094",
+            "code": "CCQ",
+            "display": "Collaborative Care Referral",
+            "definition": "Collaborative Care Referral",
+            "property": [
+                {
+                    "code": "v2-concComment",
+                    "valueString": "7"
+                },
+                {
+                    "code": "v2-concCommentAsPub",
+                    "valueString": "7"
+                },
+                {
+                    "code": "status",
+                    "valueCode": "A"
+                }
+            ]
+        },
+        {
+            "id": "1095",
+            "code": "ERQ",
+            "display": "Event replay query",
+            "definition": "Event replay query",
+            "property": [
+                {
+                    "code": "deprecated",
+                    "valueCode": "2.9"
+                },
+                {
+                    "code": "status",
+                    "valueCode": "A"
+                }
+            ]
+        },
+        {
+            "id": "1096",
+            "code": "CCU",
+            "display": "Collaborative Care Referral",
+            "definition": "Collaborative Care Referral",
+            "property": [
+                {
+                    "code": "v2-concComment",
+                    "valueString": "7"
+                },
+                {
+                    "code": "v2-concCommentAsPub",
+                    "valueString": "7"
+                },
+                {
+                    "code": "status",
+                    "valueCode": "A"
+                }
+            ]
+        },
+        {
+            "id": "1097",
+            "code": "CQU",
+            "display": "Collaborative Care Referral",
+            "definition": "Collaborative Care Referral",
+            "property": [
+                {
+                    "code": "v2-concComment",
+                    "valueString": "7"
+                },
+                {
+                    "code": "v2-concCommentAsPub",
+                    "valueString": "7"
+                },
+                {
+                    "code": "status",
+                    "valueCode": "A"
+                }
+            ]
+        },
+        {
+            "id": "1098",
+            "code": "CRM",
+            "display": "Clinical study registration message",
+            "definition": "Clinical study registration message",
+            "property": [
+                {
+                    "code": "v2-concComment",
+                    "valueString": "7"
+                },
+                {
+                    "code": "v2-concCommentAsPub",
+                    "valueString": "7"
+                },
+                {
+                    "code": "status",
+                    "valueCode": "A"
+                }
+            ]
+        },
+        {
+            "id": "1099",
+            "code": "CSU",
+            "display": "Unsolicited study data message",
+            "definition": "Unsolicited study data message",
+            "property": [
+                {
+                    "code": "v2-concComment",
+                    "valueString": "7"
+                },
+                {
+                    "code": "v2-concCommentAsPub",
+                    "valueString": "7"
+                },
+                {
+                    "code": "status",
+                    "valueCode": "A"
+                }
+            ]
+        },
+        {
+            "id": "1100",
+            "code": "EDR",
+            "display": "Enhanced display response",
+            "definition": "Enhanced display response",
+            "property": [
+                {
+                    "code": "deprecated",
+                    "valueCode": "2.9"
+                },
+                {
+                    "code": "status",
+                    "valueCode": "A"
+                }
+            ]
+        },
+        {
+            "id": "1101",
+            "code": "DBC",
+            "display": "Create Donor Record",
+            "definition": "Create Donor Record",
+            "property": [
+                {
+                    "code": "v2-concComment",
+                    "valueString": "4"
+                },
+                {
+                    "code": "v2-concCommentAsPub",
+                    "valueString": "4"
+                },
+                {
+                    "code": "status",
+                    "valueCode": "A"
+                }
+            ]
+        },
+        {
+            "id": "1102",
+            "code": "EQQ",
+            "display": "Embedded query language query",
+            "definition": "Embedded query language query",
+            "property": [
+                {
+                    "code": "deprecated",
+                    "valueCode": "2.9"
+                },
+                {
+                    "code": "status",
+                    "valueCode": "A"
+                }
+            ]
+        },
+        {
+            "id": "1103",
+            "code": "DBU",
+            "display": "Update Donor Record",
+            "definition": "Update Donor Record",
+            "property": [
+                {
+                    "code": "v2-concComment",
+                    "valueString": "4"
+                },
+                {
+                    "code": "v2-concCommentAsPub",
+                    "valueString": "4"
+                },
+                {
+                    "code": "status",
+                    "valueCode": "A"
+                }
+            ]
+        },
+        {
+            "id": "1104",
+            "code": "ERP",
+            "display": "Event replay response",
+            "definition": "Event replay response",
+            "property": [
+                {
+                    "code": "deprecated",
+                    "valueCode": "2.9"
+                },
+                {
+                    "code": "status",
+                    "valueCode": "A"
+                }
+            ]
+        },
+        {
+            "id": "1105",
+            "code": "DEL",
+            "display": "Donor Eligibility",
+            "definition": "Donor Eligibility",
+            "property": [
+                {
+                    "code": "v2-concComment",
+                    "valueString": "4"
+                },
+                {
+                    "code": "v2-concCommentAsPub",
+                    "valueString": "4"
+                },
+                {
+                    "code": "status",
+                    "valueCode": "A"
+                }
+            ]
+        },
+        {
+            "id": "1106",
+            "code": "DEO",
+            "display": "Donor Eligibility Observation",
+            "definition": "Donor Eligibility Observation",
+            "property": [
+                {
+                    "code": "v2-concComment",
+                    "valueString": "4"
+                },
+                {
+                    "code": "v2-concCommentAsPub",
+                    "valueString": "4"
+                },
+                {
+                    "code": "status",
+                    "valueCode": "A"
+                }
+            ]
+        },
+        {
+            "id": "1107",
+            "code": "DER",
+            "display": "Donor Eligibility Request",
+            "definition": "Donor Eligibility Request",
+            "property": [
+                {
+                    "code": "v2-concComment",
+                    "valueString": "4"
+                },
+                {
+                    "code": "v2-concCommentAsPub",
+                    "valueString": "4"
+                },
+                {
+                    "code": "status",
+                    "valueCode": "A"
+                }
+            ]
+        },
+        {
+            "id": "1108",
+            "code": "DFT",
+            "display": "Detail financial transactions",
+            "definition": "Detail financial transactions",
+            "designation": [
+                {
+                    "language": "de",
+                    "use": {
+                        "system": "http://terminology.hl7.org/CodeSystem/hl7TermMaintInfra",
+                        "code": "preferredForLanguage"
+                    },
+                    "value": "Einzelbuchung"
+                }
+            ],
+            "property": [
+                {
+                    "code": "v2-concComment",
+                    "valueString": "6"
+                },
+                {
+                    "code": "v2-concCommentAsPub",
+                    "valueString": "6"
+                },
+                {
+                    "code": "status",
+                    "valueCode": "A"
+                }
+            ]
+        },
+        {
+            "id": "1109",
+            "code": "DOC",
+            "display": "Document response",
+            "definition": "Document response",
+            "property": [
+                {
+                    "code": "v2-concComment",
+                    "valueString": "9 - Deprecated"
+                },
+                {
+                    "code": "v2-concCommentAsPub",
+                    "valueString": "9 - Deprecated"
+                },
+                {
+                    "code": "status",
+                    "valueCode": "A"
+                }
+            ]
+        },
+        {
+            "id": "1110",
+            "code": "DPR",
+            "display": "Donation Procedure",
+            "definition": "Donation Procedure",
+            "property": [
+                {
+                    "code": "v2-concComment",
+                    "valueString": "4"
+                },
+                {
+                    "code": "v2-concCommentAsPub",
+                    "valueString": "4"
+                },
+                {
+                    "code": "status",
+                    "valueCode": "A"
+                }
+            ]
+        },
+        {
+            "id": "1111",
+            "code": "DRC",
+            "display": "Donor Request to Collect",
+            "definition": "Donor Request to Collect",
+            "property": [
+                {
+                    "code": "v2-concComment",
+                    "valueString": "4"
+                },
+                {
+                    "code": "v2-concCommentAsPub",
+                    "valueString": "4"
+                },
+                {
+                    "code": "status",
+                    "valueCode": "A"
+                }
+            ]
+        },
+        {
+            "id": "1112",
+            "code": "DSR",
+            "display": "Display response",
+            "definition": "Display response",
+            "designation": [
+                {
+                    "language": "de",
+                    "use": {
+                        "system": "http://terminology.hl7.org/CodeSystem/hl7TermMaintInfra",
+                        "code": "preferredForLanguage"
+                    },
+                    "value": "Antwort im Anzeigeformat"
+                }
+            ],
+            "property": [
+                {
+                    "code": "v2-concComment",
+                    "valueString": "5 - Deprecated"
+                },
+                {
+                    "code": "v2-concCommentAsPub",
+                    "valueString": "5 - Deprecated"
+                },
+                {
+                    "code": "status",
+                    "valueCode": "A"
+                }
+            ]
+        },
+        {
+            "id": "1113",
+            "code": "MCF",
+            "display": "Delayed Acknowledgment (Retained for backward compatibility only)",
+            "definition": "Delayed Acknowledgment (Retained for backward compatibility only)",
+            "designation": [
+                {
+                    "language": "de",
+                    "use": {
+                        "system": "http://terminology.hl7.org/CodeSystem/hl7TermMaintInfra",
+                        "code": "preferredForLanguage"
+                    },
+                    "value": "Verzögerte Empfangsbestätigung (veraltet; ACK benutzen)"
+                }
+            ],
+            "property": [
+                {
+                    "code": "deprecated",
+                    "valueCode": "2.9"
+                },
+                {
+                    "code": "status",
+                    "valueCode": "A"
+                }
+            ]
+        },
+        {
+            "id": "1114",
+            "code": "EAC",
+            "display": "Automated equipment command message",
+            "definition": "Automated equipment command message",
+            "property": [
+                {
+                    "code": "v2-concComment",
+                    "valueString": "13"
+                },
+                {
+                    "code": "v2-concCommentAsPub",
+                    "valueString": "13"
+                },
+                {
+                    "code": "status",
+                    "valueCode": "A"
+                }
+            ]
+        },
+        {
+            "id": "1115",
+            "code": "EAN",
+            "display": "Automated equipment notification message",
+            "definition": "Automated equipment notification message",
+            "property": [
+                {
+                    "code": "v2-concComment",
+                    "valueString": "13"
+                },
+                {
+                    "code": "v2-concCommentAsPub",
+                    "valueString": "13"
+                },
+                {
+                    "code": "status",
+                    "valueCode": "A"
+                }
+            ]
+        },
+        {
+            "id": "1116",
+            "code": "EAR",
+            "display": "Automated equipment response message",
+            "definition": "Automated equipment response message",
+            "property": [
+                {
+                    "code": "v2-concComment",
+                    "valueString": "13"
+                },
+                {
+                    "code": "v2-concCommentAsPub",
+                    "valueString": "13"
+                },
+                {
+                    "code": "status",
+                    "valueCode": "A"
+                }
+            ]
+        },
+        {
+            "id": "1117",
+            "code": "EHC",
+            "display": "Health Care Invoice",
+            "definition": "Health Care Invoice",
+            "property": [
+                {
+                    "code": "v2-concComment",
+                    "valueString": "16"
+                },
+                {
+                    "code": "v2-concCommentAsPub",
+                    "valueString": "16"
+                },
+                {
+                    "code": "status",
+                    "valueCode": "A"
+                }
+            ]
+        },
+        {
+            "id": "1118",
+            "code": "ESR",
+            "display": "Automated equipment status update acknowledgment message",
+            "definition": "Automated equipment status update acknowledgment message",
+            "property": [
+                {
+                    "code": "v2-concComment",
+                    "valueString": "13"
+                },
+                {
+                    "code": "v2-concCommentAsPub",
+                    "valueString": "13"
+                },
+                {
+                    "code": "status",
+                    "valueCode": "A"
+                }
+            ]
+        },
+        {
+            "id": "1119",
+            "code": "ESU",
+            "display": "Automated equipment status update message",
+            "definition": "Automated equipment status update message",
+            "property": [
+                {
+                    "code": "v2-concComment",
+                    "valueString": "13"
+                },
+                {
+                    "code": "v2-concCommentAsPub",
+                    "valueString": "13"
+                },
+                {
+                    "code": "status",
+                    "valueCode": "A"
+                }
+            ]
+        },
+        {
+            "id": "1120",
+            "code": "INR",
+            "display": "Automated equipment inventory request message",
+            "definition": "Automated equipment inventory request message",
+            "property": [
+                {
+                    "code": "v2-concComment",
+                    "valueString": "13"
+                },
+                {
+                    "code": "v2-concCommentAsPub",
+                    "valueString": "13"
+                },
+                {
+                    "code": "status",
+                    "valueCode": "A"
+                }
+            ]
+        },
+        {
+            "id": "1121",
+            "code": "INU",
+            "display": "Automated equipment inventory update message",
+            "definition": "Automated equipment inventory update message",
+            "property": [
+                {
+                    "code": "v2-concComment",
+                    "valueString": "13"
+                },
+                {
+                    "code": "v2-concCommentAsPub",
+                    "valueString": "13"
+                },
+                {
+                    "code": "status",
+                    "valueCode": "A"
+                }
+            ]
+        },
+        {
+            "id": "1122",
+            "code": "LSR",
+            "display": "Automated equipment log/service request message",
+            "definition": "Automated equipment log/service request message",
+            "property": [
+                {
+                    "code": "v2-concComment",
+                    "valueString": "13"
+                },
+                {
+                    "code": "v2-concCommentAsPub",
+                    "valueString": "13"
+                },
+                {
+                    "code": "status",
+                    "valueCode": "A"
+                }
+            ]
+        },
+        {
+            "id": "1123",
+            "code": "LSU",
+            "display": "Automated equipment log/service update message",
+            "definition": "Automated equipment log/service update message",
+            "property": [
+                {
+                    "code": "v2-concComment",
+                    "valueString": "13"
+                },
+                {
+                    "code": "v2-concCommentAsPub",
+                    "valueString": "13"
+                },
+                {
+                    "code": "status",
+                    "valueCode": "A"
+                }
+            ]
+        },
+        {
+            "id": "1124",
+            "code": "MDM",
+            "display": "Medical document management",
+            "definition": "Medical document management",
+            "property": [
+                {
+                    "code": "v2-concComment",
+                    "valueString": "9"
+                },
+                {
+                    "code": "v2-concCommentAsPub",
+                    "valueString": "9"
+                },
+                {
+                    "code": "status",
+                    "valueCode": "A"
+                }
+            ]
+        },
+        {
+            "id": "1125",
+            "code": "MFD",
+            "display": "Master files delayed application acknowledgment",
+            "definition": "Master files delayed application acknowledgment",
+            "designation": [
+                {
+                    "language": "de",
+                    "use": {
+                        "system": "http://terminology.hl7.org/CodeSystem/hl7TermMaintInfra",
+                        "code": "preferredForLanguage"
+                    },
+                    "value": "Verzögerte Empfangsbestätigung für Stammdateiänderung"
+                }
+            ],
+            "property": [
+                {
+                    "code": "v2-concComment",
+                    "valueString": "8 - Deprecated"
+                },
+                {
+                    "code": "v2-concCommentAsPub",
+                    "valueString": "8 - Deprecated"
+                },
+                {
+                    "code": "status",
+                    "valueCode": "A"
+                }
+            ]
+        },
+        {
+            "id": "1126",
+            "code": "MFK",
+            "display": "Master files application acknowledgment",
+            "definition": "Master files application acknowledgment",
+            "designation": [
+                {
+                    "language": "de",
+                    "use": {
+                        "system": "http://terminology.hl7.org/CodeSystem/hl7TermMaintInfra",
+                        "code": "preferredForLanguage"
+                    },
+                    "value": "Empfangsbestätigung für Stammdateiänderung"
+                }
+            ],
+            "property": [
+                {
+                    "code": "v2-concComment",
+                    "valueString": "8"
+                },
+                {
+                    "code": "v2-concCommentAsPub",
+                    "valueString": "8"
+                },
+                {
+                    "code": "status",
+                    "valueCode": "A"
+                }
+            ]
+        },
+        {
+            "id": "1127",
+            "code": "MFN",
+            "display": "Master files notification",
+            "definition": "Master files notification",
+            "designation": [
+                {
+                    "language": "de",
+                    "use": {
+                        "system": "http://terminology.hl7.org/CodeSystem/hl7TermMaintInfra",
+                        "code": "preferredForLanguage"
+                    },
+                    "value": "Stammdateiänderung"
+                }
+            ],
+            "property": [
+                {
+                    "code": "v2-concComment",
+                    "valueString": "8"
+                },
+                {
+                    "code": "v2-concCommentAsPub",
+                    "valueString": "8"
+                },
+                {
+                    "code": "status",
+                    "valueCode": "A"
+                }
+            ]
+        },
+        {
+            "id": "1128",
+            "code": "MFQ",
+            "display": "Master files query",
+            "definition": "Master files query",
+            "property": [
+                {
+                    "code": "v2-concComment",
+                    "valueString": "8 - Deprecated"
+                },
+                {
+                    "code": "v2-concCommentAsPub",
+                    "valueString": "8 - Deprecated"
+                },
+                {
+                    "code": "status",
+                    "valueCode": "A"
+                }
+            ]
+        },
+        {
+            "id": "1129",
+            "code": "MFR",
+            "display": "Master files response",
+            "definition": "Master files response",
+            "designation": [
+                {
+                    "language": "de",
+                    "use": {
+                        "system": "http://terminology.hl7.org/CodeSystem/hl7TermMaintInfra",
+                        "code": "preferredForLanguage"
+                    },
+                    "value": "Antwort auf Stammdateianfrage"
+                }
+            ],
+            "property": [
+                {
+                    "code": "v2-concComment",
+                    "valueString": "8 - Deprecated"
+                },
+                {
+                    "code": "v2-concCommentAsPub",
+                    "valueString": "8 - Deprecated"
+                },
+                {
+                    "code": "status",
+                    "valueCode": "A"
+                }
+            ]
+        },
+        {
+            "id": "1130",
+            "code": "NMD",
+            "display": "Application management data message",
+            "definition": "Application management data message",
+            "designation": [
+                {
+                    "language": "de",
+                    "use": {
+                        "system": "http://terminology.hl7.org/CodeSystem/hl7TermMaintInfra",
+                        "code": "preferredForLanguage"
+                    },
+                    "value": "Asynchrone Statusmeldung eines Systems"
+                }
+            ],
+            "property": [
+                {
+                    "code": "v2-concComment",
+                    "valueString": "14"
+                },
+                {
+                    "code": "v2-concCommentAsPub",
+                    "valueString": "14"
+                },
+                {
+                    "code": "status",
+                    "valueCode": "A"
+                }
+            ]
+        },
+        {
+            "id": "1131",
+            "code": "NMQ",
+            "display": "Application management query message",
+            "definition": "Application management query message",
+            "designation": [
+                {
+                    "language": "de",
+                    "use": {
+                        "system": "http://terminology.hl7.org/CodeSystem/hl7TermMaintInfra",
+                        "code": "preferredForLanguage"
+                    },
+                    "value": "Anfrage / Kommando an ein anderes System im Netz"
+                }
+            ],
+            "property": [
+                {
+                    "code": "v2-concComment",
+                    "valueString": "14 - Deprecated"
+                },
+                {
+                    "code": "v2-concCommentAsPub",
+                    "valueString": "14 - Deprecated"
+                },
+                {
+                    "code": "status",
+                    "valueCode": "A"
+                }
+            ]
+        },
+        {
+            "id": "1132",
+            "code": "NMR",
+            "display": "Application management response message",
+            "definition": "Application management response message",
+            "designation": [
+                {
+                    "language": "de",
+                    "use": {
+                        "system": "http://terminology.hl7.org/CodeSystem/hl7TermMaintInfra",
+                        "code": "preferredForLanguage"
+                    },
+                    "value": "Antwort auf Anfrage / Kommando"
+                }
+            ],
+            "property": [
+                {
+                    "code": "v2-concComment",
+                    "valueString": "14 - Deprecated"
+                },
+                {
+                    "code": "v2-concCommentAsPub",
+                    "valueString": "14 - Deprecated"
+                },
+                {
+                    "code": "status",
+                    "valueCode": "A"
+                }
+            ]
+        },
+        {
+            "id": "1133",
+            "code": "OMB",
+            "display": "Blood product order message",
+            "definition": "Blood product order message",
+            "property": [
+                {
+                    "code": "v2-concComment",
+                    "valueString": "4"
+                },
+                {
+                    "code": "v2-concCommentAsPub",
+                    "valueString": "4"
+                },
+                {
+                    "code": "status",
+                    "valueCode": "A"
+                }
+            ]
+        },
+        {
+            "id": "1134",
+            "code": "OMD",
+            "display": "Dietary order",
+            "definition": "Dietary order",
+            "property": [
+                {
+                    "code": "v2-concComment",
+                    "valueString": "4"
+                },
+                {
+                    "code": "v2-concCommentAsPub",
+                    "valueString": "4"
+                },
+                {
+                    "code": "status",
+                    "valueCode": "A"
+                }
+            ]
+        },
+        {
+            "id": "1135",
+            "code": "OMG",
+            "display": "General clinical order message",
+            "definition": "General clinical order message",
+            "designation": [
+                {
+                    "language": "de",
+                    "use": {
+                        "system": "http://terminology.hl7.org/CodeSystem/hl7TermMaintInfra",
+                        "code": "preferredForLanguage"
+                    },
+                    "value": "allgemeiner Auftrag"
+                }
+            ],
+            "property": [
+                {
+                    "code": "v2-concComment",
+                    "valueString": "4"
+                },
+                {
+                    "code": "v2-concCommentAsPub",
+                    "valueString": "4"
+                },
+                {
+                    "code": "status",
+                    "valueCode": "A"
+                }
+            ]
+        },
+        {
+            "id": "1136",
+            "code": "OMI",
+            "display": "Imaging order",
+            "definition": "Imaging order",
+            "designation": [
+                {
+                    "language": "de",
+                    "use": {
+                        "system": "http://terminology.hl7.org/CodeSystem/hl7TermMaintInfra",
+                        "code": "preferredForLanguage"
+                    },
+                    "value": "Auftrag für bildgebende Untersuchung"
+                }
+            ],
+            "property": [
+                {
+                    "code": "v2-concComment",
+                    "valueString": "4"
+                },
+                {
+                    "code": "v2-concCommentAsPub",
+                    "valueString": "4"
+                },
+                {
+                    "code": "status",
+                    "valueCode": "A"
+                }
+            ]
+        },
+        {
+            "id": "1137",
+            "code": "ROC",
+            "display": "Request clinical information",
+            "definition": "Request clinical information",
+            "property": [
+                {
+                    "code": "deprecated",
+                    "valueCode": "2.9"
+                },
+                {
+                    "code": "status",
+                    "valueCode": "A"
+                }
+            ]
+        },
+        {
+            "id": "1138",
+            "code": "ROD",
+            "display": "Request pateint demographics",
+            "definition": "Request pateint demographics",
+            "property": [
+                {
+                    "code": "deprecated",
+                    "valueCode": "2.9"
+                },
+                {
+                    "code": "status",
+                    "valueCode": "A"
+                }
+            ]
+        },
+        {
+            "id": "1139",
+            "code": "OML",
+            "display": "Laboratory order message",
+            "definition": "Laboratory order message",
+            "designation": [
+                {
+                    "language": "de",
+                    "use": {
+                        "system": "http://terminology.hl7.org/CodeSystem/hl7TermMaintInfra",
+                        "code": "preferredForLanguage"
+                    },
+                    "value": "Laborauftrag"
+                }
+            ],
+            "property": [
+                {
+                    "code": "v2-concComment",
+                    "valueString": "4"
+                },
+                {
+                    "code": "v2-concCommentAsPub",
+                    "valueString": "4"
+                },
+                {
+                    "code": "status",
+                    "valueCode": "A"
+                }
+            ]
+        },
+        {
+            "id": "1140",
+            "code": "OMN",
+            "display": "Non-stock requisition order message",
+            "definition": "Non-stock requisition order message",
+            "property": [
+                {
+                    "code": "v2-concComment",
+                    "valueString": "4"
+                },
+                {
+                    "code": "v2-concCommentAsPub",
+                    "valueString": "4"
+                },
+                {
+                    "code": "status",
+                    "valueCode": "A"
+                }
+            ]
+        },
+        {
+            "id": "1141",
+            "code": "OMP",
+            "display": "Pharmacy/treatment order message",
+            "definition": "Pharmacy/treatment order message",
+            "property": [
+                {
+                    "code": "v2-concComment",
+                    "valueString": "4"
+                },
+                {
+                    "code": "v2-concCommentAsPub",
+                    "valueString": "4"
+                },
+                {
+                    "code": "status",
+                    "valueCode": "A"
+                }
+            ]
+        },
+        {
+            "id": "1142",
+            "code": "OMQ",
+            "display": "General order message with document payload",
+            "definition": "General order message with document payload",
+            "property": [
+                {
+                    "code": "v2-concComment",
+                    "valueString": "4"
+                },
+                {
+                    "code": "v2-concCommentAsPub",
+                    "valueString": "4"
+                },
+                {
+                    "code": "status",
+                    "valueCode": "A"
+                }
+            ]
+        },
+        {
+            "id": "1143",
+            "code": "OMS",
+            "display": "Stock requisition order message",
+            "definition": "Stock requisition order message",
+            "property": [
+                {
+                    "code": "v2-concComment",
+                    "valueString": "4"
+                },
+                {
+                    "code": "v2-concCommentAsPub",
+                    "valueString": "4"
+                },
+                {
+                    "code": "status",
+                    "valueCode": "A"
+                }
+            ]
+        },
+        {
+            "id": "1144",
+            "code": "OPL",
+            "display": "Population/Location-Based Laboratory Order Message",
+            "definition": "Population/Location-Based Laboratory Order Message",
+            "property": [
+                {
+                    "code": "v2-concComment",
+                    "valueString": "4"
+                },
+                {
+                    "code": "v2-concCommentAsPub",
+                    "valueString": "4"
+                },
+                {
+                    "code": "status",
+                    "valueCode": "A"
+                }
+            ]
+        },
+        {
+            "id": "1145",
+            "code": "OPR",
+            "display": "Population/Location-Based Laboratory Order Acknowledgment Message",
+            "definition": "Population/Location-Based Laboratory Order Acknowledgment Message",
+            "property": [
+                {
+                    "code": "v2-concComment",
+                    "valueString": "4"
+                },
+                {
+                    "code": "v2-concCommentAsPub",
+                    "valueString": "4"
+                },
+                {
+                    "code": "status",
+                    "valueCode": "A"
+                }
+            ]
+        },
+        {
+            "id": "1146",
+            "code": "OPU",
+            "display": "Unsolicited Population/Location-Based Laboratory Observation Message",
+            "definition": "Unsolicited Population/Location-Based Laboratory Observation Message",
+            "property": [
+                {
+                    "code": "v2-concComment",
+                    "valueString": "7"
+                },
+                {
+                    "code": "v2-concCommentAsPub",
+                    "valueString": "7"
+                },
+                {
+                    "code": "status",
+                    "valueCode": "A"
+                }
+            ]
+        },
+        {
+            "id": "1147",
+            "code": "ORA",
+            "display": "Observation Report Acknowledgment",
+            "definition": "Observation Report Acknowledgment",
+            "property": [
+                {
+                    "code": "v2-concComment",
+                    "valueString": "7"
+                },
+                {
+                    "code": "v2-concCommentAsPub",
+                    "valueString": "7"
+                },
+                {
+                    "code": "status",
+                    "valueCode": "A"
+                }
+            ]
+        },
+        {
+            "id": "1148",
+            "code": "ORB",
+            "display": "Blood product order acknowledgement message",
+            "definition": "Blood product order acknowledgement message",
+            "property": [
+                {
+                    "code": "v2-concComment",
+                    "valueString": "4"
+                },
+                {
+                    "code": "v2-concCommentAsPub",
+                    "valueString": "4"
+                },
+                {
+                    "code": "status",
+                    "valueCode": "A"
+                }
+            ]
+        },
+        {
+            "id": "1149",
+            "code": "ORD",
+            "display": "Dietary order acknowledgment message",
+            "definition": "Dietary order acknowledgment message",
+            "property": [
+                {
+                    "code": "v2-concComment",
+                    "valueString": "4"
+                },
+                {
+                    "code": "v2-concCommentAsPub",
+                    "valueString": "4"
+                },
+                {
+                    "code": "status",
+                    "valueCode": "A"
+                }
+            ]
+        },
+        {
+            "id": "1150",
+            "code": "ORF",
+            "display": "Query for results of observation",
+            "definition": "Query for results of observation",
+            "designation": [
+                {
+                    "language": "de",
+                    "use": {
+                        "system": "http://terminology.hl7.org/CodeSystem/hl7TermMaintInfra",
+                        "code": "preferredForLanguage"
+                    },
+                    "value": "Anfrage nach Untersuchungsergebnissen"
+                }
+            ],
+            "property": [
+                {
+                    "code": "v2-concComment",
+                    "valueString": "7 - Deprecated"
+                },
+                {
+                    "code": "v2-concCommentAsPub",
+                    "valueString": "7 - Deprecated"
+                },
+                {
+                    "code": "status",
+                    "valueCode": "A"
+                }
+            ]
+        },
+        {
+            "id": "1151",
+            "code": "ORG",
+            "display": "General clinical order acknowledgment message",
+            "definition": "General clinical order acknowledgment message",
+            "property": [
+                {
+                    "code": "v2-concComment",
+                    "valueString": "4"
+                },
+                {
+                    "code": "v2-concCommentAsPub",
+                    "valueString": "4"
+                },
+                {
+                    "code": "status",
+                    "valueCode": "A"
+                }
+            ]
+        },
+        {
+            "id": "1152",
+            "code": "ORI",
+            "display": "Imaging order acknowledgement message",
+            "definition": "Imaging order acknowledgement message",
+            "property": [
+                {
+                    "code": "v2-concComment",
+                    "valueString": "4"
+                },
+                {
+                    "code": "v2-concCommentAsPub",
+                    "valueString": "4"
+                },
+                {
+                    "code": "status",
+                    "valueCode": "A"
+                }
+            ]
+        },
+        {
+            "id": "1153",
+            "code": "ORL",
+            "display": "Laboratory acknowledgment message (unsolicited)",
+            "definition": "Laboratory acknowledgment message (unsolicited)",
+            "property": [
+                {
+                    "code": "v2-concComment",
+                    "valueString": "7"
+                },
+                {
+                    "code": "v2-concCommentAsPub",
+                    "valueString": "7"
+                },
+                {
+                    "code": "status",
+                    "valueCode": "A"
+                }
+            ]
+        },
+        {
+            "id": "1154",
+            "code": "ORM",
+            "display": "Pharmacy/treatment order message",
+            "definition": "Pharmacy/treatment order message",
+            "designation": [
+                {
+                    "language": "de",
+                    "use": {
+                        "system": "http://terminology.hl7.org/CodeSystem/hl7TermMaintInfra",
+                        "code": "preferredForLanguage"
+                    },
+                    "value": "Auftrag / Verordnung"
+                }
+            ],
+            "property": [
+                {
+                    "code": "v2-concComment",
+                    "valueString": "4 - Deprecated"
+                },
+                {
+                    "code": "v2-concCommentAsPub",
+                    "valueString": "4 - Deprecated"
+                },
+                {
+                    "code": "status",
+                    "valueCode": "A"
+                }
+            ]
+        },
+        {
+            "id": "1155",
+            "code": "ORN",
+            "display": "Non-stock requisition - General order acknowledgment message",
+            "definition": "Non-stock requisition - General order acknowledgment message",
+            "property": [
+                {
+                    "code": "v2-concComment",
+                    "valueString": "4"
+                },
+                {
+                    "code": "v2-concCommentAsPub",
+                    "valueString": "4"
+                },
+                {
+                    "code": "status",
+                    "valueCode": "A"
+                }
+            ]
+        },
+        {
+            "id": "1156",
+            "code": "ORP",
+            "display": "Pharmacy/treatment order acknowledgment message",
+            "definition": "Pharmacy/treatment order acknowledgment message",
+            "property": [
+                {
+                    "code": "v2-concComment",
+                    "valueString": "4"
+                },
+                {
+                    "code": "v2-concCommentAsPub",
+                    "valueString": "4"
+                },
+                {
+                    "code": "status",
+                    "valueCode": "A"
+                }
+            ]
+        },
+        {
+            "id": "1157",
+            "code": "ORR",
+            "display": "General order response message response to any ORM",
+            "definition": "General order response message response to any ORM",
+            "designation": [
+                {
+                    "language": "de",
+                    "use": {
+                        "system": "http://terminology.hl7.org/CodeSystem/hl7TermMaintInfra",
+                        "code": "preferredForLanguage"
+                    },
+                    "value": "Empfangsbestätigung von der Anwendung für einen Auftrag"
+                }
+            ],
+            "property": [
+                {
+                    "code": "v2-concComment",
+                    "valueString": "4 - Deprecated"
+                },
+                {
+                    "code": "v2-concCommentAsPub",
+                    "valueString": "4 - Deprecated"
+                },
+                {
+                    "code": "status",
+                    "valueCode": "A"
+                }
+            ]
+        },
+        {
+            "id": "1158",
+            "code": "ORS",
+            "display": "Stock requisition - Order acknowledgment message",
+            "definition": "Stock requisition - Order acknowledgment message",
+            "property": [
+                {
+                    "code": "v2-concComment",
+                    "valueString": "4"
+                },
+                {
+                    "code": "v2-concCommentAsPub",
+                    "valueString": "4"
+                },
+                {
+                    "code": "status",
+                    "valueCode": "A"
+                }
+            ]
+        },
+        {
+            "id": "1159",
+            "code": "ORU",
+            "display": "Unsolicited transmission of an observation message",
+            "definition": "Unsolicited transmission of an observation message",
+            "designation": [
+                {
+                    "language": "de",
+                    "use": {
+                        "system": "http://terminology.hl7.org/CodeSystem/hl7TermMaintInfra",
+                        "code": "preferredForLanguage"
+                    },
+                    "value": "Nicht angeforderte Untersuchungsergebnisse"
+                }
+            ],
+            "property": [
+                {
+                    "code": "v2-concComment",
+                    "valueString": "7"
+                },
+                {
+                    "code": "v2-concCommentAsPub",
+                    "valueString": "7"
+                },
+                {
+                    "code": "status",
+                    "valueCode": "A"
+                }
+            ]
+        },
+        {
+            "id": "1160",
+            "code": "ORX",
+            "display": "General Order Message with Document Payload Acknowledgement",
+            "definition": "General Order Message with Document Payload Acknowledgement",
+            "property": [
+                {
+                    "code": "v2-concComment",
+                    "valueString": "4"
+                },
+                {
+                    "code": "v2-concCommentAsPub",
+                    "valueString": "4"
+                },
+                {
+                    "code": "status",
+                    "valueCode": "A"
+                }
+            ]
+        },
+        {
+            "id": "1161",
+            "code": "OSM",
+            "display": "Specimen Shipment Message",
+            "definition": "Specimen Shipment Message",
+            "property": [
+                {
+                    "code": "v2-concComment",
+                    "valueString": "7"
+                },
+                {
+                    "code": "v2-concCommentAsPub",
+                    "valueString": "7"
+                },
+                {
+                    "code": "status",
+                    "valueCode": "A"
+                }
+            ]
+        },
+        {
+            "id": "1162",
+            "code": "OSQ",
+            "display": "Query response for order status",
+            "definition": "Query response for order status",
+            "designation": [
+                {
+                    "language": "de",
+                    "use": {
+                        "system": "http://terminology.hl7.org/CodeSystem/hl7TermMaintInfra",
+                        "code": "preferredForLanguage"
+                    },
+                    "value": "Anfrage nach Auftragsstatus"
+                }
+            ],
+            "property": [
+                {
+                    "code": "v2-concComment",
+                    "valueString": "4 - Deprecated"
+                },
+                {
+                    "code": "v2-concCommentAsPub",
+                    "valueString": "4 - Deprecated"
+                },
+                {
+                    "code": "status",
+                    "valueCode": "A"
+                }
+            ]
+        },
+        {
+            "id": "1163",
+            "code": "OSR",
+            "display": "Query response for order status",
+            "definition": "Query response for order status",
+            "property": [
+                {
+                    "code": "v2-concComment",
+                    "valueString": "4 - Deprecated"
+                },
+                {
+                    "code": "v2-concCommentAsPub",
+                    "valueString": "4 - Deprecated"
+                },
+                {
+                    "code": "status",
+                    "valueCode": "A"
+                }
+            ]
+        },
+        {
+            "id": "1164",
+            "code": "OSU",
+            "display": "Order status update",
+            "definition": "Order status update",
+            "property": [
+                {
+                    "code": "v2-concComment",
+                    "valueString": "4"
+                },
+                {
+                    "code": "v2-concCommentAsPub",
+                    "valueString": "4"
+                },
+                {
+                    "code": "status",
+                    "valueCode": "A"
+                }
+            ]
+        },
+        {
+            "id": "1165",
+            "code": "OUL",
+            "display": "Unsolicited laboratory observation message",
+            "definition": "Unsolicited laboratory observation message",
+            "property": [
+                {
+                    "code": "v2-concComment",
+                    "valueString": "7"
+                },
+                {
+                    "code": "v2-concCommentAsPub",
+                    "valueString": "7"
+                },
+                {
+                    "code": "status",
+                    "valueCode": "A"
+                }
+            ]
+        },
+        {
+            "id": "1166",
+            "code": "PEX",
+            "display": "Product experience message",
+            "definition": "Product experience message",
+            "property": [
+                {
+                    "code": "v2-concComment",
+                    "valueString": "7"
+                },
+                {
+                    "code": "v2-concCommentAsPub",
+                    "valueString": "7"
+                },
+                {
+                    "code": "status",
+                    "valueCode": "A"
+                }
+            ]
+        },
+        {
+            "id": "1167",
+            "code": "PGL",
+            "display": "Patient goal message",
+            "definition": "Patient goal message",
+            "property": [
+                {
+                    "code": "v2-concComment",
+                    "valueString": "12"
+                },
+                {
+                    "code": "v2-concCommentAsPub",
+                    "valueString": "12"
+                },
+                {
+                    "code": "status",
+                    "valueCode": "A"
+                }
+            ]
+        },
+        {
+            "id": "1168",
+            "code": "PIN",
+            "display": "Patient insurance information",
+            "definition": "Patient insurance information",
+            "property": [
+                {
+                    "code": "v2-concComment",
+                    "valueString": "11"
+                },
+                {
+                    "code": "v2-concCommentAsPub",
+                    "valueString": "11"
+                },
+                {
+                    "code": "status",
+                    "valueCode": "A"
+                }
+            ]
+        },
+        {
+            "id": "1169",
+            "code": "PMU",
+            "display": "Add personnel record",
+            "definition": "Add personnel record",
+            "property": [
+                {
+                    "code": "v2-concComment",
+                    "valueString": "15"
+                },
+                {
+                    "code": "v2-concCommentAsPub",
+                    "valueString": "15"
+                },
+                {
+                    "code": "status",
+                    "valueCode": "A"
+                }
+            ]
+        },
+        {
+            "id": "1170",
+            "code": "PPG",
+            "display": "Patient pathway message (goal-oriented)",
+            "definition": "Patient pathway message (goal-oriented)",
+            "property": [
+                {
+                    "code": "v2-concComment",
+                    "valueString": "12"
+                },
+                {
+                    "code": "v2-concCommentAsPub",
+                    "valueString": "12"
+                },
+                {
+                    "code": "status",
+                    "valueCode": "A"
+                }
+            ]
+        },
+        {
+            "id": "1171",
+            "code": "PPP",
+            "display": "Patient pathway message (problem-oriented)",
+            "definition": "Patient pathway message (problem-oriented)",
+            "property": [
+                {
+                    "code": "v2-concComment",
+                    "valueString": "12"
+                },
+                {
+                    "code": "v2-concCommentAsPub",
+                    "valueString": "12"
+                },
+                {
+                    "code": "status",
+                    "valueCode": "A"
+                }
+            ]
+        },
+        {
+            "id": "1172",
+            "code": "PPR",
+            "display": "Patient problem message",
+            "definition": "Patient problem message",
+            "property": [
+                {
+                    "code": "v2-concComment",
+                    "valueString": "12"
+                },
+                {
+                    "code": "v2-concCommentAsPub",
+                    "valueString": "12"
+                },
+                {
+                    "code": "status",
+                    "valueCode": "A"
+                }
+            ]
+        },
+        {
+            "id": "1173",
+            "code": "PPT",
+            "display": "Patient pathway goal-oriented response",
+            "definition": "Patient pathway goal-oriented response",
+            "property": [
+                {
+                    "code": "v2-concComment",
+                    "valueString": "Deprecated"
+                },
+                {
+                    "code": "v2-concCommentAsPub",
+                    "valueString": "Deprecated"
+                },
+                {
+                    "code": "status",
+                    "valueCode": "A"
+                }
+            ]
+        },
+        {
+            "id": "1174",
+            "code": "PPV",
+            "display": "Patient goal response",
+            "definition": "Patient goal response",
+            "property": [
+                {
+                    "code": "v2-concComment",
+                    "valueString": "Deprecated"
+                },
+                {
+                    "code": "v2-concCommentAsPub",
+                    "valueString": "Deprecated"
+                },
+                {
+                    "code": "status",
+                    "valueCode": "A"
+                }
+            ]
+        },
+        {
+            "id": "1175",
+            "code": "PRR",
+            "display": "Patient problem response",
+            "definition": "Patient problem response",
+            "property": [
+                {
+                    "code": "v2-concComment",
+                    "valueString": "Deprecated"
+                },
+                {
+                    "code": "v2-concCommentAsPub",
+                    "valueString": "Deprecated"
+                },
+                {
+                    "code": "status",
+                    "valueCode": "A"
+                }
+            ]
+        },
+        {
+            "id": "1176",
+            "code": "PTR",
+            "display": "Patient pathway problem-oriented response",
+            "definition": "Patient pathway problem-oriented response",
+            "property": [
+                {
+                    "code": "v2-concComment",
+                    "valueString": "Deprecated"
+                },
+                {
+                    "code": "v2-concCommentAsPub",
+                    "valueString": "Deprecated"
+                },
+                {
+                    "code": "status",
+                    "valueCode": "A"
+                }
+            ]
+        },
+        {
+            "id": "1177",
+            "code": "QBP",
+            "display": "Query by parameter",
+            "definition": "Query by parameter",
+            "property": [
+                {
+                    "code": "v2-concComment",
+                    "valueString": "5"
+                },
+                {
+                    "code": "v2-concCommentAsPub",
+                    "valueString": "5"
+                },
+                {
+                    "code": "status",
+                    "valueCode": "A"
+                }
+            ]
+        },
+        {
+            "id": "1178",
+            "code": "QCK",
+            "display": "Query general acknowledgment",
+            "definition": "Deferred query",
+            "property": [
+                {
+                    "code": "v2-concComment",
+                    "valueString": "5 - Deprecated"
+                },
+                {
+                    "code": "v2-concCommentAsPub",
+                    "valueString": "5 - Deprecated"
+                },
+                {
+                    "code": "status",
+                    "valueCode": "A"
+                }
+            ]
+        },
+        {
+            "id": "1179",
+            "code": "QCN",
+            "display": "Cancel query",
+            "definition": "Cancel query",
+            "property": [
+                {
+                    "code": "v2-concComment",
+                    "valueString": "5"
+                },
+                {
+                    "code": "v2-concCommentAsPub",
+                    "valueString": "5"
+                },
+                {
+                    "code": "status",
+                    "valueCode": "A"
+                }
+            ]
+        },
+        {
+            "id": "1180",
+            "code": "QRY",
+            "display": "Query, original mode",
+            "definition": "Query, original mode",
+            "designation": [
+                {
+                    "language": "de",
+                    "use": {
+                        "system": "http://terminology.hl7.org/CodeSystem/hl7TermMaintInfra",
+                        "code": "preferredForLanguage"
+                    },
+                    "value": "Anfrage"
+                }
+            ],
+            "property": [
+                {
+                    "code": "v2-concComment",
+                    "valueString": "3"
+                },
+                {
+                    "code": "v2-concCommentAsPub",
+                    "valueString": "3"
+                },
+                {
+                    "code": "status",
+                    "valueCode": "A"
+                }
+            ]
+        },
+        {
+            "id": "1181",
+            "code": "QSB",
+            "display": "Create subscription",
+            "definition": "Create subscription",
+            "property": [
+                {
+                    "code": "v2-concComment",
+                    "valueString": "5"
+                },
+                {
+                    "code": "v2-concCommentAsPub",
+                    "valueString": "5"
+                },
+                {
+                    "code": "status",
+                    "valueCode": "A"
+                }
+            ]
+        },
+        {
+            "id": "1182",
+            "code": "QSX",
+            "display": "Cancel subscription/acknowledge message",
+            "definition": "Cancel subscription/acknowledge message",
+            "property": [
+                {
+                    "code": "v2-concComment",
+                    "valueString": "5"
+                },
+                {
+                    "code": "v2-concCommentAsPub",
+                    "valueString": "5"
+                },
+                {
+                    "code": "status",
+                    "valueCode": "A"
+                }
+            ]
+        },
+        {
+            "id": "1183",
+            "code": "QVR",
+            "display": "Query for previous events",
+            "definition": "Query for previous events",
+            "property": [
+                {
+                    "code": "v2-concComment",
+                    "valueString": "5"
+                },
+                {
+                    "code": "v2-concCommentAsPub",
+                    "valueString": "5"
+                },
+                {
+                    "code": "status",
+                    "valueCode": "A"
+                }
+            ]
+        },
+        {
+            "id": "1184",
+            "code": "RAR",
+            "display": "Pharmacy/treatment administration information",
+            "definition": "Pharmacy/treatment administration information",
+            "designation": [
+                {
+                    "language": "de",
+                    "use": {
+                        "system": "http://terminology.hl7.org/CodeSystem/hl7TermMaintInfra",
+                        "code": "preferredForLanguage"
+                    },
+                    "value": "Antwort auf Anfrage bezüglich Verabreichung von Medikamenten"
+                }
+            ],
+            "property": [
+                {
+                    "code": "v2-concComment",
+                    "valueString": "4 - Deprecated"
+                },
+                {
+                    "code": "v2-concCommentAsPub",
+                    "valueString": "4 - Deprecated"
+                },
+                {
+                    "code": "status",
+                    "valueCode": "A"
+                }
+            ]
+        },
+        {
+            "id": "1185",
+            "code": "RAS",
+            "display": "Pharmacy/treatment administration message",
+            "definition": "Pharmacy/treatment administration message",
+            "designation": [
+                {
+                    "language": "de",
+                    "use": {
+                        "system": "http://terminology.hl7.org/CodeSystem/hl7TermMaintInfra",
+                        "code": "preferredForLanguage"
+                    },
+                    "value": "Erfolgte Verabreichung von Medikamenten"
+                }
+            ],
+            "property": [
+                {
+                    "code": "v2-concComment",
+                    "valueString": "4"
+                },
+                {
+                    "code": "v2-concCommentAsPub",
+                    "valueString": "4"
+                },
+                {
+                    "code": "status",
+                    "valueCode": "A"
+                }
+            ]
+        },
+        {
+            "id": "1186",
+            "code": "RCI",
+            "display": "Return clinical information",
+            "definition": "Return clinical information",
+            "property": [
+                {
+                    "code": "v2-concComment",
+                    "valueString": "11"
+                },
+                {
+                    "code": "v2-concCommentAsPub",
+                    "valueString": "11"
+                },
+                {
+                    "code": "status",
+                    "valueCode": "A"
+                }
+            ]
+        },
+        {
+            "id": "1187",
+            "code": "RCL",
+            "display": "Return clinical list",
+            "definition": "Return clinical list",
+            "property": [
+                {
+                    "code": "v2-concComment",
+                    "valueString": "11"
+                },
+                {
+                    "code": "v2-concCommentAsPub",
+                    "valueString": "11"
+                },
+                {
+                    "code": "status",
+                    "valueCode": "A"
+                }
+            ]
+        },
+        {
+            "id": "1188",
+            "code": "RQQ",
+            "display": "Event replay query",
+            "definition": "Event replay query",
+            "property": [
+                {
+                    "code": "deprecated",
+                    "valueCode": "2.9"
+                },
+                {
+                    "code": "status",
+                    "valueCode": "A"
+                }
+            ]
+        },
+        {
+            "id": "1189",
+            "code": "RDE",
+            "display": "Pharmacy/treatment encoded order message",
+            "definition": "Pharmacy/treatment encoded order message",
+            "designation": [
+                {
+                    "language": "de",
+                    "use": {
+                        "system": "http://terminology.hl7.org/CodeSystem/hl7TermMaintInfra",
+                        "code": "preferredForLanguage"
+                    },
+                    "value": "Medikamentenverordnung (Apotheke)"
+                }
+            ],
+            "property": [
+                {
+                    "code": "v2-concComment",
+                    "valueString": "4"
+                },
+                {
+                    "code": "v2-concCommentAsPub",
+                    "valueString": "4"
+                },
+                {
+                    "code": "status",
+                    "valueCode": "A"
+                }
+            ]
+        },
+        {
+            "id": "1190",
+            "code": "RDR",
+            "display": "Pharmacy/treatment dispense information",
+            "definition": "Pharmacy/treatment dispense information",
+            "designation": [
+                {
+                    "language": "de",
+                    "use": {
+                        "system": "http://terminology.hl7.org/CodeSystem/hl7TermMaintInfra",
+                        "code": "preferredForLanguage"
+                    },
+                    "value": "Antwort auf Anfrage bezüglich Abgabe von Medikamenten"
+                }
+            ],
+            "property": [
+                {
+                    "code": "v2-concComment",
+                    "valueString": "4"
+                },
+                {
+                    "code": "v2-concCommentAsPub",
+                    "valueString": "4"
+                },
+                {
+                    "code": "status",
+                    "valueCode": "A"
+                }
+            ]
+        },
+        {
+            "id": "1191",
+            "code": "RDS",
+            "display": "Pharmacy/treatment dispense message",
+            "definition": "Pharmacy/treatment dispense message",
+            "designation": [
+                {
+                    "language": "de",
+                    "use": {
+                        "system": "http://terminology.hl7.org/CodeSystem/hl7TermMaintInfra",
+                        "code": "preferredForLanguage"
+                    },
+                    "value": "Abgabe von Medikamenten"
+                }
+            ],
+            "property": [
+                {
+                    "code": "v2-concComment",
+                    "valueString": "4"
+                },
+                {
+                    "code": "v2-concCommentAsPub",
+                    "valueString": "4"
+                },
+                {
+                    "code": "status",
+                    "valueCode": "A"
+                }
+            ]
+        },
+        {
+            "id": "1192",
+            "code": "RDY",
+            "display": "Display based response",
+            "definition": "Display based response",
+            "property": [
+                {
+                    "code": "v2-concComment",
+                    "valueString": "5"
+                },
+                {
+                    "code": "v2-concCommentAsPub",
+                    "valueString": "5"
+                },
+                {
+                    "code": "status",
+                    "valueCode": "A"
+                }
+            ]
+        },
+        {
+            "id": "1193",
+            "code": "REF",
+            "display": "Patient referral",
+            "definition": "Patient referral",
+            "designation": [
+                {
+                    "language": "de",
+                    "use": {
+                        "system": "http://terminology.hl7.org/CodeSystem/hl7TermMaintInfra",
+                        "code": "preferredForLanguage"
+                    },
+                    "value": "Überweisung eines Patienten"
+                }
+            ],
+            "property": [
+                {
+                    "code": "v2-concComment",
+                    "valueString": "11"
+                },
+                {
+                    "code": "v2-concCommentAsPub",
+                    "valueString": "11"
+                },
+                {
+                    "code": "status",
+                    "valueCode": "A"
+                }
+            ]
+        },
+        {
+            "id": "1194",
+            "code": "RER",
+            "display": "Pharmacy/treatment encoded order information",
+            "definition": "Pharmacy/treatment encoded order information",
+            "designation": [
+                {
+                    "language": "de",
+                    "use": {
+                        "system": "http://terminology.hl7.org/CodeSystem/hl7TermMaintInfra",
+                        "code": "preferredForLanguage"
+                    },
+                    "value": "Antwort auf Anfrage bezüglich Medikamentenverordnung (Apotheke)"
+                }
+            ],
+            "property": [
+                {
+                    "code": "v2-concComment",
+                    "valueString": "4 - Deprecated"
+                },
+                {
+                    "code": "v2-concCommentAsPub",
+                    "valueString": "4 - Deprecated"
+                },
+                {
+                    "code": "status",
+                    "valueCode": "A"
+                }
+            ]
+        },
+        {
+            "id": "1195",
+            "code": "RGR",
+            "display": "Pharmacy/treatment dose information",
+            "definition": "Pharmacy/treatment dose information",
+            "designation": [
+                {
+                    "language": "de",
+                    "use": {
+                        "system": "http://terminology.hl7.org/CodeSystem/hl7TermMaintInfra",
+                        "code": "preferredForLanguage"
+                    },
+                    "value": "Antwort auf Anfrage bezüglich Verabreichungsvorschrift für Medikamente"
+                }
+            ],
+            "property": [
+                {
+                    "code": "v2-concComment",
+                    "valueString": "4 - Deprecated"
+                },
+                {
+                    "code": "v2-concCommentAsPub",
+                    "valueString": "4 - Deprecated"
+                },
+                {
+                    "code": "status",
+                    "valueCode": "A"
+                }
+            ]
+        },
+        {
+            "id": "1196",
+            "code": "RGV",
+            "display": "Pharmacy/treatment give message",
+            "definition": "Pharmacy/treatment give message",
+            "designation": [
+                {
+                    "language": "de",
+                    "use": {
+                        "system": "http://terminology.hl7.org/CodeSystem/hl7TermMaintInfra",
+                        "code": "preferredForLanguage"
+                    },
+                    "value": "Verabreichungsvorschrift für Medikamente"
+                }
+            ],
+            "property": [
+                {
+                    "code": "v2-concComment",
+                    "valueString": "4"
+                },
+                {
+                    "code": "v2-concCommentAsPub",
+                    "valueString": "4"
+                },
+                {
+                    "code": "status",
+                    "valueCode": "A"
+                }
+            ]
+        },
+        {
+            "id": "1197",
+            "code": "ROR",
+            "display": "Pharmacy/treatment order response",
+            "definition": "Pharmacy/treatment order response",
+            "designation": [
+                {
+                    "language": "de",
+                    "use": {
+                        "system": "http://terminology.hl7.org/CodeSystem/hl7TermMaintInfra",
+                        "code": "preferredForLanguage"
+                    },
+                    "value": "Antwort auf Anfrage bezüglich Medikamentenverordnung"
+                }
+            ],
+            "property": [
+                {
+                    "code": "v2-concComment",
+                    "valueString": "4 - Deprecated"
+                },
+                {
+                    "code": "v2-concCommentAsPub",
+                    "valueString": "4 - Deprecated"
+                },
+                {
+                    "code": "status",
+                    "valueCode": "A"
+                }
+            ]
+        },
+        {
+            "id": "1198",
+            "code": "SPQ",
+            "display": "Stored procedure request",
+            "definition": "Stored procedure request",
+            "property": [
+                {
+                    "code": "deprecated",
+                    "valueCode": "2.9"
+                },
+                {
+                    "code": "status",
+                    "valueCode": "A"
+                }
+            ]
+        },
+        {
+            "id": "1199",
+            "code": "RPA",
+            "display": "Return patient authorization",
+            "definition": "Return patient authorization",
+            "property": [
+                {
+                    "code": "v2-concComment",
+                    "valueString": "11"
+                },
+                {
+                    "code": "v2-concCommentAsPub",
+                    "valueString": "11"
+                },
+                {
+                    "code": "status",
+                    "valueCode": "A"
+                }
+            ]
+        },
+        {
+            "id": "1200",
+            "code": "RPI",
+            "display": "Return patient information",
+            "definition": "Return patient information",
+            "property": [
+                {
+                    "code": "v2-concComment",
+                    "valueString": "11"
+                },
+                {
+                    "code": "v2-concCommentAsPub",
+                    "valueString": "11"
+                },
+                {
+                    "code": "status",
+                    "valueCode": "A"
+                }
+            ]
+        },
+        {
+            "id": "1201",
+            "code": "RPL",
+            "display": "Return patient display list",
+            "definition": "Return patient display list",
+            "property": [
+                {
+                    "code": "v2-concComment",
+                    "valueString": "11"
+                },
+                {
+                    "code": "v2-concCommentAsPub",
+                    "valueString": "11"
+                },
+                {
+                    "code": "status",
+                    "valueCode": "A"
+                }
+            ]
+        },
+        {
+            "id": "1202",
+            "code": "RPR",
+            "display": "Return patient list",
+            "definition": "Return patient list",
+            "property": [
+                {
+                    "code": "v2-concComment",
+                    "valueString": "11"
+                },
+                {
+                    "code": "v2-concCommentAsPub",
+                    "valueString": "11"
+                },
+                {
+                    "code": "status",
+                    "valueCode": "A"
+                }
+            ]
+        },
+        {
+            "id": "1203",
+            "code": "RQA",
+            "display": "Request patient authorization",
+            "definition": "Request patient authorization",
+            "property": [
+                {
+                    "code": "v2-concComment",
+                    "valueString": "11"
+                },
+                {
+                    "code": "v2-concCommentAsPub",
+                    "valueString": "11"
+                },
+                {
+                    "code": "status",
+                    "valueCode": "A"
+                }
+            ]
+        },
+        {
+            "id": "1204",
+            "code": "RQC",
+            "display": "Request clinical information",
+            "definition": "Request clinical information",
+            "property": [
+                {
+                    "code": "v2-concComment",
+                    "valueString": "11"
+                },
+                {
+                    "code": "v2-concCommentAsPub",
+                    "valueString": "11"
+                },
+                {
+                    "code": "status",
+                    "valueCode": "A"
+                }
+            ]
+        },
+        {
+            "id": "1205",
+            "code": "RQI",
+            "display": "Request patient information",
+            "definition": "Request patient information",
+            "property": [
+                {
+                    "code": "v2-concComment",
+                    "valueString": "11"
+                },
+                {
+                    "code": "v2-concCommentAsPub",
+                    "valueString": "11"
+                },
+                {
+                    "code": "status",
+                    "valueCode": "A"
+                }
+            ]
+        },
+        {
+            "id": "1206",
+            "code": "RQP",
+            "display": "Request patient demographics",
+            "definition": "Request patient demographics",
+            "property": [
+                {
+                    "code": "v2-concComment",
+                    "valueString": "11"
+                },
+                {
+                    "code": "v2-concCommentAsPub",
+                    "valueString": "11"
+                },
+                {
+                    "code": "status",
+                    "valueCode": "A"
+                }
+            ]
+        },
+        {
+            "id": "1207",
+            "code": "RRA",
+            "display": "Pharmacy/treatment administration acknowledgment message",
+            "definition": "Pharmacy/treatment administration acknowledgment message",
+            "designation": [
+                {
+                    "language": "de",
+                    "use": {
+                        "system": "http://terminology.hl7.org/CodeSystem/hl7TermMaintInfra",
+                        "code": "preferredForLanguage"
+                    },
+                    "value": "Empfangsbestätigung für Verabreichungsmeldung"
+                }
+            ],
+            "property": [
+                {
+                    "code": "v2-concComment",
+                    "valueString": "4"
+                },
+                {
+                    "code": "v2-concCommentAsPub",
+                    "valueString": "4"
+                },
+                {
+                    "code": "status",
+                    "valueCode": "A"
+                }
+            ]
+        },
+        {
+            "id": "1208",
+            "code": "RRD",
+            "display": "Pharmacy/treatment dispense acknowledgment message",
+            "definition": "Pharmacy/treatment dispense acknowledgment message",
+            "designation": [
+                {
+                    "language": "de",
+                    "use": {
+                        "system": "http://terminology.hl7.org/CodeSystem/hl7TermMaintInfra",
+                        "code": "preferredForLanguage"
+                    },
+                    "value": "Empfangsbestätigung für Abgabemeldung"
+                }
+            ],
+            "property": [
+                {
+                    "code": "v2-concComment",
+                    "valueString": "4"
+                },
+                {
+                    "code": "v2-concCommentAsPub",
+                    "valueString": "4"
+                },
+                {
+                    "code": "status",
+                    "valueCode": "A"
+                }
+            ]
+        },
+        {
+            "id": "1209",
+            "code": "RRE",
+            "display": "Pharmacy/treatment encoded order acknowledgment message",
+            "definition": "Pharmacy/treatment encoded order acknowledgment message",
+            "designation": [
+                {
+                    "language": "de",
+                    "use": {
+                        "system": "http://terminology.hl7.org/CodeSystem/hl7TermMaintInfra",
+                        "code": "preferredForLanguage"
+                    },
+                    "value": "Empfangsbestätigung für Verordnung (Apotheke)"
+                }
+            ],
+            "property": [
+                {
+                    "code": "v2-concComment",
+                    "valueString": "4"
+                },
+                {
+                    "code": "v2-concCommentAsPub",
+                    "valueString": "4"
+                },
+                {
+                    "code": "status",
+                    "valueCode": "A"
+                }
+            ]
+        },
+        {
+            "id": "1210",
+            "code": "RRG",
+            "display": "Pharmacy/treatment give acknowledgment message",
+            "definition": "Pharmacy/treatment give acknowledgment message",
+            "designation": [
+                {
+                    "language": "de",
+                    "use": {
+                        "system": "http://terminology.hl7.org/CodeSystem/hl7TermMaintInfra",
+                        "code": "preferredForLanguage"
+                    },
+                    "value": "Empfangsbestätigung für Verabreichungsvorschrift"
+                }
+            ],
+            "property": [
+                {
+                    "code": "v2-concComment",
+                    "valueString": "4"
+                },
+                {
+                    "code": "v2-concCommentAsPub",
+                    "valueString": "4"
+                },
+                {
+                    "code": "status",
+                    "valueCode": "A"
+                }
+            ]
+        },
+        {
+            "id": "1211",
+            "code": "VQQ",
+            "display": "Virtual table query",
+            "definition": "Virtual table query",
+            "property": [
+                {
+                    "code": "deprecated",
+                    "valueCode": "2.9"
+                },
+                {
+                    "code": "status",
+                    "valueCode": "A"
+                }
+            ]
+        },
+        {
+            "id": "1212",
+            "code": "RRI",
+            "display": "Return referral information",
+            "definition": "Return referral information",
+            "property": [
+                {
+                    "code": "v2-concComment",
+                    "valueString": "11"
+                },
+                {
+                    "code": "v2-concCommentAsPub",
+                    "valueString": "11"
+                },
+                {
+                    "code": "status",
+                    "valueCode": "A"
+                }
+            ]
+        },
+        {
+            "id": "1213",
+            "code": "RSP",
+            "display": "Segment pattern response",
+            "definition": "Segment pattern response",
+            "property": [
+                {
+                    "code": "v2-concComment",
+                    "valueString": "5"
+                },
+                {
+                    "code": "v2-concCommentAsPub",
+                    "valueString": "5"
+                },
+                {
+                    "code": "status",
+                    "valueCode": "A"
+                }
+            ]
+        },
+        {
+            "id": "1214",
+            "code": "RTB",
+            "display": "Tabular response",
+            "definition": "Tabular response",
+            "property": [
+                {
+                    "code": "v2-concComment",
+                    "valueString": "5"
+                },
+                {
+                    "code": "v2-concCommentAsPub",
+                    "valueString": "5"
+                },
+                {
+                    "code": "status",
+                    "valueCode": "A"
+                }
+            ]
+        },
+        {
+            "id": "1215",
+            "code": "SCN",
+            "display": "Notification of Anti-Microbial Device Cycle Data",
+            "definition": "Notification of Anti-Microbial Device Cycle Data",
+            "property": [
+                {
+                    "code": "v2-concComment",
+                    "valueString": "17"
+                },
+                {
+                    "code": "v2-concCommentAsPub",
+                    "valueString": "17"
+                },
+                {
+                    "code": "status",
+                    "valueCode": "A"
+                }
+            ]
+        },
+        {
+            "id": "1216",
+            "code": "SDN",
+            "display": "Notification of Anti-Microbial Device Data",
+            "definition": "Notification of Anti-Microbial Device Data",
+            "property": [
+                {
+                    "code": "v2-concComment",
+                    "valueString": "17"
+                },
+                {
+                    "code": "v2-concCommentAsPub",
+                    "valueString": "17"
+                },
+                {
+                    "code": "status",
+                    "valueCode": "A"
+                }
+            ]
+        },
+        {
+            "id": "1217",
+            "code": "SDR",
+            "display": "Sterilization anti-microbial device data request",
+            "definition": "Sterilization anti-microbial device data request",
+            "property": [
+                {
+                    "code": "v2-concComment",
+                    "valueString": "17"
+                },
+                {
+                    "code": "v2-concCommentAsPub",
+                    "valueString": "17"
+                },
+                {
+                    "code": "status",
+                    "valueCode": "A"
+                }
+            ]
+        },
+        {
+            "id": "1218",
+            "code": "SET",
+            "display": "Specimen Event Tracking",
+            "definition": "This message type is used to report how the specimen moves through its lifecycle from collection, identification, transport, acceptance or rejection, processing to storage and disposition.",
+            "property": [
+                {
+                    "code": "status",
+                    "valueCode": "N"
+                }
+            ]
+        },
+        {
+            "id": "1219",
+            "code": "SIU",
+            "display": "Schedule information unsolicited",
+            "definition": "Schedule information unsolicited",
+            "property": [
+                {
+                    "code": "v2-concComment",
+                    "valueString": "10"
+                },
+                {
+                    "code": "v2-concCommentAsPub",
+                    "valueString": "10"
+                },
+                {
+                    "code": "status",
+                    "valueCode": "A"
+                }
+            ]
+        },
+        {
+            "id": "1220",
+            "code": "SLN",
+            "display": "Notification of New Sterilization Lot",
+            "definition": "Notification of New Sterilization Lot",
+            "property": [
+                {
+                    "code": "v2-concComment",
+                    "valueString": "17"
+                },
+                {
+                    "code": "v2-concCommentAsPub",
+                    "valueString": "17"
+                },
+                {
+                    "code": "status",
+                    "valueCode": "A"
+                }
+            ]
+        },
+        {
+            "id": "1221",
+            "code": "SLR",
+            "display": "Sterilization lot request",
+            "definition": "Sterilization lot request",
+            "property": [
+                {
+                    "code": "v2-concComment",
+                    "valueString": "17"
+                },
+                {
+                    "code": "v2-concCommentAsPub",
+                    "valueString": "17"
+                },
+                {
+                    "code": "status",
+                    "valueCode": "A"
+                }
+            ]
+        },
+        {
+            "id": "1222",
+            "code": "SMD",
+            "display": "Sterilization anti-microbial device cycle data request",
+            "definition": "Sterilization anti-microbial device cycle data request",
+            "property": [
+                {
+                    "code": "v2-concComment",
+                    "valueString": "17"
+                },
+                {
+                    "code": "v2-concCommentAsPub",
+                    "valueString": "17"
+                },
+                {
+                    "code": "status",
+                    "valueCode": "A"
+                }
+            ]
+        },
+        {
+            "id": "1223",
+            "code": "SQM",
+            "display": "Schedule query message",
+            "definition": "Schedule query message",
+            "property": [
+                {
+                    "code": "v2-concComment",
+                    "valueString": "10 - Deprecated"
+                },
+                {
+                    "code": "v2-concCommentAsPub",
+                    "valueString": "10 - Deprecated"
+                },
+                {
+                    "code": "status",
+                    "valueCode": "A"
+                }
+            ]
+        },
+        {
+            "id": "1224",
+            "code": "SQR",
+            "display": "Schedule query response",
+            "definition": "Schedule query response",
+            "property": [
+                {
+                    "code": "v2-concComment",
+                    "valueString": "10 - Deprecated"
+                },
+                {
+                    "code": "v2-concCommentAsPub",
+                    "valueString": "10 - Deprecated"
+                },
+                {
+                    "code": "status",
+                    "valueCode": "A"
+                }
+            ]
+        },
+        {
+            "id": "1225",
+            "code": "SRM",
+            "display": "Schedule request message",
+            "definition": "Schedule request message",
+            "property": [
+                {
+                    "code": "v2-concComment",
+                    "valueString": "10"
+                },
+                {
+                    "code": "v2-concCommentAsPub",
+                    "valueString": "10"
+                },
+                {
+                    "code": "status",
+                    "valueCode": "A"
+                }
+            ]
+        },
+        {
+            "id": "1226",
+            "code": "SRR",
+            "display": "Scheduled request response",
+            "definition": "Scheduled request response",
+            "property": [
+                {
+                    "code": "v2-concComment",
+                    "valueString": "10"
+                },
+                {
+                    "code": "v2-concCommentAsPub",
+                    "valueString": "10"
+                },
+                {
+                    "code": "status",
+                    "valueCode": "A"
+                }
+            ]
+        },
+        {
+            "id": "1227",
+            "code": "SSR",
+            "display": "Specimen status request message",
+            "definition": "Specimen status request message",
+            "property": [
+                {
+                    "code": "v2-concComment",
+                    "valueString": "13"
+                },
+                {
+                    "code": "v2-concCommentAsPub",
+                    "valueString": "13"
+                },
+                {
+                    "code": "status",
+                    "valueCode": "A"
+                }
+            ]
+        },
+        {
+            "id": "1228",
+            "code": "SSU",
+            "display": "Specimen status update message",
+            "definition": "Specimen status update message",
+            "property": [
+                {
+                    "code": "v2-concComment",
+                    "valueString": "13"
+                },
+                {
+                    "code": "v2-concCommentAsPub",
+                    "valueString": "13"
+                },
+                {
+                    "code": "status",
+                    "valueCode": "A"
+                }
+            ]
+        },
+        {
+            "id": "1229",
+            "code": "STC",
+            "display": "Notification of Sterilization Configuration",
+            "definition": "Notification of Sterilization Configuration",
+            "property": [
+                {
+                    "code": "v2-concComment",
+                    "valueString": "17"
+                },
+                {
+                    "code": "v2-concCommentAsPub",
+                    "valueString": "17"
+                },
+                {
+                    "code": "status",
+                    "valueCode": "A"
+                }
+            ]
+        },
+        {
+            "id": "1230",
+            "code": "STI",
+            "display": "Sterilization item request",
+            "definition": "Sterilization item request",
+            "property": [
+                {
+                    "code": "v2-concComment",
+                    "valueString": "17"
+                },
+                {
+                    "code": "v2-concCommentAsPub",
+                    "valueString": "17"
+                },
+                {
+                    "code": "status",
+                    "valueCode": "A"
+                }
+            ]
+        },
+        {
+            "id": "1231",
+            "code": "SUR",
+            "display": "Summary product experience report",
+            "definition": "Summary product experience report",
+            "property": [
+                {
+                    "code": "v2-concComment",
+                    "valueString": "7 - Deprecated"
+                },
+                {
+                    "code": "v2-concCommentAsPub",
+                    "valueString": "7 - Deprecated"
+                },
+                {
+                    "code": "status",
+                    "valueCode": "A"
+                }
+            ]
+        },
+        {
+            "id": "1232",
+            "code": "TBR",
+            "display": "Tabular data response",
+            "definition": "Tabular data response",
+            "property": [
+                {
+                    "code": "v2-concComment",
+                    "valueString": "5 - Deprecated"
+                },
+                {
+                    "code": "v2-concCommentAsPub",
+                    "valueString": "5 - Deprecated"
+                },
+                {
+                    "code": "status",
+                    "valueCode": "A"
+                }
+            ]
+        },
+        {
+            "id": "1233",
+            "code": "TCR",
+            "display": "Automated equipment test code settings request message",
+            "definition": "Automated equipment test code settings request message",
+            "property": [
+                {
+                    "code": "v2-concComment",
+                    "valueString": "13"
+                },
+                {
+                    "code": "v2-concCommentAsPub",
+                    "valueString": "13"
+                },
+                {
+                    "code": "status",
+                    "valueCode": "A"
+                }
+            ]
+        },
+        {
+            "id": "1234",
+            "code": "TCU",
+            "display": "Automated equipment test code settings update message",
+            "definition": "Automated equipment test code settings update message",
+            "property": [
+                {
+                    "code": "v2-concComment",
+                    "valueString": "13"
+                },
+                {
+                    "code": "v2-concCommentAsPub",
+                    "valueString": "13"
+                },
+                {
+                    "code": "status",
+                    "valueCode": "A"
+                }
+            ]
+        },
+        {
+            "id": "1235",
+            "code": "UDM",
+            "display": "Unsolicited display update message",
+            "definition": "Unsolicited display update message",
+            "designation": [
+                {
+                    "language": "de",
+                    "use": {
+                        "system": "http://terminology.hl7.org/CodeSystem/hl7TermMaintInfra",
+                        "code": "preferredForLanguage"
+                    },
+                    "value": "Nicht angeforderte Nachricht im Anzeigeformat"
+                }
+            ],
+            "property": [
+                {
+                    "code": "v2-concComment",
+                    "valueString": "5"
+                },
+                {
+                    "code": "v2-concCommentAsPub",
+                    "valueString": "5"
+                },
+                {
+                    "code": "status",
+                    "valueCode": "A"
+                }
+            ]
+        },
+        {
+            "id": "1236",
+            "code": "VXQ",
+            "display": "Query for vaccination record",
+            "definition": "Query for vaccination record",
+            "property": [
+                {
+                    "code": "v2-concComment",
+                    "valueString": "4 - Deprecated"
+                },
+                {
+                    "code": "v2-concCommentAsPub",
+                    "valueString": "4 - Deprecated"
+                },
+                {
+                    "code": "status",
+                    "valueCode": "A"
+                }
+            ]
+        },
+        {
+            "id": "1237",
+            "code": "VXR",
+            "display": "Vaccination record response",
+            "definition": "Vaccination record response",
+            "property": [
+                {
+                    "code": "v2-concComment",
+                    "valueString": "4 - Deprecated"
+                },
+                {
+                    "code": "v2-concCommentAsPub",
+                    "valueString": "4 - Deprecated"
+                },
+                {
+                    "code": "status",
+                    "valueCode": "A"
+                }
+            ]
+        },
+        {
+            "id": "1238",
+            "code": "VXU",
+            "display": "Unsolicited vaccination record update",
+            "definition": "Unsolicited vaccination record update",
+            "property": [
+                {
+                    "code": "v2-concComment",
+                    "valueString": "4"
+                },
+                {
+                    "code": "v2-concCommentAsPub",
+                    "valueString": "4"
+                },
+                {
+                    "code": "status",
+                    "valueCode": "A"
+                }
+            ]
+        },
+        {
+            "id": "1239",
+            "code": "VXX",
+            "display": "Response for vaccination query with multiple PID matches",
+            "definition": "Response for vaccination query with multiple PID matches",
+            "property": [
+                {
+                    "code": "v2-concComment",
+                    "valueString": "4 -Deprecated"
+                },
+                {
+                    "code": "v2-concCommentAsPub",
+                    "valueString": "4 -Deprecated"
+                },
+                {
+                    "code": "status",
+                    "valueCode": "A"
+                }
+            ]
+        }
+    ]
+}

@@ -17,6 +17,8 @@ import java.util.logging.Logger;
 
 import org.owasp.encoder.Encode;
 
+import com.ibm.fhir.config.FHIRConfigHelper;
+import com.ibm.fhir.config.FHIRConfiguration;
 import com.ibm.fhir.config.FHIRRequestContext;
 import com.ibm.fhir.config.Interaction;
 import com.ibm.fhir.config.ResourcesConfigAdapter;
@@ -86,9 +88,8 @@ public class FHIRPersistenceUtil {
         return context;
     }
 
-
     /**
-     * Parse history parameters into a FHIRHistoryContext
+     * Parse history parameters into a FHIRHistoryContext using the passed ResourcesConfigAdapter
      *
      * @param queryParameters
      * @param lenient
@@ -178,12 +179,15 @@ public class FHIRPersistenceUtil {
                     throw new FHIRPersistenceException(msg)
                             .withIssue(FHIRUtil.buildOperationOutcomeIssue(msg, IssueType.INVALID));
                 }
-            }
+            } // end foreach query parameter loop
 
             // if no _type parameter was passed but the history interaction is only supported for some subset of types
             // then we need to set the supported resource types in the context
-            if (context.getResourceTypes().isEmpty() && resourcesConfig.isHistoryRestricted()) {
-                typesSupportingHistory.stream().forEach(context::addResourceType);
+            if (context.getResourceTypes().isEmpty()) {
+                Boolean implicitTypeScoping = FHIRConfigHelper.getBooleanProperty(FHIRConfiguration.PROPERTY_WHOLE_SYSTEM_TYPE_SCOPING, true);
+                if (implicitTypeScoping || resourcesConfig.isHistoryRestricted()) {
+                    typesSupportingHistory.stream().forEach(context::addResourceType);
+                }
             }
 
             // Grab the return preference from the request context. We add it to the history

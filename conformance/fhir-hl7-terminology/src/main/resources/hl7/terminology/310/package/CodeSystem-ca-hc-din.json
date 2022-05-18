@@ -1,0 +1,29 @@
+{
+    "resourceType": "CodeSystem",
+    "id": "ca-hc-din",
+    "text": {
+        "status": "empty",
+        "div": "<div xmlns=\"http://www.w3.org/1999/xhtml\">Redacted for size</div>"
+    },
+    "url": "http://hl7.org/fhir/NamingSystem/ca-hc-din",
+    "identifier": [
+        {
+            "system": "urn:ietf:rfc:3986",
+            "value": "urn:oid:2.16.840.1.113883.5.1105"
+        }
+    ],
+    "version": "4.0.0",
+    "name": "HcDIN",
+    "title": "Health Canada Drug Id Number",
+    "status": "active",
+    "experimental": false,
+    "date": "2021-10-04T00:00:00-04:00",
+    "publisher": "Health Canada",
+    "contact": [
+        {
+            "name": "Health Canada,Health Canada"
+        }
+    ],
+    "description": "A Drug Identification Number (DIN) is a computer-generated eight digit number assigned by Health Canada to a drug product prior to being marketed in Canada. It uniquely identifies all drug products sold in a dosage form in Canada and is located on the label of prescription and over-the-counter drug products that have been evaluated and authorized for sale in Canada.  A DIN uniquely identifies the following product characteristics:\r\n\r\n *  manufacturer\r\n *  product name\r\n *  active ingredient(s)\r\n *  strength(s) of active ingredient(s)\r\n *  pharmaceutical form, and\r\n *  route of administration.\r\n\r\nNote: The number has a leading zero.\r\n\r\nFurther information about this Code System can be found at https://www.canada.ca/en/health-canada/services/drugs-health-products/drug-products/applications-submissions/guidance-documents/regulatory-requirements-drug-identification-numbers/document.html",
+    "content": "not-present"
+}

@@ -1,7 +1,7 @@
 #!/usr/bin/env bash
 
 ###############################################################################
-# (C) Copyright IBM Corp. 2021
+# (C) Copyright IBM Corp. 2021, 2022
 #
 # SPDX-License-Identifier: Apache-2.0
 ###############################################################################
@@ -22,6 +22,7 @@ package_logs(){
 
     mkdir -p ${it_results}
     mkdir -p ${it_results}/server-logs
+    mkdir -p ${it_results}/schema-tool
     mkdir -p ${it_results}/fhir-server-test
 
     # Runtime Date
@@ -36,31 +37,37 @@ package_logs(){
         echo "fhir container id: $containerId"
         # Grab the container's console log
         docker logs $containerId  >& ${it_results}/docker-console.txt
-        
+
         echo "Gathering post-test server logs from docker container: $containerId"
         docker cp -L $containerId:/logs ${it_results}/server-logs
+    fi
+
+    echo "Gathering schematool logs"
+    if [ -f ${WORKSPACE}/build/${workflow}/${job}/fhirschema.log ]
+    then
+        cp ${WORKSPACE}/build/${workflow}/${job}/fhirschema.log ${it_results}/schema-tool/
     fi
 
     echo "Gathering integration test output"
     if [ -d ${WORKSPACE}/fhir-server-test/target/surefire-reports ]
     then
-        cp -pr ${WORKSPACE}/fhir-server-test/target/surefire-reports/* ${it_results}/fhir-server-test
+        cp -r ${WORKSPACE}/fhir-server-test/target/surefire-reports/* ${it_results}/fhir-server-test
     fi
 
     if [ -f ${WORKSPACE}/build/${workflow}/${job}/workarea/${job}-test1.log ]
     then
         echo "Move the '${job}' Elements to the output area'"
-        cp -pr build/${workflow}/${job}/workarea/${job}-test*.log ${it_results}
+        cp build/${workflow}/${job}/workarea/${job}-test*.log ${it_results}
     fi
 }
 
 ###############################################################################
 # Check if the workspace is set.
 if [ -z "${WORKSPACE}" ]
-then 
+then
     echo "The WORKSPACE value is unset"
     exit -1
-fi 
+fi
 
 # Store the current directory to reset to
 pushd $(pwd) > /dev/null

@@ -1,0 +1,483 @@
+{
+    "resourceType": "CodeSystem",
+    "id": "v2-0175",
+    "text": {
+        "status": "empty",
+        "div": "<div xmlns=\"http://www.w3.org/1999/xhtml\">Redacted for size</div>"
+    },
+    "extension": [
+        {
+            "url": "http://hl7.org/fhir/StructureDefinition/structuredefinition-wg",
+            "valueCode": "inm"
+        }
+    ],
+    "url": "http://terminology.hl7.org/CodeSystem/v2-0175",
+    "identifier": [
+        {
+            "system": "urn:ietf:rfc:3986",
+            "value": "urn:oid:2.16.840.1.113883.18.91"
+        }
+    ],
+    "version": "2.5.0",
+    "name": "MasterFileIdentifierCodes",
+    "title": "masterFileIdentifierCodes",
+    "status": "active",
+    "experimental": false,
+    "date": "2019-12-01",
+    "publisher": "HL7, Inc",
+    "contact": [
+        {
+            "telecom": [
+                {
+                    "system": "url",
+                    "value": "http://www.hl7.org/"
+                }
+            ]
+        }
+    ],
+    "description": "HL7-defined code system of concepts which are represented by codes identifying HL7 Versions 2.x Master Files.  Used in HL7 Version 2.x messaging in the MFI segment.",
+    "purpose": "Underlying Master Code System for V2 table 0175 (Master File Identifier Code)",
+    "copyright": "Copyright HL7. Licensed under creative commons public domain",
+    "caseSensitive": true,
+    "valueSet": "http://terminology.hl7.org/ValueSet/v2-0175",
+    "hierarchyMeaning": "is-a",
+    "compositional": false,
+    "versionNeeded": false,
+    "content": "complete",
+    "property": [
+        {
+            "code": "status",
+            "uri": "http://terminology.hl7.org/CodeSystem/utg-concept-properties#status",
+            "description": "Status of the concept",
+            "type": "code"
+        },
+        {
+            "code": "deprecated",
+            "uri": "http://terminology.hl7.org/CodeSystem/utg-concept-properties#v2-table-deprecated",
+            "description": "Version of HL7 in which the code was deprecated",
+            "type": "code"
+        },
+        {
+            "code": "v2-concComment",
+            "uri": "http://terminology.hl7.org/CodeSystem/utg-concept-properties#v2-concComment",
+            "description": "V2 Concept Comment",
+            "type": "string"
+        },
+        {
+            "code": "v2-concCommentAsPub",
+            "uri": "http://terminology.hl7.org/CodeSystem/utg-concept-properties#v2-concCommentAsPub",
+            "description": "V2 Concept Comment As Published",
+            "type": "string"
+        }
+    ],
+    "concept": [
+        {
+            "id": "1827",
+            "code": "OM1",
+            "display": "Observation text master file segments (e.g., Lab)",
+            "definition": "Observation text master file segments (e.g., Lab) (see Chapter 87, Appendix B):",
+            "property": [
+                {
+                    "code": "deprecated",
+                    "valueCode": "2.9"
+                },
+                {
+                    "code": "status",
+                    "valueCode": "A"
+                }
+            ]
+        },
+        {
+            "id": "1828",
+            "code": "OM2",
+            "display": "Observation text master file segments (e.g., Lab)",
+            "definition": "Observation text master file segments (e.g., Lab) (see Chapter 87, Appendix B):",
+            "property": [
+                {
+                    "code": "deprecated",
+                    "valueCode": "2.9"
+                },
+                {
+                    "code": "status",
+                    "valueCode": "A"
+                }
+            ]
+        },
+        {
+            "id": "1829",
+            "code": "OM3",
+            "display": "Observation text master file segments (e.g., Lab)",
+            "definition": "Observation text master file segments (e.g., Lab) (see Chapter 87, Appendix B):",
+            "property": [
+                {
+                    "code": "deprecated",
+                    "valueCode": "2.9"
+                },
+                {
+                    "code": "status",
+                    "valueCode": "A"
+                }
+            ]
+        },
+        {
+            "id": "1830",
+            "code": "OM4",
+            "display": "Observation text master file segments (e.g., Lab)",
+            "definition": "Observation text master file segments (e.g., Lab) (see Chapter 87, Appendix B):",
+            "property": [
+                {
+                    "code": "deprecated",
+                    "valueCode": "2.9"
+                },
+                {
+                    "code": "status",
+                    "valueCode": "A"
+                }
+            ]
+        },
+        {
+            "id": "1831",
+            "code": "OM5",
+            "display": "Observation text master file segments (e.g., Lab)",
+            "definition": "Observation text master file segments (e.g., Lab) (see Chapter 87, Appendix B):",
+            "property": [
+                {
+                    "code": "deprecated",
+                    "valueCode": "2.9"
+                },
+                {
+                    "code": "status",
+                    "valueCode": "A"
+                }
+            ]
+        },
+        {
+            "id": "1832",
+            "code": "OM6",
+            "display": "Observation text master file segments (e.g., Lab)",
+            "definition": "Observation text master file segments (e.g., Lab) (see Chapter 87, Appendix B):",
+            "property": [
+                {
+                    "code": "deprecated",
+                    "valueCode": "2.9"
+                },
+                {
+                    "code": "status",
+                    "valueCode": "A"
+                }
+            ]
+        },
+        {
+            "id": "1833",
+            "code": "CM0",
+            "display": "Clinical study master",
+            "definition": "Clinical study master",
+            "property": [
+                {
+                    "code": "deprecated",
+                    "valueCode": "2.9"
+                },
+                {
+                    "code": "status",
+                    "valueCode": "A"
+                }
+            ]
+        },
+        {
+            "id": "1834",
+            "code": "CM1",
+            "display": "Clinical study phase master",
+            "definition": "Clinical study phase master",
+            "property": [
+                {
+                    "code": "deprecated",
+                    "valueCode": "2.9"
+                },
+                {
+                    "code": "status",
+                    "valueCode": "A"
+                }
+            ]
+        },
+        {
+            "id": "1835",
+            "code": "CM2",
+            "display": "Clinical study Data Schedule Master",
+            "definition": "Clinical study Data Schedule Master",
+            "property": [
+                {
+                    "code": "deprecated",
+                    "valueCode": "2.9"
+                },
+                {
+                    "code": "status",
+                    "valueCode": "A"
+                }
+            ]
+        },
+        {
+            "id": "1836",
+            "code": "OM1-OM6",
+            "display": "Observation text master file segments (e.g., Lab)",
+            "definition": "Observation text master file segments (e.g., Lab) (see Chapter 87, Appendix B):",
+            "property": [
+                {
+                    "code": "deprecated",
+                    "valueCode": "2.9"
+                },
+                {
+                    "code": "status",
+                    "valueCode": "D"
+                }
+            ]
+        },
+        {
+            "id": "1837",
+            "code": "CDM",
+            "display": "Charge description master file",
+            "definition": "Charge description master file",
+            "designation": [
+                {
+                    "language": "de",
+                    "use": {
+                        "system": "http://terminology.hl7.org/CodeSystem/hl7TermMaintInfra",
+                        "code": "preferredForLanguage"
+                    },
+                    "value": "Leistungskatalog"
+                }
+            ],
+            "property": [
+                {
+                    "code": "status",
+                    "valueCode": "A"
+                }
+            ]
+        },
+        {
+            "id": "1838",
+            "code": "CMA",
+            "display": "Clinical study with phases and scheduled master file",
+            "definition": "Clinical study with phases and scheduled master file",
+            "property": [
+                {
+                    "code": "status",
+                    "valueCode": "A"
+                }
+            ]
+        },
+        {
+            "id": "1839",
+            "code": "CMB",
+            "display": "Clinical study without phases but with scheduled master file",
+            "definition": "Clinical study without phases but with scheduled master file",
+            "property": [
+                {
+                    "code": "status",
+                    "valueCode": "A"
+                }
+            ]
+        },
+        {
+            "id": "1840",
+            "code": "LOC",
+            "display": "Location master file",
+            "definition": "Location master file",
+            "property": [
+                {
+                    "code": "status",
+                    "valueCode": "A"
+                }
+            ]
+        },
+        {
+            "id": "1841",
+            "code": "OMA",
+            "display": "Numerical observation master file",
+            "definition": "Numerical observation master file",
+            "property": [
+                {
+                    "code": "status",
+                    "valueCode": "A"
+                }
+            ]
+        },
+        {
+            "id": "1842",
+            "code": "OMB",
+            "display": "Categorical observation master file",
+            "definition": "Categorical observation master file",
+            "property": [
+                {
+                    "code": "status",
+                    "valueCode": "A"
+                }
+            ]
+        },
+        {
+            "id": "1843",
+            "code": "OMC",
+            "display": "Observation batteries master file",
+            "definition": "Observation batteries master file",
+            "property": [
+                {
+                    "code": "status",
+                    "valueCode": "A"
+                }
+            ]
+        },
+        {
+            "id": "1844",
+            "code": "OMD",
+            "display": "Calculated observations master file",
+            "definition": "Calculated observations master file",
+            "property": [
+                {
+                    "code": "status",
+                    "valueCode": "A"
+                }
+            ]
+        },
+        {
+            "id": "1845",
+            "code": "OMM",
+            "display": "Mixed type observation master file",
+            "definition": "Mixed type observation master file",
+            "property": [
+                {
+                    "code": "status",
+                    "valueCode": "A"
+                }
+            ]
+        },
+        {
+            "id": "1846",
+            "code": "PRA",
+            "display": "Practitioner master file",
+            "definition": "Practitioner master file",
+            "designation": [
+                {
+                    "language": "de",
+                    "use": {
+                        "system": "http://terminology.hl7.org/CodeSystem/hl7TermMaintInfra",
+                        "code": "preferredForLanguage"
+                    },
+                    "value": "Ärztekatalog"
+                }
+            ],
+            "property": [
+                {
+                    "code": "status",
+                    "valueCode": "A"
+                }
+            ]
+        },
+        {
+            "id": "1847",
+            "code": "STF",
+            "display": "Staff master file",
+            "definition": "Staff master file",
+            "designation": [
+                {
+                    "language": "de",
+                    "use": {
+                        "system": "http://terminology.hl7.org/CodeSystem/hl7TermMaintInfra",
+                        "code": "preferredForLanguage"
+                    },
+                    "value": "Mitarbeiterkatalog"
+                }
+            ],
+            "property": [
+                {
+                    "code": "status",
+                    "valueCode": "A"
+                }
+            ]
+        },
+        {
+            "id": "1848",
+            "code": "CLN",
+            "display": "Clinic master file",
+            "definition": "Clinic master file",
+            "designation": [
+                {
+                    "language": "de",
+                    "use": {
+                        "system": "http://terminology.hl7.org/CodeSystem/hl7TermMaintInfra",
+                        "code": "preferredForLanguage"
+                    },
+                    "value": "Klinikkatalog"
+                }
+            ],
+            "property": [
+                {
+                    "code": "status",
+                    "valueCode": "A"
+                }
+            ]
+        },
+        {
+            "id": "1849",
+            "code": "OME",
+            "display": "Other Observation/Service Item master file",
+            "definition": "Other Observation/Service Item master file",
+            "property": [
+                {
+                    "code": "status",
+                    "valueCode": "A"
+                }
+            ]
+        },
+        {
+            "id": "1850",
+            "code": "INV",
+            "display": "Inventory master file",
+            "definition": "Inventory master file",
+            "property": [
+                {
+                    "code": "status",
+                    "valueCode": "A"
+                }
+            ]
+        },
+        {
+            "id": "1851",
+            "code": "MLCP",
+            "display": "Medicare Limited Coverage Process",
+            "definition": "Medicare Limited Coverage Process",
+            "property": [
+                {
+                    "code": "v2-concComment",
+                    "valueString": "This identifies Universal Service Identifiers that are not approved for a CPT code based on an ICD."
+                },
+                {
+                    "code": "v2-concCommentAsPub",
+                    "valueString": "This identifies Universal Service Identifiers that are not approved for a CPT code based on an ICD."
+                },
+                {
+                    "code": "status",
+                    "valueCode": "A"
+                }
+            ]
+        },
+        {
+            "id": "1852",
+            "code": "MACP",
+            "display": "Medicare Approved Coverage Process",
+            "definition": "Medicare Approved Coverage Process",
+            "property": [
+                {
+                    "code": "v2-concComment",
+                    "valueString": "This identifies Universal Service Identifier that are approved for an ICD based on the CPT."
+                },
+                {
+                    "code": "v2-concCommentAsPub",
+                    "valueString": "This identifies Universal Service Identifier that are approved for an ICD based on the CPT."
+                },
+                {
+                    "code": "status",
+                    "valueCode": "A"
+                }
+            ]
+        }
+    ]
+}

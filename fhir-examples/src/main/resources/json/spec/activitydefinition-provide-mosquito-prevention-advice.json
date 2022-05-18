@@ -7,27 +7,37 @@
   },
   "url": "http://example.org/ActivityDefinition/provide-mosquito-prevention-advice",
   "status": "draft",
+  "experimental": true,
   "description": "Provide mosquito prevention advice",
   "relatedArtifact": [
     {
       "type": "documentation",
       "display": "Advice for patients about how to avoid Mosquito bites.",
-      "url": "http://www.cdc.gov/zika/prevention/index.html"
+      "url": "http://www.cdc.gov/zika/prevention/index.html",
+      "document": {
+        "url": "http://www.cdc.gov/zika/prevention/index.html"
+      }
     },
     {
       "type": "documentation",
       "display": "Advice for patients about which mosquito repellents are effective and safe to use in pregnancy. [DEET, IF3535 and Picardin are safe during]",
-      "url": "https://www.epa.gov/insect-repellents/find-insect-repellent-right-you"
+      "url": "https://www.epa.gov/insect-repellents/find-insect-repellent-right-you",
+      "document": {
+        "url": "https://www.epa.gov/insect-repellents/find-insect-repellent-right-you"
+      }
     }
   ],
   "library": [
-    "Library/zika-virus-intervention-logic"
+    "http://example.org/fhir/Library/zika-virus-intervention-logic"
   ],
   "kind": "CommunicationRequest",
   "code": {
     "text": "Provide Mosquito Prevention Advice"
   },
   "timingTiming": {
+    "event": [
+      null
+    ],
     "_event": [
       {
         "extension": [

@@ -1,0 +1,759 @@
+{
+    "resourceType": "CodeSystem",
+    "id": "v2-0200",
+    "text": {
+        "status": "empty",
+        "div": "<div xmlns=\"http://www.w3.org/1999/xhtml\">Redacted for size</div>"
+    },
+    "extension": [
+        {
+            "url": "http://hl7.org/fhir/StructureDefinition/structuredefinition-wg",
+            "valueCode": "inm"
+        }
+    ],
+    "url": "http://terminology.hl7.org/CodeSystem/v2-0200",
+    "identifier": [
+        {
+            "system": "urn:ietf:rfc:3986",
+            "value": "urn:oid:2.16.840.1.113883.18.105"
+        }
+    ],
+    "version": "2.2.0",
+    "name": "NameType2",
+    "title": "nameType2",
+    "status": "active",
+    "experimental": false,
+    "date": "2019-12-01",
+    "publisher": "HL7, Inc",
+    "contact": [
+        {
+            "telecom": [
+                {
+                    "system": "url",
+                    "value": "http://www.hl7.org/"
+                }
+            ]
+        }
+    ],
+    "description": "HL7-defined code system of concepts for types of names for persons.  Used in HL7 Version 2.x messaging in the XPN, PPN, XCN, PID and MRG segments.",
+    "purpose": "Underlying Master Code System for V2 table 0200 (Name Type)",
+    "copyright": "Copyright HL7. Licensed under creative commons public domain",
+    "caseSensitive": true,
+    "valueSet": "http://terminology.hl7.org/ValueSet/v2-0200",
+    "hierarchyMeaning": "is-a",
+    "compositional": false,
+    "versionNeeded": false,
+    "content": "complete",
+    "property": [
+        {
+            "code": "status",
+            "uri": "http://terminology.hl7.org/CodeSystem/utg-concept-properties#status",
+            "description": "Status of the concept",
+            "type": "code"
+        },
+        {
+            "code": "deprecated",
+            "uri": "http://terminology.hl7.org/CodeSystem/utg-concept-properties#v2-table-deprecated",
+            "description": "Version of HL7 in which the code was deprecated",
+            "type": "code"
+        },
+        {
+            "code": "v2-concComment",
+            "uri": "http://terminology.hl7.org/CodeSystem/utg-concept-properties#v2-concComment",
+            "description": "V2 Concept Comment",
+            "type": "string"
+        },
+        {
+            "code": "v2-concCommentAsPub",
+            "uri": "http://terminology.hl7.org/CodeSystem/utg-concept-properties#v2-concCommentAsPub",
+            "description": "V2 Concept Comment As Published",
+            "type": "string"
+        }
+    ],
+    "concept": [
+        {
+            "id": "1925",
+            "code": "O",
+            "display": "Other",
+            "definition": "Other",
+            "designation": [
+                {
+                    "language": "de",
+                    "use": {
+                        "system": "http://terminology.hl7.org/CodeSystem/hl7TermMaintInfra",
+                        "code": "preferredForLanguage"
+                    },
+                    "value": "sonstiger Name"
+                }
+            ],
+            "property": [
+                {
+                    "code": "deprecated",
+                    "valueCode": "2.9"
+                },
+                {
+                    "code": "status",
+                    "valueCode": "A"
+                }
+            ]
+        },
+        {
+            "id": "1926",
+            "code": "A",
+            "display": "Assigned",
+            "definition": "Assigned",
+            "designation": [
+                {
+                    "language": "de",
+                    "use": {
+                        "system": "http://terminology.hl7.org/CodeSystem/hl7TermMaintInfra",
+                        "code": "preferredForLanguage"
+                    },
+                    "value": "Aliasname"
+                }
+            ],
+            "property": [
+                {
+                    "code": "v2-concComment",
+                    "valueString": "A name assigned to a person. Reasons some organizations assign alternate names may include not knowing the person's name, or to maintain anonymity. Some, but not necessarily all, of the name types that people call \"alias\" may fit into this category."
+                },
+                {
+                    "code": "v2-concCommentAsPub",
+                    "valueString": "A name assigned to a person. Reasons some organizations assign alternate names may include not knowing the person's name, or to maintain anonymity. Some, but not necessarily all, of the name types that people call \"alias\" may fit into this category."
+                },
+                {
+                    "code": "status",
+                    "valueCode": "A"
+                }
+            ]
+        },
+        {
+            "id": "1927",
+            "code": "B",
+            "display": "Birth name",
+            "definition": "Birth name",
+            "designation": [
+                {
+                    "language": "de",
+                    "use": {
+                        "system": "http://terminology.hl7.org/CodeSystem/hl7TermMaintInfra",
+                        "code": "preferredForLanguage"
+                    },
+                    "value": "Geburtsname"
+                }
+            ],
+            "property": [
+                {
+                    "code": "v2-concComment",
+                    "valueString": "A name that a person had shortly after being born. Usually for family names but may be used to mark given names at birth that may have changed later.<p>This is not for temporary names assigned at birth while a newborn is not yet named"
+                },
+                {
+                    "code": "v2-concCommentAsPub",
+                    "valueString": "A name that a person had shortly after being born. Usually for family names but may be used to mark given names at birth that may have changed later.<p>This is not for temporary names assigned at birth while a newborn is not yet named"
+                },
+                {
+                    "code": "status",
+                    "valueCode": "A"
+                }
+            ]
+        },
+        {
+            "id": "1928",
+            "code": "BAD",
+            "display": "Bad Name",
+            "definition": "Bad Name",
+            "designation": [
+                {
+                    "language": "de",
+                    "use": {
+                        "system": "http://terminology.hl7.org/CodeSystem/hl7TermMaintInfra",
+                        "code": "preferredForLanguage"
+                    },
+                    "value": "ungültiger Name"
+                }
+            ],
+            "property": [
+                {
+                    "code": "v2-concComment",
+                    "valueString": "A name that was wrongly used in the past and is now maintained only for the purposes of searching"
+                },
+                {
+                    "code": "v2-concCommentAsPub",
+                    "valueString": "A name that was wrongly used in the past and is now maintained only for the purposes of searching"
+                },
+                {
+                    "code": "status",
+                    "valueCode": "A"
+                }
+            ]
+        },
+        {
+            "id": "1929",
+            "code": "C",
+            "display": "Adopted Name",
+            "definition": "Adopted Name",
+            "designation": [
+                {
+                    "language": "de",
+                    "use": {
+                        "system": "http://terminology.hl7.org/CodeSystem/hl7TermMaintInfra",
+                        "code": "preferredForLanguage"
+                    },
+                    "value": "angenommener Name"
+                }
+            ],
+            "property": [
+                {
+                    "code": "v2-concComment",
+                    "valueString": "A name acquired by adoption"
+                },
+                {
+                    "code": "v2-concCommentAsPub",
+                    "valueString": "A name acquired by adoption"
+                },
+                {
+                    "code": "status",
+                    "valueCode": "A"
+                }
+            ]
+        },
+        {
+            "id": "1930",
+            "code": "D",
+            "display": "Customary Name",
+            "definition": "Customary Name",
+            "designation": [
+                {
+                    "language": "de",
+                    "use": {
+                        "system": "http://terminology.hl7.org/CodeSystem/hl7TermMaintInfra",
+                        "code": "preferredForLanguage"
+                    },
+                    "value": "angezeigter Name"
+                }
+            ],
+            "property": [
+                {
+                    "code": "v2-concComment",
+                    "valueString": "Known as/conventional/the one you use.  May also be known asa preferred name."
+                },
+                {
+                    "code": "v2-concCommentAsPub",
+                    "valueString": "Known as/conventional/the one you use.  May also be known asa preferred name."
+                },
+                {
+                    "code": "status",
+                    "valueCode": "A"
+                }
+            ]
+        },
+        {
+            "id": "1931",
+            "code": "F",
+            "display": "Fathers Name",
+            "definition": "Fathers Name",
+            "designation": [
+                {
+                    "language": "de",
+                    "use": {
+                        "system": "http://terminology.hl7.org/CodeSystem/hl7TermMaintInfra",
+                        "code": "preferredForLanguage"
+                    },
+                    "value": "Name des Vaters"
+                }
+            ],
+            "property": [
+                {
+                    "code": "v2-concComment",
+                    "valueString": "Fathers Name ( Patronymic Name)"
+                },
+                {
+                    "code": "v2-concCommentAsPub",
+                    "valueString": "Fathers Name ( Patronymic Name)"
+                },
+                {
+                    "code": "status",
+                    "valueCode": "A"
+                }
+            ]
+        },
+        {
+            "id": "1932",
+            "code": "I",
+            "display": "Licensing Name",
+            "definition": "Licensing Name",
+            "designation": [
+                {
+                    "language": "de",
+                    "use": {
+                        "system": "http://terminology.hl7.org/CodeSystem/hl7TermMaintInfra",
+                        "code": "preferredForLanguage"
+                    },
+                    "value": "nicht verwendet"
+                }
+            ],
+            "property": [
+                {
+                    "code": "status",
+                    "valueCode": "A"
+                }
+            ]
+        },
+        {
+            "id": "1933",
+            "code": "K",
+            "display": "Business name",
+            "definition": "Business name",
+            "designation": [
+                {
+                    "language": "de",
+                    "use": {
+                        "system": "http://terminology.hl7.org/CodeSystem/hl7TermMaintInfra",
+                        "code": "preferredForLanguage"
+                    },
+                    "value": "Geschäftsname"
+                }
+            ],
+            "property": [
+                {
+                    "code": "v2-concComment",
+                    "valueString": "A name used in a Professional or Business context. Also includes writer’s pseudonym, artist’s name, stage name, street name, etc.\r\n\r\nAn example of use is where a person with multiple proper names (i.e. married) uses one of the particular names in a professional"
+                },
+                {
+                    "code": "v2-concCommentAsPub",
+                    "valueString": "A name used in a Professional or Business context. Also includes writer’s pseudonym, artist’s name, stage name, street name, etc.\r\n\r\nAn example of use is where a person with multiple proper names (i.e. married) uses one of the particular names in a professional"
+                },
+                {
+                    "code": "status",
+                    "valueCode": "A"
+                }
+            ]
+        },
+        {
+            "id": "1934",
+            "code": "L",
+            "display": "Official Registry Name",
+            "definition": "Official Registry Name",
+            "designation": [
+                {
+                    "language": "de",
+                    "use": {
+                        "system": "http://terminology.hl7.org/CodeSystem/hl7TermMaintInfra",
+                        "code": "preferredForLanguage"
+                    },
+                    "value": "gesetzlicher Name"
+                }
+            ],
+            "property": [
+                {
+                    "code": "v2-concComment",
+                    "valueString": "The formal name as registered in an official (government) registry, but which name might not be commonly used. May correspond to legal name<p>For many people, customary name is also their official name"
+                },
+                {
+                    "code": "v2-concCommentAsPub",
+                    "valueString": "The formal name as registered in an official (government) registry, but which name might not be commonly used. May correspond to legal name<p>For many people, customary name is also their official name"
+                },
+                {
+                    "code": "status",
+                    "valueCode": "A"
+                }
+            ]
+        },
+        {
+            "id": "1935",
+            "code": "M",
+            "display": "Maiden Name",
+            "definition": "Maiden Name",
+            "designation": [
+                {
+                    "language": "de",
+                    "use": {
+                        "system": "http://terminology.hl7.org/CodeSystem/hl7TermMaintInfra",
+                        "code": "preferredForLanguage"
+                    },
+                    "value": "Name als ledige Person (Ledigenname)"
+                }
+            ],
+            "property": [
+                {
+                    "code": "v2-concComment",
+                    "valueString": "A name you had just before you got married"
+                },
+                {
+                    "code": "v2-concCommentAsPub",
+                    "valueString": "A name you had just before you got married"
+                },
+                {
+                    "code": "status",
+                    "valueCode": "A"
+                }
+            ]
+        },
+        {
+            "id": "1936",
+            "code": "MSK",
+            "display": "Masked",
+            "definition": "Masked",
+            "designation": [
+                {
+                    "language": "de",
+                    "use": {
+                        "system": "http://terminology.hl7.org/CodeSystem/hl7TermMaintInfra",
+                        "code": "preferredForLanguage"
+                    },
+                    "value": "Name ist maskiert"
+                }
+            ],
+            "property": [
+                {
+                    "code": "v2-concComment",
+                    "valueString": "There is information on this item available but it has not been provided by the sender due to security, privacy or other reasons. There may be an alternate mechanism for gaining access to this information.\r\n\r\nNote: using this null flavor does provide information that may be a breach of confidentiality, even though no detail data is provided. Its primary purpose is for those circumstances where it is necessary to inform the receiver that the information does exist without providing any detail."
+                },
+                {
+                    "code": "v2-concCommentAsPub",
+                    "valueString": "There is information on this item available but it has not been provided by the sender due to security, privacy or other reasons. There may be an alternate mechanism for gaining access to this information.\r\n\r\nNote: using this null flavor does provide information that may be a breach of confidentiality, even though no detail data is provided. Its primary purpose is for those circumstances where it is necessary to inform the receiver that the information does exist without providing any detail."
+                },
+                {
+                    "code": "status",
+                    "valueCode": "A"
+                }
+            ]
+        },
+        {
+            "id": "1937",
+            "code": "N",
+            "display": "Nickname",
+            "definition": "Nickname",
+            "designation": [
+                {
+                    "language": "de",
+                    "use": {
+                        "system": "http://terminology.hl7.org/CodeSystem/hl7TermMaintInfra",
+                        "code": "preferredForLanguage"
+                    },
+                    "value": "Spitzname"
+                }
+            ],
+            "property": [
+                {
+                    "code": "v2-concComment",
+                    "valueString": "Nickname /\"Call me\" Name/Street Name"
+                },
+                {
+                    "code": "v2-concCommentAsPub",
+                    "valueString": "Nickname /\"Call me\" Name/Street Name"
+                },
+                {
+                    "code": "status",
+                    "valueCode": "A"
+                }
+            ]
+        },
+        {
+            "id": "1938",
+            "code": "NAV",
+            "display": "Temporarily Unavailable",
+            "definition": "Temporarily Unavailable",
+            "designation": [
+                {
+                    "language": "de",
+                    "use": {
+                        "system": "http://terminology.hl7.org/CodeSystem/hl7TermMaintInfra",
+                        "code": "preferredForLanguage"
+                    },
+                    "value": "Name zeitweise nicht verfügbar"
+                }
+            ],
+            "property": [
+                {
+                    "code": "v2-concComment",
+                    "valueString": "Information is not available at this time but it is expected that it will be available later.<p>Includes John or Jane Doe situations"
+                },
+                {
+                    "code": "v2-concCommentAsPub",
+                    "valueString": "Information is not available at this time but it is expected that it will be available later.<p>Includes John or Jane Doe situations"
+                },
+                {
+                    "code": "status",
+                    "valueCode": "A"
+                }
+            ]
+        },
+        {
+            "id": "1939",
+            "code": "NB",
+            "display": "Newborn Name",
+            "definition": "Newborn Name",
+            "designation": [
+                {
+                    "language": "de",
+                    "use": {
+                        "system": "http://terminology.hl7.org/CodeSystem/hl7TermMaintInfra",
+                        "code": "preferredForLanguage"
+                    },
+                    "value": "Name zeitweise nicht verfügbar"
+                }
+            ],
+            "property": [
+                {
+                    "code": "v2-concComment",
+                    "valueString": "A name assigned on a temporary basis at birth. i.e. \"Baby of Smith\""
+                },
+                {
+                    "code": "v2-concCommentAsPub",
+                    "valueString": "A name assigned on a temporary basis at birth. i.e. \"Baby of Smith\""
+                },
+                {
+                    "code": "status",
+                    "valueCode": "A"
+                }
+            ]
+        },
+        {
+            "id": "1940",
+            "code": "NOUSE",
+            "display": "No Longer To Be Used",
+            "definition": "No Longer To Be Used",
+            "designation": [
+                {
+                    "language": "de",
+                    "use": {
+                        "system": "http://terminology.hl7.org/CodeSystem/hl7TermMaintInfra",
+                        "code": "preferredForLanguage"
+                    },
+                    "value": "nicht länger in Benutzung"
+                }
+            ],
+            "property": [
+                {
+                    "code": "v2-concComment",
+                    "valueString": "Name not to be used anymore for personal reasons"
+                },
+                {
+                    "code": "v2-concCommentAsPub",
+                    "valueString": "Name not to be used anymore for personal reasons"
+                },
+                {
+                    "code": "status",
+                    "valueCode": "A"
+                }
+            ]
+        },
+        {
+            "id": "1941",
+            "code": "P",
+            "display": "Name of Partner/Spouse",
+            "definition": "Name of Partner/Spouse",
+            "designation": [
+                {
+                    "language": "de",
+                    "use": {
+                        "system": "http://terminology.hl7.org/CodeSystem/hl7TermMaintInfra",
+                        "code": "preferredForLanguage"
+                    },
+                    "value": "nicht verwendet"
+                }
+            ],
+            "property": [
+                {
+                    "code": "v2-concComment",
+                    "valueString": "Retained for backward compatibility only as of v2.7."
+                },
+                {
+                    "code": "v2-concCommentAsPub",
+                    "valueString": "Retained for backward compatibility only as of v2.7."
+                },
+                {
+                    "code": "status",
+                    "valueCode": "A"
+                }
+            ]
+        },
+        {
+            "id": "1942",
+            "code": "R",
+            "display": "Registered Name",
+            "definition": "Registered Name",
+            "designation": [
+                {
+                    "language": "de",
+                    "use": {
+                        "system": "http://terminology.hl7.org/CodeSystem/hl7TermMaintInfra",
+                        "code": "preferredForLanguage"
+                    },
+                    "value": "Zuchtname bei Tieren"
+                }
+            ],
+            "property": [
+                {
+                    "code": "v2-concComment",
+                    "valueString": "(animals only)<p>Retained for backwards compatibility only as of v2.7. Use \"L\" instead - has same meaning"
+                },
+                {
+                    "code": "v2-concCommentAsPub",
+                    "valueString": "(animals only)<p>Retained for backwards compatibility only as of v2.7. Use \"L\" instead - has same meaning"
+                },
+                {
+                    "code": "status",
+                    "valueCode": "A"
+                }
+            ]
+        },
+        {
+            "id": "1943",
+            "code": "REL",
+            "display": "Religious",
+            "definition": "Religious",
+            "property": [
+                {
+                    "code": "v2-concComment",
+                    "valueString": "e.g. Sister Mary Francis, Brother John"
+                },
+                {
+                    "code": "v2-concCommentAsPub",
+                    "valueString": "e.g. Sister Mary Francis, Brother John"
+                },
+                {
+                    "code": "status",
+                    "valueCode": "A"
+                }
+            ]
+        },
+        {
+            "id": "1944",
+            "code": "S",
+            "display": "Pseudonym",
+            "definition": "Pseudonym",
+            "designation": [
+                {
+                    "language": "de",
+                    "use": {
+                        "system": "http://terminology.hl7.org/CodeSystem/hl7TermMaintInfra",
+                        "code": "preferredForLanguage"
+                    },
+                    "value": "Pseudonym (z.B. für Studien)"
+                }
+            ],
+            "property": [
+                {
+                    "code": "v2-concComment",
+                    "valueString": "Coded Pseudo-Name to ensure anonymity"
+                },
+                {
+                    "code": "v2-concCommentAsPub",
+                    "valueString": "Coded Pseudo-Name to ensure anonymity"
+                },
+                {
+                    "code": "status",
+                    "valueCode": "A"
+                }
+            ]
+        },
+        {
+            "id": "1945",
+            "code": "T",
+            "display": "Indigenous/Tribal",
+            "definition": "Indigenous/Tribal",
+            "designation": [
+                {
+                    "language": "de",
+                    "use": {
+                        "system": "http://terminology.hl7.org/CodeSystem/hl7TermMaintInfra",
+                        "code": "preferredForLanguage"
+                    },
+                    "value": "Stammesname"
+                }
+            ],
+            "property": [
+                {
+                    "code": "v2-concComment",
+                    "valueString": "Indigenous/Tribal/Community Name  e.g. Chief Red Cloud"
+                },
+                {
+                    "code": "v2-concCommentAsPub",
+                    "valueString": "Indigenous/Tribal/Community Name  e.g. Chief Red Cloud"
+                },
+                {
+                    "code": "status",
+                    "valueCode": "A"
+                }
+            ]
+        },
+        {
+            "id": "1946",
+            "code": "TEMP",
+            "display": "Temporary Name",
+            "definition": "Temporary Name",
+            "designation": [
+                {
+                    "language": "de",
+                    "use": {
+                        "system": "http://terminology.hl7.org/CodeSystem/hl7TermMaintInfra",
+                        "code": "preferredForLanguage"
+                    },
+                    "value": "temporärer Name"
+                }
+            ],
+            "property": [
+                {
+                    "code": "v2-concComment",
+                    "valueString": "A temporary name. Note that a name valid time can provide more detailed information."
+                },
+                {
+                    "code": "v2-concCommentAsPub",
+                    "valueString": "A temporary name. Note that a name valid time can provide more detailed information."
+                },
+                {
+                    "code": "status",
+                    "valueCode": "A"
+                }
+            ]
+        },
+        {
+            "id": "1947",
+            "code": "U",
+            "display": "Unknown",
+            "definition": "Unknown",
+            "designation": [
+                {
+                    "language": "de",
+                    "use": {
+                        "system": "http://terminology.hl7.org/CodeSystem/hl7TermMaintInfra",
+                        "code": "preferredForLanguage"
+                    },
+                    "value": "Name unbekannt"
+                }
+            ],
+            "property": [
+                {
+                    "code": "v2-concComment",
+                    "valueString": "Unknown"
+                },
+                {
+                    "code": "v2-concCommentAsPub",
+                    "valueString": "Unknown"
+                },
+                {
+                    "code": "status",
+                    "valueCode": "A"
+                }
+            ]
+        },
+        {
+            "id": "1948",
+            "code": "...",
+            "display": "No suggested values defined",
+            "definition": "No suggested values defined",
+            "property": [
+                {
+                    "code": "deprecated",
+                    "valueCode": "2.9"
+                },
+                {
+                    "code": "status",
+                    "valueCode": "D"
+                }
+            ]
+        }
+    ]
+}

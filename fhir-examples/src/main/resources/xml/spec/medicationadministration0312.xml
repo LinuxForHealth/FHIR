@@ -7,7 +7,7 @@
       <display value="test health data"/>
     </security>
   </meta>
-  <text><status value="generated"/><div xmlns="http://www.w3.org/1999/xhtml"><p><b>Generated Narrative with Details</b></p><p><b>id</b>: medadmin0312</p><p><b>identifier</b>: 12345689 (OFFICIAL)</p><p><b>status</b>: completed</p><p><b>medication</b>: Fentanyl 25micrograms/hour patch (product) <span>(Details : {SNOMED CT code '333919005' = 'Fentanyl 25micrograms/hour patch', given as 'Fentanyl 25micrograms/hour patch (product)'})</span></p><p><b>subject</b>: <a>Donald Duck</a></p><p><b>effective</b>: 15/01/2015 10:03:00 PM --&gt; 16/01/2015 2:03:00 AM</p><h3>Performers</h3><table><tr><td>-</td><td><b>Actor</b></td></tr><tr><td>*</td><td><a>Patrick Pump</a></td></tr></table><p><b>request</b>: <a>MedicationRequest/medrx0305</a></p><h3>Dosages</h3><table><tr><td>-</td><td><b>Text</b></td><td><b>Dose</b></td></tr><tr><td>*</td><td>apply one patch three times per week</td><td>1 patch<span> (Details: http://terminology.hl7.org/CodeSystem/v3-orderableDrugForm code patch = 'patch')</span></td></tr></table></div></text><identifier>
+  <text><status value="generated"/><div xmlns="http://www.w3.org/1999/xhtml"><p><b>Generated Narrative</b></p><div style="display: inline-block; background-color: #d9e0e7; padding: 6px; margin: 4px; border: 1px solid #8da1b4; border-radius: 5px; line-height: 60%"><p style="margin-bottom: 0px">Resource "medadmin0312" </p></div><p><b>identifier</b>: id: 12345689 (OFFICIAL)</p><p><b>status</b>: completed</p><p><b>medication</b>: Fentanyl 25micrograms/hour patch (product) <span style="background: LightGoldenRodYellow; margin: 4px; border: 1px solid khaki"> (<a href="https://browser.ihtsdotools.org/">SNOMED CT</a>#333919005)</span></p><p><b>subject</b>: <a href="patient-pat1.html">Patient/pat1: Donald Duck</a> "Duck DONALD"</p><p><b>effective</b>: 2015-01-15T22:03:00+01:00 --&gt; 2015-01-16T02:03:00+01:00</p><h3>Performers</h3><table class="grid"><tr><td>-</td><td><b>Actor</b></td></tr><tr><td>*</td><td><a href="practitioner-f007.html">Practitioner/f007: Patrick Pump</a> "Simone HEPS"</td></tr></table><p><b>request</b>: <a href="medicationrequest-medrx0305.html">MedicationRequest/medrx0305</a></p><h3>Dosages</h3><table class="grid"><tr><td>-</td><td><b>Text</b></td><td><b>Dose</b></td></tr><tr><td>*</td><td>apply one patch three times per week</td><td>1 patch<span style="background: LightGoldenRodYellow"> (Details: http://terminology.hl7.org/CodeSystem/v3-orderableDrugForm code PATCH = 'Patch')</span></td></tr></table></div></text><identifier>
       <use value="official"/>
       <system value="http://www.bmc.nl/portal/administrations"/>
       <value value="12345689"/>
@@ -43,7 +43,7 @@
       <value value="1"/>
       <unit value="patch"/>
       <system value="http://terminology.hl7.org/CodeSystem/v3-orderableDrugForm"/>
-      <code value="patch"/>
+      <code value="PATCH"/>
     </dose>
   </dosage>
 

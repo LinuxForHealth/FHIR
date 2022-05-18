@@ -1,5 +1,5 @@
 /*
- * (C) Copyright IBM Corp. 2019, 2021
+ * (C) Copyright IBM Corp. 2019, 2022
  *
  * SPDX-License-Identifier: Apache-2.0
  */
@@ -62,6 +62,14 @@ public class FHIRDefinedType extends Code {
      * <p>A concept that may be defined by a formal reference to a terminology or ontology or may be provided by text.
      */
     public static final FHIRDefinedType CODEABLE_CONCEPT = FHIRDefinedType.builder().value(Value.CODEABLE_CONCEPT).build();
+
+    /**
+     * CodeableReference
+     * 
+     * <p>A reference to a resource (by instance), or instead, a reference to a concept defined in a terminology or ontology 
+     * (by class).
+     */
+    public static final FHIRDefinedType CODEABLE_REFERENCE = FHIRDefinedType.builder().value(Value.CODEABLE_REFERENCE).build();
 
     /**
      * Coding
@@ -267,6 +275,13 @@ public class FHIRDefinedType extends Code {
     public static final FHIRDefinedType RATIO = FHIRDefinedType.builder().value(Value.RATIO).build();
 
     /**
+     * RatioRange
+     * 
+     * <p>A range of ratios expressed as a low and high numerator and a denominator.
+     */
+    public static final FHIRDefinedType RATIO_RANGE = FHIRDefinedType.builder().value(Value.RATIO_RANGE).build();
+
+    /**
      * Reference
      * 
      * <p>A reference from one resource to another.
@@ -301,16 +316,6 @@ public class FHIRDefinedType extends Code {
      * SimpleQuantity
      */
     public static final FHIRDefinedType SIMPLE_QUANTITY = FHIRDefinedType.builder().value(Value.SIMPLE_QUANTITY).build();
-
-    /**
-     * SubstanceAmount
-     * 
-     * <p>Chemical substances are a single substance type whose primary defining element is the molecular structure. Chemical 
-     * substances shall be defined on the basis of their complete covalent molecular structure; the presence of a salt 
-     * (counter-ion) and/or solvates (water, alcohols) is also captured. Purity, grade, physical form or particle size are 
-     * not taken into account in the definition of a chemical substance or in the assignment of a Substance ID.
-     */
-    public static final FHIRDefinedType SUBSTANCE_AMOUNT = FHIRDefinedType.builder().value(Value.SUBSTANCE_AMOUNT).build();
 
     /**
      * Timing
@@ -485,6 +490,35 @@ public class FHIRDefinedType extends Code {
     public static final FHIRDefinedType XHTML = FHIRDefinedType.builder().value(Value.XHTML).build();
 
     /**
+     * Resource
+     * 
+     * <p>--- Abstract Type! ---This is the base resource type for everything.
+     */
+    public static final FHIRDefinedType RESOURCE = FHIRDefinedType.builder().value(Value.RESOURCE).build();
+
+    /**
+     * Binary
+     * 
+     * <p>A resource that represents the data of a single raw artifact as digital content accessible in its native format. A 
+     * Binary resource can contain any content, whether text, image, pdf, zip archive, etc.
+     */
+    public static final FHIRDefinedType BINARY = FHIRDefinedType.builder().value(Value.BINARY).build();
+
+    /**
+     * Bundle
+     * 
+     * <p>A container for a collection of resources.
+     */
+    public static final FHIRDefinedType BUNDLE = FHIRDefinedType.builder().value(Value.BUNDLE).build();
+
+    /**
+     * DomainResource
+     * 
+     * <p>--- Abstract Type! ---A resource that includes narrative, extensions, and contained resources.
+     */
+    public static final FHIRDefinedType DOMAIN_RESOURCE = FHIRDefinedType.builder().value(Value.DOMAIN_RESOURCE).build();
+
+    /**
      * Account
      * 
      * <p>A financial tool for tracking value accrued for a particular purpose. In the healthcare field, used to track 
@@ -499,6 +533,14 @@ public class FHIRDefinedType extends Code {
      * practitioner, or other performance context.
      */
     public static final FHIRDefinedType ACTIVITY_DEFINITION = FHIRDefinedType.builder().value(Value.ACTIVITY_DEFINITION).build();
+
+    /**
+     * AdministrableProductDefinition
+     * 
+     * <p>A medicinal product in the final form which is suitable for administering to a patient (after any mixing of 
+     * multiple components, dissolution etc. has been performed).
+     */
+    public static final FHIRDefinedType ADMINISTRABLE_PRODUCT_DEFINITION = FHIRDefinedType.builder().value(Value.ADMINISTRABLE_PRODUCT_DEFINITION).build();
 
     /**
      * AdverseEvent
@@ -549,14 +591,6 @@ public class FHIRDefinedType extends Code {
     public static final FHIRDefinedType BASIC = FHIRDefinedType.builder().value(Value.BASIC).build();
 
     /**
-     * Binary
-     * 
-     * <p>A resource that represents the data of a single raw artifact as digital content accessible in its native format. A 
-     * Binary resource can contain any content, whether text, image, pdf, zip archive, etc.
-     */
-    public static final FHIRDefinedType BINARY = FHIRDefinedType.builder().value(Value.BINARY).build();
-
-    /**
      * BiologicallyDerivedProduct
      * 
      * <p>A material substance originating from a biological entity intended to be transplanted or infused
@@ -571,13 +605,6 @@ public class FHIRDefinedType extends Code {
      * necessary detail needed for the use case.
      */
     public static final FHIRDefinedType BODY_STRUCTURE = FHIRDefinedType.builder().value(Value.BODY_STRUCTURE).build();
-
-    /**
-     * Bundle
-     * 
-     * <p>A container for a collection of resources.
-     */
-    public static final FHIRDefinedType BUNDLE = FHIRDefinedType.builder().value(Value.BUNDLE).build();
 
     /**
      * CapabilityStatement
@@ -631,6 +658,15 @@ public class FHIRDefinedType extends Code {
     public static final FHIRDefinedType CHARGE_ITEM_DEFINITION = FHIRDefinedType.builder().value(Value.CHARGE_ITEM_DEFINITION).build();
 
     /**
+     * Citation
+     * 
+     * <p>The Citation Resource enables reference to any knowledge artifact for purposes of identification and attribution. 
+     * The Citation Resource supports existing reference structures and developing publication practices such as versioning, 
+     * expressing complex contributorship roles, and referencing computable resources.
+     */
+    public static final FHIRDefinedType CITATION = FHIRDefinedType.builder().value(Value.CITATION).build();
+
+    /**
      * Claim
      * 
      * <p>A provider issued list of professional services and products which have been provided, or are to be provided, to a 
@@ -655,6 +691,14 @@ public class FHIRDefinedType extends Code {
      * such as Apgar score.
      */
     public static final FHIRDefinedType CLINICAL_IMPRESSION = FHIRDefinedType.builder().value(Value.CLINICAL_IMPRESSION).build();
+
+    /**
+     * ClinicalUseDefinition
+     * 
+     * <p>A single issue - either an indication, contraindication, interaction or an undesirable effect for a medicinal 
+     * product, medication, device or procedure.
+     */
+    public static final FHIRDefinedType CLINICAL_USE_DEFINITION = FHIRDefinedType.builder().value(Value.CLINICAL_USE_DEFINITION).build();
 
     /**
      * CodeSystem
@@ -827,21 +871,6 @@ public class FHIRDefinedType extends Code {
     public static final FHIRDefinedType DOCUMENT_REFERENCE = FHIRDefinedType.builder().value(Value.DOCUMENT_REFERENCE).build();
 
     /**
-     * DomainResource
-     * 
-     * <p>A resource that includes narrative, extensions, and contained resources.
-     */
-    public static final FHIRDefinedType DOMAIN_RESOURCE = FHIRDefinedType.builder().value(Value.DOMAIN_RESOURCE).build();
-
-    /**
-     * EffectEvidenceSynthesis
-     * 
-     * <p>The EffectEvidenceSynthesis resource describes the difference in an outcome between exposures states in a 
-     * population where the effect estimate is derived from a combination of research studies.
-     */
-    public static final FHIRDefinedType EFFECT_EVIDENCE_SYNTHESIS = FHIRDefinedType.builder().value(Value.EFFECT_EVIDENCE_SYNTHESIS).build();
-
-    /**
      * Encounter
      * 
      * <p>An interaction between a patient and healthcare provider(s) for the purpose of providing healthcare service(s) or 
@@ -889,16 +918,24 @@ public class FHIRDefinedType extends Code {
     /**
      * Evidence
      * 
-     * <p>The Evidence resource describes the conditional state (population and any exposures being compared within the 
-     * population) and outcome (if specified) that the knowledge (evidence, assertion, recommendation) is about.
+     * <p>The Evidence Resource provides a machine-interpretable expression of an evidence concept including the evidence 
+     * variables (eg population, exposures/interventions, comparators, outcomes, measured variables, confounding variables), 
+     * the statistics, and the certainty of this evidence.
      */
     public static final FHIRDefinedType EVIDENCE = FHIRDefinedType.builder().value(Value.EVIDENCE).build();
 
     /**
+     * EvidenceReport
+     * 
+     * <p>The EvidenceReport Resource is a specialized container for a collection of resources and codable concepts, adapted 
+     * to support compositions of Evidence, EvidenceVariable, and Citation resources and related concepts.
+     */
+    public static final FHIRDefinedType EVIDENCE_REPORT = FHIRDefinedType.builder().value(Value.EVIDENCE_REPORT).build();
+
+    /**
      * EvidenceVariable
      * 
-     * <p>The EvidenceVariable resource describes a "PICO" element that knowledge (evidence, assertion, recommendation) is 
-     * about.
+     * <p>The EvidenceVariable resource describes an element that knowledge (Evidence) is about.
      */
     public static final FHIRDefinedType EVIDENCE_VARIABLE = FHIRDefinedType.builder().value(Value.EVIDENCE_VARIABLE).build();
 
@@ -1015,6 +1052,13 @@ public class FHIRDefinedType extends Code {
     public static final FHIRDefinedType IMPLEMENTATION_GUIDE = FHIRDefinedType.builder().value(Value.IMPLEMENTATION_GUIDE).build();
 
     /**
+     * Ingredient
+     * 
+     * <p>An ingredient of a manufactured item or pharmaceutical product.
+     */
+    public static final FHIRDefinedType INGREDIENT = FHIRDefinedType.builder().value(Value.INGREDIENT).build();
+
+    /**
      * InsurancePlan
      * 
      * <p>Details of a Health Insurance product/plan provided by an organization.
@@ -1059,6 +1103,14 @@ public class FHIRDefinedType extends Code {
      * may be stored, found, contained, or accommodated.
      */
     public static final FHIRDefinedType LOCATION = FHIRDefinedType.builder().value(Value.LOCATION).build();
+
+    /**
+     * ManufacturedItemDefinition
+     * 
+     * <p>The definition and characteristics of a medicinal manufactured item, such as a tablet or capsule, as contained in a 
+     * packaged medicinal product.
+     */
+    public static final FHIRDefinedType MANUFACTURED_ITEM_DEFINITION = FHIRDefinedType.builder().value(Value.MANUFACTURED_ITEM_DEFINITION).build();
 
     /**
      * Measure
@@ -1148,75 +1200,12 @@ public class FHIRDefinedType extends Code {
     public static final FHIRDefinedType MEDICATION_STATEMENT = FHIRDefinedType.builder().value(Value.MEDICATION_STATEMENT).build();
 
     /**
-     * MedicinalProduct
+     * MedicinalProductDefinition
      * 
-     * <p>Detailed definition of a medicinal product, typically for uses other than direct patient care (e.g. regulatory use).
+     * <p>Detailed definition of a medicinal product, typically for uses other than direct patient care (e.g. regulatory use, 
+     * drug catalogs, to support prescribing, adverse events management etc.).
      */
-    public static final FHIRDefinedType MEDICINAL_PRODUCT = FHIRDefinedType.builder().value(Value.MEDICINAL_PRODUCT).build();
-
-    /**
-     * MedicinalProductAuthorization
-     * 
-     * <p>The regulatory authorization of a medicinal product.
-     */
-    public static final FHIRDefinedType MEDICINAL_PRODUCT_AUTHORIZATION = FHIRDefinedType.builder().value(Value.MEDICINAL_PRODUCT_AUTHORIZATION).build();
-
-    /**
-     * MedicinalProductContraindication
-     * 
-     * <p>The clinical particulars - indications, contraindications etc. of a medicinal product, including for regulatory 
-     * purposes.
-     */
-    public static final FHIRDefinedType MEDICINAL_PRODUCT_CONTRAINDICATION = FHIRDefinedType.builder().value(Value.MEDICINAL_PRODUCT_CONTRAINDICATION).build();
-
-    /**
-     * MedicinalProductIndication
-     * 
-     * <p>Indication for the Medicinal Product.
-     */
-    public static final FHIRDefinedType MEDICINAL_PRODUCT_INDICATION = FHIRDefinedType.builder().value(Value.MEDICINAL_PRODUCT_INDICATION).build();
-
-    /**
-     * MedicinalProductIngredient
-     * 
-     * <p>An ingredient of a manufactured item or pharmaceutical product.
-     */
-    public static final FHIRDefinedType MEDICINAL_PRODUCT_INGREDIENT = FHIRDefinedType.builder().value(Value.MEDICINAL_PRODUCT_INGREDIENT).build();
-
-    /**
-     * MedicinalProductInteraction
-     * 
-     * <p>The interactions of the medicinal product with other medicinal products, or other forms of interactions.
-     */
-    public static final FHIRDefinedType MEDICINAL_PRODUCT_INTERACTION = FHIRDefinedType.builder().value(Value.MEDICINAL_PRODUCT_INTERACTION).build();
-
-    /**
-     * MedicinalProductManufactured
-     * 
-     * <p>The manufactured item as contained in the packaged medicinal product.
-     */
-    public static final FHIRDefinedType MEDICINAL_PRODUCT_MANUFACTURED = FHIRDefinedType.builder().value(Value.MEDICINAL_PRODUCT_MANUFACTURED).build();
-
-    /**
-     * MedicinalProductPackaged
-     * 
-     * <p>A medicinal product in a container or package.
-     */
-    public static final FHIRDefinedType MEDICINAL_PRODUCT_PACKAGED = FHIRDefinedType.builder().value(Value.MEDICINAL_PRODUCT_PACKAGED).build();
-
-    /**
-     * MedicinalProductPharmaceutical
-     * 
-     * <p>A pharmaceutical product described in terms of its composition and dose form.
-     */
-    public static final FHIRDefinedType MEDICINAL_PRODUCT_PHARMACEUTICAL = FHIRDefinedType.builder().value(Value.MEDICINAL_PRODUCT_PHARMACEUTICAL).build();
-
-    /**
-     * MedicinalProductUndesirableEffect
-     * 
-     * <p>Describe the undesirable effects of the medicinal product.
-     */
-    public static final FHIRDefinedType MEDICINAL_PRODUCT_UNDESIRABLE_EFFECT = FHIRDefinedType.builder().value(Value.MEDICINAL_PRODUCT_UNDESIRABLE_EFFECT).build();
+    public static final FHIRDefinedType MEDICINAL_PRODUCT_DEFINITION = FHIRDefinedType.builder().value(Value.MEDICINAL_PRODUCT_DEFINITION).build();
 
     /**
      * MessageDefinition
@@ -1256,6 +1245,13 @@ public class FHIRDefinedType extends Code {
      * <p>A request to supply a diet, formula feeding (enteral) or oral nutritional supplement to a patient/resident.
      */
     public static final FHIRDefinedType NUTRITION_ORDER = FHIRDefinedType.builder().value(Value.NUTRITION_ORDER).build();
+
+    /**
+     * NutritionProduct
+     * 
+     * <p>A food or fluid product that is consumed by patients.
+     */
+    public static final FHIRDefinedType NUTRITION_PRODUCT = FHIRDefinedType.builder().value(Value.NUTRITION_PRODUCT).build();
 
     /**
      * Observation
@@ -1305,12 +1301,11 @@ public class FHIRDefinedType extends Code {
     public static final FHIRDefinedType ORGANIZATION_AFFILIATION = FHIRDefinedType.builder().value(Value.ORGANIZATION_AFFILIATION).build();
 
     /**
-     * Parameters
+     * PackagedProductDefinition
      * 
-     * <p>This resource is a non-persisted resource used to pass information into and back from an [operation](operations.
-     * html). It has no other use, and there is no RESTful endpoint associated with it.
+     * <p>A medically related item or items, in a container or package.
      */
-    public static final FHIRDefinedType PARAMETERS = FHIRDefinedType.builder().value(Value.PARAMETERS).build();
+    public static final FHIRDefinedType PACKAGED_PRODUCT_DEFINITION = FHIRDefinedType.builder().value(Value.PACKAGED_PRODUCT_DEFINITION).build();
 
     /**
      * Patient
@@ -1346,8 +1341,8 @@ public class FHIRDefinedType extends Code {
      * PlanDefinition
      * 
      * <p>This resource allows for the definition of various types of plans as a sharable, consumable, and executable 
-     * artifact. The resource is general enough to support the description of a broad range of clinical artifacts such as 
-     * clinical decision support rules, order sets and protocols.
+     * artifact. The resource is general enough to support the description of a broad range of clinical and non-clinical 
+     * artifacts such as clinical decision support rules, order sets, protocols, and drug quality specifications.
      */
     public static final FHIRDefinedType PLAN_DEFINITION = FHIRDefinedType.builder().value(Value.PLAN_DEFINITION).build();
 
@@ -1404,6 +1399,15 @@ public class FHIRDefinedType extends Code {
     public static final FHIRDefinedType QUESTIONNAIRE_RESPONSE = FHIRDefinedType.builder().value(Value.QUESTIONNAIRE_RESPONSE).build();
 
     /**
+     * RegulatedAuthorization
+     * 
+     * <p>Regulatory approval, clearance or licencing related to a regulated product, treatment, facility or activity that is 
+     * cited in a guidance, regulation, rule or legislative act. An example is Market Authorization relating to a Medicinal 
+     * Product.
+     */
+    public static final FHIRDefinedType REGULATED_AUTHORIZATION = FHIRDefinedType.builder().value(Value.REGULATED_AUTHORIZATION).build();
+
+    /**
      * RelatedPerson
      * 
      * <p>Information about a person that is involved in the care for a patient, but who is not the target of healthcare, nor 
@@ -1453,26 +1457,11 @@ public class FHIRDefinedType extends Code {
     public static final FHIRDefinedType RESEARCH_SUBJECT = FHIRDefinedType.builder().value(Value.RESEARCH_SUBJECT).build();
 
     /**
-     * Resource
-     * 
-     * <p>This is the base resource type for everything.
-     */
-    public static final FHIRDefinedType RESOURCE = FHIRDefinedType.builder().value(Value.RESOURCE).build();
-
-    /**
      * RiskAssessment
      * 
      * <p>An assessment of the likely outcome(s) for a patient or other subject as well as the likelihood of each outcome.
      */
     public static final FHIRDefinedType RISK_ASSESSMENT = FHIRDefinedType.builder().value(Value.RISK_ASSESSMENT).build();
-
-    /**
-     * RiskEvidenceSynthesis
-     * 
-     * <p>The RiskEvidenceSynthesis resource describes the likelihood of an outcome in a population plus exposure state where 
-     * the risk estimate is derived from a combination of research studies.
-     */
-    public static final FHIRDefinedType RISK_EVIDENCE_SYNTHESIS = FHIRDefinedType.builder().value(Value.RISK_EVIDENCE_SYNTHESIS).build();
 
     /**
      * Schedule
@@ -1542,6 +1531,21 @@ public class FHIRDefinedType extends Code {
     public static final FHIRDefinedType SUBSCRIPTION = FHIRDefinedType.builder().value(Value.SUBSCRIPTION).build();
 
     /**
+     * SubscriptionStatus
+     * 
+     * <p>The SubscriptionStatus resource describes the state of a Subscription during notifications.
+     */
+    public static final FHIRDefinedType SUBSCRIPTION_STATUS = FHIRDefinedType.builder().value(Value.SUBSCRIPTION_STATUS).build();
+
+    /**
+     * SubscriptionTopic
+     * 
+     * <p>Describes a stream of resource state changes identified by trigger criteria and annotated with labels useful to 
+     * filter projections from this topic.
+     */
+    public static final FHIRDefinedType SUBSCRIPTION_TOPIC = FHIRDefinedType.builder().value(Value.SUBSCRIPTION_TOPIC).build();
+
+    /**
      * Substance
      * 
      * <p>A homogeneous material with a definite composition.
@@ -1549,59 +1553,11 @@ public class FHIRDefinedType extends Code {
     public static final FHIRDefinedType SUBSTANCE = FHIRDefinedType.builder().value(Value.SUBSTANCE).build();
 
     /**
-     * SubstanceNucleicAcid
-     * 
-     * <p>Nucleic acids are defined by three distinct elements: the base, sugar and linkage. Individual substance/moiety IDs 
-     * will be created for each of these elements. The nucleotide sequence will be always entered in the 5’-3’ direction.
-     */
-    public static final FHIRDefinedType SUBSTANCE_NUCLEIC_ACID = FHIRDefinedType.builder().value(Value.SUBSTANCE_NUCLEIC_ACID).build();
-
-    /**
-     * SubstancePolymer
-     * 
-     * <p>Todo.
-     */
-    public static final FHIRDefinedType SUBSTANCE_POLYMER = FHIRDefinedType.builder().value(Value.SUBSTANCE_POLYMER).build();
-
-    /**
-     * SubstanceProtein
-     * 
-     * <p>A SubstanceProtein is defined as a single unit of a linear amino acid sequence, or a combination of subunits that 
-     * are either covalently linked or have a defined invariant stoichiometric relationship. This includes all synthetic, 
-     * recombinant and purified SubstanceProteins of defined sequence, whether the use is therapeutic or prophylactic. This 
-     * set of elements will be used to describe albumins, coagulation factors, cytokines, growth factors, 
-     * peptide/SubstanceProtein hormones, enzymes, toxins, toxoids, recombinant vaccines, and immunomodulators.
-     */
-    public static final FHIRDefinedType SUBSTANCE_PROTEIN = FHIRDefinedType.builder().value(Value.SUBSTANCE_PROTEIN).build();
-
-    /**
-     * SubstanceReferenceInformation
-     * 
-     * <p>Todo.
-     */
-    public static final FHIRDefinedType SUBSTANCE_REFERENCE_INFORMATION = FHIRDefinedType.builder().value(Value.SUBSTANCE_REFERENCE_INFORMATION).build();
-
-    /**
-     * SubstanceSourceMaterial
-     * 
-     * <p>Source material shall capture information on the taxonomic and anatomical origins as well as the fraction of a 
-     * material that can result in or can be modified to form a substance. This set of data elements shall be used to define 
-     * polymer substances isolated from biological matrices. Taxonomic and anatomical origins shall be described using a 
-     * controlled vocabulary as required. This information is captured for naturally derived polymers ( . starch) and 
-     * structurally diverse substances. For Organisms belonging to the Kingdom Plantae the Substance level defines the fresh 
-     * material of a single species or infraspecies, the Herbal Drug and the Herbal preparation. For Herbal preparations, the 
-     * fraction information will be captured at the Substance information level and additional information for herbal 
-     * extracts will be captured at the Specified Substance Group 1 information level. See for further explanation the 
-     * Substance Class: Structurally Diverse and the herbal annex.
-     */
-    public static final FHIRDefinedType SUBSTANCE_SOURCE_MATERIAL = FHIRDefinedType.builder().value(Value.SUBSTANCE_SOURCE_MATERIAL).build();
-
-    /**
-     * SubstanceSpecification
+     * SubstanceDefinition
      * 
      * <p>The detailed description of a substance, typically at a level beyond what is used for prescribing.
      */
-    public static final FHIRDefinedType SUBSTANCE_SPECIFICATION = FHIRDefinedType.builder().value(Value.SUBSTANCE_SPECIFICATION).build();
+    public static final FHIRDefinedType SUBSTANCE_DEFINITION = FHIRDefinedType.builder().value(Value.SUBSTANCE_DEFINITION).build();
 
     /**
      * SupplyDelivery
@@ -1670,6 +1626,14 @@ public class FHIRDefinedType extends Code {
      */
     public static final FHIRDefinedType VISION_PRESCRIPTION = FHIRDefinedType.builder().value(Value.VISION_PRESCRIPTION).build();
 
+    /**
+     * Parameters
+     * 
+     * <p>This resource is a non-persisted resource used to pass information into and back from an [operation](operations.
+     * html). It has no other use, and there is no RESTful endpoint associated with it.
+     */
+    public static final FHIRDefinedType PARAMETERS = FHIRDefinedType.builder().value(Value.PARAMETERS).build();
+
     private volatile int hashCode;
 
     private FHIRDefinedType(Builder builder) {
@@ -1700,6 +1664,8 @@ public class FHIRDefinedType extends Code {
             return BACKBONE_ELEMENT;
         case CODEABLE_CONCEPT:
             return CODEABLE_CONCEPT;
+        case CODEABLE_REFERENCE:
+            return CODEABLE_REFERENCE;
         case CODING:
             return CODING;
         case CONTACT_DETAIL:
@@ -1756,6 +1722,8 @@ public class FHIRDefinedType extends Code {
             return RANGE;
         case RATIO:
             return RATIO;
+        case RATIO_RANGE:
+            return RATIO_RANGE;
         case REFERENCE:
             return REFERENCE;
         case RELATED_ARTIFACT:
@@ -1766,8 +1734,6 @@ public class FHIRDefinedType extends Code {
             return SIGNATURE;
         case SIMPLE_QUANTITY:
             return SIMPLE_QUANTITY;
-        case SUBSTANCE_AMOUNT:
-            return SUBSTANCE_AMOUNT;
         case TIMING:
             return TIMING;
         case TRIGGER_DEFINITION:
@@ -1814,10 +1780,20 @@ public class FHIRDefinedType extends Code {
             return UUID;
         case XHTML:
             return XHTML;
+        case RESOURCE:
+            return RESOURCE;
+        case BINARY:
+            return BINARY;
+        case BUNDLE:
+            return BUNDLE;
+        case DOMAIN_RESOURCE:
+            return DOMAIN_RESOURCE;
         case ACCOUNT:
             return ACCOUNT;
         case ACTIVITY_DEFINITION:
             return ACTIVITY_DEFINITION;
+        case ADMINISTRABLE_PRODUCT_DEFINITION:
+            return ADMINISTRABLE_PRODUCT_DEFINITION;
         case ADVERSE_EVENT:
             return ADVERSE_EVENT;
         case ALLERGY_INTOLERANCE:
@@ -1830,14 +1806,10 @@ public class FHIRDefinedType extends Code {
             return AUDIT_EVENT;
         case BASIC:
             return BASIC;
-        case BINARY:
-            return BINARY;
         case BIOLOGICALLY_DERIVED_PRODUCT:
             return BIOLOGICALLY_DERIVED_PRODUCT;
         case BODY_STRUCTURE:
             return BODY_STRUCTURE;
-        case BUNDLE:
-            return BUNDLE;
         case CAPABILITY_STATEMENT:
             return CAPABILITY_STATEMENT;
         case CARE_PLAN:
@@ -1850,12 +1822,16 @@ public class FHIRDefinedType extends Code {
             return CHARGE_ITEM;
         case CHARGE_ITEM_DEFINITION:
             return CHARGE_ITEM_DEFINITION;
+        case CITATION:
+            return CITATION;
         case CLAIM:
             return CLAIM;
         case CLAIM_RESPONSE:
             return CLAIM_RESPONSE;
         case CLINICAL_IMPRESSION:
             return CLINICAL_IMPRESSION;
+        case CLINICAL_USE_DEFINITION:
+            return CLINICAL_USE_DEFINITION;
         case CODE_SYSTEM:
             return CODE_SYSTEM;
         case COMMUNICATION:
@@ -1898,10 +1874,6 @@ public class FHIRDefinedType extends Code {
             return DOCUMENT_MANIFEST;
         case DOCUMENT_REFERENCE:
             return DOCUMENT_REFERENCE;
-        case DOMAIN_RESOURCE:
-            return DOMAIN_RESOURCE;
-        case EFFECT_EVIDENCE_SYNTHESIS:
-            return EFFECT_EVIDENCE_SYNTHESIS;
         case ENCOUNTER:
             return ENCOUNTER;
         case ENDPOINT:
@@ -1916,6 +1888,8 @@ public class FHIRDefinedType extends Code {
             return EVENT_DEFINITION;
         case EVIDENCE:
             return EVIDENCE;
+        case EVIDENCE_REPORT:
+            return EVIDENCE_REPORT;
         case EVIDENCE_VARIABLE:
             return EVIDENCE_VARIABLE;
         case EXAMPLE_SCENARIO:
@@ -1946,6 +1920,8 @@ public class FHIRDefinedType extends Code {
             return IMMUNIZATION_RECOMMENDATION;
         case IMPLEMENTATION_GUIDE:
             return IMPLEMENTATION_GUIDE;
+        case INGREDIENT:
+            return INGREDIENT;
         case INSURANCE_PLAN:
             return INSURANCE_PLAN;
         case INVOICE:
@@ -1958,6 +1934,8 @@ public class FHIRDefinedType extends Code {
             return LIST;
         case LOCATION:
             return LOCATION;
+        case MANUFACTURED_ITEM_DEFINITION:
+            return MANUFACTURED_ITEM_DEFINITION;
         case MEASURE:
             return MEASURE;
         case MEASURE_REPORT:
@@ -1976,26 +1954,8 @@ public class FHIRDefinedType extends Code {
             return MEDICATION_REQUEST;
         case MEDICATION_STATEMENT:
             return MEDICATION_STATEMENT;
-        case MEDICINAL_PRODUCT:
-            return MEDICINAL_PRODUCT;
-        case MEDICINAL_PRODUCT_AUTHORIZATION:
-            return MEDICINAL_PRODUCT_AUTHORIZATION;
-        case MEDICINAL_PRODUCT_CONTRAINDICATION:
-            return MEDICINAL_PRODUCT_CONTRAINDICATION;
-        case MEDICINAL_PRODUCT_INDICATION:
-            return MEDICINAL_PRODUCT_INDICATION;
-        case MEDICINAL_PRODUCT_INGREDIENT:
-            return MEDICINAL_PRODUCT_INGREDIENT;
-        case MEDICINAL_PRODUCT_INTERACTION:
-            return MEDICINAL_PRODUCT_INTERACTION;
-        case MEDICINAL_PRODUCT_MANUFACTURED:
-            return MEDICINAL_PRODUCT_MANUFACTURED;
-        case MEDICINAL_PRODUCT_PACKAGED:
-            return MEDICINAL_PRODUCT_PACKAGED;
-        case MEDICINAL_PRODUCT_PHARMACEUTICAL:
-            return MEDICINAL_PRODUCT_PHARMACEUTICAL;
-        case MEDICINAL_PRODUCT_UNDESIRABLE_EFFECT:
-            return MEDICINAL_PRODUCT_UNDESIRABLE_EFFECT;
+        case MEDICINAL_PRODUCT_DEFINITION:
+            return MEDICINAL_PRODUCT_DEFINITION;
         case MESSAGE_DEFINITION:
             return MESSAGE_DEFINITION;
         case MESSAGE_HEADER:
@@ -2006,6 +1966,8 @@ public class FHIRDefinedType extends Code {
             return NAMING_SYSTEM;
         case NUTRITION_ORDER:
             return NUTRITION_ORDER;
+        case NUTRITION_PRODUCT:
+            return NUTRITION_PRODUCT;
         case OBSERVATION:
             return OBSERVATION;
         case OBSERVATION_DEFINITION:
@@ -2018,8 +1980,8 @@ public class FHIRDefinedType extends Code {
             return ORGANIZATION;
         case ORGANIZATION_AFFILIATION:
             return ORGANIZATION_AFFILIATION;
-        case PARAMETERS:
-            return PARAMETERS;
+        case PACKAGED_PRODUCT_DEFINITION:
+            return PACKAGED_PRODUCT_DEFINITION;
         case PATIENT:
             return PATIENT;
         case PAYMENT_NOTICE:
@@ -2042,6 +2004,8 @@ public class FHIRDefinedType extends Code {
             return QUESTIONNAIRE;
         case QUESTIONNAIRE_RESPONSE:
             return QUESTIONNAIRE_RESPONSE;
+        case REGULATED_AUTHORIZATION:
+            return REGULATED_AUTHORIZATION;
         case RELATED_PERSON:
             return RELATED_PERSON;
         case REQUEST_GROUP:
@@ -2054,12 +2018,8 @@ public class FHIRDefinedType extends Code {
             return RESEARCH_STUDY;
         case RESEARCH_SUBJECT:
             return RESEARCH_SUBJECT;
-        case RESOURCE:
-            return RESOURCE;
         case RISK_ASSESSMENT:
             return RISK_ASSESSMENT;
-        case RISK_EVIDENCE_SYNTHESIS:
-            return RISK_EVIDENCE_SYNTHESIS;
         case SCHEDULE:
             return SCHEDULE;
         case SEARCH_PARAMETER:
@@ -2078,20 +2038,14 @@ public class FHIRDefinedType extends Code {
             return STRUCTURE_MAP;
         case SUBSCRIPTION:
             return SUBSCRIPTION;
+        case SUBSCRIPTION_STATUS:
+            return SUBSCRIPTION_STATUS;
+        case SUBSCRIPTION_TOPIC:
+            return SUBSCRIPTION_TOPIC;
         case SUBSTANCE:
             return SUBSTANCE;
-        case SUBSTANCE_NUCLEIC_ACID:
-            return SUBSTANCE_NUCLEIC_ACID;
-        case SUBSTANCE_POLYMER:
-            return SUBSTANCE_POLYMER;
-        case SUBSTANCE_PROTEIN:
-            return SUBSTANCE_PROTEIN;
-        case SUBSTANCE_REFERENCE_INFORMATION:
-            return SUBSTANCE_REFERENCE_INFORMATION;
-        case SUBSTANCE_SOURCE_MATERIAL:
-            return SUBSTANCE_SOURCE_MATERIAL;
-        case SUBSTANCE_SPECIFICATION:
-            return SUBSTANCE_SPECIFICATION;
+        case SUBSTANCE_DEFINITION:
+            return SUBSTANCE_DEFINITION;
         case SUPPLY_DELIVERY:
             return SUPPLY_DELIVERY;
         case SUPPLY_REQUEST:
@@ -2110,6 +2064,8 @@ public class FHIRDefinedType extends Code {
             return VERIFICATION_RESULT;
         case VISION_PRESCRIPTION:
             return VISION_PRESCRIPTION;
+        case PARAMETERS:
+            return PARAMETERS;
         default:
             throw new IllegalStateException(value.name());
         }
@@ -2285,6 +2241,14 @@ public class FHIRDefinedType extends Code {
          * <p>A concept that may be defined by a formal reference to a terminology or ontology or may be provided by text.
          */
         CODEABLE_CONCEPT("CodeableConcept"),
+
+        /**
+         * CodeableReference
+         * 
+         * <p>A reference to a resource (by instance), or instead, a reference to a concept defined in a terminology or ontology 
+         * (by class).
+         */
+        CODEABLE_REFERENCE("CodeableReference"),
 
         /**
          * Coding
@@ -2490,6 +2454,13 @@ public class FHIRDefinedType extends Code {
         RATIO("Ratio"),
 
         /**
+         * RatioRange
+         * 
+         * <p>A range of ratios expressed as a low and high numerator and a denominator.
+         */
+        RATIO_RANGE("RatioRange"),
+
+        /**
          * Reference
          * 
          * <p>A reference from one resource to another.
@@ -2524,16 +2495,6 @@ public class FHIRDefinedType extends Code {
          * SimpleQuantity
          */
         SIMPLE_QUANTITY("SimpleQuantity"),
-
-        /**
-         * SubstanceAmount
-         * 
-         * <p>Chemical substances are a single substance type whose primary defining element is the molecular structure. Chemical 
-         * substances shall be defined on the basis of their complete covalent molecular structure; the presence of a salt 
-         * (counter-ion) and/or solvates (water, alcohols) is also captured. Purity, grade, physical form or particle size are 
-         * not taken into account in the definition of a chemical substance or in the assignment of a Substance ID.
-         */
-        SUBSTANCE_AMOUNT("SubstanceAmount"),
 
         /**
          * Timing
@@ -2708,6 +2669,35 @@ public class FHIRDefinedType extends Code {
         XHTML("xhtml"),
 
         /**
+         * Resource
+         * 
+         * <p>--- Abstract Type! ---This is the base resource type for everything.
+         */
+        RESOURCE("Resource"),
+
+        /**
+         * Binary
+         * 
+         * <p>A resource that represents the data of a single raw artifact as digital content accessible in its native format. A 
+         * Binary resource can contain any content, whether text, image, pdf, zip archive, etc.
+         */
+        BINARY("Binary"),
+
+        /**
+         * Bundle
+         * 
+         * <p>A container for a collection of resources.
+         */
+        BUNDLE("Bundle"),
+
+        /**
+         * DomainResource
+         * 
+         * <p>--- Abstract Type! ---A resource that includes narrative, extensions, and contained resources.
+         */
+        DOMAIN_RESOURCE("DomainResource"),
+
+        /**
          * Account
          * 
          * <p>A financial tool for tracking value accrued for a particular purpose. In the healthcare field, used to track 
@@ -2722,6 +2712,14 @@ public class FHIRDefinedType extends Code {
          * practitioner, or other performance context.
          */
         ACTIVITY_DEFINITION("ActivityDefinition"),
+
+        /**
+         * AdministrableProductDefinition
+         * 
+         * <p>A medicinal product in the final form which is suitable for administering to a patient (after any mixing of 
+         * multiple components, dissolution etc. has been performed).
+         */
+        ADMINISTRABLE_PRODUCT_DEFINITION("AdministrableProductDefinition"),
 
         /**
          * AdverseEvent
@@ -2772,14 +2770,6 @@ public class FHIRDefinedType extends Code {
         BASIC("Basic"),
 
         /**
-         * Binary
-         * 
-         * <p>A resource that represents the data of a single raw artifact as digital content accessible in its native format. A 
-         * Binary resource can contain any content, whether text, image, pdf, zip archive, etc.
-         */
-        BINARY("Binary"),
-
-        /**
          * BiologicallyDerivedProduct
          * 
          * <p>A material substance originating from a biological entity intended to be transplanted or infused
@@ -2794,13 +2784,6 @@ public class FHIRDefinedType extends Code {
          * necessary detail needed for the use case.
          */
         BODY_STRUCTURE("BodyStructure"),
-
-        /**
-         * Bundle
-         * 
-         * <p>A container for a collection of resources.
-         */
-        BUNDLE("Bundle"),
 
         /**
          * CapabilityStatement
@@ -2854,6 +2837,15 @@ public class FHIRDefinedType extends Code {
         CHARGE_ITEM_DEFINITION("ChargeItemDefinition"),
 
         /**
+         * Citation
+         * 
+         * <p>The Citation Resource enables reference to any knowledge artifact for purposes of identification and attribution. 
+         * The Citation Resource supports existing reference structures and developing publication practices such as versioning, 
+         * expressing complex contributorship roles, and referencing computable resources.
+         */
+        CITATION("Citation"),
+
+        /**
          * Claim
          * 
          * <p>A provider issued list of professional services and products which have been provided, or are to be provided, to a 
@@ -2878,6 +2870,14 @@ public class FHIRDefinedType extends Code {
          * such as Apgar score.
          */
         CLINICAL_IMPRESSION("ClinicalImpression"),
+
+        /**
+         * ClinicalUseDefinition
+         * 
+         * <p>A single issue - either an indication, contraindication, interaction or an undesirable effect for a medicinal 
+         * product, medication, device or procedure.
+         */
+        CLINICAL_USE_DEFINITION("ClinicalUseDefinition"),
 
         /**
          * CodeSystem
@@ -3050,21 +3050,6 @@ public class FHIRDefinedType extends Code {
         DOCUMENT_REFERENCE("DocumentReference"),
 
         /**
-         * DomainResource
-         * 
-         * <p>A resource that includes narrative, extensions, and contained resources.
-         */
-        DOMAIN_RESOURCE("DomainResource"),
-
-        /**
-         * EffectEvidenceSynthesis
-         * 
-         * <p>The EffectEvidenceSynthesis resource describes the difference in an outcome between exposures states in a 
-         * population where the effect estimate is derived from a combination of research studies.
-         */
-        EFFECT_EVIDENCE_SYNTHESIS("EffectEvidenceSynthesis"),
-
-        /**
          * Encounter
          * 
          * <p>An interaction between a patient and healthcare provider(s) for the purpose of providing healthcare service(s) or 
@@ -3112,16 +3097,24 @@ public class FHIRDefinedType extends Code {
         /**
          * Evidence
          * 
-         * <p>The Evidence resource describes the conditional state (population and any exposures being compared within the 
-         * population) and outcome (if specified) that the knowledge (evidence, assertion, recommendation) is about.
+         * <p>The Evidence Resource provides a machine-interpretable expression of an evidence concept including the evidence 
+         * variables (eg population, exposures/interventions, comparators, outcomes, measured variables, confounding variables), 
+         * the statistics, and the certainty of this evidence.
          */
         EVIDENCE("Evidence"),
 
         /**
+         * EvidenceReport
+         * 
+         * <p>The EvidenceReport Resource is a specialized container for a collection of resources and codable concepts, adapted 
+         * to support compositions of Evidence, EvidenceVariable, and Citation resources and related concepts.
+         */
+        EVIDENCE_REPORT("EvidenceReport"),
+
+        /**
          * EvidenceVariable
          * 
-         * <p>The EvidenceVariable resource describes a "PICO" element that knowledge (evidence, assertion, recommendation) is 
-         * about.
+         * <p>The EvidenceVariable resource describes an element that knowledge (Evidence) is about.
          */
         EVIDENCE_VARIABLE("EvidenceVariable"),
 
@@ -3238,6 +3231,13 @@ public class FHIRDefinedType extends Code {
         IMPLEMENTATION_GUIDE("ImplementationGuide"),
 
         /**
+         * Ingredient
+         * 
+         * <p>An ingredient of a manufactured item or pharmaceutical product.
+         */
+        INGREDIENT("Ingredient"),
+
+        /**
          * InsurancePlan
          * 
          * <p>Details of a Health Insurance product/plan provided by an organization.
@@ -3282,6 +3282,14 @@ public class FHIRDefinedType extends Code {
          * may be stored, found, contained, or accommodated.
          */
         LOCATION("Location"),
+
+        /**
+         * ManufacturedItemDefinition
+         * 
+         * <p>The definition and characteristics of a medicinal manufactured item, such as a tablet or capsule, as contained in a 
+         * packaged medicinal product.
+         */
+        MANUFACTURED_ITEM_DEFINITION("ManufacturedItemDefinition"),
 
         /**
          * Measure
@@ -3371,75 +3379,12 @@ public class FHIRDefinedType extends Code {
         MEDICATION_STATEMENT("MedicationStatement"),
 
         /**
-         * MedicinalProduct
+         * MedicinalProductDefinition
          * 
-         * <p>Detailed definition of a medicinal product, typically for uses other than direct patient care (e.g. regulatory use).
+         * <p>Detailed definition of a medicinal product, typically for uses other than direct patient care (e.g. regulatory use, 
+         * drug catalogs, to support prescribing, adverse events management etc.).
          */
-        MEDICINAL_PRODUCT("MedicinalProduct"),
-
-        /**
-         * MedicinalProductAuthorization
-         * 
-         * <p>The regulatory authorization of a medicinal product.
-         */
-        MEDICINAL_PRODUCT_AUTHORIZATION("MedicinalProductAuthorization"),
-
-        /**
-         * MedicinalProductContraindication
-         * 
-         * <p>The clinical particulars - indications, contraindications etc. of a medicinal product, including for regulatory 
-         * purposes.
-         */
-        MEDICINAL_PRODUCT_CONTRAINDICATION("MedicinalProductContraindication"),
-
-        /**
-         * MedicinalProductIndication
-         * 
-         * <p>Indication for the Medicinal Product.
-         */
-        MEDICINAL_PRODUCT_INDICATION("MedicinalProductIndication"),
-
-        /**
-         * MedicinalProductIngredient
-         * 
-         * <p>An ingredient of a manufactured item or pharmaceutical product.
-         */
-        MEDICINAL_PRODUCT_INGREDIENT("MedicinalProductIngredient"),
-
-        /**
-         * MedicinalProductInteraction
-         * 
-         * <p>The interactions of the medicinal product with other medicinal products, or other forms of interactions.
-         */
-        MEDICINAL_PRODUCT_INTERACTION("MedicinalProductInteraction"),
-
-        /**
-         * MedicinalProductManufactured
-         * 
-         * <p>The manufactured item as contained in the packaged medicinal product.
-         */
-        MEDICINAL_PRODUCT_MANUFACTURED("MedicinalProductManufactured"),
-
-        /**
-         * MedicinalProductPackaged
-         * 
-         * <p>A medicinal product in a container or package.
-         */
-        MEDICINAL_PRODUCT_PACKAGED("MedicinalProductPackaged"),
-
-        /**
-         * MedicinalProductPharmaceutical
-         * 
-         * <p>A pharmaceutical product described in terms of its composition and dose form.
-         */
-        MEDICINAL_PRODUCT_PHARMACEUTICAL("MedicinalProductPharmaceutical"),
-
-        /**
-         * MedicinalProductUndesirableEffect
-         * 
-         * <p>Describe the undesirable effects of the medicinal product.
-         */
-        MEDICINAL_PRODUCT_UNDESIRABLE_EFFECT("MedicinalProductUndesirableEffect"),
+        MEDICINAL_PRODUCT_DEFINITION("MedicinalProductDefinition"),
 
         /**
          * MessageDefinition
@@ -3479,6 +3424,13 @@ public class FHIRDefinedType extends Code {
          * <p>A request to supply a diet, formula feeding (enteral) or oral nutritional supplement to a patient/resident.
          */
         NUTRITION_ORDER("NutritionOrder"),
+
+        /**
+         * NutritionProduct
+         * 
+         * <p>A food or fluid product that is consumed by patients.
+         */
+        NUTRITION_PRODUCT("NutritionProduct"),
 
         /**
          * Observation
@@ -3528,12 +3480,11 @@ public class FHIRDefinedType extends Code {
         ORGANIZATION_AFFILIATION("OrganizationAffiliation"),
 
         /**
-         * Parameters
+         * PackagedProductDefinition
          * 
-         * <p>This resource is a non-persisted resource used to pass information into and back from an [operation](operations.
-         * html). It has no other use, and there is no RESTful endpoint associated with it.
+         * <p>A medically related item or items, in a container or package.
          */
-        PARAMETERS("Parameters"),
+        PACKAGED_PRODUCT_DEFINITION("PackagedProductDefinition"),
 
         /**
          * Patient
@@ -3569,8 +3520,8 @@ public class FHIRDefinedType extends Code {
          * PlanDefinition
          * 
          * <p>This resource allows for the definition of various types of plans as a sharable, consumable, and executable 
-         * artifact. The resource is general enough to support the description of a broad range of clinical artifacts such as 
-         * clinical decision support rules, order sets and protocols.
+         * artifact. The resource is general enough to support the description of a broad range of clinical and non-clinical 
+         * artifacts such as clinical decision support rules, order sets, protocols, and drug quality specifications.
          */
         PLAN_DEFINITION("PlanDefinition"),
 
@@ -3627,6 +3578,15 @@ public class FHIRDefinedType extends Code {
         QUESTIONNAIRE_RESPONSE("QuestionnaireResponse"),
 
         /**
+         * RegulatedAuthorization
+         * 
+         * <p>Regulatory approval, clearance or licencing related to a regulated product, treatment, facility or activity that is 
+         * cited in a guidance, regulation, rule or legislative act. An example is Market Authorization relating to a Medicinal 
+         * Product.
+         */
+        REGULATED_AUTHORIZATION("RegulatedAuthorization"),
+
+        /**
          * RelatedPerson
          * 
          * <p>Information about a person that is involved in the care for a patient, but who is not the target of healthcare, nor 
@@ -3676,26 +3636,11 @@ public class FHIRDefinedType extends Code {
         RESEARCH_SUBJECT("ResearchSubject"),
 
         /**
-         * Resource
-         * 
-         * <p>This is the base resource type for everything.
-         */
-        RESOURCE("Resource"),
-
-        /**
          * RiskAssessment
          * 
          * <p>An assessment of the likely outcome(s) for a patient or other subject as well as the likelihood of each outcome.
          */
         RISK_ASSESSMENT("RiskAssessment"),
-
-        /**
-         * RiskEvidenceSynthesis
-         * 
-         * <p>The RiskEvidenceSynthesis resource describes the likelihood of an outcome in a population plus exposure state where 
-         * the risk estimate is derived from a combination of research studies.
-         */
-        RISK_EVIDENCE_SYNTHESIS("RiskEvidenceSynthesis"),
 
         /**
          * Schedule
@@ -3765,6 +3710,21 @@ public class FHIRDefinedType extends Code {
         SUBSCRIPTION("Subscription"),
 
         /**
+         * SubscriptionStatus
+         * 
+         * <p>The SubscriptionStatus resource describes the state of a Subscription during notifications.
+         */
+        SUBSCRIPTION_STATUS("SubscriptionStatus"),
+
+        /**
+         * SubscriptionTopic
+         * 
+         * <p>Describes a stream of resource state changes identified by trigger criteria and annotated with labels useful to 
+         * filter projections from this topic.
+         */
+        SUBSCRIPTION_TOPIC("SubscriptionTopic"),
+
+        /**
          * Substance
          * 
          * <p>A homogeneous material with a definite composition.
@@ -3772,59 +3732,11 @@ public class FHIRDefinedType extends Code {
         SUBSTANCE("Substance"),
 
         /**
-         * SubstanceNucleicAcid
-         * 
-         * <p>Nucleic acids are defined by three distinct elements: the base, sugar and linkage. Individual substance/moiety IDs 
-         * will be created for each of these elements. The nucleotide sequence will be always entered in the 5’-3’ direction.
-         */
-        SUBSTANCE_NUCLEIC_ACID("SubstanceNucleicAcid"),
-
-        /**
-         * SubstancePolymer
-         * 
-         * <p>Todo.
-         */
-        SUBSTANCE_POLYMER("SubstancePolymer"),
-
-        /**
-         * SubstanceProtein
-         * 
-         * <p>A SubstanceProtein is defined as a single unit of a linear amino acid sequence, or a combination of subunits that 
-         * are either covalently linked or have a defined invariant stoichiometric relationship. This includes all synthetic, 
-         * recombinant and purified SubstanceProteins of defined sequence, whether the use is therapeutic or prophylactic. This 
-         * set of elements will be used to describe albumins, coagulation factors, cytokines, growth factors, 
-         * peptide/SubstanceProtein hormones, enzymes, toxins, toxoids, recombinant vaccines, and immunomodulators.
-         */
-        SUBSTANCE_PROTEIN("SubstanceProtein"),
-
-        /**
-         * SubstanceReferenceInformation
-         * 
-         * <p>Todo.
-         */
-        SUBSTANCE_REFERENCE_INFORMATION("SubstanceReferenceInformation"),
-
-        /**
-         * SubstanceSourceMaterial
-         * 
-         * <p>Source material shall capture information on the taxonomic and anatomical origins as well as the fraction of a 
-         * material that can result in or can be modified to form a substance. This set of data elements shall be used to define 
-         * polymer substances isolated from biological matrices. Taxonomic and anatomical origins shall be described using a 
-         * controlled vocabulary as required. This information is captured for naturally derived polymers ( . starch) and 
-         * structurally diverse substances. For Organisms belonging to the Kingdom Plantae the Substance level defines the fresh 
-         * material of a single species or infraspecies, the Herbal Drug and the Herbal preparation. For Herbal preparations, the 
-         * fraction information will be captured at the Substance information level and additional information for herbal 
-         * extracts will be captured at the Specified Substance Group 1 information level. See for further explanation the 
-         * Substance Class: Structurally Diverse and the herbal annex.
-         */
-        SUBSTANCE_SOURCE_MATERIAL("SubstanceSourceMaterial"),
-
-        /**
-         * SubstanceSpecification
+         * SubstanceDefinition
          * 
          * <p>The detailed description of a substance, typically at a level beyond what is used for prescribing.
          */
-        SUBSTANCE_SPECIFICATION("SubstanceSpecification"),
+        SUBSTANCE_DEFINITION("SubstanceDefinition"),
 
         /**
          * SupplyDelivery
@@ -3891,7 +3803,15 @@ public class FHIRDefinedType extends Code {
          * 
          * <p>An authorization for the provision of glasses and/or contact lenses to a patient.
          */
-        VISION_PRESCRIPTION("VisionPrescription");
+        VISION_PRESCRIPTION("VisionPrescription"),
+
+        /**
+         * Parameters
+         * 
+         * <p>This resource is a non-persisted resource used to pass information into and back from an [operation](operations.
+         * html). It has no other use, and there is no RESTful endpoint associated with it.
+         */
+        PARAMETERS("Parameters");
 
         private final java.lang.String value;
 
@@ -3934,6 +3854,8 @@ public class FHIRDefinedType extends Code {
                 return BACKBONE_ELEMENT;
             case "CodeableConcept":
                 return CODEABLE_CONCEPT;
+            case "CodeableReference":
+                return CODEABLE_REFERENCE;
             case "Coding":
                 return CODING;
             case "ContactDetail":
@@ -3990,6 +3912,8 @@ public class FHIRDefinedType extends Code {
                 return RANGE;
             case "Ratio":
                 return RATIO;
+            case "RatioRange":
+                return RATIO_RANGE;
             case "Reference":
                 return REFERENCE;
             case "RelatedArtifact":
@@ -4000,8 +3924,6 @@ public class FHIRDefinedType extends Code {
                 return SIGNATURE;
             case "SimpleQuantity":
                 return SIMPLE_QUANTITY;
-            case "SubstanceAmount":
-                return SUBSTANCE_AMOUNT;
             case "Timing":
                 return TIMING;
             case "TriggerDefinition":
@@ -4048,10 +3970,20 @@ public class FHIRDefinedType extends Code {
                 return UUID;
             case "xhtml":
                 return XHTML;
+            case "Resource":
+                return RESOURCE;
+            case "Binary":
+                return BINARY;
+            case "Bundle":
+                return BUNDLE;
+            case "DomainResource":
+                return DOMAIN_RESOURCE;
             case "Account":
                 return ACCOUNT;
             case "ActivityDefinition":
                 return ACTIVITY_DEFINITION;
+            case "AdministrableProductDefinition":
+                return ADMINISTRABLE_PRODUCT_DEFINITION;
             case "AdverseEvent":
                 return ADVERSE_EVENT;
             case "AllergyIntolerance":
@@ -4064,14 +3996,10 @@ public class FHIRDefinedType extends Code {
                 return AUDIT_EVENT;
             case "Basic":
                 return BASIC;
-            case "Binary":
-                return BINARY;
             case "BiologicallyDerivedProduct":
                 return BIOLOGICALLY_DERIVED_PRODUCT;
             case "BodyStructure":
                 return BODY_STRUCTURE;
-            case "Bundle":
-                return BUNDLE;
             case "CapabilityStatement":
                 return CAPABILITY_STATEMENT;
             case "CarePlan":
@@ -4084,12 +4012,16 @@ public class FHIRDefinedType extends Code {
                 return CHARGE_ITEM;
             case "ChargeItemDefinition":
                 return CHARGE_ITEM_DEFINITION;
+            case "Citation":
+                return CITATION;
             case "Claim":
                 return CLAIM;
             case "ClaimResponse":
                 return CLAIM_RESPONSE;
             case "ClinicalImpression":
                 return CLINICAL_IMPRESSION;
+            case "ClinicalUseDefinition":
+                return CLINICAL_USE_DEFINITION;
             case "CodeSystem":
                 return CODE_SYSTEM;
             case "Communication":
@@ -4132,10 +4064,6 @@ public class FHIRDefinedType extends Code {
                 return DOCUMENT_MANIFEST;
             case "DocumentReference":
                 return DOCUMENT_REFERENCE;
-            case "DomainResource":
-                return DOMAIN_RESOURCE;
-            case "EffectEvidenceSynthesis":
-                return EFFECT_EVIDENCE_SYNTHESIS;
             case "Encounter":
                 return ENCOUNTER;
             case "Endpoint":
@@ -4150,6 +4078,8 @@ public class FHIRDefinedType extends Code {
                 return EVENT_DEFINITION;
             case "Evidence":
                 return EVIDENCE;
+            case "EvidenceReport":
+                return EVIDENCE_REPORT;
             case "EvidenceVariable":
                 return EVIDENCE_VARIABLE;
             case "ExampleScenario":
@@ -4180,6 +4110,8 @@ public class FHIRDefinedType extends Code {
                 return IMMUNIZATION_RECOMMENDATION;
             case "ImplementationGuide":
                 return IMPLEMENTATION_GUIDE;
+            case "Ingredient":
+                return INGREDIENT;
             case "InsurancePlan":
                 return INSURANCE_PLAN;
             case "Invoice":
@@ -4192,6 +4124,8 @@ public class FHIRDefinedType extends Code {
                 return LIST;
             case "Location":
                 return LOCATION;
+            case "ManufacturedItemDefinition":
+                return MANUFACTURED_ITEM_DEFINITION;
             case "Measure":
                 return MEASURE;
             case "MeasureReport":
@@ -4210,26 +4144,8 @@ public class FHIRDefinedType extends Code {
                 return MEDICATION_REQUEST;
             case "MedicationStatement":
                 return MEDICATION_STATEMENT;
-            case "MedicinalProduct":
-                return MEDICINAL_PRODUCT;
-            case "MedicinalProductAuthorization":
-                return MEDICINAL_PRODUCT_AUTHORIZATION;
-            case "MedicinalProductContraindication":
-                return MEDICINAL_PRODUCT_CONTRAINDICATION;
-            case "MedicinalProductIndication":
-                return MEDICINAL_PRODUCT_INDICATION;
-            case "MedicinalProductIngredient":
-                return MEDICINAL_PRODUCT_INGREDIENT;
-            case "MedicinalProductInteraction":
-                return MEDICINAL_PRODUCT_INTERACTION;
-            case "MedicinalProductManufactured":
-                return MEDICINAL_PRODUCT_MANUFACTURED;
-            case "MedicinalProductPackaged":
-                return MEDICINAL_PRODUCT_PACKAGED;
-            case "MedicinalProductPharmaceutical":
-                return MEDICINAL_PRODUCT_PHARMACEUTICAL;
-            case "MedicinalProductUndesirableEffect":
-                return MEDICINAL_PRODUCT_UNDESIRABLE_EFFECT;
+            case "MedicinalProductDefinition":
+                return MEDICINAL_PRODUCT_DEFINITION;
             case "MessageDefinition":
                 return MESSAGE_DEFINITION;
             case "MessageHeader":
@@ -4240,6 +4156,8 @@ public class FHIRDefinedType extends Code {
                 return NAMING_SYSTEM;
             case "NutritionOrder":
                 return NUTRITION_ORDER;
+            case "NutritionProduct":
+                return NUTRITION_PRODUCT;
             case "Observation":
                 return OBSERVATION;
             case "ObservationDefinition":
@@ -4252,8 +4170,8 @@ public class FHIRDefinedType extends Code {
                 return ORGANIZATION;
             case "OrganizationAffiliation":
                 return ORGANIZATION_AFFILIATION;
-            case "Parameters":
-                return PARAMETERS;
+            case "PackagedProductDefinition":
+                return PACKAGED_PRODUCT_DEFINITION;
             case "Patient":
                 return PATIENT;
             case "PaymentNotice":
@@ -4276,6 +4194,8 @@ public class FHIRDefinedType extends Code {
                 return QUESTIONNAIRE;
             case "QuestionnaireResponse":
                 return QUESTIONNAIRE_RESPONSE;
+            case "RegulatedAuthorization":
+                return REGULATED_AUTHORIZATION;
             case "RelatedPerson":
                 return RELATED_PERSON;
             case "RequestGroup":
@@ -4288,12 +4208,8 @@ public class FHIRDefinedType extends Code {
                 return RESEARCH_STUDY;
             case "ResearchSubject":
                 return RESEARCH_SUBJECT;
-            case "Resource":
-                return RESOURCE;
             case "RiskAssessment":
                 return RISK_ASSESSMENT;
-            case "RiskEvidenceSynthesis":
-                return RISK_EVIDENCE_SYNTHESIS;
             case "Schedule":
                 return SCHEDULE;
             case "SearchParameter":
@@ -4312,20 +4228,14 @@ public class FHIRDefinedType extends Code {
                 return STRUCTURE_MAP;
             case "Subscription":
                 return SUBSCRIPTION;
+            case "SubscriptionStatus":
+                return SUBSCRIPTION_STATUS;
+            case "SubscriptionTopic":
+                return SUBSCRIPTION_TOPIC;
             case "Substance":
                 return SUBSTANCE;
-            case "SubstanceNucleicAcid":
-                return SUBSTANCE_NUCLEIC_ACID;
-            case "SubstancePolymer":
-                return SUBSTANCE_POLYMER;
-            case "SubstanceProtein":
-                return SUBSTANCE_PROTEIN;
-            case "SubstanceReferenceInformation":
-                return SUBSTANCE_REFERENCE_INFORMATION;
-            case "SubstanceSourceMaterial":
-                return SUBSTANCE_SOURCE_MATERIAL;
-            case "SubstanceSpecification":
-                return SUBSTANCE_SPECIFICATION;
+            case "SubstanceDefinition":
+                return SUBSTANCE_DEFINITION;
             case "SupplyDelivery":
                 return SUPPLY_DELIVERY;
             case "SupplyRequest":
@@ -4344,6 +4254,8 @@ public class FHIRDefinedType extends Code {
                 return VERIFICATION_RESULT;
             case "VisionPrescription":
                 return VISION_PRESCRIPTION;
+            case "Parameters":
+                return PARAMETERS;
             default:
                 throw new IllegalArgumentException(value);
             }

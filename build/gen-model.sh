@@ -16,5 +16,5 @@ mvn clean install -f ${WORKSPACE}/fhir-tools
 
 if [[ $? -eq 0 ]]
 then
-    mvn com.ibm.fhir:fhir-tools:generate-model -f ${WORKSPACE}/fhir-model
+    mvn com.ibm.fhir:fhir-tools:generate-model -f ${WORKSPACE}/fhir-model -e
 fi

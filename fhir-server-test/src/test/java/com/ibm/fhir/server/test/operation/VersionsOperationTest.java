@@ -56,12 +56,37 @@ public class VersionsOperationTest extends FHIRServerTestBase {
         assertNotNull(parameters);
 
         List<String> versions = getParameterValues(parameters, PARAM_VERSION);
-        assertEquals(versions.size(), 1);
+        assertEquals(versions.size(), 2);
         assertTrue(versions.contains("4.0"));
+        assertTrue(versions.contains("4.3"));
 
         List<String> defaults = getParameterValues(parameters, PARAM_DEFAULT);
         assertEquals(defaults.size(), 1);
         assertTrue(defaults.contains("4.0"));
+    }
+
+    @Test
+    public void testVersions_with_default_configured() {
+        WebTarget target = getWebTarget();
+        target = target.path("/$versions");
+
+        Response r = target.request(FHIRMediaType.APPLICATION_FHIR_JSON)
+                .header("X-FHIR-TENANT-ID", "tenant1")
+                .header("X-FHIR-DSID", "study1")
+                .get(Response.class);
+
+        assertEquals(r.getStatus(), Status.OK.getStatusCode());
+        Parameters parameters = r.readEntity(Parameters.class);
+        assertNotNull(parameters);
+
+        List<String> versions = getParameterValues(parameters, PARAM_VERSION);
+        assertEquals(versions.size(), 2);
+        assertTrue(versions.contains("4.0"));
+        assertTrue(versions.contains("4.3"));
+
+        List<String> defaults = getParameterValues(parameters, PARAM_DEFAULT);
+        assertEquals(defaults.size(), 1);
+        assertTrue(defaults.contains("4.3"));
     }
 
     @Test
@@ -79,8 +104,9 @@ public class VersionsOperationTest extends FHIRServerTestBase {
         assertNotNull(parameters);
 
         List<String> versions = getParameterValues(parameters, PARAM_VERSION);
-        assertEquals(versions.size(), 1);
+        assertEquals(versions.size(), 2);
         assertTrue(versions.contains("4.0"));
+        assertTrue(versions.contains("4.3"));
 
         List<String> defaults = getParameterValues(parameters, PARAM_DEFAULT);
         assertEquals(defaults.size(), 1);
@@ -102,8 +128,9 @@ public class VersionsOperationTest extends FHIRServerTestBase {
         assertNotNull(jsonObject);
 
         List<String> versions = getJsonArrayStringValues(jsonObject.getJsonArray(PARAM_VERSIONS));
-        assertEquals(versions.size(), 1);
+        assertEquals(versions.size(), 2);
         assertTrue(versions.contains("4.0"));
+        assertTrue(versions.contains("4.3"));
 
         String defaultVersion = jsonObject.getString(PARAM_DEFAULT);
         assertEquals(defaultVersion, "4.0");
@@ -124,8 +151,9 @@ public class VersionsOperationTest extends FHIRServerTestBase {
         assertNotNull(jsonObject);
 
         List<String> versions = getJsonArrayStringValues(jsonObject.getJsonArray(PARAM_VERSIONS));
-        assertEquals(versions.size(), 1);
+        assertEquals(versions.size(), 2);
         assertTrue(versions.contains("4.0"));
+        assertTrue(versions.contains("4.3"));
 
         String defaultVersion = jsonObject.getString(PARAM_DEFAULT);
         assertEquals(defaultVersion, "4.0");
@@ -148,8 +176,9 @@ public class VersionsOperationTest extends FHIRServerTestBase {
         assertEquals(versionsNodes.size(), 1);
 
         List<String> versions = getNodeStringValues(getChildNodesByName(versionsNodes.get(0), PARAM_VERSION));
-        assertEquals(versions.size(), 1);
+        assertEquals(versions.size(), 2);
         assertTrue(versions.contains("4.0"));
+        assertTrue(versions.contains("4.3"));
 
         List<String> defaults = getNodeStringValues(getChildNodesByName(versionsNodes.get(0), PARAM_DEFAULT));
         assertEquals(defaults.size(), 1);
@@ -173,8 +202,9 @@ public class VersionsOperationTest extends FHIRServerTestBase {
         assertEquals(versionsNodes.size(), 1);
 
         List<String> versions = getNodeStringValues(getChildNodesByName(versionsNodes.get(0), PARAM_VERSION));
-        assertEquals(versions.size(), 1);
+        assertEquals(versions.size(), 2);
         assertTrue(versions.contains("4.0"));
+        assertTrue(versions.contains("4.3"));
 
         List<String> defaults = getNodeStringValues(getChildNodesByName(versionsNodes.get(0), PARAM_DEFAULT));
         assertEquals(defaults.size(), 1);

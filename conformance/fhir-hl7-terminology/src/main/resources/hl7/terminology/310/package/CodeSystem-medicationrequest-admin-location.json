@@ -1,0 +1,73 @@
+{
+    "resourceType": "CodeSystem",
+    "id": "medicationrequest-admin-location",
+    "meta": {
+        "lastUpdated": "2020-04-09T15:10:28.568-06:00",
+        "profile": [
+            "http://hl7.org/fhir/StructureDefinition/shareablecodesystem"
+        ]
+    },
+    "text": {
+        "status": "empty",
+        "div": "<div xmlns=\"http://www.w3.org/1999/xhtml\">Redacted for size</div>"
+    },
+    "extension": [
+        {
+            "url": "http://hl7.org/fhir/StructureDefinition/structuredefinition-wg",
+            "valueCode": "phx"
+        },
+        {
+            "url": "http://hl7.org/fhir/StructureDefinition/structuredefinition-standards-status",
+            "valueCode": "draft"
+        },
+        {
+            "url": "http://hl7.org/fhir/StructureDefinition/structuredefinition-fmm",
+            "valueInteger": 1
+        }
+    ],
+    "url": "http://terminology.hl7.org/CodeSystem/medicationrequest-admin-location",
+    "identifier": [
+        {
+            "system": "urn:ietf:rfc:3986",
+            "value": "urn:oid:2.16.840.1.113883.4.642.1.0"
+        }
+    ],
+    "version": "0.1.0",
+    "name": "MedicationRequest_Administration_Location_Codes",
+    "title": "Medication request  administration  location  codes",
+    "status": "draft",
+    "experimental": false,
+    "date": "2022-02-23T20:36:09-07:00",
+    "publisher": "FHIR Project team",
+    "contact": [
+        {
+            "telecom": [
+                {
+                    "system": "url",
+                    "value": "http://hl7.org/fhir"
+                }
+            ]
+        }
+    ],
+    "description": "MedicationRequest Administration Location Codes",
+    "caseSensitive": true,
+    "valueSet": "http://terminology.hl7.org/ValueSet/medicationrequest-admin-location",
+    "content": "complete",
+    "concept": [
+        {
+            "code": "inpatient",
+            "display": "Inpatient",
+            "definition": "Includes requests for medications to be administered or consumed in an inpatient or acute care setting"
+        },
+        {
+            "code": "outpatient",
+            "display": "Outpatient",
+            "definition": "Includes requests for medications to be administered or consumed in an outpatient setting (for example, Emergency Department, Outpatient Clinic, Outpatient Surgery, Doctor's office)"
+        },
+        {
+            "code": "community",
+            "display": "Community",
+            "definition": "Includes requests for medications to be administered or consumed by the patient in their home (this would include long term care or nursing homes, hospices, etc.)"
+        }
+    ]
+}

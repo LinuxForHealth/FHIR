@@ -7,13 +7,13 @@
       <display value="test health data"/>
     </security>
   </meta>
-  <text><status value="generated"/><div xmlns="http://www.w3.org/1999/xhtml"><p><b>Generated Narrative with Details</b></p><p><b>id</b>: meddisp0308</p><p><b>contained</b>: </p><p><b>status</b>: completed</p><p><b>medication</b>: Timoptic 5mg/ml solution. Generated Summary: id: med0305; Timoptic 5mg/ml solution <span>(Details : {http://hl7.org/fhir/sid/ndc code '2501-813-16' = 'n/a', given as 'Timoptic 5mg/ml solution'})</span></p><p><b>subject</b>: <a>Donald Duck </a></p><h3>Performers</h3><table><tr><td>-</td><td><b>Actor</b></td></tr><tr><td>*</td><td><a>Practitioner/f006</a></td></tr></table><p><b>authorizingPrescription</b>: <a>MedicationRequest/medrx0330</a></p><p><b>type</b>: Refill - Part Fill <span>(Details : {http://terminology.hl7.org/CodeSystem/v3-ActCode code 'RFP' = 'Refill - Part Fill', given as 'Refill - Part Fill'})</span></p><p><b>quantity</b>: 10 mL<span> (Details: UCUM code mL = 'mL')</span></p><p><b>daysSupply</b>: 30 Day<span> (Details: UCUM code d = 'd')</span></p><p><b>whenPrepared</b>: 25/06/2015 7:13:00 AM</p><p><b>whenHandedOver</b>: 26/06/2015 7:13:00 AM</p><p><b>dosageInstruction</b>: </p></div></text><contained>
+  <text><status value="generated"/><div xmlns="http://www.w3.org/1999/xhtml"><p><b>Generated Narrative</b></p><div style="display: inline-block; background-color: #d9e0e7; padding: 6px; margin: 4px; border: 1px solid #8da1b4; border-radius: 5px; line-height: 60%"><p style="margin-bottom: 0px">Resource "meddisp0308" </p></div><p><b>status</b>: completed</p><p><b>medication</b>: <a name="med0305"> </a></p><blockquote><div style="display: inline-block; background-color: #d9e0e7; padding: 6px; margin: 4px; border: 1px solid #8da1b4; border-radius: 5px; line-height: 60%"><p style="margin-bottom: 0px">Resource "med0305" </p></div><p><b>code</b>: Timoptic 5mg/ml solution <span style="background: LightGoldenRodYellow; margin: 4px; border: 1px solid khaki"> (<a href="http://terminology.hl7.org/3.1.0/CodeSystem-v3-ndc.html">National drug codes</a>#24208-813-10)</span></p></blockquote><p><b>subject</b>: <a href="patient-pat1.html">Patient/pat1: Donald Duck</a> "Duck DONALD"</p><h3>Performers</h3><table class="grid"><tr><td>-</td><td><b>Actor</b></td></tr><tr><td>*</td><td><a href="practitioner-f006.html">Practitioner/f006</a> "Rob VAN DEN BERK"</td></tr></table><p><b>authorizingPrescription</b>: <a href="medicationrequest-medrx0330.html">MedicationRequest/medrx0330</a></p><p><b>type</b>: Refill - Part Fill <span style="background: LightGoldenRodYellow; margin: 4px; border: 1px solid khaki"> (<a href="http://terminology.hl7.org/3.1.0/CodeSystem-v3-ActCode.html">ActCode</a>#RFP)</span></p><p><b>quantity</b>: 10 mL<span style="background: LightGoldenRodYellow"> (Details: UCUM code mL = 'mL')</span></p><p><b>daysSupply</b>: 30 Day<span style="background: LightGoldenRodYellow"> (Details: UCUM code d = 'd')</span></p><p><b>whenPrepared</b>: 2015-06-25T07:13:00+05:00</p><p><b>whenHandedOver</b>: 2015-06-26T07:13:00+05:00</p></div></text><contained>
         <Medication>
             <id value="med0305"/>
             <code>
                 <coding>
                     <system value="http://hl7.org/fhir/sid/ndc"/>
-                    <code value="2501-813-16"/>
+                    <code value="24208-813-10"/>
                     <display value="Timoptic 5mg/ml solution"/>
                 </coding>
             </code>
@@ -27,7 +27,7 @@
     </medicationReference>
     <subject>
         <reference value="Patient/pat1"/>
-        <display value="Donald Duck "/> 
+        <display value="Donald Duck"/> 
     </subject>
     <performer>
         <actor>

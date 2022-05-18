@@ -1,0 +1,132 @@
+{
+    "resourceType": "CodeSystem",
+    "id": "citation-summary-style",
+    "meta": {
+        "lastUpdated": "2022-04-24T09:21:35.043+11:00",
+        "profile": [
+            "http://hl7.org/fhir/StructureDefinition/shareablecodesystem"
+        ]
+    },
+    "text": {
+        "status": "empty",
+        "div": "<div xmlns=\"http://www.w3.org/1999/xhtml\">Redacted for size</div>"
+    },
+    "extension": [
+        {
+            "url": "http://hl7.org/fhir/StructureDefinition/structuredefinition-wg",
+            "valueCode": "cds"
+        },
+        {
+            "url": "http://hl7.org/fhir/StructureDefinition/structuredefinition-standards-status",
+            "valueCode": "trial-use"
+        },
+        {
+            "url": "http://hl7.org/fhir/StructureDefinition/structuredefinition-fmm",
+            "valueInteger": 0
+        }
+    ],
+    "url": "http://terminology.hl7.org/CodeSystem/citation-summary-style",
+    "identifier": [
+        {
+            "system": "urn:ietf:rfc:3986",
+            "value": "urn:oid:2.16.840.1.113883.4.642.1.0"
+        }
+    ],
+    "version": "4.3.0-cibuild",
+    "name": "CitationSummaryStyle",
+    "title": "CitationSummaryStyle",
+    "status": "draft",
+    "experimental": false,
+    "date": "2020-12-28T16:55:11+11:00",
+    "publisher": "HL7 (FHIR Project)",
+    "contact": [
+        {
+            "telecom": [
+                {
+                    "system": "url",
+                    "value": "http://hl7.org/fhir"
+                },
+                {
+                    "system": "email",
+                    "value": "fhir@lists.hl7.org"
+                }
+            ]
+        }
+    ],
+    "description": "The format for display of the citation.",
+    "caseSensitive": true,
+    "valueSet": "http://hl7.org/fhir/ValueSet/citation-summary-style",
+    "content": "complete",
+    "concept": [
+        {
+            "code": "vancouver",
+            "display": "Vancouver style",
+            "definition": "Citation style used by International Committee of Medical Journal Editors and maintained by US National Library of Medicine."
+        },
+        {
+            "code": "ama11",
+            "display": "American Medical Association 11th edition",
+            "definition": "Medicine."
+        },
+        {
+            "code": "apa7",
+            "display": "American Psychological Association 7th edition",
+            "definition": "APA 7th edition (October 2019) used by Education, Psychology and Sciences."
+        },
+        {
+            "code": "apa6",
+            "display": "American Psychological Association 6th edition",
+            "definition": "APA 6th edition used by Education, Psychology and Sciences."
+        },
+        {
+            "code": "asa6",
+            "display": "American Sociological Association 6th edition",
+            "definition": "Sociology."
+        },
+        {
+            "code": "mla8",
+            "display": "Modern Language Association 8th edition",
+            "definition": "MLA 8th edition used by the Humanities."
+        },
+        {
+            "code": "cochrane",
+            "display": "Cochrane Style",
+            "definition": "Used by Cochrane reviews, example: Huang, M, Tang T, Pang, P, Li, M, Ma R, Lu, J, et al. Treating COVID-19 with Chloroquine. J Mol Cell Biol 2020; 12(4):322–5."
+        },
+        {
+            "code": "elsevier-harvard",
+            "display": "Elsevier-Harvard Style",
+            "definition": "Biology ecology."
+        },
+        {
+            "code": "nature",
+            "display": "Nature Referencing style",
+            "definition": "Biology."
+        },
+        {
+            "code": "acs",
+            "display": "American Chemical Society",
+            "definition": "Chemistry."
+        },
+        {
+            "code": "chicago-a-17",
+            "display": "Chicago Style Version 17 Author Date",
+            "definition": "Used by Business, History and the Fine Arts."
+        },
+        {
+            "code": "chicago-b-17",
+            "display": "Chicago Style Version 17 Full note",
+            "definition": "Used by Business, History and the Fine Arts."
+        },
+        {
+            "code": "ieee",
+            "display": "Institute of Electrical and Electronics Engineers",
+            "definition": "IT, Engineering."
+        },
+        {
+            "code": "comppub",
+            "display": "Computable Publishing",
+            "definition": "Citation style to report human-readable and/or machine-readable access paths, example: Alper BS, Dehnbostel J, Shahin K. 14-day mortality remdesivir vs placebo meta-analysis (ACTT-1, Wang et al, WHO SOLIDARITY).  Fast Evidence Interoperability Resources (FEvIR) Platform, entry 55, version 4. Created 2020 Dec 17. Revised 2020 Dec 21. Accessed 2021 Mar 13. Computable resource at: https://fevir.net/resources/Evidence/55."
+        }
+    ]
+}

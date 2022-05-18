@@ -1,5 +1,5 @@
 /*
- * (C) Copyright IBM Corp. 2019, 2021
+ * (C) Copyright IBM Corp. 2019, 2022
  *
  * SPDX-License-Identifier: Apache-2.0
  */
@@ -86,7 +86,7 @@ public class ServiceRequest extends DomainResource {
         bindingName = "ServiceRequestStatus",
         strength = BindingStrength.Value.REQUIRED,
         description = "The status of a service order.",
-        valueSet = "http://hl7.org/fhir/ValueSet/request-status|4.0.1"
+        valueSet = "http://hl7.org/fhir/ValueSet/request-status|4.3.0-cibuild"
     )
     @Required
     private final ServiceRequestStatus status;
@@ -95,7 +95,7 @@ public class ServiceRequest extends DomainResource {
         bindingName = "ServiceRequestIntent",
         strength = BindingStrength.Value.REQUIRED,
         description = "The kind of service request.",
-        valueSet = "http://hl7.org/fhir/ValueSet/request-intent|4.0.1"
+        valueSet = "http://hl7.org/fhir/ValueSet/request-intent|4.3.0-cibuild"
     )
     @Required
     private final ServiceRequestIntent intent;
@@ -112,7 +112,7 @@ public class ServiceRequest extends DomainResource {
         bindingName = "ServiceRequestPriority",
         strength = BindingStrength.Value.REQUIRED,
         description = "Identifies the level of importance to be assigned to actioning the request.",
-        valueSet = "http://hl7.org/fhir/ValueSet/request-priority|4.0.1"
+        valueSet = "http://hl7.org/fhir/ValueSet/request-priority|4.3.0-cibuild"
     )
     private final ServiceRequestPriority priority;
     @Summary
@@ -121,7 +121,7 @@ public class ServiceRequest extends DomainResource {
     @Binding(
         bindingName = "ServiceRequestCode",
         strength = BindingStrength.Value.EXAMPLE,
-        description = "Codes for tests or services that can be carried out by a designated individual, organization or healthcare service.  For laboratory, LOINC is  (preferred)[http://build.fhir.org/terminologies.html#preferred] and a valueset using LOINC Order codes is available [here](valueset-diagnostic-requests.html).",
+        description = "Codes for tests or services that can be carried out by a designated individual, organization or healthcare service.  For laboratory, LOINC is  (preferred)[http://build.fhir.org/terminologies.html#preferred] and a valueset using LOINC Order codes is available.",
         valueSet = "http://hl7.org/fhir/ValueSet/procedure-code"
     )
     private final CodeableConcept code;
@@ -165,7 +165,7 @@ public class ServiceRequest extends DomainResource {
         bindingName = "ServiceRequestParticipantRole",
         strength = BindingStrength.Value.EXAMPLE,
         description = "Indicates specific responsibility of an individual within the care team, such as \"Primary physician\", \"Team coordinator\", \"Caregiver\", etc.",
-        valueSet = "http://hl7.org/fhir/ValueSet/participant-role"
+        valueSet = "http://terminology.hl7.org/ValueSet/action-participant-role"
     )
     private final CodeableConcept performerType;
     @Summary
@@ -186,7 +186,7 @@ public class ServiceRequest extends DomainResource {
     @Binding(
         bindingName = "ServiceRequestReason",
         strength = BindingStrength.Value.EXAMPLE,
-        description = "Diagnosis or problem codes justifying the reason for requesting the service investigation.",
+        description = "SNOMED CT Condition/Problem/Diagnosis Codes",
         valueSet = "http://hl7.org/fhir/ValueSet/procedure-reason"
     )
     private final List<CodeableConcept> reasonCode;
@@ -203,7 +203,7 @@ public class ServiceRequest extends DomainResource {
     @Binding(
         bindingName = "BodySite",
         strength = BindingStrength.Value.EXAMPLE,
-        description = "Codes describing anatomical locations. May include laterality.",
+        description = "SNOMED CT Body site concepts",
         valueSet = "http://hl7.org/fhir/ValueSet/body-site"
     )
     private final List<CodeableConcept> bodySite;

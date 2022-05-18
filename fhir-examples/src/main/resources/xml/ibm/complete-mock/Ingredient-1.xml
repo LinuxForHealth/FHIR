@@ -1,0 +1,278 @@
+<Ingredient xmlns="http://hl7.org/fhir">
+  <meta>
+    <versionId value="VFFuikpJ7e"/>
+    <lastUpdated value="2022-05-13T14:23:04.275131-04:00"/>
+    <source value="5qP5In8CaO"/>
+    <profile value="098ryp135q"/>
+    <security>
+      <system value="8Lg95OVKlv"/>
+      <version value="dlaZJUQ24T"/>
+      <code value="YdFfoUG4K7"/>
+      <display value="e6Lx3HpBnp"/>
+      <userSelected value="true"/>
+    </security>
+    <tag>
+      <system value="uXFRkZnWl7"/>
+      <version value="5_bKuMwNFH"/>
+      <code value="XqAqKnB3sf"/>
+      <display value="XlaQqWzBRy"/>
+      <userSelected value="true"/>
+    </tag>
+    <tag>
+      <code value="ibm/complete-mock"/>
+    </tag>
+  </meta>
+  <implicitRules value="E4vXNoFWpH"/>
+  <language value="en-US"/>
+  <text>
+    <status value="empty"/>
+    <div xmlns="http://www.w3.org/1999/xhtml"></div>
+  </text>
+  <identifier>
+    <use value="temp"/>
+    <type>
+      <coding>
+        <system value="X89Nvcai84"/>
+        <version value="BjOumYqad0"/>
+        <code value="xgp0HwEOjF"/>
+        <display value="9_uj1rl7_n"/>
+        <userSelected value="true"/>
+      </coding>
+      <text value="ifNfof3TQW"/>
+    </type>
+    <system value="qB1CelvCom"/>
+    <value value="ZsIAiCA_Ex"/>
+    <period>
+      <extension url="http://hl7.org/fhir/StructureDefinition/data-absent-reason">
+        <valueCode value="unknown"/>
+      </extension>
+    </period>
+  </identifier>
+  <status value="draft"/>
+  <for>
+    <reference value="MedicinalProductDefinition/Kf1qxwMELV"/>
+    <type value="MedicinalProductDefinition"/>
+    <identifier>
+      <use value="official"/>
+      <type>
+        <coding>
+          <system value="OhxAK3MjUH"/>
+          <version value="zQkr30NE5q"/>
+          <code value="NbUXAN0NWa"/>
+          <display value="MTKGy8XoDk"/>
+          <userSelected value="true"/>
+        </coding>
+        <text value="vs9ruClIgA"/>
+      </type>
+      <system value="jwQZnW561J"/>
+      <value value="8w4oIdjBeF"/>
+      <period>
+        <extension url="http://hl7.org/fhir/StructureDefinition/data-absent-reason">
+          <valueCode value="unknown"/>
+        </extension>
+      </period>
+    </identifier>
+    <display value="YsvSXeNW_I"/>
+  </for>
+  <role>
+    <coding>
+      <system value="FdPbpZCR_3"/>
+      <version value="TsttIF1GHc"/>
+      <code value="mqcWRFAnzm"/>
+      <display value="je9zfEv4ed"/>
+      <userSelected value="true"/>
+    </coding>
+    <text value="lL8U5YHQJY"/>
+  </role>
+  <function>
+    <coding>
+      <system value="JjkJWAuKPZ"/>
+      <version value="H0clWU_EbC"/>
+      <code value="dkrKOtvaie"/>
+      <display value="dFkRaw5Bbz"/>
+      <userSelected value="true"/>
+    </coding>
+    <text value="yM62bi9Cm_"/>
+  </function>
+  <allergenicIndicator value="true"/>
+  <manufacturer>
+    <role value="actual"/>
+    <manufacturer>
+      <reference value="Organization/YtZW8m8CYg"/>
+      <type value="Organization"/>
+      <identifier>
+        <use value="official"/>
+        <type>
+          <coding>
+            <system value="N41lnCSkmx"/>
+            <version value="cpQmgLychb"/>
+            <code value="13H_O2m4Td"/>
+            <display value="RpP0MEftHa"/>
+            <userSelected value="true"/>
+          </coding>
+          <text value="7pOtQWG9Fg"/>
+        </type>
+        <system value="qE8JG8zoDZ"/>
+        <value value="U8O5ykaRKQ"/>
+        <period>
+          <extension url="http://hl7.org/fhir/StructureDefinition/data-absent-reason">
+            <valueCode value="unknown"/>
+          </extension>
+        </period>
+      </identifier>
+      <display value="FQh717Fo56"/>
+    </manufacturer>
+  </manufacturer>
+  <substance>
+    <code>
+      <concept>
+        <coding>
+          <system value="LJHjutpbOw"/>
+          <version value="IsALLZuMDK"/>
+          <code value="rIyjR9Z0Ho"/>
+          <display value="jK5VqCJIZU"/>
+          <userSelected value="true"/>
+        </coding>
+        <text value="NfQAVMilR0"/>
+      </concept>
+      <reference>
+        <reference value="Basic/FsJ4r1LQ-J"/>
+        <type value="Basic"/>
+        <identifier>
+          <use value="old"/>
+          <type>
+            <coding>
+              <system value="KVgUjumA2P"/>
+              <version value="D6Z9exl0iZ"/>
+              <code value="UO6iuKuI7Z"/>
+              <display value="dmC1B5yHFY"/>
+              <userSelected value="true"/>
+            </coding>
+            <text value="elTwa6G8i6"/>
+          </type>
+          <system value="B45UpVn_FN"/>
+          <value value="5EBMzdndzz"/>
+          <period>
+            <extension url="http://hl7.org/fhir/StructureDefinition/data-absent-reason">
+              <valueCode value="unknown"/>
+            </extension>
+          </period>
+        </identifier>
+        <display value="GhrowXvbzN"/>
+      </reference>
+    </code>
+    <strength>
+      <presentationRatio>
+        <numerator>
+          <value value="0.353199753770339963665492177824489772319793701171875"/>
+          <comparator value="&gt;"/>
+          <unit value="yz4F1uPYz0"/>
+          <system value="SOylZAKJrC"/>
+          <code value="AhrHo2cAv7"/>
+        </numerator>
+        <denominator>
+          <value value="0.97619763100570555724999621816095896065235137939453125"/>
+          <comparator value="&lt;"/>
+          <unit value="52Ws3nIh6N"/>
+          <system value="MM6OLVngSe"/>
+          <code value="m1AtOz0JgB"/>
+        </denominator>
+      </presentationRatio>
+      <textPresentation value="Fhgolm86UF"/>
+      <concentrationRatio>
+        <numerator>
+          <value value="0.07894928522686904537319918517823680303990840911865234375"/>
+          <comparator value="&gt;"/>
+          <unit value="NPQOMI7w2_"/>
+          <system value="4Y00gvSqb6"/>
+          <code value="ChETdkirZW"/>
+        </numerator>
+        <denominator>
+          <value value="0.6465802354392786721604124977602623403072357177734375"/>
+          <comparator value="&lt;"/>
+          <unit value="p_oOpaIniu"/>
+          <system value="VjVg2DIgta"/>
+          <code value="k8AKwOI6hB"/>
+        </denominator>
+      </concentrationRatio>
+      <textConcentration value="6Mx0d0pact"/>
+      <measurementPoint value="1CwgIB8Cp9"/>
+      <country>
+        <coding>
+          <system value="FNsAyedGrN"/>
+          <version value="hSsbPYMnI9"/>
+          <code value="M9hEHCqGhJ"/>
+          <display value="kd8sYqcRAW"/>
+          <userSelected value="true"/>
+        </coding>
+        <text value="J4oiewedck"/>
+      </country>
+      <referenceStrength>
+        <substance>
+          <concept>
+            <coding>
+              <system value="wVNqwVGtFd"/>
+              <version value="TbJ5jMRJb2"/>
+              <code value="V5B9_DAGou"/>
+              <display value="Ovzu9K8TDg"/>
+              <userSelected value="true"/>
+            </coding>
+            <text value="sxApVQmRjP"/>
+          </concept>
+          <reference>
+            <reference value="Basic/mqOSzxDjBl"/>
+            <type value="Basic"/>
+            <identifier>
+              <use value="usual"/>
+              <type>
+                <coding>
+                  <system value="CsRMYjVOL8"/>
+                  <version value="pYK6OZCyQo"/>
+                  <code value="lOwluJavGj"/>
+                  <display value="POY9R6W6Mw"/>
+                  <userSelected value="true"/>
+                </coding>
+                <text value="jkYibRolWp"/>
+              </type>
+              <system value="Ti6fv6K0Fb"/>
+              <value value="X1t5G8ZExM"/>
+              <period>
+                <extension url="http://hl7.org/fhir/StructureDefinition/data-absent-reason">
+                  <valueCode value="unknown"/>
+                </extension>
+              </period>
+            </identifier>
+            <display value="xaNdSftX5w"/>
+          </reference>
+        </substance>
+        <strengthRatio>
+          <numerator>
+            <value value="0.701022576741664682486998572130687534809112548828125"/>
+            <comparator value="&gt;="/>
+            <unit value="qn9799mSOE"/>
+            <system value="ooTGKYIuTD"/>
+            <code value="8XHZCicOuU"/>
+          </numerator>
+          <denominator>
+            <value value="0.529412161341018094873334121075458824634552001953125"/>
+            <comparator value="&lt;="/>
+            <unit value="IqX_114_wD"/>
+            <system value="LJ4iCr3zj3"/>
+            <code value="kCXt2Jx_JN"/>
+          </denominator>
+        </strengthRatio>
+        <measurementPoint value="m0V4Lt05yJ"/>
+        <country>
+          <coding>
+            <system value="sG8OS_hxs_"/>
+            <version value="upUsMURXHr"/>
+            <code value="TEeZLYEGDx"/>
+            <display value="9Un_2USI3P"/>
+            <userSelected value="true"/>
+          </coding>
+          <text value="qNdKPvLFWk"/>
+        </country>
+      </referenceStrength>
+    </strength>
+  </substance>
+</Ingredient>

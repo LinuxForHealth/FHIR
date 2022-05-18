@@ -1,0 +1,192 @@
+{
+    "resourceType": "ValueSet",
+    "id": "regulated-authorization-case-type",
+    "meta": {
+        "lastUpdated": "2022-04-24T09:21:35.043+11:00",
+        "profile": [
+            "http://hl7.org/fhir/StructureDefinition/shareablevalueset"
+        ]
+    },
+    "extension": [
+        {
+            "url": "http://hl7.org/fhir/StructureDefinition/structuredefinition-wg",
+            "valueCode": "brr"
+        },
+        {
+            "url": "http://hl7.org/fhir/StructureDefinition/structuredefinition-standards-status",
+            "valueCode": "trial-use"
+        },
+        {
+            "url": "http://hl7.org/fhir/StructureDefinition/structuredefinition-fmm",
+            "valueInteger": 1
+        }
+    ],
+    "url": "http://hl7.org/fhir/ValueSet/regulated-authorization-case-type",
+    "identifier": [
+        {
+            "system": "urn:ietf:rfc:3986",
+            "value": "urn:oid:2.16.840.1.113883.4.642.3.1644"
+        }
+    ],
+    "version": "4.3.0-cibuild",
+    "name": "RegulatedAuthorizationCaseType",
+    "title": "RegulatedAuthorizationCaseType",
+    "status": "draft",
+    "experimental": true,
+    "date": "2020-12-28T16:55:11+11:00",
+    "publisher": "HL7 (FHIR Project)",
+    "contact": [
+        {
+            "telecom": [
+                {
+                    "system": "url",
+                    "value": "http://hl7.org/fhir"
+                },
+                {
+                    "system": "email",
+                    "value": "fhir@lists.hl7.org"
+                }
+            ]
+        }
+    ],
+    "description": "The type of a case involved in an application.",
+    "immutable": true,
+    "compose": {
+        "include": [
+            {
+                "system": "http://hl7.org/fhir/regulated-authorization-case-type"
+            }
+        ]
+    },
+    "expansion": {
+        "identifier": "urn:uuid:b342613f-6217-4fb5-97f7-c62764ef3b64",
+        "timestamp": "2022-04-23T22:23:26Z",
+        "total": 22,
+        "parameter": [
+            {
+                "name": "excludeNested",
+                "valueBoolean": true
+            },
+            {
+                "name": "includeDesignations",
+                "valueBoolean": true
+            },
+            {
+                "name": "version",
+                "valueUri": "http://hl7.org/fhir/regulated-authorization-case-type|4.3.0-cibuild"
+            }
+        ],
+        "contains": [
+            {
+                "system": "http://hl7.org/fhir/regulated-authorization-case-type",
+                "code": "InitialMAA",
+                "display": "Initial Marketing Authorisation Application"
+            },
+            {
+                "system": "http://hl7.org/fhir/regulated-authorization-case-type",
+                "code": "Variation",
+                "display": "Variation"
+            },
+            {
+                "system": "http://hl7.org/fhir/regulated-authorization-case-type",
+                "code": "LineExtension",
+                "display": "Line Extension"
+            },
+            {
+                "system": "http://hl7.org/fhir/regulated-authorization-case-type",
+                "code": "PSUR",
+                "display": "Periodic Safety Update Report"
+            },
+            {
+                "system": "http://hl7.org/fhir/regulated-authorization-case-type",
+                "code": "Renewal",
+                "display": "Renewal"
+            },
+            {
+                "system": "http://hl7.org/fhir/regulated-authorization-case-type",
+                "code": "Follow-up",
+                "display": "Follow-up Measure"
+            },
+            {
+                "system": "http://hl7.org/fhir/regulated-authorization-case-type",
+                "code": "100000155699",
+                "display": "Specific Obligation"
+            },
+            {
+                "system": "http://hl7.org/fhir/regulated-authorization-case-type",
+                "code": "AnnualReassessment",
+                "display": "Annual Reassessment"
+            },
+            {
+                "system": "http://hl7.org/fhir/regulated-authorization-case-type",
+                "code": "UrgentSafetyRestriction",
+                "display": "Urgent Safety Restriction"
+            },
+            {
+                "system": "http://hl7.org/fhir/regulated-authorization-case-type",
+                "code": "PaediatricSubmission",
+                "display": "Paediatric Submission"
+            },
+            {
+                "system": "http://hl7.org/fhir/regulated-authorization-case-type",
+                "code": "TransferMA",
+                "display": "Transfer of a marketing authorisation"
+            },
+            {
+                "system": "http://hl7.org/fhir/regulated-authorization-case-type",
+                "code": "LiftingSuspension",
+                "display": "Lifting of a Suspension"
+            },
+            {
+                "system": "http://hl7.org/fhir/regulated-authorization-case-type",
+                "code": "Withdrawal",
+                "display": "Withdrawal"
+            },
+            {
+                "system": "http://hl7.org/fhir/regulated-authorization-case-type",
+                "code": "Reformatting",
+                "display": "Reformatting"
+            },
+            {
+                "system": "http://hl7.org/fhir/regulated-authorization-case-type",
+                "code": "RMP",
+                "display": "Risk Management Plan"
+            },
+            {
+                "system": "http://hl7.org/fhir/regulated-authorization-case-type",
+                "code": "ReviewSuspension",
+                "display": "Review of a Suspension of MA"
+            },
+            {
+                "system": "http://hl7.org/fhir/regulated-authorization-case-type",
+                "code": "SupplementalInformation",
+                "display": "Supplemental Information"
+            },
+            {
+                "system": "http://hl7.org/fhir/regulated-authorization-case-type",
+                "code": "RepeatUse",
+                "display": "Repeat Use Procedure"
+            },
+            {
+                "system": "http://hl7.org/fhir/regulated-authorization-case-type",
+                "code": "SignalDetection",
+                "display": "Signal detection"
+            },
+            {
+                "system": "http://hl7.org/fhir/regulated-authorization-case-type",
+                "code": "FLU",
+                "display": "FLU STRAIN UPDATE"
+            },
+            {
+                "system": "http://hl7.org/fhir/regulated-authorization-case-type",
+                "code": "PANDEMIC",
+                "display": "PANDEMIC UPDATE"
+            },
+            {
+                "system": "http://hl7.org/fhir/regulated-authorization-case-type",
+                "code": "Orphan",
+                "display": "Orphan Designation Application"
+            }
+        ]
+    }
+}

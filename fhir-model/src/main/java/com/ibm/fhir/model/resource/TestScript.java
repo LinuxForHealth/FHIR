@@ -1,5 +1,5 @@
 /*
- * (C) Copyright IBM Corp. 2019, 2021
+ * (C) Copyright IBM Corp. 2019, 2022
  *
  * SPDX-License-Identifier: Apache-2.0
  */
@@ -64,7 +64,7 @@ import com.ibm.fhir.model.visitor.Visitor;
     level = "Warning",
     location = "(base)",
     description = "Name should be usable as an identifier for the module by machine processing applications such as code generation",
-    expression = "name.matches('[A-Z]([A-Za-z0-9_]){0,254}')",
+    expression = "name.exists() implies name.matches('[A-Z]([A-Za-z0-9_]){0,254}')",
     source = "http://hl7.org/fhir/StructureDefinition/TestScript"
 )
 @Constraint(
@@ -226,7 +226,7 @@ public class TestScript extends DomainResource {
         bindingName = "PublicationStatus",
         strength = BindingStrength.Value.REQUIRED,
         description = "The lifecycle status of an artifact.",
-        valueSet = "http://hl7.org/fhir/ValueSet/publication-status|4.0.1"
+        valueSet = "http://hl7.org/fhir/ValueSet/publication-status|4.3.0-cibuild"
     )
     @Required
     private final PublicationStatus status;
@@ -5088,7 +5088,7 @@ public class TestScript extends DomainResource {
                 @Binding(
                     bindingName = "TestScriptOperationCode",
                     strength = BindingStrength.Value.EXTENSIBLE,
-                    description = "The allowable operation code types.",
+                    description = "FHIR Operation Code Types",
                     valueSet = "http://hl7.org/fhir/ValueSet/testscript-operation-codes"
                 )
                 private final Coding type;
@@ -5096,7 +5096,7 @@ public class TestScript extends DomainResource {
                     bindingName = "FHIRDefinedType",
                     strength = BindingStrength.Value.REQUIRED,
                     description = "A list of all the concrete types defined in this version of the FHIR specification - Data Types and Resource Types.",
-                    valueSet = "http://hl7.org/fhir/ValueSet/defined-types|4.0.1"
+                    valueSet = "http://hl7.org/fhir/ValueSet/defined-types|4.3.0-cibuild"
                 )
                 private final FHIRDefinedType resource;
                 private final String label;
@@ -5104,15 +5104,15 @@ public class TestScript extends DomainResource {
                 @Binding(
                     bindingName = "MimeType",
                     strength = BindingStrength.Value.REQUIRED,
-                    description = "The mime type of an attachment. Any valid mime type is allowed.",
-                    valueSet = "http://hl7.org/fhir/ValueSet/mimetypes|4.0.1"
+                    description = "BCP 13 (RFCs 2045, 2046, 2047, 4288, 4289 and 2049)",
+                    valueSet = "http://hl7.org/fhir/ValueSet/mimetypes|4.3.0-cibuild"
                 )
                 private final Code accept;
                 @Binding(
                     bindingName = "MimeType",
                     strength = BindingStrength.Value.REQUIRED,
-                    description = "The mime type of an attachment. Any valid mime type is allowed.",
-                    valueSet = "http://hl7.org/fhir/ValueSet/mimetypes|4.0.1"
+                    description = "BCP 13 (RFCs 2045, 2046, 2047, 4288, 4289 and 2049)",
+                    valueSet = "http://hl7.org/fhir/ValueSet/mimetypes|4.3.0-cibuild"
                 )
                 private final Code contentType;
                 private final Integer destination;
@@ -5122,7 +5122,7 @@ public class TestScript extends DomainResource {
                     bindingName = "TestScriptRequestMethodCode",
                     strength = BindingStrength.Value.REQUIRED,
                     description = "The allowable request method or HTTP operation codes.",
-                    valueSet = "http://hl7.org/fhir/ValueSet/http-operations|4.0.1"
+                    valueSet = "http://hl7.org/fhir/ValueSet/http-operations|4.3.0-cibuild"
                 )
                 private final TestScriptRequestMethodCode method;
                 private final Integer origin;
@@ -6359,8 +6359,8 @@ public class TestScript extends DomainResource {
                 @Binding(
                     bindingName = "AssertionDirectionType",
                     strength = BindingStrength.Value.REQUIRED,
-                    description = "The type of direction to use for assertion.",
-                    valueSet = "http://hl7.org/fhir/ValueSet/assert-direction-codes|4.0.1"
+                    description = "The direction to use for assertions.",
+                    valueSet = "http://hl7.org/fhir/ValueSet/assert-direction-codes|4.3.0-cibuild"
                 )
                 private final AssertionDirectionType direction;
                 private final String compareToSourceId;
@@ -6369,8 +6369,8 @@ public class TestScript extends DomainResource {
                 @Binding(
                     bindingName = "MimeType",
                     strength = BindingStrength.Value.REQUIRED,
-                    description = "The mime type of an attachment. Any valid mime type is allowed.",
-                    valueSet = "http://hl7.org/fhir/ValueSet/mimetypes|4.0.1"
+                    description = "BCP 13 (RFCs 2045, 2046, 2047, 4288, 4289 and 2049)",
+                    valueSet = "http://hl7.org/fhir/ValueSet/mimetypes|4.3.0-cibuild"
                 )
                 private final Code contentType;
                 private final String expression;
@@ -6380,8 +6380,8 @@ public class TestScript extends DomainResource {
                 @Binding(
                     bindingName = "AssertionOperatorType",
                     strength = BindingStrength.Value.REQUIRED,
-                    description = "The type of operator to use for assertion.",
-                    valueSet = "http://hl7.org/fhir/ValueSet/assert-operator-codes|4.0.1"
+                    description = "The type of operator to use for assertions.",
+                    valueSet = "http://hl7.org/fhir/ValueSet/assert-operator-codes|4.3.0-cibuild"
                 )
                 private final AssertionOperatorType operator;
                 private final String path;
@@ -6389,7 +6389,7 @@ public class TestScript extends DomainResource {
                     bindingName = "TestScriptRequestMethodCode",
                     strength = BindingStrength.Value.REQUIRED,
                     description = "The allowable request method or HTTP operation codes.",
-                    valueSet = "http://hl7.org/fhir/ValueSet/http-operations|4.0.1"
+                    valueSet = "http://hl7.org/fhir/ValueSet/http-operations|4.3.0-cibuild"
                 )
                 private final TestScriptRequestMethodCode requestMethod;
                 private final String requestURL;
@@ -6397,14 +6397,14 @@ public class TestScript extends DomainResource {
                     bindingName = "FHIRDefinedType",
                     strength = BindingStrength.Value.REQUIRED,
                     description = "A list of all the concrete types defined in this version of the FHIR specification - Data Types and Resource Types.",
-                    valueSet = "http://hl7.org/fhir/ValueSet/defined-types|4.0.1"
+                    valueSet = "http://hl7.org/fhir/ValueSet/defined-types|4.3.0-cibuild"
                 )
                 private final FHIRDefinedType resource;
                 @Binding(
                     bindingName = "AssertionResponseTypes",
                     strength = BindingStrength.Value.REQUIRED,
-                    description = "The type of response code to use for assertion.",
-                    valueSet = "http://hl7.org/fhir/ValueSet/assert-response-code-types|4.0.1"
+                    description = "The response code to expect in the response.",
+                    valueSet = "http://hl7.org/fhir/ValueSet/assert-response-code-types|4.3.0-cibuild"
                 )
                 private final AssertionResponseTypes response;
                 private final String responseCode;

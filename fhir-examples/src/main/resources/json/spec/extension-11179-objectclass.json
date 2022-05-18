@@ -12,10 +12,11 @@
     }
   ],
   "url": "http://hl7.org/fhir/StructureDefinition/11179-objectClass",
-  "version": "4.0.1",
+  "version": "4.3.0-cibuild",
   "name": "objectClass",
   "title": "Object Class",
   "status": "draft",
+  "experimental": false,
   "date": "2014-04-21",
   "publisher": "Health Level Seven International (Orders and Observations)",
   "contact": [
@@ -29,7 +30,7 @@
     }
   ],
   "description": "A concept that represents a set of ideas, abstractions, or things in the real world that can be identified with explicit boundaries and meaning and whose properties and behavior follow the same rules. It may be either a single concept or a group of associated concepts, abstractions, or things.",
-  "fhirVersion": "4.0.1",
+  "fhirVersion": "4.3.0-cibuild",
   "mapping": [
     {
       "identity": "v2",
@@ -80,9 +81,9 @@
           {
             "key": "ele-1",
             "severity": "error",
-            "human": "All FHIR elements must have a @value or children",
-            "expression": "hasValue() or (children().count() \u003e id.count())",
-            "xpath": "@value|f:*|h:div",
+            "human": "All FHIR elements must have a @value or children unless an empty Parameters resource",
+            "expression": "hasValue() or (children().count() \u003e id.count()) or $this is Parameters",
+            "xpath": "@value|f:*|h:div|self::f:Parameters",
             "source": "http://hl7.org/fhir/StructureDefinition/Element"
           },
           {
@@ -234,7 +235,7 @@
         "id": "Extension.value[x]",
         "path": "Extension.value[x]",
         "short": "Value of extension",
-        "definition": "Value of extension - must be one of a constrained set of the data types (see [Extensibility](http://hl7.org/fhir/extensibility.html) for a list).",
+        "definition": "Value of extension - must be one of a constrained set of the data types (see [Extensibility](extensibility.html) for a list).",
         "min": 1,
         "max": "1",
         "base": {
@@ -262,12 +263,15 @@
         "binding": {
           "extension": [
             {
+              "url": "http://hl7.org/fhir/build/StructureDefinition/binding-definition",
+              "valueString": "A concept that represents a set of ideas, abstractions, or things in the real world that can be identified with explicit boundaries and meaning and whose properties and behavior follow the same rules; e.g. Person, Prescription, Encounter, etc."
+            },
+            {
               "url": "http://hl7.org/fhir/StructureDefinition/elementdefinition-bindingName",
               "valueString": "11179ObjectClass"
             }
           ],
           "strength": "example",
-          "description": "A concept that represents a set of ideas, abstractions, or things in the real world that can be identified with explicit boundaries and meaning and whose properties and behavior follow the same rules; e.g. Person, Prescription, Encounter, etc.",
           "valueSet": "http://hl7.org/fhir/ValueSet/dataelement-sdcobjectclass"
         },
         "mapping": [
@@ -326,12 +330,15 @@
         "binding": {
           "extension": [
             {
+              "url": "http://hl7.org/fhir/build/StructureDefinition/binding-definition",
+              "valueString": "A concept that represents a set of ideas, abstractions, or things in the real world that can be identified with explicit boundaries and meaning and whose properties and behavior follow the same rules; e.g. Person, Prescription, Encounter, etc."
+            },
+            {
               "url": "http://hl7.org/fhir/StructureDefinition/elementdefinition-bindingName",
               "valueString": "11179ObjectClass"
             }
           ],
           "strength": "example",
-          "description": "A concept that represents a set of ideas, abstractions, or things in the real world that can be identified with explicit boundaries and meaning and whose properties and behavior follow the same rules; e.g. Person, Prescription, Encounter, etc.",
           "valueSet": "http://hl7.org/fhir/ValueSet/dataelement-sdcobjectclass"
         }
       }

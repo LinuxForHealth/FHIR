@@ -1,5 +1,5 @@
 /*
- * (C) Copyright IBM Corp. 2019, 2021
+ * (C) Copyright IBM Corp. 2019, 2022
  *
  * SPDX-License-Identifier: Apache-2.0
  */
@@ -30,8 +30,7 @@ public class HumanName extends Element {
     @Binding(
         bindingName = "NameUse",
         strength = BindingStrength.Value.REQUIRED,
-        description = "The use of a human name.",
-        valueSet = "http://hl7.org/fhir/ValueSet/name-use|4.0.1"
+        valueSet = "http://hl7.org/fhir/ValueSet/name-use|4.3.0-cibuild"
     )
     private final NameUse use;
     @Summary

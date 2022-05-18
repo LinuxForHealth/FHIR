@@ -1,0 +1,117 @@
+{
+  "resourceType": "CodeSystem",
+  "id": "cited-artifact-classification-type",
+  "meta": {
+    "lastUpdated": "2022-04-24T09:21:35.043+11:00",
+    "profile": [
+      "http://hl7.org/fhir/StructureDefinition/shareablecodesystem"
+    ]
+  },
+  "text": {
+    "status": "generated",
+    "div": "\u003cdiv xmlns\u003d\"http://www.w3.org/1999/xhtml\"\u003e\n      \n      \n      \u003cp\u003eThis code system http://terminology.hl7.org/CodeSystem/cited-artifact-classification-type defines the following codes:\u003c/p\u003e\n      \n      \n      \u003ctable class\u003d\"codes\"\u003e\n        \n        \n        \u003ctr\u003e\n          \n          \n          \u003ctd style\u003d\"white-space:nowrap\"\u003e\n            \n            \n            \u003cb\u003eCode\u003c/b\u003e\n          \n          \n          \u003c/td\u003e\n          \n          \n          \u003ctd\u003e\n            \n            \n            \u003cb\u003eDisplay\u003c/b\u003e\n          \n          \n          \u003c/td\u003e\n          \n          \n          \u003ctd\u003e\n            \n            \n            \u003cb\u003eDefinition\u003c/b\u003e\n          \n          \n          \u003c/td\u003e\n        \n        \n        \u003c/tr\u003e\n        \n        \n        \u003ctr\u003e\n          \n          \n          \u003ctd style\u003d\"white-space:nowrap\"\u003epublication-type\n            \n            \n            \u003ca name\u003d\"cited-artifact-classification-type-publication-type\"\u003e \u003c/a\u003e\n          \n          \n          \u003c/td\u003e\n          \n          \n          \u003ctd\u003ePublication type\u003c/td\u003e\n          \n          \n          \u003ctd\u003ePublication type\u003c/td\u003e\n        \n        \n        \u003c/tr\u003e\n        \n        \u003ctr\u003e\n          \n          \n          \u003ctd style\u003d\"white-space:nowrap\"\u003emesh-heading\n            \n            \n            \u003ca name\u003d\"cited-artifact-classification-type-mesh-heading\"\u003e \u003c/a\u003e\n          \n          \n          \u003c/td\u003e\n          \n          \n          \u003ctd\u003eMeSH heading\u003c/td\u003e\n          \n          \n          \u003ctd\u003eMeSH heading\u003c/td\u003e\n        \n        \n        \u003c/tr\u003e\n        \n        \u003ctr\u003e\n          \n          \n          \u003ctd style\u003d\"white-space:nowrap\"\u003esupplemental-mesh-protocol\n            \n            \n            \u003ca name\u003d\"cited-artifact-classification-type-supplemental-mesh-protocol\"\u003e \u003c/a\u003e\n          \n          \n          \u003c/td\u003e\n          \n          \n          \u003ctd\u003eSupplemental MeSH for Protocol\u003c/td\u003e\n          \n          \n          \u003ctd\u003eSupplemental MeSH for Protocol\u003c/td\u003e\n        \n        \n        \u003c/tr\u003e\n        \n        \u003ctr\u003e\n          \n          \n          \u003ctd style\u003d\"white-space:nowrap\"\u003esupplemental-mesh-disease\n            \n            \n            \u003ca name\u003d\"cited-artifact-classification-type-supplemental-mesh-disease\"\u003e \u003c/a\u003e\n          \n          \n          \u003c/td\u003e\n          \n          \n          \u003ctd\u003eSupplemental MeSH for Disease\u003c/td\u003e\n          \n          \n          \u003ctd\u003eSupplemental MeSH for Disease\u003c/td\u003e\n        \n        \n        \u003c/tr\u003e\n        \n        \u003ctr\u003e\n          \n          \n          \u003ctd style\u003d\"white-space:nowrap\"\u003esupplemental-mesh-organism\n            \n            \n            \u003ca name\u003d\"cited-artifact-classification-type-supplemental-mesh-organism\"\u003e \u003c/a\u003e\n          \n          \n          \u003c/td\u003e\n          \n          \n          \u003ctd\u003eSupplemental MeSH for Organism\u003c/td\u003e\n          \n          \n          \u003ctd\u003eSupplemental MeSH for Organism\u003c/td\u003e\n        \n        \n        \u003c/tr\u003e\n        \n        \u003ctr\u003e\n          \n          \n          \u003ctd style\u003d\"white-space:nowrap\"\u003ekeyword\n            \n            \n            \u003ca name\u003d\"cited-artifact-classification-type-keyword\"\u003e \u003c/a\u003e\n          \n          \n          \u003c/td\u003e\n          \n          \n          \u003ctd\u003eKeyword\u003c/td\u003e\n          \n          \n          \u003ctd\u003eKeyword\u003c/td\u003e\n        \n        \n        \u003c/tr\u003e\n        \n        \u003ctr\u003e\n          \n          \n          \u003ctd style\u003d\"white-space:nowrap\"\u003ecitation-subset\n            \n            \n            \u003ca name\u003d\"cited-artifact-classification-type-citation-subset\"\u003e \u003c/a\u003e\n          \n          \n          \u003c/td\u003e\n          \n          \n          \u003ctd\u003eCitation subset\u003c/td\u003e\n          \n          \n          \u003ctd\u003eCitation subset\u003c/td\u003e\n        \n        \n        \u003c/tr\u003e\n        \n        \u003ctr\u003e\n          \n          \n          \u003ctd style\u003d\"white-space:nowrap\"\u003echemical\n            \n            \n            \u003ca name\u003d\"cited-artifact-classification-type-chemical\"\u003e \u003c/a\u003e\n          \n          \n          \u003c/td\u003e\n          \n          \n          \u003ctd\u003eChemical\u003c/td\u003e\n          \n          \n          \u003ctd\u003eChemical\u003c/td\u003e\n        \n        \n        \u003c/tr\u003e\n\t\t\n        \u003ctr\u003e\n          \n          \n          \u003ctd style\u003d\"white-space:nowrap\"\u003epublishing-model\n            \n            \n            \u003ca name\u003d\"cited-artifact-classification-type-publishing-model\"\u003e \u003c/a\u003e\n          \n          \n          \u003c/td\u003e\n          \n          \n          \u003ctd\u003ePublishing Model\u003c/td\u003e\n          \n          \n          \u003ctd\u003eUsed for PubModel attribute in Medline\u003c/td\u003e\n        \n        \n        \u003c/tr\u003e\n\t\t\n        \u003ctr\u003e\n          \n          \n          \u003ctd style\u003d\"white-space:nowrap\"\u003eknowledge-artifact-type\n            \n            \n            \u003ca name\u003d\"cited-artifact-classification-type-knowledge-artifact-type\"\u003e \u003c/a\u003e\n          \n          \n          \u003c/td\u003e\n          \n          \n          \u003ctd\u003eKnowledge Artifact Type\u003c/td\u003e\n          \n          \n          \u003ctd\u003eKnowledge Artifact Type\u003c/td\u003e\n        \n        \n        \u003c/tr\u003e\n\n        \u003ctr\u003e\n          \n          \u003ctd style\u003d\"white-space:nowrap\"\u003ecoverage\n            \n            \u003ca name\u003d\"cited-artifact-classification-type-coverage\"\u003e \u003c/a\u003e\n          \n          \u003c/td\u003e\n          \n          \u003ctd\u003eCoverage\u003c/td\u003e\n          \n          \u003ctd\u003eThe spatial or temporal topic of the resource, spatial applicability of the resource, or jurisdiction under which the resource is relevant\u003c/td\u003e\n        \n        \u003c/tr\u003e\n      \n      \u003c/table\u003e\n    \n    \n    \u003c/div\u003e"
+  },
+  "extension": [
+    {
+      "url": "http://hl7.org/fhir/StructureDefinition/structuredefinition-wg",
+      "valueCode": "cds"
+    },
+    {
+      "url": "http://hl7.org/fhir/StructureDefinition/structuredefinition-standards-status",
+      "valueCode": "trial-use"
+    },
+    {
+      "url": "http://hl7.org/fhir/StructureDefinition/structuredefinition-fmm",
+      "valueInteger": 0
+    }
+  ],
+  "url": "http://terminology.hl7.org/CodeSystem/cited-artifact-classification-type",
+  "identifier": [
+    {
+      "system": "urn:ietf:rfc:3986",
+      "value": "urn:oid:2.16.840.1.113883.4.642.1.0"
+    }
+  ],
+  "version": "4.3.0-cibuild",
+  "name": "CitedArtifactClassificationType",
+  "title": "CitedArtifactClassificationType",
+  "status": "draft",
+  "experimental": false,
+  "date": "2021-03-11T10:55:11.085+11:00",
+  "publisher": "HL7 (FHIR Project)",
+  "contact": [
+    {
+      "telecom": [
+        {
+          "system": "url",
+          "value": "http://hl7.org/fhir"
+        },
+        {
+          "system": "email",
+          "value": "fhir@lists.hl7.org"
+        }
+      ]
+    }
+  ],
+  "description": "Cited Artifact Classification Type",
+  "caseSensitive": true,
+  "valueSet": "http://hl7.org/fhir/ValueSet/cited-artifact-classification-type",
+  "content": "complete",
+  "concept": [
+    {
+      "code": "publication-type",
+      "display": "Publication type",
+      "definition": "Publication type"
+    },
+    {
+      "code": "mesh-heading",
+      "display": "MeSH heading",
+      "definition": "MeSH heading"
+    },
+    {
+      "code": "supplemental-mesh-protocol",
+      "display": "Supplemental MeSH for Protocol",
+      "definition": "Supplemental MeSH for Protocol"
+    },
+    {
+      "code": "supplemental-mesh-disease",
+      "display": "Supplemental MeSH for Disease",
+      "definition": "Supplemental MeSH for Disease"
+    },
+    {
+      "code": "supplemental-mesh-organism",
+      "display": "Supplemental MeSH for Organism",
+      "definition": "Supplemental MeSH for Organism"
+    },
+    {
+      "code": "keyword",
+      "display": "Keyword",
+      "definition": "Keyword"
+    },
+    {
+      "code": "citation-subset",
+      "display": "Citation subset",
+      "definition": "Citation subset"
+    },
+    {
+      "code": "chemical",
+      "display": "Chemical",
+      "definition": "Chemical"
+    },
+    {
+      "code": "publishing-model",
+      "display": "Publishing Model",
+      "definition": "Used for PubModel attribute in Medline"
+    },
+    {
+      "code": "knowledge-artifact-type",
+      "display": "Knowledge Artifact Type",
+      "definition": "Knowledge Artifact Type"
+    },
+    {
+      "code": "coverage",
+      "display": "Coverage",
+      "definition": "The spatial or temporal topic of the resource, spatial applicability of the resource, or jurisdiction under which the resource is relevant"
+    }
+  ]
+}

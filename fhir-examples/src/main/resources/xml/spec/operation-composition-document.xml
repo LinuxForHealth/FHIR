@@ -3,10 +3,10 @@
 <OperationDefinition xmlns="http://hl7.org/fhir">
   <id value="Composition-document"/>
   <text>
-    <status value="generated"/>
+    <status value="extensions"/>
     <div xmlns="http://www.w3.org/1999/xhtml">
-      <h2>Generate a Document</h2>
-      <p>OPERATION: Generate a Document</p>
+      <h2>Document</h2>
+      <p>OPERATION: Document</p>
       <p>The official URL for this operation definition is: </p>
       <pre>http://hl7.org/fhir/OperationDefinition/Composition-document</pre>
       <div>
@@ -74,7 +74,7 @@
           <td/>
           <td>
             <div>
-              <p>Whether to store the document at the bundle end-point (/Bundle) or not once it is generated. Value = true or false (default is for the server to decide). If the document is stored, it&#39;s location can be inferred from the Bundle.id, but it SHOULD be provided explicitly in the HTTP Location header in the response</p>
+              <p>Whether to store the document at the bundle end-point (/Bundle) or not once it is generated. Value = true or false (default is for the server to decide). If the document is stored, it's location can be inferred from the Bundle.id, but it SHOULD be provided explicitly in the HTTP Location header in the response</p>
 
             </div>
           </td>
@@ -110,11 +110,13 @@
     <valueCode value="trial-use"/>
   </extension>
   <url value="http://hl7.org/fhir/OperationDefinition/Composition-document"/>
-  <version value="4.0.1"/>
-  <name value="Generate a Document"/>
+  <version value="4.3.0-cibuild"/>
+  <name value="Document"/>
+  <title value="Generate a Document"/>
   <status value="draft"/>
   <kind value="operation"/>
-  <date value="2019-11-01T09:29:23+11:00"/>
+  <experimental value="false"/>
+  <date value="2022-04-23T22:21:35+00:00"/>
   <publisher value="HL7 (FHIR Project)"/>
   <contact>
     <telecom>
@@ -127,6 +129,7 @@
     </telecom>
   </contact>
   <description value="A client can ask a server to generate a fully bundled document from a composition resource. The server takes the composition resource, locates all the referenced resources and other additional resources as configured or requested and either returns a full document bundle, or returns an error. Note that since this is a search operation, the document bundle is  wrapped inside the search bundle.  If some of the resources are located on other servers, it is at the discretion of the  server whether to retrieve them or return an error. If the correct version of the document  that would be generated already exists, then the server can return the existing one."/>
+  <affectsState value="false"/>
   <code value="document"/>
   <comment value="Note: this operation definition does not resolve the question how document signatures are created. This is an open issue during the period of trial use, and feedback is requested regarding this question"/>
   <resource value="Composition"/>
@@ -146,7 +149,7 @@
     <use value="in"/>
     <min value="0"/>
     <max value="1"/>
-    <documentation value="Whether to store the document at the bundle end-point (/Bundle) or not once it is generated. Value = true or false (default is for the server to decide). If the document is stored, it&#39;s location can be inferred from the Bundle.id, but it SHOULD be provided explicitly in the HTTP Location header in the response"/>
+    <documentation value="Whether to store the document at the bundle end-point (/Bundle) or not once it is generated. Value = true or false (default is for the server to decide). If the document is stored, it's location can be inferred from the Bundle.id, but it SHOULD be provided explicitly in the HTTP Location header in the response"/>
     <type value="boolean"/>
   </parameter>
   <parameter>

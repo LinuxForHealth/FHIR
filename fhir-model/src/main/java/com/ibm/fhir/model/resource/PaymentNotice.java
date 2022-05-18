@@ -1,5 +1,5 @@
 /*
- * (C) Copyright IBM Corp. 2019, 2021
+ * (C) Copyright IBM Corp. 2019, 2022
  *
  * SPDX-License-Identifier: Apache-2.0
  */
@@ -54,7 +54,7 @@ public class PaymentNotice extends DomainResource {
         bindingName = "PaymentNoticeStatus",
         strength = BindingStrength.Value.REQUIRED,
         description = "A code specifying the state of the resource instance.",
-        valueSet = "http://hl7.org/fhir/ValueSet/fm-status|4.0.1"
+        valueSet = "http://hl7.org/fhir/ValueSet/fm-status|4.3.0-cibuild"
     )
     @Required
     private final PaymentNoticeStatus status;

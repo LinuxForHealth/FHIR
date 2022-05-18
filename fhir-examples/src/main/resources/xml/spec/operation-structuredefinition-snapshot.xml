@@ -3,10 +3,10 @@
 <OperationDefinition xmlns="http://hl7.org/fhir">
   <id value="StructureDefinition-snapshot"/>
   <text>
-    <status value="generated"/>
+    <status value="extensions"/>
     <div xmlns="http://www.w3.org/1999/xhtml">
-      <h2>Generate Snapshot</h2>
-      <p>OPERATION: Generate Snapshot</p>
+      <h2>Snapshot</h2>
+      <p>OPERATION: Snapshot</p>
       <p>The official URL for this operation definition is: </p>
       <pre>http://hl7.org/fhir/OperationDefinition/StructureDefinition-snapshot</pre>
       <div>
@@ -17,7 +17,7 @@
 
         <p>If the operation is not called at the instance level, either 
           <em>definition</em> or 
-          <em>url</em> &#39;in&#39; parameters must be provided. If more than one is specified, servers may raise an error or may resolve with the parameter of their choice. If called at the instance level, these parameters will be ignored.
+          <em>url</em> 'in' parameters must be provided. If more than one is specified, servers may raise an error or may resolve with the parameter of their choice. If called at the instance level, these parameters will be ignored.
         </p>
 
       </div>
@@ -74,7 +74,7 @@
           <td/>
           <td>
             <div>
-              <p>The StructureDefinition&#39;s canonical URL (i.e. &#39;StructureDefinition.url&#39;). The server must know the structure definition, or be able to retrieve it from other known repositories.</p>
+              <p>The StructureDefinition's canonical URL (i.e. 'StructureDefinition.url'). The server must know the structure definition, or be able to retrieve it from other known repositories.</p>
 
             </div>
           </td>
@@ -105,11 +105,13 @@
     <valueCode value="trial-use"/>
   </extension>
   <url value="http://hl7.org/fhir/OperationDefinition/StructureDefinition-snapshot"/>
-  <version value="4.0.1"/>
-  <name value="Generate Snapshot"/>
+  <version value="4.3.0-cibuild"/>
+  <name value="Snapshot"/>
+  <title value="Generate Snapshot"/>
   <status value="draft"/>
   <kind value="operation"/>
-  <date value="2019-11-01T09:29:23+11:00"/>
+  <experimental value="false"/>
+  <date value="2022-04-23T22:21:35+00:00"/>
   <publisher value="HL7 (FHIR Project)"/>
   <contact>
     <telecom>
@@ -121,7 +123,8 @@
       <value value="fhir@lists.hl7.org"/>
     </telecom>
   </contact>
-  <description value="Generates a [StructureDefinition](structuredefinition.html) instance  with  a snapshot, based on a differential in a specified [StructureDefinition](structuredefinition.html).   &#xA;&#xA;If the operation is not called at the instance level, either *definition* or *url* &#39;in&#39; parameters must be provided. If more than one is specified, servers may raise an error or may resolve with the parameter of their choice. If called at the instance level, these parameters will be ignored."/>
+  <description value="Generates a [StructureDefinition](structuredefinition.html) instance  with  a snapshot, based on a differential in a specified [StructureDefinition](structuredefinition.html).   &#xA;&#xA;If the operation is not called at the instance level, either *definition* or *url* 'in' parameters must be provided. If more than one is specified, servers may raise an error or may resolve with the parameter of their choice. If called at the instance level, these parameters will be ignored."/>
+  <affectsState value="true"/>
   <code value="snapshot"/>
   <resource value="StructureDefinition"/>
   <system value="false"/>
@@ -140,7 +143,7 @@
     <use value="in"/>
     <min value="0"/>
     <max value="1"/>
-    <documentation value="The StructureDefinition&#39;s canonical URL (i.e. &#39;StructureDefinition.url&#39;). The server must know the structure definition, or be able to retrieve it from other known repositories."/>
+    <documentation value="The StructureDefinition's canonical URL (i.e. 'StructureDefinition.url'). The server must know the structure definition, or be able to retrieve it from other known repositories."/>
     <type value="string"/>
     <searchType value="token"/>
   </parameter>

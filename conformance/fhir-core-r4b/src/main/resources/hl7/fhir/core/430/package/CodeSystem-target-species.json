@@ -1,0 +1,862 @@
+{
+    "resourceType": "CodeSystem",
+    "id": "target-species",
+    "meta": {
+        "lastUpdated": "2022-04-24T09:21:35.043+11:00",
+        "profile": [
+            "http://hl7.org/fhir/StructureDefinition/shareablecodesystem"
+        ]
+    },
+    "text": {
+        "status": "empty",
+        "div": "<div xmlns=\"http://www.w3.org/1999/xhtml\">Redacted for size</div>"
+    },
+    "extension": [
+        {
+            "url": "http://hl7.org/fhir/StructureDefinition/structuredefinition-wg",
+            "valueCode": "brr"
+        },
+        {
+            "url": "http://hl7.org/fhir/StructureDefinition/structuredefinition-standards-status",
+            "valueCode": "trial-use"
+        },
+        {
+            "url": "http://hl7.org/fhir/StructureDefinition/structuredefinition-fmm",
+            "valueInteger": 1
+        }
+    ],
+    "url": "http://hl7.org/fhir/target-species",
+    "identifier": [
+        {
+            "system": "urn:ietf:rfc:3986",
+            "value": "urn:oid:2.16.840.1.113883.4.642.1.1589"
+        }
+    ],
+    "version": "4.3.0-cibuild",
+    "name": "TargetSpecies",
+    "title": "TargetSpecies",
+    "status": "draft",
+    "experimental": false,
+    "date": "2021-01-05T10:01:24+11:00",
+    "publisher": "HL7 (FHIR Project)",
+    "contact": [
+        {
+            "telecom": [
+                {
+                    "system": "url",
+                    "value": "http://hl7.org/fhir"
+                },
+                {
+                    "system": "email",
+                    "value": "fhir@lists.hl7.org"
+                }
+            ]
+        }
+    ],
+    "description": "A species for which a medicinal product is intended.",
+    "caseSensitive": true,
+    "valueSet": "http://hl7.org/fhir/ValueSet/target-species",
+    "content": "complete",
+    "concept": [
+        {
+            "code": "100000108874",
+            "display": "Dove"
+        },
+        {
+            "code": "100000108875",
+            "display": "Quail"
+        },
+        {
+            "code": "100000108876",
+            "display": "Snipe"
+        },
+        {
+            "code": "100000108877",
+            "display": "Sparrow"
+        },
+        {
+            "code": "100000108878",
+            "display": "Starling"
+        },
+        {
+            "code": "100000108879",
+            "display": "Swan"
+        },
+        {
+            "code": "100000108880",
+            "display": "Turkey hen"
+        },
+        {
+            "code": "100000108881",
+            "display": "Turkey cock"
+        },
+        {
+            "code": "100000108882",
+            "display": "Turkeys"
+        },
+        {
+            "code": "100000108883",
+            "display": "Turkey for reproduction"
+        },
+        {
+            "code": "100000108884",
+            "display": "Poult"
+        },
+        {
+            "code": "100000108885",
+            "display": "Turtle dove"
+        },
+        {
+            "code": "100000108886",
+            "display": "Bison"
+        },
+        {
+            "code": "100000108887",
+            "display": "Buffalo"
+        },
+        {
+            "code": "100000108888",
+            "display": "Cows"
+        },
+        {
+            "code": "100000108889",
+            "display": "Cow for reproduction"
+        },
+        {
+            "code": "100000108890",
+            "display": "Bull for reproduction"
+        },
+        {
+            "code": "100000108891",
+            "display": "Ox"
+        },
+        {
+            "code": "100000108892",
+            "display": "Bullock"
+        },
+        {
+            "code": "100000108893",
+            "display": "Cattle"
+        },
+        {
+            "code": "100000108894",
+            "display": "Beef cattle"
+        },
+        {
+            "code": "100000108895",
+            "display": "Dairy cattle"
+        },
+        {
+            "code": "100000108896",
+            "display": "Dry cow"
+        },
+        {
+            "code": "100000108897",
+            "display": "Bull"
+        },
+        {
+            "code": "100000108898",
+            "display": "Lactating cow"
+        },
+        {
+            "code": "100000108899",
+            "display": "All other food producing species"
+        },
+        {
+            "code": "100000108900",
+            "display": "All non-food producing species"
+        },
+        {
+            "code": "100000108901",
+            "display": "All species  "
+        },
+        {
+            "code": "100000108902",
+            "display": "Carnivores"
+        },
+        {
+            "code": "100000108903",
+            "display": "Domestic animals"
+        },
+        {
+            "code": "100000108904",
+            "display": "Fur animals"
+        },
+        {
+            "code": "100000108905",
+            "display": "Game animals"
+        },
+        {
+            "code": "100000108906",
+            "display": "Laboratory animals"
+        },
+        {
+            "code": "100000108907",
+            "display": "Major species"
+        },
+        {
+            "code": "100000108908",
+            "display": "Minor species"
+        },
+        {
+            "code": "100000108909",
+            "display": "Ruminant"
+        },
+        {
+            "code": "100000108910",
+            "display": "Ruminant and porcine"
+        },
+        {
+            "code": "100000108911",
+            "display": "Small animals"
+        },
+        {
+            "code": "100000108912",
+            "display": "Crocodile"
+        },
+        {
+            "code": "100000108913",
+            "display": "Frog"
+        },
+        {
+            "code": "100000108914",
+            "display": "Iguana"
+        },
+        {
+            "code": "100000108915",
+            "display": "Lizard"
+        },
+        {
+            "code": "100000108916",
+            "display": "Amphibians"
+        },
+        {
+            "code": "100000108917",
+            "display": "Reptiles"
+        },
+        {
+            "code": "100000108918",
+            "display": "Reptiles for production"
+        },
+        {
+            "code": "100000108919",
+            "display": "Snake"
+        },
+        {
+            "code": "100000108920",
+            "display": "Tortoise"
+        },
+        {
+            "code": "100000108921",
+            "display": "Turtle"
+        },
+        {
+            "code": "100000108922",
+            "display": "Honey bees"
+        },
+        {
+            "code": "100000108923",
+            "display": "Crustacean"
+        },
+        {
+            "code": "100000108924",
+            "display": "Spider"
+        },
+        {
+            "code": "100000108925",
+            "display": "Indian hen"
+        },
+        {
+            "code": "100000108926",
+            "display": "African Goshawk"
+        },
+        {
+            "code": "100000108927",
+            "display": "Black Kite"
+        },
+        {
+            "code": "100000108928",
+            "display": "Budgerigar"
+        },
+        {
+            "code": "100000108929",
+            "display": "Bustard"
+        },
+        {
+            "code": "100000108930",
+            "display": "Buzzard"
+        },
+        {
+            "code": "100000108931",
+            "display": "Hen"
+        },
+        {
+            "code": "100000108932",
+            "display": "Layer hen"
+        },
+        {
+            "code": "100000108933",
+            "display": "Cock"
+        },
+        {
+            "code": "100000108934",
+            "display": "Broiler"
+        },
+        {
+            "code": "100000108935",
+            "display": "Chickens"
+        },
+        {
+            "code": "100000108936",
+            "display": "Chicken embryonated eggs"
+        },
+        {
+            "code": "100000108937",
+            "display": "Chicken for reproduction"
+        },
+        {
+            "code": "100000108938",
+            "display": "Replacement chick"
+        },
+        {
+            "code": "100000108939",
+            "display": "Chick"
+        },
+        {
+            "code": "100000108940",
+            "display": "Pullet"
+        },
+        {
+            "code": "100000108941",
+            "display": "Cockatiel"
+        },
+        {
+            "code": "100000108942",
+            "display": "Cockatoo"
+        },
+        {
+            "code": "100000108943",
+            "display": "Common canary"
+        },
+        {
+            "code": "100000108944",
+            "display": "Crow"
+        },
+        {
+            "code": "100000108945",
+            "display": "Duck"
+        },
+        {
+            "code": "100000108946",
+            "display": "Duck broiler"
+        },
+        {
+            "code": "100000108947",
+            "display": "Duckling"
+        },
+        {
+            "code": "100000108948",
+            "display": "Eagle"
+        },
+        {
+            "code": "100000108949",
+            "display": "Emu"
+        },
+        {
+            "code": "100000108950",
+            "display": "Goose"
+        },
+        {
+            "code": "100000108951",
+            "display": "Guinea fowl"
+        },
+        {
+            "code": "100000108952",
+            "display": "Kestrel"
+        },
+        {
+            "code": "100000108953",
+            "display": "Kite"
+        },
+        {
+            "code": "100000108954",
+            "display": "Macaw"
+        },
+        {
+            "code": "100000108955",
+            "display": "Ostrich"
+        },
+        {
+            "code": "100000108956",
+            "display": "Birds"
+        },
+        {
+            "code": "100000108957",
+            "display": "Fowls"
+        },
+        {
+            "code": "100000108958",
+            "display": "Finch"
+        },
+        {
+            "code": "100000108959",
+            "display": "Galliformes"
+        },
+        {
+            "code": "100000108960",
+            "display": "Game birds"
+        },
+        {
+            "code": "100000108961",
+            "display": "Pekin duck"
+        },
+        {
+            "code": "100000108962",
+            "display": "Ornamental birds"
+        },
+        {
+            "code": "100000108963",
+            "display": "Poultry"
+        },
+        {
+            "code": "100000108964",
+            "display": "Owl"
+        },
+        {
+            "code": "100000108965",
+            "display": "Parakeet"
+        },
+        {
+            "code": "100000108966",
+            "display": "Parrot"
+        },
+        {
+            "code": "100000108967",
+            "display": "Partridge"
+        },
+        {
+            "code": "100000108968",
+            "display": "Peregrine Falcon"
+        },
+        {
+            "code": "100000108969",
+            "display": "Pheasants"
+        },
+        {
+            "code": "100000108970",
+            "display": "Carrier pigeon"
+        },
+        {
+            "code": "100000108971",
+            "display": "Newborn calves"
+        },
+        {
+            "code": "100000108972",
+            "display": "Pregnant cow"
+        },
+        {
+            "code": "100000108973",
+            "display": "Pregnant heifer"
+        },
+        {
+            "code": "100000108974",
+            "display": "Pre-ruminant cattle"
+        },
+        {
+            "code": "100000108975",
+            "display": "Ruminant cattle"
+        },
+        {
+            "code": "100000108976",
+            "display": "Wild cattle"
+        },
+        {
+            "code": "100000108977",
+            "display": "Calf"
+        },
+        {
+            "code": "100000108978",
+            "display": "Heifers"
+        },
+        {
+            "code": "100000108979",
+            "display": "Other Bovids"
+        },
+        {
+            "code": "100000108980",
+            "display": "Alpaca"
+        },
+        {
+            "code": "100000108981",
+            "display": "Camel"
+        },
+        {
+            "code": "100000108982",
+            "display": "Llama"
+        },
+        {
+            "code": "100000108983",
+            "display": "Other Camelids"
+        },
+        {
+            "code": "100000108984",
+            "display": "Bitch"
+        },
+        {
+            "code": "100000108985",
+            "display": "Bitch for reproduction"
+        },
+        {
+            "code": "100000108986",
+            "display": "Adult male dog"
+        },
+        {
+            "code": "100000108987",
+            "display": "Adult male dog for reproduction"
+        },
+        {
+            "code": "100000108988",
+            "display": "Dogs"
+        },
+        {
+            "code": "100000108989",
+            "display": "Lactating bitch"
+        },
+        {
+            "code": "100000108990",
+            "display": "Large dog"
+        },
+        {
+            "code": "100000108991",
+            "display": "Medium dog"
+        },
+        {
+            "code": "100000108992",
+            "display": "Pregnant bitch"
+        },
+        {
+            "code": "100000108993",
+            "display": "Small dog"
+        },
+        {
+            "code": "100000108994",
+            "display": "Very large dog"
+        },
+        {
+            "code": "100000108995",
+            "display": "Very small dog"
+        },
+        {
+            "code": "100000108996",
+            "display": "Puppy"
+        },
+        {
+            "code": "100000108997",
+            "display": "Foxes"
+        },
+        {
+            "code": "100000108998",
+            "display": "Jackal"
+        },
+        {
+            "code": "100000108999",
+            "display": "Other Canids"
+        },
+        {
+            "code": "100000109000",
+            "display": "Raccoon dogs"
+        },
+        {
+            "code": "100000109001",
+            "display": "Wolf"
+        },
+        {
+            "code": "100000109002",
+            "display": "Chamois"
+        },
+        {
+            "code": "100000109003",
+            "display": "Other Caprines"
+        },
+        {
+            "code": "100000109004",
+            "display": "Adult female goat"
+        },
+        {
+            "code": "100000109005",
+            "display": "Adult male goat"
+        },
+        {
+            "code": "100000109006",
+            "display": "Dry adult female goat"
+        },
+        {
+            "code": "100000109007",
+            "display": "Goats"
+        },
+        {
+            "code": "100000109008",
+            "display": "Lactating adult female goat"
+        },
+        {
+            "code": "100000109009",
+            "display": "Pregnant adult female goat"
+        },
+        {
+            "code": "100000109010",
+            "display": "Pre-ruminant goat"
+        },
+        {
+            "code": "100000109011",
+            "display": "Ruminant goat"
+        },
+        {
+            "code": "100000109012",
+            "display": "Wild goat"
+        },
+        {
+            "code": "100000109013",
+            "display": "Kid"
+        },
+        {
+            "code": "100000109014",
+            "display": "Other Ovids"
+        },
+        {
+            "code": "100000109015",
+            "display": "Ewe"
+        },
+        {
+            "code": "100000109016",
+            "display": "Ram"
+        },
+        {
+            "code": "100000109017",
+            "display": "Dry ewe"
+        },
+        {
+            "code": "100000109018",
+            "display": "Lactating ewe"
+        },
+        {
+            "code": "100000109019",
+            "display": "Pregnant ewe"
+        },
+        {
+            "code": "100000109020",
+            "display": "Pre-ruminant sheep"
+        },
+        {
+            "code": "100000109021",
+            "display": "Ruminant sheep"
+        },
+        {
+            "code": "100000109022",
+            "display": "Sheep"
+        },
+        {
+            "code": "100000109023",
+            "display": "Sheep for meat production"
+        },
+        {
+            "code": "100000109024",
+            "display": "Dairy sheep"
+        },
+        {
+            "code": "100000109025",
+            "display": "Wild sheep"
+        },
+        {
+            "code": "100000109026",
+            "display": "Lamb"
+        },
+        {
+            "code": "100000109027",
+            "display": "Elk"
+        },
+        {
+            "code": "100000109028",
+            "display": "Fallow deer"
+        },
+        {
+            "code": "100000109029",
+            "display": "Moose"
+        },
+        {
+            "code": "100000109030",
+            "display": "Antelope"
+        },
+        {
+            "code": "100000109031",
+            "display": "Cervid"
+        },
+        {
+            "code": "100000109032",
+            "display": "Deer"
+        },
+        {
+            "code": "100000109033",
+            "display": "Other Deer"
+        },
+        {
+            "code": "100000109034",
+            "display": "Red deer"
+        },
+        {
+            "code": "100000109035",
+            "display": "Reindeer"
+        },
+        {
+            "code": "100000109036",
+            "display": "Roe deer"
+        },
+        {
+            "code": "100000109037",
+            "display": "Donkey"
+        },
+        {
+            "code": "100000109038",
+            "display": "Mare"
+        },
+        {
+            "code": "100000109039",
+            "display": "Gelding"
+        },
+        {
+            "code": "100000109040",
+            "display": "Horses"
+        },
+        {
+            "code": "100000109041",
+            "display": "Stallion"
+        },
+        {
+            "code": "100000109042",
+            "display": "Pony"
+        },
+        {
+            "code": "100000109043",
+            "display": "Pregnant mare"
+        },
+        {
+            "code": "100000109044",
+            "display": "Non food-producing horse"
+        },
+        {
+            "code": "100000109045",
+            "display": "Suckling colt"
+        },
+        {
+            "code": "100000109046",
+            "display": "Colt"
+        },
+        {
+            "code": "100000109047",
+            "display": "Mule"
+        },
+        {
+            "code": "100000109048",
+            "display": "Equid"
+        },
+        {
+            "code": "100000109049",
+            "display": "Female equid"
+        },
+        {
+            "code": "100000109050",
+            "display": "Other Equids"
+        },
+        {
+            "code": "100000109051",
+            "display": "Zebra"
+        },
+        {
+            "code": "100000109052",
+            "display": "Bobcat"
+        },
+        {
+            "code": "100000109053",
+            "display": "Adult female cat"
+        },
+        {
+            "code": "100000109054",
+            "display": "Adult female cat for reproduction"
+        },
+        {
+            "code": "100000109055",
+            "display": "Adult male cat"
+        },
+        {
+            "code": "100000109056",
+            "display": "Cats"
+        },
+        {
+            "code": "100000109057",
+            "display": "Lactating cat"
+        },
+        {
+            "code": "100000109058",
+            "display": "Large cat"
+        },
+        {
+            "code": "100000109059",
+            "display": "Medium cat"
+        },
+        {
+            "code": "100000109060",
+            "display": "Pregnant cat"
+        },
+        {
+            "code": "100000109061",
+            "display": "Small cat"
+        },
+        {
+            "code": "100000109062",
+            "display": "Kitten"
+        },
+        {
+            "code": "100000109063",
+            "display": "Cougar"
+        },
+        {
+            "code": "100000109064",
+            "display": "Jaguar"
+        },
+        {
+            "code": "100000109065",
+            "display": "Leopard"
+        },
+        {
+            "code": "100000109066",
+            "display": "Lion"
+        },
+        {
+            "code": "100000109067",
+            "display": "Lynx"
+        },
+        {
+            "code": "100000109068",
+            "display": "Other Felids"
+        },
+        {
+            "code": "100000109069",
+            "display": "Tiger"
+        },
+        {
+            "code": "100000109070",
+            "display": "Tsushima wild cat"
+        },
+        {
+            "code": "100000109071",
+            "display": "Other Leporids"
+        },
+        {
+            "code": "100000109072",
+            "display": "Hare"
+        },
+        {
+            "code": "100000109073",
+            "display": "Female rabbit for reproduction"
+        }
+    ]
+}

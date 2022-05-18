@@ -1,0 +1,125 @@
+{
+    "resourceType": "CodeSystem",
+    "id": "v2-0505",
+    "text": {
+        "status": "empty",
+        "div": "<div xmlns=\"http://www.w3.org/1999/xhtml\">Redacted for size</div>"
+    },
+    "extension": [
+        {
+            "url": "http://hl7.org/fhir/StructureDefinition/structuredefinition-wg",
+            "valueCode": "oo"
+        }
+    ],
+    "url": "http://terminology.hl7.org/CodeSystem/v2-0505",
+    "identifier": [
+        {
+            "system": "urn:ietf:rfc:3986",
+            "value": "urn:oid:2.16.840.1.113883.18.329"
+        }
+    ],
+    "version": "2.2.0",
+    "name": "CyclicEntryExitIndicator",
+    "title": "cyclicEntryExitIndicator",
+    "status": "active",
+    "experimental": false,
+    "date": "2019-12-01",
+    "publisher": "HL7, Inc",
+    "contact": [
+        {
+            "telecom": [
+                {
+                    "system": "url",
+                    "value": "http://www.hl7.org/"
+                }
+            ]
+        }
+    ],
+    "description": "HL7-defined code system of concepts used to specify if this service request is the first or last service request in a cyclic series of service requests.  Used in the Timing/Quantity Relationship (TQ2) segment in HL7 Version 2.x messaging.",
+    "purpose": "Underlying Master Code System for V2 table 0505 (Cyclic Entry/Exit Indicator)",
+    "copyright": "Copyright HL7. Licensed under creative commons public domain",
+    "caseSensitive": true,
+    "valueSet": "http://terminology.hl7.org/ValueSet/v2-0505",
+    "hierarchyMeaning": "is-a",
+    "compositional": false,
+    "versionNeeded": false,
+    "content": "complete",
+    "property": [
+        {
+            "code": "status",
+            "uri": "http://terminology.hl7.org/CodeSystem/utg-concept-properties#status",
+            "description": "Status of the concept",
+            "type": "code"
+        },
+        {
+            "code": "deprecated",
+            "uri": "http://terminology.hl7.org/CodeSystem/utg-concept-properties#v2-table-deprecated",
+            "description": "Version of HL7 in which the code was deprecated",
+            "type": "code"
+        },
+        {
+            "code": "HL7usageNotes",
+            "uri": "http://terminology.hl7.org/CodeSystem/utg-concept-properties#HL7usageNotes",
+            "description": "HL7 Concept Usage Notes",
+            "type": "string"
+        }
+    ],
+    "concept": [
+        {
+            "id": "5518",
+            "code": "F",
+            "display": "First service",
+            "definition": "The first service request in a cyclic group",
+            "property": [
+                {
+                    "code": "status",
+                    "valueCode": "A"
+                }
+            ]
+        },
+        {
+            "id": "5519",
+            "code": "L",
+            "display": "Last service",
+            "definition": "The last service request in a cyclic group",
+            "property": [
+                {
+                    "code": "status",
+                    "valueCode": "A"
+                }
+            ]
+        },
+        {
+            "id": "5520",
+            "code": "*",
+            "display": "The first service request in a cyclic group",
+            "definition": "The first service request in a cyclic group",
+            "property": [
+                {
+                    "code": "HL7usageNotes",
+                    "valueString": "Retired March 2016. Use code F instead"
+                },
+                {
+                    "code": "status",
+                    "valueCode": "R"
+                }
+            ]
+        },
+        {
+            "id": "5521",
+            "code": "#",
+            "display": "The last service request in a cyclic group.",
+            "definition": "The last service request in a cyclic group.",
+            "property": [
+                {
+                    "code": "HL7usageNotes",
+                    "valueString": "Retired March 2016. Use code L instead"
+                },
+                {
+                    "code": "status",
+                    "valueCode": "R"
+                }
+            ]
+        }
+    ]
+}

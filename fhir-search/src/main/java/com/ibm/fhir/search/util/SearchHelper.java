@@ -37,6 +37,8 @@ import com.ibm.fhir.config.PropertyGroup;
 import com.ibm.fhir.config.PropertyGroup.PropertyEntry;
 import com.ibm.fhir.config.ResourcesConfigAdapter;
 import com.ibm.fhir.core.FHIRConstants;
+import com.ibm.fhir.core.FHIRVersionParam;
+import com.ibm.fhir.core.util.ResourceTypeHelper;
 import com.ibm.fhir.model.resource.CodeSystem;
 import com.ibm.fhir.model.resource.CodeSystem.Concept;
 import com.ibm.fhir.model.resource.Resource;
@@ -51,7 +53,7 @@ import com.ibm.fhir.model.type.Meta;
 import com.ibm.fhir.model.type.Uri;
 import com.ibm.fhir.model.type.code.IssueSeverity;
 import com.ibm.fhir.model.type.code.IssueType;
-import com.ibm.fhir.model.type.code.ResourceType;
+import com.ibm.fhir.model.type.code.ResourceTypeCode;
 import com.ibm.fhir.model.type.code.SearchComparator;
 import com.ibm.fhir.model.type.code.SearchModifierCode;
 import com.ibm.fhir.model.type.code.SearchParamType;
@@ -378,17 +380,32 @@ public class SearchHelper {
 
     public FHIRSearchContext parseQueryParameters(Class<?> resourceType,
             Map<String, List<String>> queryParameters) throws Exception {
-        return parseQueryParameters(resourceType, queryParameters, false, true);
+        return parseQueryParameters(resourceType, queryParameters, false, true, FHIRVersionParam.VERSION_43);
     }
 
     public FHIRSearchContext parseQueryParameters(Class<?> resourceType,
             Map<String, List<String>> queryParameters, boolean lenient, boolean includeResource) throws Exception {
+        return parseQueryParameters(resourceType, queryParameters, lenient, includeResource, FHIRVersionParam.VERSION_43);
+    }
+
+    /**
+     * Parse the passed query parameters into a FHIRSeachContext according to the given options
+     *
+     * @param resourceType
+     * @param queryParameters
+     * @param lenient
+     * @param includeResource
+     * @param fhirVersion
+     * @return
+     * @throws Exception
+     */
+    public FHIRSearchContext parseQueryParameters(Class<?> resourceType, Map<String, List<String>> queryParameters,
+            boolean lenient, boolean includeResource, FHIRVersionParam fhirVersion) throws Exception {
 
         FHIRSearchContext context = FHIRSearchContextFactory.createSearchContext();
         context.setLenient(lenient);
         context.setIncludeResourceData(includeResource);
         List<QueryParameter> parameters = new ArrayList<>();
-        HashSet<String> resourceTypes = new LinkedHashSet<>();
 
         // Check for duplicate parameters that are supposed to be specified at most once
         for (Entry<String, List<String>> entry : queryParameters.entrySet()) {
@@ -410,16 +427,15 @@ public class SearchHelper {
             manageException("_type parameter is only supported for whole-system search", IssueType.NOT_SUPPORTED, context, false);
         }
 
-        // Process the _type parameter(s)
+        Set<String> resourceTypes = new LinkedHashSet<>();
         if (isSystemSearch) {
             PropertyGroup pg = FHIRConfigHelper.getPropertyGroup(FHIRConfiguration.PROPERTY_RESOURCES);
-            ResourcesConfigAdapter config = new ResourcesConfigAdapter(pg);
+            ResourcesConfigAdapter config = new ResourcesConfigAdapter(pg, fhirVersion);
             Set<String> searchableTypes = config.getSupportedResourceTypes(Interaction.SEARCH);
 
             if (queryParameters.containsKey(SearchConstants.RESOURCE_TYPE)) {
-                List<String> values = queryParameters.get(SearchConstants.RESOURCE_TYPE);
-
-                for (String v: values) {
+                // process all the _type parameters
+                for (String v: queryParameters.get(SearchConstants.RESOURCE_TYPE)) {
                     List<String> tmpResourceTypes = Arrays.asList(v.split("\\s*,\\s*"));
                     for (String tmpResourceType: tmpResourceTypes) {
                         if (!ModelSupport.isConcreteResourceType(tmpResourceType)) {
@@ -427,6 +443,10 @@ public class SearchHelper {
                             manageException(msg, IssueType.INVALID, context, false);
                         } else if (!searchableTypes.contains(tmpResourceType)) {
                             String msg = "Search interaction is not supported for _type parameter value: " + Encode.forHtml(tmpResourceType);
+                            manageException(msg, IssueType.NOT_SUPPORTED, context, false);
+                        } else if (!ResourceTypeHelper.isCompatible(tmpResourceType, fhirVersion, FHIRVersionParam.VERSION_43)) {
+                            String msg = "fhirVersion " + fhirVersion.value() + " interaction for _type parameter value: '" + Encode.forHtml(tmpResourceType) +
+                                    "' is not supported";
                             manageException(msg, IssueType.NOT_SUPPORTED, context, false);
                         } else {
                             resourceTypes.add(tmpResourceType);
@@ -437,16 +457,19 @@ public class SearchHelper {
 
             // if no _type parameter was passed but the search interaction is only supported for some subset of types
             // then we need to set the supported resource types in the context
-            if (resourceTypes.isEmpty() && config.isSearchRestricted()) {
-                resourceTypes.addAll(config.getSupportedResourceTypes(Interaction.SEARCH));
+            if (resourceTypes.isEmpty()) {
+                Boolean implicitTypeScoping = FHIRConfigHelper.getBooleanProperty(FHIRConfiguration.PROPERTY_WHOLE_SYSTEM_TYPE_SCOPING, true);
+                if (implicitTypeScoping || config.isSearchRestricted()) {
+                    resourceTypes.addAll(searchableTypes);
+                }
             }
         }
 
         queryParameters.remove(SearchConstants.RESOURCE_TYPE);
 
-        Boolean isMultiResTypeSearch = Resource.class.equals(resourceType) && !resourceTypes.isEmpty();
+        boolean hasResourceTypeFilter = isSystemSearch && !resourceTypes.isEmpty();
 
-        if (isMultiResTypeSearch) {
+        if (hasResourceTypeFilter) {
             context.setSearchResourceTypes(new ArrayList<>(resourceTypes));
         }
 
@@ -460,7 +483,7 @@ public class SearchHelper {
                 } else if (isGeneralParameter(name) ) {
                     // we'll handle it somewhere else, so just ignore it here
                 } else if (isReverseChainedParameter(name)) {
-                    if (isMultiResTypeSearch) {
+                    if (hasResourceTypeFilter) {
                         // _has search requires specific resource type modifier in
                         // search parameter, so we don't currently support system search.
                         throw SearchExceptionUtil.buildNewInvalidSearchException("system search not supported with _has.");
@@ -472,7 +495,7 @@ public class SearchHelper {
                     List<String> chainedParemeters = params;
                     for (String chainedParameterString : chainedParemeters) {
                         QueryParameter chainedParameter;
-                        if (isMultiResTypeSearch) {
+                        if (hasResourceTypeFilter) {
                             chainedParameter = parseChainedParameter(resourceTypes, name, chainedParameterString, context);
                         } else {
                             chainedParameter = parseChainedParameter(resourceType, name, chainedParameterString, context);
@@ -489,7 +512,7 @@ public class SearchHelper {
                     }
 
                     SearchParameter searchParameter = null;
-                    if (isMultiResTypeSearch) {
+                    if (hasResourceTypeFilter) {
                       // Find the SearchParameter that will apply to all the resource types.
                       for (String resType: resourceTypes) {
                           // Get the search parameter from our filtered set of applicable SPs for this resource type.
@@ -1002,7 +1025,7 @@ public class SearchHelper {
                                 "' with modifier ':" + modifier.value() + "' could not be found";
                         throw SearchExceptionUtil.buildNewInvalidSearchException(msg);
                     }
-                    if (!ValueSetSupport.isExpandable(valueSet)) {
+                    if (!ValueSetSupport.isExpanded(valueSet) && !ValueSetSupport.isExpandable(valueSet)) {
                         String msg = "ValueSet '" + v + "' specified for search parameter '" + searchParameter.getCode().getValue() +
                                 "' with modifier ':" + modifier.value() + "' is not expandable";
                         throw SearchExceptionUtil.buildNewInvalidSearchException(msg);
@@ -1188,11 +1211,12 @@ public class SearchHelper {
      * @param queryParameters the query parameters
      * @param interaction read or vread
      * @param lenient true if lenient, false if strict
+     * @param fhirVersion
      * @return the FHIR search context
      * @throws Exception an exception
      */
     public FHIRSearchContext parseReadQueryParameters(Class<?> resourceType,
-            Map<String, List<String>> queryParameters, String interaction, boolean lenient) throws Exception {
+            Map<String, List<String>> queryParameters, String interaction, boolean lenient, FHIRVersionParam fhirVersion) throws Exception {
         String resourceTypeName = resourceType.getSimpleName();
 
         // Read and vRead only allow general search parameters
@@ -1206,13 +1230,13 @@ public class SearchHelper {
             log.log(Level.FINE, "Error while parsing search parameter '" + nonGeneralParam + "' for resource type " + resourceTypeName, se);
         }
 
-        return parseCompartmentQueryParameters(null, null, resourceType, queryParameters, lenient, true);
+        return parseCompartmentQueryParameters(null, null, resourceType, queryParameters, lenient, true, fhirVersion);
     }
 
 
     public FHIRSearchContext parseCompartmentQueryParameters(String compartmentName, String compartmentLogicalId,
             Class<?> resourceType, Map<String, List<String>> queryParameters) throws Exception {
-        return parseCompartmentQueryParameters(compartmentName, compartmentLogicalId, resourceType, queryParameters, true, true);
+        return parseCompartmentQueryParameters(compartmentName, compartmentLogicalId, resourceType, queryParameters, true, true, FHIRVersionParam.VERSION_43);
     }
 
     /**
@@ -1224,15 +1248,16 @@ public class SearchHelper {
      *                Whether to ignore unknown or unsupported parameter
      * @param includeResource
      *                Whether to include the resource from the result (return handling prefer != minimal)
+     * @param fhirVersion
      * @return
      * @throws Exception
      */
     public FHIRSearchContext parseCompartmentQueryParameters(String compartmentName, String compartmentLogicalId,
-            Class<?> resourceType, Map<String, List<String>> queryParameters, boolean lenient, boolean includeResource) throws Exception {
+            Class<?> resourceType, Map<String, List<String>> queryParameters, boolean lenient, boolean includeResource, FHIRVersionParam fhirVersion) throws Exception {
 
         Set<String> compartmentLogicalIds = Collections.singleton(compartmentLogicalId);
         QueryParameter inclusionCriteria = buildInclusionCriteria(compartmentName, compartmentLogicalIds, resourceType.getSimpleName());
-        FHIRSearchContext context = parseQueryParameters(resourceType, queryParameters, lenient, includeResource);
+        FHIRSearchContext context = parseQueryParameters(resourceType, queryParameters, lenient, includeResource, fhirVersion);
 
         // Add the inclusion criteria to the front of the search parameter list
         if (inclusionCriteria != null) {
@@ -1374,7 +1399,7 @@ public class SearchHelper {
         return code.startsWith(SearchConstants.HAS);
     }
 
-    private QueryParameter parseChainedParameter(HashSet<String> resourceTypes, String name, String valuesString, FHIRSearchContext context)
+    private QueryParameter parseChainedParameter(Set<String> resourceTypes, String name, String valuesString, FHIRSearchContext context)
             throws Exception {
         QueryParameter rootParameter = null;
         Class<?> resourceType = null;
@@ -1430,8 +1455,8 @@ public class SearchHelper {
                             String.format(TYPE_NOT_ALLOWED_WITH_CHAINED_PARAMETER_EXCEPTION, type));
                     }
 
-                    List<ResourceType> targets = searchParameter.getTarget();
-                    if (modifierResourceTypeName != null && !targets.contains(ResourceType.of(modifierResourceTypeName))) {
+                    List<ResourceTypeCode> targets = searchParameter.getTarget();
+                    if (modifierResourceTypeName != null && !targets.contains(ResourceTypeCode.of(modifierResourceTypeName))) {
                         throw SearchExceptionUtil.buildNewInvalidSearchException(
                             String.format(MODIFIYERRESOURCETYPE_NOT_ALLOWED_FOR_RESOURCETYPE, modifierResourceTypeName,
                                 parameterName, resTypeName));
@@ -1555,9 +1580,9 @@ public class SearchHelper {
                             String.format(TYPE_NOT_ALLOWED_WITH_CHAINED_PARAMETER_EXCEPTION, type.value()));
                 }
 
-                List<ResourceType> targets = searchParameter.getTarget();
+                List<ResourceTypeCode> targets = searchParameter.getTarget();
                 // Check if the modifier resource type is invalid.
-                if (modifierResourceTypeName != null && !targets.contains(ResourceType.of(modifierResourceTypeName))) {
+                if (modifierResourceTypeName != null && !targets.contains(ResourceTypeCode.of(modifierResourceTypeName))) {
                     throw SearchExceptionUtil.buildNewInvalidSearchException(
                             String.format(MODIFIYERRESOURCETYPE_NOT_ALLOWED_FOR_RESOURCETYPE, modifierResourceTypeName,
                                     parameterName, resourceType.getSimpleName()));
@@ -1689,7 +1714,7 @@ public class SearchHelper {
                 }
 
                 // Validate resource type is one of the reference search parameter target resource types
-                if (!referenceSearchParameter.getTarget().contains(ResourceType.of(resourceType.getSimpleName()))) {
+                if (!referenceSearchParameter.getTarget().contains(ResourceTypeCode.of(resourceType.getSimpleName()))) {
                     throw SearchExceptionUtil.buildNewInvalidSearchException(
                         String.format(TARGET_TYPE_OF_REFERENCE_PARAMETER_NOT_VALID_FOR_REVERSE_CHAIN_SEARCH,
                             referenceSearchParameterName, resourceType.getSimpleName()));

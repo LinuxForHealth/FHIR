@@ -1,0 +1,595 @@
+{
+    "resourceType": "CodeSystem",
+    "id": "v2-0256",
+    "text": {
+        "status": "empty",
+        "div": "<div xmlns=\"http://www.w3.org/1999/xhtml\">Redacted for size</div>"
+    },
+    "extension": [
+        {
+            "url": "http://hl7.org/fhir/StructureDefinition/structuredefinition-wg",
+            "valueCode": "inm"
+        },
+        {
+            "url": "http://hl7.org/fhir/StructureDefinition/structuredefinition-wg",
+            "valueCode": "oo"
+        }
+    ],
+    "url": "http://terminology.hl7.org/CodeSystem/v2-0256",
+    "identifier": [
+        {
+            "system": "urn:ietf:rfc:3986",
+            "value": "urn:oid:2.16.840.1.113883.18.151"
+        }
+    ],
+    "version": "2.1.0",
+    "name": "TimeDelayPostChallenge",
+    "title": "timeDelayPostChallenge",
+    "status": "active",
+    "experimental": false,
+    "date": "2019-12-01",
+    "publisher": "HL7, Inc",
+    "contact": [
+        {
+            "telecom": [
+                {
+                    "system": "url",
+                    "value": "http://www.hl7.org/"
+                }
+            ]
+        }
+    ],
+    "description": "HL7-defined code system of concepts used to classify an observation definition as being a component of a challenge test.  Used in HL7 Version 2.x messaging in the OM1 segment.",
+    "purpose": "Underlying Master Code System for V2 table 0256 (Time Delay Post Challenge)",
+    "copyright": "Copyright HL7. Licensed under creative commons public domain",
+    "caseSensitive": true,
+    "valueSet": "http://terminology.hl7.org/ValueSet/v2-0256",
+    "hierarchyMeaning": "is-a",
+    "compositional": false,
+    "versionNeeded": false,
+    "content": "complete",
+    "property": [
+        {
+            "code": "status",
+            "uri": "http://terminology.hl7.org/CodeSystem/utg-concept-properties#status",
+            "description": "Status of the concept",
+            "type": "code"
+        },
+        {
+            "code": "deprecated",
+            "uri": "http://terminology.hl7.org/CodeSystem/utg-concept-properties#v2-table-deprecated",
+            "description": "Version of HL7 in which the code was deprecated",
+            "type": "code"
+        }
+    ],
+    "concept": [
+        {
+            "id": "2513",
+            "code": "BS",
+            "display": "Baseline (time just before the challenge)",
+            "definition": "Baseline (time just before the challenge)",
+            "property": [
+                {
+                    "code": "status",
+                    "valueCode": "A"
+                }
+            ]
+        },
+        {
+            "id": "2514",
+            "code": "PEAK",
+            "display": "The time post drug dose at which the highest drug level is reached (differs by drug)",
+            "definition": "The time post drug dose at which the highest drug level is reached (differs by drug)",
+            "property": [
+                {
+                    "code": "status",
+                    "valueCode": "A"
+                }
+            ]
+        },
+        {
+            "id": "2515",
+            "code": "TROUGH",
+            "display": "The time post drug dose at which the lowest drug level is reached (varies with drug)",
+            "definition": "The time post drug dose at which the lowest drug level is reached (varies with drug)",
+            "property": [
+                {
+                    "code": "status",
+                    "valueCode": "A"
+                }
+            ]
+        },
+        {
+            "id": "2516",
+            "code": "RANDOM",
+            "display": "Time from the challenge, or dose not specified. (random)",
+            "definition": "Time from the challenge, or dose not specified. (random)",
+            "property": [
+                {
+                    "code": "status",
+                    "valueCode": "A"
+                }
+            ]
+        },
+        {
+            "id": "2517",
+            "code": "1M",
+            "display": "1 minute post challenge",
+            "definition": "1 minute post challenge",
+            "property": [
+                {
+                    "code": "status",
+                    "valueCode": "A"
+                }
+            ]
+        },
+        {
+            "id": "2518",
+            "code": "2M",
+            "display": "2 minutes post challenge",
+            "definition": "2 minutes post challenge",
+            "property": [
+                {
+                    "code": "status",
+                    "valueCode": "A"
+                }
+            ]
+        },
+        {
+            "id": "2519",
+            "code": "3M",
+            "display": "3 minutes post challenge",
+            "definition": "3 minutes post challenge",
+            "property": [
+                {
+                    "code": "status",
+                    "valueCode": "A"
+                }
+            ]
+        },
+        {
+            "id": "2520",
+            "code": "4M",
+            "display": "4 minutes post challenge",
+            "definition": "4 minutes post challenge",
+            "property": [
+                {
+                    "code": "status",
+                    "valueCode": "A"
+                }
+            ]
+        },
+        {
+            "id": "2521",
+            "code": "5M",
+            "display": "5 minutes post challenge",
+            "definition": "5 minutes post challenge",
+            "property": [
+                {
+                    "code": "status",
+                    "valueCode": "A"
+                }
+            ]
+        },
+        {
+            "id": "2522",
+            "code": "6M",
+            "display": "6 minutes post challenge",
+            "definition": "6 minutes post challenge",
+            "property": [
+                {
+                    "code": "status",
+                    "valueCode": "A"
+                }
+            ]
+        },
+        {
+            "id": "2523",
+            "code": "7M",
+            "display": "7 minutes post challenge",
+            "definition": "7 minutes post challenge",
+            "property": [
+                {
+                    "code": "status",
+                    "valueCode": "A"
+                }
+            ]
+        },
+        {
+            "id": "2524",
+            "code": "8M",
+            "display": "8 minutes post challenge",
+            "definition": "8 minutes post challenge",
+            "property": [
+                {
+                    "code": "status",
+                    "valueCode": "A"
+                }
+            ]
+        },
+        {
+            "id": "2525",
+            "code": "9M",
+            "display": "9 minutes post challenge",
+            "definition": "9 minutes post challenge",
+            "property": [
+                {
+                    "code": "status",
+                    "valueCode": "A"
+                }
+            ]
+        },
+        {
+            "id": "2526",
+            "code": "10M",
+            "display": "10 minutes post challenge",
+            "definition": "10 minutes post challenge",
+            "property": [
+                {
+                    "code": "status",
+                    "valueCode": "A"
+                }
+            ]
+        },
+        {
+            "id": "2527",
+            "code": "15M",
+            "display": "15 minutes post challenge",
+            "definition": "15 minutes post challenge",
+            "property": [
+                {
+                    "code": "status",
+                    "valueCode": "A"
+                }
+            ]
+        },
+        {
+            "id": "2528",
+            "code": "20M",
+            "display": "20 minutes post challenge",
+            "definition": "20 minutes post challenge",
+            "property": [
+                {
+                    "code": "status",
+                    "valueCode": "A"
+                }
+            ]
+        },
+        {
+            "id": "2529",
+            "code": "25M",
+            "display": "25 minutes post challenge",
+            "definition": "25 minutes post challenge",
+            "property": [
+                {
+                    "code": "status",
+                    "valueCode": "A"
+                }
+            ]
+        },
+        {
+            "id": "2530",
+            "code": "30M",
+            "display": "30 minutes post challenge",
+            "definition": "30 minutes post challenge",
+            "property": [
+                {
+                    "code": "status",
+                    "valueCode": "A"
+                }
+            ]
+        },
+        {
+            "id": "2531",
+            "code": "1H",
+            "display": "1 hour post challenge",
+            "definition": "1 hour post challenge",
+            "property": [
+                {
+                    "code": "status",
+                    "valueCode": "A"
+                }
+            ]
+        },
+        {
+            "id": "2532",
+            "code": "2H",
+            "display": "2 hours post challenge",
+            "definition": "2 hours post challenge",
+            "property": [
+                {
+                    "code": "status",
+                    "valueCode": "A"
+                }
+            ]
+        },
+        {
+            "id": "2533",
+            "code": "2.5H",
+            "display": "2 1/2 hours post challenge",
+            "definition": "2 1/2 hours post challenge",
+            "property": [
+                {
+                    "code": "status",
+                    "valueCode": "A"
+                }
+            ]
+        },
+        {
+            "id": "2534",
+            "code": "3H",
+            "display": "3 hours post challenge",
+            "definition": "3 hours post challenge",
+            "property": [
+                {
+                    "code": "status",
+                    "valueCode": "A"
+                }
+            ]
+        },
+        {
+            "id": "2535",
+            "code": "4H",
+            "display": "4 hours post challenge",
+            "definition": "4 hours post challenge",
+            "property": [
+                {
+                    "code": "status",
+                    "valueCode": "A"
+                }
+            ]
+        },
+        {
+            "id": "2536",
+            "code": "5H",
+            "display": "5  hours post challenge",
+            "definition": "5  hours post challenge",
+            "property": [
+                {
+                    "code": "status",
+                    "valueCode": "A"
+                }
+            ]
+        },
+        {
+            "id": "2537",
+            "code": "6H",
+            "display": "6 hours post challenge",
+            "definition": "6 hours post challenge",
+            "property": [
+                {
+                    "code": "status",
+                    "valueCode": "A"
+                }
+            ]
+        },
+        {
+            "id": "2538",
+            "code": "7H",
+            "display": "7 hours post challenge",
+            "definition": "7 hours post challenge",
+            "property": [
+                {
+                    "code": "status",
+                    "valueCode": "A"
+                }
+            ]
+        },
+        {
+            "id": "2539",
+            "code": "8H",
+            "display": "8 hours post challenge",
+            "definition": "8 hours post challenge",
+            "property": [
+                {
+                    "code": "status",
+                    "valueCode": "A"
+                }
+            ]
+        },
+        {
+            "id": "2540",
+            "code": "8H SHIFT",
+            "display": "8 hours aligned on nursing shifts",
+            "definition": "8 hours aligned on nursing shifts",
+            "property": [
+                {
+                    "code": "status",
+                    "valueCode": "A"
+                }
+            ]
+        },
+        {
+            "id": "2541",
+            "code": "12H",
+            "display": "12 hours post challenge",
+            "definition": "12 hours post challenge",
+            "property": [
+                {
+                    "code": "status",
+                    "valueCode": "A"
+                }
+            ]
+        },
+        {
+            "id": "2542",
+            "code": "24H",
+            "display": "24 hours post challenge",
+            "definition": "24 hours post challenge",
+            "property": [
+                {
+                    "code": "status",
+                    "valueCode": "A"
+                }
+            ]
+        },
+        {
+            "id": "2543",
+            "code": "2D",
+            "display": "2 days",
+            "definition": "2 days",
+            "property": [
+                {
+                    "code": "status",
+                    "valueCode": "A"
+                }
+            ]
+        },
+        {
+            "id": "2544",
+            "code": "3D",
+            "display": "3 days",
+            "definition": "3 days",
+            "property": [
+                {
+                    "code": "status",
+                    "valueCode": "A"
+                }
+            ]
+        },
+        {
+            "id": "2545",
+            "code": "4D",
+            "display": "4 days",
+            "definition": "4 days",
+            "property": [
+                {
+                    "code": "status",
+                    "valueCode": "A"
+                }
+            ]
+        },
+        {
+            "id": "2546",
+            "code": "5D",
+            "display": "5 days",
+            "definition": "5 days",
+            "property": [
+                {
+                    "code": "status",
+                    "valueCode": "A"
+                }
+            ]
+        },
+        {
+            "id": "2547",
+            "code": "6D",
+            "display": "6 days",
+            "definition": "6 days",
+            "property": [
+                {
+                    "code": "status",
+                    "valueCode": "A"
+                }
+            ]
+        },
+        {
+            "id": "2548",
+            "code": "7D",
+            "display": "7 days",
+            "definition": "7 days",
+            "property": [
+                {
+                    "code": "status",
+                    "valueCode": "A"
+                }
+            ]
+        },
+        {
+            "id": "2549",
+            "code": "1W",
+            "display": "1 week",
+            "definition": "1 week",
+            "property": [
+                {
+                    "code": "status",
+                    "valueCode": "A"
+                }
+            ]
+        },
+        {
+            "id": "2550",
+            "code": "10D",
+            "display": "10 days",
+            "definition": "10 days",
+            "property": [
+                {
+                    "code": "status",
+                    "valueCode": "A"
+                }
+            ]
+        },
+        {
+            "id": "2551",
+            "code": "2W",
+            "display": "2 weeks",
+            "definition": "2 weeks",
+            "property": [
+                {
+                    "code": "status",
+                    "valueCode": "A"
+                }
+            ]
+        },
+        {
+            "id": "2552",
+            "code": "3W",
+            "display": "3 weeks",
+            "definition": "3 weeks",
+            "property": [
+                {
+                    "code": "status",
+                    "valueCode": "A"
+                }
+            ]
+        },
+        {
+            "id": "2553",
+            "code": "4W",
+            "display": "4 weeks",
+            "definition": "4 weeks",
+            "property": [
+                {
+                    "code": "status",
+                    "valueCode": "A"
+                }
+            ]
+        },
+        {
+            "id": "2554",
+            "code": "1L",
+            "display": "1 month (30 days) post challenge",
+            "definition": "1 month (30 days) post challenge",
+            "property": [
+                {
+                    "code": "status",
+                    "valueCode": "A"
+                }
+            ]
+        },
+        {
+            "id": "2555",
+            "code": "2L",
+            "display": "2 months (60 days) post challenge",
+            "definition": "2 months (60 days) post challenge",
+            "property": [
+                {
+                    "code": "status",
+                    "valueCode": "A"
+                }
+            ]
+        },
+        {
+            "id": "2556",
+            "code": "3L",
+            "display": "3 months (90 days) post challenge",
+            "definition": "3 months (90 days) post challenge",
+            "property": [
+                {
+                    "code": "status",
+                    "valueCode": "A"
+                }
+            ]
+        }
+    ]
+}

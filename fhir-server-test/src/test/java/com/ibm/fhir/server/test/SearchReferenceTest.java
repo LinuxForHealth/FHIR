@@ -55,7 +55,7 @@ public class SearchReferenceTest extends FHIRServerTestBase {
     @SuppressWarnings("unused")
     private String measureWithLibraryWithVersion;
 
-    /*
+    /**
      * creates the various test cases for a patient with a reference
      */
     public String createPatientWithReference(String field, String reference, Identifier logicalReference) throws Exception {
@@ -75,16 +75,16 @@ public class SearchReferenceTest extends FHIRServerTestBase {
         if ("organization".equals(field)) {
             patient = patient.toBuilder()
                     .gender(AdministrativeGender.MALE)
-                    .managingOrganization(referenceBuilder.display("Test Organization").build()).build();
+                    .managingOrganization(referenceBuilder.display("Test Organization").build())
+                    .build();
         } else if ("general-practitioner".equals(field)) {
             patient = patient.toBuilder()
                     .gender(AdministrativeGender.MALE)
-                    .generalPractitioner(referenceBuilder.display("Test Practitioner").build()).build();
+                    .generalPractitioner(referenceBuilder.display("Test Practitioner").build())
+                    .build();
         }
-        Entity<Patient> entity =
-                Entity.entity(patient, FHIRMediaType.APPLICATION_FHIR_JSON);
-        Response response =
-                target.path("Patient").request()
+        Entity<Patient> entity = Entity.entity(patient, FHIRMediaType.APPLICATION_FHIR_JSON);
+        Response response = target.path("Patient").request()
                 .post(entity, Response.class);
         assertResponse(response, Response.Status.CREATED.getStatusCode());
 
@@ -142,8 +142,7 @@ public class SearchReferenceTest extends FHIRServerTestBase {
     @Test(groups = { "server-search-reference" }, dependsOnMethods = { "testCreatePatient" })
     public void testSearchWithRelativePatientIdUsingId() {
         WebTarget target = getWebTarget();
-        Response response =
-                target.path("Patient").queryParam("organization", "3001")
+        Response response = target.path("Patient").queryParam("organization", "3001")
                 .request(FHIRMediaType.APPLICATION_FHIR_JSON)
                 .get();
         assertResponse(response, Response.Status.OK.getStatusCode());
@@ -315,8 +314,8 @@ public class SearchReferenceTest extends FHIRServerTestBase {
         // not expected to find a match because the reference is an external literal
         WebTarget target = getWebTarget();
 
-        Response response =
-                target.path("Patient").queryParam("organization", "3004").request(FHIRMediaType.APPLICATION_FHIR_JSON).get();
+        Response response = target.path("Patient").queryParam("organization", "3004")
+                .request(FHIRMediaType.APPLICATION_FHIR_JSON).get();
         assertResponse(response, Response.Status.OK.getStatusCode());
         Bundle bundle = response.readEntity(Bundle.class);
         assertNotNull(bundle);
@@ -328,8 +327,8 @@ public class SearchReferenceTest extends FHIRServerTestBase {
         // not expected to find a match because the reference is an external literal
         WebTarget target = getWebTarget();
 
-        Response response =
-                target.path("Patient").queryParam("organization", "Organization/3004").request(FHIRMediaType.APPLICATION_FHIR_JSON).get();
+        Response response = target.path("Patient").queryParam("organization", "Organization/3004")
+                .request(FHIRMediaType.APPLICATION_FHIR_JSON).get();
         assertResponse(response, Response.Status.OK.getStatusCode());
         Bundle bundle = response.readEntity(Bundle.class);
         assertNotNull(bundle);
@@ -362,8 +361,7 @@ public class SearchReferenceTest extends FHIRServerTestBase {
     @Test(groups = { "server-search-reference" }, dependsOnMethods = { "testCreatePatient" })
     public void testSearchWithRelativePatientIdUsingIdMultipleTypes() {
         WebTarget target = getWebTarget();
-        Response response =
-                target.path("Patient").queryParam("general-practitioner", "3002")
+        Response response = target.path("Patient").queryParam("general-practitioner", "3002")
                 .request(FHIRMediaType.APPLICATION_FHIR_JSON)
                 .get();
         assertResponse(response, Response.Status.BAD_REQUEST.getStatusCode());
@@ -420,8 +418,8 @@ public class SearchReferenceTest extends FHIRServerTestBase {
     @Test(groups = { "server-search-reference" }, dependsOnMethods = { "testCreatePatient" })
     public void testSearchLogicalReferenceWithIdentifierValue() {
         WebTarget target = getWebTarget();
-        Response response =
-                target.path("Patient").queryParam("organization:identifier", "3005a").request(FHIRMediaType.APPLICATION_FHIR_JSON).get();
+        Response response = target.path("Patient").queryParam("organization:identifier", "3005a")
+                .request(FHIRMediaType.APPLICATION_FHIR_JSON).get();
         assertResponse(response, Response.Status.OK.getStatusCode());
         Bundle bundle = response.readEntity(Bundle.class);
         assertNotNull(bundle);
@@ -437,8 +435,8 @@ public class SearchReferenceTest extends FHIRServerTestBase {
         assertEquals(p.getManagingOrganization().getIdentifier().getValue().getValue(), "3005a");
 
         // No code system specified - code is not case-sensitive - result expected
-        response =
-                target.path("Patient").queryParam("organization:identifier", "3005A").request(FHIRMediaType.APPLICATION_FHIR_JSON).get();
+        response = target.path("Patient").queryParam("organization:identifier", "3005A")
+                .request(FHIRMediaType.APPLICATION_FHIR_JSON).get();
         assertResponse(response, Response.Status.OK.getStatusCode());
         bundle = response.readEntity(Bundle.class);
         assertNotNull(bundle);
@@ -457,8 +455,8 @@ public class SearchReferenceTest extends FHIRServerTestBase {
     @Test(groups = { "server-search-reference" }, dependsOnMethods = { "testCreatePatient" })
     public void testSearchLiteralRefForPatientWithLiteralAndLogicalRefs() {
         WebTarget target = getWebTarget();
-        Response response =
-                target.path("Patient").queryParam("organization", "Organization/3006").request(FHIRMediaType.APPLICATION_FHIR_JSON).get();
+        Response response = target.path("Patient").queryParam("organization", "Organization/3006")
+                .request(FHIRMediaType.APPLICATION_FHIR_JSON).get();
         assertResponse(response, Response.Status.OK.getStatusCode());
         Bundle bundle = response.readEntity(Bundle.class);
         assertNotNull(bundle);
@@ -521,8 +519,7 @@ public class SearchReferenceTest extends FHIRServerTestBase {
     @Test(groups = { "server-search-reference" }, dependsOnMethods = { "testCreatePatient" })
     public void testSearchLiteralAndLogicalRefsForPatientWithLiteralAndLogicalRefs() {
         WebTarget target = getWebTarget();
-        Response response =
-                target.path("Patient").queryParam("organization", "3006")
+        Response response = target.path("Patient").queryParam("organization", "3006")
                 .queryParam("organization:identifier", "3007a").request(FHIRMediaType.APPLICATION_FHIR_JSON).get();
         assertResponse(response, Response.Status.OK.getStatusCode());
         Bundle bundle = response.readEntity(Bundle.class);
@@ -558,10 +555,8 @@ public class SearchReferenceTest extends FHIRServerTestBase {
                     .library(Canonical.of(library))
                     .build();
         }
-        Entity<Measure> entity =
-                Entity.entity(measure, FHIRMediaType.APPLICATION_FHIR_JSON);
-        Response response =
-                target.path("Measure").request()
+        Entity<Measure> entity = Entity.entity(measure, FHIRMediaType.APPLICATION_FHIR_JSON);
+        Response response = target.path("Measure").request()
                 .post(entity, Response.class);
         assertResponse(response, Response.Status.CREATED.getStatusCode());
 

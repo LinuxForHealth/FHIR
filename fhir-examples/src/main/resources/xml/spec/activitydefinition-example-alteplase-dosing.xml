@@ -1,0 +1,93 @@
+<?xml version="1.0" encoding="UTF-8"?><ActivityDefinition xmlns="http://hl7.org/fhir">
+  <id value="example-alteplase-dosing"/>
+  <meta>
+    <security>
+      <system value="http://terminology.hl7.org/CodeSystem/v3-ActReason"/>
+      <code value="HTEST"/>
+      <display value="test health data"/>
+    </security>
+  </meta>
+  <text>
+    <status value="generated"/>
+    <div xmlns="http://www.w3.org/1999/xhtml">
+      
+      <p>
+        "Alteplase Dosing for Stroke" defines a dosing instruction referenced from an EvidenceVariable resource.
+      </p>
+	
+    </div>
+  </text>
+  <url value="http://example.org/fhir/ActivityDefinition/example-alteplase-dosing"/>
+  <name value="Alteplase Dosing for Stroke"/>
+  <status value="draft"/>
+  <experimental value="true"/>
+  <kind value="MedicationRequest"/>
+  <code>
+    <coding>
+      <system value="http://www.nlm.nih.gov/research/umls/rxnorm"/>
+      <code value="1155608"/>
+      <display value="alteplase injectable product"/>
+    </coding>
+  </code>
+  <intent value="order"/>
+  <dosage>
+    <sequence value="1"/>
+    <text value="give 10% of dose over 1 minute"/>
+    <route>
+      <coding>
+        <system value="http://snomed.info/sct"/>
+        <code value="47625008"/>
+        <display value="Intravenous use"/>
+      </coding>
+    </route>
+    <doseAndRate>
+      <type>
+        <coding>
+          <system value="http://terminology.hl7.org/CodeSystem/dose-rate-type"/>
+          <code value="calculated"/>
+          <display value="Calculated"/>
+        </coding>
+      </type>
+      <doseQuantity>
+        <value value="0.9"/>
+        <system value="http://unitsofmeasure.org"/>
+        <code value="mg/kg"/>
+      </doseQuantity>
+    </doseAndRate>
+    <maxDosePerAdministration>
+      <value value="90"/>
+      <system value="http://unitsofmeasure.org"/>
+      <code value="mg"/>
+    </maxDosePerAdministration>
+  </dosage>
+  <dosage>
+    <sequence value="2"/>
+    <text value="give remaining 90% of dose over 1 hour"/>
+    <route>
+      <coding>
+        <system value="http://snomed.info/sct"/>
+        <code value="47625008"/>
+        <display value="Intravenous use"/>
+      </coding>
+    </route>
+    <doseAndRate>
+      <type>
+        <coding>
+          <system value="http://terminology.hl7.org/CodeSystem/dose-rate-type"/>
+          <code value="calculated"/>
+          <display value="Calculated"/>
+        </coding>
+      </type>
+      <doseQuantity>
+        <value value="0.9"/>
+        <system value="http://unitsofmeasure.org"/>
+        <code value="mg/kg"/>
+      </doseQuantity>
+    </doseAndRate>
+    <maxDosePerAdministration>
+      <value value="90"/>
+      <system value="http://unitsofmeasure.org"/>
+      <code value="mg"/>
+    </maxDosePerAdministration>
+  </dosage>
+</ActivityDefinition>

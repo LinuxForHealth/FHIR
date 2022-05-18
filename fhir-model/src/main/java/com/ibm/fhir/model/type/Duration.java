@@ -1,5 +1,5 @@
 /*
- * (C) Copyright IBM Corp. 2019, 2021
+ * (C) Copyright IBM Corp. 2019, 2022
  *
  * SPDX-License-Identifier: Apache-2.0
  */
@@ -25,7 +25,7 @@ import com.ibm.fhir.model.visitor.Visitor;
     level = "Rule",
     location = "(base)",
     description = "There SHALL be a code if there is a value and it SHALL be an expression of time.  If system is present, it SHALL be UCUM.",
-    expression = "code.exists() implies ((system = %ucum) and value.exists())",
+    expression = "value.exists() implies ((system = %ucum) and code.exists())",
     source = "http://hl7.org/fhir/StructureDefinition/Duration"
 )
 @Constraint(
@@ -40,7 +40,6 @@ import com.ibm.fhir.model.visitor.Visitor;
 @Binding(
     bindingName = "DurationUnits",
     strength = BindingStrength.Value.EXTENSIBLE,
-    description = "Appropriate units for Duration.",
     valueSet = "http://hl7.org/fhir/ValueSet/duration-units",
     maxValueSet = "http://hl7.org/fhir/ValueSet/all-time-units"
 )

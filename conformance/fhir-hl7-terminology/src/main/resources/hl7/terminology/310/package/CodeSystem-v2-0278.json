@@ -1,0 +1,375 @@
+{
+    "resourceType": "CodeSystem",
+    "id": "v2-0278",
+    "text": {
+        "status": "empty",
+        "div": "<div xmlns=\"http://www.w3.org/1999/xhtml\">Redacted for size</div>"
+    },
+    "url": "http://terminology.hl7.org/CodeSystem/v2-0278",
+    "identifier": [
+        {
+            "system": "urn:ietf:rfc:3986",
+            "value": "urn:oid:2.16.840.1.113883.18.171"
+        }
+    ],
+    "version": "2.2.0",
+    "name": "FillerStatus",
+    "title": "fillerStatus",
+    "status": "active",
+    "experimental": false,
+    "date": "2019-12-01",
+    "publisher": "HL7, Inc",
+    "contact": [
+        {
+            "telecom": [
+                {
+                    "system": "url",
+                    "value": "http://www.hl7.org/"
+                }
+            ]
+        }
+    ],
+    "description": "Code system of concepts used to describe an appointment status from the perspective of the entity assigned to fulfill the appointment.  Used in HL7 Version 2.x messaging in the SCH segment.",
+    "purpose": "Underlying Master Code System for V2 table 0278 (Filler status codes)",
+    "copyright": "Copyright HL7. Licensed under creative commons public domain",
+    "caseSensitive": true,
+    "valueSet": "http://terminology.hl7.org/ValueSet/v2-0278",
+    "hierarchyMeaning": "is-a",
+    "compositional": false,
+    "versionNeeded": false,
+    "content": "complete",
+    "property": [
+        {
+            "code": "status",
+            "uri": "http://terminology.hl7.org/CodeSystem/utg-concept-properties#status",
+            "description": "Status of the concept",
+            "type": "code"
+        },
+        {
+            "code": "deprecated",
+            "uri": "http://terminology.hl7.org/CodeSystem/utg-concept-properties#v2-table-deprecated",
+            "description": "Version of HL7 in which the code was deprecated",
+            "type": "code"
+        },
+        {
+            "code": "v2-concComment",
+            "uri": "http://terminology.hl7.org/CodeSystem/utg-concept-properties#v2-concComment",
+            "description": "V2 Concept Comment",
+            "type": "string"
+        },
+        {
+            "code": "v2-concCommentAsPub",
+            "uri": "http://terminology.hl7.org/CodeSystem/utg-concept-properties#v2-concCommentAsPub",
+            "description": "V2 Concept Comment As Published",
+            "type": "string"
+        },
+        {
+            "code": "HL7usageNotes",
+            "uri": "http://terminology.hl7.org/CodeSystem/utg-concept-properties#HL7usageNotes",
+            "description": "HL7 Concept Usage Notes",
+            "type": "string"
+        }
+    ],
+    "concept": [
+        {
+            "id": "2680",
+            "code": "BLOCKED",
+            "display": "Blocked",
+            "definition": "The indicated time slot(s) is(are) blocked.",
+            "property": [
+                {
+                    "code": "v2-concCommentAsPub",
+                    "valueString": "Not used in the AIS, AIG, AIL, AIP segments."
+                },
+                {
+                    "code": "HL7usageNotes",
+                    "valueString": "Not used in the AIS, AIG, AIL, AIP segments."
+                },
+                {
+                    "code": "deprecated",
+                    "valueCode": "2.9"
+                },
+                {
+                    "code": "status",
+                    "valueCode": "D"
+                }
+            ]
+        },
+        {
+            "id": "2681",
+            "code": "BOOKED",
+            "display": "Booked",
+            "definition": "The indicated appointment is booked",
+            "property": [
+                {
+                    "code": "deprecated",
+                    "valueCode": "2.9"
+                },
+                {
+                    "code": "status",
+                    "valueCode": "A"
+                }
+            ]
+        },
+        {
+            "id": "2682",
+            "code": "CANCELLED",
+            "display": "Cancelled",
+            "definition": "The indicated appointment was stopped from occurring (cancelled prior to starting)",
+            "property": [
+                {
+                    "code": "deprecated",
+                    "valueCode": "2.9"
+                },
+                {
+                    "code": "status",
+                    "valueCode": "A"
+                }
+            ]
+        },
+        {
+            "id": "2683",
+            "code": "COMPLETE",
+            "display": "Complete",
+            "definition": "The indicated appointment has completed normally (was not discontinued, canceled, or deleted)",
+            "property": [
+                {
+                    "code": "deprecated",
+                    "valueCode": "2.9"
+                },
+                {
+                    "code": "status",
+                    "valueCode": "A"
+                }
+            ]
+        },
+        {
+            "id": "2684",
+            "code": "DELETED",
+            "display": "Deleted",
+            "definition": "The indicated appointment was deleted from the filler application",
+            "property": [
+                {
+                    "code": "deprecated",
+                    "valueCode": "2.9"
+                },
+                {
+                    "code": "status",
+                    "valueCode": "A"
+                }
+            ]
+        },
+        {
+            "id": "2685",
+            "code": "OVERBOOK",
+            "display": "Overbook",
+            "definition": "The appointment has been confirmed; however it is confirmed in an overbooked state",
+            "property": [
+                {
+                    "code": "deprecated",
+                    "valueCode": "2.9"
+                },
+                {
+                    "code": "status",
+                    "valueCode": "A"
+                }
+            ]
+        },
+        {
+            "id": "2686",
+            "code": "PENDING",
+            "display": "Pending",
+            "definition": "Appointment has not yet been confirmed",
+            "property": [
+                {
+                    "code": "deprecated",
+                    "valueCode": "2.9"
+                },
+                {
+                    "code": "status",
+                    "valueCode": "A"
+                }
+            ]
+        },
+        {
+            "id": "2687",
+            "code": "STARTED",
+            "display": "Started",
+            "definition": "The indicated appointment has begun and is currently in progress",
+            "property": [
+                {
+                    "code": "deprecated",
+                    "valueCode": "2.9"
+                },
+                {
+                    "code": "status",
+                    "valueCode": "A"
+                }
+            ]
+        },
+        {
+            "id": "2688",
+            "code": "WAITLIST",
+            "display": "Waitlist",
+            "definition": "Appointment has been placed on a waiting list for a paricular slot, or set of slots",
+            "property": [
+                {
+                    "code": "deprecated",
+                    "valueCode": "2.9"
+                },
+                {
+                    "code": "status",
+                    "valueCode": "A"
+                }
+            ]
+        },
+        {
+            "id": "2689",
+            "code": "Pending",
+            "display": "Pending",
+            "definition": "Appointment has not yet been confirmed",
+            "property": [
+                {
+                    "code": "status",
+                    "valueCode": "A"
+                }
+            ]
+        },
+        {
+            "id": "2690",
+            "code": "Waitlist",
+            "display": "Waitlist",
+            "definition": "Appointment has been placed on a waiting list for a particular slot, or set of slots",
+            "property": [
+                {
+                    "code": "status",
+                    "valueCode": "A"
+                }
+            ]
+        },
+        {
+            "id": "2691",
+            "code": "Booked",
+            "display": "Booked",
+            "definition": "The indicated appointment is booked",
+            "property": [
+                {
+                    "code": "status",
+                    "valueCode": "A"
+                }
+            ]
+        },
+        {
+            "id": "2692",
+            "code": "Started",
+            "display": "Started",
+            "definition": "The indicated appointment has begun and is currently in progress",
+            "property": [
+                {
+                    "code": "status",
+                    "valueCode": "A"
+                }
+            ]
+        },
+        {
+            "id": "2693",
+            "code": "Complete",
+            "display": "Complete",
+            "definition": "The indicated appointment has completed normally (was not discontinued, canceled, or deleted)",
+            "property": [
+                {
+                    "code": "status",
+                    "valueCode": "A"
+                }
+            ]
+        },
+        {
+            "id": "2694",
+            "code": "Cancelled",
+            "display": "Cancelled",
+            "definition": "The indicated appointment was stopped from occurring (canceled prior to starting)",
+            "property": [
+                {
+                    "code": "status",
+                    "valueCode": "A"
+                }
+            ]
+        },
+        {
+            "id": "2695",
+            "code": "DC",
+            "display": "Discontinued",
+            "definition": "The indicated appointment was discontinued (DC’ed while in progress, discontinued parent appointment, or discontinued child appointment)",
+            "property": [
+                {
+                    "code": "v2-concComment",
+                    "valueString": "Replaced by code 'Discontinued'"
+                },
+                {
+                    "code": "status",
+                    "valueCode": "D"
+                }
+            ]
+        },
+        {
+            "id": "2696",
+            "code": "Discontinued",
+            "display": "Discontinued",
+            "definition": "The indicated appointment was discontinued (DC’ed while in progress, discontinued parent appointment, or discontinued child appointment)",
+            "property": [
+                {
+                    "code": "status",
+                    "valueCode": "A"
+                }
+            ]
+        },
+        {
+            "id": "2697",
+            "code": "Deleted",
+            "display": "Deleted",
+            "definition": "The indicated appointment was deleted from the filler application",
+            "property": [
+                {
+                    "code": "status",
+                    "valueCode": "A"
+                }
+            ]
+        },
+        {
+            "id": "2698",
+            "code": "Blocked",
+            "display": "Blocked",
+            "definition": "The indicated time slot(s) is(are) blocked",
+            "property": [
+                {
+                    "code": "status",
+                    "valueCode": "A"
+                }
+            ]
+        },
+        {
+            "id": "2699",
+            "code": "Overbook",
+            "display": "Overbook",
+            "definition": "The appointment has been confirmed; however it is confirmed in an overbooked state",
+            "property": [
+                {
+                    "code": "status",
+                    "valueCode": "A"
+                }
+            ]
+        },
+        {
+            "id": "2700",
+            "code": "Noshow",
+            "display": "Noshow",
+            "definition": "The patient did not show up for the appointment",
+            "property": [
+                {
+                    "code": "status",
+                    "valueCode": "A"
+                }
+            ]
+        }
+    ]
+}

@@ -1,0 +1,81 @@
+{
+    "resourceType": "CodeSystem",
+    "id": "substance-structure-technique",
+    "meta": {
+        "lastUpdated": "2022-04-24T09:21:35.043+11:00",
+        "profile": [
+            "http://hl7.org/fhir/StructureDefinition/shareablecodesystem"
+        ]
+    },
+    "text": {
+        "status": "empty",
+        "div": "<div xmlns=\"http://www.w3.org/1999/xhtml\">Redacted for size</div>"
+    },
+    "extension": [
+        {
+            "url": "http://hl7.org/fhir/StructureDefinition/structuredefinition-wg",
+            "valueCode": "brr"
+        },
+        {
+            "url": "http://hl7.org/fhir/StructureDefinition/structuredefinition-standards-status",
+            "valueCode": "trial-use"
+        },
+        {
+            "url": "http://hl7.org/fhir/StructureDefinition/structuredefinition-fmm",
+            "valueInteger": 1
+        }
+    ],
+    "url": "http://hl7.org/fhir/substance-structure-technique",
+    "identifier": [
+        {
+            "system": "urn:ietf:rfc:3986",
+            "value": "urn:oid:2.16.840.1.113883.4.642.1.1623"
+        }
+    ],
+    "version": "4.3.0-cibuild",
+    "name": "SubstanceStructureTechnique",
+    "title": "SubstanceStructureTechnique",
+    "status": "draft",
+    "experimental": false,
+    "date": "2021-01-05T10:01:24+11:00",
+    "publisher": "HL7 (FHIR Project)",
+    "contact": [
+        {
+            "telecom": [
+                {
+                    "system": "url",
+                    "value": "http://hl7.org/fhir"
+                },
+                {
+                    "system": "email",
+                    "value": "fhir@lists.hl7.org"
+                }
+            ]
+        }
+    ],
+    "caseSensitive": true,
+    "valueSet": "http://hl7.org/fhir/ValueSet/substance-structure-technique",
+    "content": "complete",
+    "concept": [
+        {
+            "code": "X-Ray",
+            "display": "X-ray"
+        },
+        {
+            "code": "HPLC",
+            "display": "HPLC"
+        },
+        {
+            "code": "NMR",
+            "display": "NMR"
+        },
+        {
+            "code": "PeptideMapping",
+            "display": "Peptide mapping"
+        },
+        {
+            "code": "LigandBindingAssay",
+            "display": "Ligand binding assay"
+        }
+    ]
+}

@@ -1,0 +1,123 @@
+{
+    "resourceType": "CodeSystem",
+    "id": "v2-0397",
+    "text": {
+        "status": "empty",
+        "div": "<div xmlns=\"http://www.w3.org/1999/xhtml\">Redacted for size</div>"
+    },
+    "extension": [
+        {
+            "url": "http://hl7.org/fhir/StructureDefinition/structuredefinition-wg",
+            "valueCode": "inm"
+        }
+    ],
+    "url": "http://terminology.hl7.org/CodeSystem/v2-0397",
+    "identifier": [
+        {
+            "system": "urn:ietf:rfc:3986",
+            "value": "urn:oid:2.16.840.1.113883.18.248"
+        }
+    ],
+    "version": "2.1.0",
+    "name": "Sequencing",
+    "title": "sequencing",
+    "status": "active",
+    "experimental": false,
+    "date": "2019-12-01",
+    "publisher": "HL7, Inc",
+    "contact": [
+        {
+            "telecom": [
+                {
+                    "system": "url",
+                    "value": "http://www.hl7.org/"
+                }
+            ]
+        }
+    ],
+    "description": "HL7-defined code system of concepts identifying how the field or parameter will be sorted and, if sorted, whether the sort will be case sensitive (the default) or not.  Used in HL7 Version 2.x messaging in the Sort Order (SRT) value.",
+    "purpose": "Underlying Master Code System for V2 table 0397 (Sequencing)",
+    "copyright": "Copyright HL7. Licensed under creative commons public domain",
+    "caseSensitive": true,
+    "valueSet": "http://terminology.hl7.org/ValueSet/v2-0397",
+    "hierarchyMeaning": "is-a",
+    "compositional": false,
+    "versionNeeded": false,
+    "content": "complete",
+    "property": [
+        {
+            "code": "status",
+            "uri": "http://terminology.hl7.org/CodeSystem/utg-concept-properties#status",
+            "description": "Status of the concept",
+            "type": "code"
+        },
+        {
+            "code": "deprecated",
+            "uri": "http://terminology.hl7.org/CodeSystem/utg-concept-properties#v2-table-deprecated",
+            "description": "Version of HL7 in which the code was deprecated",
+            "type": "code"
+        }
+    ],
+    "concept": [
+        {
+            "id": "4273",
+            "code": "A",
+            "display": "Ascending",
+            "definition": "Ascending",
+            "property": [
+                {
+                    "code": "status",
+                    "valueCode": "A"
+                }
+            ]
+        },
+        {
+            "id": "4274",
+            "code": "AN",
+            "display": "Ascending, case insensitive",
+            "definition": "Ascending, case insensitive",
+            "property": [
+                {
+                    "code": "status",
+                    "valueCode": "A"
+                }
+            ]
+        },
+        {
+            "id": "4275",
+            "code": "D",
+            "display": "Descending",
+            "definition": "Descending",
+            "property": [
+                {
+                    "code": "status",
+                    "valueCode": "A"
+                }
+            ]
+        },
+        {
+            "id": "4276",
+            "code": "DN",
+            "display": "Descending, case insensitive",
+            "definition": "Descending, case insensitive",
+            "property": [
+                {
+                    "code": "status",
+                    "valueCode": "A"
+                }
+            ]
+        },
+        {
+            "id": "4277",
+            "code": "N",
+            "display": "None",
+            "definition": "None",
+            "property": [
+                {
+                    "code": "status",
+                    "valueCode": "A"
+                }
+            ]
+        }
+    ]
+}

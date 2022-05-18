@@ -1,0 +1,99 @@
+{
+    "resourceType": "CodeSystem",
+    "id": "adjudication",
+    "meta": {
+        "lastUpdated": "2020-04-09T15:10:28.568-06:00",
+        "profile": [
+            "http://hl7.org/fhir/StructureDefinition/shareablecodesystem"
+        ]
+    },
+    "text": {
+        "status": "empty",
+        "div": "<div xmlns=\"http://www.w3.org/1999/xhtml\">Redacted for size</div>"
+    },
+    "extension": [
+        {
+            "url": "http://hl7.org/fhir/StructureDefinition/structuredefinition-wg",
+            "valueCode": "fm"
+        },
+        {
+            "url": "http://hl7.org/fhir/StructureDefinition/structuredefinition-standards-status",
+            "valueCode": "draft"
+        },
+        {
+            "url": "http://hl7.org/fhir/StructureDefinition/structuredefinition-fmm",
+            "valueInteger": 1
+        }
+    ],
+    "url": "http://terminology.hl7.org/CodeSystem/adjudication",
+    "identifier": [
+        {
+            "system": "urn:ietf:rfc:3986",
+            "value": "urn:oid:2.16.840.1.113883.4.642.1.1171"
+        }
+    ],
+    "version": "0.1.0",
+    "name": "AdjudicationValueCodes",
+    "title": "Adjudication Value Codes",
+    "status": "draft",
+    "experimental": false,
+    "date": "2022-02-23T20:36:09-07:00",
+    "publisher": "FHIR Project team",
+    "contact": [
+        {
+            "telecom": [
+                {
+                    "system": "url",
+                    "value": "http://hl7.org/fhir"
+                }
+            ]
+        }
+    ],
+    "description": "This value set includes a smattering of Adjudication Value codes which includes codes to indicate the amounts eligible under the plan, the amount of benefit, copays etc.",
+    "copyright": "This is an example set.",
+    "caseSensitive": true,
+    "valueSet": "http://terminology.hl7.org/ValueSet/adjudication",
+    "content": "complete",
+    "concept": [
+        {
+            "code": "submitted",
+            "display": "Submitted Amount",
+            "definition": "The total submitted amount for the claim or group or line item."
+        },
+        {
+            "code": "copay",
+            "display": "CoPay",
+            "definition": "Patient Co-Payment"
+        },
+        {
+            "code": "eligible",
+            "display": "Eligible Amount",
+            "definition": "Amount of the change which is considered for adjudication."
+        },
+        {
+            "code": "deductible",
+            "display": "Deductible",
+            "definition": "Amount deducted from the eligible amount prior to adjudication."
+        },
+        {
+            "code": "unallocdeduct",
+            "display": "Unallocated Deductible",
+            "definition": "The amount of deductible which could not allocated to other line items."
+        },
+        {
+            "code": "eligpercent",
+            "display": "Eligible %",
+            "definition": "Eligible Percentage."
+        },
+        {
+            "code": "tax",
+            "display": "Tax",
+            "definition": "The amount of tax."
+        },
+        {
+            "code": "benefit",
+            "display": "Benefit Amount",
+            "definition": "Amount payable under the coverage"
+        }
+    ]
+}

@@ -12,6 +12,7 @@ import java.util.logging.Level;
 import java.util.logging.Logger;
 
 import com.ibm.fhir.config.PropertyGroup.PropertyEntry;
+import com.ibm.fhir.core.FHIRVersionParam;
 
 import jakarta.json.JsonValue;
 
@@ -22,7 +23,7 @@ import jakarta.json.JsonValue;
  */
 public class FHIRConfigHelper {
     private static final Logger log = Logger.getLogger(FHIRConfigHelper.class.getName());
-    
+
     //Constants
     public static final String SEARCH_PROPERTY_TYPE_INCLUDE = "_include";
     public static final String SEARCH_PROPERTY_TYPE_REVINCLUDE = "_revinclude";
@@ -84,7 +85,7 @@ public class FHIRConfigHelper {
             try {
                 if (propertyName.startsWith(FHIRConfiguration.PROPERTY_DATASOURCES)
                         || propertyName.startsWith(FHIRConfiguration.PROPERTY_PERSISTENCE_PAYLOAD)) {
-                    // Issue #639 and #3416. Prevent datasource/payload lookups from falling back to 
+                    // Issue #639 and #3416. Prevent datasource/payload lookups from falling back to
                     // the default configuration which breaks tenant isolation.
                     result = null;
                 } else {
@@ -160,24 +161,31 @@ public class FHIRConfigHelper {
         }
 
         return (result != null ? result : defaultValue);
-    }    
-    
+    }
+
     /**
-     * Get the set of supported resource types for tenantId in the FHIRRequestContext
-     * @return an immutable set of resource type names that isn't null
+     * Get the set of supported resource types for the latest supported FHIRVersion
+     * and the tenantId in the FHIRRequestContext
+     * @return an immutable non-null set of resource type names that isn't null
      * @throws IllegalStateException if there is an unexpected issue while processing the config
      */
     public static Set<String> getSupportedResourceTypes() {
-        PropertyGroup rsrcsGroup = FHIRConfigHelper.getPropertyGroup(FHIRConfiguration.PROPERTY_RESOURCES);
-        try {
-            ResourcesConfigAdapter configAdapter = new ResourcesConfigAdapter(rsrcsGroup);
-            return configAdapter.getSupportedResourceTypes();
-        } catch (Exception e) {
-            log.throwing(FHIRConfigHelper.class.getName(), "getSupportedResourceTypes", e);
-            throw new IllegalStateException(e);
-        }
+        return getSupportedResourceTypes(FHIRVersionParam.VERSION_43);
     }
-    
+
+    /**
+     * Get the set of supported resource types for the passed fhirVersion
+     * and the tenantId in the FHIRRequestContext
+     * @param fhirVersion
+     * @return an immutable non-null set of resource type names for the passed fhirVersion
+     * @throws IllegalStateException if there is an unexpected issue while processing the config
+     */
+    public static Set<String> getSupportedResourceTypes(FHIRVersionParam fhirVersion) {
+        PropertyGroup resourcesGroup = FHIRConfigHelper.getPropertyGroup(FHIRConfiguration.PROPERTY_RESOURCES);
+        ResourcesConfigAdapter configAdapter = new ResourcesConfigAdapter(resourcesGroup, fhirVersion);
+        return configAdapter.getSupportedResourceTypes();
+    }
+
     /**
      * Retrieves the search property restrictions.
      *

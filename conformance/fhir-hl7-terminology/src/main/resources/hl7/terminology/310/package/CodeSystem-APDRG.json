@@ -1,0 +1,33 @@
+{
+    "resourceType": "CodeSystem",
+    "id": "APDRG",
+    "text": {
+        "status": "empty",
+        "div": "<div xmlns=\"http://www.w3.org/1999/xhtml\">Redacted for size</div>"
+    },
+    "url": "http://uri.hddaccess.com/cs/apdrg",
+    "version": "1.0.0",
+    "name": "APDRG",
+    "title": "All Patient Diagnosis Related Groups (AP DRGs)",
+    "status": "active",
+    "experimental": false,
+    "date": "2020-11-12T00:00:00-04:00",
+    "publisher": "3M Health Information Systems, Inc.",
+    "contact": [
+        {
+            "name": "3M Health Information Systems, Inc.; 575 West Murray Boulevard, Salt Lake City, UT 84123, USA",
+            "telecom": [
+                {
+                    "system": "phone",
+                    "value": "+1 800 367 2447"
+                },
+                {
+                    "system": "url",
+                    "value": "http://www.3mhis.com"
+                }
+            ]
+        }
+    ],
+    "description": "In 1987, the state of New York passed legislation instituting a DRG-based prospective payment system for all non-Medicare patients. The legislation included a requirement that the New York State Department of Health (NYDH) evaluate the applicability of the DRGs to a non-Medicare population. In particular, the legislation required that the DRGs be evaluated with respect to neonates and patients with Human Immunodeficiency Virus (HIV) infections. NYDH entered into an agreement with 3M HIS to assist with the evaluation of the need for DRG modifications as well as to make the necessary changes in the DRG definitions and software. The DRG definitions developed by NYDH and 3M HIS are referred to as the All Patient DRGs (AP DRGs).",
+    "content": "not-present"
+}

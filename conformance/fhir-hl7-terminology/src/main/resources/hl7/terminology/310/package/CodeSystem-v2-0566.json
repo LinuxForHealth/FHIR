@@ -1,0 +1,147 @@
+{
+    "resourceType": "CodeSystem",
+    "id": "v2-0566",
+    "text": {
+        "status": "empty",
+        "div": "<div xmlns=\"http://www.w3.org/1999/xhtml\">Redacted for size</div>"
+    },
+    "extension": [
+        {
+            "url": "http://hl7.org/fhir/StructureDefinition/structuredefinition-wg",
+            "valueCode": "oo"
+        }
+    ],
+    "url": "http://terminology.hl7.org/CodeSystem/v2-0566",
+    "identifier": [
+        {
+            "system": "urn:ietf:rfc:3986",
+            "value": "urn:oid:2.16.840.1.113883.18.368"
+        }
+    ],
+    "version": "2.1.0",
+    "name": "BloodUnitType",
+    "title": "bloodUnitType",
+    "status": "active",
+    "experimental": false,
+    "date": "2019-12-01",
+    "publisher": "HL7, Inc",
+    "contact": [
+        {
+            "telecom": [
+                {
+                    "system": "url",
+                    "value": "http://www.hl7.org/"
+                }
+            ]
+        }
+    ],
+    "description": "HL7-defined code system of concepts used to specify the type of blood unit.  Used in the Blood Unit Information (BUI) segment in HL7 Version 2.x messaging.",
+    "purpose": "Underlying Master Code System for V2 table 0566 (Blood Unit Type)",
+    "copyright": "Copyright HL7. Licensed under creative commons public domain",
+    "caseSensitive": true,
+    "valueSet": "http://terminology.hl7.org/ValueSet/v2-0566",
+    "hierarchyMeaning": "is-a",
+    "compositional": false,
+    "versionNeeded": false,
+    "content": "complete",
+    "property": [
+        {
+            "code": "status",
+            "uri": "http://terminology.hl7.org/CodeSystem/utg-concept-properties#status",
+            "description": "Status of the concept",
+            "type": "code"
+        },
+        {
+            "code": "deprecated",
+            "uri": "http://terminology.hl7.org/CodeSystem/utg-concept-properties#v2-table-deprecated",
+            "description": "Version of HL7 in which the code was deprecated",
+            "type": "code"
+        }
+    ],
+    "concept": [
+        {
+            "id": "6216",
+            "code": "WBL",
+            "display": "Whole Blood",
+            "definition": "Whole Blood",
+            "property": [
+                {
+                    "code": "status",
+                    "valueCode": "A"
+                }
+            ]
+        },
+        {
+            "id": "6217",
+            "code": "RBC",
+            "display": "Red Blood Cells",
+            "definition": "Red Blood Cells",
+            "property": [
+                {
+                    "code": "status",
+                    "valueCode": "A"
+                }
+            ]
+        },
+        {
+            "id": "6218",
+            "code": "PLS",
+            "display": "Plasma",
+            "definition": "Plasma",
+            "property": [
+                {
+                    "code": "status",
+                    "valueCode": "A"
+                }
+            ]
+        },
+        {
+            "id": "6219",
+            "code": "PLT",
+            "display": "Platelets",
+            "definition": "Platelets",
+            "property": [
+                {
+                    "code": "status",
+                    "valueCode": "A"
+                }
+            ]
+        },
+        {
+            "id": "6220",
+            "code": "GRN",
+            "display": "Granulocytes",
+            "definition": "Granulocytes",
+            "property": [
+                {
+                    "code": "status",
+                    "valueCode": "A"
+                }
+            ]
+        },
+        {
+            "id": "6221",
+            "code": "PSC",
+            "display": "Peripheral Stem Cells",
+            "definition": "Peripheral Stem Cells",
+            "property": [
+                {
+                    "code": "status",
+                    "valueCode": "A"
+                }
+            ]
+        },
+        {
+            "id": "6222",
+            "code": "LYM",
+            "display": "Lymphocytes",
+            "definition": "Lymphocytes",
+            "property": [
+                {
+                    "code": "status",
+                    "valueCode": "A"
+                }
+            ]
+        }
+    ]
+}

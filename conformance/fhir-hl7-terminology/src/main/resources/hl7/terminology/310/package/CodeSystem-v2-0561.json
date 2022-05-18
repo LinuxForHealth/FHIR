@@ -1,0 +1,183 @@
+{
+    "resourceType": "CodeSystem",
+    "id": "v2-0561",
+    "text": {
+        "status": "empty",
+        "div": "<div xmlns=\"http://www.w3.org/1999/xhtml\">Redacted for size</div>"
+    },
+    "extension": [
+        {
+            "url": "http://hl7.org/fhir/StructureDefinition/structuredefinition-wg",
+            "valueCode": "fm"
+        }
+    ],
+    "url": "http://terminology.hl7.org/CodeSystem/v2-0561",
+    "identifier": [
+        {
+            "system": "urn:ietf:rfc:3986",
+            "value": "urn:oid:2.16.840.1.113883.18.364"
+        }
+    ],
+    "version": "2.1.0",
+    "name": "ProductServicesClarification",
+    "title": "product-servicesClarification",
+    "status": "active",
+    "experimental": false,
+    "date": "2019-12-01",
+    "publisher": "HL7, Inc",
+    "contact": [
+        {
+            "telecom": [
+                {
+                    "system": "url",
+                    "value": "http://www.hl7.org/"
+                }
+            ]
+        }
+    ],
+    "description": "Code system of concepts used to specify the Product/Service Code.  Used in the Product/Service Line Item (PSL) segment in HL7 Version 2.x messaging.",
+    "purpose": "Underlying Master Code System for V2 table 0561 (Product/Services Clarification Codes)",
+    "copyright": "Copyright HL7. Licensed under creative commons public domain",
+    "caseSensitive": true,
+    "valueSet": "http://terminology.hl7.org/ValueSet/v2-0561",
+    "hierarchyMeaning": "is-a",
+    "compositional": false,
+    "versionNeeded": false,
+    "content": "complete",
+    "property": [
+        {
+            "code": "status",
+            "uri": "http://terminology.hl7.org/CodeSystem/utg-concept-properties#status",
+            "description": "Status of the concept",
+            "type": "code"
+        },
+        {
+            "code": "deprecated",
+            "uri": "http://terminology.hl7.org/CodeSystem/utg-concept-properties#v2-table-deprecated",
+            "description": "Version of HL7 in which the code was deprecated",
+            "type": "code"
+        },
+        {
+            "code": "v2-concComment",
+            "uri": "http://terminology.hl7.org/CodeSystem/utg-concept-properties#v2-concComment",
+            "description": "V2 Concept Comment",
+            "type": "string"
+        },
+        {
+            "code": "v2-concCommentAsPub",
+            "uri": "http://terminology.hl7.org/CodeSystem/utg-concept-properties#v2-concCommentAsPub",
+            "description": "V2 Concept Comment As Published",
+            "type": "string"
+        }
+    ],
+    "concept": [
+        {
+            "id": "6194",
+            "code": "DTCTR",
+            "display": "Data Center Number",
+            "definition": "Data Center Number",
+            "property": [
+                {
+                    "code": "v2-concComment",
+                    "valueString": "MSP: Data Center Number associated with the Provider's Network Application ID"
+                },
+                {
+                    "code": "v2-concCommentAsPub",
+                    "valueString": "MSP: Data Center Number associated with the Provider's Network Application ID"
+                },
+                {
+                    "code": "status",
+                    "valueCode": "A"
+                }
+            ]
+        },
+        {
+            "id": "6195",
+            "code": "SEQ",
+            "display": "Sequence Number",
+            "definition": "Sequence Number",
+            "property": [
+                {
+                    "code": "v2-concComment",
+                    "valueString": "MSP: Must be sequential by Data Center Number"
+                },
+                {
+                    "code": "v2-concCommentAsPub",
+                    "valueString": "MSP: Must be sequential by Data Center Number"
+                },
+                {
+                    "code": "status",
+                    "valueCode": "A"
+                }
+            ]
+        },
+        {
+            "id": "6196",
+            "code": "DGAPP",
+            "display": "Diagnostic Approval Number",
+            "definition": "Diagnostic Approval Number",
+            "property": [
+                {
+                    "code": "v2-concComment",
+                    "valueString": "MSP: assigned by MSP"
+                },
+                {
+                    "code": "v2-concCommentAsPub",
+                    "valueString": "MSP: assigned by MSP"
+                },
+                {
+                    "code": "status",
+                    "valueCode": "A"
+                }
+            ]
+        },
+        {
+            "id": "6197",
+            "code": "CLCTR",
+            "display": "Claim Center",
+            "definition": "Claim Center",
+            "property": [
+                {
+                    "code": "status",
+                    "valueCode": "A"
+                }
+            ]
+        },
+        {
+            "id": "6198",
+            "code": "ENC",
+            "display": "Encounter Number",
+            "definition": "Encounter Number",
+            "property": [
+                {
+                    "code": "status",
+                    "valueCode": "A"
+                }
+            ]
+        },
+        {
+            "id": "6199",
+            "code": "OOP",
+            "display": "Out of Province Indicator",
+            "definition": "Out of Province Indicator",
+            "property": [
+                {
+                    "code": "status",
+                    "valueCode": "A"
+                }
+            ]
+        },
+        {
+            "id": "6200",
+            "code": "GFTH",
+            "display": "Good Faith Indicator",
+            "definition": "Good Faith Indicator",
+            "property": [
+                {
+                    "code": "status",
+                    "valueCode": "A"
+                }
+            ]
+        }
+    ]
+}

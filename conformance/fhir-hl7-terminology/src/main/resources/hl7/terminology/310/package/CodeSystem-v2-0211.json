@@ -1,0 +1,497 @@
+{
+    "resourceType": "CodeSystem",
+    "id": "v2-0211",
+    "text": {
+        "status": "empty",
+        "div": "<div xmlns=\"http://www.w3.org/1999/xhtml\">Redacted for size</div>"
+    },
+    "extension": [
+        {
+            "url": "http://hl7.org/fhir/StructureDefinition/structuredefinition-wg",
+            "valueCode": "inm"
+        }
+    ],
+    "url": "http://terminology.hl7.org/CodeSystem/v2-0211",
+    "identifier": [
+        {
+            "system": "urn:ietf:rfc:3986",
+            "value": "urn:oid:2.16.840.1.113883.18.116"
+        }
+    ],
+    "version": "2.5.0",
+    "name": "AlternateCharacterSets",
+    "title": "alternateCharacterSets",
+    "status": "active",
+    "experimental": false,
+    "date": "2019-12-01",
+    "publisher": "HL7, Inc",
+    "contact": [
+        {
+            "telecom": [
+                {
+                    "system": "url",
+                    "value": "http://www.hl7.org/"
+                }
+            ]
+        }
+    ],
+    "description": "HL7-defined code system of concepts used to specify the character set(s) in use.  Includes both single-byte and double-byte characters sets, and used in Version 2.x messaging in the MSH segment.",
+    "purpose": "Underlying Master Code System for V2 table 0211 (Alternate Character Sets)",
+    "copyright": "Copyright HL7. Licensed under creative commons public domain",
+    "caseSensitive": true,
+    "valueSet": "http://terminology.hl7.org/ValueSet/v2-0211",
+    "hierarchyMeaning": "is-a",
+    "compositional": false,
+    "versionNeeded": false,
+    "content": "complete",
+    "property": [
+        {
+            "code": "status",
+            "uri": "http://terminology.hl7.org/CodeSystem/utg-concept-properties#status",
+            "description": "Status of the concept",
+            "type": "code"
+        },
+        {
+            "code": "deprecated",
+            "uri": "http://terminology.hl7.org/CodeSystem/utg-concept-properties#v2-table-deprecated",
+            "description": "Version of HL7 in which the code was deprecated",
+            "type": "code"
+        },
+        {
+            "code": "v2-concComment",
+            "uri": "http://terminology.hl7.org/CodeSystem/utg-concept-properties#v2-concComment",
+            "description": "V2 Concept Comment",
+            "type": "string"
+        },
+        {
+            "code": "v2-concCommentAsPub",
+            "uri": "http://terminology.hl7.org/CodeSystem/utg-concept-properties#v2-concCommentAsPub",
+            "description": "V2 Concept Comment As Published",
+            "type": "string"
+        },
+        {
+            "code": "HL7usageNotes",
+            "uri": "http://terminology.hl7.org/CodeSystem/utg-concept-properties#HL7usageNotes",
+            "description": "HL7 Concept Usage Notes",
+            "type": "string"
+        }
+    ],
+    "concept": [
+        {
+            "id": "2142",
+            "code": "JAS2020",
+            "display": "A subset of ISO2020 used for most Kanjii transmissions",
+            "definition": "A subset of ISO2020 used for most Kanjii transmissions",
+            "property": [
+                {
+                    "code": "deprecated",
+                    "valueCode": "2.9"
+                },
+                {
+                    "code": "status",
+                    "valueCode": "A"
+                }
+            ]
+        },
+        {
+            "id": "2143",
+            "code": "JIS X 0202",
+            "display": "ISO 2022 with escape sequences for Kanjii",
+            "definition": "ISO 2022 with escape sequences for Kanjii",
+            "property": [
+                {
+                    "code": "deprecated",
+                    "valueCode": "2.9"
+                },
+                {
+                    "code": "status",
+                    "valueCode": "A"
+                }
+            ]
+        },
+        {
+            "id": "2144",
+            "code": "ASCII",
+            "display": "The printable 7-bit ASCII character set.",
+            "definition": "The printable 7-bit ASCII character set.",
+            "property": [
+                {
+                    "code": "v2-concComment",
+                    "valueString": "(This is the default if this field is omitted)"
+                },
+                {
+                    "code": "v2-concCommentAsPub",
+                    "valueString": "(This is the default if this field is omitted)"
+                },
+                {
+                    "code": "status",
+                    "valueCode": "A"
+                }
+            ]
+        },
+        {
+            "id": "2145",
+            "code": "8859/1",
+            "display": "The printable characters from the ISO 8859/1 Character set",
+            "definition": "The printable characters from the ISO 8859/1 Character set",
+            "property": [
+                {
+                    "code": "status",
+                    "valueCode": "A"
+                }
+            ]
+        },
+        {
+            "id": "2146",
+            "code": "8859/2",
+            "display": "The printable characters from the ISO 8859/2 Character set",
+            "definition": "The printable characters from the ISO 8859/2 Character set",
+            "property": [
+                {
+                    "code": "status",
+                    "valueCode": "A"
+                }
+            ]
+        },
+        {
+            "id": "2147",
+            "code": "8859/3",
+            "display": "The printable characters from the ISO 8859/3 Character set",
+            "definition": "The printable characters from the ISO 8859/3 Character set",
+            "property": [
+                {
+                    "code": "status",
+                    "valueCode": "A"
+                }
+            ]
+        },
+        {
+            "id": "2148",
+            "code": "8859/4",
+            "display": "The printable characters from the ISO 8859/4 Character set",
+            "definition": "The printable characters from the ISO 8859/4 Character set",
+            "property": [
+                {
+                    "code": "status",
+                    "valueCode": "A"
+                }
+            ]
+        },
+        {
+            "id": "2149",
+            "code": "8859/5",
+            "display": "The printable characters from the ISO 8859/5 Character set",
+            "definition": "The printable characters from the ISO 8859/5 Character set",
+            "property": [
+                {
+                    "code": "status",
+                    "valueCode": "A"
+                }
+            ]
+        },
+        {
+            "id": "2150",
+            "code": "8859/6",
+            "display": "The printable characters from the ISO 8859/6 Character set",
+            "definition": "The printable characters from the ISO 8859/6 Character set",
+            "property": [
+                {
+                    "code": "status",
+                    "valueCode": "A"
+                }
+            ]
+        },
+        {
+            "id": "2151",
+            "code": "8859/7",
+            "display": "The printable characters from the ISO 8859/7 Character set",
+            "definition": "The printable characters from the ISO 8859/7 Character set",
+            "property": [
+                {
+                    "code": "status",
+                    "valueCode": "A"
+                }
+            ]
+        },
+        {
+            "id": "2152",
+            "code": "8859/8",
+            "display": "The printable characters from the ISO 8859/8 Character set",
+            "definition": "The printable characters from the ISO 8859/8 Character set",
+            "property": [
+                {
+                    "code": "status",
+                    "valueCode": "A"
+                }
+            ]
+        },
+        {
+            "id": "2153",
+            "code": "8859/9",
+            "display": "The printable characters from the ISO 8859/9 Character set",
+            "definition": "The printable characters from the ISO 8859/9 Character set",
+            "property": [
+                {
+                    "code": "status",
+                    "valueCode": "A"
+                }
+            ]
+        },
+        {
+            "id": "2154",
+            "code": "8859/15",
+            "display": "The printable characters from the ISO 8859/15 (Latin-15)",
+            "definition": "The printable characters from the ISO 8859/15 (Latin-15)",
+            "property": [
+                {
+                    "code": "status",
+                    "valueCode": "A"
+                }
+            ]
+        },
+        {
+            "id": "2155",
+            "code": "ISO IR6",
+            "display": "ASCII graphic character set consisting of 94 characters.",
+            "definition": "ASCII graphic character set consisting of 94 characters.",
+            "property": [
+                {
+                    "code": "v2-concComment",
+                    "valueString": "http://www.itscj.ipsj.or.jp/ISO-IR/006.pdf"
+                },
+                {
+                    "code": "v2-concCommentAsPub",
+                    "valueString": "http://www.itscj.ipsj.or.jp/ISO-IR/006.pdf"
+                },
+                {
+                    "code": "status",
+                    "valueCode": "A"
+                }
+            ]
+        },
+        {
+            "id": "2156",
+            "code": "ISO IR14",
+            "display": "Code for Information Exchange (one byte)(JIS X 0201-1976).",
+            "definition": "Code for Information Exchange (one byte)(JIS X 0201-1976).",
+            "property": [
+                {
+                    "code": "v2-concComment",
+                    "valueString": "Note that the code contains a space, i.e., \"ISO IR14\"."
+                },
+                {
+                    "code": "v2-concCommentAsPub",
+                    "valueString": "Note that the code contains a space, i.e., \"ISO IR14\"."
+                },
+                {
+                    "code": "status",
+                    "valueCode": "A"
+                }
+            ]
+        },
+        {
+            "id": "2157",
+            "code": "ISO IR87",
+            "display": "Code for the Japanese Graphic Character set for information interchange (JIS X 0208-1990),",
+            "definition": "Code for the Japanese Graphic Character set for information interchange (JIS X 0208-1990),",
+            "property": [
+                {
+                    "code": "v2-concComment",
+                    "valueString": "Note that the code contains a space, i.e., “ISO IR87”.\r\n\r\nThe JIS X 0208 needs an escape sequence. In Japan, the escape technique is ISO 2022. From basic ASCII, escape sequence “escape” $ B (in HEX, 1B 24 42) lets the parser know that following bytes should be handled 2-byte wise. Back to ASCII is 1B 28 42."
+                },
+                {
+                    "code": "v2-concCommentAsPub",
+                    "valueString": "Note that the code contains a space, i.e., “ISO IR87”.\r\n\r\nThe JIS X 0208 needs an escape sequence. In Japan, the escape technique is ISO 2022. From basic ASCII, escape sequence “escape” $ B (in HEX, 1B 24 42) lets the parser know that following bytes should be handled 2-byte wise. Back to ASCII is 1B 28 42."
+                },
+                {
+                    "code": "status",
+                    "valueCode": "A"
+                }
+            ]
+        },
+        {
+            "id": "2158",
+            "code": "ISO IR159",
+            "display": "Code of the supplementary Japanese Graphic Character set for information interchange (JIS X 0212-1990).",
+            "definition": "Code of the supplementary Japanese Graphic Character set for information interchange (JIS X 0212-1990).",
+            "property": [
+                {
+                    "code": "v2-concComment",
+                    "valueString": "Note that the code contains a space, i.e., \"ISO IR159\"."
+                },
+                {
+                    "code": "v2-concCommentAsPub",
+                    "valueString": "Note that the code contains a space, i.e., \"ISO IR159\"."
+                },
+                {
+                    "code": "status",
+                    "valueCode": "A"
+                }
+            ]
+        },
+        {
+            "id": "2159",
+            "code": "GB 18030-2000",
+            "display": "Code for Chinese Character Set (GB 18030-2000)",
+            "definition": "Code for Chinese Character Set (GB 18030-2000)",
+            "property": [
+                {
+                    "code": "v2-concComment",
+                    "valueString": "Does not need an escape sequence."
+                },
+                {
+                    "code": "v2-concCommentAsPub",
+                    "valueString": "Does not need an escape sequence."
+                },
+                {
+                    "code": "status",
+                    "valueCode": "A"
+                }
+            ]
+        },
+        {
+            "id": "2160",
+            "code": "KS X 1001",
+            "display": "Code for Korean Character Set (KS X 1001)",
+            "definition": "Code for Korean Character Set (KS X 1001)",
+            "property": [
+                {
+                    "code": "status",
+                    "valueCode": "A"
+                }
+            ]
+        },
+        {
+            "id": "2161",
+            "code": "CNS 11643-1992",
+            "display": "Code for Taiwanese Character Set (CNS 11643-1992)",
+            "definition": "Code for Taiwanese Character Set (CNS 11643-1992)",
+            "property": [
+                {
+                    "code": "v2-concComment",
+                    "valueString": "Does not need an escape sequence."
+                },
+                {
+                    "code": "v2-concCommentAsPub",
+                    "valueString": "Does not need an escape sequence."
+                },
+                {
+                    "code": "status",
+                    "valueCode": "A"
+                }
+            ]
+        },
+        {
+            "id": "2162",
+            "code": "BIG-5",
+            "display": "Code for Taiwanese Character Set (BIG-5)",
+            "definition": "Code for Taiwanese Character Set (BIG-5)",
+            "property": [
+                {
+                    "code": "v2-concComment",
+                    "valueString": "Does not need an escape sequence.\r\n\r\nBIG-5 does not need an escape sequence. ASCII is a 7 bit character set, which means that the top bit of the byte is “0”. The parser knows that when the top bit of the byte is “0”, the character set is ASCII. When it is “1”, the following bytes should be handled as 2 bytes (or more). No escape technique is needed. However, since some servers do not correctly interpret when they receive a top bit “1”, it is advised, in internet RFC, to not use these kind of non-safe non-escape extension."
+                },
+                {
+                    "code": "v2-concCommentAsPub",
+                    "valueString": "Does not need an escape sequence.\r\n\r\nBIG-5 does not need an escape sequence. ASCII is a 7 bit character set, which means that the top bit of the byte is “0”. The parser knows that when the top bit of the byte is “0”, the character set is ASCII. When it is “1”, the following bytes should be handled as 2 bytes (or more). No escape technique is needed. However, since some servers do not correctly interpret when they receive a top bit “1”, it is advised, in internet RFC, to not use these kind of non-safe non-escape extension."
+                },
+                {
+                    "code": "status",
+                    "valueCode": "A"
+                }
+            ]
+        },
+        {
+            "id": "2163",
+            "code": "UNICODE",
+            "display": "The world wide character standard from ISO/IEC 10646-1-1993",
+            "definition": "The world wide character standard from ISO/IEC 10646-1-1993",
+            "property": [
+                {
+                    "code": "v2-concComment",
+                    "valueString": "Deprecated. Retained for backward compatibility only as v 2.5. Replaced by specific Unicode encoding codes."
+                },
+                {
+                    "code": "v2-concCommentAsPub",
+                    "valueString": "Deprecated. Retained for backward compatibility only as v 2.5. Replaced by specific Unicode encoding codes."
+                },
+                {
+                    "code": "HL7usageNotes",
+                    "valueString": "Available from The Unicode Consortium, P.O. Box 700519, San Jose, CA  95170-0519.  See http://www.unicode.org/unicode/consortium/consort.html"
+                },
+                {
+                    "code": "status",
+                    "valueCode": "A"
+                }
+            ]
+        },
+        {
+            "id": "2164",
+            "code": "UNICODE UTF-8",
+            "display": "UCS Transformation Format, 8-bit form",
+            "definition": "UCS Transformation Format, 8-bit form",
+            "property": [
+                {
+                    "code": "v2-concComment",
+                    "valueString": "UTF-8 is a variable-length encoding, each code value is represented by 1,2 or 3 bytes, depending on the code value. 7 bit ASCII is a proper subset of UTF-8. Note that the code contains a space before UTF but not before and after the hyphen. Since UTF-8 represents the full UNICODE character set, the following restriction apply to its use: \r\n1. UTF-8 must be the default encoding of the message, UTF-8 cannot be specified as an additional character set in MSH-18\r\n2. There are no other character sets allowed in a message where UTF-8 is the default encoding in the message.\r\nIn other words, UNICODE UTF-8 can only be specified as a single value in MSH-18\r\n3. A message encoded in UTF-8 must not use a Byte Order Mark (BOM)."
+                },
+                {
+                    "code": "v2-concCommentAsPub",
+                    "valueString": "UTF-8 is a variable-length encoding, each code value is represented by 1,2 or 3 bytes, depending on the code value. 7 bit ASCII is a proper subset of UTF-8. Note that the code contains a space before UTF but not before and after the hyphen. Since UTF-8 represents the full UNICODE character set, the following restriction apply to its use: \r\n1. UTF-8 must be the default encoding of the message, UTF-8 cannot be specified as an additional character set in MSH-18\r\n2. There are no other character sets allowed in a message where UTF-8 is the default encoding in the message.\r\nIn other words, UNICODE UTF-8 can only be specified as a single value in MSH-18\r\n3. A message encoded in UTF-8 must not use a Byte Order Mark (BOM)."
+                },
+                {
+                    "code": "status",
+                    "valueCode": "A"
+                }
+            ]
+        },
+        {
+            "id": "2165",
+            "code": "UNICODE UTF-16",
+            "display": "UCS Transformation Format, 16-bit form",
+            "definition": "UCS Transformation Format, 16-bit form",
+            "property": [
+                {
+                    "code": "v2-concCommentAsPub",
+                    "valueString": "UTF-16 is identical to ISO/IEC 10646 UCS-2. Note that the code contains a space before UTF but not before and after the hyphen."
+                },
+                {
+                    "code": "HL7usageNotes",
+                    "valueString": "UTF-16 is identical to ISO/IEC 10646 UCS-2. Note that the code contains a space before UTF but not before and after the hyphen."
+                },
+                {
+                    "code": "deprecated",
+                    "valueCode": "2.9"
+                },
+                {
+                    "code": "status",
+                    "valueCode": "A"
+                }
+            ]
+        },
+        {
+            "id": "2166",
+            "code": "UNICODE UTF-32",
+            "display": "UCS Transformation Format, 32-bit form",
+            "definition": "UCS Transformation Format, 32-bit form",
+            "property": [
+                {
+                    "code": "v2-concCommentAsPub",
+                    "valueString": "UTF-32 is defined by Unicode Technical Report #19, and is an officially recognized encoding as of Unicode Version 3.1. UTF-32 is a proper subset of ISO/IEC 10646 UCS-4. Note that the code contains a space before UTF but not before and after the hyphen."
+                },
+                {
+                    "code": "HL7usageNotes",
+                    "valueString": "UTF-32 is defined by Unicode Technical Report #19, and is an officially recognized encoding as of Unicode Version 3.1. UTF-32 is a proper subset of ISO/IEC 10646 UCS-4. Note that the code contains a space before UTF but not before and after the hyphen."
+                },
+                {
+                    "code": "deprecated",
+                    "valueCode": "2.9"
+                },
+                {
+                    "code": "status",
+                    "valueCode": "A"
+                }
+            ]
+        }
+    ]
+}

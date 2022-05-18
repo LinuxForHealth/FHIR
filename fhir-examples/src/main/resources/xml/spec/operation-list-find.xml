@@ -3,10 +3,10 @@
 <OperationDefinition xmlns="http://hl7.org/fhir">
   <id value="List-find"/>
   <text>
-    <status value="generated"/>
+    <status value="extensions"/>
     <div xmlns="http://www.w3.org/1999/xhtml">
-      <h2>Find a functional list</h2>
-      <p>OPERATION: Find a functional list</p>
+      <h2>Find</h2>
+      <p>OPERATION: Find</p>
       <p>The official URL for this operation definition is: </p>
       <pre>http://hl7.org/fhir/OperationDefinition/List-find</pre>
       <div>
@@ -82,11 +82,13 @@
     <valueCode value="trial-use"/>
   </extension>
   <url value="http://hl7.org/fhir/OperationDefinition/List-find"/>
-  <version value="4.0.1"/>
-  <name value="Find a functional list"/>
+  <version value="4.3.0-cibuild"/>
+  <name value="Find"/>
+  <title value="Find a functional list"/>
   <status value="draft"/>
   <kind value="operation"/>
-  <date value="2019-11-01T09:29:23+11:00"/>
+  <experimental value="false"/>
+  <date value="2022-04-23T22:21:35+00:00"/>
   <publisher value="HL7 (FHIR Project)"/>
   <contact>
     <telecom>
@@ -99,6 +101,7 @@
     </telecom>
   </contact>
   <description value="This operation allows a client to find an identified list for a particular function by its function. The operation takes two parameters, the identity of a patient, and the name of a functional list.     The list of defined functional lists can be found at [Current Resource Lists](lifecycle.html#lists). Applications are not required to support all the lists, and may define additional lists of their own.   If the system is able to locate a list that serves the identified purpose, it returns it as the body of the response with a 200 OK status. If the resource cannot be located, the server returns a 404 not found (optionally with an OperationOutcome resource)"/>
+  <affectsState value="false"/>
   <code value="find"/>
   <comment value="Note that servers may support searching by a functional list, and not support this operation that allows clients to find the list directly"/>
   <resource value="List"/>

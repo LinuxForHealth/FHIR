@@ -66,8 +66,9 @@ public class Read extends FHIRResource {
             MultivaluedMap<String, String> queryParameters = uriInfo.getQueryParameters();
             long modifiedSince = parseIfModifiedSince();
 
-            FHIRRestHelper helper = new FHIRRestHelper(getPersistenceImpl(), getSearchHelper());
+            FHIRRestHelper helper = new FHIRRestHelper(getPersistenceImpl(), getSearchHelper(), getFhirVersion());
             Resource resource = helper.doRead(type, id, THROW_EXC_ON_MISSING, queryParameters).getResource();
+
             int version2Match = -1;
             // Support ETag value with or without " (and W/)
             // e.g:  1, "1", W/1, W/"1" (the first format is used by TouchStone)

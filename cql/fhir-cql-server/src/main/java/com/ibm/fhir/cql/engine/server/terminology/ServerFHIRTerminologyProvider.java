@@ -16,11 +16,11 @@ import org.opencds.cqf.cql.engine.terminology.CodeSystemInfo;
 import org.opencds.cqf.cql.engine.terminology.TerminologyProvider;
 import org.opencds.cqf.cql.engine.terminology.ValueSetInfo;
 
+import com.ibm.fhir.core.ResourceType;
 import com.ibm.fhir.cql.Constants;
 import com.ibm.fhir.model.resource.Resource;
 import com.ibm.fhir.model.resource.ValueSet;
 import com.ibm.fhir.model.type.Uri;
-import com.ibm.fhir.model.type.code.ResourceType;
 import com.ibm.fhir.persistence.SingleResourceResult;
 import com.ibm.fhir.server.spi.operation.FHIRResourceHelpers;
 import com.ibm.fhir.term.service.FHIRTermService;
@@ -120,7 +120,7 @@ public class ServerFHIRTerminologyProvider implements TerminologyProvider {
             // See https://www.hl7.org/fhir/datatypes.html#id
             if (id.matches("[A-Za-z0-9\\-\\.]{1,64}")) {
                 try {
-                    SingleResourceResult<? extends Resource> result = resourceHelper.doRead(ResourceType.VALUE_SET.getValue(), id);
+                    SingleResourceResult<? extends Resource> result = resourceHelper.doRead(ResourceType.VALUE_SET.value(), id);
                     if( result.isSuccess() ) {
                         valueSet = (ValueSet) result.getResource();
                     }

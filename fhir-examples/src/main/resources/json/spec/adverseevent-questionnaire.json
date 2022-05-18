@@ -6,9 +6,10 @@
       "system": "urn:ietf:rfc:3986"
     }
   ],
-  "version": "4.0.1",
+  "version": "4.3.0-cibuild",
   "status": "draft",
-  "date": "2019-11-01T09:29:23+11:00",
+  "experimental": false,
+  "date": "2022-04-23T22:21:35+00:00",
   "publisher": "Health Level Seven International (Patient Care)",
   "item": [
     {
@@ -33,6 +34,7 @@
               }
             }
           ],
+          "linkId": "AdverseEvent-flyover",
           "text": "Actual or  potential/avoided event causing unintended physical injury resulting from or contributed to by medical care, a research study or other healthcare setting factors that requires additional monitoring, treatment, or hospitalization, or that results in death.",
           "type": "display"
         },
@@ -67,6 +69,7 @@
                   }
                 }
               ],
+              "linkId": "AdverseEvent.id-flyover",
               "text": "The logical id of the resource, as used in the URL for the resource. Once assigned, this value never changes. The only time that a resource does not have an id is when it is being submitted to the server using a create operation.",
               "type": "display"
             },
@@ -107,6 +110,7 @@
                   }
                 }
               ],
+              "linkId": "AdverseEvent.meta-flyover",
               "text": "The metadata about the resource. This is content that is maintained by the infrastructure. Changes to the content might not always be associated with version changes to the resource.",
               "type": "display"
             }
@@ -143,6 +147,7 @@
                   }
                 }
               ],
+              "linkId": "AdverseEvent.implicitRules-flyover",
               "text": "A reference to a set of rules that were followed when the resource was constructed, and which must be understood when processing the content. Often, this is a reference to an implementation guide that defines the special rules along with other profiles etc. Asserting this rule set restricts the content to be only understood by a limited set of trading partners. This inherently limits the usefulness of the data in the long term. However, the existing health eco-system is highly fractured, and not yet ready to define, collect, and exchange data in a generally computable sense. Wherever possible, implementers and/or specification writers should avoid using this element. Often, when used, the URL is a reference to an implementation guide that defines these special rules as part of it\u0027s narrative along with other profiles, value sets, etc.",
               "type": "display"
             },
@@ -186,6 +191,7 @@
                   }
                 }
               ],
+              "linkId": "AdverseEvent.language-flyover",
               "text": "The base language in which the resource is written. Language is provided to support indexing and accessibility (typically, services such as text to speech use the language tag). The html language tag in the narrative applies  to the narrative. The language tag on the resource may be used to specify the language of other presentations generated from the data in the resource. Not all the content has to be in the base language. The Resource.language should not be assumed to apply to the narrative automatically. If a language is specified, it should it also be specified on the div element in the html (see rules in HTML5 for information about the relationship between xml:lang and the html lang attribute).",
               "type": "display"
             },
@@ -226,6 +232,7 @@
                   }
                 }
               ],
+              "linkId": "AdverseEvent.text-flyover",
               "text": "A human-readable narrative that contains a summary of the resource and can be used to represent the content of the resource to a human. The narrative need not encode all the structured data, but is required to contain sufficient detail to make it \"clinically safe\" for a human to just read the narrative. Resource definitions may define what content should be represented in the narrative to ensure clinical safety. Contained resources do not have narrative. Resources that are not contained SHOULD have a narrative. In some cases, a resource may only have text with little or no additional discrete data (as long as all minOccurs\u003d1 elements are satisfied).  This may be necessary for data from legacy systems where information is captured as a \"text blob\" or where text is additionally entered raw or narrated and encoded information is added later.",
               "type": "display"
             }
@@ -253,6 +260,7 @@
                   }
                 }
               ],
+              "linkId": "AdverseEvent.contained-flyover",
               "text": "These resources do not have an independent existence apart from the resource that contains them - they cannot be identified independently, and nor can they have their own independent transaction scope. This should never be done when the content can be identified properly, as once identification is lost, it is extremely difficult (and context dependent) to restore it again. Contained resources may have profiles and tags In their meta elements, but SHALL NOT have security labels.",
               "type": "display"
             }
@@ -280,6 +288,7 @@
                   }
                 }
               ],
+              "linkId": "AdverseEvent.extension-flyover",
               "text": "May be used to represent additional information that is not part of the basic definition of the resource. To make the use of extensions safe and manageable, there is a strict set of governance  applied to the definition and use of extensions. Though any implementer can define an extension, there is a set of requirements that SHALL be met as part of the definition of the extension. There can be no stigma associated with the use of extensions by any application, project, or standard - regardless of the institution or jurisdiction that uses or defines the extensions.  The use of extensions is what allows the FHIR specification to retain a core level of simplicity for everyone.",
               "type": "display"
             }
@@ -307,6 +316,7 @@
                   }
                 }
               ],
+              "linkId": "AdverseEvent.modifierExtension-flyover",
               "text": "May be used to represent additional information that is not part of the basic definition of the resource and that modifies the understanding of the element that contains it and/or the understanding of the containing element\u0027s descendants. Usually modifier elements provide negation or qualification. To make the use of extensions safe and manageable, there is a strict set of governance applied to the definition and use of extensions. Though any implementer is allowed to define an extension, there is a set of requirements that SHALL be met as part of the definition of the extension. Applications processing a resource are required to check for modifier extensions.\n\nModifier extensions SHALL NOT change the meaning of any elements on Resource or DomainResource (including cannot change the meaning of modifierExtension itself). There can be no stigma associated with the use of extensions by any application, project, or standard - regardless of the institution or jurisdiction that uses or defines the extensions.  The use of extensions is what allows the FHIR specification to retain a core level of simplicity for everyone.",
               "type": "display"
             }
@@ -344,6 +354,7 @@
                   }
                 }
               ],
+              "linkId": "AdverseEvent.identifier-flyover",
               "text": "Business identifiers assigned to this adverse event by the performer or other systems which remain constant as the resource is updated and propagates from server to server. This is a business identifier, not a resource identifier (see [discussion](resource.html#identifiers)).  It is best practice for the identifier to only appear on a single resource instance, however business practices may occasionally dictate that multiple resource instances with the same identifier can exist - possibly even with different resource types.  For example, multiple Patient and a Person resource instance might share the same social insurance number.",
               "type": "display"
             },
@@ -405,6 +416,7 @@
                   }
                 }
               ],
+              "linkId": "AdverseEvent.actuality-flyover",
               "text": "Whether the event actually happened, or just had the potential to. Note that this is independent of whether anyone was affected or harmed or how severely.",
               "type": "display"
             },
@@ -445,13 +457,14 @@
                   }
                 }
               ],
+              "linkId": "AdverseEvent.category-flyover",
               "text": "The overall type of event, intended for search and filtering purposes.",
               "type": "display"
             },
             {
               "linkId": "AdverseEvent.category.coding",
               "text": "code:",
-              "type": "open-choice",
+              "type": "choice",
               "required": false,
               "repeats": false
             },
@@ -496,13 +509,14 @@
                   }
                 }
               ],
+              "linkId": "AdverseEvent.event-flyover",
               "text": "This element defines the specific type of event that occurred or that was prevented from occurring.",
               "type": "display"
             },
             {
               "linkId": "AdverseEvent.event.coding",
               "text": "code:",
-              "type": "open-choice",
+              "type": "choice",
               "required": false,
               "repeats": false
             },
@@ -550,6 +564,7 @@
                   }
                 }
               ],
+              "linkId": "AdverseEvent.subject-flyover",
               "text": "This subject or group impacted by the event. If AdverseEvent.resultingCondition differs among members of the group, then use Patient as the subject.",
               "type": "display"
             },
@@ -603,6 +618,7 @@
                   }
                 }
               ],
+              "linkId": "AdverseEvent.encounter-flyover",
               "text": "The Encounter during which AdverseEvent was created or to which the creation of this record is tightly associated. This will typically be the encounter the event occurred within, but some activities may be initiated prior to or after the official completion of an encounter but still be tied to the context of the encounter.  For example, if a medication administration was considered an adverse event because it resulted in a rash, then the encounter when the medication administration was given is the context.  If the patient reports the AdverseEvent during a second encounter, that second encounter is not the context.",
               "type": "display"
             },
@@ -656,6 +672,7 @@
                   }
                 }
               ],
+              "linkId": "AdverseEvent.date-flyover",
               "text": "The date (and perhaps time) when the adverse event occurred.",
               "type": "display"
             },
@@ -699,6 +716,7 @@
                   }
                 }
               ],
+              "linkId": "AdverseEvent.detected-flyover",
               "text": "Estimated or actual date the AdverseEvent began, in the opinion of the reporter.",
               "type": "display"
             },
@@ -742,6 +760,7 @@
                   }
                 }
               ],
+              "linkId": "AdverseEvent.recordedDate-flyover",
               "text": "The date on which the existence of the AdverseEvent was first recorded. The recordedDate represents the date when this particular AdverseEvent record was created in the system, not the date of the most recent update.  The date of the last record modification can be retrieved from the resource metadata.",
               "type": "display"
             },
@@ -781,6 +800,7 @@
                   }
                 }
               ],
+              "linkId": "AdverseEvent.resultingCondition-flyover",
               "text": "Includes information about the reaction that occurred as a result of exposure to a substance (for example, a drug or a chemical).",
               "type": "display"
             },
@@ -834,6 +854,7 @@
                   }
                 }
               ],
+              "linkId": "AdverseEvent.location-flyover",
               "text": "The information about where the adverse event occurred.",
               "type": "display"
             },
@@ -888,13 +909,14 @@
                   }
                 }
               ],
+              "linkId": "AdverseEvent.seriousness-flyover",
               "text": "Assessment whether this event was of real importance.",
               "type": "display"
             },
             {
               "linkId": "AdverseEvent.seriousness.coding",
               "text": "code:",
-              "type": "open-choice",
+              "type": "choice",
               "required": false,
               "repeats": false
             },
@@ -939,6 +961,7 @@
                   }
                 }
               ],
+              "linkId": "AdverseEvent.severity-flyover",
               "text": "Describes the severity of the adverse event, in relation to the subject. Contrast to AdverseEvent.seriousness - a severe rash might not be serious, but a mild heart problem is.",
               "type": "display"
             },
@@ -990,6 +1013,7 @@
                   }
                 }
               ],
+              "linkId": "AdverseEvent.outcome-flyover",
               "text": "Describes the type of outcome from the adverse event.",
               "type": "display"
             },
@@ -1040,6 +1064,7 @@
                   }
                 }
               ],
+              "linkId": "AdverseEvent.recorder-flyover",
               "text": "Information on who recorded the adverse event.  May be the patient or a practitioner.",
               "type": "display"
             },
@@ -1089,6 +1114,7 @@
                   }
                 }
               ],
+              "linkId": "AdverseEvent.contributor-flyover",
               "text": "Parties that may or should contribute or have contributed information to the adverse event, which can consist of one or more activities.  Such information includes information leading to the decision to perform the activity and how to perform the activity (e.g. consultant), information that the activity itself seeks to reveal (e.g. informant of clinical history), or information about what activity was performed (e.g. informant witness).",
               "type": "display"
             },
@@ -1133,6 +1159,7 @@
                   }
                 }
               ],
+              "linkId": "AdverseEvent.suspectEntity-flyover",
               "text": "Describes the entity that is suspected to have caused the adverse event.",
               "type": "display"
             },
@@ -1167,6 +1194,7 @@
                       }
                     }
                   ],
+                  "linkId": "AdverseEvent.suspectEntity.id-flyover",
                   "text": "Unique id for the element within a resource (for internal references). This may be any string value that does not contain spaces.",
                   "type": "display"
                 },
@@ -1201,6 +1229,7 @@
                       }
                     }
                   ],
+                  "linkId": "AdverseEvent.suspectEntity.extension-flyover",
                   "text": "May be used to represent additional information that is not part of the basic definition of the element. To make the use of extensions safe and manageable, there is a strict set of governance  applied to the definition and use of extensions. Though any implementer can define an extension, there is a set of requirements that SHALL be met as part of the definition of the extension. There can be no stigma associated with the use of extensions by any application, project, or standard - regardless of the institution or jurisdiction that uses or defines the extensions.  The use of extensions is what allows the FHIR specification to retain a core level of simplicity for everyone.",
                   "type": "display"
                 }
@@ -1228,6 +1257,7 @@
                       }
                     }
                   ],
+                  "linkId": "AdverseEvent.suspectEntity.modifierExtension-flyover",
                   "text": "May be used to represent additional information that is not part of the basic definition of the element and that modifies the understanding of the element in which it is contained and/or the understanding of the containing element\u0027s descendants. Usually modifier elements provide negation or qualification. To make the use of extensions safe and manageable, there is a strict set of governance applied to the definition and use of extensions. Though any implementer can define an extension, there is a set of requirements that SHALL be met as part of the definition of the extension. Applications processing a resource are required to check for modifier extensions.\n\nModifier extensions SHALL NOT change the meaning of any elements on Resource or DomainResource (including cannot change the meaning of modifierExtension itself). There can be no stigma associated with the use of extensions by any application, project, or standard - regardless of the institution or jurisdiction that uses or defines the extensions.  The use of extensions is what allows the FHIR specification to retain a core level of simplicity for everyone.",
                   "type": "display"
                 }
@@ -1268,6 +1298,7 @@
                       }
                     }
                   ],
+                  "linkId": "AdverseEvent.suspectEntity.instance-flyover",
                   "text": "Identifies the actual instance of what caused the adverse event.  May be a substance, medication, medication administration, medication statement or a device.",
                   "type": "display"
                 },
@@ -1312,6 +1343,7 @@
                       }
                     }
                   ],
+                  "linkId": "AdverseEvent.suspectEntity.causality-flyover",
                   "text": "Information on the possible cause of the event.",
                   "type": "display"
                 },
@@ -1346,6 +1378,7 @@
                           }
                         }
                       ],
+                      "linkId": "AdverseEvent.suspectEntity.causality.id-flyover",
                       "text": "Unique id for the element within a resource (for internal references). This may be any string value that does not contain spaces.",
                       "type": "display"
                     },
@@ -1380,6 +1413,7 @@
                           }
                         }
                       ],
+                      "linkId": "AdverseEvent.suspectEntity.causality.extension-flyover",
                       "text": "May be used to represent additional information that is not part of the basic definition of the element. To make the use of extensions safe and manageable, there is a strict set of governance  applied to the definition and use of extensions. Though any implementer can define an extension, there is a set of requirements that SHALL be met as part of the definition of the extension. There can be no stigma associated with the use of extensions by any application, project, or standard - regardless of the institution or jurisdiction that uses or defines the extensions.  The use of extensions is what allows the FHIR specification to retain a core level of simplicity for everyone.",
                       "type": "display"
                     }
@@ -1407,6 +1441,7 @@
                           }
                         }
                       ],
+                      "linkId": "AdverseEvent.suspectEntity.causality.modifierExtension-flyover",
                       "text": "May be used to represent additional information that is not part of the basic definition of the element and that modifies the understanding of the element in which it is contained and/or the understanding of the containing element\u0027s descendants. Usually modifier elements provide negation or qualification. To make the use of extensions safe and manageable, there is a strict set of governance applied to the definition and use of extensions. Though any implementer can define an extension, there is a set of requirements that SHALL be met as part of the definition of the extension. Applications processing a resource are required to check for modifier extensions.\n\nModifier extensions SHALL NOT change the meaning of any elements on Resource or DomainResource (including cannot change the meaning of modifierExtension itself). There can be no stigma associated with the use of extensions by any application, project, or standard - regardless of the institution or jurisdiction that uses or defines the extensions.  The use of extensions is what allows the FHIR specification to retain a core level of simplicity for everyone.",
                       "type": "display"
                     }
@@ -1444,13 +1479,14 @@
                           }
                         }
                       ],
+                      "linkId": "AdverseEvent.suspectEntity.causality.assessment-flyover",
                       "text": "Assessment of if the entity caused the event.",
                       "type": "display"
                     },
                     {
                       "linkId": "AdverseEvent.suspectEntity.causality.assessment.coding",
                       "text": "code:",
-                      "type": "open-choice",
+                      "type": "choice",
                       "required": false,
                       "repeats": false
                     },
@@ -1494,6 +1530,7 @@
                           }
                         }
                       ],
+                      "linkId": "AdverseEvent.suspectEntity.causality.productRelatedness-flyover",
                       "text": "AdverseEvent.suspectEntity.causalityProductRelatedness.",
                       "type": "display"
                     },
@@ -1537,6 +1574,7 @@
                           }
                         }
                       ],
+                      "linkId": "AdverseEvent.suspectEntity.causality.author-flyover",
                       "text": "AdverseEvent.suspectEntity.causalityAuthor.",
                       "type": "display"
                     },
@@ -1591,13 +1629,14 @@
                           }
                         }
                       ],
+                      "linkId": "AdverseEvent.suspectEntity.causality.method-flyover",
                       "text": "ProbabilityScale | Bayesian | Checklist.",
                       "type": "display"
                     },
                     {
                       "linkId": "AdverseEvent.suspectEntity.causality.method.coding",
                       "text": "code:",
-                      "type": "open-choice",
+                      "type": "choice",
                       "required": false,
                       "repeats": false
                     },
@@ -1641,6 +1680,7 @@
                   }
                 }
               ],
+              "linkId": "AdverseEvent.subjectMedicalHistory-flyover",
               "text": "AdverseEvent.subjectMedicalHistory.",
               "type": "display"
             },
@@ -1690,6 +1730,7 @@
                   }
                 }
               ],
+              "linkId": "AdverseEvent.referenceDocument-flyover",
               "text": "AdverseEvent.referenceDocument.",
               "type": "display"
             },
@@ -1739,6 +1780,7 @@
                   }
                 }
               ],
+              "linkId": "AdverseEvent.study-flyover",
               "text": "AdverseEvent.study.",
               "type": "display"
             },

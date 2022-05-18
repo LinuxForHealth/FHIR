@@ -1,0 +1,579 @@
+{
+    "resourceType": "CodeSystem",
+    "id": "v2-0702",
+    "text": {
+        "status": "empty",
+        "div": "<div xmlns=\"http://www.w3.org/1999/xhtml\">Redacted for size</div>"
+    },
+    "extension": [
+        {
+            "url": "http://hl7.org/fhir/StructureDefinition/structuredefinition-wg",
+            "valueCode": "oo"
+        }
+    ],
+    "url": "http://terminology.hl7.org/CodeSystem/v2-0702",
+    "identifier": [
+        {
+            "system": "urn:ietf:rfc:3986",
+            "value": "urn:oid:2.16.840.1.113883.18.387"
+        }
+    ],
+    "version": "2.1.0",
+    "name": "CycleType",
+    "title": "cycleType",
+    "status": "active",
+    "experimental": false,
+    "date": "2019-12-01",
+    "publisher": "HL7, Inc",
+    "contact": [
+        {
+            "telecom": [
+                {
+                    "system": "url",
+                    "value": "http://www.hl7.org/"
+                }
+            ]
+        }
+    ],
+    "description": "Code system of concepts  specifying the type of cycle that is being executed.  A cycle type is a specific sterilization method used for a specific type of supply item.  Used in HL7 Version 2.x messaging in the SCD segment.",
+    "purpose": "Underlying Master Code System for V2 table 0702 (Cycle Type)",
+    "copyright": "Copyright HL7. Licensed under creative commons public domain",
+    "caseSensitive": true,
+    "valueSet": "http://terminology.hl7.org/ValueSet/v2-0702",
+    "hierarchyMeaning": "is-a",
+    "compositional": false,
+    "versionNeeded": false,
+    "content": "complete",
+    "property": [
+        {
+            "code": "status",
+            "uri": "http://terminology.hl7.org/CodeSystem/utg-concept-properties#status",
+            "description": "Status of the concept",
+            "type": "code"
+        },
+        {
+            "code": "deprecated",
+            "uri": "http://terminology.hl7.org/CodeSystem/utg-concept-properties#v2-table-deprecated",
+            "description": "Version of HL7 in which the code was deprecated",
+            "type": "code"
+        },
+        {
+            "code": "v2-concComment",
+            "uri": "http://terminology.hl7.org/CodeSystem/utg-concept-properties#v2-concComment",
+            "description": "V2 Concept Comment",
+            "type": "string"
+        },
+        {
+            "code": "v2-concCommentAsPub",
+            "uri": "http://terminology.hl7.org/CodeSystem/utg-concept-properties#v2-concCommentAsPub",
+            "description": "V2 Concept Comment As Published",
+            "type": "string"
+        }
+    ],
+    "concept": [
+        {
+            "id": "6296",
+            "code": "FLS",
+            "display": "Flash",
+            "definition": "Flash",
+            "property": [
+                {
+                    "code": "v2-concComment",
+                    "valueString": "Used to quickly sterilize instruments that were dropped during surgery."
+                },
+                {
+                    "code": "v2-concCommentAsPub",
+                    "valueString": "Used to quickly sterilize instruments that were dropped during surgery."
+                },
+                {
+                    "code": "status",
+                    "valueCode": "A"
+                }
+            ]
+        },
+        {
+            "id": "6297",
+            "code": "PRV",
+            "display": "Prevac",
+            "definition": "Prevac",
+            "property": [
+                {
+                    "code": "v2-concComment",
+                    "valueString": "A prevac cycle is vacuum assisted."
+                },
+                {
+                    "code": "v2-concCommentAsPub",
+                    "valueString": "A prevac cycle is vacuum assisted."
+                },
+                {
+                    "code": "status",
+                    "valueCode": "A"
+                }
+            ]
+        },
+        {
+            "id": "6298",
+            "code": "GRV",
+            "display": "Gravity",
+            "definition": "Gravity",
+            "property": [
+                {
+                    "code": "v2-concComment",
+                    "valueString": "A gravity cycle is executed at atmospheric pressure."
+                },
+                {
+                    "code": "v2-concCommentAsPub",
+                    "valueString": "A gravity cycle is executed at atmospheric pressure."
+                },
+                {
+                    "code": "status",
+                    "valueCode": "A"
+                }
+            ]
+        },
+        {
+            "id": "6299",
+            "code": "LQD",
+            "display": "Liquid",
+            "definition": "Liquid",
+            "property": [
+                {
+                    "code": "v2-concComment",
+                    "valueString": "A cycle specific to sterilizing liquids."
+                },
+                {
+                    "code": "v2-concCommentAsPub",
+                    "valueString": "A cycle specific to sterilizing liquids."
+                },
+                {
+                    "code": "status",
+                    "valueCode": "A"
+                }
+            ]
+        },
+        {
+            "id": "6300",
+            "code": "EXP",
+            "display": "Express",
+            "definition": "Express",
+            "property": [
+                {
+                    "code": "v2-concComment",
+                    "valueString": "An express cycle is similar to a flash cycle but the supply item is wrapped."
+                },
+                {
+                    "code": "v2-concCommentAsPub",
+                    "valueString": "An express cycle is similar to a flash cycle but the supply item is wrapped."
+                },
+                {
+                    "code": "status",
+                    "valueCode": "A"
+                }
+            ]
+        },
+        {
+            "id": "6301",
+            "code": "DRT",
+            "display": "Dart",
+            "definition": "Dart",
+            "property": [
+                {
+                    "code": "v2-concComment",
+                    "valueString": "A dart cycle is a special cycle used to test the integrity of the sterilizer chamber to hold a vacuum."
+                },
+                {
+                    "code": "v2-concCommentAsPub",
+                    "valueString": "A dart cycle is a special cycle used to test the integrity of the sterilizer chamber to hold a vacuum."
+                },
+                {
+                    "code": "status",
+                    "valueCode": "A"
+                }
+            ]
+        },
+        {
+            "id": "6302",
+            "code": "DRW",
+            "display": "Dart Warm-up Cycle",
+            "definition": "Dart Warm-up Cycle",
+            "property": [
+                {
+                    "code": "v2-concComment",
+                    "valueString": "A dart warm-up cycle is used to bring the sterilizer chamber up to operating temperature in order to run a dart test cycle."
+                },
+                {
+                    "code": "v2-concCommentAsPub",
+                    "valueString": "A dart warm-up cycle is used to bring the sterilizer chamber up to operating temperature in order to run a dart test cycle."
+                },
+                {
+                    "code": "status",
+                    "valueCode": "A"
+                }
+            ]
+        },
+        {
+            "id": "6303",
+            "code": "THR",
+            "display": "Thermal",
+            "definition": "Thermal",
+            "property": [
+                {
+                    "code": "status",
+                    "valueCode": "A"
+                }
+            ]
+        },
+        {
+            "id": "6304",
+            "code": "ISO",
+            "display": "Isothermal",
+            "definition": "Isothermal",
+            "property": [
+                {
+                    "code": "status",
+                    "valueCode": "A"
+                }
+            ]
+        },
+        {
+            "id": "6305",
+            "code": "BWD",
+            "display": "Bowie-Dick Test",
+            "definition": "Bowie-Dick Test",
+            "property": [
+                {
+                    "code": "v2-concComment",
+                    "valueString": "A Bowie-Dick test cycle is a special cycle used to test the integrity of the sterilizer chamber to hold a vacuum."
+                },
+                {
+                    "code": "v2-concCommentAsPub",
+                    "valueString": "A Bowie-Dick test cycle is a special cycle used to test the integrity of the sterilizer chamber to hold a vacuum."
+                },
+                {
+                    "code": "status",
+                    "valueCode": "A"
+                }
+            ]
+        },
+        {
+            "id": "6306",
+            "code": "LKT",
+            "display": "Leak Test",
+            "definition": "Leak Test",
+            "property": [
+                {
+                    "code": "v2-concComment",
+                    "valueString": "A leak test cycle tests the integrity of the sterilizer chamber to hold a vacuum over a specific period of time."
+                },
+                {
+                    "code": "v2-concCommentAsPub",
+                    "valueString": "A leak test cycle tests the integrity of the sterilizer chamber to hold a vacuum over a specific period of time."
+                },
+                {
+                    "code": "status",
+                    "valueCode": "A"
+                }
+            ]
+        },
+        {
+            "id": "6307",
+            "code": "WFP",
+            "display": "Wrap/Steam Flush Pressure Pulse (Wrap/SFPP)",
+            "definition": "Wrap/Steam Flush Pressure Pulse (Wrap/SFPP)",
+            "property": [
+                {
+                    "code": "v2-concComment",
+                    "valueString": "A Wrap/SFPP cycle uses steam pulses instead of a vacuum during the conditioning phase of the cycle when the supply item is unwrapped."
+                },
+                {
+                    "code": "v2-concCommentAsPub",
+                    "valueString": "A Wrap/SFPP cycle uses steam pulses instead of a vacuum during the conditioning phase of the cycle when the supply item is unwrapped."
+                },
+                {
+                    "code": "status",
+                    "valueCode": "A"
+                }
+            ]
+        },
+        {
+            "id": "6308",
+            "code": "SFP",
+            "display": "Steam Flush Pressure Pulse",
+            "definition": "Steam Flush Pressure Pulse",
+            "property": [
+                {
+                    "code": "v2-concComment",
+                    "valueString": "An SFPP cycle uses steam pulses instead of a vacuum during the conditioning phase of the cycle when the supply item is wrapped."
+                },
+                {
+                    "code": "v2-concCommentAsPub",
+                    "valueString": "An SFPP cycle uses steam pulses instead of a vacuum during the conditioning phase of the cycle when the supply item is wrapped."
+                },
+                {
+                    "code": "status",
+                    "valueCode": "A"
+                }
+            ]
+        },
+        {
+            "id": "6309",
+            "code": "CMW",
+            "display": "Chemical Wash",
+            "definition": "Chemical Wash",
+            "property": [
+                {
+                    "code": "v2-concComment",
+                    "valueString": "A chemical wash cycle."
+                },
+                {
+                    "code": "v2-concCommentAsPub",
+                    "valueString": "A chemical wash cycle."
+                },
+                {
+                    "code": "status",
+                    "valueCode": "A"
+                }
+            ]
+        },
+        {
+            "id": "6310",
+            "code": "PEA",
+            "display": "Peracetic Acid",
+            "definition": "Peracetic Acid",
+            "property": [
+                {
+                    "code": "v2-concComment",
+                    "valueString": "A peracetic acid cycle."
+                },
+                {
+                    "code": "v2-concCommentAsPub",
+                    "valueString": "A peracetic acid cycle."
+                },
+                {
+                    "code": "status",
+                    "valueCode": "A"
+                }
+            ]
+        },
+        {
+            "id": "6311",
+            "code": "EOH",
+            "display": "EO High Temperature",
+            "definition": "EO High Temperature",
+            "property": [
+                {
+                    "code": "status",
+                    "valueCode": "A"
+                }
+            ]
+        },
+        {
+            "id": "6312",
+            "code": "EOL",
+            "display": "EO Low Temperature",
+            "definition": "EO Low Temperature",
+            "property": [
+                {
+                    "code": "status",
+                    "valueCode": "A"
+                }
+            ]
+        },
+        {
+            "id": "6313",
+            "code": "CRT",
+            "display": "Cart Wash",
+            "definition": "Cart Wash",
+            "property": [
+                {
+                    "code": "status",
+                    "valueCode": "A"
+                }
+            ]
+        },
+        {
+            "id": "6314",
+            "code": "UTL",
+            "display": "Utensil Wash",
+            "definition": "Utensil Wash",
+            "property": [
+                {
+                    "code": "status",
+                    "valueCode": "A"
+                }
+            ]
+        },
+        {
+            "id": "6315",
+            "code": "IST",
+            "display": "Instrument Wash",
+            "definition": "Instrument Wash",
+            "property": [
+                {
+                    "code": "status",
+                    "valueCode": "A"
+                }
+            ]
+        },
+        {
+            "id": "6316",
+            "code": "GLS",
+            "display": "Glassware",
+            "definition": "Glassware",
+            "property": [
+                {
+                    "code": "status",
+                    "valueCode": "A"
+                }
+            ]
+        },
+        {
+            "id": "6317",
+            "code": "PLA",
+            "display": "Plastic Goods Wash",
+            "definition": "Plastic Goods Wash",
+            "property": [
+                {
+                    "code": "status",
+                    "valueCode": "A"
+                }
+            ]
+        },
+        {
+            "id": "6318",
+            "code": "ANR",
+            "display": "Anesthesia/Respiratory",
+            "definition": "Anesthesia/Respiratory",
+            "property": [
+                {
+                    "code": "v2-concComment",
+                    "valueString": "Special Wash cycle"
+                },
+                {
+                    "code": "v2-concCommentAsPub",
+                    "valueString": "Special Wash cycle"
+                },
+                {
+                    "code": "status",
+                    "valueCode": "A"
+                }
+            ]
+        },
+        {
+            "id": "6319",
+            "code": "GTL",
+            "display": "Gentle",
+            "definition": "Gentle",
+            "property": [
+                {
+                    "code": "status",
+                    "valueCode": "A"
+                }
+            ]
+        },
+        {
+            "id": "6320",
+            "code": "OPW",
+            "display": "Optional Wash",
+            "definition": "Optional Wash",
+            "property": [
+                {
+                    "code": "v2-concComment",
+                    "valueString": "Any Optional Wash cycle"
+                },
+                {
+                    "code": "v2-concCommentAsPub",
+                    "valueString": "Any Optional Wash cycle"
+                },
+                {
+                    "code": "status",
+                    "valueCode": "A"
+                }
+            ]
+        },
+        {
+            "id": "6321",
+            "code": "BDP",
+            "display": "Bedpans",
+            "definition": "Bedpans",
+            "property": [
+                {
+                    "code": "status",
+                    "valueCode": "A"
+                }
+            ]
+        },
+        {
+            "id": "6322",
+            "code": "TRB",
+            "display": "Tray/Basin",
+            "definition": "Tray/Basin",
+            "property": [
+                {
+                    "code": "status",
+                    "valueCode": "A"
+                }
+            ]
+        },
+        {
+            "id": "6323",
+            "code": "GNP",
+            "display": "Gen. Purpose",
+            "definition": "Gen. Purpose",
+            "property": [
+                {
+                    "code": "status",
+                    "valueCode": "A"
+                }
+            ]
+        },
+        {
+            "id": "6324",
+            "code": "COD",
+            "display": "Code",
+            "definition": "Code",
+            "property": [
+                {
+                    "code": "status",
+                    "valueCode": "A"
+                }
+            ]
+        },
+        {
+            "id": "6325",
+            "code": "RNS",
+            "display": "Rinse",
+            "definition": "Rinse",
+            "property": [
+                {
+                    "code": "status",
+                    "valueCode": "A"
+                }
+            ]
+        },
+        {
+            "id": "6326",
+            "code": "2RS",
+            "display": "Second Rinse",
+            "definition": "Second Rinse",
+            "property": [
+                {
+                    "code": "status",
+                    "valueCode": "A"
+                }
+            ]
+        },
+        {
+            "id": "6327",
+            "code": "DEC",
+            "display": "Decontamination",
+            "definition": "Decontamination",
+            "property": [
+                {
+                    "code": "status",
+                    "valueCode": "A"
+                }
+            ]
+        }
+    ]
+}

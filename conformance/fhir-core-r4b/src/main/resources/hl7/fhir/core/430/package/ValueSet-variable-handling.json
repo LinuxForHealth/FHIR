@@ -1,0 +1,102 @@
+{
+    "resourceType": "ValueSet",
+    "id": "variable-handling",
+    "meta": {
+        "lastUpdated": "2022-04-24T09:21:35.043+11:00",
+        "profile": [
+            "http://hl7.org/fhir/StructureDefinition/shareablevalueset"
+        ]
+    },
+    "extension": [
+        {
+            "url": "http://hl7.org/fhir/StructureDefinition/structuredefinition-wg",
+            "valueCode": "cds"
+        },
+        {
+            "url": "http://hl7.org/fhir/StructureDefinition/structuredefinition-standards-status",
+            "valueCode": "trial-use"
+        },
+        {
+            "url": "http://hl7.org/fhir/StructureDefinition/structuredefinition-fmm",
+            "valueInteger": 5
+        }
+    ],
+    "url": "http://hl7.org/fhir/ValueSet/variable-handling",
+    "identifier": [
+        {
+            "system": "urn:ietf:rfc:3986",
+            "value": "urn:oid:2.16.840.1.113883.4.642.3.0"
+        }
+    ],
+    "version": "4.3.0-cibuild",
+    "name": "EvidenceVariableHandling",
+    "title": "EvidenceVariableHandling",
+    "status": "draft",
+    "experimental": true,
+    "date": "2020-12-28T16:55:11+11:00",
+    "publisher": "HL7 (FHIR Project)",
+    "contact": [
+        {
+            "telecom": [
+                {
+                    "system": "url",
+                    "value": "http://hl7.org/fhir"
+                },
+                {
+                    "system": "email",
+                    "value": "fhir@lists.hl7.org"
+                }
+            ]
+        }
+    ],
+    "description": "The handling of the variable in statistical analysis for exposures or outcomes (E.g. Dichotomous, Continuous, Descriptive).",
+    "immutable": true,
+    "compose": {
+        "include": [
+            {
+                "system": "http://hl7.org/fhir/variable-handling"
+            }
+        ]
+    },
+    "expansion": {
+        "identifier": "urn:uuid:9e76f2b7-e41e-4a00-b794-a27ef0f21bff",
+        "timestamp": "2022-04-23T22:23:07Z",
+        "total": 4,
+        "parameter": [
+            {
+                "name": "excludeNested",
+                "valueBoolean": true
+            },
+            {
+                "name": "includeDesignations",
+                "valueBoolean": true
+            },
+            {
+                "name": "version",
+                "valueUri": "http://hl7.org/fhir/variable-handling|4.3.0-cibuild"
+            }
+        ],
+        "contains": [
+            {
+                "system": "http://hl7.org/fhir/variable-handling",
+                "code": "continuous",
+                "display": "continuous variable"
+            },
+            {
+                "system": "http://hl7.org/fhir/variable-handling",
+                "code": "dichotomous",
+                "display": "dichotomous variable"
+            },
+            {
+                "system": "http://hl7.org/fhir/variable-handling",
+                "code": "ordinal",
+                "display": "ordinal variable"
+            },
+            {
+                "system": "http://hl7.org/fhir/variable-handling",
+                "code": "polychotomous",
+                "display": "polychotomous variable"
+            }
+        ]
+    }
+}

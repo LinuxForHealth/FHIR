@@ -1,0 +1,213 @@
+{
+  "resourceType": "PackagedProductDefinition",
+  "id": "example",
+  "text": {
+    "status": "generated",
+    "div": "\u003cdiv xmlns\u003d\"http://www.w3.org/1999/xhtml\"\u003e\u003cp\u003e\u003cb\u003eGenerated Narrative\u003c/b\u003e\u003c/p\u003e\u003cdiv style\u003d\"display: inline-block; background-color: #d9e0e7; padding: 6px; margin: 4px; border: 1px solid #8da1b4; border-radius: 5px; line-height: 60%\"\u003e\u003cp style\u003d\"margin-bottom: 0px\"\u003eResource \u0026quot;example\u0026quot; \u003c/p\u003e\u003c/div\u003e\u003cp\u003e\u003cb\u003eidentifier\u003c/b\u003e: id: {PCID}\u003c/p\u003e\u003cp\u003e\u003cb\u003edescription\u003c/b\u003e: ALU-PVC/PVDC BLISTERS. CARTONS OF 10 FILM-COATED TABLETS.\u003c/p\u003e\u003cblockquote\u003e\u003cp\u003e\u003cb\u003epackage\u003c/b\u003e\u003c/p\u003e\u003cp\u003e\u003cb\u003etype\u003c/b\u003e: Carton \u003cspan style\u003d\"background: LightGoldenRodYellow; margin: 4px; border: 1px solid khaki\"\u003e (packageitemcontainertype#Carton)\u003c/span\u003e\u003c/p\u003e\u003cp\u003e\u003cb\u003equantity\u003c/b\u003e: 1\u003c/p\u003e\u003cp\u003e\u003cb\u003ematerial\u003c/b\u003e: Paperboard \u003cspan style\u003d\"background: LightGoldenRodYellow; margin: 4px; border: 1px solid khaki\"\u003e (packageItemContainerMaterial#Paperboard)\u003c/span\u003e\u003c/p\u003e\u003cp\u003e\u003cb\u003emanufacturer\u003c/b\u003e: \u003ca href\u003d\"todo.html\"\u003eOrganization/example\u003c/a\u003e\u003c/p\u003e\u003cblockquote\u003e\u003cp\u003e\u003cb\u003eproperty\u003c/b\u003e\u003c/p\u003e\u003cp\u003e\u003cb\u003etype\u003c/b\u003e: height \u003cspan style\u003d\"background: LightGoldenRodYellow; margin: 4px; border: 1px solid khaki\"\u003e ([not stated]#height)\u003c/span\u003e\u003c/p\u003e\u003cp\u003e\u003cb\u003evalue\u003c/b\u003e: 50 mm\u003cspan style\u003d\"background: LightGoldenRodYellow\"\u003e (Details: UCUM code mm \u003d \u0027mm\u0027)\u003c/span\u003e\u003c/p\u003e\u003c/blockquote\u003e\u003cblockquote\u003e\u003cp\u003e\u003cb\u003eproperty\u003c/b\u003e\u003c/p\u003e\u003cp\u003e\u003cb\u003etype\u003c/b\u003e: width \u003cspan style\u003d\"background: LightGoldenRodYellow; margin: 4px; border: 1px solid khaki\"\u003e ([not stated]#width)\u003c/span\u003e\u003c/p\u003e\u003cp\u003e\u003cb\u003evalue\u003c/b\u003e: 45 mm\u003cspan style\u003d\"background: LightGoldenRodYellow\"\u003e (Details: UCUM code mm \u003d \u0027mm\u0027)\u003c/span\u003e\u003c/p\u003e\u003c/blockquote\u003e\u003cblockquote\u003e\u003cp\u003e\u003cb\u003eproperty\u003c/b\u003e\u003c/p\u003e\u003cp\u003e\u003cb\u003etype\u003c/b\u003e: depth \u003cspan style\u003d\"background: LightGoldenRodYellow; margin: 4px; border: 1px solid khaki\"\u003e ([not stated]#depth)\u003c/span\u003e\u003c/p\u003e\u003cp\u003e\u003cb\u003evalue\u003c/b\u003e: 23.5 mm\u003cspan style\u003d\"background: LightGoldenRodYellow\"\u003e (Details: UCUM code mm \u003d \u0027mm\u0027)\u003c/span\u003e\u003c/p\u003e\u003c/blockquote\u003e\u003cblockquote\u003e\u003cp\u003e\u003cb\u003epackage\u003c/b\u003e\u003c/p\u003e\u003cp\u003e\u003cb\u003etype\u003c/b\u003e: Blister \u003cspan style\u003d\"background: LightGoldenRodYellow; margin: 4px; border: 1px solid khaki\"\u003e (packageitemcontainertype#Blister)\u003c/span\u003e\u003c/p\u003e\u003cp\u003e\u003cb\u003equantity\u003c/b\u003e: 1\u003c/p\u003e\u003cp\u003e\u003cb\u003ematerial\u003c/b\u003e: PVC \u003cspan style\u003d\"background: LightGoldenRodYellow; margin: 4px; border: 1px solid khaki\"\u003e (packageItemContainerMaterial#PVC)\u003c/span\u003e, PVDC \u003cspan style\u003d\"background: LightGoldenRodYellow; margin: 4px; border: 1px solid khaki\"\u003e (packageItemContainerMaterial#PVDC)\u003c/span\u003e, alu \u003cspan style\u003d\"background: LightGoldenRodYellow; margin: 4px; border: 1px solid khaki\"\u003e (packageItemContainerMaterial#alu)\u003c/span\u003e\u003c/p\u003e\u003cp\u003e\u003cb\u003emanufacturer\u003c/b\u003e: \u003ca href\u003d\"todo.html\"\u003eOrganization/example\u003c/a\u003e\u003c/p\u003e\u003c/blockquote\u003e\u003c/blockquote\u003e\u003c/div\u003e"
+  },
+  "identifier": [
+    {
+      "system": "http://ema.europa.eu/example/pcid",
+      "value": "{PCID}"
+    }
+  ],
+  "description": "ALU-PVC/PVDC BLISTERS. CARTONS OF 10 FILM-COATED TABLETS.",
+  "package": {
+    "type": {
+      "coding": [
+        {
+          "system": "http://ema.europa.eu/example/packageitemcontainertype",
+          "code": "Carton"
+        }
+      ]
+    },
+    "quantity": 1,
+    "material": [
+      {
+        "coding": [
+          {
+            "system": "http://ema.europa.eu/example/packageItemContainerMaterial",
+            "code": "Paperboard"
+          }
+        ]
+      }
+    ],
+    "manufacturer": [
+      {
+        "reference": "Organization/example"
+      }
+    ],
+    "property": [
+      {
+        "type": {
+          "coding": [
+            {
+              "code": "height"
+            }
+          ]
+        },
+        "valueQuantity": {
+          "value": 50,
+          "unit": "mm",
+          "system": "http://unitsofmeasure.org",
+          "code": "mm"
+        }
+      },
+      {
+        "type": {
+          "coding": [
+            {
+              "code": "width"
+            }
+          ]
+        },
+        "valueQuantity": {
+          "value": 45,
+          "unit": "mm",
+          "system": "http://unitsofmeasure.org",
+          "code": "mm"
+        }
+      },
+      {
+        "type": {
+          "coding": [
+            {
+              "code": "depth"
+            }
+          ]
+        },
+        "valueQuantity": {
+          "value": 23.5,
+          "unit": "mm",
+          "system": "http://unitsofmeasure.org",
+          "code": "mm"
+        }
+      }
+    ],
+    "package": [
+      {
+        "type": {
+          "coding": [
+            {
+              "system": "http://ema.europa.eu/example/packageitemcontainertype",
+              "code": "Blister"
+            }
+          ]
+        },
+        "quantity": 1,
+        "material": [
+          {
+            "coding": [
+              {
+                "system": "http://ema.europa.eu/example/packageItemContainerMaterial",
+                "code": "PVC"
+              }
+            ]
+          },
+          {
+            "coding": [
+              {
+                "system": "http://ema.europa.eu/example/packageItemContainerMaterial",
+                "code": "PVDC"
+              }
+            ]
+          },
+          {
+            "coding": [
+              {
+                "system": "http://ema.europa.eu/example/packageItemContainerMaterial",
+                "code": "alu"
+              }
+            ]
+          }
+        ],
+        "shelfLifeStorage": [
+          {
+            "type": {
+              "coding": [
+                {
+                  "system": "http://ema.europa.eu/example/shelfLifeTypePlaceHolder",
+                  "code": "ShelfLifeofPackagedMedicinalProduct"
+                }
+              ]
+            },
+            "periodDuration": {
+              "value": 3,
+              "unit": "year",
+              "system": "http://unitsofmeasure.org",
+              "code": "a"
+            },
+            "specialPrecautionsForStorage": [
+              {
+                "coding": [
+                  {
+                    "system": "http://ema.europa.eu/example/specialprecautionsforstorage",
+                    "code": "none"
+                  }
+                ]
+              }
+            ]
+          }
+        ],
+        "manufacturer": [
+          {
+            "reference": "Organization/example"
+          }
+        ],
+        "property": [
+          {
+            "type": {
+              "coding": [
+                {
+                  "code": "height"
+                }
+              ]
+            },
+            "valueQuantity": {
+              "value": 45,
+              "unit": "mm",
+              "system": "http://unitsofmeasure.org",
+              "code": "mm"
+            }
+          },
+          {
+            "type": {
+              "coding": [
+                {
+                  "code": "width"
+                }
+              ]
+            },
+            "valueQuantity": {
+              "value": 35,
+              "unit": "mm",
+              "system": "http://unitsofmeasure.org",
+              "code": "mm"
+            }
+          }
+        ],
+        "containedItem": [
+          {
+            "item": {
+              "reference": {
+                "reference": "ManufacturedItemDefinition/tablet"
+              }
+            },
+            "amount": {
+              "value": 10
+            }
+          }
+        ]
+      }
+    ]
+  },
+  "meta": {
+    "tag": [
+      {
+        "system": "http://terminology.hl7.org/CodeSystem/v3-ActReason",
+        "code": "HTEST",
+        "display": "test health data"
+      }
+    ]
+  }
+}

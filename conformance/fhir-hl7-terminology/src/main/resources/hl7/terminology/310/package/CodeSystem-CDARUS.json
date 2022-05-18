@@ -1,0 +1,24 @@
+{
+    "resourceType": "CodeSystem",
+    "id": "CDARUS",
+    "text": {
+        "status": "empty",
+        "div": "<div xmlns=\"http://www.w3.org/1999/xhtml\">Redacted for size</div>"
+    },
+    "url": "http://terminology.hl7.org/CodeSystem/CDARUS",
+    "identifier": [
+        {
+            "system": "urn:ietf:rfc:3986",
+            "value": "urn:oid:2.16.840.1.113883.6.239"
+        }
+    ],
+    "version": "2.0.0",
+    "name": "CDARUS",
+    "title": "CDA_RUS",
+    "status": "retired",
+    "experimental": false,
+    "date": "2021-11-09T10:00:00+10:00",
+    "publisher": "TBD - External Body",
+    "description": "Coding system intended for use in the Russian clinical documents",
+    "content": "not-present"
+}

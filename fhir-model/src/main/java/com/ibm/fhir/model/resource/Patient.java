@@ -1,5 +1,5 @@
 /*
- * (C) Copyright IBM Corp. 2019, 2021
+ * (C) Copyright IBM Corp. 2019, 2022
  *
  * SPDX-License-Identifier: Apache-2.0
  */
@@ -107,7 +107,7 @@ public class Patient extends DomainResource {
         bindingName = "AdministrativeGender",
         strength = BindingStrength.Value.REQUIRED,
         description = "The gender of a person used for administrative purposes.",
-        valueSet = "http://hl7.org/fhir/ValueSet/administrative-gender|4.0.1"
+        valueSet = "http://hl7.org/fhir/ValueSet/administrative-gender|4.3.0-cibuild"
     )
     private final AdministrativeGender gender;
     @Summary
@@ -1335,7 +1335,7 @@ public class Patient extends DomainResource {
             bindingName = "AdministrativeGender",
             strength = BindingStrength.Value.REQUIRED,
             description = "The gender of a person used for administrative purposes.",
-            valueSet = "http://hl7.org/fhir/ValueSet/administrative-gender|4.0.1"
+            valueSet = "http://hl7.org/fhir/ValueSet/administrative-gender|4.3.0-cibuild"
         )
         private final AdministrativeGender gender;
         @ReferenceTarget({ "Organization" })
@@ -1834,7 +1834,7 @@ public class Patient extends DomainResource {
         @Binding(
             bindingName = "Language",
             strength = BindingStrength.Value.PREFERRED,
-            description = "A human language.",
+            description = "IETF language tag",
             valueSet = "http://hl7.org/fhir/ValueSet/languages",
             maxValueSet = "http://hl7.org/fhir/ValueSet/all-languages"
         )
@@ -2154,7 +2154,7 @@ public class Patient extends DomainResource {
             bindingName = "LinkType",
             strength = BindingStrength.Value.REQUIRED,
             description = "The type of link between this patient resource and another patient resource.",
-            valueSet = "http://hl7.org/fhir/ValueSet/link-type|4.0.1"
+            valueSet = "http://hl7.org/fhir/ValueSet/link-type|4.3.0-cibuild"
         )
         @Required
         private final LinkType type;

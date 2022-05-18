@@ -1,0 +1,182 @@
+{
+  "resourceType": "CodeSystem",
+  "id": "citation-artifact-classifier",
+  "meta": {
+    "lastUpdated": "2022-04-24T09:21:35.043+11:00",
+    "profile": [
+      "http://hl7.org/fhir/StructureDefinition/shareablecodesystem"
+    ]
+  },
+  "text": {
+    "status": "generated",
+    "div": "\u003cdiv xmlns\u003d\"http://www.w3.org/1999/xhtml\"\u003e\n      \n      \n      \u003cp\u003eThis code system http://terminology.hl7.org/CodeSystem/citation-artifact-classifier defines the following codes:\u003c/p\u003e\n      \n      \n      \u003ctable class\u003d\"codes\"\u003e\n        \n        \n        \u003ctr\u003e\n          \n          \n          \u003ctd style\u003d\"white-space:nowrap\"\u003e\n            \n            \n            \u003cb\u003eCode\u003c/b\u003e\n          \n          \n          \u003c/td\u003e\n          \n          \n          \u003ctd\u003e\n            \n            \n            \u003cb\u003eDisplay\u003c/b\u003e\n          \n          \n          \u003c/td\u003e\n          \n          \n          \u003ctd\u003e\n            \n            \n            \u003cb\u003eDefinition\u003c/b\u003e\n          \n          \n          \u003c/td\u003e\n        \n        \n        \u003c/tr\u003e\n        \n        \u003ctr\u003e\n          \n          \u003ctd style\u003d\"white-space:nowrap\"\u003edataset\n            \n            \u003ca name\u003d\"citation-artifact-classifier-dataset\"\u003e \u003c/a\u003e\n          \n          \u003c/td\u003e\n          \n          \u003ctd\u003eDataset\u003c/td\u003e\n          \n          \u003ctd\u003eDataset\u003c/td\u003e\n        \n        \u003c/tr\u003e\n        \n        \u003ctr\u003e\n          \n          \u003ctd style\u003d\"white-space:nowrap\"\u003ewebpage\n            \n            \u003ca name\u003d\"citation-artifact-classifier-webpage\"\u003e \u003c/a\u003e\n          \n          \u003c/td\u003e\n          \n          \u003ctd\u003eWebpage\u003c/td\u003e\n          \n          \u003ctd\u003eWebpage\u003c/td\u003e\n        \n        \u003c/tr\u003e\n        \n        \u003ctr\u003e\n          \n          \u003ctd style\u003d\"white-space:nowrap\"\u003eD016428\n            \n            \u003ca name\u003d\"citation-artifact-classifier-D016428\"\u003e \u003c/a\u003e\n          \n          \u003c/td\u003e\n          \n          \u003ctd\u003eJournal Article\u003c/td\u003e\n          \n          \u003ctd\u003eJournal Article\u003c/td\u003e\n        \n        \u003c/tr\u003e\n        \n        \u003ctr\u003e\n          \n          \u003ctd style\u003d\"white-space:nowrap\"\u003eD016422\n            \n            \u003ca name\u003d\"citation-artifact-classifier-D016422\"\u003e \u003c/a\u003e\n          \n          \u003c/td\u003e\n          \n          \u003ctd\u003eLetter\u003c/td\u003e\n          \n          \u003ctd\u003eLetter\u003c/td\u003e\n        \n        \u003c/tr\u003e\n        \n        \u003ctr\u003e\n          \n          \u003ctd style\u003d\"white-space:nowrap\"\u003eD016420\n            \n            \u003ca name\u003d\"citation-artifact-classifier-D016420\"\u003e \u003c/a\u003e\n          \n          \u003c/td\u003e\n          \n          \u003ctd\u003eComment\u003c/td\u003e\n          \n          \u003ctd\u003eComment\u003c/td\u003e\n        \n        \u003c/tr\u003e\n        \n        \u003ctr\u003e\n          \n          \u003ctd style\u003d\"white-space:nowrap\"\u003eD016425\n            \n            \u003ca name\u003d\"citation-artifact-classifier-D016425\"\u003e \u003c/a\u003e\n          \n          \u003c/td\u003e\n          \n          \u003ctd\u003ePublished Erratum\u003c/td\u003e\n          \n          \u003ctd\u003ePublished Erratum\u003c/td\u003e\n        \n        \u003c/tr\u003e\n        \n        \u003ctr\u003e\n          \n          \u003ctd style\u003d\"white-space:nowrap\"\u003eexecutable-app\n            \n            \u003ca name\u003d\"citation-artifact-classifier-executable-app\"\u003e \u003c/a\u003e\n          \n          \u003c/td\u003e\n          \n          \u003ctd\u003eExecutable app\u003c/td\u003e\n          \n          \u003ctd\u003eExecutable app\u003c/td\u003e\n        \n        \u003c/tr\u003e\n        \n        \u003ctr\u003e\n          \n          \u003ctd style\u003d\"white-space:nowrap\"\u003eD000076942\n            \n            \u003ca name\u003d\"citation-artifact-classifier-D000076942\"\u003e \u003c/a\u003e\n          \n          \u003c/td\u003e\n          \n          \u003ctd\u003ePreprint\u003c/td\u003e\n          \n          \u003ctd\u003eScientific manuscript made available prior to PEER REVIEW.\u003c/td\u003e\n        \n        \u003c/tr\u003e\n        \n        \u003ctr\u003e\n          \n          \u003ctd style\u003d\"white-space:nowrap\"\u003eD019991\n            \n            \u003ca name\u003d\"citation-artifact-classifier-D019991\"\u003e \u003c/a\u003e\n          \n          \u003c/td\u003e\n          \n          \u003ctd\u003eDatabase\u003c/td\u003e\n          \n          \u003ctd\u003eA structured file of information or a set of logically related data stored and retrieved using computer-based means.\u003c/td\u003e\n        \n        \u003c/tr\u003e\n        \n        \u003ctr\u003e\n          \n          \u003ctd style\u003d\"white-space:nowrap\"\u003eD001877\n            \n            \u003ca name\u003d\"citation-artifact-classifier-D001877\"\u003e \u003c/a\u003e\n          \n          \u003c/td\u003e\n          \n          \u003ctd\u003eBook\u003c/td\u003e\n          \n          \u003ctd\u003eNon-periodical written or printed works consisting of sheets of pages fastened or bound together within covers.\u003c/td\u003e\n        \n        \u003c/tr\u003e\n        \n        \u003ctr\u003e\n          \n          \u003ctd style\u003d\"white-space:nowrap\"\u003eD064886\n            \n            \u003ca name\u003d\"citation-artifact-classifier-D064886\"\u003e \u003c/a\u003e\n          \n          \u003c/td\u003e\n          \n          \u003ctd\u003eDataset\u003c/td\u003e\n          \n          \u003ctd\u003eWorks consisting of organized collections of data, which have been stored permanently in a formalized manner suitable for communication, interpretation, or processing.\u003c/td\u003e\n        \n        \u003c/tr\u003e\n        \n        \u003ctr\u003e\n          \n          \u003ctd style\u003d\"white-space:nowrap\"\u003e68059040\n            \n            \u003ca name\u003d\"citation-artifact-classifier-68059040\"\u003e \u003c/a\u003e\n          \n          \u003c/td\u003e\n          \n          \u003ctd\u003eVideo-Audio Media\u003c/td\u003e\n          \n          \u003ctd\u003eUsed with articles which include video files or clips, or for articles which are entirely video.\u003c/td\u003e\n        \n        \u003c/tr\u003e\n        \n        \u003ctr\u003e\n          \n          \u003ctd style\u003d\"white-space:nowrap\"\u003eaudio\n            \n            \u003ca name\u003d\"citation-artifact-classifier-audio\"\u003e \u003c/a\u003e\n          \n          \u003c/td\u003e\n          \n          \u003ctd\u003eAudio file\u003c/td\u003e\n          \n          \u003ctd\u003eThe article cited is an audio file.\u003c/td\u003e\n        \n        \u003c/tr\u003e\n        \n        \u003ctr\u003e\n          \n          \u003ctd style\u003d\"white-space:nowrap\"\u003eimage\n            \n            \u003ca name\u003d\"citation-artifact-classifier-image\"\u003e \u003c/a\u003e\n          \n          \u003c/td\u003e\n          \n          \u003ctd\u003eImage file\u003c/td\u003e\n          \n          \u003ctd\u003eThe article cited is an audio file.\u003c/td\u003e\n        \n        \u003c/tr\u003e\n        \n        \u003ctr\u003e\n          \n          \u003ctd style\u003d\"white-space:nowrap\"\u003emachine-code\n            \n            \u003ca name\u003d\"citation-artifact-classifier-machine-code\"\u003e \u003c/a\u003e\n          \n          \u003c/td\u003e\n          \n          \u003ctd\u003eMachine code\u003c/td\u003e\n          \n          \u003ctd\u003eThe article cited is machine code.\u003c/td\u003e\n        \n        \u003c/tr\u003e\n        \n        \u003ctr\u003e\n          \n          \u003ctd style\u003d\"white-space:nowrap\"\u003eprotocol\n            \n            \u003ca name\u003d\"citation-artifact-classifier-protocol\"\u003e \u003c/a\u003e\n          \n          \u003c/td\u003e\n          \n          \u003ctd\u003eProtocol\u003c/td\u003e\n          \n          \u003ctd\u003eThe article cited is the protocol of an activity and not the results or findings.\u003c/td\u003e\n        \n        \u003c/tr\u003e\n        \n        \u003ctr\u003e\n          \n          \u003ctd style\u003d\"white-space:nowrap\"\u003efhir-resource\n            \n            \u003ca name\u003d\"citation-artifact-classifier-fhir-resource\"\u003e \u003c/a\u003e\n          \n          \u003c/td\u003e\n          \n          \u003ctd\u003eFHIR Resource\u003c/td\u003e\n          \n          \u003ctd\u003eThe article cited is a FHIR resource.\u003c/td\u003e\n        \n        \u003c/tr\u003e\n        \n        \u003ctr\u003e\n          \n          \n          \u003ctd style\u003d\"white-space:nowrap\"\u003ePrint\n            \n            \n            \u003ca name\u003d\"citation-artifact-classifier-Print\"\u003e \u003c/a\u003e\n          \n          \n          \u003c/td\u003e\n          \n          \n          \u003ctd\u003ePrint\u003c/td\u003e\n          \n          \n          \u003ctd\u003ethe journal is published in print format only\u003c/td\u003e\n        \n        \n        \u003c/tr\u003e\n        \n        \u003ctr\u003e\n          \n          \n          \u003ctd style\u003d\"white-space:nowrap\"\u003ePrint Electronic\n            \n            \n            \u003ca name\u003d\"citation-artifact-classifier-Print-Electronic\"\u003e \u003c/a\u003e\n          \n          \n          \u003c/td\u003e\n          \n          \n          \u003ctd\u003ePrint Electronic\u003c/td\u003e\n          \n          \n          \u003ctd\u003ethe journal is published in both print and electronic format\u003c/td\u003e\n        \n        \n        \u003c/tr\u003e\n        \n        \u003ctr\u003e\n          \n          \n          \u003ctd style\u003d\"white-space:nowrap\"\u003eElectronic\n            \n            \n            \u003ca name\u003d\"citation-artifact-classifier-Electronic\"\u003e \u003c/a\u003e\n          \n          \n          \u003c/td\u003e\n          \n          \n          \u003ctd\u003eElectronic\u003c/td\u003e\n          \n          \n          \u003ctd\u003ethe journal is published in electronic format only\u003c/td\u003e\n        \n        \n        \u003c/tr\u003e\n        \n        \u003ctr\u003e\n          \n          \n          \u003ctd style\u003d\"white-space:nowrap\"\u003eElectronic-Print\n            \n            \n            \u003ca name\u003d\"citation-artifact-classifier-Electronic-Print\"\u003e \u003c/a\u003e\n          \n          \n          \u003c/td\u003e\n          \n          \n          \u003ctd\u003eElectronic-Print\u003c/td\u003e\n          \n          \n          \u003ctd\u003ethe journal is published first in electronic format followed by print (this value is currently used for just one journal, Nucleic Acids Research)\u003c/td\u003e\n        \n        \n        \u003c/tr\u003e\n        \n        \u003ctr\u003e\n          \n          \n          \u003ctd style\u003d\"white-space:nowrap\"\u003eElectronic-eCollection\n            \n            \n            \u003ca name\u003d\"citation-artifact-classifier-Electronic-eCollection\"\u003e \u003c/a\u003e\n          \n          \n          \u003c/td\u003e\n          \n          \n          \u003ctd\u003eElectronic-eCollection\u003c/td\u003e\n          \n          \n          \u003ctd\u003eused for electronic-only journals that publish individual articles first and then later collect them into an \u0026quot;issue\u0026quot; date that is typically called an eCollection.\u003c/td\u003e\n        \n        \n        \u003c/tr\u003e\n        \n        \u003ctr\u003e\n          \n          \n          \u003ctd style\u003d\"white-space:nowrap\"\u003emedline-base\n            \n            \n            \u003ca name\u003d\"citation-artifact-classifier-medline-base\"\u003e \u003c/a\u003e\n          \n          \n          \u003c/td\u003e\n          \n          \n          \u003ctd\u003eMedline Base\u003c/td\u003e\n          \n          \n          \u003ctd\u003eCitation Resource containing only data from Medline\u003c/td\u003e\n        \n        \n        \u003c/tr\u003e\n\t\t\n        \u003ctr\u003e\n          \n          \n          \u003ctd style\u003d\"white-space:nowrap\"\u003ecommon-share\n            \n            \n            \u003ca name\u003d\"citation-artifact-classifier-common-share\"\u003e \u003c/a\u003e\n          \n          \n          \u003c/td\u003e\n          \n          \n          \u003ctd\u003eCommon Share\u003c/td\u003e\n          \n          \n          \u003ctd\u003eCitation Resource containing value added data that is openly shared\u003c/td\u003e\n        \n        \n        \u003c/tr\u003e\n\t\t\n        \u003ctr\u003e\n          \n          \n          \u003ctd style\u003d\"white-space:nowrap\"\u003eproject-specific\n            \n            \n            \u003ca name\u003d\"citation-artifact-classifier-project-specific\"\u003e \u003c/a\u003e\n          \n          \n          \u003c/td\u003e\n          \n          \n          \u003ctd\u003eProject Specific\u003c/td\u003e\n          \n          \n          \u003ctd\u003eCitation Resource containing value added data specific to a project\u003c/td\u003e\n        \n        \n        \u003c/tr\u003e\n        \n      \u003c/table\u003e\n    \n    \n    \u003c/div\u003e"
+  },
+  "extension": [
+    {
+      "url": "http://hl7.org/fhir/StructureDefinition/structuredefinition-wg",
+      "valueCode": "cds"
+    },
+    {
+      "url": "http://hl7.org/fhir/StructureDefinition/structuredefinition-standards-status",
+      "valueCode": "trial-use"
+    },
+    {
+      "url": "http://hl7.org/fhir/StructureDefinition/structuredefinition-fmm",
+      "valueInteger": 0
+    }
+  ],
+  "url": "http://terminology.hl7.org/CodeSystem/citation-artifact-classifier",
+  "identifier": [
+    {
+      "system": "urn:ietf:rfc:3986",
+      "value": "urn:oid:2.16.840.1.113883.4.642.1.0"
+    }
+  ],
+  "version": "4.3.0-cibuild",
+  "name": "CitationArtifactClassifier",
+  "title": "CitationArtifactClassifier",
+  "status": "draft",
+  "experimental": false,
+  "date": "2021-03-11T10:55:11.085+11:00",
+  "publisher": "HL7 (FHIR Project)",
+  "contact": [
+    {
+      "telecom": [
+        {
+          "system": "url",
+          "value": "http://hl7.org/fhir"
+        },
+        {
+          "system": "email",
+          "value": "fhir@lists.hl7.org"
+        }
+      ]
+    }
+  ],
+  "description": "Citation artifact classifier",
+  "caseSensitive": true,
+  "valueSet": "http://hl7.org/fhir/ValueSet/citation-artifact-classifier",
+  "content": "complete",
+  "concept": [
+    {
+      "code": "webpage",
+      "display": "Webpage",
+      "definition": "Webpage"
+    },
+    {
+      "code": "D016428",
+      "display": "Journal Article",
+      "definition": "Journal Article"
+    },
+    {
+      "code": "D016422",
+      "display": "Letter",
+      "definition": "Letter"
+    },
+    {
+      "code": "D016420",
+      "display": "Comment",
+      "definition": "Comment"
+    },
+    {
+      "code": "D016425",
+      "display": "Published Erratum",
+      "definition": "Published Erratum"
+    },
+    {
+      "code": "executable-app",
+      "display": "Executable app",
+      "definition": "Executable app"
+    },
+    {
+      "code": "D000076942",
+      "display": "Preprint",
+      "definition": "Scientific manuscript made available prior to PEER REVIEW."
+    },
+    {
+      "code": "D019991",
+      "display": "Database",
+      "definition": "A structured file of information or a set of logically related data stored and retrieved using computer-based means."
+    },
+    {
+      "code": "D001877",
+      "display": "Book",
+      "definition": "Non-periodical written or printed works consisting of sheets of pages fastened or bound together within covers."
+    },
+    {
+      "code": "D064886",
+      "display": "Dataset",
+      "definition": "Works consisting of organized collections of data, which have been stored permanently in a formalized manner suitable for communication, interpretation, or processing."
+    },
+    {
+      "code": "68059040",
+      "display": "Video-Audio Media",
+      "definition": "Used with articles which include video files or clips, or for articles which are entirely video."
+    },
+    {
+      "code": "audio",
+      "display": "Audio file",
+      "definition": "The article cited is an audio file."
+    },
+    {
+      "code": "image",
+      "display": "Image file",
+      "definition": "The article cited is an audio file."
+    },
+    {
+      "code": "machine-code",
+      "display": "Machine code",
+      "definition": "The article cited is machine code."
+    },
+    {
+      "code": "protocol",
+      "display": "Protocol",
+      "definition": "The article cited is the protocol of an activity and not the results or findings."
+    },
+    {
+      "code": "fhir-resource",
+      "display": "FHIR Resource",
+      "definition": "The article cited is a FHIR resource."
+    },
+    {
+      "code": "Print",
+      "display": "Print",
+      "definition": "the journal is published in print format only"
+    },
+    {
+      "code": "Print-Electronic",
+      "display": "Print Electronic",
+      "definition": "the journal is published in both print and electronic format"
+    },
+    {
+      "code": "Electronic",
+      "display": "Electronic",
+      "definition": "the journal is published in electronic format only"
+    },
+    {
+      "code": "Electronic-Print",
+      "display": "Electronic-Print",
+      "definition": "the journal is published first in electronic format followed by print (this value is currently used for just one journal, Nucleic Acids Research)"
+    },
+    {
+      "code": "Electronic-eCollection",
+      "display": "Electronic-eCollection",
+      "definition": "used for electronic-only journals that publish individual articles first and then later collect them into an \"issue\" date that is typically called an eCollection."
+    },
+    {
+      "code": "medline-base",
+      "display": "Medline Base",
+      "definition": "Citation Resource containing only data from Medline"
+    },
+    {
+      "code": "common-share",
+      "display": "Common Share",
+      "definition": "Citation Resource containing value added data that is openly shared"
+    },
+    {
+      "code": "project-specific",
+      "display": "Project Specific",
+      "definition": "Citation Resource containing value added data specific to a project"
+    }
+  ]
+}

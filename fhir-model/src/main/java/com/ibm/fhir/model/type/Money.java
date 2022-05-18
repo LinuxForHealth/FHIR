@@ -1,5 +1,5 @@
 /*
- * (C) Copyright IBM Corp. 2019, 2021
+ * (C) Copyright IBM Corp. 2019, 2022
  *
  * SPDX-License-Identifier: Apache-2.0
  */
@@ -28,8 +28,7 @@ public class Money extends Element {
     @Binding(
         bindingName = "CurrencyCode",
         strength = BindingStrength.Value.REQUIRED,
-        description = "A code indicating the currency, taken from ISO 4217.",
-        valueSet = "http://hl7.org/fhir/ValueSet/currencies|4.0.1"
+        valueSet = "http://hl7.org/fhir/ValueSet/currencies|4.3.0-cibuild"
     )
     private final Code currency;
 

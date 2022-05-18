@@ -1,0 +1,279 @@
+{
+    "resourceType": "CodeSystem",
+    "id": "v2-0951",
+    "text": {
+        "status": "empty",
+        "div": "<div xmlns=\"http://www.w3.org/1999/xhtml\">Redacted for size</div>"
+    },
+    "extension": [
+        {
+            "url": "http://hl7.org/fhir/StructureDefinition/structuredefinition-wg",
+            "valueCode": "oo"
+        }
+    ],
+    "url": "http://terminology.hl7.org/CodeSystem/v2-0951",
+    "identifier": [
+        {
+            "system": "urn:ietf:rfc:3986",
+            "value": "urn:oid:2.16.840.1.113883.18.451"
+        }
+    ],
+    "version": "2.1.0",
+    "name": "ReasonForStudy",
+    "title": "reasonForStudy",
+    "status": "active",
+    "experimental": false,
+    "date": "2019-12-01",
+    "publisher": "HL7, Inc",
+    "contact": [
+        {
+            "telecom": [
+                {
+                    "system": "url",
+                    "value": "http://www.hl7.org/"
+                }
+            ]
+        }
+    ],
+    "description": "HL7-defined code system of concepts that provide additional information to the universal service identifier on why a test, study or review was ordered. Initial values are to support the IHE LCC LAB-7 transaction.",
+    "purpose": "Underlying Master Code System for V2 table 0951 (Reason for Study)",
+    "copyright": "Copyright HL7. Licensed under creative commons public domain",
+    "caseSensitive": true,
+    "valueSet": "http://terminology.hl7.org/ValueSet/v2-0951",
+    "hierarchyMeaning": "is-a",
+    "compositional": false,
+    "versionNeeded": false,
+    "content": "complete",
+    "property": [
+        {
+            "code": "status",
+            "uri": "http://terminology.hl7.org/CodeSystem/utg-concept-properties#status",
+            "description": "Status of the concept",
+            "type": "code"
+        },
+        {
+            "code": "deprecated",
+            "uri": "http://terminology.hl7.org/CodeSystem/utg-concept-properties#v2-table-deprecated",
+            "description": "Version of HL7 in which the code was deprecated",
+            "type": "code"
+        },
+        {
+            "code": "v2-concComment",
+            "uri": "http://terminology.hl7.org/CodeSystem/utg-concept-properties#v2-concComment",
+            "description": "V2 Concept Comment",
+            "type": "string"
+        },
+        {
+            "code": "HL7usageNotes",
+            "uri": "http://terminology.hl7.org/CodeSystem/utg-concept-properties#HL7usageNotes",
+            "description": "HL7 Concept Usage Notes",
+            "type": "string"
+        }
+    ],
+    "concept": [
+        {
+            "id": "6775",
+            "code": "BS",
+            "display": "Bank residual specimen",
+            "definition": "Requests that the specimen should be stored long term",
+            "property": [
+                {
+                    "code": "status",
+                    "valueCode": "N"
+                }
+            ]
+        },
+        {
+            "id": "6776",
+            "code": "CR",
+            "display": "Confirm results value",
+            "definition": "Requests verification of previously reported results",
+            "property": [
+                {
+                    "code": "HL7usageNotes",
+                    "valueString": "Used to indicate why review is requested"
+                },
+                {
+                    "code": "status",
+                    "valueCode": "N"
+                }
+            ]
+        },
+        {
+            "id": "6777",
+            "code": "FP",
+            "display": "Store residual specimen pending follow up",
+            "definition": "Requests that the specimen should be saved for a short duration until follow up is completed",
+            "property": [
+                {
+                    "code": "v2-concComment",
+                    "valueString": "Provides instructions for Specimen storage"
+                },
+                {
+                    "code": "status",
+                    "valueCode": "N"
+                }
+            ]
+        },
+        {
+            "id": "6778",
+            "code": "IN",
+            "display": "Interpret results",
+            "definition": "Requests interpretation of previously reported results",
+            "property": [
+                {
+                    "code": "HL7usageNotes",
+                    "valueString": "Used to indicate why review is requested"
+                },
+                {
+                    "code": "status",
+                    "valueCode": "N"
+                }
+            ]
+        },
+        {
+            "id": "6779",
+            "code": "IR",
+            "display": "Review clinically inconsistent results",
+            "definition": "Requests comparison of previously reported results amongst themselves",
+            "property": [
+                {
+                    "code": "HL7usageNotes",
+                    "valueString": "Used to indicate why review is requested"
+                },
+                {
+                    "code": "status",
+                    "valueCode": "N"
+                }
+            ]
+        },
+        {
+            "id": "6780",
+            "code": "IT",
+            "display": "Incorrect test performed",
+            "definition": "For process improvement work this code can be used to identify when an incorrect test was performed for the target order",
+            "property": [
+                {
+                    "code": "HL7usageNotes",
+                    "valueString": "Used to indicate why review is requested"
+                },
+                {
+                    "code": "status",
+                    "valueCode": "N"
+                }
+            ]
+        },
+        {
+            "id": "6781",
+            "code": "OP",
+            "display": "Test ordering problem",
+            "definition": "For process improvement work this code can be used to identify orders and the respective results, where problems occurred during ordering",
+            "property": [
+                {
+                    "code": "HL7usageNotes",
+                    "valueString": "Used to indicate why review is requested"
+                },
+                {
+                    "code": "status",
+                    "valueCode": "N"
+                }
+            ]
+        },
+        {
+            "id": "6782",
+            "code": "PI",
+            "display": "Patient identification problem",
+            "definition": "For process improvement work this code can be used to identify when a patient identification issue has occurred on the target order",
+            "property": [
+                {
+                    "code": "HL7usageNotes",
+                    "valueString": "Used to indicate why review is requested"
+                },
+                {
+                    "code": "status",
+                    "valueCode": "N"
+                }
+            ]
+        },
+        {
+            "id": "6783",
+            "code": "SI",
+            "display": "Suspected interference",
+            "definition": "Requests verification of previously reported results due to suspected interference",
+            "property": [
+                {
+                    "code": "HL7usageNotes",
+                    "valueString": "Used to indicate why review is requested"
+                },
+                {
+                    "code": "status",
+                    "valueCode": "N"
+                }
+            ]
+        },
+        {
+            "id": "6784",
+            "code": "SP",
+            "display": "Sampling problem",
+            "definition": "For process improvement work this code can be used to identify orders, where problems occurred during sample collection",
+            "property": [
+                {
+                    "code": "HL7usageNotes",
+                    "valueString": "Used to indicate why review is requested"
+                },
+                {
+                    "code": "status",
+                    "valueCode": "R"
+                }
+            ]
+        },
+        {
+            "id": "6785",
+            "code": "TP",
+            "display": "Specimen transport problem",
+            "definition": "For process improvement work this code can be used to identify orders, where problems occurred during sample transport",
+            "property": [
+                {
+                    "code": "HL7usageNotes",
+                    "valueString": "Used to indicate why review is requested"
+                },
+                {
+                    "code": "status",
+                    "valueCode": "N"
+                }
+            ]
+        },
+        {
+            "id": "6786",
+            "code": "TT",
+            "display": "Turnaround time problem",
+            "definition": "For process improvement work this code can be used to identify results with excessive reporting delay",
+            "property": [
+                {
+                    "code": "HL7usageNotes",
+                    "valueString": "Used to indicate why review is requested"
+                },
+                {
+                    "code": "status",
+                    "valueCode": "N"
+                }
+            ]
+        },
+        {
+            "id": "6787",
+            "code": "XR",
+            "display": "Incorrect results",
+            "definition": "For process improvement work this code can be used to identify when incorrect result were reported for the target order",
+            "property": [
+                {
+                    "code": "HL7usageNotes",
+                    "valueString": "Used to indicate why review is requested"
+                },
+                {
+                    "code": "status",
+                    "valueCode": "N"
+                }
+            ]
+        }
+    ]
+}

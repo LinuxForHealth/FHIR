@@ -9,8 +9,8 @@
       "status": "active",
       "description": "Type options for Group.characteristic.value[x]",
       "expansion": {
-        "identifier": "urn:uuid:fc9afe92-ee07-406b-b3f9-92044869c8c0",
-        "timestamp": "2019-11-01T09:35:22+11:00",
+        "identifier": "urn:uuid:80206b2b-f4fd-4147-96f6-e77901571b9a",
+        "timestamp": "2022-04-23T22:29:29+00:00",
         "contains": [
           {
             "system": "http://hl7.org/fhir/data-types",
@@ -41,9 +41,10 @@
       "system": "urn:ietf:rfc:3986"
     }
   ],
-  "version": "4.0.1",
+  "version": "4.3.0-cibuild",
   "status": "draft",
-  "date": "2019-11-01T09:29:23+11:00",
+  "experimental": false,
+  "date": "2021-01-16T20:06:13+00:00",
   "publisher": "HL7",
   "item": [
     {
@@ -64,6 +65,7 @@
       "repeats": false,
       "item": [
         {
+          "linkId": "Group-display",
           "text": "If both Group.characteristic and Group.member are present, then the members are the individuals who were found who met the characteristic.  It\u0027s possible that there might be other candidate members who meet the characteristic and aren\u0027t (yet) in the list.  All members SHALL have the listed characteristics.",
           "type": "display"
         },
@@ -82,6 +84,7 @@
               }
             }
           ],
+          "linkId": "Group-flyover",
           "text": "Represents a defined collection of entities that may be discussed or acted upon collectively but which are not expected to act collectively, and are not formally or legally recognized; i.e. a collection of entities that isn\u0027t an Organization.",
           "type": "display"
         },
@@ -116,6 +119,7 @@
                   }
                 }
               ],
+              "linkId": "Group.id-flyover",
               "text": "The logical id of the resource, as used in the URL for the resource. Once assigned, this value never changes. The only time that a resource does not have an id is when it is being submitted to the server using a create operation.",
               "type": "display"
             },
@@ -156,6 +160,7 @@
                   }
                 }
               ],
+              "linkId": "Group.meta-flyover",
               "text": "The metadata about the resource. This is content that is maintained by the infrastructure. Changes to the content might not always be associated with version changes to the resource.",
               "type": "display"
             }
@@ -192,6 +197,7 @@
                   }
                 }
               ],
+              "linkId": "Group.implicitRules-flyover",
               "text": "A reference to a set of rules that were followed when the resource was constructed, and which must be understood when processing the content. Often, this is a reference to an implementation guide that defines the special rules along with other profiles etc. Asserting this rule set restricts the content to be only understood by a limited set of trading partners. This inherently limits the usefulness of the data in the long term. However, the existing health eco-system is highly fractured, and not yet ready to define, collect, and exchange data in a generally computable sense. Wherever possible, implementers and/or specification writers should avoid using this element. Often, when used, the URL is a reference to an implementation guide that defines these special rules as part of it\u0027s narrative along with other profiles, value sets, etc.",
               "type": "display"
             },
@@ -235,6 +241,7 @@
                   }
                 }
               ],
+              "linkId": "Group.language-flyover",
               "text": "The base language in which the resource is written. Language is provided to support indexing and accessibility (typically, services such as text to speech use the language tag). The html language tag in the narrative applies  to the narrative. The language tag on the resource may be used to specify the language of other presentations generated from the data in the resource. Not all the content has to be in the base language. The Resource.language should not be assumed to apply to the narrative automatically. If a language is specified, it should it also be specified on the div element in the html (see rules in HTML5 for information about the relationship between xml:lang and the html lang attribute).",
               "type": "display"
             },
@@ -275,6 +282,7 @@
                   }
                 }
               ],
+              "linkId": "Group.text-flyover",
               "text": "A human-readable narrative that contains a summary of the resource and can be used to represent the content of the resource to a human. The narrative need not encode all the structured data, but is required to contain sufficient detail to make it \"clinically safe\" for a human to just read the narrative. Resource definitions may define what content should be represented in the narrative to ensure clinical safety. Contained resources do not have narrative. Resources that are not contained SHOULD have a narrative. In some cases, a resource may only have text with little or no additional discrete data (as long as all minOccurs\u003d1 elements are satisfied).  This may be necessary for data from legacy systems where information is captured as a \"text blob\" or where text is additionally entered raw or narrated and encoded information is added later.",
               "type": "display"
             }
@@ -302,6 +310,7 @@
                   }
                 }
               ],
+              "linkId": "Group.contained-flyover",
               "text": "These resources do not have an independent existence apart from the resource that contains them - they cannot be identified independently, and nor can they have their own independent transaction scope. This should never be done when the content can be identified properly, as once identification is lost, it is extremely difficult (and context dependent) to restore it again. Contained resources may have profiles and tags In their meta elements, but SHALL NOT have security labels.",
               "type": "display"
             }
@@ -329,6 +338,7 @@
                   }
                 }
               ],
+              "linkId": "Group.extension-flyover",
               "text": "May be used to represent additional information that is not part of the basic definition of the resource. To make the use of extensions safe and manageable, there is a strict set of governance  applied to the definition and use of extensions. Though any implementer can define an extension, there is a set of requirements that SHALL be met as part of the definition of the extension. There can be no stigma associated with the use of extensions by any application, project, or standard - regardless of the institution or jurisdiction that uses or defines the extensions.  The use of extensions is what allows the FHIR specification to retain a core level of simplicity for everyone.",
               "type": "display"
             }
@@ -356,6 +366,7 @@
                   }
                 }
               ],
+              "linkId": "Group.modifierExtension-flyover",
               "text": "May be used to represent additional information that is not part of the basic definition of the resource and that modifies the understanding of the element that contains it and/or the understanding of the containing element\u0027s descendants. Usually modifier elements provide negation or qualification. To make the use of extensions safe and manageable, there is a strict set of governance applied to the definition and use of extensions. Though any implementer is allowed to define an extension, there is a set of requirements that SHALL be met as part of the definition of the extension. Applications processing a resource are required to check for modifier extensions.\n\nModifier extensions SHALL NOT change the meaning of any elements on Resource or DomainResource (including cannot change the meaning of modifierExtension itself). There can be no stigma associated with the use of extensions by any application, project, or standard - regardless of the institution or jurisdiction that uses or defines the extensions.  The use of extensions is what allows the FHIR specification to retain a core level of simplicity for everyone.",
               "type": "display"
             }
@@ -389,6 +400,7 @@
                   }
                 }
               ],
+              "linkId": "Group.identifier-flyover",
               "text": "A unique business identifier for this group.",
               "type": "display"
             },
@@ -446,6 +458,7 @@
                   }
                 }
               ],
+              "linkId": "Group.active-flyover",
               "text": "Indicates whether the record for the group is available for use or is merely being retained for historical purposes.",
               "type": "display"
             },
@@ -493,6 +506,7 @@
                   }
                 }
               ],
+              "linkId": "Group.type-flyover",
               "text": "Identifies the broad classification of the kind of resources the group includes. Group members SHALL be of the appropriate resource type (Patient for person or animal; or Practitioner, Device, Medication or Substance for the other types.).",
               "type": "display"
             },
@@ -540,6 +554,7 @@
                   }
                 }
               ],
+              "linkId": "Group.actual-flyover",
               "text": "If true, indicates that the resource refers to a specific group of real individuals.  If false, the group defines a set of intended individuals.",
               "type": "display"
             },
@@ -584,13 +599,14 @@
                   }
                 }
               ],
+              "linkId": "Group.code-flyover",
               "text": "Provides a specific type of resource the group includes; e.g. \"cow\", \"syringe\", etc. This would generally be omitted for Person resources.",
               "type": "display"
             },
             {
               "linkId": "Group.code.coding",
               "text": "code:",
-              "type": "open-choice",
+              "type": "choice",
               "required": false,
               "repeats": false
             },
@@ -634,6 +650,7 @@
                   }
                 }
               ],
+              "linkId": "Group.name-flyover",
               "text": "A label assigned to the group for human identification and communication.",
               "type": "display"
             },
@@ -677,6 +694,7 @@
                   }
                 }
               ],
+              "linkId": "Group.quantity-flyover",
               "text": "A count of the number of resource instances that are part of the group. Note that the quantity may be less than the number of members if some of the members are not active.",
               "type": "display"
             },
@@ -720,6 +738,7 @@
                   }
                 }
               ],
+              "linkId": "Group.managingEntity-flyover",
               "text": "Entity responsible for defining and maintaining Group characteristics and/or registered members. This does not strictly align with ownership of a herd or flock, but may suffice to represent that relationship in simple cases. More complex cases will require an extension.",
               "type": "display"
             },
@@ -750,6 +769,7 @@
           "repeats": true,
           "item": [
             {
+              "linkId": "Group.characteristic-display",
               "text": "All the identified characteristics must be true for an entity to a member of the group.",
               "type": "display"
             },
@@ -768,6 +788,7 @@
                   }
                 }
               ],
+              "linkId": "Group.characteristic-flyover",
               "text": "Identifies traits whose presence r absence is shared by members of the group.",
               "type": "display"
             },
@@ -802,6 +823,7 @@
                       }
                     }
                   ],
+                  "linkId": "Group.characteristic.id-flyover",
                   "text": "Unique id for the element within a resource (for internal references). This may be any string value that does not contain spaces.",
                   "type": "display"
                 },
@@ -836,6 +858,7 @@
                       }
                     }
                   ],
+                  "linkId": "Group.characteristic.extension-flyover",
                   "text": "May be used to represent additional information that is not part of the basic definition of the element. To make the use of extensions safe and manageable, there is a strict set of governance  applied to the definition and use of extensions. Though any implementer can define an extension, there is a set of requirements that SHALL be met as part of the definition of the extension. There can be no stigma associated with the use of extensions by any application, project, or standard - regardless of the institution or jurisdiction that uses or defines the extensions.  The use of extensions is what allows the FHIR specification to retain a core level of simplicity for everyone.",
                   "type": "display"
                 }
@@ -863,6 +886,7 @@
                       }
                     }
                   ],
+                  "linkId": "Group.characteristic.modifierExtension-flyover",
                   "text": "May be used to represent additional information that is not part of the basic definition of the element and that modifies the understanding of the element in which it is contained and/or the understanding of the containing element\u0027s descendants. Usually modifier elements provide negation or qualification. To make the use of extensions safe and manageable, there is a strict set of governance applied to the definition and use of extensions. Though any implementer can define an extension, there is a set of requirements that SHALL be met as part of the definition of the extension. Applications processing a resource are required to check for modifier extensions.\n\nModifier extensions SHALL NOT change the meaning of any elements on Resource or DomainResource (including cannot change the meaning of modifierExtension itself). There can be no stigma associated with the use of extensions by any application, project, or standard - regardless of the institution or jurisdiction that uses or defines the extensions.  The use of extensions is what allows the FHIR specification to retain a core level of simplicity for everyone.",
                   "type": "display"
                 }
@@ -904,13 +928,14 @@
                       }
                     }
                   ],
+                  "linkId": "Group.characteristic.code-flyover",
                   "text": "A code that identifies the kind of trait being asserted.",
                   "type": "display"
                 },
                 {
                   "linkId": "Group.characteristic.code.coding",
                   "text": "code:",
-                  "type": "open-choice",
+                  "type": "choice",
                   "required": false,
                   "repeats": false
                 },
@@ -955,6 +980,7 @@
                       }
                     }
                   ],
+                  "linkId": "Group.characteristic.value[x]-flyover",
                   "text": "The value of the trait that holds (or does not hold - see \u0027exclude\u0027) for members of the group. For Range, it means members of the group have a value that falls somewhere within the specified range.",
                   "type": "display"
                 },
@@ -979,7 +1005,7 @@
                         {
                           "linkId": "Group.characteristic.value[x]._null.coding",
                           "text": "code:",
-                          "type": "open-choice",
+                          "type": "choice",
                           "required": false,
                           "repeats": false
                         },
@@ -1153,6 +1179,7 @@
                       }
                     }
                   ],
+                  "linkId": "Group.characteristic.exclude-flyover",
                   "text": "If true, indicates the characteristic is one that is NOT held by members of the group. This is labeled as \"Is Modifier\" because applications cannot wrongly include excluded members as included or vice versa.",
                   "type": "display"
                 },
@@ -1197,6 +1224,7 @@
                       }
                     }
                   ],
+                  "linkId": "Group.characteristic.period-flyover",
                   "text": "The period over which the characteristic is tested; e.g. the patient had an operation during the month of June.",
                   "type": "display"
                 },
@@ -1246,6 +1274,7 @@
                   }
                 }
               ],
+              "linkId": "Group.member-flyover",
               "text": "Identifies the resource instances that are members of the group.",
               "type": "display"
             },
@@ -1280,6 +1309,7 @@
                       }
                     }
                   ],
+                  "linkId": "Group.member.id-flyover",
                   "text": "Unique id for the element within a resource (for internal references). This may be any string value that does not contain spaces.",
                   "type": "display"
                 },
@@ -1314,6 +1344,7 @@
                       }
                     }
                   ],
+                  "linkId": "Group.member.extension-flyover",
                   "text": "May be used to represent additional information that is not part of the basic definition of the element. To make the use of extensions safe and manageable, there is a strict set of governance  applied to the definition and use of extensions. Though any implementer can define an extension, there is a set of requirements that SHALL be met as part of the definition of the extension. There can be no stigma associated with the use of extensions by any application, project, or standard - regardless of the institution or jurisdiction that uses or defines the extensions.  The use of extensions is what allows the FHIR specification to retain a core level of simplicity for everyone.",
                   "type": "display"
                 }
@@ -1341,6 +1372,7 @@
                       }
                     }
                   ],
+                  "linkId": "Group.member.modifierExtension-flyover",
                   "text": "May be used to represent additional information that is not part of the basic definition of the element and that modifies the understanding of the element in which it is contained and/or the understanding of the containing element\u0027s descendants. Usually modifier elements provide negation or qualification. To make the use of extensions safe and manageable, there is a strict set of governance applied to the definition and use of extensions. Though any implementer can define an extension, there is a set of requirements that SHALL be met as part of the definition of the extension. Applications processing a resource are required to check for modifier extensions.\n\nModifier extensions SHALL NOT change the meaning of any elements on Resource or DomainResource (including cannot change the meaning of modifierExtension itself). There can be no stigma associated with the use of extensions by any application, project, or standard - regardless of the institution or jurisdiction that uses or defines the extensions.  The use of extensions is what allows the FHIR specification to retain a core level of simplicity for everyone.",
                   "type": "display"
                 }
@@ -1381,6 +1413,7 @@
                       }
                     }
                   ],
+                  "linkId": "Group.member.entity-flyover",
                   "text": "A reference to the entity that is a member of the group. Must be consistent with Group.type. If the entity is another group, then the type must be the same.",
                   "type": "display"
                 },
@@ -1388,7 +1421,7 @@
                   "extension": [
                     {
                       "url": "http://hl7.org/fhir/StructureDefinition/questionnaire-allowedResource",
-                      "valueCode": "Patient, Practitioner, PractitionerRole, Device, Medication, Substance, Group"
+                      "valueCode": "Patient, RelatedPerson, Practitioner, PractitionerRole, Device, Medication, Substance, Group"
                     },
                     {
                       "url": "http://hl7.org/fhir/StructureDefinition/questionnaire-referenceFilter",
@@ -1435,6 +1468,7 @@
                       }
                     }
                   ],
+                  "linkId": "Group.member.period-flyover",
                   "text": "The period that the member was in the group, if known.",
                   "type": "display"
                 },
@@ -1485,6 +1519,7 @@
                       }
                     }
                   ],
+                  "linkId": "Group.member.inactive-flyover",
                   "text": "A flag to indicate that the member is no longer in the group, but previously may have been a member.",
                   "type": "display"
                 },

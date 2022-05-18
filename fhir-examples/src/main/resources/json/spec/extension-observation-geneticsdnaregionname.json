@@ -12,9 +12,10 @@
     }
   ],
   "url": "http://hl7.org/fhir/StructureDefinition/observation-geneticsDNARegionName",
-  "version": "4.0.1",
+  "version": "4.3.0-cibuild",
   "name": "DNARegionName",
   "status": "draft",
+  "experimental": false,
   "date": "2016-03-14",
   "publisher": "Health Level Seven International (Clinical Genomics)",
   "contact": [
@@ -27,8 +28,8 @@
       ]
     }
   ],
-  "description": "A human readable name for the region of interest. Typically Exon #, Intron # or other. NOTE: This is not standardized and is mainly for convenience and display purposes.  LOINC Code: ([47999-8](http://loinc.org/47999-8)).",
-  "fhirVersion": "4.0.1",
+  "description": "The material on this page will be removed in a future release. This content is deprecated and SHOULD NOT be used. Implementers are instead directed to the ([Genomics Reporting Implementation Guide](http://hl7.org/fhir/uv/genomics-reporting/index.html)) for guidance. A region (or regions) that includes all of the sequence elements necessary to encode a functional transcript. A gene may include regulatory regions, transcribed regions and/or other functional sequence regions ([SO:0000704](http://www.sequenceontology.org/browser/current_svn/term/SO:0000704)). This element is the official gene symbol approved by the HGNC, which is a short abbreviated form of the gene name ([HGNC](http://www.genenames.org)). LOINC Code: ([48018-6](http://loinc.org/48018-6)).",
+  "fhirVersion": "4.3.0-cibuild",
   "mapping": [
     {
       "identity": "v2",
@@ -73,9 +74,9 @@
           {
             "key": "ele-1",
             "severity": "error",
-            "human": "All FHIR elements must have a @value or children",
-            "expression": "hasValue() or (children().count() \u003e id.count())",
-            "xpath": "@value|f:*|h:div",
+            "human": "All FHIR elements must have a @value or children unless an empty Parameters resource",
+            "expression": "hasValue() or (children().count() \u003e id.count()) or $this is Parameters",
+            "xpath": "@value|f:*|h:div|self::f:Parameters",
             "source": "http://hl7.org/fhir/StructureDefinition/Element"
           },
           {
@@ -223,7 +224,7 @@
         "id": "Extension.value[x]",
         "path": "Extension.value[x]",
         "short": "Value of extension",
-        "definition": "Value of extension - must be one of a constrained set of the data types (see [Extensibility](http://hl7.org/fhir/extensibility.html) for a list).",
+        "definition": "Value of extension - must be one of a constrained set of the data types (see [Extensibility](extensibility.html) for a list).",
         "min": 1,
         "max": "1",
         "base": {

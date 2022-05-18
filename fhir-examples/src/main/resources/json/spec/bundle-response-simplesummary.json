@@ -191,12 +191,12 @@
         "link": [
           {
             "relation": "self",
-            "url": "http://local.fhir.org:960/r4/Condition?_format\u003dapplication/fhir+xml\u0026search-id\u003d36aac5c3-a9f6-4c3a-bf94-24d32ed604\u0026\u0026patient\u003dexample\u0026_sort\u003d_id"
+            "url": "http://local.fhir.org:960/r4b/Condition?_format\u003dapplication/fhir+xml\u0026search-id\u003d36aac5c3-a9f6-4c3a-bf94-24d32ed604\u0026\u0026patient\u003dexample\u0026_sort\u003d_id"
           }
         ],
         "entry": [
           {
-            "fullUrl": "http://local.fhir.org:960/r4/Condition/example",
+            "fullUrl": "http://local.fhir.org:960/r4b/Condition/example",
             "resource": {
               "resourceType": "Condition",
               "id": "example",
@@ -281,7 +281,7 @@
             }
           },
           {
-            "fullUrl": "http://local.fhir.org:960/r4/Condition/example2",
+            "fullUrl": "http://local.fhir.org:960/r4b/Condition/example2",
             "resource": {
               "resourceType": "Condition",
               "id": "example2",
@@ -342,7 +342,7 @@
             }
           },
           {
-            "fullUrl": "http://local.fhir.org:960/r4/Condition/family-history",
+            "fullUrl": "http://local.fhir.org:960/r4b/Condition/family-history",
             "resource": {
               "resourceType": "Condition",
               "id": "family-history",
@@ -391,7 +391,7 @@
             }
           },
           {
-            "fullUrl": "http://local.fhir.org:960/r4/Condition/stroke",
+            "fullUrl": "http://local.fhir.org:960/r4b/Condition/stroke",
             "resource": {
               "resourceType": "Condition",
               "id": "stroke",
@@ -469,7 +469,7 @@
         "link": [
           {
             "relation": "self",
-            "url": "http://local.fhir.org:960/r4/MedicationStatement?_format\u003dapplication/fhir+xml\u0026search-id\u003d0f08b401-5120-4444-9a83-3fd21d33df\u0026\u0026patient\u003dexample\u0026_sort\u003d_id"
+            "url": "http://local.fhir.org:960/r4b/MedicationStatement?_format\u003dapplication/fhir+xml\u0026search-id\u003d0f08b401-5120-4444-9a83-3fd21d33df\u0026\u0026patient\u003dexample\u0026_sort\u003d_id"
           }
         ]
       },
@@ -491,7 +491,7 @@
         "link": [
           {
             "relation": "self",
-            "url": "http://local.fhir.org:960/r4/Observation?_format\u003dapplication/fhir+xml\u0026search-id\u003d50df0414-1375-48a4-ba1e-66f580360a\u0026\u0026patient\u003dexample\u0026code\u003dhttp%3A//loinc.org%7C55284%2D4\u0026date\u003dge2015%2D01%2D01\u0026_sort\u003d_id"
+            "url": "http://local.fhir.org:960/r4b/Observation?_format\u003dapplication/fhir+xml\u0026search-id\u003d50df0414-1375-48a4-ba1e-66f580360a\u0026\u0026patient\u003dexample\u0026code\u003dhttp%3A//loinc.org%7C55284%2D4\u0026date\u003dge2015%2D01%2D01\u0026_sort\u003d_id"
           }
         ]
       },

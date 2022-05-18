@@ -23,6 +23,7 @@ import java.util.Map;
 import org.testng.annotations.Test;
 
 import com.ibm.fhir.config.FHIRRequestContext;
+import com.ibm.fhir.core.FHIRVersionParam;
 import com.ibm.fhir.model.resource.CommunicationRequest;
 import com.ibm.fhir.model.resource.Condition;
 import com.ibm.fhir.model.resource.Device;
@@ -213,7 +214,7 @@ public class CompartmentParseQueryParmsTest extends BaseSearchTest {
 
         try {
             searchHelper.parseCompartmentQueryParameters(compartmentName, compartmentLogicalId,
-                    resourceType, queryParameters, false, true);
+                    resourceType, queryParameters, false, true, FHIRVersionParam.VERSION_43);
             fail("expectedExceptions parseQueryParameters to throw due to strict mode but it didn't.");
         } catch (Exception e) {
             assertTrue(e instanceof FHIRSearchException);

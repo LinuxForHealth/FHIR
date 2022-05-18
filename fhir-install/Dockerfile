@@ -25,7 +25,7 @@ COPY src/main/docker/ibm-fhir-server/bootstrap.sh /opt/ibm-fhir-server/
 FROM openliberty/open-liberty:22.0.0.4-kernel-slim-java11-openj9-ubi
 
 ARG VERBOSE=true
-ARG FHIR_VERSION=4.11.0-SNAPSHOT
+ARG FHIR_VERSION=5.0.0-SNAPSHOT
 
 # The following labels are required:
 LABEL name='IBM FHIR Server'

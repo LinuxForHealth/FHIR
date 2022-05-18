@@ -1,0 +1,37 @@
+{
+    "resourceType": "ValueSet",
+    "id": "v3-ActRelationshipReason",
+    "language": "en",
+    "text": {
+        "status": "empty",
+        "div": "<div xmlns=\"http://www.w3.org/1999/xhtml\">Redacted for size</div>"
+    },
+    "url": "http://terminology.hl7.org/ValueSet/v3-ActRelationshipReason",
+    "identifier": [
+        {
+            "system": "urn:ietf:rfc:3986",
+            "value": "urn:oid:2.16.840.1.113883.1.11.19376"
+        }
+    ],
+    "version": "2.0.0",
+    "name": "ActRelationshipReason",
+    "title": "ActRelationshipReason",
+    "status": "active",
+    "date": "2014-03-26",
+    "description": "The reason or rationale for a service. A reason link is weaker than a trigger, it only suggests that some service may be or might have been a reason for some action, but not that this reason requires/required the action to be taken. Also, as opposed to the trigger, there is no strong timely relation between the reason and the action.\r\n\r\n*Discussion:* In prior releases, the code \"SUGG\" (suggests) was expressed as \"an inversion of the reason link.\" That code has been retired in favor of the inversion indicator that is an attribute of ActRelationship.",
+    "immutable": true,
+    "compose": {
+        "include": [
+            {
+                "system": "http://terminology.hl7.org/CodeSystem/v3-ActRelationshipType",
+                "filter": [
+                    {
+                        "property": "concept",
+                        "op": "is-a",
+                        "value": "RSON"
+                    }
+                ]
+            }
+        ]
+    }
+}

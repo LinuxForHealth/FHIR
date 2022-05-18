@@ -1,0 +1,370 @@
+{
+  "resourceType": "CodeSystem",
+  "id": "combined-dose-form",
+  "meta": {
+    "lastUpdated": "2022-04-24T09:21:35.043+11:00",
+    "profile": [
+      "http://hl7.org/fhir/StructureDefinition/shareablecodesystem"
+    ]
+  },
+  "text": {
+    "status": "generated",
+    "div": "\u003cdiv xmlns\u003d\"http://www.w3.org/1999/xhtml\"\u003e\u003cp\u003eThis code system http://hl7.org/fhir/combined-dose-form defines the following codes:\u003c/p\u003e\u003ctable class\u003d\"codes\"\u003e\u003ctr\u003e\u003ctd style\u003d\"white-space:nowrap\"\u003e\u003cb\u003eCode\u003c/b\u003e\u003c/td\u003e\u003ctd\u003e\u003cb\u003eDisplay\u003c/b\u003e\u003c/td\u003e\u003c/tr\u003e\u003ctr\u003e\u003ctd style\u003d\"white-space:nowrap\"\u003e100000073366\u003ca name\u003d\"combined-dose-form-100000073366\"\u003e \u003c/a\u003e\u003c/td\u003e\u003ctd\u003ePowder and solvent for oral solution\u003c/td\u003e\u003c/tr\u003e\u003ctr\u003e\u003ctd style\u003d\"white-space:nowrap\"\u003e100000073651\u003ca name\u003d\"combined-dose-form-100000073651\"\u003e \u003c/a\u003e\u003c/td\u003e\u003ctd\u003ePowder and solvent for oral suspension\u003c/td\u003e\u003c/tr\u003e\u003ctr\u003e\u003ctd style\u003d\"white-space:nowrap\"\u003e100000073774\u003ca name\u003d\"combined-dose-form-100000073774\"\u003e \u003c/a\u003e\u003c/td\u003e\u003ctd\u003eEye drops, powder and solvent for solution\u003c/td\u003e\u003c/tr\u003e\u003ctr\u003e\u003ctd style\u003d\"white-space:nowrap\"\u003e100000073781\u003ca name\u003d\"combined-dose-form-100000073781\"\u003e \u003c/a\u003e\u003c/td\u003e\u003ctd\u003eEye drops, powder and solvent for suspension\u003c/td\u003e\u003c/tr\u003e\u003ctr\u003e\u003ctd style\u003d\"white-space:nowrap\"\u003e100000073801\u003ca name\u003d\"combined-dose-form-100000073801\"\u003e \u003c/a\u003e\u003c/td\u003e\u003ctd\u003eEar drops, powder and solvent for suspension\u003c/td\u003e\u003c/tr\u003e\u003ctr\u003e\u003ctd style\u003d\"white-space:nowrap\"\u003e100000073860\u003ca name\u003d\"combined-dose-form-100000073860\"\u003e \u003c/a\u003e\u003c/td\u003e\u003ctd\u003ePowder and solvent for solution for infusion\u003c/td\u003e\u003c/tr\u003e\u003ctr\u003e\u003ctd style\u003d\"white-space:nowrap\"\u003e100000073868\u003ca name\u003d\"combined-dose-form-100000073868\"\u003e \u003c/a\u003e\u003c/td\u003e\u003ctd\u003ePowder and solvent for solution for injection\u003c/td\u003e\u003c/tr\u003e\u003ctr\u003e\u003ctd style\u003d\"white-space:nowrap\"\u003e100000073869\u003ca name\u003d\"combined-dose-form-100000073869\"\u003e \u003c/a\u003e\u003c/td\u003e\u003ctd\u003ePowder and solvent for suspension for injection\u003c/td\u003e\u003c/tr\u003e\u003ctr\u003e\u003ctd style\u003d\"white-space:nowrap\"\u003e100000073884\u003ca name\u003d\"combined-dose-form-100000073884\"\u003e \u003c/a\u003e\u003c/td\u003e\u003ctd\u003ePowder and solvent for implantation paste\u003c/td\u003e\u003c/tr\u003e\u003ctr\u003e\u003ctd style\u003d\"white-space:nowrap\"\u003e100000073891\u003ca name\u003d\"combined-dose-form-100000073891\"\u003e \u003c/a\u003e\u003c/td\u003e\u003ctd\u003eEndotracheopulmonary instillation, powder and solvent for solution\u003c/td\u003e\u003c/tr\u003e\u003ctr\u003e\u003ctd style\u003d\"white-space:nowrap\"\u003e100000073892\u003ca name\u003d\"combined-dose-form-100000073892\"\u003e \u003c/a\u003e\u003c/td\u003e\u003ctd\u003ePowder and solvent for endocervical gel\u003c/td\u003e\u003c/tr\u003e\u003ctr\u003e\u003ctd style\u003d\"white-space:nowrap\"\u003e100000073941\u003ca name\u003d\"combined-dose-form-100000073941\"\u003e \u003c/a\u003e\u003c/td\u003e\u003ctd\u003ePowder and solvent for sealant\u003c/td\u003e\u003c/tr\u003e\u003ctr\u003e\u003ctd style\u003d\"white-space:nowrap\"\u003e100000073972\u003ca name\u003d\"combined-dose-form-100000073972\"\u003e \u003c/a\u003e\u003c/td\u003e\u003ctd\u003eConcentrate and solvent for concentrate for solution for infusion\u003c/td\u003e\u003c/tr\u003e\u003ctr\u003e\u003ctd style\u003d\"white-space:nowrap\"\u003e100000073973\u003ca name\u003d\"combined-dose-form-100000073973\"\u003e \u003c/a\u003e\u003c/td\u003e\u003ctd\u003eConcentrate and solvent for cutaneous use\u003c/td\u003e\u003c/tr\u003e\u003ctr\u003e\u003ctd style\u003d\"white-space:nowrap\"\u003e100000073974\u003ca name\u003d\"combined-dose-form-100000073974\"\u003e \u003c/a\u003e\u003c/td\u003e\u003ctd\u003eConcentrate and solvent for injection\u003c/td\u003e\u003c/tr\u003e\u003ctr\u003e\u003ctd style\u003d\"white-space:nowrap\"\u003e100000073975\u003ca name\u003d\"combined-dose-form-100000073975\"\u003e \u003c/a\u003e\u003c/td\u003e\u003ctd\u003eConcentrate and solvent for solution for infusion\u003c/td\u003e\u003c/tr\u003e\u003ctr\u003e\u003ctd style\u003d\"white-space:nowrap\"\u003e100000073987\u003ca name\u003d\"combined-dose-form-100000073987\"\u003e \u003c/a\u003e\u003c/td\u003e\u003ctd\u003eConcentrate and diluent for solution for infusion\u003c/td\u003e\u003c/tr\u003e\u003ctr\u003e\u003ctd style\u003d\"white-space:nowrap\"\u003e100000073988\u003ca name\u003d\"combined-dose-form-100000073988\"\u003e \u003c/a\u003e\u003c/td\u003e\u003ctd\u003eConcentrate and solvent for cutaneous solution\u003c/td\u003e\u003c/tr\u003e\u003ctr\u003e\u003ctd style\u003d\"white-space:nowrap\"\u003e100000073989\u003ca name\u003d\"combined-dose-form-100000073989\"\u003e \u003c/a\u003e\u003c/td\u003e\u003ctd\u003eConcentrate and solvent for solution for injection\u003c/td\u003e\u003c/tr\u003e\u003ctr\u003e\u003ctd style\u003d\"white-space:nowrap\"\u003e100000073990\u003ca name\u003d\"combined-dose-form-100000073990\"\u003e \u003c/a\u003e\u003c/td\u003e\u003ctd\u003eConcentrate and solvent for suspension for injection\u003c/td\u003e\u003c/tr\u003e\u003ctr\u003e\u003ctd style\u003d\"white-space:nowrap\"\u003e100000073999\u003ca name\u003d\"combined-dose-form-100000073999\"\u003e \u003c/a\u003e\u003c/td\u003e\u003ctd\u003eGranules and solvent for suspension for injection\u003c/td\u003e\u003c/tr\u003e\u003ctr\u003e\u003ctd style\u003d\"white-space:nowrap\"\u003e100000074015\u003ca name\u003d\"combined-dose-form-100000074015\"\u003e \u003c/a\u003e\u003c/td\u003e\u003ctd\u003ePowder and solvent for concentrate for solution for infusion\u003c/td\u003e\u003c/tr\u003e\u003ctr\u003e\u003ctd style\u003d\"white-space:nowrap\"\u003e100000074016\u003ca name\u003d\"combined-dose-form-100000074016\"\u003e \u003c/a\u003e\u003c/td\u003e\u003ctd\u003ePowder and solvent for cutaneous solution\u003c/td\u003e\u003c/tr\u003e\u003ctr\u003e\u003ctd style\u003d\"white-space:nowrap\"\u003e100000074017\u003ca name\u003d\"combined-dose-form-100000074017\"\u003e \u003c/a\u003e\u003c/td\u003e\u003ctd\u003ePowder and solvent for gingival gel\u003c/td\u003e\u003c/tr\u003e\u003ctr\u003e\u003ctd style\u003d\"white-space:nowrap\"\u003e100000074018\u003ca name\u003d\"combined-dose-form-100000074018\"\u003e \u003c/a\u003e\u003c/td\u003e\u003ctd\u003ePowder and solvent for prolonged-release suspension for injection\u003c/td\u003e\u003c/tr\u003e\u003ctr\u003e\u003ctd style\u003d\"white-space:nowrap\"\u003e100000074030\u003ca name\u003d\"combined-dose-form-100000074030\"\u003e \u003c/a\u003e\u003c/td\u003e\u003ctd\u003ePowder and solvent for endosinusial solution\u003c/td\u003e\u003c/tr\u003e\u003ctr\u003e\u003ctd style\u003d\"white-space:nowrap\"\u003e100000074031\u003ca name\u003d\"combined-dose-form-100000074031\"\u003e \u003c/a\u003e\u003c/td\u003e\u003ctd\u003ePowder and solvent for intraocular instillation solution\u003c/td\u003e\u003c/tr\u003e\u003ctr\u003e\u003ctd style\u003d\"white-space:nowrap\"\u003e100000074032\u003ca name\u003d\"combined-dose-form-100000074032\"\u003e \u003c/a\u003e\u003c/td\u003e\u003ctd\u003ePowder and suspension for suspension for injection\u003c/td\u003e\u003c/tr\u003e\u003ctr\u003e\u003ctd style\u003d\"white-space:nowrap\"\u003e100000074048\u003ca name\u003d\"combined-dose-form-100000074048\"\u003e \u003c/a\u003e\u003c/td\u003e\u003ctd\u003eSuspension and effervescent granules for oral suspension\u003c/td\u003e\u003c/tr\u003e\u003ctr\u003e\u003ctd style\u003d\"white-space:nowrap\"\u003e100000074051\u003ca name\u003d\"combined-dose-form-100000074051\"\u003e \u003c/a\u003e\u003c/td\u003e\u003ctd\u003eTablet and solvent for rectal suspension\u003c/td\u003e\u003c/tr\u003e\u003ctr\u003e\u003ctd style\u003d\"white-space:nowrap\"\u003e100000074053\u003ca name\u003d\"combined-dose-form-100000074053\"\u003e \u003c/a\u003e\u003c/td\u003e\u003ctd\u003ePowder and solvent for dental gel\u003c/td\u003e\u003c/tr\u003e\u003ctr\u003e\u003ctd style\u003d\"white-space:nowrap\"\u003e100000074056\u003ca name\u003d\"combined-dose-form-100000074056\"\u003e \u003c/a\u003e\u003c/td\u003e\u003ctd\u003eGas and solvent for dispersion for injection/infusion\u003c/td\u003e\u003c/tr\u003e\u003ctr\u003e\u003ctd style\u003d\"white-space:nowrap\"\u003e100000074057\u003ca name\u003d\"combined-dose-form-100000074057\"\u003e \u003c/a\u003e\u003c/td\u003e\u003ctd\u003ePowder and solvent for solution for injection/infusion\u003c/td\u003e\u003c/tr\u003e\u003ctr\u003e\u003ctd style\u003d\"white-space:nowrap\"\u003e100000074061\u003ca name\u003d\"combined-dose-form-100000074061\"\u003e \u003c/a\u003e\u003c/td\u003e\u003ctd\u003eSuspension and solution for spray\u003c/td\u003e\u003c/tr\u003e\u003ctr\u003e\u003ctd style\u003d\"white-space:nowrap\"\u003e100000074064\u003ca name\u003d\"combined-dose-form-100000074064\"\u003e \u003c/a\u003e\u003c/td\u003e\u003ctd\u003eTablet and powder for oral solution\u003c/td\u003e\u003c/tr\u003e\u003ctr\u003e\u003ctd style\u003d\"white-space:nowrap\"\u003e100000075580\u003ca name\u003d\"combined-dose-form-100000075580\"\u003e \u003c/a\u003e\u003c/td\u003e\u003ctd\u003eEmulsion and suspension for emulsion for injection\u003c/td\u003e\u003c/tr\u003e\u003ctr\u003e\u003ctd style\u003d\"white-space:nowrap\"\u003e100000075584\u003ca name\u003d\"combined-dose-form-100000075584\"\u003e \u003c/a\u003e\u003c/td\u003e\u003ctd\u003ePowder and solvent for dispersion for injection\u003c/td\u003e\u003c/tr\u003e\u003ctr\u003e\u003ctd style\u003d\"white-space:nowrap\"\u003e100000075587\u003ca name\u003d\"combined-dose-form-100000075587\"\u003e \u003c/a\u003e\u003c/td\u003e\u003ctd\u003ePowder for mouth wash\u003c/td\u003e\u003c/tr\u003e\u003ctr\u003e\u003ctd style\u003d\"white-space:nowrap\"\u003e100000116137\u003ca name\u003d\"combined-dose-form-100000116137\"\u003e \u003c/a\u003e\u003c/td\u003e\u003ctd\u003eLyophilisate and solvent for solution for injection\u003c/td\u003e\u003c/tr\u003e\u003ctr\u003e\u003ctd style\u003d\"white-space:nowrap\"\u003e100000116141\u003ca name\u003d\"combined-dose-form-100000116141\"\u003e \u003c/a\u003e\u003c/td\u003e\u003ctd\u003eFibrin sealant-powder and solvent for fibrin sealant\u003c/td\u003e\u003c/tr\u003e\u003ctr\u003e\u003ctd style\u003d\"white-space:nowrap\"\u003e100000116155\u003ca name\u003d\"combined-dose-form-100000116155\"\u003e \u003c/a\u003e\u003c/td\u003e\u003ctd\u003eGranules and solvent for oral suspension\u003c/td\u003e\u003c/tr\u003e\u003ctr\u003e\u003ctd style\u003d\"white-space:nowrap\"\u003e100000116160\u003ca name\u003d\"combined-dose-form-100000116160\"\u003e \u003c/a\u003e\u003c/td\u003e\u003ctd\u003eLyophilisate and solvent for suspension for injection\u003c/td\u003e\u003c/tr\u003e\u003ctr\u003e\u003ctd style\u003d\"white-space:nowrap\"\u003e100000116172\u003ca name\u003d\"combined-dose-form-100000116172\"\u003e \u003c/a\u003e\u003c/td\u003e\u003ctd\u003ePowder and gel for gel\u003c/td\u003e\u003c/tr\u003e\u003ctr\u003e\u003ctd style\u003d\"white-space:nowrap\"\u003e100000116173\u003ca name\u003d\"combined-dose-form-100000116173\"\u003e \u003c/a\u003e\u003c/td\u003e\u003ctd\u003ePowder and solution for solution for injection\u003c/td\u003e\u003c/tr\u003e\u003ctr\u003e\u003ctd style\u003d\"white-space:nowrap\"\u003e100000116174\u003ca name\u003d\"combined-dose-form-100000116174\"\u003e \u003c/a\u003e\u003c/td\u003e\u003ctd\u003ePowder and solvent for epilesional solution\u003c/td\u003e\u003c/tr\u003e\u003ctr\u003e\u003ctd style\u003d\"white-space:nowrap\"\u003e100000116175\u003ca name\u003d\"combined-dose-form-100000116175\"\u003e \u003c/a\u003e\u003c/td\u003e\u003ctd\u003ePowder and solvent for intravesical solution\u003c/td\u003e\u003c/tr\u003e\u003ctr\u003e\u003ctd style\u003d\"white-space:nowrap\"\u003e100000116176\u003ca name\u003d\"combined-dose-form-100000116176\"\u003e \u003c/a\u003e\u003c/td\u003e\u003ctd\u003ePowder and solvent for intravesical suspension\u003c/td\u003e\u003c/tr\u003e\u003ctr\u003e\u003ctd style\u003d\"white-space:nowrap\"\u003e100000116177\u003ca name\u003d\"combined-dose-form-100000116177\"\u003e \u003c/a\u003e\u003c/td\u003e\u003ctd\u003ePowder and solvent for nebuliser solution\u003c/td\u003e\u003c/tr\u003e\u003ctr\u003e\u003ctd style\u003d\"white-space:nowrap\"\u003e100000116179\u003ca name\u003d\"combined-dose-form-100000116179\"\u003e \u003c/a\u003e\u003c/td\u003e\u003ctd\u003ePowder, dispersion and solvent for concentrate for dispersion for infusion\u003c/td\u003e\u003c/tr\u003e\u003ctr\u003e\u003ctd style\u003d\"white-space:nowrap\"\u003e100000125746\u003ca name\u003d\"combined-dose-form-100000125746\"\u003e \u003c/a\u003e\u003c/td\u003e\u003ctd\u003ePowder and solvent for emulsion for injection\u003c/td\u003e\u003c/tr\u003e\u003ctr\u003e\u003ctd style\u003d\"white-space:nowrap\"\u003e100000125747\u003ca name\u003d\"combined-dose-form-100000125747\"\u003e \u003c/a\u003e\u003c/td\u003e\u003ctd\u003eNasal drops, powder and solvent for solution\u003c/td\u003e\u003c/tr\u003e\u003ctr\u003e\u003ctd style\u003d\"white-space:nowrap\"\u003e100000125777\u003ca name\u003d\"combined-dose-form-100000125777\"\u003e \u003c/a\u003e\u003c/td\u003e\u003ctd\u003eSuspension and solvent for suspension for injection\u003c/td\u003e\u003c/tr\u003e\u003ctr\u003e\u003ctd style\u003d\"white-space:nowrap\"\u003e100000136318\u003ca name\u003d\"combined-dose-form-100000136318\"\u003e \u003c/a\u003e\u003c/td\u003e\u003ctd\u003eConcentrate and solvent for solution for injection/infusion\u003c/td\u003e\u003c/tr\u003e\u003ctr\u003e\u003ctd style\u003d\"white-space:nowrap\"\u003e100000136325\u003ca name\u003d\"combined-dose-form-100000136325\"\u003e \u003c/a\u003e\u003c/td\u003e\u003ctd\u003ePowder and solvent for solution for injection/skin-prick test\u003c/td\u003e\u003c/tr\u003e\u003ctr\u003e\u003ctd style\u003d\"white-space:nowrap\"\u003e100000136558\u003ca name\u003d\"combined-dose-form-100000136558\"\u003e \u003c/a\u003e\u003c/td\u003e\u003ctd\u003eLyophilisate and solvent for suspension for nasal administration\u003c/td\u003e\u003c/tr\u003e\u003ctr\u003e\u003ctd style\u003d\"white-space:nowrap\"\u003e100000136560\u003ca name\u003d\"combined-dose-form-100000136560\"\u003e \u003c/a\u003e\u003c/td\u003e\u003ctd\u003ePowder and solvent for solution for sealant\u003c/td\u003e\u003c/tr\u003e\u003ctr\u003e\u003ctd style\u003d\"white-space:nowrap\"\u003e100000136907\u003ca name\u003d\"combined-dose-form-100000136907\"\u003e \u003c/a\u003e\u003c/td\u003e\u003ctd\u003eSolution for dispersion for injection/infusion\u003c/td\u003e\u003c/tr\u003e\u003ctr\u003e\u003ctd style\u003d\"white-space:nowrap\"\u003e100000143502\u003ca name\u003d\"combined-dose-form-100000143502\"\u003e \u003c/a\u003e\u003c/td\u003e\u003ctd\u003ePowder and solution for dental cement\u003c/td\u003e\u003c/tr\u003e\u003ctr\u003e\u003ctd style\u003d\"white-space:nowrap\"\u003e100000143546\u003ca name\u003d\"combined-dose-form-100000143546\"\u003e \u003c/a\u003e\u003c/td\u003e\u003ctd\u003eEndotracheopulmonary instillation, powder and solvent for suspension\u003c/td\u003e\u003c/tr\u003e\u003ctr\u003e\u003ctd style\u003d\"white-space:nowrap\"\u003e100000143552\u003ca name\u003d\"combined-dose-form-100000143552\"\u003e \u003c/a\u003e\u003c/td\u003e\u003ctd\u003ePowder, solvent and matrix for implantation matrix\u003c/td\u003e\u003c/tr\u003e\u003ctr\u003e\u003ctd style\u003d\"white-space:nowrap\"\u003e100000156068\u003ca name\u003d\"combined-dose-form-100000156068\"\u003e \u003c/a\u003e\u003c/td\u003e\u003ctd\u003eNasal drops, lyophilisate and solvent for suspension\u003c/td\u003e\u003c/tr\u003e\u003ctr\u003e\u003ctd style\u003d\"white-space:nowrap\"\u003e100000157796\u003ca name\u003d\"combined-dose-form-100000157796\"\u003e \u003c/a\u003e\u003c/td\u003e\u003ctd\u003eLyophilisate and suspension for suspension for injection\u003c/td\u003e\u003c/tr\u003e\u003ctr\u003e\u003ctd style\u003d\"white-space:nowrap\"\u003e100000164467\u003ca name\u003d\"combined-dose-form-100000164467\"\u003e \u003c/a\u003e\u003c/td\u003e\u003ctd\u003ePowder for concentrate and solution for solution for infusion\u003c/td\u003e\u003c/tr\u003e\u003ctr\u003e\u003ctd style\u003d\"white-space:nowrap\"\u003e100000169997\u003ca name\u003d\"combined-dose-form-100000169997\"\u003e \u003c/a\u003e\u003c/td\u003e\u003ctd\u003ePowder and solution for bee-hive solution\u003c/td\u003e\u003c/tr\u003e\u003ctr\u003e\u003ctd style\u003d\"white-space:nowrap\"\u003e100000170588\u003ca name\u003d\"combined-dose-form-100000170588\"\u003e \u003c/a\u003e\u003c/td\u003e\u003ctd\u003eSuspension and solvent for oral spray\u003c/td\u003e\u003c/tr\u003e\u003ctr\u003e\u003ctd style\u003d\"white-space:nowrap\"\u003e100000171127\u003ca name\u003d\"combined-dose-form-100000171127\"\u003e \u003c/a\u003e\u003c/td\u003e\u003ctd\u003eLyophilisate and solvent for oral suspension\u003c/td\u003e\u003c/tr\u003e\u003ctr\u003e\u003ctd style\u003d\"white-space:nowrap\"\u003e100000171193\u003ca name\u003d\"combined-dose-form-100000171193\"\u003e \u003c/a\u003e\u003c/td\u003e\u003ctd\u003eConcentrate and solvent for concentrate for oral spray, suspension\u003c/td\u003e\u003c/tr\u003e\u003ctr\u003e\u003ctd style\u003d\"white-space:nowrap\"\u003e100000171238\u003ca name\u003d\"combined-dose-form-100000171238\"\u003e \u003c/a\u003e\u003c/td\u003e\u003ctd\u003eLyophilisate and solvent for oculonasal suspension\u003c/td\u003e\u003c/tr\u003e\u003ctr\u003e\u003ctd style\u003d\"white-space:nowrap\"\u003e100000171935\u003ca name\u003d\"combined-dose-form-100000171935\"\u003e \u003c/a\u003e\u003c/td\u003e\u003ctd\u003eEmulsion and lyophilisate for suspension for injection\u003c/td\u003e\u003c/tr\u003e\u003ctr\u003e\u003ctd style\u003d\"white-space:nowrap\"\u003e100000174065\u003ca name\u003d\"combined-dose-form-100000174065\"\u003e \u003c/a\u003e\u003c/td\u003e\u003ctd\u003ePowder and solvent for syrup\u003c/td\u003e\u003c/tr\u003e\u003ctr\u003e\u003ctd style\u003d\"white-space:nowrap\"\u003e200000002161\u003ca name\u003d\"combined-dose-form-200000002161\"\u003e \u003c/a\u003e\u003c/td\u003e\u003ctd\u003eNasal spray, lyophilisate and solvent for suspension\u003c/td\u003e\u003c/tr\u003e\u003ctr\u003e\u003ctd style\u003d\"white-space:nowrap\"\u003e200000002287\u003ca name\u003d\"combined-dose-form-200000002287\"\u003e \u003c/a\u003e\u003c/td\u003e\u003ctd\u003ePowder and solution for bee-hive dispersion\u003c/td\u003e\u003c/tr\u003e\u003ctr\u003e\u003ctd style\u003d\"white-space:nowrap\"\u003e200000004201\u003ca name\u003d\"combined-dose-form-200000004201\"\u003e \u003c/a\u003e\u003c/td\u003e\u003ctd\u003eSolution and dispersion for nebuliser dispersion\u003c/td\u003e\u003c/tr\u003e\u003ctr\u003e\u003ctd style\u003d\"white-space:nowrap\"\u003e200000004819\u003ca name\u003d\"combined-dose-form-200000004819\"\u003e \u003c/a\u003e\u003c/td\u003e\u003ctd\u003eEffervescent powder and powder for oral suspension\u003c/td\u003e\u003c/tr\u003e\u003ctr\u003e\u003ctd style\u003d\"white-space:nowrap\"\u003e200000004820\u003ca name\u003d\"combined-dose-form-200000004820\"\u003e \u003c/a\u003e\u003c/td\u003e\u003ctd\u003eLyophilisate and solvent for emulsion for injection\u003c/td\u003e\u003c/tr\u003e\u003ctr\u003e\u003ctd style\u003d\"white-space:nowrap\"\u003e200000005547\u003ca name\u003d\"combined-dose-form-200000005547\"\u003e \u003c/a\u003e\u003c/td\u003e\u003ctd\u003ePowder and solution for suspension for injection\u003c/td\u003e\u003c/tr\u003e\u003ctr\u003e\u003ctd style\u003d\"white-space:nowrap\"\u003e200000010382\u003ca name\u003d\"combined-dose-form-200000010382\"\u003e \u003c/a\u003e\u003c/td\u003e\u003ctd\u003eLyophilisate and solvent for suspension for nasal spray or injection\u003c/td\u003e\u003c/tr\u003e\u003c/table\u003e\u003c/div\u003e"
+  },
+  "extension": [
+    {
+      "url": "http://hl7.org/fhir/StructureDefinition/structuredefinition-wg",
+      "valueCode": "brr"
+    },
+    {
+      "url": "http://hl7.org/fhir/StructureDefinition/structuredefinition-standards-status",
+      "valueCode": "trial-use"
+    },
+    {
+      "url": "http://hl7.org/fhir/StructureDefinition/structuredefinition-fmm",
+      "valueInteger": 1
+    }
+  ],
+  "url": "http://hl7.org/fhir/combined-dose-form",
+  "identifier": [
+    {
+      "system": "urn:ietf:rfc:3986",
+      "value": "urn:oid:2.16.840.1.113883.4.642.1.1554"
+    }
+  ],
+  "version": "4.3.0-cibuild",
+  "name": "CombinedDoseForm",
+  "title": "CombinedDoseForm",
+  "status": "draft",
+  "experimental": false,
+  "date": "2021-01-05T10:01:24+11:00",
+  "publisher": "HL7 (FHIR Project)",
+  "contact": [
+    {
+      "telecom": [
+        {
+          "system": "url",
+          "value": "http://hl7.org/fhir"
+        },
+        {
+          "system": "email",
+          "value": "fhir@lists.hl7.org"
+        }
+      ]
+    }
+  ],
+  "description": "Dose forms for a product as a whole, considering all individual parts, but before any mixing",
+  "caseSensitive": true,
+  "valueSet": "http://hl7.org/fhir/ValueSet/combined-dose-form",
+  "content": "complete",
+  "concept": [
+    {
+      "code": "100000073366",
+      "display": "Powder and solvent for oral solution"
+    },
+    {
+      "code": "100000073651",
+      "display": "Powder and solvent for oral suspension"
+    },
+    {
+      "code": "100000073774",
+      "display": "Eye drops, powder and solvent for solution"
+    },
+    {
+      "code": "100000073781",
+      "display": "Eye drops, powder and solvent for suspension"
+    },
+    {
+      "code": "100000073801",
+      "display": "Ear drops, powder and solvent for suspension"
+    },
+    {
+      "code": "100000073860",
+      "display": "Powder and solvent for solution for infusion"
+    },
+    {
+      "code": "100000073868",
+      "display": "Powder and solvent for solution for injection"
+    },
+    {
+      "code": "100000073869",
+      "display": "Powder and solvent for suspension for injection"
+    },
+    {
+      "code": "100000073884",
+      "display": "Powder and solvent for implantation paste"
+    },
+    {
+      "code": "100000073891",
+      "display": "Endotracheopulmonary instillation, powder and solvent for solution"
+    },
+    {
+      "code": "100000073892",
+      "display": "Powder and solvent for endocervical gel"
+    },
+    {
+      "code": "100000073941",
+      "display": "Powder and solvent for sealant"
+    },
+    {
+      "code": "100000073972",
+      "display": "Concentrate and solvent for concentrate for solution for infusion"
+    },
+    {
+      "code": "100000073973",
+      "display": "Concentrate and solvent for cutaneous use"
+    },
+    {
+      "code": "100000073974",
+      "display": "Concentrate and solvent for injection"
+    },
+    {
+      "code": "100000073975",
+      "display": "Concentrate and solvent for solution for infusion"
+    },
+    {
+      "code": "100000073987",
+      "display": "Concentrate and diluent for solution for infusion"
+    },
+    {
+      "code": "100000073988",
+      "display": "Concentrate and solvent for cutaneous solution"
+    },
+    {
+      "code": "100000073989",
+      "display": "Concentrate and solvent for solution for injection"
+    },
+    {
+      "code": "100000073990",
+      "display": "Concentrate and solvent for suspension for injection"
+    },
+    {
+      "code": "100000073999",
+      "display": "Granules and solvent for suspension for injection"
+    },
+    {
+      "code": "100000074015",
+      "display": "Powder and solvent for concentrate for solution for infusion"
+    },
+    {
+      "code": "100000074016",
+      "display": "Powder and solvent for cutaneous solution"
+    },
+    {
+      "code": "100000074017",
+      "display": "Powder and solvent for gingival gel"
+    },
+    {
+      "code": "100000074018",
+      "display": "Powder and solvent for prolonged-release suspension for injection"
+    },
+    {
+      "code": "100000074030",
+      "display": "Powder and solvent for endosinusial solution"
+    },
+    {
+      "code": "100000074031",
+      "display": "Powder and solvent for intraocular instillation solution"
+    },
+    {
+      "code": "100000074032",
+      "display": "Powder and suspension for suspension for injection"
+    },
+    {
+      "code": "100000074048",
+      "display": "Suspension and effervescent granules for oral suspension"
+    },
+    {
+      "code": "100000074051",
+      "display": "Tablet and solvent for rectal suspension"
+    },
+    {
+      "code": "100000074053",
+      "display": "Powder and solvent for dental gel"
+    },
+    {
+      "code": "100000074056",
+      "display": "Gas and solvent for dispersion for injection/infusion"
+    },
+    {
+      "code": "100000074057",
+      "display": "Powder and solvent for solution for injection/infusion"
+    },
+    {
+      "code": "100000074061",
+      "display": "Suspension and solution for spray"
+    },
+    {
+      "code": "100000074064",
+      "display": "Tablet and powder for oral solution"
+    },
+    {
+      "code": "100000075580",
+      "display": "Emulsion and suspension for emulsion for injection"
+    },
+    {
+      "code": "100000075584",
+      "display": "Powder and solvent for dispersion for injection"
+    },
+    {
+      "code": "100000075587",
+      "display": "Powder for mouth wash"
+    },
+    {
+      "code": "100000116137",
+      "display": "Lyophilisate and solvent for solution for injection"
+    },
+    {
+      "code": "100000116141",
+      "display": "Fibrin sealant-powder and solvent for fibrin sealant"
+    },
+    {
+      "code": "100000116155",
+      "display": "Granules and solvent for oral suspension"
+    },
+    {
+      "code": "100000116160",
+      "display": "Lyophilisate and solvent for suspension for injection"
+    },
+    {
+      "code": "100000116172",
+      "display": "Powder and gel for gel"
+    },
+    {
+      "code": "100000116173",
+      "display": "Powder and solution for solution for injection"
+    },
+    {
+      "code": "100000116174",
+      "display": "Powder and solvent for epilesional solution"
+    },
+    {
+      "code": "100000116175",
+      "display": "Powder and solvent for intravesical solution"
+    },
+    {
+      "code": "100000116176",
+      "display": "Powder and solvent for intravesical suspension"
+    },
+    {
+      "code": "100000116177",
+      "display": "Powder and solvent for nebuliser solution"
+    },
+    {
+      "code": "100000116179",
+      "display": "Powder, dispersion and solvent for concentrate for dispersion for infusion"
+    },
+    {
+      "code": "100000125746",
+      "display": "Powder and solvent for emulsion for injection"
+    },
+    {
+      "code": "100000125747",
+      "display": "Nasal drops, powder and solvent for solution"
+    },
+    {
+      "code": "100000125777",
+      "display": "Suspension and solvent for suspension for injection"
+    },
+    {
+      "code": "100000136318",
+      "display": "Concentrate and solvent for solution for injection/infusion"
+    },
+    {
+      "code": "100000136325",
+      "display": "Powder and solvent for solution for injection/skin-prick test"
+    },
+    {
+      "code": "100000136558",
+      "display": "Lyophilisate and solvent for suspension for nasal administration"
+    },
+    {
+      "code": "100000136560",
+      "display": "Powder and solvent for solution for sealant"
+    },
+    {
+      "code": "100000136907",
+      "display": "Solution for dispersion for injection/infusion"
+    },
+    {
+      "code": "100000143502",
+      "display": "Powder and solution for dental cement"
+    },
+    {
+      "code": "100000143546",
+      "display": "Endotracheopulmonary instillation, powder and solvent for suspension"
+    },
+    {
+      "code": "100000143552",
+      "display": "Powder, solvent and matrix for implantation matrix"
+    },
+    {
+      "code": "100000156068",
+      "display": "Nasal drops, lyophilisate and solvent for suspension"
+    },
+    {
+      "code": "100000157796",
+      "display": "Lyophilisate and suspension for suspension for injection"
+    },
+    {
+      "code": "100000164467",
+      "display": "Powder for concentrate and solution for solution for infusion"
+    },
+    {
+      "code": "100000169997",
+      "display": "Powder and solution for bee-hive solution"
+    },
+    {
+      "code": "100000170588",
+      "display": "Suspension and solvent for oral spray"
+    },
+    {
+      "code": "100000171127",
+      "display": "Lyophilisate and solvent for oral suspension"
+    },
+    {
+      "code": "100000171193",
+      "display": "Concentrate and solvent for concentrate for oral spray, suspension"
+    },
+    {
+      "code": "100000171238",
+      "display": "Lyophilisate and solvent for oculonasal suspension"
+    },
+    {
+      "code": "100000171935",
+      "display": "Emulsion and lyophilisate for suspension for injection"
+    },
+    {
+      "code": "100000174065",
+      "display": "Powder and solvent for syrup"
+    },
+    {
+      "code": "200000002161",
+      "display": "Nasal spray, lyophilisate and solvent for suspension"
+    },
+    {
+      "code": "200000002287",
+      "display": "Powder and solution for bee-hive dispersion"
+    },
+    {
+      "code": "200000004201",
+      "display": "Solution and dispersion for nebuliser dispersion"
+    },
+    {
+      "code": "200000004819",
+      "display": "Effervescent powder and powder for oral suspension"
+    },
+    {
+      "code": "200000004820",
+      "display": "Lyophilisate and solvent for emulsion for injection"
+    },
+    {
+      "code": "200000005547",
+      "display": "Powder and solution for suspension for injection"
+    },
+    {
+      "code": "200000010382",
+      "display": "Lyophilisate and solvent for suspension for nasal spray or injection"
+    }
+  ]
+}

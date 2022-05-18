@@ -1,5 +1,5 @@
 /*
- * (C) Copyright IBM Corp. 2019, 2021
+ * (C) Copyright IBM Corp. 2019, 2022
  *
  * SPDX-License-Identifier: Apache-2.0
  */
@@ -77,7 +77,7 @@ public class Media extends DomainResource {
         bindingName = "MediaStatus",
         strength = BindingStrength.Value.REQUIRED,
         description = "Codes identifying the lifecycle stage of an event.",
-        valueSet = "http://hl7.org/fhir/ValueSet/event-status|4.0.1"
+        valueSet = "http://hl7.org/fhir/ValueSet/event-status|4.3.0-cibuild"
     )
     @Required
     private final MediaStatus status;
@@ -131,7 +131,7 @@ public class Media extends DomainResource {
     @Binding(
         bindingName = "BodySite",
         strength = BindingStrength.Value.EXAMPLE,
-        description = "Codes describing anatomical locations. May include laterality.",
+        description = "SNOMED CT Body site concepts",
         valueSet = "http://hl7.org/fhir/ValueSet/body-site"
     )
     private final CodeableConcept bodySite;

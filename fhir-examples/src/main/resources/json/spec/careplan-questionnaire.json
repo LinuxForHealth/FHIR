@@ -9,8 +9,8 @@
       "status": "active",
       "description": "Type options for CarePlan.activity.detail.scheduled[x]",
       "expansion": {
-        "identifier": "urn:uuid:e1a5208a-e0fc-4cc0-8ec4-c4dc5ae1b624",
-        "timestamp": "2019-11-01T09:34:37+11:00",
+        "identifier": "urn:uuid:a852455d-6499-4c51-8797-d57e218bb273",
+        "timestamp": "2022-04-23T22:28:38+00:00",
         "contains": [
           {
             "system": "http://hl7.org/fhir/data-types",
@@ -37,8 +37,8 @@
       "status": "active",
       "description": "Type options for CarePlan.activity.detail.product[x]",
       "expansion": {
-        "identifier": "urn:uuid:46cee3c1-86be-4672-b975-f373f97a29ee",
-        "timestamp": "2019-11-01T09:34:37+11:00",
+        "identifier": "urn:uuid:7d14bad4-2393-4c4d-9f43-893f99088936",
+        "timestamp": "2022-04-23T22:28:38+00:00",
         "contains": [
           {
             "system": "http://hl7.org/fhir/data-types",
@@ -64,9 +64,10 @@
       "system": "urn:ietf:rfc:3986"
     }
   ],
-  "version": "4.0.1",
+  "version": "4.3.0-cibuild",
   "status": "draft",
-  "date": "2019-11-01T09:29:23+11:00",
+  "experimental": false,
+  "date": "2022-04-23T22:21:35+00:00",
   "publisher": "Health Level Seven International (Patient Care)",
   "item": [
     {
@@ -91,6 +92,7 @@
               }
             }
           ],
+          "linkId": "CarePlan-flyover",
           "text": "Describes the intention of how one or more practitioners intend to deliver care for a particular patient, group or community for a period of time, possibly limited to care for a specific condition or set of conditions.",
           "type": "display"
         },
@@ -125,6 +127,7 @@
                   }
                 }
               ],
+              "linkId": "CarePlan.id-flyover",
               "text": "The logical id of the resource, as used in the URL for the resource. Once assigned, this value never changes. The only time that a resource does not have an id is when it is being submitted to the server using a create operation.",
               "type": "display"
             },
@@ -165,6 +168,7 @@
                   }
                 }
               ],
+              "linkId": "CarePlan.meta-flyover",
               "text": "The metadata about the resource. This is content that is maintained by the infrastructure. Changes to the content might not always be associated with version changes to the resource.",
               "type": "display"
             }
@@ -201,6 +205,7 @@
                   }
                 }
               ],
+              "linkId": "CarePlan.implicitRules-flyover",
               "text": "A reference to a set of rules that were followed when the resource was constructed, and which must be understood when processing the content. Often, this is a reference to an implementation guide that defines the special rules along with other profiles etc. Asserting this rule set restricts the content to be only understood by a limited set of trading partners. This inherently limits the usefulness of the data in the long term. However, the existing health eco-system is highly fractured, and not yet ready to define, collect, and exchange data in a generally computable sense. Wherever possible, implementers and/or specification writers should avoid using this element. Often, when used, the URL is a reference to an implementation guide that defines these special rules as part of it\u0027s narrative along with other profiles, value sets, etc.",
               "type": "display"
             },
@@ -244,6 +249,7 @@
                   }
                 }
               ],
+              "linkId": "CarePlan.language-flyover",
               "text": "The base language in which the resource is written. Language is provided to support indexing and accessibility (typically, services such as text to speech use the language tag). The html language tag in the narrative applies  to the narrative. The language tag on the resource may be used to specify the language of other presentations generated from the data in the resource. Not all the content has to be in the base language. The Resource.language should not be assumed to apply to the narrative automatically. If a language is specified, it should it also be specified on the div element in the html (see rules in HTML5 for information about the relationship between xml:lang and the html lang attribute).",
               "type": "display"
             },
@@ -284,6 +290,7 @@
                   }
                 }
               ],
+              "linkId": "CarePlan.text-flyover",
               "text": "A human-readable narrative that contains a summary of the resource and can be used to represent the content of the resource to a human. The narrative need not encode all the structured data, but is required to contain sufficient detail to make it \"clinically safe\" for a human to just read the narrative. Resource definitions may define what content should be represented in the narrative to ensure clinical safety. Contained resources do not have narrative. Resources that are not contained SHOULD have a narrative. In some cases, a resource may only have text with little or no additional discrete data (as long as all minOccurs\u003d1 elements are satisfied).  This may be necessary for data from legacy systems where information is captured as a \"text blob\" or where text is additionally entered raw or narrated and encoded information is added later.",
               "type": "display"
             }
@@ -311,6 +318,7 @@
                   }
                 }
               ],
+              "linkId": "CarePlan.contained-flyover",
               "text": "These resources do not have an independent existence apart from the resource that contains them - they cannot be identified independently, and nor can they have their own independent transaction scope. This should never be done when the content can be identified properly, as once identification is lost, it is extremely difficult (and context dependent) to restore it again. Contained resources may have profiles and tags In their meta elements, but SHALL NOT have security labels.",
               "type": "display"
             }
@@ -338,6 +346,7 @@
                   }
                 }
               ],
+              "linkId": "CarePlan.extension-flyover",
               "text": "May be used to represent additional information that is not part of the basic definition of the resource. To make the use of extensions safe and manageable, there is a strict set of governance  applied to the definition and use of extensions. Though any implementer can define an extension, there is a set of requirements that SHALL be met as part of the definition of the extension. There can be no stigma associated with the use of extensions by any application, project, or standard - regardless of the institution or jurisdiction that uses or defines the extensions.  The use of extensions is what allows the FHIR specification to retain a core level of simplicity for everyone.",
               "type": "display"
             }
@@ -365,6 +374,7 @@
                   }
                 }
               ],
+              "linkId": "CarePlan.modifierExtension-flyover",
               "text": "May be used to represent additional information that is not part of the basic definition of the resource and that modifies the understanding of the element that contains it and/or the understanding of the containing element\u0027s descendants. Usually modifier elements provide negation or qualification. To make the use of extensions safe and manageable, there is a strict set of governance applied to the definition and use of extensions. Though any implementer is allowed to define an extension, there is a set of requirements that SHALL be met as part of the definition of the extension. Applications processing a resource are required to check for modifier extensions.\n\nModifier extensions SHALL NOT change the meaning of any elements on Resource or DomainResource (including cannot change the meaning of modifierExtension itself). There can be no stigma associated with the use of extensions by any application, project, or standard - regardless of the institution or jurisdiction that uses or defines the extensions.  The use of extensions is what allows the FHIR specification to retain a core level of simplicity for everyone.",
               "type": "display"
             }
@@ -398,6 +408,7 @@
                   }
                 }
               ],
+              "linkId": "CarePlan.identifier-flyover",
               "text": "Business identifiers assigned to this care plan by the performer or other systems which remain constant as the resource is updated and propagates from server to server. This is a business identifier, not a resource identifier (see [discussion](resource.html#identifiers)).  It is best practice for the identifier to only appear on a single resource instance, however business practices may occasionally dictate that multiple resource instances with the same identifier can exist - possibly even with different resource types.  For example, multiple Patient and a Person resource instance might share the same social insurance number.",
               "type": "display"
             },
@@ -451,6 +462,7 @@
                   }
                 }
               ],
+              "linkId": "CarePlan.instantiatesCanonical-flyover",
               "text": "The URL pointing to a FHIR-defined protocol, guideline, questionnaire or other definition that is adhered to in whole or in part by this CarePlan.",
               "type": "display"
             },
@@ -490,6 +502,7 @@
                   }
                 }
               ],
+              "linkId": "CarePlan.instantiatesUri-flyover",
               "text": "The URL pointing to an externally maintained protocol, guideline, questionnaire or other definition that is adhered to in whole or in part by this CarePlan. This might be an HTML page, PDF, etc. or could just be a non-resolvable URI identifier.",
               "type": "display"
             },
@@ -529,6 +542,7 @@
                   }
                 }
               ],
+              "linkId": "CarePlan.basedOn-flyover",
               "text": "A care plan that is fulfilled in whole or in part by this care plan.",
               "type": "display"
             },
@@ -578,6 +592,7 @@
                   }
                 }
               ],
+              "linkId": "CarePlan.replaces-flyover",
               "text": "Completed or terminated care plan whose function is taken by this new care plan. The replacement could be because the initial care plan was immediately rejected (due to an issue) or because the previous care plan was completed, but the need for the action described by the care plan remains ongoing.",
               "type": "display"
             },
@@ -627,6 +642,7 @@
                   }
                 }
               ],
+              "linkId": "CarePlan.partOf-flyover",
               "text": "A larger care plan of which this particular care plan is a component or step. Each care plan is an independent request, such that having a care plan be part of another care plan can cause issues with cascading statuses.  As such, this element is still being discussed.",
               "type": "display"
             },
@@ -684,6 +700,7 @@
                   }
                 }
               ],
+              "linkId": "CarePlan.status-flyover",
               "text": "Indicates whether the plan is currently being acted upon, represents future intentions or is now a historical record. The unknown code is not to be used to convey other statuses.  The unknown code should be used when one of the statuses applies, but the authoring system doesn\u0027t know the current state of the care plan.\n\nThis element is labeled as a modifier because the status contains the code entered-in-error that marks the plan as not currently valid.",
               "type": "display"
             },
@@ -731,6 +748,7 @@
                   }
                 }
               ],
+              "linkId": "CarePlan.intent-flyover",
               "text": "Indicates the level of authority/intentionality associated with the care plan and where the care plan fits into the workflow chain. This element is labeled as a modifier because the intent alters when and how the resource is actually applicable.",
               "type": "display"
             },
@@ -771,13 +789,14 @@
                   }
                 }
               ],
+              "linkId": "CarePlan.category-flyover",
               "text": "Identifies what \"kind\" of plan this is to support differentiation between multiple co-existing plans; e.g. \"Home health\", \"psychiatric\", \"asthma\", \"disease management\", \"wellness plan\", etc. There may be multiple axes of categorization and one plan may serve multiple purposes.  In some cases, this may be redundant with references to CarePlan.concern.",
               "type": "display"
             },
             {
               "linkId": "CarePlan.category.coding",
               "text": "code:",
-              "type": "open-choice",
+              "type": "choice",
               "required": false,
               "repeats": false
             },
@@ -821,6 +840,7 @@
                   }
                 }
               ],
+              "linkId": "CarePlan.title-flyover",
               "text": "Human-friendly name for the care plan.",
               "type": "display"
             },
@@ -864,6 +884,7 @@
                   }
                 }
               ],
+              "linkId": "CarePlan.description-flyover",
               "text": "A description of the scope and nature of the plan.",
               "type": "display"
             },
@@ -911,6 +932,7 @@
                   }
                 }
               ],
+              "linkId": "CarePlan.subject-flyover",
               "text": "Identifies the patient or group whose intended care is described by the plan.",
               "type": "display"
             },
@@ -964,6 +986,7 @@
                   }
                 }
               ],
+              "linkId": "CarePlan.encounter-flyover",
               "text": "The Encounter during which this CarePlan was created or to which the creation of this record is tightly associated. This will typically be the encounter the event occurred within, but some activities may be initiated prior to or after the official completion of an encounter but still be tied to the context of the encounter. CarePlan activities conducted as a result of the care plan may well occur as part of other encounters.",
               "type": "display"
             },
@@ -1018,6 +1041,7 @@
                   }
                 }
               ],
+              "linkId": "CarePlan.period-flyover",
               "text": "Indicates when the plan did (or is intended to) come into effect and end. Any activities scheduled as part of the plan should be constrained to the specified period regardless of whether the activities are planned within a single encounter/episode or across multiple encounters/episodes (e.g. the longitudinal management of a chronic condition).",
               "type": "display"
             },
@@ -1068,6 +1092,7 @@
                   }
                 }
               ],
+              "linkId": "CarePlan.created-flyover",
               "text": "Represents when this particular CarePlan record was created in the system, which is often a system-generated date.",
               "type": "display"
             },
@@ -1111,6 +1136,7 @@
                   }
                 }
               ],
+              "linkId": "CarePlan.author-flyover",
               "text": "When populated, the author is responsible for the care plan.  The care plan is attributed to the author. The author may also be a contributor.  For example, an organization can be an author, but not listed as a contributor.",
               "type": "display"
             },
@@ -1160,6 +1186,7 @@
                   }
                 }
               ],
+              "linkId": "CarePlan.contributor-flyover",
               "text": "Identifies the individual(s) or organization who provided the contents of the care plan. Collaborative care plans may have multiple contributors.",
               "type": "display"
             },
@@ -1209,6 +1236,7 @@
                   }
                 }
               ],
+              "linkId": "CarePlan.careTeam-flyover",
               "text": "Identifies all people and organizations who are expected to be involved in the care envisioned by this plan.",
               "type": "display"
             },
@@ -1258,6 +1286,7 @@
                   }
                 }
               ],
+              "linkId": "CarePlan.addresses-flyover",
               "text": "Identifies the conditions/problems/concerns/diagnoses/etc. whose management and/or mitigation are handled by this plan. When the diagnosis is related to an allergy or intolerance, the Condition and AllergyIntolerance resources can both be used. However, to be actionable for decision support, using Condition alone is not sufficient as the allergy or intolerance condition needs to be represented as an AllergyIntolerance.",
               "type": "display"
             },
@@ -1307,6 +1336,7 @@
                   }
                 }
               ],
+              "linkId": "CarePlan.supportingInfo-flyover",
               "text": "Identifies portions of the patient\u0027s record that specifically influenced the formation of the plan.  These might include comorbidities, recent procedures, limitations, recent assessments, etc. Use \"concern\" to identify specific conditions addressed by the care plan.",
               "type": "display"
             },
@@ -1356,6 +1386,7 @@
                   }
                 }
               ],
+              "linkId": "CarePlan.goal-flyover",
               "text": "Describes the intended objective(s) of carrying out the care plan. Goal can be achieving a particular change or merely maintaining a current state or even slowing a decline.",
               "type": "display"
             },
@@ -1400,6 +1431,7 @@
                   }
                 }
               ],
+              "linkId": "CarePlan.activity-flyover",
               "text": "Identifies a planned action to occur as part of the plan.  For example, a medication to be used, lab tests to perform, self-monitoring, education, etc.",
               "type": "display"
             },
@@ -1434,6 +1466,7 @@
                       }
                     }
                   ],
+                  "linkId": "CarePlan.activity.id-flyover",
                   "text": "Unique id for the element within a resource (for internal references). This may be any string value that does not contain spaces.",
                   "type": "display"
                 },
@@ -1468,6 +1501,7 @@
                       }
                     }
                   ],
+                  "linkId": "CarePlan.activity.extension-flyover",
                   "text": "May be used to represent additional information that is not part of the basic definition of the element. To make the use of extensions safe and manageable, there is a strict set of governance  applied to the definition and use of extensions. Though any implementer can define an extension, there is a set of requirements that SHALL be met as part of the definition of the extension. There can be no stigma associated with the use of extensions by any application, project, or standard - regardless of the institution or jurisdiction that uses or defines the extensions.  The use of extensions is what allows the FHIR specification to retain a core level of simplicity for everyone.",
                   "type": "display"
                 }
@@ -1495,6 +1529,7 @@
                       }
                     }
                   ],
+                  "linkId": "CarePlan.activity.modifierExtension-flyover",
                   "text": "May be used to represent additional information that is not part of the basic definition of the element and that modifies the understanding of the element in which it is contained and/or the understanding of the containing element\u0027s descendants. Usually modifier elements provide negation or qualification. To make the use of extensions safe and manageable, there is a strict set of governance applied to the definition and use of extensions. Though any implementer can define an extension, there is a set of requirements that SHALL be met as part of the definition of the extension. Applications processing a resource are required to check for modifier extensions.\n\nModifier extensions SHALL NOT change the meaning of any elements on Resource or DomainResource (including cannot change the meaning of modifierExtension itself). There can be no stigma associated with the use of extensions by any application, project, or standard - regardless of the institution or jurisdiction that uses or defines the extensions.  The use of extensions is what allows the FHIR specification to retain a core level of simplicity for everyone.",
                   "type": "display"
                 }
@@ -1528,13 +1563,14 @@
                       }
                     }
                   ],
+                  "linkId": "CarePlan.activity.outcomeCodeableConcept-flyover",
                   "text": "Identifies the outcome at the point when the status of the activity is assessed.  For example, the outcome of an education activity could be patient understands (or not). Note that this should not duplicate the activity status (e.g. completed or in progress).",
                   "type": "display"
                 },
                 {
                   "linkId": "CarePlan.activity.outcomeCodeableConcept.coding",
                   "text": "code:",
-                  "type": "open-choice",
+                  "type": "choice",
                   "required": false,
                   "repeats": false
                 },
@@ -1574,6 +1610,7 @@
                       }
                     }
                   ],
+                  "linkId": "CarePlan.activity.outcomeReference-flyover",
                   "text": "Details of the outcome or action resulting from the activity.  The reference to an \"event\" resource, such as Procedure or Encounter or Observation, is the result/outcome of the activity itself.  The activity can be conveyed using CarePlan.activity.detail OR using the CarePlan.activity.reference (a reference to a “request” resource). The activity outcome is independent of the outcome of the related goal(s).  For example, if the goal is to achieve a target body weight of 150 lbs and an activity is defined to diet, then the activity outcome could be calories consumed whereas the goal outcome is an observation for the actual body weight measured.",
                   "type": "display"
                 },
@@ -1624,6 +1661,7 @@
                       }
                     }
                   ],
+                  "linkId": "CarePlan.activity.progress-flyover",
                   "text": "Notes about the adherence/status/progress of the activity. This element should NOT be used to describe the activity to be performed - that occurs either within the resource pointed to by activity.detail.reference or in activity.detail.description.",
                   "type": "display"
                 }
@@ -1660,6 +1698,7 @@
                       }
                     }
                   ],
+                  "linkId": "CarePlan.activity.reference-flyover",
                   "text": "The details of the proposed activity represented in a specific resource. Standard extension exists ([resource-pertainsToGoal](extension-resource-pertainstogoal.html)) that allows goals to be referenced from any of the referenced resources in CarePlan.activity.reference.  \rThe goal should be visible when the resource referenced by CarePlan.activity.reference is viewed independently from the CarePlan.  Requests that are pointed to by a CarePlan using this element should *not* point to this CarePlan using the \"basedOn\" element.  i.e. Requests that are part of a CarePlan are not \"based on\" the CarePlan.",
                   "type": "display"
                 },
@@ -1710,6 +1749,7 @@
                       }
                     }
                   ],
+                  "linkId": "CarePlan.activity.detail-flyover",
                   "text": "A simple summary of a planned activity suitable for a general care plan system (e.g. form driven) that doesn\u0027t know about specific resources such as procedure etc.",
                   "type": "display"
                 },
@@ -1744,6 +1784,7 @@
                           }
                         }
                       ],
+                      "linkId": "CarePlan.activity.detail.id-flyover",
                       "text": "Unique id for the element within a resource (for internal references). This may be any string value that does not contain spaces.",
                       "type": "display"
                     },
@@ -1778,6 +1819,7 @@
                           }
                         }
                       ],
+                      "linkId": "CarePlan.activity.detail.extension-flyover",
                       "text": "May be used to represent additional information that is not part of the basic definition of the element. To make the use of extensions safe and manageable, there is a strict set of governance  applied to the definition and use of extensions. Though any implementer can define an extension, there is a set of requirements that SHALL be met as part of the definition of the extension. There can be no stigma associated with the use of extensions by any application, project, or standard - regardless of the institution or jurisdiction that uses or defines the extensions.  The use of extensions is what allows the FHIR specification to retain a core level of simplicity for everyone.",
                       "type": "display"
                     }
@@ -1805,6 +1847,7 @@
                           }
                         }
                       ],
+                      "linkId": "CarePlan.activity.detail.modifierExtension-flyover",
                       "text": "May be used to represent additional information that is not part of the basic definition of the element and that modifies the understanding of the element in which it is contained and/or the understanding of the containing element\u0027s descendants. Usually modifier elements provide negation or qualification. To make the use of extensions safe and manageable, there is a strict set of governance applied to the definition and use of extensions. Though any implementer can define an extension, there is a set of requirements that SHALL be met as part of the definition of the extension. Applications processing a resource are required to check for modifier extensions.\n\nModifier extensions SHALL NOT change the meaning of any elements on Resource or DomainResource (including cannot change the meaning of modifierExtension itself). There can be no stigma associated with the use of extensions by any application, project, or standard - regardless of the institution or jurisdiction that uses or defines the extensions.  The use of extensions is what allows the FHIR specification to retain a core level of simplicity for everyone.",
                       "type": "display"
                     }
@@ -1841,6 +1884,7 @@
                           }
                         }
                       ],
+                      "linkId": "CarePlan.activity.detail.kind-flyover",
                       "text": "A description of the kind of resource the in-line definition of a care plan activity is representing.  The CarePlan.activity.detail is an in-line definition when a resource is not referenced using CarePlan.activity.reference.  For example, a MedicationRequest, a ServiceRequest, or a CommunicationRequest.",
                       "type": "display"
                     },
@@ -1880,6 +1924,7 @@
                           }
                         }
                       ],
+                      "linkId": "CarePlan.activity.detail.instantiatesCanonical-flyover",
                       "text": "The URL pointing to a FHIR-defined protocol, guideline, questionnaire or other definition that is adhered to in whole or in part by this CarePlan activity.",
                       "type": "display"
                     },
@@ -1919,6 +1964,7 @@
                           }
                         }
                       ],
+                      "linkId": "CarePlan.activity.detail.instantiatesUri-flyover",
                       "text": "The URL pointing to an externally maintained protocol, guideline, questionnaire or other definition that is adhered to in whole or in part by this CarePlan activity. This might be an HTML page, PDF, etc. or could just be a non-resolvable URI identifier.",
                       "type": "display"
                     },
@@ -1963,13 +2009,14 @@
                           }
                         }
                       ],
+                      "linkId": "CarePlan.activity.detail.code-flyover",
                       "text": "Detailed description of the type of planned activity; e.g. what lab test, what procedure, what kind of encounter. Tends to be less relevant for activities involving particular products.  Codes should not convey negation - use \"prohibited\" instead.",
                       "type": "display"
                     },
                     {
                       "linkId": "CarePlan.activity.detail.code.coding",
                       "text": "code:",
-                      "type": "open-choice",
+                      "type": "choice",
                       "required": false,
                       "repeats": false
                     },
@@ -2010,13 +2057,14 @@
                           }
                         }
                       ],
+                      "linkId": "CarePlan.activity.detail.reasonCode-flyover",
                       "text": "Provides the rationale that drove the inclusion of this particular activity as part of the plan or the reason why the activity was prohibited. This could be a diagnosis code.  If a full condition record exists or additional detail is needed, use reasonCondition instead.",
                       "type": "display"
                     },
                     {
                       "linkId": "CarePlan.activity.detail.reasonCode.coding",
                       "text": "code:",
-                      "type": "open-choice",
+                      "type": "choice",
                       "required": false,
                       "repeats": false
                     },
@@ -2056,6 +2104,7 @@
                           }
                         }
                       ],
+                      "linkId": "CarePlan.activity.detail.reasonReference-flyover",
                       "text": "Indicates another resource, such as the health condition(s), whose existence justifies this request and drove the inclusion of this particular activity as part of the plan. Conditions can be identified at the activity level that are not identified as reasons for the overall plan.",
                       "type": "display"
                     },
@@ -2105,6 +2154,7 @@
                           }
                         }
                       ],
+                      "linkId": "CarePlan.activity.detail.goal-flyover",
                       "text": "Internal reference that identifies the goals that this activity is intended to contribute towards meeting.",
                       "type": "display"
                     },
@@ -2162,6 +2212,7 @@
                           }
                         }
                       ],
+                      "linkId": "CarePlan.activity.detail.status-flyover",
                       "text": "Identifies what progress is being made for the specific activity. Some aspects of status can be inferred based on the resources linked in actionTaken.  Note that \"status\" is only as current as the plan was most recently updated.  \nThe unknown code is not to be used to convey other statuses.  The unknown code should be used when one of the statuses applies, but the authoring system doesn\u0027t know the current state of the activity.",
                       "type": "display"
                     },
@@ -2206,13 +2257,14 @@
                           }
                         }
                       ],
+                      "linkId": "CarePlan.activity.detail.statusReason-flyover",
                       "text": "Provides reason why the activity isn\u0027t yet started, is on hold, was cancelled, etc. Will generally not be present if status is \"complete\".  Be sure to prompt to update this (or at least remove the existing value) if the status is changed.",
                       "type": "display"
                     },
                     {
                       "linkId": "CarePlan.activity.detail.statusReason.coding",
                       "text": "code:",
-                      "type": "open-choice",
+                      "type": "choice",
                       "required": false,
                       "repeats": false
                     },
@@ -2256,6 +2308,7 @@
                           }
                         }
                       ],
+                      "linkId": "CarePlan.activity.detail.doNotPerform-flyover",
                       "text": "If true, indicates that the described activity is one that must NOT be engaged in when following the plan.  If false, or missing, indicates that the described activity is one that should be engaged in when following the plan. This element is labeled as a modifier because it marks an activity as an activity that is not to be performed.",
                       "type": "display"
                     },
@@ -2296,6 +2349,7 @@
                           }
                         }
                       ],
+                      "linkId": "CarePlan.activity.detail.scheduled[x]-flyover",
                       "text": "The period, timing or frequency upon which the described activity is to occur.",
                       "type": "display"
                     },
@@ -2433,6 +2487,7 @@
                           }
                         }
                       ],
+                      "linkId": "CarePlan.activity.detail.location-flyover",
                       "text": "Identifies the facility where the activity will occur; e.g. home, hospital, specific clinic, etc. May reference a specific clinical location or may identify a type of location.",
                       "type": "display"
                     },
@@ -2482,6 +2537,7 @@
                           }
                         }
                       ],
+                      "linkId": "CarePlan.activity.detail.performer-flyover",
                       "text": "Identifies who\u0027s expected to be involved in the activity. A performer MAY also be a participant in the care plan.",
                       "type": "display"
                     },
@@ -2532,6 +2588,7 @@
                           }
                         }
                       ],
+                      "linkId": "CarePlan.activity.detail.product[x]-flyover",
                       "text": "Identifies the food, drug or other product to be consumed or supplied in the activity.",
                       "type": "display"
                     },
@@ -2556,7 +2613,7 @@
                             {
                               "linkId": "CarePlan.activity.detail.product[x]._null.coding",
                               "text": "code:",
-                              "type": "open-choice",
+                              "type": "choice",
                               "required": false,
                               "repeats": false
                             },
@@ -2633,6 +2690,7 @@
                           }
                         }
                       ],
+                      "linkId": "CarePlan.activity.detail.dailyAmount-flyover",
                       "text": "Identifies the quantity expected to be consumed in a given day.",
                       "type": "display"
                     },
@@ -2705,6 +2763,7 @@
                           }
                         }
                       ],
+                      "linkId": "CarePlan.activity.detail.quantity-flyover",
                       "text": "Identifies the quantity expected to be supplied, administered or consumed by the subject.",
                       "type": "display"
                     },
@@ -2776,6 +2835,7 @@
                           }
                         }
                       ],
+                      "linkId": "CarePlan.activity.detail.description-flyover",
                       "text": "This provides a textual description of constraints on the intended activity occurrence, including relation to other activities.  It may also include objectives, pre-conditions and end-conditions.  Finally, it may convey specifics about the activity such as body site, method, route, etc.",
                       "type": "display"
                     },
@@ -2820,6 +2880,7 @@
                   }
                 }
               ],
+              "linkId": "CarePlan.note-flyover",
               "text": "General notes about the care plan not covered elsewhere.",
               "type": "display"
             }

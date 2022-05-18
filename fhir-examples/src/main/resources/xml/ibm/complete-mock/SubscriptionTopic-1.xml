@@ -1,0 +1,151 @@
+<SubscriptionTopic xmlns="http://hl7.org/fhir">
+  <meta>
+    <versionId value="6-3lbe-gQN"/>
+    <lastUpdated value="2022-05-13T14:23:01.617062-04:00"/>
+    <source value="ETscg9HhMi"/>
+    <profile value="uiPTPoeg3h"/>
+    <security>
+      <system value="F8Y155aynZ"/>
+      <version value="exQQZE_CP4"/>
+      <code value="MfmvluAr9F"/>
+      <display value="9VoOrGePuh"/>
+      <userSelected value="true"/>
+    </security>
+    <tag>
+      <system value="3zneaYaq22"/>
+      <version value="L0KTsQrLHl"/>
+      <code value="DQLy33sjg3"/>
+      <display value="HKsnu0cwF3"/>
+      <userSelected value="true"/>
+    </tag>
+    <tag>
+      <code value="ibm/complete-mock"/>
+    </tag>
+  </meta>
+  <implicitRules value="A1zM30djJN"/>
+  <language value="en-US"/>
+  <text>
+    <status value="empty"/>
+    <div xmlns="http://www.w3.org/1999/xhtml"></div>
+  </text>
+  <url value="LFdzbupElq"/>
+  <identifier>
+    <use value="usual"/>
+    <type>
+      <coding>
+        <system value="rYph6Dwu7w"/>
+        <version value="7qLmAltyVo"/>
+        <code value="itj4BUT45s"/>
+        <display value="6aKuGtpf0X"/>
+        <userSelected value="true"/>
+      </coding>
+      <text value="LcUcgJGFKw"/>
+    </type>
+    <system value="29WnepyxU0"/>
+    <value value="yM3oga1G39"/>
+    <period>
+      <extension url="http://hl7.org/fhir/StructureDefinition/data-absent-reason">
+        <valueCode value="unknown"/>
+      </extension>
+    </period>
+  </identifier>
+  <version value="xh6JeiNA1p"/>
+  <title value="e5DMRKLUu6"/>
+  <derivedFrom value="fRmxXqG90h"/>
+  <status value="active"/>
+  <experimental value="true"/>
+  <date value="2022-05-13T14:23:01.619827-04:00"/>
+  <publisher value="1Bc1FyvANT"/>
+  <contact>
+    <name value="mClGZ8PZHh"/>
+    <telecom>
+      <system value="other"/>
+      <value value="zNCUBZoLrP"/>
+      <use value="temp"/>
+      <rank value="980836368"/>
+      <period>
+        <extension url="http://hl7.org/fhir/StructureDefinition/data-absent-reason">
+          <valueCode value="unknown"/>
+        </extension>
+      </period>
+    </telecom>
+  </contact>
+  <description value="IQt9S7rLFZ"/>
+  <useContext>
+    <code>
+      <system value="XyWzYF4LzE"/>
+      <version value="B61MPwpShW"/>
+      <code value="76gjBgTDlY"/>
+      <display value="bG7j9kx7dl"/>
+      <userSelected value="true"/>
+    </code>
+    <valueCodeableConcept>
+      <coding>
+        <system value="Luf9SHiRpy"/>
+        <version value="3JccfurJn2"/>
+        <code value="ITeZST6A8K"/>
+        <display value="EUN52AGLhs"/>
+        <userSelected value="true"/>
+      </coding>
+      <text value="QQQvJcrA9f"/>
+    </valueCodeableConcept>
+  </useContext>
+  <jurisdiction>
+    <coding>
+      <system value="DnUC89vkBD"/>
+      <version value="8jOhpBK5vx"/>
+      <code value="jGRFvK2Qx1"/>
+      <display value="tnQvYKC8zY"/>
+      <userSelected value="true"/>
+    </coding>
+    <text value="jDKc0JGJ2x"/>
+  </jurisdiction>
+  <purpose value="fwddsEYNgU"/>
+  <copyright value="_eDFaSe5hU"/>
+  <approvalDate value="2022-05-13"/>
+  <lastReviewDate value="2022-05-13"/>
+  <effectivePeriod>
+    <extension url="http://hl7.org/fhir/StructureDefinition/data-absent-reason">
+      <valueCode value="unknown"/>
+    </extension>
+  </effectivePeriod>
+  <resourceTrigger>
+    <description value="hGFDUiHyzc"/>
+    <resource value="l13dlLJ0eB"/>
+    <supportedInteraction value="create"/>
+    <queryCriteria>
+      <previous value="LCIN65yV5Q"/>
+      <resultForCreate value="test-passes"/>
+      <current value="pJcQnHIegm"/>
+      <resultForDelete value="test-fails"/>
+      <requireBoth value="true"/>
+    </queryCriteria>
+    <fhirPathCriteria value="OoO9KECkCV"/>
+  </resourceTrigger>
+  <eventTrigger>
+    <description value="1np_4VIjfY"/>
+    <event>
+      <coding>
+        <system value="iPqzZIE9Bj"/>
+        <version value="IyVATl8VRk"/>
+        <code value="i42XOvuRqt"/>
+        <display value="D536EguSc_"/>
+        <userSelected value="true"/>
+      </coding>
+      <text value="_lGiMBuVQJ"/>
+    </event>
+    <resource value="BTjFqjSENt"/>
+  </eventTrigger>
+  <canFilterBy>
+    <description value="iksV78NiGm"/>
+    <resource value="XdUCRWrKAR"/>
+    <filterParameter value="9v9Mb5yt5z"/>
+    <filterDefinition value="jPpTT0zuxd"/>
+    <modifier value="above"/>
+  </canFilterBy>
+  <notificationShape>
+    <resource value="KiU0gi_OAW"/>
+    <include value="8OWAv7J3kk"/>
+    <revInclude value="aJPVKwd3Ar"/>
+  </notificationShape>
+</SubscriptionTopic>

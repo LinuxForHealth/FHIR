@@ -1,5 +1,5 @@
 /*
- * (C) Copyright IBM Corp. 2019, 2021
+ * (C) Copyright IBM Corp. 2019, 2022
  *
  * SPDX-License-Identifier: Apache-2.0
  */
@@ -122,7 +122,6 @@ public class Timing extends BackboneElement {
     @Binding(
         bindingName = "TimingAbbreviation",
         strength = BindingStrength.Value.PREFERRED,
-        description = "Code for a known / defined timing pattern.",
         valueSet = "http://hl7.org/fhir/ValueSet/timing-abbreviation"
     )
     private final CodeableConcept code;
@@ -480,8 +479,7 @@ public class Timing extends BackboneElement {
         @Binding(
             bindingName = "UnitsOfTime",
             strength = BindingStrength.Value.REQUIRED,
-            description = "A unit of time (units from UCUM).",
-            valueSet = "http://hl7.org/fhir/ValueSet/units-of-time|4.0.1"
+            valueSet = "http://hl7.org/fhir/ValueSet/units-of-time|4.3.0-cibuild"
         )
         private final UnitsOfTime durationUnit;
         @Summary
@@ -496,15 +494,14 @@ public class Timing extends BackboneElement {
         @Binding(
             bindingName = "UnitsOfTime",
             strength = BindingStrength.Value.REQUIRED,
-            description = "A unit of time (units from UCUM).",
-            valueSet = "http://hl7.org/fhir/ValueSet/units-of-time|4.0.1"
+            valueSet = "http://hl7.org/fhir/ValueSet/units-of-time|4.3.0-cibuild"
         )
         private final UnitsOfTime periodUnit;
         @Summary
         @Binding(
             bindingName = "DayOfWeek",
             strength = BindingStrength.Value.REQUIRED,
-            valueSet = "http://hl7.org/fhir/ValueSet/days-of-week|4.0.1"
+            valueSet = "http://hl7.org/fhir/ValueSet/days-of-week|4.3.0-cibuild"
         )
         private final List<DayOfWeek> dayOfWeek;
         @Summary
@@ -513,8 +510,7 @@ public class Timing extends BackboneElement {
         @Binding(
             bindingName = "EventTiming",
             strength = BindingStrength.Value.REQUIRED,
-            description = "Real world event relating to the schedule.",
-            valueSet = "http://hl7.org/fhir/ValueSet/event-timing|4.0.1"
+            valueSet = "http://hl7.org/fhir/ValueSet/event-timing|4.3.0-cibuild"
         )
         private final List<EventTiming> when;
         @Summary

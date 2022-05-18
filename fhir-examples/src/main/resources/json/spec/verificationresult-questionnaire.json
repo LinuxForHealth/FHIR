@@ -6,9 +6,10 @@
       "system": "urn:ietf:rfc:3986"
     }
   ],
-  "version": "4.0.1",
+  "version": "4.3.0-cibuild",
   "status": "draft",
-  "date": "2019-11-01T09:29:23+11:00",
+  "experimental": false,
+  "date": "2022-04-23T22:21:35+00:00",
   "publisher": "Health Level Seven International (Patient Administration)",
   "item": [
     {
@@ -33,6 +34,7 @@
               }
             }
           ],
+          "linkId": "VerificationResult-flyover",
           "text": "Describes validation requirements, source(s), status and dates for one or more elements.",
           "type": "display"
         },
@@ -67,6 +69,7 @@
                   }
                 }
               ],
+              "linkId": "VerificationResult.id-flyover",
               "text": "The logical id of the resource, as used in the URL for the resource. Once assigned, this value never changes. The only time that a resource does not have an id is when it is being submitted to the server using a create operation.",
               "type": "display"
             },
@@ -107,6 +110,7 @@
                   }
                 }
               ],
+              "linkId": "VerificationResult.meta-flyover",
               "text": "The metadata about the resource. This is content that is maintained by the infrastructure. Changes to the content might not always be associated with version changes to the resource.",
               "type": "display"
             }
@@ -143,6 +147,7 @@
                   }
                 }
               ],
+              "linkId": "VerificationResult.implicitRules-flyover",
               "text": "A reference to a set of rules that were followed when the resource was constructed, and which must be understood when processing the content. Often, this is a reference to an implementation guide that defines the special rules along with other profiles etc. Asserting this rule set restricts the content to be only understood by a limited set of trading partners. This inherently limits the usefulness of the data in the long term. However, the existing health eco-system is highly fractured, and not yet ready to define, collect, and exchange data in a generally computable sense. Wherever possible, implementers and/or specification writers should avoid using this element. Often, when used, the URL is a reference to an implementation guide that defines these special rules as part of it\u0027s narrative along with other profiles, value sets, etc.",
               "type": "display"
             },
@@ -186,6 +191,7 @@
                   }
                 }
               ],
+              "linkId": "VerificationResult.language-flyover",
               "text": "The base language in which the resource is written. Language is provided to support indexing and accessibility (typically, services such as text to speech use the language tag). The html language tag in the narrative applies  to the narrative. The language tag on the resource may be used to specify the language of other presentations generated from the data in the resource. Not all the content has to be in the base language. The Resource.language should not be assumed to apply to the narrative automatically. If a language is specified, it should it also be specified on the div element in the html (see rules in HTML5 for information about the relationship between xml:lang and the html lang attribute).",
               "type": "display"
             },
@@ -226,6 +232,7 @@
                   }
                 }
               ],
+              "linkId": "VerificationResult.text-flyover",
               "text": "A human-readable narrative that contains a summary of the resource and can be used to represent the content of the resource to a human. The narrative need not encode all the structured data, but is required to contain sufficient detail to make it \"clinically safe\" for a human to just read the narrative. Resource definitions may define what content should be represented in the narrative to ensure clinical safety. Contained resources do not have narrative. Resources that are not contained SHOULD have a narrative. In some cases, a resource may only have text with little or no additional discrete data (as long as all minOccurs\u003d1 elements are satisfied).  This may be necessary for data from legacy systems where information is captured as a \"text blob\" or where text is additionally entered raw or narrated and encoded information is added later.",
               "type": "display"
             }
@@ -253,6 +260,7 @@
                   }
                 }
               ],
+              "linkId": "VerificationResult.contained-flyover",
               "text": "These resources do not have an independent existence apart from the resource that contains them - they cannot be identified independently, and nor can they have their own independent transaction scope. This should never be done when the content can be identified properly, as once identification is lost, it is extremely difficult (and context dependent) to restore it again. Contained resources may have profiles and tags In their meta elements, but SHALL NOT have security labels.",
               "type": "display"
             }
@@ -280,6 +288,7 @@
                   }
                 }
               ],
+              "linkId": "VerificationResult.extension-flyover",
               "text": "May be used to represent additional information that is not part of the basic definition of the resource. To make the use of extensions safe and manageable, there is a strict set of governance  applied to the definition and use of extensions. Though any implementer can define an extension, there is a set of requirements that SHALL be met as part of the definition of the extension. There can be no stigma associated with the use of extensions by any application, project, or standard - regardless of the institution or jurisdiction that uses or defines the extensions.  The use of extensions is what allows the FHIR specification to retain a core level of simplicity for everyone.",
               "type": "display"
             }
@@ -307,6 +316,7 @@
                   }
                 }
               ],
+              "linkId": "VerificationResult.modifierExtension-flyover",
               "text": "May be used to represent additional information that is not part of the basic definition of the resource and that modifies the understanding of the element that contains it and/or the understanding of the containing element\u0027s descendants. Usually modifier elements provide negation or qualification. To make the use of extensions safe and manageable, there is a strict set of governance applied to the definition and use of extensions. Though any implementer is allowed to define an extension, there is a set of requirements that SHALL be met as part of the definition of the extension. Applications processing a resource are required to check for modifier extensions.\n\nModifier extensions SHALL NOT change the meaning of any elements on Resource or DomainResource (including cannot change the meaning of modifierExtension itself). There can be no stigma associated with the use of extensions by any application, project, or standard - regardless of the institution or jurisdiction that uses or defines the extensions.  The use of extensions is what allows the FHIR specification to retain a core level of simplicity for everyone.",
               "type": "display"
             }
@@ -339,6 +349,7 @@
                   }
                 }
               ],
+              "linkId": "VerificationResult.target-flyover",
               "text": "A resource that was validated.",
               "type": "display"
             },
@@ -388,6 +399,7 @@
                   }
                 }
               ],
+              "linkId": "VerificationResult.targetLocation-flyover",
               "text": "The fhirpath location(s) within the resource that was validated.",
               "type": "display"
             },
@@ -432,13 +444,14 @@
                   }
                 }
               ],
+              "linkId": "VerificationResult.need-flyover",
               "text": "The frequency with which the target must be validated (none; initial; periodic).",
               "type": "display"
             },
             {
               "linkId": "VerificationResult.need.coding",
               "text": "code:",
-              "type": "open-choice",
+              "type": "choice",
               "required": false,
               "repeats": false
             },
@@ -486,6 +499,7 @@
                   }
                 }
               ],
+              "linkId": "VerificationResult.status-flyover",
               "text": "The validation status of the target (attested; validated; in process; requires revalidation; validation failed; revalidation failed).",
               "type": "display"
             },
@@ -529,6 +543,7 @@
                   }
                 }
               ],
+              "linkId": "VerificationResult.statusDate-flyover",
               "text": "When the validation status was updated.",
               "type": "display"
             },
@@ -573,13 +588,14 @@
                   }
                 }
               ],
+              "linkId": "VerificationResult.validationType-flyover",
               "text": "What the target is validated against (nothing; primary source; multiple sources).",
               "type": "display"
             },
             {
               "linkId": "VerificationResult.validationType.coding",
               "text": "code:",
-              "type": "open-choice",
+              "type": "choice",
               "required": false,
               "repeats": false
             },
@@ -620,13 +636,14 @@
                   }
                 }
               ],
+              "linkId": "VerificationResult.validationProcess-flyover",
               "text": "The primary process by which the target is validated (edit check; value set; primary source; multiple sources; standalone; in context).",
               "type": "display"
             },
             {
               "linkId": "VerificationResult.validationProcess.coding",
               "text": "code:",
-              "type": "open-choice",
+              "type": "choice",
               "required": false,
               "repeats": false
             },
@@ -671,6 +688,7 @@
                   }
                 }
               ],
+              "linkId": "VerificationResult.frequency-flyover",
               "text": "Frequency of revalidation.",
               "type": "display"
             },
@@ -742,6 +760,7 @@
                   }
                 }
               ],
+              "linkId": "VerificationResult.lastPerformed-flyover",
               "text": "The date/time validation was last completed (including failed validations).",
               "type": "display"
             },
@@ -785,6 +804,7 @@
                   }
                 }
               ],
+              "linkId": "VerificationResult.nextScheduled-flyover",
               "text": "The date when target is next validated, if appropriate.",
               "type": "display"
             },
@@ -829,13 +849,14 @@
                   }
                 }
               ],
+              "linkId": "VerificationResult.failureAction-flyover",
               "text": "The result if validation fails (fatal; warning; record only; none).",
               "type": "display"
             },
             {
               "linkId": "VerificationResult.failureAction.coding",
               "text": "code:",
-              "type": "open-choice",
+              "type": "choice",
               "required": false,
               "repeats": false
             },
@@ -870,6 +891,7 @@
                   }
                 }
               ],
+              "linkId": "VerificationResult.primarySource-flyover",
               "text": "Information about the primary source(s) involved in validation.",
               "type": "display"
             },
@@ -904,6 +926,7 @@
                       }
                     }
                   ],
+                  "linkId": "VerificationResult.primarySource.id-flyover",
                   "text": "Unique id for the element within a resource (for internal references). This may be any string value that does not contain spaces.",
                   "type": "display"
                 },
@@ -938,6 +961,7 @@
                       }
                     }
                   ],
+                  "linkId": "VerificationResult.primarySource.extension-flyover",
                   "text": "May be used to represent additional information that is not part of the basic definition of the element. To make the use of extensions safe and manageable, there is a strict set of governance  applied to the definition and use of extensions. Though any implementer can define an extension, there is a set of requirements that SHALL be met as part of the definition of the extension. There can be no stigma associated with the use of extensions by any application, project, or standard - regardless of the institution or jurisdiction that uses or defines the extensions.  The use of extensions is what allows the FHIR specification to retain a core level of simplicity for everyone.",
                   "type": "display"
                 }
@@ -965,6 +989,7 @@
                       }
                     }
                   ],
+                  "linkId": "VerificationResult.primarySource.modifierExtension-flyover",
                   "text": "May be used to represent additional information that is not part of the basic definition of the element and that modifies the understanding of the element in which it is contained and/or the understanding of the containing element\u0027s descendants. Usually modifier elements provide negation or qualification. To make the use of extensions safe and manageable, there is a strict set of governance applied to the definition and use of extensions. Though any implementer can define an extension, there is a set of requirements that SHALL be met as part of the definition of the extension. Applications processing a resource are required to check for modifier extensions.\n\nModifier extensions SHALL NOT change the meaning of any elements on Resource or DomainResource (including cannot change the meaning of modifierExtension itself). There can be no stigma associated with the use of extensions by any application, project, or standard - regardless of the institution or jurisdiction that uses or defines the extensions.  The use of extensions is what allows the FHIR specification to retain a core level of simplicity for everyone.",
                   "type": "display"
                 }
@@ -1001,6 +1026,7 @@
                       }
                     }
                   ],
+                  "linkId": "VerificationResult.primarySource.who-flyover",
                   "text": "Reference to the primary source.",
                   "type": "display"
                 },
@@ -1051,13 +1077,14 @@
                       }
                     }
                   ],
+                  "linkId": "VerificationResult.primarySource.type-flyover",
                   "text": "Type of primary source (License Board; Primary Education; Continuing Education; Postal Service; Relationship owner; Registration Authority; legal source; issuing source; authoritative source).",
                   "type": "display"
                 },
                 {
                   "linkId": "VerificationResult.primarySource.type.coding",
                   "text": "code:",
-                  "type": "open-choice",
+                  "type": "choice",
                   "required": false,
                   "repeats": false
                 },
@@ -1098,13 +1125,14 @@
                       }
                     }
                   ],
+                  "linkId": "VerificationResult.primarySource.communicationMethod-flyover",
                   "text": "Method for communicating with the primary source (manual; API; Push).",
                   "type": "display"
                 },
                 {
                   "linkId": "VerificationResult.primarySource.communicationMethod.coding",
                   "text": "code:",
-                  "type": "open-choice",
+                  "type": "choice",
                   "required": false,
                   "repeats": false
                 },
@@ -1149,13 +1177,14 @@
                       }
                     }
                   ],
+                  "linkId": "VerificationResult.primarySource.validationStatus-flyover",
                   "text": "Status of the validation of the target against the primary source (successful; failed; unknown).",
                   "type": "display"
                 },
                 {
                   "linkId": "VerificationResult.primarySource.validationStatus.coding",
                   "text": "code:",
-                  "type": "open-choice",
+                  "type": "choice",
                   "required": false,
                   "repeats": false
                 },
@@ -1199,6 +1228,7 @@
                       }
                     }
                   ],
+                  "linkId": "VerificationResult.primarySource.validationDate-flyover",
                   "text": "When the target was validated against the primary source.",
                   "type": "display"
                 },
@@ -1243,13 +1273,14 @@
                       }
                     }
                   ],
+                  "linkId": "VerificationResult.primarySource.canPushUpdates-flyover",
                   "text": "Ability of the primary source to push updates/alerts (yes; no; undetermined).",
                   "type": "display"
                 },
                 {
                   "linkId": "VerificationResult.primarySource.canPushUpdates.coding",
                   "text": "code:",
-                  "type": "open-choice",
+                  "type": "choice",
                   "required": false,
                   "repeats": false
                 },
@@ -1290,13 +1321,14 @@
                       }
                     }
                   ],
+                  "linkId": "VerificationResult.primarySource.pushTypeAvailable-flyover",
                   "text": "Type of alerts/updates the primary source can send (specific requested changes; any changes; as defined by source).",
                   "type": "display"
                 },
                 {
                   "linkId": "VerificationResult.primarySource.pushTypeAvailable.coding",
                   "text": "code:",
-                  "type": "open-choice",
+                  "type": "choice",
                   "required": false,
                   "repeats": false
                 },
@@ -1339,6 +1371,7 @@
                   }
                 }
               ],
+              "linkId": "VerificationResult.attestation-flyover",
               "text": "Information about the entity attesting to information.",
               "type": "display"
             },
@@ -1373,6 +1406,7 @@
                       }
                     }
                   ],
+                  "linkId": "VerificationResult.attestation.id-flyover",
                   "text": "Unique id for the element within a resource (for internal references). This may be any string value that does not contain spaces.",
                   "type": "display"
                 },
@@ -1407,6 +1441,7 @@
                       }
                     }
                   ],
+                  "linkId": "VerificationResult.attestation.extension-flyover",
                   "text": "May be used to represent additional information that is not part of the basic definition of the element. To make the use of extensions safe and manageable, there is a strict set of governance  applied to the definition and use of extensions. Though any implementer can define an extension, there is a set of requirements that SHALL be met as part of the definition of the extension. There can be no stigma associated with the use of extensions by any application, project, or standard - regardless of the institution or jurisdiction that uses or defines the extensions.  The use of extensions is what allows the FHIR specification to retain a core level of simplicity for everyone.",
                   "type": "display"
                 }
@@ -1434,6 +1469,7 @@
                       }
                     }
                   ],
+                  "linkId": "VerificationResult.attestation.modifierExtension-flyover",
                   "text": "May be used to represent additional information that is not part of the basic definition of the element and that modifies the understanding of the element in which it is contained and/or the understanding of the containing element\u0027s descendants. Usually modifier elements provide negation or qualification. To make the use of extensions safe and manageable, there is a strict set of governance applied to the definition and use of extensions. Though any implementer can define an extension, there is a set of requirements that SHALL be met as part of the definition of the extension. Applications processing a resource are required to check for modifier extensions.\n\nModifier extensions SHALL NOT change the meaning of any elements on Resource or DomainResource (including cannot change the meaning of modifierExtension itself). There can be no stigma associated with the use of extensions by any application, project, or standard - regardless of the institution or jurisdiction that uses or defines the extensions.  The use of extensions is what allows the FHIR specification to retain a core level of simplicity for everyone.",
                   "type": "display"
                 }
@@ -1470,6 +1506,7 @@
                       }
                     }
                   ],
+                  "linkId": "VerificationResult.attestation.who-flyover",
                   "text": "The individual or organization attesting to information.",
                   "type": "display"
                 },
@@ -1523,6 +1560,7 @@
                       }
                     }
                   ],
+                  "linkId": "VerificationResult.attestation.onBehalfOf-flyover",
                   "text": "When the who is asserting on behalf of another (organization or individual).",
                   "type": "display"
                 },
@@ -1577,13 +1615,14 @@
                       }
                     }
                   ],
+                  "linkId": "VerificationResult.attestation.communicationMethod-flyover",
                   "text": "The method by which attested information was submitted/retrieved (manual; API; Push).",
                   "type": "display"
                 },
                 {
                   "linkId": "VerificationResult.attestation.communicationMethod.coding",
                   "text": "code:",
-                  "type": "open-choice",
+                  "type": "choice",
                   "required": false,
                   "repeats": false
                 },
@@ -1627,6 +1666,7 @@
                       }
                     }
                   ],
+                  "linkId": "VerificationResult.attestation.date-flyover",
                   "text": "The date the information was attested to.",
                   "type": "display"
                 },
@@ -1670,6 +1710,7 @@
                       }
                     }
                   ],
+                  "linkId": "VerificationResult.attestation.sourceIdentityCertificate-flyover",
                   "text": "A digital identity certificate associated with the attestation source.",
                   "type": "display"
                 },
@@ -1713,6 +1754,7 @@
                       }
                     }
                   ],
+                  "linkId": "VerificationResult.attestation.proxyIdentityCertificate-flyover",
                   "text": "A digital identity certificate associated with the proxy entity submitting attested information on behalf of the attestation source.",
                   "type": "display"
                 },
@@ -1753,6 +1795,7 @@
                       }
                     }
                   ],
+                  "linkId": "VerificationResult.attestation.proxySignature-flyover",
                   "text": "Signed assertion by the proxy entity indicating that they have the right to submit attested information on behalf of the attestation source.",
                   "type": "display"
                 }
@@ -1786,6 +1829,7 @@
                       }
                     }
                   ],
+                  "linkId": "VerificationResult.attestation.sourceSignature-flyover",
                   "text": "Signed assertion by the attestation source that they have attested to the information.",
                   "type": "display"
                 }
@@ -1815,6 +1859,7 @@
                   }
                 }
               ],
+              "linkId": "VerificationResult.validator-flyover",
               "text": "Information about the entity validating information.",
               "type": "display"
             },
@@ -1849,6 +1894,7 @@
                       }
                     }
                   ],
+                  "linkId": "VerificationResult.validator.id-flyover",
                   "text": "Unique id for the element within a resource (for internal references). This may be any string value that does not contain spaces.",
                   "type": "display"
                 },
@@ -1883,6 +1929,7 @@
                       }
                     }
                   ],
+                  "linkId": "VerificationResult.validator.extension-flyover",
                   "text": "May be used to represent additional information that is not part of the basic definition of the element. To make the use of extensions safe and manageable, there is a strict set of governance  applied to the definition and use of extensions. Though any implementer can define an extension, there is a set of requirements that SHALL be met as part of the definition of the extension. There can be no stigma associated with the use of extensions by any application, project, or standard - regardless of the institution or jurisdiction that uses or defines the extensions.  The use of extensions is what allows the FHIR specification to retain a core level of simplicity for everyone.",
                   "type": "display"
                 }
@@ -1910,6 +1957,7 @@
                       }
                     }
                   ],
+                  "linkId": "VerificationResult.validator.modifierExtension-flyover",
                   "text": "May be used to represent additional information that is not part of the basic definition of the element and that modifies the understanding of the element in which it is contained and/or the understanding of the containing element\u0027s descendants. Usually modifier elements provide negation or qualification. To make the use of extensions safe and manageable, there is a strict set of governance applied to the definition and use of extensions. Though any implementer can define an extension, there is a set of requirements that SHALL be met as part of the definition of the extension. Applications processing a resource are required to check for modifier extensions.\n\nModifier extensions SHALL NOT change the meaning of any elements on Resource or DomainResource (including cannot change the meaning of modifierExtension itself). There can be no stigma associated with the use of extensions by any application, project, or standard - regardless of the institution or jurisdiction that uses or defines the extensions.  The use of extensions is what allows the FHIR specification to retain a core level of simplicity for everyone.",
                   "type": "display"
                 }
@@ -1950,6 +1998,7 @@
                       }
                     }
                   ],
+                  "linkId": "VerificationResult.validator.organization-flyover",
                   "text": "Reference to the organization validating information.",
                   "type": "display"
                 },
@@ -2003,6 +2052,7 @@
                       }
                     }
                   ],
+                  "linkId": "VerificationResult.validator.identityCertificate-flyover",
                   "text": "A digital identity certificate associated with the validator.",
                   "type": "display"
                 },
@@ -2043,6 +2093,7 @@
                       }
                     }
                   ],
+                  "linkId": "VerificationResult.validator.attestationSignature-flyover",
                   "text": "Signed assertion by the validator that they have validated the information.",
                   "type": "display"
                 }

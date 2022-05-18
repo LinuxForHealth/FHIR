@@ -20,7 +20,7 @@
     }
   ],
   "url": "http://hl7.org/fhir/StructureDefinition/ldlcholesterol",
-  "version": "4.0.1",
+  "version": "4.3.0-cibuild",
   "name": "Example Lipid Profile",
   "status": "draft",
   "experimental": true,
@@ -37,7 +37,7 @@
     }
   ],
   "description": "LDL Cholesterol Result",
-  "fhirVersion": "4.0.1",
+  "fhirVersion": "4.3.0-cibuild",
   "mapping": [
     {
       "identity": "workflow",
@@ -109,8 +109,8 @@
             "key": "dom-3",
             "severity": "error",
             "human": "If the resource is contained in another resource, it SHALL be referred to from elsewhere in the resource or SHALL refer to the containing resource",
-            "expression": "contained.where(((\u0027#\u0027+id in (%resource.descendants().reference | %resource.descendants().as(canonical) | %resource.descendants().as(uri) | %resource.descendants().as(url))) or descendants().where(reference \u003d \u0027#\u0027).exists() or descendants().where(as(canonical) \u003d \u0027#\u0027).exists() or descendants().where(as(canonical) \u003d \u0027#\u0027).exists()).not()).trace(\u0027unmatched\u0027, id).empty()",
-            "xpath": "not(exists(for $id in f:contained/*/f:id/@value return $contained[not(parent::*/descendant::f:reference/@value\u003dconcat(\u0027#\u0027, $contained/*/id/@value) or descendant::f:reference[@value\u003d\u0027#\u0027])]))",
+            "expression": "contained.where(((id.exists() and (\u0027#\u0027+id in (%resource.descendants().reference | %resource.descendants().as(canonical) | %resource.descendants().as(uri) | %resource.descendants().as(url)))) or descendants().where(reference \u003d \u0027#\u0027).exists() or descendants().where(as(canonical) \u003d \u0027#\u0027).exists() or descendants().where(as(uri) \u003d \u0027#\u0027).exists()).not()).trace(\u0027unmatched\u0027, id).empty()",
+            "xpath": "not(exists(for $contained in f:contained return $contained[not(exists(parent::*/descendant::f:reference/@value\u003dconcat(\u0027#\u0027, $contained/*/f:id/@value)) or exists(descendant::f:reference[@value\u003d\u0027#\u0027]))]))",
             "source": "http://hl7.org/fhir/StructureDefinition/DomainResource"
           },
           {
@@ -164,6 +164,7 @@
             "source": "http://hl7.org/fhir/StructureDefinition/Observation"
           }
         ],
+        "mustSupport": false,
         "isModifier": false,
         "isSummary": false,
         "mapping": [
@@ -186,6 +187,10 @@
           {
             "identity": "rim",
             "map": "Observation[classCode\u003dOBS, moodCode\u003dEVN]"
+          },
+          {
+            "identity": "w5",
+            "map": "clinical.diagnostics"
           }
         ]
       },
@@ -207,12 +212,13 @@
             "extension": [
               {
                 "url": "http://hl7.org/fhir/StructureDefinition/structuredefinition-fhir-type",
-                "valueUrl": "string"
+                "valueUrl": "id"
               }
             ],
             "code": "http://hl7.org/fhirpath/System.String"
           }
         ],
+        "mustSupport": false,
         "isModifier": false,
         "isSummary": true
       },
@@ -243,6 +249,7 @@
             "source": "http://hl7.org/fhir/StructureDefinition/Element"
           }
         ],
+        "mustSupport": false,
         "isModifier": false,
         "isSummary": true
       },
@@ -274,6 +281,7 @@
             "source": "http://hl7.org/fhir/StructureDefinition/Element"
           }
         ],
+        "mustSupport": false,
         "isModifier": true,
         "isModifierReason": "This element is labeled as a modifier because the implicit rules may provide additional knowledge about the resource that modifies it\u0027s meaning or interpretation",
         "isSummary": true
@@ -306,6 +314,7 @@
             "source": "http://hl7.org/fhir/StructureDefinition/Element"
           }
         ],
+        "mustSupport": false,
         "isModifier": false,
         "isSummary": false,
         "binding": {
@@ -324,7 +333,7 @@
             }
           ],
           "strength": "preferred",
-          "description": "A human language.",
+          "description": "IETF language tag",
           "valueSet": "http://hl7.org/fhir/ValueSet/languages"
         }
       },
@@ -362,6 +371,7 @@
             "source": "http://hl7.org/fhir/StructureDefinition/Element"
           }
         ],
+        "mustSupport": false,
         "isModifier": false,
         "isSummary": false,
         "mapping": [
@@ -394,6 +404,17 @@
             "code": "Resource"
           }
         ],
+        "constraint": [
+          {
+            "key": "dom-r4b",
+            "severity": "warning",
+            "human": "Containing new R4B resources within R4 resources may cause interoperability issues if instances are shared with R4 systems",
+            "expression": "($this is Citation or $this is Evidence or $this is EvidenceReport or $this is EvidenceVariable or $this is MedicinalProductDefinition or $this is PackagedProductDefinition or $this is AdministrableProductDefinition or $this is Ingredient or $this is ClinicalUseDefinition or $this is RegulatedAuthorization or $this is SubstanceDefinition or $this is SubscriptionStatus or $this is SubscriptionTopic) implies (%resource is Citation or %resource is Evidence or %resource is EvidenceReport or %resource is EvidenceVariable or %resource is MedicinalProductDefinition or %resource is PackagedProductDefinition or %resource is AdministrableProductDefinition or %resource is Ingredient or %resource is ClinicalUseDefinition or %resource is RegulatedAuthorization or %resource is SubstanceDefinition or %resource is SubscriptionStatus or %resource is SubscriptionTopic)",
+            "xpath": "not(f:Citation|f:Evidence|f:EvidenceReport|f:EvidenceVariable|f:MedicinalProductDefinition|f:PackagedProductDefinition|f:AdministrableProductDefinition|f:Ingredient|f:ClinicalUseDefinition|f:RegulatedAuthorization|f:SubstanceDefinition|f:SubscriptionStatus|f:SubscriptionTopic) or not(parent::f:Citation|parent::f:Evidence|parent::f:EvidenceReport|parent::f:EvidenceVariable|parent::f:MedicinalProductDefinition|parent::f:PackagedProductDefinition|parent::f:AdministrableProductDefinition|parent::f:Ingredient|parent::f:ClinicalUseDefinition|parent::f:RegulatedAuthorization|parent::f:SubstanceDefinition|f:SubscriptionStatus|f:SubscriptionTopic)",
+            "source": "http://hl7.org/fhir/StructureDefinition/Observation"
+          }
+        ],
+        "mustSupport": false,
         "isModifier": false,
         "isSummary": false,
         "mapping": [
@@ -443,6 +464,7 @@
             "source": "http://hl7.org/fhir/StructureDefinition/Extension"
           }
         ],
+        "mustSupport": false,
         "isModifier": false,
         "isSummary": false,
         "mapping": [
@@ -458,7 +480,7 @@
         "short": "Extensions that cannot be ignored",
         "definition": "May be used to represent additional information that is not part of the basic definition of the resource and that modifies the understanding of the element that contains it and/or the understanding of the containing element\u0027s descendants. Usually modifier elements provide negation or qualification. To make the use of extensions safe and manageable, there is a strict set of governance applied to the definition and use of extensions. Though any implementer is allowed to define an extension, there is a set of requirements that SHALL be met as part of the definition of the extension. Applications processing a resource are required to check for modifier extensions.\n\nModifier extensions SHALL NOT change the meaning of any elements on Resource or DomainResource (including cannot change the meaning of modifierExtension itself).",
         "comment": "There can be no stigma associated with the use of extensions by any application, project, or standard - regardless of the institution or jurisdiction that uses or defines the extensions.  The use of extensions is what allows the FHIR specification to retain a core level of simplicity for everyone.",
-        "requirements": "Modifier extensions allow for extensions that *cannot* be safely ignored to be clearly distinguished from the vast majority of extensions which can be safely ignored.  This promotes interoperability by eliminating the need for implementers to prohibit the presence of extensions. For further information, see the [definition of modifier extensions](http://hl7.org/fhir/extensibility.html#modifierExtension).",
+        "requirements": "Modifier extensions allow for extensions that *cannot* be safely ignored to be clearly distinguished from the vast majority of extensions which can be safely ignored.  This promotes interoperability by eliminating the need for implementers to prohibit the presence of extensions. For further information, see the [definition of modifier extensions](extensibility.html#modifierExtension).",
         "alias": [
           "extensions",
           "user content"
@@ -493,6 +515,7 @@
             "source": "http://hl7.org/fhir/StructureDefinition/Extension"
           }
         ],
+        "mustSupport": false,
         "isModifier": true,
         "isModifierReason": "Modifier extensions are expected to modify the meaning or interpretation of the resource that contains them",
         "isSummary": false,
@@ -531,6 +554,7 @@
             "source": "http://hl7.org/fhir/StructureDefinition/Element"
           }
         ],
+        "mustSupport": false,
         "isModifier": false,
         "isSummary": true,
         "mapping": [
@@ -591,6 +615,7 @@
             "source": "http://hl7.org/fhir/StructureDefinition/Element"
           }
         ],
+        "mustSupport": false,
         "isModifier": false,
         "isSummary": true,
         "mapping": [
@@ -613,7 +638,7 @@
         "path": "Observation.partOf",
         "short": "Part of referenced event",
         "definition": "A larger event of which this particular Observation is a component or step.  For example,  an observation as part of a procedure.",
-        "comment": "To link an Observation to an Encounter use `encounter`.  See the  [Notes](http://hl7.org/fhir/observation.html#obsgrouping) below for guidance on referencing another Observation.",
+        "comment": "To link an Observation to an Encounter use `encounter`.  See the  [Notes](observation.html#obsgrouping) below for guidance on referencing another Observation.",
         "alias": [
           "Container"
         ],
@@ -647,6 +672,7 @@
             "source": "http://hl7.org/fhir/StructureDefinition/Element"
           }
         ],
+        "mustSupport": false,
         "isModifier": false,
         "isSummary": true,
         "mapping": [
@@ -699,6 +725,7 @@
             "source": "http://hl7.org/fhir/StructureDefinition/Element"
           }
         ],
+        "mustSupport": false,
         "isModifier": true,
         "isModifierReason": "This element is labeled as a modifier because it is a status element that contains status entered-in-error which means that the resource should not be treated as valid",
         "isSummary": true,
@@ -711,7 +738,7 @@
           ],
           "strength": "required",
           "description": "Codes providing the status of an observation.",
-          "valueSet": "http://hl7.org/fhir/ValueSet/observation-status|4.0.1"
+          "valueSet": "http://hl7.org/fhir/ValueSet/observation-status|4.3.0-cibuild"
         },
         "mapping": [
           {
@@ -765,6 +792,7 @@
             "source": "http://hl7.org/fhir/StructureDefinition/Element"
           }
         ],
+        "mustSupport": false,
         "isModifier": false,
         "isSummary": false,
         "binding": {
@@ -833,7 +861,7 @@
           ],
           "strength": "required",
           "description": "LDL Cholesterol codes - measured or calculated.",
-          "valueSet": "http://hl7.org/fhir/ValueSet/ldlcholesterol-codes|4.0.1"
+          "valueSet": "http://hl7.org/fhir/ValueSet/lipid-ldl-codes"
         },
         "mapping": [
           {
@@ -883,7 +911,12 @@
               "http://hl7.org/fhir/StructureDefinition/Patient",
               "http://hl7.org/fhir/StructureDefinition/Group",
               "http://hl7.org/fhir/StructureDefinition/Device",
-              "http://hl7.org/fhir/StructureDefinition/Location"
+              "http://hl7.org/fhir/StructureDefinition/Location",
+              "http://hl7.org/fhir/StructureDefinition/Organization",
+              "http://hl7.org/fhir/StructureDefinition/Procedure",
+              "http://hl7.org/fhir/StructureDefinition/Practitioner",
+              "http://hl7.org/fhir/StructureDefinition/Medication",
+              "http://hl7.org/fhir/StructureDefinition/Substance"
             ]
           }
         ],
@@ -897,6 +930,7 @@
             "source": "http://hl7.org/fhir/StructureDefinition/Element"
           }
         ],
+        "mustSupport": false,
         "isModifier": false,
         "isSummary": true,
         "mapping": [
@@ -914,7 +948,7 @@
           },
           {
             "identity": "rim",
-            "map": "participation[typeCode\u003dRTGT] "
+            "map": "participation[typeCode\u003dRTGT]"
           },
           {
             "identity": "w5",
@@ -933,7 +967,7 @@
         "path": "Observation.focus",
         "short": "What the observation is about, when it is not about the subject of record",
         "definition": "The actual focus of an observation when it is not the patient of record representing something or someone associated with the patient such as a spouse, parent, fetus, or donor. For example, fetus observations in a mother\u0027s record.  The focus of an observation could also be an existing condition,  an intervention, the subject\u0027s diet,  another observation of the subject,  or a body structure such as tumor or implanted device.   An example use case would be using the Observation resource to capture whether the mother is trained to change her child\u0027s tracheostomy tube. In this example, the child is the patient of record and the mother is the focus.",
-        "comment": "Typically, an observation is made about the subject - a patient, or group of patients, location, or device - and the distinction between the subject and what is directly measured for an observation is specified in the observation code itself ( e.g., \"Blood Glucose\") and does not need to be represented separately using this element.  Use `specimen` if a reference to a specimen is required.  If a code is required instead of a resource use either  `bodysite` for bodysites or the standard extension [focusCode](http://hl7.org/fhir/extension-observation-focuscode.html).",
+        "comment": "Typically, an observation is made about the subject - a patient, or group of patients, location, or device - and the distinction between the subject and what is directly measured for an observation is specified in the observation code itself ( e.g., \"Blood Glucose\") and does not need to be represented separately using this element.  Use `specimen` if a reference to a specimen is required.  If a code is required instead of a resource use either  `bodysite` for bodysites or the standard extension [focusCode](extension-observation-focuscode.html).",
         "min": 0,
         "max": "*",
         "base": {
@@ -959,6 +993,7 @@
             "source": "http://hl7.org/fhir/StructureDefinition/Element"
           }
         ],
+        "mustSupport": false,
         "isModifier": false,
         "isSummary": true,
         "mapping": [
@@ -1015,6 +1050,7 @@
             "source": "http://hl7.org/fhir/StructureDefinition/Element"
           }
         ],
+        "mustSupport": false,
         "isModifier": false,
         "isSummary": true,
         "mapping": [
@@ -1041,7 +1077,7 @@
         "path": "Observation.effective[x]",
         "short": "Clinically relevant time/time-period for observation",
         "definition": "The time or time-period the observed value is asserted as being true. For biological subjects - e.g. human patients - this is usually called the \"physiologically relevant time\". This is usually either the time of the procedure or of specimen collection, but very often the source of the date/time is not known, only the date/time itself.",
-        "comment": "At least a date should be present unless this observation is a historical report.  For recording imprecise or \"fuzzy\" times (For example, a blood glucose measurement taken \"after breakfast\") use the [Timing](http://hl7.org/fhir/datatypes.html#timing) datatype which allow the measurement to be tied to regular life events.",
+        "comment": "At least a date should be present unless this observation is a historical report.  For recording imprecise or \"fuzzy\" times (For example, a blood glucose measurement taken \"after breakfast\") use the [Timing](datatypes.html#timing) datatype which allow the measurement to be tied to regular life events.",
         "requirements": "Knowing when an observation was deemed true is important to its relevance as well as determining trends.",
         "alias": [
           "Occurrence"
@@ -1077,6 +1113,7 @@
             "source": "http://hl7.org/fhir/StructureDefinition/Element"
           }
         ],
+        "mustSupport": false,
         "isModifier": false,
         "isSummary": true,
         "mapping": [
@@ -1103,7 +1140,7 @@
         "path": "Observation.issued",
         "short": "Date/Time this version was made available",
         "definition": "The date and time this version of the observation was made available to providers, typically after the results have been reviewed and verified.",
-        "comment": "For Observations that don’t require review and verification, it may be the same as the [`lastUpdated` ](http://hl7.org/fhir/resource-definitions.html#Meta.lastUpdated) time of the resource itself.  For Observations that do require review and verification for certain updates, it might not be the same as the `lastUpdated` time of the resource itself due to a non-clinically significant update that doesn’t require the new version to be reviewed and verified again.",
+        "comment": "For Observations that don’t require review and verification, it may be the same as the [`lastUpdated` ](resource-definitions.html#Meta.lastUpdated) time of the resource itself.  For Observations that do require review and verification for certain updates, it might not be the same as the `lastUpdated` time of the resource itself due to a non-clinically significant update that doesn’t require the new version to be reviewed and verified again.",
         "min": 0,
         "max": "1",
         "base": {
@@ -1126,6 +1163,7 @@
             "source": "http://hl7.org/fhir/StructureDefinition/Element"
           }
         ],
+        "mustSupport": false,
         "isModifier": false,
         "isSummary": true,
         "mapping": [
@@ -1179,6 +1217,7 @@
             "source": "http://hl7.org/fhir/StructureDefinition/Element"
           }
         ],
+        "mustSupport": false,
         "isModifier": false,
         "isSummary": true,
         "mapping": [
@@ -1215,7 +1254,7 @@
         },
         "short": "Actual result",
         "definition": "The information determined as a result of making the observation, if the information has a simple value.",
-        "comment": "An observation may have; 1)  a single value here, 2)  both a value and a set of related or component values,  or 3)  only a set of related or component values. If a value is present, the datatype for this element should be determined by Observation.code.  A CodeableConcept with just a text would be used instead of a string if the field was usually coded, or if the type associated with the Observation.code defines a coded value.  For additional guidance, see the [Notes section](http://hl7.org/fhir/observation.html#notes) below.",
+        "comment": "An observation may have; 1)  a single value here, 2)  both a value and a set of related or component values,  or 3)  only a set of related or component values. If a value is present, the datatype for this element should be determined by Observation.code.  A CodeableConcept with just a text would be used instead of a string if the field was usually coded, or if the type associated with the Observation.code defines a coded value.  For additional guidance, see the [Notes section](observation.html#notes) below.",
         "requirements": "An observation exists to have a value, though it might not if it is in error, or if it represents a group of observations.",
         "min": 0,
         "max": "1",
@@ -1242,6 +1281,7 @@
             "source": "http://hl7.org/fhir/StructureDefinition/Element"
           }
         ],
+        "mustSupport": false,
         "isModifier": false,
         "isSummary": true,
         "mapping": [
@@ -1269,7 +1309,7 @@
         "sliceName": "valueQuantity",
         "short": "LDL Cholesterol value",
         "definition": "LDL Cholesterol value. If a result is not available, use the comments field.",
-        "comment": "An observation may have; 1)  a single value here, 2)  both a value and a set of related or component values,  or 3)  only a set of related or component values. If a value is present, the datatype for this element should be determined by Observation.code.  A CodeableConcept with just a text would be used instead of a string if the field was usually coded, or if the type associated with the Observation.code defines a coded value.  For additional guidance, see the [Notes section](http://hl7.org/fhir/observation.html#notes) below.",
+        "comment": "An observation may have; 1)  a single value here, 2)  both a value and a set of related or component values,  or 3)  only a set of related or component values. If a value is present, the datatype for this element should be determined by Observation.code.  A CodeableConcept with just a text would be used instead of a string if the field was usually coded, or if the type associated with the Observation.code defines a coded value.  For additional guidance, see the [Notes section](observation.html#notes) below.",
         "requirements": "An observation exists to have a value, though it might not if it is in error, or if it represents a group of observations.",
         "min": 0,
         "max": "1",
@@ -1350,6 +1390,7 @@
             "source": "http://hl7.org/fhir/StructureDefinition/Element"
           }
         ],
+        "mustSupport": false,
         "isModifier": false,
         "isSummary": false,
         "binding": {
@@ -1357,6 +1398,10 @@
             {
               "url": "http://hl7.org/fhir/StructureDefinition/elementdefinition-bindingName",
               "valueString": "ObservationValueAbsentReason"
+            },
+            {
+              "url": "http://hl7.org/fhir/StructureDefinition/elementdefinition-isCommonBinding",
+              "valueBoolean": true
             }
           ],
           "strength": "extensible",
@@ -1487,7 +1532,7 @@
         "path": "Observation.bodySite",
         "short": "Observed body part",
         "definition": "Indicates the site on the subject\u0027s body where the observation was made (i.e. the target site).",
-        "comment": "Only used if not implicit in code found in Observation.code.  In many systems, this may be represented as a related observation instead of an inline component.   \n\nIf the use case requires BodySite to be handled as a separate resource (e.g. to identify and track separately) then use the standard extension[ bodySite](http://hl7.org/fhir/extension-bodysite.html).",
+        "comment": "Only used if not implicit in code found in Observation.code.  In many systems, this may be represented as a related observation instead of an inline component.   \n\nIf the use case requires BodySite to be handled as a separate resource (e.g. to identify and track separately) then use the standard extension[ bodySite](extension-bodysite.html).",
         "min": 0,
         "max": "1",
         "base": {
@@ -1510,6 +1555,7 @@
             "source": "http://hl7.org/fhir/StructureDefinition/Element"
           }
         ],
+        "mustSupport": false,
         "isModifier": false,
         "isSummary": false,
         "binding": {
@@ -1520,7 +1566,7 @@
             }
           ],
           "strength": "example",
-          "description": "Codes describing anatomical locations. May include laterality.",
+          "description": "SNOMED CT Body site concepts",
           "valueSet": "http://hl7.org/fhir/ValueSet/body-site"
         },
         "mapping": [
@@ -1571,6 +1617,7 @@
             "source": "http://hl7.org/fhir/StructureDefinition/Element"
           }
         ],
+        "mustSupport": false,
         "isModifier": false,
         "isSummary": false,
         "binding": {
@@ -1626,6 +1673,7 @@
             "source": "http://hl7.org/fhir/StructureDefinition/Element"
           }
         ],
+        "mustSupport": false,
         "isModifier": false,
         "isSummary": false,
         "mapping": [
@@ -1679,6 +1727,7 @@
             "source": "http://hl7.org/fhir/StructureDefinition/Element"
           }
         ],
+        "mustSupport": false,
         "isModifier": false,
         "isSummary": false,
         "mapping": [
@@ -1723,9 +1772,9 @@
           {
             "key": "ele-1",
             "severity": "error",
-            "human": "All FHIR elements must have a @value or children",
-            "expression": "hasValue() or (children().count() \u003e id.count())",
-            "xpath": "@value|f:*|h:div",
+            "human": "All FHIR elements must have a @value or children unless an empty Parameters resource",
+            "expression": "hasValue() or (children().count() \u003e id.count()) or $this is Parameters",
+            "xpath": "@value|f:*|h:div|self::f:Parameters",
             "source": "http://hl7.org/fhir/StructureDefinition/Element"
           },
           {
@@ -1841,7 +1890,7 @@
         "short": "Extensions that cannot be ignored even if unrecognized",
         "definition": "May be used to represent additional information that is not part of the basic definition of the element and that modifies the understanding of the element in which it is contained and/or the understanding of the containing element\u0027s descendants. Usually modifier elements provide negation or qualification. To make the use of extensions safe and manageable, there is a strict set of governance applied to the definition and use of extensions. Though any implementer can define an extension, there is a set of requirements that SHALL be met as part of the definition of the extension. Applications processing a resource are required to check for modifier extensions.\n\nModifier extensions SHALL NOT change the meaning of any elements on Resource or DomainResource (including cannot change the meaning of modifierExtension itself).",
         "comment": "There can be no stigma associated with the use of extensions by any application, project, or standard - regardless of the institution or jurisdiction that uses or defines the extensions.  The use of extensions is what allows the FHIR specification to retain a core level of simplicity for everyone.",
-        "requirements": "Modifier extensions allow for extensions that *cannot* be safely ignored to be clearly distinguished from the vast majority of extensions which can be safely ignored.  This promotes interoperability by eliminating the need for implementers to prohibit the presence of extensions. For further information, see the [definition of modifier extensions](http://hl7.org/fhir/extensibility.html#modifierExtension).",
+        "requirements": "Modifier extensions allow for extensions that *cannot* be safely ignored to be clearly distinguished from the vast majority of extensions which can be safely ignored.  This promotes interoperability by eliminating the need for implementers to prohibit the presence of extensions. For further information, see the [definition of modifier extensions](extensibility.html#modifierExtension).",
         "alias": [
           "extensions",
           "user content",
@@ -1920,6 +1969,7 @@
             "source": "http://hl7.org/fhir/StructureDefinition/Element"
           }
         ],
+        "mustSupport": false,
         "isModifier": false,
         "isSummary": false,
         "mapping": [
@@ -1964,9 +2014,9 @@
           {
             "key": "ele-1",
             "severity": "error",
-            "human": "All FHIR elements must have a @value or children",
-            "expression": "hasValue() or (children().count() \u003e id.count())",
-            "xpath": "@value|f:*|h:div",
+            "human": "All FHIR elements must have a @value or children unless an empty Parameters resource",
+            "expression": "hasValue() or (children().count() \u003e id.count()) or $this is Parameters",
+            "xpath": "@value|f:*|h:div|self::f:Parameters",
             "source": "http://hl7.org/fhir/StructureDefinition/Element"
           },
           {
@@ -1986,6 +2036,7 @@
             "source": "http://hl7.org/fhir/StructureDefinition/Observation"
           }
         ],
+        "mustSupport": false,
         "isModifier": false,
         "mapping": [
           {
@@ -2031,6 +2082,7 @@
             "source": "http://hl7.org/fhir/StructureDefinition/Element"
           }
         ],
+        "mustSupport": false,
         "isModifier": false,
         "isSummary": false,
         "binding": {
@@ -2088,6 +2140,7 @@
             "source": "http://hl7.org/fhir/StructureDefinition/Element"
           }
         ],
+        "mustSupport": false,
         "isModifier": false,
         "isSummary": false,
         "binding": {
@@ -2144,6 +2197,7 @@
             "source": "http://hl7.org/fhir/StructureDefinition/Element"
           }
         ],
+        "mustSupport": false,
         "isModifier": false,
         "isSummary": false,
         "mapping": [
@@ -2180,6 +2234,7 @@
             "source": "http://hl7.org/fhir/StructureDefinition/Element"
           }
         ],
+        "mustSupport": false,
         "isModifier": false,
         "isSummary": false,
         "mapping": [
@@ -2198,7 +2253,7 @@
         "path": "Observation.hasMember",
         "short": "Related resource that belongs to the Observation group",
         "definition": "This observation is a group observation (e.g. a battery, a panel of tests, a set of vital sign measurements) that includes the target as a member of the group.",
-        "comment": "When using this element, an observation will typically have either a value or a set of related resources, although both may be present in some cases.  For a discussion on the ways Observations can assembled in groups together, see [Notes](http://hl7.org/fhir/observation.html#obsgrouping) below.  Note that a system may calculate results from [QuestionnaireResponse](http://hl7.org/fhir/questionnaireresponse.html)  into a final score and represent the score as an Observation.",
+        "comment": "When using this element, an observation will typically have either a value or a set of related resources, although both may be present in some cases.  For a discussion on the ways Observations can assembled in groups together, see [Notes](observation.html#obsgrouping) below.  Note that a system may calculate results from [QuestionnaireResponse](questionnaireresponse.html)  into a final score and represent the score as an Observation.",
         "min": 0,
         "max": "0",
         "base": {
@@ -2226,6 +2281,7 @@
             "source": "http://hl7.org/fhir/StructureDefinition/Element"
           }
         ],
+        "mustSupport": false,
         "isModifier": false,
         "isSummary": true,
         "mapping": [
@@ -2244,7 +2300,7 @@
         "path": "Observation.derivedFrom",
         "short": "Related measurements the observation is made from",
         "definition": "The target resource that represents a measurement from which this observation value is derived. For example, a calculated anion gap or a fetal measurement based on an ultrasound image.",
-        "comment": "All the reference choices that are listed in this element can represent clinical observations and other measurements that may be the source for a derived value.  The most common reference will be another Observation.  For a discussion on the ways Observations can assembled in groups together, see [Notes](http://hl7.org/fhir/observation.html#obsgrouping) below.",
+        "comment": "All the reference choices that are listed in this element can represent clinical observations and other measurements that may be the source for a derived value.  The most common reference will be another Observation.  For a discussion on the ways Observations can assembled in groups together, see [Notes](observation.html#obsgrouping) below.",
         "min": 0,
         "max": "0",
         "base": {
@@ -2275,6 +2331,7 @@
             "source": "http://hl7.org/fhir/StructureDefinition/Element"
           }
         ],
+        "mustSupport": false,
         "isModifier": false,
         "isSummary": true,
         "mapping": [
@@ -2293,7 +2350,7 @@
         "path": "Observation.component",
         "short": "Component results",
         "definition": "Some observations have multiple component observations.  These component observations are expressed as separate code value pairs that share the same attributes.  Examples include systolic and diastolic component observations for blood pressure measurement and multiple component observations for genetics observations.",
-        "comment": "For a discussion on the ways Observations can be assembled in groups together see [Notes](http://hl7.org/fhir/observation.html#notes) below.",
+        "comment": "For a discussion on the ways Observations can be assembled in groups together see [Notes](observation.html#notes) below.",
         "requirements": "Component observations share the same attributes in the Observation resource as the primary observation and are always treated a part of a single observation (they are not separable).   However, the reference range for the primary observation value is not inherited by the component values and is required when appropriate for each component observation.",
         "min": 0,
         "max": "*",
@@ -2311,12 +2368,13 @@
           {
             "key": "ele-1",
             "severity": "error",
-            "human": "All FHIR elements must have a @value or children",
-            "expression": "hasValue() or (children().count() \u003e id.count())",
-            "xpath": "@value|f:*|h:div",
+            "human": "All FHIR elements must have a @value or children unless an empty Parameters resource",
+            "expression": "hasValue() or (children().count() \u003e id.count()) or $this is Parameters",
+            "xpath": "@value|f:*|h:div|self::f:Parameters",
             "source": "http://hl7.org/fhir/StructureDefinition/Element"
           }
         ],
+        "mustSupport": false,
         "isModifier": false,
         "isSummary": true,
         "mapping": [
@@ -2420,7 +2478,7 @@
         "short": "Extensions that cannot be ignored even if unrecognized",
         "definition": "May be used to represent additional information that is not part of the basic definition of the element and that modifies the understanding of the element in which it is contained and/or the understanding of the containing element\u0027s descendants. Usually modifier elements provide negation or qualification. To make the use of extensions safe and manageable, there is a strict set of governance applied to the definition and use of extensions. Though any implementer can define an extension, there is a set of requirements that SHALL be met as part of the definition of the extension. Applications processing a resource are required to check for modifier extensions.\n\nModifier extensions SHALL NOT change the meaning of any elements on Resource or DomainResource (including cannot change the meaning of modifierExtension itself).",
         "comment": "There can be no stigma associated with the use of extensions by any application, project, or standard - regardless of the institution or jurisdiction that uses or defines the extensions.  The use of extensions is what allows the FHIR specification to retain a core level of simplicity for everyone.",
-        "requirements": "Modifier extensions allow for extensions that *cannot* be safely ignored to be clearly distinguished from the vast majority of extensions which can be safely ignored.  This promotes interoperability by eliminating the need for implementers to prohibit the presence of extensions. For further information, see the [definition of modifier extensions](http://hl7.org/fhir/extensibility.html#modifierExtension).",
+        "requirements": "Modifier extensions allow for extensions that *cannot* be safely ignored to be clearly distinguished from the vast majority of extensions which can be safely ignored.  This promotes interoperability by eliminating the need for implementers to prohibit the presence of extensions. For further information, see the [definition of modifier extensions](extensibility.html#modifierExtension).",
         "alias": [
           "extensions",
           "user content",
@@ -2495,6 +2553,7 @@
             "source": "http://hl7.org/fhir/StructureDefinition/Element"
           }
         ],
+        "mustSupport": false,
         "isModifier": false,
         "isSummary": true,
         "binding": {
@@ -2532,7 +2591,7 @@
         "path": "Observation.component.value[x]",
         "short": "Actual component result",
         "definition": "The information determined as a result of making the observation, if the information has a simple value.",
-        "comment": "Used when observation has a set of component observations. An observation may have both a value (e.g. an  Apgar score)  and component observations (the observations from which the Apgar score was derived). If a value is present, the datatype for this element should be determined by Observation.code. A CodeableConcept with just a text would be used instead of a string if the field was usually coded, or if the type associated with the Observation.code defines a coded value.  For additional guidance, see the [Notes section](http://hl7.org/fhir/observation.html#notes) below.",
+        "comment": "Used when observation has a set of component observations. An observation may have both a value (e.g. an  Apgar score)  and component observations (the observations from which the Apgar score was derived). If a value is present, the datatype for this element should be determined by Observation.code. A CodeableConcept with just a text would be used instead of a string if the field was usually coded, or if the type associated with the Observation.code defines a coded value.  For additional guidance, see the [Notes section](observation.html#notes) below.",
         "requirements": "An observation exists to have a value, though it might not if it is in error, or if it represents a group of observations.",
         "min": 0,
         "max": "1",
@@ -2586,6 +2645,7 @@
             "source": "http://hl7.org/fhir/StructureDefinition/Element"
           }
         ],
+        "mustSupport": false,
         "isModifier": false,
         "isSummary": true,
         "mapping": [
@@ -2639,6 +2699,7 @@
             "source": "http://hl7.org/fhir/StructureDefinition/Element"
           }
         ],
+        "mustSupport": false,
         "isModifier": false,
         "isSummary": false,
         "binding": {
@@ -2646,6 +2707,10 @@
             {
               "url": "http://hl7.org/fhir/StructureDefinition/elementdefinition-bindingName",
               "valueString": "ObservationValueAbsentReason"
+            },
+            {
+              "url": "http://hl7.org/fhir/StructureDefinition/elementdefinition-isCommonBinding",
+              "valueBoolean": true
             }
           ],
           "strength": "extensible",
@@ -2695,6 +2760,7 @@
             "source": "http://hl7.org/fhir/StructureDefinition/Element"
           }
         ],
+        "mustSupport": false,
         "isModifier": false,
         "isSummary": false,
         "binding": {
@@ -2741,7 +2807,7 @@
           "min": 0,
           "max": "*"
         },
-        "contentReference": "#Observation.referenceRange",
+        "contentReference": "http://hl7.org/fhir/StructureDefinition/Observation#Observation.referenceRange",
         "constraint": [
           {
             "key": "ele-1",
@@ -2752,6 +2818,7 @@
             "source": "http://hl7.org/fhir/StructureDefinition/Element"
           }
         ],
+        "mustSupport": false,
         "isModifier": false,
         "isSummary": false,
         "mapping": [
@@ -2799,7 +2866,7 @@
           ],
           "strength": "required",
           "description": "LDL Cholesterol codes - measured or calculated.",
-          "valueSet": "http://hl7.org/fhir/ValueSet/ldlcholesterol-codes|4.0.1"
+          "valueSet": "http://hl7.org/fhir/ValueSet/lipid-ldl-codes"
         }
       },
       {

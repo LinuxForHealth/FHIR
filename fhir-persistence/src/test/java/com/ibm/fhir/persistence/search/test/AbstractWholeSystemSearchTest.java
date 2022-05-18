@@ -44,8 +44,11 @@ public abstract class AbstractWholeSystemSearchTest extends AbstractPLSearchTest
     protected final String TAG3 = UUID.randomUUID().toString();
     protected final String SECURITY_SYSTEM = "http://ibm.com/fhir/security";
     protected final String SECURITY = UUID.randomUUID().toString();
-    protected final String TAG_SYSTEM2 = "http://terminology.hl7.org/CodeSystem/v3-ActReason";
-    protected final String TAG4 = "HSYSADMIN";
+    // v3-ActReason is a "polyhierarchy" codesystem; we need https://github.com/IBM/FHIR/issues/3448 for that one
+    //protected final String CODE_SYSTEM_V3_ACT_REASON = "http://terminology.hl7.org/CodeSystem/v3-ActReason";
+    //protected final String TAG4 = "HSYSADMIN";
+    protected final String CODE_SYSTEM_V3_PARTICIPATION_MODE = "http://terminology.hl7.org/CodeSystem/v3-ParticipationMode";
+    protected final String TAG4 = "ONLINEWRIT";
     protected final String TAG4TEXT = "someSearchText";
     protected final String PROFILE = "http://ibm.com/fhir/profile/" + UUID.randomUUID().toString();
     protected final String AUTHOR = "Practitioner/" + UUID.randomUUID().toString();
@@ -70,7 +73,7 @@ public abstract class AbstractWholeSystemSearchTest extends AbstractPLSearchTest
                         .code(Code.of(TAG2)).build();
         Coding tag3 =
                 Coding.builder()
-                        .system(Uri.of(TAG_SYSTEM2))
+                        .system(Uri.of(CODE_SYSTEM_V3_PARTICIPATION_MODE))
                         .code(Code.of(TAG4))
                         .display(com.ibm.fhir.model.type.String.of(TAG4TEXT))
                         .build();
@@ -252,7 +255,7 @@ public abstract class AbstractWholeSystemSearchTest extends AbstractPLSearchTest
 
     @Test
     public void testSearchAllUsingTagModifierIn() throws Exception {
-        List<Resource> resources = runQueryTest(Resource.class, "_tag:in", "http://terminology.hl7.org/ValueSet/v3-ActReason");
+        List<Resource> resources = runQueryTest(Resource.class, "_tag:in", "http://terminology.hl7.org/ValueSet/v3-ParticipationMode");
         assertNotNull(resources);
         assertEquals(resources.size(), 1, "Number of resources returned");
         assertTrue(isResourceInResponse(savedResource, resources), "Expected resource not found in the response");
@@ -274,9 +277,10 @@ public abstract class AbstractWholeSystemSearchTest extends AbstractPLSearchTest
         assertTrue(isResourceInResponse(savedResource, resources), "Expected resource not found in the response");
     }
 
+
     @Test
     public void testSearchAllUsingTagModifierAbove() throws Exception {
-        List<Resource> resources = runQueryTest(Resource.class, "_tag:above", TAG_SYSTEM2 + "|LABELING");
+        List<Resource> resources = runQueryTest(Resource.class, "_tag:above", CODE_SYSTEM_V3_PARTICIPATION_MODE + "|EMAILWRIT");
         assertNotNull(resources);
         assertEquals(resources.size(), 1, "Number of resources returned");
         assertTrue(isResourceInResponse(savedResource, resources), "Expected resource not found in the response");
@@ -284,7 +288,7 @@ public abstract class AbstractWholeSystemSearchTest extends AbstractPLSearchTest
 
     @Test
     public void testSearchAllUsingTagModifierBelow() throws Exception {
-        List<Resource> resources = runQueryTest(Resource.class, "_tag:below", TAG_SYSTEM2 + "|HOPERAT");
+        List<Resource> resources = runQueryTest(Resource.class, "_tag:below", CODE_SYSTEM_V3_PARTICIPATION_MODE + "|WRITTEN");
         assertNotNull(resources);
         assertEquals(resources.size(), 1, "Number of resources returned");
         assertTrue(isResourceInResponse(savedResource, resources), "Expected resource not found in the response");
@@ -292,7 +296,7 @@ public abstract class AbstractWholeSystemSearchTest extends AbstractPLSearchTest
 
     @Test
     public void testSearchAllUsingTagSystemOnly() throws Exception {
-        List<Resource> resources = runQueryTest(Resource.class, "_tag", TAG_SYSTEM2 + "|");
+        List<Resource> resources = runQueryTest(Resource.class, "_tag", CODE_SYSTEM_V3_PARTICIPATION_MODE + "|");
         assertNotNull(resources);
         assertEquals(resources.size(), 1, "Number of resources returned");
         assertTrue(isResourceInResponse(savedResource, resources), "Expected resource not found in the response");

@@ -1,0 +1,65 @@
+{
+    "resourceType": "CodeSystem",
+    "id": "verificationresult-can-push-updates",
+    "meta": {
+        "lastUpdated": "2022-04-23T22:21:35.043Z",
+        "profile": [
+            "http://hl7.org/fhir/StructureDefinition/shareablecodesystem"
+        ]
+    },
+    "text": {
+        "status": "empty",
+        "div": "<div xmlns=\"http://www.w3.org/1999/xhtml\">Redacted for size</div>"
+    },
+    "extension": [
+        {
+            "url": "http://hl7.org/fhir/StructureDefinition/structuredefinition-wg",
+            "valueCode": "pa"
+        }
+    ],
+    "url": "http://hl7.org/fhir/verificationresult-can-push-updates",
+    "identifier": [
+        {
+            "system": "urn:ietf:rfc:3986",
+            "value": "urn:oid:2.16.840.1.113883.4.642.1.897"
+        }
+    ],
+    "version": "4.3.0-cibuild",
+    "name": "can-push-updates",
+    "status": "draft",
+    "experimental": false,
+    "date": "2018-06-05T14:06:02Z",
+    "publisher": "HL7 (FHIR Project)",
+    "contact": [
+        {
+            "telecom": [
+                {
+                    "system": "url",
+                    "value": "http://hl7.org/fhir"
+                },
+                {
+                    "system": "email",
+                    "value": "fhir@lists.hl7.org"
+                }
+            ]
+        }
+    ],
+    "description": "Ability of the primary source to push updates/alerts",
+    "caseSensitive": true,
+    "valueSet": "http://hl7.org/fhir/ValueSet/can-push-updates",
+    "content": "complete",
+    "concept": [
+        {
+            "code": "yes",
+            "display": "Yes"
+        },
+        {
+            "code": "no",
+            "display": "No"
+        },
+        {
+            "code": "undetermined",
+            "display": "Undetermined"
+        }
+    ]
+}

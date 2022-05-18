@@ -7,6 +7,7 @@
   },
   "url": "http://example.org/ActivityDefinition/administer-zika-virus-exposure-assessment",
   "status": "draft",
+  "experimental": true,
   "description": "Administer Zika Virus Exposure Assessment",
   "useContext": [
     {
@@ -25,15 +26,18 @@
   "relatedArtifact": [
     {
       "type": "derived-from",
-      "url": "https://www.cdc.gov/zika/hc-providers/pregnant-woman.html"
+      "url": "https://www.cdc.gov/zika/hc-providers/pregnant-woman.html",
+      "document": {
+        "url": "https://www.cdc.gov/zika/hc-providers/pregnant-woman.html"
+      }
     },
     {
       "type": "depends-on",
-      "resource": "Questionnaire/zika-virus-exposure-assessment"
+      "resource": "http://hl7.org/fhir/Questionnaire/zika-virus-exposure-assessment"
     }
   ],
   "library": [
-    "Library/zika-virus-intervention-logic"
+    "http://example.org/fhir/Library/zika-virus-intervention-logic"
   ],
   "kind": "ServiceRequest",
   "code": {
@@ -45,6 +49,9 @@
     ]
   },
   "timingTiming": {
+    "event": [
+      null
+    ],
     "_event": [
       {
         "extension": [

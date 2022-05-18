@@ -1,0 +1,147 @@
+{
+    "resourceType": "CodeSystem",
+    "id": "v2-0441",
+    "text": {
+        "status": "empty",
+        "div": "<div xmlns=\"http://www.w3.org/1999/xhtml\">Redacted for size</div>"
+    },
+    "extension": [
+        {
+            "url": "http://hl7.org/fhir/StructureDefinition/structuredefinition-wg",
+            "valueCode": "pa"
+        }
+    ],
+    "url": "http://terminology.hl7.org/CodeSystem/v2-0441",
+    "identifier": [
+        {
+            "system": "urn:ietf:rfc:3986",
+            "value": "urn:oid:2.16.840.1.113883.18.281"
+        }
+    ],
+    "version": "2.1.0",
+    "name": "ImmunizationRegistryStatus",
+    "title": "immunizationRegistryStatus",
+    "status": "active",
+    "experimental": false,
+    "date": "2019-12-01",
+    "publisher": "HL7, Inc",
+    "contact": [
+        {
+            "telecom": [
+                {
+                    "system": "url",
+                    "value": "http://www.hl7.org/"
+                }
+            ]
+        }
+    ],
+    "description": "Code system of concepts specifying the immunization registry status of the patient.  Used in HL7 Version 2.x messaging in the PD1 segment.",
+    "purpose": "Underlying Master Code System for V2 table 0441 (Immunization Registry Status)",
+    "copyright": "Copyright HL7. Licensed under creative commons public domain",
+    "caseSensitive": true,
+    "valueSet": "http://terminology.hl7.org/ValueSet/v2-0441",
+    "hierarchyMeaning": "is-a",
+    "compositional": false,
+    "versionNeeded": false,
+    "content": "complete",
+    "property": [
+        {
+            "code": "status",
+            "uri": "http://terminology.hl7.org/CodeSystem/utg-concept-properties#status",
+            "description": "Status of the concept",
+            "type": "code"
+        },
+        {
+            "code": "deprecated",
+            "uri": "http://terminology.hl7.org/CodeSystem/utg-concept-properties#v2-table-deprecated",
+            "description": "Version of HL7 in which the code was deprecated",
+            "type": "code"
+        }
+    ],
+    "concept": [
+        {
+            "id": "4783",
+            "code": "A",
+            "display": "Active",
+            "definition": "Active",
+            "property": [
+                {
+                    "code": "status",
+                    "valueCode": "A"
+                }
+            ]
+        },
+        {
+            "id": "4784",
+            "code": "I",
+            "display": "Inactive",
+            "definition": "Inactive",
+            "property": [
+                {
+                    "code": "status",
+                    "valueCode": "A"
+                }
+            ]
+        },
+        {
+            "id": "4785",
+            "code": "L",
+            "display": "Inactive - Lost to follow-up (cancel contract)",
+            "definition": "Inactive - Lost to follow-up (cancel contract)",
+            "property": [
+                {
+                    "code": "status",
+                    "valueCode": "A"
+                }
+            ]
+        },
+        {
+            "id": "4786",
+            "code": "M",
+            "display": "Inactive - Moved or gone elsewhere (cancel contract)",
+            "definition": "Inactive - Moved or gone elsewhere (cancel contract)",
+            "property": [
+                {
+                    "code": "status",
+                    "valueCode": "A"
+                }
+            ]
+        },
+        {
+            "id": "4787",
+            "code": "P",
+            "display": "Inactive - Permanently inactive (Do not reactivate or add new entries to the record)",
+            "definition": "Inactive - Permanently inactive (Do not reactivate or add new entries to the record)",
+            "property": [
+                {
+                    "code": "status",
+                    "valueCode": "A"
+                }
+            ]
+        },
+        {
+            "id": "4788",
+            "code": "O",
+            "display": "Other",
+            "definition": "Other",
+            "property": [
+                {
+                    "code": "status",
+                    "valueCode": "A"
+                }
+            ]
+        },
+        {
+            "id": "4789",
+            "code": "U",
+            "display": "Unknown",
+            "definition": "Unknown",
+            "property": [
+                {
+                    "code": "status",
+                    "valueCode": "A"
+                }
+            ]
+        }
+    ]
+}

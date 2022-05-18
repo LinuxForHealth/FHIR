@@ -1,0 +1,201 @@
+{
+    "resourceType": "CodeSystem",
+    "id": "v3-ManagedParticipationStatus",
+    "language": "en",
+    "text": {
+        "status": "empty",
+        "div": "<div xmlns=\"http://www.w3.org/1999/xhtml\">Redacted for size</div>"
+    },
+    "url": "http://terminology.hl7.org/CodeSystem/v3-ManagedParticipationStatus",
+    "identifier": [
+        {
+            "system": "urn:ietf:rfc:3986",
+            "value": "urn:oid:2.16.840.1.113883.5.1062"
+        }
+    ],
+    "version": "2.1.0",
+    "name": "ManagedParticipationStatus",
+    "title": "ManagedParticipationStatus",
+    "status": "active",
+    "date": "2019-03-20",
+    "publisher": "Health Level 7",
+    "contact": [
+        {
+            "name": "Health Level Seven"
+        }
+    ],
+    "description": "Codes representing the defined possible states of a Managed Participation, as defined by the Managed Participation class state machine.",
+    "caseSensitive": true,
+    "hierarchyMeaning": "is-a",
+    "content": "complete",
+    "property": [
+        {
+            "extension": [
+                {
+                    "url": "http://terminology.hl7.org/StructureDefinition/ext-mif-relationship-symmetry",
+                    "valueCode": "antisymmetric"
+                },
+                {
+                    "url": "http://terminology.hl7.org/StructureDefinition/ext-mif-relationship-transitivity",
+                    "valueCode": "transitive"
+                },
+                {
+                    "url": "http://terminology.hl7.org/StructureDefinition/ext-mif-relationship-reflexivity",
+                    "valueCode": "irreflexive"
+                },
+                {
+                    "url": "http://terminology.hl7.org/StructureDefinition/ext-mif-relationship-isNavigable",
+                    "valueBoolean": true
+                },
+                {
+                    "url": "http://terminology.hl7.org/StructureDefinition/ext-mif-relationship-relationshipKind",
+                    "valueCode": "Specializes"
+                },
+                {
+                    "url": "http://terminology.hl7.org/StructureDefinition/ext-mif-relationship-inverseName",
+                    "valueString": "Generalizes"
+                }
+            ],
+            "code": "Specializes",
+            "description": "The child code is a more narrow version of the concept represented by the parent code.  I.e. Every child concept is also a valid parent concept.  Used to allow determination of subsumption.  Must be transitive, irreflexive, antisymmetric.",
+            "type": "Coding"
+        },
+        {
+            "extension": [
+                {
+                    "url": "http://terminology.hl7.org/StructureDefinition/ext-mif-relationship-symmetry",
+                    "valueCode": "antisymmetric"
+                },
+                {
+                    "url": "http://terminology.hl7.org/StructureDefinition/ext-mif-relationship-transitivity",
+                    "valueCode": "transitive"
+                },
+                {
+                    "url": "http://terminology.hl7.org/StructureDefinition/ext-mif-relationship-reflexivity",
+                    "valueCode": "irreflexive"
+                },
+                {
+                    "url": "http://terminology.hl7.org/StructureDefinition/ext-mif-relationship-isNavigable",
+                    "valueBoolean": true
+                },
+                {
+                    "url": "http://terminology.hl7.org/StructureDefinition/ext-mif-relationship-relationshipKind",
+                    "valueCode": "Generalizes"
+                },
+                {
+                    "url": "http://terminology.hl7.org/StructureDefinition/ext-mif-relationship-inverseName",
+                    "valueString": "Specializes"
+                }
+            ],
+            "code": "Generalizes",
+            "description": "Inverse of Specializes.  Only included as a derived relationship.",
+            "type": "Coding"
+        },
+        {
+            "code": "internalId",
+            "uri": "http://terminology.hl7.org/CodeSystem/utg-concept-properties#v3-internal-id",
+            "description": "The internal identifier for the concept in the HL7 Access database repository.",
+            "type": "code"
+        },
+        {
+            "code": "status",
+            "uri": "http://hl7.org/fhir/concept-properties#status",
+            "description": "Designation of a concept's state. Normally is not populated unless the state is retired.",
+            "type": "code"
+        }
+    ],
+    "concept": [
+        {
+            "code": "normal",
+            "display": "normal",
+            "definition": "The 'typical' state. Excludes \"nullified\" which represents the termination state of a participation instance that was created in error.",
+            "property": [
+                {
+                    "code": "status",
+                    "valueCode": "active"
+                },
+                {
+                    "code": "internalId",
+                    "valueCode": "15993"
+                }
+            ],
+            "concept": [
+                {
+                    "code": "active",
+                    "display": "active",
+                    "definition": "The state representing the fact that the Participation is in progress.",
+                    "property": [
+                        {
+                            "code": "status",
+                            "valueCode": "active"
+                        },
+                        {
+                            "code": "internalId",
+                            "valueCode": "15996"
+                        }
+                    ]
+                },
+                {
+                    "code": "cancelled",
+                    "display": "cancelled",
+                    "definition": "The terminal state resulting from cancellation of the Participation prior to activation.",
+                    "property": [
+                        {
+                            "code": "status",
+                            "valueCode": "active"
+                        },
+                        {
+                            "code": "internalId",
+                            "valueCode": "15995"
+                        }
+                    ]
+                },
+                {
+                    "code": "completed",
+                    "display": "completed",
+                    "definition": "The terminal state representing the successful completion of the Participation.",
+                    "property": [
+                        {
+                            "code": "status",
+                            "valueCode": "active"
+                        },
+                        {
+                            "code": "internalId",
+                            "valueCode": "15997"
+                        }
+                    ]
+                },
+                {
+                    "code": "pending",
+                    "display": "pending",
+                    "definition": "The state representing that fact that the Participation has not yet become active.",
+                    "property": [
+                        {
+                            "code": "status",
+                            "valueCode": "active"
+                        },
+                        {
+                            "code": "internalId",
+                            "valueCode": "15994"
+                        }
+                    ]
+                }
+            ]
+        },
+        {
+            "code": "nullified",
+            "display": "nullified",
+            "definition": "The state representing the termination of a Participation instance that was created in error.",
+            "property": [
+                {
+                    "code": "status",
+                    "valueCode": "active"
+                },
+                {
+                    "code": "internalId",
+                    "valueCode": "15998"
+                }
+            ]
+        }
+    ]
+}

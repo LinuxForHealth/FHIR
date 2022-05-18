@@ -7,60 +7,10 @@
       <display value="test health data"/>
     </security>
   </meta>
-  <text>
-    <status value="generated"/>
-    <div xmlns="http://www.w3.org/1999/xhtml">
-      <h3>Value Set Contents</h3>
-      <p>This value set contains 3 concepts</p>
-      <table class="codes">
-        <tr>
-          <td style="white-space:nowrap">
-            <b>Code</b>
-          </td>
-          <td>
-            <b>System</b>
-          </td>
-          <td>
-            <b>Display</b>
-          </td>
-          <td>
-            <b>Definition</b>
-          </td>
-        </tr>
-        <tr>
-          <td style="white-space:nowrap">
-            <a name="http---terminology.hl7.org-CodeSystem-v2-0136-Y"> </a>
-            <a href="v2/0136/index.html#v2-0136-Y">Y</a>
-          </td>
-          <td>http://terminology.hl7.org/CodeSystem/v2-0136</td>
-          <td>Yes</td>
-          <td/>
-        </tr>
-        <tr>
-          <td style="white-space:nowrap">
-            <a name="http---terminology.hl7.org-CodeSystem-v2-0136-N"> </a>
-            <a href="v2/0136/index.html#v2-0136-N">N</a>
-          </td>
-          <td>http://terminology.hl7.org/CodeSystem/v2-0136</td>
-          <td>No</td>
-          <td/>
-        </tr>
-        <tr>
-          <td style="white-space:nowrap">
-            <a name="http---terminology.hl7.org-CodeSystem-data-absent-reason-asked-unknown"> </a>
-            <a href="codesystem-data-absent-reason.html#data-absent-reason-asked-unknown">asked-unknown</a>
-          </td>
-          <td>http://terminology.hl7.org/CodeSystem/data-absent-reason</td>
-          <td>Don't know</td>
-          <td>The source was asked but does not know the value.</td>
-        </tr>
-      </table>
-    </div>
-  </text>
   <url value="http://hl7.org/fhir/ValueSet/yesnodontknow"/>
-  <version value="4.0.1"/>
   <name value="Yes/No/Don't Know"/>
   <status value="draft"/>
+  <experimental value="true"/>
   <description value="For Capturing simple yes-no-don't know answers"/>
   <compose>
     <include>

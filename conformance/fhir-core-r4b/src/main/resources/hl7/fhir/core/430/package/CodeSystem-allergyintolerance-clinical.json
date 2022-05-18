@@ -1,0 +1,75 @@
+{
+    "resourceType": "CodeSystem",
+    "id": "allergyintolerance-clinical",
+    "meta": {
+        "lastUpdated": "2020-04-09T15:10:28.568-06:00",
+        "profile": [
+            "http://hl7.org/fhir/StructureDefinition/shareablecodesystem"
+        ]
+    },
+    "text": {
+        "status": "empty",
+        "div": "<div xmlns=\"http://www.w3.org/1999/xhtml\">Redacted for size</div>"
+    },
+    "extension": [
+        {
+            "url": "http://hl7.org/fhir/StructureDefinition/structuredefinition-wg",
+            "valueCode": "pc"
+        },
+        {
+            "url": "http://hl7.org/fhir/StructureDefinition/structuredefinition-standards-status",
+            "valueCode": "trial-use"
+        },
+        {
+            "url": "http://hl7.org/fhir/StructureDefinition/structuredefinition-fmm",
+            "valueInteger": 3
+        }
+    ],
+    "url": "http://terminology.hl7.org/CodeSystem/allergyintolerance-clinical",
+    "identifier": [
+        {
+            "system": "urn:ietf:rfc:3986",
+            "value": "urn:oid:2.16.840.1.113883.4.642.1.1373"
+        }
+    ],
+    "version": "0.5.0",
+    "name": "AllergyIntoleranceClinicalStatusCodes",
+    "title": "AllergyIntolerance Clinical Status Codes",
+    "status": "draft",
+    "experimental": false,
+    "date": "2022-02-23T20:36:09-07:00",
+    "publisher": "FHIR Project team",
+    "contact": [
+        {
+            "telecom": [
+                {
+                    "system": "url",
+                    "value": "http://hl7.org/fhir"
+                }
+            ]
+        }
+    ],
+    "description": "Preferred value set for AllergyIntolerance Clinical Status.",
+    "caseSensitive": true,
+    "valueSet": "http://terminology.hl7.org/ValueSet/allergyintolerance-clinical",
+    "content": "complete",
+    "concept": [
+        {
+            "code": "active",
+            "display": "Active",
+            "definition": "The subject is currently experiencing, or is at risk of, a reaction to the identified substance."
+        },
+        {
+            "code": "inactive",
+            "display": "Inactive",
+            "definition": "The subject is no longer at risk of a reaction to the identified substance.",
+            "concept": [
+                {
+                    "code": "resolved",
+                    "display": "Resolved",
+                    "definition": "A reaction to the identified substance has been clinically reassessed by testing or re-exposure and is considered no longer to be present. Re-exposure could be accidental, unplanned, or outside of any clinical setting."
+                }
+            ]
+        }
+    ]
+}

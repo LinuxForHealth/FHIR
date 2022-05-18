@@ -1,0 +1,29 @@
+{
+    "resourceType": "CodeSystem",
+    "id": "whoGER",
+    "text": {
+        "status": "empty",
+        "div": "<div xmlns=\"http://www.w3.org/1999/xhtml\">Redacted for size</div>"
+    },
+    "url": "http://terminology.hl7.org/CodeSystem/whoGER",
+    "identifier": [
+        {
+            "system": "urn:ietf:rfc:3986",
+            "value": "urn:oid:2.16.840.1.113883.6.230.2"
+        }
+    ],
+    "version": "2.0.0",
+    "name": "WhoGER",
+    "title": "WHO Adverse Reaction Terms German",
+    "status": "retired",
+    "experimental": false,
+    "date": "2021-11-09T10:00:00+10:00",
+    "publisher": "TBD - External Body",
+    "contact": [
+        {
+            "name": "World Health Organization"
+        }
+    ],
+    "description": "WHO Adverse Drug Reaction Terminology (WHOART). German Translation. Uppsala (Sweden): WHO Collaborating Centre for International Drug Monitoring, 1997. For more information, see http://www.umc-products.com/graphics/3149.pdf",
+    "content": "not-present"
+}

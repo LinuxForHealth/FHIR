@@ -1,5 +1,5 @@
 /*
- * (C) Copyright IBM Corp. 2019, 2021
+ * (C) Copyright IBM Corp. 2019, 2022
  *
  * SPDX-License-Identifier: Apache-2.0
  */
@@ -40,7 +40,6 @@ import com.ibm.fhir.model.visitor.Visitor;
 @Binding(
     bindingName = "AgeUnits",
     strength = BindingStrength.Value.EXTENSIBLE,
-    description = "Appropriate units for Age.",
     valueSet = "http://hl7.org/fhir/ValueSet/age-units",
     maxValueSet = "http://hl7.org/fhir/ValueSet/all-time-units"
 )

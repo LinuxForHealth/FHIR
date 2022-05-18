@@ -1,0 +1,48 @@
+{
+    "resourceType": "ValueSet",
+    "id": "v2-notAllCodes-0399",
+    "text": {
+        "status": "empty",
+        "div": "<div xmlns=\"http://www.w3.org/1999/xhtml\">Redacted for size</div>"
+    },
+    "url": "http://terminology.hl7.org/ValueSet/v2-notAllCodes-0399",
+    "identifier": [
+        {
+            "system": "urn:ietf:rfc:3986",
+            "value": "urn:oid:2.16.840.1.113883.21.266"
+        }
+    ],
+    "version": "2.0.0",
+    "name": "Hl7VSCountryCode3",
+    "title": "hl7VS-countryCode-3alpha",
+    "status": "active",
+    "experimental": false,
+    "date": "2019-12-01",
+    "publisher": "HL7, Inc",
+    "contact": [
+        {
+            "telecom": [
+                {
+                    "system": "url",
+                    "value": "https://github.com/HL7/UTG"
+                }
+            ]
+        }
+    ],
+    "description": "Value Set of codes that identifies a country of origin for a message.  It will be used primarily to specify default elements, such as currency denominations. The values to be used are those of ISO 3166. The ISO 3166 table has three separate forms for the codes for each country, this value set includes only the 3-character alpha form.",
+    "copyright": "Copyright HL7. Licensed under creative commons public domain",
+    "compose": {
+        "include": [
+            {
+                "system": "urn:iso:std:iso:3166",
+                "filter": [
+                    {
+                        "property": "code",
+                        "op": "regex",
+                        "value": "[A-Z]{3}"
+                    }
+                ]
+            }
+        ]
+    }
+}

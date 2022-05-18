@@ -9,8 +9,8 @@
       "status": "active",
       "description": "Type options for ChargeItem.occurrence[x]",
       "expansion": {
-        "identifier": "urn:uuid:96d16144-109b-45b9-91ba-2debcd4ebe58",
-        "timestamp": "2019-11-01T09:34:40+11:00",
+        "identifier": "urn:uuid:fca55b63-3f82-419a-95b2-4e5a34eccb3f",
+        "timestamp": "2022-04-23T22:28:41+00:00",
         "contains": [
           {
             "system": "http://hl7.org/fhir/data-types",
@@ -37,8 +37,8 @@
       "status": "active",
       "description": "Type options for ChargeItem.product[x]",
       "expansion": {
-        "identifier": "urn:uuid:85b29b54-09f0-45f4-8f97-4e95f3947c57",
-        "timestamp": "2019-11-01T09:34:40+11:00",
+        "identifier": "urn:uuid:06a7c899-731e-4899-9667-62503f5281e6",
+        "timestamp": "2022-04-23T22:28:41+00:00",
         "contains": [
           {
             "system": "http://hl7.org/fhir/resource-types",
@@ -69,9 +69,10 @@
       "system": "urn:ietf:rfc:3986"
     }
   ],
-  "version": "4.0.1",
+  "version": "4.3.0-cibuild",
   "status": "draft",
-  "date": "2019-11-01T09:29:23+11:00",
+  "experimental": false,
+  "date": "2022-04-23T22:21:35+00:00",
   "publisher": "Health Level Seven International (Patient Administration)",
   "item": [
     {
@@ -96,6 +97,7 @@
               }
             }
           ],
+          "linkId": "ChargeItem-flyover",
           "text": "The resource ChargeItem describes the provision of healthcare provider products for a certain patient, therefore referring not only to the product, but containing in addition details of the provision, like date, time, amounts and participating organizations and persons. Main Usage of the ChargeItem is to enable the billing process and internal cost allocation.",
           "type": "display"
         },
@@ -130,6 +132,7 @@
                   }
                 }
               ],
+              "linkId": "ChargeItem.id-flyover",
               "text": "The logical id of the resource, as used in the URL for the resource. Once assigned, this value never changes. The only time that a resource does not have an id is when it is being submitted to the server using a create operation.",
               "type": "display"
             },
@@ -170,6 +173,7 @@
                   }
                 }
               ],
+              "linkId": "ChargeItem.meta-flyover",
               "text": "The metadata about the resource. This is content that is maintained by the infrastructure. Changes to the content might not always be associated with version changes to the resource.",
               "type": "display"
             }
@@ -206,6 +210,7 @@
                   }
                 }
               ],
+              "linkId": "ChargeItem.implicitRules-flyover",
               "text": "A reference to a set of rules that were followed when the resource was constructed, and which must be understood when processing the content. Often, this is a reference to an implementation guide that defines the special rules along with other profiles etc. Asserting this rule set restricts the content to be only understood by a limited set of trading partners. This inherently limits the usefulness of the data in the long term. However, the existing health eco-system is highly fractured, and not yet ready to define, collect, and exchange data in a generally computable sense. Wherever possible, implementers and/or specification writers should avoid using this element. Often, when used, the URL is a reference to an implementation guide that defines these special rules as part of it\u0027s narrative along with other profiles, value sets, etc.",
               "type": "display"
             },
@@ -249,6 +254,7 @@
                   }
                 }
               ],
+              "linkId": "ChargeItem.language-flyover",
               "text": "The base language in which the resource is written. Language is provided to support indexing and accessibility (typically, services such as text to speech use the language tag). The html language tag in the narrative applies  to the narrative. The language tag on the resource may be used to specify the language of other presentations generated from the data in the resource. Not all the content has to be in the base language. The Resource.language should not be assumed to apply to the narrative automatically. If a language is specified, it should it also be specified on the div element in the html (see rules in HTML5 for information about the relationship between xml:lang and the html lang attribute).",
               "type": "display"
             },
@@ -289,6 +295,7 @@
                   }
                 }
               ],
+              "linkId": "ChargeItem.text-flyover",
               "text": "A human-readable narrative that contains a summary of the resource and can be used to represent the content of the resource to a human. The narrative need not encode all the structured data, but is required to contain sufficient detail to make it \"clinically safe\" for a human to just read the narrative. Resource definitions may define what content should be represented in the narrative to ensure clinical safety. Contained resources do not have narrative. Resources that are not contained SHOULD have a narrative. In some cases, a resource may only have text with little or no additional discrete data (as long as all minOccurs\u003d1 elements are satisfied).  This may be necessary for data from legacy systems where information is captured as a \"text blob\" or where text is additionally entered raw or narrated and encoded information is added later.",
               "type": "display"
             }
@@ -316,6 +323,7 @@
                   }
                 }
               ],
+              "linkId": "ChargeItem.contained-flyover",
               "text": "These resources do not have an independent existence apart from the resource that contains them - they cannot be identified independently, and nor can they have their own independent transaction scope. This should never be done when the content can be identified properly, as once identification is lost, it is extremely difficult (and context dependent) to restore it again. Contained resources may have profiles and tags In their meta elements, but SHALL NOT have security labels.",
               "type": "display"
             }
@@ -343,6 +351,7 @@
                   }
                 }
               ],
+              "linkId": "ChargeItem.extension-flyover",
               "text": "May be used to represent additional information that is not part of the basic definition of the resource. To make the use of extensions safe and manageable, there is a strict set of governance  applied to the definition and use of extensions. Though any implementer can define an extension, there is a set of requirements that SHALL be met as part of the definition of the extension. There can be no stigma associated with the use of extensions by any application, project, or standard - regardless of the institution or jurisdiction that uses or defines the extensions.  The use of extensions is what allows the FHIR specification to retain a core level of simplicity for everyone.",
               "type": "display"
             }
@@ -370,6 +379,7 @@
                   }
                 }
               ],
+              "linkId": "ChargeItem.modifierExtension-flyover",
               "text": "May be used to represent additional information that is not part of the basic definition of the resource and that modifies the understanding of the element that contains it and/or the understanding of the containing element\u0027s descendants. Usually modifier elements provide negation or qualification. To make the use of extensions safe and manageable, there is a strict set of governance applied to the definition and use of extensions. Though any implementer is allowed to define an extension, there is a set of requirements that SHALL be met as part of the definition of the extension. Applications processing a resource are required to check for modifier extensions.\n\nModifier extensions SHALL NOT change the meaning of any elements on Resource or DomainResource (including cannot change the meaning of modifierExtension itself). There can be no stigma associated with the use of extensions by any application, project, or standard - regardless of the institution or jurisdiction that uses or defines the extensions.  The use of extensions is what allows the FHIR specification to retain a core level of simplicity for everyone.",
               "type": "display"
             }
@@ -403,6 +413,7 @@
                   }
                 }
               ],
+              "linkId": "ChargeItem.identifier-flyover",
               "text": "Identifiers assigned to this event performer or other systems.",
               "type": "display"
             },
@@ -456,6 +467,7 @@
                   }
                 }
               ],
+              "linkId": "ChargeItem.definitionUri-flyover",
               "text": "References the (external) source of pricing information, rules of application for the code this ChargeItem uses.",
               "type": "display"
             },
@@ -495,6 +507,7 @@
                   }
                 }
               ],
+              "linkId": "ChargeItem.definitionCanonical-flyover",
               "text": "References the source of pricing information, rules of application for the code this ChargeItem uses.",
               "type": "display"
             },
@@ -542,6 +555,7 @@
                   }
                 }
               ],
+              "linkId": "ChargeItem.status-flyover",
               "text": "The current state of the ChargeItem. Unknown does not represent \"other\" - one of the defined statuses must apply.  Unknown is used when the authoring system is not sure what the current status is.\n\nThis element is labeled as a modifier because the status contains the code entered-in-error that marks the charge item as not currently valid.",
               "type": "display"
             },
@@ -581,6 +595,7 @@
                   }
                 }
               ],
+              "linkId": "ChargeItem.partOf-flyover",
               "text": "ChargeItems can be grouped to larger ChargeItems covering the whole set.",
               "type": "display"
             },
@@ -639,13 +654,14 @@
                   }
                 }
               ],
+              "linkId": "ChargeItem.code-flyover",
               "text": "A code that identifies the charge, like a billing code.",
               "type": "display"
             },
             {
               "linkId": "ChargeItem.code.coding",
               "text": "code:",
-              "type": "open-choice",
+              "type": "choice",
               "required": false,
               "repeats": false
             },
@@ -693,6 +709,7 @@
                   }
                 }
               ],
+              "linkId": "ChargeItem.subject-flyover",
               "text": "The individual or set of individuals the action is being or was performed on.",
               "type": "display"
             },
@@ -746,6 +763,7 @@
                   }
                 }
               ],
+              "linkId": "ChargeItem.context-flyover",
               "text": "The encounter or episode of care that establishes the context for this event.",
               "type": "display"
             },
@@ -796,6 +814,7 @@
                   }
                 }
               ],
+              "linkId": "ChargeItem.occurrence[x]-flyover",
               "text": "Date/time(s) or duration when the charged service was applied. The list of types may be constrained as appropriate for the type of charge item.",
               "type": "display"
             },
@@ -924,6 +943,7 @@
                   }
                 }
               ],
+              "linkId": "ChargeItem.performer-flyover",
               "text": "Indicates who or what performed or participated in the charged service.",
               "type": "display"
             },
@@ -958,6 +978,7 @@
                       }
                     }
                   ],
+                  "linkId": "ChargeItem.performer.id-flyover",
                   "text": "Unique id for the element within a resource (for internal references). This may be any string value that does not contain spaces.",
                   "type": "display"
                 },
@@ -992,6 +1013,7 @@
                       }
                     }
                   ],
+                  "linkId": "ChargeItem.performer.extension-flyover",
                   "text": "May be used to represent additional information that is not part of the basic definition of the element. To make the use of extensions safe and manageable, there is a strict set of governance  applied to the definition and use of extensions. Though any implementer can define an extension, there is a set of requirements that SHALL be met as part of the definition of the extension. There can be no stigma associated with the use of extensions by any application, project, or standard - regardless of the institution or jurisdiction that uses or defines the extensions.  The use of extensions is what allows the FHIR specification to retain a core level of simplicity for everyone.",
                   "type": "display"
                 }
@@ -1019,6 +1041,7 @@
                       }
                     }
                   ],
+                  "linkId": "ChargeItem.performer.modifierExtension-flyover",
                   "text": "May be used to represent additional information that is not part of the basic definition of the element and that modifies the understanding of the element in which it is contained and/or the understanding of the containing element\u0027s descendants. Usually modifier elements provide negation or qualification. To make the use of extensions safe and manageable, there is a strict set of governance applied to the definition and use of extensions. Though any implementer can define an extension, there is a set of requirements that SHALL be met as part of the definition of the extension. Applications processing a resource are required to check for modifier extensions.\n\nModifier extensions SHALL NOT change the meaning of any elements on Resource or DomainResource (including cannot change the meaning of modifierExtension itself). There can be no stigma associated with the use of extensions by any application, project, or standard - regardless of the institution or jurisdiction that uses or defines the extensions.  The use of extensions is what allows the FHIR specification to retain a core level of simplicity for everyone.",
                   "type": "display"
                 }
@@ -1056,13 +1079,14 @@
                       }
                     }
                   ],
+                  "linkId": "ChargeItem.performer.function-flyover",
                   "text": "Describes the type of performance or participation(e.g. primary surgeon, anesthesiologiest, etc.).",
                   "type": "display"
                 },
                 {
                   "linkId": "ChargeItem.performer.function.coding",
                   "text": "code:",
-                  "type": "open-choice",
+                  "type": "choice",
                   "required": false,
                   "repeats": false
                 },
@@ -1110,6 +1134,7 @@
                       }
                     }
                   ],
+                  "linkId": "ChargeItem.performer.actor-flyover",
                   "text": "The device, practitioner, etc. who performed or participated in the service.",
                   "type": "display"
                 },
@@ -1165,6 +1190,7 @@
                   }
                 }
               ],
+              "linkId": "ChargeItem.performingOrganization-flyover",
               "text": "The organization requesting the service. Practitioners and Devices can be associated with multiple organizations. It has to be made clear, on behalf of which Organization the services have been rendered.",
               "type": "display"
             },
@@ -1218,6 +1244,7 @@
                   }
                 }
               ],
+              "linkId": "ChargeItem.requestingOrganization-flyover",
               "text": "The organization performing the service. The rendered Service might not be associated with a Request. This property indicates which Organization requested the services to be rendered. (In many cases, this may just be the Department associated with the Encounter.location).",
               "type": "display"
             },
@@ -1271,6 +1298,7 @@
                   }
                 }
               ],
+              "linkId": "ChargeItem.costCenter-flyover",
               "text": "The financial cost center permits the tracking of charge attribution. The costCenter could either be given as a reference to an Organization(Role) resource or as the identifier of the cost center determined by Reference.identifier.value and Reference.identifier.system, depending on use case requirements.",
               "type": "display"
             },
@@ -1325,6 +1353,7 @@
                   }
                 }
               ],
+              "linkId": "ChargeItem.quantity-flyover",
               "text": "Quantity of which the charge item has been serviced. In many cases this may just be a value, if the underlying units are implicit in the definition of the charge item code.",
               "type": "display"
             },
@@ -1393,13 +1422,14 @@
                   }
                 }
               ],
+              "linkId": "ChargeItem.bodysite-flyover",
               "text": "The anatomical location where the related service has been applied. Only used if not implicit in code found in Condition.code. If the use case requires attributes from the BodySite resource (e.g. to identify and track separately) then use the standard extension [bodySite](extension-bodysite.html).  May be a summary code, or a reference to a very precise definition of the location, or both.",
               "type": "display"
             },
             {
               "linkId": "ChargeItem.bodysite.coding",
               "text": "code:",
-              "type": "open-choice",
+              "type": "choice",
               "required": false,
               "repeats": false
             },
@@ -1443,6 +1473,7 @@
                   }
                 }
               ],
+              "linkId": "ChargeItem.factorOverride-flyover",
               "text": "Factor overriding the factor determined by the rules associated with the code. There is no reason to carry the factor in the instance of a ChargeItem unless special circumstances require a manual override. The factors are usually defined by a set of rules in a back catalogue of the billing codes  (see ChargeItem.definition). Derived profiles may require a ChargeItem.overrideReason to be provided if either factor or price are manually overridden.",
               "type": "display"
             },
@@ -1487,6 +1518,7 @@
                   }
                 }
               ],
+              "linkId": "ChargeItem.priceOverride-flyover",
               "text": "Total price of the charge overriding the list price associated with the code. There is no reason to carry the price in the instance of a ChargeItem unless circumstances require a manual override. The list prices or are usually defined in a back catalogue of the billing codes  (see ChargeItem.definition). Derived profiles may require a ChargeItem.overrideReason to be provided if either factor or price are manually overridden.",
               "type": "display"
             },
@@ -1558,6 +1590,7 @@
                   }
                 }
               ],
+              "linkId": "ChargeItem.overrideReason-flyover",
               "text": "If the list price or the rule-based factor associated with the code is overridden, this attribute can capture a text to indicate the  reason for this action. Derived Profiles may choose to add invariants requiring this field to be populated if either priceOverride or factorOverride have been filled.",
               "type": "display"
             },
@@ -1601,6 +1634,7 @@
                   }
                 }
               ],
+              "linkId": "ChargeItem.enterer-flyover",
               "text": "The device, practitioner, etc. who entered the charge item. The enterer is also the person considered responsible for factor/price overrides if applicable.",
               "type": "display"
             },
@@ -1654,6 +1688,7 @@
                   }
                 }
               ],
+              "linkId": "ChargeItem.enteredDate-flyover",
               "text": "Date the charge item was entered. The actual date when the service associated with the charge has been rendered is captured in occurrence[x].",
               "type": "display"
             },
@@ -1694,13 +1729,14 @@
                   }
                 }
               ],
+              "linkId": "ChargeItem.reason-flyover",
               "text": "Describes why the event occurred in coded or textual form. If the application of the charge item requires a reason to be given, it can be captured here. Textual reasons can be captured using reasonCode.text.",
               "type": "display"
             },
             {
               "linkId": "ChargeItem.reason.coding",
               "text": "code:",
-              "type": "open-choice",
+              "type": "choice",
               "required": false,
               "repeats": false
             },
@@ -1740,6 +1776,7 @@
                   }
                 }
               ],
+              "linkId": "ChargeItem.service-flyover",
               "text": "Indicated the rendered service that caused this charge.",
               "type": "display"
             },
@@ -1790,6 +1827,7 @@
                   }
                 }
               ],
+              "linkId": "ChargeItem.product[x]-flyover",
               "text": "Identifies the device, food, drug or other product being charged either by type code or reference to an instance.",
               "type": "display"
             },
@@ -1842,7 +1880,7 @@
                     {
                       "linkId": "ChargeItem.product[x]._null.coding",
                       "text": "code:",
-                      "type": "open-choice",
+                      "type": "choice",
                       "required": false,
                       "repeats": false
                     },
@@ -1886,6 +1924,7 @@
                   }
                 }
               ],
+              "linkId": "ChargeItem.account-flyover",
               "text": "Account into which this ChargeItems belongs. Systems posting the ChargeItems might not always be able to determine, which accounts the Items need to be places into. It is up to the postprocessing Financial System to apply internal rules to decide based on the Encounter/EpisodeOfCare/Patient/Coverage context and the type of ChargeItem, which Account is appropriate.",
               "type": "display"
             },
@@ -1936,6 +1975,7 @@
                   }
                 }
               ],
+              "linkId": "ChargeItem.note-flyover",
               "text": "Comments made about the event by the performer, subject or other participants.",
               "type": "display"
             }
@@ -1968,6 +2008,7 @@
                   }
                 }
               ],
+              "linkId": "ChargeItem.supportingInformation-flyover",
               "text": "Further information supporting this charge.",
               "type": "display"
             },

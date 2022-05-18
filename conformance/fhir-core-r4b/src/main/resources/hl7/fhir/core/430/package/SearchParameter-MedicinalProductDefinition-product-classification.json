@@ -1,0 +1,44 @@
+{
+    "resourceType": "SearchParameter",
+    "id": "MedicinalProductDefinition-product-classification",
+    "extension": [
+        {
+            "url": "http://hl7.org/fhir/StructureDefinition/structuredefinition-standards-status",
+            "valueCode": "trial-use"
+        }
+    ],
+    "url": "http://hl7.org/fhir/SearchParameter/MedicinalProductDefinition-product-classification",
+    "version": "4.3.0-cibuild",
+    "name": "product-classification",
+    "status": "draft",
+    "experimental": false,
+    "date": "2022-04-23T22:21:35Z",
+    "publisher": "Health Level Seven International (Biomedical Research and Regulation)",
+    "contact": [
+        {
+            "telecom": [
+                {
+                    "system": "url",
+                    "value": "http://hl7.org/fhir"
+                }
+            ]
+        },
+        {
+            "telecom": [
+                {
+                    "system": "url",
+                    "value": "http://www.hl7.org/Special/committees/rcrim/index.cfm"
+                }
+            ]
+        }
+    ],
+    "description": "Allows the product to be classified by various systems",
+    "code": "product-classification",
+    "base": [
+        "MedicinalProductDefinition"
+    ],
+    "type": "token",
+    "expression": "MedicinalProductDefinition.classification",
+    "xpath": "f:MedicinalProductDefinition/f:classification",
+    "xpathUsage": "normal"
+}

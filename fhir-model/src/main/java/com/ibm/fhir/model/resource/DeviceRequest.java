@@ -1,5 +1,5 @@
 /*
- * (C) Copyright IBM Corp. 2019, 2021
+ * (C) Copyright IBM Corp. 2019, 2022
  *
  * SPDX-License-Identifier: Apache-2.0
  */
@@ -75,7 +75,7 @@ public class DeviceRequest extends DomainResource {
         bindingName = "DeviceRequestStatus",
         strength = BindingStrength.Value.REQUIRED,
         description = "Codes representing the status of the request.",
-        valueSet = "http://hl7.org/fhir/ValueSet/request-status|4.0.1"
+        valueSet = "http://hl7.org/fhir/ValueSet/request-status|4.3.0-cibuild"
     )
     private final DeviceRequestStatus status;
     @Summary
@@ -83,7 +83,7 @@ public class DeviceRequest extends DomainResource {
         bindingName = "RequestIntent",
         strength = BindingStrength.Value.REQUIRED,
         description = "The kind of diagnostic request.",
-        valueSet = "http://hl7.org/fhir/ValueSet/request-intent|4.0.1"
+        valueSet = "http://hl7.org/fhir/ValueSet/request-intent|4.3.0-cibuild"
     )
     @Required
     private final RequestIntent intent;
@@ -92,7 +92,7 @@ public class DeviceRequest extends DomainResource {
         bindingName = "RequestPriority",
         strength = BindingStrength.Value.REQUIRED,
         description = "Identifies the level of importance to be assigned to actioning the request.",
-        valueSet = "http://hl7.org/fhir/ValueSet/request-priority|4.0.1"
+        valueSet = "http://hl7.org/fhir/ValueSet/request-priority|4.3.0-cibuild"
     )
     private final RequestPriority priority;
     @Summary

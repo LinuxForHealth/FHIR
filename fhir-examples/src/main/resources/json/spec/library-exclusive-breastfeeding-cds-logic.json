@@ -32,11 +32,11 @@
   "relatedArtifact": [
     {
       "type": "depends-on",
-      "resource": "Library/library-quick-model-definition"
+      "resource": "http://example.org/fhir/Library/library-quick-model-definition"
     },
     {
       "type": "derived-from",
-      "resource": "Measure/measure-exclusive-breastfeeding"
+      "resource": "http://example.org/fhir/Measure/measure-exclusive-breastfeeding"
     }
   ],
   "dataRequirement": [

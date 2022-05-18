@@ -9,8 +9,8 @@
       "status": "active",
       "description": "Type options for ClaimResponse.addItem.serviced[x]",
       "expansion": {
-        "identifier": "urn:uuid:3d323554-f03b-4327-9777-a4e83fd22514",
-        "timestamp": "2019-11-01T09:34:44+11:00",
+        "identifier": "urn:uuid:7f2d4806-524c-4b68-87fa-ca521c6ad6e0",
+        "timestamp": "2022-04-23T22:28:47+00:00",
         "contains": [
           {
             "system": "http://hl7.org/fhir/data-types",
@@ -32,8 +32,8 @@
       "status": "active",
       "description": "Type options for ClaimResponse.addItem.location[x]",
       "expansion": {
-        "identifier": "urn:uuid:446fc996-a96b-406b-a54a-50ae3ef1d5b3",
-        "timestamp": "2019-11-01T09:34:44+11:00",
+        "identifier": "urn:uuid:d667d883-b084-42f9-a1ed-a67d31ecadb8",
+        "timestamp": "2022-04-23T22:28:47+00:00",
         "contains": [
           {
             "system": "http://hl7.org/fhir/data-types",
@@ -59,9 +59,10 @@
       "system": "urn:ietf:rfc:3986"
     }
   ],
-  "version": "4.0.1",
+  "version": "4.3.0-cibuild",
   "status": "draft",
-  "date": "2019-11-01T09:29:23+11:00",
+  "experimental": false,
+  "date": "2022-04-23T22:21:35+00:00",
   "publisher": "Health Level Seven International (Financial Management)",
   "item": [
     {
@@ -86,6 +87,7 @@
               }
             }
           ],
+          "linkId": "ClaimResponse-flyover",
           "text": "This resource provides the adjudication details from the processing of a Claim resource.",
           "type": "display"
         },
@@ -120,6 +122,7 @@
                   }
                 }
               ],
+              "linkId": "ClaimResponse.id-flyover",
               "text": "The logical id of the resource, as used in the URL for the resource. Once assigned, this value never changes. The only time that a resource does not have an id is when it is being submitted to the server using a create operation.",
               "type": "display"
             },
@@ -160,6 +163,7 @@
                   }
                 }
               ],
+              "linkId": "ClaimResponse.meta-flyover",
               "text": "The metadata about the resource. This is content that is maintained by the infrastructure. Changes to the content might not always be associated with version changes to the resource.",
               "type": "display"
             }
@@ -196,6 +200,7 @@
                   }
                 }
               ],
+              "linkId": "ClaimResponse.implicitRules-flyover",
               "text": "A reference to a set of rules that were followed when the resource was constructed, and which must be understood when processing the content. Often, this is a reference to an implementation guide that defines the special rules along with other profiles etc. Asserting this rule set restricts the content to be only understood by a limited set of trading partners. This inherently limits the usefulness of the data in the long term. However, the existing health eco-system is highly fractured, and not yet ready to define, collect, and exchange data in a generally computable sense. Wherever possible, implementers and/or specification writers should avoid using this element. Often, when used, the URL is a reference to an implementation guide that defines these special rules as part of it\u0027s narrative along with other profiles, value sets, etc.",
               "type": "display"
             },
@@ -239,6 +244,7 @@
                   }
                 }
               ],
+              "linkId": "ClaimResponse.language-flyover",
               "text": "The base language in which the resource is written. Language is provided to support indexing and accessibility (typically, services such as text to speech use the language tag). The html language tag in the narrative applies  to the narrative. The language tag on the resource may be used to specify the language of other presentations generated from the data in the resource. Not all the content has to be in the base language. The Resource.language should not be assumed to apply to the narrative automatically. If a language is specified, it should it also be specified on the div element in the html (see rules in HTML5 for information about the relationship between xml:lang and the html lang attribute).",
               "type": "display"
             },
@@ -279,6 +285,7 @@
                   }
                 }
               ],
+              "linkId": "ClaimResponse.text-flyover",
               "text": "A human-readable narrative that contains a summary of the resource and can be used to represent the content of the resource to a human. The narrative need not encode all the structured data, but is required to contain sufficient detail to make it \"clinically safe\" for a human to just read the narrative. Resource definitions may define what content should be represented in the narrative to ensure clinical safety. Contained resources do not have narrative. Resources that are not contained SHOULD have a narrative. In some cases, a resource may only have text with little or no additional discrete data (as long as all minOccurs\u003d1 elements are satisfied).  This may be necessary for data from legacy systems where information is captured as a \"text blob\" or where text is additionally entered raw or narrated and encoded information is added later.",
               "type": "display"
             }
@@ -306,6 +313,7 @@
                   }
                 }
               ],
+              "linkId": "ClaimResponse.contained-flyover",
               "text": "These resources do not have an independent existence apart from the resource that contains them - they cannot be identified independently, and nor can they have their own independent transaction scope. This should never be done when the content can be identified properly, as once identification is lost, it is extremely difficult (and context dependent) to restore it again. Contained resources may have profiles and tags In their meta elements, but SHALL NOT have security labels.",
               "type": "display"
             }
@@ -333,6 +341,7 @@
                   }
                 }
               ],
+              "linkId": "ClaimResponse.extension-flyover",
               "text": "May be used to represent additional information that is not part of the basic definition of the resource. To make the use of extensions safe and manageable, there is a strict set of governance  applied to the definition and use of extensions. Though any implementer can define an extension, there is a set of requirements that SHALL be met as part of the definition of the extension. There can be no stigma associated with the use of extensions by any application, project, or standard - regardless of the institution or jurisdiction that uses or defines the extensions.  The use of extensions is what allows the FHIR specification to retain a core level of simplicity for everyone.",
               "type": "display"
             }
@@ -360,6 +369,7 @@
                   }
                 }
               ],
+              "linkId": "ClaimResponse.modifierExtension-flyover",
               "text": "May be used to represent additional information that is not part of the basic definition of the resource and that modifies the understanding of the element that contains it and/or the understanding of the containing element\u0027s descendants. Usually modifier elements provide negation or qualification. To make the use of extensions safe and manageable, there is a strict set of governance applied to the definition and use of extensions. Though any implementer is allowed to define an extension, there is a set of requirements that SHALL be met as part of the definition of the extension. Applications processing a resource are required to check for modifier extensions.\n\nModifier extensions SHALL NOT change the meaning of any elements on Resource or DomainResource (including cannot change the meaning of modifierExtension itself). There can be no stigma associated with the use of extensions by any application, project, or standard - regardless of the institution or jurisdiction that uses or defines the extensions.  The use of extensions is what allows the FHIR specification to retain a core level of simplicity for everyone.",
               "type": "display"
             }
@@ -393,6 +403,7 @@
                   }
                 }
               ],
+              "linkId": "ClaimResponse.identifier-flyover",
               "text": "A unique identifier assigned to this claim response.",
               "type": "display"
             },
@@ -454,6 +465,7 @@
                   }
                 }
               ],
+              "linkId": "ClaimResponse.status-flyover",
               "text": "The status of the resource instance. This element is labeled as a modifier because the status contains codes that mark the resource as not currently valid.",
               "type": "display"
             },
@@ -502,13 +514,14 @@
                   }
                 }
               ],
+              "linkId": "ClaimResponse.type-flyover",
               "text": "A finer grained suite of claim type codes which may convey additional information such as Inpatient vs Outpatient and/or a specialty service. This may contain the local bill type codes, for example the US UB-04 bill type code or the CMS bill type.",
               "type": "display"
             },
             {
               "linkId": "ClaimResponse.type.coding",
               "text": "code:",
-              "type": "open-choice",
+              "type": "choice",
               "required": false,
               "repeats": false
             },
@@ -553,13 +566,14 @@
                   }
                 }
               ],
+              "linkId": "ClaimResponse.subType-flyover",
               "text": "A finer grained suite of claim type codes which may convey additional information such as Inpatient vs Outpatient and/or a specialty service. This may contain the local bill type codes, for example the US UB-04 bill type code or the CMS bill type.",
               "type": "display"
             },
             {
               "linkId": "ClaimResponse.subType.coding",
               "text": "code:",
-              "type": "open-choice",
+              "type": "choice",
               "required": false,
               "repeats": false
             },
@@ -607,6 +621,7 @@
                   }
                 }
               ],
+              "linkId": "ClaimResponse.use-flyover",
               "text": "A code to indicate whether the nature of the request is: to request adjudication of products and services previously rendered; or requesting authorization and adjudication for provision in the future; or requesting the non-binding adjudication of the listed products and services which could be provided in the future.",
               "type": "display"
             },
@@ -654,6 +669,7 @@
                   }
                 }
               ],
+              "linkId": "ClaimResponse.patient-flyover",
               "text": "The party to whom the professional services and/or products have been supplied or are being considered and for whom actual for facast reimbursement is sought.",
               "type": "display"
             },
@@ -711,6 +727,7 @@
                   }
                 }
               ],
+              "linkId": "ClaimResponse.created-flyover",
               "text": "The date this resource was created.",
               "type": "display"
             },
@@ -758,6 +775,7 @@
                   }
                 }
               ],
+              "linkId": "ClaimResponse.insurer-flyover",
               "text": "The party responsible for authorization, adjudication and reimbursement.",
               "type": "display"
             },
@@ -811,6 +829,7 @@
                   }
                 }
               ],
+              "linkId": "ClaimResponse.requestor-flyover",
               "text": "The provider which is responsible for the claim, predetermination or preauthorization. Typically this field would be 1..1 where this party is responsible for the claim but not necessarily professionally responsible for the provision of the individual products and services listed below.",
               "type": "display"
             },
@@ -864,6 +883,7 @@
                   }
                 }
               ],
+              "linkId": "ClaimResponse.request-flyover",
               "text": "Original request resource reference.",
               "type": "display"
             },
@@ -921,6 +941,7 @@
                   }
                 }
               ],
+              "linkId": "ClaimResponse.outcome-flyover",
               "text": "The outcome of the claim, predetermination, or preauthorization processing. The resource may be used to indicate that: the request has been held (queued) for processing; that it has been processed and errors found (error); that no errors were found and that some of the adjudication has been undertaken (partial) or that all of the adjudication has been undertaken (complete).",
               "type": "display"
             },
@@ -964,6 +985,7 @@
                   }
                 }
               ],
+              "linkId": "ClaimResponse.disposition-flyover",
               "text": "A human readable description of the status of the adjudication.",
               "type": "display"
             },
@@ -1007,6 +1029,7 @@
                   }
                 }
               ],
+              "linkId": "ClaimResponse.preAuthRef-flyover",
               "text": "Reference from the Insurer which is used in later communications which refers to this adjudication. This value is only present on preauthorization adjudications.",
               "type": "display"
             },
@@ -1051,6 +1074,7 @@
                   }
                 }
               ],
+              "linkId": "ClaimResponse.preAuthPeriod-flyover",
               "text": "The time frame during which this authorization is effective.",
               "type": "display"
             },
@@ -1102,13 +1126,14 @@
                   }
                 }
               ],
+              "linkId": "ClaimResponse.payeeType-flyover",
               "text": "Type of Party to be reimbursed: subscriber, provider, other.",
               "type": "display"
             },
             {
               "linkId": "ClaimResponse.payeeType.coding",
               "text": "code:",
-              "type": "open-choice",
+              "type": "choice",
               "required": false,
               "repeats": false
             },
@@ -1143,6 +1168,7 @@
                   }
                 }
               ],
+              "linkId": "ClaimResponse.item-flyover",
               "text": "A claim line. Either a simple (a product or service) or a \u0027group\u0027 of details which can also be a simple items or groups of sub-details.",
               "type": "display"
             },
@@ -1177,6 +1203,7 @@
                       }
                     }
                   ],
+                  "linkId": "ClaimResponse.item.id-flyover",
                   "text": "Unique id for the element within a resource (for internal references). This may be any string value that does not contain spaces.",
                   "type": "display"
                 },
@@ -1211,6 +1238,7 @@
                       }
                     }
                   ],
+                  "linkId": "ClaimResponse.item.extension-flyover",
                   "text": "May be used to represent additional information that is not part of the basic definition of the element. To make the use of extensions safe and manageable, there is a strict set of governance  applied to the definition and use of extensions. Though any implementer can define an extension, there is a set of requirements that SHALL be met as part of the definition of the extension. There can be no stigma associated with the use of extensions by any application, project, or standard - regardless of the institution or jurisdiction that uses or defines the extensions.  The use of extensions is what allows the FHIR specification to retain a core level of simplicity for everyone.",
                   "type": "display"
                 }
@@ -1238,6 +1266,7 @@
                       }
                     }
                   ],
+                  "linkId": "ClaimResponse.item.modifierExtension-flyover",
                   "text": "May be used to represent additional information that is not part of the basic definition of the element and that modifies the understanding of the element in which it is contained and/or the understanding of the containing element\u0027s descendants. Usually modifier elements provide negation or qualification. To make the use of extensions safe and manageable, there is a strict set of governance applied to the definition and use of extensions. Though any implementer can define an extension, there is a set of requirements that SHALL be met as part of the definition of the extension. Applications processing a resource are required to check for modifier extensions.\n\nModifier extensions SHALL NOT change the meaning of any elements on Resource or DomainResource (including cannot change the meaning of modifierExtension itself). There can be no stigma associated with the use of extensions by any application, project, or standard - regardless of the institution or jurisdiction that uses or defines the extensions.  The use of extensions is what allows the FHIR specification to retain a core level of simplicity for everyone.",
                   "type": "display"
                 }
@@ -1278,6 +1307,7 @@
                       }
                     }
                   ],
+                  "linkId": "ClaimResponse.item.itemSequence-flyover",
                   "text": "A number to uniquely reference the claim item entries.",
                   "type": "display"
                 },
@@ -1317,6 +1347,7 @@
                       }
                     }
                   ],
+                  "linkId": "ClaimResponse.item.noteNumber-flyover",
                   "text": "The numbers associated with notes below which apply to the adjudication of this item.",
                   "type": "display"
                 },
@@ -1357,6 +1388,7 @@
                       }
                     }
                   ],
+                  "linkId": "ClaimResponse.item.adjudication-flyover",
                   "text": "If this item is a group then the values here are a summary of the adjudication of the detail items. If this item is a simple product or service then this is the result of the adjudication of this item.",
                   "type": "display"
                 },
@@ -1391,6 +1423,7 @@
                           }
                         }
                       ],
+                      "linkId": "ClaimResponse.item.adjudication.id-flyover",
                       "text": "Unique id for the element within a resource (for internal references). This may be any string value that does not contain spaces.",
                       "type": "display"
                     },
@@ -1425,6 +1458,7 @@
                           }
                         }
                       ],
+                      "linkId": "ClaimResponse.item.adjudication.extension-flyover",
                       "text": "May be used to represent additional information that is not part of the basic definition of the element. To make the use of extensions safe and manageable, there is a strict set of governance  applied to the definition and use of extensions. Though any implementer can define an extension, there is a set of requirements that SHALL be met as part of the definition of the extension. There can be no stigma associated with the use of extensions by any application, project, or standard - regardless of the institution or jurisdiction that uses or defines the extensions.  The use of extensions is what allows the FHIR specification to retain a core level of simplicity for everyone.",
                       "type": "display"
                     }
@@ -1452,6 +1486,7 @@
                           }
                         }
                       ],
+                      "linkId": "ClaimResponse.item.adjudication.modifierExtension-flyover",
                       "text": "May be used to represent additional information that is not part of the basic definition of the element and that modifies the understanding of the element in which it is contained and/or the understanding of the containing element\u0027s descendants. Usually modifier elements provide negation or qualification. To make the use of extensions safe and manageable, there is a strict set of governance applied to the definition and use of extensions. Though any implementer can define an extension, there is a set of requirements that SHALL be met as part of the definition of the extension. Applications processing a resource are required to check for modifier extensions.\n\nModifier extensions SHALL NOT change the meaning of any elements on Resource or DomainResource (including cannot change the meaning of modifierExtension itself). There can be no stigma associated with the use of extensions by any application, project, or standard - regardless of the institution or jurisdiction that uses or defines the extensions.  The use of extensions is what allows the FHIR specification to retain a core level of simplicity for everyone.",
                       "type": "display"
                     }
@@ -1493,13 +1528,14 @@
                           }
                         }
                       ],
+                      "linkId": "ClaimResponse.item.adjudication.category-flyover",
                       "text": "A code to indicate the information type of this adjudication record. Information types may include the value submitted, maximum values or percentages allowed or payable under the plan, amounts that: the patient is responsible for in aggregate or pertaining to this item; amounts paid by other coverages; and, the benefit payable for this item. For example codes indicating: Co-Pay, deductible, eligible, benefit, tax, etc.",
                       "type": "display"
                     },
                     {
                       "linkId": "ClaimResponse.item.adjudication.category.coding",
                       "text": "code:",
-                      "type": "open-choice",
+                      "type": "choice",
                       "required": false,
                       "repeats": false
                     },
@@ -1544,13 +1580,14 @@
                           }
                         }
                       ],
+                      "linkId": "ClaimResponse.item.adjudication.reason-flyover",
                       "text": "A code supporting the understanding of the adjudication result and explaining variance from expected amount. For example may indicate that the funds for this benefit type have been exhausted.",
                       "type": "display"
                     },
                     {
                       "linkId": "ClaimResponse.item.adjudication.reason.coding",
                       "text": "code:",
-                      "type": "open-choice",
+                      "type": "choice",
                       "required": false,
                       "repeats": false
                     },
@@ -1595,6 +1632,7 @@
                           }
                         }
                       ],
+                      "linkId": "ClaimResponse.item.adjudication.amount-flyover",
                       "text": "Monetary amount associated with the category. For example: amount submitted, eligible amount, co-payment, and benefit payable.",
                       "type": "display"
                     },
@@ -1666,6 +1704,7 @@
                           }
                         }
                       ],
+                      "linkId": "ClaimResponse.item.adjudication.value-flyover",
                       "text": "A non-monetary value associated with the category. Mutually exclusive to the amount element above. For example: eligible percentage or co-payment percentage.",
                       "type": "display"
                     },
@@ -1702,6 +1741,7 @@
                       }
                     }
                   ],
+                  "linkId": "ClaimResponse.item.detail-flyover",
                   "text": "A claim detail. Either a simple (a product or service) or a \u0027group\u0027 of sub-details which are simple items.",
                   "type": "display"
                 },
@@ -1736,6 +1776,7 @@
                           }
                         }
                       ],
+                      "linkId": "ClaimResponse.item.detail.id-flyover",
                       "text": "Unique id for the element within a resource (for internal references). This may be any string value that does not contain spaces.",
                       "type": "display"
                     },
@@ -1770,6 +1811,7 @@
                           }
                         }
                       ],
+                      "linkId": "ClaimResponse.item.detail.extension-flyover",
                       "text": "May be used to represent additional information that is not part of the basic definition of the element. To make the use of extensions safe and manageable, there is a strict set of governance  applied to the definition and use of extensions. Though any implementer can define an extension, there is a set of requirements that SHALL be met as part of the definition of the extension. There can be no stigma associated with the use of extensions by any application, project, or standard - regardless of the institution or jurisdiction that uses or defines the extensions.  The use of extensions is what allows the FHIR specification to retain a core level of simplicity for everyone.",
                       "type": "display"
                     }
@@ -1797,6 +1839,7 @@
                           }
                         }
                       ],
+                      "linkId": "ClaimResponse.item.detail.modifierExtension-flyover",
                       "text": "May be used to represent additional information that is not part of the basic definition of the element and that modifies the understanding of the element in which it is contained and/or the understanding of the containing element\u0027s descendants. Usually modifier elements provide negation or qualification. To make the use of extensions safe and manageable, there is a strict set of governance applied to the definition and use of extensions. Though any implementer can define an extension, there is a set of requirements that SHALL be met as part of the definition of the extension. Applications processing a resource are required to check for modifier extensions.\n\nModifier extensions SHALL NOT change the meaning of any elements on Resource or DomainResource (including cannot change the meaning of modifierExtension itself). There can be no stigma associated with the use of extensions by any application, project, or standard - regardless of the institution or jurisdiction that uses or defines the extensions.  The use of extensions is what allows the FHIR specification to retain a core level of simplicity for everyone.",
                       "type": "display"
                     }
@@ -1837,6 +1880,7 @@
                           }
                         }
                       ],
+                      "linkId": "ClaimResponse.item.detail.detailSequence-flyover",
                       "text": "A number to uniquely reference the claim detail entry.",
                       "type": "display"
                     },
@@ -1876,6 +1920,7 @@
                           }
                         }
                       ],
+                      "linkId": "ClaimResponse.item.detail.noteNumber-flyover",
                       "text": "The numbers associated with notes below which apply to the adjudication of this item.",
                       "type": "display"
                     },
@@ -1916,8 +1961,334 @@
                           }
                         }
                       ],
+                      "linkId": "ClaimResponse.item.detail.adjudication-flyover",
                       "text": "The adjudication results.",
                       "type": "display"
+                    },
+                    {
+                      "extension": [
+                        {
+                          "url": "http://hl7.org/fhir/StructureDefinition/questionnaire-maxOccurs",
+                          "valueInteger": 1
+                        },
+                        {
+                          "url": "http://hl7.org/fhir/StructureDefinition/questionnaire-fhirType",
+                          "valueString": "string"
+                        }
+                      ],
+                      "linkId": "ClaimResponse.item.adjudication.id",
+                      "type": "group",
+                      "required": false,
+                      "repeats": true,
+                      "item": [
+                        {
+                          "extension": [
+                            {
+                              "url": "http://hl7.org/fhir/StructureDefinition/questionnaire-itemControl",
+                              "valueCodeableConcept": {
+                                "coding": [
+                                  {
+                                    "system": "http://hl7.org/fhir/questionnaire-item-control",
+                                    "code": "flyover",
+                                    "display": "Fly-over"
+                                  }
+                                ]
+                              }
+                            }
+                          ],
+                          "linkId": "ClaimResponse.item.adjudication.id-flyover",
+                          "text": "Unique id for the element within a resource (for internal references). This may be any string value that does not contain spaces.",
+                          "type": "display"
+                        },
+                        {
+                          "linkId": "ClaimResponse.item.adjudication.id.value",
+                          "text": "Unique id for inter-element referencing",
+                          "type": "string",
+                          "required": false,
+                          "repeats": false
+                        }
+                      ]
+                    },
+                    {
+                      "linkId": "ClaimResponse.item.adjudication.extension",
+                      "text": "Additional content defined by implementations",
+                      "type": "group",
+                      "required": false,
+                      "repeats": true,
+                      "item": [
+                        {
+                          "extension": [
+                            {
+                              "url": "http://hl7.org/fhir/StructureDefinition/questionnaire-itemControl",
+                              "valueCodeableConcept": {
+                                "coding": [
+                                  {
+                                    "system": "http://hl7.org/fhir/questionnaire-item-control",
+                                    "code": "flyover",
+                                    "display": "Fly-over"
+                                  }
+                                ]
+                              }
+                            }
+                          ],
+                          "linkId": "ClaimResponse.item.adjudication.extension-flyover",
+                          "text": "May be used to represent additional information that is not part of the basic definition of the element. To make the use of extensions safe and manageable, there is a strict set of governance  applied to the definition and use of extensions. Though any implementer can define an extension, there is a set of requirements that SHALL be met as part of the definition of the extension. There can be no stigma associated with the use of extensions by any application, project, or standard - regardless of the institution or jurisdiction that uses or defines the extensions.  The use of extensions is what allows the FHIR specification to retain a core level of simplicity for everyone.",
+                          "type": "display"
+                        }
+                      ]
+                    },
+                    {
+                      "linkId": "ClaimResponse.item.adjudication.modifierExtension",
+                      "text": "Extensions that cannot be ignored even if unrecognized",
+                      "type": "group",
+                      "required": false,
+                      "repeats": true,
+                      "item": [
+                        {
+                          "extension": [
+                            {
+                              "url": "http://hl7.org/fhir/StructureDefinition/questionnaire-itemControl",
+                              "valueCodeableConcept": {
+                                "coding": [
+                                  {
+                                    "system": "http://hl7.org/fhir/questionnaire-item-control",
+                                    "code": "flyover",
+                                    "display": "Fly-over"
+                                  }
+                                ]
+                              }
+                            }
+                          ],
+                          "linkId": "ClaimResponse.item.adjudication.modifierExtension-flyover",
+                          "text": "May be used to represent additional information that is not part of the basic definition of the element and that modifies the understanding of the element in which it is contained and/or the understanding of the containing element\u0027s descendants. Usually modifier elements provide negation or qualification. To make the use of extensions safe and manageable, there is a strict set of governance applied to the definition and use of extensions. Though any implementer can define an extension, there is a set of requirements that SHALL be met as part of the definition of the extension. Applications processing a resource are required to check for modifier extensions.\n\nModifier extensions SHALL NOT change the meaning of any elements on Resource or DomainResource (including cannot change the meaning of modifierExtension itself). There can be no stigma associated with the use of extensions by any application, project, or standard - regardless of the institution or jurisdiction that uses or defines the extensions.  The use of extensions is what allows the FHIR specification to retain a core level of simplicity for everyone.",
+                          "type": "display"
+                        }
+                      ]
+                    },
+                    {
+                      "extension": [
+                        {
+                          "url": "http://hl7.org/fhir/StructureDefinition/questionnaire-minOccurs",
+                          "valueInteger": 1
+                        },
+                        {
+                          "url": "http://hl7.org/fhir/StructureDefinition/questionnaire-maxOccurs",
+                          "valueInteger": 1
+                        },
+                        {
+                          "url": "http://hl7.org/fhir/StructureDefinition/questionnaire-fhirType",
+                          "valueString": "CodeableConcept"
+                        }
+                      ],
+                      "linkId": "ClaimResponse.item.adjudication.category",
+                      "text": "Type of adjudication information",
+                      "type": "group",
+                      "required": true,
+                      "repeats": true,
+                      "item": [
+                        {
+                          "extension": [
+                            {
+                              "url": "http://hl7.org/fhir/StructureDefinition/questionnaire-itemControl",
+                              "valueCodeableConcept": {
+                                "coding": [
+                                  {
+                                    "system": "http://hl7.org/fhir/questionnaire-item-control",
+                                    "code": "flyover",
+                                    "display": "Fly-over"
+                                  }
+                                ]
+                              }
+                            }
+                          ],
+                          "linkId": "ClaimResponse.item.adjudication.category-flyover",
+                          "text": "A code to indicate the information type of this adjudication record. Information types may include the value submitted, maximum values or percentages allowed or payable under the plan, amounts that: the patient is responsible for in aggregate or pertaining to this item; amounts paid by other coverages; and, the benefit payable for this item. For example codes indicating: Co-Pay, deductible, eligible, benefit, tax, etc.",
+                          "type": "display"
+                        },
+                        {
+                          "linkId": "ClaimResponse.item.adjudication.category.coding",
+                          "text": "code:",
+                          "type": "choice",
+                          "required": false,
+                          "repeats": false
+                        },
+                        {
+                          "linkId": "ClaimResponse.item.adjudication.category.text",
+                          "text": "text:",
+                          "type": "string",
+                          "required": false,
+                          "repeats": false
+                        }
+                      ]
+                    },
+                    {
+                      "extension": [
+                        {
+                          "url": "http://hl7.org/fhir/StructureDefinition/questionnaire-maxOccurs",
+                          "valueInteger": 1
+                        },
+                        {
+                          "url": "http://hl7.org/fhir/StructureDefinition/questionnaire-fhirType",
+                          "valueString": "CodeableConcept"
+                        }
+                      ],
+                      "linkId": "ClaimResponse.item.adjudication.reason",
+                      "text": "Explanation of adjudication outcome",
+                      "type": "group",
+                      "required": false,
+                      "repeats": true,
+                      "item": [
+                        {
+                          "extension": [
+                            {
+                              "url": "http://hl7.org/fhir/StructureDefinition/questionnaire-itemControl",
+                              "valueCodeableConcept": {
+                                "coding": [
+                                  {
+                                    "system": "http://hl7.org/fhir/questionnaire-item-control",
+                                    "code": "flyover",
+                                    "display": "Fly-over"
+                                  }
+                                ]
+                              }
+                            }
+                          ],
+                          "linkId": "ClaimResponse.item.adjudication.reason-flyover",
+                          "text": "A code supporting the understanding of the adjudication result and explaining variance from expected amount. For example may indicate that the funds for this benefit type have been exhausted.",
+                          "type": "display"
+                        },
+                        {
+                          "linkId": "ClaimResponse.item.adjudication.reason.coding",
+                          "text": "code:",
+                          "type": "choice",
+                          "required": false,
+                          "repeats": false
+                        },
+                        {
+                          "linkId": "ClaimResponse.item.adjudication.reason.text",
+                          "text": "text:",
+                          "type": "string",
+                          "required": false,
+                          "repeats": false
+                        }
+                      ]
+                    },
+                    {
+                      "extension": [
+                        {
+                          "url": "http://hl7.org/fhir/StructureDefinition/questionnaire-maxOccurs",
+                          "valueInteger": 1
+                        },
+                        {
+                          "url": "http://hl7.org/fhir/StructureDefinition/questionnaire-fhirType",
+                          "valueString": "Quantity"
+                        }
+                      ],
+                      "linkId": "ClaimResponse.item.adjudication.amount",
+                      "text": "Monetary amount",
+                      "type": "group",
+                      "required": false,
+                      "repeats": true,
+                      "item": [
+                        {
+                          "extension": [
+                            {
+                              "url": "http://hl7.org/fhir/StructureDefinition/questionnaire-itemControl",
+                              "valueCodeableConcept": {
+                                "coding": [
+                                  {
+                                    "system": "http://hl7.org/fhir/questionnaire-item-control",
+                                    "code": "flyover",
+                                    "display": "Fly-over"
+                                  }
+                                ]
+                              }
+                            }
+                          ],
+                          "linkId": "ClaimResponse.item.adjudication.amount-flyover",
+                          "text": "Monetary amount associated with the category. For example: amount submitted, eligible amount, co-payment, and benefit payable.",
+                          "type": "display"
+                        },
+                        {
+                          "linkId": "ClaimResponse.item.adjudication.amount.comparator",
+                          "text": "comp:",
+                          "type": "choice",
+                          "required": false,
+                          "repeats": false
+                        },
+                        {
+                          "linkId": "ClaimResponse.item.adjudication.amount.value",
+                          "text": "value:",
+                          "type": "decimal",
+                          "required": false,
+                          "repeats": false
+                        },
+                        {
+                          "linkId": "ClaimResponse.item.adjudication.amount.units",
+                          "text": "units:",
+                          "type": "string",
+                          "required": false,
+                          "repeats": false
+                        },
+                        {
+                          "linkId": "ClaimResponse.item.adjudication.amount.code",
+                          "text": "coded units:",
+                          "type": "string",
+                          "required": false,
+                          "repeats": false
+                        },
+                        {
+                          "linkId": "ClaimResponse.item.adjudication.amount.system",
+                          "text": "units system:",
+                          "type": "string",
+                          "required": false,
+                          "repeats": false
+                        }
+                      ]
+                    },
+                    {
+                      "extension": [
+                        {
+                          "url": "http://hl7.org/fhir/StructureDefinition/questionnaire-maxOccurs",
+                          "valueInteger": 1
+                        },
+                        {
+                          "url": "http://hl7.org/fhir/StructureDefinition/questionnaire-fhirType",
+                          "valueString": "decimal"
+                        }
+                      ],
+                      "linkId": "ClaimResponse.item.adjudication.value",
+                      "type": "group",
+                      "required": false,
+                      "repeats": true,
+                      "item": [
+                        {
+                          "extension": [
+                            {
+                              "url": "http://hl7.org/fhir/StructureDefinition/questionnaire-itemControl",
+                              "valueCodeableConcept": {
+                                "coding": [
+                                  {
+                                    "system": "http://hl7.org/fhir/questionnaire-item-control",
+                                    "code": "flyover",
+                                    "display": "Fly-over"
+                                  }
+                                ]
+                              }
+                            }
+                          ],
+                          "linkId": "ClaimResponse.item.adjudication.value-flyover",
+                          "text": "A non-monetary value associated with the category. Mutually exclusive to the amount element above. For example: eligible percentage or co-payment percentage.",
+                          "type": "display"
+                        },
+                        {
+                          "linkId": "ClaimResponse.item.adjudication.value.value",
+                          "text": "Non-monetary value",
+                          "type": "decimal",
+                          "required": false,
+                          "repeats": false
+                        }
+                      ]
                     }
                   ]
                 },
@@ -1943,6 +2314,7 @@
                           }
                         }
                       ],
+                      "linkId": "ClaimResponse.item.detail.subDetail-flyover",
                       "text": "A sub-detail adjudication of a simple product or service.",
                       "type": "display"
                     },
@@ -1977,6 +2349,7 @@
                               }
                             }
                           ],
+                          "linkId": "ClaimResponse.item.detail.subDetail.id-flyover",
                           "text": "Unique id for the element within a resource (for internal references). This may be any string value that does not contain spaces.",
                           "type": "display"
                         },
@@ -2011,6 +2384,7 @@
                               }
                             }
                           ],
+                          "linkId": "ClaimResponse.item.detail.subDetail.extension-flyover",
                           "text": "May be used to represent additional information that is not part of the basic definition of the element. To make the use of extensions safe and manageable, there is a strict set of governance  applied to the definition and use of extensions. Though any implementer can define an extension, there is a set of requirements that SHALL be met as part of the definition of the extension. There can be no stigma associated with the use of extensions by any application, project, or standard - regardless of the institution or jurisdiction that uses or defines the extensions.  The use of extensions is what allows the FHIR specification to retain a core level of simplicity for everyone.",
                           "type": "display"
                         }
@@ -2038,6 +2412,7 @@
                               }
                             }
                           ],
+                          "linkId": "ClaimResponse.item.detail.subDetail.modifierExtension-flyover",
                           "text": "May be used to represent additional information that is not part of the basic definition of the element and that modifies the understanding of the element in which it is contained and/or the understanding of the containing element\u0027s descendants. Usually modifier elements provide negation or qualification. To make the use of extensions safe and manageable, there is a strict set of governance applied to the definition and use of extensions. Though any implementer can define an extension, there is a set of requirements that SHALL be met as part of the definition of the extension. Applications processing a resource are required to check for modifier extensions.\n\nModifier extensions SHALL NOT change the meaning of any elements on Resource or DomainResource (including cannot change the meaning of modifierExtension itself). There can be no stigma associated with the use of extensions by any application, project, or standard - regardless of the institution or jurisdiction that uses or defines the extensions.  The use of extensions is what allows the FHIR specification to retain a core level of simplicity for everyone.",
                           "type": "display"
                         }
@@ -2078,6 +2453,7 @@
                               }
                             }
                           ],
+                          "linkId": "ClaimResponse.item.detail.subDetail.subDetailSequence-flyover",
                           "text": "A number to uniquely reference the claim sub-detail entry.",
                           "type": "display"
                         },
@@ -2117,6 +2493,7 @@
                               }
                             }
                           ],
+                          "linkId": "ClaimResponse.item.detail.subDetail.noteNumber-flyover",
                           "text": "The numbers associated with notes below which apply to the adjudication of this item.",
                           "type": "display"
                         },
@@ -2151,8 +2528,334 @@
                               }
                             }
                           ],
+                          "linkId": "ClaimResponse.item.detail.subDetail.adjudication-flyover",
                           "text": "The adjudication results.",
                           "type": "display"
+                        },
+                        {
+                          "extension": [
+                            {
+                              "url": "http://hl7.org/fhir/StructureDefinition/questionnaire-maxOccurs",
+                              "valueInteger": 1
+                            },
+                            {
+                              "url": "http://hl7.org/fhir/StructureDefinition/questionnaire-fhirType",
+                              "valueString": "string"
+                            }
+                          ],
+                          "linkId": "ClaimResponse.item.adjudication.id",
+                          "type": "group",
+                          "required": false,
+                          "repeats": true,
+                          "item": [
+                            {
+                              "extension": [
+                                {
+                                  "url": "http://hl7.org/fhir/StructureDefinition/questionnaire-itemControl",
+                                  "valueCodeableConcept": {
+                                    "coding": [
+                                      {
+                                        "system": "http://hl7.org/fhir/questionnaire-item-control",
+                                        "code": "flyover",
+                                        "display": "Fly-over"
+                                      }
+                                    ]
+                                  }
+                                }
+                              ],
+                              "linkId": "ClaimResponse.item.adjudication.id-flyover",
+                              "text": "Unique id for the element within a resource (for internal references). This may be any string value that does not contain spaces.",
+                              "type": "display"
+                            },
+                            {
+                              "linkId": "ClaimResponse.item.adjudication.id.value",
+                              "text": "Unique id for inter-element referencing",
+                              "type": "string",
+                              "required": false,
+                              "repeats": false
+                            }
+                          ]
+                        },
+                        {
+                          "linkId": "ClaimResponse.item.adjudication.extension",
+                          "text": "Additional content defined by implementations",
+                          "type": "group",
+                          "required": false,
+                          "repeats": true,
+                          "item": [
+                            {
+                              "extension": [
+                                {
+                                  "url": "http://hl7.org/fhir/StructureDefinition/questionnaire-itemControl",
+                                  "valueCodeableConcept": {
+                                    "coding": [
+                                      {
+                                        "system": "http://hl7.org/fhir/questionnaire-item-control",
+                                        "code": "flyover",
+                                        "display": "Fly-over"
+                                      }
+                                    ]
+                                  }
+                                }
+                              ],
+                              "linkId": "ClaimResponse.item.adjudication.extension-flyover",
+                              "text": "May be used to represent additional information that is not part of the basic definition of the element. To make the use of extensions safe and manageable, there is a strict set of governance  applied to the definition and use of extensions. Though any implementer can define an extension, there is a set of requirements that SHALL be met as part of the definition of the extension. There can be no stigma associated with the use of extensions by any application, project, or standard - regardless of the institution or jurisdiction that uses or defines the extensions.  The use of extensions is what allows the FHIR specification to retain a core level of simplicity for everyone.",
+                              "type": "display"
+                            }
+                          ]
+                        },
+                        {
+                          "linkId": "ClaimResponse.item.adjudication.modifierExtension",
+                          "text": "Extensions that cannot be ignored even if unrecognized",
+                          "type": "group",
+                          "required": false,
+                          "repeats": true,
+                          "item": [
+                            {
+                              "extension": [
+                                {
+                                  "url": "http://hl7.org/fhir/StructureDefinition/questionnaire-itemControl",
+                                  "valueCodeableConcept": {
+                                    "coding": [
+                                      {
+                                        "system": "http://hl7.org/fhir/questionnaire-item-control",
+                                        "code": "flyover",
+                                        "display": "Fly-over"
+                                      }
+                                    ]
+                                  }
+                                }
+                              ],
+                              "linkId": "ClaimResponse.item.adjudication.modifierExtension-flyover",
+                              "text": "May be used to represent additional information that is not part of the basic definition of the element and that modifies the understanding of the element in which it is contained and/or the understanding of the containing element\u0027s descendants. Usually modifier elements provide negation or qualification. To make the use of extensions safe and manageable, there is a strict set of governance applied to the definition and use of extensions. Though any implementer can define an extension, there is a set of requirements that SHALL be met as part of the definition of the extension. Applications processing a resource are required to check for modifier extensions.\n\nModifier extensions SHALL NOT change the meaning of any elements on Resource or DomainResource (including cannot change the meaning of modifierExtension itself). There can be no stigma associated with the use of extensions by any application, project, or standard - regardless of the institution or jurisdiction that uses or defines the extensions.  The use of extensions is what allows the FHIR specification to retain a core level of simplicity for everyone.",
+                              "type": "display"
+                            }
+                          ]
+                        },
+                        {
+                          "extension": [
+                            {
+                              "url": "http://hl7.org/fhir/StructureDefinition/questionnaire-minOccurs",
+                              "valueInteger": 1
+                            },
+                            {
+                              "url": "http://hl7.org/fhir/StructureDefinition/questionnaire-maxOccurs",
+                              "valueInteger": 1
+                            },
+                            {
+                              "url": "http://hl7.org/fhir/StructureDefinition/questionnaire-fhirType",
+                              "valueString": "CodeableConcept"
+                            }
+                          ],
+                          "linkId": "ClaimResponse.item.adjudication.category",
+                          "text": "Type of adjudication information",
+                          "type": "group",
+                          "required": true,
+                          "repeats": true,
+                          "item": [
+                            {
+                              "extension": [
+                                {
+                                  "url": "http://hl7.org/fhir/StructureDefinition/questionnaire-itemControl",
+                                  "valueCodeableConcept": {
+                                    "coding": [
+                                      {
+                                        "system": "http://hl7.org/fhir/questionnaire-item-control",
+                                        "code": "flyover",
+                                        "display": "Fly-over"
+                                      }
+                                    ]
+                                  }
+                                }
+                              ],
+                              "linkId": "ClaimResponse.item.adjudication.category-flyover",
+                              "text": "A code to indicate the information type of this adjudication record. Information types may include the value submitted, maximum values or percentages allowed or payable under the plan, amounts that: the patient is responsible for in aggregate or pertaining to this item; amounts paid by other coverages; and, the benefit payable for this item. For example codes indicating: Co-Pay, deductible, eligible, benefit, tax, etc.",
+                              "type": "display"
+                            },
+                            {
+                              "linkId": "ClaimResponse.item.adjudication.category.coding",
+                              "text": "code:",
+                              "type": "choice",
+                              "required": false,
+                              "repeats": false
+                            },
+                            {
+                              "linkId": "ClaimResponse.item.adjudication.category.text",
+                              "text": "text:",
+                              "type": "string",
+                              "required": false,
+                              "repeats": false
+                            }
+                          ]
+                        },
+                        {
+                          "extension": [
+                            {
+                              "url": "http://hl7.org/fhir/StructureDefinition/questionnaire-maxOccurs",
+                              "valueInteger": 1
+                            },
+                            {
+                              "url": "http://hl7.org/fhir/StructureDefinition/questionnaire-fhirType",
+                              "valueString": "CodeableConcept"
+                            }
+                          ],
+                          "linkId": "ClaimResponse.item.adjudication.reason",
+                          "text": "Explanation of adjudication outcome",
+                          "type": "group",
+                          "required": false,
+                          "repeats": true,
+                          "item": [
+                            {
+                              "extension": [
+                                {
+                                  "url": "http://hl7.org/fhir/StructureDefinition/questionnaire-itemControl",
+                                  "valueCodeableConcept": {
+                                    "coding": [
+                                      {
+                                        "system": "http://hl7.org/fhir/questionnaire-item-control",
+                                        "code": "flyover",
+                                        "display": "Fly-over"
+                                      }
+                                    ]
+                                  }
+                                }
+                              ],
+                              "linkId": "ClaimResponse.item.adjudication.reason-flyover",
+                              "text": "A code supporting the understanding of the adjudication result and explaining variance from expected amount. For example may indicate that the funds for this benefit type have been exhausted.",
+                              "type": "display"
+                            },
+                            {
+                              "linkId": "ClaimResponse.item.adjudication.reason.coding",
+                              "text": "code:",
+                              "type": "choice",
+                              "required": false,
+                              "repeats": false
+                            },
+                            {
+                              "linkId": "ClaimResponse.item.adjudication.reason.text",
+                              "text": "text:",
+                              "type": "string",
+                              "required": false,
+                              "repeats": false
+                            }
+                          ]
+                        },
+                        {
+                          "extension": [
+                            {
+                              "url": "http://hl7.org/fhir/StructureDefinition/questionnaire-maxOccurs",
+                              "valueInteger": 1
+                            },
+                            {
+                              "url": "http://hl7.org/fhir/StructureDefinition/questionnaire-fhirType",
+                              "valueString": "Quantity"
+                            }
+                          ],
+                          "linkId": "ClaimResponse.item.adjudication.amount",
+                          "text": "Monetary amount",
+                          "type": "group",
+                          "required": false,
+                          "repeats": true,
+                          "item": [
+                            {
+                              "extension": [
+                                {
+                                  "url": "http://hl7.org/fhir/StructureDefinition/questionnaire-itemControl",
+                                  "valueCodeableConcept": {
+                                    "coding": [
+                                      {
+                                        "system": "http://hl7.org/fhir/questionnaire-item-control",
+                                        "code": "flyover",
+                                        "display": "Fly-over"
+                                      }
+                                    ]
+                                  }
+                                }
+                              ],
+                              "linkId": "ClaimResponse.item.adjudication.amount-flyover",
+                              "text": "Monetary amount associated with the category. For example: amount submitted, eligible amount, co-payment, and benefit payable.",
+                              "type": "display"
+                            },
+                            {
+                              "linkId": "ClaimResponse.item.adjudication.amount.comparator",
+                              "text": "comp:",
+                              "type": "choice",
+                              "required": false,
+                              "repeats": false
+                            },
+                            {
+                              "linkId": "ClaimResponse.item.adjudication.amount.value",
+                              "text": "value:",
+                              "type": "decimal",
+                              "required": false,
+                              "repeats": false
+                            },
+                            {
+                              "linkId": "ClaimResponse.item.adjudication.amount.units",
+                              "text": "units:",
+                              "type": "string",
+                              "required": false,
+                              "repeats": false
+                            },
+                            {
+                              "linkId": "ClaimResponse.item.adjudication.amount.code",
+                              "text": "coded units:",
+                              "type": "string",
+                              "required": false,
+                              "repeats": false
+                            },
+                            {
+                              "linkId": "ClaimResponse.item.adjudication.amount.system",
+                              "text": "units system:",
+                              "type": "string",
+                              "required": false,
+                              "repeats": false
+                            }
+                          ]
+                        },
+                        {
+                          "extension": [
+                            {
+                              "url": "http://hl7.org/fhir/StructureDefinition/questionnaire-maxOccurs",
+                              "valueInteger": 1
+                            },
+                            {
+                              "url": "http://hl7.org/fhir/StructureDefinition/questionnaire-fhirType",
+                              "valueString": "decimal"
+                            }
+                          ],
+                          "linkId": "ClaimResponse.item.adjudication.value",
+                          "type": "group",
+                          "required": false,
+                          "repeats": true,
+                          "item": [
+                            {
+                              "extension": [
+                                {
+                                  "url": "http://hl7.org/fhir/StructureDefinition/questionnaire-itemControl",
+                                  "valueCodeableConcept": {
+                                    "coding": [
+                                      {
+                                        "system": "http://hl7.org/fhir/questionnaire-item-control",
+                                        "code": "flyover",
+                                        "display": "Fly-over"
+                                      }
+                                    ]
+                                  }
+                                }
+                              ],
+                              "linkId": "ClaimResponse.item.adjudication.value-flyover",
+                              "text": "A non-monetary value associated with the category. Mutually exclusive to the amount element above. For example: eligible percentage or co-payment percentage.",
+                              "type": "display"
+                            },
+                            {
+                              "linkId": "ClaimResponse.item.adjudication.value.value",
+                              "text": "Non-monetary value",
+                              "type": "decimal",
+                              "required": false,
+                              "repeats": false
+                            }
+                          ]
                         }
                       ]
                     }
@@ -2184,6 +2887,7 @@
                   }
                 }
               ],
+              "linkId": "ClaimResponse.addItem-flyover",
               "text": "The first-tier service adjudications for payor added product or service lines.",
               "type": "display"
             },
@@ -2218,6 +2922,7 @@
                       }
                     }
                   ],
+                  "linkId": "ClaimResponse.addItem.id-flyover",
                   "text": "Unique id for the element within a resource (for internal references). This may be any string value that does not contain spaces.",
                   "type": "display"
                 },
@@ -2252,6 +2957,7 @@
                       }
                     }
                   ],
+                  "linkId": "ClaimResponse.addItem.extension-flyover",
                   "text": "May be used to represent additional information that is not part of the basic definition of the element. To make the use of extensions safe and manageable, there is a strict set of governance  applied to the definition and use of extensions. Though any implementer can define an extension, there is a set of requirements that SHALL be met as part of the definition of the extension. There can be no stigma associated with the use of extensions by any application, project, or standard - regardless of the institution or jurisdiction that uses or defines the extensions.  The use of extensions is what allows the FHIR specification to retain a core level of simplicity for everyone.",
                   "type": "display"
                 }
@@ -2279,6 +2985,7 @@
                       }
                     }
                   ],
+                  "linkId": "ClaimResponse.addItem.modifierExtension-flyover",
                   "text": "May be used to represent additional information that is not part of the basic definition of the element and that modifies the understanding of the element in which it is contained and/or the understanding of the containing element\u0027s descendants. Usually modifier elements provide negation or qualification. To make the use of extensions safe and manageable, there is a strict set of governance applied to the definition and use of extensions. Though any implementer can define an extension, there is a set of requirements that SHALL be met as part of the definition of the extension. Applications processing a resource are required to check for modifier extensions.\n\nModifier extensions SHALL NOT change the meaning of any elements on Resource or DomainResource (including cannot change the meaning of modifierExtension itself). There can be no stigma associated with the use of extensions by any application, project, or standard - regardless of the institution or jurisdiction that uses or defines the extensions.  The use of extensions is what allows the FHIR specification to retain a core level of simplicity for everyone.",
                   "type": "display"
                 }
@@ -2311,6 +3018,7 @@
                       }
                     }
                   ],
+                  "linkId": "ClaimResponse.addItem.itemSequence-flyover",
                   "text": "Claim items which this service line is intended to replace.",
                   "type": "display"
                 },
@@ -2350,6 +3058,7 @@
                       }
                     }
                   ],
+                  "linkId": "ClaimResponse.addItem.detailSequence-flyover",
                   "text": "The sequence number of the details within the claim item which this line is intended to replace.",
                   "type": "display"
                 },
@@ -2389,6 +3098,7 @@
                       }
                     }
                   ],
+                  "linkId": "ClaimResponse.addItem.subdetailSequence-flyover",
                   "text": "The sequence number of the sub-details within the details within the claim item which this line is intended to replace.",
                   "type": "display"
                 },
@@ -2428,6 +3138,7 @@
                       }
                     }
                   ],
+                  "linkId": "ClaimResponse.addItem.provider-flyover",
                   "text": "The providers who are authorized for the services rendered to the patient.",
                   "type": "display"
                 },
@@ -2486,13 +3197,14 @@
                       }
                     }
                   ],
+                  "linkId": "ClaimResponse.addItem.productOrService-flyover",
                   "text": "When the value is a group code then this item collects a set of related claim details, otherwise this contains the product, service, drug or other billing code for the item. If this is an actual service or product line, i.e. not a Group, then use code to indicate the Professional Service or Product supplied (e.g. CTP, HCPCS, USCLS, ICD10, NCPDP, DIN, RxNorm, ACHI, CCI). If a grouping item then use a group code to indicate the type of thing being grouped e.g. \u0027glasses\u0027 or \u0027compound\u0027.",
                   "type": "display"
                 },
                 {
                   "linkId": "ClaimResponse.addItem.productOrService.coding",
                   "text": "code:",
-                  "type": "open-choice",
+                  "type": "choice",
                   "required": false,
                   "repeats": false
                 },
@@ -2533,13 +3245,14 @@
                       }
                     }
                   ],
+                  "linkId": "ClaimResponse.addItem.modifier-flyover",
                   "text": "Item typification or modifiers codes to convey additional context for the product or service. For example in Oral whether the treatment is cosmetic or associated with TMJ, or for Medical whether the treatment was outside the clinic or outside of office hours.",
                   "type": "display"
                 },
                 {
                   "linkId": "ClaimResponse.addItem.modifier.coding",
                   "text": "code:",
-                  "type": "open-choice",
+                  "type": "choice",
                   "required": false,
                   "repeats": false
                 },
@@ -2580,13 +3293,14 @@
                       }
                     }
                   ],
+                  "linkId": "ClaimResponse.addItem.programCode-flyover",
                   "text": "Identifies the program under which this may be recovered. For example: Neonatal program, child dental program or drug users recovery program.",
                   "type": "display"
                 },
                 {
                   "linkId": "ClaimResponse.addItem.programCode.coding",
                   "text": "code:",
-                  "type": "open-choice",
+                  "type": "choice",
                   "required": false,
                   "repeats": false
                 },
@@ -2627,6 +3341,7 @@
                       }
                     }
                   ],
+                  "linkId": "ClaimResponse.addItem.serviced[x]-flyover",
                   "text": "The date or dates when the service or product was supplied, performed or completed.",
                   "type": "display"
                 },
@@ -2714,6 +3429,7 @@
                       }
                     }
                   ],
+                  "linkId": "ClaimResponse.addItem.location[x]-flyover",
                   "text": "Where the product or service was provided.",
                   "type": "display"
                 },
@@ -2738,7 +3454,7 @@
                         {
                           "linkId": "ClaimResponse.addItem.location[x]._null.coding",
                           "text": "code:",
-                          "type": "open-choice",
+                          "type": "choice",
                           "required": false,
                           "repeats": false
                         },
@@ -2876,6 +3592,7 @@
                       }
                     }
                   ],
+                  "linkId": "ClaimResponse.addItem.quantity-flyover",
                   "text": "The number of repetitions of a service or product.",
                   "type": "display"
                 },
@@ -2948,6 +3665,7 @@
                       }
                     }
                   ],
+                  "linkId": "ClaimResponse.addItem.unitPrice-flyover",
                   "text": "If the item is not a group then this is the fee for the product or service, otherwise this is the total of the fees for the details of the group.",
                   "type": "display"
                 },
@@ -3019,6 +3737,7 @@
                       }
                     }
                   ],
+                  "linkId": "ClaimResponse.addItem.factor-flyover",
                   "text": "A real number that represents a multiplier used in determining the overall value of services delivered and/or goods received. The concept of a Factor allows for a discount or surcharge multiplier to be applied to a monetary amount. To show a 10% senior\u0027s discount, the value entered is: 0.90 (1.00 - 0.10).",
                   "type": "display"
                 },
@@ -3063,6 +3782,7 @@
                       }
                     }
                   ],
+                  "linkId": "ClaimResponse.addItem.net-flyover",
                   "text": "The quantity times the unit price for an additional service or product or charge. For example, the formula: quantity * unitPrice * factor  \u003d net. Quantity and factor are assumed to be 1 if not supplied.",
                   "type": "display"
                 },
@@ -3135,13 +3855,14 @@
                       }
                     }
                   ],
+                  "linkId": "ClaimResponse.addItem.bodySite-flyover",
                   "text": "Physical service site on the patient (limb, tooth, etc.). For example: Providing a tooth code allows an insurer to identify a provider performing a filling on a tooth that was previously removed.",
                   "type": "display"
                 },
                 {
                   "linkId": "ClaimResponse.addItem.bodySite.coding",
                   "text": "code:",
-                  "type": "open-choice",
+                  "type": "choice",
                   "required": false,
                   "repeats": false
                 },
@@ -3182,13 +3903,14 @@
                       }
                     }
                   ],
+                  "linkId": "ClaimResponse.addItem.subSite-flyover",
                   "text": "A region or surface of the bodySite, e.g. limb region or tooth surface(s).",
                   "type": "display"
                 },
                 {
                   "linkId": "ClaimResponse.addItem.subSite.coding",
                   "text": "code:",
-                  "type": "open-choice",
+                  "type": "choice",
                   "required": false,
                   "repeats": false
                 },
@@ -3228,6 +3950,7 @@
                       }
                     }
                   ],
+                  "linkId": "ClaimResponse.addItem.noteNumber-flyover",
                   "text": "The numbers associated with notes below which apply to the adjudication of this item.",
                   "type": "display"
                 },
@@ -3268,8 +3991,334 @@
                       }
                     }
                   ],
+                  "linkId": "ClaimResponse.addItem.adjudication-flyover",
                   "text": "The adjudication results.",
                   "type": "display"
+                },
+                {
+                  "extension": [
+                    {
+                      "url": "http://hl7.org/fhir/StructureDefinition/questionnaire-maxOccurs",
+                      "valueInteger": 1
+                    },
+                    {
+                      "url": "http://hl7.org/fhir/StructureDefinition/questionnaire-fhirType",
+                      "valueString": "string"
+                    }
+                  ],
+                  "linkId": "ClaimResponse.item.adjudication.id",
+                  "type": "group",
+                  "required": false,
+                  "repeats": true,
+                  "item": [
+                    {
+                      "extension": [
+                        {
+                          "url": "http://hl7.org/fhir/StructureDefinition/questionnaire-itemControl",
+                          "valueCodeableConcept": {
+                            "coding": [
+                              {
+                                "system": "http://hl7.org/fhir/questionnaire-item-control",
+                                "code": "flyover",
+                                "display": "Fly-over"
+                              }
+                            ]
+                          }
+                        }
+                      ],
+                      "linkId": "ClaimResponse.item.adjudication.id-flyover",
+                      "text": "Unique id for the element within a resource (for internal references). This may be any string value that does not contain spaces.",
+                      "type": "display"
+                    },
+                    {
+                      "linkId": "ClaimResponse.item.adjudication.id.value",
+                      "text": "Unique id for inter-element referencing",
+                      "type": "string",
+                      "required": false,
+                      "repeats": false
+                    }
+                  ]
+                },
+                {
+                  "linkId": "ClaimResponse.item.adjudication.extension",
+                  "text": "Additional content defined by implementations",
+                  "type": "group",
+                  "required": false,
+                  "repeats": true,
+                  "item": [
+                    {
+                      "extension": [
+                        {
+                          "url": "http://hl7.org/fhir/StructureDefinition/questionnaire-itemControl",
+                          "valueCodeableConcept": {
+                            "coding": [
+                              {
+                                "system": "http://hl7.org/fhir/questionnaire-item-control",
+                                "code": "flyover",
+                                "display": "Fly-over"
+                              }
+                            ]
+                          }
+                        }
+                      ],
+                      "linkId": "ClaimResponse.item.adjudication.extension-flyover",
+                      "text": "May be used to represent additional information that is not part of the basic definition of the element. To make the use of extensions safe and manageable, there is a strict set of governance  applied to the definition and use of extensions. Though any implementer can define an extension, there is a set of requirements that SHALL be met as part of the definition of the extension. There can be no stigma associated with the use of extensions by any application, project, or standard - regardless of the institution or jurisdiction that uses or defines the extensions.  The use of extensions is what allows the FHIR specification to retain a core level of simplicity for everyone.",
+                      "type": "display"
+                    }
+                  ]
+                },
+                {
+                  "linkId": "ClaimResponse.item.adjudication.modifierExtension",
+                  "text": "Extensions that cannot be ignored even if unrecognized",
+                  "type": "group",
+                  "required": false,
+                  "repeats": true,
+                  "item": [
+                    {
+                      "extension": [
+                        {
+                          "url": "http://hl7.org/fhir/StructureDefinition/questionnaire-itemControl",
+                          "valueCodeableConcept": {
+                            "coding": [
+                              {
+                                "system": "http://hl7.org/fhir/questionnaire-item-control",
+                                "code": "flyover",
+                                "display": "Fly-over"
+                              }
+                            ]
+                          }
+                        }
+                      ],
+                      "linkId": "ClaimResponse.item.adjudication.modifierExtension-flyover",
+                      "text": "May be used to represent additional information that is not part of the basic definition of the element and that modifies the understanding of the element in which it is contained and/or the understanding of the containing element\u0027s descendants. Usually modifier elements provide negation or qualification. To make the use of extensions safe and manageable, there is a strict set of governance applied to the definition and use of extensions. Though any implementer can define an extension, there is a set of requirements that SHALL be met as part of the definition of the extension. Applications processing a resource are required to check for modifier extensions.\n\nModifier extensions SHALL NOT change the meaning of any elements on Resource or DomainResource (including cannot change the meaning of modifierExtension itself). There can be no stigma associated with the use of extensions by any application, project, or standard - regardless of the institution or jurisdiction that uses or defines the extensions.  The use of extensions is what allows the FHIR specification to retain a core level of simplicity for everyone.",
+                      "type": "display"
+                    }
+                  ]
+                },
+                {
+                  "extension": [
+                    {
+                      "url": "http://hl7.org/fhir/StructureDefinition/questionnaire-minOccurs",
+                      "valueInteger": 1
+                    },
+                    {
+                      "url": "http://hl7.org/fhir/StructureDefinition/questionnaire-maxOccurs",
+                      "valueInteger": 1
+                    },
+                    {
+                      "url": "http://hl7.org/fhir/StructureDefinition/questionnaire-fhirType",
+                      "valueString": "CodeableConcept"
+                    }
+                  ],
+                  "linkId": "ClaimResponse.item.adjudication.category",
+                  "text": "Type of adjudication information",
+                  "type": "group",
+                  "required": true,
+                  "repeats": true,
+                  "item": [
+                    {
+                      "extension": [
+                        {
+                          "url": "http://hl7.org/fhir/StructureDefinition/questionnaire-itemControl",
+                          "valueCodeableConcept": {
+                            "coding": [
+                              {
+                                "system": "http://hl7.org/fhir/questionnaire-item-control",
+                                "code": "flyover",
+                                "display": "Fly-over"
+                              }
+                            ]
+                          }
+                        }
+                      ],
+                      "linkId": "ClaimResponse.item.adjudication.category-flyover",
+                      "text": "A code to indicate the information type of this adjudication record. Information types may include the value submitted, maximum values or percentages allowed or payable under the plan, amounts that: the patient is responsible for in aggregate or pertaining to this item; amounts paid by other coverages; and, the benefit payable for this item. For example codes indicating: Co-Pay, deductible, eligible, benefit, tax, etc.",
+                      "type": "display"
+                    },
+                    {
+                      "linkId": "ClaimResponse.item.adjudication.category.coding",
+                      "text": "code:",
+                      "type": "choice",
+                      "required": false,
+                      "repeats": false
+                    },
+                    {
+                      "linkId": "ClaimResponse.item.adjudication.category.text",
+                      "text": "text:",
+                      "type": "string",
+                      "required": false,
+                      "repeats": false
+                    }
+                  ]
+                },
+                {
+                  "extension": [
+                    {
+                      "url": "http://hl7.org/fhir/StructureDefinition/questionnaire-maxOccurs",
+                      "valueInteger": 1
+                    },
+                    {
+                      "url": "http://hl7.org/fhir/StructureDefinition/questionnaire-fhirType",
+                      "valueString": "CodeableConcept"
+                    }
+                  ],
+                  "linkId": "ClaimResponse.item.adjudication.reason",
+                  "text": "Explanation of adjudication outcome",
+                  "type": "group",
+                  "required": false,
+                  "repeats": true,
+                  "item": [
+                    {
+                      "extension": [
+                        {
+                          "url": "http://hl7.org/fhir/StructureDefinition/questionnaire-itemControl",
+                          "valueCodeableConcept": {
+                            "coding": [
+                              {
+                                "system": "http://hl7.org/fhir/questionnaire-item-control",
+                                "code": "flyover",
+                                "display": "Fly-over"
+                              }
+                            ]
+                          }
+                        }
+                      ],
+                      "linkId": "ClaimResponse.item.adjudication.reason-flyover",
+                      "text": "A code supporting the understanding of the adjudication result and explaining variance from expected amount. For example may indicate that the funds for this benefit type have been exhausted.",
+                      "type": "display"
+                    },
+                    {
+                      "linkId": "ClaimResponse.item.adjudication.reason.coding",
+                      "text": "code:",
+                      "type": "choice",
+                      "required": false,
+                      "repeats": false
+                    },
+                    {
+                      "linkId": "ClaimResponse.item.adjudication.reason.text",
+                      "text": "text:",
+                      "type": "string",
+                      "required": false,
+                      "repeats": false
+                    }
+                  ]
+                },
+                {
+                  "extension": [
+                    {
+                      "url": "http://hl7.org/fhir/StructureDefinition/questionnaire-maxOccurs",
+                      "valueInteger": 1
+                    },
+                    {
+                      "url": "http://hl7.org/fhir/StructureDefinition/questionnaire-fhirType",
+                      "valueString": "Quantity"
+                    }
+                  ],
+                  "linkId": "ClaimResponse.item.adjudication.amount",
+                  "text": "Monetary amount",
+                  "type": "group",
+                  "required": false,
+                  "repeats": true,
+                  "item": [
+                    {
+                      "extension": [
+                        {
+                          "url": "http://hl7.org/fhir/StructureDefinition/questionnaire-itemControl",
+                          "valueCodeableConcept": {
+                            "coding": [
+                              {
+                                "system": "http://hl7.org/fhir/questionnaire-item-control",
+                                "code": "flyover",
+                                "display": "Fly-over"
+                              }
+                            ]
+                          }
+                        }
+                      ],
+                      "linkId": "ClaimResponse.item.adjudication.amount-flyover",
+                      "text": "Monetary amount associated with the category. For example: amount submitted, eligible amount, co-payment, and benefit payable.",
+                      "type": "display"
+                    },
+                    {
+                      "linkId": "ClaimResponse.item.adjudication.amount.comparator",
+                      "text": "comp:",
+                      "type": "choice",
+                      "required": false,
+                      "repeats": false
+                    },
+                    {
+                      "linkId": "ClaimResponse.item.adjudication.amount.value",
+                      "text": "value:",
+                      "type": "decimal",
+                      "required": false,
+                      "repeats": false
+                    },
+                    {
+                      "linkId": "ClaimResponse.item.adjudication.amount.units",
+                      "text": "units:",
+                      "type": "string",
+                      "required": false,
+                      "repeats": false
+                    },
+                    {
+                      "linkId": "ClaimResponse.item.adjudication.amount.code",
+                      "text": "coded units:",
+                      "type": "string",
+                      "required": false,
+                      "repeats": false
+                    },
+                    {
+                      "linkId": "ClaimResponse.item.adjudication.amount.system",
+                      "text": "units system:",
+                      "type": "string",
+                      "required": false,
+                      "repeats": false
+                    }
+                  ]
+                },
+                {
+                  "extension": [
+                    {
+                      "url": "http://hl7.org/fhir/StructureDefinition/questionnaire-maxOccurs",
+                      "valueInteger": 1
+                    },
+                    {
+                      "url": "http://hl7.org/fhir/StructureDefinition/questionnaire-fhirType",
+                      "valueString": "decimal"
+                    }
+                  ],
+                  "linkId": "ClaimResponse.item.adjudication.value",
+                  "type": "group",
+                  "required": false,
+                  "repeats": true,
+                  "item": [
+                    {
+                      "extension": [
+                        {
+                          "url": "http://hl7.org/fhir/StructureDefinition/questionnaire-itemControl",
+                          "valueCodeableConcept": {
+                            "coding": [
+                              {
+                                "system": "http://hl7.org/fhir/questionnaire-item-control",
+                                "code": "flyover",
+                                "display": "Fly-over"
+                              }
+                            ]
+                          }
+                        }
+                      ],
+                      "linkId": "ClaimResponse.item.adjudication.value-flyover",
+                      "text": "A non-monetary value associated with the category. Mutually exclusive to the amount element above. For example: eligible percentage or co-payment percentage.",
+                      "type": "display"
+                    },
+                    {
+                      "linkId": "ClaimResponse.item.adjudication.value.value",
+                      "text": "Non-monetary value",
+                      "type": "decimal",
+                      "required": false,
+                      "repeats": false
+                    }
+                  ]
                 }
               ]
             },
@@ -3295,6 +4344,7 @@
                       }
                     }
                   ],
+                  "linkId": "ClaimResponse.addItem.detail-flyover",
                   "text": "The second-tier service adjudications for payor added services.",
                   "type": "display"
                 },
@@ -3329,6 +4379,7 @@
                           }
                         }
                       ],
+                      "linkId": "ClaimResponse.addItem.detail.id-flyover",
                       "text": "Unique id for the element within a resource (for internal references). This may be any string value that does not contain spaces.",
                       "type": "display"
                     },
@@ -3363,6 +4414,7 @@
                           }
                         }
                       ],
+                      "linkId": "ClaimResponse.addItem.detail.extension-flyover",
                       "text": "May be used to represent additional information that is not part of the basic definition of the element. To make the use of extensions safe and manageable, there is a strict set of governance  applied to the definition and use of extensions. Though any implementer can define an extension, there is a set of requirements that SHALL be met as part of the definition of the extension. There can be no stigma associated with the use of extensions by any application, project, or standard - regardless of the institution or jurisdiction that uses or defines the extensions.  The use of extensions is what allows the FHIR specification to retain a core level of simplicity for everyone.",
                       "type": "display"
                     }
@@ -3390,6 +4442,7 @@
                           }
                         }
                       ],
+                      "linkId": "ClaimResponse.addItem.detail.modifierExtension-flyover",
                       "text": "May be used to represent additional information that is not part of the basic definition of the element and that modifies the understanding of the element in which it is contained and/or the understanding of the containing element\u0027s descendants. Usually modifier elements provide negation or qualification. To make the use of extensions safe and manageable, there is a strict set of governance applied to the definition and use of extensions. Though any implementer can define an extension, there is a set of requirements that SHALL be met as part of the definition of the extension. Applications processing a resource are required to check for modifier extensions.\n\nModifier extensions SHALL NOT change the meaning of any elements on Resource or DomainResource (including cannot change the meaning of modifierExtension itself). There can be no stigma associated with the use of extensions by any application, project, or standard - regardless of the institution or jurisdiction that uses or defines the extensions.  The use of extensions is what allows the FHIR specification to retain a core level of simplicity for everyone.",
                       "type": "display"
                     }
@@ -3431,13 +4484,14 @@
                           }
                         }
                       ],
+                      "linkId": "ClaimResponse.addItem.detail.productOrService-flyover",
                       "text": "When the value is a group code then this item collects a set of related claim details, otherwise this contains the product, service, drug or other billing code for the item. If this is an actual service or product line, i.e. not a Group, then use code to indicate the Professional Service or Product supplied (e.g. CTP, HCPCS, USCLS, ICD10, NCPDP, DIN, RxNorm, ACHI, CCI). If a grouping item then use a group code to indicate the type of thing being grouped e.g. \u0027glasses\u0027 or \u0027compound\u0027.",
                       "type": "display"
                     },
                     {
                       "linkId": "ClaimResponse.addItem.detail.productOrService.coding",
                       "text": "code:",
-                      "type": "open-choice",
+                      "type": "choice",
                       "required": false,
                       "repeats": false
                     },
@@ -3478,13 +4532,14 @@
                           }
                         }
                       ],
+                      "linkId": "ClaimResponse.addItem.detail.modifier-flyover",
                       "text": "Item typification or modifiers codes to convey additional context for the product or service. For example in Oral whether the treatment is cosmetic or associated with TMJ, or for Medical whether the treatment was outside the clinic or outside of office hours.",
                       "type": "display"
                     },
                     {
                       "linkId": "ClaimResponse.addItem.detail.modifier.coding",
                       "text": "code:",
-                      "type": "open-choice",
+                      "type": "choice",
                       "required": false,
                       "repeats": false
                     },
@@ -3529,6 +4584,7 @@
                           }
                         }
                       ],
+                      "linkId": "ClaimResponse.addItem.detail.quantity-flyover",
                       "text": "The number of repetitions of a service or product.",
                       "type": "display"
                     },
@@ -3601,6 +4657,7 @@
                           }
                         }
                       ],
+                      "linkId": "ClaimResponse.addItem.detail.unitPrice-flyover",
                       "text": "If the item is not a group then this is the fee for the product or service, otherwise this is the total of the fees for the details of the group.",
                       "type": "display"
                     },
@@ -3672,6 +4729,7 @@
                           }
                         }
                       ],
+                      "linkId": "ClaimResponse.addItem.detail.factor-flyover",
                       "text": "A real number that represents a multiplier used in determining the overall value of services delivered and/or goods received. The concept of a Factor allows for a discount or surcharge multiplier to be applied to a monetary amount. To show a 10% senior\u0027s discount, the value entered is: 0.90 (1.00 - 0.10).",
                       "type": "display"
                     },
@@ -3716,6 +4774,7 @@
                           }
                         }
                       ],
+                      "linkId": "ClaimResponse.addItem.detail.net-flyover",
                       "text": "The quantity times the unit price for an additional service or product or charge. For example, the formula: quantity * unitPrice * factor  \u003d net. Quantity and factor are assumed to be 1 if not supplied.",
                       "type": "display"
                     },
@@ -3783,6 +4842,7 @@
                           }
                         }
                       ],
+                      "linkId": "ClaimResponse.addItem.detail.noteNumber-flyover",
                       "text": "The numbers associated with notes below which apply to the adjudication of this item.",
                       "type": "display"
                     },
@@ -3823,8 +4883,334 @@
                           }
                         }
                       ],
+                      "linkId": "ClaimResponse.addItem.detail.adjudication-flyover",
                       "text": "The adjudication results.",
                       "type": "display"
+                    },
+                    {
+                      "extension": [
+                        {
+                          "url": "http://hl7.org/fhir/StructureDefinition/questionnaire-maxOccurs",
+                          "valueInteger": 1
+                        },
+                        {
+                          "url": "http://hl7.org/fhir/StructureDefinition/questionnaire-fhirType",
+                          "valueString": "string"
+                        }
+                      ],
+                      "linkId": "ClaimResponse.item.adjudication.id",
+                      "type": "group",
+                      "required": false,
+                      "repeats": true,
+                      "item": [
+                        {
+                          "extension": [
+                            {
+                              "url": "http://hl7.org/fhir/StructureDefinition/questionnaire-itemControl",
+                              "valueCodeableConcept": {
+                                "coding": [
+                                  {
+                                    "system": "http://hl7.org/fhir/questionnaire-item-control",
+                                    "code": "flyover",
+                                    "display": "Fly-over"
+                                  }
+                                ]
+                              }
+                            }
+                          ],
+                          "linkId": "ClaimResponse.item.adjudication.id-flyover",
+                          "text": "Unique id for the element within a resource (for internal references). This may be any string value that does not contain spaces.",
+                          "type": "display"
+                        },
+                        {
+                          "linkId": "ClaimResponse.item.adjudication.id.value",
+                          "text": "Unique id for inter-element referencing",
+                          "type": "string",
+                          "required": false,
+                          "repeats": false
+                        }
+                      ]
+                    },
+                    {
+                      "linkId": "ClaimResponse.item.adjudication.extension",
+                      "text": "Additional content defined by implementations",
+                      "type": "group",
+                      "required": false,
+                      "repeats": true,
+                      "item": [
+                        {
+                          "extension": [
+                            {
+                              "url": "http://hl7.org/fhir/StructureDefinition/questionnaire-itemControl",
+                              "valueCodeableConcept": {
+                                "coding": [
+                                  {
+                                    "system": "http://hl7.org/fhir/questionnaire-item-control",
+                                    "code": "flyover",
+                                    "display": "Fly-over"
+                                  }
+                                ]
+                              }
+                            }
+                          ],
+                          "linkId": "ClaimResponse.item.adjudication.extension-flyover",
+                          "text": "May be used to represent additional information that is not part of the basic definition of the element. To make the use of extensions safe and manageable, there is a strict set of governance  applied to the definition and use of extensions. Though any implementer can define an extension, there is a set of requirements that SHALL be met as part of the definition of the extension. There can be no stigma associated with the use of extensions by any application, project, or standard - regardless of the institution or jurisdiction that uses or defines the extensions.  The use of extensions is what allows the FHIR specification to retain a core level of simplicity for everyone.",
+                          "type": "display"
+                        }
+                      ]
+                    },
+                    {
+                      "linkId": "ClaimResponse.item.adjudication.modifierExtension",
+                      "text": "Extensions that cannot be ignored even if unrecognized",
+                      "type": "group",
+                      "required": false,
+                      "repeats": true,
+                      "item": [
+                        {
+                          "extension": [
+                            {
+                              "url": "http://hl7.org/fhir/StructureDefinition/questionnaire-itemControl",
+                              "valueCodeableConcept": {
+                                "coding": [
+                                  {
+                                    "system": "http://hl7.org/fhir/questionnaire-item-control",
+                                    "code": "flyover",
+                                    "display": "Fly-over"
+                                  }
+                                ]
+                              }
+                            }
+                          ],
+                          "linkId": "ClaimResponse.item.adjudication.modifierExtension-flyover",
+                          "text": "May be used to represent additional information that is not part of the basic definition of the element and that modifies the understanding of the element in which it is contained and/or the understanding of the containing element\u0027s descendants. Usually modifier elements provide negation or qualification. To make the use of extensions safe and manageable, there is a strict set of governance applied to the definition and use of extensions. Though any implementer can define an extension, there is a set of requirements that SHALL be met as part of the definition of the extension. Applications processing a resource are required to check for modifier extensions.\n\nModifier extensions SHALL NOT change the meaning of any elements on Resource or DomainResource (including cannot change the meaning of modifierExtension itself). There can be no stigma associated with the use of extensions by any application, project, or standard - regardless of the institution or jurisdiction that uses or defines the extensions.  The use of extensions is what allows the FHIR specification to retain a core level of simplicity for everyone.",
+                          "type": "display"
+                        }
+                      ]
+                    },
+                    {
+                      "extension": [
+                        {
+                          "url": "http://hl7.org/fhir/StructureDefinition/questionnaire-minOccurs",
+                          "valueInteger": 1
+                        },
+                        {
+                          "url": "http://hl7.org/fhir/StructureDefinition/questionnaire-maxOccurs",
+                          "valueInteger": 1
+                        },
+                        {
+                          "url": "http://hl7.org/fhir/StructureDefinition/questionnaire-fhirType",
+                          "valueString": "CodeableConcept"
+                        }
+                      ],
+                      "linkId": "ClaimResponse.item.adjudication.category",
+                      "text": "Type of adjudication information",
+                      "type": "group",
+                      "required": true,
+                      "repeats": true,
+                      "item": [
+                        {
+                          "extension": [
+                            {
+                              "url": "http://hl7.org/fhir/StructureDefinition/questionnaire-itemControl",
+                              "valueCodeableConcept": {
+                                "coding": [
+                                  {
+                                    "system": "http://hl7.org/fhir/questionnaire-item-control",
+                                    "code": "flyover",
+                                    "display": "Fly-over"
+                                  }
+                                ]
+                              }
+                            }
+                          ],
+                          "linkId": "ClaimResponse.item.adjudication.category-flyover",
+                          "text": "A code to indicate the information type of this adjudication record. Information types may include the value submitted, maximum values or percentages allowed or payable under the plan, amounts that: the patient is responsible for in aggregate or pertaining to this item; amounts paid by other coverages; and, the benefit payable for this item. For example codes indicating: Co-Pay, deductible, eligible, benefit, tax, etc.",
+                          "type": "display"
+                        },
+                        {
+                          "linkId": "ClaimResponse.item.adjudication.category.coding",
+                          "text": "code:",
+                          "type": "choice",
+                          "required": false,
+                          "repeats": false
+                        },
+                        {
+                          "linkId": "ClaimResponse.item.adjudication.category.text",
+                          "text": "text:",
+                          "type": "string",
+                          "required": false,
+                          "repeats": false
+                        }
+                      ]
+                    },
+                    {
+                      "extension": [
+                        {
+                          "url": "http://hl7.org/fhir/StructureDefinition/questionnaire-maxOccurs",
+                          "valueInteger": 1
+                        },
+                        {
+                          "url": "http://hl7.org/fhir/StructureDefinition/questionnaire-fhirType",
+                          "valueString": "CodeableConcept"
+                        }
+                      ],
+                      "linkId": "ClaimResponse.item.adjudication.reason",
+                      "text": "Explanation of adjudication outcome",
+                      "type": "group",
+                      "required": false,
+                      "repeats": true,
+                      "item": [
+                        {
+                          "extension": [
+                            {
+                              "url": "http://hl7.org/fhir/StructureDefinition/questionnaire-itemControl",
+                              "valueCodeableConcept": {
+                                "coding": [
+                                  {
+                                    "system": "http://hl7.org/fhir/questionnaire-item-control",
+                                    "code": "flyover",
+                                    "display": "Fly-over"
+                                  }
+                                ]
+                              }
+                            }
+                          ],
+                          "linkId": "ClaimResponse.item.adjudication.reason-flyover",
+                          "text": "A code supporting the understanding of the adjudication result and explaining variance from expected amount. For example may indicate that the funds for this benefit type have been exhausted.",
+                          "type": "display"
+                        },
+                        {
+                          "linkId": "ClaimResponse.item.adjudication.reason.coding",
+                          "text": "code:",
+                          "type": "choice",
+                          "required": false,
+                          "repeats": false
+                        },
+                        {
+                          "linkId": "ClaimResponse.item.adjudication.reason.text",
+                          "text": "text:",
+                          "type": "string",
+                          "required": false,
+                          "repeats": false
+                        }
+                      ]
+                    },
+                    {
+                      "extension": [
+                        {
+                          "url": "http://hl7.org/fhir/StructureDefinition/questionnaire-maxOccurs",
+                          "valueInteger": 1
+                        },
+                        {
+                          "url": "http://hl7.org/fhir/StructureDefinition/questionnaire-fhirType",
+                          "valueString": "Quantity"
+                        }
+                      ],
+                      "linkId": "ClaimResponse.item.adjudication.amount",
+                      "text": "Monetary amount",
+                      "type": "group",
+                      "required": false,
+                      "repeats": true,
+                      "item": [
+                        {
+                          "extension": [
+                            {
+                              "url": "http://hl7.org/fhir/StructureDefinition/questionnaire-itemControl",
+                              "valueCodeableConcept": {
+                                "coding": [
+                                  {
+                                    "system": "http://hl7.org/fhir/questionnaire-item-control",
+                                    "code": "flyover",
+                                    "display": "Fly-over"
+                                  }
+                                ]
+                              }
+                            }
+                          ],
+                          "linkId": "ClaimResponse.item.adjudication.amount-flyover",
+                          "text": "Monetary amount associated with the category. For example: amount submitted, eligible amount, co-payment, and benefit payable.",
+                          "type": "display"
+                        },
+                        {
+                          "linkId": "ClaimResponse.item.adjudication.amount.comparator",
+                          "text": "comp:",
+                          "type": "choice",
+                          "required": false,
+                          "repeats": false
+                        },
+                        {
+                          "linkId": "ClaimResponse.item.adjudication.amount.value",
+                          "text": "value:",
+                          "type": "decimal",
+                          "required": false,
+                          "repeats": false
+                        },
+                        {
+                          "linkId": "ClaimResponse.item.adjudication.amount.units",
+                          "text": "units:",
+                          "type": "string",
+                          "required": false,
+                          "repeats": false
+                        },
+                        {
+                          "linkId": "ClaimResponse.item.adjudication.amount.code",
+                          "text": "coded units:",
+                          "type": "string",
+                          "required": false,
+                          "repeats": false
+                        },
+                        {
+                          "linkId": "ClaimResponse.item.adjudication.amount.system",
+                          "text": "units system:",
+                          "type": "string",
+                          "required": false,
+                          "repeats": false
+                        }
+                      ]
+                    },
+                    {
+                      "extension": [
+                        {
+                          "url": "http://hl7.org/fhir/StructureDefinition/questionnaire-maxOccurs",
+                          "valueInteger": 1
+                        },
+                        {
+                          "url": "http://hl7.org/fhir/StructureDefinition/questionnaire-fhirType",
+                          "valueString": "decimal"
+                        }
+                      ],
+                      "linkId": "ClaimResponse.item.adjudication.value",
+                      "type": "group",
+                      "required": false,
+                      "repeats": true,
+                      "item": [
+                        {
+                          "extension": [
+                            {
+                              "url": "http://hl7.org/fhir/StructureDefinition/questionnaire-itemControl",
+                              "valueCodeableConcept": {
+                                "coding": [
+                                  {
+                                    "system": "http://hl7.org/fhir/questionnaire-item-control",
+                                    "code": "flyover",
+                                    "display": "Fly-over"
+                                  }
+                                ]
+                              }
+                            }
+                          ],
+                          "linkId": "ClaimResponse.item.adjudication.value-flyover",
+                          "text": "A non-monetary value associated with the category. Mutually exclusive to the amount element above. For example: eligible percentage or co-payment percentage.",
+                          "type": "display"
+                        },
+                        {
+                          "linkId": "ClaimResponse.item.adjudication.value.value",
+                          "text": "Non-monetary value",
+                          "type": "decimal",
+                          "required": false,
+                          "repeats": false
+                        }
+                      ]
                     }
                   ]
                 },
@@ -3850,6 +5236,7 @@
                           }
                         }
                       ],
+                      "linkId": "ClaimResponse.addItem.detail.subDetail-flyover",
                       "text": "The third-tier service adjudications for payor added services.",
                       "type": "display"
                     },
@@ -3884,6 +5271,7 @@
                               }
                             }
                           ],
+                          "linkId": "ClaimResponse.addItem.detail.subDetail.id-flyover",
                           "text": "Unique id for the element within a resource (for internal references). This may be any string value that does not contain spaces.",
                           "type": "display"
                         },
@@ -3918,6 +5306,7 @@
                               }
                             }
                           ],
+                          "linkId": "ClaimResponse.addItem.detail.subDetail.extension-flyover",
                           "text": "May be used to represent additional information that is not part of the basic definition of the element. To make the use of extensions safe and manageable, there is a strict set of governance  applied to the definition and use of extensions. Though any implementer can define an extension, there is a set of requirements that SHALL be met as part of the definition of the extension. There can be no stigma associated with the use of extensions by any application, project, or standard - regardless of the institution or jurisdiction that uses or defines the extensions.  The use of extensions is what allows the FHIR specification to retain a core level of simplicity for everyone.",
                           "type": "display"
                         }
@@ -3945,6 +5334,7 @@
                               }
                             }
                           ],
+                          "linkId": "ClaimResponse.addItem.detail.subDetail.modifierExtension-flyover",
                           "text": "May be used to represent additional information that is not part of the basic definition of the element and that modifies the understanding of the element in which it is contained and/or the understanding of the containing element\u0027s descendants. Usually modifier elements provide negation or qualification. To make the use of extensions safe and manageable, there is a strict set of governance applied to the definition and use of extensions. Though any implementer can define an extension, there is a set of requirements that SHALL be met as part of the definition of the extension. Applications processing a resource are required to check for modifier extensions.\n\nModifier extensions SHALL NOT change the meaning of any elements on Resource or DomainResource (including cannot change the meaning of modifierExtension itself). There can be no stigma associated with the use of extensions by any application, project, or standard - regardless of the institution or jurisdiction that uses or defines the extensions.  The use of extensions is what allows the FHIR specification to retain a core level of simplicity for everyone.",
                           "type": "display"
                         }
@@ -3986,13 +5376,14 @@
                               }
                             }
                           ],
+                          "linkId": "ClaimResponse.addItem.detail.subDetail.productOrService-flyover",
                           "text": "When the value is a group code then this item collects a set of related claim details, otherwise this contains the product, service, drug or other billing code for the item. If this is an actual service or product line, i.e. not a Group, then use code to indicate the Professional Service or Product supplied (e.g. CTP, HCPCS, USCLS, ICD10, NCPDP, DIN, RxNorm, ACHI, CCI). If a grouping item then use a group code to indicate the type of thing being grouped e.g. \u0027glasses\u0027 or \u0027compound\u0027.",
                           "type": "display"
                         },
                         {
                           "linkId": "ClaimResponse.addItem.detail.subDetail.productOrService.coding",
                           "text": "code:",
-                          "type": "open-choice",
+                          "type": "choice",
                           "required": false,
                           "repeats": false
                         },
@@ -4033,13 +5424,14 @@
                               }
                             }
                           ],
+                          "linkId": "ClaimResponse.addItem.detail.subDetail.modifier-flyover",
                           "text": "Item typification or modifiers codes to convey additional context for the product or service. For example in Oral whether the treatment is cosmetic or associated with TMJ, or for Medical whether the treatment was outside the clinic or outside of office hours.",
                           "type": "display"
                         },
                         {
                           "linkId": "ClaimResponse.addItem.detail.subDetail.modifier.coding",
                           "text": "code:",
-                          "type": "open-choice",
+                          "type": "choice",
                           "required": false,
                           "repeats": false
                         },
@@ -4084,6 +5476,7 @@
                               }
                             }
                           ],
+                          "linkId": "ClaimResponse.addItem.detail.subDetail.quantity-flyover",
                           "text": "The number of repetitions of a service or product.",
                           "type": "display"
                         },
@@ -4156,6 +5549,7 @@
                               }
                             }
                           ],
+                          "linkId": "ClaimResponse.addItem.detail.subDetail.unitPrice-flyover",
                           "text": "If the item is not a group then this is the fee for the product or service, otherwise this is the total of the fees for the details of the group.",
                           "type": "display"
                         },
@@ -4227,6 +5621,7 @@
                               }
                             }
                           ],
+                          "linkId": "ClaimResponse.addItem.detail.subDetail.factor-flyover",
                           "text": "A real number that represents a multiplier used in determining the overall value of services delivered and/or goods received. The concept of a Factor allows for a discount or surcharge multiplier to be applied to a monetary amount. To show a 10% senior\u0027s discount, the value entered is: 0.90 (1.00 - 0.10).",
                           "type": "display"
                         },
@@ -4271,6 +5666,7 @@
                               }
                             }
                           ],
+                          "linkId": "ClaimResponse.addItem.detail.subDetail.net-flyover",
                           "text": "The quantity times the unit price for an additional service or product or charge. For example, the formula: quantity * unitPrice * factor  \u003d net. Quantity and factor are assumed to be 1 if not supplied.",
                           "type": "display"
                         },
@@ -4338,6 +5734,7 @@
                               }
                             }
                           ],
+                          "linkId": "ClaimResponse.addItem.detail.subDetail.noteNumber-flyover",
                           "text": "The numbers associated with notes below which apply to the adjudication of this item.",
                           "type": "display"
                         },
@@ -4378,8 +5775,334 @@
                               }
                             }
                           ],
+                          "linkId": "ClaimResponse.addItem.detail.subDetail.adjudication-flyover",
                           "text": "The adjudication results.",
                           "type": "display"
+                        },
+                        {
+                          "extension": [
+                            {
+                              "url": "http://hl7.org/fhir/StructureDefinition/questionnaire-maxOccurs",
+                              "valueInteger": 1
+                            },
+                            {
+                              "url": "http://hl7.org/fhir/StructureDefinition/questionnaire-fhirType",
+                              "valueString": "string"
+                            }
+                          ],
+                          "linkId": "ClaimResponse.item.adjudication.id",
+                          "type": "group",
+                          "required": false,
+                          "repeats": true,
+                          "item": [
+                            {
+                              "extension": [
+                                {
+                                  "url": "http://hl7.org/fhir/StructureDefinition/questionnaire-itemControl",
+                                  "valueCodeableConcept": {
+                                    "coding": [
+                                      {
+                                        "system": "http://hl7.org/fhir/questionnaire-item-control",
+                                        "code": "flyover",
+                                        "display": "Fly-over"
+                                      }
+                                    ]
+                                  }
+                                }
+                              ],
+                              "linkId": "ClaimResponse.item.adjudication.id-flyover",
+                              "text": "Unique id for the element within a resource (for internal references). This may be any string value that does not contain spaces.",
+                              "type": "display"
+                            },
+                            {
+                              "linkId": "ClaimResponse.item.adjudication.id.value",
+                              "text": "Unique id for inter-element referencing",
+                              "type": "string",
+                              "required": false,
+                              "repeats": false
+                            }
+                          ]
+                        },
+                        {
+                          "linkId": "ClaimResponse.item.adjudication.extension",
+                          "text": "Additional content defined by implementations",
+                          "type": "group",
+                          "required": false,
+                          "repeats": true,
+                          "item": [
+                            {
+                              "extension": [
+                                {
+                                  "url": "http://hl7.org/fhir/StructureDefinition/questionnaire-itemControl",
+                                  "valueCodeableConcept": {
+                                    "coding": [
+                                      {
+                                        "system": "http://hl7.org/fhir/questionnaire-item-control",
+                                        "code": "flyover",
+                                        "display": "Fly-over"
+                                      }
+                                    ]
+                                  }
+                                }
+                              ],
+                              "linkId": "ClaimResponse.item.adjudication.extension-flyover",
+                              "text": "May be used to represent additional information that is not part of the basic definition of the element. To make the use of extensions safe and manageable, there is a strict set of governance  applied to the definition and use of extensions. Though any implementer can define an extension, there is a set of requirements that SHALL be met as part of the definition of the extension. There can be no stigma associated with the use of extensions by any application, project, or standard - regardless of the institution or jurisdiction that uses or defines the extensions.  The use of extensions is what allows the FHIR specification to retain a core level of simplicity for everyone.",
+                              "type": "display"
+                            }
+                          ]
+                        },
+                        {
+                          "linkId": "ClaimResponse.item.adjudication.modifierExtension",
+                          "text": "Extensions that cannot be ignored even if unrecognized",
+                          "type": "group",
+                          "required": false,
+                          "repeats": true,
+                          "item": [
+                            {
+                              "extension": [
+                                {
+                                  "url": "http://hl7.org/fhir/StructureDefinition/questionnaire-itemControl",
+                                  "valueCodeableConcept": {
+                                    "coding": [
+                                      {
+                                        "system": "http://hl7.org/fhir/questionnaire-item-control",
+                                        "code": "flyover",
+                                        "display": "Fly-over"
+                                      }
+                                    ]
+                                  }
+                                }
+                              ],
+                              "linkId": "ClaimResponse.item.adjudication.modifierExtension-flyover",
+                              "text": "May be used to represent additional information that is not part of the basic definition of the element and that modifies the understanding of the element in which it is contained and/or the understanding of the containing element\u0027s descendants. Usually modifier elements provide negation or qualification. To make the use of extensions safe and manageable, there is a strict set of governance applied to the definition and use of extensions. Though any implementer can define an extension, there is a set of requirements that SHALL be met as part of the definition of the extension. Applications processing a resource are required to check for modifier extensions.\n\nModifier extensions SHALL NOT change the meaning of any elements on Resource or DomainResource (including cannot change the meaning of modifierExtension itself). There can be no stigma associated with the use of extensions by any application, project, or standard - regardless of the institution or jurisdiction that uses or defines the extensions.  The use of extensions is what allows the FHIR specification to retain a core level of simplicity for everyone.",
+                              "type": "display"
+                            }
+                          ]
+                        },
+                        {
+                          "extension": [
+                            {
+                              "url": "http://hl7.org/fhir/StructureDefinition/questionnaire-minOccurs",
+                              "valueInteger": 1
+                            },
+                            {
+                              "url": "http://hl7.org/fhir/StructureDefinition/questionnaire-maxOccurs",
+                              "valueInteger": 1
+                            },
+                            {
+                              "url": "http://hl7.org/fhir/StructureDefinition/questionnaire-fhirType",
+                              "valueString": "CodeableConcept"
+                            }
+                          ],
+                          "linkId": "ClaimResponse.item.adjudication.category",
+                          "text": "Type of adjudication information",
+                          "type": "group",
+                          "required": true,
+                          "repeats": true,
+                          "item": [
+                            {
+                              "extension": [
+                                {
+                                  "url": "http://hl7.org/fhir/StructureDefinition/questionnaire-itemControl",
+                                  "valueCodeableConcept": {
+                                    "coding": [
+                                      {
+                                        "system": "http://hl7.org/fhir/questionnaire-item-control",
+                                        "code": "flyover",
+                                        "display": "Fly-over"
+                                      }
+                                    ]
+                                  }
+                                }
+                              ],
+                              "linkId": "ClaimResponse.item.adjudication.category-flyover",
+                              "text": "A code to indicate the information type of this adjudication record. Information types may include the value submitted, maximum values or percentages allowed or payable under the plan, amounts that: the patient is responsible for in aggregate or pertaining to this item; amounts paid by other coverages; and, the benefit payable for this item. For example codes indicating: Co-Pay, deductible, eligible, benefit, tax, etc.",
+                              "type": "display"
+                            },
+                            {
+                              "linkId": "ClaimResponse.item.adjudication.category.coding",
+                              "text": "code:",
+                              "type": "choice",
+                              "required": false,
+                              "repeats": false
+                            },
+                            {
+                              "linkId": "ClaimResponse.item.adjudication.category.text",
+                              "text": "text:",
+                              "type": "string",
+                              "required": false,
+                              "repeats": false
+                            }
+                          ]
+                        },
+                        {
+                          "extension": [
+                            {
+                              "url": "http://hl7.org/fhir/StructureDefinition/questionnaire-maxOccurs",
+                              "valueInteger": 1
+                            },
+                            {
+                              "url": "http://hl7.org/fhir/StructureDefinition/questionnaire-fhirType",
+                              "valueString": "CodeableConcept"
+                            }
+                          ],
+                          "linkId": "ClaimResponse.item.adjudication.reason",
+                          "text": "Explanation of adjudication outcome",
+                          "type": "group",
+                          "required": false,
+                          "repeats": true,
+                          "item": [
+                            {
+                              "extension": [
+                                {
+                                  "url": "http://hl7.org/fhir/StructureDefinition/questionnaire-itemControl",
+                                  "valueCodeableConcept": {
+                                    "coding": [
+                                      {
+                                        "system": "http://hl7.org/fhir/questionnaire-item-control",
+                                        "code": "flyover",
+                                        "display": "Fly-over"
+                                      }
+                                    ]
+                                  }
+                                }
+                              ],
+                              "linkId": "ClaimResponse.item.adjudication.reason-flyover",
+                              "text": "A code supporting the understanding of the adjudication result and explaining variance from expected amount. For example may indicate that the funds for this benefit type have been exhausted.",
+                              "type": "display"
+                            },
+                            {
+                              "linkId": "ClaimResponse.item.adjudication.reason.coding",
+                              "text": "code:",
+                              "type": "choice",
+                              "required": false,
+                              "repeats": false
+                            },
+                            {
+                              "linkId": "ClaimResponse.item.adjudication.reason.text",
+                              "text": "text:",
+                              "type": "string",
+                              "required": false,
+                              "repeats": false
+                            }
+                          ]
+                        },
+                        {
+                          "extension": [
+                            {
+                              "url": "http://hl7.org/fhir/StructureDefinition/questionnaire-maxOccurs",
+                              "valueInteger": 1
+                            },
+                            {
+                              "url": "http://hl7.org/fhir/StructureDefinition/questionnaire-fhirType",
+                              "valueString": "Quantity"
+                            }
+                          ],
+                          "linkId": "ClaimResponse.item.adjudication.amount",
+                          "text": "Monetary amount",
+                          "type": "group",
+                          "required": false,
+                          "repeats": true,
+                          "item": [
+                            {
+                              "extension": [
+                                {
+                                  "url": "http://hl7.org/fhir/StructureDefinition/questionnaire-itemControl",
+                                  "valueCodeableConcept": {
+                                    "coding": [
+                                      {
+                                        "system": "http://hl7.org/fhir/questionnaire-item-control",
+                                        "code": "flyover",
+                                        "display": "Fly-over"
+                                      }
+                                    ]
+                                  }
+                                }
+                              ],
+                              "linkId": "ClaimResponse.item.adjudication.amount-flyover",
+                              "text": "Monetary amount associated with the category. For example: amount submitted, eligible amount, co-payment, and benefit payable.",
+                              "type": "display"
+                            },
+                            {
+                              "linkId": "ClaimResponse.item.adjudication.amount.comparator",
+                              "text": "comp:",
+                              "type": "choice",
+                              "required": false,
+                              "repeats": false
+                            },
+                            {
+                              "linkId": "ClaimResponse.item.adjudication.amount.value",
+                              "text": "value:",
+                              "type": "decimal",
+                              "required": false,
+                              "repeats": false
+                            },
+                            {
+                              "linkId": "ClaimResponse.item.adjudication.amount.units",
+                              "text": "units:",
+                              "type": "string",
+                              "required": false,
+                              "repeats": false
+                            },
+                            {
+                              "linkId": "ClaimResponse.item.adjudication.amount.code",
+                              "text": "coded units:",
+                              "type": "string",
+                              "required": false,
+                              "repeats": false
+                            },
+                            {
+                              "linkId": "ClaimResponse.item.adjudication.amount.system",
+                              "text": "units system:",
+                              "type": "string",
+                              "required": false,
+                              "repeats": false
+                            }
+                          ]
+                        },
+                        {
+                          "extension": [
+                            {
+                              "url": "http://hl7.org/fhir/StructureDefinition/questionnaire-maxOccurs",
+                              "valueInteger": 1
+                            },
+                            {
+                              "url": "http://hl7.org/fhir/StructureDefinition/questionnaire-fhirType",
+                              "valueString": "decimal"
+                            }
+                          ],
+                          "linkId": "ClaimResponse.item.adjudication.value",
+                          "type": "group",
+                          "required": false,
+                          "repeats": true,
+                          "item": [
+                            {
+                              "extension": [
+                                {
+                                  "url": "http://hl7.org/fhir/StructureDefinition/questionnaire-itemControl",
+                                  "valueCodeableConcept": {
+                                    "coding": [
+                                      {
+                                        "system": "http://hl7.org/fhir/questionnaire-item-control",
+                                        "code": "flyover",
+                                        "display": "Fly-over"
+                                      }
+                                    ]
+                                  }
+                                }
+                              ],
+                              "linkId": "ClaimResponse.item.adjudication.value-flyover",
+                              "text": "A non-monetary value associated with the category. Mutually exclusive to the amount element above. For example: eligible percentage or co-payment percentage.",
+                              "type": "display"
+                            },
+                            {
+                              "linkId": "ClaimResponse.item.adjudication.value.value",
+                              "text": "Non-monetary value",
+                              "type": "decimal",
+                              "required": false,
+                              "repeats": false
+                            }
+                          ]
                         }
                       ]
                     }
@@ -4411,8 +6134,334 @@
                   }
                 }
               ],
+              "linkId": "ClaimResponse.adjudication-flyover",
               "text": "The adjudication results which are presented at the header level rather than at the line-item or add-item levels.",
               "type": "display"
+            },
+            {
+              "extension": [
+                {
+                  "url": "http://hl7.org/fhir/StructureDefinition/questionnaire-maxOccurs",
+                  "valueInteger": 1
+                },
+                {
+                  "url": "http://hl7.org/fhir/StructureDefinition/questionnaire-fhirType",
+                  "valueString": "string"
+                }
+              ],
+              "linkId": "ClaimResponse.item.adjudication.id",
+              "type": "group",
+              "required": false,
+              "repeats": true,
+              "item": [
+                {
+                  "extension": [
+                    {
+                      "url": "http://hl7.org/fhir/StructureDefinition/questionnaire-itemControl",
+                      "valueCodeableConcept": {
+                        "coding": [
+                          {
+                            "system": "http://hl7.org/fhir/questionnaire-item-control",
+                            "code": "flyover",
+                            "display": "Fly-over"
+                          }
+                        ]
+                      }
+                    }
+                  ],
+                  "linkId": "ClaimResponse.item.adjudication.id-flyover",
+                  "text": "Unique id for the element within a resource (for internal references). This may be any string value that does not contain spaces.",
+                  "type": "display"
+                },
+                {
+                  "linkId": "ClaimResponse.item.adjudication.id.value",
+                  "text": "Unique id for inter-element referencing",
+                  "type": "string",
+                  "required": false,
+                  "repeats": false
+                }
+              ]
+            },
+            {
+              "linkId": "ClaimResponse.item.adjudication.extension",
+              "text": "Additional content defined by implementations",
+              "type": "group",
+              "required": false,
+              "repeats": true,
+              "item": [
+                {
+                  "extension": [
+                    {
+                      "url": "http://hl7.org/fhir/StructureDefinition/questionnaire-itemControl",
+                      "valueCodeableConcept": {
+                        "coding": [
+                          {
+                            "system": "http://hl7.org/fhir/questionnaire-item-control",
+                            "code": "flyover",
+                            "display": "Fly-over"
+                          }
+                        ]
+                      }
+                    }
+                  ],
+                  "linkId": "ClaimResponse.item.adjudication.extension-flyover",
+                  "text": "May be used to represent additional information that is not part of the basic definition of the element. To make the use of extensions safe and manageable, there is a strict set of governance  applied to the definition and use of extensions. Though any implementer can define an extension, there is a set of requirements that SHALL be met as part of the definition of the extension. There can be no stigma associated with the use of extensions by any application, project, or standard - regardless of the institution or jurisdiction that uses or defines the extensions.  The use of extensions is what allows the FHIR specification to retain a core level of simplicity for everyone.",
+                  "type": "display"
+                }
+              ]
+            },
+            {
+              "linkId": "ClaimResponse.item.adjudication.modifierExtension",
+              "text": "Extensions that cannot be ignored even if unrecognized",
+              "type": "group",
+              "required": false,
+              "repeats": true,
+              "item": [
+                {
+                  "extension": [
+                    {
+                      "url": "http://hl7.org/fhir/StructureDefinition/questionnaire-itemControl",
+                      "valueCodeableConcept": {
+                        "coding": [
+                          {
+                            "system": "http://hl7.org/fhir/questionnaire-item-control",
+                            "code": "flyover",
+                            "display": "Fly-over"
+                          }
+                        ]
+                      }
+                    }
+                  ],
+                  "linkId": "ClaimResponse.item.adjudication.modifierExtension-flyover",
+                  "text": "May be used to represent additional information that is not part of the basic definition of the element and that modifies the understanding of the element in which it is contained and/or the understanding of the containing element\u0027s descendants. Usually modifier elements provide negation or qualification. To make the use of extensions safe and manageable, there is a strict set of governance applied to the definition and use of extensions. Though any implementer can define an extension, there is a set of requirements that SHALL be met as part of the definition of the extension. Applications processing a resource are required to check for modifier extensions.\n\nModifier extensions SHALL NOT change the meaning of any elements on Resource or DomainResource (including cannot change the meaning of modifierExtension itself). There can be no stigma associated with the use of extensions by any application, project, or standard - regardless of the institution or jurisdiction that uses or defines the extensions.  The use of extensions is what allows the FHIR specification to retain a core level of simplicity for everyone.",
+                  "type": "display"
+                }
+              ]
+            },
+            {
+              "extension": [
+                {
+                  "url": "http://hl7.org/fhir/StructureDefinition/questionnaire-minOccurs",
+                  "valueInteger": 1
+                },
+                {
+                  "url": "http://hl7.org/fhir/StructureDefinition/questionnaire-maxOccurs",
+                  "valueInteger": 1
+                },
+                {
+                  "url": "http://hl7.org/fhir/StructureDefinition/questionnaire-fhirType",
+                  "valueString": "CodeableConcept"
+                }
+              ],
+              "linkId": "ClaimResponse.item.adjudication.category",
+              "text": "Type of adjudication information",
+              "type": "group",
+              "required": true,
+              "repeats": true,
+              "item": [
+                {
+                  "extension": [
+                    {
+                      "url": "http://hl7.org/fhir/StructureDefinition/questionnaire-itemControl",
+                      "valueCodeableConcept": {
+                        "coding": [
+                          {
+                            "system": "http://hl7.org/fhir/questionnaire-item-control",
+                            "code": "flyover",
+                            "display": "Fly-over"
+                          }
+                        ]
+                      }
+                    }
+                  ],
+                  "linkId": "ClaimResponse.item.adjudication.category-flyover",
+                  "text": "A code to indicate the information type of this adjudication record. Information types may include the value submitted, maximum values or percentages allowed or payable under the plan, amounts that: the patient is responsible for in aggregate or pertaining to this item; amounts paid by other coverages; and, the benefit payable for this item. For example codes indicating: Co-Pay, deductible, eligible, benefit, tax, etc.",
+                  "type": "display"
+                },
+                {
+                  "linkId": "ClaimResponse.item.adjudication.category.coding",
+                  "text": "code:",
+                  "type": "choice",
+                  "required": false,
+                  "repeats": false
+                },
+                {
+                  "linkId": "ClaimResponse.item.adjudication.category.text",
+                  "text": "text:",
+                  "type": "string",
+                  "required": false,
+                  "repeats": false
+                }
+              ]
+            },
+            {
+              "extension": [
+                {
+                  "url": "http://hl7.org/fhir/StructureDefinition/questionnaire-maxOccurs",
+                  "valueInteger": 1
+                },
+                {
+                  "url": "http://hl7.org/fhir/StructureDefinition/questionnaire-fhirType",
+                  "valueString": "CodeableConcept"
+                }
+              ],
+              "linkId": "ClaimResponse.item.adjudication.reason",
+              "text": "Explanation of adjudication outcome",
+              "type": "group",
+              "required": false,
+              "repeats": true,
+              "item": [
+                {
+                  "extension": [
+                    {
+                      "url": "http://hl7.org/fhir/StructureDefinition/questionnaire-itemControl",
+                      "valueCodeableConcept": {
+                        "coding": [
+                          {
+                            "system": "http://hl7.org/fhir/questionnaire-item-control",
+                            "code": "flyover",
+                            "display": "Fly-over"
+                          }
+                        ]
+                      }
+                    }
+                  ],
+                  "linkId": "ClaimResponse.item.adjudication.reason-flyover",
+                  "text": "A code supporting the understanding of the adjudication result and explaining variance from expected amount. For example may indicate that the funds for this benefit type have been exhausted.",
+                  "type": "display"
+                },
+                {
+                  "linkId": "ClaimResponse.item.adjudication.reason.coding",
+                  "text": "code:",
+                  "type": "choice",
+                  "required": false,
+                  "repeats": false
+                },
+                {
+                  "linkId": "ClaimResponse.item.adjudication.reason.text",
+                  "text": "text:",
+                  "type": "string",
+                  "required": false,
+                  "repeats": false
+                }
+              ]
+            },
+            {
+              "extension": [
+                {
+                  "url": "http://hl7.org/fhir/StructureDefinition/questionnaire-maxOccurs",
+                  "valueInteger": 1
+                },
+                {
+                  "url": "http://hl7.org/fhir/StructureDefinition/questionnaire-fhirType",
+                  "valueString": "Quantity"
+                }
+              ],
+              "linkId": "ClaimResponse.item.adjudication.amount",
+              "text": "Monetary amount",
+              "type": "group",
+              "required": false,
+              "repeats": true,
+              "item": [
+                {
+                  "extension": [
+                    {
+                      "url": "http://hl7.org/fhir/StructureDefinition/questionnaire-itemControl",
+                      "valueCodeableConcept": {
+                        "coding": [
+                          {
+                            "system": "http://hl7.org/fhir/questionnaire-item-control",
+                            "code": "flyover",
+                            "display": "Fly-over"
+                          }
+                        ]
+                      }
+                    }
+                  ],
+                  "linkId": "ClaimResponse.item.adjudication.amount-flyover",
+                  "text": "Monetary amount associated with the category. For example: amount submitted, eligible amount, co-payment, and benefit payable.",
+                  "type": "display"
+                },
+                {
+                  "linkId": "ClaimResponse.item.adjudication.amount.comparator",
+                  "text": "comp:",
+                  "type": "choice",
+                  "required": false,
+                  "repeats": false
+                },
+                {
+                  "linkId": "ClaimResponse.item.adjudication.amount.value",
+                  "text": "value:",
+                  "type": "decimal",
+                  "required": false,
+                  "repeats": false
+                },
+                {
+                  "linkId": "ClaimResponse.item.adjudication.amount.units",
+                  "text": "units:",
+                  "type": "string",
+                  "required": false,
+                  "repeats": false
+                },
+                {
+                  "linkId": "ClaimResponse.item.adjudication.amount.code",
+                  "text": "coded units:",
+                  "type": "string",
+                  "required": false,
+                  "repeats": false
+                },
+                {
+                  "linkId": "ClaimResponse.item.adjudication.amount.system",
+                  "text": "units system:",
+                  "type": "string",
+                  "required": false,
+                  "repeats": false
+                }
+              ]
+            },
+            {
+              "extension": [
+                {
+                  "url": "http://hl7.org/fhir/StructureDefinition/questionnaire-maxOccurs",
+                  "valueInteger": 1
+                },
+                {
+                  "url": "http://hl7.org/fhir/StructureDefinition/questionnaire-fhirType",
+                  "valueString": "decimal"
+                }
+              ],
+              "linkId": "ClaimResponse.item.adjudication.value",
+              "type": "group",
+              "required": false,
+              "repeats": true,
+              "item": [
+                {
+                  "extension": [
+                    {
+                      "url": "http://hl7.org/fhir/StructureDefinition/questionnaire-itemControl",
+                      "valueCodeableConcept": {
+                        "coding": [
+                          {
+                            "system": "http://hl7.org/fhir/questionnaire-item-control",
+                            "code": "flyover",
+                            "display": "Fly-over"
+                          }
+                        ]
+                      }
+                    }
+                  ],
+                  "linkId": "ClaimResponse.item.adjudication.value-flyover",
+                  "text": "A non-monetary value associated with the category. Mutually exclusive to the amount element above. For example: eligible percentage or co-payment percentage.",
+                  "type": "display"
+                },
+                {
+                  "linkId": "ClaimResponse.item.adjudication.value.value",
+                  "text": "Non-monetary value",
+                  "type": "decimal",
+                  "required": false,
+                  "repeats": false
+                }
+              ]
             }
           ]
         },
@@ -4424,6 +6473,7 @@
           "repeats": true,
           "item": [
             {
+              "linkId": "ClaimResponse.total-display",
               "text": "Totals for amounts submitted, co-pays, benefits payable etc.",
               "type": "display"
             },
@@ -4442,6 +6492,7 @@
                   }
                 }
               ],
+              "linkId": "ClaimResponse.total-flyover",
               "text": "Categorized monetary totals for the adjudication.",
               "type": "display"
             },
@@ -4476,6 +6527,7 @@
                       }
                     }
                   ],
+                  "linkId": "ClaimResponse.total.id-flyover",
                   "text": "Unique id for the element within a resource (for internal references). This may be any string value that does not contain spaces.",
                   "type": "display"
                 },
@@ -4510,6 +6562,7 @@
                       }
                     }
                   ],
+                  "linkId": "ClaimResponse.total.extension-flyover",
                   "text": "May be used to represent additional information that is not part of the basic definition of the element. To make the use of extensions safe and manageable, there is a strict set of governance  applied to the definition and use of extensions. Though any implementer can define an extension, there is a set of requirements that SHALL be met as part of the definition of the extension. There can be no stigma associated with the use of extensions by any application, project, or standard - regardless of the institution or jurisdiction that uses or defines the extensions.  The use of extensions is what allows the FHIR specification to retain a core level of simplicity for everyone.",
                   "type": "display"
                 }
@@ -4537,6 +6590,7 @@
                       }
                     }
                   ],
+                  "linkId": "ClaimResponse.total.modifierExtension-flyover",
                   "text": "May be used to represent additional information that is not part of the basic definition of the element and that modifies the understanding of the element in which it is contained and/or the understanding of the containing element\u0027s descendants. Usually modifier elements provide negation or qualification. To make the use of extensions safe and manageable, there is a strict set of governance applied to the definition and use of extensions. Though any implementer can define an extension, there is a set of requirements that SHALL be met as part of the definition of the extension. Applications processing a resource are required to check for modifier extensions.\n\nModifier extensions SHALL NOT change the meaning of any elements on Resource or DomainResource (including cannot change the meaning of modifierExtension itself). There can be no stigma associated with the use of extensions by any application, project, or standard - regardless of the institution or jurisdiction that uses or defines the extensions.  The use of extensions is what allows the FHIR specification to retain a core level of simplicity for everyone.",
                   "type": "display"
                 }
@@ -4578,13 +6632,14 @@
                       }
                     }
                   ],
+                  "linkId": "ClaimResponse.total.category-flyover",
                   "text": "A code to indicate the information type of this adjudication record. Information types may include: the value submitted, maximum values or percentages allowed or payable under the plan, amounts that the patient is responsible for in aggregate or pertaining to this item, amounts paid by other coverages, and the benefit payable for this item. For example codes indicating: Co-Pay, deductible, eligible, benefit, tax, etc.",
                   "type": "display"
                 },
                 {
                   "linkId": "ClaimResponse.total.category.coding",
                   "text": "code:",
-                  "type": "open-choice",
+                  "type": "choice",
                   "required": false,
                   "repeats": false
                 },
@@ -4633,6 +6688,7 @@
                       }
                     }
                   ],
+                  "linkId": "ClaimResponse.total.amount-flyover",
                   "text": "Monetary total amount associated with the category.",
                   "type": "display"
                 },
@@ -4703,6 +6759,7 @@
                   }
                 }
               ],
+              "linkId": "ClaimResponse.payment-flyover",
               "text": "Payment details for the adjudication of the claim.",
               "type": "display"
             },
@@ -4737,6 +6794,7 @@
                       }
                     }
                   ],
+                  "linkId": "ClaimResponse.payment.id-flyover",
                   "text": "Unique id for the element within a resource (for internal references). This may be any string value that does not contain spaces.",
                   "type": "display"
                 },
@@ -4771,6 +6829,7 @@
                       }
                     }
                   ],
+                  "linkId": "ClaimResponse.payment.extension-flyover",
                   "text": "May be used to represent additional information that is not part of the basic definition of the element. To make the use of extensions safe and manageable, there is a strict set of governance  applied to the definition and use of extensions. Though any implementer can define an extension, there is a set of requirements that SHALL be met as part of the definition of the extension. There can be no stigma associated with the use of extensions by any application, project, or standard - regardless of the institution or jurisdiction that uses or defines the extensions.  The use of extensions is what allows the FHIR specification to retain a core level of simplicity for everyone.",
                   "type": "display"
                 }
@@ -4798,6 +6857,7 @@
                       }
                     }
                   ],
+                  "linkId": "ClaimResponse.payment.modifierExtension-flyover",
                   "text": "May be used to represent additional information that is not part of the basic definition of the element and that modifies the understanding of the element in which it is contained and/or the understanding of the containing element\u0027s descendants. Usually modifier elements provide negation or qualification. To make the use of extensions safe and manageable, there is a strict set of governance applied to the definition and use of extensions. Though any implementer can define an extension, there is a set of requirements that SHALL be met as part of the definition of the extension. Applications processing a resource are required to check for modifier extensions.\n\nModifier extensions SHALL NOT change the meaning of any elements on Resource or DomainResource (including cannot change the meaning of modifierExtension itself). There can be no stigma associated with the use of extensions by any application, project, or standard - regardless of the institution or jurisdiction that uses or defines the extensions.  The use of extensions is what allows the FHIR specification to retain a core level of simplicity for everyone.",
                   "type": "display"
                 }
@@ -4839,13 +6899,14 @@
                       }
                     }
                   ],
+                  "linkId": "ClaimResponse.payment.type-flyover",
                   "text": "Whether this represents partial or complete payment of the benefits payable.",
                   "type": "display"
                 },
                 {
                   "linkId": "ClaimResponse.payment.type.coding",
                   "text": "code:",
-                  "type": "open-choice",
+                  "type": "choice",
                   "required": false,
                   "repeats": false
                 },
@@ -4890,6 +6951,7 @@
                       }
                     }
                   ],
+                  "linkId": "ClaimResponse.payment.adjustment-flyover",
                   "text": "Total amount of all adjustments to this payment included in this transaction which are not related to this claim\u0027s adjudication. Insurers will deduct amounts owing from the provider (adjustment), such as a prior overpayment, from the amount owing to the provider (benefits payable) when payment is made to the provider.",
                   "type": "display"
                 },
@@ -4962,13 +7024,14 @@
                       }
                     }
                   ],
+                  "linkId": "ClaimResponse.payment.adjustmentReason-flyover",
                   "text": "Reason for the payment adjustment.",
                   "type": "display"
                 },
                 {
                   "linkId": "ClaimResponse.payment.adjustmentReason.coding",
                   "text": "code:",
-                  "type": "open-choice",
+                  "type": "choice",
                   "required": false,
                   "repeats": false
                 },
@@ -5012,6 +7075,7 @@
                       }
                     }
                   ],
+                  "linkId": "ClaimResponse.payment.date-flyover",
                   "text": "Estimated date the payment will be issued or the actual issue date of payment.",
                   "type": "display"
                 },
@@ -5060,6 +7124,7 @@
                       }
                     }
                   ],
+                  "linkId": "ClaimResponse.payment.amount-flyover",
                   "text": "Benefits payable less any payment adjustment.",
                   "type": "display"
                 },
@@ -5132,6 +7197,7 @@
                       }
                     }
                   ],
+                  "linkId": "ClaimResponse.payment.identifier-flyover",
                   "text": "Issuer\u0027s unique identifier for the payment instrument. For example: EFT number or check number.",
                   "type": "display"
                 },
@@ -5192,13 +7258,14 @@
                   }
                 }
               ],
+              "linkId": "ClaimResponse.fundsReserve-flyover",
               "text": "A code, used only on a response to a preauthorization, to indicate whether the benefits payable have been reserved and for whom. Fund would be release by a future claim quoting the preAuthRef of this response. Examples of values include: provider, patient, none.",
               "type": "display"
             },
             {
               "linkId": "ClaimResponse.fundsReserve.coding",
               "text": "code:",
-              "type": "open-choice",
+              "type": "choice",
               "required": false,
               "repeats": false
             },
@@ -5243,13 +7310,14 @@
                   }
                 }
               ],
+              "linkId": "ClaimResponse.formCode-flyover",
               "text": "A code for the form to be used for printing the content. May be needed to identify specific jurisdictional forms.",
               "type": "display"
             },
             {
               "linkId": "ClaimResponse.formCode.coding",
               "text": "code:",
-              "type": "open-choice",
+              "type": "choice",
               "required": false,
               "repeats": false
             },
@@ -5294,6 +7362,7 @@
                   }
                 }
               ],
+              "linkId": "ClaimResponse.form-flyover",
               "text": "The actual form, by reference or inclusion, for printing the content or an EOB. Needed to permit insurers to include the actual form.",
               "type": "display"
             }
@@ -5321,6 +7390,7 @@
                   }
                 }
               ],
+              "linkId": "ClaimResponse.processNote-flyover",
               "text": "A note that describes or explains adjudication results in a human readable form.",
               "type": "display"
             },
@@ -5355,6 +7425,7 @@
                       }
                     }
                   ],
+                  "linkId": "ClaimResponse.processNote.id-flyover",
                   "text": "Unique id for the element within a resource (for internal references). This may be any string value that does not contain spaces.",
                   "type": "display"
                 },
@@ -5389,6 +7460,7 @@
                       }
                     }
                   ],
+                  "linkId": "ClaimResponse.processNote.extension-flyover",
                   "text": "May be used to represent additional information that is not part of the basic definition of the element. To make the use of extensions safe and manageable, there is a strict set of governance  applied to the definition and use of extensions. Though any implementer can define an extension, there is a set of requirements that SHALL be met as part of the definition of the extension. There can be no stigma associated with the use of extensions by any application, project, or standard - regardless of the institution or jurisdiction that uses or defines the extensions.  The use of extensions is what allows the FHIR specification to retain a core level of simplicity for everyone.",
                   "type": "display"
                 }
@@ -5416,6 +7488,7 @@
                       }
                     }
                   ],
+                  "linkId": "ClaimResponse.processNote.modifierExtension-flyover",
                   "text": "May be used to represent additional information that is not part of the basic definition of the element and that modifies the understanding of the element in which it is contained and/or the understanding of the containing element\u0027s descendants. Usually modifier elements provide negation or qualification. To make the use of extensions safe and manageable, there is a strict set of governance applied to the definition and use of extensions. Though any implementer can define an extension, there is a set of requirements that SHALL be met as part of the definition of the extension. Applications processing a resource are required to check for modifier extensions.\n\nModifier extensions SHALL NOT change the meaning of any elements on Resource or DomainResource (including cannot change the meaning of modifierExtension itself). There can be no stigma associated with the use of extensions by any application, project, or standard - regardless of the institution or jurisdiction that uses or defines the extensions.  The use of extensions is what allows the FHIR specification to retain a core level of simplicity for everyone.",
                   "type": "display"
                 }
@@ -5452,6 +7525,7 @@
                       }
                     }
                   ],
+                  "linkId": "ClaimResponse.processNote.number-flyover",
                   "text": "A number to uniquely identify a note entry.",
                   "type": "display"
                 },
@@ -5495,6 +7569,7 @@
                       }
                     }
                   ],
+                  "linkId": "ClaimResponse.processNote.type-flyover",
                   "text": "The business purpose of the note text.",
                   "type": "display"
                 },
@@ -5542,6 +7617,7 @@
                       }
                     }
                   ],
+                  "linkId": "ClaimResponse.processNote.text-flyover",
                   "text": "The explanation or description associated with the processing.",
                   "type": "display"
                 },
@@ -5586,13 +7662,14 @@
                       }
                     }
                   ],
+                  "linkId": "ClaimResponse.processNote.language-flyover",
                   "text": "A code to define the language used in the text of the note. Only required if the language is different from the resource language.",
                   "type": "display"
                 },
                 {
                   "linkId": "ClaimResponse.processNote.language.coding",
                   "text": "code:",
-                  "type": "open-choice",
+                  "type": "choice",
                   "required": false,
                   "repeats": false
                 },
@@ -5634,6 +7711,7 @@
                   }
                 }
               ],
+              "linkId": "ClaimResponse.communicationRequest-flyover",
               "text": "Request for additional supporting or authorizing information. For example: professional reports, documents, images, clinical resources, or accident reports.",
               "type": "display"
             },
@@ -5664,6 +7742,7 @@
           "repeats": true,
           "item": [
             {
+              "linkId": "ClaimResponse.insurance-display",
               "text": "All insurance coverages for the patient which may be applicable for reimbursement, of the products and services listed in the claim, are typically provided in the claim to allow insurers to confirm the ordering of the insurance coverages relative to local \u0027coordination of benefit\u0027 rules. One coverage (and only one) with \u0027focal\u003dtrue\u0027 is to be used in the adjudication of this claim. Coverages appearing before the focal Coverage in the list, and where \u0027subrogation\u003dfalse\u0027, should provide a reference to the ClaimResponse containing the adjudication results of the prior claim.",
               "type": "display"
             },
@@ -5682,6 +7761,7 @@
                   }
                 }
               ],
+              "linkId": "ClaimResponse.insurance-flyover",
               "text": "Financial instruments for reimbursement for the health care products and services specified on the claim.",
               "type": "display"
             },
@@ -5716,6 +7796,7 @@
                       }
                     }
                   ],
+                  "linkId": "ClaimResponse.insurance.id-flyover",
                   "text": "Unique id for the element within a resource (for internal references). This may be any string value that does not contain spaces.",
                   "type": "display"
                 },
@@ -5750,6 +7831,7 @@
                       }
                     }
                   ],
+                  "linkId": "ClaimResponse.insurance.extension-flyover",
                   "text": "May be used to represent additional information that is not part of the basic definition of the element. To make the use of extensions safe and manageable, there is a strict set of governance  applied to the definition and use of extensions. Though any implementer can define an extension, there is a set of requirements that SHALL be met as part of the definition of the extension. There can be no stigma associated with the use of extensions by any application, project, or standard - regardless of the institution or jurisdiction that uses or defines the extensions.  The use of extensions is what allows the FHIR specification to retain a core level of simplicity for everyone.",
                   "type": "display"
                 }
@@ -5777,6 +7859,7 @@
                       }
                     }
                   ],
+                  "linkId": "ClaimResponse.insurance.modifierExtension-flyover",
                   "text": "May be used to represent additional information that is not part of the basic definition of the element and that modifies the understanding of the element in which it is contained and/or the understanding of the containing element\u0027s descendants. Usually modifier elements provide negation or qualification. To make the use of extensions safe and manageable, there is a strict set of governance applied to the definition and use of extensions. Though any implementer can define an extension, there is a set of requirements that SHALL be met as part of the definition of the extension. Applications processing a resource are required to check for modifier extensions.\n\nModifier extensions SHALL NOT change the meaning of any elements on Resource or DomainResource (including cannot change the meaning of modifierExtension itself). There can be no stigma associated with the use of extensions by any application, project, or standard - regardless of the institution or jurisdiction that uses or defines the extensions.  The use of extensions is what allows the FHIR specification to retain a core level of simplicity for everyone.",
                   "type": "display"
                 }
@@ -5817,6 +7900,7 @@
                       }
                     }
                   ],
+                  "linkId": "ClaimResponse.insurance.sequence-flyover",
                   "text": "A number to uniquely identify insurance entries and provide a sequence of coverages to convey coordination of benefit order.",
                   "type": "display"
                 },
@@ -5864,6 +7948,7 @@
                       }
                     }
                   ],
+                  "linkId": "ClaimResponse.insurance.focal-flyover",
                   "text": "A flag to indicate that this Coverage is to be used for adjudication of this claim when set to true. A patient may (will) have multiple insurance policies which provide reimbursement for healthcare services and products. For example a person may also be covered by their spouse\u0027s policy and both appear in the list (and may be from the same insurer). This flag will be set to true for only one of the listed policies and that policy will be used for adjudicating this claim. Other claims would be created to request adjudication against the other listed policies.",
                   "type": "display"
                 },
@@ -5911,6 +7996,7 @@
                       }
                     }
                   ],
+                  "linkId": "ClaimResponse.insurance.coverage-flyover",
                   "text": "Reference to the insurance card level information contained in the Coverage resource. The coverage issuing insurer will use these details to locate the patient\u0027s actual coverage within the insurer\u0027s information system.",
                   "type": "display"
                 },
@@ -5964,6 +8050,7 @@
                       }
                     }
                   ],
+                  "linkId": "ClaimResponse.insurance.businessArrangement-flyover",
                   "text": "A business agreement number established between the provider and the insurer for special business processing purposes.",
                   "type": "display"
                 },
@@ -6007,6 +8094,7 @@
                       }
                     }
                   ],
+                  "linkId": "ClaimResponse.insurance.claimResponse-flyover",
                   "text": "The result of the adjudication of the line items for the Coverage specified in this insurance. Must not be specified when \u0027focal\u003dtrue\u0027 for this insurance.",
                   "type": "display"
                 },
@@ -6039,6 +8127,7 @@
           "repeats": true,
           "item": [
             {
+              "linkId": "ClaimResponse.error-display",
               "text": "If the request contains errors then an error element should be provided and no adjudication related sections (item, addItem, or payment) should be present.",
               "type": "display"
             },
@@ -6057,6 +8146,7 @@
                   }
                 }
               ],
+              "linkId": "ClaimResponse.error-flyover",
               "text": "Errors encountered during the processing of the adjudication.",
               "type": "display"
             },
@@ -6091,6 +8181,7 @@
                       }
                     }
                   ],
+                  "linkId": "ClaimResponse.error.id-flyover",
                   "text": "Unique id for the element within a resource (for internal references). This may be any string value that does not contain spaces.",
                   "type": "display"
                 },
@@ -6125,6 +8216,7 @@
                       }
                     }
                   ],
+                  "linkId": "ClaimResponse.error.extension-flyover",
                   "text": "May be used to represent additional information that is not part of the basic definition of the element. To make the use of extensions safe and manageable, there is a strict set of governance  applied to the definition and use of extensions. Though any implementer can define an extension, there is a set of requirements that SHALL be met as part of the definition of the extension. There can be no stigma associated with the use of extensions by any application, project, or standard - regardless of the institution or jurisdiction that uses or defines the extensions.  The use of extensions is what allows the FHIR specification to retain a core level of simplicity for everyone.",
                   "type": "display"
                 }
@@ -6152,6 +8244,7 @@
                       }
                     }
                   ],
+                  "linkId": "ClaimResponse.error.modifierExtension-flyover",
                   "text": "May be used to represent additional information that is not part of the basic definition of the element and that modifies the understanding of the element in which it is contained and/or the understanding of the containing element\u0027s descendants. Usually modifier elements provide negation or qualification. To make the use of extensions safe and manageable, there is a strict set of governance applied to the definition and use of extensions. Though any implementer can define an extension, there is a set of requirements that SHALL be met as part of the definition of the extension. Applications processing a resource are required to check for modifier extensions.\n\nModifier extensions SHALL NOT change the meaning of any elements on Resource or DomainResource (including cannot change the meaning of modifierExtension itself). There can be no stigma associated with the use of extensions by any application, project, or standard - regardless of the institution or jurisdiction that uses or defines the extensions.  The use of extensions is what allows the FHIR specification to retain a core level of simplicity for everyone.",
                   "type": "display"
                 }
@@ -6188,6 +8281,7 @@
                       }
                     }
                   ],
+                  "linkId": "ClaimResponse.error.itemSequence-flyover",
                   "text": "The sequence number of the line item submitted which contains the error. This value is omitted when the error occurs outside of the item structure.",
                   "type": "display"
                 },
@@ -6231,6 +8325,7 @@
                       }
                     }
                   ],
+                  "linkId": "ClaimResponse.error.detailSequence-flyover",
                   "text": "The sequence number of the detail within the line item submitted which contains the error. This value is omitted when the error occurs outside of the item structure.",
                   "type": "display"
                 },
@@ -6274,6 +8369,7 @@
                       }
                     }
                   ],
+                  "linkId": "ClaimResponse.error.subDetailSequence-flyover",
                   "text": "The sequence number of the sub-detail within the detail within the line item submitted which contains the error. This value is omitted when the error occurs outside of the item structure.",
                   "type": "display"
                 },
@@ -6322,13 +8418,14 @@
                       }
                     }
                   ],
+                  "linkId": "ClaimResponse.error.code-flyover",
                   "text": "An error code, from a specified code system, which details why the claim could not be adjudicated.",
                   "type": "display"
                 },
                 {
                   "linkId": "ClaimResponse.error.code.coding",
                   "text": "code:",
-                  "type": "open-choice",
+                  "type": "choice",
                   "required": false,
                   "repeats": false
                 },

@@ -1,0 +1,127 @@
+{
+  "resourceType": "CodeSystem",
+  "id": "title-type",
+  "meta": {
+    "lastUpdated": "2022-04-24T09:21:35.043+11:00",
+    "profile": [
+      "http://hl7.org/fhir/StructureDefinition/shareablecodesystem"
+    ]
+  },
+  "text": {
+    "status": "generated",
+    "div": "\u003cdiv xmlns\u003d\"http://www.w3.org/1999/xhtml\"\u003e\n      \n      \u003cp\u003eThis code system http://terminology.hl7.org/CodeSystem/title-type defines the following codes:\u003c/p\u003e\n      \n      \u003ctable class\u003d\"codes\"\u003e\n        \n        \u003ctr\u003e\n          \n          \u003ctd style\u003d\"white-space:nowrap\"\u003e\n            \n            \u003cb\u003eCode\u003c/b\u003e\n          \n          \u003c/td\u003e\n          \n          \u003ctd\u003e\n            \n            \u003cb\u003eDisplay\u003c/b\u003e\n          \n          \u003c/td\u003e\n          \n          \u003ctd\u003e\n            \n            \u003cb\u003eDefinition\u003c/b\u003e\n          \n          \u003c/td\u003e\n        \n        \u003c/tr\u003e\n\n        \u003ctr\u003e\n          \n          \u003ctd style\u003d\"white-space:nowrap\"\u003eprimary\n            \n            \u003ca name\u003d\"title-type-primary\"\u003e \u003c/a\u003e\n          \n          \u003c/td\u003e\n          \n          \u003ctd\u003ePrimary title\u003c/td\u003e\n          \n          \u003ctd\u003eMain title for common use. The primary title used for representation if multiple titles exist.\u003c/td\u003e\n        \n        \u003c/tr\u003e\n\n\n\n        \u003ctr\u003e\n          \n          \u003ctd style\u003d\"white-space:nowrap\"\u003eofficial\n            \n            \u003ca name\u003d\"title-type-official\"\u003e \u003c/a\u003e\n          \n          \u003c/td\u003e\n          \n          \u003ctd\u003eOfficial title\u003c/td\u003e\n          \n          \u003ctd\u003eThe official or authoritative title.\u003c/td\u003e\n        \n        \u003c/tr\u003e\n\n\n\n        \u003ctr\u003e\n          \n          \u003ctd style\u003d\"white-space:nowrap\"\u003escientific\n            \n            \u003ca name\u003d\"title-type-scientific\"\u003e \u003c/a\u003e\n          \n          \u003c/td\u003e\n          \n          \u003ctd\u003eScientific title\u003c/td\u003e\n          \n          \u003ctd\u003eTitle using scientific terminology.\u003c/td\u003e\n        \n        \u003c/tr\u003e\n\n\n\n        \u003ctr\u003e\n          \n          \u003ctd style\u003d\"white-space:nowrap\"\u003eplain-language\n            \n            \u003ca name\u003d\"title-type-plain-language\"\u003e \u003c/a\u003e\n          \n          \u003c/td\u003e\n          \n          \u003ctd\u003ePlain language title\u003c/td\u003e\n          \n          \u003ctd\u003eTitle using language common to lay public discourse.\u003c/td\u003e\n        \n        \u003c/tr\u003e\n\n\n\n        \u003ctr\u003e\n          \n          \u003ctd style\u003d\"white-space:nowrap\"\u003esubtitle\n            \n            \u003ca name\u003d\"title-type-subtitle\"\u003e \u003c/a\u003e\n          \n          \u003c/td\u003e\n          \n          \u003ctd\u003eSubtitle\u003c/td\u003e\n          \n          \u003ctd\u003eSubtitle or secondary title.\u003c/td\u003e\n        \n        \u003c/tr\u003e\n\n\n\n        \u003ctr\u003e\n          \n          \u003ctd style\u003d\"white-space:nowrap\"\u003eshort-title\n            \n            \u003ca name\u003d\"title-type-short-title\"\u003e \u003c/a\u003e\n          \n          \u003c/td\u003e\n          \n          \u003ctd\u003eShort title\u003c/td\u003e\n          \n          \u003ctd\u003eBrief title (e.g. \u0027running title\u0027 or title used in page headers)\u003c/td\u003e\n        \n        \u003c/tr\u003e\n\n\n\n        \u003ctr\u003e\n          \n          \u003ctd style\u003d\"white-space:nowrap\"\u003eacronym\n            \n            \u003ca name\u003d\"title-type-acronym\"\u003e \u003c/a\u003e\n          \n          \u003c/td\u003e\n          \n          \u003ctd\u003eAcronym\u003c/td\u003e\n          \n          \u003ctd\u003eAbbreviation used as title\u003c/td\u003e\n        \n        \u003c/tr\u003e\n\n\n\n        \u003ctr\u003e\n          \n          \u003ctd style\u003d\"white-space:nowrap\"\u003eearlier-title\n            \n            \u003ca name\u003d\"title-type-earlier-title\"\u003e \u003c/a\u003e\n          \n          \u003c/td\u003e\n          \n          \u003ctd\u003eDifferent text in an earlier version\u003c/td\u003e\n          \n          \u003ctd\u003eAlternative form of title in an earlier version such as epub ahead of print.\u003c/td\u003e\n        \n        \u003c/tr\u003e\n\n\n\n        \u003ctr\u003e\n          \n          \u003ctd style\u003d\"white-space:nowrap\"\u003elanguage\n            \n            \u003ca name\u003d\"title-type-language\"\u003e \u003c/a\u003e\n          \n          \u003c/td\u003e\n          \n          \u003ctd\u003eDifferent language\u003c/td\u003e\n          \n          \u003ctd\u003eAdditional form of title in a different language.\u003c/td\u003e\n        \n        \u003c/tr\u003e\n\n\n\n        \u003ctr\u003e\n          \n          \u003ctd style\u003d\"white-space:nowrap\"\u003eautotranslated\n            \n            \u003ca name\u003d\"title-type-autotranslated\"\u003e \u003c/a\u003e\n          \n          \u003c/td\u003e\n          \n          \u003ctd\u003eDifferent language derived from autotranslation\u003c/td\u003e\n          \n          \u003ctd\u003eMachine translated form of title in a different language, language element codes the language into which it was translated by machine.\u003c/td\u003e\n        \n        \u003c/tr\u003e\n\n\n\n        \u003ctr\u003e\n          \n          \u003ctd style\u003d\"white-space:nowrap\"\u003ehuman-use\n            \n            \u003ca name\u003d\"title-type-human-use\"\u003e \u003c/a\u003e\n          \n          \u003c/td\u003e\n          \n          \u003ctd\u003eHuman use\u003c/td\u003e\n          \n          \u003ctd\u003eHuman-friendly title\u003c/td\u003e\n        \n        \u003c/tr\u003e\n\n\n\n        \u003ctr\u003e\n          \n          \u003ctd style\u003d\"white-space:nowrap\"\u003emachine-use\n            \n            \u003ca name\u003d\"title-type-machine-use\"\u003e \u003c/a\u003e\n          \n          \u003c/td\u003e\n          \n          \u003ctd\u003eMachine use\u003c/td\u003e\n          \n          \u003ctd\u003eMachine-friendly title\u003c/td\u003e\n        \n        \u003c/tr\u003e\n\n\n\n        \u003ctr\u003e\n          \n          \u003ctd style\u003d\"white-space:nowrap\"\u003eduplicate-uid\n            \n            \u003ca name\u003d\"title-type-duplicate-uid\"\u003e \u003c/a\u003e\n          \n          \u003c/td\u003e\n          \n          \u003ctd\u003eDifferent text for the same object with a different identifier\u003c/td\u003e\n          \n          \u003ctd\u003eAn alternative form of the title in two or more entries, e.g. in multiple medline entries\u003c/td\u003e\n        \n        \u003c/tr\u003e\n      \n      \u003c/table\u003e\n    \n    \u003c/div\u003e"
+  },
+  "extension": [
+    {
+      "url": "http://hl7.org/fhir/StructureDefinition/structuredefinition-wg",
+      "valueCode": "cds"
+    },
+    {
+      "url": "http://hl7.org/fhir/StructureDefinition/structuredefinition-standards-status",
+      "valueCode": "trial-use"
+    },
+    {
+      "url": "http://hl7.org/fhir/StructureDefinition/structuredefinition-fmm",
+      "valueInteger": 0
+    }
+  ],
+  "url": "http://terminology.hl7.org/CodeSystem/title-type",
+  "identifier": [
+    {
+      "system": "urn:ietf:rfc:3986",
+      "value": "urn:oid:2.16.840.1.113883.4.642.1.1492"
+    }
+  ],
+  "version": "4.3.0-cibuild",
+  "name": "TitleType",
+  "title": "TitleType",
+  "status": "draft",
+  "experimental": false,
+  "date": "2020-12-28T16:55:11+11:00",
+  "publisher": "HL7 (FHIR Project)",
+  "contact": [
+    {
+      "telecom": [
+        {
+          "system": "url",
+          "value": "http://hl7.org/fhir"
+        },
+        {
+          "system": "email",
+          "value": "fhir@lists.hl7.org"
+        }
+      ]
+    }
+  ],
+  "description": "Used to express the reason and specific aspect for the variant title, such as language and specific language.",
+  "caseSensitive": true,
+  "valueSet": "http://hl7.org/fhir/ValueSet/title-type",
+  "content": "complete",
+  "concept": [
+    {
+      "code": "primary",
+      "display": "Primary title",
+      "definition": "Main title for common use. The primary title used for representation if multiple titles exist."
+    },
+    {
+      "code": "official",
+      "display": "Official title",
+      "definition": "The official or authoritative title."
+    },
+    {
+      "code": "scientific",
+      "display": "Scientific title",
+      "definition": "Title using scientific terminology."
+    },
+    {
+      "code": "plain-language",
+      "display": "Plain language title",
+      "definition": "Title using language common to lay public discourse."
+    },
+    {
+      "code": "subtitle",
+      "display": "Subtitle",
+      "definition": "Subtitle or secondary title."
+    },
+    {
+      "code": "short-title",
+      "display": "Short title",
+      "definition": "Brief title (e.g. \u0027running title\u0027 or title used in page headers)"
+    },
+    {
+      "code": "acronym",
+      "display": "Acronym",
+      "definition": "Abbreviation used as title"
+    },
+    {
+      "code": "earlier-title",
+      "display": "Different text in an earlier version",
+      "definition": "Alternative form of title in an earlier version such as epub ahead of print."
+    },
+    {
+      "code": "language",
+      "display": "Different language",
+      "definition": "Additional form of title in a different language."
+    },
+    {
+      "code": "autotranslated",
+      "display": "Different language derived from autotranslation",
+      "definition": "Machine translated form of title in a different language, language element codes the language into which it was translated by machine."
+    },
+    {
+      "code": "human-use",
+      "display": "Human use",
+      "definition": "Human-friendly title"
+    },
+    {
+      "code": "machine-use",
+      "display": "Machine use",
+      "definition": "Machine-friendly title"
+    },
+    {
+      "code": "duplicate-uid",
+      "display": "Different text for the same object with a different identifier",
+      "definition": "An alternative form of the title in two or more entries, e.g. in multiple medline entries"
+    }
+  ]
+}

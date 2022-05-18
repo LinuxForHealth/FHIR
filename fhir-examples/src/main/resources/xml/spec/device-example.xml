@@ -1,17 +1,27 @@
-<?xml version="1.0" encoding="UTF-8"?><Device xmlns="http://hl7.org/fhir"><!--  text>
-    <status value="generated"/>
-    <div xmlns="http://www.w3.org/1999/xhtml">
-      <p>example</p>
-    </div>
-  </text  --><id value="example"/>
-	<meta>
+<?xml version="1.0" encoding="UTF-8"?><Device xmlns="http://hl7.org/fhir">
+  <id value="example"/>
+  <meta>
     <security>
       <system value="http://terminology.hl7.org/CodeSystem/v3-ActReason"/>
       <code value="HTEST"/>
       <display value="test health data"/>
     </security>
   </meta>
-  <text><status value="generated"/><div xmlns="http://www.w3.org/1999/xhtml"><p><b>Generated Narrative with Details</b></p><p><b>id</b>: example</p><p><b>identifier</b>: 345675</p></div></text><identifier>
+  <text>
+    <status value="generated"/>
+    <div xmlns="http://www.w3.org/1999/xhtml">
+      <p>
+        <b>Generated Narrative</b>
+      </p>
+      <div style="display: inline-block; background-color: #d9e0e7; padding: 6px; margin: 4px; border: 1px solid #8da1b4; border-radius: 5px; line-height: 60%">
+        <p style="margin-bottom: 0px">Resource "example" </p>
+      </div>
+      <p>
+        <b>identifier</b>: id: 345675
+      </p>
+    </div>
+  </text>
+  <identifier>
     <system value="http://goodcare.org/devices/id"/>
     <value value="345675"/>
   </identifier>

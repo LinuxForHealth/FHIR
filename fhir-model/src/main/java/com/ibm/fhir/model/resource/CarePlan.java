@@ -1,5 +1,5 @@
 /*
- * (C) Copyright IBM Corp. 2019, 2021
+ * (C) Copyright IBM Corp. 2019, 2022
  *
  * SPDX-License-Identifier: Apache-2.0
  */
@@ -88,7 +88,7 @@ public class CarePlan extends DomainResource {
         bindingName = "CarePlanStatus",
         strength = BindingStrength.Value.REQUIRED,
         description = "Indicates whether the plan is currently being acted upon, represents future intentions or is now a historical record.",
-        valueSet = "http://hl7.org/fhir/ValueSet/request-status|4.0.1"
+        valueSet = "http://hl7.org/fhir/ValueSet/request-status|4.3.0-cibuild"
     )
     @Required
     private final CarePlanStatus status;
@@ -97,7 +97,7 @@ public class CarePlan extends DomainResource {
         bindingName = "CarePlanIntent",
         strength = BindingStrength.Value.REQUIRED,
         description = "Codes indicating the degree of authority/intentionality associated with a care plan.",
-        valueSet = "http://hl7.org/fhir/ValueSet/care-plan-intent|4.0.1"
+        valueSet = "http://hl7.org/fhir/ValueSet/care-plan-intent|4.3.0-cibuild"
     )
     @Required
     private final CarePlanIntent intent;
@@ -2212,7 +2212,7 @@ public class CarePlan extends DomainResource {
                 bindingName = "CarePlanActivityKind",
                 strength = BindingStrength.Value.REQUIRED,
                 description = "Resource types defined as part of FHIR that can be represented as in-line definitions of a care plan activity.",
-                valueSet = "http://hl7.org/fhir/ValueSet/care-plan-activity-kind|4.0.1"
+                valueSet = "http://hl7.org/fhir/ValueSet/care-plan-activity-kind|4.3.0-cibuild"
             )
             private final CarePlanActivityKind kind;
             private final List<Canonical> instantiatesCanonical;
@@ -2239,7 +2239,7 @@ public class CarePlan extends DomainResource {
                 bindingName = "CarePlanActivityStatus",
                 strength = BindingStrength.Value.REQUIRED,
                 description = "Codes that reflect the current state of a care plan activity within its overall life cycle.",
-                valueSet = "http://hl7.org/fhir/ValueSet/care-plan-activity-status|4.0.1"
+                valueSet = "http://hl7.org/fhir/ValueSet/care-plan-activity-status|4.3.0-cibuild"
             )
             @Required
             private final CarePlanActivityStatus status;

@@ -1,0 +1,72 @@
+{
+    "resourceType": "CodeSystem",
+    "id": "allergy-intolerance-type",
+    "meta": {
+        "lastUpdated": "2022-04-24T09:21:35.043+11:00",
+        "profile": [
+            "http://hl7.org/fhir/StructureDefinition/shareablecodesystem"
+        ]
+    },
+    "text": {
+        "status": "empty",
+        "div": "<div xmlns=\"http://www.w3.org/1999/xhtml\">Redacted for size</div>"
+    },
+    "extension": [
+        {
+            "url": "http://hl7.org/fhir/StructureDefinition/structuredefinition-wg",
+            "valueCode": "pc"
+        },
+        {
+            "url": "http://hl7.org/fhir/StructureDefinition/structuredefinition-standards-status",
+            "valueCode": "trial-use"
+        },
+        {
+            "url": "http://hl7.org/fhir/StructureDefinition/structuredefinition-fmm",
+            "valueInteger": 3
+        }
+    ],
+    "url": "http://hl7.org/fhir/allergy-intolerance-type",
+    "identifier": [
+        {
+            "system": "urn:ietf:rfc:3986",
+            "value": "urn:oid:2.16.840.1.113883.4.642.4.132"
+        }
+    ],
+    "version": "4.3.0-cibuild",
+    "name": "AllergyIntoleranceType",
+    "title": "AllergyIntoleranceType",
+    "status": "draft",
+    "experimental": false,
+    "date": "2021-01-17T07:06:13+11:00",
+    "publisher": "HL7 (FHIR Project)",
+    "contact": [
+        {
+            "telecom": [
+                {
+                    "system": "url",
+                    "value": "http://hl7.org/fhir"
+                },
+                {
+                    "system": "email",
+                    "value": "fhir@lists.hl7.org"
+                }
+            ]
+        }
+    ],
+    "description": "Identification of the underlying physiological mechanism for a Reaction Risk.",
+    "caseSensitive": true,
+    "valueSet": "http://hl7.org/fhir/ValueSet/allergy-intolerance-type",
+    "content": "complete",
+    "concept": [
+        {
+            "code": "allergy",
+            "display": "Allergy",
+            "definition": "A propensity for hypersensitive reaction(s) to a substance.  These reactions are most typically type I hypersensitivity, plus other \"allergy-like\" reactions, including pseudoallergy."
+        },
+        {
+            "code": "intolerance",
+            "display": "Intolerance",
+            "definition": "A propensity for adverse reactions to a substance that is not judged to be allergic or \"allergy-like\".  These reactions are typically (but not necessarily) non-immune.  They are to some degree idiosyncratic and/or patient-specific (i.e. are not a reaction that is expected to occur with most or all patients given similar circumstances)."
+        }
+    ]
+}

@@ -1,0 +1,85 @@
+{
+    "resourceType": "CodeSystem",
+    "id": "certainty-subcomponent-type",
+    "meta": {
+        "lastUpdated": "2020-04-09T15:10:28.568-06:00"
+    },
+    "text": {
+        "status": "empty",
+        "div": "<div xmlns=\"http://www.w3.org/1999/xhtml\">Redacted for size</div>"
+    },
+    "url": "http://terminology.hl7.org/CodeSystem/certainty-subcomponent-type",
+    "identifier": [
+        {
+            "system": "urn:ietf:rfc:3986",
+            "value": "urn:oid:2.16.840.1.113883.4.642.1.1360"
+        }
+    ],
+    "version": "0.1.0",
+    "name": "StatisticCertaintySubcomponentType",
+    "title": "StatisticCertaintySubcomponentType",
+    "status": "draft",
+    "experimental": false,
+    "date": "2020-04-09T21:10:28+00:00",
+    "publisher": "HL7 (FHIR Project)",
+    "contact": [
+        {
+            "telecom": [
+                {
+                    "system": "url",
+                    "value": "http://hl7.org/fhir"
+                },
+                {
+                    "system": "email",
+                    "value": "fhir@lists.hl7.org"
+                }
+            ]
+        }
+    ],
+    "description": "The subcomponent classification of quality of evidence rating systems.",
+    "caseSensitive": true,
+    "valueSet": "http://terminology.hl7.org/ValueSet/certainty-subcomponent-type",
+    "content": "complete",
+    "concept": [
+        {
+            "code": "RiskOfBias",
+            "display": "Risk of bias",
+            "definition": "methodologic concerns reducing internal validity."
+        },
+        {
+            "code": "Inconsistency",
+            "display": "Inconsistency",
+            "definition": "concerns that findings are not similar enough to support certainty."
+        },
+        {
+            "code": "Indirectness",
+            "display": "Indirectness",
+            "definition": "concerns reducing external validity."
+        },
+        {
+            "code": "Imprecision",
+            "display": "Imprecision",
+            "definition": "fuzzy or wide variability."
+        },
+        {
+            "code": "PublicationBias",
+            "display": "Publication bias",
+            "definition": "likelihood that what is published misrepresents what is available to publish."
+        },
+        {
+            "code": "DoseResponseGradient",
+            "display": "Dose response gradient",
+            "definition": "higher certainty due to dose response relationship."
+        },
+        {
+            "code": "PlausibleConfounding",
+            "display": "Plausible confounding",
+            "definition": "higher certainty due to risk of bias in opposite direction."
+        },
+        {
+            "code": "LargeEffect",
+            "display": "Large effect",
+            "definition": "higher certainty due to large effect size."
+        }
+    ]
+}

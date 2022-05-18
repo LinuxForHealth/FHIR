@@ -1,0 +1,147 @@
+{
+    "resourceType": "CodeSystem",
+    "id": "v2-0406",
+    "text": {
+        "status": "empty",
+        "div": "<div xmlns=\"http://www.w3.org/1999/xhtml\">Redacted for size</div>"
+    },
+    "extension": [
+        {
+            "url": "http://hl7.org/fhir/StructureDefinition/structuredefinition-wg",
+            "valueCode": "oo"
+        }
+    ],
+    "url": "http://terminology.hl7.org/CodeSystem/v2-0406",
+    "identifier": [
+        {
+            "system": "urn:ietf:rfc:3986",
+            "value": "urn:oid:2.16.840.1.113883.18.254"
+        }
+    ],
+    "version": "2.1.0",
+    "name": "OrganizationUnitType",
+    "title": "organizationUnitType",
+    "status": "active",
+    "experimental": false,
+    "date": "2019-12-01",
+    "publisher": "HL7, Inc",
+    "contact": [
+        {
+            "telecom": [
+                {
+                    "system": "url",
+                    "value": "http://www.hl7.org/"
+                }
+            ]
+        }
+    ],
+    "description": "HL7-defined code system of concepts which identify an environment in which a provider acts in a specified role.  The provider environment is not the specialty for the provider.  This is intended to allow communication of this information when the provider information may not have been communicated previously in a master file, and is used to support international requirements.  Used in HL7 Version 2 messaging in the PRT and ROL segments.",
+    "purpose": "Underlying Master Code System for V2 table 0406 (Participant Organization Unit Type)",
+    "copyright": "Copyright HL7. Licensed under creative commons public domain",
+    "caseSensitive": true,
+    "valueSet": "http://terminology.hl7.org/ValueSet/v2-0406",
+    "hierarchyMeaning": "is-a",
+    "compositional": false,
+    "versionNeeded": false,
+    "content": "complete",
+    "property": [
+        {
+            "code": "status",
+            "uri": "http://terminology.hl7.org/CodeSystem/utg-concept-properties#status",
+            "description": "Status of the concept",
+            "type": "code"
+        },
+        {
+            "code": "deprecated",
+            "uri": "http://terminology.hl7.org/CodeSystem/utg-concept-properties#v2-table-deprecated",
+            "description": "Version of HL7 in which the code was deprecated",
+            "type": "code"
+        }
+    ],
+    "concept": [
+        {
+            "id": "4538",
+            "code": "H",
+            "display": "Home",
+            "definition": "Home",
+            "property": [
+                {
+                    "code": "status",
+                    "valueCode": "A"
+                }
+            ]
+        },
+        {
+            "id": "4539",
+            "code": "O",
+            "display": "Office",
+            "definition": "Office",
+            "property": [
+                {
+                    "code": "status",
+                    "valueCode": "A"
+                }
+            ]
+        },
+        {
+            "id": "4540",
+            "code": "1",
+            "display": "Hospital",
+            "definition": "Hospital",
+            "property": [
+                {
+                    "code": "status",
+                    "valueCode": "A"
+                }
+            ]
+        },
+        {
+            "id": "4541",
+            "code": "2",
+            "display": "Physician Clinic",
+            "definition": "Physician Clinic",
+            "property": [
+                {
+                    "code": "status",
+                    "valueCode": "A"
+                }
+            ]
+        },
+        {
+            "id": "4542",
+            "code": "3",
+            "display": "Long Term Care",
+            "definition": "Long Term Care",
+            "property": [
+                {
+                    "code": "status",
+                    "valueCode": "A"
+                }
+            ]
+        },
+        {
+            "id": "4543",
+            "code": "4",
+            "display": "Acute Care",
+            "definition": "Acute Care",
+            "property": [
+                {
+                    "code": "status",
+                    "valueCode": "A"
+                }
+            ]
+        },
+        {
+            "id": "4544",
+            "code": "5",
+            "display": "Other",
+            "definition": "Other",
+            "property": [
+                {
+                    "code": "status",
+                    "valueCode": "A"
+                }
+            ]
+        }
+    ]
+}

@@ -1,5 +1,5 @@
 /*
- * (C) Copyright IBM Corp. 2019, 2021
+ * (C) Copyright IBM Corp. 2019, 2022
  *
  * SPDX-License-Identifier: Apache-2.0
  */
@@ -62,7 +62,7 @@ import com.ibm.fhir.model.visitor.Visitor;
     level = "Warning",
     location = "(base)",
     description = "Name should be usable as an identifier for the module by machine processing applications such as code generation",
-    expression = "name.matches('[A-Z]([A-Za-z0-9_]){0,254}')",
+    expression = "name.exists() implies name.matches('[A-Z]([A-Za-z0-9_]){0,254}')",
     source = "http://hl7.org/fhir/StructureDefinition/StructureDefinition"
 )
 @Constraint(
@@ -250,7 +250,23 @@ import com.ibm.fhir.model.visitor.Visitor;
     source = "http://hl7.org/fhir/StructureDefinition/StructureDefinition"
 )
 @Constraint(
-    id = "structureDefinition-24",
+    id = "sdf-24",
+    level = "Rule",
+    location = "StructureDefinition.snapshot",
+    description = "For CodeableReference elements, target profiles must be listed on the CodeableReference, not the CodeableReference.reference",
+    expression = "element.where(type.code='Reference' and id.endsWith('.reference') and type.targetProfile.exists() and id.substring(0,$this.length()-10) in %context.element.where(type.code='CodeableReference').id).exists().not()",
+    source = "http://hl7.org/fhir/StructureDefinition/StructureDefinition"
+)
+@Constraint(
+    id = "sdf-25",
+    level = "Rule",
+    location = "StructureDefinition.snapshot",
+    description = "For CodeableReference elements, bindings must be listed on the CodeableReference, not the CodeableReference.concept",
+    expression = "element.where(type.code='CodeableConcept' and id.endsWith('.concept') and binding.exists() and id.substring(0,$this.length()-8) in %context.element.where(type.code='CodeableReference').id).exists().not()",
+    source = "http://hl7.org/fhir/StructureDefinition/StructureDefinition"
+)
+@Constraint(
+    id = "structureDefinition-26",
     level = "Warning",
     location = "(base)",
     description = "SHALL, if possible, contain a code from value set http://hl7.org/fhir/ValueSet/jurisdiction",
@@ -259,7 +275,7 @@ import com.ibm.fhir.model.visitor.Visitor;
     generated = true
 )
 @Constraint(
-    id = "structureDefinition-25",
+    id = "structureDefinition-27",
     level = "Warning",
     location = "(base)",
     description = "SHALL, if possible, contain a code from value set http://hl7.org/fhir/ValueSet/definition-use",
@@ -268,7 +284,7 @@ import com.ibm.fhir.model.visitor.Visitor;
     generated = true
 )
 @Constraint(
-    id = "structureDefinition-26",
+    id = "structureDefinition-28",
     level = "Warning",
     location = "(base)",
     description = "SHALL, if possible, contain a code from value set http://hl7.org/fhir/ValueSet/defined-types",
@@ -295,7 +311,7 @@ public class StructureDefinition extends DomainResource {
         bindingName = "PublicationStatus",
         strength = BindingStrength.Value.REQUIRED,
         description = "The lifecycle status of an artifact.",
-        valueSet = "http://hl7.org/fhir/ValueSet/publication-status|4.0.1"
+        valueSet = "http://hl7.org/fhir/ValueSet/publication-status|4.3.0-cibuild"
     )
     @Required
     private final PublicationStatus status;
@@ -333,7 +349,7 @@ public class StructureDefinition extends DomainResource {
         bindingName = "FHIRVersion",
         strength = BindingStrength.Value.REQUIRED,
         description = "All published FHIR Versions.",
-        valueSet = "http://hl7.org/fhir/ValueSet/FHIR-version|4.0.1"
+        valueSet = "http://hl7.org/fhir/ValueSet/FHIR-version|4.3.0-cibuild"
     )
     private final FHIRVersion fhirVersion;
     private final List<Mapping> mapping;
@@ -342,7 +358,7 @@ public class StructureDefinition extends DomainResource {
         bindingName = "StructureDefinitionKind",
         strength = BindingStrength.Value.REQUIRED,
         description = "Defines the type of structure that a definition is describing.",
-        valueSet = "http://hl7.org/fhir/ValueSet/structure-definition-kind|4.0.1"
+        valueSet = "http://hl7.org/fhir/ValueSet/structure-definition-kind|4.3.0-cibuild"
     )
     @Required
     private final StructureDefinitionKind kind;
@@ -369,7 +385,7 @@ public class StructureDefinition extends DomainResource {
         bindingName = "TypeDerivationRule",
         strength = BindingStrength.Value.REQUIRED,
         description = "How a type relates to its baseDefinition.",
-        valueSet = "http://hl7.org/fhir/ValueSet/type-derivation-rule|4.0.1"
+        valueSet = "http://hl7.org/fhir/ValueSet/type-derivation-rule|4.3.0-cibuild"
     )
     private final TypeDerivationRule derivation;
     private final Snapshot snapshot;
@@ -584,7 +600,8 @@ public class StructureDefinition extends DomainResource {
 
     /**
      * The version of the FHIR specification on which this StructureDefinition is based - this is the formal version of the 
-     * specification, without the revision number, e.g. [publication].[major].[minor], which is 4.0.1. for this version.
+     * specification, without the revision number, e.g. [publication].[major].[minor], which is 4.3.0-cibuild for this 
+     * version.
      * 
      * @return
      *     An immutable object of type {@link FHIRVersion} that may be null.
@@ -1584,7 +1601,8 @@ public class StructureDefinition extends DomainResource {
 
         /**
          * The version of the FHIR specification on which this StructureDefinition is based - this is the formal version of the 
-         * specification, without the revision number, e.g. [publication].[major].[minor], which is 4.0.1. for this version.
+         * specification, without the revision number, e.g. [publication].[major].[minor], which is 4.3.0-cibuild for this 
+         * version.
          * 
          * @param fhirVersion
          *     FHIR Version this StructureDefinition targets
@@ -2334,7 +2352,7 @@ public class StructureDefinition extends DomainResource {
             bindingName = "ExtensionContextType",
             strength = BindingStrength.Value.REQUIRED,
             description = "How an extension context is interpreted.",
-            valueSet = "http://hl7.org/fhir/ValueSet/extension-context-type|4.0.1"
+            valueSet = "http://hl7.org/fhir/ValueSet/extension-context-type|4.3.0-cibuild"
         )
         @Required
         private final ExtensionContextType type;

@@ -1,0 +1,29 @@
+{
+    "resourceType": "CodeSystem",
+    "id": "CD2",
+    "text": {
+        "status": "empty",
+        "div": "<div xmlns=\"http://www.w3.org/1999/xhtml\">Redacted for size</div>"
+    },
+    "url": "http://terminology.hl7.org/CodeSystem/CD2",
+    "identifier": [
+        {
+            "system": "urn:ietf:rfc:3986",
+            "value": "urn:oid:2.16.840.1.113883.6.13"
+        }
+    ],
+    "version": "2.0.0",
+    "name": "CD2",
+    "title": "CDT-2 Codes",
+    "status": "retired",
+    "experimental": false,
+    "date": "2021-11-09T10:00:00+10:00",
+    "publisher": "TBD - External Body",
+    "contact": [
+        {
+            "name": "American Dental Association"
+        }
+    ],
+    "description": "American Dental Association's Current Dental Terminology 2 (CDT-2) codes.",
+    "content": "not-present"
+}

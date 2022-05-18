@@ -1,5 +1,5 @@
 /*
- * (C) Copyright IBM Corp. 2019, 2021
+ * (C) Copyright IBM Corp. 2019, 2022
  *
  * SPDX-License-Identifier: Apache-2.0
  */
@@ -88,7 +88,7 @@ public class AppointmentResponse extends DomainResource {
         bindingName = "ParticipantStatus",
         strength = BindingStrength.Value.REQUIRED,
         description = "The Participation status of an appointment.",
-        valueSet = "http://hl7.org/fhir/ValueSet/participationstatus|4.0.1"
+        valueSet = "http://hl7.org/fhir/ValueSet/participationstatus|4.3.0-cibuild"
     )
     @Required
     private final ParticipantStatus participantStatus;

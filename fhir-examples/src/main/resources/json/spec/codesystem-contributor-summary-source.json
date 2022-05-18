@@ -1,0 +1,82 @@
+{
+  "resourceType": "CodeSystem",
+  "id": "contributor-summary-source",
+  "meta": {
+    "lastUpdated": "2022-04-24T09:21:35.043+11:00",
+    "profile": [
+      "http://hl7.org/fhir/StructureDefinition/shareablecodesystem"
+    ]
+  },
+  "text": {
+    "status": "generated",
+    "div": "\u003cdiv xmlns\u003d\"http://www.w3.org/1999/xhtml\"\u003e\n      \n      \u003cp\u003eThis code system http://terminology.hl7.org/CodeSystem/contributor-summary-source defines the following codes:\u003c/p\u003e\n      \n      \u003ctable class\u003d\"codes\"\u003e\n        \n        \u003ctr\u003e\n          \n          \u003ctd style\u003d\"white-space:nowrap\"\u003e\n            \n            \u003cb\u003eCode\u003c/b\u003e\n          \n          \u003c/td\u003e\n          \n          \u003ctd\u003e\n            \n            \u003cb\u003eDisplay\u003c/b\u003e\n          \n          \u003c/td\u003e\n          \n          \u003ctd\u003e\n            \n            \u003cb\u003eDefinition\u003c/b\u003e\n          \n          \u003c/td\u003e\n        \n        \u003c/tr\u003e\n        \n        \u003ctr\u003e\n          \n          \u003ctd style\u003d\"white-space:nowrap\"\u003epublisher-data\n            \n            \u003ca name\u003d\"contributor-summary-source-publisher-data\"\u003e \u003c/a\u003e\n          \n          \u003c/td\u003e\n          \n          \u003ctd\u003ePublisher provided\u003c/td\u003e\n          \n          \u003ctd\u003eData copied by machine from publisher data.\u003c/td\u003e\n        \n        \u003c/tr\u003e\n        \n        \u003ctr\u003e\n          \n          \u003ctd style\u003d\"white-space:nowrap\"\u003earticle-copy\n            \n            \u003ca name\u003d\"contributor-summary-source-article-copy\"\u003e \u003c/a\u003e\n          \n          \u003c/td\u003e\n          \n          \u003ctd\u003eCopied from article\u003c/td\u003e\n          \n          \u003ctd\u003eData copied by human from article text.\u003c/td\u003e\n        \n        \u003c/tr\u003e\n        \n        \u003ctr\u003e\n          \n          \u003ctd style\u003d\"white-space:nowrap\"\u003ecitation-manager\n            \n            \u003ca name\u003d\"contributor-summary-source-citation-manager\"\u003e \u003c/a\u003e\n          \n          \u003c/td\u003e\n          \n          \u003ctd\u003eReported by citation manager\u003c/td\u003e\n          \n          \u003ctd\u003eData copied by machine from citation manager data.\u003c/td\u003e\n        \n        \u003c/tr\u003e\n        \n        \u003ctr\u003e\n          \n          \u003ctd style\u003d\"white-space:nowrap\"\u003ecustom\n            \n            \u003ca name\u003d\"contributor-summary-source-custom\"\u003e \u003c/a\u003e\n          \n          \u003c/td\u003e\n          \n          \u003ctd\u003ecustom format\u003c/td\u003e\n          \n          \u003ctd\u003eCustom format (may be described in text note).\u003c/td\u003e\n        \n        \u003c/tr\u003e\n      \n      \u003c/table\u003e\n    \n    \u003c/div\u003e"
+  },
+  "extension": [
+    {
+      "url": "http://hl7.org/fhir/StructureDefinition/structuredefinition-wg",
+      "valueCode": "cds"
+    },
+    {
+      "url": "http://hl7.org/fhir/StructureDefinition/structuredefinition-standards-status",
+      "valueCode": "trial-use"
+    },
+    {
+      "url": "http://hl7.org/fhir/StructureDefinition/structuredefinition-fmm",
+      "valueInteger": 0
+    }
+  ],
+  "url": "http://terminology.hl7.org/CodeSystem/contributor-summary-source",
+  "identifier": [
+    {
+      "system": "urn:ietf:rfc:3986",
+      "value": "urn:oid:2.16.840.1.113883.4.642.1.0"
+    }
+  ],
+  "version": "4.3.0-cibuild",
+  "name": "ContributorSummarySource",
+  "title": "ContributorSummarySource",
+  "status": "draft",
+  "experimental": false,
+  "date": "2020-12-28T16:55:11+11:00",
+  "publisher": "HL7 (FHIR Project)",
+  "contact": [
+    {
+      "telecom": [
+        {
+          "system": "url",
+          "value": "http://hl7.org/fhir"
+        },
+        {
+          "system": "email",
+          "value": "fhir@lists.hl7.org"
+        }
+      ]
+    }
+  ],
+  "description": "Used to code the producer or rule for creating the display string.",
+  "caseSensitive": true,
+  "valueSet": "http://hl7.org/fhir/ValueSet/contributor-summary-source",
+  "content": "complete",
+  "concept": [
+    {
+      "code": "publisher-data",
+      "display": "Publisher provided",
+      "definition": "Data copied by machine from publisher data."
+    },
+    {
+      "code": "article-copy",
+      "display": "Copied from article",
+      "definition": "Data copied by human from article text."
+    },
+    {
+      "code": "citation-manager",
+      "display": "Reported by citation manager",
+      "definition": "Data copied by machine from citation manager data."
+    },
+    {
+      "code": "custom",
+      "display": "custom format",
+      "definition": "Custom format (may be described in text note)."
+    }
+  ]
+}

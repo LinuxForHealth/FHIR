@@ -588,11 +588,6 @@
     </event>
     <repeat>
       <boundsDuration>
-        <value>
-          <extension url="http://hl7.org/fhir/StructureDefinition/data-absent-reason">
-            <valueCode value="unknown"/>
-          </extension>
-        </value>
         <comparator>
           <extension url="http://hl7.org/fhir/StructureDefinition/data-absent-reason">
             <valueCode value="unknown"/>
@@ -603,6 +598,16 @@
             <valueCode value="unknown"/>
           </extension>
         </unit>
+        <system>
+          <extension url="http://hl7.org/fhir/StructureDefinition/data-absent-reason">
+            <valueCode value="unknown"/>
+          </extension>
+        </system>
+        <code>
+          <extension url="http://hl7.org/fhir/StructureDefinition/data-absent-reason">
+            <valueCode value="unknown"/>
+          </extension>
+        </code>
       </boundsDuration>
       <count>
         <extension url="http://hl7.org/fhir/StructureDefinition/data-absent-reason">
@@ -826,11 +831,6 @@
       </event>
       <repeat>
         <boundsDuration>
-          <value>
-            <extension url="http://hl7.org/fhir/StructureDefinition/data-absent-reason">
-              <valueCode value="unknown"/>
-            </extension>
-          </value>
           <comparator>
             <extension url="http://hl7.org/fhir/StructureDefinition/data-absent-reason">
               <valueCode value="unknown"/>
@@ -841,6 +841,16 @@
               <valueCode value="unknown"/>
             </extension>
           </unit>
+          <system>
+            <extension url="http://hl7.org/fhir/StructureDefinition/data-absent-reason">
+              <valueCode value="unknown"/>
+            </extension>
+          </system>
+          <code>
+            <extension url="http://hl7.org/fhir/StructureDefinition/data-absent-reason">
+              <valueCode value="unknown"/>
+            </extension>
+          </code>
         </boundsDuration>
         <count>
           <extension url="http://hl7.org/fhir/StructureDefinition/data-absent-reason">

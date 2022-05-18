@@ -1,0 +1,65 @@
+{
+    "resourceType": "CodeSystem",
+    "id": "subscription-status-at-event",
+    "meta": {
+        "lastUpdated": "2020-04-09T15:10:28.568-06:00"
+    },
+    "text": {
+        "status": "empty",
+        "div": "<div xmlns=\"http://www.w3.org/1999/xhtml\">Redacted for size</div>"
+    },
+    "url": "http://terminology.hl7.org/CodeSystem/subscription-status-at-event",
+    "identifier": [
+        {
+            "system": "urn:ietf:rfc:3986",
+            "value": "urn:oid:2.16.840.1.113883.4.642.1.1465"
+        }
+    ],
+    "version": "0.1.0",
+    "name": "SubscriptionStatusAtEvent",
+    "title": "SubscriptionStatusAtEvent",
+    "status": "draft",
+    "experimental": false,
+    "date": "2020-04-09T21:10:28+00:00",
+    "publisher": "HL7 (FHIR Project)",
+    "contact": [
+        {
+            "telecom": [
+                {
+                    "system": "url",
+                    "value": "http://hl7.org/fhir"
+                },
+                {
+                    "system": "email",
+                    "value": "fhir@lists.hl7.org"
+                }
+            ]
+        }
+    ],
+    "description": "A status code for the state of the Subscription.",
+    "caseSensitive": true,
+    "valueSet": "http://terminology.hl7.org/ValueSet/subscription-status-at-event",
+    "content": "complete",
+    "concept": [
+        {
+            "code": "requested",
+            "display": "Requested",
+            "definition": "The client has requested the subscription, and the server has not yet set it up."
+        },
+        {
+            "code": "active",
+            "display": "Active",
+            "definition": "The subscription is active."
+        },
+        {
+            "code": "error",
+            "display": "Error",
+            "definition": "The server has an error executing the notification."
+        },
+        {
+            "code": "off",
+            "display": "Off",
+            "definition": "Too many errors have occurred or the subscription has expired."
+        }
+    ]
+}

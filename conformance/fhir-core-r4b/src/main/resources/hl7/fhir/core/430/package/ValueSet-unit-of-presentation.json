@@ -1,0 +1,362 @@
+{
+    "resourceType": "ValueSet",
+    "id": "unit-of-presentation",
+    "meta": {
+        "lastUpdated": "2022-04-24T09:21:35.043+11:00",
+        "profile": [
+            "http://hl7.org/fhir/StructureDefinition/shareablevalueset"
+        ]
+    },
+    "extension": [
+        {
+            "url": "http://hl7.org/fhir/StructureDefinition/structuredefinition-wg",
+            "valueCode": "brr"
+        },
+        {
+            "url": "http://hl7.org/fhir/StructureDefinition/structuredefinition-standards-status",
+            "valueCode": "trial-use"
+        },
+        {
+            "url": "http://hl7.org/fhir/StructureDefinition/structuredefinition-fmm",
+            "valueInteger": 1
+        }
+    ],
+    "url": "http://hl7.org/fhir/ValueSet/unit-of-presentation",
+    "identifier": [
+        {
+            "system": "urn:ietf:rfc:3986",
+            "value": "urn:oid:2.16.840.1.113883.4.642.3.1586"
+        }
+    ],
+    "version": "4.3.0-cibuild",
+    "name": "UnitOfPresentation",
+    "title": "UnitOfPresentation",
+    "status": "draft",
+    "experimental": true,
+    "date": "2020-12-28T16:55:11+11:00",
+    "publisher": "HL7 (FHIR Project)",
+    "contact": [
+        {
+            "telecom": [
+                {
+                    "system": "url",
+                    "value": "http://hl7.org/fhir"
+                },
+                {
+                    "system": "email",
+                    "value": "fhir@lists.hl7.org"
+                }
+            ]
+        }
+    ],
+    "description": "The presentation type in which an administrable medicinal product is given to a patient.",
+    "immutable": true,
+    "compose": {
+        "include": [
+            {
+                "system": "http://hl7.org/fhir/unit-of-presentation"
+            }
+        ]
+    },
+    "expansion": {
+        "identifier": "urn:uuid:89e3f5c0-1653-4117-bfc0-3682940a3dda",
+        "timestamp": "2022-04-23T22:23:26Z",
+        "total": 56,
+        "parameter": [
+            {
+                "name": "excludeNested",
+                "valueBoolean": true
+            },
+            {
+                "name": "includeDesignations",
+                "valueBoolean": true
+            },
+            {
+                "name": "version",
+                "valueUri": "http://hl7.org/fhir/unit-of-presentation|4.3.0-cibuild"
+            }
+        ],
+        "contains": [
+            {
+                "system": "http://hl7.org/fhir/unit-of-presentation",
+                "code": "200000002108",
+                "display": "Barrel"
+            },
+            {
+                "system": "http://hl7.org/fhir/unit-of-presentation",
+                "code": "200000002109",
+                "display": "Blister"
+            },
+            {
+                "system": "http://hl7.org/fhir/unit-of-presentation",
+                "code": "200000002110",
+                "display": "Block"
+            },
+            {
+                "system": "http://hl7.org/fhir/unit-of-presentation",
+                "code": "200000002111",
+                "display": "Bottle"
+            },
+            {
+                "system": "http://hl7.org/fhir/unit-of-presentation",
+                "code": "200000002112",
+                "display": "Cachet"
+            },
+            {
+                "system": "http://hl7.org/fhir/unit-of-presentation",
+                "code": "200000002113",
+                "display": "Capsule"
+            },
+            {
+                "system": "http://hl7.org/fhir/unit-of-presentation",
+                "code": "200000002114",
+                "display": "Cartridge"
+            },
+            {
+                "system": "http://hl7.org/fhir/unit-of-presentation",
+                "code": "200000002115",
+                "display": "Collar"
+            },
+            {
+                "system": "http://hl7.org/fhir/unit-of-presentation",
+                "code": "200000002116",
+                "display": "Container"
+            },
+            {
+                "system": "http://hl7.org/fhir/unit-of-presentation",
+                "code": "200000002117",
+                "display": "Cup"
+            },
+            {
+                "system": "http://hl7.org/fhir/unit-of-presentation",
+                "code": "200000002118",
+                "display": "Cylinder"
+            },
+            {
+                "system": "http://hl7.org/fhir/unit-of-presentation",
+                "code": "200000002119",
+                "display": "Dart"
+            },
+            {
+                "system": "http://hl7.org/fhir/unit-of-presentation",
+                "code": "200000002120",
+                "display": "Dressing"
+            },
+            {
+                "system": "http://hl7.org/fhir/unit-of-presentation",
+                "code": "200000002121",
+                "display": "Drop"
+            },
+            {
+                "system": "http://hl7.org/fhir/unit-of-presentation",
+                "code": "200000002122",
+                "display": "Film"
+            },
+            {
+                "system": "http://hl7.org/fhir/unit-of-presentation",
+                "code": "200000002123",
+                "display": "Chewing gum"
+            },
+            {
+                "system": "http://hl7.org/fhir/unit-of-presentation",
+                "code": "200000002124",
+                "display": "Implant"
+            },
+            {
+                "system": "http://hl7.org/fhir/unit-of-presentation",
+                "code": "200000002125",
+                "display": "Inhaler"
+            },
+            {
+                "system": "http://hl7.org/fhir/unit-of-presentation",
+                "code": "200000002126",
+                "display": "Insert"
+            },
+            {
+                "system": "http://hl7.org/fhir/unit-of-presentation",
+                "code": "200000002127",
+                "display": "Jar"
+            },
+            {
+                "system": "http://hl7.org/fhir/unit-of-presentation",
+                "code": "200000002128",
+                "display": "Lozenge"
+            },
+            {
+                "system": "http://hl7.org/fhir/unit-of-presentation",
+                "code": "200000002129",
+                "display": "Lyophilisate"
+            },
+            {
+                "system": "http://hl7.org/fhir/unit-of-presentation",
+                "code": "200000002130",
+                "display": "Matrix"
+            },
+            {
+                "system": "http://hl7.org/fhir/unit-of-presentation",
+                "code": "200000002131",
+                "display": "Pad"
+            },
+            {
+                "system": "http://hl7.org/fhir/unit-of-presentation",
+                "code": "200000002132",
+                "display": "Paper"
+            },
+            {
+                "system": "http://hl7.org/fhir/unit-of-presentation",
+                "code": "200000002133",
+                "display": "Pastille"
+            },
+            {
+                "system": "http://hl7.org/fhir/unit-of-presentation",
+                "code": "200000002134",
+                "display": "Patch"
+            },
+            {
+                "system": "http://hl7.org/fhir/unit-of-presentation",
+                "code": "200000002135",
+                "display": "Pen"
+            },
+            {
+                "system": "http://hl7.org/fhir/unit-of-presentation",
+                "code": "200000002136",
+                "display": "Pendant"
+            },
+            {
+                "system": "http://hl7.org/fhir/unit-of-presentation",
+                "code": "200000002137",
+                "display": "Pessary"
+            },
+            {
+                "system": "http://hl7.org/fhir/unit-of-presentation",
+                "code": "200000002138",
+                "display": "Pillule"
+            },
+            {
+                "system": "http://hl7.org/fhir/unit-of-presentation",
+                "code": "200000002139",
+                "display": "Pipette"
+            },
+            {
+                "system": "http://hl7.org/fhir/unit-of-presentation",
+                "code": "200000002140",
+                "display": "Plaster"
+            },
+            {
+                "system": "http://hl7.org/fhir/unit-of-presentation",
+                "code": "200000002141",
+                "display": "Plug"
+            },
+            {
+                "system": "http://hl7.org/fhir/unit-of-presentation",
+                "code": "200000002142",
+                "display": "Pouch"
+            },
+            {
+                "system": "http://hl7.org/fhir/unit-of-presentation",
+                "code": "200000002143",
+                "display": "Sachet"
+            },
+            {
+                "system": "http://hl7.org/fhir/unit-of-presentation",
+                "code": "200000002144",
+                "display": "Sponge"
+            },
+            {
+                "system": "http://hl7.org/fhir/unit-of-presentation",
+                "code": "200000002145",
+                "display": "Spoonful"
+            },
+            {
+                "system": "http://hl7.org/fhir/unit-of-presentation",
+                "code": "200000002146",
+                "display": "Stick"
+            },
+            {
+                "system": "http://hl7.org/fhir/unit-of-presentation",
+                "code": "200000002147",
+                "display": "Straw"
+            },
+            {
+                "system": "http://hl7.org/fhir/unit-of-presentation",
+                "code": "200000002148",
+                "display": "Strip"
+            },
+            {
+                "system": "http://hl7.org/fhir/unit-of-presentation",
+                "code": "200000002149",
+                "display": "Suppository"
+            },
+            {
+                "system": "http://hl7.org/fhir/unit-of-presentation",
+                "code": "200000002150",
+                "display": "Syringe"
+            },
+            {
+                "system": "http://hl7.org/fhir/unit-of-presentation",
+                "code": "200000002151",
+                "display": "System"
+            },
+            {
+                "system": "http://hl7.org/fhir/unit-of-presentation",
+                "code": "200000002152",
+                "display": "Tablet"
+            },
+            {
+                "system": "http://hl7.org/fhir/unit-of-presentation",
+                "code": "200000002153",
+                "display": "Tag"
+            },
+            {
+                "system": "http://hl7.org/fhir/unit-of-presentation",
+                "code": "200000002154",
+                "display": "Tampon"
+            },
+            {
+                "system": "http://hl7.org/fhir/unit-of-presentation",
+                "code": "200000002155",
+                "display": "Thread"
+            },
+            {
+                "system": "http://hl7.org/fhir/unit-of-presentation",
+                "code": "200000002156",
+                "display": "Tube"
+            },
+            {
+                "system": "http://hl7.org/fhir/unit-of-presentation",
+                "code": "200000002157",
+                "display": "Vessel"
+            },
+            {
+                "system": "http://hl7.org/fhir/unit-of-presentation",
+                "code": "200000002158",
+                "display": "Vial"
+            },
+            {
+                "system": "http://hl7.org/fhir/unit-of-presentation",
+                "code": "200000002159",
+                "display": "Puff"
+            },
+            {
+                "system": "http://hl7.org/fhir/unit-of-presentation",
+                "code": "200000002163",
+                "display": "Actuation"
+            },
+            {
+                "system": "http://hl7.org/fhir/unit-of-presentation",
+                "code": "200000002164",
+                "display": "Ampoule"
+            },
+            {
+                "system": "http://hl7.org/fhir/unit-of-presentation",
+                "code": "200000002165",
+                "display": "Applicator"
+            },
+            {
+                "system": "http://hl7.org/fhir/unit-of-presentation",
+                "code": "200000002166",
+                "display": "Bag"
+            }
+        ]
+    }
+}

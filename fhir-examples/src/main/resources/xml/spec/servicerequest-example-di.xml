@@ -15,7 +15,7 @@
       <display value="test health data"/>
     </security>
   </meta>
-  <text><status value="generated"/><div xmlns="http://www.w3.org/1999/xhtml"><p><b>Generated Narrative with Details</b></p><p><b>id</b>: di</p><p><b>status</b>: active</p><p><b>intent</b>: original-order</p><p><b>code</b>: Chest CT <span>(Details : {LOINC code '24627-2' = 'Chest CT)</span></p><p><b>subject</b>: <a>Patient/dicom</a></p><p><b>occurrence</b>: 08/05/2013 9:33:27 AM</p><p><b>requester</b>: <a>Dr. Adam Careful</a></p><p><b>reasonCode</b>: Check for metastatic disease <span>(Details )</span></p></div></text><status value="active"/>
+  <text><status value="generated"/><div xmlns="http://www.w3.org/1999/xhtml"><p><b>Generated Narrative</b></p><div style="display: inline-block; background-color: #d9e0e7; padding: 6px; margin: 4px; border: 1px solid #8da1b4; border-radius: 5px; line-height: 60%"><p style="margin-bottom: 0px">Resource "di" </p></div><p><b>status</b>: active</p><p><b>intent</b>: original-order</p><p><b>code</b>: Chest CT <span style="background: LightGoldenRodYellow; margin: 4px; border: 1px solid khaki"> (<a href="https://loinc.org/">LOINC</a>#24627-2)</span></p><p><b>subject</b>: <a href="patient-dicom.html">Patient/dicom</a> " MINT_TEST"</p><p><b>occurrence</b>: 2013-05-08T09:33:27+07:00</p><p><b>requester</b>: <a href="practitioner-example.html">Practitioner/example: Dr. Adam Careful</a> "Adam CAREFUL"</p><p><b>reasonCode</b>: Check for metastatic disease <span style="background: LightGoldenRodYellow; margin: 4px; border: 1px solid khaki"> ()</span></p></div></text><status value="active"/>
 	<intent value="original-order"/>
 	<code>
 		<coding>

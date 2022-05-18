@@ -1,0 +1,120 @@
+{
+    "resourceType": "ValueSet",
+    "id": "medicationdispense-status",
+    "meta": {
+        "lastUpdated": "2022-04-23T22:21:35.043Z",
+        "profile": [
+            "http://hl7.org/fhir/StructureDefinition/shareablevalueset"
+        ]
+    },
+    "extension": [
+        {
+            "url": "http://hl7.org/fhir/StructureDefinition/structuredefinition-wg",
+            "valueCode": "phx"
+        },
+        {
+            "url": "http://hl7.org/fhir/StructureDefinition/structuredefinition-standards-status",
+            "valueCode": "trial-use"
+        },
+        {
+            "url": "http://hl7.org/fhir/StructureDefinition/structuredefinition-fmm",
+            "valueInteger": 2
+        }
+    ],
+    "url": "http://hl7.org/fhir/ValueSet/medicationdispense-status",
+    "identifier": [
+        {
+            "system": "urn:ietf:rfc:3986",
+            "value": "urn:oid:2.16.840.1.113883.4.642.3.1312"
+        }
+    ],
+    "version": "4.3.0-cibuild",
+    "name": "MedicationDispense Status Codes",
+    "status": "draft",
+    "experimental": false,
+    "publisher": "FHIR Project team",
+    "contact": [
+        {
+            "telecom": [
+                {
+                    "system": "url",
+                    "value": "http://hl7.org/fhir"
+                }
+            ]
+        }
+    ],
+    "description": "MedicationDispense Status Codes",
+    "compose": {
+        "include": [
+            {
+                "system": "http://terminology.hl7.org/CodeSystem/medicationdispense-status"
+            }
+        ]
+    },
+    "expansion": {
+        "identifier": "urn:uuid:e6f3fb64-27eb-4cba-aed9-9d766d1b77db",
+        "timestamp": "2022-04-23T22:23:08Z",
+        "total": 9,
+        "parameter": [
+            {
+                "name": "excludeNested",
+                "valueBoolean": true
+            },
+            {
+                "name": "includeDesignations",
+                "valueBoolean": true
+            },
+            {
+                "name": "version",
+                "valueUri": "http://terminology.hl7.org/CodeSystem/medicationdispense-status|4.3.0-cibuild"
+            }
+        ],
+        "contains": [
+            {
+                "system": "http://terminology.hl7.org/CodeSystem/medicationdispense-status",
+                "code": "preparation",
+                "display": "Preparation"
+            },
+            {
+                "system": "http://terminology.hl7.org/CodeSystem/medicationdispense-status",
+                "code": "in-progress",
+                "display": "In Progress"
+            },
+            {
+                "system": "http://terminology.hl7.org/CodeSystem/medicationdispense-status",
+                "code": "cancelled",
+                "display": "Cancelled"
+            },
+            {
+                "system": "http://terminology.hl7.org/CodeSystem/medicationdispense-status",
+                "code": "on-hold",
+                "display": "On Hold"
+            },
+            {
+                "system": "http://terminology.hl7.org/CodeSystem/medicationdispense-status",
+                "code": "completed",
+                "display": "Completed"
+            },
+            {
+                "system": "http://terminology.hl7.org/CodeSystem/medicationdispense-status",
+                "code": "entered-in-error",
+                "display": "Entered in Error"
+            },
+            {
+                "system": "http://terminology.hl7.org/CodeSystem/medicationdispense-status",
+                "code": "stopped",
+                "display": "Stopped"
+            },
+            {
+                "system": "http://terminology.hl7.org/CodeSystem/medicationdispense-status",
+                "code": "declined",
+                "display": "Declined"
+            },
+            {
+                "system": "http://terminology.hl7.org/CodeSystem/medicationdispense-status",
+                "code": "unknown",
+                "display": "Unknown"
+            }
+        ]
+    }
+}

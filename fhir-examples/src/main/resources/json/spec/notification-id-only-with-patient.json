@@ -1,0 +1,75 @@
+{
+  "resourceType": "Bundle",
+  "id": "920a46b7-045a-4773-82bd-8e90c3e15653",
+  "type": "history",
+  "timestamp": "2020-04-17T10:24:13.1882432-05:00",
+  "entry": [
+    {
+      "fullUrl": "urn:uuid:dae6bdbc-71ab-4043-b11e-59b52bda60ad",
+      "resource": {
+        "resourceType": "SubscriptionStatus",
+        "id": "dae6bdbc-71ab-4043-b11e-59b52bda60ad",
+        "text": {
+          "status": "generated",
+          "div": "\u003cdiv xmlns\u003d\"http://www.w3.org/1999/xhtml\"\u003e\u003cp\u003e\u003cb\u003eGenerated Narrative\u003c/b\u003e\u003c/p\u003e\u003cdiv style\u003d\"display: inline-block; background-color: #d9e0e7; padding: 6px; margin: 4px; border: 1px solid #8da1b4; border-radius: 5px; line-height: 60%\"\u003e\u003cp style\u003d\"margin-bottom: 0px\"\u003eResource \u0026quot;dae6bdbc-71ab-4043-b11e-59b52bda60ad\u0026quot; \u003c/p\u003e\u003c/div\u003e\u003cp\u003e\u003cb\u003estatus\u003c/b\u003e: active\u003c/p\u003e\u003cp\u003e\u003cb\u003etype\u003c/b\u003e: event-notification\u003c/p\u003e\u003cp\u003e\u003cb\u003eeventsSinceSubscriptionStart\u003c/b\u003e: 2\u003c/p\u003e\u003ch3\u003eNotificationEvents\u003c/h3\u003e\u003ctable class\u003d\"grid\"\u003e\u003ctr\u003e\u003ctd\u003e-\u003c/td\u003e\u003ctd\u003e\u003cb\u003eEventNumber\u003c/b\u003e\u003c/td\u003e\u003ctd\u003e\u003cb\u003eFocus\u003c/b\u003e\u003c/td\u003e\u003ctd\u003e\u003cb\u003eAdditionalContext\u003c/b\u003e\u003c/td\u003e\u003c/tr\u003e\u003ctr\u003e\u003ctd\u003e*\u003c/td\u003e\u003ctd\u003e2\u003c/td\u003e\u003ctd\u003e\u003ca href\u003d\"todo.html\"\u003ehttp://example.org/FHIR/R4B/Encounter/2\u003c/a\u003e\u003c/td\u003e\u003ctd\u003e\u003ca href\u003d\"todo.html\"\u003ehttp://example.org/FHIR/R4B/Patient/ABC\u003c/a\u003e\u003c/td\u003e\u003c/tr\u003e\u003c/table\u003e\u003cp\u003e\u003cb\u003esubscription\u003c/b\u003e: \u003ca href\u003d\"todo.html\"\u003ehttp://example.org/FHIR/R4B/Subscription/123\u003c/a\u003e\u003c/p\u003e\u003cp\u003e\u003cb\u003etopic\u003c/b\u003e: \u003ca href\u003d\"http://example.org/FHIR/R4B/SubscriptionTopic/admission\"\u003ehttp://example.org/FHIR/R4B/SubscriptionTopic/admission\u003c/a\u003e\u003c/p\u003e\u003c/div\u003e"
+        },
+        "status": "active",
+        "type": "event-notification",
+        "eventsSinceSubscriptionStart": "2",
+        "notificationEvent": [
+          {
+            "eventNumber": "2",
+            "focus": {
+              "reference": "http://example.org/FHIR/R4B/Encounter/2"
+            },
+            "additionalContext": [
+              {
+                "reference": "http://example.org/FHIR/R4B/Patient/ABC"
+              }
+            ]
+          }
+        ],
+        "subscription": {
+          "reference": "http://example.org/FHIR/R4B/Subscription/123"
+        },
+        "topic": "http://example.org/FHIR/R4B/SubscriptionTopic/admission"
+      },
+      "request": {
+        "method": "GET",
+        "url": "Subscription/123/$status"
+      },
+      "response": {
+        "status": "200"
+      }
+    },
+    {
+      "fullUrl": "http://example.org/FHIR/R4B/Encounter/2",
+      "request": {
+        "method": "PUT",
+        "url": "Encounter/2"
+      },
+      "response": {
+        "status": "201"
+      }
+    },
+    {
+      "fullUrl": "http://example.org/FHIR/R4B/Patient/ABC",
+      "request": {
+        "method": "GET",
+        "url": "Patient/ABC"
+      },
+      "response": {
+        "status": "200"
+      }
+    }
+  ],
+  "meta": {
+    "tag": [
+      {
+        "system": "http://terminology.hl7.org/CodeSystem/v3-ActReason",
+        "code": "HTEST",
+        "display": "test health data"
+      }
+    ]
+  }
+}

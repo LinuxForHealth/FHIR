@@ -1,0 +1,195 @@
+{
+    "resourceType": "CodeSystem",
+    "id": "v2-0477",
+    "text": {
+        "status": "empty",
+        "div": "<div xmlns=\"http://www.w3.org/1999/xhtml\">Redacted for size</div>"
+    },
+    "extension": [
+        {
+            "url": "http://hl7.org/fhir/StructureDefinition/structuredefinition-wg",
+            "valueCode": "oo"
+        }
+    ],
+    "url": "http://terminology.hl7.org/CodeSystem/v2-0477",
+    "identifier": [
+        {
+            "system": "urn:ietf:rfc:3986",
+            "value": "urn:oid:2.16.840.1.113883.18.304"
+        }
+    ],
+    "version": "2.1.0",
+    "name": "ControlledSubstanceSchedule",
+    "title": "controlledSubstanceSchedule",
+    "status": "active",
+    "experimental": false,
+    "date": "2019-12-01",
+    "publisher": "HL7, Inc",
+    "contact": [
+        {
+            "telecom": [
+                {
+                    "system": "url",
+                    "value": "http://www.hl7.org/"
+                }
+            ]
+        }
+    ],
+    "description": "Code system of concepts specifying the class of the drug or other substance if its usage is controlled by legislation.  In the USA, such legislation includes the federal Controlled Substance Act (CSA) or a State Uniform Controlled Substance Act. Other countries should create their own versions of this table.  Used in HL7 Version 2.x messaging in the RXE segment.  The name of the table is taken from the Pharmacy Law Digest July 1988.",
+    "purpose": "Underlying Master Code System for V2 table 0477 (Controlled Substance Schedule)",
+    "copyright": "Copyright HL7. Licensed under creative commons public domain",
+    "caseSensitive": true,
+    "valueSet": "http://terminology.hl7.org/ValueSet/v2-0477",
+    "hierarchyMeaning": "is-a",
+    "compositional": false,
+    "versionNeeded": false,
+    "content": "complete",
+    "property": [
+        {
+            "code": "status",
+            "uri": "http://terminology.hl7.org/CodeSystem/utg-concept-properties#status",
+            "description": "Status of the concept",
+            "type": "code"
+        },
+        {
+            "code": "deprecated",
+            "uri": "http://terminology.hl7.org/CodeSystem/utg-concept-properties#v2-table-deprecated",
+            "description": "Version of HL7 in which the code was deprecated",
+            "type": "code"
+        },
+        {
+            "code": "v2-concComment",
+            "uri": "http://terminology.hl7.org/CodeSystem/utg-concept-properties#v2-concComment",
+            "description": "V2 Concept Comment",
+            "type": "string"
+        },
+        {
+            "code": "v2-concCommentAsPub",
+            "uri": "http://terminology.hl7.org/CodeSystem/utg-concept-properties#v2-concCommentAsPub",
+            "description": "V2 Concept Comment As Published",
+            "type": "string"
+        }
+    ],
+    "concept": [
+        {
+            "id": "4888",
+            "code": "I",
+            "display": "Schedule I",
+            "definition": "Schedule I",
+            "property": [
+                {
+                    "code": "v2-concComment",
+                    "valueString": "Includes drugs that have a high potential for abuse, no currently accepted medical use in the United States and a lack of accepted safety for use under medical supervision."
+                },
+                {
+                    "code": "v2-concCommentAsPub",
+                    "valueString": "Includes drugs that have a high potential for abuse, no currently accepted medical use in the United States and a lack of accepted safety for use under medical supervision."
+                },
+                {
+                    "code": "status",
+                    "valueCode": "A"
+                }
+            ]
+        },
+        {
+            "id": "4889",
+            "code": "II",
+            "display": "Schedule II",
+            "definition": "Schedule II",
+            "property": [
+                {
+                    "code": "v2-concComment",
+                    "valueString": "Includes drugs having currently accepted medical use in the United States and a high abuse potential, with severe psychological or physical dependence liability."
+                },
+                {
+                    "code": "v2-concCommentAsPub",
+                    "valueString": "Includes drugs having currently accepted medical use in the United States and a high abuse potential, with severe psychological or physical dependence liability."
+                },
+                {
+                    "code": "status",
+                    "valueCode": "A"
+                }
+            ]
+        },
+        {
+            "id": "4890",
+            "code": "III",
+            "display": "Schedule III",
+            "definition": "Schedule III",
+            "property": [
+                {
+                    "code": "v2-concComment",
+                    "valueString": "Includes drugs having an abuse potential less than that of drugs listed in Schedules I and II. All CS III drugs have a currently accepted medical use in the United States."
+                },
+                {
+                    "code": "v2-concCommentAsPub",
+                    "valueString": "Includes drugs having an abuse potential less than that of drugs listed in Schedules I and II. All CS III drugs have a currently accepted medical use in the United States."
+                },
+                {
+                    "code": "status",
+                    "valueCode": "A"
+                }
+            ]
+        },
+        {
+            "id": "4891",
+            "code": "IV",
+            "display": "Schedule IV",
+            "definition": "Schedule IV",
+            "property": [
+                {
+                    "code": "v2-concComment",
+                    "valueString": "Includes drugs having a lesser potential for abuse than those listed in Schedule III. CS IV drugs have a currently accepted medical use in the United States."
+                },
+                {
+                    "code": "v2-concCommentAsPub",
+                    "valueString": "Includes drugs having a lesser potential for abuse than those listed in Schedule III. CS IV drugs have a currently accepted medical use in the United States."
+                },
+                {
+                    "code": "status",
+                    "valueCode": "A"
+                }
+            ]
+        },
+        {
+            "id": "4892",
+            "code": "V",
+            "display": "Schedule V",
+            "definition": "Schedule V",
+            "property": [
+                {
+                    "code": "v2-concComment",
+                    "valueString": "Includes drugs having low abuse potential and limited physical or psychological dependence relative to those listed in IV and have an accepted medical use in the United States."
+                },
+                {
+                    "code": "v2-concCommentAsPub",
+                    "valueString": "Includes drugs having low abuse potential and limited physical or psychological dependence relative to those listed in IV and have an accepted medical use in the United States."
+                },
+                {
+                    "code": "status",
+                    "valueCode": "A"
+                }
+            ]
+        },
+        {
+            "id": "4893",
+            "code": "VI",
+            "display": "Schedule VI",
+            "definition": "Schedule VI",
+            "property": [
+                {
+                    "code": "v2-concComment",
+                    "valueString": "State defined"
+                },
+                {
+                    "code": "v2-concCommentAsPub",
+                    "valueString": "State defined"
+                },
+                {
+                    "code": "status",
+                    "valueCode": "A"
+                }
+            ]
+        }
+    ]
+}

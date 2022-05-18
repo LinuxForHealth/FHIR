@@ -1,0 +1,112 @@
+{
+    "resourceType": "CodeSystem",
+    "id": "warning-type",
+    "meta": {
+        "lastUpdated": "2022-04-24T09:21:35.043+11:00",
+        "profile": [
+            "http://hl7.org/fhir/StructureDefinition/shareablecodesystem"
+        ]
+    },
+    "text": {
+        "status": "empty",
+        "div": "<div xmlns=\"http://www.w3.org/1999/xhtml\">Redacted for size</div>"
+    },
+    "extension": [
+        {
+            "url": "http://hl7.org/fhir/StructureDefinition/structuredefinition-wg",
+            "valueCode": "brr"
+        },
+        {
+            "url": "http://hl7.org/fhir/StructureDefinition/structuredefinition-standards-status",
+            "valueCode": "trial-use"
+        },
+        {
+            "url": "http://hl7.org/fhir/StructureDefinition/structuredefinition-fmm",
+            "valueInteger": 1
+        }
+    ],
+    "url": "http://hl7.org/fhir/warning-type",
+    "identifier": [
+        {
+            "system": "urn:ietf:rfc:3986",
+            "value": "urn:oid:2.16.840.1.113883.4.642.1.1546"
+        }
+    ],
+    "version": "4.3.0-cibuild",
+    "name": "WarningType",
+    "title": "WarningType",
+    "status": "draft",
+    "experimental": false,
+    "date": "2021-08-15T16:55:11+11:00",
+    "publisher": "HL7 (FHIR Project)",
+    "contact": [
+        {
+            "telecom": [
+                {
+                    "system": "url",
+                    "value": "http://hl7.org/fhir"
+                },
+                {
+                    "system": "email",
+                    "value": "fhir@lists.hl7.org"
+                }
+            ]
+        }
+    ],
+    "description": "Classification of warning type.",
+    "caseSensitive": true,
+    "valueSet": "http://hl7.org/fhir/ValueSet/warning-type",
+    "content": "complete",
+    "concept": [
+        {
+            "code": "P313",
+            "display": "Get medical advice/attention.",
+            "definition": "Get medical advice/attention."
+        },
+        {
+            "code": "P314",
+            "display": "Get medical advice/attention if you feel unwell.",
+            "definition": "Get medical advice/attention if you feel unwell."
+        },
+        {
+            "code": "P315",
+            "display": "Get immediate medical advice/attention.",
+            "definition": "Get immediate medical advice/attention."
+        },
+        {
+            "code": "P320",
+            "display": "Specific treatment is urgent (see ... on this label).",
+            "definition": "Specific treatment is urgent (see ... on this label)."
+        },
+        {
+            "code": "P321",
+            "display": "Specific treatment (see ... on this label).",
+            "definition": "Specific treatment (see ... on this label)."
+        },
+        {
+            "code": "P322",
+            "display": "Specific measures (see ... on this label).",
+            "definition": "Specific measures (see ... on this label)."
+        },
+        {
+            "code": "P330",
+            "display": "Rinse mouth.",
+            "definition": "Rinse mouth."
+        },
+        {
+            "code": "P331",
+            "display": "Do NOT induce vomiting.",
+            "definition": "Do NOT induce vomiting."
+        },
+        {
+            "code": "P361",
+            "display": "Remove/Take off immediately all contaminated clothing.",
+            "definition": "Remove/Take off immediately all contaminated clothing."
+        },
+        {
+            "code": "P363",
+            "display": "Wash contaminated clothing before reuse..",
+            "definition": "Wash contaminated clothing before reuse."
+        }
+    ]
+}

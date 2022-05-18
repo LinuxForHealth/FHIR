@@ -1,5 +1,5 @@
 /*
- * (C) Copyright IBM Corp. 2019, 2021
+ * (C) Copyright IBM Corp. 2019, 2022
  *
  * SPDX-License-Identifier: Apache-2.0
  */
@@ -99,7 +99,7 @@ public class ExplanationOfBenefit extends DomainResource {
         bindingName = "ExplanationOfBenefitStatus",
         strength = BindingStrength.Value.REQUIRED,
         description = "A code specifying the state of the resource instance.",
-        valueSet = "http://hl7.org/fhir/ValueSet/explanationofbenefit-status|4.0.1"
+        valueSet = "http://hl7.org/fhir/ValueSet/explanationofbenefit-status|4.3.0-cibuild"
     )
     @Required
     private final ExplanationOfBenefitStatus status;
@@ -124,7 +124,7 @@ public class ExplanationOfBenefit extends DomainResource {
         bindingName = "Use",
         strength = BindingStrength.Value.REQUIRED,
         description = "Complete, proposed, exploratory, other.",
-        valueSet = "http://hl7.org/fhir/ValueSet/claim-use|4.0.1"
+        valueSet = "http://hl7.org/fhir/ValueSet/claim-use|4.3.0-cibuild"
     )
     @Required
     private final Use use;
@@ -151,7 +151,7 @@ public class ExplanationOfBenefit extends DomainResource {
         bindingName = "ProcessPriority",
         strength = BindingStrength.Value.EXAMPLE,
         description = "The timeliness with which processing is required: stat, normal, deferred.",
-        valueSet = "http://terminology.hl7.org/CodeSystem/processpriority"
+        valueSet = "http://hl7.org/fhir/ValueSet/process-priority"
     )
     private final CodeableConcept priority;
     @Binding(
@@ -187,7 +187,7 @@ public class ExplanationOfBenefit extends DomainResource {
         bindingName = "RemittanceOutcome",
         strength = BindingStrength.Value.REQUIRED,
         description = "The result of the claim processing.",
-        valueSet = "http://hl7.org/fhir/ValueSet/remittance-outcome|4.0.1"
+        valueSet = "http://hl7.org/fhir/ValueSet/remittance-outcome|4.3.0-cibuild"
     )
     @Required
     private final RemittanceOutcome outcome;
@@ -12240,14 +12240,14 @@ public class ExplanationOfBenefit extends DomainResource {
             bindingName = "NoteType",
             strength = BindingStrength.Value.REQUIRED,
             description = "The presentation types of notes.",
-            valueSet = "http://hl7.org/fhir/ValueSet/note-type|4.0.1"
+            valueSet = "http://hl7.org/fhir/ValueSet/note-type|4.3.0-cibuild"
         )
         private final NoteType type;
         private final String text;
         @Binding(
             bindingName = "Language",
             strength = BindingStrength.Value.PREFERRED,
-            description = "A human language.",
+            description = "IETF language tag",
             valueSet = "http://hl7.org/fhir/ValueSet/languages",
             maxValueSet = "http://hl7.org/fhir/ValueSet/all-languages"
         )

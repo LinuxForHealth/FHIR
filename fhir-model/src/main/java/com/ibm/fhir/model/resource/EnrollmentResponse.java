@@ -1,5 +1,5 @@
 /*
- * (C) Copyright IBM Corp. 2019, 2021
+ * (C) Copyright IBM Corp. 2019, 2022
  *
  * SPDX-License-Identifier: Apache-2.0
  */
@@ -51,7 +51,7 @@ public class EnrollmentResponse extends DomainResource {
         bindingName = "EnrollmentResponseStatus",
         strength = BindingStrength.Value.REQUIRED,
         description = "A code specifying the state of the resource instance.",
-        valueSet = "http://hl7.org/fhir/ValueSet/fm-status|4.0.1"
+        valueSet = "http://hl7.org/fhir/ValueSet/fm-status|4.3.0-cibuild"
     )
     private final EnrollmentResponseStatus status;
     @ReferenceTarget({ "EnrollmentRequest" })
@@ -60,7 +60,7 @@ public class EnrollmentResponse extends DomainResource {
         bindingName = "RemittanceOutcome",
         strength = BindingStrength.Value.REQUIRED,
         description = "The outcome of the processing.",
-        valueSet = "http://hl7.org/fhir/ValueSet/remittance-outcome|4.0.1"
+        valueSet = "http://hl7.org/fhir/ValueSet/remittance-outcome|4.3.0-cibuild"
     )
     private final RemittanceOutcome outcome;
     private final String disposition;

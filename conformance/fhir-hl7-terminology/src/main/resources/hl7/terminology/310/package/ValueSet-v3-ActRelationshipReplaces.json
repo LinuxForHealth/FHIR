@@ -1,0 +1,37 @@
+{
+    "resourceType": "ValueSet",
+    "id": "v3-ActRelationshipReplaces",
+    "language": "en",
+    "text": {
+        "status": "empty",
+        "div": "<div xmlns=\"http://www.w3.org/1999/xhtml\">Redacted for size</div>"
+    },
+    "url": "http://terminology.hl7.org/ValueSet/v3-ActRelationshipReplaces",
+    "identifier": [
+        {
+            "system": "urn:ietf:rfc:3986",
+            "value": "urn:oid:2.16.840.1.113883.1.11.20009"
+        }
+    ],
+    "version": "2.0.0",
+    "name": "ActRelationshipReplaces",
+    "title": "ActRelationshipReplaces",
+    "status": "active",
+    "date": "2014-03-26",
+    "description": "A replacement source act replaces an existing target act. The state of the target act being replaced becomes obselete, but the act is typically still retained in the system for historical reference. The source and target must be of the same type.",
+    "immutable": true,
+    "compose": {
+        "include": [
+            {
+                "system": "http://terminology.hl7.org/CodeSystem/v3-ActRelationshipType",
+                "filter": [
+                    {
+                        "property": "concept",
+                        "op": "is-a",
+                        "value": "RPLC"
+                    }
+                ]
+            }
+        ]
+    }
+}

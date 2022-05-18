@@ -10,667 +10,1295 @@
   <text>
     <status value="generated"/>
     <div xmlns="http://www.w3.org/1999/xhtml">
-         <table class="grid dict">
-            <tr>
-               <td>
-                  <b>Id: </b>
-               </td>
-            </tr>
-            <tr>
-               <td style="padding-left: 25px; padding-right: 25px;">PlanDefinition/low-suicide-risk-order-set</td>
-            </tr>
-         </table>
-         <p/>
-         <table class="grid dict">
-            <tr>
-               <td>
-                  <b>Identifier: </b>
-               </td>
-            </tr>
-            <tr>
-               <td style="padding-left: 25px; padding-right: 25px;">
-                  <b>value: </b>
-                  <span>mmi:low-suicide-risk-order-set</span>
-               </td>
-            </tr>
-         </table>
-         <p/>
-         <table class="grid dict">
-            <tr>
-               <td>
-                  <b>Title: </b>
-               </td>
-            </tr>
-            <tr>
-               <td style="padding-left: 25px; padding-right: 25px;">Low Suicide Risk Order Set</td>
-            </tr>
-         </table>
-         <p/>
-         <table class="grid dict">
-            <tr>
-               <td>
-                  <b>Status: </b>
-               </td>
-            </tr>
-            <tr>
-               <td style="padding-left: 25px; padding-right: 25px;">draft</td>
-            </tr>
-         </table>
-         <p/>
-         <table class="grid dict">
-            <tr>
-               <td>
-                  <b>Description: </b>
-               </td>
-            </tr>
-            <tr>
-               <td style="padding-left: 25px; padding-right: 25px;">Orders to be applied to a patient characterized as low suicide risk.</td>
-            </tr>
-         </table>
-         <p/>
-         <table class="grid dict">
-            <tr>
-               <td>
-                  <b>Purpose: </b>
-               </td>
-            </tr>
-            <tr>
-               <td style="padding-left: 25px; padding-right: 25px;">This order set helps ensure consistent application of appropriate orders for the care of low suicide risk patients.</td>
-            </tr>
-         </table>
-         <p/>
-         <table class="grid dict">
-            <tr>
-               <td>
-                  <b>Usage: </b>
-               </td>
-            </tr>
-            <tr>
-               <td style="padding-left: 25px; padding-right: 25px;">This order set should be applied after assessing a patient for suicide risk, when the findings of that assessment indicate the patient has low suicide risk.</td>
-            </tr>
-         </table>
-         <p/>
-         <table class="grid dict">
-            <tr>
-               <td>
-                  <b>Context: </b>
-               </td>
-            </tr>
-            <tr style="vertical-align: top;">
-               <td style="padding-right: 25px;">
-                  <p style="padding-left: 25px; margin-top: 5px; margin-bottom: 5px;">
-                     <b>system: </b>
-                     <span>http://terminology.hl7.org/CodeSystem/usage-context-type</span>
-                  </p>
-                  <p style="padding-left: 25px; margin-top: 5px; margin-bottom: 5px;">
-                     <b>code: </b>
-                     <span>age</span>
-                  </p>
-                  <p style="padding-left: 25px; margin-top: 5px; margin-bottom: 5px;">
-                     <b>value: </b>
-                     <br/>
-                     <span>
-                        <span>
-                           <span>
-                              <span style="padding-left: 25px;">
-                                 <b>system: </b>
-                                 <span>https://meshb.nlm.nih.gov</span>
-                                 <br/>
-                              </span>
-                              <span style="padding-left: 25px;">
-                                 <b>code: </b>
-                                 <span>D000328</span>
-                                 <br/>
-                              </span>
-                              <span style="padding-left: 25px;">
-                                 <b>display: </b>
-                                 <span>Adult</span>
-                              </span>
-                           </span>
-                        </span>
-                     </span>
-                  </p>
-               </td>
-            </tr>
-         </table>
-         <table class="grid dict">
-            <tr>
-               <td>
-                  <b>Context: </b>
-               </td>
-            </tr>
-            <tr style="vertical-align: top;">
-               <td style="padding-right: 25px;">
-                  <p style="padding-left: 25px; margin-top: 5px; margin-bottom: 5px;">
-                     <b>system: </b>
-                     <span>http://terminology.hl7.org/CodeSystem/usage-context-type</span>
-                  </p>
-                  <p style="padding-left: 25px; margin-top: 5px; margin-bottom: 5px;">
-                     <b>code: </b>
-                     <span>focus</span>
-                  </p>
-                  <p style="padding-left: 25px; margin-top: 5px; margin-bottom: 5px;">
-                     <b>value: </b>
-                     <br/>
-                     <span>
-                        <span>
-                           <span>
-                              <span style="padding-left: 25px;">
-                                 <b>system: </b>
-                                 <span>http://snomed.info/sct</span>
-                                 <br/>
-                              </span>
-                              <span style="padding-left: 25px;">
-                                 <b>code: </b>
-                                 <span>87512008</span>
-                                 <br/>
-                              </span>
-                              <span style="padding-left: 25px;">
-                                 <b>display: </b>
-                                 <span>Mild major depression</span>
-                              </span>
-                           </span>
-                        </span>
-                     </span>
-                  </p>
-               </td>
-            </tr>
-         </table>
-         <table class="grid dict">
-            <tr>
-               <td>
-                  <b>Context: </b>
-               </td>
-            </tr>
-            <tr style="vertical-align: top;">
-               <td style="padding-right: 25px;">
-                  <p style="padding-left: 25px; margin-top: 5px; margin-bottom: 5px;">
-                     <b>system: </b>
-                     <span>http://terminology.hl7.org/CodeSystem/usage-context-type</span>
-                  </p>
-                  <p style="padding-left: 25px; margin-top: 5px; margin-bottom: 5px;">
-                     <b>code: </b>
-                     <span>focus</span>
-                  </p>
-                  <p style="padding-left: 25px; margin-top: 5px; margin-bottom: 5px;">
-                     <b>value: </b>
-                     <br/>
-                     <span>
-                        <span>
-                           <span>
-                              <span style="padding-left: 25px;">
-                                 <b>system: </b>
-                                 <span>http://snomed.info/sct</span>
-                                 <br/>
-                              </span>
-                              <span style="padding-left: 25px;">
-                                 <b>code: </b>
-                                 <span>40379007</span>
-                                 <br/>
-                              </span>
-                              <span style="padding-left: 25px;">
-                                 <b>display: </b>
-                                 <span>Major depression, recurrent, mild</span>
-                              </span>
-                           </span>
-                        </span>
-                     </span>
-                  </p>
-               </td>
-            </tr>
-         </table>
-         <table class="grid dict">
-            <tr>
-               <td>
-                  <b>Context: </b>
-               </td>
-            </tr>
-            <tr style="vertical-align: top;">
-               <td style="padding-right: 25px;">
-                  <p style="padding-left: 25px; margin-top: 5px; margin-bottom: 5px;">
-                     <b>system: </b>
-                     <span>http://terminology.hl7.org/CodeSystem/usage-context-type</span>
-                  </p>
-                  <p style="padding-left: 25px; margin-top: 5px; margin-bottom: 5px;">
-                     <b>code: </b>
-                     <span>focus</span>
-                  </p>
-                  <p style="padding-left: 25px; margin-top: 5px; margin-bottom: 5px;">
-                     <b>value: </b>
-                     <br/>
-                     <span>
-                        <span>
-                           <span>
-                              <span style="padding-left: 25px;">
-                                 <b>system: </b>
-                                 <span>http://snomed.info/sct</span>
-                                 <br/>
-                              </span>
-                              <span style="padding-left: 25px;">
-                                 <b>code: </b>
-                                 <span>394687007</span>
-                                 <br/>
-                              </span>
-                              <span style="padding-left: 25px;">
-                                 <b>display: </b>
-                                 <span>Low suicide risk</span>
-                              </span>
-                           </span>
-                        </span>
-                     </span>
-                  </p>
-               </td>
-            </tr>
-         </table>
-         <table class="grid dict">
-            <tr>
-               <td>
-                  <b>Context: </b>
-               </td>
-            </tr>
-            <tr style="vertical-align: top;">
-               <td style="padding-right: 25px;">
-                  <p style="padding-left: 25px; margin-top: 5px; margin-bottom: 5px;">
-                     <b>system: </b>
-                     <span>http://terminology.hl7.org/CodeSystem/usage-context-type</span>
-                  </p>
-                  <p style="padding-left: 25px; margin-top: 5px; margin-bottom: 5px;">
-                     <b>code: </b>
-                     <span>focus</span>
-                  </p>
-                  <p style="padding-left: 25px; margin-top: 5px; margin-bottom: 5px;">
-                     <b>value: </b>
-                     <br/>
-                     <span>
-                        <span>
-                           <span>
-                              <span style="padding-left: 25px;">
-                                 <b>system: </b>
-                                 <span>http://snomed.info/sct</span>
-                                 <br/>
-                              </span>
-                              <span style="padding-left: 25px;">
-                                 <b>code: </b>
-                                 <span>225337009</span>
-                                 <br/>
-                              </span>
-                              <span style="padding-left: 25px;">
-                                 <b>display: </b>
-                                 <span>Suicide risk assessment</span>
-                              </span>
-                           </span>
-                        </span>
-                     </span>
-                  </p>
-               </td>
-            </tr>
-         </table>
-         <table class="grid dict">
-            <tr>
-               <td>
-                  <b>Context: </b>
-               </td>
-            </tr>
-            <tr style="vertical-align: top;">
-               <td style="padding-right: 25px;">
-                  <p style="padding-left: 25px; margin-top: 5px; margin-bottom: 5px;">
-                     <b>system: </b>
-                     <span>http://terminology.hl7.org/CodeSystem/usage-context-type</span>
-                  </p>
-                  <p style="padding-left: 25px; margin-top: 5px; margin-bottom: 5px;">
-                     <b>code: </b>
-                     <span>user</span>
-                  </p>
-                  <p style="padding-left: 25px; margin-top: 5px; margin-bottom: 5px;">
-                     <b>value: </b>
-                     <br/>
-                     <span>
-                        <span>
-                           <span>
-                              <span style="padding-left: 25px;">
-                                 <b>system: </b>
-                                 <span>http://snomed.info/sct</span>
-                                 <br/>
-                              </span>
-                              <span style="padding-left: 25px;">
-                                 <b>code: </b>
-                                 <span>309343006</span>
-                                 <br/>
-                              </span>
-                              <span style="padding-left: 25px;">
-                                 <b>display: </b>
-                                 <span>Physician</span>
-                              </span>
-                           </span>
-                        </span>
-                     </span>
-                  </p>
-               </td>
-            </tr>
-         </table>
-         <table class="grid dict">
-            <tr>
-               <td>
-                  <b>Context: </b>
-               </td>
-            </tr>
-            <tr style="vertical-align: top;">
-               <td style="padding-right: 25px;">
-                  <p style="padding-left: 25px; margin-top: 5px; margin-bottom: 5px;">
-                     <b>system: </b>
-                     <span>http://terminology.hl7.org/CodeSystem/usage-context-type</span>
-                  </p>
-                  <p style="padding-left: 25px; margin-top: 5px; margin-bottom: 5px;">
-                     <b>code: </b>
-                     <span>venue</span>
-                  </p>
-                  <p style="padding-left: 25px; margin-top: 5px; margin-bottom: 5px;">
-                     <b>value: </b>
-                     <br/>
-                     <span>
-                        <span>
-                           <span>
-                              <span style="padding-left: 25px;">
-                                 <b>system: </b>
-                                 <span>http://snomed.info/sct</span>
-                                 <br/>
-                              </span>
-                              <span style="padding-left: 25px;">
-                                 <b>code: </b>
-                                 <span>440655000</span>
-                                 <br/>
-                              </span>
-                              <span style="padding-left: 25px;">
-                                 <b>display: </b>
-                                 <span>Outpatient environment</span>
-                              </span>
-                           </span>
-                        </span>
-                     </span>
-                  </p>
-               </td>
-            </tr>
-         </table>
-         <p/>
-         <table class="grid dict">
-            <tr>
-               <td>
-                  <b>Topic: </b>
-               </td>
-            </tr>
-            <tr>
-               <td style="padding-left: 25px; padding-right: 25px;">
+         
+      <table class="grid dict">
+            
+        <tr>
+               
+          <td>
+                  
+            <b>Id: </b>
+               
+          </td>
+            
+        </tr>
+            
+        <tr>
+               
+          <td style="padding-left: 25px; padding-right: 25px;">PlanDefinition/low-suicide-risk-order-set</td>
+            
+        </tr>
+         
+      </table>
+         
+      <p/>
+         
+      <table class="grid dict">
+            
+        <tr>
+               
+          <td>
+                  
+            <b>Identifier: </b>
+               
+          </td>
+            
+        </tr>
+            
+        <tr>
+               
+          <td style="padding-left: 25px; padding-right: 25px;">
+                  
+            <b>value: </b>
+                  
+            <span>mmi:low-suicide-risk-order-set</span>
+               
+          </td>
+            
+        </tr>
+         
+      </table>
+         
+      <p/>
+         
+      <table class="grid dict">
+            
+        <tr>
+               
+          <td>
+                  
+            <b>Title: </b>
+               
+          </td>
+            
+        </tr>
+            
+        <tr>
+               
+          <td style="padding-left: 25px; padding-right: 25px;">Low Suicide Risk Order Set</td>
+            
+        </tr>
+         
+      </table>
+         
+      <p/>
+         
+      <table class="grid dict">
+            
+        <tr>
+               
+          <td>
+                  
+            <b>Status: </b>
+               
+          </td>
+            
+        </tr>
+            
+        <tr>
+               
+          <td style="padding-left: 25px; padding-right: 25px;">draft</td>
+            
+        </tr>
+         
+      </table>
+         
+      <p/>
+         
+      <table class="grid dict">
+            
+        <tr>
+               
+          <td>
+                  
+            <b>Description: </b>
+               
+          </td>
+            
+        </tr>
+            
+        <tr>
+               
+          <td style="padding-left: 25px; padding-right: 25px;">Orders to be applied to a patient characterized as low suicide risk.</td>
+            
+        </tr>
+         
+      </table>
+         
+      <p/>
+         
+      <table class="grid dict">
+            
+        <tr>
+               
+          <td>
+                  
+            <b>Purpose: </b>
+               
+          </td>
+            
+        </tr>
+            
+        <tr>
+               
+          <td style="padding-left: 25px; padding-right: 25px;">This order set helps ensure consistent application of appropriate orders for the care of low suicide risk patients.</td>
+            
+        </tr>
+         
+      </table>
+         
+      <p/>
+         
+      <table class="grid dict">
+            
+        <tr>
+               
+          <td>
+                  
+            <b>Usage: </b>
+               
+          </td>
+            
+        </tr>
+            
+        <tr>
+               
+          <td style="padding-left: 25px; padding-right: 25px;">This order set should be applied after assessing a patient for suicide risk, when the findings of that assessment indicate the patient has low suicide risk.</td>
+            
+        </tr>
+         
+      </table>
+         
+      <p/>
+         
+      <table class="grid dict">
+            
+        <tr>
+               
+          <td>
+                  
+            <b>Context: </b>
+               
+          </td>
+            
+        </tr>
+            
+        <tr style="vertical-align: top;">
+               
+          <td style="padding-right: 25px;">
+                  
+            <p style="padding-left: 25px; margin-top: 5px; margin-bottom: 5px;">
+                     
+              <b>system: </b>
+                     
+              <span>http://terminology.hl7.org/CodeSystem/usage-context-type</span>
+                  
+            </p>
+                  
+            <p style="padding-left: 25px; margin-top: 5px; margin-bottom: 5px;">
+                     
+              <b>code: </b>
+                     
+              <span>age</span>
+                  
+            </p>
+                  
+            <p style="padding-left: 25px; margin-top: 5px; margin-bottom: 5px;">
+                     
+              <b>value: </b>
+                     
+              <br/>
+                     
+              <span>
+                        
+                <span>
+                           
                   <span>
-                     <b>text: </b>
-                     <span>Suicide risk assessment</span>
+                              
+                    <span style="padding-left: 25px;">
+                                 
+                      <b>system: </b>
+                                 
+                      <span>https://meshb.nlm.nih.gov</span>
+                                 
+                      <br/>
+                              
+                    </span>
+                              
+                    <span style="padding-left: 25px;">
+                                 
+                      <b>code: </b>
+                                 
+                      <span>D000328</span>
+                                 
+                      <br/>
+                              
+                    </span>
+                              
+                    <span style="padding-left: 25px;">
+                                 
+                      <b>display: </b>
+                                 
+                      <span>Adult</span>
+                              
+                    </span>
+                           
                   </span>
-               </td>
-            </tr>
-         </table>
-         <p/>
-         <table class="grid dict">
-            <tr>
-               <td>
-                  <b>Contributor: </b>
-               </td>
-            </tr>
-            <tr>
-               <td style="padding-left: 25px; padding-right: 25px;">
-                  <b>
-                     <span>author</span>:
-                  </b>
-               </td>
-            </tr>
-            <tr>
-               <td style="padding-left: 50px; padding-right: 25px;">Motive Medical Intelligence</td>
-            </tr>
-         </table>
-         <p/>
-         <table class="grid dict">
-            <tr>
-               <td>
-                  <b>Library: </b>
-               </td>
-            </tr>
-            <tr>
-               <td style="padding-left: 25px; padding-right: 25px;">
-                  <b>reference: </b>
-                  <span>Library/suiciderisk-orderset-logic</span>
-               </td>
-            </tr>
-            <tr>
-               <td style="padding-left: 25px; padding-right: 25px;">
-                  <b>display: </b>
-                  <span>SuicideRiskLogic</span>
-               </td>
-            </tr>
-         </table>
-         <p/>
-         <h2>Actions</h2>
-         <p class="hierarchy" style="width: 100%;">
+                        
+                </span>
+                     
+              </span>
+                  
+            </p>
+               
+          </td>
+            
+        </tr>
+         
+      </table>
+         
+      <table class="grid dict">
+            
+        <tr>
+               
+          <td>
+                  
+            <b>Context: </b>
+               
+          </td>
+            
+        </tr>
+            
+        <tr style="vertical-align: top;">
+               
+          <td style="padding-right: 25px;">
+                  
+            <p style="padding-left: 25px; margin-top: 5px; margin-bottom: 5px;">
+                     
+              <b>system: </b>
+                     
+              <span>http://terminology.hl7.org/CodeSystem/usage-context-type</span>
+                  
+            </p>
+                  
+            <p style="padding-left: 25px; margin-top: 5px; margin-bottom: 5px;">
+                     
+              <b>code: </b>
+                     
+              <span>focus</span>
+                  
+            </p>
+                  
+            <p style="padding-left: 25px; margin-top: 5px; margin-bottom: 5px;">
+                     
+              <b>value: </b>
+                     
+              <br/>
+                     
+              <span>
+                        
+                <span>
+                           
+                  <span>
+                              
+                    <span style="padding-left: 25px;">
+                                 
+                      <b>system: </b>
+                                 
+                      <span>http://snomed.info/sct</span>
+                                 
+                      <br/>
+                              
+                    </span>
+                              
+                    <span style="padding-left: 25px;">
+                                 
+                      <b>code: </b>
+                                 
+                      <span>87512008</span>
+                                 
+                      <br/>
+                              
+                    </span>
+                              
+                    <span style="padding-left: 25px;">
+                                 
+                      <b>display: </b>
+                                 
+                      <span>Mild major depression</span>
+                              
+                    </span>
+                           
+                  </span>
+                        
+                </span>
+                     
+              </span>
+                  
+            </p>
+               
+          </td>
+            
+        </tr>
+         
+      </table>
+         
+      <table class="grid dict">
+            
+        <tr>
+               
+          <td>
+                  
+            <b>Context: </b>
+               
+          </td>
+            
+        </tr>
+            
+        <tr style="vertical-align: top;">
+               
+          <td style="padding-right: 25px;">
+                  
+            <p style="padding-left: 25px; margin-top: 5px; margin-bottom: 5px;">
+                     
+              <b>system: </b>
+                     
+              <span>http://terminology.hl7.org/CodeSystem/usage-context-type</span>
+                  
+            </p>
+                  
+            <p style="padding-left: 25px; margin-top: 5px; margin-bottom: 5px;">
+                     
+              <b>code: </b>
+                     
+              <span>focus</span>
+                  
+            </p>
+                  
+            <p style="padding-left: 25px; margin-top: 5px; margin-bottom: 5px;">
+                     
+              <b>value: </b>
+                     
+              <br/>
+                     
+              <span>
+                        
+                <span>
+                           
+                  <span>
+                              
+                    <span style="padding-left: 25px;">
+                                 
+                      <b>system: </b>
+                                 
+                      <span>http://snomed.info/sct</span>
+                                 
+                      <br/>
+                              
+                    </span>
+                              
+                    <span style="padding-left: 25px;">
+                                 
+                      <b>code: </b>
+                                 
+                      <span>40379007</span>
+                                 
+                      <br/>
+                              
+                    </span>
+                              
+                    <span style="padding-left: 25px;">
+                                 
+                      <b>display: </b>
+                                 
+                      <span>Major depression, recurrent, mild</span>
+                              
+                    </span>
+                           
+                  </span>
+                        
+                </span>
+                     
+              </span>
+                  
+            </p>
+               
+          </td>
+            
+        </tr>
+         
+      </table>
+         
+      <table class="grid dict">
+            
+        <tr>
+               
+          <td>
+                  
+            <b>Context: </b>
+               
+          </td>
+            
+        </tr>
+            
+        <tr style="vertical-align: top;">
+               
+          <td style="padding-right: 25px;">
+                  
+            <p style="padding-left: 25px; margin-top: 5px; margin-bottom: 5px;">
+                     
+              <b>system: </b>
+                     
+              <span>http://terminology.hl7.org/CodeSystem/usage-context-type</span>
+                  
+            </p>
+                  
+            <p style="padding-left: 25px; margin-top: 5px; margin-bottom: 5px;">
+                     
+              <b>code: </b>
+                     
+              <span>focus</span>
+                  
+            </p>
+                  
+            <p style="padding-left: 25px; margin-top: 5px; margin-bottom: 5px;">
+                     
+              <b>value: </b>
+                     
+              <br/>
+                     
+              <span>
+                        
+                <span>
+                           
+                  <span>
+                              
+                    <span style="padding-left: 25px;">
+                                 
+                      <b>system: </b>
+                                 
+                      <span>http://snomed.info/sct</span>
+                                 
+                      <br/>
+                              
+                    </span>
+                              
+                    <span style="padding-left: 25px;">
+                                 
+                      <b>code: </b>
+                                 
+                      <span>394687007</span>
+                                 
+                      <br/>
+                              
+                    </span>
+                              
+                    <span style="padding-left: 25px;">
+                                 
+                      <b>display: </b>
+                                 
+                      <span>Low suicide risk</span>
+                              
+                    </span>
+                           
+                  </span>
+                        
+                </span>
+                     
+              </span>
+                  
+            </p>
+               
+          </td>
+            
+        </tr>
+         
+      </table>
+         
+      <table class="grid dict">
+            
+        <tr>
+               
+          <td>
+                  
+            <b>Context: </b>
+               
+          </td>
+            
+        </tr>
+            
+        <tr style="vertical-align: top;">
+               
+          <td style="padding-right: 25px;">
+                  
+            <p style="padding-left: 25px; margin-top: 5px; margin-bottom: 5px;">
+                     
+              <b>system: </b>
+                     
+              <span>http://terminology.hl7.org/CodeSystem/usage-context-type</span>
+                  
+            </p>
+                  
+            <p style="padding-left: 25px; margin-top: 5px; margin-bottom: 5px;">
+                     
+              <b>code: </b>
+                     
+              <span>focus</span>
+                  
+            </p>
+                  
+            <p style="padding-left: 25px; margin-top: 5px; margin-bottom: 5px;">
+                     
+              <b>value: </b>
+                     
+              <br/>
+                     
+              <span>
+                        
+                <span>
+                           
+                  <span>
+                              
+                    <span style="padding-left: 25px;">
+                                 
+                      <b>system: </b>
+                                 
+                      <span>http://snomed.info/sct</span>
+                                 
+                      <br/>
+                              
+                    </span>
+                              
+                    <span style="padding-left: 25px;">
+                                 
+                      <b>code: </b>
+                                 
+                      <span>225337009</span>
+                                 
+                      <br/>
+                              
+                    </span>
+                              
+                    <span style="padding-left: 25px;">
+                                 
+                      <b>display: </b>
+                                 
+                      <span>Suicide risk assessment</span>
+                              
+                    </span>
+                           
+                  </span>
+                        
+                </span>
+                     
+              </span>
+                  
+            </p>
+               
+          </td>
+            
+        </tr>
+         
+      </table>
+         
+      <table class="grid dict">
+            
+        <tr>
+               
+          <td>
+                  
+            <b>Context: </b>
+               
+          </td>
+            
+        </tr>
+            
+        <tr style="vertical-align: top;">
+               
+          <td style="padding-right: 25px;">
+                  
+            <p style="padding-left: 25px; margin-top: 5px; margin-bottom: 5px;">
+                     
+              <b>system: </b>
+                     
+              <span>http://terminology.hl7.org/CodeSystem/usage-context-type</span>
+                  
+            </p>
+                  
+            <p style="padding-left: 25px; margin-top: 5px; margin-bottom: 5px;">
+                     
+              <b>code: </b>
+                     
+              <span>user</span>
+                  
+            </p>
+                  
+            <p style="padding-left: 25px; margin-top: 5px; margin-bottom: 5px;">
+                     
+              <b>value: </b>
+                     
+              <br/>
+                     
+              <span>
+                        
+                <span>
+                           
+                  <span>
+                              
+                    <span style="padding-left: 25px;">
+                                 
+                      <b>system: </b>
+                                 
+                      <span>http://snomed.info/sct</span>
+                                 
+                      <br/>
+                              
+                    </span>
+                              
+                    <span style="padding-left: 25px;">
+                                 
+                      <b>code: </b>
+                                 
+                      <span>309343006</span>
+                                 
+                      <br/>
+                              
+                    </span>
+                              
+                    <span style="padding-left: 25px;">
+                                 
+                      <b>display: </b>
+                                 
+                      <span>Physician</span>
+                              
+                    </span>
+                           
+                  </span>
+                        
+                </span>
+                     
+              </span>
+                  
+            </p>
+               
+          </td>
+            
+        </tr>
+         
+      </table>
+         
+      <table class="grid dict">
+            
+        <tr>
+               
+          <td>
+                  
+            <b>Context: </b>
+               
+          </td>
+            
+        </tr>
+            
+        <tr style="vertical-align: top;">
+               
+          <td style="padding-right: 25px;">
+                  
+            <p style="padding-left: 25px; margin-top: 5px; margin-bottom: 5px;">
+                     
+              <b>system: </b>
+                     
+              <span>http://terminology.hl7.org/CodeSystem/usage-context-type</span>
+                  
+            </p>
+                  
+            <p style="padding-left: 25px; margin-top: 5px; margin-bottom: 5px;">
+                     
+              <b>code: </b>
+                     
+              <span>venue</span>
+                  
+            </p>
+                  
+            <p style="padding-left: 25px; margin-top: 5px; margin-bottom: 5px;">
+                     
+              <b>value: </b>
+                     
+              <br/>
+                     
+              <span>
+                        
+                <span>
+                           
+                  <span>
+                              
+                    <span style="padding-left: 25px;">
+                                 
+                      <b>system: </b>
+                                 
+                      <span>http://snomed.info/sct</span>
+                                 
+                      <br/>
+                              
+                    </span>
+                              
+                    <span style="padding-left: 25px;">
+                                 
+                      <b>code: </b>
+                                 
+                      <span>440655000</span>
+                                 
+                      <br/>
+                              
+                    </span>
+                              
+                    <span style="padding-left: 25px;">
+                                 
+                      <b>display: </b>
+                                 
+                      <span>Outpatient environment</span>
+                              
+                    </span>
+                           
+                  </span>
+                        
+                </span>
+                     
+              </span>
+                  
+            </p>
+               
+          </td>
+            
+        </tr>
+         
+      </table>
+         
+      <p/>
+         
+      <table class="grid dict">
+            
+        <tr>
+               
+          <td>
+                  
+            <b>Topic: </b>
+               
+          </td>
+            
+        </tr>
+            
+        <tr>
+               
+          <td style="padding-left: 25px; padding-right: 25px;">
+                  
             <span>
-               <b>Step: </b>
-               <br/>
-               <span style="padding-left: 25px;">
-                  <b>title: </b>
-                  <span>Suicide Risk Assessment and Outpatient Management</span>
-                  <br/>
-               </span>
-               <span style="padding-left: 25px;">
-                  <span>
-                     <b>Step: </b>
-                     <br/>
-                     <span style="padding-left: 50px;">
-                        <b>title: </b>
-                        <span>Consults and Referrals</span>
-                        <br/>
-                     </span>
-                     <span style="padding-left: 50px;">
-                        <span>
-                           <b>Step: </b>
-                           <br/>
-                           <span style="padding-left: 75px;">
-                              <b>text: </b>
-                              <span>Refer to outpatient mental health program for evaluation and treatment of mental health conditions now</span>
-                              <br/>
-                           </span>
-                           <span style="padding-left: 75px;">
-                              <b>condition: </b>
-                              <br/>
-                              <span style="padding-left: 100px;">
-                                 <b>reference: </b>
-                                 <br/>
-                                 <span style="padding-left: 125px;">#referralToMentalHealthCare</span>
-                                 <span>
-                                    <span style="padding-left: 75px;">
-                                       <br/>
-                                       <span style="padding-left: 100px;">
-                                          <b>description: </b>
-                                          <span>refer to primary care mental-health integrated care program for evaluation and treatment of mental health conditions now</span>
-                                          <br/>
-                                       </span>
-                                       <span style="padding-left: 100px;">
-                                          <b>category: </b>
-                                          <span>referral</span>
-                                          <br/>
-                                       </span>
-                                    </span>
-                                 </span>
-                              </span>
-                           </span>
-                           <span style="padding-left: 50px;"/>
-                        </span>
-                     </span>
-                  </span>
-                  <span>
-                     <b>Step: </b>
-                     <br/>
-                     <span style="padding-left: 50px;">
-                        <b>title: </b>
-                        <span>Medications</span>
-                        <br/>
-                     </span>
-                     <span style="padding-left: 50px;">
-                        <span>
-                           <b>Step: </b>
-                           <br/>
-                           <span style="padding-left: 75px;">
-                              <b>title: </b>
-                              <span>First-Line Antidepressants</span>
-                              <br/>
-                           </span>
-                           <span style="padding-left: 75px;">
-                              <span>
-                                 <b>Step: </b>
-                                 <br/>
-                                 <span style="padding-left: 100px;">
-                                    <b>title: </b>
-                                    <span>Selective Serotonin Reuptake Inhibitors (Choose a mazimum of one or document reasons for exception)</span>
-                                    <br/>
-                                 </span>
-                                 <span style="padding-left: 100px;">
-                                    <span>
-                                       <b>Step: </b>
-                                       <br/>
-                                       <span style="padding-left: 125px;">
-                                          <b>text: </b>
-                                          <span>citalopram 20 mg tablet 1 tablet oral 1 time daily now (30 table; 3 refills)</span>
-                                          <br/>
-                                       </span>
-                                       <span style="padding-left: 125px;">
-                                          <b>condition: </b>
-                                          <br/>
-                                          <span style="padding-left: 150px;">
-                                             <b>reference: </b>
-                                             <br/>
-                                             <span style="padding-left: 175px;">#citalopramPrescription</span>
-                                             <span/>
-                                             <span>
-                                                <span style="padding-left: 125px;">
-                                                   <br/>
-                                                   <span style="padding-left: 150px;">
-                                                      <b>category: </b>
-                                                      <span>drug</span>
-                                                      <br/>
-                                                   </span>
-                                                </span>
-                                             </span>
-                                             <span/>
-                                             <span/>
-                                          </span>
-                                       </span>
-                                       <span style="padding-left: 100px;"/>
-                                    </span>
-                                    <span>
-                                       <b>Step: </b>
-                                       <br/>
-                                       <span style="padding-left: 125px;">
-                                          <b>text: </b>
-                                          <span>escitalopram 10 mg tablet 1 tablet oral 1 time daily now (30 tablet; 3 refills)</span>
-                                          <br/>
-                                       </span>
-                                       <span style="padding-left: 100px;"/>
-                                    </span>
-                                    <span>
-                                       <b>Step: </b>
-                                       <br/>
-                                       <span style="padding-left: 125px;">
-                                          <b>text: </b>
-                                          <span>fluoxetine 20 mg capsule 1 capsule oral 1 time daily now (30 tablet; 3 refills)</span>
-                                          <br/>
-                                       </span>
-                                       <span style="padding-left: 100px;"/>
-                                    </span>
-                                    <span>
-                                       <b>Step: </b>
-                                       <br/>
-                                       <span style="padding-left: 125px;">
-                                          <b>text: </b>
-                                          <span>paroxetine 20 mg tablet 1 tablet oral 1 time daily now (30 tablet; 3 refills)</span>
-                                          <br/>
-                                       </span>
-                                       <span style="padding-left: 100px;"/>
-                                    </span>
-                                    <span>
-                                       <b>Step: </b>
-                                       <br/>
-                                       <span style="padding-left: 125px;">
-                                          <b>text: </b>
-                                          <span>sertraline 50 mg tablet 1 tablet oral 1 time daily now (30 tablet; 3 refills)</span>
-                                          <br/>
-                                       </span>
-                                       <span style="padding-left: 100px;"/>
-                                    </span>
-                                 </span>
-                              </span>
-                              <span>
-                                 <b>Step: </b>
-                                 <br/>
-                                 <span style="padding-left: 125px;">
-                                    <b>text: </b>
-                                    <span>Dopamine Norepinephrine Reuptake Inhibitors (Choose a maximum of one or document reasons for exception)</span>
-                                    <br/>
-                                 </span>
-                                 <span style="padding-left: 75px;"/>
-                              </span>
-                              <span>
-                                 <b>Step: </b>
-                                 <br/>
-                                 <span style="padding-left: 100px;">
-                                    <b>text: </b>
-                                    <span>Serotonin Norepinephrine Reuptake Inhibitors (Choose a maximum of one or doument reasons for exception)</span>
-                                    <br/>
-                                 </span>
-                                 <span style="padding-left: 75px;"/>
-                              </span>
-                              <span>
-                                 <b>Step: </b>
-                                 <br/>
-                                 <span style="padding-left: 100px;">
-                                    <b>text: </b>
-                                    <span>Norepinephrine-Serotonin Modulators (Choose a maximum of one or document reasons for exception)</span>
-                                    <br/>
-                                 </span>
-                                 <span style="padding-left: 100px;"/>
-                              </span>
-                           </span>
-                        </span>
-                     </span>
-                  </span>
-               </span>
+                     
+              <b>text: </b>
+                     
+              <span>Suicide risk assessment</span>
+                  
             </span>
-         </p>
-      </div>
+               
+          </td>
+            
+        </tr>
+         
+      </table>
+         
+      <p/>
+         
+      <table class="grid dict">
+            
+        <tr>
+               
+          <td>
+                  
+            <b>Contributor: </b>
+               
+          </td>
+            
+        </tr>
+            
+        <tr>
+               
+          <td style="padding-left: 25px; padding-right: 25px;">
+                  
+            <b>
+                     
+              <span>author</span>:
+                  
+            </b>
+               
+          </td>
+            
+        </tr>
+            
+        <tr>
+               
+          <td style="padding-left: 50px; padding-right: 25px;">Motive Medical Intelligence</td>
+            
+        </tr>
+         
+      </table>
+         
+      <p/>
+         
+      <table class="grid dict">
+            
+        <tr>
+               
+          <td>
+                  
+            <b>Library: </b>
+               
+          </td>
+            
+        </tr>
+            
+        <tr>
+               
+          <td style="padding-left: 25px; padding-right: 25px;">
+                  
+            <b>reference: </b>
+                  
+            <span>Library/suiciderisk-orderset-logic</span>
+               
+          </td>
+            
+        </tr>
+            
+        <tr>
+               
+          <td style="padding-left: 25px; padding-right: 25px;">
+                  
+            <b>display: </b>
+                  
+            <span>SuicideRiskLogic</span>
+               
+          </td>
+            
+        </tr>
+         
+      </table>
+         
+      <p/>
+         
+      <h2>Actions</h2>
+         
+      <p class="hierarchy" style="width: 100%;">
+            
+        <span>
+               
+          <b>Step: </b>
+               
+          <br/>
+               
+          <span style="padding-left: 25px;">
+                  
+            <b>title: </b>
+                  
+            <span>Suicide Risk Assessment and Outpatient Management</span>
+                  
+            <br/>
+               
+          </span>
+               
+          <span style="padding-left: 25px;">
+                  
+            <span>
+                     
+              <b>Step: </b>
+                     
+              <br/>
+                     
+              <span style="padding-left: 50px;">
+                        
+                <b>title: </b>
+                        
+                <span>Consults and Referrals</span>
+                        
+                <br/>
+                     
+              </span>
+                     
+              <span style="padding-left: 50px;">
+                        
+                <span>
+                           
+                  <b>Step: </b>
+                           
+                  <br/>
+                           
+                  <span style="padding-left: 75px;">
+                              
+                    <b>text: </b>
+                              
+                    <span>Refer to outpatient mental health program for evaluation and treatment of mental health conditions now</span>
+                              
+                    <br/>
+                           
+                  </span>
+                           
+                  <span style="padding-left: 75px;">
+                              
+                    <b>condition: </b>
+                              
+                    <br/>
+                              
+                    <span style="padding-left: 100px;">
+                                 
+                      <b>reference: </b>
+                                 
+                      <br/>
+                                 
+                      <span style="padding-left: 125px;">#referralToMentalHealthCare</span>
+                                 
+                      <span>
+                                    
+                        <span style="padding-left: 75px;">
+                                       
+                          <br/>
+                                       
+                          <span style="padding-left: 100px;">
+                                          
+                            <b>description: </b>
+                                          
+                            <span>refer to primary care mental-health integrated care program for evaluation and treatment of mental health conditions now</span>
+                                          
+                            <br/>
+                                       
+                          </span>
+                                       
+                          <span style="padding-left: 100px;">
+                                          
+                            <b>category: </b>
+                                          
+                            <span>referral</span>
+                                          
+                            <br/>
+                                       
+                          </span>
+                                    
+                        </span>
+                                 
+                      </span>
+                              
+                    </span>
+                           
+                  </span>
+                           
+                  <span style="padding-left: 50px;"/>
+                        
+                </span>
+                     
+              </span>
+                  
+            </span>
+                  
+            <span>
+                     
+              <b>Step: </b>
+                     
+              <br/>
+                     
+              <span style="padding-left: 50px;">
+                        
+                <b>title: </b>
+                        
+                <span>Medications</span>
+                        
+                <br/>
+                     
+              </span>
+                     
+              <span style="padding-left: 50px;">
+                        
+                <span>
+                           
+                  <b>Step: </b>
+                           
+                  <br/>
+                           
+                  <span style="padding-left: 75px;">
+                              
+                    <b>title: </b>
+                              
+                    <span>First-Line Antidepressants</span>
+                              
+                    <br/>
+                           
+                  </span>
+                           
+                  <span style="padding-left: 75px;">
+                              
+                    <span>
+                                 
+                      <b>Step: </b>
+                                 
+                      <br/>
+                                 
+                      <span style="padding-left: 100px;">
+                                    
+                        <b>title: </b>
+                                    
+                        <span>Selective Serotonin Reuptake Inhibitors (Choose a mazimum of one or document reasons for exception)</span>
+                                    
+                        <br/>
+                                 
+                      </span>
+                                 
+                      <span style="padding-left: 100px;">
+                                    
+                        <span>
+                                       
+                          <b>Step: </b>
+                                       
+                          <br/>
+                                       
+                          <span style="padding-left: 125px;">
+                                          
+                            <b>text: </b>
+                                          
+                            <span>citalopram 20 mg tablet 1 tablet oral 1 time daily now (30 table; 3 refills)</span>
+                                          
+                            <br/>
+                                       
+                          </span>
+                                       
+                          <span style="padding-left: 125px;">
+                                          
+                            <b>condition: </b>
+                                          
+                            <br/>
+                                          
+                            <span style="padding-left: 150px;">
+                                             
+                              <b>reference: </b>
+                                             
+                              <br/>
+                                             
+                              <span style="padding-left: 175px;">#citalopramPrescription</span>
+                                             
+                              <span/>
+                                             
+                              <span>
+                                                
+                                <span style="padding-left: 125px;">
+                                                   
+                                  <br/>
+                                                   
+                                  <span style="padding-left: 150px;">
+                                                      
+                                    <b>category: </b>
+                                                      
+                                    <span>drug</span>
+                                                      
+                                    <br/>
+                                                   
+                                  </span>
+                                                
+                                </span>
+                                             
+                              </span>
+                                             
+                              <span/>
+                                             
+                              <span/>
+                                          
+                            </span>
+                                       
+                          </span>
+                                       
+                          <span style="padding-left: 100px;"/>
+                                    
+                        </span>
+                                    
+                        <span>
+                                       
+                          <b>Step: </b>
+                                       
+                          <br/>
+                                       
+                          <span style="padding-left: 125px;">
+                                          
+                            <b>text: </b>
+                                          
+                            <span>escitalopram 10 mg tablet 1 tablet oral 1 time daily now (30 tablet; 3 refills)</span>
+                                          
+                            <br/>
+                                       
+                          </span>
+                                       
+                          <span style="padding-left: 100px;"/>
+                                    
+                        </span>
+                                    
+                        <span>
+                                       
+                          <b>Step: </b>
+                                       
+                          <br/>
+                                       
+                          <span style="padding-left: 125px;">
+                                          
+                            <b>text: </b>
+                                          
+                            <span>fluoxetine 20 mg capsule 1 capsule oral 1 time daily now (30 tablet; 3 refills)</span>
+                                          
+                            <br/>
+                                       
+                          </span>
+                                       
+                          <span style="padding-left: 100px;"/>
+                                    
+                        </span>
+                                    
+                        <span>
+                                       
+                          <b>Step: </b>
+                                       
+                          <br/>
+                                       
+                          <span style="padding-left: 125px;">
+                                          
+                            <b>text: </b>
+                                          
+                            <span>paroxetine 20 mg tablet 1 tablet oral 1 time daily now (30 tablet; 3 refills)</span>
+                                          
+                            <br/>
+                                       
+                          </span>
+                                       
+                          <span style="padding-left: 100px;"/>
+                                    
+                        </span>
+                                    
+                        <span>
+                                       
+                          <b>Step: </b>
+                                       
+                          <br/>
+                                       
+                          <span style="padding-left: 125px;">
+                                          
+                            <b>text: </b>
+                                          
+                            <span>sertraline 50 mg tablet 1 tablet oral 1 time daily now (30 tablet; 3 refills)</span>
+                                          
+                            <br/>
+                                       
+                          </span>
+                                       
+                          <span style="padding-left: 100px;"/>
+                                    
+                        </span>
+                                 
+                      </span>
+                              
+                    </span>
+                              
+                    <span>
+                                 
+                      <b>Step: </b>
+                                 
+                      <br/>
+                                 
+                      <span style="padding-left: 125px;">
+                                    
+                        <b>text: </b>
+                                    
+                        <span>Dopamine Norepinephrine Reuptake Inhibitors (Choose a maximum of one or document reasons for exception)</span>
+                                    
+                        <br/>
+                                 
+                      </span>
+                                 
+                      <span style="padding-left: 75px;"/>
+                              
+                    </span>
+                              
+                    <span>
+                                 
+                      <b>Step: </b>
+                                 
+                      <br/>
+                                 
+                      <span style="padding-left: 100px;">
+                                    
+                        <b>text: </b>
+                                    
+                        <span>Serotonin Norepinephrine Reuptake Inhibitors (Choose a maximum of one or doument reasons for exception)</span>
+                                    
+                        <br/>
+                                 
+                      </span>
+                                 
+                      <span style="padding-left: 75px;"/>
+                              
+                    </span>
+                              
+                    <span>
+                                 
+                      <b>Step: </b>
+                                 
+                      <br/>
+                                 
+                      <span style="padding-left: 100px;">
+                                    
+                        <b>text: </b>
+                                    
+                        <span>Norepinephrine-Serotonin Modulators (Choose a maximum of one or document reasons for exception)</span>
+                                    
+                        <br/>
+                                 
+                      </span>
+                                 
+                      <span style="padding-left: 100px;"/>
+                              
+                    </span>
+                           
+                  </span>
+                        
+                </span>
+                     
+              </span>
+                  
+            </span>
+               
+          </span>
+            
+        </span>
+         
+      </p>
+      
+    </div>
   </text>
-  <!--  The referral and medication requests here are only partially specified, additional information will be provided from context, see the action definitions in the body of the plan definition below  -->
   <contained>
     <ActivityDefinition>
       <id value="referralToMentalHealthCare"/>
-  	  <status value="draft"/>
-	    <description value="refer to primary care mental-health integrated care program for evaluation and treatment of mental health conditions now"/>
-	    <!--  Kind indicates the type of resource that is defined by this activity, a ServiceRequest in this case  -->
-	    <kind value="ServiceRequest"/>
-  	  <code>
-    		<coding>
-		      <system value="http://snomed.info/sct"/>
-    		  <code value="306206005"/>
-		    </coding>
-    		<text value="Referral to service (procedure)"/>
-	    </code>
-  	  <timingTiming>
-  		  <event>
-	    	  <!--  The expression here specifies the value for the timing of the resulting resource. In this case, referralRequest.fulfillmentTime.start  -->
-		      <extension url="http://hl7.org/fhir/StructureDefinition/cqf-expression">
+      <status value="draft"/>
+      <description value="refer to primary care mental-health integrated care program for evaluation and treatment of mental health conditions now"/>
+      <kind value="ServiceRequest"/>
+      <code>
+        <coding>
+          <system value="http://snomed.info/sct"/>
+          <code value="306206005"/>
+        </coding>
+        <text value="Referral to service (procedure)"/>
+      </code>
+      <timingTiming>
+        <event>
+          <extension url="http://hl7.org/fhir/StructureDefinition/cqf-expression">
             <valueExpression>
               <language value="text/cql"/>
-	  		  <expression value="Now()"/>
+              <expression value="Now()"/>
             </valueExpression>
-    		  </extension>
-    		</event>
-	    </timingTiming>
+          </extension>
+        </event>
+      </timingTiming>
       <participant>
         <type value="practitioner"/>
-	    </participant>
+      </participant>
     </ActivityDefinition>
   </contained>
   <contained>
@@ -710,21 +1338,20 @@
             <unit value="{tbl}"/>
           </doseQuantity>
         </doseAndRate>
-        
       </dosage>
       <dynamicValue>
         <path value="dispenseRequest.numberOfRepeatsAllowed"/>
         <expression>
           <language value="text/cql"/>
           <expression value="3"/>
-	    </expression>
+        </expression>
       </dynamicValue>
       <dynamicValue>
         <path value="dispenseRequest.quantity"/>
         <expression>
           <language value="text/cql"/>
           <expression value="30 '{tbl}'"/>
-	    </expression>
+        </expression>
       </dynamicValue>
     </ActivityDefinition>
   </contained>
@@ -738,29 +1365,29 @@
         </coding>
         <text value="citalopram"/>
       </code>
-        <form>
-          <coding>
-            <system value="http://snomed.info/sct"/>
-            <code value="385055001"/>
-            <display value="Tablet dose form"/>
-          </coding>
-          <text value="Tablet dose form"/>
-        </form>
-        <ingredient>
-          <itemReference>
-            <reference value="#citalopramSubstance"/>
-          </itemReference>
-          <strength>
-            <numerator>
-              <value value="20"/>
-              <unit value="mg"/>
-            </numerator>
-            <denominator>
-              <value value="1"/>
-              <unit value="{tbl}"/>
-            </denominator>
-          </strength>
-        </ingredient>
+      <form>
+        <coding>
+          <system value="http://snomed.info/sct"/>
+          <code value="385055001"/>
+          <display value="Tablet dose form"/>
+        </coding>
+        <text value="Tablet dose form"/>
+      </form>
+      <ingredient>
+        <itemReference>
+          <reference value="#citalopramSubstance"/>
+        </itemReference>
+        <strength>
+          <numerator>
+            <value value="20"/>
+            <unit value="mg"/>
+          </numerator>
+          <denominator>
+            <value value="1"/>
+            <unit value="{tbl}"/>
+          </denominator>
+        </strength>
+      </ingredient>
     </Medication>
   </contained>
   <contained>
@@ -915,29 +1542,31 @@
     <telecom>
       <system value="phone"/>
       <value value="415-362-4007"/>
-	  <use value="work"/>
+      <use value="work"/>
     </telecom>
     <telecom>
-	  <system value="email"/>
-	  <value value="info@motivemi.com"/>
-	  <use value="work"/>
+      <system value="email"/>
+      <value value="info@motivemi.com"/>
+      <use value="work"/>
     </telecom>
   </author>
   <relatedArtifact>
     <type value="derived-from"/>
     <display value="Practice Guideline for the Treatment of Patients with Major Depressive Disorder"/>
     <url value="http://psychiatryonline.org/pb/assets/raw/sitewide/practice_guidelines/guidelines/mdd.pdf"/>
+    <document>
+      <url value="http://psychiatryonline.org/pb/assets/raw/sitewide/practice_guidelines/guidelines/mdd.pdf"/>
+    </document>
   </relatedArtifact>
   <relatedArtifact>
     <type value="composed-of"/>
-    <resource value="ActivityDefinition/referralPrimaryCareMentalHealth"/>
+    <resource value="http://example.org/fhir/ActivityDefinition/referralPrimaryCareMentalHealth"/>
   </relatedArtifact>
   <relatedArtifact>
     <type value="composed-of"/>
-    <resource value="ActivityDefinition/citalopramPrescription"/>
+    <resource value="http://example.org/fhir/ActivityDefinition/citalopramPrescription"/>
   </relatedArtifact>
-  <library value="Library/suiciderisk-orderset-logic"/>
-  <!--  Actions  -->
+  <library value="http://example.org/fhir/Library/suiciderisk-orderset-logic"/>
   <action>
     <title value="Suicide Risk Assessment and Outpatient Management"/>
     <action>
@@ -947,57 +1576,54 @@
       <action>
         <textEquivalent value="Refer to outpatient mental health program for evaluation and treatment of mental health conditions now"/>
         <definitionCanonical value="#referralToMentalHealthCare"/>
-        <!--  These expressions will be evaluated with the library referenced above as an include  -->
         <dynamicValue>
           <path value="timing.event"/>
           <expression>
             <language value="text/cql"/>
             <expression value="Now()"/>
-		  </expression>
+          </expression>
         </dynamicValue>
         <dynamicValue>
           <path value="specialty"/>
-          <!--  This expression is code selector syntax in CQL, returning the code from the NPI provider taxonomy  -->
           <expression>
             <language value="text/cql"/>
             <expression value="Code '261QM0850X' from SuicideRiskLogic.&#34;NUCC Provider Taxonomy&#34; display 'Adult Mental Health'"/>
-		  </expression>
+          </expression>
         </dynamicValue>
         <dynamicValue>
-		  <!--  The fulfillmentTime element of the resulting ServiceRequest will be set to the result of the ServiceRequestFulfillmentTime expression defined in the SuicideRiskLogic library  -->
           <path value="occurrenceDateTime"/>
           <expression>
             <language value="text/cql"/>
             <expression value="SuicideRiskLogic.ServiceRequestFulfillmentTime"/>
-		  </expression>
+          </expression>
         </dynamicValue>
         <dynamicValue>
           <path value="subject"/>
           <expression>
             <language value="text/cql"/>
             <expression value="SuicideRiskLogic.Patient"/>
-		  </expression>
+          </expression>
         </dynamicValue>
         <dynamicValue>
           <path value="requester.agent"/>
           <expression>
             <language value="text/cql"/>
             <expression value="SuicideRiskLogic.Practitioner"/>
-		  </expression>
+          </expression>
         </dynamicValue>
         <dynamicValue>
           <path value="reasonCode"/>
           <expression>
             <language value="text/cql"/>
             <expression value="SuicideRiskLogic.RiskAssessmentScore"/>
-		  </expression>
+          </expression>
         </dynamicValue>
         <dynamicValue>
           <path value="reasonReference"/>
           <expression>
             <language value="text/cql"/>
             <expression value="SuicideRiskLogic.RiskAssessment"/>
-	      </expression>
+          </expression>
         </dynamicValue>
       </action>
     </action>
@@ -1007,17 +1633,18 @@
       <selectionBehavior value="at-most-one"/>
       <action>
         <title value="First-Line Antidepressants"/>
-          <documentation>
-            <type value="citation"/>
-            <document>
+        <documentation>
+          <type value="citation"/>
+          <url value="http://psychiatryonline.org/pb/assets/raw/sitewide/practice_guidelines/guidelines/mdd.pdf"/>
+          <document>
             <extension url="http://hl7.org/fhir/StructureDefinition/cqf-qualityOfEvidence">
-			  <valueCodeableConcept>
-			    <coding>
-			      <system value="http://terminology.hl7.org/CodeSystem/evidence-quality"/>
-			      <code value="high"/>
-			    </coding>
-			    <text value="High Quality"/>
-			  </valueCodeableConcept>
+              <valueCodeableConcept>
+                <coding>
+                  <system value="http://terminology.hl7.org/CodeSystem/evidence-quality"/>
+                  <code value="high"/>
+                </coding>
+                <text value="High Quality"/>
+              </valueCodeableConcept>
             </extension>
             <contentType value="text/html"/>
             <url value="http://psychiatryonline.org/pb/assets/raw/sitewide/practice_guidelines/guidelines/mdd.pdf"/>
@@ -1030,6 +1657,7 @@
           <title value="Selective Serotonin Reuptake Inhibitors (Choose a mazimum of one or document reasons for exception)"/>
           <documentation>
             <type value="citation"/>
+            <url value="http://dailymed.nlm.nih.gov/dailymed/drugInfo.cfm?setid=6daeb45c-451d-b135-bf8f-2d6dff4b6b01"/>
             <document>
               <contentType value="text/html"/>
               <url value="http://dailymed.nlm.nih.gov/dailymed/drugInfo.cfm?setid=6daeb45c-451d-b135-bf8f-2d6dff4b6b01"/>
@@ -1046,7 +1674,7 @@
               <expression>
                 <language value="text/cql"/>
                 <expression value="'draft'"/>
-			  </expression>
+              </expression>
             </dynamicValue>
             <dynamicValue>
               <path value="patient"/>
@@ -1060,14 +1688,14 @@
               <expression>
                 <language value="text/cql"/>
                 <expression value="SuicideRiskLogic.Practitioner"/>
-			  </expression>
+              </expression>
             </dynamicValue>
             <dynamicValue>
               <path value="reasonCode"/>
               <expression>
                 <language value="text/cql"/>
                 <expression value="SuicideRiskLogic.RiskAssessmentScore"/>
-			  </expression>
+              </expression>
             </dynamicValue>
             <dynamicValue>
               <path value="reasonReference"/>
@@ -1079,32 +1707,25 @@
           </action>
           <action>
             <textEquivalent value="escitalopram 10 mg tablet 1 tablet oral 1 time daily now (30 tablet; 3 refills)"/>
-            <!--  Follows pattern established above  -->
           </action>
           <action>
             <textEquivalent value="fluoxetine 20 mg capsule 1 capsule oral 1 time daily now (30 tablet; 3 refills)"/>
-            <!--  Follows pattern established above  -->
           </action>
           <action>
             <textEquivalent value="paroxetine 20 mg tablet 1 tablet oral 1 time daily now (30 tablet; 3 refills)"/>
-            <!--  Follows pattern established above  -->
           </action>
           <action>
             <textEquivalent value="sertraline 50 mg tablet 1 tablet oral 1 time daily now (30 tablet; 3 refills)"/>
-            <!--  Follows pattern established above  -->
           </action>
         </action>
         <action>
           <textEquivalent value="Dopamine Norepinephrine Reuptake Inhibitors (Choose a maximum of one or document reasons for exception)"/>
-          <!--  Follows pattern established above  -->
         </action>
         <action>
           <textEquivalent value="Serotonin Norepinephrine Reuptake Inhibitors (Choose a maximum of one or doument reasons for exception)"/>
-          <!--  Follows pattern established above  -->
         </action>
         <action>
           <textEquivalent value="Norepinephrine-Serotonin Modulators (Choose a maximum of one or document reasons for exception)"/>
-          <!--  Follows pattern established above  -->
         </action>
       </action>
     </action>

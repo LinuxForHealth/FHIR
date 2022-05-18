@@ -1,5 +1,5 @@
 /*
- * (C) Copyright IBM Corp. 2017, 2021
+ * (C) Copyright IBM Corp. 2017, 2022
  *
  * SPDX-License-Identifier: Apache-2.0
  */
@@ -83,6 +83,11 @@ public class FHIROperationContext {
      * The response parameters for this invocation
      */
     public static final String PROPNAME_RESPONSE_PARAMETERS = "RESPONSE_PARAMETERS";
+
+    /**
+     * The FHIRVersionParam for this invocation
+     */
+    public static final String PROPNAME_FHIR_VERSION = "FHIR_VERSION";
 
     private final Type type;
     private final String code;

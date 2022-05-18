@@ -12,11 +12,12 @@
     }
   ],
   "url": "http://hl7.org/fhir/StructureDefinition/FiveWs",
-  "version": "4.0.1",
+  "version": "4.3.0-cibuild",
   "name": "FiveWs",
   "title": "fivews",
   "status": "draft",
-  "date": "2019-11-01T09:29:23+11:00",
+  "experimental": false,
+  "date": "2022-04-23T22:21:35+00:00",
   "publisher": "Health Level Seven International fhir",
   "contact": [
     {
@@ -29,7 +30,7 @@
     }
   ],
   "description": "Logical Model: Who What When Where Why - Common pattern for all resources that deals with attribution.",
-  "fhirVersion": "4.0.1",
+  "fhirVersion": "4.3.0-cibuild",
   "mapping": [
     {
       "identity": "w5",
@@ -175,13 +176,16 @@
         "binding": {
           "extension": [
             {
+              "url": "http://hl7.org/fhir/build/StructureDefinition/binding-definition",
+              "valueString": "Status Field."
+            },
+            {
               "url": "http://hl7.org/fhir/StructureDefinition/elementdefinition-bindingName",
               "valueString": "CanonicalStatus"
             }
           ],
           "strength": "required",
-          "description": "Status Field.",
-          "valueSet": "http://hl7.org/fhir/ValueSet/resource-status|4.0.1"
+          "valueSet": "http://hl7.org/fhir/ValueSet/resource-status|4.3.0-cibuild"
         },
         "mapping": [
           {

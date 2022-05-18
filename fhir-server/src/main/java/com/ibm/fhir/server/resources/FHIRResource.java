@@ -44,6 +44,7 @@ import com.ibm.fhir.config.FHIRConfiguration;
 import com.ibm.fhir.config.FHIRRequestContext;
 import com.ibm.fhir.config.PropertyGroup;
 import com.ibm.fhir.core.FHIRConstants;
+import com.ibm.fhir.core.FHIRVersionParam;
 import com.ibm.fhir.exception.FHIROperationException;
 import com.ibm.fhir.model.format.Format;
 import com.ibm.fhir.model.generator.FHIRGenerator;
@@ -66,6 +67,7 @@ import com.ibm.fhir.persistence.helper.PersistenceHelper;
 import com.ibm.fhir.search.util.SearchHelper;
 import com.ibm.fhir.server.exception.FHIRRestBundledRequestException;
 import com.ibm.fhir.server.listener.FHIRServletContextListener;
+import com.ibm.fhir.server.resources.filters.FHIRVersionRequestFilter;
 
 import net.jcip.annotations.NotThreadSafe;
 
@@ -133,11 +135,8 @@ public class FHIRResource {
      * we'll throw an error to short-circuit the current in-progress REST API invocation.
      */
     protected void checkType(String type) throws FHIROperationException {
-        if (!ModelSupport.isResourceType(type)) {
-            throw buildUnsupportedResourceTypeException(type);
-        }
         if (!ModelSupport.isConcreteResourceType(type)) {
-            log.warning("Use of abstract resource types like '" + type + "' in FHIR URLs is deprecated and will be removed in a future release");
+            throw buildUnsupportedResourceTypeException(type);
         }
     }
 
@@ -485,5 +484,19 @@ public class FHIRResource {
                 .details(CodeableConcept.builder().text(string(msg)).build())
                 .build();
         return new FHIROperationException(msg).withIssue(issue);
+    }
+
+    /**
+     * The FHIRVersion to use for the current request
+     *
+     * @return the corresponding FHIRVersion for the com.ibm.fhir.server.fhirVersion request context attribute
+     */
+    protected FHIRVersionParam getFhirVersion() {
+        FHIRVersionParam fhirVersion = (FHIRVersionParam) httpServletRequest.getAttribute(FHIRVersionRequestFilter.FHIR_VERSION_PROP);
+        if (fhirVersion == null) {
+            log.warning("Missing request context attribute " + FHIRVersionRequestFilter.FHIR_VERSION_PROP + "; using 4.0");
+            fhirVersion = FHIRVersionParam.VERSION_40;
+        }
+        return fhirVersion;
     }
 }

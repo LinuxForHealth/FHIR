@@ -58,8 +58,8 @@
     }
   ],
   "purpose": "Notifies recipient systems that two patients have been \u0027linked\u0027 - meaning they represent the same individual",
-  "copyright": "� HL7.org 2011+",
-  "base": "MessageDefinition/example",
+  "copyright": "HL7.org 2011+",
+  "base": "http://hl7.org/fhir/MessageDefinition/example",
   "eventCoding": {
     "system": "http://example.org/fhir/message-events",
     "code": "admin-notify"
@@ -68,14 +68,14 @@
   "focus": [
     {
       "code": "Patient",
-      "profile": "StructureDefinition/example",
+      "profile": "http://hl7.org/fhir/StructureDefinition/example",
       "min": 2,
       "max": "2"
     }
   ],
   "allowedResponse": [
     {
-      "message": "MessageDefinition/patient-link-response",
+      "message": "http://hl7.org/fhir/MessageDefinition/patient-link-response",
       "situation": "Optional response message that may provide additional information"
     }
   ]

@@ -1,0 +1,539 @@
+{
+    "resourceType": "CodeSystem",
+    "id": "v2-0335",
+    "text": {
+        "status": "empty",
+        "div": "<div xmlns=\"http://www.w3.org/1999/xhtml\">Redacted for size</div>"
+    },
+    "extension": [
+        {
+            "url": "http://hl7.org/fhir/StructureDefinition/structuredefinition-wg",
+            "valueCode": "inm"
+        },
+        {
+            "url": "http://hl7.org/fhir/StructureDefinition/structuredefinition-wg",
+            "valueCode": "oo"
+        }
+    ],
+    "url": "http://terminology.hl7.org/CodeSystem/v2-0335",
+    "identifier": [
+        {
+            "system": "urn:ietf:rfc:3986",
+            "value": "urn:oid:2.16.840.1.113883.18.205"
+        }
+    ],
+    "version": "2.3.0",
+    "name": "RepeatPattern",
+    "title": "repeatPattern",
+    "status": "active",
+    "experimental": false,
+    "date": "2019-12-01",
+    "publisher": "HL7, Inc",
+    "contact": [
+        {
+            "telecom": [
+                {
+                    "system": "url",
+                    "value": "http://www.hl7.org/"
+                }
+            ]
+        }
+    ],
+    "description": "Code system of concepts used to specify the interval between repeated services.  Used in HL7 Version 2.x messaging in the RI datatype and RPT segment.",
+    "purpose": "Underlying Master Code System for V2 table 0335 (Repeat Pattern)",
+    "copyright": "Copyright HL7. Licensed under creative commons public domain",
+    "caseSensitive": true,
+    "valueSet": "http://terminology.hl7.org/ValueSet/v2-0335",
+    "hierarchyMeaning": "is-a",
+    "compositional": false,
+    "versionNeeded": false,
+    "content": "complete",
+    "property": [
+        {
+            "code": "status",
+            "uri": "http://terminology.hl7.org/CodeSystem/utg-concept-properties#status",
+            "description": "Status of the concept",
+            "type": "code"
+        },
+        {
+            "code": "deprecated",
+            "uri": "http://terminology.hl7.org/CodeSystem/utg-concept-properties#v2-table-deprecated",
+            "description": "Version of HL7 in which the code was deprecated",
+            "type": "code"
+        },
+        {
+            "code": "v2-concComment",
+            "uri": "http://terminology.hl7.org/CodeSystem/utg-concept-properties#v2-concComment",
+            "description": "V2 Concept Comment",
+            "type": "string"
+        },
+        {
+            "code": "v2-concCommentAsPub",
+            "uri": "http://terminology.hl7.org/CodeSystem/utg-concept-properties#v2-concCommentAsPub",
+            "description": "V2 Concept Comment As Published",
+            "type": "string"
+        }
+    ],
+    "concept": [
+        {
+            "id": "3079",
+            "code": "Q<integer>S",
+            "display": "every <integer> seconds",
+            "definition": "every <integer> seconds",
+            "property": [
+                {
+                    "code": "v2-concComment",
+                    "valueString": "This is not a real code, but guidelines how to construct the codes."
+                },
+                {
+                    "code": "status",
+                    "valueCode": "D"
+                }
+            ]
+        },
+        {
+            "id": "3080",
+            "code": "Q<integer>M",
+            "display": "every <integer> minutes",
+            "definition": "every <integer> minutes",
+            "property": [
+                {
+                    "code": "v2-concComment",
+                    "valueString": "This is not a real code, but guidelines how to construct the codes."
+                },
+                {
+                    "code": "status",
+                    "valueCode": "D"
+                }
+            ]
+        },
+        {
+            "id": "3081",
+            "code": "Q<integer>H",
+            "display": "every <integer> hours",
+            "definition": "every <integer> hours",
+            "property": [
+                {
+                    "code": "v2-concComment",
+                    "valueString": "This is not a real code, but guidelines how to construct the codes."
+                },
+                {
+                    "code": "status",
+                    "valueCode": "D"
+                }
+            ]
+        },
+        {
+            "id": "3082",
+            "code": "Q<integer>D",
+            "display": "every <integer> days",
+            "definition": "every <integer> days",
+            "property": [
+                {
+                    "code": "v2-concComment",
+                    "valueString": "This is not a real code, but guidelines how to construct the codes."
+                },
+                {
+                    "code": "status",
+                    "valueCode": "D"
+                }
+            ]
+        },
+        {
+            "id": "3083",
+            "code": "Q<integer>W",
+            "display": "every <integer> weeks",
+            "definition": "every <integer> weeks",
+            "property": [
+                {
+                    "code": "v2-concComment",
+                    "valueString": "This is not a real code, but guidelines how to construct the codes."
+                },
+                {
+                    "code": "status",
+                    "valueCode": "D"
+                }
+            ]
+        },
+        {
+            "id": "3084",
+            "code": "Q<integer>L",
+            "display": "every <integer> months (Lunar cycle)",
+            "definition": "every <integer> months (Lunar cycle)",
+            "property": [
+                {
+                    "code": "v2-concComment",
+                    "valueString": "This is not a real code, but guidelines how to construct the codes."
+                },
+                {
+                    "code": "status",
+                    "valueCode": "D"
+                }
+            ]
+        },
+        {
+            "id": "3085",
+            "code": "Q<integer>J<day#>",
+            "display": "repeats on a particular day of the week,",
+            "definition": "repeats on a particular day of the week,",
+            "property": [
+                {
+                    "code": "v2-concComment",
+                    "valueString": "This is not a real code, but guidelines how to construct the codes."
+                },
+                {
+                    "code": "v2-concCommentAsPub",
+                    "valueString": "From the French jour (day). If <integer> is missing, the repeat rate is assumed to be 1. Day numbers are counted from 1=Monday to 7=Sunday. So Q2J2 means every second Tuesday; Q1J6 means every Saturday."
+                },
+                {
+                    "code": "status",
+                    "valueCode": "D"
+                }
+            ]
+        },
+        {
+            "id": "3086",
+            "code": "BID",
+            "display": "twice a day at institution-specified times",
+            "definition": "twice a day at institution-specified times",
+            "property": [
+                {
+                    "code": "v2-concComment",
+                    "valueString": "(e.g., 9AM-4PM)"
+                },
+                {
+                    "code": "v2-concCommentAsPub",
+                    "valueString": "(e.g., 9AM-4PM)"
+                },
+                {
+                    "code": "status",
+                    "valueCode": "A"
+                }
+            ]
+        },
+        {
+            "id": "3087",
+            "code": "TID",
+            "display": "three times a day at institution-specified times",
+            "definition": "three times a day at institution-specified times",
+            "property": [
+                {
+                    "code": "v2-concComment",
+                    "valueString": "(e.g., 9AM-4PM-9PM)"
+                },
+                {
+                    "code": "v2-concCommentAsPub",
+                    "valueString": "(e.g., 9AM-4PM-9PM)"
+                },
+                {
+                    "code": "status",
+                    "valueCode": "A"
+                }
+            ]
+        },
+        {
+            "id": "3088",
+            "code": "QID",
+            "display": "four times a day at institution-specified times",
+            "definition": "four times a day at institution-specified times",
+            "property": [
+                {
+                    "code": "v2-concComment",
+                    "valueString": "(e.g., 9AM-11AM-4PM-9PM)"
+                },
+                {
+                    "code": "v2-concCommentAsPub",
+                    "valueString": "(e.g., 9AM-11AM-4PM-9PM)"
+                },
+                {
+                    "code": "status",
+                    "valueCode": "A"
+                }
+            ]
+        },
+        {
+            "id": "3089",
+            "code": "xID",
+            "display": "\"X\" times per day at institution-specified times, where X is a numeral 5 or greater.",
+            "definition": "\"X\" times per day at institution-specified times, where X is a numeral 5 or greater.",
+            "property": [
+                {
+                    "code": "v2-concComment",
+                    "valueString": "This is not a real code, but guidelines how to construct the codes."
+                },
+                {
+                    "code": "v2-concCommentAsPub",
+                    "valueString": "(e.g., 5ID=five times per day; 8ID=8 times per day)"
+                },
+                {
+                    "code": "status",
+                    "valueCode": "D"
+                }
+            ]
+        },
+        {
+            "id": "3090",
+            "code": "QAM",
+            "display": "in the morning at institution-specified time",
+            "definition": "in the morning at institution-specified time",
+            "property": [
+                {
+                    "code": "status",
+                    "valueCode": "A"
+                }
+            ]
+        },
+        {
+            "id": "3091",
+            "code": "QSHIFT",
+            "display": "during each of three eight-hour shifts at institution-specified times",
+            "definition": "during each of three eight-hour shifts at institution-specified times",
+            "property": [
+                {
+                    "code": "status",
+                    "valueCode": "A"
+                }
+            ]
+        },
+        {
+            "id": "3092",
+            "code": "QOD",
+            "display": "every other day",
+            "definition": "every other day",
+            "property": [
+                {
+                    "code": "v2-concComment",
+                    "valueString": "(same as Q2D)"
+                },
+                {
+                    "code": "v2-concCommentAsPub",
+                    "valueString": "(same as Q2D)"
+                },
+                {
+                    "code": "status",
+                    "valueCode": "A"
+                }
+            ]
+        },
+        {
+            "id": "3093",
+            "code": "QHS",
+            "display": "every day before the hour of sleep",
+            "definition": "every day before the hour of sleep",
+            "property": [
+                {
+                    "code": "status",
+                    "valueCode": "A"
+                }
+            ]
+        },
+        {
+            "id": "3094",
+            "code": "QPM",
+            "display": "in the evening at institution-specified time",
+            "definition": "in the evening at institution-specified time",
+            "property": [
+                {
+                    "code": "status",
+                    "valueCode": "A"
+                }
+            ]
+        },
+        {
+            "id": "3095",
+            "code": "C",
+            "display": "service is provided continuously between start time and stop time",
+            "definition": "service is provided continuously between start time and stop time",
+            "property": [
+                {
+                    "code": "status",
+                    "valueCode": "A"
+                }
+            ]
+        },
+        {
+            "id": "3096",
+            "code": "U <spec>",
+            "display": "for future use, where <spec> is an interval specification as defined by the UNIX cron specification.",
+            "definition": "for future use, where <spec> is an interval specification as defined by the UNIX cron specification.",
+            "property": [
+                {
+                    "code": "v2-concComment",
+                    "valueString": "This is not a real code, but guidelines how to construct the codes."
+                },
+                {
+                    "code": "status",
+                    "valueCode": "D"
+                }
+            ]
+        },
+        {
+            "id": "3097",
+            "code": "PRN",
+            "display": "given as needed",
+            "definition": "given as needed",
+            "property": [
+                {
+                    "code": "status",
+                    "valueCode": "A"
+                }
+            ]
+        },
+        {
+            "id": "3098",
+            "code": "PRNxxx",
+            "display": "where xxx is some frequency code",
+            "definition": "where xxx is some frequency code",
+            "property": [
+                {
+                    "code": "v2-concComment",
+                    "valueString": "This is not a real code, but guidelines how to construct the codes."
+                },
+                {
+                    "code": "v2-concCommentAsPub",
+                    "valueString": "(e.g., PRNQ6H); given as needed over the frequency period."
+                },
+                {
+                    "code": "status",
+                    "valueCode": "D"
+                }
+            ]
+        },
+        {
+            "id": "3099",
+            "code": "Once",
+            "display": "one time only.",
+            "definition": "one time only.",
+            "property": [
+                {
+                    "code": "v2-concComment",
+                    "valueString": "This is also the default when this component is null."
+                },
+                {
+                    "code": "v2-concCommentAsPub",
+                    "valueString": "This is also the default when this component is null."
+                },
+                {
+                    "code": "status",
+                    "valueCode": "A"
+                }
+            ]
+        },
+        {
+            "id": "3100",
+            "code": "Meal Related Timings",
+            "display": "<timing>C (\"cum\")<meal>",
+            "definition": "<timing>C (\"cum\")<meal>",
+            "property": [
+                {
+                    "code": "v2-concComment",
+                    "valueString": "This is not a real code, but guidelines how to construct the codes."
+                },
+                {
+                    "code": "status",
+                    "valueCode": "D"
+                }
+            ]
+        },
+        {
+            "id": "3101",
+            "code": "A",
+            "display": "Ante (before)",
+            "definition": "Ante (before)",
+            "property": [
+                {
+                    "code": "v2-concComment",
+                    "valueString": "This is not a real code, but guidelines how to construct the codes."
+                },
+                {
+                    "code": "status",
+                    "valueCode": "D"
+                }
+            ]
+        },
+        {
+            "id": "3102",
+            "code": "P",
+            "display": "Post (after)",
+            "definition": "Post (after)",
+            "property": [
+                {
+                    "code": "v2-concComment",
+                    "valueString": "This is not a real code, but guidelines how to construct the codes."
+                },
+                {
+                    "code": "status",
+                    "valueCode": "D"
+                }
+            ]
+        },
+        {
+            "id": "3103",
+            "code": "I",
+            "display": "Inter",
+            "definition": "Inter",
+            "property": [
+                {
+                    "code": "v2-concComment",
+                    "valueString": "This is not a real code, but guidelines how to construct the codes."
+                },
+                {
+                    "code": "v2-concCommentAsPub",
+                    "valueString": "(e.g., between this meal and the next, between dinner and sleep"
+                },
+                {
+                    "code": "status",
+                    "valueCode": "D"
+                }
+            ]
+        },
+        {
+            "id": "3104",
+            "code": "M",
+            "display": "Cibus Matutinus (breakfast)",
+            "definition": "Cibus Matutinus (breakfast)",
+            "property": [
+                {
+                    "code": "v2-concComment",
+                    "valueString": "This is not a real code, but guidelines how to construct the codes."
+                },
+                {
+                    "code": "status",
+                    "valueCode": "D"
+                }
+            ]
+        },
+        {
+            "id": "3105",
+            "code": "D",
+            "display": "Cibus Diurnus (lunch)",
+            "definition": "Cibus Diurnus (lunch)",
+            "property": [
+                {
+                    "code": "v2-concComment",
+                    "valueString": "This is not a real code, but guidelines how to construct the codes."
+                },
+                {
+                    "code": "status",
+                    "valueCode": "D"
+                }
+            ]
+        },
+        {
+            "id": "3106",
+            "code": "V",
+            "display": "Cibus Vespertinus (dinner)",
+            "definition": "Cibus Vespertinus (dinner)",
+            "property": [
+                {
+                    "code": "v2-concComment",
+                    "valueString": "This is not a real code, but guidelines how to construct the codes."
+                },
+                {
+                    "code": "status",
+                    "valueCode": "D"
+                }
+            ]
+        }
+    ]
+}

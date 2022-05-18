@@ -1,0 +1,29 @@
+{
+    "resourceType": "CodeSystem",
+    "id": "IUPP",
+    "text": {
+        "status": "empty",
+        "div": "<div xmlns=\"http://www.w3.org/1999/xhtml\">Redacted for size</div>"
+    },
+    "url": "http://terminology.hl7.org/CodeSystem/IUPP",
+    "identifier": [
+        {
+            "system": "urn:ietf:rfc:3986",
+            "value": "urn:oid:2.16.840.1.113883.6.46"
+        }
+    ],
+    "version": "2.0.0",
+    "name": "IUPP",
+    "title": "IUPAC/IFCC Property Codes",
+    "status": "retired",
+    "experimental": false,
+    "date": "2021-11-09T10:00:00+10:00",
+    "publisher": "TBD - External Body",
+    "contact": [
+        {
+            "name": "International Union of Pure and Applied Chemistry"
+        }
+    ],
+    "description": "IUPAC/IFCC Property Codes",
+    "content": "not-present"
+}

@@ -1,0 +1,44 @@
+{
+    "resourceType": "SearchParameter",
+    "id": "SubstanceDefinition-name",
+    "extension": [
+        {
+            "url": "http://hl7.org/fhir/StructureDefinition/structuredefinition-standards-status",
+            "valueCode": "normative"
+        }
+    ],
+    "url": "http://hl7.org/fhir/SearchParameter/SubstanceDefinition-name",
+    "version": "4.3.0-cibuild",
+    "name": "name",
+    "status": "active",
+    "experimental": false,
+    "date": "2022-04-23T22:21:35Z",
+    "publisher": "Health Level Seven International (Biomedical Research and Regulation)",
+    "contact": [
+        {
+            "telecom": [
+                {
+                    "system": "url",
+                    "value": "http://hl7.org/fhir"
+                }
+            ]
+        },
+        {
+            "telecom": [
+                {
+                    "system": "url",
+                    "value": "http://www.hl7.org/Special/committees/rcrim/index.cfm"
+                }
+            ]
+        }
+    ],
+    "description": "The actual name",
+    "code": "name",
+    "base": [
+        "SubstanceDefinition"
+    ],
+    "type": "string",
+    "expression": "SubstanceDefinition.name.name",
+    "xpath": "f:SubstanceDefinition/f:name/f:name",
+    "xpathUsage": "normal"
+}

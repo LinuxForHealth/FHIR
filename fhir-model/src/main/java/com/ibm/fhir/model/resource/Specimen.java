@@ -1,5 +1,5 @@
 /*
- * (C) Copyright IBM Corp. 2019, 2021
+ * (C) Copyright IBM Corp. 2019, 2022
  *
  * SPDX-License-Identifier: Apache-2.0
  */
@@ -79,7 +79,7 @@ public class Specimen extends DomainResource {
         bindingName = "SpecimenStatus",
         strength = BindingStrength.Value.REQUIRED,
         description = "Codes providing the status/availability of a specimen.",
-        valueSet = "http://hl7.org/fhir/ValueSet/specimen-status|4.0.1"
+        valueSet = "http://hl7.org/fhir/ValueSet/specimen-status|4.3.0-cibuild"
     )
     private final SpecimenStatus status;
     @Summary
@@ -1087,7 +1087,7 @@ public class Specimen extends DomainResource {
         @Binding(
             bindingName = "BodySite",
             strength = BindingStrength.Value.EXAMPLE,
-            description = "Codes describing anatomical locations. May include laterality.",
+            description = "SNOMED CT Body site concepts",
             valueSet = "http://hl7.org/fhir/ValueSet/body-site"
         )
         private final CodeableConcept bodySite;

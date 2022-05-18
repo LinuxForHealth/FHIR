@@ -1,5 +1,5 @@
 /*
- * (C) Copyright IBM Corp. 2019, 2021
+ * (C) Copyright IBM Corp. 2019, 2022
  *
  * SPDX-License-Identifier: Apache-2.0
  */
@@ -36,8 +36,8 @@ import com.ibm.fhir.model.type.Uri;
 import com.ibm.fhir.model.type.UsageContext;
 import com.ibm.fhir.model.type.code.BindingStrength;
 import com.ibm.fhir.model.type.code.ExampleScenarioActorType;
-import com.ibm.fhir.model.type.code.FHIRResourceType;
 import com.ibm.fhir.model.type.code.PublicationStatus;
+import com.ibm.fhir.model.type.code.ResourceTypeCode;
 import com.ibm.fhir.model.type.code.StandardsStatus;
 import com.ibm.fhir.model.util.ValidationSupport;
 import com.ibm.fhir.model.visitor.Visitor;
@@ -56,7 +56,7 @@ import com.ibm.fhir.model.visitor.Visitor;
     level = "Warning",
     location = "(base)",
     description = "Name should be usable as an identifier for the module by machine processing applications such as code generation",
-    expression = "name.matches('[A-Z]([A-Za-z0-9_]){0,254}')",
+    expression = "name.exists() implies name.matches('[A-Z]([A-Za-z0-9_]){0,254}')",
     source = "http://hl7.org/fhir/StructureDefinition/ExampleScenario"
 )
 @Constraint(
@@ -83,7 +83,7 @@ public class ExampleScenario extends DomainResource {
         bindingName = "PublicationStatus",
         strength = BindingStrength.Value.REQUIRED,
         description = "The lifecycle status of an artifact.",
-        valueSet = "http://hl7.org/fhir/ValueSet/publication-status|4.0.1"
+        valueSet = "http://hl7.org/fhir/ValueSet/publication-status|4.3.0-cibuild"
     )
     @Required
     private final PublicationStatus status;
@@ -1283,7 +1283,7 @@ public class ExampleScenario extends DomainResource {
             bindingName = "ExampleScenarioActorType",
             strength = BindingStrength.Value.REQUIRED,
             description = "The type of actor - system or human.",
-            valueSet = "http://hl7.org/fhir/ValueSet/examplescenario-actor-type|4.0.1"
+            valueSet = "http://hl7.org/fhir/ValueSet/examplescenario-actor-type|4.3.0-cibuild"
         )
         @Required
         private final ExampleScenarioActorType type;
@@ -1678,10 +1678,10 @@ public class ExampleScenario extends DomainResource {
             bindingName = "FHIRResourceType",
             strength = BindingStrength.Value.REQUIRED,
             description = "The type of resource.",
-            valueSet = "http://hl7.org/fhir/ValueSet/resource-types|4.0.1"
+            valueSet = "http://hl7.org/fhir/ValueSet/resource-types|4.3.0-cibuild"
         )
         @Required
-        private final FHIRResourceType resourceType;
+        private final ResourceTypeCode resourceType;
         private final String name;
         private final Markdown description;
         private final List<Version> version;
@@ -1711,9 +1711,9 @@ public class ExampleScenario extends DomainResource {
          * The type of the resource.
          * 
          * @return
-         *     An immutable object of type {@link FHIRResourceType} that is non-null.
+         *     An immutable object of type {@link ResourceTypeCode} that is non-null.
          */
-        public FHIRResourceType getResourceType() {
+        public ResourceTypeCode getResourceType() {
             return resourceType;
         }
 
@@ -1841,7 +1841,7 @@ public class ExampleScenario extends DomainResource {
 
         public static class Builder extends BackboneElement.Builder {
             private String resourceId;
-            private FHIRResourceType resourceType;
+            private ResourceTypeCode resourceType;
             private String name;
             private Markdown description;
             private List<Version> version = new ArrayList<>();
@@ -2007,7 +2007,7 @@ public class ExampleScenario extends DomainResource {
              * @return
              *     A reference to this Builder instance
              */
-            public Builder resourceType(FHIRResourceType resourceType) {
+            public Builder resourceType(ResourceTypeCode resourceType) {
                 this.resourceType = resourceType;
                 return this;
             }

@@ -1,4 +1,4 @@
-<?xml version="1.0" encoding="UTF-8"?><ImplementationGuide xmlns="http://hl7.org/fhir"> 
+<?xml version="1.0" encoding="UTF-8"?><ImplementationGuide xmlns="http://hl7.org/fhir">
   <id value="example"/>
   <meta>
     <security>
@@ -7,7 +7,267 @@
       <display value="test health data"/>
     </security>
   </meta>
-  <text><status value="generated"/><div xmlns="http://www.w3.org/1999/xhtml"><p><b>Generated Narrative with Details</b></p><p><b>id</b>: example</p><p><b>url</b>: <b>http://hl7.org/fhir/us/daf</b></p><p><b>version</b>: 0</p><p><b>name</b>: Data Access Framework (DAF)</p><p><b>status</b>: draft</p><p><b>experimental</b>: false</p><p><b>date</b>: 01/01/2015</p><p><b>publisher</b>: ONC / HL7 Joint project</p><p><b>contact</b>: , </p><p><b>description</b>: The Data Access Framework (DAF) Initiative leverages the HL7 FHIR standards to standardize access to Meaningful Use Stage 2 structured information both within the organization and from external organizations</p><p><b>jurisdiction</b>: United States of America <span>(Details : {urn:iso:std:iso:3166 code 'US' = 'United States of America)</span></p><p><b>copyright</b>: Published by ONC under the standard FHIR license (CC0)</p><p><b>packageId</b>: hl7.fhir.us.daf</p><p><b>license</b>: CC0-1.0</p><p><b>fhirVersion</b>: 4.0.1</p><h3>DependsOns</h3><table><tr><td>-</td><td><b>Uri</b></td></tr><tr><td>*</td><td><a>http://hl7.org/fhir/ImplementationGuide/uscore</a></td></tr></table><h3>Globals</h3><table><tr><td>-</td><td><b>Type</b></td><td><b>Profile</b></td></tr><tr><td>*</td><td>Patient</td><td><a>http://hl7.org/fhir/us/core/StructureDefinition/patient</a></td></tr></table><blockquote><p><b>definition</b></p><h3>Groupings</h3><table><tr><td>-</td><td><b>Name</b></td><td><b>Description</b></td></tr><tr><td>*</td><td>test</td><td>Base package (not broken up into multiple packages)</td></tr></table><h3>Resources</h3><table><tr><td>-</td><td><b>Reference</b></td><td><b>Name</b></td><td><b>Description</b></td><td><b>Example[x]</b></td></tr><tr><td>*</td><td><a>Patient/test</a></td><td>Test Example</td><td>A test example to show how an implementation guide works</td><td><a>http://hl7.org/fhir/us/core/StructureDefinition/patient</a></td></tr></table><blockquote><p><b>page</b></p><p><b>name</b>: <a>patient-example.html</a></p><p><b>title</b>: Example Patient Page</p><p><b>generation</b>: html</p><h3>Pages</h3><table><tr><td>-</td></tr><tr><td>*</td></tr></table></blockquote><h3>Parameters</h3><table><tr><td>-</td><td><b>Code</b></td><td><b>Value</b></td></tr><tr><td>*</td><td>apply</td><td>version</td></tr></table></blockquote><blockquote><p><b>manifest</b></p><p><b>rendering</b>: <a>http://hl7.org/fhir/us/daf</a></p><h3>Resources</h3><table><tr><td>-</td><td><b>Reference</b></td><td><b>Example[x]</b></td><td><b>RelativePath</b></td></tr><tr><td>*</td><td><a>Patient/test</a></td><td><a>http://hl7.org/fhir/us/core/StructureDefinition/patient</a></td><td><a>patient-test.html#patient-test</a></td></tr></table><h3>Pages</h3><table><tr><td>-</td><td><b>Name</b></td><td><b>Title</b></td><td><b>Anchor</b></td></tr><tr><td>*</td><td>patient-test.html</td><td>Test Patient Example</td><td>patient-test</td></tr></table><p><b>image</b>: fhir.png</p><p><b>other</b>: fhir.css</p></blockquote></div></text><url value="http://hl7.org/fhir/us/daf"/>
+  <text>
+    <status value="generated"/>
+    <div xmlns="http://www.w3.org/1999/xhtml">
+      <p>
+        <b>Generated Narrative</b>
+      </p>
+      <div style="display: inline-block; background-color: #d9e0e7; padding: 6px; margin: 4px; border: 1px solid #8da1b4; border-radius: 5px; line-height: 60%">
+        <p style="margin-bottom: 0px">Resource "example" </p>
+      </div>
+      <p>
+        <b>url</b>: 
+        <code>http://hl7.org/fhir/us/daf</code>
+      </p>
+      <p>
+        <b>version</b>: 0
+      </p>
+      <p>
+        <b>name</b>: Data Access Framework (DAF)
+      </p>
+      <p>
+        <b>status</b>: draft
+      </p>
+      <p>
+        <b>experimental</b>: false
+      </p>
+      <p>
+        <b>date</b>: 2015-01-01
+      </p>
+      <p>
+        <b>publisher</b>: ONC / HL7 Joint project
+      </p>
+      <p>
+        <b>contact</b>: ONC: 
+        <a href="http://www.healthit.gov">http://www.healthit.gov</a>, HL7: 
+        <a href="http://hl7.org/fhir">http://hl7.org/fhir</a>
+      </p>
+      <p>
+        <b>description</b>: The Data Access Framework (DAF) Initiative leverages the HL7 FHIR standards to standardize access to Meaningful Use Stage 2 structured information both within the organization and from external organizations
+      </p>
+      <p>
+        <b>jurisdiction</b>: United States of America 
+        <span style="background: LightGoldenRodYellow; margin: 4px; border: 1px solid khaki"> (unknown#US)</span>
+      </p>
+      <p>
+        <b>copyright</b>: Published by ONC under the standard FHIR license (CC0)
+      </p>
+      <p>
+        <b>packageId</b>: hl7.fhir.us.daf
+      </p>
+      <p>
+        <b>license</b>: CC0-1.0
+      </p>
+      <p>
+        <b>fhirVersion</b>: 4.3.0-cibuild
+      </p>
+      <h3>DependsOns</h3>
+      <table class="grid">
+        <tr>
+          <td>-</td>
+          <td>
+            <b>Uri</b>
+          </td>
+        </tr>
+        <tr>
+          <td>*</td>
+          <td>
+            <a href="http://hl7.org/fhir/ImplementationGuide/uscore">http://hl7.org/fhir/ImplementationGuide/uscore</a>
+          </td>
+        </tr>
+      </table>
+      <h3>Globals</h3>
+      <table class="grid">
+        <tr>
+          <td>-</td>
+          <td>
+            <b>Type</b>
+          </td>
+          <td>
+            <b>Profile</b>
+          </td>
+        </tr>
+        <tr>
+          <td>*</td>
+          <td>Patient</td>
+          <td>
+            <a href="http://hl7.org/fhir/us/core/StructureDefinition/patient">http://hl7.org/fhir/us/core/StructureDefinition/patient</a>
+          </td>
+        </tr>
+      </table>
+      <blockquote>
+        <p>
+          <b>definition</b>
+        </p>
+        <h3>Groupings</h3>
+        <table class="grid">
+          <tr>
+            <td>-</td>
+            <td>
+              <b>Name</b>
+            </td>
+            <td>
+              <b>Description</b>
+            </td>
+          </tr>
+          <tr>
+            <td>*</td>
+            <td>test</td>
+            <td>Base package (not broken up into multiple packages)</td>
+          </tr>
+        </table>
+        <h3>Resources</h3>
+        <table class="grid">
+          <tr>
+            <td>-</td>
+            <td>
+              <b>Reference</b>
+            </td>
+            <td>
+              <b>Name</b>
+            </td>
+            <td>
+              <b>Description</b>
+            </td>
+            <td>
+              <b>Example[x]</b>
+            </td>
+          </tr>
+          <tr>
+            <td>*</td>
+            <td>
+              <a href="todo.html">Patient/test</a>
+            </td>
+            <td>Test Example</td>
+            <td>A test example to show how an implementation guide works</td>
+            <td>
+              <a href="http://hl7.org/fhir/us/core/StructureDefinition/patient">http://hl7.org/fhir/us/core/StructureDefinition/patient</a>
+            </td>
+          </tr>
+        </table>
+        <blockquote>
+          <p>
+            <b>page</b>
+          </p>
+          <p>
+            <b>name</b>: 
+            <code>patient-example.html</code>
+          </p>
+          <p>
+            <b>title</b>: Example Patient Page
+          </p>
+          <p>
+            <b>generation</b>: html
+          </p>
+          <h3>Pages</h3>
+          <table class="grid">
+            <tr>
+              <td>-</td>
+              <td>
+                <b>Name[x]</b>
+              </td>
+              <td>
+                <b>Title</b>
+              </td>
+              <td>
+                <b>Generation</b>
+              </td>
+            </tr>
+            <tr>
+              <td>*</td>
+              <td>
+                <code>list.html</code>
+              </td>
+              <td>Value Set Page</td>
+              <td>html</td>
+            </tr>
+          </table>
+        </blockquote>
+        <h3>Parameters</h3>
+        <table class="grid">
+          <tr>
+            <td>-</td>
+            <td>
+              <b>Code</b>
+            </td>
+            <td>
+              <b>Value</b>
+            </td>
+          </tr>
+          <tr>
+            <td>*</td>
+            <td>apply</td>
+            <td>version</td>
+          </tr>
+        </table>
+      </blockquote>
+      <blockquote>
+        <p>
+          <b>manifest</b>
+        </p>
+        <p>
+          <b>rendering</b>: 
+          <a href="http://hl7.org/fhir/us/daf">http://hl7.org/fhir/us/daf</a>
+        </p>
+        <h3>Resources</h3>
+        <table class="grid">
+          <tr>
+            <td>-</td>
+            <td>
+              <b>Reference</b>
+            </td>
+            <td>
+              <b>Example[x]</b>
+            </td>
+            <td>
+              <b>RelativePath</b>
+            </td>
+          </tr>
+          <tr>
+            <td>*</td>
+            <td>
+              <a href="todo.html">Patient/test</a>
+            </td>
+            <td>
+              <a href="http://hl7.org/fhir/us/core/StructureDefinition/patient">http://hl7.org/fhir/us/core/StructureDefinition/patient</a>
+            </td>
+            <td>
+              <code>patient-test.html#patient-test</code>
+            </td>
+          </tr>
+        </table>
+        <h3>Pages</h3>
+        <table class="grid">
+          <tr>
+            <td>-</td>
+            <td>
+              <b>Name</b>
+            </td>
+            <td>
+              <b>Title</b>
+            </td>
+            <td>
+              <b>Anchor</b>
+            </td>
+          </tr>
+          <tr>
+            <td>*</td>
+            <td>patient-test.html</td>
+            <td>Test Patient Example</td>
+            <td>patient-test, tx, uml</td>
+          </tr>
+        </table>
+        <p>
+          <b>image</b>: fhir.png
+        </p>
+        <p>
+          <b>other</b>: fhir.css
+        </p>
+      </blockquote>
+    </div>
+  </text>
+  <url value="http://hl7.org/fhir/us/daf"/>
   <version value="0"/>
   <name value="Data Access Framework (DAF)"/>
   <status value="draft"/>
@@ -38,20 +298,19 @@
   <copyright value="Published by ONC under the standard FHIR license (CC0)"/>
   <packageId value="hl7.fhir.us.daf"/>
   <license value="CC0-1.0"/>
-  <fhirVersion value="4.0.1"/>
-  <dependsOn> 
+  <fhirVersion value="4.3.0-cibuild"/>
+  <dependsOn>
     <uri value="http://hl7.org/fhir/ImplementationGuide/uscore"/>
   </dependsOn>
   <global>
-   <!--   all patients have to conform to daf-patient   -->
-   <type value="Patient"/>
-   <profile value="http://hl7.org/fhir/us/core/StructureDefinition/patient"/>
+    <type value="Patient"/>
+    <profile value="http://hl7.org/fhir/us/core/StructureDefinition/patient"/>
   </global>
   <definition>
     <grouping>
       <name value="test"/>
       <description value="Base package (not broken up into multiple packages)"/>
-    </grouping>  
+    </grouping>
     <resource>
       <reference>
         <reference value="Patient/test"/>
@@ -73,13 +332,13 @@
     <parameter>
       <code value="apply"/>
       <value value="version"/>
-    </parameter>    
+    </parameter>
   </definition>
   <manifest>
     <rendering value="http://hl7.org/fhir/us/daf"/>
     <resource>
       <reference>
-        <reference value="Patient/test"/> 
+        <reference value="Patient/test"/>
       </reference>
       <exampleCanonical value="http://hl7.org/fhir/us/core/StructureDefinition/patient"/>
       <relativePath value="patient-test.html#patient-test"/>

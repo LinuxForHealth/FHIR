@@ -13,10 +13,11 @@
     <valueCode value="4.0.0"/>
   </extension>
   <url value="http://hl7.org/fhir/StructureDefinition/instant"/>
-  <version value="4.0.1"/>
+  <version value="4.3.0-cibuild"/>
   <name value="instant"/>
   <status value="active"/>
-  <date value="2019-11-01T09:29:23+11:00"/>
+  <experimental value="false"/>
+  <date value="2022-04-23T22:21:35+00:00"/>
   <publisher value="HL7 FHIR Standard"/>
   <contact>
     <telecom>
@@ -25,7 +26,7 @@
     </telecom>
   </contact>
   <description value="Base StructureDefinition for instant Type: An instant in time - known at least to the second"/>
-  <fhirVersion value="4.0.1"/>
+  <fhirVersion value="4.3.0-cibuild"/>
   <kind value="primitive-type"/>
   <abstract value="false"/>
   <type value="instant"/>
@@ -47,9 +48,9 @@
       <constraint>
         <key value="ele-1"/>
         <severity value="error"/>
-        <human value="All FHIR elements must have a @value or children"/>
-        <expression value="hasValue() or (children().count() &gt; id.count())"/>
-        <xpath value="@value|f:*|h:div"/>
+        <human value="All FHIR elements must have a @value or children unless an empty Parameters resource"/>
+        <expression value="hasValue() or (children().count() &gt; id.count()) or $this is Parameters"/>
+        <xpath value="@value|f:*|h:div|self::f:Parameters"/>
         <source value="http://hl7.org/fhir/StructureDefinition/Element"/>
       </constraint>
       <isModifier value="false"/>
@@ -106,7 +107,7 @@
         <severity value="error"/>
         <human value="Must have either extensions or value[x], not both"/>
         <expression value="extension.exists() != value.exists()"/>
-        <xpath value="exists(f:extension)!=exists(f:*[starts-with(local-name(.), &#39;value&#39;)])"/>
+        <xpath value="exists(f:extension)!=exists(f:*[starts-with(local-name(.), 'value')])"/>
         <source value="http://hl7.org/fhir/StructureDefinition/Extension"/>
       </constraint>
       <isModifier value="false"/>
@@ -124,7 +125,6 @@
         <min value="0"/>
         <max value="1"/>
       </base>
-    <!-- Note: special primitive values have a FHIRPath system type. e.g. this is compiler magic (c) -->
       <type>
         <extension url="http://hl7.org/fhir/StructureDefinition/structuredefinition-fhir-type">
           <valueUrl value="instant"/>
@@ -154,8 +154,6 @@
       <definition value="Primitive value for instant"/>
       <min value="0"/>
       <max value="1"/>
-    <!-- Note: special primitive values have a FHIRPath system type. e.g. this is compiler magic (a) -->
-    <!-- Note: special primitive values have a FHIRPath system type. e.g. this is compiler magic (b) -->
       <type>
         <extension url="http://hl7.org/fhir/StructureDefinition/structuredefinition-fhir-type">
           <valueUrl value="instant"/>

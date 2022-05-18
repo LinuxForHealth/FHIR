@@ -1,5 +1,5 @@
 /*
- * (C) Copyright IBM Corp. 2019, 2021
+ * (C) Copyright IBM Corp. 2019, 2022
  *
  * SPDX-License-Identifier: Apache-2.0
  */
@@ -59,7 +59,7 @@ public class VisionPrescription extends DomainResource {
         bindingName = "VisionStatus",
         strength = BindingStrength.Value.REQUIRED,
         description = "A code specifying the state of the resource instance.",
-        valueSet = "http://hl7.org/fhir/ValueSet/fm-status|4.0.1"
+        valueSet = "http://hl7.org/fhir/ValueSet/fm-status|4.3.0-cibuild"
     )
     @Required
     private final VisionStatus status;
@@ -776,7 +776,7 @@ public class VisionPrescription extends DomainResource {
             bindingName = "VisionEyes",
             strength = BindingStrength.Value.REQUIRED,
             description = "A coded concept listing the eye codes.",
-            valueSet = "http://hl7.org/fhir/ValueSet/vision-eye-codes|4.0.1"
+            valueSet = "http://hl7.org/fhir/ValueSet/vision-eye-codes|4.3.0-cibuild"
         )
         @Required
         private final VisionEyes eye;
@@ -1556,7 +1556,7 @@ public class VisionPrescription extends DomainResource {
                 bindingName = "VisionBase",
                 strength = BindingStrength.Value.REQUIRED,
                 description = "A coded concept listing the base codes.",
-                valueSet = "http://hl7.org/fhir/ValueSet/vision-base-codes|4.0.1"
+                valueSet = "http://hl7.org/fhir/ValueSet/vision-base-codes|4.3.0-cibuild"
             )
             @Required
             private final VisionBase base;

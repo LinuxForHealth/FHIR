@@ -1,0 +1,86 @@
+{
+    "resourceType": "CodeSystem",
+    "id": "encounter-admit-source",
+    "meta": {
+        "lastUpdated": "2022-04-23T22:21:35.043Z",
+        "profile": [
+            "http://hl7.org/fhir/StructureDefinition/shareablecodesystem"
+        ]
+    },
+    "text": {
+        "status": "empty",
+        "div": "<div xmlns=\"http://www.w3.org/1999/xhtml\">Redacted for size</div>"
+    },
+    "extension": [
+        {
+            "url": "http://hl7.org/fhir/StructureDefinition/structuredefinition-wg",
+            "valueCode": "pa"
+        }
+    ],
+    "url": "http://terminology.hl7.org/CodeSystem/admit-source",
+    "identifier": [
+        {
+            "system": "urn:ietf:rfc:3986",
+            "value": "urn:oid:2.16.840.1.113883.4.642.1.1092"
+        }
+    ],
+    "version": "4.3.0-cibuild",
+    "name": "AdmitSource",
+    "status": "draft",
+    "experimental": false,
+    "description": "This codesystem defines a set of codes that can be used to indicate from where the patient came in.",
+    "caseSensitive": true,
+    "content": "complete",
+    "concept": [
+        {
+            "code": "hosp-trans",
+            "display": "Transferred from other hospital",
+            "definition": "The Patient has been transferred from another hospital for this encounter."
+        },
+        {
+            "code": "emd",
+            "display": "From accident/emergency department",
+            "definition": "The patient has been transferred from the emergency department within the hospital. This is typically used in the transition to an inpatient encounter"
+        },
+        {
+            "code": "outp",
+            "display": "From outpatient department",
+            "definition": "The patient has been transferred from an outpatient department within the hospital."
+        },
+        {
+            "code": "born",
+            "display": "Born in hospital",
+            "definition": "The patient is a newborn and the encounter will track the baby related activities (as opposed to the Mothers encounter - that may be associated using the newborn encounters partof property)"
+        },
+        {
+            "code": "gp",
+            "display": "General Practitioner referral",
+            "definition": "The patient has been admitted due to a referred from a General Practitioner."
+        },
+        {
+            "code": "mp",
+            "display": "Medical Practitioner/physician referral",
+            "definition": "The patient has been admitted due to a referred from a Specialist (as opposed to a General Practitioner)."
+        },
+        {
+            "code": "nursing",
+            "display": "From nursing home",
+            "definition": "The patient has been transferred from a nursing home."
+        },
+        {
+            "code": "psych",
+            "display": "From psychiatric hospital",
+            "definition": "The patient has been transferred from a psychiatric facility."
+        },
+        {
+            "code": "rehab",
+            "display": "From rehabilitation facility",
+            "definition": "The patient has been transferred from a rehabilitation facility or clinic."
+        },
+        {
+            "code": "other",
+            "display": "Other",
+            "definition": "The patient has been admitted from a source otherwise not specified here."
+        }
+    ]
+}

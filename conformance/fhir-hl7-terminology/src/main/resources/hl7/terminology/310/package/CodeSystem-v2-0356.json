@@ -1,0 +1,135 @@
+{
+    "resourceType": "CodeSystem",
+    "id": "v2-0356",
+    "text": {
+        "status": "empty",
+        "div": "<div xmlns=\"http://www.w3.org/1999/xhtml\">Redacted for size</div>"
+    },
+    "extension": [
+        {
+            "url": "http://hl7.org/fhir/StructureDefinition/structuredefinition-wg",
+            "valueCode": "inm"
+        }
+    ],
+    "url": "http://terminology.hl7.org/CodeSystem/v2-0356",
+    "identifier": [
+        {
+            "system": "urn:ietf:rfc:3986",
+            "value": "urn:oid:2.16.840.1.113883.18.216"
+        }
+    ],
+    "version": "2.1.0",
+    "name": "AlternateCharacterSetHandlingScheme",
+    "title": "alternateCharacterSetHandlingScheme",
+    "status": "active",
+    "experimental": false,
+    "date": "2019-12-01",
+    "publisher": "HL7, Inc",
+    "contact": [
+        {
+            "telecom": [
+                {
+                    "system": "url",
+                    "value": "http://www.hl7.org/"
+                }
+            ]
+        }
+    ],
+    "description": "HL7-defined code system of concept that specify the scheme used when any alternative character sets are specified in the second or later iterations of MSH-18 Character Set, and if any special handling scheme is needed.  Used in HL7 Version 2.x messaging in the MSH segment.",
+    "purpose": "Underlying Master Code System for V2 table 0356 (Alternate Character Set Handling Scheme)",
+    "copyright": "Copyright HL7. Licensed under creative commons public domain",
+    "caseSensitive": true,
+    "valueSet": "http://terminology.hl7.org/ValueSet/v2-0356",
+    "hierarchyMeaning": "is-a",
+    "compositional": false,
+    "versionNeeded": false,
+    "content": "complete",
+    "property": [
+        {
+            "code": "status",
+            "uri": "http://terminology.hl7.org/CodeSystem/utg-concept-properties#status",
+            "description": "Status of the concept",
+            "type": "code"
+        },
+        {
+            "code": "deprecated",
+            "uri": "http://terminology.hl7.org/CodeSystem/utg-concept-properties#v2-table-deprecated",
+            "description": "Version of HL7 in which the code was deprecated",
+            "type": "code"
+        },
+        {
+            "code": "v2-concComment",
+            "uri": "http://terminology.hl7.org/CodeSystem/utg-concept-properties#v2-concComment",
+            "description": "V2 Concept Comment",
+            "type": "string"
+        },
+        {
+            "code": "v2-concCommentAsPub",
+            "uri": "http://terminology.hl7.org/CodeSystem/utg-concept-properties#v2-concCommentAsPub",
+            "description": "V2 Concept Comment As Published",
+            "type": "string"
+        }
+    ],
+    "concept": [
+        {
+            "id": "3567",
+            "code": "ISO 2022-1994",
+            "display": "This standard is titled \"Information Technology - Character Code Structure and Extension Technique\". .",
+            "definition": "This standard is titled \"Information Technology - Character Code Structure and Extension Technique\". .",
+            "property": [
+                {
+                    "code": "v2-concComment",
+                    "valueString": "Note that the escape sequences used in this mode do not use the ASCII “esc” character, as defined in ISO 2022-1994. They are “HL7 escape sequences” as first defined in HL7 2.3, sec. 2.9.2. (Also, note that sections 2.8.28.6.1and 2.9.2 in HL7 2.3 correspond to sections 2.16.93 and 2.7.2 in HL7 2. 5.)"
+                },
+                {
+                    "code": "v2-concCommentAsPub",
+                    "valueString": "Note that the escape sequences used in this mode do not use the ASCII “esc” character, as defined in ISO 2022-1994. They are “HL7 escape sequences” as first defined in HL7 2.3, sec. 2.9.2. (Also, note that sections 2.8.28.6.1and 2.9.2 in HL7 2.3 correspond to sections 2.16.93 and 2.7.2 in HL7 2. 5.)"
+                },
+                {
+                    "code": "status",
+                    "valueCode": "A"
+                }
+            ]
+        },
+        {
+            "id": "3568",
+            "code": "2.3",
+            "display": "The character set switching mode specified in HL7 2.5, section 2.7.2 and section 2.A.46, \"XPN - extended person name\".",
+            "definition": "The character set switching mode specified in HL7 2.5, section 2.7.2 and section 2.A.46, \"XPN - extended person name\".",
+            "property": [
+                {
+                    "code": "v2-concComment",
+                    "valueString": "Note that the escape sequences used in this mode do not use the ASCII “esc” character, as defined in ISO 2022-1994. They are “HL7 escape sequences” as first defined in HL7 2.3, sec. 2.9.2. (Also, note that sections 2.8.28.6.1and 2.9.2 in HL7 2.3 correspond to sections 2.16.93 and 2.7.2 in HL7 2. 5.)"
+                },
+                {
+                    "code": "v2-concCommentAsPub",
+                    "valueString": "Note that the escape sequences used in this mode do not use the ASCII “esc” character, as defined in ISO 2022-1994. They are “HL7 escape sequences” as first defined in HL7 2.3, sec. 2.9.2. (Also, note that sections 2.8.28.6.1and 2.9.2 in HL7 2.3 correspond to sections 2.16.93 and 2.7.2 in HL7 2. 5.)"
+                },
+                {
+                    "code": "status",
+                    "valueCode": "A"
+                }
+            ]
+        },
+        {
+            "id": "3569",
+            "code": "<null>",
+            "display": "This is the default, indicating that there is no character set switching occurring in this message.",
+            "definition": "This is the default, indicating that there is no character set switching occurring in this message.",
+            "property": [
+                {
+                    "code": "v2-concComment",
+                    "valueString": "This is the default."
+                },
+                {
+                    "code": "v2-concCommentAsPub",
+                    "valueString": "This is the default."
+                },
+                {
+                    "code": "status",
+                    "valueCode": "D"
+                }
+            ]
+        }
+    ]
+}

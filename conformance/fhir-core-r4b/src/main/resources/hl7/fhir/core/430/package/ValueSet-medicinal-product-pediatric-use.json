@@ -1,0 +1,152 @@
+{
+    "resourceType": "ValueSet",
+    "id": "medicinal-product-pediatric-use",
+    "meta": {
+        "lastUpdated": "2022-04-24T09:21:35.043+11:00",
+        "profile": [
+            "http://hl7.org/fhir/StructureDefinition/shareablevalueset"
+        ]
+    },
+    "extension": [
+        {
+            "url": "http://hl7.org/fhir/StructureDefinition/structuredefinition-wg",
+            "valueCode": "brr"
+        },
+        {
+            "url": "http://hl7.org/fhir/StructureDefinition/structuredefinition-standards-status",
+            "valueCode": "trial-use"
+        },
+        {
+            "url": "http://hl7.org/fhir/StructureDefinition/structuredefinition-fmm",
+            "valueInteger": 1
+        }
+    ],
+    "url": "http://hl7.org/fhir/ValueSet/medicinal-product-pediatric-use",
+    "identifier": [
+        {
+            "system": "urn:ietf:rfc:3986",
+            "value": "urn:oid:2.16.840.1.113883.4.642.3.1578"
+        }
+    ],
+    "version": "4.3.0-cibuild",
+    "name": "PediatricUse",
+    "title": "PediatricUse",
+    "status": "draft",
+    "experimental": true,
+    "date": "2020-12-28T16:55:11+11:00",
+    "publisher": "HL7 (FHIR Project)",
+    "contact": [
+        {
+            "telecom": [
+                {
+                    "system": "url",
+                    "value": "http://hl7.org/fhir"
+                },
+                {
+                    "system": "email",
+                    "value": "fhir@lists.hl7.org"
+                }
+            ]
+        }
+    ],
+    "description": "Extra measures defined for a Medicinal Product, such as heightened reporting requirements.",
+    "immutable": true,
+    "compose": {
+        "include": [
+            {
+                "system": "http://hl7.org/fhir/medicinal-product-pediatric-use"
+            }
+        ]
+    },
+    "expansion": {
+        "identifier": "urn:uuid:d650bdc9-f82c-4b92-8644-c45a78a07707",
+        "timestamp": "2022-04-23T22:23:26Z",
+        "total": 14,
+        "parameter": [
+            {
+                "name": "excludeNested",
+                "valueBoolean": true
+            },
+            {
+                "name": "includeDesignations",
+                "valueBoolean": true
+            },
+            {
+                "name": "version",
+                "valueUri": "http://hl7.org/fhir/medicinal-product-pediatric-use|4.3.0-cibuild"
+            }
+        ],
+        "contains": [
+            {
+                "system": "http://hl7.org/fhir/medicinal-product-pediatric-use",
+                "code": "InUtero",
+                "display": "In utero"
+            },
+            {
+                "system": "http://hl7.org/fhir/medicinal-product-pediatric-use",
+                "code": "PretermNewborn",
+                "display": "Preterm newborn infants (0 – 27 days)"
+            },
+            {
+                "system": "http://hl7.org/fhir/medicinal-product-pediatric-use",
+                "code": "TermNewborn",
+                "display": "Term newborn infants (0 – 27 days)"
+            },
+            {
+                "system": "http://hl7.org/fhir/medicinal-product-pediatric-use",
+                "code": "Infants",
+                "display": "Infants and toddlers (28 days – 23 months)"
+            },
+            {
+                "system": "http://hl7.org/fhir/medicinal-product-pediatric-use",
+                "code": "Children",
+                "display": "Children (2 to < 12 years)"
+            },
+            {
+                "system": "http://hl7.org/fhir/medicinal-product-pediatric-use",
+                "code": "Adolescents",
+                "display": "Adolescents (12 to < 18 years)"
+            },
+            {
+                "system": "http://hl7.org/fhir/medicinal-product-pediatric-use",
+                "code": "Adults",
+                "display": "Adults (18 to < 65 years)"
+            },
+            {
+                "system": "http://hl7.org/fhir/medicinal-product-pediatric-use",
+                "code": "Elderly",
+                "display": "Elderly (≥ 65 years)"
+            },
+            {
+                "system": "http://hl7.org/fhir/medicinal-product-pediatric-use",
+                "code": "Neonate",
+                "display": "Neonate"
+            },
+            {
+                "system": "http://hl7.org/fhir/medicinal-product-pediatric-use",
+                "code": "PediatricPopulation",
+                "display": "Pediatric Population (< 18 years)"
+            },
+            {
+                "system": "http://hl7.org/fhir/medicinal-product-pediatric-use",
+                "code": "All",
+                "display": "All"
+            },
+            {
+                "system": "http://hl7.org/fhir/medicinal-product-pediatric-use",
+                "code": "Prepubertal",
+                "display": "Prepubertal children (2 years to onset of puberty)"
+            },
+            {
+                "system": "http://hl7.org/fhir/medicinal-product-pediatric-use",
+                "code": "AdultsAndElderly",
+                "display": "Adult and elderly population (> 18 years)"
+            },
+            {
+                "system": "http://hl7.org/fhir/medicinal-product-pediatric-use",
+                "code": "PubertalAndPostpubertal",
+                "display": "Pubertal and postpubertal adolescents (onset of puberty to < 18 years)"
+            }
+        ]
+    }
+}

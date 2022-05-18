@@ -1,5 +1,5 @@
 /*
- * (C) Copyright IBM Corp. 2019, 2021
+ * (C) Copyright IBM Corp. 2019, 2022
  *
  * SPDX-License-Identifier: Apache-2.0
  */
@@ -50,7 +50,7 @@ import com.ibm.fhir.model.type.code.EnableWhenBehavior;
 import com.ibm.fhir.model.type.code.PublicationStatus;
 import com.ibm.fhir.model.type.code.QuestionnaireItemOperator;
 import com.ibm.fhir.model.type.code.QuestionnaireItemType;
-import com.ibm.fhir.model.type.code.ResourceType;
+import com.ibm.fhir.model.type.code.ResourceTypeCode;
 import com.ibm.fhir.model.type.code.StandardsStatus;
 import com.ibm.fhir.model.util.ValidationSupport;
 import com.ibm.fhir.model.visitor.Visitor;
@@ -70,15 +70,31 @@ import com.ibm.fhir.model.visitor.Visitor;
     level = "Warning",
     location = "(base)",
     description = "Name should be usable as an identifier for the module by machine processing applications such as code generation",
-    expression = "name.matches('[A-Z]([A-Za-z0-9_]){0,254}')",
+    expression = "name.exists() implies name.matches('[A-Z]([A-Za-z0-9_]){0,254}')",
     source = "http://hl7.org/fhir/StructureDefinition/Questionnaire"
 )
 @Constraint(
-    id = "que-1",
+    id = "que-1a",
     level = "Rule",
     location = "Questionnaire.item",
-    description = "Group items must have nested items, display items cannot have nested items",
-    expression = "(type='group' implies item.empty().not()) and (type.trace('type')='display' implies item.trace('item').empty())",
+    description = "Group items must have nested items when Questionanire is complete",
+    expression = "(type='group' and %resource.status='complete') implies item.empty().not()",
+    source = "http://hl7.org/fhir/StructureDefinition/Questionnaire"
+)
+@Constraint(
+    id = "que-1b",
+    level = "Warning",
+    location = "Questionnaire.item",
+    description = "Groups should have items",
+    expression = "type='group' implies item.empty().not()",
+    source = "http://hl7.org/fhir/StructureDefinition/Questionnaire"
+)
+@Constraint(
+    id = "que-1c",
+    level = "Rule",
+    location = "Questionnaire.item",
+    description = "Display items cannot have child items",
+    expression = "type='display' implies item.empty()",
     source = "http://hl7.org/fhir/StructureDefinition/Questionnaire"
 )
 @Constraint(
@@ -126,7 +142,7 @@ import com.ibm.fhir.model.visitor.Visitor;
     level = "Rule",
     location = "Questionnaire.item.enableWhen",
     description = "If the operator is 'exists', the value must be a boolean",
-    expression = "operator = 'exists' implies (answer is Boolean)",
+    expression = "operator = 'exists' implies (answer is boolean)",
     source = "http://hl7.org/fhir/StructureDefinition/Questionnaire"
 )
 @Constraint(
@@ -166,7 +182,7 @@ import com.ibm.fhir.model.visitor.Visitor;
     level = "Rule",
     location = "Questionnaire.item",
     description = "If there are more than one enableWhen, enableBehavior must be specified",
-    expression = "enableWhen.count() > 2 implies enableBehavior.exists()",
+    expression = "enableWhen.count() > 1 implies enableBehavior.exists()",
     source = "http://hl7.org/fhir/StructureDefinition/Questionnaire"
 )
 @Constraint(
@@ -204,7 +220,7 @@ public class Questionnaire extends DomainResource {
         bindingName = "PublicationStatus",
         strength = BindingStrength.Value.REQUIRED,
         description = "The lifecycle status of an artifact.",
-        valueSet = "http://hl7.org/fhir/ValueSet/publication-status|4.0.1"
+        valueSet = "http://hl7.org/fhir/ValueSet/publication-status|4.3.0-cibuild"
     )
     @Required
     private final PublicationStatus status;
@@ -215,9 +231,9 @@ public class Questionnaire extends DomainResource {
         bindingName = "ResourceType",
         strength = BindingStrength.Value.REQUIRED,
         description = "One of the resource types defined as part of this version of FHIR.",
-        valueSet = "http://hl7.org/fhir/ValueSet/resource-types|4.0.1"
+        valueSet = "http://hl7.org/fhir/ValueSet/resource-types|4.3.0-cibuild"
     )
-    private final List<ResourceType> subjectType;
+    private final List<ResourceTypeCode> subjectType;
     @Summary
     private final DateTime date;
     @Summary
@@ -370,9 +386,9 @@ public class Questionnaire extends DomainResource {
      * The types of subjects that can be the subject of responses created for the questionnaire.
      * 
      * @return
-     *     An unmodifiable list containing immutable objects of type {@link ResourceType} that may be empty.
+     *     An unmodifiable list containing immutable objects of type {@link ResourceTypeCode} that may be empty.
      */
-    public List<ResourceType> getSubjectType() {
+    public List<ResourceTypeCode> getSubjectType() {
         return subjectType;
     }
 
@@ -562,7 +578,7 @@ public class Questionnaire extends DomainResource {
                 accept(derivedFrom, "derivedFrom", visitor, Canonical.class);
                 accept(status, "status", visitor);
                 accept(experimental, "experimental", visitor);
-                accept(subjectType, "subjectType", visitor, ResourceType.class);
+                accept(subjectType, "subjectType", visitor, ResourceTypeCode.class);
                 accept(date, "date", visitor);
                 accept(publisher, "publisher", visitor);
                 accept(contact, "contact", visitor, ContactDetail.class);
@@ -683,7 +699,7 @@ public class Questionnaire extends DomainResource {
         private List<Canonical> derivedFrom = new ArrayList<>();
         private PublicationStatus status;
         private Boolean experimental;
-        private List<ResourceType> subjectType = new ArrayList<>();
+        private List<ResourceTypeCode> subjectType = new ArrayList<>();
         private DateTime date;
         private String publisher;
         private List<ContactDetail> contact = new ArrayList<>();
@@ -1163,8 +1179,8 @@ public class Questionnaire extends DomainResource {
          * @return
          *     A reference to this Builder instance
          */
-        public Builder subjectType(ResourceType... subjectType) {
-            for (ResourceType value : subjectType) {
+        public Builder subjectType(ResourceTypeCode... subjectType) {
+            for (ResourceTypeCode value : subjectType) {
                 this.subjectType.add(value);
             }
             return this;
@@ -1185,7 +1201,7 @@ public class Questionnaire extends DomainResource {
          * @throws NullPointerException
          *     If the passed collection is null
          */
-        public Builder subjectType(Collection<ResourceType> subjectType) {
+        public Builder subjectType(Collection<ResourceTypeCode> subjectType) {
             this.subjectType = new ArrayList<>(subjectType);
             return this;
         }
@@ -1581,7 +1597,7 @@ public class Questionnaire extends DomainResource {
             ValidationSupport.checkList(questionnaire.identifier, "identifier", Identifier.class);
             ValidationSupport.checkList(questionnaire.derivedFrom, "derivedFrom", Canonical.class);
             ValidationSupport.requireNonNull(questionnaire.status, "status");
-            ValidationSupport.checkList(questionnaire.subjectType, "subjectType", ResourceType.class);
+            ValidationSupport.checkList(questionnaire.subjectType, "subjectType", ResourceTypeCode.class);
             ValidationSupport.checkList(questionnaire.contact, "contact", ContactDetail.class);
             ValidationSupport.checkList(questionnaire.useContext, "useContext", UsageContext.class);
             ValidationSupport.checkList(questionnaire.jurisdiction, "jurisdiction", CodeableConcept.class);
@@ -1637,7 +1653,7 @@ public class Questionnaire extends DomainResource {
             bindingName = "QuestionnaireItemType",
             strength = BindingStrength.Value.REQUIRED,
             description = "Distinguishes groups from questions and display text and indicates data type for questions.",
-            valueSet = "http://hl7.org/fhir/ValueSet/item-type|4.0.1"
+            valueSet = "http://hl7.org/fhir/ValueSet/item-type|4.3.0-cibuild"
         )
         @Required
         private final QuestionnaireItemType type;
@@ -1646,7 +1662,7 @@ public class Questionnaire extends DomainResource {
             bindingName = "EnableWhenBehavior",
             strength = BindingStrength.Value.REQUIRED,
             description = "Controls how multiple enableWhen values are interpreted -  whether all or any must be true.",
-            valueSet = "http://hl7.org/fhir/ValueSet/questionnaire-enable-behavior|4.0.1"
+            valueSet = "http://hl7.org/fhir/ValueSet/questionnaire-enable-behavior|4.3.0-cibuild"
         )
         private final EnableWhenBehavior enableBehavior;
         private final Boolean required;
@@ -2673,7 +2689,7 @@ public class Questionnaire extends DomainResource {
                 bindingName = "QuestionnaireItemOperator",
                 strength = BindingStrength.Value.REQUIRED,
                 description = "The criteria by which a question is enabled.",
-                valueSet = "http://hl7.org/fhir/ValueSet/questionnaire-enable-operator|4.0.1"
+                valueSet = "http://hl7.org/fhir/ValueSet/questionnaire-enable-operator|4.3.0-cibuild"
             )
             @Required
             private final QuestionnaireItemOperator operator;

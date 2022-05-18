@@ -12,9 +12,10 @@
     }
   ],
   "url": "http://hl7.org/fhir/StructureDefinition/iso21090-EN-representation",
-  "version": "4.0.1",
+  "version": "4.3.0-cibuild",
   "name": "EN-representation",
   "status": "draft",
+  "experimental": false,
   "date": "2012-06-24",
   "publisher": "Health Level Seven International (Modeling and Methodology)",
   "contact": [
@@ -28,7 +29,7 @@
     }
   ],
   "description": "Name Representation.",
-  "fhirVersion": "4.0.1",
+  "fhirVersion": "4.3.0-cibuild",
   "mapping": [
     {
       "identity": "rim",
@@ -69,9 +70,9 @@
           {
             "key": "ele-1",
             "severity": "error",
-            "human": "All FHIR elements must have a @value or children",
-            "expression": "hasValue() or (children().count() \u003e id.count())",
-            "xpath": "@value|f:*|h:div",
+            "human": "All FHIR elements must have a @value or children unless an empty Parameters resource",
+            "expression": "hasValue() or (children().count() \u003e id.count()) or $this is Parameters",
+            "xpath": "@value|f:*|h:div|self::f:Parameters",
             "source": "http://hl7.org/fhir/StructureDefinition/Element"
           },
           {
@@ -215,7 +216,7 @@
         "id": "Extension.value[x]",
         "path": "Extension.value[x]",
         "short": "Value of extension",
-        "definition": "Value of extension - must be one of a constrained set of the data types (see [Extensibility](http://hl7.org/fhir/extensibility.html) for a list).",
+        "definition": "Value of extension - must be one of a constrained set of the data types (see [Extensibility](extensibility.html) for a list).",
         "min": 1,
         "max": "1",
         "base": {
@@ -243,13 +244,16 @@
         "binding": {
           "extension": [
             {
+              "url": "http://hl7.org/fhir/build/StructureDefinition/binding-definition",
+              "valueString": "A set of codes for each different representation of a name."
+            },
+            {
               "url": "http://hl7.org/fhir/StructureDefinition/elementdefinition-bindingName",
               "valueString": "NameRepresentationUse"
             }
           ],
           "strength": "required",
-          "description": "A set of codes for each different representation of a name.",
-          "valueSet": "http://hl7.org/fhir/ValueSet/name-v3-representation|4.0.1"
+          "valueSet": "http://hl7.org/fhir/ValueSet/name-v3-representation|4.3.0-cibuild"
         },
         "mapping": [
           {
@@ -299,13 +303,16 @@
         "binding": {
           "extension": [
             {
+              "url": "http://hl7.org/fhir/build/StructureDefinition/binding-definition",
+              "valueString": "A set of codes for each different representation of a name."
+            },
+            {
               "url": "http://hl7.org/fhir/StructureDefinition/elementdefinition-bindingName",
               "valueString": "NameRepresentationUse"
             }
           ],
           "strength": "required",
-          "description": "A set of codes for each different representation of a name.",
-          "valueSet": "http://hl7.org/fhir/ValueSet/name-v3-representation|4.0.1"
+          "valueSet": "http://hl7.org/fhir/ValueSet/name-v3-representation|4.3.0-cibuild"
         }
       }
     ]

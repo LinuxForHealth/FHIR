@@ -1,0 +1,837 @@
+{
+    "resourceType": "CodeSystem",
+    "id": "v2-0290",
+    "text": {
+        "status": "empty",
+        "div": "<div xmlns=\"http://www.w3.org/1999/xhtml\">Redacted for size</div>"
+    },
+    "url": "http://terminology.hl7.org/CodeSystem/v2-0290",
+    "identifier": [
+        {
+            "system": "urn:ietf:rfc:3986",
+            "value": "urn:oid:2.16.840.1.113883.18.180"
+        }
+    ],
+    "version": "2.1.0",
+    "name": "MimeBase64EncodingCharacters",
+    "title": "mimeBase64EncodingCharacters",
+    "status": "active",
+    "experimental": false,
+    "date": "2019-12-01",
+    "publisher": "HL7, Inc",
+    "contact": [
+        {
+            "telecom": [
+                {
+                    "system": "url",
+                    "value": "http://www.hl7.org/"
+                }
+            ]
+        }
+    ],
+    "description": "HL7-defined code system of concepts specifying the characters used in the MIME Base 64 encoding mechanism.  These are for reference only, as they are not carried as explicit code values in any HL7 coded field.  This table was published only in releases 2.3, 2.3.1, and 2.4 of the Standard, and was removed thereafter.",
+    "purpose": "Underlying Master Code System for V2 table 0290 (MIME base64 encoding characters)",
+    "copyright": "Copyright HL7. Licensed under creative commons public domain",
+    "caseSensitive": true,
+    "valueSet": "http://terminology.hl7.org/ValueSet/v2-0290",
+    "hierarchyMeaning": "is-a",
+    "compositional": false,
+    "versionNeeded": false,
+    "content": "complete",
+    "property": [
+        {
+            "code": "status",
+            "uri": "http://terminology.hl7.org/CodeSystem/utg-concept-properties#status",
+            "description": "Status of the concept",
+            "type": "code"
+        },
+        {
+            "code": "deprecated",
+            "uri": "http://terminology.hl7.org/CodeSystem/utg-concept-properties#v2-table-deprecated",
+            "description": "Version of HL7 in which the code was deprecated",
+            "type": "code"
+        }
+    ],
+    "concept": [
+        {
+            "id": "2748",
+            "code": "0",
+            "display": "A",
+            "definition": "A",
+            "property": [
+                {
+                    "code": "status",
+                    "valueCode": "A"
+                }
+            ]
+        },
+        {
+            "id": "2749",
+            "code": "1",
+            "display": "B",
+            "definition": "B",
+            "property": [
+                {
+                    "code": "status",
+                    "valueCode": "A"
+                }
+            ]
+        },
+        {
+            "id": "2750",
+            "code": "2",
+            "display": "C",
+            "definition": "C",
+            "property": [
+                {
+                    "code": "status",
+                    "valueCode": "A"
+                }
+            ]
+        },
+        {
+            "id": "2751",
+            "code": "3",
+            "display": "D",
+            "definition": "D",
+            "property": [
+                {
+                    "code": "status",
+                    "valueCode": "A"
+                }
+            ]
+        },
+        {
+            "id": "2752",
+            "code": "4",
+            "display": "E",
+            "definition": "E",
+            "property": [
+                {
+                    "code": "status",
+                    "valueCode": "A"
+                }
+            ]
+        },
+        {
+            "id": "2753",
+            "code": "5",
+            "display": "F",
+            "definition": "F",
+            "property": [
+                {
+                    "code": "status",
+                    "valueCode": "A"
+                }
+            ]
+        },
+        {
+            "id": "2754",
+            "code": "6",
+            "display": "G",
+            "definition": "G",
+            "property": [
+                {
+                    "code": "status",
+                    "valueCode": "A"
+                }
+            ]
+        },
+        {
+            "id": "2755",
+            "code": "7",
+            "display": "H",
+            "definition": "H",
+            "property": [
+                {
+                    "code": "status",
+                    "valueCode": "A"
+                }
+            ]
+        },
+        {
+            "id": "2756",
+            "code": "8",
+            "display": "I",
+            "definition": "I",
+            "property": [
+                {
+                    "code": "status",
+                    "valueCode": "A"
+                }
+            ]
+        },
+        {
+            "id": "2757",
+            "code": "9",
+            "display": "J",
+            "definition": "J",
+            "property": [
+                {
+                    "code": "status",
+                    "valueCode": "A"
+                }
+            ]
+        },
+        {
+            "id": "2758",
+            "code": "10",
+            "display": "K",
+            "definition": "K",
+            "property": [
+                {
+                    "code": "status",
+                    "valueCode": "A"
+                }
+            ]
+        },
+        {
+            "id": "2759",
+            "code": "11",
+            "display": "L",
+            "definition": "L",
+            "property": [
+                {
+                    "code": "status",
+                    "valueCode": "A"
+                }
+            ]
+        },
+        {
+            "id": "2760",
+            "code": "12",
+            "display": "M",
+            "definition": "M",
+            "property": [
+                {
+                    "code": "status",
+                    "valueCode": "A"
+                }
+            ]
+        },
+        {
+            "id": "2761",
+            "code": "13",
+            "display": "N",
+            "definition": "N",
+            "property": [
+                {
+                    "code": "status",
+                    "valueCode": "A"
+                }
+            ]
+        },
+        {
+            "id": "2762",
+            "code": "14",
+            "display": "O",
+            "definition": "O",
+            "property": [
+                {
+                    "code": "status",
+                    "valueCode": "A"
+                }
+            ]
+        },
+        {
+            "id": "2763",
+            "code": "15",
+            "display": "P",
+            "definition": "P",
+            "property": [
+                {
+                    "code": "status",
+                    "valueCode": "A"
+                }
+            ]
+        },
+        {
+            "id": "2764",
+            "code": "16",
+            "display": "Q",
+            "definition": "Q",
+            "property": [
+                {
+                    "code": "status",
+                    "valueCode": "A"
+                }
+            ]
+        },
+        {
+            "id": "2765",
+            "code": "17",
+            "display": "R",
+            "definition": "R",
+            "property": [
+                {
+                    "code": "status",
+                    "valueCode": "A"
+                }
+            ]
+        },
+        {
+            "id": "2766",
+            "code": "18",
+            "display": "S",
+            "definition": "S",
+            "property": [
+                {
+                    "code": "status",
+                    "valueCode": "A"
+                }
+            ]
+        },
+        {
+            "id": "2767",
+            "code": "19",
+            "display": "T",
+            "definition": "T",
+            "property": [
+                {
+                    "code": "status",
+                    "valueCode": "A"
+                }
+            ]
+        },
+        {
+            "id": "2768",
+            "code": "20",
+            "display": "U",
+            "definition": "U",
+            "property": [
+                {
+                    "code": "status",
+                    "valueCode": "A"
+                }
+            ]
+        },
+        {
+            "id": "2769",
+            "code": "21",
+            "display": "V",
+            "definition": "V",
+            "property": [
+                {
+                    "code": "status",
+                    "valueCode": "A"
+                }
+            ]
+        },
+        {
+            "id": "2770",
+            "code": "22",
+            "display": "W",
+            "definition": "W",
+            "property": [
+                {
+                    "code": "status",
+                    "valueCode": "A"
+                }
+            ]
+        },
+        {
+            "id": "2771",
+            "code": "23",
+            "display": "X",
+            "definition": "X",
+            "property": [
+                {
+                    "code": "status",
+                    "valueCode": "A"
+                }
+            ]
+        },
+        {
+            "id": "2772",
+            "code": "24",
+            "display": "Y",
+            "definition": "Y",
+            "property": [
+                {
+                    "code": "status",
+                    "valueCode": "A"
+                }
+            ]
+        },
+        {
+            "id": "2773",
+            "code": "25",
+            "display": "Z",
+            "definition": "Z",
+            "property": [
+                {
+                    "code": "status",
+                    "valueCode": "A"
+                }
+            ]
+        },
+        {
+            "id": "2774",
+            "code": "26",
+            "display": "a",
+            "definition": "a",
+            "property": [
+                {
+                    "code": "status",
+                    "valueCode": "A"
+                }
+            ]
+        },
+        {
+            "id": "2775",
+            "code": "27",
+            "display": "b",
+            "definition": "b",
+            "property": [
+                {
+                    "code": "status",
+                    "valueCode": "A"
+                }
+            ]
+        },
+        {
+            "id": "2776",
+            "code": "28",
+            "display": "c",
+            "definition": "c",
+            "property": [
+                {
+                    "code": "status",
+                    "valueCode": "A"
+                }
+            ]
+        },
+        {
+            "id": "2777",
+            "code": "29",
+            "display": "d",
+            "definition": "d",
+            "property": [
+                {
+                    "code": "status",
+                    "valueCode": "A"
+                }
+            ]
+        },
+        {
+            "id": "2778",
+            "code": "30",
+            "display": "e",
+            "definition": "e",
+            "property": [
+                {
+                    "code": "status",
+                    "valueCode": "A"
+                }
+            ]
+        },
+        {
+            "id": "2779",
+            "code": "31",
+            "display": "f",
+            "definition": "f",
+            "property": [
+                {
+                    "code": "status",
+                    "valueCode": "A"
+                }
+            ]
+        },
+        {
+            "id": "2780",
+            "code": "32",
+            "display": "g",
+            "definition": "g",
+            "property": [
+                {
+                    "code": "status",
+                    "valueCode": "A"
+                }
+            ]
+        },
+        {
+            "id": "2781",
+            "code": "33",
+            "display": "h",
+            "definition": "h",
+            "property": [
+                {
+                    "code": "status",
+                    "valueCode": "A"
+                }
+            ]
+        },
+        {
+            "id": "2782",
+            "code": "34",
+            "display": "I",
+            "definition": "I",
+            "property": [
+                {
+                    "code": "status",
+                    "valueCode": "A"
+                }
+            ]
+        },
+        {
+            "id": "2783",
+            "code": "35",
+            "display": "j",
+            "definition": "j",
+            "property": [
+                {
+                    "code": "status",
+                    "valueCode": "A"
+                }
+            ]
+        },
+        {
+            "id": "2784",
+            "code": "36",
+            "display": "k",
+            "definition": "k",
+            "property": [
+                {
+                    "code": "status",
+                    "valueCode": "A"
+                }
+            ]
+        },
+        {
+            "id": "2785",
+            "code": "37",
+            "display": "l",
+            "definition": "l",
+            "property": [
+                {
+                    "code": "status",
+                    "valueCode": "A"
+                }
+            ]
+        },
+        {
+            "id": "2786",
+            "code": "38",
+            "display": "m",
+            "definition": "m",
+            "property": [
+                {
+                    "code": "status",
+                    "valueCode": "A"
+                }
+            ]
+        },
+        {
+            "id": "2787",
+            "code": "39",
+            "display": "n",
+            "definition": "n",
+            "property": [
+                {
+                    "code": "status",
+                    "valueCode": "A"
+                }
+            ]
+        },
+        {
+            "id": "2788",
+            "code": "40",
+            "display": "o",
+            "definition": "o",
+            "property": [
+                {
+                    "code": "status",
+                    "valueCode": "A"
+                }
+            ]
+        },
+        {
+            "id": "2789",
+            "code": "41",
+            "display": "p",
+            "definition": "p",
+            "property": [
+                {
+                    "code": "status",
+                    "valueCode": "A"
+                }
+            ]
+        },
+        {
+            "id": "2790",
+            "code": "42",
+            "display": "q",
+            "definition": "q",
+            "property": [
+                {
+                    "code": "status",
+                    "valueCode": "A"
+                }
+            ]
+        },
+        {
+            "id": "2791",
+            "code": "43",
+            "display": "r",
+            "definition": "r",
+            "property": [
+                {
+                    "code": "status",
+                    "valueCode": "A"
+                }
+            ]
+        },
+        {
+            "id": "2792",
+            "code": "44",
+            "display": "s",
+            "definition": "s",
+            "property": [
+                {
+                    "code": "status",
+                    "valueCode": "A"
+                }
+            ]
+        },
+        {
+            "id": "2793",
+            "code": "45",
+            "display": "t",
+            "definition": "t",
+            "property": [
+                {
+                    "code": "status",
+                    "valueCode": "A"
+                }
+            ]
+        },
+        {
+            "id": "2794",
+            "code": "46",
+            "display": "u",
+            "definition": "u",
+            "property": [
+                {
+                    "code": "status",
+                    "valueCode": "A"
+                }
+            ]
+        },
+        {
+            "id": "2795",
+            "code": "47",
+            "display": "v",
+            "definition": "v",
+            "property": [
+                {
+                    "code": "status",
+                    "valueCode": "A"
+                }
+            ]
+        },
+        {
+            "id": "2796",
+            "code": "48",
+            "display": "w",
+            "definition": "w",
+            "property": [
+                {
+                    "code": "status",
+                    "valueCode": "A"
+                }
+            ]
+        },
+        {
+            "id": "2797",
+            "code": "49",
+            "display": "x",
+            "definition": "x",
+            "property": [
+                {
+                    "code": "status",
+                    "valueCode": "A"
+                }
+            ]
+        },
+        {
+            "id": "2798",
+            "code": "50",
+            "display": "y",
+            "definition": "y",
+            "property": [
+                {
+                    "code": "status",
+                    "valueCode": "A"
+                }
+            ]
+        },
+        {
+            "id": "2799",
+            "code": "51",
+            "display": "z",
+            "definition": "z",
+            "property": [
+                {
+                    "code": "status",
+                    "valueCode": "A"
+                }
+            ]
+        },
+        {
+            "id": "2800",
+            "code": "52",
+            "display": "0",
+            "definition": "0",
+            "property": [
+                {
+                    "code": "status",
+                    "valueCode": "A"
+                }
+            ]
+        },
+        {
+            "id": "2801",
+            "code": "53",
+            "display": "1",
+            "definition": "1",
+            "property": [
+                {
+                    "code": "status",
+                    "valueCode": "A"
+                }
+            ]
+        },
+        {
+            "id": "2802",
+            "code": "54",
+            "display": "2",
+            "definition": "2",
+            "property": [
+                {
+                    "code": "status",
+                    "valueCode": "A"
+                }
+            ]
+        },
+        {
+            "id": "2803",
+            "code": "55",
+            "display": "3",
+            "definition": "3",
+            "property": [
+                {
+                    "code": "status",
+                    "valueCode": "A"
+                }
+            ]
+        },
+        {
+            "id": "2804",
+            "code": "56",
+            "display": "4",
+            "definition": "4",
+            "property": [
+                {
+                    "code": "status",
+                    "valueCode": "A"
+                }
+            ]
+        },
+        {
+            "id": "2805",
+            "code": "57",
+            "display": "5",
+            "definition": "5",
+            "property": [
+                {
+                    "code": "status",
+                    "valueCode": "A"
+                }
+            ]
+        },
+        {
+            "id": "2806",
+            "code": "58",
+            "display": "6",
+            "definition": "6",
+            "property": [
+                {
+                    "code": "status",
+                    "valueCode": "A"
+                }
+            ]
+        },
+        {
+            "id": "2807",
+            "code": "59",
+            "display": "7",
+            "definition": "7",
+            "property": [
+                {
+                    "code": "status",
+                    "valueCode": "A"
+                }
+            ]
+        },
+        {
+            "id": "2808",
+            "code": "60",
+            "display": "8",
+            "definition": "8",
+            "property": [
+                {
+                    "code": "status",
+                    "valueCode": "A"
+                }
+            ]
+        },
+        {
+            "id": "2809",
+            "code": "61",
+            "display": "9",
+            "definition": "9",
+            "property": [
+                {
+                    "code": "status",
+                    "valueCode": "A"
+                }
+            ]
+        },
+        {
+            "id": "2810",
+            "code": "62",
+            "display": "+",
+            "definition": "+",
+            "property": [
+                {
+                    "code": "status",
+                    "valueCode": "A"
+                }
+            ]
+        },
+        {
+            "id": "2811",
+            "code": "63",
+            "display": "/",
+            "definition": "/",
+            "property": [
+                {
+                    "code": "status",
+                    "valueCode": "A"
+                }
+            ]
+        },
+        {
+            "id": "2812",
+            "code": "(pad)",
+            "display": "=",
+            "definition": "=",
+            "property": [
+                {
+                    "code": "status",
+                    "valueCode": "D"
+                }
+            ]
+        }
+    ]
+}

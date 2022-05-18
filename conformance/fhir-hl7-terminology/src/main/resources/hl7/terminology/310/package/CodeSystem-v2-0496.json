@@ -1,0 +1,2815 @@
+{
+    "resourceType": "CodeSystem",
+    "id": "v2-0496",
+    "text": {
+        "status": "empty",
+        "div": "<div xmlns=\"http://www.w3.org/1999/xhtml\">Redacted for size</div>"
+    },
+    "extension": [
+        {
+            "url": "http://hl7.org/fhir/StructureDefinition/structuredefinition-wg",
+            "valueCode": "sd"
+        }
+    ],
+    "url": "http://terminology.hl7.org/CodeSystem/v2-0496",
+    "identifier": [
+        {
+            "system": "urn:ietf:rfc:3986",
+            "value": "urn:oid:2.16.840.1.113883.18.320"
+        }
+    ],
+    "version": "2.1.0",
+    "name": "ConsentType",
+    "title": "consentType",
+    "status": "active",
+    "experimental": false,
+    "date": "2019-12-01",
+    "publisher": "HL7, Inc",
+    "contact": [
+        {
+            "telecom": [
+                {
+                    "system": "url",
+                    "value": "http://www.hl7.org/"
+                }
+            ]
+        }
+    ],
+    "description": "Code system of concepts specifying to what the subject is consenting, i.e. what type of service, surgical procedure, information access/release or other event.  Used in HL7 Version 2.x messaging in the TXA and CON segments.",
+    "purpose": "Underlying Master Code System for V2 table 0496 (Consent Type)",
+    "copyright": "Copyright HL7. Licensed under creative commons public domain",
+    "caseSensitive": true,
+    "valueSet": "http://terminology.hl7.org/ValueSet/v2-0496",
+    "hierarchyMeaning": "is-a",
+    "compositional": false,
+    "versionNeeded": false,
+    "content": "complete",
+    "property": [
+        {
+            "code": "status",
+            "uri": "http://terminology.hl7.org/CodeSystem/utg-concept-properties#status",
+            "description": "Status of the concept",
+            "type": "code"
+        },
+        {
+            "code": "deprecated",
+            "uri": "http://terminology.hl7.org/CodeSystem/utg-concept-properties#v2-table-deprecated",
+            "description": "Version of HL7 in which the code was deprecated",
+            "type": "code"
+        },
+        {
+            "code": "v2-concComment",
+            "uri": "http://terminology.hl7.org/CodeSystem/utg-concept-properties#v2-concComment",
+            "description": "V2 Concept Comment",
+            "type": "string"
+        },
+        {
+            "code": "v2-concCommentAsPub",
+            "uri": "http://terminology.hl7.org/CodeSystem/utg-concept-properties#v2-concCommentAsPub",
+            "description": "V2 Concept Comment As Published",
+            "type": "string"
+        }
+    ],
+    "concept": [
+        {
+            "id": "5354",
+            "code": "001",
+            "display": "Release of Information/MR / Authorization to Disclosure Protected Health Information",
+            "definition": "Release of Information/MR / Authorization to Disclosure Protected Health Information",
+            "property": [
+                {
+                    "code": "v2-concComment",
+                    "valueString": "Release of Info/ Disclosure"
+                },
+                {
+                    "code": "v2-concCommentAsPub",
+                    "valueString": "Release of Info/ Disclosure"
+                },
+                {
+                    "code": "status",
+                    "valueCode": "A"
+                }
+            ]
+        },
+        {
+            "id": "5355",
+            "code": "002",
+            "display": "Medical Procedure (invasive)",
+            "definition": "Medical Procedure (invasive)",
+            "property": [
+                {
+                    "code": "v2-concComment",
+                    "valueString": "Medical Treatment/ Procedure"
+                },
+                {
+                    "code": "v2-concCommentAsPub",
+                    "valueString": "Medical Treatment/ Procedure"
+                },
+                {
+                    "code": "status",
+                    "valueCode": "A"
+                }
+            ]
+        },
+        {
+            "id": "5356",
+            "code": "003",
+            "display": "Acknowledge Receipt of Privacy Notice",
+            "definition": "Acknowledge Receipt of Privacy Notice",
+            "property": [
+                {
+                    "code": "v2-concComment",
+                    "valueString": "Acknowledgement/ Notification"
+                },
+                {
+                    "code": "v2-concCommentAsPub",
+                    "valueString": "Acknowledgement/ Notification"
+                },
+                {
+                    "code": "status",
+                    "valueCode": "A"
+                }
+            ]
+        },
+        {
+            "id": "5357",
+            "code": "004",
+            "display": "Abortion",
+            "definition": "Abortion",
+            "property": [
+                {
+                    "code": "v2-concComment",
+                    "valueString": "Medical Treatment/ Procedure"
+                },
+                {
+                    "code": "v2-concCommentAsPub",
+                    "valueString": "Medical Treatment/ Procedure"
+                },
+                {
+                    "code": "status",
+                    "valueCode": "A"
+                }
+            ]
+        },
+        {
+            "id": "5358",
+            "code": "005",
+            "display": "Abortion/Laminaria",
+            "definition": "Abortion/Laminaria",
+            "property": [
+                {
+                    "code": "v2-concComment",
+                    "valueString": "Medical Treatment/ Procedure"
+                },
+                {
+                    "code": "v2-concCommentAsPub",
+                    "valueString": "Medical Treatment/ Procedure"
+                },
+                {
+                    "code": "status",
+                    "valueCode": "A"
+                }
+            ]
+        },
+        {
+            "id": "5359",
+            "code": "006",
+            "display": "Accutane - Information",
+            "definition": "Accutane - Information",
+            "property": [
+                {
+                    "code": "v2-concComment",
+                    "valueString": "Medical Treatment/ Procedure"
+                },
+                {
+                    "code": "v2-concCommentAsPub",
+                    "valueString": "Medical Treatment/ Procedure"
+                },
+                {
+                    "code": "status",
+                    "valueCode": "A"
+                }
+            ]
+        },
+        {
+            "id": "5360",
+            "code": "007",
+            "display": "Accutane - Woman",
+            "definition": "Accutane - Woman",
+            "property": [
+                {
+                    "code": "v2-concComment",
+                    "valueString": "Medical Treatment/ Procedure"
+                },
+                {
+                    "code": "v2-concCommentAsPub",
+                    "valueString": "Medical Treatment/ Procedure"
+                },
+                {
+                    "code": "status",
+                    "valueCode": "A"
+                }
+            ]
+        },
+        {
+            "id": "5361",
+            "code": "008",
+            "display": "Advanced Beneficiary Notice",
+            "definition": "Advanced Beneficiary Notice",
+            "property": [
+                {
+                    "code": "v2-concComment",
+                    "valueString": "Acknowledgement/ Notification"
+                },
+                {
+                    "code": "v2-concCommentAsPub",
+                    "valueString": "Acknowledgement/ Notification"
+                },
+                {
+                    "code": "status",
+                    "valueCode": "A"
+                }
+            ]
+        },
+        {
+            "id": "5362",
+            "code": "009",
+            "display": "AFP (Alpha Fetoprotein) Screening",
+            "definition": "AFP (Alpha Fetoprotein) Screening",
+            "property": [
+                {
+                    "code": "v2-concComment",
+                    "valueString": "Medical Treatment/ Procedure"
+                },
+                {
+                    "code": "v2-concCommentAsPub",
+                    "valueString": "Medical Treatment/ Procedure"
+                },
+                {
+                    "code": "status",
+                    "valueCode": "A"
+                }
+            ]
+        },
+        {
+            "id": "5363",
+            "code": "010",
+            "display": "Amniocentesis (consent & refusal)",
+            "definition": "Amniocentesis (consent & refusal)",
+            "property": [
+                {
+                    "code": "v2-concComment",
+                    "valueString": "Medical Treatment/ Procedure"
+                },
+                {
+                    "code": "v2-concCommentAsPub",
+                    "valueString": "Medical Treatment/ Procedure"
+                },
+                {
+                    "code": "status",
+                    "valueCode": "A"
+                }
+            ]
+        },
+        {
+            "id": "5364",
+            "code": "011",
+            "display": "Anatomical Gift (organ donation)",
+            "definition": "Anatomical Gift (organ donation)",
+            "property": [
+                {
+                    "code": "v2-concComment",
+                    "valueString": "Administrative"
+                },
+                {
+                    "code": "v2-concCommentAsPub",
+                    "valueString": "Administrative"
+                },
+                {
+                    "code": "status",
+                    "valueCode": "A"
+                }
+            ]
+        },
+        {
+            "id": "5365",
+            "code": "012",
+            "display": "Anesthesia - Complications",
+            "definition": "Anesthesia - Complications",
+            "property": [
+                {
+                    "code": "v2-concComment",
+                    "valueString": "Medical Treatment/ Procedure"
+                },
+                {
+                    "code": "v2-concCommentAsPub",
+                    "valueString": "Medical Treatment/ Procedure"
+                },
+                {
+                    "code": "status",
+                    "valueCode": "A"
+                }
+            ]
+        },
+        {
+            "id": "5366",
+            "code": "013",
+            "display": "Anesthesia - Questionnaire",
+            "definition": "Anesthesia - Questionnaire",
+            "property": [
+                {
+                    "code": "v2-concComment",
+                    "valueString": "Medical Treatment/ Procedure"
+                },
+                {
+                    "code": "v2-concCommentAsPub",
+                    "valueString": "Medical Treatment/ Procedure"
+                },
+                {
+                    "code": "status",
+                    "valueCode": "A"
+                }
+            ]
+        },
+        {
+            "id": "5367",
+            "code": "014",
+            "display": "Angiogram",
+            "definition": "Angiogram",
+            "property": [
+                {
+                    "code": "v2-concComment",
+                    "valueString": "Medical Treatment/ Procedure"
+                },
+                {
+                    "code": "v2-concCommentAsPub",
+                    "valueString": "Medical Treatment/ Procedure"
+                },
+                {
+                    "code": "status",
+                    "valueCode": "A"
+                }
+            ]
+        },
+        {
+            "id": "5368",
+            "code": "015",
+            "display": "Angioplasty",
+            "definition": "Angioplasty",
+            "property": [
+                {
+                    "code": "v2-concComment",
+                    "valueString": "Medical Treatment/ Procedure"
+                },
+                {
+                    "code": "v2-concCommentAsPub",
+                    "valueString": "Medical Treatment/ Procedure"
+                },
+                {
+                    "code": "status",
+                    "valueCode": "A"
+                }
+            ]
+        },
+        {
+            "id": "5369",
+            "code": "016",
+            "display": "Anticancer Drugs",
+            "definition": "Anticancer Drugs",
+            "property": [
+                {
+                    "code": "v2-concComment",
+                    "valueString": "Medical Treatment/ Procedure"
+                },
+                {
+                    "code": "v2-concCommentAsPub",
+                    "valueString": "Medical Treatment/ Procedure"
+                },
+                {
+                    "code": "status",
+                    "valueCode": "A"
+                }
+            ]
+        },
+        {
+            "id": "5370",
+            "code": "017",
+            "display": "Antipsychotic Medications",
+            "definition": "Antipsychotic Medications",
+            "property": [
+                {
+                    "code": "v2-concComment",
+                    "valueString": "Medical Treatment/ Procedure"
+                },
+                {
+                    "code": "v2-concCommentAsPub",
+                    "valueString": "Medical Treatment/ Procedure"
+                },
+                {
+                    "code": "status",
+                    "valueCode": "A"
+                }
+            ]
+        },
+        {
+            "id": "5371",
+            "code": "018",
+            "display": "Arthrogram",
+            "definition": "Arthrogram",
+            "property": [
+                {
+                    "code": "v2-concComment",
+                    "valueString": "Medical Treatment/ Procedure"
+                },
+                {
+                    "code": "v2-concCommentAsPub",
+                    "valueString": "Medical Treatment/ Procedure"
+                },
+                {
+                    "code": "status",
+                    "valueCode": "A"
+                }
+            ]
+        },
+        {
+            "id": "5372",
+            "code": "019",
+            "display": "Autopsy",
+            "definition": "Autopsy",
+            "property": [
+                {
+                    "code": "v2-concComment",
+                    "valueString": "Administrative"
+                },
+                {
+                    "code": "v2-concCommentAsPub",
+                    "valueString": "Administrative"
+                },
+                {
+                    "code": "status",
+                    "valueCode": "A"
+                }
+            ]
+        },
+        {
+            "id": "5373",
+            "code": "020",
+            "display": "AZT Therapy",
+            "definition": "AZT Therapy",
+            "property": [
+                {
+                    "code": "v2-concComment",
+                    "valueString": "Medical Treatment/ Procedure"
+                },
+                {
+                    "code": "v2-concCommentAsPub",
+                    "valueString": "Medical Treatment/ Procedure"
+                },
+                {
+                    "code": "status",
+                    "valueCode": "A"
+                }
+            ]
+        },
+        {
+            "id": "5374",
+            "code": "021",
+            "display": "Biliary Drainage",
+            "definition": "Biliary Drainage",
+            "property": [
+                {
+                    "code": "v2-concComment",
+                    "valueString": "Medical Treatment/ Procedure"
+                },
+                {
+                    "code": "v2-concCommentAsPub",
+                    "valueString": "Medical Treatment/ Procedure"
+                },
+                {
+                    "code": "status",
+                    "valueCode": "A"
+                }
+            ]
+        },
+        {
+            "id": "5375",
+            "code": "022",
+            "display": "Biliary Stone Extraction",
+            "definition": "Biliary Stone Extraction",
+            "property": [
+                {
+                    "code": "v2-concComment",
+                    "valueString": "Medical Treatment/ Procedure"
+                },
+                {
+                    "code": "v2-concCommentAsPub",
+                    "valueString": "Medical Treatment/ Procedure"
+                },
+                {
+                    "code": "status",
+                    "valueCode": "A"
+                }
+            ]
+        },
+        {
+            "id": "5376",
+            "code": "023",
+            "display": "Biopsy",
+            "definition": "Biopsy",
+            "property": [
+                {
+                    "code": "v2-concComment",
+                    "valueString": "Medical Treatment/ Procedure"
+                },
+                {
+                    "code": "v2-concCommentAsPub",
+                    "valueString": "Medical Treatment/ Procedure"
+                },
+                {
+                    "code": "status",
+                    "valueCode": "A"
+                }
+            ]
+        },
+        {
+            "id": "5377",
+            "code": "024",
+            "display": "Bleeding Time Test",
+            "definition": "Bleeding Time Test",
+            "property": [
+                {
+                    "code": "v2-concComment",
+                    "valueString": "Medical Treatment/ Procedure"
+                },
+                {
+                    "code": "v2-concCommentAsPub",
+                    "valueString": "Medical Treatment/ Procedure"
+                },
+                {
+                    "code": "status",
+                    "valueCode": "A"
+                }
+            ]
+        },
+        {
+            "id": "5378",
+            "code": "025",
+            "display": "Bronchogram",
+            "definition": "Bronchogram",
+            "property": [
+                {
+                    "code": "v2-concComment",
+                    "valueString": "Medical Treatment/ Procedure"
+                },
+                {
+                    "code": "v2-concCommentAsPub",
+                    "valueString": "Medical Treatment/ Procedure"
+                },
+                {
+                    "code": "status",
+                    "valueCode": "A"
+                }
+            ]
+        },
+        {
+            "id": "5379",
+            "code": "026",
+            "display": "Cardiac Catheterization",
+            "definition": "Cardiac Catheterization",
+            "property": [
+                {
+                    "code": "v2-concComment",
+                    "valueString": "Medical Treatment/ Procedure"
+                },
+                {
+                    "code": "v2-concCommentAsPub",
+                    "valueString": "Medical Treatment/ Procedure"
+                },
+                {
+                    "code": "status",
+                    "valueCode": "A"
+                }
+            ]
+        },
+        {
+            "id": "5380",
+            "code": "027",
+            "display": "Coronary Angiography",
+            "definition": "Coronary Angiography",
+            "property": [
+                {
+                    "code": "v2-concComment",
+                    "valueString": "Medical Treatment/ Procedure"
+                },
+                {
+                    "code": "v2-concCommentAsPub",
+                    "valueString": "Medical Treatment/ Procedure"
+                },
+                {
+                    "code": "status",
+                    "valueCode": "A"
+                }
+            ]
+        },
+        {
+            "id": "5381",
+            "code": "028",
+            "display": "Coronary Angiography w/o Surgery Capability",
+            "definition": "\"\"      \"\" w/o Surgery Capability",
+            "property": [
+                {
+                    "code": "v2-concComment",
+                    "valueString": "Medical Treatment/ Procedure"
+                },
+                {
+                    "code": "v2-concCommentAsPub",
+                    "valueString": "Medical Treatment/ Procedure"
+                },
+                {
+                    "code": "status",
+                    "valueCode": "A"
+                }
+            ]
+        },
+        {
+            "id": "5382",
+            "code": "029",
+            "display": "Cataract Op/Implant of FDA Aprvd Lens",
+            "definition": "Cataract Op/Implant of FDA Aprvd Lens",
+            "property": [
+                {
+                    "code": "v2-concComment",
+                    "valueString": "Medical Treatment/ Procedure"
+                },
+                {
+                    "code": "v2-concCommentAsPub",
+                    "valueString": "Medical Treatment/ Procedure"
+                },
+                {
+                    "code": "status",
+                    "valueCode": "A"
+                }
+            ]
+        },
+        {
+            "id": "5383",
+            "code": "030",
+            "display": "Cataract Op/Implant of Investigational Lens",
+            "definition": "Cataract Op/Implant of Investigational Lens",
+            "property": [
+                {
+                    "code": "v2-concComment",
+                    "valueString": "Medical Treatment/ Procedure"
+                },
+                {
+                    "code": "v2-concCommentAsPub",
+                    "valueString": "Medical Treatment/ Procedure"
+                },
+                {
+                    "code": "status",
+                    "valueCode": "A"
+                }
+            ]
+        },
+        {
+            "id": "5384",
+            "code": "031",
+            "display": "Cataract Surgery",
+            "definition": "Cataract Surgery",
+            "property": [
+                {
+                    "code": "v2-concComment",
+                    "valueString": "Medical Treatment/ Procedure"
+                },
+                {
+                    "code": "v2-concCommentAsPub",
+                    "valueString": "Medical Treatment/ Procedure"
+                },
+                {
+                    "code": "status",
+                    "valueCode": "A"
+                }
+            ]
+        },
+        {
+            "id": "5385",
+            "code": "032",
+            "display": "Cholera Immunization",
+            "definition": "Cholera Immunization",
+            "property": [
+                {
+                    "code": "v2-concComment",
+                    "valueString": "Medical Treatment/ Procedure"
+                },
+                {
+                    "code": "v2-concCommentAsPub",
+                    "valueString": "Medical Treatment/ Procedure"
+                },
+                {
+                    "code": "status",
+                    "valueCode": "A"
+                }
+            ]
+        },
+        {
+            "id": "5386",
+            "code": "033",
+            "display": "Cholesterol Screening",
+            "definition": "Cholesterol Screening",
+            "property": [
+                {
+                    "code": "v2-concComment",
+                    "valueString": "Medical Treatment/ Procedure"
+                },
+                {
+                    "code": "v2-concCommentAsPub",
+                    "valueString": "Medical Treatment/ Procedure"
+                },
+                {
+                    "code": "status",
+                    "valueCode": "A"
+                }
+            ]
+        },
+        {
+            "id": "5387",
+            "code": "034",
+            "display": "Circumcision - Newborn",
+            "definition": "Circumcision - Newborn",
+            "property": [
+                {
+                    "code": "v2-concComment",
+                    "valueString": "Medical Treatment/ Procedure"
+                },
+                {
+                    "code": "v2-concCommentAsPub",
+                    "valueString": "Medical Treatment/ Procedure"
+                },
+                {
+                    "code": "status",
+                    "valueCode": "A"
+                }
+            ]
+        },
+        {
+            "id": "5388",
+            "code": "035",
+            "display": "Colonoscopy",
+            "definition": "Colonoscopy",
+            "property": [
+                {
+                    "code": "v2-concComment",
+                    "valueString": "Medical Treatment/ Procedure"
+                },
+                {
+                    "code": "v2-concCommentAsPub",
+                    "valueString": "Medical Treatment/ Procedure"
+                },
+                {
+                    "code": "status",
+                    "valueCode": "A"
+                }
+            ]
+        },
+        {
+            "id": "5389",
+            "code": "036",
+            "display": "Contact Lenses",
+            "definition": "Contact Lenses",
+            "property": [
+                {
+                    "code": "v2-concComment",
+                    "valueString": "Medical Treatment/ Procedure"
+                },
+                {
+                    "code": "v2-concCommentAsPub",
+                    "valueString": "Medical Treatment/ Procedure"
+                },
+                {
+                    "code": "status",
+                    "valueCode": "A"
+                }
+            ]
+        },
+        {
+            "id": "5390",
+            "code": "037",
+            "display": "CT Scan - Cervical & Lumbar",
+            "definition": "CT Scan - Cervical & Lumbar",
+            "property": [
+                {
+                    "code": "v2-concComment",
+                    "valueString": "Medical Treatment/ Procedure"
+                },
+                {
+                    "code": "v2-concCommentAsPub",
+                    "valueString": "Medical Treatment/ Procedure"
+                },
+                {
+                    "code": "status",
+                    "valueCode": "A"
+                }
+            ]
+        },
+        {
+            "id": "5391",
+            "code": "038",
+            "display": "CT Scan w/ IV Contrast Media into Vein",
+            "definition": "CT Scan w/ IV Contrast Media into Vein",
+            "property": [
+                {
+                    "code": "v2-concComment",
+                    "valueString": "Medical Treatment/ Procedure"
+                },
+                {
+                    "code": "v2-concCommentAsPub",
+                    "valueString": "Medical Treatment/ Procedure"
+                },
+                {
+                    "code": "status",
+                    "valueCode": "A"
+                }
+            ]
+        },
+        {
+            "id": "5392",
+            "code": "039",
+            "display": "CVS (Chorionic Villus) Sampling",
+            "definition": "CVS (Chorionic Villus) Sampling",
+            "property": [
+                {
+                    "code": "v2-concComment",
+                    "valueString": "Medical Treatment/ Procedure"
+                },
+                {
+                    "code": "v2-concCommentAsPub",
+                    "valueString": "Medical Treatment/ Procedure"
+                },
+                {
+                    "code": "status",
+                    "valueCode": "A"
+                }
+            ]
+        },
+        {
+            "id": "5393",
+            "code": "040",
+            "display": "Cystospy",
+            "definition": "Cystospy",
+            "property": [
+                {
+                    "code": "v2-concComment",
+                    "valueString": "Medical Treatment/ Procedure"
+                },
+                {
+                    "code": "v2-concCommentAsPub",
+                    "valueString": "Medical Treatment/ Procedure"
+                },
+                {
+                    "code": "status",
+                    "valueCode": "A"
+                }
+            ]
+        },
+        {
+            "id": "5394",
+            "code": "041",
+            "display": "Disclosure of Protected Health Information to Family/Friends",
+            "definition": "Disclosure of Protected Health Information to Family/Friends",
+            "property": [
+                {
+                    "code": "v2-concComment",
+                    "valueString": "Release of Info/ Disclosure"
+                },
+                {
+                    "code": "v2-concCommentAsPub",
+                    "valueString": "Release of Info/ Disclosure"
+                },
+                {
+                    "code": "status",
+                    "valueCode": "A"
+                }
+            ]
+        },
+        {
+            "id": "5395",
+            "code": "042",
+            "display": "D & C and Conization",
+            "definition": "D & C and Conization",
+            "property": [
+                {
+                    "code": "v2-concComment",
+                    "valueString": "Medical Treatment/ Procedure"
+                },
+                {
+                    "code": "v2-concCommentAsPub",
+                    "valueString": "Medical Treatment/ Procedure"
+                },
+                {
+                    "code": "status",
+                    "valueCode": "A"
+                }
+            ]
+        },
+        {
+            "id": "5396",
+            "code": "043",
+            "display": "Dacryocystogram",
+            "definition": "Dacryocystogram",
+            "property": [
+                {
+                    "code": "v2-concComment",
+                    "valueString": "Medical Treatment/ Procedure"
+                },
+                {
+                    "code": "v2-concCommentAsPub",
+                    "valueString": "Medical Treatment/ Procedure"
+                },
+                {
+                    "code": "status",
+                    "valueCode": "A"
+                }
+            ]
+        },
+        {
+            "id": "5397",
+            "code": "044",
+            "display": "Diagnostic Isotope",
+            "definition": "Diagnostic Isotope",
+            "property": [
+                {
+                    "code": "v2-concComment",
+                    "valueString": "Medical Treatment/ Procedure"
+                },
+                {
+                    "code": "v2-concCommentAsPub",
+                    "valueString": "Medical Treatment/ Procedure"
+                },
+                {
+                    "code": "status",
+                    "valueCode": "A"
+                }
+            ]
+        },
+        {
+            "id": "5398",
+            "code": "045",
+            "display": "Drainage of an Abscess",
+            "definition": "Drainage of an Abscess",
+            "property": [
+                {
+                    "code": "v2-concComment",
+                    "valueString": "Medical Treatment/ Procedure"
+                },
+                {
+                    "code": "v2-concCommentAsPub",
+                    "valueString": "Medical Treatment/ Procedure"
+                },
+                {
+                    "code": "status",
+                    "valueCode": "A"
+                }
+            ]
+        },
+        {
+            "id": "5399",
+            "code": "046",
+            "display": "Drug Screening",
+            "definition": "Drug Screening",
+            "property": [
+                {
+                    "code": "v2-concComment",
+                    "valueString": "Medical Treatment/ Procedure"
+                },
+                {
+                    "code": "v2-concCommentAsPub",
+                    "valueString": "Medical Treatment/ Procedure"
+                },
+                {
+                    "code": "status",
+                    "valueCode": "A"
+                }
+            ]
+        },
+        {
+            "id": "5400",
+            "code": "047",
+            "display": "Electronic Monitoring of Labor - Refusal",
+            "definition": "Electronic Monitoring of Labor - Refusal",
+            "property": [
+                {
+                    "code": "v2-concComment",
+                    "valueString": "Medical Treatment/ Procedure"
+                },
+                {
+                    "code": "v2-concCommentAsPub",
+                    "valueString": "Medical Treatment/ Procedure"
+                },
+                {
+                    "code": "status",
+                    "valueCode": "A"
+                }
+            ]
+        },
+        {
+            "id": "5401",
+            "code": "048",
+            "display": "Endometrial Biopsy",
+            "definition": "Endometrial Biopsy",
+            "property": [
+                {
+                    "code": "v2-concComment",
+                    "valueString": "Medical Treatment/ Procedure"
+                },
+                {
+                    "code": "v2-concCommentAsPub",
+                    "valueString": "Medical Treatment/ Procedure"
+                },
+                {
+                    "code": "status",
+                    "valueCode": "A"
+                }
+            ]
+        },
+        {
+            "id": "5402",
+            "code": "049",
+            "display": "Endoscopy/Sclerosis of Esophageal Varices",
+            "definition": "Endoscopy/Sclerosis of Esophageal Varices",
+            "property": [
+                {
+                    "code": "v2-concComment",
+                    "valueString": "Medical Treatment/ Procedure"
+                },
+                {
+                    "code": "v2-concCommentAsPub",
+                    "valueString": "Medical Treatment/ Procedure"
+                },
+                {
+                    "code": "status",
+                    "valueCode": "A"
+                }
+            ]
+        },
+        {
+            "id": "5403",
+            "code": "050",
+            "display": "ERCP",
+            "definition": "ERCP",
+            "property": [
+                {
+                    "code": "v2-concComment",
+                    "valueString": "Medical Treatment/ Procedure"
+                },
+                {
+                    "code": "v2-concCommentAsPub",
+                    "valueString": "Medical Treatment/ Procedure"
+                },
+                {
+                    "code": "status",
+                    "valueCode": "A"
+                }
+            ]
+        },
+        {
+            "id": "5404",
+            "code": "051",
+            "display": "Exposure to reportable Communicable Disease",
+            "definition": "Exposure to reportable Communicable Disease",
+            "property": [
+                {
+                    "code": "v2-concComment",
+                    "valueString": "Medical Treatment/ Procedure"
+                },
+                {
+                    "code": "v2-concCommentAsPub",
+                    "valueString": "Medical Treatment/ Procedure"
+                },
+                {
+                    "code": "status",
+                    "valueCode": "A"
+                }
+            ]
+        },
+        {
+            "id": "5405",
+            "code": "052",
+            "display": "External Version",
+            "definition": "External Version",
+            "property": [
+                {
+                    "code": "v2-concComment",
+                    "valueString": "Medical Treatment/ Procedure"
+                },
+                {
+                    "code": "v2-concCommentAsPub",
+                    "valueString": "Medical Treatment/ Procedure"
+                },
+                {
+                    "code": "status",
+                    "valueCode": "A"
+                }
+            ]
+        },
+        {
+            "id": "5406",
+            "code": "053",
+            "display": "Fluorescein Angioscopy",
+            "definition": "Fluorescein Angioscopy",
+            "property": [
+                {
+                    "code": "v2-concComment",
+                    "valueString": "Medical Treatment/ Procedure"
+                },
+                {
+                    "code": "v2-concCommentAsPub",
+                    "valueString": "Medical Treatment/ Procedure"
+                },
+                {
+                    "code": "status",
+                    "valueCode": "A"
+                }
+            ]
+        },
+        {
+            "id": "5407",
+            "code": "054",
+            "display": "Hepatitis B - Consent/Declination",
+            "definition": "Hepatitis B - Consent/Declination",
+            "property": [
+                {
+                    "code": "v2-concComment",
+                    "valueString": "Medical Treatment/ Procedure"
+                },
+                {
+                    "code": "v2-concCommentAsPub",
+                    "valueString": "Medical Treatment/ Procedure"
+                },
+                {
+                    "code": "status",
+                    "valueCode": "A"
+                }
+            ]
+        },
+        {
+            "id": "5408",
+            "code": "055",
+            "display": "Herniogram",
+            "definition": "Herniogram",
+            "property": [
+                {
+                    "code": "v2-concComment",
+                    "valueString": "Medical Treatment/ Procedure"
+                },
+                {
+                    "code": "v2-concCommentAsPub",
+                    "valueString": "Medical Treatment/ Procedure"
+                },
+                {
+                    "code": "status",
+                    "valueCode": "A"
+                }
+            ]
+        },
+        {
+            "id": "5409",
+            "code": "056",
+            "display": "HIV Test - Consent Refusal",
+            "definition": "HIV Test - Consent Refusal",
+            "property": [
+                {
+                    "code": "v2-concComment",
+                    "valueString": "Medical Treatment/ Procedure"
+                },
+                {
+                    "code": "v2-concCommentAsPub",
+                    "valueString": "Medical Treatment/ Procedure"
+                },
+                {
+                    "code": "status",
+                    "valueCode": "A"
+                }
+            ]
+        },
+        {
+            "id": "5410",
+            "code": "057",
+            "display": "HIV Test - Disclosure",
+            "definition": "HIV Test - Disclosure",
+            "property": [
+                {
+                    "code": "v2-concComment",
+                    "valueString": "Medical Treatment/ Procedure"
+                },
+                {
+                    "code": "v2-concCommentAsPub",
+                    "valueString": "Medical Treatment/ Procedure"
+                },
+                {
+                    "code": "status",
+                    "valueCode": "A"
+                }
+            ]
+        },
+        {
+            "id": "5411",
+            "code": "058",
+            "display": "HIV Test - Prenatal",
+            "definition": "HIV Test - Prenatal",
+            "property": [
+                {
+                    "code": "v2-concComment",
+                    "valueString": "Medical Treatment/ Procedure"
+                },
+                {
+                    "code": "v2-concCommentAsPub",
+                    "valueString": "Medical Treatment/ Procedure"
+                },
+                {
+                    "code": "status",
+                    "valueCode": "A"
+                }
+            ]
+        },
+        {
+            "id": "5412",
+            "code": "059",
+            "display": "Home IV Treatment Program",
+            "definition": "Home IV Treatment Program",
+            "property": [
+                {
+                    "code": "v2-concComment",
+                    "valueString": "Medical Treatment/ Procedure"
+                },
+                {
+                    "code": "v2-concCommentAsPub",
+                    "valueString": "Medical Treatment/ Procedure"
+                },
+                {
+                    "code": "status",
+                    "valueCode": "A"
+                }
+            ]
+        },
+        {
+            "id": "5413",
+            "code": "060",
+            "display": "Home Parenteral Treatment Program",
+            "definition": "Home Parenteral Treatment Program",
+            "property": [
+                {
+                    "code": "v2-concComment",
+                    "valueString": "Medical Treatment/ Procedure"
+                },
+                {
+                    "code": "v2-concCommentAsPub",
+                    "valueString": "Medical Treatment/ Procedure"
+                },
+                {
+                    "code": "status",
+                    "valueCode": "A"
+                }
+            ]
+        },
+        {
+            "id": "5414",
+            "code": "061",
+            "display": "Hysterectomy",
+            "definition": "Hysterectomy",
+            "property": [
+                {
+                    "code": "v2-concComment",
+                    "valueString": "Medical Treatment/ Procedure"
+                },
+                {
+                    "code": "v2-concCommentAsPub",
+                    "valueString": "Medical Treatment/ Procedure"
+                },
+                {
+                    "code": "status",
+                    "valueCode": "A"
+                }
+            ]
+        },
+        {
+            "id": "5415",
+            "code": "062",
+            "display": "Hysterosalpingogram",
+            "definition": "Hysterosalpingogram",
+            "property": [
+                {
+                    "code": "v2-concComment",
+                    "valueString": "Medical Treatment/ Procedure"
+                },
+                {
+                    "code": "v2-concCommentAsPub",
+                    "valueString": "Medical Treatment/ Procedure"
+                },
+                {
+                    "code": "status",
+                    "valueCode": "A"
+                }
+            ]
+        },
+        {
+            "id": "5416",
+            "code": "063",
+            "display": "Injection Slip/ Consent",
+            "definition": "Injection Slip/ Consent",
+            "property": [
+                {
+                    "code": "v2-concComment",
+                    "valueString": "Medical Treatment/ Procedure"
+                },
+                {
+                    "code": "v2-concCommentAsPub",
+                    "valueString": "Medical Treatment/ Procedure"
+                },
+                {
+                    "code": "status",
+                    "valueCode": "A"
+                }
+            ]
+        },
+        {
+            "id": "5417",
+            "code": "064",
+            "display": "Intrauterine Device",
+            "definition": "Intrauterine Device",
+            "property": [
+                {
+                    "code": "v2-concComment",
+                    "valueString": "Medical Treatment/ Procedure"
+                },
+                {
+                    "code": "v2-concCommentAsPub",
+                    "valueString": "Medical Treatment/ Procedure"
+                },
+                {
+                    "code": "status",
+                    "valueCode": "A"
+                }
+            ]
+        },
+        {
+            "id": "5418",
+            "code": "065",
+            "display": "Intrauterine Device/Sterilization",
+            "definition": "Intrauterine Device/Sterilization",
+            "property": [
+                {
+                    "code": "v2-concComment",
+                    "valueString": "Medical Treatment/ Procedure"
+                },
+                {
+                    "code": "v2-concCommentAsPub",
+                    "valueString": "Medical Treatment/ Procedure"
+                },
+                {
+                    "code": "status",
+                    "valueCode": "A"
+                }
+            ]
+        },
+        {
+            "id": "5419",
+            "code": "066",
+            "display": "Intravascular Infusion of Streptokinase/Urokinase",
+            "definition": "Intravascular Infusion of Streptokinase/Urokinase",
+            "property": [
+                {
+                    "code": "v2-concComment",
+                    "valueString": "Medical Treatment/ Procedure"
+                },
+                {
+                    "code": "v2-concCommentAsPub",
+                    "valueString": "Medical Treatment/ Procedure"
+                },
+                {
+                    "code": "status",
+                    "valueCode": "A"
+                }
+            ]
+        },
+        {
+            "id": "5420",
+            "code": "067",
+            "display": "Intravenous Cholangiogram",
+            "definition": "Intravenous Cholangiogram",
+            "property": [
+                {
+                    "code": "v2-concComment",
+                    "valueString": "Medical Treatment/ Procedure"
+                },
+                {
+                    "code": "v2-concCommentAsPub",
+                    "valueString": "Medical Treatment/ Procedure"
+                },
+                {
+                    "code": "status",
+                    "valueCode": "A"
+                }
+            ]
+        },
+        {
+            "id": "5421",
+            "code": "068",
+            "display": "Intravenous Digital Angiography",
+            "definition": "Intravenous Digital Angiography",
+            "property": [
+                {
+                    "code": "v2-concComment",
+                    "valueString": "Medical Treatment/ Procedure"
+                },
+                {
+                    "code": "v2-concCommentAsPub",
+                    "valueString": "Medical Treatment/ Procedure"
+                },
+                {
+                    "code": "status",
+                    "valueCode": "A"
+                }
+            ]
+        },
+        {
+            "id": "5422",
+            "code": "069",
+            "display": "Iodine Administration",
+            "definition": "Iodine Administration",
+            "property": [
+                {
+                    "code": "v2-concComment",
+                    "valueString": "Medical Treatment/ Procedure"
+                },
+                {
+                    "code": "v2-concCommentAsPub",
+                    "valueString": "Medical Treatment/ Procedure"
+                },
+                {
+                    "code": "status",
+                    "valueCode": "A"
+                }
+            ]
+        },
+        {
+            "id": "5423",
+            "code": "070",
+            "display": "ISG",
+            "definition": "ISG",
+            "property": [
+                {
+                    "code": "v2-concComment",
+                    "valueString": "Medical Treatment/ Procedure"
+                },
+                {
+                    "code": "v2-concCommentAsPub",
+                    "valueString": "Medical Treatment/ Procedure"
+                },
+                {
+                    "code": "status",
+                    "valueCode": "A"
+                }
+            ]
+        },
+        {
+            "id": "5424",
+            "code": "071",
+            "display": "IVP",
+            "definition": "IVP",
+            "property": [
+                {
+                    "code": "v2-concComment",
+                    "valueString": "Medical Treatment/ Procedure"
+                },
+                {
+                    "code": "v2-concCommentAsPub",
+                    "valueString": "Medical Treatment/ Procedure"
+                },
+                {
+                    "code": "status",
+                    "valueCode": "A"
+                }
+            ]
+        },
+        {
+            "id": "5425",
+            "code": "072",
+            "display": "Laser Photocoagulation",
+            "definition": "Laser Photocoagulation",
+            "property": [
+                {
+                    "code": "v2-concComment",
+                    "valueString": "Medical Treatment/ Procedure"
+                },
+                {
+                    "code": "v2-concCommentAsPub",
+                    "valueString": "Medical Treatment/ Procedure"
+                },
+                {
+                    "code": "status",
+                    "valueCode": "A"
+                }
+            ]
+        },
+        {
+            "id": "5426",
+            "code": "073",
+            "display": "Laser treatment",
+            "definition": "Laser treatment",
+            "property": [
+                {
+                    "code": "v2-concComment",
+                    "valueString": "Medical Treatment/ Procedure"
+                },
+                {
+                    "code": "v2-concCommentAsPub",
+                    "valueString": "Medical Treatment/ Procedure"
+                },
+                {
+                    "code": "status",
+                    "valueCode": "A"
+                }
+            ]
+        },
+        {
+            "id": "5427",
+            "code": "074",
+            "display": "Lithium Carbonate",
+            "definition": "Lithium Carbonate",
+            "property": [
+                {
+                    "code": "v2-concComment",
+                    "valueString": "Medical Treatment/ Procedure"
+                },
+                {
+                    "code": "v2-concCommentAsPub",
+                    "valueString": "Medical Treatment/ Procedure"
+                },
+                {
+                    "code": "status",
+                    "valueCode": "A"
+                }
+            ]
+        },
+        {
+            "id": "5428",
+            "code": "075",
+            "display": "Liver Biopsy",
+            "definition": "Liver Biopsy",
+            "property": [
+                {
+                    "code": "v2-concComment",
+                    "valueString": "Medical Treatment/ Procedure"
+                },
+                {
+                    "code": "v2-concCommentAsPub",
+                    "valueString": "Medical Treatment/ Procedure"
+                },
+                {
+                    "code": "status",
+                    "valueCode": "A"
+                }
+            ]
+        },
+        {
+            "id": "5429",
+            "code": "076",
+            "display": "Lumbar Puncture",
+            "definition": "Lumbar Puncture",
+            "property": [
+                {
+                    "code": "v2-concComment",
+                    "valueString": "Medical Treatment/ Procedure"
+                },
+                {
+                    "code": "v2-concCommentAsPub",
+                    "valueString": "Medical Treatment/ Procedure"
+                },
+                {
+                    "code": "status",
+                    "valueCode": "A"
+                }
+            ]
+        },
+        {
+            "id": "5430",
+            "code": "077",
+            "display": "Lymphangiogram",
+            "definition": "Lymphangiogram",
+            "property": [
+                {
+                    "code": "v2-concComment",
+                    "valueString": "Medical Treatment/ Procedure"
+                },
+                {
+                    "code": "v2-concCommentAsPub",
+                    "valueString": "Medical Treatment/ Procedure"
+                },
+                {
+                    "code": "status",
+                    "valueCode": "A"
+                }
+            ]
+        },
+        {
+            "id": "5431",
+            "code": "078",
+            "display": "MAO Inhibitors",
+            "definition": "MAO Inhibitors",
+            "property": [
+                {
+                    "code": "v2-concComment",
+                    "valueString": "Medical Treatment/ Procedure"
+                },
+                {
+                    "code": "v2-concCommentAsPub",
+                    "valueString": "Medical Treatment/ Procedure"
+                },
+                {
+                    "code": "status",
+                    "valueCode": "A"
+                }
+            ]
+        },
+        {
+            "id": "5432",
+            "code": "079",
+            "display": "Med, Psych, and/or Drug/Alcohol",
+            "definition": "Med, Psych, and/or Drug/Alcohol",
+            "property": [
+                {
+                    "code": "v2-concComment",
+                    "valueString": "Release of Info/ Disclosure"
+                },
+                {
+                    "code": "v2-concCommentAsPub",
+                    "valueString": "Release of Info/ Disclosure"
+                },
+                {
+                    "code": "status",
+                    "valueCode": "A"
+                }
+            ]
+        },
+        {
+            "id": "5433",
+            "code": "080",
+            "display": "Medical Treatment - Refusal",
+            "definition": "Medical Treatment - Refusal",
+            "property": [
+                {
+                    "code": "v2-concComment",
+                    "valueString": "Administrative"
+                },
+                {
+                    "code": "v2-concCommentAsPub",
+                    "valueString": "Administrative"
+                },
+                {
+                    "code": "status",
+                    "valueCode": "A"
+                }
+            ]
+        },
+        {
+            "id": "5434",
+            "code": "081",
+            "display": "Morning-after Pill",
+            "definition": "Morning-after Pill",
+            "property": [
+                {
+                    "code": "v2-concComment",
+                    "valueString": "Medical Treatment/ Procedure"
+                },
+                {
+                    "code": "v2-concCommentAsPub",
+                    "valueString": "Medical Treatment/ Procedure"
+                },
+                {
+                    "code": "status",
+                    "valueCode": "A"
+                }
+            ]
+        },
+        {
+            "id": "5435",
+            "code": "082",
+            "display": "MRI - Adult",
+            "definition": "MRI - Adult",
+            "property": [
+                {
+                    "code": "v2-concComment",
+                    "valueString": "Medical Treatment/ Procedure"
+                },
+                {
+                    "code": "v2-concCommentAsPub",
+                    "valueString": "Medical Treatment/ Procedure"
+                },
+                {
+                    "code": "status",
+                    "valueCode": "A"
+                }
+            ]
+        },
+        {
+            "id": "5436",
+            "code": "083",
+            "display": "MRI - Pediatric",
+            "definition": "MRI - Pediatric",
+            "property": [
+                {
+                    "code": "v2-concComment",
+                    "valueString": "Medical Treatment/ Procedure"
+                },
+                {
+                    "code": "v2-concCommentAsPub",
+                    "valueString": "Medical Treatment/ Procedure"
+                },
+                {
+                    "code": "status",
+                    "valueCode": "A"
+                }
+            ]
+        },
+        {
+            "id": "5437",
+            "code": "084",
+            "display": "Myelogram",
+            "definition": "Myelogram",
+            "property": [
+                {
+                    "code": "v2-concComment",
+                    "valueString": "Medical Treatment/ Procedure"
+                },
+                {
+                    "code": "v2-concCommentAsPub",
+                    "valueString": "Medical Treatment/ Procedure"
+                },
+                {
+                    "code": "status",
+                    "valueCode": "A"
+                }
+            ]
+        },
+        {
+            "id": "5438",
+            "code": "085",
+            "display": "Needle Biopsy",
+            "definition": "Needle Biopsy",
+            "property": [
+                {
+                    "code": "v2-concComment",
+                    "valueString": "Medical Treatment/ Procedure"
+                },
+                {
+                    "code": "v2-concCommentAsPub",
+                    "valueString": "Medical Treatment/ Procedure"
+                },
+                {
+                    "code": "status",
+                    "valueCode": "A"
+                }
+            ]
+        },
+        {
+            "id": "5439",
+            "code": "086",
+            "display": "Needle Biopsy of Lung",
+            "definition": "Needle Biopsy of Lung",
+            "property": [
+                {
+                    "code": "v2-concComment",
+                    "valueString": "Medical Treatment/ Procedure"
+                },
+                {
+                    "code": "v2-concCommentAsPub",
+                    "valueString": "Medical Treatment/ Procedure"
+                },
+                {
+                    "code": "status",
+                    "valueCode": "A"
+                }
+            ]
+        },
+        {
+            "id": "5440",
+            "code": "087",
+            "display": "Newborn Treatment and Release",
+            "definition": "Newborn Treatment and Release",
+            "property": [
+                {
+                    "code": "v2-concComment",
+                    "valueString": "Medical Treatment/ Procedure"
+                },
+                {
+                    "code": "v2-concCommentAsPub",
+                    "valueString": "Medical Treatment/ Procedure"
+                },
+                {
+                    "code": "status",
+                    "valueCode": "A"
+                }
+            ]
+        },
+        {
+            "id": "5441",
+            "code": "088",
+            "display": "Norplant Subdermal Birth Control Implant",
+            "definition": "Norplant Subdermal Birth Control Implant",
+            "property": [
+                {
+                    "code": "v2-concComment",
+                    "valueString": "Medical Treatment/ Procedure"
+                },
+                {
+                    "code": "v2-concCommentAsPub",
+                    "valueString": "Medical Treatment/ Procedure"
+                },
+                {
+                    "code": "status",
+                    "valueCode": "A"
+                }
+            ]
+        },
+        {
+            "id": "5442",
+            "code": "089",
+            "display": "Operations, Anesthesia, Transfusions",
+            "definition": "Operations, Anesthesia, Transfusions",
+            "property": [
+                {
+                    "code": "v2-concComment",
+                    "valueString": "Medical Treatment/ Procedure"
+                },
+                {
+                    "code": "v2-concCommentAsPub",
+                    "valueString": "Medical Treatment/ Procedure"
+                },
+                {
+                    "code": "status",
+                    "valueCode": "A"
+                }
+            ]
+        },
+        {
+            "id": "5443",
+            "code": "090",
+            "display": "Oral Contraceptives",
+            "definition": "Oral Contraceptives",
+            "property": [
+                {
+                    "code": "v2-concComment",
+                    "valueString": "Medical Treatment/ Procedure"
+                },
+                {
+                    "code": "v2-concCommentAsPub",
+                    "valueString": "Medical Treatment/ Procedure"
+                },
+                {
+                    "code": "status",
+                    "valueCode": "A"
+                }
+            ]
+        },
+        {
+            "id": "5444",
+            "code": "091",
+            "display": "Organ Donation",
+            "definition": "Organ Donation",
+            "property": [
+                {
+                    "code": "v2-concComment",
+                    "valueString": "Administrative"
+                },
+                {
+                    "code": "v2-concCommentAsPub",
+                    "valueString": "Administrative"
+                },
+                {
+                    "code": "status",
+                    "valueCode": "A"
+                }
+            ]
+        },
+        {
+            "id": "5445",
+            "code": "092",
+            "display": "Patient Permits, Consents",
+            "definition": "Patient Permits, Consents",
+            "property": [
+                {
+                    "code": "v2-concComment",
+                    "valueString": "Administrative"
+                },
+                {
+                    "code": "v2-concCommentAsPub",
+                    "valueString": "Administrative"
+                },
+                {
+                    "code": "status",
+                    "valueCode": "A"
+                }
+            ]
+        },
+        {
+            "id": "5446",
+            "code": "093",
+            "display": "Patient Treatment Permit, Release & Admission",
+            "definition": "Patient Treatment Permit, Release & Admission",
+            "property": [
+                {
+                    "code": "v2-concComment",
+                    "valueString": "Administrative"
+                },
+                {
+                    "code": "v2-concCommentAsPub",
+                    "valueString": "Administrative"
+                },
+                {
+                    "code": "status",
+                    "valueCode": "A"
+                }
+            ]
+        },
+        {
+            "id": "5447",
+            "code": "094",
+            "display": "Penile Injections",
+            "definition": "Penile Injections",
+            "property": [
+                {
+                    "code": "v2-concComment",
+                    "valueString": "Medical Treatment/ Procedure"
+                },
+                {
+                    "code": "v2-concCommentAsPub",
+                    "valueString": "Medical Treatment/ Procedure"
+                },
+                {
+                    "code": "status",
+                    "valueCode": "A"
+                }
+            ]
+        },
+        {
+            "id": "5448",
+            "code": "095",
+            "display": "Percutaneous Nephrostomy",
+            "definition": "Percutaneous Nephrostomy",
+            "property": [
+                {
+                    "code": "v2-concComment",
+                    "valueString": "Medical Treatment/ Procedure"
+                },
+                {
+                    "code": "v2-concCommentAsPub",
+                    "valueString": "Medical Treatment/ Procedure"
+                },
+                {
+                    "code": "status",
+                    "valueCode": "A"
+                }
+            ]
+        },
+        {
+            "id": "5449",
+            "code": "096",
+            "display": "Percutaneous Transhepatic Cholangiogram",
+            "definition": "Percutaneous Transhepatic Cholangiogram",
+            "property": [
+                {
+                    "code": "v2-concComment",
+                    "valueString": "Medical Treatment/ Procedure"
+                },
+                {
+                    "code": "v2-concCommentAsPub",
+                    "valueString": "Medical Treatment/ Procedure"
+                },
+                {
+                    "code": "status",
+                    "valueCode": "A"
+                }
+            ]
+        },
+        {
+            "id": "5450",
+            "code": "097",
+            "display": "Photographs",
+            "definition": "Photographs",
+            "property": [
+                {
+                    "code": "v2-concComment",
+                    "valueString": "Release of Info/ Disclosure"
+                },
+                {
+                    "code": "v2-concCommentAsPub",
+                    "valueString": "Release of Info/ Disclosure"
+                },
+                {
+                    "code": "status",
+                    "valueCode": "A"
+                }
+            ]
+        },
+        {
+            "id": "5451",
+            "code": "098",
+            "display": "Photographs - Employee",
+            "definition": "Photographs - Employee",
+            "property": [
+                {
+                    "code": "v2-concComment",
+                    "valueString": "Release of Info/ Disclosure"
+                },
+                {
+                    "code": "v2-concCommentAsPub",
+                    "valueString": "Release of Info/ Disclosure"
+                },
+                {
+                    "code": "status",
+                    "valueCode": "A"
+                }
+            ]
+        },
+        {
+            "id": "5452",
+            "code": "099",
+            "display": "Photographs - Medical Research",
+            "definition": "Photographs - Medical Research",
+            "property": [
+                {
+                    "code": "v2-concComment",
+                    "valueString": "Release of Info/ Disclosure"
+                },
+                {
+                    "code": "v2-concCommentAsPub",
+                    "valueString": "Release of Info/ Disclosure"
+                },
+                {
+                    "code": "status",
+                    "valueCode": "A"
+                }
+            ]
+        },
+        {
+            "id": "5453",
+            "code": "100",
+            "display": "Photographs - news Media",
+            "definition": "Photographs - news Media",
+            "property": [
+                {
+                    "code": "v2-concComment",
+                    "valueString": "Release of Info/ Disclosure"
+                },
+                {
+                    "code": "v2-concCommentAsPub",
+                    "valueString": "Release of Info/ Disclosure"
+                },
+                {
+                    "code": "status",
+                    "valueCode": "A"
+                }
+            ]
+        },
+        {
+            "id": "5454",
+            "code": "101",
+            "display": "Psychiatric Admission - Next of Kin",
+            "definition": "Psychiatric Admission - Next of Kin",
+            "property": [
+                {
+                    "code": "v2-concComment",
+                    "valueString": "Medical Treatment/ Procedure"
+                },
+                {
+                    "code": "v2-concCommentAsPub",
+                    "valueString": "Medical Treatment/ Procedure"
+                },
+                {
+                    "code": "status",
+                    "valueCode": "A"
+                }
+            ]
+        },
+        {
+            "id": "5455",
+            "code": "102",
+            "display": "Psychiatric Information During Hospital Stay",
+            "definition": "Psychiatric Information During Hospital Stay",
+            "property": [
+                {
+                    "code": "v2-concComment",
+                    "valueString": "Release of Info/ Disclosure"
+                },
+                {
+                    "code": "v2-concCommentAsPub",
+                    "valueString": "Release of Info/ Disclosure"
+                },
+                {
+                    "code": "status",
+                    "valueCode": "A"
+                }
+            ]
+        },
+        {
+            "id": "5456",
+            "code": "103",
+            "display": "Public Release of Information",
+            "definition": "Public Release of Information",
+            "property": [
+                {
+                    "code": "v2-concComment",
+                    "valueString": "Release of Info/ Disclosure"
+                },
+                {
+                    "code": "v2-concCommentAsPub",
+                    "valueString": "Release of Info/ Disclosure"
+                },
+                {
+                    "code": "status",
+                    "valueCode": "A"
+                }
+            ]
+        },
+        {
+            "id": "5457",
+            "code": "104",
+            "display": "Radiologic Procedure",
+            "definition": "Radiologic Procedure",
+            "property": [
+                {
+                    "code": "v2-concComment",
+                    "valueString": "Medical Treatment/ Procedure"
+                },
+                {
+                    "code": "v2-concCommentAsPub",
+                    "valueString": "Medical Treatment/ Procedure"
+                },
+                {
+                    "code": "status",
+                    "valueCode": "A"
+                }
+            ]
+        },
+        {
+            "id": "5458",
+            "code": "105",
+            "display": "Refusal of Treatment",
+            "definition": "Refusal of Treatment",
+            "property": [
+                {
+                    "code": "v2-concComment",
+                    "valueString": "Administrative"
+                },
+                {
+                    "code": "v2-concCommentAsPub",
+                    "valueString": "Administrative"
+                },
+                {
+                    "code": "status",
+                    "valueCode": "A"
+                }
+            ]
+        },
+        {
+            "id": "5459",
+            "code": "106",
+            "display": "Release of Body",
+            "definition": "Release of Body",
+            "property": [
+                {
+                    "code": "v2-concComment",
+                    "valueString": "Administrative"
+                },
+                {
+                    "code": "v2-concCommentAsPub",
+                    "valueString": "Administrative"
+                },
+                {
+                    "code": "status",
+                    "valueCode": "A"
+                }
+            ]
+        },
+        {
+            "id": "5460",
+            "code": "107",
+            "display": "Release of Limb",
+            "definition": "Release of Limb",
+            "property": [
+                {
+                    "code": "v2-concComment",
+                    "valueString": "Administrative"
+                },
+                {
+                    "code": "v2-concCommentAsPub",
+                    "valueString": "Administrative"
+                },
+                {
+                    "code": "status",
+                    "valueCode": "A"
+                }
+            ]
+        },
+        {
+            "id": "5461",
+            "code": "108",
+            "display": "Rh Immune Globulin",
+            "definition": "Rh Immune Globulin",
+            "property": [
+                {
+                    "code": "v2-concComment",
+                    "valueString": "Medical Treatment/ Procedure"
+                },
+                {
+                    "code": "v2-concCommentAsPub",
+                    "valueString": "Medical Treatment/ Procedure"
+                },
+                {
+                    "code": "status",
+                    "valueCode": "A"
+                }
+            ]
+        },
+        {
+            "id": "5462",
+            "code": "109",
+            "display": "Rights of Medical Research Participants",
+            "definition": "Rights of Medical Research Participants",
+            "property": [
+                {
+                    "code": "v2-concComment",
+                    "valueString": "Administrative"
+                },
+                {
+                    "code": "v2-concCommentAsPub",
+                    "valueString": "Administrative"
+                },
+                {
+                    "code": "status",
+                    "valueCode": "A"
+                }
+            ]
+        },
+        {
+            "id": "5463",
+            "code": "110",
+            "display": "Request to Restrict Access/Disclosure to Medical Record/Protected Health Information",
+            "definition": "Request to Restrict Access/Disclosure to Medical Record/Protected Health Information",
+            "property": [
+                {
+                    "code": "v2-concComment",
+                    "valueString": "Release of Info/ Disclosure"
+                },
+                {
+                    "code": "v2-concCommentAsPub",
+                    "valueString": "Release of Info/ Disclosure"
+                },
+                {
+                    "code": "status",
+                    "valueCode": "A"
+                }
+            ]
+        },
+        {
+            "id": "5464",
+            "code": "111",
+            "display": "Request for Remain Anonymous",
+            "definition": "Request for Remain Anonymous",
+            "property": [
+                {
+                    "code": "v2-concComment",
+                    "valueString": "Release of Info/ Disclosure"
+                },
+                {
+                    "code": "v2-concCommentAsPub",
+                    "valueString": "Release of Info/ Disclosure"
+                },
+                {
+                    "code": "status",
+                    "valueCode": "A"
+                }
+            ]
+        },
+        {
+            "id": "5465",
+            "code": "112",
+            "display": "Seat Belt Exemption",
+            "definition": "Seat Belt Exemption",
+            "property": [
+                {
+                    "code": "v2-concComment",
+                    "valueString": "Administrative"
+                },
+                {
+                    "code": "v2-concCommentAsPub",
+                    "valueString": "Administrative"
+                },
+                {
+                    "code": "status",
+                    "valueCode": "A"
+                }
+            ]
+        },
+        {
+            "id": "5466",
+            "code": "113",
+            "display": "Sialogram",
+            "definition": "Sialogram",
+            "property": [
+                {
+                    "code": "v2-concComment",
+                    "valueString": "Medical Treatment/ Procedure"
+                },
+                {
+                    "code": "v2-concCommentAsPub",
+                    "valueString": "Medical Treatment/ Procedure"
+                },
+                {
+                    "code": "status",
+                    "valueCode": "A"
+                }
+            ]
+        },
+        {
+            "id": "5467",
+            "code": "114",
+            "display": "Sigmoidoscopy",
+            "definition": "Sigmoidoscopy",
+            "property": [
+                {
+                    "code": "v2-concComment",
+                    "valueString": "Medical Treatment/ Procedure"
+                },
+                {
+                    "code": "v2-concCommentAsPub",
+                    "valueString": "Medical Treatment/ Procedure"
+                },
+                {
+                    "code": "status",
+                    "valueCode": "A"
+                }
+            ]
+        },
+        {
+            "id": "5468",
+            "code": "115",
+            "display": "Sterilization - Anesthesia & Medical Services",
+            "definition": "Sterilization - Anesthesia & Medical Services",
+            "property": [
+                {
+                    "code": "v2-concComment",
+                    "valueString": "Medical Treatment/ Procedure"
+                },
+                {
+                    "code": "v2-concCommentAsPub",
+                    "valueString": "Medical Treatment/ Procedure"
+                },
+                {
+                    "code": "status",
+                    "valueCode": "A"
+                }
+            ]
+        },
+        {
+            "id": "5469",
+            "code": "116",
+            "display": "Sterilization -Federally Funded",
+            "definition": "Sterilization -Federally Funded",
+            "property": [
+                {
+                    "code": "v2-concComment",
+                    "valueString": "Medical Treatment/ Procedure"
+                },
+                {
+                    "code": "v2-concCommentAsPub",
+                    "valueString": "Medical Treatment/ Procedure"
+                },
+                {
+                    "code": "status",
+                    "valueCode": "A"
+                }
+            ]
+        },
+        {
+            "id": "5470",
+            "code": "117",
+            "display": "Sterilization - Female",
+            "definition": "Sterilization - Female",
+            "property": [
+                {
+                    "code": "v2-concComment",
+                    "valueString": "Medical Treatment/ Procedure"
+                },
+                {
+                    "code": "v2-concCommentAsPub",
+                    "valueString": "Medical Treatment/ Procedure"
+                },
+                {
+                    "code": "status",
+                    "valueCode": "A"
+                }
+            ]
+        },
+        {
+            "id": "5471",
+            "code": "118",
+            "display": "Sterilization - Laparoscopy/Pomeroy",
+            "definition": "Sterilization - Laparoscopy/Pomeroy",
+            "property": [
+                {
+                    "code": "v2-concComment",
+                    "valueString": "Medical Treatment/ Procedure"
+                },
+                {
+                    "code": "v2-concCommentAsPub",
+                    "valueString": "Medical Treatment/ Procedure"
+                },
+                {
+                    "code": "status",
+                    "valueCode": "A"
+                }
+            ]
+        },
+        {
+            "id": "5472",
+            "code": "119",
+            "display": "Sterilization - Non-Federally Funded",
+            "definition": "Sterilization - Non-Federally Funded",
+            "property": [
+                {
+                    "code": "v2-concComment",
+                    "valueString": "Medical Treatment/ Procedure"
+                },
+                {
+                    "code": "v2-concCommentAsPub",
+                    "valueString": "Medical Treatment/ Procedure"
+                },
+                {
+                    "code": "status",
+                    "valueCode": "A"
+                }
+            ]
+        },
+        {
+            "id": "5473",
+            "code": "120",
+            "display": "Sterilization - Secondary",
+            "definition": "Sterilization - Secondary",
+            "property": [
+                {
+                    "code": "v2-concComment",
+                    "valueString": "Medical Treatment/ Procedure"
+                },
+                {
+                    "code": "v2-concCommentAsPub",
+                    "valueString": "Medical Treatment/ Procedure"
+                },
+                {
+                    "code": "status",
+                    "valueCode": "A"
+                }
+            ]
+        },
+        {
+            "id": "5474",
+            "code": "121",
+            "display": "Tranquilizers",
+            "definition": "Tranquilizers",
+            "property": [
+                {
+                    "code": "v2-concComment",
+                    "valueString": "Medical Treatment/ Procedure"
+                },
+                {
+                    "code": "v2-concCommentAsPub",
+                    "valueString": "Medical Treatment/ Procedure"
+                },
+                {
+                    "code": "status",
+                    "valueCode": "A"
+                }
+            ]
+        },
+        {
+            "id": "5475",
+            "code": "122",
+            "display": "Transfer - Acknowledgement",
+            "definition": "Transfer - Acknowledgement",
+            "property": [
+                {
+                    "code": "v2-concComment",
+                    "valueString": "Medical Treatment/ Procedure"
+                },
+                {
+                    "code": "v2-concCommentAsPub",
+                    "valueString": "Medical Treatment/ Procedure"
+                },
+                {
+                    "code": "status",
+                    "valueCode": "A"
+                }
+            ]
+        },
+        {
+            "id": "5476",
+            "code": "123",
+            "display": "Transfer - Authorization",
+            "definition": "Transfer - Authorization",
+            "property": [
+                {
+                    "code": "v2-concComment",
+                    "valueString": "Medical Treatment/ Procedure"
+                },
+                {
+                    "code": "v2-concCommentAsPub",
+                    "valueString": "Medical Treatment/ Procedure"
+                },
+                {
+                    "code": "status",
+                    "valueCode": "A"
+                }
+            ]
+        },
+        {
+            "id": "5477",
+            "code": "124",
+            "display": "Transfer Certification - Physician",
+            "definition": "Transfer Certification - Physician",
+            "property": [
+                {
+                    "code": "v2-concComment",
+                    "valueString": "Medical Treatment/ Procedure"
+                },
+                {
+                    "code": "v2-concCommentAsPub",
+                    "valueString": "Medical Treatment/ Procedure"
+                },
+                {
+                    "code": "status",
+                    "valueCode": "A"
+                }
+            ]
+        },
+        {
+            "id": "5478",
+            "code": "125",
+            "display": "Transfer/Discharge Request",
+            "definition": "Transfer/Discharge Request",
+            "property": [
+                {
+                    "code": "v2-concComment",
+                    "valueString": "Medical Treatment/ Procedure"
+                },
+                {
+                    "code": "v2-concCommentAsPub",
+                    "valueString": "Medical Treatment/ Procedure"
+                },
+                {
+                    "code": "status",
+                    "valueCode": "A"
+                }
+            ]
+        },
+        {
+            "id": "5479",
+            "code": "126",
+            "display": "Transfer for Non-Medical Reasons",
+            "definition": "Transfer for Non-Medical Reasons",
+            "property": [
+                {
+                    "code": "v2-concComment",
+                    "valueString": "Medical Treatment/ Procedure"
+                },
+                {
+                    "code": "v2-concCommentAsPub",
+                    "valueString": "Medical Treatment/ Procedure"
+                },
+                {
+                    "code": "status",
+                    "valueCode": "A"
+                }
+            ]
+        },
+        {
+            "id": "5480",
+            "code": "127",
+            "display": "Transfer - Interfaculty Neonatal",
+            "definition": "Transfer - Interfaculty Neonatal",
+            "property": [
+                {
+                    "code": "v2-concComment",
+                    "valueString": "Medical Treatment/ Procedure"
+                },
+                {
+                    "code": "v2-concCommentAsPub",
+                    "valueString": "Medical Treatment/ Procedure"
+                },
+                {
+                    "code": "status",
+                    "valueCode": "A"
+                }
+            ]
+        },
+        {
+            "id": "5481",
+            "code": "128",
+            "display": "Transfer Refusal",
+            "definition": "Transfer Refusal",
+            "property": [
+                {
+                    "code": "v2-concComment",
+                    "valueString": "Medical Treatment/ Procedure"
+                },
+                {
+                    "code": "v2-concCommentAsPub",
+                    "valueString": "Medical Treatment/ Procedure"
+                },
+                {
+                    "code": "status",
+                    "valueCode": "A"
+                }
+            ]
+        },
+        {
+            "id": "5482",
+            "code": "129",
+            "display": "Transfer Refusal of Further Treatment",
+            "definition": "Transfer Refusal of Further Treatment",
+            "property": [
+                {
+                    "code": "v2-concComment",
+                    "valueString": "Medical Treatment/ Procedure"
+                },
+                {
+                    "code": "v2-concCommentAsPub",
+                    "valueString": "Medical Treatment/ Procedure"
+                },
+                {
+                    "code": "status",
+                    "valueCode": "A"
+                }
+            ]
+        },
+        {
+            "id": "5483",
+            "code": "130",
+            "display": "Treadmill & EKG",
+            "definition": "Treadmill & EKG",
+            "property": [
+                {
+                    "code": "v2-concComment",
+                    "valueString": "Medical Treatment/ Procedure"
+                },
+                {
+                    "code": "v2-concCommentAsPub",
+                    "valueString": "Medical Treatment/ Procedure"
+                },
+                {
+                    "code": "status",
+                    "valueCode": "A"
+                }
+            ]
+        },
+        {
+            "id": "5484",
+            "code": "131",
+            "display": "Treadmill, Thallium-201",
+            "definition": "Treadmill, Thallium-201",
+            "property": [
+                {
+                    "code": "v2-concComment",
+                    "valueString": "Medical Treatment/ Procedure"
+                },
+                {
+                    "code": "v2-concCommentAsPub",
+                    "valueString": "Medical Treatment/ Procedure"
+                },
+                {
+                    "code": "status",
+                    "valueCode": "A"
+                }
+            ]
+        },
+        {
+            "id": "5485",
+            "code": "132",
+            "display": "Typhoid",
+            "definition": "Typhoid",
+            "property": [
+                {
+                    "code": "v2-concComment",
+                    "valueString": "Medical Treatment/ Procedure"
+                },
+                {
+                    "code": "v2-concCommentAsPub",
+                    "valueString": "Medical Treatment/ Procedure"
+                },
+                {
+                    "code": "status",
+                    "valueCode": "A"
+                }
+            ]
+        },
+        {
+            "id": "5486",
+            "code": "133",
+            "display": "Use of Investigational Device",
+            "definition": "Use of Investigational Device",
+            "property": [
+                {
+                    "code": "v2-concComment",
+                    "valueString": "Medical Treatment/ Procedure"
+                },
+                {
+                    "code": "v2-concCommentAsPub",
+                    "valueString": "Medical Treatment/ Procedure"
+                },
+                {
+                    "code": "status",
+                    "valueCode": "A"
+                }
+            ]
+        },
+        {
+            "id": "5487",
+            "code": "134",
+            "display": "Use of Investigational Drug",
+            "definition": "Use of Investigational Drug",
+            "property": [
+                {
+                    "code": "v2-concComment",
+                    "valueString": "Medical Treatment/ Procedure"
+                },
+                {
+                    "code": "v2-concCommentAsPub",
+                    "valueString": "Medical Treatment/ Procedure"
+                },
+                {
+                    "code": "status",
+                    "valueCode": "A"
+                }
+            ]
+        },
+        {
+            "id": "5488",
+            "code": "135",
+            "display": "Venogram",
+            "definition": "Venogram",
+            "property": [
+                {
+                    "code": "v2-concComment",
+                    "valueString": "Medical Treatment/ Procedure"
+                },
+                {
+                    "code": "v2-concCommentAsPub",
+                    "valueString": "Medical Treatment/ Procedure"
+                },
+                {
+                    "code": "status",
+                    "valueCode": "A"
+                }
+            ]
+        },
+        {
+            "id": "5489",
+            "code": "136",
+            "display": "Videotape",
+            "definition": "Videotape",
+            "property": [
+                {
+                    "code": "v2-concComment",
+                    "valueString": "Release of Info/ Disclosure"
+                },
+                {
+                    "code": "v2-concCommentAsPub",
+                    "valueString": "Release of Info/ Disclosure"
+                },
+                {
+                    "code": "status",
+                    "valueCode": "A"
+                }
+            ]
+        },
+        {
+            "id": "5490",
+            "code": "1137",
+            "display": "Voiding Cystogram",
+            "definition": "Voiding Cystogram",
+            "property": [
+                {
+                    "code": "v2-concComment",
+                    "valueString": "Medical Treatment/ Procedure"
+                },
+                {
+                    "code": "v2-concCommentAsPub",
+                    "valueString": "Medical Treatment/ Procedure"
+                },
+                {
+                    "code": "status",
+                    "valueCode": "A"
+                }
+            ]
+        }
+    ]
+}

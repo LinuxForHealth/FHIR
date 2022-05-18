@@ -1,5 +1,5 @@
 /*
- * (C) Copyright IBM Corp. 2019, 2021
+ * (C) Copyright IBM Corp. 2019, 2022
  *
  * SPDX-License-Identifier: Apache-2.0
  */
@@ -67,7 +67,7 @@ public class MedicationKnowledge extends DomainResource {
         bindingName = "MedicationKnowledgeStatus",
         strength = BindingStrength.Value.REQUIRED,
         description = "A coded concept defining if the medication is in active use.",
-        valueSet = "http://hl7.org/fhir/ValueSet/medicationknowledge-status|4.0.1"
+        valueSet = "http://hl7.org/fhir/ValueSet/medicationknowledge-status|4.3.0-cibuild"
     )
     private final MedicationKnowledgeStatus status;
     @Summary

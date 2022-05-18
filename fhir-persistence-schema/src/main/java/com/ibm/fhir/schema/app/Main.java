@@ -536,12 +536,12 @@ public class Main {
                 // Build/update the FHIR-related tables as well as the stored procedures
                 PhysicalDataModel pdm = new PhysicalDataModel();
                 buildFhirDataSchemaModel(pdm);
-                boolean isNewDb = updateSchema(pdm);
+                updateSchema(pdm);
 
                 if (this.exitStatus == EXIT_OK) {
                     // If the db is multi-tenant, we populate the resource types and parameter names in allocate-tenant.
-                    // Otherwise, if its a new schema, populate the resource types and parameters names (codes) now
-                    if (!MULTITENANT_FEATURE_ENABLED.contains(dbType) && isNewDb) {
+                    // Otherwise, populate the resource types and parameters names (codes) now
+                    if (!MULTITENANT_FEATURE_ENABLED.contains(dbType)) {
                         populateResourceTypeAndParameterNameTableEntries(null);
                     }
 
@@ -569,6 +569,10 @@ public class Main {
 
                     // Finally, update the whole schema version
                     svm.updateSchemaVersion();
+
+                    // Log warning messages that unused tables will be removed in a future release.
+                    // TODO: This will no longer be needed after the tables are removed (https://github.com/IBM/FHIR/issues/713).
+                    logWarningMessagesForDeprecatedTables();
                 }
             } else if (this.force) {
                 logger.info("Cannot force when schema is ahead of this version; skipping update for: '" + targetSchemaName + "'");
@@ -2772,6 +2776,42 @@ public class Main {
                 tx.setRollbackOnly();
                 throw x;
             }
+        }
+    }
+
+    /**
+     * Log warning messages for deprecated tables.
+     */
+    private void logWarningMessagesForDeprecatedTables() {
+        List<String> deprecatedResourceTypes = Arrays.asList(
+            "EffectEvidenceSynthesis",
+            "MedicinalProduct",
+            "MedicinalProductAuthorization",
+            "MedicinalProductContraindication",
+            "MedicinalProductIndication",
+            "MedicinalProductIngredient",
+            "MedicinalProductInteraction",
+            "MedicinalProductManufactured",
+            "MedicinalProductPackaged",
+            "MedicinalProductPharmaceutical",
+            "MedicinalProductUndesirableEffect",
+            "RiskEvidenceSynthesis",
+            "SubstanceNucleicAcid",
+            "SubstancePolymer",
+            "SubstanceProtein",
+            "SubstanceReferenceInformation",
+            "SubstanceSourceMaterial",
+            "SubstanceSpecification"
+        );
+        List<String> deprecatedTables = Arrays.asList(
+            "_DATE_VALUES", "_LATLNG_VALUES", "_LOGICAL_RESOURCES", "_NUMBER_VALUES",
+            "_QUANTITY_VALUES", "_RESOURCE_TOKEN_REFS", "_RESOURCES","_STR_VALUES");
+        for (String deprecatedType : deprecatedResourceTypes) {
+            logger.warning(deprecatedType + " tables [" +
+                    deprecatedType + String.join(", " + deprecatedType, deprecatedTables) +
+                    "] will be dropped in a future release. " +
+                    "No data should be written to these tables. " +
+                    "If any data exists in these tables, that data should be exported (if desired) and deleted from these tables.");
         }
     }
 

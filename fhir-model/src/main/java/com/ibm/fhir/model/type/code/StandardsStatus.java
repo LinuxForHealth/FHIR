@@ -1,5 +1,5 @@
 /*
- * (C) Copyright IBM Corp. 2019, 2021
+ * (C) Copyright IBM Corp. 2019, 2022
  *
  * SPDX-License-Identifier: Apache-2.0
  */
@@ -16,7 +16,7 @@ import java.util.Objects;
 
 import javax.annotation.Generated;
 
-@System("http://terminology.hl7.org/CodeSystem/standards-status")
+@System("http://hl7.org/fhir/standards-status")
 @Generated("com.ibm.fhir.tools.CodeGenerator")
 public class StandardsStatus extends Code {
     /**

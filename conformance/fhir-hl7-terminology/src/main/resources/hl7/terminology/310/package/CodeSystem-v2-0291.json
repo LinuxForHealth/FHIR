@@ -1,0 +1,289 @@
+{
+    "resourceType": "CodeSystem",
+    "id": "v2-0291",
+    "text": {
+        "status": "empty",
+        "div": "<div xmlns=\"http://www.w3.org/1999/xhtml\">Redacted for size</div>"
+    },
+    "url": "http://terminology.hl7.org/CodeSystem/v2-0291",
+    "identifier": [
+        {
+            "system": "urn:ietf:rfc:3986",
+            "value": "urn:oid:2.16.840.1.113883.18.181"
+        }
+    ],
+    "version": "2.4.0",
+    "name": "SubtypeOfReferencedData",
+    "title": "subtypeOfReferencedData",
+    "status": "active",
+    "experimental": false,
+    "date": "2019-12-01",
+    "publisher": "HL7, Inc",
+    "contact": [
+        {
+            "telecom": [
+                {
+                    "system": "url",
+                    "value": "http://www.hl7.org/"
+                }
+            ]
+        }
+    ],
+    "description": "Code system of a subset of the media subtypes of binary data that are encoded in an ascii structure or stream.  Used in Version 2 messaging  ED and RP datatypes, but only in standard 2.5.1 and earlier; after that, it was recommended that the IANA media types be used instead of this short list of HL7-defined codes.   More information on the standard media types and subtypes may be found at http://www.iana.org/assignments/media-types/media-types.xhtml.",
+    "purpose": "Underlying Master Code System for V2 table 0291 (Subtype of Referenced Data)",
+    "copyright": "Copyright HL7. Licensed under creative commons public domain",
+    "caseSensitive": true,
+    "valueSet": "http://terminology.hl7.org/ValueSet/v2-0291",
+    "hierarchyMeaning": "is-a",
+    "compositional": false,
+    "versionNeeded": false,
+    "content": "complete",
+    "property": [
+        {
+            "code": "status",
+            "uri": "http://terminology.hl7.org/CodeSystem/utg-concept-properties#status",
+            "description": "Status of the concept",
+            "type": "code"
+        },
+        {
+            "code": "deprecated",
+            "uri": "http://terminology.hl7.org/CodeSystem/utg-concept-properties#v2-table-deprecated",
+            "description": "Version of HL7 in which the code was deprecated",
+            "type": "code"
+        },
+        {
+            "code": "v2-concComment",
+            "uri": "http://terminology.hl7.org/CodeSystem/utg-concept-properties#v2-concComment",
+            "description": "V2 Concept Comment",
+            "type": "string"
+        },
+        {
+            "code": "v2-concCommentAsPub",
+            "uri": "http://terminology.hl7.org/CodeSystem/utg-concept-properties#v2-concCommentAsPub",
+            "description": "V2 Concept Comment As Published",
+            "type": "string"
+        }
+    ],
+    "concept": [
+        {
+            "id": "2813",
+            "code": "BASIC",
+            "display": "ISDN PCM audio data",
+            "definition": "ISDN PCM audio data",
+            "property": [
+                {
+                    "code": "status",
+                    "valueCode": "D"
+                }
+            ]
+        },
+        {
+            "id": "2814",
+            "code": "...",
+            "display": "Source RFC 2046",
+            "definition": "Source RFC 2046",
+            "property": [
+                {
+                    "code": "deprecated",
+                    "valueCode": "2.9"
+                },
+                {
+                    "code": "status",
+                    "valueCode": "D"
+                }
+            ]
+        },
+        {
+            "id": "2815",
+            "code": "…",
+            "display": "Source RFC 2046",
+            "definition": "Source RFC 2046",
+            "property": [
+                {
+                    "code": "deprecated",
+                    "valueCode": "2.9"
+                },
+                {
+                    "code": "status",
+                    "valueCode": "D"
+                }
+            ]
+        },
+        {
+            "id": "2816",
+            "code": "DICOM",
+            "display": "Digital Imaging and Communications in Medicine",
+            "definition": "Digital Imaging and Communications in Medicine",
+            "property": [
+                {
+                    "code": "status",
+                    "valueCode": "D"
+                }
+            ]
+        },
+        {
+            "id": "2817",
+            "code": "FAX",
+            "display": "Facsimile data",
+            "definition": "Facsimile data",
+            "property": [
+                {
+                    "code": "status",
+                    "valueCode": "D"
+                }
+            ]
+        },
+        {
+            "id": "2818",
+            "code": "GIF",
+            "display": "Graphics Interchange Format",
+            "definition": "Graphics Interchange Format",
+            "property": [
+                {
+                    "code": "status",
+                    "valueCode": "D"
+                }
+            ]
+        },
+        {
+            "id": "2819",
+            "code": "HTML",
+            "display": "Hypertext Markup Language",
+            "definition": "Hypertext Markup Language",
+            "property": [
+                {
+                    "code": "status",
+                    "valueCode": "D"
+                }
+            ]
+        },
+        {
+            "id": "2820",
+            "code": "JOT",
+            "display": "Electronic ink data (Jot 1.0 standard)",
+            "definition": "Electronic ink data (Jot 1.0 standard)",
+            "property": [
+                {
+                    "code": "status",
+                    "valueCode": "A"
+                }
+            ]
+        },
+        {
+            "id": "2821",
+            "code": "JPEG",
+            "display": "Joint Photographic Experts Group",
+            "definition": "Joint Photographic Experts Group",
+            "property": [
+                {
+                    "code": "status",
+                    "valueCode": "D"
+                }
+            ]
+        },
+        {
+            "id": "2822",
+            "code": "Octet-stream",
+            "display": "Uninterpreted binary data",
+            "definition": "Uninterpreted binary data",
+            "property": [
+                {
+                    "code": "status",
+                    "valueCode": "D"
+                }
+            ]
+        },
+        {
+            "id": "2823",
+            "code": "PICT",
+            "display": "PICT format image data",
+            "definition": "PICT format image data",
+            "property": [
+                {
+                    "code": "status",
+                    "valueCode": "A"
+                }
+            ]
+        },
+        {
+            "id": "2824",
+            "code": "PostScript",
+            "display": "PostScript program",
+            "definition": "PostScript program",
+            "property": [
+                {
+                    "code": "status",
+                    "valueCode": "D"
+                }
+            ]
+        },
+        {
+            "id": "2825",
+            "code": "RTF",
+            "display": "Rich Text Format",
+            "definition": "Rich Text Format",
+            "property": [
+                {
+                    "code": "status",
+                    "valueCode": "D"
+                }
+            ]
+        },
+        {
+            "id": "2826",
+            "code": "SGML",
+            "display": "Standard Generalized Markup Language (HL7 V2.3.1 and later)",
+            "definition": "Standard Generalized Markup Language (HL7 V2.3.1 and later)",
+            "property": [
+                {
+                    "code": "status",
+                    "valueCode": "D"
+                }
+            ]
+        },
+        {
+            "id": "2827",
+            "code": "TIFF",
+            "display": "TIFF image data",
+            "definition": "TIFF image data",
+            "property": [
+                {
+                    "code": "status",
+                    "valueCode": "D"
+                }
+            ]
+        },
+        {
+            "id": "2828",
+            "code": "XML",
+            "display": "Extensible Markup Language (HL7 V2.3.1 and later)",
+            "definition": "Extensible Markup Language (HL7 V2.3.1 and later)",
+            "property": [
+                {
+                    "code": "status",
+                    "valueCode": "D"
+                }
+            ]
+        },
+        {
+            "id": "2829",
+            "code": "x-hl7-cda-level-one",
+            "display": "HL7 Clinical Document Architecture Level One document",
+            "definition": "HL7 Clinical Document Architecture Level One document",
+            "property": [
+                {
+                    "code": "v2-concComment",
+                    "valueString": "Retained for backwards compatibility only as of v2.6 and CDA R 2. Preferred value is text/xml."
+                },
+                {
+                    "code": "v2-concCommentAsPub",
+                    "valueString": "Retained for backwards compatibility only as of v2.6 and CDA R 2. Preferred value is text/xml."
+                },
+                {
+                    "code": "status",
+                    "valueCode": "A"
+                }
+            ]
+        }
+    ]
+}

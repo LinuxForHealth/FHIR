@@ -80,7 +80,7 @@ public class Patch extends FHIRResource {
 
             FHIRPatch patch = createPatch(array);
 
-            FHIRRestHelper helper = new FHIRRestHelper(getPersistenceImpl(), getSearchHelper());
+            FHIRRestHelper helper = new FHIRRestHelper(getPersistenceImpl(), getSearchHelper(), getFhirVersion());
             ior = helper.doPatch(type, id, patch, ifMatch, null, !forceUpdate);
 
             status = ior.getStatus();
@@ -139,7 +139,7 @@ public class Patch extends FHIRResource {
                 throw buildRestException(e.getMessage(), IssueType.INVALID);
             }
 
-            FHIRRestHelper helper = new FHIRRestHelper(getPersistenceImpl(), getSearchHelper());
+            FHIRRestHelper helper = new FHIRRestHelper(getPersistenceImpl(), getSearchHelper(), getFhirVersion());
             ior = helper.doPatch(type, id, patch, ifMatch, null, !forceUpdate);
 
             ResponseBuilder response =
@@ -203,7 +203,7 @@ public class Patch extends FHIRResource {
                 throw buildRestException(msg, IssueType.INVALID);
             }
 
-            FHIRRestHelper helper = new FHIRRestHelper(getPersistenceImpl(), getSearchHelper());
+            FHIRRestHelper helper = new FHIRRestHelper(getPersistenceImpl(), getSearchHelper(), getFhirVersion());
             ior = helper.doPatch(type, null, patch, ifMatch, searchQueryString, !forceUpdate);
 
             ResponseBuilder response =
@@ -272,7 +272,7 @@ public class Patch extends FHIRResource {
                 throw buildRestException(msg, IssueType.INVALID);
             }
 
-            FHIRRestHelper helper = new FHIRRestHelper(getPersistenceImpl(), getSearchHelper());
+            FHIRRestHelper helper = new FHIRRestHelper(getPersistenceImpl(), getSearchHelper(), getFhirVersion());
             ior = helper.doPatch(type, null, patch, ifMatch, searchQueryString, !forceUpdate);
 
             status = ior.getStatus();

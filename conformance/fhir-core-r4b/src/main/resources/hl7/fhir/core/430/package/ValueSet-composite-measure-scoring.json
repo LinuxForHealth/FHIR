@@ -1,0 +1,102 @@
+{
+    "resourceType": "ValueSet",
+    "id": "composite-measure-scoring",
+    "meta": {
+        "lastUpdated": "2022-04-24T09:21:35.043+11:00",
+        "profile": [
+            "http://hl7.org/fhir/StructureDefinition/shareablevalueset"
+        ]
+    },
+    "extension": [
+        {
+            "url": "http://hl7.org/fhir/StructureDefinition/structuredefinition-wg",
+            "valueCode": "cqi"
+        },
+        {
+            "url": "http://hl7.org/fhir/StructureDefinition/structuredefinition-standards-status",
+            "valueCode": "trial-use"
+        },
+        {
+            "url": "http://hl7.org/fhir/StructureDefinition/structuredefinition-fmm",
+            "valueInteger": 3
+        }
+    ],
+    "url": "http://hl7.org/fhir/ValueSet/composite-measure-scoring",
+    "identifier": [
+        {
+            "system": "urn:ietf:rfc:3986",
+            "value": "urn:oid:2.16.840.1.113883.4.642.3.773"
+        }
+    ],
+    "version": "4.3.0-cibuild",
+    "name": "CompositeMeasureScoring",
+    "title": "CompositeMeasureScoring",
+    "status": "draft",
+    "experimental": false,
+    "date": "2020-12-28T16:55:11+11:00",
+    "publisher": "HL7 (FHIR Project)",
+    "contact": [
+        {
+            "telecom": [
+                {
+                    "system": "url",
+                    "value": "http://hl7.org/fhir"
+                },
+                {
+                    "system": "email",
+                    "value": "fhir@lists.hl7.org"
+                }
+            ]
+        }
+    ],
+    "description": "The composite scoring method of the measure.",
+    "immutable": true,
+    "compose": {
+        "include": [
+            {
+                "system": "http://terminology.hl7.org/CodeSystem/composite-measure-scoring"
+            }
+        ]
+    },
+    "expansion": {
+        "identifier": "urn:uuid:f080b0e3-5edf-45d3-b264-c6aaedd27f47",
+        "timestamp": "2022-04-23T22:23:26Z",
+        "total": 4,
+        "parameter": [
+            {
+                "name": "excludeNested",
+                "valueBoolean": true
+            },
+            {
+                "name": "includeDesignations",
+                "valueBoolean": true
+            },
+            {
+                "name": "version",
+                "valueUri": "http://terminology.hl7.org/CodeSystem/composite-measure-scoring|4.3.0-cibuild"
+            }
+        ],
+        "contains": [
+            {
+                "system": "http://terminology.hl7.org/CodeSystem/composite-measure-scoring",
+                "code": "opportunity",
+                "display": "Opportunity"
+            },
+            {
+                "system": "http://terminology.hl7.org/CodeSystem/composite-measure-scoring",
+                "code": "all-or-nothing",
+                "display": "All-or-nothing"
+            },
+            {
+                "system": "http://terminology.hl7.org/CodeSystem/composite-measure-scoring",
+                "code": "linear",
+                "display": "Linear"
+            },
+            {
+                "system": "http://terminology.hl7.org/CodeSystem/composite-measure-scoring",
+                "code": "weighted",
+                "display": "Weighted"
+            }
+        ]
+    }
+}

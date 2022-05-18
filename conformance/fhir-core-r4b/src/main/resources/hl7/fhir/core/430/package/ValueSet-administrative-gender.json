@@ -1,0 +1,106 @@
+{
+    "resourceType": "ValueSet",
+    "id": "administrative-gender",
+    "meta": {
+        "lastUpdated": "2022-04-23T22:21:35.043Z",
+        "profile": [
+            "http://hl7.org/fhir/StructureDefinition/shareablevalueset"
+        ]
+    },
+    "extension": [
+        {
+            "url": "http://hl7.org/fhir/StructureDefinition/structuredefinition-wg",
+            "valueCode": "pa"
+        },
+        {
+            "url": "http://hl7.org/fhir/StructureDefinition/structuredefinition-standards-status",
+            "valueCode": "normative"
+        },
+        {
+            "url": "http://hl7.org/fhir/StructureDefinition/structuredefinition-fmm",
+            "valueInteger": 5
+        },
+        {
+            "url": "http://hl7.org/fhir/StructureDefinition/structuredefinition-normative-version",
+            "valueCode": "4.0.0"
+        }
+    ],
+    "url": "http://hl7.org/fhir/ValueSet/administrative-gender",
+    "identifier": [
+        {
+            "system": "urn:ietf:rfc:3986",
+            "value": "urn:oid:2.16.840.1.113883.4.642.3.1"
+        }
+    ],
+    "version": "4.3.0-cibuild",
+    "name": "AdministrativeGender",
+    "title": "AdministrativeGender",
+    "status": "active",
+    "experimental": false,
+    "date": "2022-04-23T22:21:35Z",
+    "publisher": "HL7 (FHIR Project)",
+    "contact": [
+        {
+            "telecom": [
+                {
+                    "system": "url",
+                    "value": "http://hl7.org/fhir"
+                },
+                {
+                    "system": "email",
+                    "value": "fhir@lists.hl7.org"
+                }
+            ]
+        }
+    ],
+    "description": "The gender of a person used for administrative purposes.",
+    "immutable": true,
+    "compose": {
+        "include": [
+            {
+                "system": "http://hl7.org/fhir/administrative-gender"
+            }
+        ]
+    },
+    "expansion": {
+        "identifier": "urn:uuid:74be0d83-0adc-4732-b25b-c1e209e32a47",
+        "timestamp": "2022-04-23T22:23:07Z",
+        "total": 4,
+        "parameter": [
+            {
+                "name": "excludeNested",
+                "valueBoolean": true
+            },
+            {
+                "name": "includeDesignations",
+                "valueBoolean": true
+            },
+            {
+                "name": "version",
+                "valueUri": "http://hl7.org/fhir/administrative-gender|4.3.0-cibuild"
+            }
+        ],
+        "contains": [
+            {
+                "system": "http://hl7.org/fhir/administrative-gender",
+                "code": "male",
+                "display": "Male"
+            },
+            {
+                "system": "http://hl7.org/fhir/administrative-gender",
+                "code": "female",
+                "display": "Female"
+            },
+            {
+                "system": "http://hl7.org/fhir/administrative-gender",
+                "code": "other",
+                "display": "Other"
+            },
+            {
+                "system": "http://hl7.org/fhir/administrative-gender",
+                "code": "unknown",
+                "display": "Unknown"
+            }
+        ]
+    }
+}

@@ -1,0 +1,42 @@
+{
+    "resourceType": "ValueSet",
+    "id": "v2-0702",
+    "text": {
+        "status": "empty",
+        "div": "<div xmlns=\"http://www.w3.org/1999/xhtml\">Redacted for size</div>"
+    },
+    "url": "http://terminology.hl7.org/ValueSet/v2-0702",
+    "identifier": [
+        {
+            "system": "urn:ietf:rfc:3986",
+            "value": "urn:oid:2.16.840.1.113883.21.404"
+        }
+    ],
+    "version": "2.0.0",
+    "name": "Hl7VSCycleType",
+    "title": "hl7VS-cycleType",
+    "status": "active",
+    "experimental": false,
+    "date": "2019-12-01",
+    "publisher": "HL7, Inc",
+    "contact": [
+        {
+            "telecom": [
+                {
+                    "system": "url",
+                    "value": "https://github.com/HL7/UTG"
+                }
+            ]
+        }
+    ],
+    "description": "Value Set of codes that specify the type of cycle that is being executed.  A cycle type is a specific sterilization method used for a specific type of supply item.",
+    "copyright": "Copyright HL7. Licensed under creative commons public domain",
+    "compose": {
+        "include": [
+            {
+                "system": "http://terminology.hl7.org/CodeSystem/v2-0702",
+                "version": "2.1.0"
+            }
+        ]
+    }
+}

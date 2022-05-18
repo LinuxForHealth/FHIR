@@ -1,0 +1,215 @@
+{
+    "resourceType": "CodeSystem",
+    "id": "v2-0871",
+    "text": {
+        "status": "empty",
+        "div": "<div xmlns=\"http://www.w3.org/1999/xhtml\">Redacted for size</div>"
+    },
+    "extension": [
+        {
+            "url": "http://hl7.org/fhir/StructureDefinition/structuredefinition-wg",
+            "valueCode": "oo"
+        }
+    ],
+    "url": "http://terminology.hl7.org/CodeSystem/v2-0871",
+    "identifier": [
+        {
+            "system": "urn:ietf:rfc:3986",
+            "value": "urn:oid:2.16.840.1.113883.18.410"
+        }
+    ],
+    "version": "2.1.0",
+    "name": "SupplyRisk",
+    "title": "supplyRisk",
+    "status": "active",
+    "experimental": false,
+    "date": "2019-12-01",
+    "publisher": "HL7, Inc",
+    "contact": [
+        {
+            "telecom": [
+                {
+                    "system": "url",
+                    "value": "http://www.hl7.org/"
+                }
+            ]
+        }
+    ],
+    "description": "Code system of concepts specifying any known or suspected hazard associated with this material item.  Used in HL7 Version 2.x messaging in the ITM segment.",
+    "purpose": "Underlying Master Code System for V2 table 0871 (Supply Risk Codes)",
+    "copyright": "Copyright HL7. Licensed under creative commons public domain",
+    "caseSensitive": true,
+    "valueSet": "http://terminology.hl7.org/ValueSet/v2-0871",
+    "hierarchyMeaning": "is-a",
+    "compositional": false,
+    "versionNeeded": false,
+    "content": "complete",
+    "property": [
+        {
+            "code": "status",
+            "uri": "http://terminology.hl7.org/CodeSystem/utg-concept-properties#status",
+            "description": "Status of the concept",
+            "type": "code"
+        },
+        {
+            "code": "deprecated",
+            "uri": "http://terminology.hl7.org/CodeSystem/utg-concept-properties#v2-table-deprecated",
+            "description": "Version of HL7 in which the code was deprecated",
+            "type": "code"
+        },
+        {
+            "code": "v2-concComment",
+            "uri": "http://terminology.hl7.org/CodeSystem/utg-concept-properties#v2-concComment",
+            "description": "V2 Concept Comment",
+            "type": "string"
+        },
+        {
+            "code": "v2-concCommentAsPub",
+            "uri": "http://terminology.hl7.org/CodeSystem/utg-concept-properties#v2-concCommentAsPub",
+            "description": "V2 Concept Comment As Published",
+            "type": "string"
+        }
+    ],
+    "concept": [
+        {
+            "id": "6502",
+            "code": "COR",
+            "display": "Corrosive",
+            "definition": "Corrosive",
+            "property": [
+                {
+                    "code": "v2-concComment",
+                    "valueString": "Material is corrosive and may cause severe injury to skin, mucous membranes and eyes. Avoid any unprotected contact."
+                },
+                {
+                    "code": "v2-concCommentAsPub",
+                    "valueString": "Material is corrosive and may cause severe injury to skin, mucous membranes and eyes. Avoid any unprotected contact."
+                },
+                {
+                    "code": "status",
+                    "valueCode": "A"
+                }
+            ]
+        },
+        {
+            "id": "6503",
+            "code": "FLA",
+            "display": "Flammable",
+            "definition": "Flammable",
+            "property": [
+                {
+                    "code": "v2-concComment",
+                    "valueString": "Material is highly flammable and in certain mixtures (with air) may lead to explosions.  Keep away from fire, sparks and excessive heat."
+                },
+                {
+                    "code": "v2-concCommentAsPub",
+                    "valueString": "Material is highly flammable and in certain mixtures (with air) may lead to explosions.  Keep away from fire, sparks and excessive heat."
+                },
+                {
+                    "code": "status",
+                    "valueCode": "A"
+                }
+            ]
+        },
+        {
+            "id": "6504",
+            "code": "EXP",
+            "display": "Explosive",
+            "definition": "Explosive",
+            "property": [
+                {
+                    "code": "v2-concComment",
+                    "valueString": "Material is an explosive mixture.  Keep away from fire, sparks, and heat."
+                },
+                {
+                    "code": "v2-concCommentAsPub",
+                    "valueString": "Material is an explosive mixture.  Keep away from fire, sparks, and heat."
+                },
+                {
+                    "code": "status",
+                    "valueCode": "A"
+                }
+            ]
+        },
+        {
+            "id": "6505",
+            "code": "INJ",
+            "display": "Injury Hazard",
+            "definition": "Injury Hazard",
+            "property": [
+                {
+                    "code": "v2-concComment",
+                    "valueString": "Material is solid and sharp (e.g., cannulas.)  Dispose in hard container."
+                },
+                {
+                    "code": "v2-concCommentAsPub",
+                    "valueString": "Material is solid and sharp (e.g., cannulas.)  Dispose in hard container."
+                },
+                {
+                    "code": "status",
+                    "valueCode": "A"
+                }
+            ]
+        },
+        {
+            "id": "6506",
+            "code": "TOX",
+            "display": "Toxic",
+            "definition": "Toxic",
+            "property": [
+                {
+                    "code": "v2-concComment",
+                    "valueString": "Material is toxic to humans and/or animals.  Special care must be taken to avoid incorporation, even of small amounts."
+                },
+                {
+                    "code": "v2-concCommentAsPub",
+                    "valueString": "Material is toxic to humans and/or animals.  Special care must be taken to avoid incorporation, even of small amounts."
+                },
+                {
+                    "code": "status",
+                    "valueCode": "A"
+                }
+            ]
+        },
+        {
+            "id": "6507",
+            "code": "RAD",
+            "display": "Radioactive",
+            "definition": "Radioactive",
+            "property": [
+                {
+                    "code": "v2-concComment",
+                    "valueString": "Material is a source for ionizing radiation and must be handled with special care to avoid injury of those who handle it and to avoid environmental hazards."
+                },
+                {
+                    "code": "v2-concCommentAsPub",
+                    "valueString": "Material is a source for ionizing radiation and must be handled with special care to avoid injury of those who handle it and to avoid environmental hazards."
+                },
+                {
+                    "code": "status",
+                    "valueCode": "A"
+                }
+            ]
+        },
+        {
+            "id": "6508",
+            "code": "UNK",
+            "display": "Unknown",
+            "definition": "Unknown",
+            "property": [
+                {
+                    "code": "v2-concComment",
+                    "valueString": "Material hazard level is unknown."
+                },
+                {
+                    "code": "v2-concCommentAsPub",
+                    "valueString": "Material hazard level is unknown."
+                },
+                {
+                    "code": "status",
+                    "valueCode": "A"
+                }
+            ]
+        }
+    ]
+}
