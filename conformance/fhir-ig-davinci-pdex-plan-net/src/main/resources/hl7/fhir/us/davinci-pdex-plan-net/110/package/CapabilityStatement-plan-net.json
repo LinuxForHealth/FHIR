@@ -1,0 +1,1212 @@
+{
+    "resourceType": "CapabilityStatement",
+    "id": "plan-net",
+    "text": {
+        "status": "empty",
+        "div": "<div xmlns=\"http://www.w3.org/1999/xhtml\">Redacted for size</div>"
+    },
+    "url": "http://hl7.org/fhir/us/davinci-pdex-plan-net/CapabilityStatement/plan-net",
+    "version": "1.1.0",
+    "name": "DavinciPdexPlanNetCapabilityStatement",
+    "title": "Plan-Net CapabilityStatement",
+    "status": "active",
+    "experimental": false,
+    "date": "2022-03-18",
+    "publisher": "HL7 Financial Management Working Group",
+    "contact": [
+        {
+            "name": "HL7 Financial Management Working Group",
+            "telecom": [
+                {
+                    "system": "url",
+                    "value": "http://www.hl7.org/Special/committees/fm"
+                },
+                {
+                    "system": "email",
+                    "value": "fm@lists.HL7.org"
+                }
+            ]
+        }
+    ],
+    "description": "This Section describes the expected capabilities of the Plan-Net Server actor which is responsible for providing responses to the queries submitted by the Plan-Net Requestors. The complete list of FHIR profiles, RESTful operations, and search parameters supported by Plan-Net Servers are defined. Systems implementing this capability statement should meet the CMS FInal Rule requirement for provider directory access.  Plan-Net  Clients can use the required capabilities to access necessary data based on their local use cases and other contextual requirements.",
+    "jurisdiction": [
+        {
+            "coding": [
+                {
+                    "system": "urn:iso:std:iso:3166",
+                    "code": "US"
+                }
+            ]
+        }
+    ],
+    "kind": "requirements",
+    "fhirVersion": "4.0.1",
+    "format": [
+        "xml",
+        "json"
+    ],
+    "patchFormat": [
+        "application/json-patch+json"
+    ],
+    "implementationGuide": [
+        "http://hl7.org/fhir/us/davinci-pdex-plan-net/ImplementationGuide/hl7.fhir.us.davinci-pdex-plan-net"
+    ],
+    "rest": [
+        {
+            "mode": "server",
+            "documentation": "The Plan-Net  Server **SHALL**:\n\n1. Support all profiles defined in this Implementation Guide..\n1.  Implement the RESTful behavior according to the FHIR specification.\n1. Return the following response classes:\n   - (Status 400): invalid parameter\n   - (Status 401/4xx): unauthorized request\n   - (Status 403): insufficient scope\n   - (Status 404): unknown resource\n   - (Status 410): deleted resource.\n1. Support json source formats for all Plan-Net interactions.\n1. Identify the Plan-Net  profiles supported as part of the FHIR `meta.profile` attribute for each instance.\n1. Support the searchParameters on each profile  individually and in combination.\n1.Support forward and reverse chaining on all search parameters that specify the 'chain' property\n\nThe Plan-Net  Server **SHOULD**:\n\n1. Support xml source formats for all Plan-Net  interactions.\n",
+            "security": {
+                "description": "1. See the [General Security Considerations](implementation.html#general-security-considerations) section for requirements and recommendations.\n1. A server **SHALL** reject any unauthorized requests by returning an `HTTP 401` unauthorized response code."
+            },
+            "resource": [
+                {
+                    "extension": [
+                        {
+                            "url": "http://hl7.org/fhir/StructureDefinition/capabilitystatement-expectation",
+                            "valueCode": "SHALL"
+                        }
+                    ],
+                    "type": "Endpoint",
+                    "supportedProfile": [
+                        "http://hl7.org/fhir/us/davinci-pdex-plan-net/StructureDefinition/plannet-Endpoint"
+                    ],
+                    "interaction": [
+                        {
+                            "extension": [
+                                {
+                                    "url": "http://hl7.org/fhir/StructureDefinition/capabilitystatement-expectation",
+                                    "valueCode": "SHALL"
+                                }
+                            ],
+                            "code": "search-type"
+                        },
+                        {
+                            "extension": [
+                                {
+                                    "url": "http://hl7.org/fhir/StructureDefinition/capabilitystatement-expectation",
+                                    "valueCode": "SHALL"
+                                }
+                            ],
+                            "code": "read"
+                        },
+                        {
+                            "extension": [
+                                {
+                                    "url": "http://hl7.org/fhir/StructureDefinition/capabilitystatement-expectation",
+                                    "valueCode": "SHOULD"
+                                }
+                            ],
+                            "code": "vread"
+                        }
+                    ],
+                    "referencePolicy": [
+                        "resolves"
+                    ],
+                    "searchInclude": [
+                        "Endpoint:organization"
+                    ],
+                    "searchParam": [
+                        {
+                            "extension": [
+                                {
+                                    "url": "http://hl7.org/fhir/StructureDefinition/capabilitystatement-expectation",
+                                    "valueCode": "SHALL"
+                                }
+                            ],
+                            "name": "organization",
+                            "definition": "http://hl7.org/fhir/us/davinci-pdex-plan-net/SearchParameter/endpoint-organization",
+                            "type": "reference"
+                        },
+                        {
+                            "extension": [
+                                {
+                                    "url": "http://hl7.org/fhir/StructureDefinition/capabilitystatement-expectation",
+                                    "valueCode": "SHALL"
+                                }
+                            ],
+                            "name": "_id",
+                            "definition": "http://hl7.org/fhir/SearchParameter/Resource-id",
+                            "type": "token"
+                        },
+                        {
+                            "extension": [
+                                {
+                                    "url": "http://hl7.org/fhir/StructureDefinition/capabilitystatement-expectation",
+                                    "valueCode": "SHALL"
+                                }
+                            ],
+                            "name": "_lastUpdated",
+                            "definition": "http://hl7.org/fhir/SearchParameter/Resource-lastUpdated",
+                            "type": "date"
+                        }
+                    ]
+                },
+                {
+                    "extension": [
+                        {
+                            "url": "http://hl7.org/fhir/StructureDefinition/capabilitystatement-expectation",
+                            "valueCode": "SHALL"
+                        }
+                    ],
+                    "type": "HealthcareService",
+                    "supportedProfile": [
+                        "http://hl7.org/fhir/us/davinci-pdex-plan-net/StructureDefinition/plannet-HealthcareService"
+                    ],
+                    "interaction": [
+                        {
+                            "extension": [
+                                {
+                                    "url": "http://hl7.org/fhir/StructureDefinition/capabilitystatement-expectation",
+                                    "valueCode": "SHALL"
+                                }
+                            ],
+                            "code": "search-type"
+                        },
+                        {
+                            "extension": [
+                                {
+                                    "url": "http://hl7.org/fhir/StructureDefinition/capabilitystatement-expectation",
+                                    "valueCode": "SHALL"
+                                }
+                            ],
+                            "code": "read"
+                        },
+                        {
+                            "extension": [
+                                {
+                                    "url": "http://hl7.org/fhir/StructureDefinition/capabilitystatement-expectation",
+                                    "valueCode": "SHOULD"
+                                }
+                            ],
+                            "code": "vread"
+                        }
+                    ],
+                    "referencePolicy": [
+                        "resolves"
+                    ],
+                    "searchInclude": [
+                        "HealthcareService:location",
+                        "HealthcareService:coverage-area",
+                        "HealthcareService:organization",
+                        "HealthcareService:endpoint"
+                    ],
+                    "searchRevInclude": [
+                        "PractitionerRole:service",
+                        "OrganizationAffiliation:service"
+                    ],
+                    "searchParam": [
+                        {
+                            "extension": [
+                                {
+                                    "url": "http://hl7.org/fhir/StructureDefinition/capabilitystatement-expectation",
+                                    "valueCode": "SHALL"
+                                }
+                            ],
+                            "name": "location",
+                            "definition": "http://hl7.org/fhir/us/davinci-pdex-plan-net/SearchParameter/healthcareservice-location",
+                            "type": "reference"
+                        },
+                        {
+                            "extension": [
+                                {
+                                    "url": "http://hl7.org/fhir/StructureDefinition/capabilitystatement-expectation",
+                                    "valueCode": "SHALL"
+                                }
+                            ],
+                            "name": "coverage-area",
+                            "definition": "http://hl7.org/fhir/us/davinci-pdex-plan-net/SearchParameter/healthcareservice-coverage-area",
+                            "type": "reference"
+                        },
+                        {
+                            "extension": [
+                                {
+                                    "url": "http://hl7.org/fhir/StructureDefinition/capabilitystatement-expectation",
+                                    "valueCode": "SHALL"
+                                }
+                            ],
+                            "name": "organization",
+                            "definition": "http://hl7.org/fhir/us/davinci-pdex-plan-net/SearchParameter/healthcareservice-organization",
+                            "type": "reference"
+                        },
+                        {
+                            "extension": [
+                                {
+                                    "url": "http://hl7.org/fhir/StructureDefinition/capabilitystatement-expectation",
+                                    "valueCode": "SHALL"
+                                }
+                            ],
+                            "name": "endpoint",
+                            "definition": "http://hl7.org/fhir/us/davinci-pdex-plan-net/SearchParameter/healthcareservice-endpoint",
+                            "type": "reference"
+                        },
+                        {
+                            "extension": [
+                                {
+                                    "url": "http://hl7.org/fhir/StructureDefinition/capabilitystatement-expectation",
+                                    "valueCode": "SHALL"
+                                }
+                            ],
+                            "name": "name",
+                            "definition": "http://hl7.org/fhir/us/davinci-pdex-plan-net/SearchParameter/healthcareservice-name",
+                            "type": "string"
+                        },
+                        {
+                            "extension": [
+                                {
+                                    "url": "http://hl7.org/fhir/StructureDefinition/capabilitystatement-expectation",
+                                    "valueCode": "SHALL"
+                                }
+                            ],
+                            "name": "service-category",
+                            "definition": "http://hl7.org/fhir/us/davinci-pdex-plan-net/SearchParameter/healthcareservice-service-category",
+                            "type": "token"
+                        },
+                        {
+                            "extension": [
+                                {
+                                    "url": "http://hl7.org/fhir/StructureDefinition/capabilitystatement-expectation",
+                                    "valueCode": "SHALL"
+                                }
+                            ],
+                            "name": "service-type",
+                            "definition": "http://hl7.org/fhir/us/davinci-pdex-plan-net/SearchParameter/healthcareservice-service-type",
+                            "type": "token"
+                        },
+                        {
+                            "extension": [
+                                {
+                                    "url": "http://hl7.org/fhir/StructureDefinition/capabilitystatement-expectation",
+                                    "valueCode": "SHALL"
+                                }
+                            ],
+                            "name": "specialty",
+                            "definition": "http://hl7.org/fhir/us/davinci-pdex-plan-net/SearchParameter/healthcareservice-specialty",
+                            "type": "token"
+                        },
+                        {
+                            "extension": [
+                                {
+                                    "url": "http://hl7.org/fhir/StructureDefinition/capabilitystatement-expectation",
+                                    "valueCode": "SHALL"
+                                }
+                            ],
+                            "name": "_id",
+                            "definition": "http://hl7.org/fhir/SearchParameter/Resource-id",
+                            "type": "token"
+                        },
+                        {
+                            "extension": [
+                                {
+                                    "url": "http://hl7.org/fhir/StructureDefinition/capabilitystatement-expectation",
+                                    "valueCode": "SHALL"
+                                }
+                            ],
+                            "name": "_lastUpdated",
+                            "definition": "http://hl7.org/fhir/SearchParameter/Resource-lastUpdated",
+                            "type": "date"
+                        }
+                    ]
+                },
+                {
+                    "extension": [
+                        {
+                            "url": "http://hl7.org/fhir/StructureDefinition/capabilitystatement-expectation",
+                            "valueCode": "SHALL"
+                        }
+                    ],
+                    "type": "InsurancePlan",
+                    "supportedProfile": [
+                        "http://hl7.org/fhir/us/davinci-pdex-plan-net/StructureDefinition/plannet-InsurancePlan"
+                    ],
+                    "interaction": [
+                        {
+                            "extension": [
+                                {
+                                    "url": "http://hl7.org/fhir/StructureDefinition/capabilitystatement-expectation",
+                                    "valueCode": "SHALL"
+                                }
+                            ],
+                            "code": "search-type"
+                        },
+                        {
+                            "extension": [
+                                {
+                                    "url": "http://hl7.org/fhir/StructureDefinition/capabilitystatement-expectation",
+                                    "valueCode": "SHALL"
+                                }
+                            ],
+                            "code": "read"
+                        },
+                        {
+                            "extension": [
+                                {
+                                    "url": "http://hl7.org/fhir/StructureDefinition/capabilitystatement-expectation",
+                                    "valueCode": "SHOULD"
+                                }
+                            ],
+                            "code": "vread"
+                        }
+                    ],
+                    "referencePolicy": [
+                        "resolves"
+                    ],
+                    "searchInclude": [
+                        "InsurancePlan:administered-by",
+                        "InsurancePlan:owned-by",
+                        "InsurancePlan:coverage-area"
+                    ],
+                    "searchParam": [
+                        {
+                            "extension": [
+                                {
+                                    "url": "http://hl7.org/fhir/StructureDefinition/capabilitystatement-expectation",
+                                    "valueCode": "SHALL"
+                                }
+                            ],
+                            "name": "administered-by",
+                            "definition": "http://hl7.org/fhir/us/davinci-pdex-plan-net/SearchParameter/insuranceplan-administered-by",
+                            "type": "reference"
+                        },
+                        {
+                            "extension": [
+                                {
+                                    "url": "http://hl7.org/fhir/StructureDefinition/capabilitystatement-expectation",
+                                    "valueCode": "SHALL"
+                                }
+                            ],
+                            "name": "owned-by",
+                            "definition": "http://hl7.org/fhir/us/davinci-pdex-plan-net/SearchParameter/insuranceplan-owned-by",
+                            "type": "reference"
+                        },
+                        {
+                            "extension": [
+                                {
+                                    "url": "http://hl7.org/fhir/StructureDefinition/capabilitystatement-expectation",
+                                    "valueCode": "SHALL"
+                                }
+                            ],
+                            "name": "coverage-area",
+                            "definition": "http://hl7.org/fhir/us/davinci-pdex-plan-net/SearchParameter/insuranceplan-coverage-area",
+                            "type": "reference"
+                        },
+                        {
+                            "extension": [
+                                {
+                                    "url": "http://hl7.org/fhir/StructureDefinition/capabilitystatement-expectation",
+                                    "valueCode": "SHALL"
+                                }
+                            ],
+                            "name": "name",
+                            "definition": "http://hl7.org/fhir/us/davinci-pdex-plan-net/SearchParameter/insuranceplan-name",
+                            "type": "string"
+                        },
+                        {
+                            "extension": [
+                                {
+                                    "url": "http://hl7.org/fhir/StructureDefinition/capabilitystatement-expectation",
+                                    "valueCode": "SHALL"
+                                }
+                            ],
+                            "name": "plan-type",
+                            "definition": "http://hl7.org/fhir/us/davinci-pdex-plan-net/SearchParameter/insuranceplan-plan-type",
+                            "type": "token"
+                        },
+                        {
+                            "extension": [
+                                {
+                                    "url": "http://hl7.org/fhir/StructureDefinition/capabilitystatement-expectation",
+                                    "valueCode": "SHALL"
+                                }
+                            ],
+                            "name": "identifier",
+                            "definition": "http://hl7.org/fhir/us/davinci-pdex-plan-net/SearchParameter/insuranceplan-identifier",
+                            "type": "token"
+                        },
+                        {
+                            "extension": [
+                                {
+                                    "url": "http://hl7.org/fhir/StructureDefinition/capabilitystatement-expectation",
+                                    "valueCode": "SHALL"
+                                }
+                            ],
+                            "name": "_id",
+                            "definition": "http://hl7.org/fhir/SearchParameter/Resource-id",
+                            "type": "token"
+                        },
+                        {
+                            "extension": [
+                                {
+                                    "url": "http://hl7.org/fhir/StructureDefinition/capabilitystatement-expectation",
+                                    "valueCode": "SHALL"
+                                }
+                            ],
+                            "name": "_lastUpdated",
+                            "definition": "http://hl7.org/fhir/SearchParameter/Resource-lastUpdated",
+                            "type": "date"
+                        },
+                        {
+                            "extension": [
+                                {
+                                    "url": "http://hl7.org/fhir/StructureDefinition/capabilitystatement-expectation",
+                                    "valueCode": "SHALL"
+                                }
+                            ],
+                            "name": "type",
+                            "definition": "http://hl7.org/fhir/us/davinci-pdex-plan-net/SearchParameter/insuranceplan-type",
+                            "type": "token"
+                        }
+                    ]
+                },
+                {
+                    "extension": [
+                        {
+                            "url": "http://hl7.org/fhir/StructureDefinition/capabilitystatement-expectation",
+                            "valueCode": "SHALL"
+                        }
+                    ],
+                    "type": "Location",
+                    "supportedProfile": [
+                        "http://hl7.org/fhir/us/davinci-pdex-plan-net/StructureDefinition/plannet-Location"
+                    ],
+                    "interaction": [
+                        {
+                            "extension": [
+                                {
+                                    "url": "http://hl7.org/fhir/StructureDefinition/capabilitystatement-expectation",
+                                    "valueCode": "SHALL"
+                                }
+                            ],
+                            "code": "search-type"
+                        },
+                        {
+                            "extension": [
+                                {
+                                    "url": "http://hl7.org/fhir/StructureDefinition/capabilitystatement-expectation",
+                                    "valueCode": "SHALL"
+                                }
+                            ],
+                            "code": "read"
+                        },
+                        {
+                            "extension": [
+                                {
+                                    "url": "http://hl7.org/fhir/StructureDefinition/capabilitystatement-expectation",
+                                    "valueCode": "SHOULD"
+                                }
+                            ],
+                            "code": "vread"
+                        }
+                    ],
+                    "referencePolicy": [
+                        "resolves"
+                    ],
+                    "searchInclude": [
+                        "Location:endpoint",
+                        "Location:organization",
+                        "Location:partof"
+                    ],
+                    "searchRevInclude": [
+                        "HealthcareService:location",
+                        "InsurancePlan:coverage-area",
+                        "OrganizationAffiliation:location",
+                        "PractitionerRole:location"
+                    ],
+                    "searchParam": [
+                        {
+                            "extension": [
+                                {
+                                    "url": "http://hl7.org/fhir/StructureDefinition/capabilitystatement-expectation",
+                                    "valueCode": "SHALL"
+                                }
+                            ],
+                            "name": "partof",
+                            "definition": "http://hl7.org/fhir/us/davinci-pdex-plan-net/SearchParameter/location-partof",
+                            "type": "reference"
+                        },
+                        {
+                            "extension": [
+                                {
+                                    "url": "http://hl7.org/fhir/StructureDefinition/capabilitystatement-expectation",
+                                    "valueCode": "SHALL"
+                                }
+                            ],
+                            "name": "organization",
+                            "definition": "http://hl7.org/fhir/us/davinci-pdex-plan-net/SearchParameter/location-organization",
+                            "type": "reference"
+                        },
+                        {
+                            "extension": [
+                                {
+                                    "url": "http://hl7.org/fhir/StructureDefinition/capabilitystatement-expectation",
+                                    "valueCode": "SHALL"
+                                }
+                            ],
+                            "name": "endpoint",
+                            "definition": "http://hl7.org/fhir/us/davinci-pdex-plan-net/SearchParameter/location-endpoint",
+                            "type": "reference"
+                        },
+                        {
+                            "extension": [
+                                {
+                                    "url": "http://hl7.org/fhir/StructureDefinition/capabilitystatement-expectation",
+                                    "valueCode": "SHALL"
+                                }
+                            ],
+                            "name": "address-city",
+                            "definition": "http://hl7.org/fhir/us/davinci-pdex-plan-net/SearchParameter/location-address-city",
+                            "type": "string"
+                        },
+                        {
+                            "extension": [
+                                {
+                                    "url": "http://hl7.org/fhir/StructureDefinition/capabilitystatement-expectation",
+                                    "valueCode": "SHALL"
+                                }
+                            ],
+                            "name": "address-state",
+                            "definition": "http://hl7.org/fhir/us/davinci-pdex-plan-net/SearchParameter/location-address-state",
+                            "type": "string"
+                        },
+                        {
+                            "extension": [
+                                {
+                                    "url": "http://hl7.org/fhir/StructureDefinition/capabilitystatement-expectation",
+                                    "valueCode": "SHALL"
+                                }
+                            ],
+                            "name": "address-postalcode",
+                            "definition": "http://hl7.org/fhir/us/davinci-pdex-plan-net/SearchParameter/location-address-postalcode",
+                            "type": "string"
+                        },
+                        {
+                            "extension": [
+                                {
+                                    "url": "http://hl7.org/fhir/StructureDefinition/capabilitystatement-expectation",
+                                    "valueCode": "SHALL"
+                                }
+                            ],
+                            "name": "address",
+                            "definition": "http://hl7.org/fhir/us/davinci-pdex-plan-net/SearchParameter/location-address",
+                            "type": "string"
+                        },
+                        {
+                            "extension": [
+                                {
+                                    "url": "http://hl7.org/fhir/StructureDefinition/capabilitystatement-expectation",
+                                    "valueCode": "SHALL"
+                                }
+                            ],
+                            "name": "type",
+                            "definition": "http://hl7.org/fhir/us/davinci-pdex-plan-net/SearchParameter/location-type",
+                            "type": "token"
+                        },
+                        {
+                            "extension": [
+                                {
+                                    "url": "http://hl7.org/fhir/StructureDefinition/capabilitystatement-expectation",
+                                    "valueCode": "SHALL"
+                                }
+                            ],
+                            "name": "_id",
+                            "definition": "http://hl7.org/fhir/SearchParameter/Resource-id",
+                            "type": "token"
+                        },
+                        {
+                            "extension": [
+                                {
+                                    "url": "http://hl7.org/fhir/StructureDefinition/capabilitystatement-expectation",
+                                    "valueCode": "SHALL"
+                                }
+                            ],
+                            "name": "_lastUpdated",
+                            "definition": "http://hl7.org/fhir/SearchParameter/Resource-lastUpdated",
+                            "type": "date"
+                        }
+                    ]
+                },
+                {
+                    "extension": [
+                        {
+                            "url": "http://hl7.org/fhir/StructureDefinition/capabilitystatement-expectation",
+                            "valueCode": "SHALL"
+                        }
+                    ],
+                    "type": "Organization",
+                    "supportedProfile": [
+                        "http://hl7.org/fhir/us/davinci-pdex-plan-net/StructureDefinition/plannet-Network",
+                        "http://hl7.org/fhir/us/davinci-pdex-plan-net/StructureDefinition/plannet-Organization"
+                    ],
+                    "interaction": [
+                        {
+                            "extension": [
+                                {
+                                    "url": "http://hl7.org/fhir/StructureDefinition/capabilitystatement-expectation",
+                                    "valueCode": "SHALL"
+                                }
+                            ],
+                            "code": "search-type"
+                        },
+                        {
+                            "extension": [
+                                {
+                                    "url": "http://hl7.org/fhir/StructureDefinition/capabilitystatement-expectation",
+                                    "valueCode": "SHALL"
+                                }
+                            ],
+                            "code": "read"
+                        },
+                        {
+                            "extension": [
+                                {
+                                    "url": "http://hl7.org/fhir/StructureDefinition/capabilitystatement-expectation",
+                                    "valueCode": "SHOULD"
+                                }
+                            ],
+                            "code": "vread"
+                        }
+                    ],
+                    "referencePolicy": [
+                        "resolves"
+                    ],
+                    "searchInclude": [
+                        "Organization:partof",
+                        "Organization:endpoint",
+                        "Organization:coverage-area"
+                    ],
+                    "searchRevInclude": [
+                        "Endpoint:organization",
+                        "HealthcareService:organization",
+                        "InsurancePlan:administered-by",
+                        "InsurancePlan:owned-by",
+                        "OrganizationAffiliation:primary-organization",
+                        "PractitionerRole:organization",
+                        "PractitionerRole:network",
+                        "OrganizationAffiliation:participating-organization"
+                    ],
+                    "searchParam": [
+                        {
+                            "extension": [
+                                {
+                                    "url": "http://hl7.org/fhir/StructureDefinition/capabilitystatement-expectation",
+                                    "valueCode": "SHALL"
+                                }
+                            ],
+                            "name": "partof",
+                            "definition": "http://hl7.org/fhir/us/davinci-pdex-plan-net/SearchParameter/organization-partof",
+                            "type": "reference"
+                        },
+                        {
+                            "extension": [
+                                {
+                                    "url": "http://hl7.org/fhir/StructureDefinition/capabilitystatement-expectation",
+                                    "valueCode": "SHALL"
+                                }
+                            ],
+                            "name": "endpoint",
+                            "definition": "http://hl7.org/fhir/us/davinci-pdex-plan-net/SearchParameter/organization-endpoint",
+                            "type": "reference"
+                        },
+                        {
+                            "extension": [
+                                {
+                                    "url": "http://hl7.org/fhir/StructureDefinition/capabilitystatement-expectation",
+                                    "valueCode": "SHALL"
+                                }
+                            ],
+                            "name": "address",
+                            "definition": "http://hl7.org/fhir/us/davinci-pdex-plan-net/SearchParameter/organization-address",
+                            "type": "string"
+                        },
+                        {
+                            "extension": [
+                                {
+                                    "url": "http://hl7.org/fhir/StructureDefinition/capabilitystatement-expectation",
+                                    "valueCode": "SHALL"
+                                }
+                            ],
+                            "name": "name",
+                            "definition": "http://hl7.org/fhir/us/davinci-pdex-plan-net/SearchParameter/organization-name",
+                            "type": "string"
+                        },
+                        {
+                            "extension": [
+                                {
+                                    "url": "http://hl7.org/fhir/StructureDefinition/capabilitystatement-expectation",
+                                    "valueCode": "SHALL"
+                                }
+                            ],
+                            "name": "_id",
+                            "definition": "http://hl7.org/fhir/SearchParameter/Resource-id",
+                            "type": "token"
+                        },
+                        {
+                            "extension": [
+                                {
+                                    "url": "http://hl7.org/fhir/StructureDefinition/capabilitystatement-expectation",
+                                    "valueCode": "SHALL"
+                                }
+                            ],
+                            "name": "_lastUpdated",
+                            "definition": "http://hl7.org/fhir/SearchParameter/Resource-lastUpdated",
+                            "type": "date"
+                        },
+                        {
+                            "extension": [
+                                {
+                                    "url": "http://hl7.org/fhir/StructureDefinition/capabilitystatement-expectation",
+                                    "valueCode": "SHALL"
+                                }
+                            ],
+                            "name": "type",
+                            "definition": "http://hl7.org/fhir/us/davinci-pdex-plan-net/SearchParameter/organization-type",
+                            "type": "token"
+                        },
+                        {
+                            "extension": [
+                                {
+                                    "url": "http://hl7.org/fhir/StructureDefinition/capabilitystatement-expectation",
+                                    "valueCode": "SHALL"
+                                }
+                            ],
+                            "name": "coverage-area",
+                            "definition": "http://hl7.org/fhir/us/davinci-pdex-plan-net/SearchParameter/organization-coverage-area",
+                            "type": "reference"
+                        }
+                    ]
+                },
+                {
+                    "extension": [
+                        {
+                            "url": "http://hl7.org/fhir/StructureDefinition/capabilitystatement-expectation",
+                            "valueCode": "SHALL"
+                        }
+                    ],
+                    "type": "OrganizationAffiliation",
+                    "supportedProfile": [
+                        "http://hl7.org/fhir/us/davinci-pdex-plan-net/StructureDefinition/plannet-OrganizationAffiliation"
+                    ],
+                    "interaction": [
+                        {
+                            "extension": [
+                                {
+                                    "url": "http://hl7.org/fhir/StructureDefinition/capabilitystatement-expectation",
+                                    "valueCode": "SHALL"
+                                }
+                            ],
+                            "code": "search-type"
+                        },
+                        {
+                            "extension": [
+                                {
+                                    "url": "http://hl7.org/fhir/StructureDefinition/capabilitystatement-expectation",
+                                    "valueCode": "SHALL"
+                                }
+                            ],
+                            "code": "read"
+                        },
+                        {
+                            "extension": [
+                                {
+                                    "url": "http://hl7.org/fhir/StructureDefinition/capabilitystatement-expectation",
+                                    "valueCode": "SHOULD"
+                                }
+                            ],
+                            "code": "vread"
+                        }
+                    ],
+                    "referencePolicy": [
+                        "resolves"
+                    ],
+                    "searchInclude": [
+                        "OrganizationAffiliation:primary-organization",
+                        "OrganizationAffiliation:participating-organization",
+                        "OrganizationAffiliation:location",
+                        "OrganizationAffiliation:service",
+                        "OrganizationAffiliation:endpoint",
+                        "OrganizationAffiliation:network"
+                    ],
+                    "searchParam": [
+                        {
+                            "extension": [
+                                {
+                                    "url": "http://hl7.org/fhir/StructureDefinition/capabilitystatement-expectation",
+                                    "valueCode": "SHALL"
+                                }
+                            ],
+                            "name": "primary-organization",
+                            "definition": "http://hl7.org/fhir/us/davinci-pdex-plan-net/SearchParameter/organizationaffiliation-primary-organization",
+                            "type": "reference"
+                        },
+                        {
+                            "extension": [
+                                {
+                                    "url": "http://hl7.org/fhir/StructureDefinition/capabilitystatement-expectation",
+                                    "valueCode": "SHALL"
+                                }
+                            ],
+                            "name": "participating-organization",
+                            "definition": "http://hl7.org/fhir/us/davinci-pdex-plan-net/SearchParameter/organizationaffiliation-participating-organization",
+                            "type": "reference"
+                        },
+                        {
+                            "extension": [
+                                {
+                                    "url": "http://hl7.org/fhir/StructureDefinition/capabilitystatement-expectation",
+                                    "valueCode": "SHALL"
+                                }
+                            ],
+                            "name": "location",
+                            "definition": "http://hl7.org/fhir/us/davinci-pdex-plan-net/SearchParameter/organizationaffiliation-location",
+                            "type": "reference"
+                        },
+                        {
+                            "extension": [
+                                {
+                                    "url": "http://hl7.org/fhir/StructureDefinition/capabilitystatement-expectation",
+                                    "valueCode": "SHALL"
+                                }
+                            ],
+                            "name": "service",
+                            "definition": "http://hl7.org/fhir/us/davinci-pdex-plan-net/SearchParameter/organizationaffiliation-service",
+                            "type": "reference"
+                        },
+                        {
+                            "extension": [
+                                {
+                                    "url": "http://hl7.org/fhir/StructureDefinition/capabilitystatement-expectation",
+                                    "valueCode": "SHALL"
+                                }
+                            ],
+                            "name": "network",
+                            "definition": "http://hl7.org/fhir/us/davinci-pdex-plan-net/SearchParameter/organizationaffiliation-network",
+                            "type": "reference"
+                        },
+                        {
+                            "extension": [
+                                {
+                                    "url": "http://hl7.org/fhir/StructureDefinition/capabilitystatement-expectation",
+                                    "valueCode": "SHALL"
+                                }
+                            ],
+                            "name": "endpoint",
+                            "definition": "http://hl7.org/fhir/us/davinci-pdex-plan-net/SearchParameter/organizationaffiliation-endpoint",
+                            "type": "reference"
+                        },
+                        {
+                            "extension": [
+                                {
+                                    "url": "http://hl7.org/fhir/StructureDefinition/capabilitystatement-expectation",
+                                    "valueCode": "SHALL"
+                                }
+                            ],
+                            "name": "role",
+                            "definition": "http://hl7.org/fhir/us/davinci-pdex-plan-net/SearchParameter/organizationaffiliation-role",
+                            "type": "token"
+                        },
+                        {
+                            "extension": [
+                                {
+                                    "url": "http://hl7.org/fhir/StructureDefinition/capabilitystatement-expectation",
+                                    "valueCode": "SHALL"
+                                }
+                            ],
+                            "name": "specialty",
+                            "definition": "http://hl7.org/fhir/us/davinci-pdex-plan-net/SearchParameter/organizationaffiliation-specialty",
+                            "type": "token"
+                        },
+                        {
+                            "extension": [
+                                {
+                                    "url": "http://hl7.org/fhir/StructureDefinition/capabilitystatement-expectation",
+                                    "valueCode": "SHALL"
+                                }
+                            ],
+                            "name": "_id",
+                            "definition": "http://hl7.org/fhir/SearchParameter/Resource-id",
+                            "type": "token"
+                        },
+                        {
+                            "extension": [
+                                {
+                                    "url": "http://hl7.org/fhir/StructureDefinition/capabilitystatement-expectation",
+                                    "valueCode": "SHALL"
+                                }
+                            ],
+                            "name": "_lastUpdated",
+                            "definition": "http://hl7.org/fhir/SearchParameter/Resource-lastUpdated",
+                            "type": "date"
+                        }
+                    ]
+                },
+                {
+                    "extension": [
+                        {
+                            "url": "http://hl7.org/fhir/StructureDefinition/capabilitystatement-expectation",
+                            "valueCode": "SHALL"
+                        }
+                    ],
+                    "type": "Practitioner",
+                    "supportedProfile": [
+                        "http://hl7.org/fhir/us/davinci-pdex-plan-net/StructureDefinition/plannet-Practitioner"
+                    ],
+                    "interaction": [
+                        {
+                            "extension": [
+                                {
+                                    "url": "http://hl7.org/fhir/StructureDefinition/capabilitystatement-expectation",
+                                    "valueCode": "SHALL"
+                                }
+                            ],
+                            "code": "search-type"
+                        },
+                        {
+                            "extension": [
+                                {
+                                    "url": "http://hl7.org/fhir/StructureDefinition/capabilitystatement-expectation",
+                                    "valueCode": "SHALL"
+                                }
+                            ],
+                            "code": "read"
+                        },
+                        {
+                            "extension": [
+                                {
+                                    "url": "http://hl7.org/fhir/StructureDefinition/capabilitystatement-expectation",
+                                    "valueCode": "SHOULD"
+                                }
+                            ],
+                            "code": "vread"
+                        }
+                    ],
+                    "referencePolicy": [
+                        "resolves"
+                    ],
+                    "searchRevInclude": [
+                        "PractitionerRole:practitioner"
+                    ],
+                    "searchParam": [
+                        {
+                            "extension": [
+                                {
+                                    "url": "http://hl7.org/fhir/StructureDefinition/capabilitystatement-expectation",
+                                    "valueCode": "SHALL"
+                                }
+                            ],
+                            "name": "name",
+                            "definition": "http://hl7.org/fhir/us/davinci-pdex-plan-net/SearchParameter/practitioner-name",
+                            "type": "string"
+                        },
+                        {
+                            "extension": [
+                                {
+                                    "url": "http://hl7.org/fhir/StructureDefinition/capabilitystatement-expectation",
+                                    "valueCode": "SHALL"
+                                }
+                            ],
+                            "name": "_id",
+                            "definition": "http://hl7.org/fhir/SearchParameter/Resource-id",
+                            "type": "token"
+                        },
+                        {
+                            "extension": [
+                                {
+                                    "url": "http://hl7.org/fhir/StructureDefinition/capabilitystatement-expectation",
+                                    "valueCode": "SHALL"
+                                }
+                            ],
+                            "name": "_lastUpdated",
+                            "definition": "http://hl7.org/fhir/SearchParameter/Resource-lastUpdated",
+                            "type": "date"
+                        },
+                        {
+                            "extension": [
+                                {
+                                    "url": "http://hl7.org/fhir/StructureDefinition/capabilitystatement-expectation",
+                                    "valueCode": "SHALL"
+                                }
+                            ],
+                            "name": "family",
+                            "definition": "http://hl7.org/fhir/us/davinci-pdex-plan-net/SearchParameter/practitioner-family-name",
+                            "type": "string"
+                        },
+                        {
+                            "extension": [
+                                {
+                                    "url": "http://hl7.org/fhir/StructureDefinition/capabilitystatement-expectation",
+                                    "valueCode": "SHALL"
+                                }
+                            ],
+                            "name": "given",
+                            "definition": "http://hl7.org/fhir/us/davinci-pdex-plan-net/SearchParameter/practitioner-given-name",
+                            "type": "string"
+                        }
+                    ]
+                },
+                {
+                    "extension": [
+                        {
+                            "url": "http://hl7.org/fhir/StructureDefinition/capabilitystatement-expectation",
+                            "valueCode": "SHALL"
+                        }
+                    ],
+                    "type": "PractitionerRole",
+                    "supportedProfile": [
+                        "http://hl7.org/fhir/us/davinci-pdex-plan-net/StructureDefinition/plannet-PractitionerRole"
+                    ],
+                    "interaction": [
+                        {
+                            "extension": [
+                                {
+                                    "url": "http://hl7.org/fhir/StructureDefinition/capabilitystatement-expectation",
+                                    "valueCode": "SHALL"
+                                }
+                            ],
+                            "code": "search-type"
+                        },
+                        {
+                            "extension": [
+                                {
+                                    "url": "http://hl7.org/fhir/StructureDefinition/capabilitystatement-expectation",
+                                    "valueCode": "SHALL"
+                                }
+                            ],
+                            "code": "read"
+                        },
+                        {
+                            "extension": [
+                                {
+                                    "url": "http://hl7.org/fhir/StructureDefinition/capabilitystatement-expectation",
+                                    "valueCode": "SHOULD"
+                                }
+                            ],
+                            "code": "vread"
+                        }
+                    ],
+                    "referencePolicy": [
+                        "resolves"
+                    ],
+                    "searchInclude": [
+                        "PractitionerRole:practitioner",
+                        "PractitionerRole:organization",
+                        "PractitionerRole:location",
+                        "PractitionerRole:service",
+                        "PractitionerRole:network",
+                        "PractitionerRole:endpoint"
+                    ],
+                    "searchParam": [
+                        {
+                            "extension": [
+                                {
+                                    "url": "http://hl7.org/fhir/StructureDefinition/capabilitystatement-expectation",
+                                    "valueCode": "SHALL"
+                                }
+                            ],
+                            "name": "practitioner",
+                            "definition": "http://hl7.org/fhir/us/davinci-pdex-plan-net/SearchParameter/practitionerrole-practitioner",
+                            "type": "reference"
+                        },
+                        {
+                            "extension": [
+                                {
+                                    "url": "http://hl7.org/fhir/StructureDefinition/capabilitystatement-expectation",
+                                    "valueCode": "SHALL"
+                                }
+                            ],
+                            "name": "organization",
+                            "definition": "http://hl7.org/fhir/us/davinci-pdex-plan-net/SearchParameter/practitionerrole-organization",
+                            "type": "reference"
+                        },
+                        {
+                            "extension": [
+                                {
+                                    "url": "http://hl7.org/fhir/StructureDefinition/capabilitystatement-expectation",
+                                    "valueCode": "SHALL"
+                                }
+                            ],
+                            "name": "location",
+                            "definition": "http://hl7.org/fhir/us/davinci-pdex-plan-net/SearchParameter/practitionerrole-location",
+                            "type": "reference"
+                        },
+                        {
+                            "extension": [
+                                {
+                                    "url": "http://hl7.org/fhir/StructureDefinition/capabilitystatement-expectation",
+                                    "valueCode": "SHALL"
+                                }
+                            ],
+                            "name": "service",
+                            "definition": "http://hl7.org/fhir/us/davinci-pdex-plan-net/SearchParameter/practitionerrole-service",
+                            "type": "reference"
+                        },
+                        {
+                            "extension": [
+                                {
+                                    "url": "http://hl7.org/fhir/StructureDefinition/capabilitystatement-expectation",
+                                    "valueCode": "SHALL"
+                                }
+                            ],
+                            "name": "network",
+                            "definition": "http://hl7.org/fhir/us/davinci-pdex-plan-net/SearchParameter/practitionerrole-network",
+                            "type": "reference"
+                        },
+                        {
+                            "extension": [
+                                {
+                                    "url": "http://hl7.org/fhir/StructureDefinition/capabilitystatement-expectation",
+                                    "valueCode": "SHALL"
+                                }
+                            ],
+                            "name": "endpoint",
+                            "definition": "http://hl7.org/fhir/us/davinci-pdex-plan-net/SearchParameter/practitionerrole-endpoint",
+                            "type": "reference"
+                        },
+                        {
+                            "extension": [
+                                {
+                                    "url": "http://hl7.org/fhir/StructureDefinition/capabilitystatement-expectation",
+                                    "valueCode": "SHALL"
+                                }
+                            ],
+                            "name": "role",
+                            "definition": "http://hl7.org/fhir/us/davinci-pdex-plan-net/SearchParameter/practitionerrole-role",
+                            "type": "token"
+                        },
+                        {
+                            "extension": [
+                                {
+                                    "url": "http://hl7.org/fhir/StructureDefinition/capabilitystatement-expectation",
+                                    "valueCode": "SHALL"
+                                }
+                            ],
+                            "name": "specialty",
+                            "definition": "http://hl7.org/fhir/us/davinci-pdex-plan-net/SearchParameter/practitionerrole-specialty",
+                            "type": "token"
+                        },
+                        {
+                            "extension": [
+                                {
+                                    "url": "http://hl7.org/fhir/StructureDefinition/capabilitystatement-expectation",
+                                    "valueCode": "SHALL"
+                                }
+                            ],
+                            "name": "_id",
+                            "definition": "http://hl7.org/fhir/SearchParameter/Resource-id",
+                            "type": "token"
+                        },
+                        {
+                            "extension": [
+                                {
+                                    "url": "http://hl7.org/fhir/StructureDefinition/capabilitystatement-expectation",
+                                    "valueCode": "SHALL"
+                                }
+                            ],
+                            "name": "_lastUpdated",
+                            "definition": "http://hl7.org/fhir/SearchParameter/Resource-lastUpdated",
+                            "type": "date"
+                        }
+                    ]
+                }
+            ]
+        }
+    ]
+}

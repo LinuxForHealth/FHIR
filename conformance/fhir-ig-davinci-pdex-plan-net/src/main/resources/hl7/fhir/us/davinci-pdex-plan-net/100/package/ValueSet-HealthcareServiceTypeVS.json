@@ -1,0 +1,458 @@
+{
+    "resourceType": "ValueSet",
+    "id": "HealthcareServiceTypeVS",
+    "text": {
+        "status": "empty",
+        "div": "<div xmlns=\"http://www.w3.org/1999/xhtml\">Redacted for size</div>"
+    },
+    "url": "http://hl7.org/fhir/us/davinci-pdex-plan-net/ValueSet/HealthcareServiceTypeVS",
+    "version": "1.0.0",
+    "name": "HealthcareServiceTypeVS",
+    "title": "HealthcareService Types",
+    "status": "active",
+    "date": "2020-11-19T23:52:52+00:00",
+    "publisher": "HL7 Financial Management Working Group",
+    "contact": [
+        {
+            "name": "HL7 Financial Management Working Group",
+            "telecom": [
+                {
+                    "system": "url",
+                    "value": "http://www.hl7.org/Special/committees/fm/index.cfm"
+                },
+                {
+                    "system": "email",
+                    "value": "fm@lists.HL7.org"
+                }
+            ]
+        }
+    ],
+    "description": "Valueset for HealthCareService type",
+    "jurisdiction": [
+        {
+            "coding": [
+                {
+                    "system": "urn:iso:std:iso:3166",
+                    "code": "US"
+                }
+            ]
+        }
+    ],
+    "compose": {
+        "include": [
+            {
+                "system": "http://terminology.hl7.org/CodeSystem/service-type",
+                "concept": [
+                    {
+                        "code": "1",
+                        "display": "Adoption/Permanent Care Info/Support"
+                    },
+                    {
+                        "code": "3",
+                        "display": "Aged Care Information/Referral"
+                    },
+                    {
+                        "code": "8",
+                        "display": "Home Care/Housekeeping Assistance"
+                    },
+                    {
+                        "code": "9",
+                        "display": "Home Maintenance and Repair"
+                    },
+                    {
+                        "code": "10",
+                        "display": "Personal Alarms/Alerts"
+                    },
+                    {
+                        "code": "11",
+                        "display": "Personal Care for Older Persons"
+                    },
+                    {
+                        "code": "21",
+                        "display": "Hydrotherapy"
+                    },
+                    {
+                        "code": "26",
+                        "display": "Meditation"
+                    },
+                    {
+                        "code": "31",
+                        "display": "Relaxation Therapy"
+                    },
+                    {
+                        "code": "33",
+                        "display": "Western Herbal Medicine"
+                    },
+                    {
+                        "code": "34",
+                        "display": "Family Day care"
+                    },
+                    {
+                        "code": "36",
+                        "display": "Kindergarten Inclusion Support"
+                    },
+                    {
+                        "code": "42",
+                        "display": "Parenting/Family Support/Education"
+                    },
+                    {
+                        "code": "51",
+                        "display": "Blood Donation"
+                    },
+                    {
+                        "code": "55",
+                        "display": "Health Advocacy/Liaison Service"
+                    },
+                    {
+                        "code": "67",
+                        "display": "Sexual Health"
+                    },
+                    {
+                        "code": "68",
+                        "display": "Speech Pathology/Therapy"
+                    },
+                    {
+                        "code": "69",
+                        "display": "Bereavement Counselling"
+                    },
+                    {
+                        "code": "70",
+                        "display": "Crisis Counselling"
+                    },
+                    {
+                        "code": "71",
+                        "display": "Family Counselling/Therapy"
+                    },
+                    {
+                        "code": "72",
+                        "display": "Family Violence Counselling"
+                    },
+                    {
+                        "code": "75",
+                        "display": "Genetic Counselling"
+                    },
+                    {
+                        "code": "76",
+                        "display": "Health Counselling"
+                    },
+                    {
+                        "code": "78",
+                        "display": "Problem Gambling Counselling"
+                    },
+                    {
+                        "code": "79",
+                        "display": "Relationship Counselling"
+                    },
+                    {
+                        "code": "80",
+                        "display": "Sexual Assault Counselling"
+                    },
+                    {
+                        "code": "81",
+                        "display": "Trauma Counselling"
+                    },
+                    {
+                        "code": "82",
+                        "display": "Victims of Crime Counselling"
+                    },
+                    {
+                        "code": "96",
+                        "display": "Disability Advocacy"
+                    },
+                    {
+                        "code": "97",
+                        "display": "Disability Aids & Equipment"
+                    },
+                    {
+                        "code": "99",
+                        "display": "Disability Day Programs/Activities"
+                    },
+                    {
+                        "code": "102",
+                        "display": "Disability Supported Accommodation"
+                    },
+                    {
+                        "code": "103",
+                        "display": "Early Childhood Intervention"
+                    },
+                    {
+                        "code": "105",
+                        "display": "Drug and/or Alcohol Counselling"
+                    },
+                    {
+                        "code": "106",
+                        "display": "Drug/Alcohol Information/Referral"
+                    },
+                    {
+                        "code": "107",
+                        "display": "Needle & Syringe Exchange"
+                    },
+                    {
+                        "code": "108",
+                        "display": "Non-resid. Alcohol/Drug Treatment"
+                    },
+                    {
+                        "code": "111",
+                        "display": "Residential Alcohol/Drug Treatment"
+                    },
+                    {
+                        "code": "118",
+                        "display": "Employment Placement and/or Support"
+                    },
+                    {
+                        "code": "119",
+                        "display": "Vocational Rehabilitation"
+                    },
+                    {
+                        "code": "126",
+                        "display": "Crisis/Emergency Accommodation"
+                    },
+                    {
+                        "code": "127",
+                        "display": "Homelessness Support"
+                    },
+                    {
+                        "code": "128",
+                        "display": "Housing Information/Referral"
+                    },
+                    {
+                        "code": "130",
+                        "display": "Interpreting/Multilingual Service"
+                    },
+                    {
+                        "code": "134",
+                        "display": "Mental Health Advocacy"
+                    },
+                    {
+                        "code": "146",
+                        "display": "Physical Activity Programs"
+                    },
+                    {
+                        "code": "147",
+                        "display": "Physical Fitness Testing"
+                    },
+                    {
+                        "code": "224",
+                        "display": "Support Groups"
+                    },
+                    {
+                        "code": "230",
+                        "display": "Patient Transport"
+                    },
+                    {
+                        "code": "233",
+                        "display": "Abuse"
+                    },
+                    {
+                        "code": "238",
+                        "display": "Adult Day Programs"
+                    },
+                    {
+                        "code": "245",
+                        "display": "Aids"
+                    },
+                    {
+                        "code": "275",
+                        "display": "Cancer Support"
+                    },
+                    {
+                        "code": "284",
+                        "display": "Child Care"
+                    },
+                    {
+                        "code": "296",
+                        "display": "Companion Visiting"
+                    },
+                    {
+                        "code": "301",
+                        "display": "Contraception Inform"
+                    },
+                    {
+                        "code": "308",
+                        "display": "Crisis Assessment An"
+                    },
+                    {
+                        "code": "309",
+                        "display": "Crisis Assistance"
+                    },
+                    {
+                        "code": "310",
+                        "display": "Crisis Refuge"
+                    },
+                    {
+                        "code": "316",
+                        "display": "Depression"
+                    },
+                    {
+                        "code": "317",
+                        "display": "Detoxification"
+                    },
+                    {
+                        "code": "323",
+                        "display": "Divorce"
+                    },
+                    {
+                        "code": "328",
+                        "display": "Eating Disorder"
+                    },
+                    {
+                        "code": "331",
+                        "display": "Employment And Train"
+                    },
+                    {
+                        "code": "344",
+                        "display": "Food"
+                    },
+                    {
+                        "code": "345",
+                        "display": "Food Vouchers"
+                    },
+                    {
+                        "code": "352",
+                        "display": "Grief Counselling"
+                    },
+                    {
+                        "code": "366",
+                        "display": "Household Items"
+                    },
+                    {
+                        "code": "400",
+                        "display": "Pain"
+                    },
+                    {
+                        "code": "409",
+                        "display": "Postnatal"
+                    },
+                    {
+                        "code": "411",
+                        "display": "Pregnancy Tests"
+                    },
+                    {
+                        "code": "427",
+                        "display": "Rent Assistance"
+                    },
+                    {
+                        "code": "429",
+                        "display": "Residential Respite"
+                    },
+                    {
+                        "code": "440",
+                        "display": "Sexual Issues"
+                    },
+                    {
+                        "code": "446",
+                        "display": "Speech Therapist"
+                    },
+                    {
+                        "code": "459",
+                        "display": "Tenancy Advice"
+                    },
+                    {
+                        "code": "468",
+                        "display": "Vocational Guidance"
+                    },
+                    {
+                        "code": "470",
+                        "display": "Welfare Assistance"
+                    },
+                    {
+                        "code": "488",
+                        "display": "Diabetes Educator"
+                    },
+                    {
+                        "code": "494",
+                        "display": "Youth Services"
+                    },
+                    {
+                        "code": "495",
+                        "display": "Youth Health"
+                    },
+                    {
+                        "code": "501",
+                        "display": "Cancer Services"
+                    },
+                    {
+                        "code": "513",
+                        "display": "Cancer Support Groups"
+                    },
+                    {
+                        "code": "530",
+                        "display": "Disability Care Transport"
+                    },
+                    {
+                        "code": "531",
+                        "display": "Aged Care Transport"
+                    },
+                    {
+                        "code": "532",
+                        "display": "Diabetes Education s"
+                    },
+                    {
+                        "code": "534",
+                        "display": "Young Adult Diabetes"
+                    },
+                    {
+                        "code": "535",
+                        "display": "Pulmonary Rehabilita"
+                    },
+                    {
+                        "code": "537",
+                        "display": "Medication Reviews"
+                    },
+                    {
+                        "code": "539",
+                        "display": "Telephone Help Line"
+                    },
+                    {
+                        "code": "546",
+                        "display": "Veterans Services"
+                    },
+                    {
+                        "code": "548",
+                        "display": "Food Relief/Food/Meals"
+                    },
+                    {
+                        "code": "552",
+                        "display": "Drug and/or Alcohol Support Groups"
+                    },
+                    {
+                        "code": "554",
+                        "display": "Chronic Disease Management"
+                    },
+                    {
+                        "code": "559",
+                        "display": "Women's Health"
+                    },
+                    {
+                        "code": "560",
+                        "display": "Men's Health"
+                    },
+                    {
+                        "code": "565",
+                        "display": "Youth Drop In/Assistance/Support"
+                    },
+                    {
+                        "code": "569",
+                        "display": "Migrant Health Clinic"
+                    },
+                    {
+                        "code": "570",
+                        "display": "Refugee Health Clinic"
+                    },
+                    {
+                        "code": "571",
+                        "display": "Aboriginal Health Clinic"
+                    },
+                    {
+                        "code": "614",
+                        "display": "Development-Life Skills"
+                    },
+                    {
+                        "code": "628",
+                        "display": "Vehicle modifications"
+                    }
+                ]
+            }
+        ]
+    }
+}

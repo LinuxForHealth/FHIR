@@ -1,0 +1,774 @@
+{
+    "resourceType": "ValueSet",
+    "id": "NonIndividualSpecialtiesVS",
+    "text": {
+        "status": "empty",
+        "div": "<div xmlns=\"http://www.w3.org/1999/xhtml\">Redacted for size</div>"
+    },
+    "url": "http://hl7.org/fhir/us/davinci-pdex-plan-net/ValueSet/NonIndividualSpecialtiesVS",
+    "version": "1.0.0",
+    "name": "NonIndividualSpecialtiesVS",
+    "title": "Non-Individual Specialties",
+    "status": "active",
+    "date": "2020-11-19T23:52:52+00:00",
+    "publisher": "HL7 Financial Management Working Group",
+    "contact": [
+        {
+            "name": "HL7 Financial Management Working Group",
+            "telecom": [
+                {
+                    "system": "url",
+                    "value": "http://www.hl7.org/Special/committees/fm/index.cfm"
+                },
+                {
+                    "system": "email",
+                    "value": "fm@lists.HL7.org"
+                }
+            ]
+        }
+    ],
+    "description": "Non-Individual Specialties from National Uniform Claim Committee (NUCC) Health Care Provider Taxonomy code set.",
+    "jurisdiction": [
+        {
+            "coding": [
+                {
+                    "system": "urn:iso:std:iso:3166",
+                    "code": "US"
+                }
+            ]
+        }
+    ],
+    "compose": {
+        "include": [
+            {
+                "system": "http://nucc.org/provider-taxonomy",
+                "concept": [
+                    {
+                        "code": "251300000X",
+                        "display": "Local Education Agency (LEA)"
+                    },
+                    {
+                        "code": "251B00000X",
+                        "display": "Case Management Agency"
+                    },
+                    {
+                        "code": "251C00000X",
+                        "display": "Developmentally Disabled Services Day Training Agency"
+                    },
+                    {
+                        "code": "251E00000X",
+                        "display": "Home Health Agency"
+                    },
+                    {
+                        "code": "251F00000X",
+                        "display": "Home Infusion Agency"
+                    },
+                    {
+                        "code": "251G00000X",
+                        "display": "Community Based Hospice Care Agency"
+                    },
+                    {
+                        "code": "251J00000X",
+                        "display": "Nursing Care Agency"
+                    },
+                    {
+                        "code": "251K00000X",
+                        "display": "Public Health or Welfare Agency"
+                    },
+                    {
+                        "code": "251S00000X",
+                        "display": "Community/Behavioral Health Agency"
+                    },
+                    {
+                        "code": "251T00000X",
+                        "display": "PACE Provider Organization"
+                    },
+                    {
+                        "code": "251V00000X",
+                        "display": "Voluntary or Charitable Agency"
+                    },
+                    {
+                        "code": "251X00000X",
+                        "display": "Supports Brokerage Agency"
+                    },
+                    {
+                        "code": "252Y00000X",
+                        "display": "Early Intervention Provider Agency"
+                    },
+                    {
+                        "code": "253J00000X",
+                        "display": "Foster Care Agency"
+                    },
+                    {
+                        "code": "253Z00000X",
+                        "display": "In Home Supportive Care Agency"
+                    },
+                    {
+                        "code": "261Q00000X",
+                        "display": "Clinic/Center"
+                    },
+                    {
+                        "code": "261QA0005X",
+                        "display": "Ambulatory Family Planning Facility"
+                    },
+                    {
+                        "code": "261QA0006X",
+                        "display": "Ambulatory Fertility Facility"
+                    },
+                    {
+                        "code": "261QA0600X",
+                        "display": "Adult Day Care Clinic/Center"
+                    },
+                    {
+                        "code": "261QA0900X",
+                        "display": "Amputee Clinic/Center"
+                    },
+                    {
+                        "code": "261QA1903X",
+                        "display": "Ambulatory Surgical Clinic/Center"
+                    },
+                    {
+                        "code": "261QA3000X",
+                        "display": "Augmentative Communication Clinic/Center"
+                    },
+                    {
+                        "code": "261QB0400X",
+                        "display": "Birthing Clinic/Center"
+                    },
+                    {
+                        "code": "261QC0050X",
+                        "display": "Critical Access Hospital Clinic/Center"
+                    },
+                    {
+                        "code": "261QC1500X",
+                        "display": "Community Health Clinic/Center"
+                    },
+                    {
+                        "code": "261QC1800X",
+                        "display": "Corporate Health Clinic/Center"
+                    },
+                    {
+                        "code": "261QD0000X",
+                        "display": "Dental Clinic/Center"
+                    },
+                    {
+                        "code": "261QD1600X",
+                        "display": "Developmental Disabilities Clinic/Center"
+                    },
+                    {
+                        "code": "261QE0002X",
+                        "display": "Emergency Care Clinic/Center"
+                    },
+                    {
+                        "code": "261QE0700X",
+                        "display": "End-Stage Renal Disease (ESRD) Treatment Clinic/Center"
+                    },
+                    {
+                        "code": "261QE0800X",
+                        "display": "Endoscopy Clinic/Center"
+                    },
+                    {
+                        "code": "261QF0050X",
+                        "display": "Non-Surgical Family Planning Clinic/Center"
+                    },
+                    {
+                        "code": "261QF0400X",
+                        "display": "Federally Qualified Health Center (FQHC)"
+                    },
+                    {
+                        "code": "261QG0250X",
+                        "display": "Genetics Clinic/Center"
+                    },
+                    {
+                        "code": "261QH0100X",
+                        "display": "Health Service Clinic/Center"
+                    },
+                    {
+                        "code": "261QH0700X",
+                        "display": "Hearing and Speech Clinic/Center"
+                    },
+                    {
+                        "code": "261QI0500X",
+                        "display": "Infusion Therapy Clinic/Center"
+                    },
+                    {
+                        "code": "261QL0400X",
+                        "display": "Lithotripsy Clinic/Center"
+                    },
+                    {
+                        "code": "261QM0801X",
+                        "display": "Mental Health Clinic/Center (Including Community Mental Health Center)"
+                    },
+                    {
+                        "code": "261QM0850X",
+                        "display": "Adult Mental Health Clinic/Center"
+                    },
+                    {
+                        "code": "261QM0855X",
+                        "display": "Adolescent and Children Mental Health Clinic/Center"
+                    },
+                    {
+                        "code": "261QM1000X",
+                        "display": "Migrant Health Clinic/Center"
+                    },
+                    {
+                        "code": "261QM1100X",
+                        "display": "Military/U.S. Coast Guard Outpatient Clinic/Center"
+                    },
+                    {
+                        "code": "261QM1101X",
+                        "display": "Military and U.S. Coast Guard Ambulatory Procedure Clinic/Center"
+                    },
+                    {
+                        "code": "261QM1102X",
+                        "display": "Military Outpatient Operational (Transportable) Component Clinic/Center"
+                    },
+                    {
+                        "code": "261QM1103X",
+                        "display": "Military Ambulatory Procedure Visits Operational (Transportable) Clinic/Center"
+                    },
+                    {
+                        "code": "261QM1200X",
+                        "display": "Magnetic Resonance Imaging (MRI) Clinic/Center"
+                    },
+                    {
+                        "code": "261QM1300X",
+                        "display": "Multi-Specialty Clinic/Center"
+                    },
+                    {
+                        "code": "261QM2500X",
+                        "display": "Medical Specialty Clinic/Center"
+                    },
+                    {
+                        "code": "261QM2800X",
+                        "display": "Methadone Clinic"
+                    },
+                    {
+                        "code": "261QM3000X",
+                        "display": "Medically Fragile Infants and Children Day Care"
+                    },
+                    {
+                        "code": "261QP0904X",
+                        "display": "Federal Public Health Clinic/Center"
+                    },
+                    {
+                        "code": "261QP0905X",
+                        "display": "State or Local Public Health Clinic/Center"
+                    },
+                    {
+                        "code": "261QP1100X",
+                        "display": "Podiatric Clinic/Center"
+                    },
+                    {
+                        "code": "261QP2000X",
+                        "display": "Physical Therapy Clinic/Center"
+                    },
+                    {
+                        "code": "261QP2300X",
+                        "display": "Primary Care Clinic/Center"
+                    },
+                    {
+                        "code": "261QP2400X",
+                        "display": "Prison Health Clinic/Center"
+                    },
+                    {
+                        "code": "261QP3300X",
+                        "display": "Pain Clinic/Center"
+                    },
+                    {
+                        "code": "261QR0200X",
+                        "display": "Radiology Clinic/Center"
+                    },
+                    {
+                        "code": "261QR0206X",
+                        "display": "Mammography Clinic/Center"
+                    },
+                    {
+                        "code": "261QR0207X",
+                        "display": "Mobile Mammography Clinic/Center"
+                    },
+                    {
+                        "code": "261QR0208X",
+                        "display": "Mobile Radiology Clinic/Center"
+                    },
+                    {
+                        "code": "261QR0400X",
+                        "display": "Rehabilitation Clinic/Center"
+                    },
+                    {
+                        "code": "261QR0401X",
+                        "display": "Comprehensive Outpatient Rehabilitation Facility (CORF)"
+                    },
+                    {
+                        "code": "261QR0404X",
+                        "display": "Cardiac Rehabilitation Clinic/Center"
+                    },
+                    {
+                        "code": "261QR0405X",
+                        "display": "Substance Use Disorder Rehabilitation Clinic/Center"
+                    },
+                    {
+                        "code": "261QR0800X",
+                        "display": "Recovery Care Clinic/Center"
+                    },
+                    {
+                        "code": "261QR1100X",
+                        "display": "Research Clinic/Center"
+                    },
+                    {
+                        "code": "261QR1300X",
+                        "display": "Rural Health Clinic/Center"
+                    },
+                    {
+                        "code": "261QS0112X",
+                        "display": "Oral and Maxillofacial Surgery Clinic/Center"
+                    },
+                    {
+                        "code": "261QS0132X",
+                        "display": "Ophthalmologic Surgery Clinic/Center"
+                    },
+                    {
+                        "code": "261QS1000X",
+                        "display": "Student Health Clinic/Center"
+                    },
+                    {
+                        "code": "261QS1200X",
+                        "display": "Sleep Disorder Diagnostic Clinic/Center"
+                    },
+                    {
+                        "code": "261QU0200X",
+                        "display": "Urgent Care Clinic/Center"
+                    },
+                    {
+                        "code": "261QV0200X",
+                        "display": "VA Clinic/Center"
+                    },
+                    {
+                        "code": "261QX0100X",
+                        "display": "Occupational Medicine Clinic/Center"
+                    },
+                    {
+                        "code": "261QX0200X",
+                        "display": "Oncology Clinic/Center"
+                    },
+                    {
+                        "code": "261QX0203X",
+                        "display": "Radiation Oncology Clinic/Center"
+                    },
+                    {
+                        "code": "273100000X",
+                        "display": "Epilepsy Hospital Unit"
+                    },
+                    {
+                        "code": "273R00000X",
+                        "display": "Psychiatric Hospital Unit"
+                    },
+                    {
+                        "code": "273Y00000X",
+                        "display": "Rehabilitation Hospital Unit"
+                    },
+                    {
+                        "code": "275N00000X",
+                        "display": "Medicare Defined Swing Bed Hospital Unit"
+                    },
+                    {
+                        "code": "276400000X",
+                        "display": "Substance Use Disorder Rehabilitation Hospital Unit"
+                    },
+                    {
+                        "code": "281P00000X",
+                        "display": "Chronic Disease Hospital"
+                    },
+                    {
+                        "code": "281PC2000X",
+                        "display": "Children' s Chronic Disease Hospital"
+                    },
+                    {
+                        "code": "282E00000X",
+                        "display": "Long Term Care Hospital"
+                    },
+                    {
+                        "code": "282J00000X",
+                        "display": "Religious Nonmedical Health Care Institution"
+                    },
+                    {
+                        "code": "282N00000X",
+                        "display": "General Acute Care Hospital"
+                    },
+                    {
+                        "code": "282NC0060X",
+                        "display": "Critical Access Hospital"
+                    },
+                    {
+                        "code": "282NC2000X",
+                        "display": "Children's Hospital"
+                    },
+                    {
+                        "code": "282NR1301X",
+                        "display": "Rural Acute Care Hospital"
+                    },
+                    {
+                        "code": "282NW0100X",
+                        "display": "Women's Hospital"
+                    },
+                    {
+                        "code": "283Q00000X",
+                        "display": "Psychiatric Hospital"
+                    },
+                    {
+                        "code": "283X00000X",
+                        "display": "Rehabilitation Hospital"
+                    },
+                    {
+                        "code": "283XC2000X",
+                        "display": "Children's Rehabilitation Hospital"
+                    },
+                    {
+                        "code": "284300000X",
+                        "display": "Special Hospital"
+                    },
+                    {
+                        "code": "286500000X",
+                        "display": "Military Hospital"
+                    },
+                    {
+                        "code": "2865M2000X",
+                        "display": "Military General Acute Care Hospital"
+                    },
+                    {
+                        "code": "2865X1600X",
+                        "display": "Operational (Transportable) Military General Acute Care Hospital"
+                    },
+                    {
+                        "code": "291900000X",
+                        "display": "Military Clinical Medical Laboratory"
+                    },
+                    {
+                        "code": "291U00000X",
+                        "display": "Clinical Medical Laboratory"
+                    },
+                    {
+                        "code": "292200000X",
+                        "display": "Dental Laboratory"
+                    },
+                    {
+                        "code": "293D00000X",
+                        "display": "Physiological Laboratory"
+                    },
+                    {
+                        "code": "302F00000X",
+                        "display": "Exclusive Provider Organization"
+                    },
+                    {
+                        "code": "302R00000X",
+                        "display": "Health Maintenance Organization"
+                    },
+                    {
+                        "code": "305R00000X",
+                        "display": "Preferred Provider Organization"
+                    },
+                    {
+                        "code": "305S00000X",
+                        "display": "Point of Service"
+                    },
+                    {
+                        "code": "310400000X",
+                        "display": "Assisted Living Facility"
+                    },
+                    {
+                        "code": "3104A0625X",
+                        "display": "Assisted Living Facility (Mental Illness)"
+                    },
+                    {
+                        "code": "3104A0630X",
+                        "display": "Assisted Living Facility (Behavioral Disturbances)"
+                    },
+                    {
+                        "code": "310500000X",
+                        "display": "Mental Illness Intermediate Care Facility"
+                    },
+                    {
+                        "code": "311500000X",
+                        "display": "Alzheimer Center (Dementia Center)"
+                    },
+                    {
+                        "code": "311Z00000X",
+                        "display": "Custodial Care Facility"
+                    },
+                    {
+                        "code": "311ZA0620X",
+                        "display": "Adult Care Home Facility"
+                    },
+                    {
+                        "code": "313M00000X",
+                        "display": "Nursing Facility/Intermediate Care Facility"
+                    },
+                    {
+                        "code": "314000000X",
+                        "display": "Skilled Nursing Facility"
+                    },
+                    {
+                        "code": "3140N1450X",
+                        "display": "Pediatric Skilled Nursing Facility"
+                    },
+                    {
+                        "code": "315D00000X",
+                        "display": "Inpatient Hospice"
+                    },
+                    {
+                        "code": "315P00000X",
+                        "display": "Intellectual Disabilities Intermediate Care Facility"
+                    },
+                    {
+                        "code": "174200000X",
+                        "display": "Meals Provider"
+                    },
+                    {
+                        "code": "177F00000X",
+                        "display": "Lodging Provider"
+                    },
+                    {
+                        "code": "320600000X",
+                        "display": "Intellectual and/or Developmental Disabilities Residential Treatment Facility"
+                    },
+                    {
+                        "code": "320700000X",
+                        "display": "Physical Disabilities Residential Treatment Facility"
+                    },
+                    {
+                        "code": "320800000X",
+                        "display": "Mental Illness Community Based Residential Treatment Facility"
+                    },
+                    {
+                        "code": "320900000X",
+                        "display": "Intellectual and/or Developmental Disabilities Community Based Residential Treatment Facility"
+                    },
+                    {
+                        "code": "322D00000X",
+                        "display": "Emotionally Disturbed Childrens' Residential Treatment Facility"
+                    },
+                    {
+                        "code": "323P00000X",
+                        "display": "Psychiatric Residential Treatment Facility"
+                    },
+                    {
+                        "code": "324500000X",
+                        "display": "Substance Abuse Rehabilitation Facility"
+                    },
+                    {
+                        "code": "3245S0500X",
+                        "display": "Children's Substance Abuse Rehabilitation Facility"
+                    },
+                    {
+                        "code": "385H00000X",
+                        "display": "Respite Care"
+                    },
+                    {
+                        "code": "385HR2050X",
+                        "display": "Respite Care Camp"
+                    },
+                    {
+                        "code": "385HR2055X",
+                        "display": "Child Mental Illness Respite Care"
+                    },
+                    {
+                        "code": "385HR2060X",
+                        "display": "Child Intellectual and/or Developmental Disabilities Respite Care"
+                    },
+                    {
+                        "code": "385HR2065X",
+                        "display": "Child Physical Disabilities Respite Care"
+                    },
+                    {
+                        "code": "331L00000X",
+                        "display": "Blood Bank"
+                    },
+                    {
+                        "code": "332000000X",
+                        "display": "Military/U.S. Coast Guard Pharmacy"
+                    },
+                    {
+                        "code": "332100000X",
+                        "display": "Department of Veterans Affairs (VA) Pharmacy"
+                    },
+                    {
+                        "code": "332800000X",
+                        "display": "Indian Health Service/Tribal/Urban Indian Health (I/T/U) Pharmacy"
+                    },
+                    {
+                        "code": "332900000X",
+                        "display": "Non-Pharmacy Dispensing Site"
+                    },
+                    {
+                        "code": "332B00000X",
+                        "display": "Durable Medical Equipment & Medical Supplies"
+                    },
+                    {
+                        "code": "332BC3200X",
+                        "display": "Customized Equipment (DME)"
+                    },
+                    {
+                        "code": "332BD1200X",
+                        "display": "Dialysis Equipment & Supplies (DME)"
+                    },
+                    {
+                        "code": "332BN1400X",
+                        "display": "Nursing Facility Supplies (DME)"
+                    },
+                    {
+                        "code": "332BP3500X",
+                        "display": "Parenteral & Enteral Nutrition Supplies (DME)"
+                    },
+                    {
+                        "code": "332BX2000X",
+                        "display": "Oxygen Equipment & Supplies (DME)"
+                    },
+                    {
+                        "code": "332G00000X",
+                        "display": "Eye Bank"
+                    },
+                    {
+                        "code": "332H00000X",
+                        "display": "Eyewear Supplier"
+                    },
+                    {
+                        "code": "332S00000X",
+                        "display": "Hearing Aid Equipment"
+                    },
+                    {
+                        "code": "332U00000X",
+                        "display": "Home Delivered Meals"
+                    },
+                    {
+                        "code": "333300000X",
+                        "display": "Emergency Response System Companies"
+                    },
+                    {
+                        "code": "333600000X",
+                        "display": "Pharmacy"
+                    },
+                    {
+                        "code": "3336C0002X",
+                        "display": "Clinic Pharmacy"
+                    },
+                    {
+                        "code": "3336C0003X",
+                        "display": "Community/Retail Pharmacy"
+                    },
+                    {
+                        "code": "3336C0004X",
+                        "display": "Compounding Pharmacy"
+                    },
+                    {
+                        "code": "3336H0001X",
+                        "display": "Home Infusion Therapy Pharmacy"
+                    },
+                    {
+                        "code": "3336I0012X",
+                        "display": "Institutional Pharmacy"
+                    },
+                    {
+                        "code": "3336L0003X",
+                        "display": "Long Term Care Pharmacy"
+                    },
+                    {
+                        "code": "3336M0002X",
+                        "display": "Mail Order Pharmacy"
+                    },
+                    {
+                        "code": "3336M0003X",
+                        "display": "Managed Care Organization Pharmacy"
+                    },
+                    {
+                        "code": "3336N0007X",
+                        "display": "Nuclear Pharmacy"
+                    },
+                    {
+                        "code": "3336S0011X",
+                        "display": "Specialty Pharmacy"
+                    },
+                    {
+                        "code": "335E00000X",
+                        "display": "Prosthetic/Orthotic Supplier"
+                    },
+                    {
+                        "code": "335G00000X",
+                        "display": "Medical Foods Supplier"
+                    },
+                    {
+                        "code": "335U00000X",
+                        "display": "Organ Procurement Organization"
+                    },
+                    {
+                        "code": "335V00000X",
+                        "display": "Portable X-ray and/or Other Portable Diagnostic Imaging Supplier"
+                    },
+                    {
+                        "code": "341600000X",
+                        "display": "Ambulance"
+                    },
+                    {
+                        "code": "3416A0800X",
+                        "display": "Air Ambulance"
+                    },
+                    {
+                        "code": "3416L0300X",
+                        "display": "Land Ambulance"
+                    },
+                    {
+                        "code": "3416S0300X",
+                        "display": "Water Ambulance"
+                    },
+                    {
+                        "code": "341800000X",
+                        "display": "Military/U.S. Coast Guard Transport,"
+                    },
+                    {
+                        "code": "3418M1110X",
+                        "display": "Military or U.S. Coast Guard Ground Transport Ambulance"
+                    },
+                    {
+                        "code": "3418M1120X",
+                        "display": "Military or U.S. Coast Guard Air Transport Ambulance"
+                    },
+                    {
+                        "code": "3418M1130X",
+                        "display": "Military or U.S. Coast Guard Water Transport Ambulance"
+                    },
+                    {
+                        "code": "343800000X",
+                        "display": "Secured Medical Transport (VAN)"
+                    },
+                    {
+                        "code": "343900000X",
+                        "display": "Non-emergency Medical Transport (VAN)"
+                    },
+                    {
+                        "code": "344600000X",
+                        "display": "Taxi"
+                    },
+                    {
+                        "code": "344800000X",
+                        "display": "Air Carrier"
+                    },
+                    {
+                        "code": "347B00000X",
+                        "display": "Bus"
+                    },
+                    {
+                        "code": "347C00000X",
+                        "display": "Private Vehicle"
+                    },
+                    {
+                        "code": "347D00000X",
+                        "display": "Train"
+                    },
+                    {
+                        "code": "347E00000X",
+                        "display": "Transportation Broker"
+                    }
+                ]
+            }
+        ]
+    }
+}

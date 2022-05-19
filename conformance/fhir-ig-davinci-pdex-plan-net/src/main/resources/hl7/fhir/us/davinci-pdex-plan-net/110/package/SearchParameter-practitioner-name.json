@@ -1,0 +1,53 @@
+{
+    "resourceType": "SearchParameter",
+    "id": "practitioner-name",
+    "text": {
+        "status": "empty",
+        "div": "<div xmlns=\"http://www.w3.org/1999/xhtml\">Redacted for size</div>"
+    },
+    "url": "http://hl7.org/fhir/us/davinci-pdex-plan-net/SearchParameter/practitioner-name",
+    "version": "1.1.0",
+    "name": "Plannet_sp_practitioner_name",
+    "derivedFrom": "http://hl7.org/fhir/SearchParameter/Practitioner-name",
+    "status": "active",
+    "date": "2018-05-23T00:00:00+00:00",
+    "publisher": "HL7 Financial Management Working Group",
+    "contact": [
+        {
+            "name": "HL7 Financial Management Working Group",
+            "telecom": [
+                {
+                    "system": "url",
+                    "value": "http://www.hl7.org/Special/committees/fm"
+                },
+                {
+                    "system": "email",
+                    "value": "fm@lists.HL7.org"
+                }
+            ]
+        }
+    ],
+    "description": "Select Practitioners with the specified name (matches against any of the elements in the HumanName data type)",
+    "jurisdiction": [
+        {
+            "coding": [
+                {
+                    "system": "urn:iso:std:iso:3166",
+                    "code": "US"
+                }
+            ]
+        }
+    ],
+    "code": "name",
+    "base": [
+        "Practitioner"
+    ],
+    "type": "string",
+    "expression": "Practitioner.name",
+    "multipleOr": true,
+    "multipleAnd": true,
+    "modifier": [
+        "exact",
+        "contains"
+    ]
+}

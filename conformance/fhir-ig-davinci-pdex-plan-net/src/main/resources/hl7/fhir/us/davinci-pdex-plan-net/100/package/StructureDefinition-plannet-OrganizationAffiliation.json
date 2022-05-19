@@ -1,0 +1,2298 @@
+{
+    "resourceType": "StructureDefinition",
+    "id": "plannet-OrganizationAffiliation",
+    "text": {
+        "status": "empty",
+        "div": "<div xmlns=\"http://www.w3.org/1999/xhtml\">Redacted for size</div>"
+    },
+    "extension": [
+        {
+            "url": "http://hl7.org/fhir/StructureDefinition/structuredefinition-category",
+            "valueString": "Base.Entities"
+        },
+        {
+            "url": "http://hl7.org/fhir/StructureDefinition/structuredefinition-security-category",
+            "valueCode": "business"
+        }
+    ],
+    "url": "http://hl7.org/fhir/us/davinci-pdex-plan-net/StructureDefinition/plannet-OrganizationAffiliation",
+    "version": "1.0.0",
+    "name": "PlannetOrganizationAffiliation",
+    "title": "Plan-Net OrganizationAffiliation",
+    "status": "active",
+    "date": "2020-11-19T23:52:52+00:00",
+    "publisher": "HL7 Financial Management Working Group",
+    "contact": [
+        {
+            "name": "HL7 Financial Management Working Group",
+            "telecom": [
+                {
+                    "system": "url",
+                    "value": "http://www.hl7.org/Special/committees/fm/index.cfm"
+                },
+                {
+                    "system": "email",
+                    "value": "fm@lists.HL7.org"
+                }
+            ]
+        }
+    ],
+    "description": "The OrganizationAffiliation resource describes relationships between two or more organizations, including the services one organization provides another, the location(s) where they provide services, the availability of those services, electronic endpoints, and other relevant information.",
+    "jurisdiction": [
+        {
+            "coding": [
+                {
+                    "system": "urn:iso:std:iso:3166",
+                    "code": "US"
+                }
+            ]
+        }
+    ],
+    "fhirVersion": "4.0.1",
+    "mapping": [
+        {
+            "identity": "rim",
+            "uri": "http://hl7.org/v3",
+            "name": "RIM Mapping"
+        },
+        {
+            "identity": "w5",
+            "uri": "http://hl7.org/fhir/fivews",
+            "name": "FiveWs Pattern Mapping"
+        }
+    ],
+    "kind": "resource",
+    "abstract": false,
+    "type": "OrganizationAffiliation",
+    "baseDefinition": "http://hl7.org/fhir/StructureDefinition/OrganizationAffiliation",
+    "derivation": "constraint",
+    "snapshot": {
+        "element": [
+            {
+                "id": "OrganizationAffiliation",
+                "path": "OrganizationAffiliation",
+                "short": "Defines an affiliation/assotiation/relationship between 2 distinct oganizations, that is not a part-of relationship/sub-division relationship",
+                "definition": "Defines an affiliation/assotiation/relationship between 2 distinct oganizations, that is not a part-of relationship/sub-division relationship.",
+                "min": 0,
+                "max": "*",
+                "base": {
+                    "path": "OrganizationAffiliation",
+                    "min": 0,
+                    "max": "*"
+                },
+                "constraint": [
+                    {
+                        "key": "dom-2",
+                        "severity": "error",
+                        "human": "If the resource is contained in another resource, it SHALL NOT contain nested Resources",
+                        "expression": "contained.contained.empty()",
+                        "xpath": "not(parent::f:contained and f:contained)",
+                        "source": "http://hl7.org/fhir/StructureDefinition/DomainResource"
+                    },
+                    {
+                        "key": "dom-3",
+                        "severity": "error",
+                        "human": "If the resource is contained in another resource, it SHALL be referred to from elsewhere in the resource or SHALL refer to the containing resource",
+                        "expression": "contained.where((('#'+id in (%resource.descendants().reference | %resource.descendants().as(canonical) | %resource.descendants().as(uri) | %resource.descendants().as(url))) or descendants().where(reference = '#').exists() or descendants().where(as(canonical) = '#').exists() or descendants().where(as(canonical) = '#').exists()).not()).trace('unmatched', id).empty()",
+                        "xpath": "not(exists(for $id in f:contained/*/f:id/@value return $contained[not(parent::*/descendant::f:reference/@value=concat('#', $contained/*/id/@value) or descendant::f:reference[@value='#'])]))",
+                        "source": "http://hl7.org/fhir/StructureDefinition/DomainResource"
+                    },
+                    {
+                        "key": "dom-4",
+                        "severity": "error",
+                        "human": "If a resource is contained in another resource, it SHALL NOT have a meta.versionId or a meta.lastUpdated",
+                        "expression": "contained.meta.versionId.empty() and contained.meta.lastUpdated.empty()",
+                        "xpath": "not(exists(f:contained/*/f:meta/f:versionId)) and not(exists(f:contained/*/f:meta/f:lastUpdated))",
+                        "source": "http://hl7.org/fhir/StructureDefinition/DomainResource"
+                    },
+                    {
+                        "key": "dom-5",
+                        "severity": "error",
+                        "human": "If a resource is contained in another resource, it SHALL NOT have a security label",
+                        "expression": "contained.meta.security.empty()",
+                        "xpath": "not(exists(f:contained/*/f:meta/f:security))",
+                        "source": "http://hl7.org/fhir/StructureDefinition/DomainResource"
+                    },
+                    {
+                        "extension": [
+                            {
+                                "url": "http://hl7.org/fhir/StructureDefinition/elementdefinition-bestpractice",
+                                "valueBoolean": true
+                            },
+                            {
+                                "url": "http://hl7.org/fhir/StructureDefinition/elementdefinition-bestpractice-explanation",
+                                "valueMarkdown": "When a resource has no narrative, only systems that fully understand the data can display the resource to a human safely. Including a human readable representation in the resource makes for a much more robust eco-system and cheaper handling of resources by intermediary systems. Some ecosystems restrict distribution of resources to only those systems that do fully understand the resources, and as a consequence implementers may believe that the narrative is superfluous. However experience shows that such eco-systems often open up to new participants over time."
+                            }
+                        ],
+                        "key": "dom-6",
+                        "severity": "warning",
+                        "human": "A resource should have narrative for robust management",
+                        "expression": "text.`div`.exists()",
+                        "xpath": "exists(f:text/h:div)",
+                        "source": "http://hl7.org/fhir/StructureDefinition/DomainResource"
+                    },
+                    {
+                        "key": "organization-or-participatingOrganization",
+                        "severity": "error",
+                        "human": "PlannetOrganizationAffiliation.organization or  PlannetOrganizationAffiliation.participatingOrganization",
+                        "expression": "organization.exists() or participatingOrganization.exists()",
+                        "source": "http://hl7.org/fhir/us/davinci-pdex-plan-net/StructureDefinition/plannet-OrganizationAffiliation"
+                    }
+                ],
+                "isModifier": false,
+                "isSummary": false,
+                "mapping": [
+                    {
+                        "identity": "rim",
+                        "map": "Entity. Role, or Act"
+                    },
+                    {
+                        "identity": "rim",
+                        "map": "Role"
+                    }
+                ]
+            },
+            {
+                "id": "OrganizationAffiliation.id",
+                "path": "OrganizationAffiliation.id",
+                "short": "Logical id of this artifact",
+                "definition": "The logical id of the resource, as used in the URL for the resource. Once assigned, this value never changes.",
+                "comment": "The only time that a resource does not have an id is when it is being submitted to the server using a create operation.",
+                "min": 0,
+                "max": "1",
+                "base": {
+                    "path": "Resource.id",
+                    "min": 0,
+                    "max": "1"
+                },
+                "type": [
+                    {
+                        "extension": [
+                            {
+                                "url": "http://hl7.org/fhir/StructureDefinition/structuredefinition-fhir-type",
+                                "valueUrl": "string"
+                            }
+                        ],
+                        "code": "http://hl7.org/fhirpath/System.String"
+                    }
+                ],
+                "isModifier": false,
+                "isSummary": true
+            },
+            {
+                "id": "OrganizationAffiliation.meta",
+                "path": "OrganizationAffiliation.meta",
+                "short": "Metadata about the resource",
+                "definition": "The metadata about the resource. This is content that is maintained by the infrastructure. Changes to the content might not always be associated with version changes to the resource.",
+                "min": 0,
+                "max": "1",
+                "base": {
+                    "path": "Resource.meta",
+                    "min": 0,
+                    "max": "1"
+                },
+                "type": [
+                    {
+                        "code": "Meta"
+                    }
+                ],
+                "constraint": [
+                    {
+                        "key": "ele-1",
+                        "severity": "error",
+                        "human": "All FHIR elements must have a @value or children",
+                        "expression": "hasValue() or (children().count() > id.count())",
+                        "xpath": "@value|f:*|h:div",
+                        "source": "http://hl7.org/fhir/StructureDefinition/Element"
+                    }
+                ],
+                "isModifier": false,
+                "isSummary": true
+            },
+            {
+                "id": "OrganizationAffiliation.meta.id",
+                "path": "OrganizationAffiliation.meta.id",
+                "representation": [
+                    "xmlAttr"
+                ],
+                "short": "Unique id for inter-element referencing",
+                "definition": "Unique id for the element within a resource (for internal references). This may be any string value that does not contain spaces.",
+                "min": 0,
+                "max": "1",
+                "base": {
+                    "path": "Element.id",
+                    "min": 0,
+                    "max": "1"
+                },
+                "type": [
+                    {
+                        "extension": [
+                            {
+                                "url": "http://hl7.org/fhir/StructureDefinition/structuredefinition-fhir-type",
+                                "valueUrl": "string"
+                            }
+                        ],
+                        "code": "http://hl7.org/fhirpath/System.String"
+                    }
+                ],
+                "isModifier": false,
+                "isSummary": false,
+                "mapping": [
+                    {
+                        "identity": "rim",
+                        "map": "n/a"
+                    }
+                ]
+            },
+            {
+                "id": "OrganizationAffiliation.meta.extension",
+                "path": "OrganizationAffiliation.meta.extension",
+                "slicing": {
+                    "discriminator": [
+                        {
+                            "type": "value",
+                            "path": "url"
+                        }
+                    ],
+                    "description": "Extensions are always sliced by (at least) url",
+                    "rules": "open"
+                },
+                "short": "Additional content defined by implementations",
+                "definition": "May be used to represent additional information that is not part of the basic definition of the element. To make the use of extensions safe and manageable, there is a strict set of governance  applied to the definition and use of extensions. Though any implementer can define an extension, there is a set of requirements that SHALL be met as part of the definition of the extension.",
+                "comment": "There can be no stigma associated with the use of extensions by any application, project, or standard - regardless of the institution or jurisdiction that uses or defines the extensions.  The use of extensions is what allows the FHIR specification to retain a core level of simplicity for everyone.",
+                "alias": [
+                    "extensions",
+                    "user content"
+                ],
+                "min": 0,
+                "max": "*",
+                "base": {
+                    "path": "Element.extension",
+                    "min": 0,
+                    "max": "*"
+                },
+                "type": [
+                    {
+                        "code": "Extension"
+                    }
+                ],
+                "constraint": [
+                    {
+                        "key": "ele-1",
+                        "severity": "error",
+                        "human": "All FHIR elements must have a @value or children",
+                        "expression": "hasValue() or (children().count() > id.count())",
+                        "xpath": "@value|f:*|h:div",
+                        "source": "http://hl7.org/fhir/StructureDefinition/Element"
+                    },
+                    {
+                        "key": "ext-1",
+                        "severity": "error",
+                        "human": "Must have either extensions or value[x], not both",
+                        "expression": "extension.exists() != value.exists()",
+                        "xpath": "exists(f:extension)!=exists(f:*[starts-with(local-name(.), \"value\")])",
+                        "source": "http://hl7.org/fhir/StructureDefinition/Extension"
+                    }
+                ],
+                "isModifier": false,
+                "isSummary": false,
+                "mapping": [
+                    {
+                        "identity": "rim",
+                        "map": "n/a"
+                    }
+                ]
+            },
+            {
+                "id": "OrganizationAffiliation.meta.versionId",
+                "path": "OrganizationAffiliation.meta.versionId",
+                "short": "Version specific identifier",
+                "definition": "The version specific identifier, as it appears in the version portion of the URL. This value changes when the resource is created, updated, or deleted.",
+                "comment": "The server assigns this value, and ignores what the client specifies, except in the case that the server is imposing version integrity on updates/deletes.",
+                "min": 0,
+                "max": "1",
+                "base": {
+                    "path": "Meta.versionId",
+                    "min": 0,
+                    "max": "1"
+                },
+                "type": [
+                    {
+                        "code": "id"
+                    }
+                ],
+                "constraint": [
+                    {
+                        "key": "ele-1",
+                        "severity": "error",
+                        "human": "All FHIR elements must have a @value or children",
+                        "expression": "hasValue() or (children().count() > id.count())",
+                        "xpath": "@value|f:*|h:div",
+                        "source": "http://hl7.org/fhir/StructureDefinition/Element"
+                    }
+                ],
+                "isModifier": false,
+                "isSummary": true
+            },
+            {
+                "id": "OrganizationAffiliation.meta.lastUpdated",
+                "path": "OrganizationAffiliation.meta.lastUpdated",
+                "short": "When the resource version last changed",
+                "definition": "When the resource last changed - e.g. when the version changed.",
+                "comment": "This value is always populated except when the resource is first being created. The server / resource manager sets this value; what a client provides is irrelevant. This is equivalent to the HTTP Last-Modified and SHOULD have the same value on a [read](http://hl7.org/fhir/R4/http.html#read) interaction.",
+                "min": 1,
+                "max": "1",
+                "base": {
+                    "path": "Meta.lastUpdated",
+                    "min": 0,
+                    "max": "1"
+                },
+                "type": [
+                    {
+                        "code": "instant"
+                    }
+                ],
+                "constraint": [
+                    {
+                        "key": "ele-1",
+                        "severity": "error",
+                        "human": "All FHIR elements must have a @value or children",
+                        "expression": "hasValue() or (children().count() > id.count())",
+                        "xpath": "@value|f:*|h:div",
+                        "source": "http://hl7.org/fhir/StructureDefinition/Element"
+                    }
+                ],
+                "isModifier": false,
+                "isSummary": true
+            },
+            {
+                "id": "OrganizationAffiliation.meta.source",
+                "path": "OrganizationAffiliation.meta.source",
+                "short": "Identifies where the resource comes from",
+                "definition": "A uri that identifies the source system of the resource. This provides a minimal amount of [Provenance](http://hl7.org/fhir/R4/provenance.html#) information that can be used to track or differentiate the source of information in the resource. The source may identify another FHIR server, document, message, database, etc.",
+                "comment": "In the provenance resource, this corresponds to Provenance.entity.what[x]. The exact use of the source (and the implied Provenance.entity.role) is left to implementer discretion. Only one nominated source is allowed; for additional provenance details, a full Provenance resource should be used. \n\nThis element can be used to indicate where the current master source of a resource that has a canonical URL if the resource is no longer hosted at the canonical URL.",
+                "min": 0,
+                "max": "1",
+                "base": {
+                    "path": "Meta.source",
+                    "min": 0,
+                    "max": "1"
+                },
+                "type": [
+                    {
+                        "code": "uri"
+                    }
+                ],
+                "constraint": [
+                    {
+                        "key": "ele-1",
+                        "severity": "error",
+                        "human": "All FHIR elements must have a @value or children",
+                        "expression": "hasValue() or (children().count() > id.count())",
+                        "xpath": "@value|f:*|h:div",
+                        "source": "http://hl7.org/fhir/StructureDefinition/Element"
+                    }
+                ],
+                "isModifier": false,
+                "isSummary": true
+            },
+            {
+                "id": "OrganizationAffiliation.meta.profile",
+                "path": "OrganizationAffiliation.meta.profile",
+                "short": "Profiles this resource claims to conform to",
+                "definition": "A list of profiles (references to [StructureDefinition](http://hl7.org/fhir/R4/structuredefinition.html#) resources) that this resource claims to conform to. The URL is a reference to [StructureDefinition.url](http://hl7.org/fhir/R4/structuredefinition-definitions.html#StructureDefinition.url).",
+                "comment": "It is up to the server and/or other infrastructure of policy to determine whether/how these claims are verified and/or updated over time.  The list of profile URLs is a set.",
+                "min": 0,
+                "max": "*",
+                "base": {
+                    "path": "Meta.profile",
+                    "min": 0,
+                    "max": "*"
+                },
+                "type": [
+                    {
+                        "code": "canonical",
+                        "targetProfile": [
+                            "http://hl7.org/fhir/StructureDefinition/StructureDefinition"
+                        ]
+                    }
+                ],
+                "constraint": [
+                    {
+                        "key": "ele-1",
+                        "severity": "error",
+                        "human": "All FHIR elements must have a @value or children",
+                        "expression": "hasValue() or (children().count() > id.count())",
+                        "xpath": "@value|f:*|h:div",
+                        "source": "http://hl7.org/fhir/StructureDefinition/Element"
+                    }
+                ],
+                "isModifier": false,
+                "isSummary": true
+            },
+            {
+                "id": "OrganizationAffiliation.meta.security",
+                "path": "OrganizationAffiliation.meta.security",
+                "short": "Security Labels applied to this resource",
+                "definition": "Security labels applied to this resource. These tags connect specific resources to the overall security policy and infrastructure.",
+                "comment": "The security labels can be updated without changing the stated version of the resource. The list of security labels is a set. Uniqueness is based the system/code, and version and display are ignored.",
+                "min": 0,
+                "max": "*",
+                "base": {
+                    "path": "Meta.security",
+                    "min": 0,
+                    "max": "*"
+                },
+                "type": [
+                    {
+                        "code": "Coding"
+                    }
+                ],
+                "constraint": [
+                    {
+                        "key": "ele-1",
+                        "severity": "error",
+                        "human": "All FHIR elements must have a @value or children",
+                        "expression": "hasValue() or (children().count() > id.count())",
+                        "xpath": "@value|f:*|h:div",
+                        "source": "http://hl7.org/fhir/StructureDefinition/Element"
+                    }
+                ],
+                "isModifier": false,
+                "isSummary": true,
+                "binding": {
+                    "extension": [
+                        {
+                            "url": "http://hl7.org/fhir/StructureDefinition/elementdefinition-bindingName",
+                            "valueString": "SecurityLabels"
+                        },
+                        {
+                            "url": "http://hl7.org/fhir/StructureDefinition/elementdefinition-isCommonBinding",
+                            "valueBoolean": true
+                        }
+                    ],
+                    "strength": "extensible",
+                    "description": "Security Labels from the Healthcare Privacy and Security Classification System.",
+                    "valueSet": "http://hl7.org/fhir/ValueSet/security-labels"
+                }
+            },
+            {
+                "id": "OrganizationAffiliation.meta.tag",
+                "path": "OrganizationAffiliation.meta.tag",
+                "short": "Tags applied to this resource",
+                "definition": "Tags applied to this resource. Tags are intended to be used to identify and relate resources to process and workflow, and applications are not required to consider the tags when interpreting the meaning of a resource.",
+                "comment": "The tags can be updated without changing the stated version of the resource. The list of tags is a set. Uniqueness is based the system/code, and version and display are ignored.",
+                "min": 0,
+                "max": "*",
+                "base": {
+                    "path": "Meta.tag",
+                    "min": 0,
+                    "max": "*"
+                },
+                "type": [
+                    {
+                        "code": "Coding"
+                    }
+                ],
+                "constraint": [
+                    {
+                        "key": "ele-1",
+                        "severity": "error",
+                        "human": "All FHIR elements must have a @value or children",
+                        "expression": "hasValue() or (children().count() > id.count())",
+                        "xpath": "@value|f:*|h:div",
+                        "source": "http://hl7.org/fhir/StructureDefinition/Element"
+                    }
+                ],
+                "isModifier": false,
+                "isSummary": true,
+                "binding": {
+                    "extension": [
+                        {
+                            "url": "http://hl7.org/fhir/StructureDefinition/elementdefinition-bindingName",
+                            "valueString": "Tags"
+                        }
+                    ],
+                    "strength": "example",
+                    "description": "Codes that represent various types of tags, commonly workflow-related; e.g. \"Needs review by Dr. Jones\".",
+                    "valueSet": "http://hl7.org/fhir/ValueSet/common-tags"
+                }
+            },
+            {
+                "id": "OrganizationAffiliation.implicitRules",
+                "path": "OrganizationAffiliation.implicitRules",
+                "short": "A set of rules under which this content was created",
+                "definition": "A reference to a set of rules that were followed when the resource was constructed, and which must be understood when processing the content. Often, this is a reference to an implementation guide that defines the special rules along with other profiles etc.",
+                "comment": "Asserting this rule set restricts the content to be only understood by a limited set of trading partners. This inherently limits the usefulness of the data in the long term. However, the existing health eco-system is highly fractured, and not yet ready to define, collect, and exchange data in a generally computable sense. Wherever possible, implementers and/or specification writers should avoid using this element. Often, when used, the URL is a reference to an implementation guide that defines these special rules as part of it's narrative along with other profiles, value sets, etc.",
+                "min": 0,
+                "max": "1",
+                "base": {
+                    "path": "Resource.implicitRules",
+                    "min": 0,
+                    "max": "1"
+                },
+                "type": [
+                    {
+                        "code": "uri"
+                    }
+                ],
+                "constraint": [
+                    {
+                        "key": "ele-1",
+                        "severity": "error",
+                        "human": "All FHIR elements must have a @value or children",
+                        "expression": "hasValue() or (children().count() > id.count())",
+                        "xpath": "@value|f:*|h:div",
+                        "source": "http://hl7.org/fhir/StructureDefinition/Element"
+                    }
+                ],
+                "isModifier": true,
+                "isModifierReason": "This element is labeled as a modifier because the implicit rules may provide additional knowledge about the resource that modifies it's meaning or interpretation",
+                "isSummary": true
+            },
+            {
+                "id": "OrganizationAffiliation.language",
+                "path": "OrganizationAffiliation.language",
+                "short": "Language of the resource content",
+                "definition": "The base language in which the resource is written.",
+                "comment": "Language is provided to support indexing and accessibility (typically, services such as text to speech use the language tag). The html language tag in the narrative applies  to the narrative. The language tag on the resource may be used to specify the language of other presentations generated from the data in the resource. Not all the content has to be in the base language. The Resource.language should not be assumed to apply to the narrative automatically. If a language is specified, it should it also be specified on the div element in the html (see rules in HTML5 for information about the relationship between xml:lang and the html lang attribute).",
+                "min": 0,
+                "max": "1",
+                "base": {
+                    "path": "Resource.language",
+                    "min": 0,
+                    "max": "1"
+                },
+                "type": [
+                    {
+                        "code": "code"
+                    }
+                ],
+                "constraint": [
+                    {
+                        "key": "ele-1",
+                        "severity": "error",
+                        "human": "All FHIR elements must have a @value or children",
+                        "expression": "hasValue() or (children().count() > id.count())",
+                        "xpath": "@value|f:*|h:div",
+                        "source": "http://hl7.org/fhir/StructureDefinition/Element"
+                    }
+                ],
+                "isModifier": false,
+                "isSummary": false,
+                "binding": {
+                    "extension": [
+                        {
+                            "url": "http://hl7.org/fhir/StructureDefinition/elementdefinition-maxValueSet",
+                            "valueCanonical": "http://hl7.org/fhir/ValueSet/all-languages"
+                        },
+                        {
+                            "url": "http://hl7.org/fhir/StructureDefinition/elementdefinition-bindingName",
+                            "valueString": "Language"
+                        },
+                        {
+                            "url": "http://hl7.org/fhir/StructureDefinition/elementdefinition-isCommonBinding",
+                            "valueBoolean": true
+                        }
+                    ],
+                    "strength": "preferred",
+                    "description": "A human language.",
+                    "valueSet": "http://hl7.org/fhir/ValueSet/languages"
+                }
+            },
+            {
+                "id": "OrganizationAffiliation.text",
+                "path": "OrganizationAffiliation.text",
+                "short": "Text summary of the resource, for human interpretation",
+                "definition": "A human-readable narrative that contains a summary of the resource and can be used to represent the content of the resource to a human. The narrative need not encode all the structured data, but is required to contain sufficient detail to make it \"clinically safe\" for a human to just read the narrative. Resource definitions may define what content should be represented in the narrative to ensure clinical safety.",
+                "comment": "Contained resources do not have narrative. Resources that are not contained SHOULD have a narrative. In some cases, a resource may only have text with little or no additional discrete data (as long as all minOccurs=1 elements are satisfied).  This may be necessary for data from legacy systems where information is captured as a \"text blob\" or where text is additionally entered raw or narrated and encoded information is added later.",
+                "alias": [
+                    "narrative",
+                    "html",
+                    "xhtml",
+                    "display"
+                ],
+                "min": 0,
+                "max": "1",
+                "base": {
+                    "path": "DomainResource.text",
+                    "min": 0,
+                    "max": "1"
+                },
+                "type": [
+                    {
+                        "code": "Narrative"
+                    }
+                ],
+                "constraint": [
+                    {
+                        "key": "ele-1",
+                        "severity": "error",
+                        "human": "All FHIR elements must have a @value or children",
+                        "expression": "hasValue() or (children().count() > id.count())",
+                        "xpath": "@value|f:*|h:div",
+                        "source": "http://hl7.org/fhir/StructureDefinition/Element"
+                    }
+                ],
+                "isModifier": false,
+                "isSummary": false,
+                "mapping": [
+                    {
+                        "identity": "rim",
+                        "map": "Act.text?"
+                    }
+                ]
+            },
+            {
+                "id": "OrganizationAffiliation.contained",
+                "path": "OrganizationAffiliation.contained",
+                "short": "Contained, inline Resources",
+                "definition": "These resources do not have an independent existence apart from the resource that contains them - they cannot be identified independently, and nor can they have their own independent transaction scope.",
+                "comment": "This should never be done when the content can be identified properly, as once identification is lost, it is extremely difficult (and context dependent) to restore it again. Contained resources may have profiles and tags In their meta elements, but SHALL NOT have security labels.",
+                "alias": [
+                    "inline resources",
+                    "anonymous resources",
+                    "contained resources"
+                ],
+                "min": 0,
+                "max": "*",
+                "base": {
+                    "path": "DomainResource.contained",
+                    "min": 0,
+                    "max": "*"
+                },
+                "type": [
+                    {
+                        "code": "Resource"
+                    }
+                ],
+                "isModifier": false,
+                "isSummary": false,
+                "mapping": [
+                    {
+                        "identity": "rim",
+                        "map": "N/A"
+                    }
+                ]
+            },
+            {
+                "id": "OrganizationAffiliation.extension",
+                "path": "OrganizationAffiliation.extension",
+                "slicing": {
+                    "discriminator": [
+                        {
+                            "type": "value",
+                            "path": "url"
+                        }
+                    ],
+                    "ordered": false,
+                    "rules": "open"
+                },
+                "short": "Extension",
+                "definition": "An Extension",
+                "min": 0,
+                "max": "*",
+                "base": {
+                    "path": "DomainResource.extension",
+                    "min": 0,
+                    "max": "*"
+                },
+                "type": [
+                    {
+                        "code": "Extension"
+                    }
+                ],
+                "constraint": [
+                    {
+                        "key": "ele-1",
+                        "severity": "error",
+                        "human": "All FHIR elements must have a @value or children",
+                        "expression": "hasValue() or (children().count() > id.count())",
+                        "xpath": "@value|f:*|h:div",
+                        "source": "http://hl7.org/fhir/StructureDefinition/Element"
+                    },
+                    {
+                        "key": "ext-1",
+                        "severity": "error",
+                        "human": "Must have either extensions or value[x], not both",
+                        "expression": "extension.exists() != value.exists()",
+                        "xpath": "exists(f:extension)!=exists(f:*[starts-with(local-name(.), \"value\")])",
+                        "source": "http://hl7.org/fhir/StructureDefinition/Extension"
+                    }
+                ],
+                "isModifier": false,
+                "isSummary": false
+            },
+            {
+                "id": "OrganizationAffiliation.extension:qualification",
+                "path": "OrganizationAffiliation.extension",
+                "sliceName": "qualification",
+                "short": "Optional Extensions Element",
+                "definition": "Optional Extension Element - found in all resources.",
+                "min": 0,
+                "max": "*",
+                "base": {
+                    "path": "DomainResource.extension",
+                    "min": 0,
+                    "max": "*"
+                },
+                "type": [
+                    {
+                        "code": "Extension",
+                        "profile": [
+                            "http://hl7.org/fhir/us/davinci-pdex-plan-net/StructureDefinition/qualification"
+                        ]
+                    }
+                ],
+                "condition": [
+                    "ele-1"
+                ],
+                "constraint": [
+                    {
+                        "key": "ele-1",
+                        "severity": "error",
+                        "human": "All FHIR elements must have a @value or children",
+                        "expression": "hasValue() or (children().count() > id.count())",
+                        "xpath": "@value|f:*|h:div",
+                        "source": "http://hl7.org/fhir/StructureDefinition/Element"
+                    },
+                    {
+                        "key": "ext-1",
+                        "severity": "error",
+                        "human": "Must have either extensions or value[x], not both",
+                        "expression": "extension.exists() != value.exists()",
+                        "xpath": "exists(f:extension)!=exists(f:*[starts-with(local-name(.), 'value')])",
+                        "source": "http://hl7.org/fhir/StructureDefinition/OrganizationAffiliation"
+                    }
+                ],
+                "isModifier": false,
+                "mapping": [
+                    {
+                        "identity": "rim",
+                        "map": "n/a"
+                    },
+                    {
+                        "identity": "rim",
+                        "map": "N/A"
+                    }
+                ]
+            },
+            {
+                "id": "OrganizationAffiliation.modifierExtension",
+                "path": "OrganizationAffiliation.modifierExtension",
+                "short": "Extensions that cannot be ignored",
+                "definition": "May be used to represent additional information that is not part of the basic definition of the resource and that modifies the understanding of the element that contains it and/or the understanding of the containing element's descendants. Usually modifier elements provide negation or qualification. To make the use of extensions safe and manageable, there is a strict set of governance applied to the definition and use of extensions. Though any implementer is allowed to define an extension, there is a set of requirements that SHALL be met as part of the definition of the extension. Applications processing a resource are required to check for modifier extensions.\n\nModifier extensions SHALL NOT change the meaning of any elements on Resource or DomainResource (including cannot change the meaning of modifierExtension itself).",
+                "comment": "There can be no stigma associated with the use of extensions by any application, project, or standard - regardless of the institution or jurisdiction that uses or defines the extensions.  The use of extensions is what allows the FHIR specification to retain a core level of simplicity for everyone.",
+                "requirements": "Modifier extensions allow for extensions that *cannot* be safely ignored to be clearly distinguished from the vast majority of extensions which can be safely ignored.  This promotes interoperability by eliminating the need for implementers to prohibit the presence of extensions. For further information, see the [definition of modifier extensions](http://hl7.org/fhir/R4/extensibility.html#modifierExtension).",
+                "alias": [
+                    "extensions",
+                    "user content"
+                ],
+                "min": 0,
+                "max": "*",
+                "base": {
+                    "path": "DomainResource.modifierExtension",
+                    "min": 0,
+                    "max": "*"
+                },
+                "type": [
+                    {
+                        "code": "Extension"
+                    }
+                ],
+                "constraint": [
+                    {
+                        "key": "ele-1",
+                        "severity": "error",
+                        "human": "All FHIR elements must have a @value or children",
+                        "expression": "hasValue() or (children().count() > id.count())",
+                        "xpath": "@value|f:*|h:div",
+                        "source": "http://hl7.org/fhir/StructureDefinition/Element"
+                    },
+                    {
+                        "key": "ext-1",
+                        "severity": "error",
+                        "human": "Must have either extensions or value[x], not both",
+                        "expression": "extension.exists() != value.exists()",
+                        "xpath": "exists(f:extension)!=exists(f:*[starts-with(local-name(.), \"value\")])",
+                        "source": "http://hl7.org/fhir/StructureDefinition/Extension"
+                    }
+                ],
+                "isModifier": true,
+                "isModifierReason": "Modifier extensions are expected to modify the meaning or interpretation of the resource that contains them",
+                "isSummary": false,
+                "mapping": [
+                    {
+                        "identity": "rim",
+                        "map": "N/A"
+                    }
+                ]
+            },
+            {
+                "id": "OrganizationAffiliation.identifier",
+                "path": "OrganizationAffiliation.identifier",
+                "short": "Business identifiers that are specific to this role",
+                "definition": "Business identifiers that are specific to this role.",
+                "requirements": "Often, specific identities are assigned for the agent.",
+                "min": 0,
+                "max": "*",
+                "base": {
+                    "path": "OrganizationAffiliation.identifier",
+                    "min": 0,
+                    "max": "*"
+                },
+                "type": [
+                    {
+                        "code": "Identifier"
+                    }
+                ],
+                "constraint": [
+                    {
+                        "key": "ele-1",
+                        "severity": "error",
+                        "human": "All FHIR elements must have a @value or children",
+                        "expression": "hasValue() or (children().count() > id.count())",
+                        "xpath": "@value|f:*|h:div",
+                        "source": "http://hl7.org/fhir/StructureDefinition/Element"
+                    }
+                ],
+                "isModifier": false,
+                "isSummary": true,
+                "mapping": [
+                    {
+                        "identity": "w5",
+                        "map": "FiveWs.identifier"
+                    },
+                    {
+                        "identity": "rim",
+                        "map": ".id"
+                    }
+                ]
+            },
+            {
+                "id": "OrganizationAffiliation.identifier.id",
+                "path": "OrganizationAffiliation.identifier.id",
+                "representation": [
+                    "xmlAttr"
+                ],
+                "short": "Unique id for inter-element referencing",
+                "definition": "Unique id for the element within a resource (for internal references). This may be any string value that does not contain spaces.",
+                "min": 0,
+                "max": "1",
+                "base": {
+                    "path": "Element.id",
+                    "min": 0,
+                    "max": "1"
+                },
+                "type": [
+                    {
+                        "extension": [
+                            {
+                                "url": "http://hl7.org/fhir/StructureDefinition/structuredefinition-fhir-type",
+                                "valueUrl": "string"
+                            }
+                        ],
+                        "code": "http://hl7.org/fhirpath/System.String"
+                    }
+                ],
+                "isModifier": false,
+                "isSummary": false,
+                "mapping": [
+                    {
+                        "identity": "rim",
+                        "map": "n/a"
+                    }
+                ]
+            },
+            {
+                "id": "OrganizationAffiliation.identifier.extension",
+                "path": "OrganizationAffiliation.identifier.extension",
+                "slicing": {
+                    "discriminator": [
+                        {
+                            "type": "value",
+                            "path": "url"
+                        }
+                    ],
+                    "description": "Extensions are always sliced by (at least) url",
+                    "rules": "open"
+                },
+                "short": "Additional content defined by implementations",
+                "definition": "May be used to represent additional information that is not part of the basic definition of the element. To make the use of extensions safe and manageable, there is a strict set of governance  applied to the definition and use of extensions. Though any implementer can define an extension, there is a set of requirements that SHALL be met as part of the definition of the extension.",
+                "comment": "There can be no stigma associated with the use of extensions by any application, project, or standard - regardless of the institution or jurisdiction that uses or defines the extensions.  The use of extensions is what allows the FHIR specification to retain a core level of simplicity for everyone.",
+                "alias": [
+                    "extensions",
+                    "user content"
+                ],
+                "min": 0,
+                "max": "*",
+                "base": {
+                    "path": "Element.extension",
+                    "min": 0,
+                    "max": "*"
+                },
+                "type": [
+                    {
+                        "code": "Extension"
+                    }
+                ],
+                "constraint": [
+                    {
+                        "key": "ele-1",
+                        "severity": "error",
+                        "human": "All FHIR elements must have a @value or children",
+                        "expression": "hasValue() or (children().count() > id.count())",
+                        "xpath": "@value|f:*|h:div",
+                        "source": "http://hl7.org/fhir/StructureDefinition/Element"
+                    },
+                    {
+                        "key": "ext-1",
+                        "severity": "error",
+                        "human": "Must have either extensions or value[x], not both",
+                        "expression": "extension.exists() != value.exists()",
+                        "xpath": "exists(f:extension)!=exists(f:*[starts-with(local-name(.), \"value\")])",
+                        "source": "http://hl7.org/fhir/StructureDefinition/Extension"
+                    }
+                ],
+                "isModifier": false,
+                "isSummary": false,
+                "mapping": [
+                    {
+                        "identity": "rim",
+                        "map": "n/a"
+                    }
+                ]
+            },
+            {
+                "id": "OrganizationAffiliation.identifier.use",
+                "path": "OrganizationAffiliation.identifier.use",
+                "short": "usual | official | temp | secondary | old (If known)",
+                "definition": "The purpose of this identifier.",
+                "comment": "Applications can assume that an identifier is permanent unless it explicitly says that it is temporary.",
+                "requirements": "Allows the appropriate identifier for a particular context of use to be selected from among a set of identifiers.",
+                "min": 0,
+                "max": "1",
+                "base": {
+                    "path": "Identifier.use",
+                    "min": 0,
+                    "max": "1"
+                },
+                "type": [
+                    {
+                        "code": "code"
+                    }
+                ],
+                "constraint": [
+                    {
+                        "key": "ele-1",
+                        "severity": "error",
+                        "human": "All FHIR elements must have a @value or children",
+                        "expression": "hasValue() or (children().count() > id.count())",
+                        "xpath": "@value|f:*|h:div",
+                        "source": "http://hl7.org/fhir/StructureDefinition/Element"
+                    }
+                ],
+                "isModifier": true,
+                "isModifierReason": "This is labeled as \"Is Modifier\" because applications should not mistake a temporary id for a permanent one.",
+                "isSummary": true,
+                "binding": {
+                    "extension": [
+                        {
+                            "url": "http://hl7.org/fhir/StructureDefinition/elementdefinition-bindingName",
+                            "valueString": "IdentifierUse"
+                        }
+                    ],
+                    "strength": "required",
+                    "description": "Identifies the purpose for this identifier, if known .",
+                    "valueSet": "http://hl7.org/fhir/ValueSet/identifier-use|4.0.1"
+                },
+                "mapping": [
+                    {
+                        "identity": "v2",
+                        "map": "N/A"
+                    },
+                    {
+                        "identity": "rim",
+                        "map": "Role.code or implied by context"
+                    }
+                ]
+            },
+            {
+                "id": "OrganizationAffiliation.identifier.type",
+                "path": "OrganizationAffiliation.identifier.type",
+                "short": "Description of identifier",
+                "definition": "A coded type for the identifier that can be used to determine which identifier to use for a specific purpose.",
+                "comment": "This element deals only with general categories of identifiers.  It SHOULD not be used for codes that correspond 1..1 with the Identifier.system. Some identifiers may fall into multiple categories due to common usage.   Where the system is known, a type is unnecessary because the type is always part of the system definition. However systems often need to handle identifiers where the system is not known. There is not a 1:1 relationship between type and system, since many different systems have the same type.",
+                "requirements": "Allows users to make use of identifiers when the identifier system is not known.",
+                "min": 0,
+                "max": "1",
+                "base": {
+                    "path": "Identifier.type",
+                    "min": 0,
+                    "max": "1"
+                },
+                "type": [
+                    {
+                        "code": "CodeableConcept"
+                    }
+                ],
+                "constraint": [
+                    {
+                        "key": "ele-1",
+                        "severity": "error",
+                        "human": "All FHIR elements must have a @value or children",
+                        "expression": "hasValue() or (children().count() > id.count())",
+                        "xpath": "@value|f:*|h:div",
+                        "source": "http://hl7.org/fhir/StructureDefinition/Element"
+                    }
+                ],
+                "mustSupport": true,
+                "isModifier": false,
+                "isSummary": true,
+                "binding": {
+                    "extension": [
+                        {
+                            "url": "http://hl7.org/fhir/StructureDefinition/elementdefinition-bindingName",
+                            "valueString": "IdentifierType"
+                        },
+                        {
+                            "url": "http://hl7.org/fhir/StructureDefinition/elementdefinition-isCommonBinding",
+                            "valueBoolean": true
+                        }
+                    ],
+                    "strength": "extensible",
+                    "description": "A coded type for an identifier that can be used to determine which identifier to use for a specific purpose.",
+                    "valueSet": "http://hl7.org/fhir/ValueSet/identifier-type"
+                },
+                "mapping": [
+                    {
+                        "identity": "v2",
+                        "map": "CX.5"
+                    },
+                    {
+                        "identity": "rim",
+                        "map": "Role.code or implied by context"
+                    }
+                ]
+            },
+            {
+                "id": "OrganizationAffiliation.identifier.system",
+                "path": "OrganizationAffiliation.identifier.system",
+                "short": "The namespace for the identifier value",
+                "definition": "Establishes the namespace for the value - that is, a URL that describes a set values that are unique.",
+                "comment": "Identifier.system is always case sensitive.",
+                "requirements": "There are many sets  of identifiers.  To perform matching of two identifiers, we need to know what set we're dealing with. The system identifies a particular set of unique identifiers.",
+                "min": 0,
+                "max": "1",
+                "base": {
+                    "path": "Identifier.system",
+                    "min": 0,
+                    "max": "1"
+                },
+                "type": [
+                    {
+                        "code": "uri"
+                    }
+                ],
+                "example": [
+                    {
+                        "label": "General",
+                        "valueUri": "http://www.acme.com/identifiers/patient"
+                    }
+                ],
+                "constraint": [
+                    {
+                        "key": "ele-1",
+                        "severity": "error",
+                        "human": "All FHIR elements must have a @value or children",
+                        "expression": "hasValue() or (children().count() > id.count())",
+                        "xpath": "@value|f:*|h:div",
+                        "source": "http://hl7.org/fhir/StructureDefinition/Element"
+                    }
+                ],
+                "isModifier": false,
+                "isSummary": true,
+                "mapping": [
+                    {
+                        "identity": "v2",
+                        "map": "CX.4 / EI-2-4"
+                    },
+                    {
+                        "identity": "rim",
+                        "map": "II.root or Role.id.root"
+                    },
+                    {
+                        "identity": "servd",
+                        "map": "./IdentifierType"
+                    }
+                ]
+            },
+            {
+                "id": "OrganizationAffiliation.identifier.value",
+                "path": "OrganizationAffiliation.identifier.value",
+                "short": "The value that is unique",
+                "definition": "The portion of the identifier typically relevant to the user and which is unique within the context of the system.",
+                "comment": "If the value is a full URI, then the system SHALL be urn:ietf:rfc:3986.  The value's primary purpose is computational mapping.  As a result, it may be normalized for comparison purposes (e.g. removing non-significant whitespace, dashes, etc.)  A value formatted for human display can be conveyed using the [Rendered Value extension](http://hl7.org/fhir/R4/extension-rendered-value.html). Identifier.value is to be treated as case sensitive unless knowledge of the Identifier.system allows the processer to be confident that non-case-sensitive processing is safe.",
+                "min": 0,
+                "max": "1",
+                "base": {
+                    "path": "Identifier.value",
+                    "min": 0,
+                    "max": "1"
+                },
+                "type": [
+                    {
+                        "code": "string"
+                    }
+                ],
+                "example": [
+                    {
+                        "label": "General",
+                        "valueString": "123456"
+                    }
+                ],
+                "constraint": [
+                    {
+                        "key": "ele-1",
+                        "severity": "error",
+                        "human": "All FHIR elements must have a @value or children",
+                        "expression": "hasValue() or (children().count() > id.count())",
+                        "xpath": "@value|f:*|h:div",
+                        "source": "http://hl7.org/fhir/StructureDefinition/Element"
+                    }
+                ],
+                "mustSupport": true,
+                "isModifier": false,
+                "isSummary": true,
+                "mapping": [
+                    {
+                        "identity": "v2",
+                        "map": "CX.1 / EI.1"
+                    },
+                    {
+                        "identity": "rim",
+                        "map": "II.extension or II.root if system indicates OID or GUID (Or Role.id.extension or root)"
+                    },
+                    {
+                        "identity": "servd",
+                        "map": "./Value"
+                    }
+                ]
+            },
+            {
+                "id": "OrganizationAffiliation.identifier.period",
+                "path": "OrganizationAffiliation.identifier.period",
+                "short": "Time period when id is/was valid for use",
+                "definition": "Time period during which identifier is/was valid for use.",
+                "min": 0,
+                "max": "1",
+                "base": {
+                    "path": "Identifier.period",
+                    "min": 0,
+                    "max": "1"
+                },
+                "type": [
+                    {
+                        "code": "Period"
+                    }
+                ],
+                "constraint": [
+                    {
+                        "key": "ele-1",
+                        "severity": "error",
+                        "human": "All FHIR elements must have a @value or children",
+                        "expression": "hasValue() or (children().count() > id.count())",
+                        "xpath": "@value|f:*|h:div",
+                        "source": "http://hl7.org/fhir/StructureDefinition/Element"
+                    }
+                ],
+                "isModifier": false,
+                "isSummary": true,
+                "mapping": [
+                    {
+                        "identity": "v2",
+                        "map": "CX.7 + CX.8"
+                    },
+                    {
+                        "identity": "rim",
+                        "map": "Role.effectiveTime or implied by context"
+                    },
+                    {
+                        "identity": "servd",
+                        "map": "./StartDate and ./EndDate"
+                    }
+                ]
+            },
+            {
+                "id": "OrganizationAffiliation.identifier.assigner",
+                "path": "OrganizationAffiliation.identifier.assigner",
+                "short": "Organization that issued id (may be just text)",
+                "definition": "Organization that issued/manages the identifier.",
+                "comment": "The Identifier.assigner may omit the .reference element and only contain a .display element reflecting the name or other textual information about the assigning organization.",
+                "min": 0,
+                "max": "1",
+                "base": {
+                    "path": "Identifier.assigner",
+                    "min": 0,
+                    "max": "1"
+                },
+                "type": [
+                    {
+                        "code": "Reference",
+                        "targetProfile": [
+                            "http://hl7.org/fhir/StructureDefinition/Organization"
+                        ]
+                    }
+                ],
+                "constraint": [
+                    {
+                        "key": "ele-1",
+                        "severity": "error",
+                        "human": "All FHIR elements must have a @value or children",
+                        "expression": "hasValue() or (children().count() > id.count())",
+                        "xpath": "@value|f:*|h:div",
+                        "source": "http://hl7.org/fhir/StructureDefinition/Element"
+                    }
+                ],
+                "isModifier": false,
+                "isSummary": true,
+                "mapping": [
+                    {
+                        "identity": "v2",
+                        "map": "CX.4 / (CX.4,CX.9,CX.10)"
+                    },
+                    {
+                        "identity": "rim",
+                        "map": "II.assigningAuthorityName but note that this is an improper use by the definition of the field.  Also Role.scoper"
+                    },
+                    {
+                        "identity": "servd",
+                        "map": "./IdentifierIssuingAuthority"
+                    }
+                ]
+            },
+            {
+                "id": "OrganizationAffiliation.active",
+                "path": "OrganizationAffiliation.active",
+                "short": "Whether this organization affiliation record is in active use",
+                "definition": "Whether this organization affiliation record is in active use.",
+                "comment": "If this value is false, you may refer to the period to see when the role was in active use. If there is no period specified, no inference can be made about when it was active.",
+                "requirements": "Need to be able to mark an organization affiliation record as not to be used because it was created in error, or otherwise no longer in active use.",
+                "min": 1,
+                "max": "1",
+                "base": {
+                    "path": "OrganizationAffiliation.active",
+                    "min": 0,
+                    "max": "1"
+                },
+                "type": [
+                    {
+                        "code": "boolean"
+                    }
+                ],
+                "meaningWhenMissing": "This resource is generally assumed to be active if no value is provided for the active element",
+                "patternBoolean": true,
+                "constraint": [
+                    {
+                        "key": "ele-1",
+                        "severity": "error",
+                        "human": "All FHIR elements must have a @value or children",
+                        "expression": "hasValue() or (children().count() > id.count())",
+                        "xpath": "@value|f:*|h:div",
+                        "source": "http://hl7.org/fhir/StructureDefinition/Element"
+                    }
+                ],
+                "mustSupport": true,
+                "isModifier": false,
+                "isSummary": true,
+                "mapping": [
+                    {
+                        "identity": "w5",
+                        "map": "FiveWs.status"
+                    },
+                    {
+                        "identity": "rim",
+                        "map": ".statusCode"
+                    }
+                ]
+            },
+            {
+                "id": "OrganizationAffiliation.period",
+                "path": "OrganizationAffiliation.period",
+                "short": "The period during which the participatingOrganization is affiliated with the primary organization",
+                "definition": "The period during which the participatingOrganization is affiliated with the primary organization.",
+                "requirements": "An affiliation may be created ahead of time and only be active for a defined period of time. Once the affiliation is complete, the fact that it existed may still be required.",
+                "min": 0,
+                "max": "1",
+                "base": {
+                    "path": "OrganizationAffiliation.period",
+                    "min": 0,
+                    "max": "1"
+                },
+                "type": [
+                    {
+                        "code": "Period"
+                    }
+                ],
+                "constraint": [
+                    {
+                        "key": "ele-1",
+                        "severity": "error",
+                        "human": "All FHIR elements must have a @value or children",
+                        "expression": "hasValue() or (children().count() > id.count())",
+                        "xpath": "@value|f:*|h:div",
+                        "source": "http://hl7.org/fhir/StructureDefinition/Element"
+                    }
+                ],
+                "isModifier": false,
+                "isSummary": true,
+                "mapping": [
+                    {
+                        "identity": "w5",
+                        "map": "FiveWs.done[x]"
+                    },
+                    {
+                        "identity": "rim",
+                        "map": ".performance[@typeCode <= 'PPRF'].ActDefinitionOrEvent.effectiveTime"
+                    }
+                ]
+            },
+            {
+                "id": "OrganizationAffiliation.organization",
+                "path": "OrganizationAffiliation.organization",
+                "short": "Organization where the role is available",
+                "definition": "Organization where the role is available (primary organization/has members).",
+                "min": 0,
+                "max": "1",
+                "base": {
+                    "path": "OrganizationAffiliation.organization",
+                    "min": 0,
+                    "max": "1"
+                },
+                "type": [
+                    {
+                        "code": "Reference",
+                        "targetProfile": [
+                            "http://hl7.org/fhir/us/davinci-pdex-plan-net/StructureDefinition/plannet-Organization"
+                        ]
+                    }
+                ],
+                "constraint": [
+                    {
+                        "key": "ele-1",
+                        "severity": "error",
+                        "human": "All FHIR elements must have a @value or children",
+                        "expression": "hasValue() or (children().count() > id.count())",
+                        "xpath": "@value|f:*|h:div",
+                        "source": "http://hl7.org/fhir/StructureDefinition/Element"
+                    }
+                ],
+                "mustSupport": true,
+                "isModifier": false,
+                "isSummary": true,
+                "mapping": [
+                    {
+                        "identity": "rim",
+                        "map": ".scoper"
+                    }
+                ]
+            },
+            {
+                "id": "OrganizationAffiliation.participatingOrganization",
+                "path": "OrganizationAffiliation.participatingOrganization",
+                "short": "Organization that provides/performs the role (e.g. providing services or is a member of)",
+                "definition": "The Participating Organization provides/performs the role(s) defined by the code to the Primary Organization (e.g. providing services or is a member of).",
+                "min": 0,
+                "max": "1",
+                "base": {
+                    "path": "OrganizationAffiliation.participatingOrganization",
+                    "min": 0,
+                    "max": "1"
+                },
+                "type": [
+                    {
+                        "code": "Reference",
+                        "targetProfile": [
+                            "http://hl7.org/fhir/us/davinci-pdex-plan-net/StructureDefinition/plannet-Organization"
+                        ]
+                    }
+                ],
+                "constraint": [
+                    {
+                        "key": "ele-1",
+                        "severity": "error",
+                        "human": "All FHIR elements must have a @value or children",
+                        "expression": "hasValue() or (children().count() > id.count())",
+                        "xpath": "@value|f:*|h:div",
+                        "source": "http://hl7.org/fhir/StructureDefinition/Element"
+                    }
+                ],
+                "mustSupport": true,
+                "isModifier": false,
+                "isSummary": true,
+                "mapping": [
+                    {
+                        "identity": "rim",
+                        "map": ".player"
+                    }
+                ]
+            },
+            {
+                "id": "OrganizationAffiliation.network",
+                "path": "OrganizationAffiliation.network",
+                "short": "Health insurance provider network in which the participatingOrganization provides the role's services (if defined) at the indicated locations (if defined)",
+                "definition": "Health insurance provider network in which the participatingOrganization provides the role's services (if defined) at the indicated locations (if defined).",
+                "min": 0,
+                "max": "*",
+                "base": {
+                    "path": "OrganizationAffiliation.network",
+                    "min": 0,
+                    "max": "*"
+                },
+                "type": [
+                    {
+                        "code": "Reference",
+                        "targetProfile": [
+                            "http://hl7.org/fhir/us/davinci-pdex-plan-net/StructureDefinition/plannet-Network"
+                        ]
+                    }
+                ],
+                "constraint": [
+                    {
+                        "key": "ele-1",
+                        "severity": "error",
+                        "human": "All FHIR elements must have a @value or children",
+                        "expression": "hasValue() or (children().count() > id.count())",
+                        "xpath": "@value|f:*|h:div",
+                        "source": "http://hl7.org/fhir/StructureDefinition/Element"
+                    }
+                ],
+                "mustSupport": true,
+                "isModifier": false,
+                "isSummary": true
+            },
+            {
+                "id": "OrganizationAffiliation.code",
+                "path": "OrganizationAffiliation.code",
+                "short": "Definition of the role the participatingOrganization plays",
+                "definition": "Definition of the role the participatingOrganization plays in the association.",
+                "min": 0,
+                "max": "*",
+                "base": {
+                    "path": "OrganizationAffiliation.code",
+                    "min": 0,
+                    "max": "*"
+                },
+                "type": [
+                    {
+                        "code": "CodeableConcept"
+                    }
+                ],
+                "constraint": [
+                    {
+                        "key": "ele-1",
+                        "severity": "error",
+                        "human": "All FHIR elements must have a @value or children",
+                        "expression": "hasValue() or (children().count() > id.count())",
+                        "xpath": "@value|f:*|h:div",
+                        "source": "http://hl7.org/fhir/StructureDefinition/Element"
+                    }
+                ],
+                "mustSupport": true,
+                "isModifier": false,
+                "isSummary": true,
+                "binding": {
+                    "strength": "extensible",
+                    "valueSet": "http://hl7.org/fhir/us/davinci-pdex-plan-net/ValueSet/OrganizationAffiliationRoleVS"
+                },
+                "mapping": [
+                    {
+                        "identity": "rim",
+                        "map": ".code"
+                    }
+                ]
+            },
+            {
+                "id": "OrganizationAffiliation.specialty",
+                "path": "OrganizationAffiliation.specialty",
+                "short": "Specific specialty of the participatingOrganization in the context of the role",
+                "definition": "Specific specialty of the participatingOrganization in the context of the role.",
+                "min": 0,
+                "max": "*",
+                "base": {
+                    "path": "OrganizationAffiliation.specialty",
+                    "min": 0,
+                    "max": "*"
+                },
+                "type": [
+                    {
+                        "code": "CodeableConcept"
+                    }
+                ],
+                "constraint": [
+                    {
+                        "key": "ele-1",
+                        "severity": "error",
+                        "human": "All FHIR elements must have a @value or children",
+                        "expression": "hasValue() or (children().count() > id.count())",
+                        "xpath": "@value|f:*|h:div",
+                        "source": "http://hl7.org/fhir/StructureDefinition/Element"
+                    }
+                ],
+                "mustSupport": true,
+                "isModifier": false,
+                "isSummary": true,
+                "binding": {
+                    "strength": "required",
+                    "valueSet": "http://hl7.org/fhir/us/davinci-pdex-plan-net/ValueSet/SpecialtiesVS"
+                },
+                "mapping": [
+                    {
+                        "identity": "rim",
+                        "map": ".player.HealthCareProvider[@classCode = 'PROV'].code"
+                    }
+                ]
+            },
+            {
+                "id": "OrganizationAffiliation.location",
+                "path": "OrganizationAffiliation.location",
+                "short": "The location(s) at which the role occurs",
+                "definition": "The location(s) at which the role occurs.",
+                "min": 0,
+                "max": "*",
+                "base": {
+                    "path": "OrganizationAffiliation.location",
+                    "min": 0,
+                    "max": "*"
+                },
+                "type": [
+                    {
+                        "code": "Reference",
+                        "targetProfile": [
+                            "http://hl7.org/fhir/us/davinci-pdex-plan-net/StructureDefinition/plannet-Location"
+                        ]
+                    }
+                ],
+                "constraint": [
+                    {
+                        "key": "ele-1",
+                        "severity": "error",
+                        "human": "All FHIR elements must have a @value or children",
+                        "expression": "hasValue() or (children().count() > id.count())",
+                        "xpath": "@value|f:*|h:div",
+                        "source": "http://hl7.org/fhir/StructureDefinition/Element"
+                    }
+                ],
+                "mustSupport": true,
+                "isModifier": false,
+                "isSummary": true,
+                "mapping": [
+                    {
+                        "identity": "w5",
+                        "map": "FiveWs.where[x]"
+                    },
+                    {
+                        "identity": "rim",
+                        "map": ".performance.ActDefinitionOrEvent.ServiceDeliveryLocation[@classCode = 'SDLOC']"
+                    }
+                ]
+            },
+            {
+                "id": "OrganizationAffiliation.healthcareService",
+                "path": "OrganizationAffiliation.healthcareService",
+                "short": "Healthcare services provided through the role",
+                "definition": "Healthcare services provided through the role.",
+                "min": 0,
+                "max": "*",
+                "base": {
+                    "path": "OrganizationAffiliation.healthcareService",
+                    "min": 0,
+                    "max": "*"
+                },
+                "type": [
+                    {
+                        "code": "Reference",
+                        "targetProfile": [
+                            "http://hl7.org/fhir/us/davinci-pdex-plan-net/StructureDefinition/plannet-HealthcareService"
+                        ]
+                    }
+                ],
+                "constraint": [
+                    {
+                        "key": "ele-1",
+                        "severity": "error",
+                        "human": "All FHIR elements must have a @value or children",
+                        "expression": "hasValue() or (children().count() > id.count())",
+                        "xpath": "@value|f:*|h:div",
+                        "source": "http://hl7.org/fhir/StructureDefinition/Element"
+                    }
+                ],
+                "mustSupport": true,
+                "isModifier": false,
+                "isSummary": false,
+                "mapping": [
+                    {
+                        "identity": "rim",
+                        "map": ".player.QualifiedEntity[@classCode = 'QUAL'].code"
+                    }
+                ]
+            },
+            {
+                "id": "OrganizationAffiliation.telecom",
+                "path": "OrganizationAffiliation.telecom",
+                "short": "Contact details at the participatingOrganization relevant to this Affiliation",
+                "definition": "Contact details at the participatingOrganization relevant to this Affiliation.",
+                "requirements": "Sometimes a participating organization provides dedicated contacts to handle enquiries specifically for the role provided to the affiliated organization.",
+                "min": 0,
+                "max": "*",
+                "base": {
+                    "path": "OrganizationAffiliation.telecom",
+                    "min": 0,
+                    "max": "*"
+                },
+                "type": [
+                    {
+                        "code": "ContactPoint"
+                    }
+                ],
+                "constraint": [
+                    {
+                        "key": "ele-1",
+                        "severity": "error",
+                        "human": "All FHIR elements must have a @value or children",
+                        "expression": "hasValue() or (children().count() > id.count())",
+                        "xpath": "@value|f:*|h:div",
+                        "source": "http://hl7.org/fhir/StructureDefinition/Element"
+                    }
+                ],
+                "mustSupport": true,
+                "isModifier": false,
+                "isSummary": true,
+                "mapping": [
+                    {
+                        "identity": "rim",
+                        "map": ".telecom"
+                    }
+                ]
+            },
+            {
+                "id": "OrganizationAffiliation.telecom.id",
+                "path": "OrganizationAffiliation.telecom.id",
+                "representation": [
+                    "xmlAttr"
+                ],
+                "short": "Unique id for inter-element referencing",
+                "definition": "Unique id for the element within a resource (for internal references). This may be any string value that does not contain spaces.",
+                "min": 0,
+                "max": "1",
+                "base": {
+                    "path": "Element.id",
+                    "min": 0,
+                    "max": "1"
+                },
+                "type": [
+                    {
+                        "extension": [
+                            {
+                                "url": "http://hl7.org/fhir/StructureDefinition/structuredefinition-fhir-type",
+                                "valueUrl": "string"
+                            }
+                        ],
+                        "code": "http://hl7.org/fhirpath/System.String"
+                    }
+                ],
+                "isModifier": false,
+                "isSummary": false,
+                "mapping": [
+                    {
+                        "identity": "rim",
+                        "map": "n/a"
+                    }
+                ]
+            },
+            {
+                "id": "OrganizationAffiliation.telecom.extension",
+                "path": "OrganizationAffiliation.telecom.extension",
+                "slicing": {
+                    "discriminator": [
+                        {
+                            "type": "value",
+                            "path": "url"
+                        }
+                    ],
+                    "description": "Extensions are always sliced by (at least) url",
+                    "rules": "open"
+                },
+                "short": "Additional content defined by implementations",
+                "definition": "May be used to represent additional information that is not part of the basic definition of the element. To make the use of extensions safe and manageable, there is a strict set of governance  applied to the definition and use of extensions. Though any implementer can define an extension, there is a set of requirements that SHALL be met as part of the definition of the extension.",
+                "comment": "There can be no stigma associated with the use of extensions by any application, project, or standard - regardless of the institution or jurisdiction that uses or defines the extensions.  The use of extensions is what allows the FHIR specification to retain a core level of simplicity for everyone.",
+                "alias": [
+                    "extensions",
+                    "user content"
+                ],
+                "min": 0,
+                "max": "*",
+                "base": {
+                    "path": "Element.extension",
+                    "min": 0,
+                    "max": "*"
+                },
+                "type": [
+                    {
+                        "code": "Extension"
+                    }
+                ],
+                "constraint": [
+                    {
+                        "key": "ele-1",
+                        "severity": "error",
+                        "human": "All FHIR elements must have a @value or children",
+                        "expression": "hasValue() or (children().count() > id.count())",
+                        "xpath": "@value|f:*|h:div",
+                        "source": "http://hl7.org/fhir/StructureDefinition/Element"
+                    },
+                    {
+                        "key": "ext-1",
+                        "severity": "error",
+                        "human": "Must have either extensions or value[x], not both",
+                        "expression": "extension.exists() != value.exists()",
+                        "xpath": "exists(f:extension)!=exists(f:*[starts-with(local-name(.), \"value\")])",
+                        "source": "http://hl7.org/fhir/StructureDefinition/Extension"
+                    }
+                ],
+                "isModifier": false,
+                "isSummary": false,
+                "mapping": [
+                    {
+                        "identity": "rim",
+                        "map": "n/a"
+                    }
+                ]
+            },
+            {
+                "id": "OrganizationAffiliation.telecom.system",
+                "path": "OrganizationAffiliation.telecom.system",
+                "short": "phone | fax | email | pager | url | sms | other",
+                "definition": "Telecommunications form for contact point - what communications system is required to make use of the contact.",
+                "min": 0,
+                "max": "1",
+                "base": {
+                    "path": "ContactPoint.system",
+                    "min": 0,
+                    "max": "1"
+                },
+                "type": [
+                    {
+                        "code": "code"
+                    }
+                ],
+                "condition": [
+                    "cpt-2"
+                ],
+                "constraint": [
+                    {
+                        "key": "ele-1",
+                        "severity": "error",
+                        "human": "All FHIR elements must have a @value or children",
+                        "expression": "hasValue() or (children().count() > id.count())",
+                        "xpath": "@value|f:*|h:div",
+                        "source": "http://hl7.org/fhir/StructureDefinition/Element"
+                    }
+                ],
+                "mustSupport": true,
+                "isModifier": false,
+                "isSummary": true,
+                "binding": {
+                    "extension": [
+                        {
+                            "url": "http://hl7.org/fhir/StructureDefinition/elementdefinition-bindingName",
+                            "valueString": "ContactPointSystem"
+                        }
+                    ],
+                    "strength": "required",
+                    "description": "Telecommunications form for contact point.",
+                    "valueSet": "http://hl7.org/fhir/ValueSet/contact-point-system|4.0.1"
+                },
+                "mapping": [
+                    {
+                        "identity": "v2",
+                        "map": "XTN.3"
+                    },
+                    {
+                        "identity": "rim",
+                        "map": "./scheme"
+                    },
+                    {
+                        "identity": "servd",
+                        "map": "./ContactPointType"
+                    }
+                ]
+            },
+            {
+                "id": "OrganizationAffiliation.telecom.value",
+                "path": "OrganizationAffiliation.telecom.value",
+                "short": "The actual contact point details",
+                "definition": "The actual contact point details, in a form that is meaningful to the designated communication system (i.e. phone number or email address).",
+                "comment": "Additional text data such as phone extension numbers, or notes about use of the contact are sometimes included in the value.",
+                "requirements": "Need to support legacy numbers that are not in a tightly controlled format.",
+                "min": 0,
+                "max": "1",
+                "base": {
+                    "path": "ContactPoint.value",
+                    "min": 0,
+                    "max": "1"
+                },
+                "type": [
+                    {
+                        "code": "string"
+                    }
+                ],
+                "constraint": [
+                    {
+                        "key": "ele-1",
+                        "severity": "error",
+                        "human": "All FHIR elements must have a @value or children",
+                        "expression": "hasValue() or (children().count() > id.count())",
+                        "xpath": "@value|f:*|h:div",
+                        "source": "http://hl7.org/fhir/StructureDefinition/Element"
+                    }
+                ],
+                "mustSupport": true,
+                "isModifier": false,
+                "isSummary": true,
+                "mapping": [
+                    {
+                        "identity": "v2",
+                        "map": "XTN.1 (or XTN.12)"
+                    },
+                    {
+                        "identity": "rim",
+                        "map": "./url"
+                    },
+                    {
+                        "identity": "servd",
+                        "map": "./Value"
+                    }
+                ]
+            },
+            {
+                "id": "OrganizationAffiliation.telecom.use",
+                "path": "OrganizationAffiliation.telecom.use",
+                "short": "home | work | temp | old | mobile - purpose of this contact point",
+                "definition": "Identifies the purpose for the contact point.",
+                "comment": "Applications can assume that a contact is current unless it explicitly says that it is temporary or old.",
+                "requirements": "Need to track the way a person uses this contact, so a user can choose which is appropriate for their purpose.",
+                "min": 0,
+                "max": "1",
+                "base": {
+                    "path": "ContactPoint.use",
+                    "min": 0,
+                    "max": "1"
+                },
+                "type": [
+                    {
+                        "code": "code"
+                    }
+                ],
+                "constraint": [
+                    {
+                        "key": "ele-1",
+                        "severity": "error",
+                        "human": "All FHIR elements must have a @value or children",
+                        "expression": "hasValue() or (children().count() > id.count())",
+                        "xpath": "@value|f:*|h:div",
+                        "source": "http://hl7.org/fhir/StructureDefinition/Element"
+                    }
+                ],
+                "isModifier": true,
+                "isModifierReason": "This is labeled as \"Is Modifier\" because applications should not mistake a temporary or old contact etc.for a current/permanent one",
+                "isSummary": true,
+                "binding": {
+                    "extension": [
+                        {
+                            "url": "http://hl7.org/fhir/StructureDefinition/elementdefinition-bindingName",
+                            "valueString": "ContactPointUse"
+                        }
+                    ],
+                    "strength": "required",
+                    "description": "Use of contact point.",
+                    "valueSet": "http://hl7.org/fhir/ValueSet/contact-point-use|4.0.1"
+                },
+                "mapping": [
+                    {
+                        "identity": "v2",
+                        "map": "XTN.2 - but often indicated by field"
+                    },
+                    {
+                        "identity": "rim",
+                        "map": "unique(./use)"
+                    },
+                    {
+                        "identity": "servd",
+                        "map": "./ContactPointPurpose"
+                    }
+                ]
+            },
+            {
+                "id": "OrganizationAffiliation.telecom.rank",
+                "path": "OrganizationAffiliation.telecom.rank",
+                "short": "Specify preferred order of use (1 = highest)",
+                "definition": "Specifies a preferred order in which to use a set of contacts. ContactPoints with lower rank values are more preferred than those with higher rank values.",
+                "comment": "Note that rank does not necessarily follow the order in which the contacts are represented in the instance.",
+                "min": 0,
+                "max": "1",
+                "base": {
+                    "path": "ContactPoint.rank",
+                    "min": 0,
+                    "max": "1"
+                },
+                "type": [
+                    {
+                        "code": "positiveInt"
+                    }
+                ],
+                "constraint": [
+                    {
+                        "key": "ele-1",
+                        "severity": "error",
+                        "human": "All FHIR elements must have a @value or children",
+                        "expression": "hasValue() or (children().count() > id.count())",
+                        "xpath": "@value|f:*|h:div",
+                        "source": "http://hl7.org/fhir/StructureDefinition/Element"
+                    }
+                ],
+                "mustSupport": true,
+                "isModifier": false,
+                "isSummary": true,
+                "mapping": [
+                    {
+                        "identity": "v2",
+                        "map": "n/a"
+                    },
+                    {
+                        "identity": "rim",
+                        "map": "n/a"
+                    }
+                ]
+            },
+            {
+                "id": "OrganizationAffiliation.telecom.period",
+                "path": "OrganizationAffiliation.telecom.period",
+                "short": "Time period when the contact point was/is in use",
+                "definition": "Time period when the contact point was/is in use.",
+                "min": 0,
+                "max": "1",
+                "base": {
+                    "path": "ContactPoint.period",
+                    "min": 0,
+                    "max": "1"
+                },
+                "type": [
+                    {
+                        "code": "Period"
+                    }
+                ],
+                "constraint": [
+                    {
+                        "key": "ele-1",
+                        "severity": "error",
+                        "human": "All FHIR elements must have a @value or children",
+                        "expression": "hasValue() or (children().count() > id.count())",
+                        "xpath": "@value|f:*|h:div",
+                        "source": "http://hl7.org/fhir/StructureDefinition/Element"
+                    }
+                ],
+                "isModifier": false,
+                "isSummary": true,
+                "mapping": [
+                    {
+                        "identity": "v2",
+                        "map": "N/A"
+                    },
+                    {
+                        "identity": "rim",
+                        "map": "./usablePeriod[type=\"IVL<TS>\"]"
+                    },
+                    {
+                        "identity": "servd",
+                        "map": "./StartDate and ./EndDate"
+                    }
+                ]
+            },
+            {
+                "id": "OrganizationAffiliation.endpoint",
+                "path": "OrganizationAffiliation.endpoint",
+                "short": "Technical endpoints providing access to services operated for this role",
+                "definition": "Technical endpoints providing access to services operated for this role.",
+                "min": 0,
+                "max": "*",
+                "base": {
+                    "path": "OrganizationAffiliation.endpoint",
+                    "min": 0,
+                    "max": "*"
+                },
+                "type": [
+                    {
+                        "code": "Reference",
+                        "targetProfile": [
+                            "http://hl7.org/fhir/us/davinci-pdex-plan-net/StructureDefinition/plannet-Endpoint"
+                        ]
+                    }
+                ],
+                "constraint": [
+                    {
+                        "key": "ele-1",
+                        "severity": "error",
+                        "human": "All FHIR elements must have a @value or children",
+                        "expression": "hasValue() or (children().count() > id.count())",
+                        "xpath": "@value|f:*|h:div",
+                        "source": "http://hl7.org/fhir/StructureDefinition/Element"
+                    }
+                ],
+                "mustSupport": true,
+                "isModifier": false,
+                "isSummary": false,
+                "mapping": [
+                    {
+                        "identity": "rim",
+                        "map": "n/a"
+                    }
+                ]
+            }
+        ]
+    },
+    "differential": {
+        "element": [
+            {
+                "id": "OrganizationAffiliation",
+                "path": "OrganizationAffiliation",
+                "constraint": [
+                    {
+                        "key": "dom-2",
+                        "severity": "error",
+                        "human": "If the resource is contained in another resource, it SHALL NOT contain nested Resources",
+                        "expression": "contained.contained.empty()",
+                        "xpath": "not(parent::f:contained and f:contained)",
+                        "source": "http://hl7.org/fhir/StructureDefinition/DomainResource"
+                    },
+                    {
+                        "key": "dom-3",
+                        "severity": "error",
+                        "human": "If the resource is contained in another resource, it SHALL be referred to from elsewhere in the resource or SHALL refer to the containing resource",
+                        "expression": "contained.where((('#'+id in (%resource.descendants().reference | %resource.descendants().as(canonical) | %resource.descendants().as(uri) | %resource.descendants().as(url))) or descendants().where(reference = '#').exists() or descendants().where(as(canonical) = '#').exists() or descendants().where(as(canonical) = '#').exists()).not()).trace('unmatched', id).empty()",
+                        "xpath": "not(exists(for $id in f:contained/*/f:id/@value return $contained[not(parent::*/descendant::f:reference/@value=concat('#', $contained/*/id/@value) or descendant::f:reference[@value='#'])]))",
+                        "source": "http://hl7.org/fhir/StructureDefinition/DomainResource"
+                    },
+                    {
+                        "key": "dom-4",
+                        "severity": "error",
+                        "human": "If a resource is contained in another resource, it SHALL NOT have a meta.versionId or a meta.lastUpdated",
+                        "expression": "contained.meta.versionId.empty() and contained.meta.lastUpdated.empty()",
+                        "xpath": "not(exists(f:contained/*/f:meta/f:versionId)) and not(exists(f:contained/*/f:meta/f:lastUpdated))",
+                        "source": "http://hl7.org/fhir/StructureDefinition/DomainResource"
+                    },
+                    {
+                        "key": "dom-5",
+                        "severity": "error",
+                        "human": "If a resource is contained in another resource, it SHALL NOT have a security label",
+                        "expression": "contained.meta.security.empty()",
+                        "xpath": "not(exists(f:contained/*/f:meta/f:security))",
+                        "source": "http://hl7.org/fhir/StructureDefinition/DomainResource"
+                    },
+                    {
+                        "extension": [
+                            {
+                                "url": "http://hl7.org/fhir/StructureDefinition/elementdefinition-bestpractice",
+                                "valueBoolean": true
+                            },
+                            {
+                                "url": "http://hl7.org/fhir/StructureDefinition/elementdefinition-bestpractice-explanation",
+                                "valueMarkdown": "When a resource has no narrative, only systems that fully understand the data can display the resource to a human safely. Including a human readable representation in the resource makes for a much more robust eco-system and cheaper handling of resources by intermediary systems. Some ecosystems restrict distribution of resources to only those systems that do fully understand the resources, and as a consequence implementers may believe that the narrative is superfluous. However experience shows that such eco-systems often open up to new participants over time."
+                            }
+                        ],
+                        "key": "dom-6",
+                        "severity": "warning",
+                        "human": "A resource should have narrative for robust management",
+                        "expression": "text.`div`.exists()",
+                        "xpath": "exists(f:text/h:div)",
+                        "source": "http://hl7.org/fhir/StructureDefinition/DomainResource"
+                    },
+                    {
+                        "key": "organization-or-participatingOrganization",
+                        "severity": "error",
+                        "human": "PlannetOrganizationAffiliation.organization or  PlannetOrganizationAffiliation.participatingOrganization",
+                        "expression": "organization.exists() or participatingOrganization.exists()",
+                        "source": "http://hl7.org/fhir/us/davinci-pdex-plan-net/StructureDefinition/plannet-OrganizationAffiliation"
+                    }
+                ]
+            },
+            {
+                "id": "OrganizationAffiliation.meta.lastUpdated",
+                "path": "OrganizationAffiliation.meta.lastUpdated",
+                "min": 1
+            },
+            {
+                "id": "OrganizationAffiliation.extension",
+                "path": "OrganizationAffiliation.extension",
+                "slicing": {
+                    "discriminator": [
+                        {
+                            "type": "value",
+                            "path": "url"
+                        }
+                    ],
+                    "ordered": false,
+                    "rules": "open"
+                }
+            },
+            {
+                "id": "OrganizationAffiliation.extension:qualification",
+                "path": "OrganizationAffiliation.extension",
+                "sliceName": "qualification",
+                "min": 0,
+                "max": "*",
+                "type": [
+                    {
+                        "code": "Extension",
+                        "profile": [
+                            "http://hl7.org/fhir/us/davinci-pdex-plan-net/StructureDefinition/qualification"
+                        ]
+                    }
+                ]
+            },
+            {
+                "id": "OrganizationAffiliation.identifier.type",
+                "path": "OrganizationAffiliation.identifier.type",
+                "mustSupport": true
+            },
+            {
+                "id": "OrganizationAffiliation.identifier.value",
+                "path": "OrganizationAffiliation.identifier.value",
+                "mustSupport": true
+            },
+            {
+                "id": "OrganizationAffiliation.active",
+                "path": "OrganizationAffiliation.active",
+                "min": 1,
+                "patternBoolean": true,
+                "mustSupport": true
+            },
+            {
+                "id": "OrganizationAffiliation.organization",
+                "path": "OrganizationAffiliation.organization",
+                "type": [
+                    {
+                        "code": "Reference",
+                        "targetProfile": [
+                            "http://hl7.org/fhir/us/davinci-pdex-plan-net/StructureDefinition/plannet-Organization"
+                        ]
+                    }
+                ],
+                "mustSupport": true
+            },
+            {
+                "id": "OrganizationAffiliation.participatingOrganization",
+                "path": "OrganizationAffiliation.participatingOrganization",
+                "type": [
+                    {
+                        "code": "Reference",
+                        "targetProfile": [
+                            "http://hl7.org/fhir/us/davinci-pdex-plan-net/StructureDefinition/plannet-Organization"
+                        ]
+                    }
+                ],
+                "mustSupport": true
+            },
+            {
+                "id": "OrganizationAffiliation.network",
+                "path": "OrganizationAffiliation.network",
+                "type": [
+                    {
+                        "code": "Reference",
+                        "targetProfile": [
+                            "http://hl7.org/fhir/us/davinci-pdex-plan-net/StructureDefinition/plannet-Network"
+                        ]
+                    }
+                ],
+                "mustSupport": true
+            },
+            {
+                "id": "OrganizationAffiliation.code",
+                "path": "OrganizationAffiliation.code",
+                "mustSupport": true,
+                "binding": {
+                    "strength": "extensible",
+                    "valueSet": "http://hl7.org/fhir/us/davinci-pdex-plan-net/ValueSet/OrganizationAffiliationRoleVS"
+                }
+            },
+            {
+                "id": "OrganizationAffiliation.specialty",
+                "path": "OrganizationAffiliation.specialty",
+                "mustSupport": true,
+                "binding": {
+                    "strength": "required",
+                    "valueSet": "http://hl7.org/fhir/us/davinci-pdex-plan-net/ValueSet/SpecialtiesVS"
+                }
+            },
+            {
+                "id": "OrganizationAffiliation.location",
+                "path": "OrganizationAffiliation.location",
+                "type": [
+                    {
+                        "code": "Reference",
+                        "targetProfile": [
+                            "http://hl7.org/fhir/us/davinci-pdex-plan-net/StructureDefinition/plannet-Location"
+                        ]
+                    }
+                ],
+                "mustSupport": true
+            },
+            {
+                "id": "OrganizationAffiliation.healthcareService",
+                "path": "OrganizationAffiliation.healthcareService",
+                "type": [
+                    {
+                        "code": "Reference",
+                        "targetProfile": [
+                            "http://hl7.org/fhir/us/davinci-pdex-plan-net/StructureDefinition/plannet-HealthcareService"
+                        ]
+                    }
+                ],
+                "mustSupport": true
+            },
+            {
+                "id": "OrganizationAffiliation.telecom",
+                "path": "OrganizationAffiliation.telecom",
+                "mustSupport": true
+            },
+            {
+                "id": "OrganizationAffiliation.telecom.system",
+                "path": "OrganizationAffiliation.telecom.system",
+                "mustSupport": true
+            },
+            {
+                "id": "OrganizationAffiliation.telecom.value",
+                "path": "OrganizationAffiliation.telecom.value",
+                "mustSupport": true
+            },
+            {
+                "id": "OrganizationAffiliation.telecom.rank",
+                "path": "OrganizationAffiliation.telecom.rank",
+                "mustSupport": true
+            },
+            {
+                "id": "OrganizationAffiliation.endpoint",
+                "path": "OrganizationAffiliation.endpoint",
+                "type": [
+                    {
+                        "code": "Reference",
+                        "targetProfile": [
+                            "http://hl7.org/fhir/us/davinci-pdex-plan-net/StructureDefinition/plannet-Endpoint"
+                        ]
+                    }
+                ],
+                "mustSupport": true
+            }
+        ]
+    }
+}
