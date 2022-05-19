@@ -952,11 +952,11 @@
                     "extension": [
                         {
                             "url": "http://hl7.org/fhir/StructureDefinition/elementdefinition-minValueSet",
-                            "valueCanonical": "http://hl7.org/fhir/us/davinci-pdex-plan-net/ValueSet/MinEndpointConnectionTypeVS"
+                            "valueCanonical": "http://hl7.org/fhir/us/davinci-pdex-plan-net/ValueSet/MinEndpointConnectionTypeVS|1.0.0"
                         }
                     ],
                     "strength": "extensible",
-                    "valueSet": "http://hl7.org/fhir/us/davinci-pdex-plan-net/ValueSet/EndpointConnectionTypeVS"
+                    "valueSet": "http://hl7.org/fhir/us/davinci-pdex-plan-net/ValueSet/EndpointConnectionTypeVS|1.0.0"
                 },
                 "mapping": [
                     {
@@ -1027,7 +1027,7 @@
                     {
                         "code": "Reference",
                         "targetProfile": [
-                            "http://hl7.org/fhir/us/davinci-pdex-plan-net/StructureDefinition/plannet-Organization"
+                            "http://hl7.org/fhir/us/davinci-pdex-plan-net/StructureDefinition/plannet-Organization|1.0.0"
                         ]
                     }
                 ],
@@ -1504,7 +1504,7 @@
                 "isSummary": true,
                 "binding": {
                     "strength": "extensible",
-                    "valueSet": "http://hl7.org/fhir/us/davinci-pdex-plan-net/ValueSet/EndpointPayloadTypeVS"
+                    "valueSet": "http://hl7.org/fhir/us/davinci-pdex-plan-net/ValueSet/EndpointPayloadTypeVS|1.0.0"
                 },
                 "mapping": [
                     {
@@ -1693,11 +1693,11 @@
                     "extension": [
                         {
                             "url": "http://hl7.org/fhir/StructureDefinition/elementdefinition-minValueSet",
-                            "valueCanonical": "http://hl7.org/fhir/us/davinci-pdex-plan-net/ValueSet/MinEndpointConnectionTypeVS"
+                            "valueCanonical": "http://hl7.org/fhir/us/davinci-pdex-plan-net/ValueSet/MinEndpointConnectionTypeVS|1.0.0"
                         }
                     ],
                     "strength": "extensible",
-                    "valueSet": "http://hl7.org/fhir/us/davinci-pdex-plan-net/ValueSet/EndpointConnectionTypeVS"
+                    "valueSet": "http://hl7.org/fhir/us/davinci-pdex-plan-net/ValueSet/EndpointConnectionTypeVS|1.0.0"
                 }
             },
             {
@@ -1712,7 +1712,7 @@
                     {
                         "code": "Reference",
                         "targetProfile": [
-                            "http://hl7.org/fhir/us/davinci-pdex-plan-net/StructureDefinition/plannet-Organization"
+                            "http://hl7.org/fhir/us/davinci-pdex-plan-net/StructureDefinition/plannet-Organization|1.0.0"
                         ]
                     }
                 ],
@@ -1740,7 +1740,7 @@
                 "mustSupport": true,
                 "binding": {
                     "strength": "extensible",
-                    "valueSet": "http://hl7.org/fhir/us/davinci-pdex-plan-net/ValueSet/EndpointPayloadTypeVS"
+                    "valueSet": "http://hl7.org/fhir/us/davinci-pdex-plan-net/ValueSet/EndpointPayloadTypeVS|1.0.0"
                 }
             },
             {

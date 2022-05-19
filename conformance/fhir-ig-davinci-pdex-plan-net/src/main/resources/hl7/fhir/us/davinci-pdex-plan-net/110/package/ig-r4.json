@@ -2333,26 +2333,6 @@
         },
         "parameter": [
             {
-                "code": "copyrightyear",
-                "value": "2022+"
-            },
-            {
-                "code": "releaselabel",
-                "value": "STU 1.1"
-            },
-            {
-                "code": "show-inherited-invariants",
-                "value": "false"
-            },
-            {
-                "code": "jira-code",
-                "value": "davinci-plannet"
-            },
-            {
-                "code": "path-history",
-                "value": "http://hl7.org/fhir/us/davinci-pdex-plan-net/history.html"
-            },
-            {
                 "code": "path-resource",
                 "value": "input/capabilities"
             },
@@ -2409,84 +2389,8 @@
                 "value": "input/images"
             },
             {
-                "code": "path-liquid",
-                "value": "template/liquid"
-            },
-            {
-                "code": "path-liquid",
-                "value": "input/liquid"
-            },
-            {
-                "code": "path-qa",
-                "value": "temp/qa"
-            },
-            {
-                "code": "path-temp",
-                "value": "temp/pages"
-            },
-            {
-                "code": "path-output",
-                "value": "output"
-            },
-            {
                 "code": "path-tx-cache",
                 "value": "input-cache/txcache"
-            },
-            {
-                "code": "path-suppressed-warnings",
-                "value": "input/ignoreWarnings.txt"
-            },
-            {
-                "code": "template-html",
-                "value": "template-page.html"
-            },
-            {
-                "code": "template-md",
-                "value": "template-page-md.html"
-            },
-            {
-                "code": "apply-contact",
-                "value": "true"
-            },
-            {
-                "code": "apply-context",
-                "value": "true"
-            },
-            {
-                "code": "apply-copyright",
-                "value": "true"
-            },
-            {
-                "code": "apply-jurisdiction",
-                "value": "true"
-            },
-            {
-                "code": "apply-license",
-                "value": "true"
-            },
-            {
-                "code": "apply-publisher",
-                "value": "true"
-            },
-            {
-                "code": "apply-version",
-                "value": "true"
-            },
-            {
-                "code": "active-tables",
-                "value": "true"
-            },
-            {
-                "code": "fmm-definition",
-                "value": "http://hl7.org/fhir/versions.html#maturity"
-            },
-            {
-                "code": "propagate-status",
-                "value": "true"
-            },
-            {
-                "code": "excludelogbinaryformat",
-                "value": "true"
             }
         ]
     }

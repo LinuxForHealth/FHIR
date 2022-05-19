@@ -3495,7 +3495,7 @@
                 "isSummary": false,
                 "binding": {
                     "strength": "extensible",
-                    "valueSet": "http://hl7.org/fhir/us/davinci-pdex-plan-net/ValueSet/IndividualSpecialtyAndDegreeLicenseCertificateVS"
+                    "valueSet": "http://hl7.org/fhir/us/davinci-pdex-plan-net/ValueSet/IndividualSpecialtyAndDegreeLicenseCertificateVS|1.0.0"
                 },
                 "mapping": [
                     {
@@ -4043,7 +4043,7 @@
                 "mustSupport": true,
                 "binding": {
                     "strength": "extensible",
-                    "valueSet": "http://hl7.org/fhir/us/davinci-pdex-plan-net/ValueSet/IndividualSpecialtyAndDegreeLicenseCertificateVS"
+                    "valueSet": "http://hl7.org/fhir/us/davinci-pdex-plan-net/ValueSet/IndividualSpecialtyAndDegreeLicenseCertificateVS|1.0.0"
                 }
             },
             {

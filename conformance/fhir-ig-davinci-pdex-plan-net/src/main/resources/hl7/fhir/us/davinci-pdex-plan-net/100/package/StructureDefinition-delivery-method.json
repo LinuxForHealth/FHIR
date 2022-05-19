@@ -367,7 +367,7 @@
                 "isSummary": false,
                 "binding": {
                     "strength": "required",
-                    "valueSet": "http://hl7.org/fhir/us/davinci-pdex-plan-net/ValueSet/DeliveryMethodVS"
+                    "valueSet": "http://hl7.org/fhir/us/davinci-pdex-plan-net/ValueSet/DeliveryMethodVS|1.0.0"
                 },
                 "mapping": [
                     {
@@ -567,7 +567,7 @@
                 "isSummary": false,
                 "binding": {
                     "strength": "extensible",
-                    "valueSet": "http://hl7.org/fhir/us/davinci-pdex-plan-net/ValueSet/VirtualModalitiesVS"
+                    "valueSet": "http://hl7.org/fhir/us/davinci-pdex-plan-net/ValueSet/VirtualModalitiesVS|1.0.0"
                 },
                 "mapping": [
                     {
@@ -838,7 +838,7 @@
                 ],
                 "binding": {
                     "strength": "required",
-                    "valueSet": "http://hl7.org/fhir/us/davinci-pdex-plan-net/ValueSet/DeliveryMethodVS"
+                    "valueSet": "http://hl7.org/fhir/us/davinci-pdex-plan-net/ValueSet/DeliveryMethodVS|1.0.0"
                 }
             },
             {
@@ -871,7 +871,7 @@
                 ],
                 "binding": {
                     "strength": "extensible",
-                    "valueSet": "http://hl7.org/fhir/us/davinci-pdex-plan-net/ValueSet/VirtualModalitiesVS"
+                    "valueSet": "http://hl7.org/fhir/us/davinci-pdex-plan-net/ValueSet/VirtualModalitiesVS|1.0.0"
                 }
             },
             {

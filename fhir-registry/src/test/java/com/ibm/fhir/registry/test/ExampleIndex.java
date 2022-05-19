@@ -16,6 +16,8 @@ import java.io.OutputStreamWriter;
 import java.io.Reader;
 import java.io.Writer;
 import java.nio.charset.StandardCharsets;
+import java.nio.file.Files;
+import java.nio.file.Path;
 import java.util.Collections;
 import java.util.Objects;
 import java.util.Set;
@@ -328,7 +330,23 @@ public class ExampleIndex {
 
     public static Set<Entry> readIndex(String indexPath) {
         log.info("Loading index: " + indexPath);
-        try (InputStream in = FHIRRegistryUtil.class.getClassLoader().getResourceAsStream(indexPath)) {
+        try (InputStream in = ExampleIndex.class.getClassLoader().getResourceAsStream(indexPath)) {
+            if (in == null) {
+                log.log(Level.WARNING, "Index '" + indexPath + "' was not found");
+                return Collections.emptySet();
+            }
+            ExampleIndex index = new ExampleIndex();
+            index.load(in);
+            return index.getEntries();
+        } catch (Exception e) {
+            log.log(Level.WARNING, "Unexpected error while loading index '" + indexPath + "'", e);
+        }
+        return Collections.emptySet();
+    }
+
+    public static Set<Entry> readIndex(Path indexPath) {
+        log.info("Loading index: " + indexPath);
+        try (InputStream in = Files.newInputStream(indexPath)) {
             if (in == null) {
                 log.log(Level.WARNING, "Index '" + indexPath + "' was not found");
                 return Collections.emptySet();

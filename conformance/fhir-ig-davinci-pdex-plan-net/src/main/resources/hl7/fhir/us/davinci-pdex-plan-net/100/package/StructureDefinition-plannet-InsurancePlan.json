@@ -1324,7 +1324,7 @@
                 "isSummary": true,
                 "binding": {
                     "strength": "extensible",
-                    "valueSet": "http://hl7.org/fhir/us/davinci-pdex-plan-net/ValueSet/InsuranceProductTypeVS"
+                    "valueSet": "http://hl7.org/fhir/us/davinci-pdex-plan-net/ValueSet/InsuranceProductTypeVS|1.0.0"
                 },
                 "mapping": [
                     {
@@ -1466,7 +1466,7 @@
                     {
                         "code": "Reference",
                         "targetProfile": [
-                            "http://hl7.org/fhir/us/davinci-pdex-plan-net/StructureDefinition/plannet-Organization"
+                            "http://hl7.org/fhir/us/davinci-pdex-plan-net/StructureDefinition/plannet-Organization|1.0.0"
                         ]
                     }
                 ],
@@ -1500,7 +1500,7 @@
                     {
                         "code": "Reference",
                         "targetProfile": [
-                            "http://hl7.org/fhir/us/davinci-pdex-plan-net/StructureDefinition/plannet-Organization"
+                            "http://hl7.org/fhir/us/davinci-pdex-plan-net/StructureDefinition/plannet-Organization|1.0.0"
                         ]
                     }
                 ],
@@ -1534,7 +1534,7 @@
                     {
                         "code": "Reference",
                         "targetProfile": [
-                            "http://hl7.org/fhir/us/davinci-pdex-plan-net/StructureDefinition/plannet-Location"
+                            "http://hl7.org/fhir/us/davinci-pdex-plan-net/StructureDefinition/plannet-Location|1.0.0"
                         ]
                     }
                 ],
@@ -2672,7 +2672,7 @@
                     {
                         "code": "Reference",
                         "targetProfile": [
-                            "http://hl7.org/fhir/us/davinci-pdex-plan-net/StructureDefinition/plannet-Endpoint"
+                            "http://hl7.org/fhir/us/davinci-pdex-plan-net/StructureDefinition/plannet-Endpoint|1.0.0"
                         ]
                     }
                 ],
@@ -2713,7 +2713,7 @@
                     {
                         "code": "Reference",
                         "targetProfile": [
-                            "http://hl7.org/fhir/us/davinci-pdex-plan-net/StructureDefinition/plannet-Network"
+                            "http://hl7.org/fhir/us/davinci-pdex-plan-net/StructureDefinition/plannet-Network|1.0.0"
                         ]
                     }
                 ],
@@ -3659,7 +3659,7 @@
                 "isSummary": false,
                 "binding": {
                     "strength": "extensible",
-                    "valueSet": "http://hl7.org/fhir/us/davinci-pdex-plan-net/ValueSet/InsurancePlanTypeVS"
+                    "valueSet": "http://hl7.org/fhir/us/davinci-pdex-plan-net/ValueSet/InsurancePlanTypeVS|1.0.0"
                 }
             },
             {
@@ -3678,7 +3678,7 @@
                     {
                         "code": "Reference",
                         "targetProfile": [
-                            "http://hl7.org/fhir/us/davinci-pdex-plan-net/StructureDefinition/plannet-Location"
+                            "http://hl7.org/fhir/us/davinci-pdex-plan-net/StructureDefinition/plannet-Location|1.0.0"
                         ]
                     }
                 ],
@@ -3713,7 +3713,7 @@
                     {
                         "code": "Reference",
                         "targetProfile": [
-                            "http://hl7.org/fhir/us/davinci-pdex-plan-net/StructureDefinition/plannet-Network"
+                            "http://hl7.org/fhir/us/davinci-pdex-plan-net/StructureDefinition/plannet-Network|1.0.0"
                         ]
                     }
                 ],
@@ -4828,7 +4828,7 @@
                 "mustSupport": true,
                 "binding": {
                     "strength": "extensible",
-                    "valueSet": "http://hl7.org/fhir/us/davinci-pdex-plan-net/ValueSet/InsuranceProductTypeVS"
+                    "valueSet": "http://hl7.org/fhir/us/davinci-pdex-plan-net/ValueSet/InsuranceProductTypeVS|1.0.0"
                 }
             },
             {
@@ -4849,7 +4849,7 @@
                     {
                         "code": "Reference",
                         "targetProfile": [
-                            "http://hl7.org/fhir/us/davinci-pdex-plan-net/StructureDefinition/plannet-Organization"
+                            "http://hl7.org/fhir/us/davinci-pdex-plan-net/StructureDefinition/plannet-Organization|1.0.0"
                         ]
                     }
                 ],
@@ -4863,7 +4863,7 @@
                     {
                         "code": "Reference",
                         "targetProfile": [
-                            "http://hl7.org/fhir/us/davinci-pdex-plan-net/StructureDefinition/plannet-Organization"
+                            "http://hl7.org/fhir/us/davinci-pdex-plan-net/StructureDefinition/plannet-Organization|1.0.0"
                         ]
                     }
                 ],
@@ -4876,7 +4876,7 @@
                     {
                         "code": "Reference",
                         "targetProfile": [
-                            "http://hl7.org/fhir/us/davinci-pdex-plan-net/StructureDefinition/plannet-Location"
+                            "http://hl7.org/fhir/us/davinci-pdex-plan-net/StructureDefinition/plannet-Location|1.0.0"
                         ]
                     }
                 ],
@@ -4919,7 +4919,7 @@
                     {
                         "code": "Reference",
                         "targetProfile": [
-                            "http://hl7.org/fhir/us/davinci-pdex-plan-net/StructureDefinition/plannet-Endpoint"
+                            "http://hl7.org/fhir/us/davinci-pdex-plan-net/StructureDefinition/plannet-Endpoint|1.0.0"
                         ]
                     }
                 ],
@@ -4932,7 +4932,7 @@
                     {
                         "code": "Reference",
                         "targetProfile": [
-                            "http://hl7.org/fhir/us/davinci-pdex-plan-net/StructureDefinition/plannet-Network"
+                            "http://hl7.org/fhir/us/davinci-pdex-plan-net/StructureDefinition/plannet-Network|1.0.0"
                         ]
                     }
                 ],
@@ -4950,7 +4950,7 @@
                 "mustSupport": true,
                 "binding": {
                     "strength": "extensible",
-                    "valueSet": "http://hl7.org/fhir/us/davinci-pdex-plan-net/ValueSet/InsurancePlanTypeVS"
+                    "valueSet": "http://hl7.org/fhir/us/davinci-pdex-plan-net/ValueSet/InsurancePlanTypeVS|1.0.0"
                 }
             },
             {
@@ -4960,7 +4960,7 @@
                     {
                         "code": "Reference",
                         "targetProfile": [
-                            "http://hl7.org/fhir/us/davinci-pdex-plan-net/StructureDefinition/plannet-Location"
+                            "http://hl7.org/fhir/us/davinci-pdex-plan-net/StructureDefinition/plannet-Location|1.0.0"
                         ]
                     }
                 ],
@@ -4973,7 +4973,7 @@
                     {
                         "code": "Reference",
                         "targetProfile": [
-                            "http://hl7.org/fhir/us/davinci-pdex-plan-net/StructureDefinition/plannet-Network"
+                            "http://hl7.org/fhir/us/davinci-pdex-plan-net/StructureDefinition/plannet-Network|1.0.0"
                         ]
                     }
                 ]

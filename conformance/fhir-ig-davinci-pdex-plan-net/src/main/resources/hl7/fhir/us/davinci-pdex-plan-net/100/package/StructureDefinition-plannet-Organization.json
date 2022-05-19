@@ -1574,7 +1574,7 @@
                 "isSummary": true,
                 "binding": {
                     "strength": "extensible",
-                    "valueSet": "http://hl7.org/fhir/us/davinci-pdex-plan-net/ValueSet/OrgTypeVS"
+                    "valueSet": "http://hl7.org/fhir/us/davinci-pdex-plan-net/ValueSet/OrgTypeVS|1.0.0"
                 },
                 "mapping": [
                     {
@@ -2986,7 +2986,7 @@
                         ],
                         "code": "Reference",
                         "targetProfile": [
-                            "http://hl7.org/fhir/us/davinci-pdex-plan-net/StructureDefinition/plannet-Organization"
+                            "http://hl7.org/fhir/us/davinci-pdex-plan-net/StructureDefinition/plannet-Organization|1.0.0"
                         ]
                     }
                 ],
@@ -3936,7 +3936,7 @@
                 "mustSupport": true,
                 "binding": {
                     "strength": "extensible",
-                    "valueSet": "http://hl7.org/fhir/us/davinci-pdex-plan-net/ValueSet/OrgTypeVS"
+                    "valueSet": "http://hl7.org/fhir/us/davinci-pdex-plan-net/ValueSet/OrgTypeVS|1.0.0"
                 }
             },
             {
@@ -4026,7 +4026,7 @@
                         ],
                         "code": "Reference",
                         "targetProfile": [
-                            "http://hl7.org/fhir/us/davinci-pdex-plan-net/StructureDefinition/plannet-Organization"
+                            "http://hl7.org/fhir/us/davinci-pdex-plan-net/StructureDefinition/plannet-Organization|1.0.0"
                         ]
                     }
                 ],

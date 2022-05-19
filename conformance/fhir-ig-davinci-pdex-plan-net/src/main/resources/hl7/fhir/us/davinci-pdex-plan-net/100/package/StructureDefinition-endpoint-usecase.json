@@ -368,7 +368,7 @@
                 "isSummary": false,
                 "binding": {
                     "strength": "extensible",
-                    "valueSet": "http://hl7.org/fhir/us/davinci-pdex-plan-net/ValueSet/EndpointUsecaseVS"
+                    "valueSet": "http://hl7.org/fhir/us/davinci-pdex-plan-net/ValueSet/EndpointUsecaseVS|1.0.0"
                 },
                 "mapping": [
                     {
@@ -836,7 +836,7 @@
                 ],
                 "binding": {
                     "strength": "extensible",
-                    "valueSet": "http://hl7.org/fhir/us/davinci-pdex-plan-net/ValueSet/EndpointUsecaseVS"
+                    "valueSet": "http://hl7.org/fhir/us/davinci-pdex-plan-net/ValueSet/EndpointUsecaseVS|1.0.0"
                 }
             },
             {
