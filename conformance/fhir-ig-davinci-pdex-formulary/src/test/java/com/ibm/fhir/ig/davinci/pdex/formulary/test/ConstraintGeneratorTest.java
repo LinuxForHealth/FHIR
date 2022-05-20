@@ -25,7 +25,7 @@ public class ConstraintGeneratorTest {
         FHIRRegistryResourceProvider provider = new Formulary101ResourceProvider();
         for (FHIRRegistryResource registryResource : provider.getRegistryResources()) {
             if (StructureDefinition.class.equals(registryResource.getResourceType())) {
-                String url = registryResource.getUrl();
+                String url = registryResource.getUrl() + "|" + registryResource.getVersion();
                 System.out.println(url);
                 Class<?> type = ModelSupport.isResourceType(registryResource.getType()) ? ModelSupport.getResourceType(registryResource.getType()) : Extension.class;
                 for (Constraint constraint : ProfileSupport.getConstraints(url, type)) {
@@ -44,7 +44,7 @@ public class ConstraintGeneratorTest {
         FHIRRegistryResourceProvider provider = new Formulary101ResourceProvider();
         for (FHIRRegistryResource registryResource : provider.getRegistryResources()) {
             if (StructureDefinition.class.equals(registryResource.getResourceType())) {
-                String url = registryResource.getUrl();
+                String url = registryResource.getUrl() + "|" + registryResource.getVersion();
                 System.out.println(url);
                 Class<?> type = ModelSupport.isResourceType(registryResource.getType()) ? ModelSupport.getResourceType(registryResource.getType()) : Extension.class;
                 for (Constraint constraint : ProfileSupport.getConstraints(url, type)) {
@@ -56,5 +56,17 @@ public class ConstraintGeneratorTest {
                 }
             }
         }
+    }
+
+    public static void main(String[] args) {
+        String url = "http://hl7.org/fhir/us/davinci-drug-formulary/StructureDefinition/usdf-DrugTierDefinition-extension|1.0.1";
+        for (Constraint constraint : ProfileSupport.getConstraints(url, Extension.class)) {
+            System.out.println("    " + constraint);
+            if (!Constraint.LOCATION_BASE.equals(constraint.location())) {
+                compile(constraint.location());
+            }
+            compile(constraint.expression());
+        }
+
     }
 }

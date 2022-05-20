@@ -6,8 +6,12 @@ Source - https://build.fhir.org/ig/HL7/davinci-pdex-formulary retrieved on Nov 3
 - Updated the searchParam.definition for List-identifier to properly reference a core spec parameter (https://jira.hl7.org/browse/FHIR-29937)
 - Modified ig-r4.json to remove parameters that aren't valid in FHIR R4
 - Stripped narrative text to reduce the size and formatted the JSON contents (both via the ResourceProcessor tool)
+- Added version id to extension definition canonical references in StructureDefinitions (e.g. `http://hl7.org/fhir/us/davinci-drug-formulary/StructureDefinition/usdf-Network-extension` -> `http://hl7.org/fhir/us/davinci-drug-formulary/StructureDefinition/usdf-Network-extension|1.0.1`)
+- Added version id to ValueSet binding targets in StructureDefinitions (e.g. `http://hl7.org/fhir/us/davinci-drug-formulary/ValueSet/DrugTierVS` -> `http://hl7.org/fhir/us/davinci-drug-formulary/ValueSet/DrugTierVS|1.0.1`)
+- Added version element under ValueSets.compose.include to specify that these valuesets refer to the 1.0.1 codes.
 
 Note: the examples were subsequently retrieved from http://hl7.org/fhir/us/davinci-drug-formulary/STU1.0.1/package.tgz on May 20, 2022.
+- Added version id to the Meta.profile entry for each example
 
 ## PDEX US Drug Formulary 1.1.0
 Source - http://hl7.org/fhir/us/davinci-drug-formulary/STU1.1 retrieved on May 20, 2022.

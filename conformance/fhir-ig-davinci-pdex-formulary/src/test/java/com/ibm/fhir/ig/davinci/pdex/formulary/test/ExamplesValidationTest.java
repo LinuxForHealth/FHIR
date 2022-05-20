@@ -47,7 +47,7 @@ public class ExamplesValidationTest implements ITest {
     }
 
     @Test
-    public void testDaVinciPlanNetValidation() throws Exception {
+    public void testDaVinciFormularyValidation() throws Exception {
         try (Reader r = Files.newBufferedReader(Paths.get(path))) {
             Resource resource = FHIRParser.parser(Format.JSON).parse(r);
             List<Issue> issues = FHIRValidator.validator().validate(resource);
@@ -75,5 +75,10 @@ public class ExamplesValidationTest implements ITest {
         }
 
         return result.toArray();
+    }
+
+    public static void main(String[] args) throws Exception {
+        new ExamplesValidationTest(EXAMPLES_PATH + "101/List-covplanV1002.json")
+            .testDaVinciFormularyValidation();
     }
 }
