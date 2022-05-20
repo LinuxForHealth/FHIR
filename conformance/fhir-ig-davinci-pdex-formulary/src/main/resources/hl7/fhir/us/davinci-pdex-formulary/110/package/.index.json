@@ -1,0 +1,251 @@
+{
+  "index-version": 1,
+  "files": [
+    {
+      "filename": "SearchParameter-DrugPlan.json",
+      "resourceType": "SearchParameter",
+      "id": "DrugPlan",
+      "url": "http://hl7.org/fhir/us/davinci-drug-formulary/SearchParameter/DrugPlan",
+      "version": "1.1.0",
+      "type": "string"
+    },
+    {
+      "filename": "StructureDefinition-usdf-MarketingURL-extension.json",
+      "resourceType": "StructureDefinition",
+      "id": "usdf-MarketingURL-extension",
+      "url": "http://hl7.org/fhir/us/davinci-drug-formulary/StructureDefinition/usdf-MarketingURL-extension",
+      "version": "1.1.0",
+      "kind": "complex-type",
+      "type": "Extension"
+    },
+    {
+      "filename": "CodeSystem-usdf-DrugTierCS.json",
+      "resourceType": "CodeSystem",
+      "id": "usdf-DrugTierCS",
+      "url": "http://hl7.org/fhir/us/davinci-drug-formulary/CodeSystem/usdf-DrugTierCS",
+      "version": "1.1.0"
+    },
+    {
+      "filename": "CodeSystem-usdf-CoinsuranceOptionCS.json",
+      "resourceType": "CodeSystem",
+      "id": "usdf-CoinsuranceOptionCS",
+      "url": "http://hl7.org/fhir/us/davinci-drug-formulary/CodeSystem/usdf-CoinsuranceOptionCS",
+      "version": "1.1.0"
+    },
+    {
+      "filename": "StructureDefinition-usdf-PlanIDType-extension.json",
+      "resourceType": "StructureDefinition",
+      "id": "usdf-PlanIDType-extension",
+      "url": "http://hl7.org/fhir/us/davinci-drug-formulary/StructureDefinition/usdf-PlanIDType-extension",
+      "version": "1.1.0",
+      "kind": "complex-type",
+      "type": "Extension"
+    },
+    {
+      "filename": "ValueSet-CopayOptionVS.json",
+      "resourceType": "ValueSet",
+      "id": "CopayOptionVS",
+      "url": "http://hl7.org/fhir/us/davinci-drug-formulary/ValueSet/CopayOptionVS",
+      "version": "1.1.0"
+    },
+    {
+      "filename": "ImplementationGuide-hl7.fhir.us.davinci-drug-formulary.json",
+      "resourceType": "ImplementationGuide",
+      "id": "hl7.fhir.us.davinci-drug-formulary",
+      "url": "http://hl7.org/fhir/us/davinci-drug-formulary/ImplementationGuide/hl7.fhir.us.davinci-drug-formulary",
+      "version": "1.1.0"
+    },
+    {
+      "filename": "StructureDefinition-usdf-SummaryURL-extension.json",
+      "resourceType": "StructureDefinition",
+      "id": "usdf-SummaryURL-extension",
+      "url": "http://hl7.org/fhir/us/davinci-drug-formulary/StructureDefinition/usdf-SummaryURL-extension",
+      "version": "1.1.0",
+      "kind": "complex-type",
+      "type": "Extension"
+    },
+    {
+      "filename": "ValueSet-DrugTierVS.json",
+      "resourceType": "ValueSet",
+      "id": "DrugTierVS",
+      "url": "http://hl7.org/fhir/us/davinci-drug-formulary/ValueSet/DrugTierVS",
+      "version": "1.1.0"
+    },
+    {
+      "filename": "CodeSystem-usdf-CopayOptionCS.json",
+      "resourceType": "CodeSystem",
+      "id": "usdf-CopayOptionCS",
+      "url": "http://hl7.org/fhir/us/davinci-drug-formulary/CodeSystem/usdf-CopayOptionCS",
+      "version": "1.1.0"
+    },
+    {
+      "filename": "CodeSystem-usdf-PharmacyTypeCS.json",
+      "resourceType": "CodeSystem",
+      "id": "usdf-PharmacyTypeCS",
+      "url": "http://hl7.org/fhir/us/davinci-drug-formulary/CodeSystem/usdf-PharmacyTypeCS",
+      "version": "1.1.0"
+    },
+    {
+      "filename": "StructureDefinition-usdf-DrugAlternatives-extension.json",
+      "resourceType": "StructureDefinition",
+      "id": "usdf-DrugAlternatives-extension",
+      "url": "http://hl7.org/fhir/us/davinci-drug-formulary/StructureDefinition/usdf-DrugAlternatives-extension",
+      "version": "1.1.0",
+      "kind": "complex-type",
+      "type": "Extension"
+    },
+    {
+      "filename": "StructureDefinition-usdf-FormularyDrug.json",
+      "resourceType": "StructureDefinition",
+      "id": "usdf-FormularyDrug",
+      "url": "http://hl7.org/fhir/us/davinci-drug-formulary/StructureDefinition/usdf-FormularyDrug",
+      "version": "1.1.0",
+      "kind": "resource",
+      "type": "MedicationKnowledge"
+    },
+    {
+      "filename": "StructureDefinition-usdf-PriorAuthorization-extension.json",
+      "resourceType": "StructureDefinition",
+      "id": "usdf-PriorAuthorization-extension",
+      "url": "http://hl7.org/fhir/us/davinci-drug-formulary/StructureDefinition/usdf-PriorAuthorization-extension",
+      "version": "1.1.0",
+      "kind": "complex-type",
+      "type": "Extension"
+    },
+    {
+      "filename": "ig-r4.json",
+      "resourceType": "ImplementationGuide",
+      "id": "hl7.fhir.us.davinci-drug-formulary",
+      "url": "http://hl7.org/fhir/us/davinci-drug-formulary/ImplementationGuide/hl7.fhir.us.davinci-drug-formulary",
+      "version": "1.1.0"
+    },
+    {
+      "filename": "StructureDefinition-usdf-PlanID-extension.json",
+      "resourceType": "StructureDefinition",
+      "id": "usdf-PlanID-extension",
+      "url": "http://hl7.org/fhir/us/davinci-drug-formulary/StructureDefinition/usdf-PlanID-extension",
+      "version": "1.1.0",
+      "kind": "complex-type",
+      "type": "Extension"
+    },
+    {
+      "filename": "StructureDefinition-usdf-DrugTierID-extension.json",
+      "resourceType": "StructureDefinition",
+      "id": "usdf-DrugTierID-extension",
+      "url": "http://hl7.org/fhir/us/davinci-drug-formulary/StructureDefinition/usdf-DrugTierID-extension",
+      "version": "1.1.0",
+      "kind": "complex-type",
+      "type": "Extension"
+    },
+    {
+      "filename": "StructureDefinition-usdf-EmailPlanContact-extension.json",
+      "resourceType": "StructureDefinition",
+      "id": "usdf-EmailPlanContact-extension",
+      "url": "http://hl7.org/fhir/us/davinci-drug-formulary/StructureDefinition/usdf-EmailPlanContact-extension",
+      "version": "1.1.0",
+      "kind": "complex-type",
+      "type": "Extension"
+    },
+    {
+      "filename": "ValueSet-PharmacyTypeVS.json",
+      "resourceType": "ValueSet",
+      "id": "PharmacyTypeVS",
+      "url": "http://hl7.org/fhir/us/davinci-drug-formulary/ValueSet/PharmacyTypeVS",
+      "version": "1.1.0"
+    },
+    {
+      "filename": "ValueSet-CoinsuranceOptionVS.json",
+      "resourceType": "ValueSet",
+      "id": "CoinsuranceOptionVS",
+      "url": "http://hl7.org/fhir/us/davinci-drug-formulary/ValueSet/CoinsuranceOptionVS",
+      "version": "1.1.0"
+    },
+    {
+      "filename": "SearchParameter-DrugName.json",
+      "resourceType": "SearchParameter",
+      "id": "DrugName",
+      "url": "http://hl7.org/fhir/us/davinci-drug-formulary/SearchParameter/DrugName",
+      "version": "1.1.0",
+      "type": "string"
+    },
+    {
+      "filename": "CapabilityStatement-usdf-server.json",
+      "resourceType": "CapabilityStatement",
+      "id": "usdf-server",
+      "url": "http://hl7.org/fhir/us/davinci-drug-formulary/CapabilityStatement/usdf-server",
+      "version": "1.1.0",
+      "kind": "requirements"
+    },
+    {
+      "filename": "StructureDefinition-usdf-MailOrder-extension.json",
+      "resourceType": "StructureDefinition",
+      "id": "usdf-MailOrder-extension",
+      "url": "http://hl7.org/fhir/us/davinci-drug-formulary/StructureDefinition/usdf-MailOrder-extension",
+      "version": "1.1.0",
+      "kind": "complex-type",
+      "type": "Extension"
+    },
+    {
+      "filename": "StructureDefinition-usdf-QuantityLimit-extension.json",
+      "resourceType": "StructureDefinition",
+      "id": "usdf-QuantityLimit-extension",
+      "url": "http://hl7.org/fhir/us/davinci-drug-formulary/StructureDefinition/usdf-QuantityLimit-extension",
+      "version": "1.1.0",
+      "kind": "complex-type",
+      "type": "Extension"
+    },
+    {
+      "filename": "StructureDefinition-usdf-DrugTierDefinition-extension.json",
+      "resourceType": "StructureDefinition",
+      "id": "usdf-DrugTierDefinition-extension",
+      "url": "http://hl7.org/fhir/us/davinci-drug-formulary/StructureDefinition/usdf-DrugTierDefinition-extension",
+      "version": "1.1.0",
+      "kind": "complex-type",
+      "type": "Extension"
+    },
+    {
+      "filename": "StructureDefinition-usdf-StepTherapyLimit-extension.json",
+      "resourceType": "StructureDefinition",
+      "id": "usdf-StepTherapyLimit-extension",
+      "url": "http://hl7.org/fhir/us/davinci-drug-formulary/StructureDefinition/usdf-StepTherapyLimit-extension",
+      "version": "1.1.0",
+      "kind": "complex-type",
+      "type": "Extension"
+    },
+    {
+      "filename": "SearchParameter-DrugTier.json",
+      "resourceType": "SearchParameter",
+      "id": "DrugTier",
+      "url": "http://hl7.org/fhir/us/davinci-drug-formulary/SearchParameter/DrugTier",
+      "version": "1.1.0",
+      "type": "token"
+    },
+    {
+      "filename": "StructureDefinition-usdf-Network-extension.json",
+      "resourceType": "StructureDefinition",
+      "id": "usdf-Network-extension",
+      "url": "http://hl7.org/fhir/us/davinci-drug-formulary/StructureDefinition/usdf-Network-extension",
+      "version": "1.1.0",
+      "kind": "complex-type",
+      "type": "Extension"
+    },
+    {
+      "filename": "StructureDefinition-usdf-FormularyURL-extension.json",
+      "resourceType": "StructureDefinition",
+      "id": "usdf-FormularyURL-extension",
+      "url": "http://hl7.org/fhir/us/davinci-drug-formulary/StructureDefinition/usdf-FormularyURL-extension",
+      "version": "1.1.0",
+      "kind": "complex-type",
+      "type": "Extension"
+    },
+    {
+      "filename": "StructureDefinition-usdf-CoveragePlan.json",
+      "resourceType": "StructureDefinition",
+      "id": "usdf-CoveragePlan",
+      "url": "http://hl7.org/fhir/us/davinci-drug-formulary/StructureDefinition/usdf-CoveragePlan",
+      "version": "1.1.0",
+      "kind": "resource",
+      "type": "List"
+    }
+  ]
+}

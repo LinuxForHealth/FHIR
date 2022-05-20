@@ -1,0 +1,49 @@
+{
+    "resourceType": "SearchParameter",
+    "id": "DrugTier",
+    "text": {
+        "status": "empty",
+        "div": "<div xmlns=\"http://www.w3.org/1999/xhtml\">Redacted for size</div>"
+    },
+    "url": "http://hl7.org/fhir/us/davinci-drug-formulary/SearchParameter/DrugTier",
+    "version": "1.0.1",
+    "name": "DrugTier",
+    "status": "active",
+    "date": "2020-11-20T19:06:24+00:00",
+    "publisher": "HL7 Pharmacy Working Group",
+    "contact": [
+        {
+            "name": "HL7 Pharmacy Working Group",
+            "telecom": [
+                {
+                    "system": "url",
+                    "value": "http://www.hl7.org/Special/committees/medication/"
+                },
+                {
+                    "system": "email",
+                    "value": "pharmacy@lists.HL7.org"
+                }
+            ]
+        }
+    ],
+    "description": "Accesses the DrugTier ID of a FormularyDrug",
+    "jurisdiction": [
+        {
+            "coding": [
+                {
+                    "system": "urn:iso:std:iso:3166",
+                    "code": "US"
+                }
+            ]
+        }
+    ],
+    "code": "DrugTier",
+    "base": [
+        "MedicationKnowledge"
+    ],
+    "type": "token",
+    "expression": "MedicationKnowledge.extension.where(url='http://hl7.org/fhir/us/davinci-drug-formulary/StructureDefinition/usdf-DrugTierID-extension').value",
+    "comparator": [
+        "eq"
+    ]
+}
