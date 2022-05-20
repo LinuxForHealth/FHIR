@@ -49,6 +49,7 @@ public class SearchParametersTransport {
     private List<TagParameter> tagValues = new ArrayList<>();
     private List<ProfileParameter> profileValues = new ArrayList<>();
     private List<SecurityParameter> securityValues = new ArrayList<>();
+    private List<ReferenceParameter> refValues = new ArrayList<>();
 
     /**
      * Factory method to create a {@link Builder} instance
@@ -70,12 +71,12 @@ public class SearchParametersTransport {
         result.append("versionId[");
         result.append(versionId);
         result.append("] ");
-//        result.append("parameterHash[");
-//        result.append(parameterHash);
-//        result.append("] ");
-//        result.append("lastUpdated[");
-//        result.append(lastUpdated);
-//        result.append("] ");
+        result.append("parameterHash[");
+        result.append(parameterHash);
+        result.append("] ");
+        result.append("lastUpdated[");
+        result.append(lastUpdated);
+        result.append("] ");
         return result.toString();
     }
 
@@ -92,6 +93,7 @@ public class SearchParametersTransport {
         private List<TagParameter> tagValues = new ArrayList<>();
         private List<ProfileParameter> profileValues = new ArrayList<>();
         private List<SecurityParameter> securityValues = new ArrayList<>();
+        private List<ReferenceParameter> refValues = new ArrayList<>();
     
         private String resourceType;
         private String logicalId;
@@ -207,6 +209,16 @@ public class SearchParametersTransport {
         }
 
         /**
+         * Add a reference parameter value
+         * @param value
+         * @return
+         */
+        public Builder addReferenceValue(ReferenceParameter value) {
+            refValues.add(value);
+            return this;
+        }
+
+        /**
          * Add a tag parameter value
          * @param value
          * @return
@@ -307,6 +319,9 @@ public class SearchParametersTransport {
             }
             if (this.securityValues.size() > 0) {
                 result.setSecurityValues(new ArrayList<>(this.securityValues));
+            }
+            if (this.refValues.size() > 0) {
+                result.setRefValues(new ArrayList<>(this.refValues));
             }
             return result;
         }
@@ -559,5 +574,19 @@ public class SearchParametersTransport {
      */
     public void setLastUpdated(String lastUpdated) {
         this.lastUpdated = lastUpdated;
+    }
+
+    /**
+     * @return the refValues
+     */
+    public List<ReferenceParameter> getRefValues() {
+        return refValues;
+    }
+
+    /**
+     * @param refValues the refValues to set
+     */
+    public void setRefValues(List<ReferenceParameter> refValues) {
+        this.refValues = refValues;
     }
 }

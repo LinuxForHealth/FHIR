@@ -386,6 +386,15 @@ public class PostgresAdapter extends CommonDatabaseAdapter {
     }
 
     @Override
+    public boolean doesForeignKeyConstraintExist(String schemaName, String tableName, String constraintName) {
+        // check the catalog to see if the named constraint exists
+        PostgresDoesForeignKeyConstraintExist fkExists = new PostgresDoesForeignKeyConstraintExist(schemaName, constraintName);
+        // runStatement may return null in some unit-tests, so we need to protect against that
+        Boolean val = runStatement(fkExists);
+        return val != null && val.booleanValue();
+    }
+
+    @Override
     public void setIntegrityOff(String schemaName, String tableName) {
         // not expecting this to be called for this adapter
         throw new UnsupportedOperationException("Set integrity off not supported for this adapter.");

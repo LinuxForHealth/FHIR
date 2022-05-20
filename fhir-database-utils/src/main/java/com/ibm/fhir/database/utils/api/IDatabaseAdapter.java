@@ -566,6 +566,15 @@ public interface IDatabaseAdapter {
     public void enableForeignKey(String schemaName, String tableName, String constraintName);
 
     /**
+     * Does the named foreign key constraint exist
+     * @param schemaName
+     * @param tableName
+     * @param constraintName
+     * @return
+     */
+    public boolean doesForeignKeyConstraintExist(String schemaName, String tableName, String constraintName);
+
+    /**
      *
      * @param schemaName
      * @param tableName

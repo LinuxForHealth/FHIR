@@ -4,23 +4,11 @@
  * SPDX-License-Identifier: Apache-2.0
  */
  
-package com.ibm.fhir.persistence.jdbc.impl;
+package com.ibm.fhir.persistence.index;
 
 import java.math.BigDecimal;
 import java.sql.Timestamp;
 import java.time.Instant;
-
-import com.ibm.fhir.persistence.index.DateParameter;
-import com.ibm.fhir.persistence.index.LocationParameter;
-import com.ibm.fhir.persistence.index.NumberParameter;
-import com.ibm.fhir.persistence.index.ParameterValueVisitorAdapter;
-import com.ibm.fhir.persistence.index.ProfileParameter;
-import com.ibm.fhir.persistence.index.QuantityParameter;
-import com.ibm.fhir.persistence.index.SearchParametersTransport;
-import com.ibm.fhir.persistence.index.SecurityParameter;
-import com.ibm.fhir.persistence.index.StringParameter;
-import com.ibm.fhir.persistence.index.TagParameter;
-import com.ibm.fhir.persistence.index.TokenParameter;
 
 
 /**
@@ -164,12 +152,12 @@ public class SearchParametersTransportAdapter implements ParameterValueVisitorAd
 
     @Override
     public void referenceValue(String name, String refResourceType, String refLogicalId, Integer refVersion, Integer compositeId) {
-        TokenParameter value = new TokenParameter();
+        ReferenceParameter value = new ReferenceParameter();
         value.setName(name);
-        value.setValueSystem(refResourceType);
-        value.setValueCode(refLogicalId);
+        value.setResourceType(refResourceType);
+        value.setLogicalId(refLogicalId);
         value.setRefVersionId(refVersion);
         value.setCompositeId(compositeId);
-        builder.addTokenValue(value);
+        builder.addReferenceValue(value);
     }
 }

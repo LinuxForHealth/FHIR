@@ -320,6 +320,11 @@ public class PlainSchemaAdapter implements ISchemaAdapter {
     }
 
     @Override
+    public boolean doesForeignKeyConstraintExist(String schemaName, String tableName, String constraintName) {
+        return databaseAdapter.doesForeignKeyConstraintExist(schemaName, tableName, constraintName);
+    }
+
+    @Override
     public void setIntegrityOff(String schemaName, String tableName) {
         databaseAdapter.setIntegrityOff(schemaName, tableName);
     }

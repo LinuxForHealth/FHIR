@@ -311,6 +311,14 @@ public class DerbyAdapter extends CommonDatabaseAdapter {
     }
 
     @Override
+    public boolean doesForeignKeyConstraintExist(String schemaName, String tableName, String constraintName) {
+        DerbyDoesForeignKeyConstraintExist test = new DerbyDoesForeignKeyConstraintExist(schemaName, tableName, constraintName);
+        // runStatement may return null in some unit-tests, so we need to protect against that
+        Boolean val = runStatement(test);
+        return val != null && val.booleanValue();
+    }
+
+    @Override
     protected List<OrderedColumnDef> prefixTenantColumn(String tenantColumnName, List<OrderedColumnDef> columns) {
         // No tenant support, so simply return the columns list unchanged, without prefixing
         // the tenanteColumnName

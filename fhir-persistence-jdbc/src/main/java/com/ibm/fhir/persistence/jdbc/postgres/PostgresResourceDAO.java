@@ -57,9 +57,9 @@ public class PostgresResourceDAO extends ResourceDAOImpl {
     // 13 args (9 in, 4 out)
     private static final String SQL_INSERT_WITH_PARAMETERS = "{CALL %s.add_any_resource(?,?,?,?,?,?,?,?,?,?,?,?,?,?)}";
     // 14 args (10 in, 4 out)
-    private static final String SQL_DISTRIBUTED_INSERT_WITH_PARAMETERS = "{CALL %s.add_any_resource(?,?,?,?,?,?,?,?,?,?,?,?,?,?,?)}";
+    private static final String SQL_SHARDED_INSERT_WITH_PARAMETERS = "{CALL %s.add_any_resource(?,?,?,?,?,?,?,?,?,?,?,?,?,?,?)}";
 
-    private static final String SQL_DISTRIBUTED_READ = ""
+    private static final String SQL_SHARDED_READ = ""
             + "SELECT R.RESOURCE_ID, R.LOGICAL_RESOURCE_ID, R.VERSION_ID, R.LAST_UPDATED, R.IS_DELETED, "
             + "       R.DATA, LR.LOGICAL_ID, R.RESOURCE_PAYLOAD_KEY " 
             + "  FROM %s_RESOURCES R, "
@@ -70,7 +70,7 @@ public class PostgresResourceDAO extends ResourceDAOImpl {
             + "   AND R.SHARD_KEY = LR.SHARD_KEY ";
 
     // Read a specific version of the resource
-    private static final String SQL_DISTRIBUTED_VERSION_READ = ""
+    private static final String SQL_SHARDED_VERSION_READ = ""
             + "SELECT R.RESOURCE_ID, R.LOGICAL_RESOURCE_ID, R.VERSION_ID, R.LAST_UPDATED, R.IS_DELETED, "
             + "       R.DATA, LR.LOGICAL_ID, R.RESOURCE_PAYLOAD_KEY "
             + "  FROM %s_RESOURCES R, "
@@ -84,7 +84,7 @@ public class PostgresResourceDAO extends ResourceDAOImpl {
     // DAO used to obtain sequence values from FHIR_REF_SEQUENCE
     private FhirRefSequenceDAO fhirRefSequenceDAO;
 
-    // The shard key used with distributed databases
+    // The (optional) shard key used with sharded databases
     private final Short shardKey;
 
     public PostgresResourceDAO(Connection connection, String schemaName, FHIRDbFlavor flavor, FHIRPersistenceJDBCCache cache, IResourceReferenceDAO rrd, Short shardKey) {
@@ -117,17 +117,17 @@ public class PostgresResourceDAO extends ResourceDAOImpl {
             // hit the procedure
             Objects.requireNonNull(getResourceTypeId(resource.getResourceType()));
 
-            if (getFlavor().getSchemaType() == SchemaType.DISTRIBUTED) {
+            if (getFlavor().getSchemaType() == SchemaType.SHARDED) {
                 if (this.shardKey == null) {
-                    throw new FHIRPersistenceException("Shard key value required when schema type is DISTRIBUTED");
+                    throw new FHIRPersistenceException("Shard key value required when schema type is SHARDED");
                 }
-                stmtString = String.format(SQL_DISTRIBUTED_INSERT_WITH_PARAMETERS, getSchemaName());
+                stmtString = String.format(SQL_SHARDED_INSERT_WITH_PARAMETERS, getSchemaName());
             } else {
                 stmtString = String.format(SQL_INSERT_WITH_PARAMETERS, getSchemaName());
             }
             stmt = connection.prepareCall(stmtString);
             int arg = 1;
-            if (getFlavor().getSchemaType() == SchemaType.DISTRIBUTED) {
+            if (getFlavor().getSchemaType() == SchemaType.SHARDED) {
                 stmt.setShort(arg++, shardKey);
             }
             stmt.setString(arg++, resource.getResourceType());
@@ -171,10 +171,10 @@ public class PostgresResourceDAO extends ResourceDAOImpl {
                 // To keep things simple for the postgresql use-case, we just use a visitor to
                 // handle inserts of parameters directly in the resource parameter tables.
                 // Note we don't get any parameters for the resource soft-delete operation
-                // For now we bypass parameter work for DISTRIBUTED schemas because the plan
-                // is to make loading async for better ingestion performance
+                // For now we bypass parameter work for DISTRIBUTED or SHARDED schemas 
+                // because the plan is to make loading async for better ingestion performance
                 final String currentParameterHash = stmt.getString(oldParameterHashIndex);
-                if (getFlavor().getSchemaType() != SchemaType.DISTRIBUTED
+                if (getFlavor().getSchemaType() == SchemaType.PLAIN
                         && parameters != null && (parameterHashB64 == null || parameterHashB64.isEmpty()
                         || !parameterHashB64.equals(currentParameterHash))) {
                     // postgresql doesn't support partitioned multi-tenancy, so we disable it on the DAO:
@@ -219,12 +219,12 @@ public class PostgresResourceDAO extends ResourceDAOImpl {
         logger.entering(CLASSNAME, METHODNAME);
 
         Resource resource = null;
-        if (getFlavor().getSchemaType() == SchemaType.DISTRIBUTED) {
+        if (getFlavor().getSchemaType() == SchemaType.SHARDED) {
             List<Resource> resources;
             String stmtString = null;
             
             try {
-                stmtString = String.format(SQL_DISTRIBUTED_READ, resourceType, resourceType);
+                stmtString = String.format(SQL_SHARDED_READ, resourceType, resourceType);
                 resources = this.runQuery(stmtString, shardKey, logicalId);
                 if (!resources.isEmpty()) {
                     resource = resources.get(0);
@@ -244,11 +244,11 @@ public class PostgresResourceDAO extends ResourceDAOImpl {
         logger.entering(CLASSNAME, METHODNAME);
 
         Resource resource = null;
-        if (getFlavor().getSchemaType() == SchemaType.DISTRIBUTED) {
+        if (getFlavor().getSchemaType() == SchemaType.SHARDED) {
             String stmtString = null;
 
             try {
-                stmtString = String.format(SQL_DISTRIBUTED_VERSION_READ, resourceType, resourceType);
+                stmtString = String.format(SQL_SHARDED_VERSION_READ, resourceType, resourceType);
                 List<Resource> resources = this.runQuery(stmtString, shardKey, logicalId, versionId);
                 if (!resources.isEmpty()) {
                     resource = resources.get(0);
@@ -261,23 +261,6 @@ public class PostgresResourceDAO extends ResourceDAOImpl {
         }
         return resource;
 
-    }
-
-    /**
-     * Delete all parameters for the given resourceId from the parameters table
-     *
-     * @param conn
-     * @param tableName
-     * @param logicalResourceId
-     * @throws SQLException
-     */
-    private void deleteFromParameterTableX(Connection conn, String tableName, long logicalResourceId) throws SQLException {
-        final String delStrValues = "DELETE FROM " + tableName + " WHERE logical_resource_id = ?";
-        try (PreparedStatement stmt = conn.prepareStatement(delStrValues)) {
-            // bind parameters
-            stmt.setLong(1, logicalResourceId);
-            stmt.executeUpdate();
-        }
     }
 
     /**

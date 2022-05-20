@@ -543,6 +543,15 @@ public interface ISchemaAdapter {
     public void enableForeignKey(String schemaName, String tableName, String constraintName);
 
     /**
+     * Check to see if the named foreign key constraint already exists
+     * @param schemaName
+     * @param tableName
+     * @param constraintName
+     * @return
+     */
+    public boolean doesForeignKeyConstraintExist(String schemaName, String tableName, String constraintName);
+
+    /**
      *
      * @param schemaName
      * @param tableName

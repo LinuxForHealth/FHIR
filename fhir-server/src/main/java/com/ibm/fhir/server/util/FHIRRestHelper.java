@@ -775,6 +775,7 @@ public class FHIRRestHelper implements FHIRResourceHelpers {
                     FHIRPersistenceContextImpl.builder(event)
                     .withIfNoneMatch(ifNoneMatch)
                     .withOffloadResponse(offloadResponse)
+                    .withRequestShard(requestContext.getRequestShardKey())
                     .build();
 
             boolean createOnUpdate = (prevResource == null);

@@ -110,6 +110,7 @@ import com.ibm.fhir.persistence.exception.FHIRPersistenceResourceNotFoundExcepti
 import com.ibm.fhir.persistence.index.FHIRRemoteIndexService;
 import com.ibm.fhir.persistence.index.IndexProviderResponse;
 import com.ibm.fhir.persistence.index.RemoteIndexData;
+import com.ibm.fhir.persistence.index.SearchParametersTransportAdapter;
 import com.ibm.fhir.persistence.jdbc.FHIRPersistenceJDBCCache;
 import com.ibm.fhir.persistence.jdbc.FHIRResourceDAOFactory;
 import com.ibm.fhir.persistence.jdbc.JDBCConstants;

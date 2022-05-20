@@ -12,6 +12,7 @@ import com.ibm.fhir.persistence.index.LocationParameter;
 import com.ibm.fhir.persistence.index.NumberParameter;
 import com.ibm.fhir.persistence.index.ProfileParameter;
 import com.ibm.fhir.persistence.index.QuantityParameter;
+import com.ibm.fhir.persistence.index.ReferenceParameter;
 import com.ibm.fhir.persistence.index.SecurityParameter;
 import com.ibm.fhir.persistence.index.StringParameter;
 import com.ibm.fhir.persistence.index.TagParameter;
@@ -19,6 +20,7 @@ import com.ibm.fhir.persistence.index.TokenParameter;
 import com.ibm.fhir.remote.index.database.CodeSystemValue;
 import com.ibm.fhir.remote.index.database.CommonCanonicalValue;
 import com.ibm.fhir.remote.index.database.CommonTokenValue;
+import com.ibm.fhir.remote.index.database.LogicalResourceIdentValue;
 import com.ibm.fhir.remote.index.database.ParameterNameValue;
 
 /**
@@ -132,4 +134,16 @@ public interface BatchParameterProcessor {
      * @throws FHIRPersistenceException
      */
     void process(String requestShard, String resourceType, String logicalId, long logicalResourceId, ParameterNameValue parameterNameValue, SecurityParameter parameter, CommonTokenValue commonTokenValue) throws FHIRPersistenceException;
+
+    /**
+     * @param requestShard
+     * @param resourceType
+     * @param logicalId
+     * @param logicalResourceId
+     * @param parameterNameValue
+     * @param parameter
+     * @param refLogicalResourceId
+     */
+    void process(String requestShard, String resourceType, String logicalId, long logicalResourceId, ParameterNameValue parameterNameValue,
+        ReferenceParameter parameter, LogicalResourceIdentValue refLogicalResourceId) throws FHIRPersistenceException;
 }

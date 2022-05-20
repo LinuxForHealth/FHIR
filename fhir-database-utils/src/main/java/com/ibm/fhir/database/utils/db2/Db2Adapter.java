@@ -606,6 +606,14 @@ public class Db2Adapter extends CommonDatabaseAdapter {
         runStatement(ddl);
     }
 
+    @Override
+    public boolean doesForeignKeyConstraintExist(String schemaName, String tableName, String constraintName) {
+        Db2DoesForeignKeyConstraintExist test = new Db2DoesForeignKeyConstraintExist(schemaName, tableName, constraintName);
+        // runStatement may return null in some unit-tests, so we need to protect against that
+        Boolean val = runStatement(test);
+        return val != null && val.booleanValue();
+    }
+
     /* (non-Javadoc)
      * @see com.ibm.fhir.database.utils.api.IDatabaseAdapter#setIntegrityOff(java.lang.String, java.lang.String)
      */

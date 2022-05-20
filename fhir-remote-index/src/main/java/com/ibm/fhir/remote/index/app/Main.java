@@ -29,6 +29,7 @@ import org.apache.kafka.common.PartitionInfo;
 
 import com.ibm.fhir.database.utils.api.IConnectionProvider;
 import com.ibm.fhir.database.utils.api.IDatabaseTranslator;
+import com.ibm.fhir.database.utils.api.SchemaType;
 import com.ibm.fhir.database.utils.common.JdbcConnectionProvider;
 import com.ibm.fhir.database.utils.postgres.PostgresPropertyAdapter;
 import com.ibm.fhir.database.utils.postgres.PostgresTranslator;
@@ -38,7 +39,9 @@ import com.ibm.fhir.remote.index.api.IMessageHandler;
 import com.ibm.fhir.remote.index.cache.IdentityCacheImpl;
 import com.ibm.fhir.remote.index.database.CacheLoader;
 import com.ibm.fhir.remote.index.database.DistributedPostgresMessageHandler;
+import com.ibm.fhir.remote.index.database.PlainPostgresMessageHandler;
 import com.ibm.fhir.remote.index.kafka.RemoteIndexConsumer;
+import com.ibm.fhir.remote.index.sharded.ShardedPostgresMessageHandler;
 
 /**
  * Main class for the FHIR remote index service Kafka consumer
@@ -78,6 +81,7 @@ public class Main {
     private IdentityCacheImpl identityCache;
 
     // Database Configuration
+    private SchemaType schemaType = SchemaType.PLAIN;
     private IDatabaseTranslator translator;
     private IConnectionProvider connectionProvider;
     
@@ -130,6 +134,13 @@ public class Main {
                     maxReadyTimeMs = Long.parseLong(args[a++]);
                 } else {
                     throw new IllegalArgumentException("Missing value for --max-ready-time-ms");
+                }
+                break;
+            case "--schema-type":
+                if (a < args.length && !args[a].startsWith("--")) {
+                    schemaType = SchemaType.valueOf(args[a++]);
+                } else {
+                    throw new IllegalArgumentException("Missing value for --schema-type");
                 }
                 break;
             default:
@@ -294,7 +305,16 @@ public class Main {
         try {
             // Each handler gets a dedicated database connection so we don't have
             // to deal with contention when grabbing connections from a pool
-            return new DistributedPostgresMessageHandler(connectionProvider.getConnection(), getSchemaName(), identityCache, maxReadyTimeMs);
+            switch (schemaType) {
+            case SHARDED:
+                return new ShardedPostgresMessageHandler(connectionProvider.getConnection(), getSchemaName(), identityCache, maxReadyTimeMs);
+            case PLAIN:
+                return new PlainPostgresMessageHandler(connectionProvider.getConnection(), getSchemaName(), identityCache, maxReadyTimeMs);                
+            case DISTRIBUTED:
+                return new DistributedPostgresMessageHandler(connectionProvider.getConnection(), getSchemaName(), identityCache, maxReadyTimeMs);                
+            default:
+                throw new FHIRPersistenceException("Schema type not supported: " + schemaType.name());
+            }
         } catch (SQLException x) {
             throw new FHIRPersistenceException("get connection failed", x);
         }

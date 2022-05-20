@@ -311,8 +311,15 @@ public class JavaBatchSchemaGeneratorTest {
 
         @Override
         public PreparedStatement prepareStatement(String sql) throws SQLException {
+
+            boolean hasRow = true;
+            if (sql.toUpperCase().startsWith("SELECT 1 FROM")) {
+                // this is one of our checks for the existing of a FK...which we want to
+                // say doesn't exist
+                hasRow = false;
+            }
             addCommand(sql);
-            return new PrintPreparedStatement();
+            return new PrintPreparedStatement(hasRow);
         }
 
         @Override
@@ -410,7 +417,7 @@ public class JavaBatchSchemaGeneratorTest {
 
         @Override
         public PreparedStatement prepareStatement(String sql, int resultSetType, int resultSetConcurrency) throws SQLException {
-            return new PrintPreparedStatement();
+            return new PrintPreparedStatement(true);
         }
 
         @Override
@@ -593,11 +600,15 @@ public class JavaBatchSchemaGeneratorTest {
     }
 
     class PrintPreparedStatement implements java.sql.PreparedStatement {
+        private final boolean hasRow;
+        public PrintPreparedStatement(boolean hasRow) {
+            this.hasRow = hasRow;
+        }
 
         @Override
         public ResultSet executeQuery(String sql) throws SQLException {
             addCommand(sql);
-            return new PrintResultSet();
+            return new PrintResultSet(true);
         }
 
         @Override
@@ -847,7 +858,7 @@ public class JavaBatchSchemaGeneratorTest {
         @Override
         public ResultSet executeQuery() throws SQLException {
 
-            return new PrintResultSet();
+            return new PrintResultSet(this.hasRow);
         }
 
         @Override
@@ -1143,7 +1154,7 @@ public class JavaBatchSchemaGeneratorTest {
         @Override
         public ResultSet executeQuery(String sql) throws SQLException {
             addCommand(sql);
-            return new PrintResultSet();
+            return new PrintResultSet(true);
         }
 
         @Override
@@ -1381,7 +1392,11 @@ public class JavaBatchSchemaGeneratorTest {
     }
 
     class PrintResultSet implements java.sql.ResultSet {
+        private boolean hasRow;
 
+        public PrintResultSet(boolean hasRow) {
+            this.hasRow = hasRow;
+        }
         @Override
         public <T> T unwrap(Class<T> iface) throws SQLException {
             return null;
@@ -1394,7 +1409,8 @@ public class JavaBatchSchemaGeneratorTest {
 
         @Override
         public boolean next() throws SQLException {
-            return true;
+            // pretend to have a row
+            return this.hasRow;
         }
 
         @Override
@@ -2434,7 +2450,7 @@ public class JavaBatchSchemaGeneratorTest {
 
         @Override
         public ResultSet executeQuery() throws SQLException {
-            return new PrintResultSet();
+            return new PrintResultSet(true);
         }
 
         @Override
@@ -2713,13 +2729,11 @@ public class JavaBatchSchemaGeneratorTest {
 
         @Override
         public ResultSet executeQuery(String sql) throws SQLException {
-
-            return new PrintResultSet();
+            return new PrintResultSet(true);
         }
 
         @Override
         public int executeUpdate(String sql) throws SQLException {
-
             return 0;
         }
 

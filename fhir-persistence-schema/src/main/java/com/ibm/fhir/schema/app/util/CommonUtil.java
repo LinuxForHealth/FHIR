@@ -34,6 +34,7 @@ import com.ibm.fhir.database.utils.postgres.PostgresAdapter;
 import com.ibm.fhir.database.utils.postgres.PostgresPropertyAdapter;
 import com.ibm.fhir.schema.build.DistributedSchemaAdapter;
 import com.ibm.fhir.schema.build.FhirSchemaAdapter;
+import com.ibm.fhir.schema.build.ShardedSchemaAdapter;
 import com.ibm.fhir.schema.control.FhirSchemaConstants;
 
 /**
@@ -148,7 +149,9 @@ public final class CommonUtil {
         case MULTITENANT:
             return new FhirSchemaAdapter(dbAdapter);
         case DISTRIBUTED:
-            return new DistributedSchemaAdapter(dbAdapter, FhirSchemaConstants.SHARD_KEY);
+            return new DistributedSchemaAdapter(dbAdapter);
+        case SHARDED:
+            return new ShardedSchemaAdapter(dbAdapter, FhirSchemaConstants.SHARD_KEY);
         default:
             throw new IllegalArgumentException("Unsupported schema type: " + schemaType);
         }
@@ -168,7 +171,9 @@ public final class CommonUtil {
         case MULTITENANT:
             return new FhirSchemaAdapter(dbAdapter);
         case DISTRIBUTED:
-            return new DistributedSchemaAdapter(dbAdapter, FhirSchemaConstants.SHARD_KEY);
+            return new DistributedSchemaAdapter(dbAdapter);
+        case SHARDED:
+            return new ShardedSchemaAdapter(dbAdapter, FhirSchemaConstants.SHARD_KEY);
         default:
             throw new IllegalArgumentException("Unsupported schema type: " + schemaType);
         }

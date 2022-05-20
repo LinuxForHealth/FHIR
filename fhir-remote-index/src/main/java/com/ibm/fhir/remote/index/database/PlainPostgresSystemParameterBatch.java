@@ -18,10 +18,10 @@ import com.ibm.fhir.database.utils.common.PreparedStatementHelper;
 
 /**
  * Batch insert statements for system-level parameters
- * @implNote targets the distributed variant of the schema
- * where each table includes a shard_key column
+ * @implNote targets the plain variant of the schema
+ * without an explicit sharding column
  */
-public class DistributedPostgresSystemParameterBatch {
+public class PlainPostgresSystemParameterBatch {
     private final Connection connection;
 
     private PreparedStatement systemStrings;
@@ -43,7 +43,7 @@ public class DistributedPostgresSystemParameterBatch {
      * Public constructor
      * @param c
      */
-    public DistributedPostgresSystemParameterBatch(Connection c) {
+    public PlainPostgresSystemParameterBatch(Connection c) {
         this.connection = c;
     }
 
@@ -146,10 +146,10 @@ public class DistributedPostgresSystemParameterBatch {
         }
     }
 
-    public void addString(long logicalResourceId, int parameterNameId, String strValue, String strValueLower, Integer compositeId, short shardKey) throws SQLException {
+    public void addString(long logicalResourceId, int parameterNameId, String strValue, String strValueLower, Integer compositeId) throws SQLException {
             // System level string attributes
             if (systemStrings == null) {
-                final String insertSystemString = "INSERT INTO str_values (parameter_name_id, str_value, str_value_lcase, logical_resource_id, shard_key) VALUES (?,?,?,?,?)";
+                final String insertSystemString = "INSERT INTO str_values (parameter_name_id, str_value, str_value_lcase, logical_resource_id) VALUES (?,?,?,?)";
                 systemStrings = connection.prepareStatement(insertSystemString);
             }
             systemStrings.setInt(1, parameterNameId);
@@ -157,14 +157,13 @@ public class DistributedPostgresSystemParameterBatch {
             systemStrings.setString(3, strValueLower);
             systemStrings.setLong(4, logicalResourceId);
             setComposite(systemStrings, 5, compositeId);
-            systemStrings.setShort(6, shardKey);
             systemStrings.addBatch();
             systemStringCount++;
     }
 
-    public void addDate(long logicalResourceId, int parameterNameId, Timestamp dateStart, Timestamp dateEnd, Integer compositeId, short shardKey) throws SQLException {
+    public void addDate(long logicalResourceId, int parameterNameId, Timestamp dateStart, Timestamp dateEnd, Integer compositeId) throws SQLException {
         if (systemDates == null) {
-            final String insertSystemDate = "INSERT INTO date_values (parameter_name_id, date_start, date_end, logical_resource_id, shard_key) VALUES (?,?,?,?,?)";
+            final String insertSystemDate = "INSERT INTO date_values (parameter_name_id, date_start, date_end, logical_resource_id) VALUES (?,?,?,?,?)";
             systemDates = connection.prepareStatement(insertSystemDate);
         }
         final Calendar UTC = CalendarHelper.getCalendarForUTC();
@@ -173,48 +172,44 @@ public class DistributedPostgresSystemParameterBatch {
         systemDates.setTimestamp(3, dateEnd, UTC);
         systemDates.setLong(4, logicalResourceId);
         setComposite(systemDates, 5, compositeId);
-        systemDates.setShort(6, shardKey);
         systemDates.addBatch();
         systemDateCount++;
     }
 
-    public void addTag(long logicalResourceId, long commonTokenValueId, short shardKey) throws SQLException {
+    public void addTag(long logicalResourceId, long commonTokenValueId) throws SQLException {
         if (systemTags == null) {
-            final String INS = "INSERT INTO logical_resource_tags(common_token_value_id, logical_resource_id, shard_key) VALUES (?,?,?)";
+            final String INS = "INSERT INTO logical_resource_tags(common_token_value_id, logical_resource_id) VALUES (?,?)";
             systemTags = connection.prepareStatement(INS);
         }
         PreparedStatementHelper psh = new PreparedStatementHelper(systemTags);
         psh.setLong(commonTokenValueId)
             .setLong(logicalResourceId)
-            .setShort(shardKey)
             .addBatch();
         systemTagCount++;
     }
 
-    public void addProfile(long logicalResourceId, long canonicalId, String version, String fragment, short shardKey) throws SQLException {
+    public void addProfile(long logicalResourceId, long canonicalId, String version, String fragment) throws SQLException {
         if (systemProfiles == null) {
-            final String INS = "INSERT INTO logical_resource_profiles(canonical_id, logical_resource_id, shard_key, version, fragment) VALUES (?,?,?,?,?)";
+            final String INS = "INSERT INTO logical_resource_profiles(canonical_id, logical_resource_id, version, fragment) VALUES (?,?,?,?)";
             systemProfiles = connection.prepareStatement(INS);
         }
         PreparedStatementHelper psh = new PreparedStatementHelper(systemProfiles);
         psh.setLong(canonicalId)
             .setLong(logicalResourceId)
-            .setShort(shardKey)
             .setString(version)
             .setString(fragment)
             .addBatch();
         systemProfileCount++;
     }
 
-    public void addSecurity(long logicalResourceId, long commonTokenValueId, short shardKey) throws SQLException {
+    public void addSecurity(long logicalResourceId, long commonTokenValueId) throws SQLException {
         if (systemTags == null) {
-            final String INS = "INSERT INTO logical_resource_security(common_token_value_id, logical_resource_id, shard_key) VALUES (?,?,?)";
+            final String INS = "INSERT INTO logical_resource_security(common_token_value_id, logical_resource_id) VALUES (?,?)";
             systemSecurity = connection.prepareStatement(INS);
         }
         PreparedStatementHelper psh = new PreparedStatementHelper(systemSecurity);
         psh.setLong(commonTokenValueId)
             .setLong(logicalResourceId)
-            .setShort(shardKey)
             .addBatch();
         systemSecurityCount++;
     }

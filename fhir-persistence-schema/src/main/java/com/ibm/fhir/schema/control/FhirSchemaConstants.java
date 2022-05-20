@@ -39,6 +39,7 @@ public class FhirSchemaConstants {
 
     public static final String FHIR_SEQUENCE = "FHIR_SEQUENCE";
     public static final String FHIR_REF_SEQUENCE = "FHIR_REF_SEQUENCE";
+    public static final String FHIR_CHANGE_SEQUENCE = "FHIR_CHANGE_SEQUENCE";
     public static final String TENANT_SEQUENCE = "TENANT_SEQUENCE";
     public static final long FHIR_REF_SEQUENCE_START = 20000;
     public static final int FHIR_REF_SEQUENCE_CACHE = 1000;
@@ -68,7 +69,7 @@ public class FhirSchemaConstants {
     public static final int FRAGMENT_BYTES = 16;
 
     // R4 Logical Resources
-    public static final String LOGICAL_RESOURCE_SHARDS = "LOGICAL_RESOURCE_SHARDS";
+    public static final String LOGICAL_RESOURCE_IDENT = "LOGICAL_RESOURCE_IDENT";
     public static final String LOGICAL_RESOURCES = "LOGICAL_RESOURCES";
     public static final String REINDEX_TSTAMP = "REINDEX_TSTAMP";
     public static final String REINDEX_TXID = "REINDEX_TXID";
@@ -161,7 +162,8 @@ public class FhirSchemaConstants {
 
     // Table for Normalization of References (Internal and External)
     public static final String LOCAL_REFERENCES = "LOCAL_REFERENCES";
-    public static final String REF_LOGICAL_RESOURCE_ID = "REF_LOGICAL_RESOURCE_ID";
+    public static final String COMMON_REFERENCE_VALUES = "COMMON_REFERENCE_VALUES";
+    public static final String COMMON_REFERENCE_VALUE_ID = "COMMON_REFERENCE_VALUE_ID";
 //    public static final String EXTERNAL_SYSTEMS = "EXTERNAL_SYSTEMS";
 //    public static final String EXTERNAL_SYSTEM_ID = "EXTERNAL_SYSTEM_ID";
 //    public static final String EXTERNAL_SYSTEM_NAME = "EXTERNAL_SYSTEM_NAME";
@@ -180,6 +182,9 @@ public class FhirSchemaConstants {
     public static final String RESOURCE_TOKEN_REFS = "RESOURCE_TOKEN_REFS";
     public static final String REF_RESOURCE_TYPE_ID = "REF_RESOURCE_TYPE_ID";
     public static final String REF_VERSION_ID = "REF_VERSION_ID";
+
+    // logical_resource_id value used to point to a local reference
+    public static final String REF_LOGICAL_RESOURCE_ID = "REF_LOGICAL_RESOURCE_ID";
 
     // View suffix to overlay the new common_token_values and resource_token_refs tables
     public static final String TOKEN_VALUES_V = "TOKEN_VALUES_V";

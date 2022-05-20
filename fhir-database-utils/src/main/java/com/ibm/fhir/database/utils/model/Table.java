@@ -52,6 +52,9 @@ public class Table extends BaseObject {
     // The rules to distribute the table in a distributed RDBMS implementation (Citus)
     private final DistributionType distributionType;
 
+    // If set, overrides the column used to distribute the data in a sharded database
+    private final String distributionColumnName;
+
     // The With parameters on the table
     private final List<With> withs;
     
@@ -78,13 +81,14 @@ public class Table extends BaseObject {
      * @param withs
      * @param checkConstraints
      * @param distributionType
+     * @param distributionColumnName
      */
     public Table(String schemaName, String name, int version, String tenantColumnName, 
             Collection<ColumnBase> columns, PrimaryKeyDef pk,
             IdentityDef identity, Collection<IndexDef> indexes, Collection<ForeignKeyConstraint> fkConstraints,
             SessionVariableDef accessControlVar, Tablespace tablespace, List<IDatabaseObject> dependencies, Map<String,String> tags,
             Collection<GroupPrivilege> privileges, List<Migration> migrations, List<With> withs, List<CheckConstraint> checkConstraints,
-            DistributionType distributionType) {
+            DistributionType distributionType, String distributionColumnName) {
         super(schemaName, name, DatabaseObjectType.TABLE, version, migrations);
         this.tenantColumnName = tenantColumnName;
         this.columns.addAll(columns);
@@ -97,6 +101,7 @@ public class Table extends BaseObject {
         this.withs = withs;
         this.checkConstraints.addAll(checkConstraints);
         this.distributionType = distributionType;
+        this.distributionColumnName = distributionColumnName;
 
         // Adds all dependencies which aren't null.
         // The only circumstances where it is null is when it is self referencial (an FK on itself).
@@ -264,6 +269,9 @@ public class Table extends BaseObject {
         // The type of distribution to use for this table when using a distributed database
         private DistributionType distributionType = DistributionType.NONE;
 
+        // Allows the standard distribution column to be overridden
+        private String distributionColumnName;
+
         /**
          * Private constructor to force creation through factory method
          * @param schemaName
@@ -294,12 +302,22 @@ public class Table extends BaseObject {
         }
 
         /**
-         * Setter for the distributionColumnName
+         * Setter for the distributionType
          * @param cn
          * @return
          */
         public Builder setDistributionType(DistributionType dt) {
             this.distributionType = dt;
+            return this;
+        }
+
+        /**
+         * Setter for the distributionColumnName value
+         * @param columnName
+         * @return
+         */
+        public Builder setDistributionColumnName(String columnName) {
+            this.distributionColumnName = columnName;
             return this;
         }
 
@@ -807,7 +825,8 @@ public class Table extends BaseObject {
             // Our schema objects are immutable by design, so all initialization takes place
             // through the constructor
             return new Table(getSchemaName(), getObjectName(), this.version, this.tenantColumnName, buildColumns(), this.primaryKey, this.identity, this.indexes.values(),
-                    enabledFKConstraints, this.accessControlVar, this.tablespace, allDependencies, tags, privileges, migrations, withs, checkConstraints, distributionType);
+                    enabledFKConstraints, this.accessControlVar, this.tablespace, allDependencies, tags, privileges, migrations, withs, checkConstraints, distributionType,
+                    distributionColumnName);
         }
 
         /**

@@ -16,7 +16,6 @@ import static com.ibm.fhir.schema.app.menu.Menu.CREATE_SCHEMA_FHIR;
 import static com.ibm.fhir.schema.app.menu.Menu.CREATE_SCHEMA_OAUTH;
 import static com.ibm.fhir.schema.app.menu.Menu.DB_TYPE;
 import static com.ibm.fhir.schema.app.menu.Menu.DELETE_TENANT_META;
-import static com.ibm.fhir.schema.app.menu.Menu.DISTRIBUTED;
 import static com.ibm.fhir.schema.app.menu.Menu.DROP_ADMIN;
 import static com.ibm.fhir.schema.app.menu.Menu.DROP_DETACHED;
 import static com.ibm.fhir.schema.app.menu.Menu.DROP_SCHEMA;
@@ -38,6 +37,7 @@ import static com.ibm.fhir.schema.app.menu.Menu.REFRESH_TENANTS;
 import static com.ibm.fhir.schema.app.menu.Menu.REVOKE_ALL_TENANT_KEYS;
 import static com.ibm.fhir.schema.app.menu.Menu.REVOKE_TENANT_KEY;
 import static com.ibm.fhir.schema.app.menu.Menu.SCHEMA_NAME;
+import static com.ibm.fhir.schema.app.menu.Menu.SCHEMA_TYPE;
 import static com.ibm.fhir.schema.app.menu.Menu.SHOW_DB_SIZE;
 import static com.ibm.fhir.schema.app.menu.Menu.SHOW_DB_SIZE_DETAIL;
 import static com.ibm.fhir.schema.app.menu.Menu.SKIP_ALLOCATE_IF_TENANT_EXISTS;
@@ -153,6 +153,7 @@ import com.ibm.fhir.schema.control.FhirSchemaConstants;
 import com.ibm.fhir.schema.control.FhirSchemaGenerator;
 import com.ibm.fhir.schema.control.FhirSchemaVersion;
 import com.ibm.fhir.schema.control.GetLogicalResourceNeedsV0014Migration;
+import com.ibm.fhir.schema.control.GetLogicalResourceNeedsV0027Migration;
 import com.ibm.fhir.schema.control.GetResourceChangeLogEmpty;
 import com.ibm.fhir.schema.control.GetResourceTypeList;
 import com.ibm.fhir.schema.control.GetTenantInfo;
@@ -162,6 +163,7 @@ import com.ibm.fhir.schema.control.InitializeLogicalResourceDenorms;
 import com.ibm.fhir.schema.control.JavaBatchSchemaGenerator;
 import com.ibm.fhir.schema.control.MigrateV0014LogicalResourceIsDeletedLastUpdated;
 import com.ibm.fhir.schema.control.MigrateV0021AbstractTypeRemoval;
+import com.ibm.fhir.schema.control.MigrateV0027LogicalResourceIdent;
 import com.ibm.fhir.schema.control.OAuthSchemaGenerator;
 import com.ibm.fhir.schema.control.PopulateParameterNames;
 import com.ibm.fhir.schema.control.PopulateResourceTypes;
@@ -315,8 +317,8 @@ public class Main {
     // Configuration to control how the LeaseManager operates
     private ILeaseManagerConfig leaseManagerConfig;
 
-    // Do we want to build the distributed flavor of the FHIR data schema?
-    private boolean distributed = false;
+    // Which flavor of the FHIR data schema should we build?
+    private SchemaType dataSchemaType;
 
     // -----------------------------------------------------------------------------------------------------------------
     // The following method is related to the common methods and functions
@@ -362,8 +364,8 @@ public class Main {
      */
     protected void buildAdminSchemaModel(PhysicalDataModel pdm) {
         // Add the tenant and tenant_keys tables and any other admin schema stuff
-        SchemaType schemaType = isMultitenant() ? SchemaType.MULTITENANT : SchemaType.PLAIN;
-        FhirSchemaGenerator gen = new FhirSchemaGenerator(schema.getAdminSchemaName(), schema.getSchemaName(), schemaType);
+        SchemaType adminSchemaType = isMultitenant() ? SchemaType.MULTITENANT : SchemaType.PLAIN;
+        FhirSchemaGenerator gen = new FhirSchemaGenerator(schema.getAdminSchemaName(), schema.getSchemaName(), adminSchemaType);
         gen.buildAdminSchema(pdm);
     }
 
@@ -397,10 +399,11 @@ public class Main {
      * @param collector
      * @param vhs
      */
-    protected void applyModel(PhysicalDataModel pdm, ISchemaAdapter adapter, ITaskCollector collector, VersionHistoryService vhs) {
+    protected void applyModel(PhysicalDataModel pdm, ISchemaAdapter adapter, ITaskCollector collector, VersionHistoryService vhs, SchemaType schemaType) {
         logger.info("Collecting model update tasks");
-        // If using a distributed RDBMS (Citus) then skip the initial FK creation
-        SchemaApplyContext context = SchemaApplyContext.builder().setIncludeForeignKeys(!isDistributed()).build();
+        // If using a distributed RDBMS (like Citus) then skip the initial FK creation
+        final boolean includeForeignKeys = schemaType != SchemaType.DISTRIBUTED;
+        SchemaApplyContext context = SchemaApplyContext.builder().setIncludeForeignKeys(includeForeignKeys).build();
         pdm.collect(collector, adapter, context, this.transactionProvider, vhs);
 
         // FHIR in the hole!
@@ -512,9 +515,9 @@ public class Main {
     protected void buildFhirDataSchemaModel(PhysicalDataModel pdm) {
         FhirSchemaGenerator gen;
         if (resourceTypeSubset == null || resourceTypeSubset.isEmpty()) {
-            gen = new FhirSchemaGenerator(schema.getAdminSchemaName(), schema.getSchemaName(), getSchemaType());
+            gen = new FhirSchemaGenerator(schema.getAdminSchemaName(), schema.getSchemaName(), getDataSchemaType());
         } else {
-            gen = new FhirSchemaGenerator(schema.getAdminSchemaName(), schema.getSchemaName(), getSchemaType(), resourceTypeSubset);
+            gen = new FhirSchemaGenerator(schema.getAdminSchemaName(), schema.getSchemaName(), getDataSchemaType(), resourceTypeSubset);
         }
 
         gen.buildSchema(pdm);
@@ -559,18 +562,18 @@ public class Main {
                 FhirSchemaVersion.getLatestFhirSchemaVersion().vid());
             if (svm.isSchemaOld() || this.force && svm.isSchemaVersionMatch()) {
                 if (this.dbType == DbType.CITUS) {
-                    // First version with Citus support is V0026 and we can't upgrade
+                    // First version with Citus support is V0027 and we can't upgrade
                     // from before that
                     int currentSchemaVersion = svm.getVersionForSchema();
-                    if (currentSchemaVersion >= 0 && currentSchemaVersion < FhirSchemaVersion.V0026.vid()) {
-                        throw new IllegalStateException("Cannot upgrade Citus databases with schema version < V0026");
+                    if (currentSchemaVersion >= 0 && currentSchemaVersion < FhirSchemaVersion.V0027.vid()) {
+                        throw new IllegalStateException("Cannot upgrade Citus databases with schema version < V0027");
                     }
                 }
 
                 // Build/update the FHIR-related tables as well as the stored procedures
                 PhysicalDataModel pdm = new PhysicalDataModel(isDistributed());
                 buildFhirDataSchemaModel(pdm);
-                boolean isNewDb = updateSchema(pdm, getSchemaType());
+                boolean isNewDb = updateSchema(pdm, getDataSchemaType());
 
                 if (this.exitStatus == EXIT_OK) {
                     // If the db is multi-tenant, we populate the resource types and parameter names in allocate-tenant.
@@ -595,6 +598,9 @@ public class Main {
 
                     // V0021 removes Abstract Type tables which are unused.
                     applyTableRemovalForV0021();
+
+                    // V0027 populate the new LOGICAL_RESOURCE_IDENT table
+                    applyDataMigrationForV0027();
 
                     // Apply privileges if asked
                     if (grantTo != null) {
@@ -744,10 +750,9 @@ public class Main {
         boolean isNewDb = vhs.getVersion(schema.getSchemaName(), DatabaseObjectType.TABLE.name(), "PARAMETER_NAMES") == null ||
                 vhs.getVersion(schema.getSchemaName(), DatabaseObjectType.TABLE.name(), "PARAMETER_NAMES") == 0;
 
-        applyModel(pdm, schemaAdapter, collector, vhs);
-        if (isDistributed()) {
-            applyDistributionRules(pdm);
-        }
+        applyModel(pdm, schemaAdapter, collector, vhs, schemaType);
+        applyDistributionRules(pdm, schemaType);
+
         // The physical database objects should now match what was defined in the PhysicalDataModel
 
         return isNewDb;
@@ -758,31 +763,35 @@ public class Main {
      * FK constraints that are needed
      * @param pdm
      */
-    private void applyDistributionRules(PhysicalDataModel pdm) {
-        try (ITransaction tx = TransactionFactory.openTransaction(connectionPool)) {
-            try {
-                ISchemaAdapter schemaAdapter = getSchemaAdapter(SchemaType.PLAIN, dbType, connectionPool);
-                pdm.applyDistributionRules(schemaAdapter);
-            } catch (RuntimeException x) {
-                tx.setRollbackOnly();
-                throw x;
+    private void applyDistributionRules(PhysicalDataModel pdm, SchemaType schemaType) {
+        if (dbType == DbType.CITUS) {
+            try (ITransaction tx = TransactionFactory.openTransaction(connectionPool)) {
+                try {
+                    ISchemaAdapter schemaAdapter = getSchemaAdapter(getDataSchemaType(), dbType, connectionPool);
+                    pdm.applyDistributionRules(schemaAdapter);
+                } catch (RuntimeException x) {
+                    tx.setRollbackOnly();
+                    throw x;
+                }
             }
         }
 
-        // Now that all the tables have been distributed, it should be safe
-        // to apply the FK constraints
-        try (ITransaction tx = TransactionFactory.openTransaction(connectionPool)) {
-            try {
-                final String tenantColumnName = isMultitenant() ? "mt_id" : null;
-                ISchemaAdapter adapter = getSchemaAdapter(getSchemaType(), dbType, connectionPool);
-                AddForeignKey adder = new AddForeignKey(adapter, tenantColumnName);
-                pdm.visit(adder, FhirSchemaGenerator.SCHEMA_GROUP_TAG, FhirSchemaGenerator.FHIRDATA_GROUP);
-            } catch (RuntimeException x) {
-                tx.setRollbackOnly();
-                throw x;
+        final boolean includeForeignKeys = schemaType != SchemaType.DISTRIBUTED;
+        if (!includeForeignKeys) {
+            // Now that all the tables have been distributed, it should be safe
+            // to apply the FK constraints
+            try (ITransaction tx = TransactionFactory.openTransaction(connectionPool)) {
+                try {
+                    final String tenantColumnName = isMultitenant() ? "mt_id" : null;
+                    ISchemaAdapter adapter = getSchemaAdapter(getDataSchemaType(), dbType, connectionPool);
+                    AddForeignKey adder = new AddForeignKey(adapter, tenantColumnName);
+                    pdm.visit(adder, FhirSchemaGenerator.SCHEMA_GROUP_TAG, FhirSchemaGenerator.FHIRDATA_GROUP);
+                } catch (RuntimeException x) {
+                    tx.setRollbackOnly();
+                    throw x;
+                }
             }
-        }
-        
+        }        
     }
 
     /**
@@ -869,7 +878,7 @@ public class Main {
                 try {
                     JdbcTarget target = new JdbcTarget(c);
                     IDatabaseAdapter adapter = getDbAdapter(dbType, target);
-                    ISchemaAdapter schemaAdapter = getSchemaAdapter(getSchemaType(), adapter);
+                    ISchemaAdapter schemaAdapter = getSchemaAdapter(getDataSchemaType(), adapter);
                     ISchemaAdapter plainSchemaAdapter = getSchemaAdapter(SchemaType.PLAIN, adapter);
                     VersionHistoryService vhs =
                             new VersionHistoryService(schema.getAdminSchemaName(), schema.getSchemaName(), schema.getOauthSchemaName(), schema.getJavaBatchSchemaName());
@@ -882,7 +891,7 @@ public class Main {
                         if (this.dropSplitTransaction) {
                             // important that we use an adapter connected with the connection pool
                             // (which is connected to the transaction provider)
-                            ISchemaAdapter poolSchemaAdapter = getSchemaAdapter(getSchemaType(), dbType, connectionPool);
+                            ISchemaAdapter poolSchemaAdapter = getSchemaAdapter(getDataSchemaType(), dbType, connectionPool);
                             pdm.dropSplitTransaction(poolSchemaAdapter, this.transactionProvider, FhirSchemaGenerator.SCHEMA_GROUP_TAG, FhirSchemaGenerator.FHIRDATA_GROUP);
                         } else {
                             // old fashioned drop where we do everything in one (big) transaction
@@ -988,7 +997,7 @@ public class Main {
         try (ITransaction tx = TransactionFactory.openTransaction(connectionPool)) {
             try (Connection c = connectionPool.getConnection();) {
                 try {
-                    ISchemaAdapter schemaAdapter = getSchemaAdapter(getSchemaType(), dbType, connectionPool);
+                    ISchemaAdapter schemaAdapter = getSchemaAdapter(getDataSchemaType(), dbType, connectionPool);
                     SchemaApplyContext context = SchemaApplyContext.getDefault();
                     pdm.applyProcedures(schemaAdapter, context);
                     pdm.applyFunctions(schemaAdapter, context);
@@ -1039,7 +1048,7 @@ public class Main {
      */
     protected void grantPrivilegesForFhirData() {
 
-        final ISchemaAdapter schemaAdapter = getSchemaAdapter(getSchemaType(), dbType, connectionPool);
+        final ISchemaAdapter schemaAdapter = getSchemaAdapter(getDataSchemaType(), dbType, connectionPool);
         try (ITransaction tx = TransactionFactory.openTransaction(connectionPool)) {
             try {
                 PhysicalDataModel pdm = new PhysicalDataModel(isDistributed());
@@ -1141,17 +1150,11 @@ public class Main {
     }
 
     /**
-     * What type of schema do we want to build?
+     * What type of FHIR data schema do we want to build?
      * @return
      */
-    protected SchemaType getSchemaType() {
-        if (isMultitenant()) {
-            return SchemaType.MULTITENANT;
-        } else if (isDistributed()) {
-            return SchemaType.DISTRIBUTED;
-        } else {
-            return SchemaType.PLAIN;
-        }
+    protected SchemaType getDataSchemaType() {
+        return this.dataSchemaType;
     }
 
     // -----------------------------------------------------------------------------------------------------------------
@@ -1335,7 +1338,7 @@ public class Main {
             }
 
             // Build/update the tables as well as the stored procedures
-            FhirSchemaGenerator gen = new FhirSchemaGenerator(schema.getAdminSchemaName(), schema.getSchemaName(), getSchemaType());
+            FhirSchemaGenerator gen = new FhirSchemaGenerator(schema.getAdminSchemaName(), schema.getSchemaName(), getDataSchemaType());
             PhysicalDataModel pdm = new PhysicalDataModel(isDistributed());
             gen.buildSchema(pdm);
 
@@ -1468,7 +1471,7 @@ public class Main {
             if (ti.getTenantSchema() != null && (!schema.isOverrideDataSchema() || schema.matchesDataSchema(ti.getTenantSchema()))) {
                 // It's crucial we use the correct schema for each particular tenant, which
                 // is why we have to build the PhysicalDataModel separately for each tenant
-                FhirSchemaGenerator gen = new FhirSchemaGenerator(schema.getAdminSchemaName(), ti.getTenantSchema(), getSchemaType());
+                FhirSchemaGenerator gen = new FhirSchemaGenerator(schema.getAdminSchemaName(), ti.getTenantSchema(), getDataSchemaType());
                 PhysicalDataModel pdm = new PhysicalDataModel(isDistributed());
                 gen.buildSchema(pdm);
 
@@ -1686,7 +1689,7 @@ public class Main {
         TenantInfo tenantInfo = freezeTenant();
 
         // Build the model of the data (FHIRDATA) schema which is then used to drive the drop
-        FhirSchemaGenerator gen = new FhirSchemaGenerator(schema.getAdminSchemaName(), tenantInfo.getTenantSchema(), getSchemaType());
+        FhirSchemaGenerator gen = new FhirSchemaGenerator(schema.getAdminSchemaName(), tenantInfo.getTenantSchema(), getDataSchemaType());
         PhysicalDataModel pdm = new PhysicalDataModel(isDistributed());
         gen.buildSchema(pdm);
 
@@ -1705,7 +1708,7 @@ public class Main {
     protected void dropDetachedPartitionTables() {
 
         TenantInfo tenantInfo = getTenantInfo();
-        FhirSchemaGenerator gen = new FhirSchemaGenerator(schema.getAdminSchemaName(), tenantInfo.getTenantSchema(), getSchemaType());
+        FhirSchemaGenerator gen = new FhirSchemaGenerator(schema.getAdminSchemaName(), tenantInfo.getTenantSchema(), getDataSchemaType());
         PhysicalDataModel pdm = new PhysicalDataModel(isDistributed());
         gen.buildSchema(pdm);
 
@@ -2158,8 +2161,12 @@ public class Main {
             case CONFIRM_DROP:
                 this.confirmDrop = true;
                 break;
-            case DISTRIBUTED:
-                this.distributed = true;
+            case SCHEMA_TYPE:
+                if (++i < args.length) {
+                    this.dataSchemaType = SchemaType.valueOf(args[i]);
+                } else {
+                    throw new IllegalArgumentException("Missing value for argument at posn: " + i);
+                }
                 break;
             case ALLOCATE_TENANT:
                 if (++i < args.length) {
@@ -2227,7 +2234,10 @@ public class Main {
                     break;
                 case CITUS:
                     translator = new CitusTranslator();
+                    break;
                 case DB2:
+                    dataSchemaType = SchemaType.MULTITENANT;
+                    break;
                 default:
                     break;
                 }
@@ -2347,6 +2357,23 @@ public class Main {
             }
         } else {
             dataMigrationForV0014();
+        }
+    }
+
+    protected void applyDataMigrationForV0027() {
+        if (MULTITENANT_FEATURE_ENABLED.contains(dbType)) {
+            // Process each tenant one-by-one
+            List<TenantInfo> tenants = getTenantList();
+            for (TenantInfo ti : tenants) {
+
+                // If no --schema-name override was specified, we process all tenants, otherwise we
+                // process only tenants which belong to the override schema name
+                if (!schema.isOverrideDataSchema() || schema.matchesDataSchema(ti.getTenantSchema())) {
+                    dataMigrationForV0027(ti);
+                }
+            }
+        } else {
+            dataMigrationForV0027();
         }
     }
 
@@ -2507,6 +2534,44 @@ public class Main {
         }
     }
 
+    private void dataMigrationForV0027(TenantInfo ti) {
+        // Multi-tenant schema so we know this is Db2:
+        Db2Adapter adapter = new Db2Adapter(connectionPool);
+
+        try (ITransaction tx = TransactionFactory.openTransaction(connectionPool)) {
+            try {
+                SetTenantIdDb2 setTenantId = new SetTenantIdDb2(schema.getAdminSchemaName(), ti.getTenantId());
+                adapter.runStatement(setTenantId);
+
+                logger.info("V0027 Migration: Populating LOGICAL_RESOURCE_IDENT for tenant['" 
+                        + ti.getTenantName() + "' in schema '" + ti.getTenantSchema() + "']");
+
+                dataMigrationForV0027(adapter, ti.getTenantSchema());
+            } catch (DataAccessException x) {
+                // Something went wrong, so mark the transaction as failed
+                tx.setRollbackOnly();
+                throw x;
+            }
+        }
+    }
+
+    /**
+     * V0027 migration. Populate LOGICAL_RESOURCE_IDENT from LOGICAL_RESOURCES
+     */
+    private void dataMigrationForV0027() {
+        IDatabaseAdapter adapter = getDbAdapter(dbType, connectionPool);
+
+        try (ITransaction tx = TransactionFactory.openTransaction(connectionPool)) {
+            try {
+                dataMigrationForV0027(adapter, schema.getSchemaName());
+            } catch (DataAccessException x) {
+                // Something went wrong, so mark the transaction as failed
+                tx.setRollbackOnly();
+                throw x;
+            }
+        }
+    }
+
     /**
      * only process tables which have not yet had their data migrated. The migration can't be
      * done as part of the schema change because some tables need a REORG which
@@ -2523,6 +2588,20 @@ public class Main {
                     + schemaName + "' and resource type '" + resourceType.toString() + "'");
             MigrateV0014LogicalResourceIsDeletedLastUpdated cmd =
                     new MigrateV0014LogicalResourceIsDeletedLastUpdated(schemaName, resourceType.getName(), resourceType.getId());
+            adapter.runStatement(cmd);
+        }
+    }
+
+    /**
+     * If the LOGICAL_RESOURCE_IDENT table is empty, fill it using values from
+     * LOGICAL_RESOURCES
+     * @param adapter
+     * @param schemaName
+     */
+    private void dataMigrationForV0027(IDatabaseAdapter adapter, String schemaName) {
+        GetLogicalResourceNeedsV0027Migration needsMigrating = new GetLogicalResourceNeedsV0027Migration(schemaName);
+        if (adapter.runStatement(needsMigrating)) {
+            MigrateV0027LogicalResourceIdent cmd = new MigrateV0027LogicalResourceIdent(schemaName);
             adapter.runStatement(cmd);
         }
     }
@@ -2646,11 +2725,13 @@ public class Main {
     }
 
     /**
-     * Should we build the distributed variant of the FHIR data schema
+     * Should we build the distributed variant of the FHIR data schema. This
+     * changes how we need to handle certain unique indexes and foreign key
+     * constraints.
      * @return
      */
     private boolean isDistributed() {
-        return this.distributed;
+        return dataSchemaType == SchemaType.DISTRIBUTED;
     }
 
     /**

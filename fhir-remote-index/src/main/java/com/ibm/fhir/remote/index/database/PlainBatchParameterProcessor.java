@@ -21,6 +21,7 @@ import com.ibm.fhir.persistence.index.LocationParameter;
 import com.ibm.fhir.persistence.index.NumberParameter;
 import com.ibm.fhir.persistence.index.ProfileParameter;
 import com.ibm.fhir.persistence.index.QuantityParameter;
+import com.ibm.fhir.persistence.index.ReferenceParameter;
 import com.ibm.fhir.persistence.index.SecurityParameter;
 import com.ibm.fhir.persistence.index.StringParameter;
 import com.ibm.fhir.persistence.index.TagParameter;
@@ -30,16 +31,16 @@ import com.ibm.fhir.remote.index.api.BatchParameterProcessor;
 
 /**
  * Processes batched parameters by pushing the values to various
- * JDBC statements
+ * JDBC statements based on the plain variant of the schema
  */
-public class JDBCBatchParameterProcessor implements BatchParameterProcessor {
-    private static final Logger logger = Logger.getLogger(JDBCBatchParameterProcessor.class.getName());
+public class PlainBatchParameterProcessor implements BatchParameterProcessor {
+    private static final Logger logger = Logger.getLogger(PlainBatchParameterProcessor.class.getName());
 
     // A cache of the resource-type specific DAOs we've created
-    private final Map<String, DistributedPostgresParameterBatch> daoMap = new HashMap<>();
+    private final Map<String, PlainPostgresParameterBatch> daoMap = new HashMap<>();
 
     // Encapculates the statements for inserting whole-system level search params
-    private final DistributedPostgresSystemParameterBatch systemDao;
+    private final PlainPostgresSystemParameterBatch systemDao;
 
     // Resource types we've touched in the current batch
     private final Set<String> resourceTypesInBatch = new HashSet<>();
@@ -51,16 +52,16 @@ public class JDBCBatchParameterProcessor implements BatchParameterProcessor {
      * Public constructor
      * @param connection
      */
-    public JDBCBatchParameterProcessor(Connection connection) {
+    public PlainBatchParameterProcessor(Connection connection) {
         this.connection = connection;
-        this.systemDao = new DistributedPostgresSystemParameterBatch(connection);        
+        this.systemDao = new PlainPostgresSystemParameterBatch(connection);        
     }
 
     /**
      * Close any resources we're holding to support a cleaner exit
      */
     public void close() {
-        for (Map.Entry<String, DistributedPostgresParameterBatch> entry: daoMap.entrySet()) {
+        for (Map.Entry<String, PlainPostgresParameterBatch> entry: daoMap.entrySet()) {
             entry.getValue().close();
         }
         systemDao.close();
@@ -79,11 +80,18 @@ public class JDBCBatchParameterProcessor implements BatchParameterProcessor {
      */
     public void reset() {
         for (String resourceType: resourceTypesInBatch) {
-            DistributedPostgresParameterBatch dao = daoMap.get(resourceType);
+            PlainPostgresParameterBatch dao = daoMap.get(resourceType);
             dao.close();
         }
         systemDao.close();
     }
+
+    @Override
+    public Short encodeShardKey(String requestShard) {
+        // This implementation doesn't get involved in application-based sharding
+        return null;
+    }
+
     /**
      * Push any statements that have been batched but not yet executed
      * @throws FHIRPersistenceException
@@ -94,7 +102,7 @@ public class JDBCBatchParameterProcessor implements BatchParameterProcessor {
                 if (logger.isLoggable(Level.FINE)) {
                     logger.fine("Pushing batch for [" + resourceType + "]");
                 }
-                DistributedPostgresParameterBatch dao = daoMap.get(resourceType);
+                PlainPostgresParameterBatch dao = daoMap.get(resourceType);
                 try {
                     dao.pushBatch();
                 } catch (SQLException x) {
@@ -114,39 +122,29 @@ public class JDBCBatchParameterProcessor implements BatchParameterProcessor {
         }
     }
 
-    private DistributedPostgresParameterBatch getParameterBatchDao(String resourceType) {
+    private PlainPostgresParameterBatch getParameterBatchDao(String resourceType) {
         resourceTypesInBatch.add(resourceType);
-        DistributedPostgresParameterBatch dao = daoMap.get(resourceType);
+        PlainPostgresParameterBatch dao = daoMap.get(resourceType);
         if (dao == null) {
-            dao = new DistributedPostgresParameterBatch(connection, resourceType);
+            dao = new PlainPostgresParameterBatch(connection, resourceType);
             daoMap.put(resourceType, dao);
         }
         return dao;
     }
 
     @Override
-    public Short encodeShardKey(String requestShard) {
-        if (requestShard != null) {
-            return Short.valueOf((short)requestShard.hashCode());
-        } else {
-            return null;
-        }
-    }
-
-    @Override
     public void process(String requestShard, String resourceType, String logicalId, long logicalResourceId, ParameterNameValue parameterNameValue, StringParameter parameter) throws FHIRPersistenceException {
         if (logger.isLoggable(Level.FINE)) {
-            logger.fine("process string parameter [" + requestShard + "] [" + resourceType + "] [" + logicalId + "] [" + logicalResourceId + "] [" + parameterNameValue.getParameterName() + "] ["
+            logger.fine("process string parameter [" + resourceType + "] [" + logicalId + "] [" + logicalResourceId + "] [" + parameterNameValue.getParameterName() + "] ["
                 + parameter.toString() + "]");
         }
 
         try {
-            DistributedPostgresParameterBatch dao = getParameterBatchDao(resourceType);
-            final Short shardKey = encodeShardKey(requestShard);
-            dao.addString(logicalResourceId, parameterNameValue.getParameterNameId(), parameter.getValue(), parameter.getValue().toLowerCase(), parameter.getCompositeId(), shardKey);
+            PlainPostgresParameterBatch dao = getParameterBatchDao(resourceType);
+            dao.addString(logicalResourceId, parameterNameValue.getParameterNameId(), parameter.getValue(), parameter.getValue().toLowerCase(), parameter.getCompositeId());
 
             if (parameter.isSystemParam()) {
-                systemDao.addString(logicalResourceId, parameterNameValue.getParameterNameId(), parameter.getValue(), parameter.getValue().toLowerCase(), parameter.getCompositeId(), shardKey);
+                systemDao.addString(logicalResourceId, parameterNameValue.getParameterNameId(), parameter.getValue(), parameter.getValue().toLowerCase(), parameter.getCompositeId());
             }
         } catch (SQLException x) {
             throw new FHIRPersistenceException("Failed inserting string params for '" + resourceType + "'");
@@ -156,14 +154,13 @@ public class JDBCBatchParameterProcessor implements BatchParameterProcessor {
     @Override
     public void process(String requestShard, String resourceType, String logicalId, long logicalResourceId, ParameterNameValue parameterNameValue, NumberParameter p) throws FHIRPersistenceException {
         if (logger.isLoggable(Level.FINE)) {
-            logger.fine("process number parameter [" + requestShard + "] [" + resourceType + "] [" + logicalId + "] [" + logicalResourceId + "] [" + parameterNameValue.getParameterName() + "] ["
+            logger.fine("process number parameter [" + resourceType + "] [" + logicalId + "] [" + logicalResourceId + "] [" + parameterNameValue.getParameterName() + "] ["
                     + p.toString() + "]");
         }
 
         try {
-            DistributedPostgresParameterBatch dao = getParameterBatchDao(resourceType);
-            final Short shardKey = encodeShardKey(requestShard);
-            dao.addNumber(logicalResourceId, parameterNameValue.getParameterNameId(), p.getValue(), p.getLowValue(), p.getHighValue(), p.getCompositeId(), shardKey);
+            PlainPostgresParameterBatch dao = getParameterBatchDao(resourceType);
+            dao.addNumber(logicalResourceId, parameterNameValue.getParameterNameId(), p.getValue(), p.getLowValue(), p.getHighValue(), p.getCompositeId());
         } catch (SQLException x) {
             throw new FHIRPersistenceException("Failed inserting string params for '" + resourceType + "'");
         }
@@ -172,14 +169,13 @@ public class JDBCBatchParameterProcessor implements BatchParameterProcessor {
     @Override
     public void process(String requestShard, String resourceType, String logicalId, long logicalResourceId, ParameterNameValue parameterNameValue, QuantityParameter p, CodeSystemValue codeSystemValue) throws FHIRPersistenceException {
         if (logger.isLoggable(Level.FINE)) {
-            logger.fine("process quantity parameter [" + requestShard + "] [" + resourceType + "] [" + logicalId + "] [" + logicalResourceId + "] [" + parameterNameValue.getParameterName() + "] ["
+            logger.fine("process quantity parameter [" + resourceType + "] [" + logicalId + "] [" + logicalResourceId + "] [" + parameterNameValue.getParameterName() + "] ["
                     + p.toString() + "]");
         }
 
         try {
-            DistributedPostgresParameterBatch dao = getParameterBatchDao(resourceType);
-            final Short shardKey = encodeShardKey(requestShard);
-            dao.addQuantity(logicalResourceId, parameterNameValue.getParameterNameId(), codeSystemValue.getCodeSystemId(), p.getValueCode(), p.getValueNumber(), p.getValueNumberLow(), p.getValueNumberHigh(), p.getCompositeId(), shardKey);
+            PlainPostgresParameterBatch dao = getParameterBatchDao(resourceType);
+            dao.addQuantity(logicalResourceId, parameterNameValue.getParameterNameId(), codeSystemValue.getCodeSystemId(), p.getValueCode(), p.getValueNumber(), p.getValueNumberLow(), p.getValueNumberHigh(), p.getCompositeId());
         } catch (SQLException x) {
             throw new FHIRPersistenceException("Failed inserting quantity params for '" + resourceType + "'");
         }
@@ -188,14 +184,13 @@ public class JDBCBatchParameterProcessor implements BatchParameterProcessor {
     @Override
     public void process(String requestShard, String resourceType, String logicalId, long logicalResourceId, ParameterNameValue parameterNameValue, LocationParameter p) throws FHIRPersistenceException {
         if (logger.isLoggable(Level.FINE)) {
-            logger.fine("process location parameter [" + requestShard + "] [" + resourceType + "] [" + logicalId + "] [" + logicalResourceId + "] [" + parameterNameValue.getParameterName() + "] ["
+            logger.fine("process location parameter [" + resourceType + "] [" + logicalId + "] [" + logicalResourceId + "] [" + parameterNameValue.getParameterName() + "] ["
                     + p.toString() + "]");
         }
 
         try {
-            DistributedPostgresParameterBatch dao = getParameterBatchDao(resourceType);
-            final Short shardKey = encodeShardKey(requestShard);
-            dao.addLocation(logicalResourceId, parameterNameValue.getParameterNameId(), p.getValueLatitude(), p.getValueLongitude(), p.getCompositeId(), shardKey);
+            PlainPostgresParameterBatch dao = getParameterBatchDao(resourceType);
+            dao.addLocation(logicalResourceId, parameterNameValue.getParameterNameId(), p.getValueLatitude(), p.getValueLongitude(), p.getCompositeId());
         } catch (SQLException x) {
             throw new FHIRPersistenceException("Failed inserting location params for '" + resourceType + "'");
         }
@@ -204,16 +199,15 @@ public class JDBCBatchParameterProcessor implements BatchParameterProcessor {
     @Override
     public void process(String requestShard, String resourceType, String logicalId, long logicalResourceId, ParameterNameValue parameterNameValue, DateParameter p) throws FHIRPersistenceException {
         if (logger.isLoggable(Level.FINE)) {
-            logger.fine("process date parameter [" + requestShard + "] [" + resourceType + "] [" + logicalId + "] [" + logicalResourceId + "] [" + parameterNameValue.getParameterName() + "] ["
+            logger.fine("process date parameter [" + resourceType + "] [" + logicalId + "] [" + logicalResourceId + "] [" + parameterNameValue.getParameterName() + "] ["
                     + p.toString() + "]");
         }
 
         try {
-            DistributedPostgresParameterBatch dao = getParameterBatchDao(resourceType);
-            final Short shardKey = encodeShardKey(requestShard);
-            dao.addDate(logicalResourceId, parameterNameValue.getParameterNameId(), p.getValueDateStart(), p.getValueDateEnd(), p.getCompositeId(), shardKey);
+            PlainPostgresParameterBatch dao = getParameterBatchDao(resourceType);
+            dao.addDate(logicalResourceId, parameterNameValue.getParameterNameId(), p.getValueDateStart(), p.getValueDateEnd(), p.getCompositeId());
             if (p.isSystemParam()) {
-                systemDao.addDate(logicalResourceId, parameterNameValue.getParameterNameId(), p.getValueDateStart(), p.getValueDateEnd(), p.getCompositeId(), shardKey);
+                systemDao.addDate(logicalResourceId, parameterNameValue.getParameterNameId(), p.getValueDateStart(), p.getValueDateEnd(), p.getCompositeId());
             }
         } catch (SQLException x) {
             throw new FHIRPersistenceException("Failed inserting date params for '" + resourceType + "'");
@@ -225,14 +219,13 @@ public class JDBCBatchParameterProcessor implements BatchParameterProcessor {
         CommonTokenValue commonTokenValue) throws FHIRPersistenceException {
 
         if (logger.isLoggable(Level.FINE)) {
-            logger.fine("process token parameter [" + requestShard + "] [" + resourceType + "] [" + logicalId + "] [" + logicalResourceId + "] [" + parameterNameValue.getParameterName() + "] ["
+            logger.fine("process token parameter [" + resourceType + "] [" + logicalId + "] [" + logicalResourceId + "] [" + parameterNameValue.getParameterName() + "] ["
                     + p.toString() + "] [" + commonTokenValue.getCommonTokenValueId() + "]");
         }
 
         try {
-            DistributedPostgresParameterBatch dao = getParameterBatchDao(resourceType);
-            final Short shardKey = encodeShardKey(requestShard);
-            dao.addResourceTokenRef(logicalResourceId, parameterNameValue.getParameterNameId(), commonTokenValue.getCommonTokenValueId(), p.getRefVersionId(), p.getCompositeId(), shardKey);
+            PlainPostgresParameterBatch dao = getParameterBatchDao(resourceType);
+            dao.addResourceTokenRef(logicalResourceId, parameterNameValue.getParameterNameId(), commonTokenValue.getCommonTokenValueId(), p.getRefVersionId(), p.getCompositeId());
         } catch (SQLException x) {
             throw new FHIRPersistenceException("Failed inserting token params for '" + resourceType + "'");
         }
@@ -243,17 +236,16 @@ public class JDBCBatchParameterProcessor implements BatchParameterProcessor {
         CommonTokenValue commonTokenValue) throws FHIRPersistenceException {
 
         if (logger.isLoggable(Level.FINE)) {
-            logger.fine("process tag parameter [" + requestShard + "] [" + resourceType + "] [" + logicalId + "] [" + logicalResourceId + "] [" + parameterNameValue.getParameterName() + "] ["
+            logger.fine("process tag parameter [" + resourceType + "] [" + logicalId + "] [" + logicalResourceId + "] [" + parameterNameValue.getParameterName() + "] ["
                     + p.toString() + "] [" + commonTokenValue.getCommonTokenValueId() + "]");
         }
 
         try {
-            DistributedPostgresParameterBatch dao = getParameterBatchDao(resourceType);
-            final Short shardKey = encodeShardKey(requestShard);
-            dao.addTag(logicalResourceId, commonTokenValue.getCommonTokenValueId(), shardKey);
+            PlainPostgresParameterBatch dao = getParameterBatchDao(resourceType);
+            dao.addTag(logicalResourceId, commonTokenValue.getCommonTokenValueId());
             
             if (p.isSystemParam()) {
-                systemDao.addTag(logicalResourceId, commonTokenValue.getCommonTokenValueId(), shardKey);
+                systemDao.addTag(logicalResourceId, commonTokenValue.getCommonTokenValueId());
             }
         } catch (SQLException x) {
             throw new FHIRPersistenceException("Failed inserting tag params for '" + resourceType + "'");
@@ -265,16 +257,15 @@ public class JDBCBatchParameterProcessor implements BatchParameterProcessor {
         CommonCanonicalValue commonCanonicalValue) throws FHIRPersistenceException {
 
         if (logger.isLoggable(Level.FINE)) {
-            logger.fine("process profile parameter [" + requestShard + "] [" + resourceType + "] [" + logicalId + "] [" + logicalResourceId + "] [" + parameterNameValue.getParameterName() + "] ["
+            logger.fine("process profile parameter [" + resourceType + "] [" + logicalId + "] [" + logicalResourceId + "] [" + parameterNameValue.getParameterName() + "] ["
                     + p.toString() + "] [" + commonCanonicalValue.getCanonicalId() + "]");
         }
 
         try {
-            DistributedPostgresParameterBatch dao = getParameterBatchDao(resourceType);
-            final Short shardKey = encodeShardKey(requestShard);
-            dao.addProfile(logicalResourceId, commonCanonicalValue.getCanonicalId(), p.getVersion(), p.getFragment(), shardKey);
+            PlainPostgresParameterBatch dao = getParameterBatchDao(resourceType);
+            dao.addProfile(logicalResourceId, commonCanonicalValue.getCanonicalId(), p.getVersion(), p.getFragment());
             if (p.isSystemParam()) {
-                systemDao.addProfile(logicalResourceId, commonCanonicalValue.getCanonicalId(), p.getVersion(), p.getFragment(), shardKey);
+                systemDao.addProfile(logicalResourceId, commonCanonicalValue.getCanonicalId(), p.getVersion(), p.getFragment());
             }
         } catch (SQLException x) {
             throw new FHIRPersistenceException("Failed inserting profile params for '" + resourceType + "'");
@@ -286,18 +277,34 @@ public class JDBCBatchParameterProcessor implements BatchParameterProcessor {
         CommonTokenValue commonTokenValue) throws FHIRPersistenceException {
 
         if (logger.isLoggable(Level.FINE)) {
-            logger.fine("process security parameter [" + requestShard + "] [" + resourceType + "] [" + logicalId + "] [" + logicalResourceId + "] [" + parameterNameValue.getParameterName() + "] ["
+            logger.fine("process security parameter [" + resourceType + "] [" + logicalId + "] [" + logicalResourceId + "] [" + parameterNameValue.getParameterName() + "] ["
                     + p.toString() + "] [" + commonTokenValue.getCommonTokenValueId() + "]");
         }
 
         try {
-            DistributedPostgresParameterBatch dao = getParameterBatchDao(resourceType);
-            final Short shardKey = encodeShardKey(requestShard);
-            dao.addSecurity(logicalResourceId, commonTokenValue.getCommonTokenValueId(), shardKey);
+            PlainPostgresParameterBatch dao = getParameterBatchDao(resourceType);
+            dao.addSecurity(logicalResourceId, commonTokenValue.getCommonTokenValueId());
             
             if (p.isSystemParam()) {
-                systemDao.addSecurity(logicalResourceId, commonTokenValue.getCommonTokenValueId(), shardKey);
+                systemDao.addSecurity(logicalResourceId, commonTokenValue.getCommonTokenValueId());
             }
+        } catch (SQLException x) {
+            throw new FHIRPersistenceException("Failed inserting security params for '" + resourceType + "'");
+        }
+    }
+
+    @Override
+    public void process(String requestShard, String resourceType, String logicalId, long logicalResourceId, ParameterNameValue parameterNameValue,
+        ReferenceParameter parameter, LogicalResourceIdentValue refLogicalResourceId) throws FHIRPersistenceException {
+
+        if (logger.isLoggable(Level.FINE)) {
+            logger.fine("process reference parameter [" + resourceType + "] [" + logicalId + "] [" + logicalResourceId + "] [" + parameterNameValue.getParameterName() + "] ["
+                    + parameter.toString() + "] [" + refLogicalResourceId.getLogicalResourceId() + "]");
+        }
+
+        try {
+            PlainPostgresParameterBatch dao = getParameterBatchDao(resourceType);
+            dao.addReference(logicalResourceId, parameterNameValue.getParameterNameId(), refLogicalResourceId.getLogicalResourceId(), parameter.getRefVersionId());
         } catch (SQLException x) {
             throw new FHIRPersistenceException("Failed inserting security params for '" + resourceType + "'");
         }

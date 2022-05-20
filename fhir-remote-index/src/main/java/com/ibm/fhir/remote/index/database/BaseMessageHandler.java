@@ -21,6 +21,7 @@ import com.ibm.fhir.persistence.index.LocationParameter;
 import com.ibm.fhir.persistence.index.NumberParameter;
 import com.ibm.fhir.persistence.index.ProfileParameter;
 import com.ibm.fhir.persistence.index.QuantityParameter;
+import com.ibm.fhir.persistence.index.ReferenceParameter;
 import com.ibm.fhir.persistence.index.RemoteIndexMessage;
 import com.ibm.fhir.persistence.index.SearchParametersTransport;
 import com.ibm.fhir.persistence.index.SecurityParameter;
@@ -178,7 +179,7 @@ public abstract class BaseMessageHandler implements IMessageHandler {
 
             // Ask the handle to check which messages match the database
             // and are therefore ready to be processed
-            prepare(messages, okToProcess, notReady);
+            checkReady(messages, okToProcess, notReady);
 
             // If the ready check fails just sleep for a bit because we need
             // to wait until the upstream transaction commits. This means we
@@ -187,7 +188,9 @@ public abstract class BaseMessageHandler implements IMessageHandler {
             if (notReady.size() > 0) {
                 long snoozeMs = Math.min(1000l, (timeoutTime - System.nanoTime()) / 1000000);
                 // short sleep to wait for the upstream transaction to complete
-                ThreadHandler.safeSleep(snoozeMs);
+                if (snoozeMs > 0) {
+                    ThreadHandler.safeSleep(snoozeMs);
+                }
             }
         } while (notReady.size() > 0 && System.nanoTime() < timeoutTime);
 
@@ -210,7 +213,7 @@ public abstract class BaseMessageHandler implements IMessageHandler {
      * @param OUT: okToMessages the messages matching the current database
      * @param OUT: notReady the messages for which the upstream transaction has yet to commit
      */
-    protected abstract void prepare(List<RemoteIndexMessage> messages, List<RemoteIndexMessage> okToProcess, List<RemoteIndexMessage> notReady) throws FHIRPersistenceException;
+    protected abstract void checkReady(List<RemoteIndexMessage> messages, List<RemoteIndexMessage> okToProcess, List<RemoteIndexMessage> notReady) throws FHIRPersistenceException;
 
     /**
      * Process the data 
@@ -268,6 +271,12 @@ public abstract class BaseMessageHandler implements IMessageHandler {
 
         if (params.getSecurityValues() != null) {
             for (SecurityParameter p: params.getSecurityValues()) {
+                process(message.getTenantId(), params.getRequestShard(), params.getResourceType(), params.getLogicalId(), params.getLogicalResourceId(), p);
+            }
+        }
+
+        if (params.getRefValues() != null) {
+            for (ReferenceParameter p: params.getRefValues()) {
                 process(message.getTenantId(), params.getRequestShard(), params.getResourceType(), params.getLogicalId(), params.getLogicalResourceId(), p);
             }
         }
@@ -358,6 +367,18 @@ public abstract class BaseMessageHandler implements IMessageHandler {
      * @param p
      */
     protected abstract void process(String tenantId, String requestShard, String resourceType, String logicalId, long logicalResourceId, DateParameter p) throws FHIRPersistenceException;
+
+    /**
+     * 
+     * @param tenantId
+     * @param requestShard
+     * @param resourceType
+     * @param logicalId
+     * @param logicalResourceId
+     * @param p
+     * @throws FHIRPersistenceException
+     */
+    protected abstract void process(String tenantId, String requestShard, String resourceType, String logicalId, long logicalResourceId, ReferenceParameter p) throws FHIRPersistenceException;
 
     /**
      * @param tenantId
