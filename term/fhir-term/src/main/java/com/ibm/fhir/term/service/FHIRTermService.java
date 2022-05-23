@@ -416,34 +416,74 @@ public class FHIRTermService {
         if (!LookupParameters.EMPTY.equals(parameters)) {
             throw new UnsupportedOperationException("Lookup parameters are not suppored");
         }
+        java.lang.String system = (coding.getSystem() != null) ? coding.getSystem().getValue() : null;
+        java.lang.String version = (coding.getVersion() != null) ? coding.getVersion().getValue() : null;
+        java.lang.String url = (version != null) ? system + "|" + version : system;
+        CodeSystem codeSystem = CodeSystemSupport.getCodeSystem(url);
+        if (codeSystem == null) {
+            LOGGER.fine(() -> "Unable to find CodeSystem with url: " + url);
+            return null;
+        }
+        return lookup(codeSystem, coding, parameters);
+    }
+
+    /**
+     * Lookup the code system concept for the given coding within the passed CodeSystem
+     * @param codeSystem
+     *     the code system to look in
+     * @param coding
+     *     the coding to lookup
+     * @param parameters
+     *     the lookup parameters
+     *
+     * @return
+     *     the outcome of the lookup
+     */
+    public LookupOutcome lookup(CodeSystem codeSystem, Coding coding, LookupParameters parameters) {
+        if (!LookupParameters.EMPTY.equals(parameters)) {
+            throw new UnsupportedOperationException("Lookup parameters are not suppored");
+        }
+        Objects.requireNonNull(coding, "coding");
+        Objects.requireNonNull(codeSystem, "codeSystem");
         Uri system = coding.getSystem();
         Code code = coding.getCode();
-        if (system != null && code != null) {
-            java.lang.String version = (coding.getVersion() != null) ? coding.getVersion().getValue() : null;
-            java.lang.String url = (version != null) ? system.getValue() + "|" + version : system.getValue();
-            CodeSystem codeSystem = CodeSystemSupport.getCodeSystem(url);
-            if (codeSystem != null) {
-                Concept concept = findProvider(codeSystem).getConcept(codeSystem, code);
-                if (concept != null) {
-                    return LookupOutcome.builder()
-                            .name((codeSystem.getName() != null) ? codeSystem.getName() : STRING_DATA_ABSENT_REASON_UNKNOWN)
-                            .version(codeSystem.getVersion())
-                            .display((concept.getDisplay() != null) ? concept.getDisplay() : STRING_DATA_ABSENT_REASON_UNKNOWN)
-                            .property(concept.getProperty().stream()
-                                .map(property -> Property.builder()
-                                    .code(property.getCode())
-                                    .value(property.getValue())
-                                    .build())
-                                .collect(Collectors.toList()))
-                            .designation(concept.getDesignation().stream()
-                                .map(designation -> Designation.builder()
-                                    .language(designation.getLanguage())
-                                    .use(designation.getUse())
-                                    .value(designation.getValue())
-                                    .build())
-                                .collect(Collectors.toList()))
-                            .build();
+
+        if (coding.getVersion() != null) {
+            if (codeSystem.getVersion() != null && codeSystem.getVersion().hasValue()) {
+                java.lang.String systemVersion = codeSystem.getVersion().getValue();
+                if (!systemVersion.equals(coding.getVersion().getValue())) {
+                    java.lang.String systemUrl = (codeSystem.getUrl() == null) ? null : codeSystem.getUrl().getValue();
+                    LOGGER.info("Client code requested version " + coding.getVersion().getValue() + " but the"
+                            + " passed CodeSystem (" + systemUrl + ") was version " + systemVersion);
+                    return null;
                 }
+            } else {
+                LOGGER.info("Client code requested version " + coding.getVersion().getValue() + " but using"
+                        + " a CodeSystem (" + codeSystem.getUrl() + ") with no version info.");
+            }
+        }
+
+        if (system != null && code != null) {
+            Concept concept = findProvider(codeSystem).getConcept(codeSystem, code);
+            if (concept != null) {
+                return LookupOutcome.builder()
+                        .name((codeSystem.getName() != null) ? codeSystem.getName() : STRING_DATA_ABSENT_REASON_UNKNOWN)
+                        .version(codeSystem.getVersion())
+                        .display((concept.getDisplay() != null) ? concept.getDisplay() : STRING_DATA_ABSENT_REASON_UNKNOWN)
+                        .property(concept.getProperty().stream()
+                            .map(property -> Property.builder()
+                                .code(property.getCode())
+                                .value(property.getValue())
+                                .build())
+                            .collect(Collectors.toList()))
+                        .designation(concept.getDesignation().stream()
+                            .map(designation -> Designation.builder()
+                                .language(designation.getLanguage())
+                                .use(designation.getUse())
+                                .value(designation.getValue())
+                                .build())
+                            .collect(Collectors.toList()))
+                        .build();
             }
         }
         return null;
@@ -749,9 +789,9 @@ public class FHIRTermService {
                 .append(codeSystem.getVersion() == null ? null : codeSystem.getVersion().getValue());
             LOGGER.fine(message.toString());
         }
-        
+
         // If we add a message to this ValidationOutcome, then it will create a new issue in the issue list;
-        // our assumption here is that the false result will instead bubble up to some other issue and so we 
+        // our assumption here is that the false result will instead bubble up to some other issue and so we
         // chose not to create redundant issues.
         return buildValidationOutcome(false);
     }
@@ -786,7 +826,7 @@ public class FHIRTermService {
         if (!ValidationParameters.EMPTY.equals(parameters)) {
             throw new UnsupportedOperationException("Validation parameters are not supported");
         }
-        LookupOutcome outcome = lookup(coding, LookupParameters.EMPTY);
+        LookupOutcome outcome = lookup(codeSystem, coding, LookupParameters.EMPTY);
         if (outcome != null) {
             return validateDisplay(null, coding, outcome);
         } else {
@@ -799,7 +839,7 @@ public class FHIRTermService {
                 message.append(coding.getSystem().getValue());
             }
             message.append("'");
-    
+
             return buildValidationOutcome(false, message.toString());
         }
     }
@@ -938,7 +978,7 @@ public class FHIRTermService {
                 return validateDisplay(null, coding, outcome);
             }
         }
-        
+
         if (LOGGER.isLoggable(Level.FINE)) {
             StringBuilder message = new StringBuilder()
                     .append("None of the Coding values in the CodeableConcept were found to be valid in ValueSet with URL=")
@@ -949,7 +989,7 @@ public class FHIRTermService {
         }
 
         // If we add a message to this ValidationOutcome, then it will create a new issue in the issue list;
-        // our assumption here is that the false result will instead bubble up to some other issue and so we 
+        // our assumption here is that the false result will instead bubble up to some other issue and so we
         // chose not to create redundant issues.
         return buildValidationOutcome(false);
     }
@@ -1082,7 +1122,8 @@ public class FHIRTermService {
 
     private List<FHIRTermServiceProvider> loadProviders() {
         List<FHIRTermServiceProvider> providers = new ArrayList<>();
-        providers.add(FHIRTermConfig.isCachingDisabled() ? new RegistryTermServiceProvider() : CachingProxy.newInstance(FHIRTermServiceProvider.class, new RegistryTermServiceProvider()));
+        providers.add(FHIRTermConfig.isCachingDisabled() ? new RegistryTermServiceProvider()
+                : CachingProxy.newInstance(FHIRTermServiceProvider.class, new RegistryTermServiceProvider()));
         Iterator<FHIRTermServiceProvider> iterator = ServiceLoader.load(FHIRTermServiceProvider.class).iterator();
         while (iterator.hasNext()) {
             providers.add(iterator.next());
@@ -1109,11 +1150,11 @@ public class FHIRTermService {
             java.lang.String url = (version != null) ? system + "|" + version : system;
             caseSensitive = CodeSystemSupport.isCaseSensitive(url);
         }
-        boolean result = caseSensitive ? lookupOutcome.getDisplay().equals(coding.getDisplay()) : 
+        boolean result = caseSensitive ? lookupOutcome.getDisplay().equals(coding.getDisplay()) :
                 normalize(lookupOutcome.getDisplay().getValue()).equals(normalize(coding.getDisplay().getValue()));
-        java.lang.String message = !result ? java.lang.String.format("The display '%s' is incorrect for code '%s' from code system '%s'", 
+        java.lang.String message = !result ? java.lang.String.format("The display '%s' is incorrect for code '%s' from code system '%s'",
                 coding.getDisplay().getValue(), coding.getCode().getValue(), system) : null;
-        
+
         return buildValidationOutcome(result, message, lookupOutcome);
     }
 

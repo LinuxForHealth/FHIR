@@ -1,5 +1,5 @@
 /*
- * (C) Copyright IBM Corp. 2019, 2021
+ * (C) Copyright IBM Corp. 2019, 2022
  *
  * SPDX-License-Identifier: Apache-2.0
  */
@@ -29,12 +29,17 @@ import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.Collection;
 import java.util.Collections;
+import java.util.HashMap;
+import java.util.HashSet;
 import java.util.List;
 import java.util.Map;
+import java.util.Map.Entry;
 import java.util.Objects;
+import java.util.Set;
 import java.util.concurrent.ConcurrentHashMap;
 import java.util.logging.Level;
 import java.util.logging.Logger;
+import java.util.stream.Collectors;
 
 import com.ibm.fhir.model.annotation.Constraint;
 import com.ibm.fhir.model.annotation.Constraint.FHIRPathConstraintValidator;
@@ -47,6 +52,7 @@ import com.ibm.fhir.model.type.Extension;
 import com.ibm.fhir.model.type.code.IssueSeverity;
 import com.ibm.fhir.model.type.code.IssueType;
 import com.ibm.fhir.model.util.ModelSupport;
+import com.ibm.fhir.model.visitor.PathAwareCollectingVisitor;
 import com.ibm.fhir.model.visitor.Visitable;
 import com.ibm.fhir.path.FHIRPathElementNode;
 import com.ibm.fhir.path.FHIRPathNode;
@@ -58,6 +64,7 @@ import com.ibm.fhir.path.util.DiagnosticsEvaluationListener;
 import com.ibm.fhir.path.visitor.FHIRPathDefaultNodeVisitor;
 import com.ibm.fhir.profile.ProfileSupport;
 import com.ibm.fhir.registry.FHIRRegistry;
+import com.ibm.fhir.registry.resource.FHIRRegistryResource;
 import com.ibm.fhir.validation.exception.FHIRValidationException;
 
 import net.jcip.annotations.NotThreadSafe;
@@ -300,16 +307,18 @@ public class FHIRValidator {
         private void validate(FHIRPathElementNode elementNode) {
             Class<?> elementType = elementNode.element().getClass();
             List<Constraint> constraints = new ArrayList<>(ModelSupport.getConstraints(elementType));
-            if (Extension.class.equals(elementType)) {
-                String url = elementNode.element().as(Extension.class).getUrl();
-                if (isAbsolute(url)) {
-                    if (FHIRRegistry.getInstance().hasResource(url, StructureDefinition.class)) {
-                        constraints.add(Constraint.Factory.createConstraint("generated-ext-1", Constraint.LEVEL_RULE, Constraint.LOCATION_BASE, "Extension must conform to definition '" + url + "'", "conformsTo('" + url + "')", SOURCE_VALIDATOR, false, true));
-                    } else {
-                        issues.add(issue(IssueSeverity.WARNING, IssueType.NOT_SUPPORTED, "Extension definition '" + url + "' is not supported", elementNode));
-                    }
-                }
-            }
+//            if (Extension.class.equals(elementType)) {
+//                String url = elementNode.element().as(Extension.class).getUrl();
+//                if (isAbsolute(url)) {
+//                    Collection<FHIRRegistryResource> registryResources = FHIRRegistry.getInstance().getRegistryResources(StructureDefinition.class);
+//                    if (FHIRRegistry.getInstance().hasResource(url, StructureDefinition.class)) {
+//                        constraints.add(Constraint.Factory.createConstraint("generated-ext-1", Constraint.LEVEL_RULE, Constraint.LOCATION_BASE,
+//                                "Extension must conform to definition '" + url + "'", "conformsTo('" + url + "')", SOURCE_VALIDATOR, false, true));
+//                    } else {
+//                        issues.add(issue(IssueSeverity.WARNING, IssueType.NOT_SUPPORTED, "Extension definition '" + url + "' is not supported", elementNode));
+//                    }
+//                }
+//            }
             validate(elementNode, constraints);
         }
 
@@ -334,7 +343,65 @@ public class FHIRValidator {
                 validateProfileReferences(resourceNode, profiles, false);
                 constraints.addAll(ProfileSupport.getConstraints(profiles, resourceType));
             }
+
+            // add instance-specific extension constraints
+            PathAwareCollectingVisitor<Extension> extCollector = new PathAwareCollectingVisitor<Extension>(Extension.class);
+            resourceNode.resource().accept(extCollector);
+            Map<String, Extension> pathToExtension = extCollector.getResult();
+
+            // for option A below:  find all the versions of the extension in the registry
+            Map<String, Set<String>> profileVersions = collectProfileVersions(pathToExtension.values());
+
+            for (Entry<String, Extension> entry : pathToExtension.entrySet()) {
+                String path = entry.getKey();
+                Extension e = entry.getValue();
+                String url = e.getUrl();
+                if (isAbsolute(url)) {
+                    // Option A:  find all versions of the extension and pass validation if the instance conforms to at least one
+                    // Option B:  introspect the existing constraints and only add this one if the extension is not covered by profile constraints
+
+                    // Option A:  conformance to any one version of the extension is sufficient
+                    if (profileVersions.containsKey(url)) {
+                        String constraint = profileVersions.get(url).stream()
+                            .map(v -> "conformsTo('" + url + "|" + v + "')")
+                            .collect(Collectors.joining(" or "));
+
+                        constraints.add(Constraint.Factory.createConstraint("generated-ext-1", Constraint.LEVEL_RULE, path,
+                                "Extension must conform to at least one definition of '" + url + "'", constraint, SOURCE_VALIDATOR, false, true));
+                    } else {
+                        issues.add(issue(IssueSeverity.WARNING, IssueType.NOT_SUPPORTED, "Extension definition '" + url + "' is not supported", null, path));
+                    }
+
+                    // Option B:  conditionally add a conformsTo constraint for the default/latest version of this extension
+//                    if (FHIRRegistry.getInstance().hasResource(url, StructureDefinition.class)) {
+//                        constraints.add(Constraint.Factory.createConstraint("generated-ext-2", Constraint.LEVEL_RULE, path,
+//                                "Extension must conform to definition '" + url + "'",
+//                                "conformsTo('" + url + "')", SOURCE_VALIDATOR, false, true));
+//                    } else {
+//                        issues.add(issue(IssueSeverity.WARNING, IssueType.NOT_SUPPORTED, "Extension definition '" + url + "' is not supported", null, path));
+//                    }
+                }
+            }
+
             validate(resourceNode, constraints);
+        }
+
+        private Map<String, Set<String>> collectProfileVersions(Collection<Extension> extensions) {
+            Map<String, Set<String>> profileVersions = new HashMap<>();
+
+            Set<String> uniqueExtensionUrls = extensions.stream()
+                    .map(e -> e.getUrl())
+                    .distinct()
+                    .collect(Collectors.toSet());
+
+            // RegistryResourceProviders have a method thats basically just what we want, but unfortunately the registry does not
+            for (FHIRRegistryResource rr : FHIRRegistry.getInstance().getRegistryResources(StructureDefinition.class)) {
+                if (uniqueExtensionUrls.contains(rr.getUrl()) && rr.getVersion() != null) {
+                    profileVersions.computeIfAbsent(rr.getUrl(), x -> new HashSet<>()).add(rr.getVersion().toString());
+                }
+            }
+
+            return profileVersions;
         }
 
         private void validateProfileReferences(FHIRPathResourceNode resourceNode, List<String> profiles, boolean resourceAsserted) {

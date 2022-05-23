@@ -20,6 +20,7 @@ import java.io.Reader;
 import java.util.Collection;
 import java.util.List;
 
+import org.testng.Assert;
 import org.testng.annotations.Test;
 
 import com.ibm.fhir.model.format.Format;
@@ -340,9 +341,12 @@ public class ConformanceTest {
 
         issues.forEach(System.out::println);
 
-        assertEquals(countWarnings(issues), 0);
-        assertEquals(countErrors(issues), 2);
-        assertEquals(countInformation(issues), 1);
+        // one for generated-ext-1: Extension must conform to definition 'http://hl7.org/fhir/us/core/StructureDefinition/us-core-race'
+        // and one for each version of the extension due to the generated constraint "conformsTo('a'|1) or conformsTo('a'|2) or conformsTo('a'|3)..."
+        Assert.assertEquals(countErrors(issues), 4);
+        Assert.assertEquals(countWarnings(issues), 0);
+        // one for each version of the extension due to the generated constraint "conformsTo('a'|1) or conformsTo('a'|2) or conformsTo('a'|3)..."
+        Assert.assertEquals(countInformation(issues), 3);
     }
 
     /**
@@ -523,9 +527,12 @@ public class ConformanceTest {
 
         issues.forEach(System.out::println);
 
-        assertEquals(countWarnings(issues), 1);
-        assertEquals(countErrors(issues), 2);
-        assertEquals(countInformation(issues), 1);
+        // one for generated-ext-1: Extension must conform to definition 'http://hl7.org/fhir/us/core/StructureDefinition/us-core-race'
+        // and one for each version of the extension due to the generated constraint "conformsTo('a'|1) or conformsTo('a'|2) or conformsTo('a'|3)..."
+        Assert.assertEquals(countErrors(issues), 4);
+        Assert.assertEquals(countWarnings(issues), 1);
+        // one for each version of the extension due to the generated constraint "conformsTo('a'|1) or conformsTo('a'|2) or conformsTo('a'|3)..."
+        Assert.assertEquals(countInformation(issues), 3);
     }
 
 }
