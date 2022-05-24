@@ -307,18 +307,6 @@ public class FHIRValidator {
         private void validate(FHIRPathElementNode elementNode) {
             Class<?> elementType = elementNode.element().getClass();
             List<Constraint> constraints = new ArrayList<>(ModelSupport.getConstraints(elementType));
-//            if (Extension.class.equals(elementType)) {
-//                String url = elementNode.element().as(Extension.class).getUrl();
-//                if (isAbsolute(url)) {
-//                    Collection<FHIRRegistryResource> registryResources = FHIRRegistry.getInstance().getRegistryResources(StructureDefinition.class);
-//                    if (FHIRRegistry.getInstance().hasResource(url, StructureDefinition.class)) {
-//                        constraints.add(Constraint.Factory.createConstraint("generated-ext-1", Constraint.LEVEL_RULE, Constraint.LOCATION_BASE,
-//                                "Extension must conform to definition '" + url + "'", "conformsTo('" + url + "')", SOURCE_VALIDATOR, false, true));
-//                    } else {
-//                        issues.add(issue(IssueSeverity.WARNING, IssueType.NOT_SUPPORTED, "Extension definition '" + url + "' is not supported", elementNode));
-//                    }
-//                }
-//            }
             validate(elementNode, constraints);
         }
 
