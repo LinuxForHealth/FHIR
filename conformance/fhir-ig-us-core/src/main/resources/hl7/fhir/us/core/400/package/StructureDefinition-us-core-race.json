@@ -761,7 +761,7 @@
                 "binding": {
                     "strength": "required",
                     "description": "The 5 race category codes according to the [OMB Standards for Maintaining, Collecting, and Presenting Federal Data on Race and Ethnicity, Statistical Policy Directive No. 15, as revised, October 30, 1997](https://www.govinfo.gov/content/pkg/FR-1997-10-30/pdf/97-28653.pdf).",
-                    "valueSet": "http://hl7.org/fhir/us/core/ValueSet/omb-race-category"
+                    "valueSet": "http://hl7.org/fhir/us/core/ValueSet/omb-race-category|4.0.0"
                 },
                 "mapping": [
                     {
@@ -1331,7 +1331,7 @@
                 "isSummary": false,
                 "binding": {
                     "strength": "required",
-                    "valueSet": "http://hl7.org/fhir/us/core/ValueSet/detailed-race"
+                    "valueSet": "http://hl7.org/fhir/us/core/ValueSet/detailed-race|4.0.0"
                 },
                 "mapping": [
                     {
@@ -2179,7 +2179,7 @@
                 "binding": {
                     "strength": "required",
                     "description": "The 5 race category codes according to the [OMB Standards for Maintaining, Collecting, and Presenting Federal Data on Race and Ethnicity, Statistical Policy Directive No. 15, as revised, October 30, 1997](https://www.govinfo.gov/content/pkg/FR-1997-10-30/pdf/97-28653.pdf).",
-                    "valueSet": "http://hl7.org/fhir/us/core/ValueSet/omb-race-category"
+                    "valueSet": "http://hl7.org/fhir/us/core/ValueSet/omb-race-category|4.0.0"
                 }
             },
             {
@@ -2226,7 +2226,7 @@
                 ],
                 "binding": {
                     "strength": "required",
-                    "valueSet": "http://hl7.org/fhir/us/core/ValueSet/detailed-race"
+                    "valueSet": "http://hl7.org/fhir/us/core/ValueSet/detailed-race|4.0.0"
                 }
             },
             {

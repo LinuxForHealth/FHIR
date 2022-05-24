@@ -713,7 +713,7 @@
                 "isSummary": false,
                 "binding": {
                     "strength": "required",
-                    "valueSet": "http://hl7.org/fhir/us/core/ValueSet/omb-ethnicity-category"
+                    "valueSet": "http://hl7.org/fhir/us/core/ValueSet/omb-ethnicity-category|4.0.0"
                 },
                 "mapping": [
                     {
@@ -1236,7 +1236,7 @@
                 "isSummary": false,
                 "binding": {
                     "strength": "required",
-                    "valueSet": "http://hl7.org/fhir/us/core/ValueSet/detailed-ethnicity"
+                    "valueSet": "http://hl7.org/fhir/us/core/ValueSet/detailed-ethnicity|4.0.0"
                 },
                 "mapping": [
                     {
@@ -2036,7 +2036,7 @@
                 ],
                 "binding": {
                     "strength": "required",
-                    "valueSet": "http://hl7.org/fhir/us/core/ValueSet/omb-ethnicity-category"
+                    "valueSet": "http://hl7.org/fhir/us/core/ValueSet/omb-ethnicity-category|4.0.0"
                 }
             },
             {
@@ -2083,7 +2083,7 @@
                 ],
                 "binding": {
                     "strength": "required",
-                    "valueSet": "http://hl7.org/fhir/us/core/ValueSet/detailed-ethnicity"
+                    "valueSet": "http://hl7.org/fhir/us/core/ValueSet/detailed-ethnicity|4.0.0"
                 }
             },
             {

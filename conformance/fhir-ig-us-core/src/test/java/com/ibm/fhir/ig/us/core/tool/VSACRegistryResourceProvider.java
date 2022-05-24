@@ -38,13 +38,16 @@ import com.ibm.fhir.registry.spi.AbstractRegistryResourceProvider;
  */
 public class VSACRegistryResourceProvider extends AbstractRegistryResourceProvider {
     // set your UMLS API Key (but don't commit it!)
-    private static final String API_KEY = null;
+    private static final String API_KEY = "";
 
     private Client client;
     private static final String CANONICAL_BASE = "http://cts.nlm.nih.gov/fhir/ValueSet/";
     private static final String REQUEST_BASE = "https://cts.nlm.nih.gov/fhir/ValueSet/";
 
     public VSACRegistryResourceProvider() {
+        if (API_KEY == null || API_KEY.isEmpty()) {
+            return;
+        }
         try {
             ClientBuilder cb = ClientBuilder.newBuilder();
             cb.register(new FHIRProvider(RuntimeType.CLIENT));
@@ -60,7 +63,7 @@ public class VSACRegistryResourceProvider extends AbstractRegistryResourceProvid
 
     @Override
     protected List<FHIRRegistryResource> getRegistryResources(Class<? extends Resource> resourceType, String url) {
-        if (API_KEY == null || ValueSet.class != resourceType || !url.startsWith(CANONICAL_BASE)) {
+        if (client == null || ValueSet.class != resourceType || !url.startsWith(CANONICAL_BASE)) {
             return List.of();
         }
 
@@ -84,7 +87,7 @@ public class VSACRegistryResourceProvider extends AbstractRegistryResourceProvid
 
     @Override
     public Collection<FHIRRegistryResource> getRegistryResources(Class<? extends Resource> resourceType) {
-        if (API_KEY == null || ValueSet.class != resourceType) {
+        if (client == null || ValueSet.class != resourceType) {
             return List.of();
         }
 
