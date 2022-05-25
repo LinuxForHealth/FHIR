@@ -516,15 +516,11 @@ public class ConstraintGenerator {
 
         Type type = getTypes(elementDefinition).get(0);
         String profile = type.getProfile().get(0).getValue();
+        String profileWithoutVersion = profile.contains("|") ? profile.substring(0, profile.lastIndexOf("|")) : profile;
 
-//        if (profile.contains("|")) {
-            String profileWithoutVersion = profile.substring(0, profile.lastIndexOf("|"));
-            sb.append("extension('").append(profileWithoutVersion).append("')").append(cardinality(node, sb.toString()));
-            sb.append(" and ");
-            sb.append("extension('").append(profileWithoutVersion).append("')").append(".all(conformsTo('" + profile + "'))");
-//        } else {
-//            sb.append("extension('").append(profile).append("')").append(cardinality(node, sb.toString()));
-//        }
+        sb.append("extension('").append(profileWithoutVersion).append("')").append(cardinality(node, sb.toString()));
+        sb.append(" and ");
+        sb.append("extension('").append(profileWithoutVersion).append("')").append(".all(conformsTo('" + profile + "'))");
 
         return sb.toString();
     }
