@@ -333,12 +333,11 @@ public class ConformanceTest {
 
         issues.forEach(System.out::println);
 
-        // one for generated-ext-1: Extension must conform to definition 'http://hl7.org/fhir/us/core/StructureDefinition/us-core-race'
-        // and one for each version of the extension due to the generated constraint "conformsTo('a'|1) or conformsTo('a'|2) or conformsTo('a'|3)..."
-        Assert.assertEquals(countErrors(issues), 4);
+        // one for generated-us-core-patient-Patient.extension<http://hl7.org/fhir/us/core/StructureDefinition/us-core-ethnicity>
+        // and one for the corresponding "not a valid member of ValueSet http://hl7.org/fhir/us/core/ValueSet/detailed-ethnicity|4.0.0"
+        Assert.assertEquals(countErrors(issues), 2);
         Assert.assertEquals(countWarnings(issues), 1);
-        // one for each version of the extension due to the generated constraint "conformsTo('a'|1) or conformsTo('a'|2) or conformsTo('a'|3)..."
-        Assert.assertEquals(countInformation(issues), 3);
+        Assert.assertEquals(countInformation(issues), 1);
     }
 
     /**
@@ -519,12 +518,11 @@ public class ConformanceTest {
 
         issues.forEach(System.out::println);
 
-        // one for generated-ext-1: Extension must conform to definition 'http://hl7.org/fhir/us/core/StructureDefinition/us-core-race'
-        // and one for each version of the extension due to the generated constraint "conformsTo('a'|1) or conformsTo('a'|2) or conformsTo('a'|3)..."
-        Assert.assertEquals(countErrors(issues), 4);
+        // one for generated-us-core-patient-Patient.extension<http://hl7.org/fhir/us/core/StructureDefinition/us-core-race>
+        // and one for the corresponding "not a valid member of ValueSet http://hl7.org/fhir/us/core/ValueSet/detailed-race|4.0.0"
+        Assert.assertEquals(countErrors(issues), 2);
         Assert.assertEquals(countWarnings(issues), 1);
-        // one for each version of the extension due to the generated constraint "conformsTo('a'|1) or conformsTo('a'|2) or conformsTo('a'|3)..."
-        Assert.assertEquals(countInformation(issues), 3);
+        Assert.assertEquals(countInformation(issues), 1);
     }
 
     @Test

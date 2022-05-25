@@ -73,6 +73,7 @@ public class ConstraintGenerator {
         List<Constraint> constraints = new ArrayList<>();
 
         String url = profile.getUrl().getValue();
+        boolean isProfile = !"Extension".equals(url);
         String prefix = url.substring(url.lastIndexOf("/") + 1);
 
         int index = 1;
@@ -82,13 +83,27 @@ public class ConstraintGenerator {
         log.finest("Element definition -> constraint expression:");
         for (Node child : tree.root.children) {
             try {
+                String constraintId;
+                if (isProfile && hasExtensionConstraint(child.elementDefinition)) {
+                    // We include both the path and the profile URL in the constraint id so that
+                    // we can pull these out during validation and avoid redundant extension validation
+                    Type type = getTypes(child.elementDefinition).get(0);
+                    String profile = getProfilesWithoutVersion(type).get(0);
+
+                    // https://www.rfc-editor.org/rfc/rfc3986.html#appendix-C explicitly mentions angle brackets
+                    // as a good way to embed URIs in plain text.
+                    // Other safe options include whitespace, curly braces, angle brackets, and/or backslash.
+                    constraintId = "generated-" + prefix + "~" + child.elementDefinition.getPath().getValue() + "<" + profile + ">";
+                } else {
+                    constraintId = "generated-" + prefix + "-" + index;
+                    index++;
+                }
                 String expr = generate(child);
                 if (generated.contains(expr)) {
                     continue;
                 }
                 String description = "Constraint violation: " + expr;
-                constraints.add(constraint("generated-" + prefix + "-" + index, expr, description));
-                index++;
+                constraints.add(constraint(constraintId, expr, description));
                 generated.add(expr);
             } catch (ConstraintGenerationException e) {
                 log.warning("Constraint was not generated due to the following error: " + e.getMessage() + " (elementDefinition: " + e.getElementDefinition().getId() + ", profile: " + url + ")");
@@ -492,7 +507,7 @@ public class ConstraintGenerator {
 
     /**
      * Guard calls to this method with calls to {@link #hasExtensionConstraint(ElementDefinition)}
-     * to ensure that the node's ElementDefinition has a single type with a single profile.
+     * to ensure that the node's ElementDefinition has a single type with a single profile value.
      */
     private String generateExtensionConstraint(Node node) {
         StringBuilder sb = new StringBuilder();
@@ -500,9 +515,16 @@ public class ConstraintGenerator {
         ElementDefinition elementDefinition = node.elementDefinition;
 
         Type type = getTypes(elementDefinition).get(0);
-        String profile = getProfilesWithoutVersion(type).get(0);
+        String profile = type.getProfile().get(0).getValue();
 
-        sb.append("extension('").append(profile).append("')").append(cardinality(node, sb.toString()));
+//        if (profile.contains("|")) {
+            String profileWithoutVersion = profile.substring(0, profile.lastIndexOf("|"));
+            sb.append("extension('").append(profileWithoutVersion).append("')").append(cardinality(node, sb.toString()));
+            sb.append(" and ");
+            sb.append("extension('").append(profileWithoutVersion).append("')").append(".all(conformsTo('" + profile + "'))");
+//        } else {
+//            sb.append("extension('").append(profile).append("')").append(cardinality(node, sb.toString()));
+//        }
 
         return sb.toString();
     }
@@ -610,7 +632,7 @@ public class ConstraintGenerator {
      */
     private String generateProfileConstraint(Node node) {
         StringBuilder sb = new StringBuilder();
-        
+
         ElementDefinition elementDefinition = node.elementDefinition;
 
         List<Type> types = getTypes(elementDefinition);
@@ -859,6 +881,10 @@ public class ConstraintGenerator {
 
         List<Canonical> profile = type.getProfile();
         if (profile.size() != 1) {
+            return false;
+        }
+
+        if (profile.get(0).getValue() == null) {
             return false;
         }
 
