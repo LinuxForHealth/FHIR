@@ -1134,7 +1134,7 @@ public abstract class GeneratorImpl implements Generator {
 
     protected static Map<String, String> buildStateCodeMap() {
         Map<String, String> stateCodeMap = new LinkedHashMap<>();
-        ValueSet valueSet = ValueSetSupport.getValueSet("http://hl7.org/fhir/us/core/ValueSet/us-core-usps-state");
+        ValueSet valueSet = ValueSetSupport.getValueSet("http://hl7.org/fhir/us/core/ValueSet/us-core-usps-state|3.1.1");
         valueSet.getCompose().getInclude().stream()
             .map(include -> include.getConcept())
             .flatMap(List::stream)
