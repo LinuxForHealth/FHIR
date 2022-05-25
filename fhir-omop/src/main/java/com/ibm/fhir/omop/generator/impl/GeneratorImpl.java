@@ -63,7 +63,7 @@ import com.ibm.fhir.omop.mapping.Mapping;
 import com.ibm.fhir.omop.model.Concept;
 import com.ibm.fhir.omop.table.Table;
 import com.ibm.fhir.omop.vocab.VocabService;
-import com.ibm.fhir.profile.ValueSetSupport;
+import com.ibm.fhir.term.util.ValueSetSupport;
 
 public abstract class GeneratorImpl implements Generator {
     protected static final int OMOP_NO_MATCHING_CONCEPT = 0;

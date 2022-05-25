@@ -41,7 +41,7 @@ public class PatientBundleProcessor {
                         String externalIdentifier = resource.getClass().getSimpleName() + "/" + resource.getId();
                         localRefMap.put(localIdentifier, externalIdentifier);
                     }
-                    ReferenceMappingVisitor<Bundle> visitor = new ReferenceMappingVisitor<>(localRefMap);
+                    ReferenceMappingVisitor<Bundle> visitor = new ReferenceMappingVisitor<>(localRefMap, null);
                     bundle.accept(visitor);
                     bundle = visitor.getResult();
                 }

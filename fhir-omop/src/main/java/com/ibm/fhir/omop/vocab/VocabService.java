@@ -6,8 +6,6 @@
 
 package com.ibm.fhir.omop.vocab;
 
-import static com.ibm.fhir.core.util.LRUCache.createLRUCache;
-
 import java.sql.Connection;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
@@ -21,6 +19,7 @@ import java.util.logging.Logger;
 
 import javax.sql.DataSource;
 
+import com.ibm.fhir.cache.util.CacheSupport;
 import com.ibm.fhir.omop.model.Concept;
 
 public class VocabService {
@@ -29,7 +28,7 @@ public class VocabService {
     private static final String GET_CONCEPT = "SELECT * FROM concept WHERE vocabulary_id = ? and concept_code = ?";
     private static final String GET_CONCEPTS = "SELECT * FROM concept WHERE vocabulary_id = ? ORDER BY concept_id LIMIT ? OFFSET ?";
     private final DataSource dataSource;
-    private final static Map<ConceptKey, Concept> CONCEPT_CACHE = createLRUCache(1024);
+    private final static Map<ConceptKey, Concept> CONCEPT_CACHE = CacheSupport.createCacheAsMap(1024);
 
     public VocabService(DataSource dataSource) {
         Objects.requireNonNull(dataSource);
