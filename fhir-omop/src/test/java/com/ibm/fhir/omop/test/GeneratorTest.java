@@ -48,6 +48,10 @@ public class GeneratorTest {
         DataSource dataSource = createPoolingDataSource(properties);
         VocabService vocabService = new VocabService(dataSource);
 
+        if (!dataSource.getConnection().isValid(2)) {
+            throw new IllegalStateException("Datasource connection is not valid");
+        }
+
         Map<Class<? extends Resource>, List<Resource>> resourceMap = new HashMap<>();
 
         File dir = new File("src/test/resources/fhir/");
@@ -106,7 +110,7 @@ public class GeneratorTest {
 
     public static DataSource createPoolingDataSource(Properties properties) {
         String connectURI = String.format("jdbc:postgresql://%s:%s/%s", properties.getProperty("serverName"), properties.getProperty("portNumber"), properties.getProperty("databaseName"));
-        ConnectionFactory connectionFactory = new DriverManagerConnectionFactory(connectURI, null);
+        ConnectionFactory connectionFactory = new DriverManagerConnectionFactory(connectURI, properties);
         PoolableConnectionFactory poolableConnectionFactory = new PoolableConnectionFactory(connectionFactory, null);
         ObjectPool<PoolableConnection> connectionPool = new GenericObjectPool<>(poolableConnectionFactory);
         poolableConnectionFactory.setPool(connectionPool);

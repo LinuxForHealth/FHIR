@@ -61,7 +61,7 @@ public class VocabServiceTest {
 
     public static DataSource createPoolingDataSource(Properties properties) {
         String connectURI = String.format("jdbc:postgresql://%s:%s/%s", properties.getProperty("serverName"), properties.getProperty("portNumber"), properties.getProperty("databaseName"));
-        ConnectionFactory connectionFactory = new DriverManagerConnectionFactory(connectURI, null);
+        ConnectionFactory connectionFactory = new DriverManagerConnectionFactory(connectURI, properties);
         PoolableConnectionFactory poolableConnectionFactory = new PoolableConnectionFactory(connectionFactory, null);
         ObjectPool<PoolableConnection> connectionPool = new GenericObjectPool<>(poolableConnectionFactory);
         poolableConnectionFactory.setPool(connectionPool);
