@@ -774,9 +774,10 @@ public class FhirSchemaGenerator {
                 .setDistributionType(DistributionType.DISTRIBUTED)
                 .setDistributionColumnName(LOGICAL_ID)             // override distribution column for this table
                 .addIntColumn(RESOURCE_TYPE_ID, false)
-                .addVarcharColumn(LOGICAL_ID, LOGICAL_ID_BYTES, false)
+                .addVarcharColumn(LOGICAL_ID, MAX_SEARCH_STRING_BYTES, false) // used to also store absolute reference values
                 .addBigIntColumn(LOGICAL_RESOURCE_ID, false)
-                .addPrimaryKey(tableName + "_PK", LOGICAL_ID, RESOURCE_TYPE_ID) // we need this order for a specific index
+                .addPrimaryKey(tableName + "_PK", LOGICAL_ID, RESOURCE_TYPE_ID) // do not change this order
+                .addIndex("IDX_" + LOGICAL_RESOURCE_IDENT + "_LRID", LOGICAL_RESOURCE_ID) // non-unique to allow easy distribution
                 .setTablespace(fhirTablespace)
                 .addPrivileges(resourceTablePrivileges)
                 .addForeignKeyConstraint(FK + tableName + "_RTID", schemaName, RESOURCE_TYPES, RESOURCE_TYPE_ID)

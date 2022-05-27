@@ -39,6 +39,7 @@ public class JDBCConstants {
     public static final String _LOGICAL_RESOURCES = "_LOGICAL_RESOURCES";
     public static final String RESOURCE_ID = "RESOURCE_ID";
     public static final String RESOURCE_TYPE_ID = "RESOURCE_TYPE_ID";
+    public static final String REF_VALUE = "REF_VALUE";
     public static final String REF_LOGICAL_RESOURCE_ID = "REF_LOGICAL_RESOURCE_ID";
     public static final String LOGICAL_ID = "LOGICAL_ID";
     public static final String LOGICAL_RESOURCE_ID = "LOGICAL_RESOURCE_ID";

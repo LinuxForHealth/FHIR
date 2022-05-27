@@ -711,33 +711,22 @@ public class ParameterVisitorBatchDAO implements ExtractedParameterValueVisitor,
             throw new IllegalArgumentException("Invalid reference parameter value. See server log for details.");
         }
 
-        // reference params are never system-level
-        if (refResourceType != null) {
-            // Store a reference value configured as a reference to another resource
-            int refResourceTypeId = identityCache.getResourceTypeId(refResourceType);
-            ResourceReferenceValueRec rec = new ResourceReferenceValueRec(parameterName, resourceType, resourceTypeId, logicalResourceId, 
-                refResourceType, refResourceTypeId, 
-                refLogicalId, refVersion, this.currentCompositeId);
-            if (this.transactionData != null) {
-                this.transactionData.addReferenceValue(rec);
-            } else {
-                this.referenceValueRecs.add(rec);
-            }
+        // V0027. Absolute references won't have a resource type, but in order to store them
+        // in the LOGICAL_RESOURCE_IDENT table we need to have a valid LOGICAL_RESOURCE_ID. For
+        // that we use "Resource"
+        if (refResourceType == null) {
+            refResourceType = "Resource";
+        }
+        // Store a reference value configured as a reference to another resource (reference params
+        // are never system-level).
+        int refResourceTypeId = identityCache.getResourceTypeId(refResourceType);
+        ResourceReferenceValueRec rec = new ResourceReferenceValueRec(parameterName, resourceType, resourceTypeId, logicalResourceId, 
+            refResourceType, refResourceTypeId, 
+            refLogicalId, refVersion, this.currentCompositeId);
+        if (this.transactionData != null) {
+            this.transactionData.addReferenceValue(rec);
         } else {
-            // uri so we go back to store as a string instead
-            logger.info("reference param[" + parameterName + "] value[" + refLogicalId + "] => xx_str_values");
-            try {
-                int parameterNameId = getParameterNameId(parameterName);
-                setStringParms(strings, parameterNameId, refValue.getValue());
-                strings.addBatch();
-    
-                if (++stringCount == this.batchSize) {
-                    strings.executeBatch();
-                    stringCount = 0;
-                }
-            } catch (SQLException x) {
-                throw new FHIRPersistenceDataAccessException(parameterName + "='" + refValue.getValue() + "'", x);
-            }
+            this.referenceValueRecs.add(rec);
         }
     }
 }

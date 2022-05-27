@@ -29,6 +29,7 @@ import static com.ibm.fhir.persistence.jdbc.JDBCConstants.PARAMETER_NAME_ID;
 import static com.ibm.fhir.persistence.jdbc.JDBCConstants.PERCENT_WILDCARD;
 import static com.ibm.fhir.persistence.jdbc.JDBCConstants.QUANTITY_VALUE;
 import static com.ibm.fhir.persistence.jdbc.JDBCConstants.REF_LOGICAL_RESOURCE_ID;
+import static com.ibm.fhir.persistence.jdbc.JDBCConstants.REF_VALUE;
 import static com.ibm.fhir.persistence.jdbc.JDBCConstants.RESOURCE_TYPE_ID;
 import static com.ibm.fhir.persistence.jdbc.JDBCConstants.RIGHT_PAREN;
 import static com.ibm.fhir.persistence.jdbc.JDBCConstants.TOKEN_VALUE;
@@ -2149,16 +2150,16 @@ SELECT R0.RESOURCE_ID, R0.LOGICAL_RESOURCE_ID, R0.VERSION_ID, R0.LAST_UPDATED, R
             exists.from().where().and(paramAlias, PARAMETER_NAME_ID).eq(parameterNameId);
         }
 
-        if (queryParm.getType() == Type.REFERENCE) {
-            // From V0027 we store absolute references in xx_str_values, so need to check there too
-            final String strParamAlias = getParamAlias(getNextAliasIndex());
-            final String strParamTableName = resourceType + "_STR_VALUES";
-            SelectAdapter strExists = Select.select("1");
-            strExists.from(strParamTableName, alias(strParamAlias))
-                    .where(strParamAlias, "LOGICAL_RESOURCE_ID").eq(lrAlias, "LOGICAL_RESOURCE_ID") // correlate with the main query
-                    .and(strParamAlias, PARAMETER_NAME_ID).eq(parameterNameId);
-            exists.unionAll(strExists.build());
-        }
+//        if (queryParm.getType() == Type.REFERENCE) {
+//            // From V0027 we store absolute references in xx_str_values, so need to check there too
+//            final String strParamAlias = getParamAlias(getNextAliasIndex());
+//            final String strParamTableName = resourceType + "_STR_VALUES";
+//            SelectAdapter strExists = Select.select("1");
+//            strExists.from(strParamTableName, alias(strParamAlias))
+//                    .where(strParamAlias, "LOGICAL_RESOURCE_ID").eq(lrAlias, "LOGICAL_RESOURCE_ID") // correlate with the main query
+//                    .and(strParamAlias, PARAMETER_NAME_ID).eq(parameterNameId);
+//            exists.unionAll(strExists.build());
+//        }
 
         // Add the exists to the where clause of the main query which already has a predicate
         // so we need to AND the exists
@@ -2291,7 +2292,21 @@ SELECT R0.RESOURCE_ID, R0.LOGICAL_RESOURCE_ID, R0.VERSION_ID, R0.LAST_UPDATED, R
                 paramTable = paramValuesTableName(queryData.getResourceType(), currentParm);
             }
 
-            if (currentParm.getModifier() == Modifier.NOT) {
+            if (Type.REFERENCE.equals(currentParm.getType())) {
+                // V0027, reference filters now need to look at both xx_ref_values and xx_str_values
+                // so we use a full correlated sub-query for exists/not-exists
+                final String anchorAlias = "LR" + getNextAliasIndex();
+                SelectAdapter exists = Select.select("1");
+                exists.from("LOGICAL_RESOURCES", alias(anchorAlias))
+                    .where(anchorAlias, "LOGICAL_RESOURCE_ID").eq(lrAlias, "LOGICAL_RESOURCE_ID"); // correlate to parent query
+                QueryData subQuery = new QueryData(exists, anchorAlias, null, resourceType, 0);
+                addReferenceParam(subQuery, queryData.getResourceType(), currentParm);
+                if (currentParm.getModifier() == Modifier.NOT) {
+                    currentSubQuery.from().where().and().notExists(exists.build());
+                } else {
+                    currentSubQuery.from().where().and().exists(exists.build());
+                }
+            } else if (currentParm.getModifier() == Modifier.NOT) {
                 // Needs to be handled as a NOT EXISTS correlated subquery
                 SelectAdapter exists = Select.select("1");
                 exists.from(paramTable, alias(paramAlias))
@@ -2529,7 +2544,12 @@ SELECT R0.RESOURCE_ID, R0.LOGICAL_RESOURCE_ID, R0.VERSION_ID, R0.LAST_UPDATED, R
         final String paramAlias = getParamAlias(aliasIndex);
         final String lrAlias = queryData.getLRAlias();
 
-        // For V0027 we split reference parameters into two tables: xx_ref_values and xx_str_values
+        // For V0027 reference parameters are stored in xx_ref_values using the
+        // logical_id values stored in logical_resource_ident. Absolute references
+        // are stored using a resource_type of "Resource" (similar to the default
+        // code-system we used to use with common_token_values).
+        final int resourceTypeIdForResource = identityCache.getResourceTypeId("Resource");
+
         // Firstly we need to split the query parm values into separate lists
         List<Pair<String, String>> resourceTypesAndIds = new ArrayList<>(queryParm.getValues().size());
         for (QueryParameterValue value : queryParm.getValues()) {
@@ -2538,7 +2558,6 @@ SELECT R0.RESOURCE_ID, R0.LOGICAL_RESOURCE_ID, R0.VERSION_ID, R0.LAST_UPDATED, R
 
         List<Long> logicalResourceIdList = new ArrayList<>();
         List<ResourceReferenceValue> refValues = new ArrayList<>(queryParm.getValues().size());
-        List<String> absoluteReferenceValues = new ArrayList<>();
         for (Pair<String, String> resourceTypeAndId : resourceTypesAndIds) {
             String targetResourceType = resourceTypeAndId.getLeft();
             String referenceValue = resourceTypeAndId.getRight();
@@ -2563,7 +2582,8 @@ SELECT R0.RESOURCE_ID, R0.LOGICAL_RESOURCE_ID, R0.VERSION_ID, R0.LAST_UPDATED, R
                 // Determine if the target value is an absolute or local reference
                 if (ReferenceUtil.isAbsolute(referenceValue)) {
                     logger.info(() -> "reference search value: type[absolute] value[" + referenceValue + "]");
-                    absoluteReferenceValues.add(referenceValue);
+                    Long logicalResourceId = identityCache.getLogicalResourceId("Resource", referenceValue);
+                    logicalResourceIdList.add(logicalResourceId != null ? logicalResourceId : -1);
                 } else {
                     // treat as a local reference where we don't know the type.
                     List<Long> localLogicalResourceIds = getLogicalResourceIdList(referenceValue);
@@ -2572,7 +2592,9 @@ SELECT R0.RESOURCE_ID, R0.LOGICAL_RESOURCE_ID, R0.VERSION_ID, R0.LAST_UPDATED, R
                         logicalResourceIdList.add(localLogicalResourceIds.get(0));
                     } else if (localLogicalResourceIds.size() == 0) {
                         logger.info(() -> "reference search value: type[local] value[" + referenceValue + "] notFound[true]");
-                        logicalResourceIdList.add(-1L);
+                        if (logicalResourceIdList.isEmpty()) {
+                            logicalResourceIdList.add(-1L); // need at least one value
+                        }
                     } else {
                         // We may match multiple resource types here, but it's only an error
                         // if we join with the xx_ref_value table and still get multiple rows
@@ -2582,60 +2604,13 @@ SELECT R0.RESOURCE_ID, R0.LOGICAL_RESOURCE_ID, R0.VERSION_ID, R0.LAST_UPDATED, R
             }
         }
 
+        // Only need to join with xx_ref_values
         final String queryParmCode = queryParm.getCode();
-        if (absoluteReferenceValues.isEmpty()) {
-            // Only need to join with xx_ref_values
-            final ExpNode filter = getReferenceFilter(queryParm, paramAlias, logicalResourceIdList).getExpression();
-            final String paramTableName = getRefParamTable(filter, resourceType, paramAlias);
-            query.from().innerJoin(paramTableName, alias(paramAlias), on(paramAlias, "LOGICAL_RESOURCE_ID").eq(lrAlias, "LOGICAL_RESOURCE_ID")
-                .and(paramAlias, "PARAMETER_NAME_ID").eq(getParameterNameId(queryParmCode))
-                .and(filter));
-        } else if (refValues.isEmpty()) {
-            // Only need to join with xx_str_values
-            final ExpNode filter = getReferenceStrFilter(queryParm, paramAlias, absoluteReferenceValues).getExpression();
-            final String paramTableName = resourceType + "_str_values";
-            query.from().innerJoin(paramTableName, alias(paramAlias), on(paramAlias, "LOGICAL_RESOURCE_ID").eq(lrAlias, "LOGICAL_RESOURCE_ID")
-                .and(paramAlias, "PARAMETER_NAME_ID").eq(getParameterNameId(queryParmCode))
-                .and(filter));
-        } else {
-            // The more complicated scenario where we need to filter on xx_ref_values
-            // and bolt on a union all with a filter on the xx_str_values. It's an
-            // edge-case, which is lucky because the query plan won't be as clean as
-            // the prior two cases. But this form is required for the correct semantics.
-            // SELECT P2.LOGICAL_RESOURCE_ID 
-            //   FROM ibmfhirpg3.Basic_REF_VALUES AS P2 
-            //  WHERE P2.PARAMETER_NAME_ID = 25585  
-            //    AND (P2.REF_LOGICAL_RESOURCE_ID = 1 OR P2.REF_LOGICAL_RESOURCE_ID = 2 OR ...)
-            //  UNION ALL
-            // SELECT P3.LOGICAL_RESOURCE_ID
-            //   FROM ibmfhirpg3.Basic_STR_VALUES AS P3
-            //  WHERE P3.PARAMETER_NAME_ID = 25585
-            //    AND (P3.STR_VALUE = 'abc')
-
-            final int parameterNameId = getParameterNameId(queryParmCode);
-            final String refParamAlias = getParamAlias(getNextAliasIndex());
-            final ExpNode refFilter = getReferenceFilter(queryParm, refParamAlias, logicalResourceIdList).getExpression();
-            final String refParamTableName = getRefParamTable(refFilter, resourceType, refParamAlias);
-            final String strParamAlias = getParamAlias(getNextAliasIndex());
-            final ExpNode strFilter = getReferenceStrFilter(queryParm, strParamAlias, absoluteReferenceValues).getExpression();
-            final String strParamTableName = resourceType + "_str_values";
-
-            SelectAdapter strSelect = Select.select("LOGICAL_RESOURCE_ID");
-            strSelect.from(strParamTableName, alias(strParamAlias))
-                .where(strParamAlias, "PARAMETER_NAME_ID").eq(parameterNameId)
-                .and(strFilter);
-
-            SelectAdapter refSelect = Select.select("LOGICAL_RESOURCE_ID");
-            refSelect.from(refParamTableName, alias(refParamAlias))
-                .where(refParamAlias, "PARAMETER_NAME_ID").eq(parameterNameId)
-                .and(refFilter);
-            refSelect.unionAll(strSelect.build());
-            
-            // add everything to the main query
-            query.from().innerJoin(refSelect.build(), alias(paramAlias), on(paramAlias, "LOGICAL_RESOURCE_ID").eq(lrAlias, "LOGICAL_RESOURCE_ID")
-                .and(paramAlias, "PARAMETER_NAME_ID").eq(getParameterNameId(queryParmCode))
-                );
-        }
+        final ExpNode filter = getReferenceFilter(queryParm, paramAlias, logicalResourceIdList).getExpression();
+        final String paramTableName = getRefParamTable(filter, resourceType, paramAlias);
+        query.from().innerJoin(paramTableName, alias(paramAlias), on(paramAlias, "LOGICAL_RESOURCE_ID").eq(lrAlias, "LOGICAL_RESOURCE_ID")
+            .and(paramAlias, "PARAMETER_NAME_ID").eq(getParameterNameId(queryParmCode))
+            .and(filter));
 
         return queryData;
     }
@@ -2910,6 +2885,8 @@ SELECT R0.RESOURCE_ID, R0.LOGICAL_RESOURCE_ID, R0.VERSION_ID, R0.LAST_UPDATED, R
             sortParameterTableName.append("DATE_VALUES");
             break;
         case REFERENCE:
+            sortParameterTableName.append("REF_VALUES_V");
+            break;
         case TOKEN:
             if (!this.legacyWholeSystemSearchParamsEnabled && TAG.equals(code)) {
                 sortParameterTableName.append("TAGS");
@@ -3004,7 +2981,7 @@ SELECT R0.RESOURCE_ID, R0.LOGICAL_RESOURCE_ID, R0.VERSION_ID, R0.LAST_UPDATED, R
             attributeNames.add(STR_VALUE);
             break;
         case REFERENCE:
-            attributeNames.add(TOKEN_VALUE);
+            attributeNames.add(REF_VALUE); // V0027 using xx_REF_VALUES_V
             break;
         case DATE:
             attributeNames.add(DATE_START);

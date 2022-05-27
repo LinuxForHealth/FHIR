@@ -836,13 +836,17 @@ ALTER TABLE device_str_values ADD CONSTRAINT fk_device_str_values_rid  FOREIGN K
             // in the join condition to give the optimizer the best chance at finding a good nested
             // loop strategy
             select.append("SELECT ref.").append(MT_ID);
-            select.append("     , ref.parameter_name_id, lri.resource_type_id, lri.logical_id, ref.logical_resource_id, ref.ref_version_id, ref.ref_logical_resource_id, ref.composite_id");
+            select.append("       ref.parameter_name_id, lri.resource_type_id, lri.logical_id, ref.logical_resource_id, ");
+            select.append("       ref.ref_version_id, ref.ref_logical_resource_id, ref.composite_id, ");
+            select.append("       lri.logical_id AS ref_value ");
             select.append("  FROM ").append(logicalResourceIdent.getName()).append(" AS lri, ");
             select.append(refValues.getName()).append(" AS ref ");
             select.append(" WHERE lri.logical_resource_id = ref.ref_logical_resource_id ");
             select.append("   AND lri.").append(MT_ID).append(" = ").append("ref.").append(MT_ID);
         } else {
-            select.append("SELECT ref.parameter_name_id, lri.resource_type_id, lri.logical_id, ref.logical_resource_id, ref.ref_version_id, ref.ref_logical_resource_id, ref.composite_id");
+            select.append("SELECT ref.parameter_name_id, lri.resource_type_id, lri.logical_id, ref.logical_resource_id, ");
+            select.append("       ref.ref_version_id, ref.ref_logical_resource_id, ref.composite_id, ");
+            select.append("       lri.logical_id AS ref_value ");
             select.append("  FROM ").append(logicalResourceIdent.getName()).append(" AS lri, ");
             select.append(refValues.getName()).append(" AS ref ");
             select.append(" WHERE lri.logical_resource_id = ref.ref_logical_resource_id ");
