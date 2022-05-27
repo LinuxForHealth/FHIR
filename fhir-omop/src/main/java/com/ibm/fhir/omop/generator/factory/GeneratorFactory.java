@@ -1,5 +1,5 @@
 /*
- * (C) Copyright IBM Corp. 2020
+ * (C) Copyright IBM Corp. 2020, 2022
  *
  * SPDX-License-Identifier: Apache-2.0
  */
@@ -21,7 +21,7 @@ public class GeneratorFactory {
         Objects.requireNonNull(version);
         Objects.requireNonNull(vocabService);
         switch (version) {
-        case OMOP_CDM_V5_3_1:
+        case OMOP_CDM_V5_4_0:
             return new V5GeneratorImpl(vocabService);
         case OMOP_CDM_V6_0:
             return new V6GeneratorImpl(vocabService);

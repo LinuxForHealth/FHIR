@@ -1,5 +1,5 @@
 /*
- * (C) Copyright IBM Corp. 2020
+ * (C) Copyright IBM Corp. 2020, 2022
  *
  * SPDX-License-Identifier: Apache-2.0
  */
@@ -72,7 +72,7 @@ public class GeneratorTest {
             }
         }
 
-        Generator generator = GeneratorFactory.generator(Version.OMOP_CDM_V6_0, vocabService);
+        Generator generator = GeneratorFactory.generator(Version.OMOP_CDM_V5_4_0, vocabService);
 
         Map<Table, List<String>> tableDataMap = new HashMap<>();
         generator.generate(Mapping.CONDITION_TO_CONDITION_OCCURRENCE, resourceMap, tableDataMap);
@@ -84,7 +84,7 @@ public class GeneratorTest {
         for (Table table : tableDataMap.keySet()) {
             List<String> tableData = tableDataMap.get(table);
             List<String> data = new ArrayList<>(tableData.size() + 1);
-            data.add(table.columnNames(Version.OMOP_CDM_V6_0).stream().collect(Collectors.joining(",")));
+            data.add(table.columnNames(Version.OMOP_CDM_V5_4_0).stream().collect(Collectors.joining(",")));
             data.addAll(tableData);
             Path path = Paths.get(table.tableName() + ".csv");
             Files.write(path, data);

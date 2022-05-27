@@ -1,5 +1,5 @@
 /*
- * (C) Copyright IBM Corp. 2020
+ * (C) Copyright IBM Corp. 2020, 2022
  *
  * SPDX-License-Identifier: Apache-2.0
  */
@@ -74,7 +74,7 @@ public enum Table {
         Arrays.asList("domain_concept_id_1", "fact_id_1", "domain_concept_id_2", "fact_id_2", "relationship_concept_id"),
         Arrays.asList("domain_concept_id_1", "fact_id_1", "domain_concept_id_2", "fact_id_2", "relationship_concept_id")),
     LOCATION("location",
-        Arrays.asList("location_id", "address_1", "address_2", "city", "state", "zip", "county", "country", "location_source_value"),
+        Arrays.asList("location_id", "address_1", "address_2", "city", "state", "zip", "county", "location_source_value", "country_concept_id", "country_source_value", "country", "latitude", "longitude"),
         Arrays.asList("location_id", "address_1", "address_2", "city", "state", "zip", "county", "country", "location_source_value", "latitude", "longitude")),
     LOCATION_HISTORY("location_history",
         Collections.emptyList(),
@@ -101,7 +101,7 @@ public enum Table {
         Arrays.asList("payer_plan_period_id", "person_id", "contract_person_id", "payer_plan_period_start_date", "payer_plan_period_end_date", "payer_concept_id", "plan_concept_id", "contract_concept_id", "sponsor_concept_id", "stop_reason_concept_id", "payer_source_value", "payer_source_concept_id", "plan_source_value", "plan_source_concept_id", "contract_source_value", "contract_source_concept_id", "sponsor_source_value", "sponsor_source_concept_id", "family_source_value", "stop_reason_source_value", "stop_reason_source_concept_id"),
         Arrays.asList("payer_plan_period_id", "person_id", "contract_person_id", "payer_plan_period_start_date", "payer_plan_period_end_date", "payer_concept_id", "plan_concept_id", "contract_concept_id", "sponsor_concept_id", "stop_reason_concept_id", "payer_source_value", "payer_source_concept_id", "plan_source_value", "plan_source_concept_id", "contract_source_value", "contract_source_concept_id", "sponsor_source_value", "sponsor_source_concept_id", "family_source_value", "stop_reason_source_value", "stop_reason_source_concept_id")),
     PERSON("person",
-        Arrays.asList("person_id", "gender_concept_id", "year_of_birth", "month_of_birth", "day_of_birth", "birth_datetime", "death_datetime", "race_concept_id", "ethnicity_concept_id", "location_id", "provider_id", "care_site_id", "person_source_value", "gender_source_value", "gender_source_concept_id", "race_source_value", "race_source_concept_id", "ethnicity_source_value", "ethnicity_source_concept_id"),
+        Arrays.asList("person_id", "gender_concept_id", "year_of_birth", "month_of_birth", "day_of_birth", "birth_datetime", "race_concept_id", "ethnicity_concept_id", "location_id", "provider_id", "care_site_id", "person_source_value", "gender_source_value", "gender_source_concept_id", "race_source_value", "race_source_concept_id", "ethnicity_source_value", "ethnicity_source_concept_id"),
         Arrays.asList("person_id", "gender_concept_id", "year_of_birth", "month_of_birth", "day_of_birth", "birth_datetime", "death_datetime", "race_concept_id", "ethnicity_concept_id", "location_id", "provider_id", "care_site_id", "person_source_value", "gender_source_value", "gender_source_concept_id", "race_source_value", "race_source_concept_id", "ethnicity_source_value", "ethnicity_source_concept_id")),
     PROCEDURE_OCCURRENCE("procedure_occurrence",
         Arrays.asList("procedure_occurrence_id", "person_id", "procedure_concept_id", "procedure_date", "procedure_datetime", "procedure_type_concept_id", "modifier_concept_id", "quantity", "provider_id", "visit_occurrence_id", "visit_detail_id", "procedure_source_value", "procedure_source_concept_id", "modifier_source_value"),
@@ -147,7 +147,7 @@ public enum Table {
 
     public List<String> columnNames(Version version) {
         switch (version) {
-        case OMOP_CDM_V5_3_1:
+        case OMOP_CDM_V5_4_0:
             return v5ColumnNames;
         case OMOP_CDM_V6_0:
             return v6ColumnNames;

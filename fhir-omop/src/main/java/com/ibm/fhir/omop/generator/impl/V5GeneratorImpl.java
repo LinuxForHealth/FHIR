@@ -1,5 +1,5 @@
 /*
- * (C) Copyright IBM Corp. 2020
+ * (C) Copyright IBM Corp. 2020, 2022
  *
  * SPDX-License-Identifier: Apache-2.0
  */
@@ -58,7 +58,8 @@ public class V5GeneratorImpl extends GeneratorImpl {
             zip = zip.substring(0, 5);
         }
         String county = (address.getDistrict() != null) ? address.getDistrict().getValue() : null;
-        String country = (address.getCountry() != null) ? address.getCountry().getValue() : null;
+        String country_concept_id = null;
+        String country_source_value = (address.getCountry() != null) ? address.getCountry().getValue() : null;
         String locationSourceValue = null;
         BigDecimal latitude = null;
         BigDecimal longitude = null;
@@ -71,8 +72,9 @@ public class V5GeneratorImpl extends GeneratorImpl {
             state,
             zip,
             county,
-            country,
             locationSourceValue,
+            country_concept_id,
+            country_source_value,
             latitude,
             longitude));
 
@@ -333,7 +335,6 @@ public class V5GeneratorImpl extends GeneratorImpl {
       month_of_birth                INTEGER     NULL,
       day_of_birth                  INTEGER     NULL,
       birth_datetime                TIMESTAMP   NULL,
-      death_datetime                TIMESTAMP   NULL,
       race_concept_id               INTEGER     NOT NULL,
       ethnicity_concept_id          INTEGER     NOT NULL,
       location_id                   BIGINT      NULL,
@@ -357,7 +358,6 @@ public class V5GeneratorImpl extends GeneratorImpl {
         String monthOfBirth = getMonthOfBirth(patient);
         String dayOfBirth = getDayOfBirth(patient);
         Timestamp birthDateTime = getBirthDateTime(patient);
-        Timestamp deathDateTime = getDeathDateTime(patient);
         int raceConceptId = getRaceConceptId(patient);
         int ethnicityConceptId = getEthnicityConceptId(patient);
         Long locationId = getLocationId(patient, locationTableData);
@@ -378,7 +378,6 @@ public class V5GeneratorImpl extends GeneratorImpl {
             monthOfBirth,
             dayOfBirth,
             birthDateTime,
-            deathDateTime,
             raceConceptId,
             ethnicityConceptId,
             locationId,

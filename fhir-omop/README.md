@@ -54,6 +54,8 @@ These are the steps I took to set it up locally:
     \copy drug_strength FROM '/Users/lmsurpre/Downloads/vocabulary_download_v5_{312db386-8083-405f-927b-3a6f6fc367fa}_1653574283988/DRUG_STRENGTH.csv' WITH DELIMITER E'\t' CSV HEADER QUOTE E'\b' encoding 'UTF8'
     ```
 
+Note:  the CONCEPT_RELATIONSHIP and CONCEPT_ANCESTOR imports take a long time and aren't strictly need just for running this code.
+
 ### Verify the results
 From your IDE, set your db properties in fhir-omop/src/test/resources/omop.jdbc.propteries.
 Then run `VocabServiceTest.java`.
