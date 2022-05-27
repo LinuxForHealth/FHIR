@@ -2,7 +2,7 @@
   "resourceType" : "Bundle",
   "id" : "types",
   "meta" : {
-    "lastUpdated" : "2022-04-23T22:21:35.043+00:00"
+    "lastUpdated" : "2022-05-26T21:57:15.848+10:00"
   },
   "type" : "collection",
   "entry" : [{
@@ -11,11 +11,11 @@
       "resourceType" : "StructureDefinition",
       "id" : "Element",
       "meta" : {
-        "lastUpdated" : "2022-04-23T22:21:35.043+00:00"
+        "lastUpdated" : "2022-05-26T21:57:15.848+10:00"
       },
       "text" : {
         "status" : "generated",
-        "div" : "<div xmlns=\"http://www.w3.org/1999/xhtml\"><table border=\"0\" cellpadding=\"0\" cellspacing=\"0\" style=\"border: 0px #F0F0F0 solid; font-size: 11px; font-family: verdana; vertical-align: top;\"><tr style=\"border: 1px #F0F0F0 solid; font-size: 11px; font-family: verdana; vertical-align: top\"><th style=\"vertical-align: top; text-align : left; background-color: white; border: 0px #F0F0F0 solid; padding:0px 4px 0px 4px\" class=\"hierarchy\"><a href=\"formats.html#table\" title=\"The logical name of the element\">Name</a></th><th style=\"vertical-align: top; text-align : left; background-color: white; border: 0px #F0F0F0 solid; padding:0px 4px 0px 4px\" class=\"hierarchy\"><a href=\"formats.html#table\" title=\"Information about the use of the element\">Flags</a></th><th style=\"vertical-align: top; text-align : left; background-color: white; border: 0px #F0F0F0 solid; padding:0px 4px 0px 4px\" class=\"hierarchy\"><a href=\"formats.html#table\" title=\"Minimum and Maximum # of times the the element can appear in the instance\">Card.</a></th><th style=\"width: 100px\" class=\"hierarchy\"><a href=\"formats.html#table\" title=\"Reference to the type of the element\">Type</a></th><th style=\"vertical-align: top; text-align : left; background-color: white; border: 0px #F0F0F0 solid; padding:0px 4px 0px 4px\" class=\"hierarchy\"><a href=\"formats.html#table\" title=\"Additional information about the element\">Description &amp; Constraints</a><span style=\"float: right\"><a href=\"formats.html#table\" title=\"Legend for this format\"><img src=\"help16.png\" alt=\"doco\" style=\"background-color: inherit\"/></a></span></th></tr><tr style=\"border: 0px #F0F0F0 solid; padding:0px; vertical-align: top; background-color: white\"><td style=\"vertical-align: top; text-align : left; background-color: white; border: 0px #F0F0F0 solid; padding:0px 4px 0px 4px; white-space: nowrap; background-image: url(data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAyAAAAACCAYAAACg/LjIAAAAL0lEQVR42u3XsQ0AQAgCQHdl/xn8jxvYWB3JlTR0VJLa+OltBwAAYP6EEQAAgCsPVYVAgIJrA/sAAAAASUVORK5CYII=)\" class=\"hierarchy\"><img src=\"data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAAEAAAAWCAYAAAABxvaqAAAACXBIWXMAAAsTAAALEwEAmpwYAAAAB3RJTUUH3wYeFzIs1vtcMQAAAB1pVFh0Q29tbWVudAAAAAAAQ3JlYXRlZCB3aXRoIEdJTVBkLmUHAAAAE0lEQVQI12P4//8/AxMDAwNdCABMPwMo2ctnoQAAAABJRU5ErkJggg==\" alt=\".\" style=\"background-color: inherit\" class=\"hierarchy\"/><img src=\"data:image/png;base64,R0lGODlhEAAQAPQfAOvGUf7ztuvPMf/78/fkl/Pbg+u8Rvjqteu2Pf3zxPz36Pz0z+vTmPzurPvuw/npofbjquvNefHVduuyN+uuMu3Oafbgjfnqvf/3zv/3xevPi+vRjP/20/bmsP///wD/ACH5BAEKAB8ALAAAAAAQABAAAAVl4CeOZGme5qCqqDg8jyVJaz1876DsmAQAgqDgltspMEhMJoMZ4iy6I1AooFCIv+wKybziALVAoAEjYLwDgGIpJhMslgxaLR4/3rMAWoBp32V5exg8Shl1ckRUQVaMVkQ2kCstKCEAOw==\" alt=\".\" style=\"background-color: white; background-color: inherit\" title=\"Element\" class=\"hierarchy\"/> <a href=\"element-definitions.html#Element\" title=\"Element : Base definition for all elements in a resource.\">Element</a></td><td style=\"vertical-align: top; text-align : left; background-color: white; border: 0px #F0F0F0 solid; padding:0px 4px 0px 4px\" class=\"hierarchy\"><a style=\"padding-left: 3px; padding-right: 3px; color: black; null\" href=\"uml.html#interface\" title=\"This is an interface resource\">«I»</a><a style=\"padding-left: 3px; padding-right: 3px; border: 1px grey solid; font-weight: bold; color: black; background-color: #e6ffe6\" href=\"versions.html#std-process\" title=\"Standards Status = Normative\">N</a></td><td style=\"vertical-align: top; text-align : left; background-color: white; border: 0px #F0F0F0 solid; padding:0px 4px 0px 4px\" class=\"hierarchy\"></td><td style=\"vertical-align: top; text-align : left; background-color: white; border: 0px #F0F0F0 solid; padding:0px 4px 0px 4px\" class=\"hierarchy\"><a href=\"element.html\">Element</a></td><td style=\"vertical-align: top; text-align : left; background-color: white; border: 0px #F0F0F0 solid; padding:0px 4px 0px 4px\" class=\"hierarchy\">Base for all elements<br/><span style=\"font-style: italic\" title=\"ele-1\">+ Rule: All FHIR elements must have a @value or children unless an empty Parameters resource</span></td></tr>\r\n<tr style=\"border: 0px #F0F0F0 solid; padding:0px; vertical-align: top; background-color: #F7F7F7\"><td style=\"vertical-align: top; text-align : left; background-color: #F7F7F7; border: 0px #F0F0F0 solid; padding:0px 4px 0px 4px; white-space: nowrap; background-image: url(data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAyAAAAACCAYAAACg/LjIAAAAL0lEQVR42u3XsQ0AQAgCQHdl/xn8jxvYWB3JlTR0VJLa+OltBwAAYP6EEQAAgCsPVYVAgIJrA/sAAAAASUVORK5CYII=)\" class=\"hierarchy\"><img src=\"data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAAEAAAAWCAYAAAABxvaqAAAACXBIWXMAAAsTAAALEwEAmpwYAAAAB3RJTUUH3wYeFzIs1vtcMQAAAB1pVFh0Q29tbWVudAAAAAAAQ3JlYXRlZCB3aXRoIEdJTVBkLmUHAAAAE0lEQVQI12P4//8/AxMDAwNdCABMPwMo2ctnoQAAAABJRU5ErkJggg==\" alt=\".\" style=\"background-color: inherit\" class=\"hierarchy\"/><img src=\"data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAABAAAAAWCAYAAADJqhx8AAAACXBIWXMAAAsTAAALEwEAmpwYAAAAB3RJTUUH3wYeFzI3XJ6V3QAAAB1pVFh0Q29tbWVudAAAAAAAQ3JlYXRlZCB3aXRoIEdJTVBkLmUHAAAANklEQVQ4y+2RsQ0AIAzDav7/2VzQwoCY4iWbZSmo1QGoUgNMghvWaIejPQW/CrrNCylIwcOCDYfLNRcNer4SAAAAAElFTkSuQmCC\" alt=\".\" style=\"background-color: inherit\" class=\"hierarchy\"/><img src=\"data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAABAAAAAQCAYAAAAf8/9hAAAACXBIWXMAAAsTAAALEwEAmpwYAAAARklEQVQ4y2P8//8/AyWAhYFCMAgMuHjx4n+KXaCv+I0szW8WpCG8kFO1lGFKW/SIjAUYgxz/MzAwMDC+nqhDUTQyjuYFBgCNmhP4OvTRgwAAAABJRU5ErkJggg==\" alt=\".\" style=\"background-color: #F7F7F7; background-color: inherit\" title=\"Primitive Data Type\" class=\"hierarchy\"/> <a href=\"element-definitions.html#Element.id\" title=\"Element.id : Unique id for the element within a resource (for internal references). This may be any string value that does not contain spaces.\">id</a></td><td style=\"vertical-align: top; text-align : left; background-color: #F7F7F7; border: 0px #F0F0F0 solid; padding:0px 4px 0px 4px\" class=\"hierarchy\"/><td style=\"vertical-align: top; text-align : left; background-color: #F7F7F7; border: 0px #F0F0F0 solid; padding:0px 4px 0px 4px\" class=\"hierarchy\">0..1</td><td style=\"vertical-align: top; text-align : left; background-color: #F7F7F7; border: 0px #F0F0F0 solid; padding:0px 4px 0px 4px\" class=\"hierarchy\"><a href=\"datatypes.html#string\">string</a></td><td style=\"vertical-align: top; text-align : left; background-color: #F7F7F7; border: 0px #F0F0F0 solid; padding:0px 4px 0px 4px\" class=\"hierarchy\">Unique id for inter-element referencing</td></tr>\r\n<tr style=\"border: 0px #F0F0F0 solid; padding:0px; vertical-align: top; background-color: white\"><td style=\"vertical-align: top; text-align : left; background-color: white; border: 0px #F0F0F0 solid; padding:0px 4px 0px 4px; white-space: nowrap; background-image: url(data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAyAAAAACCAYAAACg/LjIAAAAI0lEQVR42u3QIQEAAAACIL/6/4MvTAQOkLYBAAB4kAAAANwMad9AqkRjgNAAAAAASUVORK5CYII=)\" class=\"hierarchy\"><img src=\"data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAAEAAAAWCAYAAAABxvaqAAAACXBIWXMAAAsTAAALEwEAmpwYAAAAB3RJTUUH3wYeFzIs1vtcMQAAAB1pVFh0Q29tbWVudAAAAAAAQ3JlYXRlZCB3aXRoIEdJTVBkLmUHAAAAE0lEQVQI12P4//8/AxMDAwNdCABMPwMo2ctnoQAAAABJRU5ErkJggg==\" alt=\".\" style=\"background-color: inherit\" class=\"hierarchy\"/><img src=\"data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAABAAAAAWCAYAAADJqhx8AAAACXBIWXMAAAsTAAALEwEAmpwYAAAAB3RJTUUH3wYeFzME+lXFigAAAB1pVFh0Q29tbWVudAAAAAAAQ3JlYXRlZCB3aXRoIEdJTVBkLmUHAAAANklEQVQ4y+3OsRUAIAjEUOL+O8cJABttJM11/x1qZAGqRBEVcNIqdWj1efDqQbb3HwwwwEfABmQUHSPM9dtDAAAAAElFTkSuQmCC\" alt=\".\" style=\"background-color: inherit\" class=\"hierarchy\"/><img src=\"data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAABAAAAAQCAYAAAAf8/9hAAAABGdBTUEAAK/INwWK6QAAABl0RVh0U29mdHdhcmUAQWRvYmUgSW1hZ2VSZWFkeXHJZTwAAADdSURBVDjLY/j//z8DJZhhmBvw41KQ07dzbk5kG/Dtgu/Jb2fsT5JkwI+bqZw/rsfYA21v+XE97f+PS5H/vx5Ra/98QN7+824ZTiIMSJr580bW/x+3iv//etD9/+fdpv/fzwX+/3LY6P/n7TIzCRtwPYYZaPvGH7dKgAb0AA1o/v/tQsh/oO0bP26TZiYqDIB+1/1+wef/z3vN/3/erPr/5aAOyHZdogMRGPIe38/7gvz+Gej3z18OG/8H2u5BvAFn7GO/Htdv/3pAQejzXjkhoO3tH7dIxY7EpEwMBgAr6O5Q8udliwAAAABJRU5ErkJggg==\" alt=\".\" style=\"background-color: white; background-color: inherit\" title=\"Extension\" class=\"hierarchy\"/> <a href=\"element-definitions.html#Element.extension\" title=\"Element.extension : May be used to represent additional information that is not part of the basic definition of the element. To make the use of extensions safe and manageable, there is a strict set of governance  applied to the definition and use of extensions. Though any implementer can define an extension, there is a set of requirements that SHALL be met as part of the definition of the extension.\">extension</a></td><td style=\"vertical-align: top; text-align : left; background-color: white; border: 0px #F0F0F0 solid; padding:0px 4px 0px 4px\" class=\"hierarchy\"/><td style=\"vertical-align: top; text-align : left; background-color: white; border: 0px #F0F0F0 solid; padding:0px 4px 0px 4px\" class=\"hierarchy\">0..*</td><td style=\"vertical-align: top; text-align : left; background-color: white; border: 0px #F0F0F0 solid; padding:0px 4px 0px 4px\" class=\"hierarchy\"><a href=\"extensibility.html#Extension\">Extension</a></td><td style=\"vertical-align: top; text-align : left; background-color: white; border: 0px #F0F0F0 solid; padding:0px 4px 0px 4px\" class=\"hierarchy\">Additional content defined by implementations<br/></td></tr>\r\n<tr><td colspan=\"5\" class=\"hierarchy\"><br/><a href=\"formats.html#table\" title=\"Legend for this format\"><img src=\"help16.png\" alt=\"doco\" style=\"background-color: inherit\"/> Documentation for this format</a></td></tr></table></div>"
+        "div" : "<div xmlns=\"http://www.w3.org/1999/xhtml\"><table border=\"0\" cellpadding=\"0\" cellspacing=\"0\" style=\"border: 0px #F0F0F0 solid; font-size: 11px; font-family: verdana; vertical-align: top;\"><tr style=\"border: 1px #F0F0F0 solid; font-size: 11px; font-family: verdana; vertical-align: top\"><th style=\"vertical-align: top; text-align : left; background-color: white; border: 0px #F0F0F0 solid; padding:0px 4px 0px 4px\" class=\"hierarchy\"><a href=\"formats.html#table\" title=\"The logical name of the element\">Name</a></th><th style=\"vertical-align: top; text-align : left; background-color: white; border: 0px #F0F0F0 solid; padding:0px 4px 0px 4px\" class=\"hierarchy\"><a href=\"formats.html#table\" title=\"Information about the use of the element\">Flags</a></th><th style=\"vertical-align: top; text-align : left; background-color: white; border: 0px #F0F0F0 solid; padding:0px 4px 0px 4px\" class=\"hierarchy\"><a href=\"formats.html#table\" title=\"Minimum and Maximum # of times the the element can appear in the instance\">Card.</a></th><th style=\"width: 100px\" class=\"hierarchy\"><a href=\"formats.html#table\" title=\"Reference to the type of the element\">Type</a></th><th style=\"vertical-align: top; text-align : left; background-color: white; border: 0px #F0F0F0 solid; padding:0px 4px 0px 4px\" class=\"hierarchy\"><a href=\"formats.html#table\" title=\"Additional information about the element\">Description &amp; Constraints</a><span style=\"float: right\"><a href=\"formats.html#table\" title=\"Legend for this format\"><img src=\"help16.png\" alt=\"doco\" style=\"background-color: inherit\"/></a></span></th></tr><tr style=\"border: 0px #F0F0F0 solid; padding:0px; vertical-align: top; background-color: white\"><td style=\"vertical-align: top; text-align : left; background-color: white; border: 0px #F0F0F0 solid; padding:0px 4px 0px 4px; white-space: nowrap; background-image: url(data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAyAAAAACCAYAAACg/LjIAAAAL0lEQVR42u3XsQ0AQAgCQHdl/xn8jxvYWB3JlTR0VJLa+OltBwAAYP6EEQAAgCsPVYVAgIJrA/sAAAAASUVORK5CYII=)\" class=\"hierarchy\"><img src=\"data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAAEAAAAWCAYAAAABxvaqAAAACXBIWXMAAAsTAAALEwEAmpwYAAAAB3RJTUUH3wYeFzIs1vtcMQAAAB1pVFh0Q29tbWVudAAAAAAAQ3JlYXRlZCB3aXRoIEdJTVBkLmUHAAAAE0lEQVQI12P4//8/AxMDAwNdCABMPwMo2ctnoQAAAABJRU5ErkJggg==\" alt=\".\" style=\"background-color: inherit\" class=\"hierarchy\"/><img src=\"data:image/png;base64,R0lGODlhEAAQAPQfAOvGUf7ztuvPMf/78/fkl/Pbg+u8Rvjqteu2Pf3zxPz36Pz0z+vTmPzurPvuw/npofbjquvNefHVduuyN+uuMu3Oafbgjfnqvf/3zv/3xevPi+vRjP/20/bmsP///wD/ACH5BAEKAB8ALAAAAAAQABAAAAVl4CeOZGme5qCqqDg8jyVJaz1876DsmAQAgqDgltspMEhMJoMZ4iy6I1AooFCIv+wKybziALVAoAEjYLwDgGIpJhMslgxaLR4/3rMAWoBp32V5exg8Shl1ckRUQVaMVkQ2kCstKCEAOw==\" alt=\".\" style=\"background-color: white; background-color: inherit\" title=\"Element\" class=\"hierarchy\"/> <a href=\"element-definitions.html#Element\" title=\"Element : Base definition for all elements in a resource.\">Element</a></td><td style=\"vertical-align: top; text-align : left; background-color: white; border: 0px #F0F0F0 solid; padding:0px 4px 0px 4px\" class=\"hierarchy\"><span style=\"padding-left: 3px; padding-right: 3px; color: black; null\" title=\"This is an abstract type\">�A�</span><a style=\"padding-left: 3px; padding-right: 3px; border: 1px grey solid; font-weight: bold; color: black; background-color: #e6ffe6\" href=\"versions.html#std-process\" title=\"Standards Status = Normative\">N</a></td><td style=\"vertical-align: top; text-align : left; background-color: white; border: 0px #F0F0F0 solid; padding:0px 4px 0px 4px\" class=\"hierarchy\"></td><td style=\"vertical-align: top; text-align : left; background-color: white; border: 0px #F0F0F0 solid; padding:0px 4px 0px 4px\" class=\"hierarchy\"><a href=\"element.html\">Element</a></td><td style=\"vertical-align: top; text-align : left; background-color: white; border: 0px #F0F0F0 solid; padding:0px 4px 0px 4px\" class=\"hierarchy\">Base for all elements<br/><span style=\"font-style: italic\" title=\"ele-1\">+ Rule: All FHIR elements must have a @value or children unless an empty Parameters resource</span></td></tr>\r\n<tr style=\"border: 0px #F0F0F0 solid; padding:0px; vertical-align: top; background-color: #F7F7F7\"><td style=\"vertical-align: top; text-align : left; background-color: #F7F7F7; border: 0px #F0F0F0 solid; padding:0px 4px 0px 4px; white-space: nowrap; background-image: url(data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAyAAAAACCAYAAACg/LjIAAAAL0lEQVR42u3XsQ0AQAgCQHdl/xn8jxvYWB3JlTR0VJLa+OltBwAAYP6EEQAAgCsPVYVAgIJrA/sAAAAASUVORK5CYII=)\" class=\"hierarchy\"><img src=\"data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAAEAAAAWCAYAAAABxvaqAAAACXBIWXMAAAsTAAALEwEAmpwYAAAAB3RJTUUH3wYeFzIs1vtcMQAAAB1pVFh0Q29tbWVudAAAAAAAQ3JlYXRlZCB3aXRoIEdJTVBkLmUHAAAAE0lEQVQI12P4//8/AxMDAwNdCABMPwMo2ctnoQAAAABJRU5ErkJggg==\" alt=\".\" style=\"background-color: inherit\" class=\"hierarchy\"/><img src=\"data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAABAAAAAWCAYAAADJqhx8AAAACXBIWXMAAAsTAAALEwEAmpwYAAAAB3RJTUUH3wYeFzI3XJ6V3QAAAB1pVFh0Q29tbWVudAAAAAAAQ3JlYXRlZCB3aXRoIEdJTVBkLmUHAAAANklEQVQ4y+2RsQ0AIAzDav7/2VzQwoCY4iWbZSmo1QGoUgNMghvWaIejPQW/CrrNCylIwcOCDYfLNRcNer4SAAAAAElFTkSuQmCC\" alt=\".\" style=\"background-color: inherit\" class=\"hierarchy\"/><img src=\"data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAABAAAAAQCAYAAAAf8/9hAAAACXBIWXMAAAsTAAALEwEAmpwYAAAARklEQVQ4y2P8//8/AyWAhYFCMAgMuHjx4n+KXaCv+I0szW8WpCG8kFO1lGFKW/SIjAUYgxz/MzAwMDC+nqhDUTQyjuYFBgCNmhP4OvTRgwAAAABJRU5ErkJggg==\" alt=\".\" style=\"background-color: #F7F7F7; background-color: inherit\" title=\"Primitive Data Type\" class=\"hierarchy\"/> <a href=\"element-definitions.html#Element.id\" title=\"Element.id : Unique id for the element within a resource (for internal references). This may be any string value that does not contain spaces.\">id</a></td><td style=\"vertical-align: top; text-align : left; background-color: #F7F7F7; border: 0px #F0F0F0 solid; padding:0px 4px 0px 4px\" class=\"hierarchy\"/><td style=\"vertical-align: top; text-align : left; background-color: #F7F7F7; border: 0px #F0F0F0 solid; padding:0px 4px 0px 4px\" class=\"hierarchy\">0..1</td><td style=\"vertical-align: top; text-align : left; background-color: #F7F7F7; border: 0px #F0F0F0 solid; padding:0px 4px 0px 4px\" class=\"hierarchy\"><a href=\"datatypes.html#string\">string</a></td><td style=\"vertical-align: top; text-align : left; background-color: #F7F7F7; border: 0px #F0F0F0 solid; padding:0px 4px 0px 4px\" class=\"hierarchy\">Unique id for inter-element referencing</td></tr>\r\n<tr style=\"border: 0px #F0F0F0 solid; padding:0px; vertical-align: top; background-color: white\"><td style=\"vertical-align: top; text-align : left; background-color: white; border: 0px #F0F0F0 solid; padding:0px 4px 0px 4px; white-space: nowrap; background-image: url(data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAyAAAAACCAYAAACg/LjIAAAAI0lEQVR42u3QIQEAAAACIL/6/4MvTAQOkLYBAAB4kAAAANwMad9AqkRjgNAAAAAASUVORK5CYII=)\" class=\"hierarchy\"><img src=\"data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAAEAAAAWCAYAAAABxvaqAAAACXBIWXMAAAsTAAALEwEAmpwYAAAAB3RJTUUH3wYeFzIs1vtcMQAAAB1pVFh0Q29tbWVudAAAAAAAQ3JlYXRlZCB3aXRoIEdJTVBkLmUHAAAAE0lEQVQI12P4//8/AxMDAwNdCABMPwMo2ctnoQAAAABJRU5ErkJggg==\" alt=\".\" style=\"background-color: inherit\" class=\"hierarchy\"/><img src=\"data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAABAAAAAWCAYAAADJqhx8AAAACXBIWXMAAAsTAAALEwEAmpwYAAAAB3RJTUUH3wYeFzME+lXFigAAAB1pVFh0Q29tbWVudAAAAAAAQ3JlYXRlZCB3aXRoIEdJTVBkLmUHAAAANklEQVQ4y+3OsRUAIAjEUOL+O8cJABttJM11/x1qZAGqRBEVcNIqdWj1efDqQbb3HwwwwEfABmQUHSPM9dtDAAAAAElFTkSuQmCC\" alt=\".\" style=\"background-color: inherit\" class=\"hierarchy\"/><img src=\"data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAABAAAAAQCAYAAAAf8/9hAAAABGdBTUEAAK/INwWK6QAAABl0RVh0U29mdHdhcmUAQWRvYmUgSW1hZ2VSZWFkeXHJZTwAAADdSURBVDjLY/j//z8DJZhhmBvw41KQ07dzbk5kG/Dtgu/Jb2fsT5JkwI+bqZw/rsfYA21v+XE97f+PS5H/vx5Ra/98QN7+824ZTiIMSJr580bW/x+3iv//etD9/+fdpv/fzwX+/3LY6P/n7TIzCRtwPYYZaPvGH7dKgAb0AA1o/v/tQsh/oO0bP26TZiYqDIB+1/1+wef/z3vN/3/erPr/5aAOyHZdogMRGPIe38/7gvz+Gej3z18OG/8H2u5BvAFn7GO/Htdv/3pAQejzXjkhoO3tH7dIxY7EpEwMBgAr6O5Q8udliwAAAABJRU5ErkJggg==\" alt=\".\" style=\"background-color: white; background-color: inherit\" title=\"Extension\" class=\"hierarchy\"/> <a href=\"element-definitions.html#Element.extension\" title=\"Element.extension : May be used to represent additional information that is not part of the basic definition of the element. To make the use of extensions safe and manageable, there is a strict set of governance  applied to the definition and use of extensions. Though any implementer can define an extension, there is a set of requirements that SHALL be met as part of the definition of the extension.\">extension</a></td><td style=\"vertical-align: top; text-align : left; background-color: white; border: 0px #F0F0F0 solid; padding:0px 4px 0px 4px\" class=\"hierarchy\"/><td style=\"vertical-align: top; text-align : left; background-color: white; border: 0px #F0F0F0 solid; padding:0px 4px 0px 4px\" class=\"hierarchy\">0..*</td><td style=\"vertical-align: top; text-align : left; background-color: white; border: 0px #F0F0F0 solid; padding:0px 4px 0px 4px\" class=\"hierarchy\"><a href=\"extensibility.html#Extension\">Extension</a></td><td style=\"vertical-align: top; text-align : left; background-color: white; border: 0px #F0F0F0 solid; padding:0px 4px 0px 4px\" class=\"hierarchy\">Additional content defined by implementations<br/></td></tr>\r\n<tr><td colspan=\"5\" class=\"hierarchy\"><br/><a href=\"formats.html#table\" title=\"Legend for this format\"><img src=\"help16.png\" alt=\"doco\" style=\"background-color: inherit\"/> Documentation for this format</a></td></tr></table></div>"
       },
       "extension" : [{
         "url" : "http://hl7.org/fhir/StructureDefinition/structuredefinition-standards-status",
@@ -30,7 +30,7 @@
       "name" : "Element",
       "status" : "active",
       "experimental" : false,
-      "date" : "2022-04-23T22:21:35+00:00",
+      "date" : "2022-05-26T21:57:15+10:00",
       "publisher" : "HL7 FHIR Standard",
       "contact" : [{
         "telecom" : [{
@@ -100,7 +100,7 @@
           "type" : [{
             "extension" : [{
               "url" : "http://hl7.org/fhir/StructureDefinition/structuredefinition-fhir-type",
-              "valueUrl" : "string"
+              "valueUrl" : "id"
             }],
             "code" : "http://hl7.org/fhirpath/System.String"
           }],
@@ -202,7 +202,7 @@
           "type" : [{
             "extension" : [{
               "url" : "http://hl7.org/fhir/StructureDefinition/structuredefinition-fhir-type",
-              "valueUrl" : "string"
+              "valueUrl" : "id"
             }],
             "code" : "http://hl7.org/fhirpath/System.String"
           }],
@@ -246,11 +246,11 @@
       "resourceType" : "StructureDefinition",
       "id" : "BackboneElement",
       "meta" : {
-        "lastUpdated" : "2022-04-23T22:21:35.043+00:00"
+        "lastUpdated" : "2022-05-26T21:57:15.848+10:00"
       },
       "text" : {
         "status" : "generated",
-        "div" : "<div xmlns=\"http://www.w3.org/1999/xhtml\"><table border=\"0\" cellpadding=\"0\" cellspacing=\"0\" style=\"border: 0px #F0F0F0 solid; font-size: 11px; font-family: verdana; vertical-align: top;\"><tr style=\"border: 1px #F0F0F0 solid; font-size: 11px; font-family: verdana; vertical-align: top\"><th style=\"vertical-align: top; text-align : left; background-color: white; border: 0px #F0F0F0 solid; padding:0px 4px 0px 4px\" class=\"hierarchy\"><a href=\"formats.html#table\" title=\"The logical name of the element\">Name</a></th><th style=\"vertical-align: top; text-align : left; background-color: white; border: 0px #F0F0F0 solid; padding:0px 4px 0px 4px\" class=\"hierarchy\"><a href=\"formats.html#table\" title=\"Information about the use of the element\">Flags</a></th><th style=\"vertical-align: top; text-align : left; background-color: white; border: 0px #F0F0F0 solid; padding:0px 4px 0px 4px\" class=\"hierarchy\"><a href=\"formats.html#table\" title=\"Minimum and Maximum # of times the the element can appear in the instance\">Card.</a></th><th style=\"width: 100px\" class=\"hierarchy\"><a href=\"formats.html#table\" title=\"Reference to the type of the element\">Type</a></th><th style=\"vertical-align: top; text-align : left; background-color: white; border: 0px #F0F0F0 solid; padding:0px 4px 0px 4px\" class=\"hierarchy\"><a href=\"formats.html#table\" title=\"Additional information about the element\">Description &amp; Constraints</a><span style=\"float: right\"><a href=\"formats.html#table\" title=\"Legend for this format\"><img src=\"help16.png\" alt=\"doco\" style=\"background-color: inherit\"/></a></span></th></tr><tr style=\"border: 0px #F0F0F0 solid; padding:0px; vertical-align: top; background-color: white\"><td style=\"vertical-align: top; text-align : left; background-color: white; border: 0px #F0F0F0 solid; padding:0px 4px 0px 4px; white-space: nowrap; background-image: url(data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAyAAAAACCAYAAACg/LjIAAAAL0lEQVR42u3XsQ0AQAgCQHdl/xn8jxvYWB3JlTR0VJLa+OltBwAAYP6EEQAAgCsPVYVAgIJrA/sAAAAASUVORK5CYII=)\" class=\"hierarchy\"><img src=\"data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAAEAAAAWCAYAAAABxvaqAAAACXBIWXMAAAsTAAALEwEAmpwYAAAAB3RJTUUH3wYeFzIs1vtcMQAAAB1pVFh0Q29tbWVudAAAAAAAQ3JlYXRlZCB3aXRoIEdJTVBkLmUHAAAAE0lEQVQI12P4//8/AxMDAwNdCABMPwMo2ctnoQAAAABJRU5ErkJggg==\" alt=\".\" style=\"background-color: inherit\" class=\"hierarchy\"/><img src=\"data:image/png;base64,R0lGODlhEAAQAPQfAOvGUf7ztuvPMf/78/fkl/Pbg+u8Rvjqteu2Pf3zxPz36Pz0z+vTmPzurPvuw/npofbjquvNefHVduuyN+uuMu3Oafbgjfnqvf/3zv/3xevPi+vRjP/20/bmsP///wD/ACH5BAEKAB8ALAAAAAAQABAAAAVl4CeOZGme5qCqqDg8jyVJaz1876DsmAQAgqDgltspMEhMJoMZ4iy6I1AooFCIv+wKybziALVAoAEjYLwDgGIpJhMslgxaLR4/3rMAWoBp32V5exg8Shl1ckRUQVaMVkQ2kCstKCEAOw==\" alt=\".\" style=\"background-color: white; background-color: inherit\" title=\"Element\" class=\"hierarchy\"/> <a href=\"backboneelement-definitions.html#BackboneElement\" title=\"BackboneElement : Base definition for all elements that are defined inside a resource - but not those in a data type.\">BackboneElement</a></td><td style=\"vertical-align: top; text-align : left; background-color: white; border: 0px #F0F0F0 solid; padding:0px 4px 0px 4px\" class=\"hierarchy\"><a style=\"padding-left: 3px; padding-right: 3px; color: black; null\" href=\"uml.html#interface\" title=\"This is an interface resource\">«I»</a><a style=\"padding-left: 3px; padding-right: 3px; border: 1px grey solid; font-weight: bold; color: black; background-color: #e6ffe6\" href=\"versions.html#std-process\" title=\"Standards Status = Normative\">N</a></td><td style=\"vertical-align: top; text-align : left; background-color: white; border: 0px #F0F0F0 solid; padding:0px 4px 0px 4px\" class=\"hierarchy\"></td><td style=\"vertical-align: top; text-align : left; background-color: white; border: 0px #F0F0F0 solid; padding:0px 4px 0px 4px\" class=\"hierarchy\"><a href=\"element.html\">Element</a></td><td style=\"vertical-align: top; text-align : left; background-color: white; border: 0px #F0F0F0 solid; padding:0px 4px 0px 4px\" class=\"hierarchy\">Base for elements defined inside a resource<br/>Elements defined in Ancestors: <a href=\"element.html#Element\" title=\"Unique id for the element within a resource (for internal references). This may be any string value that does not contain spaces.\">id</a>, <a href=\"element.html#Element\" title=\"May be used to represent additional information that is not part of the basic definition of the element. To make the use of extensions safe and manageable, there is a strict set of governance  applied to the definition and use of extensions. Though any implementer can define an extension, there is a set of requirements that SHALL be met as part of the definition of the extension.\">extension</a></td></tr>\r\n<tr style=\"border: 0px #F0F0F0 solid; padding:0px; vertical-align: top; background-color: #F7F7F7\"><td style=\"vertical-align: top; text-align : left; background-color: #F7F7F7; border: 0px #F0F0F0 solid; padding:0px 4px 0px 4px; white-space: nowrap; background-image: url(data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAyAAAAACCAYAAACg/LjIAAAAI0lEQVR42u3QIQEAAAACIL/6/4MvTAQOkLYBAAB4kAAAANwMad9AqkRjgNAAAAAASUVORK5CYII=)\" class=\"hierarchy\"><img src=\"data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAAEAAAAWCAYAAAABxvaqAAAACXBIWXMAAAsTAAALEwEAmpwYAAAAB3RJTUUH3wYeFzIs1vtcMQAAAB1pVFh0Q29tbWVudAAAAAAAQ3JlYXRlZCB3aXRoIEdJTVBkLmUHAAAAE0lEQVQI12P4//8/AxMDAwNdCABMPwMo2ctnoQAAAABJRU5ErkJggg==\" alt=\".\" style=\"background-color: inherit\" class=\"hierarchy\"/><img src=\"data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAABAAAAAWCAYAAADJqhx8AAAACXBIWXMAAAsTAAALEwEAmpwYAAAAB3RJTUUH3wYeFzME+lXFigAAAB1pVFh0Q29tbWVudAAAAAAAQ3JlYXRlZCB3aXRoIEdJTVBkLmUHAAAANklEQVQ4y+3OsRUAIAjEUOL+O8cJABttJM11/x1qZAGqRBEVcNIqdWj1efDqQbb3HwwwwEfABmQUHSPM9dtDAAAAAElFTkSuQmCC\" alt=\".\" style=\"background-color: inherit\" class=\"hierarchy\"/><img src=\"data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAABAAAAAQCAYAAAAf8/9hAAAABGdBTUEAAK/INwWK6QAAABl0RVh0U29mdHdhcmUAQWRvYmUgSW1hZ2VSZWFkeXHJZTwAAADdSURBVDjLY/j//z8DJZhhmBvw41KQ07dzbk5kG/Dtgu/Jb2fsT5JkwI+bqZw/rsfYA21v+XE97f+PS5H/vx5Ra/98QN7+824ZTiIMSJr580bW/x+3iv//etD9/+fdpv/fzwX+/3LY6P/n7TIzCRtwPYYZaPvGH7dKgAb0AA1o/v/tQsh/oO0bP26TZiYqDIB+1/1+wef/z3vN/3/erPr/5aAOyHZdogMRGPIe38/7gvz+Gej3z18OG/8H2u5BvAFn7GO/Htdv/3pAQejzXjkhoO3tH7dIxY7EpEwMBgAr6O5Q8udliwAAAABJRU5ErkJggg==\" alt=\".\" style=\"background-color: #F7F7F7; background-color: inherit\" title=\"Extension\" class=\"hierarchy\"/> <a href=\"backboneelement-definitions.html#BackboneElement.modifierExtension\" title=\"BackboneElement.modifierExtension : May be used to represent additional information that is not part of the basic definition of the element and that modifies the understanding of the element in which it is contained and/or the understanding of the containing element's descendants. Usually modifier elements provide negation or qualification. To make the use of extensions safe and manageable, there is a strict set of governance applied to the definition and use of extensions. Though any implementer can define an extension, there is a set of requirements that SHALL be met as part of the definition of the extension. Applications processing a resource are required to check for modifier extensions.\n\nModifier extensions SHALL NOT change the meaning of any elements on Resource or DomainResource (including cannot change the meaning of modifierExtension itself).\">modifierExtension</a></td><td style=\"vertical-align: top; text-align : left; background-color: #F7F7F7; border: 0px #F0F0F0 solid; padding:0px 4px 0px 4px\" class=\"hierarchy\"><a style=\"padding-left: 3px; padding-right: 3px; color: black; null\" href=\"conformance-rules.html#isModifier\" title=\"This element is a modifier element\">?!</a><a style=\"padding-left: 3px; padding-right: 3px; color: black; null\" href=\"elementdefinition-definitions.html#ElementDefinition.isSummary\" title=\"This element is included in summaries\">Σ</a></td><td style=\"vertical-align: top; text-align : left; background-color: #F7F7F7; border: 0px #F0F0F0 solid; padding:0px 4px 0px 4px\" class=\"hierarchy\">0..*</td><td style=\"vertical-align: top; text-align : left; background-color: #F7F7F7; border: 0px #F0F0F0 solid; padding:0px 4px 0px 4px\" class=\"hierarchy\"><a href=\"extensibility.html#Extension\">Extension</a></td><td style=\"vertical-align: top; text-align : left; background-color: #F7F7F7; border: 0px #F0F0F0 solid; padding:0px 4px 0px 4px\" class=\"hierarchy\">Extensions that cannot be ignored even if unrecognized<br/></td></tr>\r\n<tr><td colspan=\"5\" class=\"hierarchy\"><br/><a href=\"formats.html#table\" title=\"Legend for this format\"><img src=\"help16.png\" alt=\"doco\" style=\"background-color: inherit\"/> Documentation for this format</a></td></tr></table></div>"
+        "div" : "<div xmlns=\"http://www.w3.org/1999/xhtml\"><table border=\"0\" cellpadding=\"0\" cellspacing=\"0\" style=\"border: 0px #F0F0F0 solid; font-size: 11px; font-family: verdana; vertical-align: top;\"><tr style=\"border: 1px #F0F0F0 solid; font-size: 11px; font-family: verdana; vertical-align: top\"><th style=\"vertical-align: top; text-align : left; background-color: white; border: 0px #F0F0F0 solid; padding:0px 4px 0px 4px\" class=\"hierarchy\"><a href=\"formats.html#table\" title=\"The logical name of the element\">Name</a></th><th style=\"vertical-align: top; text-align : left; background-color: white; border: 0px #F0F0F0 solid; padding:0px 4px 0px 4px\" class=\"hierarchy\"><a href=\"formats.html#table\" title=\"Information about the use of the element\">Flags</a></th><th style=\"vertical-align: top; text-align : left; background-color: white; border: 0px #F0F0F0 solid; padding:0px 4px 0px 4px\" class=\"hierarchy\"><a href=\"formats.html#table\" title=\"Minimum and Maximum # of times the the element can appear in the instance\">Card.</a></th><th style=\"width: 100px\" class=\"hierarchy\"><a href=\"formats.html#table\" title=\"Reference to the type of the element\">Type</a></th><th style=\"vertical-align: top; text-align : left; background-color: white; border: 0px #F0F0F0 solid; padding:0px 4px 0px 4px\" class=\"hierarchy\"><a href=\"formats.html#table\" title=\"Additional information about the element\">Description &amp; Constraints</a><span style=\"float: right\"><a href=\"formats.html#table\" title=\"Legend for this format\"><img src=\"help16.png\" alt=\"doco\" style=\"background-color: inherit\"/></a></span></th></tr><tr style=\"border: 0px #F0F0F0 solid; padding:0px; vertical-align: top; background-color: white\"><td style=\"vertical-align: top; text-align : left; background-color: white; border: 0px #F0F0F0 solid; padding:0px 4px 0px 4px; white-space: nowrap; background-image: url(data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAyAAAAACCAYAAACg/LjIAAAAL0lEQVR42u3XsQ0AQAgCQHdl/xn8jxvYWB3JlTR0VJLa+OltBwAAYP6EEQAAgCsPVYVAgIJrA/sAAAAASUVORK5CYII=)\" class=\"hierarchy\"><img src=\"data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAAEAAAAWCAYAAAABxvaqAAAACXBIWXMAAAsTAAALEwEAmpwYAAAAB3RJTUUH3wYeFzIs1vtcMQAAAB1pVFh0Q29tbWVudAAAAAAAQ3JlYXRlZCB3aXRoIEdJTVBkLmUHAAAAE0lEQVQI12P4//8/AxMDAwNdCABMPwMo2ctnoQAAAABJRU5ErkJggg==\" alt=\".\" style=\"background-color: inherit\" class=\"hierarchy\"/><img src=\"data:image/png;base64,R0lGODlhEAAQAPQfAOvGUf7ztuvPMf/78/fkl/Pbg+u8Rvjqteu2Pf3zxPz36Pz0z+vTmPzurPvuw/npofbjquvNefHVduuyN+uuMu3Oafbgjfnqvf/3zv/3xevPi+vRjP/20/bmsP///wD/ACH5BAEKAB8ALAAAAAAQABAAAAVl4CeOZGme5qCqqDg8jyVJaz1876DsmAQAgqDgltspMEhMJoMZ4iy6I1AooFCIv+wKybziALVAoAEjYLwDgGIpJhMslgxaLR4/3rMAWoBp32V5exg8Shl1ckRUQVaMVkQ2kCstKCEAOw==\" alt=\".\" style=\"background-color: white; background-color: inherit\" title=\"Element\" class=\"hierarchy\"/> <a href=\"backboneelement-definitions.html#BackboneElement\" title=\"BackboneElement : Base definition for all elements that are defined inside a resource - but not those in a data type.\">BackboneElement</a></td><td style=\"vertical-align: top; text-align : left; background-color: white; border: 0px #F0F0F0 solid; padding:0px 4px 0px 4px\" class=\"hierarchy\"><span style=\"padding-left: 3px; padding-right: 3px; color: black; null\" title=\"This is an abstract type\">�A�</span><a style=\"padding-left: 3px; padding-right: 3px; border: 1px grey solid; font-weight: bold; color: black; background-color: #e6ffe6\" href=\"versions.html#std-process\" title=\"Standards Status = Normative\">N</a></td><td style=\"vertical-align: top; text-align : left; background-color: white; border: 0px #F0F0F0 solid; padding:0px 4px 0px 4px\" class=\"hierarchy\"></td><td style=\"vertical-align: top; text-align : left; background-color: white; border: 0px #F0F0F0 solid; padding:0px 4px 0px 4px\" class=\"hierarchy\"><a href=\"element.html\">Element</a></td><td style=\"vertical-align: top; text-align : left; background-color: white; border: 0px #F0F0F0 solid; padding:0px 4px 0px 4px\" class=\"hierarchy\">Base for elements defined inside a resource<br/>Elements defined in Ancestors: <a href=\"element.html#Element\" title=\"Unique id for the element within a resource (for internal references). This may be any string value that does not contain spaces.\">id</a>, <a href=\"element.html#Element\" title=\"May be used to represent additional information that is not part of the basic definition of the element. To make the use of extensions safe and manageable, there is a strict set of governance  applied to the definition and use of extensions. Though any implementer can define an extension, there is a set of requirements that SHALL be met as part of the definition of the extension.\">extension</a></td></tr>\r\n<tr style=\"border: 0px #F0F0F0 solid; padding:0px; vertical-align: top; background-color: #F7F7F7\"><td style=\"vertical-align: top; text-align : left; background-color: #F7F7F7; border: 0px #F0F0F0 solid; padding:0px 4px 0px 4px; white-space: nowrap; background-image: url(data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAyAAAAACCAYAAACg/LjIAAAAI0lEQVR42u3QIQEAAAACIL/6/4MvTAQOkLYBAAB4kAAAANwMad9AqkRjgNAAAAAASUVORK5CYII=)\" class=\"hierarchy\"><img src=\"data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAAEAAAAWCAYAAAABxvaqAAAACXBIWXMAAAsTAAALEwEAmpwYAAAAB3RJTUUH3wYeFzIs1vtcMQAAAB1pVFh0Q29tbWVudAAAAAAAQ3JlYXRlZCB3aXRoIEdJTVBkLmUHAAAAE0lEQVQI12P4//8/AxMDAwNdCABMPwMo2ctnoQAAAABJRU5ErkJggg==\" alt=\".\" style=\"background-color: inherit\" class=\"hierarchy\"/><img src=\"data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAABAAAAAWCAYAAADJqhx8AAAACXBIWXMAAAsTAAALEwEAmpwYAAAAB3RJTUUH3wYeFzME+lXFigAAAB1pVFh0Q29tbWVudAAAAAAAQ3JlYXRlZCB3aXRoIEdJTVBkLmUHAAAANklEQVQ4y+3OsRUAIAjEUOL+O8cJABttJM11/x1qZAGqRBEVcNIqdWj1efDqQbb3HwwwwEfABmQUHSPM9dtDAAAAAElFTkSuQmCC\" alt=\".\" style=\"background-color: inherit\" class=\"hierarchy\"/><img src=\"data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAABAAAAAQCAYAAAAf8/9hAAAABGdBTUEAAK/INwWK6QAAABl0RVh0U29mdHdhcmUAQWRvYmUgSW1hZ2VSZWFkeXHJZTwAAADdSURBVDjLY/j//z8DJZhhmBvw41KQ07dzbk5kG/Dtgu/Jb2fsT5JkwI+bqZw/rsfYA21v+XE97f+PS5H/vx5Ra/98QN7+824ZTiIMSJr580bW/x+3iv//etD9/+fdpv/fzwX+/3LY6P/n7TIzCRtwPYYZaPvGH7dKgAb0AA1o/v/tQsh/oO0bP26TZiYqDIB+1/1+wef/z3vN/3/erPr/5aAOyHZdogMRGPIe38/7gvz+Gej3z18OG/8H2u5BvAFn7GO/Htdv/3pAQejzXjkhoO3tH7dIxY7EpEwMBgAr6O5Q8udliwAAAABJRU5ErkJggg==\" alt=\".\" style=\"background-color: #F7F7F7; background-color: inherit\" title=\"Extension\" class=\"hierarchy\"/> <a href=\"backboneelement-definitions.html#BackboneElement.modifierExtension\" title=\"BackboneElement.modifierExtension : May be used to represent additional information that is not part of the basic definition of the element and that modifies the understanding of the element in which it is contained and/or the understanding of the containing element's descendants. Usually modifier elements provide negation or qualification. To make the use of extensions safe and manageable, there is a strict set of governance applied to the definition and use of extensions. Though any implementer can define an extension, there is a set of requirements that SHALL be met as part of the definition of the extension. Applications processing a resource are required to check for modifier extensions.\n\nModifier extensions SHALL NOT change the meaning of any elements on Resource or DomainResource (including cannot change the meaning of modifierExtension itself).\">modifierExtension</a></td><td style=\"vertical-align: top; text-align : left; background-color: #F7F7F7; border: 0px #F0F0F0 solid; padding:0px 4px 0px 4px\" class=\"hierarchy\"><a style=\"padding-left: 3px; padding-right: 3px; color: black; null\" href=\"conformance-rules.html#isModifier\" title=\"This element is a modifier element\">?!</a><a style=\"padding-left: 3px; padding-right: 3px; color: black; null\" href=\"elementdefinition-definitions.html#ElementDefinition.isSummary\" title=\"This element is included in summaries\">Σ</a></td><td style=\"vertical-align: top; text-align : left; background-color: #F7F7F7; border: 0px #F0F0F0 solid; padding:0px 4px 0px 4px\" class=\"hierarchy\">0..*</td><td style=\"vertical-align: top; text-align : left; background-color: #F7F7F7; border: 0px #F0F0F0 solid; padding:0px 4px 0px 4px\" class=\"hierarchy\"><a href=\"extensibility.html#Extension\">Extension</a></td><td style=\"vertical-align: top; text-align : left; background-color: #F7F7F7; border: 0px #F0F0F0 solid; padding:0px 4px 0px 4px\" class=\"hierarchy\">Extensions that cannot be ignored even if unrecognized<br/></td></tr>\r\n<tr><td colspan=\"5\" class=\"hierarchy\"><br/><a href=\"formats.html#table\" title=\"Legend for this format\"><img src=\"help16.png\" alt=\"doco\" style=\"background-color: inherit\"/> Documentation for this format</a></td></tr></table></div>"
       },
       "extension" : [{
         "url" : "http://hl7.org/fhir/StructureDefinition/structuredefinition-standards-status",
@@ -265,7 +265,7 @@
       "name" : "BackboneElement",
       "status" : "active",
       "experimental" : false,
-      "date" : "2022-04-23T22:21:35+00:00",
+      "date" : "2022-05-26T21:57:15+10:00",
       "publisher" : "HL7 FHIR Standard",
       "contact" : [{
         "telecom" : [{
@@ -337,7 +337,7 @@
           "type" : [{
             "extension" : [{
               "url" : "http://hl7.org/fhir/StructureDefinition/structuredefinition-fhir-type",
-              "valueUrl" : "string"
+              "valueUrl" : "id"
             }],
             "code" : "http://hl7.org/fhirpath/System.String"
           }],
@@ -495,7 +495,7 @@
       "resourceType" : "StructureDefinition",
       "id" : "base64Binary",
       "meta" : {
-        "lastUpdated" : "2022-04-23T22:21:35.043+00:00"
+        "lastUpdated" : "2022-05-26T21:57:15.848+10:00"
       },
       "text" : {
         "status" : "generated",
@@ -514,7 +514,7 @@
       "name" : "base64Binary",
       "status" : "active",
       "experimental" : false,
-      "date" : "2022-04-23T22:21:35+00:00",
+      "date" : "2022-05-26T21:57:15+10:00",
       "publisher" : "HL7 FHIR Standard",
       "contact" : [{
         "telecom" : [{
@@ -681,7 +681,7 @@
       "resourceType" : "StructureDefinition",
       "id" : "boolean",
       "meta" : {
-        "lastUpdated" : "2022-04-23T22:21:35.043+00:00"
+        "lastUpdated" : "2022-05-26T21:57:15.848+10:00"
       },
       "text" : {
         "status" : "generated",
@@ -700,7 +700,7 @@
       "name" : "boolean",
       "status" : "active",
       "experimental" : false,
-      "date" : "2022-04-23T22:21:35+00:00",
+      "date" : "2022-05-26T21:57:15+10:00",
       "publisher" : "HL7 FHIR Standard",
       "contact" : [{
         "telecom" : [{
@@ -865,7 +865,7 @@
       "resourceType" : "StructureDefinition",
       "id" : "canonical",
       "meta" : {
-        "lastUpdated" : "2022-04-23T22:21:35.043+00:00"
+        "lastUpdated" : "2022-05-26T21:57:15.848+10:00"
       },
       "text" : {
         "status" : "generated",
@@ -884,7 +884,7 @@
       "name" : "canonical",
       "status" : "active",
       "experimental" : false,
-      "date" : "2022-04-23T22:21:35+00:00",
+      "date" : "2022-05-26T21:57:15+10:00",
       "publisher" : "HL7 FHIR Standard",
       "contact" : [{
         "telecom" : [{
@@ -1051,7 +1051,7 @@
       "resourceType" : "StructureDefinition",
       "id" : "code",
       "meta" : {
-        "lastUpdated" : "2022-04-23T22:21:35.043+00:00"
+        "lastUpdated" : "2022-05-26T21:57:15.848+10:00"
       },
       "text" : {
         "status" : "generated",
@@ -1070,7 +1070,7 @@
       "name" : "code",
       "status" : "active",
       "experimental" : false,
-      "date" : "2022-04-23T22:21:35+00:00",
+      "date" : "2022-05-26T21:57:15+10:00",
       "publisher" : "HL7 FHIR Standard",
       "contact" : [{
         "telecom" : [{
@@ -1235,7 +1235,7 @@
       "resourceType" : "StructureDefinition",
       "id" : "date",
       "meta" : {
-        "lastUpdated" : "2022-04-23T22:21:35.043+00:00"
+        "lastUpdated" : "2022-05-26T21:57:15.848+10:00"
       },
       "text" : {
         "status" : "generated",
@@ -1254,7 +1254,7 @@
       "name" : "date",
       "status" : "active",
       "experimental" : false,
-      "date" : "2022-04-23T22:21:35+00:00",
+      "date" : "2022-05-26T21:57:15+10:00",
       "publisher" : "HL7 FHIR Standard",
       "contact" : [{
         "telecom" : [{
@@ -1419,7 +1419,7 @@
       "resourceType" : "StructureDefinition",
       "id" : "dateTime",
       "meta" : {
-        "lastUpdated" : "2022-04-23T22:21:35.043+00:00"
+        "lastUpdated" : "2022-05-26T21:57:15.848+10:00"
       },
       "text" : {
         "status" : "generated",
@@ -1438,7 +1438,7 @@
       "name" : "dateTime",
       "status" : "active",
       "experimental" : false,
-      "date" : "2022-04-23T22:21:35+00:00",
+      "date" : "2022-05-26T21:57:15+10:00",
       "publisher" : "HL7 FHIR Standard",
       "contact" : [{
         "telecom" : [{
@@ -1603,7 +1603,7 @@
       "resourceType" : "StructureDefinition",
       "id" : "decimal",
       "meta" : {
-        "lastUpdated" : "2022-04-23T22:21:35.043+00:00"
+        "lastUpdated" : "2022-05-26T21:57:15.848+10:00"
       },
       "text" : {
         "status" : "generated",
@@ -1622,7 +1622,7 @@
       "name" : "decimal",
       "status" : "active",
       "experimental" : false,
-      "date" : "2022-04-23T22:21:35+00:00",
+      "date" : "2022-05-26T21:57:15+10:00",
       "publisher" : "HL7 FHIR Standard",
       "contact" : [{
         "telecom" : [{
@@ -1789,7 +1789,7 @@
       "resourceType" : "StructureDefinition",
       "id" : "id",
       "meta" : {
-        "lastUpdated" : "2022-04-23T22:21:35.043+00:00"
+        "lastUpdated" : "2022-05-26T21:57:15.848+10:00"
       },
       "text" : {
         "status" : "generated",
@@ -1808,7 +1808,7 @@
       "name" : "id",
       "status" : "active",
       "experimental" : false,
-      "date" : "2022-04-23T22:21:35+00:00",
+      "date" : "2022-05-26T21:57:15+10:00",
       "publisher" : "HL7 FHIR Standard",
       "contact" : [{
         "telecom" : [{
@@ -1975,7 +1975,7 @@
       "resourceType" : "StructureDefinition",
       "id" : "instant",
       "meta" : {
-        "lastUpdated" : "2022-04-23T22:21:35.043+00:00"
+        "lastUpdated" : "2022-05-26T21:57:15.848+10:00"
       },
       "text" : {
         "status" : "generated",
@@ -1994,7 +1994,7 @@
       "name" : "instant",
       "status" : "active",
       "experimental" : false,
-      "date" : "2022-04-23T22:21:35+00:00",
+      "date" : "2022-05-26T21:57:15+10:00",
       "publisher" : "HL7 FHIR Standard",
       "contact" : [{
         "telecom" : [{
@@ -2161,7 +2161,7 @@
       "resourceType" : "StructureDefinition",
       "id" : "integer",
       "meta" : {
-        "lastUpdated" : "2022-04-23T22:21:35.043+00:00"
+        "lastUpdated" : "2022-05-26T21:57:15.848+10:00"
       },
       "text" : {
         "status" : "generated",
@@ -2180,7 +2180,7 @@
       "name" : "integer",
       "status" : "active",
       "experimental" : false,
-      "date" : "2022-04-23T22:21:35+00:00",
+      "date" : "2022-05-26T21:57:15+10:00",
       "publisher" : "HL7 FHIR Standard",
       "contact" : [{
         "telecom" : [{
@@ -2351,7 +2351,7 @@
       "resourceType" : "StructureDefinition",
       "id" : "markdown",
       "meta" : {
-        "lastUpdated" : "2022-04-23T22:21:35.043+00:00"
+        "lastUpdated" : "2022-05-26T21:57:15.848+10:00"
       },
       "text" : {
         "status" : "generated",
@@ -2370,7 +2370,7 @@
       "name" : "markdown",
       "status" : "active",
       "experimental" : false,
-      "date" : "2022-04-23T22:21:35+00:00",
+      "date" : "2022-05-26T21:57:15+10:00",
       "publisher" : "HL7 FHIR Standard",
       "contact" : [{
         "telecom" : [{
@@ -2537,7 +2537,7 @@
       "resourceType" : "StructureDefinition",
       "id" : "oid",
       "meta" : {
-        "lastUpdated" : "2022-04-23T22:21:35.043+00:00"
+        "lastUpdated" : "2022-05-26T21:57:15.848+10:00"
       },
       "text" : {
         "status" : "generated",
@@ -2556,7 +2556,7 @@
       "name" : "oid",
       "status" : "active",
       "experimental" : false,
-      "date" : "2022-04-23T22:21:35+00:00",
+      "date" : "2022-05-26T21:57:15+10:00",
       "publisher" : "HL7 FHIR Standard",
       "contact" : [{
         "telecom" : [{
@@ -2723,7 +2723,7 @@
       "resourceType" : "StructureDefinition",
       "id" : "positiveInt",
       "meta" : {
-        "lastUpdated" : "2022-04-23T22:21:35.043+00:00"
+        "lastUpdated" : "2022-05-26T21:57:15.848+10:00"
       },
       "text" : {
         "status" : "generated",
@@ -2742,7 +2742,7 @@
       "name" : "positiveInt",
       "status" : "active",
       "experimental" : false,
-      "date" : "2022-04-23T22:21:35+00:00",
+      "date" : "2022-05-26T21:57:15+10:00",
       "publisher" : "HL7 FHIR Standard",
       "contact" : [{
         "telecom" : [{
@@ -2907,7 +2907,7 @@
       "resourceType" : "StructureDefinition",
       "id" : "string",
       "meta" : {
-        "lastUpdated" : "2022-04-23T22:21:35.043+00:00"
+        "lastUpdated" : "2022-05-26T21:57:15.848+10:00"
       },
       "text" : {
         "status" : "generated",
@@ -2926,7 +2926,7 @@
       "name" : "string",
       "status" : "active",
       "experimental" : false,
-      "date" : "2022-04-23T22:21:35+00:00",
+      "date" : "2022-05-26T21:57:15+10:00",
       "publisher" : "HL7 FHIR Standard",
       "contact" : [{
         "telecom" : [{
@@ -3095,7 +3095,7 @@
       "resourceType" : "StructureDefinition",
       "id" : "time",
       "meta" : {
-        "lastUpdated" : "2022-04-23T22:21:35.043+00:00"
+        "lastUpdated" : "2022-05-26T21:57:15.848+10:00"
       },
       "text" : {
         "status" : "generated",
@@ -3114,7 +3114,7 @@
       "name" : "time",
       "status" : "active",
       "experimental" : false,
-      "date" : "2022-04-23T22:21:35+00:00",
+      "date" : "2022-05-26T21:57:15+10:00",
       "publisher" : "HL7 FHIR Standard",
       "contact" : [{
         "telecom" : [{
@@ -3279,7 +3279,7 @@
       "resourceType" : "StructureDefinition",
       "id" : "unsignedInt",
       "meta" : {
-        "lastUpdated" : "2022-04-23T22:21:35.043+00:00"
+        "lastUpdated" : "2022-05-26T21:57:15.848+10:00"
       },
       "text" : {
         "status" : "generated",
@@ -3298,7 +3298,7 @@
       "name" : "unsignedInt",
       "status" : "active",
       "experimental" : false,
-      "date" : "2022-04-23T22:21:35+00:00",
+      "date" : "2022-05-26T21:57:15+10:00",
       "publisher" : "HL7 FHIR Standard",
       "contact" : [{
         "telecom" : [{
@@ -3463,7 +3463,7 @@
       "resourceType" : "StructureDefinition",
       "id" : "uri",
       "meta" : {
-        "lastUpdated" : "2022-04-23T22:21:35.043+00:00"
+        "lastUpdated" : "2022-05-26T21:57:15.848+10:00"
       },
       "text" : {
         "status" : "generated",
@@ -3482,7 +3482,7 @@
       "name" : "uri",
       "status" : "active",
       "experimental" : false,
-      "date" : "2022-04-23T22:21:35+00:00",
+      "date" : "2022-05-26T21:57:15+10:00",
       "publisher" : "HL7 FHIR Standard",
       "contact" : [{
         "telecom" : [{
@@ -3649,7 +3649,7 @@
       "resourceType" : "StructureDefinition",
       "id" : "url",
       "meta" : {
-        "lastUpdated" : "2022-04-23T22:21:35.043+00:00"
+        "lastUpdated" : "2022-05-26T21:57:15.848+10:00"
       },
       "text" : {
         "status" : "generated",
@@ -3668,7 +3668,7 @@
       "name" : "url",
       "status" : "active",
       "experimental" : false,
-      "date" : "2022-04-23T22:21:35+00:00",
+      "date" : "2022-05-26T21:57:15+10:00",
       "publisher" : "HL7 FHIR Standard",
       "contact" : [{
         "telecom" : [{
@@ -3833,7 +3833,7 @@
       "resourceType" : "StructureDefinition",
       "id" : "uuid",
       "meta" : {
-        "lastUpdated" : "2022-04-23T22:21:35.043+00:00"
+        "lastUpdated" : "2022-05-26T21:57:15.848+10:00"
       },
       "text" : {
         "status" : "generated",
@@ -3852,7 +3852,7 @@
       "name" : "uuid",
       "status" : "active",
       "experimental" : false,
-      "date" : "2022-04-23T22:21:35+00:00",
+      "date" : "2022-05-26T21:57:15+10:00",
       "publisher" : "HL7 FHIR Standard",
       "contact" : [{
         "telecom" : [{
@@ -4019,7 +4019,7 @@
       "resourceType" : "StructureDefinition",
       "id" : "xhtml",
       "meta" : {
-        "lastUpdated" : "2022-04-23T22:21:35.043+00:00"
+        "lastUpdated" : "2022-05-26T21:57:15.848+10:00"
       },
       "text" : {
         "status" : "generated",
@@ -4038,7 +4038,7 @@
       "name" : "xhtml",
       "status" : "active",
       "experimental" : false,
-      "date" : "2022-04-23T22:21:35+00:00",
+      "date" : "2022-05-26T21:57:15+10:00",
       "publisher" : "HL7 FHIR Standard",
       "contact" : [{
         "telecom" : [{
@@ -4196,7 +4196,7 @@
       "resourceType" : "StructureDefinition",
       "id" : "Address",
       "meta" : {
-        "lastUpdated" : "2022-04-23T22:21:35.043+00:00"
+        "lastUpdated" : "2022-05-26T21:57:15.848+10:00"
       },
       "text" : {
         "status" : "generated",
@@ -4215,7 +4215,7 @@
       "name" : "Address",
       "status" : "active",
       "experimental" : false,
-      "date" : "2022-04-23T22:21:35+00:00",
+      "date" : "2022-05-26T21:57:15+10:00",
       "publisher" : "HL7 FHIR Standard",
       "contact" : [{
         "telecom" : [{
@@ -4316,7 +4316,7 @@
           "type" : [{
             "extension" : [{
               "url" : "http://hl7.org/fhir/StructureDefinition/structuredefinition-fhir-type",
-              "valueUrl" : "string"
+              "valueUrl" : "id"
             }],
             "code" : "http://hl7.org/fhirpath/System.String"
           }],
@@ -5221,7 +5221,7 @@
       "resourceType" : "StructureDefinition",
       "id" : "Age",
       "meta" : {
-        "lastUpdated" : "2022-04-23T22:21:35.043+00:00"
+        "lastUpdated" : "2022-05-26T21:57:15.848+10:00"
       },
       "text" : {
         "status" : "generated",
@@ -5236,7 +5236,7 @@
       "name" : "Age",
       "status" : "draft",
       "experimental" : false,
-      "date" : "2022-04-23T22:21:35+00:00",
+      "date" : "2022-05-26T21:57:15+10:00",
       "publisher" : "HL7 FHIR Standard",
       "contact" : [{
         "telecom" : [{
@@ -5349,7 +5349,7 @@
           "type" : [{
             "extension" : [{
               "url" : "http://hl7.org/fhir/StructureDefinition/structuredefinition-fhir-type",
-              "valueUrl" : "string"
+              "valueUrl" : "id"
             }],
             "code" : "http://hl7.org/fhirpath/System.String"
           }],
@@ -5664,7 +5664,7 @@
       "resourceType" : "StructureDefinition",
       "id" : "Annotation",
       "meta" : {
-        "lastUpdated" : "2022-04-23T22:21:35.043+00:00"
+        "lastUpdated" : "2022-05-26T21:57:15.848+10:00"
       },
       "text" : {
         "status" : "generated",
@@ -5683,7 +5683,7 @@
       "name" : "Annotation",
       "status" : "active",
       "experimental" : false,
-      "date" : "2022-04-23T22:21:35+00:00",
+      "date" : "2022-05-26T21:57:15+10:00",
       "publisher" : "HL7 FHIR Standard",
       "contact" : [{
         "telecom" : [{
@@ -5769,7 +5769,7 @@
           "type" : [{
             "extension" : [{
               "url" : "http://hl7.org/fhir/StructureDefinition/structuredefinition-fhir-type",
-              "valueUrl" : "string"
+              "valueUrl" : "id"
             }],
             "code" : "http://hl7.org/fhirpath/System.String"
           }],
@@ -6043,7 +6043,7 @@
       "resourceType" : "StructureDefinition",
       "id" : "Attachment",
       "meta" : {
-        "lastUpdated" : "2022-04-23T22:21:35.043+00:00"
+        "lastUpdated" : "2022-05-26T21:57:15.848+10:00"
       },
       "text" : {
         "status" : "generated",
@@ -6062,7 +6062,7 @@
       "name" : "Attachment",
       "status" : "active",
       "experimental" : false,
-      "date" : "2022-04-23T22:21:35+00:00",
+      "date" : "2022-05-26T21:57:15+10:00",
       "publisher" : "HL7 FHIR Standard",
       "contact" : [{
         "telecom" : [{
@@ -6157,7 +6157,7 @@
           "type" : [{
             "extension" : [{
               "url" : "http://hl7.org/fhir/StructureDefinition/structuredefinition-fhir-type",
-              "valueUrl" : "string"
+              "valueUrl" : "id"
             }],
             "code" : "http://hl7.org/fhirpath/System.String"
           }],
@@ -6800,7 +6800,7 @@
       "resourceType" : "StructureDefinition",
       "id" : "CodeableConcept",
       "meta" : {
-        "lastUpdated" : "2022-04-23T22:21:35.043+00:00"
+        "lastUpdated" : "2022-05-26T21:57:15.848+10:00"
       },
       "text" : {
         "status" : "generated",
@@ -6819,7 +6819,7 @@
       "name" : "CodeableConcept",
       "status" : "active",
       "experimental" : false,
-      "date" : "2022-04-23T22:21:35+00:00",
+      "date" : "2022-05-26T21:57:15+10:00",
       "publisher" : "HL7 FHIR Standard",
       "contact" : [{
         "telecom" : [{
@@ -6915,7 +6915,7 @@
           "type" : [{
             "extension" : [{
               "url" : "http://hl7.org/fhir/StructureDefinition/structuredefinition-fhir-type",
-              "valueUrl" : "string"
+              "valueUrl" : "id"
             }],
             "code" : "http://hl7.org/fhirpath/System.String"
           }],
@@ -7163,7 +7163,7 @@
       "resourceType" : "StructureDefinition",
       "id" : "CodeableReference",
       "meta" : {
-        "lastUpdated" : "2022-04-23T22:21:35.043+00:00"
+        "lastUpdated" : "2022-05-26T21:57:15.848+10:00"
       },
       "text" : {
         "status" : "generated",
@@ -7178,7 +7178,7 @@
       "name" : "CodeableReference",
       "status" : "draft",
       "experimental" : false,
-      "date" : "2022-04-23T22:21:35+00:00",
+      "date" : "2022-05-26T21:57:15+10:00",
       "publisher" : "HL7 FHIR Standard",
       "contact" : [{
         "telecom" : [{
@@ -7247,7 +7247,7 @@
           "type" : [{
             "extension" : [{
               "url" : "http://hl7.org/fhir/StructureDefinition/structuredefinition-fhir-type",
-              "valueUrl" : "string"
+              "valueUrl" : "id"
             }],
             "code" : "http://hl7.org/fhirpath/System.String"
           }],
@@ -7422,7 +7422,7 @@
       "resourceType" : "StructureDefinition",
       "id" : "Coding",
       "meta" : {
-        "lastUpdated" : "2022-04-23T22:21:35.043+00:00"
+        "lastUpdated" : "2022-05-26T21:57:15.848+10:00"
       },
       "text" : {
         "status" : "generated",
@@ -7441,7 +7441,7 @@
       "name" : "Coding",
       "status" : "active",
       "experimental" : false,
-      "date" : "2022-04-23T22:21:35+00:00",
+      "date" : "2022-05-26T21:57:15+10:00",
       "publisher" : "HL7 FHIR Standard",
       "contact" : [{
         "telecom" : [{
@@ -7537,7 +7537,7 @@
           "type" : [{
             "extension" : [{
               "url" : "http://hl7.org/fhir/StructureDefinition/structuredefinition-fhir-type",
-              "valueUrl" : "string"
+              "valueUrl" : "id"
             }],
             "code" : "http://hl7.org/fhirpath/System.String"
           }],
@@ -7985,7 +7985,7 @@
       "resourceType" : "StructureDefinition",
       "id" : "ContactDetail",
       "meta" : {
-        "lastUpdated" : "2022-04-23T22:21:35.043+00:00"
+        "lastUpdated" : "2022-05-26T21:57:15.848+10:00"
       },
       "text" : {
         "status" : "generated",
@@ -8004,7 +8004,7 @@
       "name" : "ContactDetail",
       "status" : "active",
       "experimental" : false,
-      "date" : "2022-04-23T22:21:35+00:00",
+      "date" : "2022-05-26T21:57:15+10:00",
       "publisher" : "HL7 FHIR Standard",
       "contact" : [{
         "telecom" : [{
@@ -8077,7 +8077,7 @@
           "type" : [{
             "extension" : [{
               "url" : "http://hl7.org/fhir/StructureDefinition/structuredefinition-fhir-type",
-              "valueUrl" : "string"
+              "valueUrl" : "id"
             }],
             "code" : "http://hl7.org/fhirpath/System.String"
           }],
@@ -8242,7 +8242,7 @@
       "resourceType" : "StructureDefinition",
       "id" : "ContactPoint",
       "meta" : {
-        "lastUpdated" : "2022-04-23T22:21:35.043+00:00"
+        "lastUpdated" : "2022-05-26T21:57:15.848+10:00"
       },
       "text" : {
         "status" : "generated",
@@ -8261,7 +8261,7 @@
       "name" : "ContactPoint",
       "status" : "active",
       "experimental" : false,
-      "date" : "2022-04-23T22:21:35+00:00",
+      "date" : "2022-05-26T21:57:15+10:00",
       "publisher" : "HL7 FHIR Standard",
       "contact" : [{
         "telecom" : [{
@@ -8364,7 +8364,7 @@
           "type" : [{
             "extension" : [{
               "url" : "http://hl7.org/fhir/StructureDefinition/structuredefinition-fhir-type",
-              "valueUrl" : "string"
+              "valueUrl" : "id"
             }],
             "code" : "http://hl7.org/fhirpath/System.String"
           }],
@@ -8836,7 +8836,7 @@
       "resourceType" : "StructureDefinition",
       "id" : "Contributor",
       "meta" : {
-        "lastUpdated" : "2022-04-23T22:21:35.043+00:00"
+        "lastUpdated" : "2022-05-26T21:57:15.848+10:00"
       },
       "text" : {
         "status" : "generated",
@@ -8851,7 +8851,7 @@
       "name" : "Contributor",
       "status" : "draft",
       "experimental" : false,
-      "date" : "2022-04-23T22:21:35+00:00",
+      "date" : "2022-05-26T21:57:15+10:00",
       "publisher" : "HL7 FHIR Standard",
       "contact" : [{
         "telecom" : [{
@@ -8920,7 +8920,7 @@
           "type" : [{
             "extension" : [{
               "url" : "http://hl7.org/fhir/StructureDefinition/structuredefinition-fhir-type",
-              "valueUrl" : "string"
+              "valueUrl" : "id"
             }],
             "code" : "http://hl7.org/fhirpath/System.String"
           }],
@@ -9141,7 +9141,7 @@
       "resourceType" : "StructureDefinition",
       "id" : "Count",
       "meta" : {
-        "lastUpdated" : "2022-04-23T22:21:35.043+00:00"
+        "lastUpdated" : "2022-05-26T21:57:15.848+10:00"
       },
       "text" : {
         "status" : "generated",
@@ -9156,7 +9156,7 @@
       "name" : "Count",
       "status" : "draft",
       "experimental" : false,
-      "date" : "2022-04-23T22:21:35+00:00",
+      "date" : "2022-05-26T21:57:15+10:00",
       "publisher" : "HL7 FHIR Standard",
       "contact" : [{
         "telecom" : [{
@@ -9250,7 +9250,7 @@
           "type" : [{
             "extension" : [{
               "url" : "http://hl7.org/fhir/StructureDefinition/structuredefinition-fhir-type",
-              "valueUrl" : "string"
+              "valueUrl" : "id"
             }],
             "code" : "http://hl7.org/fhirpath/System.String"
           }],
@@ -9554,7 +9554,7 @@
       "resourceType" : "StructureDefinition",
       "id" : "DataRequirement",
       "meta" : {
-        "lastUpdated" : "2022-04-23T22:21:35.043+00:00"
+        "lastUpdated" : "2022-05-26T21:57:15.848+10:00"
       },
       "text" : {
         "status" : "generated",
@@ -9569,7 +9569,7 @@
       "name" : "DataRequirement",
       "status" : "draft",
       "experimental" : false,
-      "date" : "2022-04-23T22:21:35+00:00",
+      "date" : "2022-05-26T21:57:15+10:00",
       "publisher" : "HL7 FHIR Standard",
       "contact" : [{
         "telecom" : [{
@@ -9637,7 +9637,7 @@
           "type" : [{
             "extension" : [{
               "url" : "http://hl7.org/fhir/StructureDefinition/structuredefinition-fhir-type",
-              "valueUrl" : "string"
+              "valueUrl" : "id"
             }],
             "code" : "http://hl7.org/fhirpath/System.String"
           }],
@@ -10746,7 +10746,7 @@
       "resourceType" : "StructureDefinition",
       "id" : "Distance",
       "meta" : {
-        "lastUpdated" : "2022-04-23T22:21:35.043+00:00"
+        "lastUpdated" : "2022-05-26T21:57:15.848+10:00"
       },
       "text" : {
         "status" : "generated",
@@ -10761,7 +10761,7 @@
       "name" : "Distance",
       "status" : "draft",
       "experimental" : false,
-      "date" : "2022-04-23T22:21:35+00:00",
+      "date" : "2022-05-26T21:57:15+10:00",
       "publisher" : "HL7 FHIR Standard",
       "contact" : [{
         "telecom" : [{
@@ -10874,7 +10874,7 @@
           "type" : [{
             "extension" : [{
               "url" : "http://hl7.org/fhir/StructureDefinition/structuredefinition-fhir-type",
-              "valueUrl" : "string"
+              "valueUrl" : "id"
             }],
             "code" : "http://hl7.org/fhirpath/System.String"
           }],
@@ -11189,7 +11189,7 @@
       "resourceType" : "StructureDefinition",
       "id" : "Dosage",
       "meta" : {
-        "lastUpdated" : "2022-04-23T22:21:35.043+00:00"
+        "lastUpdated" : "2022-05-26T21:57:15.848+10:00"
       },
       "text" : {
         "status" : "generated",
@@ -11204,7 +11204,7 @@
       "name" : "Dosage",
       "status" : "draft",
       "experimental" : false,
-      "date" : "2022-04-23T22:21:35+00:00",
+      "date" : "2022-05-26T21:57:15+10:00",
       "publisher" : "HL7 FHIR Standard",
       "contact" : [{
         "telecom" : [{
@@ -11280,7 +11280,7 @@
           "type" : [{
             "extension" : [{
               "url" : "http://hl7.org/fhir/StructureDefinition/structuredefinition-fhir-type",
-              "valueUrl" : "string"
+              "valueUrl" : "id"
             }],
             "code" : "http://hl7.org/fhirpath/System.String"
           }],
@@ -12531,7 +12531,7 @@
       "resourceType" : "StructureDefinition",
       "id" : "Duration",
       "meta" : {
-        "lastUpdated" : "2022-04-23T22:21:35.043+00:00"
+        "lastUpdated" : "2022-05-26T21:57:15.848+10:00"
       },
       "text" : {
         "status" : "generated",
@@ -12550,7 +12550,7 @@
       "name" : "Duration",
       "status" : "active",
       "experimental" : false,
-      "date" : "2022-04-23T22:21:35+00:00",
+      "date" : "2022-05-26T21:57:15+10:00",
       "publisher" : "HL7 FHIR Standard",
       "contact" : [{
         "telecom" : [{
@@ -12667,7 +12667,7 @@
           "type" : [{
             "extension" : [{
               "url" : "http://hl7.org/fhir/StructureDefinition/structuredefinition-fhir-type",
-              "valueUrl" : "string"
+              "valueUrl" : "id"
             }],
             "code" : "http://hl7.org/fhirpath/System.String"
           }],
@@ -12986,7 +12986,7 @@
       "resourceType" : "StructureDefinition",
       "id" : "ElementDefinition",
       "meta" : {
-        "lastUpdated" : "2022-04-23T22:21:35.043+00:00"
+        "lastUpdated" : "2022-05-26T21:57:15.848+10:00"
       },
       "text" : {
         "status" : "generated",
@@ -13005,7 +13005,7 @@
       "name" : "ElementDefinition",
       "status" : "active",
       "experimental" : false,
-      "date" : "2022-04-23T22:21:35+00:00",
+      "date" : "2022-05-26T21:57:15+10:00",
       "publisher" : "HL7 FHIR Standard",
       "contact" : [{
         "telecom" : [{
@@ -13224,7 +13224,7 @@
           "type" : [{
             "extension" : [{
               "url" : "http://hl7.org/fhir/StructureDefinition/structuredefinition-fhir-type",
-              "valueUrl" : "string"
+              "valueUrl" : "id"
             }],
             "code" : "http://hl7.org/fhirpath/System.String"
           }],
@@ -15056,6 +15056,9 @@
             "code" : "CodeableConcept"
           },
           {
+            "code" : "CodeableReference"
+          },
+          {
             "code" : "Coding"
           },
           {
@@ -15090,6 +15093,9 @@
           },
           {
             "code" : "Ratio"
+          },
+          {
+            "code" : "RatioRange"
           },
           {
             "code" : "Reference"
@@ -15129,9 +15135,6 @@
           },
           {
             "code" : "Dosage"
-          },
-          {
-            "code" : "Meta"
           }],
           "condition" : ["eld-15"],
           "constraint" : [{
@@ -15306,6 +15309,9 @@
             "code" : "CodeableConcept"
           },
           {
+            "code" : "CodeableReference"
+          },
+          {
             "code" : "Coding"
           },
           {
@@ -15340,6 +15346,9 @@
           },
           {
             "code" : "Ratio"
+          },
+          {
+            "code" : "RatioRange"
           },
           {
             "code" : "Reference"
@@ -15379,9 +15388,6 @@
           },
           {
             "code" : "Dosage"
-          },
-          {
-            "code" : "Meta"
           }],
           "condition" : ["eld-5",
           "eld-6",
@@ -15491,6 +15497,9 @@
             "code" : "CodeableConcept"
           },
           {
+            "code" : "CodeableReference"
+          },
+          {
             "code" : "Coding"
           },
           {
@@ -15525,6 +15534,9 @@
           },
           {
             "code" : "Ratio"
+          },
+          {
+            "code" : "RatioRange"
           },
           {
             "code" : "Reference"
@@ -15564,9 +15576,6 @@
           },
           {
             "code" : "Dosage"
-          },
-          {
-            "code" : "Meta"
           }],
           "condition" : ["eld-5",
           "eld-7",
@@ -15816,6 +15825,9 @@
             "code" : "CodeableConcept"
           },
           {
+            "code" : "CodeableReference"
+          },
+          {
             "code" : "Coding"
           },
           {
@@ -15850,6 +15862,9 @@
           },
           {
             "code" : "Ratio"
+          },
+          {
+            "code" : "RatioRange"
           },
           {
             "code" : "Reference"
@@ -15889,9 +15904,6 @@
           },
           {
             "code" : "Dosage"
-          },
-          {
-            "code" : "Meta"
           }],
           "constraint" : [{
             "key" : "ele-1",
@@ -18265,6 +18277,9 @@
             "code" : "CodeableConcept"
           },
           {
+            "code" : "CodeableReference"
+          },
+          {
             "code" : "Coding"
           },
           {
@@ -18299,6 +18314,9 @@
           },
           {
             "code" : "Ratio"
+          },
+          {
+            "code" : "RatioRange"
           },
           {
             "code" : "Reference"
@@ -18338,9 +18356,6 @@
           },
           {
             "code" : "Dosage"
-          },
-          {
-            "code" : "Meta"
           }],
           "condition" : ["eld-15"],
           "isSummary" : true,
@@ -18473,6 +18488,9 @@
             "code" : "CodeableConcept"
           },
           {
+            "code" : "CodeableReference"
+          },
+          {
             "code" : "Coding"
           },
           {
@@ -18507,6 +18525,9 @@
           },
           {
             "code" : "Ratio"
+          },
+          {
+            "code" : "RatioRange"
           },
           {
             "code" : "Reference"
@@ -18546,9 +18567,6 @@
           },
           {
             "code" : "Dosage"
-          },
-          {
-            "code" : "Meta"
           }],
           "condition" : ["eld-5",
           "eld-6",
@@ -18644,6 +18662,9 @@
             "code" : "CodeableConcept"
           },
           {
+            "code" : "CodeableReference"
+          },
+          {
             "code" : "Coding"
           },
           {
@@ -18678,6 +18699,9 @@
           },
           {
             "code" : "Ratio"
+          },
+          {
+            "code" : "RatioRange"
           },
           {
             "code" : "Reference"
@@ -18717,9 +18741,6 @@
           },
           {
             "code" : "Dosage"
-          },
-          {
-            "code" : "Meta"
           }],
           "condition" : ["eld-5",
           "eld-7",
@@ -18851,6 +18872,9 @@
             "code" : "CodeableConcept"
           },
           {
+            "code" : "CodeableReference"
+          },
+          {
             "code" : "Coding"
           },
           {
@@ -18885,6 +18909,9 @@
           },
           {
             "code" : "Ratio"
+          },
+          {
+            "code" : "RatioRange"
           },
           {
             "code" : "Reference"
@@ -18924,9 +18951,6 @@
           },
           {
             "code" : "Dosage"
-          },
-          {
-            "code" : "Meta"
           }],
           "isSummary" : true,
           "mapping" : [{
@@ -19591,7 +19615,7 @@
       "resourceType" : "StructureDefinition",
       "id" : "Expression",
       "meta" : {
-        "lastUpdated" : "2022-04-23T22:21:35.043+00:00"
+        "lastUpdated" : "2022-05-26T21:57:15.848+10:00"
       },
       "text" : {
         "status" : "generated",
@@ -19606,7 +19630,7 @@
       "name" : "Expression",
       "status" : "draft",
       "experimental" : false,
-      "date" : "2022-04-23T22:21:35+00:00",
+      "date" : "2022-05-26T21:57:15+10:00",
       "publisher" : "HL7 FHIR Standard",
       "contact" : [{
         "telecom" : [{
@@ -19682,7 +19706,7 @@
           "type" : [{
             "extension" : [{
               "url" : "http://hl7.org/fhir/StructureDefinition/structuredefinition-fhir-type",
-              "valueUrl" : "string"
+              "valueUrl" : "id"
             }],
             "code" : "http://hl7.org/fhirpath/System.String"
           }],
@@ -19997,7 +20021,7 @@
       "resourceType" : "StructureDefinition",
       "id" : "Extension",
       "meta" : {
-        "lastUpdated" : "2022-04-23T22:21:35.043+00:00"
+        "lastUpdated" : "2022-05-26T21:57:15.848+10:00"
       },
       "text" : {
         "status" : "generated",
@@ -20016,7 +20040,7 @@
       "name" : "Extension",
       "status" : "active",
       "experimental" : false,
-      "date" : "2022-04-23T22:21:35+00:00",
+      "date" : "2022-05-26T21:57:15+10:00",
       "publisher" : "HL7 FHIR Standard",
       "contact" : [{
         "telecom" : [{
@@ -20101,7 +20125,7 @@
           "type" : [{
             "extension" : [{
               "url" : "http://hl7.org/fhir/StructureDefinition/structuredefinition-fhir-type",
-              "valueUrl" : "string"
+              "valueUrl" : "id"
             }],
             "code" : "http://hl7.org/fhirpath/System.String"
           }],
@@ -20274,6 +20298,9 @@
             "code" : "CodeableConcept"
           },
           {
+            "code" : "CodeableReference"
+          },
+          {
             "code" : "Coding"
           },
           {
@@ -20308,6 +20335,9 @@
           },
           {
             "code" : "Ratio"
+          },
+          {
+            "code" : "RatioRange"
           },
           {
             "code" : "Reference"
@@ -20347,9 +20377,6 @@
           },
           {
             "code" : "Dosage"
-          },
-          {
-            "code" : "Meta"
           }],
           "constraint" : [{
             "key" : "ele-1",
@@ -20497,6 +20524,9 @@
             "code" : "CodeableConcept"
           },
           {
+            "code" : "CodeableReference"
+          },
+          {
             "code" : "Coding"
           },
           {
@@ -20531,6 +20561,9 @@
           },
           {
             "code" : "Ratio"
+          },
+          {
+            "code" : "RatioRange"
           },
           {
             "code" : "Reference"
@@ -20570,9 +20603,6 @@
           },
           {
             "code" : "Dosage"
-          },
-          {
-            "code" : "Meta"
           }],
           "mapping" : [{
             "identity" : "rim",
@@ -20588,7 +20618,7 @@
       "resourceType" : "StructureDefinition",
       "id" : "HumanName",
       "meta" : {
-        "lastUpdated" : "2022-04-23T22:21:35.043+00:00"
+        "lastUpdated" : "2022-05-26T21:57:15.848+10:00"
       },
       "text" : {
         "status" : "generated",
@@ -20607,7 +20637,7 @@
       "name" : "HumanName",
       "status" : "active",
       "experimental" : false,
-      "date" : "2022-04-23T22:21:35+00:00",
+      "date" : "2022-05-26T21:57:15+10:00",
       "publisher" : "HL7 FHIR Standard",
       "contact" : [{
         "telecom" : [{
@@ -20703,7 +20733,7 @@
           "type" : [{
             "extension" : [{
               "url" : "http://hl7.org/fhir/StructureDefinition/structuredefinition-fhir-type",
-              "valueUrl" : "string"
+              "valueUrl" : "id"
             }],
             "code" : "http://hl7.org/fhirpath/System.String"
           }],
@@ -21274,7 +21304,7 @@
       "resourceType" : "StructureDefinition",
       "id" : "Identifier",
       "meta" : {
-        "lastUpdated" : "2022-04-23T22:21:35.043+00:00"
+        "lastUpdated" : "2022-05-26T21:57:15.848+10:00"
       },
       "text" : {
         "status" : "generated",
@@ -21293,7 +21323,7 @@
       "name" : "Identifier",
       "status" : "active",
       "experimental" : false,
-      "date" : "2022-04-23T22:21:35+00:00",
+      "date" : "2022-05-26T21:57:15+10:00",
       "publisher" : "HL7 FHIR Standard",
       "contact" : [{
         "telecom" : [{
@@ -21388,7 +21418,7 @@
           "type" : [{
             "extension" : [{
               "url" : "http://hl7.org/fhir/StructureDefinition/structuredefinition-fhir-type",
-              "valueUrl" : "string"
+              "valueUrl" : "id"
             }],
             "code" : "http://hl7.org/fhirpath/System.String"
           }],
@@ -21936,7 +21966,7 @@
       "resourceType" : "StructureDefinition",
       "id" : "MarketingStatus",
       "meta" : {
-        "lastUpdated" : "2022-04-23T22:21:35.043+00:00"
+        "lastUpdated" : "2022-05-26T21:57:15.848+10:00"
       },
       "text" : {
         "status" : "generated",
@@ -21951,7 +21981,7 @@
       "name" : "MarketingStatus",
       "status" : "draft",
       "experimental" : false,
-      "date" : "2022-04-23T22:21:35+00:00",
+      "date" : "2022-05-26T21:57:15+10:00",
       "publisher" : "HL7 FHIR Standard",
       "contact" : [{
         "telecom" : [{
@@ -22027,7 +22057,7 @@
           "type" : [{
             "extension" : [{
               "url" : "http://hl7.org/fhir/StructureDefinition/structuredefinition-fhir-type",
-              "valueUrl" : "string"
+              "valueUrl" : "id"
             }],
             "code" : "http://hl7.org/fhirpath/System.String"
           }],
@@ -22348,7 +22378,7 @@
       "resourceType" : "StructureDefinition",
       "id" : "Meta",
       "meta" : {
-        "lastUpdated" : "2022-04-23T22:21:35.043+00:00"
+        "lastUpdated" : "2022-05-26T21:57:15.848+10:00"
       },
       "text" : {
         "status" : "generated",
@@ -22367,7 +22397,7 @@
       "name" : "Meta",
       "status" : "active",
       "experimental" : false,
-      "date" : "2022-04-23T22:21:35+00:00",
+      "date" : "2022-05-26T21:57:15+10:00",
       "publisher" : "HL7 FHIR Standard",
       "contact" : [{
         "telecom" : [{
@@ -22443,7 +22473,7 @@
           "type" : [{
             "extension" : [{
               "url" : "http://hl7.org/fhir/StructureDefinition/structuredefinition-fhir-type",
-              "valueUrl" : "string"
+              "valueUrl" : "id"
             }],
             "code" : "http://hl7.org/fhirpath/System.String"
           }],
@@ -22832,7 +22862,7 @@
       "resourceType" : "StructureDefinition",
       "id" : "Money",
       "meta" : {
-        "lastUpdated" : "2022-04-23T22:21:35.043+00:00"
+        "lastUpdated" : "2022-05-26T21:57:15.848+10:00"
       },
       "text" : {
         "status" : "generated",
@@ -22851,7 +22881,7 @@
       "name" : "Money",
       "status" : "active",
       "experimental" : false,
-      "date" : "2022-04-23T22:21:35+00:00",
+      "date" : "2022-05-26T21:57:15+10:00",
       "publisher" : "HL7 FHIR Standard",
       "contact" : [{
         "telecom" : [{
@@ -22932,7 +22962,7 @@
           "type" : [{
             "extension" : [{
               "url" : "http://hl7.org/fhir/StructureDefinition/structuredefinition-fhir-type",
-              "valueUrl" : "string"
+              "valueUrl" : "id"
             }],
             "code" : "http://hl7.org/fhirpath/System.String"
           }],
@@ -23153,7 +23183,7 @@
       "resourceType" : "StructureDefinition",
       "id" : "Narrative",
       "meta" : {
-        "lastUpdated" : "2022-04-23T22:21:35.043+00:00"
+        "lastUpdated" : "2022-05-26T21:57:15.848+10:00"
       },
       "text" : {
         "status" : "generated",
@@ -23172,7 +23202,7 @@
       "name" : "Narrative",
       "status" : "active",
       "experimental" : false,
-      "date" : "2022-04-23T22:21:35+00:00",
+      "date" : "2022-05-26T21:57:15+10:00",
       "publisher" : "HL7 FHIR Standard",
       "contact" : [{
         "telecom" : [{
@@ -23248,7 +23278,7 @@
           "type" : [{
             "extension" : [{
               "url" : "http://hl7.org/fhir/StructureDefinition/structuredefinition-fhir-type",
-              "valueUrl" : "string"
+              "valueUrl" : "id"
             }],
             "code" : "http://hl7.org/fhirpath/System.String"
           }],
@@ -23487,7 +23517,7 @@
       "resourceType" : "StructureDefinition",
       "id" : "ParameterDefinition",
       "meta" : {
-        "lastUpdated" : "2022-04-23T22:21:35.043+00:00"
+        "lastUpdated" : "2022-05-26T21:57:15.848+10:00"
       },
       "text" : {
         "status" : "generated",
@@ -23502,7 +23532,7 @@
       "name" : "ParameterDefinition",
       "status" : "draft",
       "experimental" : false,
-      "date" : "2022-04-23T22:21:35+00:00",
+      "date" : "2022-05-26T21:57:15+10:00",
       "publisher" : "HL7 FHIR Standard",
       "contact" : [{
         "telecom" : [{
@@ -23570,7 +23600,7 @@
           "type" : [{
             "extension" : [{
               "url" : "http://hl7.org/fhir/StructureDefinition/structuredefinition-fhir-type",
-              "valueUrl" : "string"
+              "valueUrl" : "id"
             }],
             "code" : "http://hl7.org/fhirpath/System.String"
           }],
@@ -23985,7 +24015,7 @@
       "resourceType" : "StructureDefinition",
       "id" : "Period",
       "meta" : {
-        "lastUpdated" : "2022-04-23T22:21:35.043+00:00"
+        "lastUpdated" : "2022-05-26T21:57:15.848+10:00"
       },
       "text" : {
         "status" : "generated",
@@ -24004,7 +24034,7 @@
       "name" : "Period",
       "status" : "active",
       "experimental" : false,
-      "date" : "2022-04-23T22:21:35+00:00",
+      "date" : "2022-05-26T21:57:15+10:00",
       "publisher" : "HL7 FHIR Standard",
       "contact" : [{
         "telecom" : [{
@@ -24098,7 +24128,7 @@
           "type" : [{
             "extension" : [{
               "url" : "http://hl7.org/fhir/StructureDefinition/structuredefinition-fhir-type",
-              "valueUrl" : "string"
+              "valueUrl" : "id"
             }],
             "code" : "http://hl7.org/fhirpath/System.String"
           }],
@@ -24320,7 +24350,7 @@
       "resourceType" : "StructureDefinition",
       "id" : "Population",
       "meta" : {
-        "lastUpdated" : "2022-04-23T22:21:35.043+00:00"
+        "lastUpdated" : "2022-05-26T21:57:15.848+10:00"
       },
       "text" : {
         "status" : "generated",
@@ -24335,7 +24365,7 @@
       "name" : "Population",
       "status" : "draft",
       "experimental" : false,
-      "date" : "2022-04-23T22:21:35+00:00",
+      "date" : "2022-05-26T21:57:15+10:00",
       "publisher" : "HL7 FHIR Standard",
       "contact" : [{
         "telecom" : [{
@@ -24402,7 +24432,7 @@
           "type" : [{
             "extension" : [{
               "url" : "http://hl7.org/fhir/StructureDefinition/structuredefinition-fhir-type",
-              "valueUrl" : "string"
+              "valueUrl" : "id"
             }],
             "code" : "http://hl7.org/fhirpath/System.String"
           }],
@@ -24687,7 +24717,7 @@
       "resourceType" : "StructureDefinition",
       "id" : "ProdCharacteristic",
       "meta" : {
-        "lastUpdated" : "2022-04-23T22:21:35.043+00:00"
+        "lastUpdated" : "2022-05-26T21:57:15.848+10:00"
       },
       "text" : {
         "status" : "generated",
@@ -24702,7 +24732,7 @@
       "name" : "ProdCharacteristic",
       "status" : "draft",
       "experimental" : false,
-      "date" : "2022-04-23T22:21:35+00:00",
+      "date" : "2022-05-26T21:57:15+10:00",
       "publisher" : "HL7 FHIR Standard",
       "contact" : [{
         "telecom" : [{
@@ -24778,7 +24808,7 @@
           "type" : [{
             "extension" : [{
               "url" : "http://hl7.org/fhir/StructureDefinition/structuredefinition-fhir-type",
-              "valueUrl" : "string"
+              "valueUrl" : "id"
             }],
             "code" : "http://hl7.org/fhirpath/System.String"
           }],
@@ -25327,7 +25357,7 @@
       "resourceType" : "StructureDefinition",
       "id" : "ProductShelfLife",
       "meta" : {
-        "lastUpdated" : "2022-04-23T22:21:35.043+00:00"
+        "lastUpdated" : "2022-05-26T21:57:15.848+10:00"
       },
       "text" : {
         "status" : "generated",
@@ -25342,7 +25372,7 @@
       "name" : "ProductShelfLife",
       "status" : "draft",
       "experimental" : false,
-      "date" : "2022-04-23T22:21:35+00:00",
+      "date" : "2022-05-26T21:57:15+10:00",
       "publisher" : "HL7 FHIR Standard",
       "contact" : [{
         "telecom" : [{
@@ -25418,7 +25448,7 @@
           "type" : [{
             "extension" : [{
               "url" : "http://hl7.org/fhir/StructureDefinition/structuredefinition-fhir-type",
-              "valueUrl" : "string"
+              "valueUrl" : "id"
             }],
             "code" : "http://hl7.org/fhirpath/System.String"
           }],
@@ -25701,7 +25731,7 @@
       "resourceType" : "StructureDefinition",
       "id" : "Quantity",
       "meta" : {
-        "lastUpdated" : "2022-04-23T22:21:35.043+00:00"
+        "lastUpdated" : "2022-05-26T21:57:15.848+10:00"
       },
       "text" : {
         "status" : "generated",
@@ -25720,7 +25750,7 @@
       "name" : "Quantity",
       "status" : "active",
       "experimental" : false,
-      "date" : "2022-04-23T22:21:35+00:00",
+      "date" : "2022-05-26T21:57:15+10:00",
       "publisher" : "HL7 FHIR Standard",
       "contact" : [{
         "telecom" : [{
@@ -25815,7 +25845,7 @@
           "type" : [{
             "extension" : [{
               "url" : "http://hl7.org/fhir/StructureDefinition/structuredefinition-fhir-type",
-              "valueUrl" : "string"
+              "valueUrl" : "id"
             }],
             "code" : "http://hl7.org/fhirpath/System.String"
           }],
@@ -26258,7 +26288,7 @@
       "resourceType" : "StructureDefinition",
       "id" : "Range",
       "meta" : {
-        "lastUpdated" : "2022-04-23T22:21:35.043+00:00"
+        "lastUpdated" : "2022-05-26T21:57:15.848+10:00"
       },
       "text" : {
         "status" : "generated",
@@ -26277,7 +26307,7 @@
       "name" : "Range",
       "status" : "active",
       "experimental" : false,
-      "date" : "2022-04-23T22:21:35+00:00",
+      "date" : "2022-05-26T21:57:15+10:00",
       "publisher" : "HL7 FHIR Standard",
       "contact" : [{
         "telecom" : [{
@@ -26372,7 +26402,7 @@
           "type" : [{
             "extension" : [{
               "url" : "http://hl7.org/fhir/StructureDefinition/structuredefinition-fhir-type",
-              "valueUrl" : "string"
+              "valueUrl" : "id"
             }],
             "code" : "http://hl7.org/fhirpath/System.String"
           }],
@@ -26592,7 +26622,7 @@
       "resourceType" : "StructureDefinition",
       "id" : "Ratio",
       "meta" : {
-        "lastUpdated" : "2022-04-23T22:21:35.043+00:00"
+        "lastUpdated" : "2022-05-26T21:57:15.848+10:00"
       },
       "text" : {
         "status" : "generated",
@@ -26611,7 +26641,7 @@
       "name" : "Ratio",
       "status" : "active",
       "experimental" : false,
-      "date" : "2022-04-23T22:21:35+00:00",
+      "date" : "2022-05-26T21:57:15+10:00",
       "publisher" : "HL7 FHIR Standard",
       "contact" : [{
         "telecom" : [{
@@ -26706,7 +26736,7 @@
           "type" : [{
             "extension" : [{
               "url" : "http://hl7.org/fhir/StructureDefinition/structuredefinition-fhir-type",
-              "valueUrl" : "string"
+              "valueUrl" : "id"
             }],
             "code" : "http://hl7.org/fhirpath/System.String"
           }],
@@ -26902,7 +26932,7 @@
       "resourceType" : "StructureDefinition",
       "id" : "RatioRange",
       "meta" : {
-        "lastUpdated" : "2022-04-23T22:21:35.043+00:00"
+        "lastUpdated" : "2022-05-26T21:57:15.848+10:00"
       },
       "text" : {
         "status" : "generated",
@@ -26917,7 +26947,7 @@
       "name" : "RatioRange",
       "status" : "draft",
       "experimental" : false,
-      "date" : "2022-04-23T22:21:35+00:00",
+      "date" : "2022-05-26T21:57:15+10:00",
       "publisher" : "HL7 FHIR Standard",
       "contact" : [{
         "telecom" : [{
@@ -27016,7 +27046,7 @@
           "type" : [{
             "extension" : [{
               "url" : "http://hl7.org/fhir/StructureDefinition/structuredefinition-fhir-type",
-              "valueUrl" : "string"
+              "valueUrl" : "id"
             }],
             "code" : "http://hl7.org/fhirpath/System.String"
           }],
@@ -27280,7 +27310,7 @@
       "resourceType" : "StructureDefinition",
       "id" : "Reference",
       "meta" : {
-        "lastUpdated" : "2022-04-23T22:21:35.043+00:00"
+        "lastUpdated" : "2022-05-26T21:57:15.848+10:00"
       },
       "text" : {
         "status" : "generated",
@@ -27299,7 +27329,7 @@
       "name" : "Reference",
       "status" : "active",
       "experimental" : false,
-      "date" : "2022-04-23T22:21:35+00:00",
+      "date" : "2022-05-26T21:57:15+10:00",
       "publisher" : "HL7 FHIR Standard",
       "contact" : [{
         "telecom" : [{
@@ -27384,7 +27414,7 @@
           "type" : [{
             "extension" : [{
               "url" : "http://hl7.org/fhir/StructureDefinition/structuredefinition-fhir-type",
-              "valueUrl" : "string"
+              "valueUrl" : "id"
             }],
             "code" : "http://hl7.org/fhirpath/System.String"
           }],
@@ -27726,7 +27756,7 @@
       "resourceType" : "StructureDefinition",
       "id" : "RelatedArtifact",
       "meta" : {
-        "lastUpdated" : "2022-04-23T22:21:35.043+00:00"
+        "lastUpdated" : "2022-05-26T21:57:15.848+10:00"
       },
       "text" : {
         "status" : "generated",
@@ -27741,7 +27771,7 @@
       "name" : "RelatedArtifact",
       "status" : "draft",
       "experimental" : false,
-      "date" : "2022-04-23T22:21:35+00:00",
+      "date" : "2022-05-26T21:57:15+10:00",
       "publisher" : "HL7 FHIR Standard",
       "contact" : [{
         "telecom" : [{
@@ -27811,7 +27841,7 @@
           "type" : [{
             "extension" : [{
               "url" : "http://hl7.org/fhir/StructureDefinition/structuredefinition-fhir-type",
-              "valueUrl" : "string"
+              "valueUrl" : "id"
             }],
             "code" : "http://hl7.org/fhirpath/System.String"
           }],
@@ -28193,7 +28223,7 @@
       "resourceType" : "StructureDefinition",
       "id" : "SampledData",
       "meta" : {
-        "lastUpdated" : "2022-04-23T22:21:35.043+00:00"
+        "lastUpdated" : "2022-05-26T21:57:15.848+10:00"
       },
       "text" : {
         "status" : "generated",
@@ -28208,7 +28238,7 @@
       "name" : "SampledData",
       "status" : "draft",
       "experimental" : false,
-      "date" : "2022-04-23T22:21:35+00:00",
+      "date" : "2022-05-26T21:57:15+10:00",
       "publisher" : "HL7 FHIR Standard",
       "contact" : [{
         "telecom" : [{
@@ -28291,7 +28321,7 @@
           "type" : [{
             "extension" : [{
               "url" : "http://hl7.org/fhir/StructureDefinition/structuredefinition-fhir-type",
-              "valueUrl" : "string"
+              "valueUrl" : "id"
             }],
             "code" : "http://hl7.org/fhirpath/System.String"
           }],
@@ -28714,7 +28744,7 @@
       "resourceType" : "StructureDefinition",
       "id" : "Signature",
       "meta" : {
-        "lastUpdated" : "2022-04-23T22:21:35.043+00:00"
+        "lastUpdated" : "2022-05-26T21:57:15.848+10:00"
       },
       "text" : {
         "status" : "generated",
@@ -28729,7 +28759,7 @@
       "name" : "Signature",
       "status" : "draft",
       "experimental" : false,
-      "date" : "2022-04-23T22:21:35+00:00",
+      "date" : "2022-05-26T21:57:15+10:00",
       "publisher" : "HL7 FHIR Standard",
       "contact" : [{
         "telecom" : [{
@@ -28803,7 +28833,7 @@
           "type" : [{
             "extension" : [{
               "url" : "http://hl7.org/fhir/StructureDefinition/structuredefinition-fhir-type",
-              "valueUrl" : "string"
+              "valueUrl" : "id"
             }],
             "code" : "http://hl7.org/fhirpath/System.String"
           }],
@@ -29284,7 +29314,7 @@
       "resourceType" : "StructureDefinition",
       "id" : "Timing",
       "meta" : {
-        "lastUpdated" : "2022-04-23T22:21:35.043+00:00"
+        "lastUpdated" : "2022-05-26T21:57:15.848+10:00"
       },
       "text" : {
         "status" : "generated",
@@ -29303,7 +29333,7 @@
       "name" : "Timing",
       "status" : "active",
       "experimental" : false,
-      "date" : "2022-04-23T22:21:35+00:00",
+      "date" : "2022-05-26T21:57:15+10:00",
       "publisher" : "HL7 FHIR Standard",
       "contact" : [{
         "telecom" : [{
@@ -29389,7 +29419,7 @@
           "type" : [{
             "extension" : [{
               "url" : "http://hl7.org/fhir/StructureDefinition/structuredefinition-fhir-type",
-              "valueUrl" : "string"
+              "valueUrl" : "id"
             }],
             "code" : "http://hl7.org/fhirpath/System.String"
           }],
@@ -30729,7 +30759,7 @@
       "resourceType" : "StructureDefinition",
       "id" : "TriggerDefinition",
       "meta" : {
-        "lastUpdated" : "2022-04-23T22:21:35.043+00:00"
+        "lastUpdated" : "2022-05-26T21:57:15.848+10:00"
       },
       "text" : {
         "status" : "generated",
@@ -30744,7 +30774,7 @@
       "name" : "TriggerDefinition",
       "status" : "draft",
       "experimental" : false,
-      "date" : "2022-04-23T22:21:35+00:00",
+      "date" : "2022-05-26T21:57:15+10:00",
       "publisher" : "HL7 FHIR Standard",
       "contact" : [{
         "telecom" : [{
@@ -30837,7 +30867,7 @@
           "type" : [{
             "extension" : [{
               "url" : "http://hl7.org/fhir/StructureDefinition/structuredefinition-fhir-type",
-              "valueUrl" : "string"
+              "valueUrl" : "id"
             }],
             "code" : "http://hl7.org/fhirpath/System.String"
           }],
@@ -31187,7 +31217,7 @@
       "resourceType" : "StructureDefinition",
       "id" : "UsageContext",
       "meta" : {
-        "lastUpdated" : "2022-04-23T22:21:35.043+00:00"
+        "lastUpdated" : "2022-05-26T21:57:15.848+10:00"
       },
       "text" : {
         "status" : "generated",
@@ -31202,7 +31232,7 @@
       "name" : "UsageContext",
       "status" : "draft",
       "experimental" : false,
-      "date" : "2022-04-23T22:21:35+00:00",
+      "date" : "2022-05-26T21:57:15+10:00",
       "publisher" : "HL7 FHIR Standard",
       "contact" : [{
         "telecom" : [{
@@ -31271,7 +31301,7 @@
           "type" : [{
             "extension" : [{
               "url" : "http://hl7.org/fhir/StructureDefinition/structuredefinition-fhir-type",
-              "valueUrl" : "string"
+              "valueUrl" : "id"
             }],
             "code" : "http://hl7.org/fhirpath/System.String"
           }],
@@ -31518,7 +31548,7 @@
       "resourceType" : "StructureDefinition",
       "id" : "MoneyQuantity",
       "meta" : {
-        "lastUpdated" : "2022-04-23T22:21:35.043+00:00"
+        "lastUpdated" : "2022-05-26T21:57:15.848+10:00"
       },
       "text" : {
         "status" : "generated",
@@ -31537,7 +31567,7 @@
       "name" : "MoneyQuantity",
       "status" : "active",
       "experimental" : false,
-      "date" : "2022-04-23T22:21:35+00:00",
+      "date" : "2022-05-26T21:57:15+10:00",
       "publisher" : "HL7 FHIR Standard",
       "contact" : [{
         "telecom" : [{
@@ -31630,7 +31660,7 @@
           "type" : [{
             "extension" : [{
               "url" : "http://hl7.org/fhir/StructureDefinition/structuredefinition-fhir-type",
-              "valueUrl" : "string"
+              "valueUrl" : "id"
             }],
             "code" : "http://hl7.org/fhirpath/System.String"
           }],
@@ -31921,7 +31951,7 @@
       "resourceType" : "StructureDefinition",
       "id" : "SimpleQuantity",
       "meta" : {
-        "lastUpdated" : "2022-04-23T22:21:35.043+00:00"
+        "lastUpdated" : "2022-05-26T21:57:15.848+10:00"
       },
       "text" : {
         "status" : "generated",
@@ -31940,7 +31970,7 @@
       "name" : "SimpleQuantity",
       "status" : "active",
       "experimental" : false,
-      "date" : "2022-04-23T22:21:35+00:00",
+      "date" : "2022-05-26T21:57:15+10:00",
       "publisher" : "HL7 FHIR Standard",
       "contact" : [{
         "telecom" : [{
@@ -32033,7 +32063,7 @@
           "type" : [{
             "extension" : [{
               "url" : "http://hl7.org/fhir/StructureDefinition/structuredefinition-fhir-type",
-              "valueUrl" : "string"
+              "valueUrl" : "id"
             }],
             "code" : "http://hl7.org/fhirpath/System.String"
           }],

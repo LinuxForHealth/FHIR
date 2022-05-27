@@ -470,11 +470,11 @@
           </extension>
         </versioning>
       </type>
-      <defaultValueBoolean>
+      <defaultValueCanonical>
         <extension url="http://hl7.org/fhir/StructureDefinition/data-absent-reason">
           <valueCode value="unknown"/>
         </extension>
-      </defaultValueBoolean>
+      </defaultValueCanonical>
       <meaningWhenMissing>
         <extension url="http://hl7.org/fhir/StructureDefinition/data-absent-reason">
           <valueCode value="unknown"/>
@@ -485,27 +485,27 @@
           <valueCode value="unknown"/>
         </extension>
       </orderMeaning>
-      <fixedBoolean>
+      <fixedCanonical>
         <extension url="http://hl7.org/fhir/StructureDefinition/data-absent-reason">
           <valueCode value="unknown"/>
         </extension>
-      </fixedBoolean>
-      <patternBoolean>
+      </fixedCanonical>
+      <patternCanonical>
         <extension url="http://hl7.org/fhir/StructureDefinition/data-absent-reason">
           <valueCode value="unknown"/>
         </extension>
-      </patternBoolean>
+      </patternCanonical>
       <example>
         <label>
           <extension url="http://hl7.org/fhir/StructureDefinition/data-absent-reason">
             <valueCode value="unknown"/>
           </extension>
         </label>
-        <valueBoolean>
+        <valueCanonical>
           <extension url="http://hl7.org/fhir/StructureDefinition/data-absent-reason">
             <valueCode value="unknown"/>
           </extension>
-        </valueBoolean>
+        </valueCanonical>
       </example>
       <minValueInstant>
         <extension url="http://hl7.org/fhir/StructureDefinition/data-absent-reason">
@@ -770,11 +770,11 @@
           </extension>
         </versioning>
       </type>
-      <defaultValueBoolean>
+      <defaultValueCanonical>
         <extension url="http://hl7.org/fhir/StructureDefinition/data-absent-reason">
           <valueCode value="unknown"/>
         </extension>
-      </defaultValueBoolean>
+      </defaultValueCanonical>
       <meaningWhenMissing>
         <extension url="http://hl7.org/fhir/StructureDefinition/data-absent-reason">
           <valueCode value="unknown"/>
@@ -785,27 +785,27 @@
           <valueCode value="unknown"/>
         </extension>
       </orderMeaning>
-      <fixedBoolean>
+      <fixedCanonical>
         <extension url="http://hl7.org/fhir/StructureDefinition/data-absent-reason">
           <valueCode value="unknown"/>
         </extension>
-      </fixedBoolean>
-      <patternBoolean>
+      </fixedCanonical>
+      <patternCanonical>
         <extension url="http://hl7.org/fhir/StructureDefinition/data-absent-reason">
           <valueCode value="unknown"/>
         </extension>
-      </patternBoolean>
+      </patternCanonical>
       <example>
         <label>
           <extension url="http://hl7.org/fhir/StructureDefinition/data-absent-reason">
             <valueCode value="unknown"/>
           </extension>
         </label>
-        <valueBoolean>
+        <valueCanonical>
           <extension url="http://hl7.org/fhir/StructureDefinition/data-absent-reason">
             <valueCode value="unknown"/>
           </extension>
-        </valueBoolean>
+        </valueCanonical>
       </example>
       <minValueInstant>
         <extension url="http://hl7.org/fhir/StructureDefinition/data-absent-reason">
