@@ -125,7 +125,7 @@ public class PatientResourceHandler extends SystemExportResourceHandler {
 
             do {
                 searchContext.setPageNumber(compartmentPageNum);
-                FHIRPersistenceContext persistenceContext = FHIRPersistenceContextFactory.createPersistenceContext(null, searchContext);
+                FHIRPersistenceContext persistenceContext = FHIRPersistenceContextFactory.createPersistenceContext(null, searchContext, null);
 
                 Date startTime = new Date(System.currentTimeMillis());
                 List<ResourceResult<? extends Resource>> resourceResults = fhirPersistence.search(persistenceContext, resourceType).getResourceResults();

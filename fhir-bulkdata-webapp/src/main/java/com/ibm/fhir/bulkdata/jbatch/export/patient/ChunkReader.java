@@ -201,7 +201,7 @@ public class ChunkReader extends AbstractItemReader {
         FHIRTransactionHelper txn = new FHIRTransactionHelper(fhirPersistence.getTransaction());
         txn.begin();
         try {
-            FHIRPersistenceContext persistenceContext = FHIRPersistenceContextFactory.createPersistenceContext(null, searchContext);
+            FHIRPersistenceContext persistenceContext = FHIRPersistenceContextFactory.createPersistenceContext(null, searchContext, null);
             Date startTime = new Date(System.currentTimeMillis());
             List<ResourceResult<? extends Resource>> resourceResults = fhirPersistence.search(persistenceContext, Patient.class).getResourceResults();
             List<? extends Resource> patientResources = ResourceResult.toResourceList(resourceResults);
