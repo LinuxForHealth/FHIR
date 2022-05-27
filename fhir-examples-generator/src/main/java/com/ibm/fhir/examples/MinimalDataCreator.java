@@ -15,7 +15,6 @@ import java.util.Collection;
 import com.ibm.fhir.model.builder.Builder;
 import com.ibm.fhir.model.resource.AllergyIntolerance;
 import com.ibm.fhir.model.resource.Resource;
-import com.ibm.fhir.model.type.BackboneElement;
 import com.ibm.fhir.model.type.Code;
 import com.ibm.fhir.model.type.CodeableConcept;
 import com.ibm.fhir.model.type.Coding;
@@ -100,12 +99,20 @@ public class MinimalDataCreator extends DataCreatorBase {
         return builder;
     }
 
+    /**
+     * For the minimal data creator, we only count required elements
+     */
     @Override
     protected int getMaxChoiceCount(Class<?> resourceOrElementClass, int maxChoiceCount, int levelsDeep) {
         Collection<ElementInfo> elementsInfo = ModelSupport.getElementInfo(resourceOrElementClass);
         for (ElementInfo elementInfo : elementsInfo) {
             if (elementInfo.isRequired()) {
-                maxChoiceCount = super.getMaxChoiceCount(elementInfo.getType(), maxChoiceCount, levelsDeep+1);
+                if (elementInfo.isChoice()) {
+                    maxChoiceCount = Math.max(maxChoiceCount, elementInfo.getChoiceTypes().size());
+                } else {
+                    // recursively call getMaxChoiceCount
+                    maxChoiceCount = getMaxChoiceCount(elementInfo.getType(), maxChoiceCount, levelsDeep+1);
+                }
             }
         }
         return maxChoiceCount;
