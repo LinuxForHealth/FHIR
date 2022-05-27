@@ -776,7 +776,7 @@ public class FhirSchemaGenerator {
                 .addIntColumn(RESOURCE_TYPE_ID, false)
                 .addVarcharColumn(LOGICAL_ID, LOGICAL_ID_BYTES, false)
                 .addBigIntColumn(LOGICAL_RESOURCE_ID, false)
-                .addPrimaryKey(tableName + "_PK", RESOURCE_TYPE_ID, LOGICAL_ID)
+                .addPrimaryKey(tableName + "_PK", LOGICAL_ID, RESOURCE_TYPE_ID) // we need this order for a specific index
                 .setTablespace(fhirTablespace)
                 .addPrivileges(resourceTablePrivileges)
                 .addForeignKeyConstraint(FK + tableName + "_RTID", schemaName, RESOURCE_TYPES, RESOURCE_TYPE_ID)

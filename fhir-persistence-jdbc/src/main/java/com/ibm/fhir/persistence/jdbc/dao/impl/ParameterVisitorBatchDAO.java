@@ -27,7 +27,6 @@ import com.ibm.fhir.config.FHIRConfigHelper;
 import com.ibm.fhir.database.utils.common.CalendarHelper;
 import com.ibm.fhir.persistence.exception.FHIRPersistenceDataAccessException;
 import com.ibm.fhir.persistence.exception.FHIRPersistenceException;
-import com.ibm.fhir.persistence.jdbc.JDBCConstants;
 import com.ibm.fhir.persistence.jdbc.dao.api.IResourceReferenceDAO;
 import com.ibm.fhir.persistence.jdbc.dao.api.JDBCIdentityCache;
 import com.ibm.fhir.persistence.jdbc.dto.CompositeParmVal;
@@ -102,6 +101,7 @@ public class ParameterVisitorBatchDAO implements ExtractedParameterValueVisitor,
 
     // Collect a list of token values to process in one go
     private final List<ResourceTokenValueRec> tokenValueRecs = new ArrayList<>();
+    private final List<ResourceReferenceValueRec> referenceValueRecs = new ArrayList<>();
 
     // Tags are now stored in their own tables
     private final List<ResourceTokenValueRec> tagTokenRecs = new ArrayList<>();
@@ -647,7 +647,7 @@ public class ParameterVisitorBatchDAO implements ExtractedParameterValueVisitor,
 
         if (this.transactionData == null) {
             // Not using transaction data, so we need to process collected values right here
-            this.resourceReferenceDAO.addNormalizedValues(this.tablePrefix, tokenValueRecs, profileRecs, tagTokenRecs, securityTokenRecs);
+            this.resourceReferenceDAO.addNormalizedValues(this.tablePrefix, tokenValueRecs, referenceValueRecs, profileRecs, tagTokenRecs, securityTokenRecs);
         }
 
         closeStatement(strings);
@@ -703,7 +703,6 @@ public class ParameterVisitorBatchDAO implements ExtractedParameterValueVisitor,
         String refResourceType = refValue.getTargetResourceType();
         String refLogicalId = refValue.getValue();
         Integer refVersion = refValue.getVersion();
-        ResourceTokenValueRec rec;
 
         if (refValue.getType() == ReferenceType.DISPLAY_ONLY || refValue.getType() == ReferenceType.INVALID) {
             // protect against code regression. Invalid/improper references should be
@@ -713,19 +712,32 @@ public class ParameterVisitorBatchDAO implements ExtractedParameterValueVisitor,
         }
 
         // reference params are never system-level
-        final boolean isSystemParam = false;
         if (refResourceType != null) {
-            // Store a token value configured as a reference to another resource
-            rec = new ResourceTokenValueRec(parameterName, resourceType, resourceTypeId, logicalResourceId, refResourceType, refLogicalId, refVersion, this.currentCompositeId, isSystemParam);
+            // Store a reference value configured as a reference to another resource
+            int refResourceTypeId = identityCache.getResourceTypeId(refResourceType);
+            ResourceReferenceValueRec rec = new ResourceReferenceValueRec(parameterName, resourceType, resourceTypeId, logicalResourceId, 
+                refResourceType, refResourceTypeId, 
+                refLogicalId, refVersion, this.currentCompositeId);
+            if (this.transactionData != null) {
+                this.transactionData.addReferenceValue(rec);
+            } else {
+                this.referenceValueRecs.add(rec);
+            }
         } else {
-            // stored as a token with the default system
-            rec = new ResourceTokenValueRec(parameterName, resourceType, resourceTypeId, logicalResourceId, JDBCConstants.DEFAULT_TOKEN_SYSTEM, refLogicalId, this.currentCompositeId, isSystemParam);
-        }
-
-        if (this.transactionData != null) {
-            this.transactionData.addValue(rec);
-        } else {
-            this.tokenValueRecs.add(rec);
+            // uri so we go back to store as a string instead
+            logger.info("reference param[" + parameterName + "] value[" + refLogicalId + "] => xx_str_values");
+            try {
+                int parameterNameId = getParameterNameId(parameterName);
+                setStringParms(strings, parameterNameId, refValue.getValue());
+                strings.addBatch();
+    
+                if (++stringCount == this.batchSize) {
+                    strings.executeBatch();
+                    stringCount = 0;
+                }
+            } catch (SQLException x) {
+                throw new FHIRPersistenceDataAccessException(parameterName + "='" + refValue.getValue() + "'", x);
+            }
         }
     }
 }

@@ -122,5 +122,6 @@ public class PreparedStatementHelper {
      */
     public void addBatch() throws SQLException {
         ps.addBatch();
+        index = 1;
     }
 }

@@ -10,9 +10,7 @@ import java.sql.Connection;
 import java.sql.PreparedStatement;
 import java.sql.SQLException;
 import java.sql.Types;
-import java.util.ArrayList;
 import java.util.Collection;
-import java.util.List;
 import java.util.logging.Level;
 import java.util.logging.Logger;
 
@@ -20,8 +18,8 @@ import com.ibm.fhir.database.utils.api.IDatabaseTranslator;
 import com.ibm.fhir.database.utils.common.DataDefinitionUtil;
 import com.ibm.fhir.persistence.exception.FHIRPersistenceDataAccessException;
 import com.ibm.fhir.persistence.jdbc.dao.api.ICommonTokenValuesCache;
+import com.ibm.fhir.persistence.jdbc.dao.api.ILogicalResourceIdentCache;
 import com.ibm.fhir.persistence.jdbc.dao.api.INameIdCache;
-import com.ibm.fhir.persistence.jdbc.dao.api.JDBCIdentityCache;
 import com.ibm.fhir.persistence.jdbc.dao.api.ParameterNameDAO;
 import com.ibm.fhir.persistence.jdbc.dao.impl.ParameterNameDAOImpl;
 import com.ibm.fhir.persistence.jdbc.dao.impl.ResourceProfileRec;
@@ -48,8 +46,9 @@ public class Db2ResourceReferenceDAO extends ResourceReferenceDAO {
      * @param schemaName
      * @param cache
      */
-    public Db2ResourceReferenceDAO(IDatabaseTranslator t, Connection c, String schemaName, ICommonTokenValuesCache cache, String adminSchemaName, INameIdCache<Integer> parameterNameCache) {
-        super(t, c, schemaName, cache, parameterNameCache);
+    public Db2ResourceReferenceDAO(IDatabaseTranslator t, Connection c, String schemaName, ICommonTokenValuesCache cache, String adminSchemaName, INameIdCache<Integer> parameterNameCache,
+            ILogicalResourceIdentCache logicalResourceIdentCache) {
+        super(t, c, schemaName, cache, parameterNameCache, logicalResourceIdentCache);
         this.adminSchemaName = adminSchemaName;
     }
 

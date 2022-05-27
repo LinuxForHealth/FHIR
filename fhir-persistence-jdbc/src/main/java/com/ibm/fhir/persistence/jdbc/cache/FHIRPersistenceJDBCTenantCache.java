@@ -1,5 +1,5 @@
 /*
- * (C) Copyright IBM Corp. 2020, 2021
+ * (C) Copyright IBM Corp. 2020, 2022
  *
  * SPDX-License-Identifier: Apache-2.0
  */
@@ -74,7 +74,8 @@ public class FHIRPersistenceJDBCTenantCache {
                 int externalSystemCacheSize = pg.getIntProperty("externalSystemCacheSize", 1000);
                 int externalValueCacheSize = pg.getIntProperty("externalValueCacheSize", 100000);
                 int canonicalCacheSize = pg.getIntProperty("canonicalCacheSize", 1000);
-                return FHIRPersistenceJDBCCacheUtil.create(externalSystemCacheSize, externalValueCacheSize, canonicalCacheSize);
+                int logicalResourceIdentCacheSize = pg.getIntProperty("logicalResourceIdentCacheSize", 100000);
+                return FHIRPersistenceJDBCCacheUtil.create(externalSystemCacheSize, externalValueCacheSize, canonicalCacheSize, logicalResourceIdentCacheSize);
             }
         } catch (IllegalStateException ise) {
             throw ise;

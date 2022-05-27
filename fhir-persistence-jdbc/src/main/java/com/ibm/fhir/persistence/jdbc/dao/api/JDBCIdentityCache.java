@@ -12,6 +12,7 @@ import java.util.Set;
 
 import com.ibm.fhir.persistence.exception.FHIRPersistenceException;
 import com.ibm.fhir.persistence.jdbc.dto.CommonTokenValue;
+import com.ibm.fhir.persistence.jdbc.dto.ResourceReferenceValue;
 
 /**
  * Provides access to all the identity information we need when processing
@@ -55,6 +56,16 @@ public interface JDBCIdentityCache {
     Integer getCanonicalId(String canonicalValue) throws FHIRPersistenceException;
 
     /**
+     * Get the database id for the given (resourceType, logicalId) tuple. This
+     * represents records in logical_resource_ident which may be created before
+     * the actual resource is created.
+     * @param resourceType
+     * @param logicalId
+     * @return
+     */
+    Long getLogicalResourceId(String resourceType, String logicalId) throws FHIRPersistenceException;
+
+    /**
      * Get the database id for the given parameter name. Creates new records if necessary.
      * @param parameterName
      * @return
@@ -82,6 +93,15 @@ public interface JDBCIdentityCache {
     Set<Long> getCommonTokenValueIds(Collection<CommonTokenValue> tokenValues);
 
     /**
+     * Get the logical_resource_ids for the given referenceValues. Reads from
+     * a cache, or the database if not found in the cache. Values with no
+     * corresponding record in the database will be omitted from the result set.
+     * @param referenceValues
+     * @return a non-null, possibly empty set of logical_resource_ids.
+     */
+    Set<Long> getLogicalResourceIds(Collection<ResourceReferenceValue> referenceValues) throws FHIRPersistenceException;
+
+    /**
      * Get a list of matching common_token_value_id values. Implementations may decide
      * to cache, but only if the cache can be invalidated when the list changes due to
      * ingestion. The simplest approach is to always read from the database. The performance
@@ -92,6 +112,18 @@ public interface JDBCIdentityCache {
      * @return
      */
     List<Long> getCommonTokenValueIdList(String tokenValue);
+
+    /**
+     * Get a list of logical_resource_id values matching the given logicalId without
+     * knowing the resource type. This means we could get back multiple ids, one per
+     * resource type, such as:
+     *   Claim/foo
+     *   Observation/foo
+     *   Patient/foo
+     * @param tokenValue
+     * @return
+     */
+    List<Long> getLogicalResourceIdList(String logicalId) throws FHIRPersistenceException;
 
     /**
      * Get the list of all resource type names.

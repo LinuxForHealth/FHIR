@@ -12,6 +12,7 @@ import java.util.Set;
 
 import com.ibm.fhir.persistence.exception.FHIRPersistenceException;
 import com.ibm.fhir.persistence.jdbc.dao.impl.ResourceProfileRec;
+import com.ibm.fhir.persistence.jdbc.dao.impl.ResourceReferenceValueRec;
 import com.ibm.fhir.persistence.jdbc.dao.impl.ResourceTokenValueRec;
 import com.ibm.fhir.persistence.jdbc.dto.CommonTokenValue;
 import com.ibm.fhir.persistence.jdbc.dto.CommonTokenValueResult;
@@ -40,20 +41,22 @@ public interface IResourceReferenceDAO {
      * as necessary
      * @param resourceType
      * @param xrefs
+     * @param refValues
      * @param profileRecs
      * @param tagRecs
      * @param securityRecs
      */
-    void addNormalizedValues(String resourceType, Collection<ResourceTokenValueRec> xrefs, Collection<ResourceProfileRec> profileRecs, Collection<ResourceTokenValueRec> tagRecs, Collection<ResourceTokenValueRec> securityRecs) throws FHIRPersistenceException;
+    void addNormalizedValues(String resourceType, Collection<ResourceTokenValueRec> xrefs, Collection<ResourceReferenceValueRec> refValues, Collection<ResourceProfileRec> profileRecs, Collection<ResourceTokenValueRec> tagRecs, Collection<ResourceTokenValueRec> securityRecs) throws FHIRPersistenceException;
 
     /**
      * Persist the records, which may span multiple resource types
      * @param records
+     * @param referenceRecords
      * @param profileRecs
      * @param tagRecs
      * @param securityRecs
      */
-    void persist(Collection<ResourceTokenValueRec> records, Collection<ResourceProfileRec> profileRecs, Collection<ResourceTokenValueRec> tagRecs, Collection<ResourceTokenValueRec> securityRecs) throws FHIRPersistenceException;
+    void persist(Collection<ResourceTokenValueRec> records, Collection<ResourceReferenceValueRec> referenceRecords, Collection<ResourceProfileRec> profileRecs, Collection<ResourceTokenValueRec> tagRecs, Collection<ResourceTokenValueRec> securityRecs) throws FHIRPersistenceException;
 
     /**
      * Find the database id for the given token value and system

@@ -7,7 +7,6 @@
 package com.ibm.fhir.persistence.index;
 
 import java.math.BigDecimal;
-import java.sql.Timestamp;
 import java.time.Instant;
 
 
@@ -75,7 +74,7 @@ public class SearchParametersTransportAdapter implements ParameterValueVisitorAd
     }
 
     @Override
-    public void dateValue(String name, Timestamp valueDateStart, Timestamp valueDateEnd, Integer compositeId, boolean wholeSystem) {
+    public void dateValue(String name, Instant valueDateStart, Instant valueDateEnd, Integer compositeId, boolean wholeSystem) {
         DateParameter value = new DateParameter();
         value.setName(name);
         value.setValueDateStart(valueDateStart);

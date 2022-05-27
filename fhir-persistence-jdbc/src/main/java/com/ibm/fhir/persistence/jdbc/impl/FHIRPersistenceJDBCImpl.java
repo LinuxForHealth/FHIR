@@ -141,6 +141,7 @@ import com.ibm.fhir.persistence.jdbc.dao.impl.ParameterDAOImpl;
 import com.ibm.fhir.persistence.jdbc.dao.impl.ParameterTransportVisitor;
 import com.ibm.fhir.persistence.jdbc.dao.impl.ResourceProfileRec;
 import com.ibm.fhir.persistence.jdbc.dao.impl.ResourceReferenceDAO;
+import com.ibm.fhir.persistence.jdbc.dao.impl.ResourceReferenceValueRec;
 import com.ibm.fhir.persistence.jdbc.dao.impl.ResourceTokenValueRec;
 import com.ibm.fhir.persistence.jdbc.dao.impl.RetrieveIndexDAO;
 import com.ibm.fhir.persistence.jdbc.dao.impl.TransactionDataImpl;
@@ -422,8 +423,10 @@ public class FHIRPersistenceJDBCImpl implements FHIRPersistence, SchemaNameSuppl
                             + ", version=" + resourceDTO.getVersionId());
             }
 
-            sendParametersToRemoteIndexService(resourceDTO.getResourceType(), resourceDTO.getLogicalId(), resourceDTO.getId(), 
-                resourceDTO.getVersionId(), resourceDTO.getLastUpdated().toInstant(), context.getRequestShard(), searchParameters);
+            if (resourceDTO.getInteractionStatus() == InteractionStatus.MODIFIED) {
+                sendParametersToRemoteIndexService(resourceDTO.getResourceType(), resourceDTO.getLogicalId(), resourceDTO.getId(), 
+                    resourceDTO.getVersionId(), resourceDTO.getLastUpdated().toInstant(), context.getRequestShard(), searchParameters);
+            }
             SingleResourceResult.Builder<T> resultBuilder = new SingleResourceResult.Builder<T>()
                     .success(true)
                     .interactionStatus(resourceDTO.getInteractionStatus())
@@ -581,13 +584,13 @@ public class FHIRPersistenceJDBCImpl implements FHIRPersistence, SchemaNameSuppl
     private ResourceDAO makeResourceDAO(FHIRPersistenceContext persistenceContext, Connection connection)
             throws FHIRPersistenceDataAccessException, FHIRPersistenceException, IllegalArgumentException {
         Short shardKey = null;
-        if (connectionStrategy.getFlavor().getSchemaType() == SchemaType.DISTRIBUTED) {
+        if (connectionStrategy.getFlavor().getSchemaType() == SchemaType.SHARDED) {
             if (persistenceContext == null) {
-                throw new FHIRPersistenceException("persistenceContext is always required for DISTRIBUTED schemas");
+                throw new FHIRPersistenceException("persistenceContext is always required for SHARDED schemas");
             }
             shardKey = encodeRequestShard(persistenceContext.getRequestShard());
             if (shardKey == null) {
-                throw new FHIRPersistenceException("shardKey value is required for DISTRIBUTED schemas");
+                throw new FHIRPersistenceException("shardKey value is required for SHARDED schemas");
             }
         }
 
@@ -678,8 +681,10 @@ public class FHIRPersistenceJDBCImpl implements FHIRPersistence, SchemaNameSuppl
             }
 
             // If configured, send the extracted parameters to the remote indexing service
-            sendParametersToRemoteIndexService(resourceDTO.getResourceType(), resourceDTO.getLogicalId(), resourceDTO.getId(), 
-                resourceDTO.getVersionId(), resourceDTO.getLastUpdated().toInstant(), context.getRequestShard(), searchParameters);
+            if (resourceDTO.getInteractionStatus() == InteractionStatus.MODIFIED) {
+                sendParametersToRemoteIndexService(resourceDTO.getResourceType(), resourceDTO.getLogicalId(), resourceDTO.getId(), 
+                    resourceDTO.getVersionId(), resourceDTO.getLastUpdated().toInstant(), context.getRequestShard(), searchParameters);
+            }
 
             SingleResourceResult.Builder<T> resultBuilder = new SingleResourceResult.Builder<T>()
                     .success(true)
@@ -2889,15 +2894,16 @@ public class FHIRPersistenceJDBCImpl implements FHIRPersistence, SchemaNameSuppl
      * that have been accumulated during the transaction. This collection therefore
      * contains multiple resource types, which have to be processed separately.
      * @param records
+     * @param referenceRecords
      * @param profileRecs
      * @param tagRecs
      * @param securityRecs
      * @throws FHIRPersistenceException
      */
-    public void onCommit(Collection<ResourceTokenValueRec> records, Collection<ResourceProfileRec> profileRecs, Collection<ResourceTokenValueRec> tagRecs, Collection<ResourceTokenValueRec> securityRecs) throws FHIRPersistenceException {
+    public void onCommit(Collection<ResourceTokenValueRec> records, Collection<ResourceReferenceValueRec> referenceRecords, Collection<ResourceProfileRec> profileRecs, Collection<ResourceTokenValueRec> tagRecs, Collection<ResourceTokenValueRec> securityRecs) throws FHIRPersistenceException {
         try (Connection connection = openConnection()) {
             IResourceReferenceDAO rrd = makeResourceReferenceDAO(connection);
-            rrd.persist(records, profileRecs, tagRecs, securityRecs);
+            rrd.persist(records, referenceRecords, profileRecs, tagRecs, securityRecs);
         } catch(FHIRPersistenceFKVException e) {
             log.log(Level.SEVERE, "FK violation", e);
             throw e;

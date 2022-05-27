@@ -1,5 +1,5 @@
 /*
- * (C) Copyright IBM Corp. 2019, 2021
+ * (C) Copyright IBM Corp. 2019, 2022
  *
  * SPDX-License-Identifier: Apache-2.0
  */
@@ -25,6 +25,7 @@ import com.ibm.fhir.persistence.exception.FHIRPersistenceException;
 import com.ibm.fhir.persistence.jdbc.JDBCConstants;
 import com.ibm.fhir.persistence.jdbc.dao.api.JDBCIdentityCache;
 import com.ibm.fhir.persistence.jdbc.dto.CommonTokenValue;
+import com.ibm.fhir.persistence.jdbc.dto.ResourceReferenceValue;
 import com.ibm.fhir.persistence.jdbc.util.type.NewNumberParmBehaviorUtil;
 import com.ibm.fhir.persistence.jdbc.util.type.NewQuantityParmBehaviorUtil;
 import com.ibm.fhir.search.SearchConstants;
@@ -167,6 +168,21 @@ public class QuantityParmBehaviorUtilTest {
 
             @Override
             public List<Integer> getResourceTypeIds() throws FHIRPersistenceException {
+                return null;
+            }
+
+            @Override
+            public Long getLogicalResourceId(String resourceType, String logicalId) throws FHIRPersistenceException {
+                return null;
+            }
+
+            @Override
+            public Set<Long> getLogicalResourceIds(Collection<ResourceReferenceValue> referenceValues) throws FHIRPersistenceException {
+                return null;
+            }
+
+            @Override
+            public List<Long> getLogicalResourceIdList(String logicalId) throws FHIRPersistenceException {
                 return null;
             }
         };

@@ -34,8 +34,8 @@ public class SearchParametersTransport {
     // The parameter hash computed for this set of parameters
     private String parameterHash;
 
-    // The last_updated time in a fixed format for transport
-    private String lastUpdated;
+    // The last_updated time
+    private Instant lastUpdated;
 
     // The key value used for sharding the data when using a distributed database
     private String requestShard;
@@ -46,10 +46,10 @@ public class SearchParametersTransport {
     private List<TokenParameter> tokenValues;
     private List<DateParameter> dateValues;
     private List<LocationParameter> locationValues;
-    private List<TagParameter> tagValues = new ArrayList<>();
-    private List<ProfileParameter> profileValues = new ArrayList<>();
-    private List<SecurityParameter> securityValues = new ArrayList<>();
-    private List<ReferenceParameter> refValues = new ArrayList<>();
+    private List<TagParameter> tagValues;
+    private List<ProfileParameter> profileValues;
+    private List<SecurityParameter> securityValues;
+    private List<ReferenceParameter> refValues;
 
     /**
      * Factory method to create a {@link Builder} instance
@@ -101,7 +101,7 @@ public class SearchParametersTransport {
         private String requestShard;
         private int versionId;
         private String parameterHash;
-        private String lastUpdated;
+        private Instant lastUpdated;
 
         /**
          * Set the resourceType
@@ -124,7 +124,7 @@ public class SearchParametersTransport {
         }
 
         public Builder withLastUpdated(Instant lastUpdated) {
-            this.lastUpdated = lastUpdated.toString();
+            this.lastUpdated = lastUpdated;
             return this;
         }
 
@@ -565,14 +565,14 @@ public class SearchParametersTransport {
     /**
      * @return the lastUpdated
      */
-    public String getLastUpdated() {
+    public Instant getLastUpdated() {
         return lastUpdated;
     }
 
     /**
      * @param lastUpdated the lastUpdated to set
      */
-    public void setLastUpdated(String lastUpdated) {
+    public void setLastUpdated(Instant lastUpdated) {
         this.lastUpdated = lastUpdated;
     }
 

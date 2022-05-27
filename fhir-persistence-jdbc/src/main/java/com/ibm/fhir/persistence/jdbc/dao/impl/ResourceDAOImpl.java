@@ -131,6 +131,18 @@ public class ResourceDAOImpl extends FHIRDbDAOImpl implements ResourceDAO {
                     "FROM %s_RESOURCES R, %s_LOGICAL_RESOURCES LR WHERE R.LOGICAL_RESOURCE_ID = LR.LOGICAL_RESOURCE_ID AND " +
                     "R.RESOURCE_ID IN ";
 
+    private static final String SQL_GET_LOGICAL_RESOURCE_IDENT = ""
+            + "SELECT logical_resource_id "
+            + "  FROM logical_resource_ident "
+            + " WHERE resource_type_id = ? "
+            + "   AND logical_id = ?";
+
+    // Get all records matching the given logical_id (multiple resource types)
+    private static final String SQL_GET_LOGICAL_RESOURCE_IDENT_LIST = ""
+            + "     SELECT logical_resource_id "
+            + "       FROM logical_resource_ident "
+            + "      WHERE logical_id = ?";
+
     private static final String SQL_ORDER_BY_IDS = "ORDER BY CASE R.RESOURCE_ID ";
 
     private static final String DERBY_PAGINATION_PARMS = "OFFSET ? ROWS FETCH NEXT ? ROWS ONLY";
@@ -836,5 +848,40 @@ public class ResourceDAOImpl extends FHIRDbDAOImpl implements ResourceDAO {
         } else {
             ps.setString(index, value);
         }
+    }
+
+    @Override
+    public Long readLogicalResourceId(int resourceTypeId, String logicalId) throws FHIRPersistenceDBConnectException, FHIRPersistenceDataAccessException {
+        Long result = null;
+        try (PreparedStatement ps = getConnection().prepareStatement(SQL_GET_LOGICAL_RESOURCE_IDENT)) {
+            ps.setInt(1, resourceTypeId);
+            ps.setString(2, logicalId);
+            ResultSet rs = ps.executeQuery();
+            if (rs.next()) {
+                result = rs.getLong(1);
+            }
+        } catch (Throwable e) {
+            FHIRPersistenceDataAccessException fx = new FHIRPersistenceDataAccessException("Failure retrieving logical_resource_id");
+            final String errMsg = "Failure retrieving logical_resource_id from logical_resource_ident for '" + resourceTypeId + "/" + logicalId + "'";
+            throw severe(log, fx, errMsg, e);
+        }
+        return result;
+    }
+
+    @Override
+    public List<Long> readLogicalResourceIdList(String logicalId) throws FHIRPersistenceDBConnectException, FHIRPersistenceDataAccessException {
+        List<Long> result = new ArrayList<>();
+        try (PreparedStatement ps = getConnection().prepareStatement(SQL_GET_LOGICAL_RESOURCE_IDENT_LIST)) {
+            ps.setString(1, logicalId);
+            ResultSet rs = ps.executeQuery();
+            while (rs.next()) {
+                result.add(rs.getLong(1));
+            }
+        } catch (Throwable e) {
+            FHIRPersistenceDataAccessException fx = new FHIRPersistenceDataAccessException("Failure retrieving logical_resource_id");
+            final String errMsg = "Failure retrieving logical_resource_id list from logical_resource_ident for '" + logicalId + "'";
+            throw severe(log, fx, errMsg, e);
+        }
+        return result;
     }
 }

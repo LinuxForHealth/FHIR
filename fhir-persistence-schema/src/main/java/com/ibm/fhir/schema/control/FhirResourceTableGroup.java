@@ -36,6 +36,7 @@ import static com.ibm.fhir.schema.control.FhirSchemaConstants.LOGICAL_ID;
 import static com.ibm.fhir.schema.control.FhirSchemaConstants.LOGICAL_ID_BYTES;
 import static com.ibm.fhir.schema.control.FhirSchemaConstants.LOGICAL_RESOURCES;
 import static com.ibm.fhir.schema.control.FhirSchemaConstants.LOGICAL_RESOURCE_ID;
+import static com.ibm.fhir.schema.control.FhirSchemaConstants.LOGICAL_RESOURCE_IDENT;
 import static com.ibm.fhir.schema.control.FhirSchemaConstants.LONGITUDE_VALUE;
 import static com.ibm.fhir.schema.control.FhirSchemaConstants.MAX_SEARCH_STRING_BYTES;
 import static com.ibm.fhir.schema.control.FhirSchemaConstants.MT_ID;
@@ -52,6 +53,8 @@ import static com.ibm.fhir.schema.control.FhirSchemaConstants.QUANTITY_VALUE;
 import static com.ibm.fhir.schema.control.FhirSchemaConstants.QUANTITY_VALUE_HIGH;
 import static com.ibm.fhir.schema.control.FhirSchemaConstants.QUANTITY_VALUE_LOW;
 import static com.ibm.fhir.schema.control.FhirSchemaConstants.REF_LOGICAL_RESOURCE_ID;
+import static com.ibm.fhir.schema.control.FhirSchemaConstants.REF_VALUES;
+import static com.ibm.fhir.schema.control.FhirSchemaConstants.REF_VALUES_V;
 import static com.ibm.fhir.schema.control.FhirSchemaConstants.REF_VERSION_ID;
 import static com.ibm.fhir.schema.control.FhirSchemaConstants.RESOURCE_ID;
 import static com.ibm.fhir.schema.control.FhirSchemaConstants.RESOURCE_PAYLOAD_KEY;
@@ -180,6 +183,7 @@ public class FhirResourceTableGroup {
         addResourceTokenRefs(group, tablePrefix);
         addRefValues(group, tablePrefix);
         addTokenValuesView(group, tablePrefix);
+        addRefValuesView(group, tablePrefix);
         addProfiles(group, tablePrefix);
         addTags(group, tablePrefix);
         addSecurity(group, tablePrefix);
@@ -806,6 +810,50 @@ ALTER TABLE device_str_values ADD CONSTRAINT fk_device_str_values_rid  FOREIGN K
                 .addPrivileges(resourceTablePrivileges)
                 .addDependency(commonTokenValues)
                 .addDependency(resourceTokenRefs)
+                .build();
+
+        group.add(view);
+    }
+
+    /**
+     * View to encapsulate the join between xx_ref_values and logical_resource_ident
+     * tables, which makes it easier for the search query builder to compose search
+     * queries using reference parameters.
+     * @param group
+     * @param prefix
+     */
+    public void addRefValuesView(List<IDatabaseObject> group, String prefix) {
+
+        final String viewName = prefix + "_" + REF_VALUES_V;
+
+        // Find the two dependencies we need for this view
+        IDatabaseObject logicalResourceIdent = model.findTable(schemaName, LOGICAL_RESOURCE_IDENT);
+        IDatabaseObject refValues = model.findTable(schemaName, prefix + "_" + REF_VALUES);
+
+        StringBuilder select = new StringBuilder();
+        if (this.multitenant) {
+            // Make sure we include MT_ID in both the select list and join condition. It's needed
+            // in the join condition to give the optimizer the best chance at finding a good nested
+            // loop strategy
+            select.append("SELECT ref.").append(MT_ID);
+            select.append("     , ref.parameter_name_id, lri.resource_type_id, lri.logical_id, ref.logical_resource_id, ref.ref_version_id, ref.ref_logical_resource_id, ref.composite_id");
+            select.append("  FROM ").append(logicalResourceIdent.getName()).append(" AS lri, ");
+            select.append(refValues.getName()).append(" AS ref ");
+            select.append(" WHERE lri.logical_resource_id = ref.ref_logical_resource_id ");
+            select.append("   AND lri.").append(MT_ID).append(" = ").append("ref.").append(MT_ID);
+        } else {
+            select.append("SELECT ref.parameter_name_id, lri.resource_type_id, lri.logical_id, ref.logical_resource_id, ref.ref_version_id, ref.ref_logical_resource_id, ref.composite_id");
+            select.append("  FROM ").append(logicalResourceIdent.getName()).append(" AS lri, ");
+            select.append(refValues.getName()).append(" AS ref ");
+            select.append(" WHERE lri.logical_resource_id = ref.ref_logical_resource_id ");
+        }
+
+        View view = View.builder(schemaName, viewName)
+                .setVersion(FhirSchemaVersion.V0027.vid())
+                .setSelectClause(select.toString())
+                .addPrivileges(resourceTablePrivileges)
+                .addDependency(logicalResourceIdent)
+                .addDependency(refValues)
                 .build();
 
         group.add(view);

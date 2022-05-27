@@ -318,7 +318,7 @@ public class Main {
     private ILeaseManagerConfig leaseManagerConfig;
 
     // Which flavor of the FHIR data schema should we build?
-    private SchemaType dataSchemaType;
+    private SchemaType dataSchemaType = SchemaType.PLAIN;
 
     // -----------------------------------------------------------------------------------------------------------------
     // The following method is related to the common methods and functions

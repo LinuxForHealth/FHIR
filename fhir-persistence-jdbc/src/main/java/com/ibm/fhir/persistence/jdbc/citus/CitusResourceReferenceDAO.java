@@ -18,6 +18,7 @@ import java.util.logging.Logger;
 
 import com.ibm.fhir.database.utils.api.IDatabaseTranslator;
 import com.ibm.fhir.persistence.jdbc.dao.api.ICommonTokenValuesCache;
+import com.ibm.fhir.persistence.jdbc.dao.api.ILogicalResourceIdentCache;
 import com.ibm.fhir.persistence.jdbc.dao.api.INameIdCache;
 import com.ibm.fhir.persistence.jdbc.dao.impl.ResourceReferenceDAO;
 import com.ibm.fhir.persistence.jdbc.dto.CommonTokenValue;
@@ -37,9 +38,12 @@ public class CitusResourceReferenceDAO extends PostgresResourceReferenceDAO {
      * @param c
      * @param schemaName
      * @param cache
+     * @param parameterNameCache
+     * @param logicalResourceIdentCache
      */
-    public CitusResourceReferenceDAO(IDatabaseTranslator t, Connection c, String schemaName, ICommonTokenValuesCache cache, INameIdCache<Integer> parameterNameCache) {
-        super(t, c, schemaName, cache, parameterNameCache);
+    public CitusResourceReferenceDAO(IDatabaseTranslator t, Connection c, String schemaName, ICommonTokenValuesCache cache, INameIdCache<Integer> parameterNameCache,
+            ILogicalResourceIdentCache logicalResourceIdentCache) {
+        super(t, c, schemaName, cache, parameterNameCache, logicalResourceIdentCache);
     }
 
     @Override

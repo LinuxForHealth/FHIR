@@ -288,6 +288,16 @@ public class Select {
     public void addInnerJoin(String tableName, Alias alias, ExpNode joinOnPredicate) {
         fromClause.addInnerJoin(tableName, alias, joinOnPredicate);
     }
+    /**
+     * Add an inner join to the from clause for this select statement
+     * where the joining row source is a sub-query
+     * @param sub
+     * @param alias
+     * @param joinOnPredicate
+     */
+    public void addInnerJoin(Select sub, Alias alias, ExpNode joinOnPredicate) {
+        fromClause.addInnerJoin(sub, alias, joinOnPredicate);
+    }
 
     /**
      * Add a left outer join to the from clause for this select statement.

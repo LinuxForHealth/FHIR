@@ -6,11 +6,9 @@
 package com.ibm.fhir.persistence.jdbc;
 
 import java.util.Arrays;
-import java.util.Calendar;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
-import java.util.TimeZone;
 
 import com.ibm.fhir.search.SearchConstants.Modifier;
 import com.ibm.fhir.search.SearchConstants.Type;
@@ -40,6 +38,8 @@ public class JDBCConstants {
     public static final String _RESOURCES = "_RESOURCES";
     public static final String _LOGICAL_RESOURCES = "_LOGICAL_RESOURCES";
     public static final String RESOURCE_ID = "RESOURCE_ID";
+    public static final String RESOURCE_TYPE_ID = "RESOURCE_TYPE_ID";
+    public static final String REF_LOGICAL_RESOURCE_ID = "REF_LOGICAL_RESOURCE_ID";
     public static final String LOGICAL_ID = "LOGICAL_ID";
     public static final String LOGICAL_RESOURCE_ID = "LOGICAL_RESOURCE_ID";
     public static final String CURRENT_RESOURCE_ID = "CURRENT_RESOURCE_ID";

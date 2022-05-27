@@ -8,6 +8,7 @@ package com.ibm.fhir.remote.index.sharded;
 
 import java.sql.Connection;
 import java.sql.SQLException;
+import java.sql.Timestamp;
 import java.util.HashMap;
 import java.util.HashSet;
 import java.util.Map;
@@ -218,9 +219,11 @@ public class ShardedBatchParameterProcessor implements BatchParameterProcessor {
         try {
             ShardedPostgresParameterBatch dao = getParameterBatchDao(resourceType);
             final Short shardKey = encodeShardKey(requestShard);
-            dao.addDate(logicalResourceId, parameterNameValue.getParameterNameId(), p.getValueDateStart(), p.getValueDateEnd(), p.getCompositeId(), shardKey);
+            final Timestamp valueDateStart = Timestamp.from(p.getValueDateStart());
+            final Timestamp valueDateEnd = Timestamp.from(p.getValueDateEnd());
+            dao.addDate(logicalResourceId, parameterNameValue.getParameterNameId(), valueDateStart, valueDateEnd, p.getCompositeId(), shardKey);
             if (p.isSystemParam()) {
-                systemDao.addDate(logicalResourceId, parameterNameValue.getParameterNameId(), p.getValueDateStart(), p.getValueDateEnd(), p.getCompositeId(), shardKey);
+                systemDao.addDate(logicalResourceId, parameterNameValue.getParameterNameId(), valueDateStart, valueDateEnd, p.getCompositeId(), shardKey);
             }
         } catch (SQLException x) {
             throw new FHIRPersistenceException("Failed inserting date params for '" + resourceType + "'");

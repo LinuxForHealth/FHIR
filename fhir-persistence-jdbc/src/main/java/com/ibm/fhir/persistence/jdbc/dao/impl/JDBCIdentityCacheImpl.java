@@ -19,12 +19,15 @@ import java.util.stream.Collectors;
 import com.ibm.fhir.persistence.exception.FHIRPersistenceDataAccessException;
 import com.ibm.fhir.persistence.exception.FHIRPersistenceException;
 import com.ibm.fhir.persistence.jdbc.FHIRPersistenceJDBCCache;
+import com.ibm.fhir.persistence.jdbc.dao.api.ILogicalResourceIdentCache;
 import com.ibm.fhir.persistence.jdbc.dao.api.IResourceReferenceDAO;
 import com.ibm.fhir.persistence.jdbc.dao.api.JDBCIdentityCache;
+import com.ibm.fhir.persistence.jdbc.dao.api.LogicalResourceIdentKey;
 import com.ibm.fhir.persistence.jdbc.dao.api.ParameterDAO;
 import com.ibm.fhir.persistence.jdbc.dao.api.ResourceDAO;
 import com.ibm.fhir.persistence.jdbc.dto.CommonTokenValue;
 import com.ibm.fhir.persistence.jdbc.dto.CommonTokenValueResult;
+import com.ibm.fhir.persistence.jdbc.dto.ResourceReferenceValue;
 
 
 /**
@@ -211,5 +214,65 @@ public class JDBCIdentityCacheImpl implements JDBCIdentityCache {
     @Override
     public List<Integer> getResourceTypeIds() throws FHIRPersistenceException {
         return new ArrayList<>(cache.getResourceTypeCache().getAllIds());
+    }
+
+    @Override
+    public Long getLogicalResourceId(String resourceType, String logicalId) throws FHIRPersistenceException {
+        Integer resourceTypeId = cache.getResourceTypeCache().getId(resourceType);
+        if (resourceTypeId == null) {
+            throw new IllegalArgumentException("Invalid resource type: " + resourceType);
+        }
+        Long result = cache.getLogicalResourceIdentCache().getLogicalResourceId(resourceTypeId, logicalId);
+        if (result == null) {
+            if (logger.isLoggable(Level.FINE)) {
+                logger.fine("Cache miss. Fetching logical_resource_id from database: '" + resourceType + "/" + logicalId + "'");
+            }
+            result = resourceDAO.readLogicalResourceId(resourceTypeId, logicalId);
+            if (result != null) {
+                // Value exists in the database, so we can add this to our cache. Note that we still
+                // choose to add it the thread-local cache - this avoids any locking. The values will
+                // be promoted to the shared cache at the end of the transaction. This avoids unnecessary
+                // contention.
+                if (logger.isLoggable(Level.FINE)) {
+                    logger.fine("Adding logical_resource_id to cache: '" + resourceType + "/" + logicalId + "' = " + result);
+                }
+                cache.getLogicalResourceIdentCache().addRecord(new LogicalResourceIdentKey(resourceTypeId, logicalId), result);
+            }
+        }
+        return result;
+    }
+
+    @Override
+    public Set<Long> getLogicalResourceIds(Collection<ResourceReferenceValue> referenceValues) throws FHIRPersistenceException {
+        // Pull values from the cache where we can. For anything unresolved, need to hit
+        // the database. It may be more efficient to collect all the misses and read in
+        // a single query, if the referenceValues collections are typically small, this
+        // won't make much difference.
+        ILogicalResourceIdentCache idCache = cache.getLogicalResourceIdentCache();
+        Set<Long> result = new HashSet<>(referenceValues.size());
+        for (ResourceReferenceValue rrv: referenceValues) {
+            Long logicalResourceId = idCache.getLogicalResourceId(rrv.getResourceTypeId(), rrv.getLogicalId());
+            if (logicalResourceId != null) {
+                result.add(logicalResourceId);
+            } else {
+                // Just read directly from the database
+                logicalResourceId = resourceDAO.readLogicalResourceId(rrv.getResourceTypeId(), rrv.getLogicalId());
+                if (logicalResourceId != null) {
+                    result.add(logicalResourceId);
+                    idCache.addRecord(new LogicalResourceIdentKey(rrv.getResourceTypeId(), rrv.getLogicalId()), logicalResourceId);
+                }
+            }
+        }
+        return result;
+    }
+
+    @Override
+    public List<Long> getLogicalResourceIdList(String logicalId) throws FHIRPersistenceException {
+        // The implementation for this one is a little more interesting. We can
+        // leverage the fact that the PK on logical_resource_ident is
+        // logical_id, resource_type_id. This means that we get a simple
+        // index range scan (although where logical ids are derived from UUIDs,
+        // they are unique so we'll be getting just one row back)
+        return resourceDAO.readLogicalResourceIdList(logicalId);
     }
 }

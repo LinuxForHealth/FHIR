@@ -122,6 +122,17 @@ public class FromClause {
     }
 
     /**
+     * Add an inner join clause to the FROM items list
+     * @param sub
+     * @param alias
+     * @param joinOnPredicate
+     */
+    public void addInnerJoin(Select sub, Alias alias, ExpNode joinOnPredicate) {
+        SelectRowSource srs = new SelectRowSource(sub);
+        items.add(new FromJoin(JoinType.INNER_JOIN, srs, alias, joinOnPredicate));
+    }
+
+    /**
      * Add a left outer join clause to the FROM items list
      * @param tableName
      * @param alias

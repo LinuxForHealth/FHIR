@@ -8,6 +8,7 @@ package com.ibm.fhir.remote.index.database;
 
 import java.sql.Connection;
 import java.sql.SQLException;
+import java.sql.Timestamp;
 import java.util.HashMap;
 import java.util.HashSet;
 import java.util.Map;
@@ -205,9 +206,11 @@ public class PlainBatchParameterProcessor implements BatchParameterProcessor {
 
         try {
             PlainPostgresParameterBatch dao = getParameterBatchDao(resourceType);
-            dao.addDate(logicalResourceId, parameterNameValue.getParameterNameId(), p.getValueDateStart(), p.getValueDateEnd(), p.getCompositeId());
+            final Timestamp valueDateStart = Timestamp.from(p.getValueDateStart());
+            final Timestamp valueDateEnd = Timestamp.from(p.getValueDateEnd());
+            dao.addDate(logicalResourceId, parameterNameValue.getParameterNameId(), valueDateStart, valueDateEnd, p.getCompositeId());
             if (p.isSystemParam()) {
-                systemDao.addDate(logicalResourceId, parameterNameValue.getParameterNameId(), p.getValueDateStart(), p.getValueDateEnd(), p.getCompositeId());
+                systemDao.addDate(logicalResourceId, parameterNameValue.getParameterNameId(), valueDateStart, valueDateEnd, p.getCompositeId());
             }
         } catch (SQLException x) {
             throw new FHIRPersistenceException("Failed inserting date params for '" + resourceType + "'");

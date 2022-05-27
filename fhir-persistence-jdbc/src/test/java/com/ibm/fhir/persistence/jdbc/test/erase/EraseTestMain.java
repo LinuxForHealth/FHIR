@@ -32,6 +32,7 @@ import com.ibm.fhir.persistence.jdbc.connection.FHIRDbFlavorImpl;
 import com.ibm.fhir.persistence.jdbc.dao.EraseResourceDAO;
 import com.ibm.fhir.persistence.jdbc.dao.api.ICommonTokenValuesCache;
 import com.ibm.fhir.persistence.jdbc.dao.api.IIdNameCache;
+import com.ibm.fhir.persistence.jdbc.dao.api.ILogicalResourceIdentCache;
 import com.ibm.fhir.persistence.jdbc.dao.api.INameIdCache;
 import com.ibm.fhir.schema.app.util.CommonUtil;
 import com.ibm.fhir.schema.control.FhirSchemaConstants;
@@ -255,6 +256,12 @@ public class EraseTestMain {
         @Override
         public void transactionRolledBack() {
             // No Operation
+        }
+
+        @Override
+        public ILogicalResourceIdentCache getLogicalResourceIdentCache() {
+            // TODO Auto-generated method stub
+            return null;
         }
     }
 

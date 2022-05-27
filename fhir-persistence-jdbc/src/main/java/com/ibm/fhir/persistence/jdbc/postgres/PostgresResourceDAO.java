@@ -28,6 +28,7 @@ import com.ibm.fhir.persistence.InteractionStatus;
 import com.ibm.fhir.persistence.exception.FHIRPersistenceDataAccessException;
 import com.ibm.fhir.persistence.exception.FHIRPersistenceException;
 import com.ibm.fhir.persistence.exception.FHIRPersistenceVersionIdMismatchException;
+import com.ibm.fhir.persistence.index.FHIRRemoteIndexService;
 import com.ibm.fhir.persistence.jdbc.FHIRPersistenceJDBCCache;
 import com.ibm.fhir.persistence.jdbc.connection.FHIRDbFlavor;
 import com.ibm.fhir.persistence.jdbc.dao.api.FHIRDAOConstants;
@@ -171,10 +172,10 @@ public class PostgresResourceDAO extends ResourceDAOImpl {
                 // To keep things simple for the postgresql use-case, we just use a visitor to
                 // handle inserts of parameters directly in the resource parameter tables.
                 // Note we don't get any parameters for the resource soft-delete operation
-                // For now we bypass parameter work for DISTRIBUTED or SHARDED schemas 
-                // because the plan is to make loading async for better ingestion performance
+                // Bypass the parameter insert here if we have the remoteIndexService configured
+                FHIRRemoteIndexService remoteIndexService = FHIRRemoteIndexService.getServiceInstance();
                 final String currentParameterHash = stmt.getString(oldParameterHashIndex);
-                if (getFlavor().getSchemaType() == SchemaType.PLAIN
+                if (remoteIndexService == null
                         && parameters != null && (parameterHashB64 == null || parameterHashB64.isEmpty()
                         || !parameterHashB64.equals(currentParameterHash))) {
                     // postgresql doesn't support partitioned multi-tenancy, so we disable it on the DAO:

@@ -6,14 +6,14 @@
  
 package com.ibm.fhir.persistence.index;
 
-import java.sql.Timestamp;
+import java.time.Instant;
 
 /**
  * A date search parameter value
  */
 public class DateParameter extends SearchParameterValue {
-    private Timestamp valueDateStart;
-    private Timestamp valueDateEnd;
+    private Instant valueDateStart;
+    private Instant valueDateEnd;
 
     @Override
     public String toString() {
@@ -31,28 +31,28 @@ public class DateParameter extends SearchParameterValue {
     /**
      * @return the valueDateStart
      */
-    public Timestamp getValueDateStart() {
+    public Instant getValueDateStart() {
         return valueDateStart;
     }
     
     /**
      * @param valueDateStart the valueDateStart to set
      */
-    public void setValueDateStart(Timestamp valueDateStart) {
+    public void setValueDateStart(Instant valueDateStart) {
         this.valueDateStart = valueDateStart;
     }
     
     /**
      * @return the valueDateEnd
      */
-    public Timestamp getValueDateEnd() {
+    public Instant getValueDateEnd() {
         return valueDateEnd;
     }
     
     /**
      * @param valueDateEnd the valueDateEnd to set
      */
-    public void setValueDateEnd(Timestamp valueDateEnd) {
+    public void setValueDateEnd(Instant valueDateEnd) {
         this.valueDateEnd = valueDateEnd;
     }
 

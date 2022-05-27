@@ -27,11 +27,15 @@ import java.util.stream.Collectors;
 
 import com.ibm.fhir.database.utils.api.IDatabaseTranslator;
 import com.ibm.fhir.database.utils.common.DataDefinitionUtil;
+import com.ibm.fhir.database.utils.common.PreparedStatementHelper;
 import com.ibm.fhir.persistence.exception.FHIRPersistenceDataAccessException;
 import com.ibm.fhir.persistence.exception.FHIRPersistenceException;
 import com.ibm.fhir.persistence.jdbc.dao.api.ICommonTokenValuesCache;
+import com.ibm.fhir.persistence.jdbc.dao.api.ILogicalResourceIdentCache;
 import com.ibm.fhir.persistence.jdbc.dao.api.INameIdCache;
 import com.ibm.fhir.persistence.jdbc.dao.api.IResourceReferenceDAO;
+import com.ibm.fhir.persistence.jdbc.dao.api.LogicalResourceIdentKey;
+import com.ibm.fhir.persistence.jdbc.dao.api.LogicalResourceIdentValue;
 import com.ibm.fhir.persistence.jdbc.dto.CommonTokenValue;
 import com.ibm.fhir.persistence.jdbc.dto.CommonTokenValueResult;
 import com.ibm.fhir.persistence.jdbc.exception.FHIRPersistenceDBConnectException;
@@ -70,6 +74,9 @@ public abstract class ResourceReferenceDAO implements IResourceReferenceDAO, Aut
     // Cache of parameter names to id
     private final INameIdCache<Integer> parameterNameCache;
 
+    // Cache of the logical resource id values from logical_resource_ident
+    private final ILogicalResourceIdentCache logicalResourceIdentCache;
+
     // The translator for the type of database we are connected to
     private final IDatabaseTranslator translator;
 
@@ -78,14 +85,21 @@ public abstract class ResourceReferenceDAO implements IResourceReferenceDAO, Aut
 
     /**
      * Public constructor
+     * 
+     * @param t
      * @param c
+     * @param schemaName
+     * @param cache
+     * @param parameterNameCache
+     * @param logicalResourceIdentCache
      */
-    public ResourceReferenceDAO(IDatabaseTranslator t, Connection c, String schemaName, ICommonTokenValuesCache cache, INameIdCache<Integer> parameterNameCache) {
+    public ResourceReferenceDAO(IDatabaseTranslator t, Connection c, String schemaName, ICommonTokenValuesCache cache, INameIdCache<Integer> parameterNameCache, ILogicalResourceIdentCache logicalResourceIdentCache) {
         this.translator = t;
+        this.schemaName = schemaName;
         this.connection = c;
         this.cache = cache;
         this.parameterNameCache = parameterNameCache;
-        this.schemaName = schemaName;
+        this.logicalResourceIdentCache = logicalResourceIdentCache;
     }
 
     /**
@@ -231,10 +245,10 @@ public abstract class ResourceReferenceDAO implements IResourceReferenceDAO, Aut
     }
 
     @Override
-    public void addNormalizedValues(String resourceType, Collection<ResourceTokenValueRec> xrefs, Collection<ResourceProfileRec> profileRecs, Collection<ResourceTokenValueRec> tagRecs, Collection<ResourceTokenValueRec> securityRecs) throws FHIRPersistenceException {
+    public void addNormalizedValues(String resourceType, Collection<ResourceTokenValueRec> xrefs, Collection<ResourceReferenceValueRec> resourceRefs, Collection<ResourceProfileRec> profileRecs, Collection<ResourceTokenValueRec> tagRecs, Collection<ResourceTokenValueRec> securityRecs) throws FHIRPersistenceException {
         // This method is only called when we're not using transaction data
         logger.fine("Persist parameters for this resource - no transaction data available");
-        persist(xrefs, profileRecs, tagRecs, securityRecs);
+        persist(xrefs, resourceRefs, profileRecs, tagRecs, securityRecs);
     }
 
     /**
@@ -279,6 +293,47 @@ public abstract class ResourceReferenceDAO implements IResourceReferenceDAO, Aut
                     ps.setNull(5, Types.INTEGER);
                 }
                 ps.addBatch();
+                if (++count == BATCH_SIZE) {
+                    ps.executeBatch();
+                    count = 0;
+                }
+            }
+
+            if (count > 0) {
+                ps.executeBatch();
+            }
+        } catch (SQLException x) {
+            logger.log(Level.SEVERE, insert, x);
+            throw translator.translate(x);
+        }
+    }
+
+    /**
+     * Insert the values in the resource-type-specific _ref_values table. This
+     * is a simple batch insert because all the FKs have already been resolved and updated
+     * in the ResourceTokenValueRec records
+     * @param resourceType
+     * @param xrefs
+     */
+    protected void insertRefValues(String resourceType, Collection<ResourceReferenceValueRec> xrefs) {
+        // Now all the values should have ids assigned so we can go ahead and insert them
+        // as a batch
+        final String tableName = resourceType + "_REF_VALUES";
+        DataDefinitionUtil.assertValidName(tableName);
+        final String insert = "INSERT INTO " + tableName + "("
+                + "parameter_name_id, logical_resource_id, ref_logical_resource_id, ref_version_id, composite_id) "
+                + "VALUES (?, ?, ?, ?, ?)";
+        try (PreparedStatement ps = connection.prepareStatement(insert)) {
+            int count = 0;
+            PreparedStatementHelper psh = new PreparedStatementHelper(ps);
+            for (ResourceReferenceValueRec xr: xrefs) {
+                psh.setInt(xr.getParameterNameId())
+                    .setLong(xr.getLogicalResourceId())
+                    .setLong(xr.getRefLogicalResourceId())
+                    .setInt(xr.getRefVersionId())
+                    .setInt(xr.getCompositeId())
+                    .addBatch();
+
                 if (++count == BATCH_SIZE) {
                     ps.executeBatch();
                     count = 0;
@@ -868,9 +923,9 @@ public abstract class ResourceReferenceDAO implements IResourceReferenceDAO, Aut
     protected abstract void doCommonTokenValuesUpsert(String paramList, Collection<CommonTokenValue> sortedTokenValues);
 
     @Override
-    public void persist(Collection<ResourceTokenValueRec> records, Collection<ResourceProfileRec> profileRecs, Collection<ResourceTokenValueRec> tagRecs, Collection<ResourceTokenValueRec> securityRecs) throws FHIRPersistenceException {
+    public void persist(Collection<ResourceTokenValueRec> records, Collection<ResourceReferenceValueRec> referenceRecords, Collection<ResourceProfileRec> profileRecs, Collection<ResourceTokenValueRec> tagRecs, Collection<ResourceTokenValueRec> securityRecs) throws FHIRPersistenceException {
 
-        collectAndResolveParameterNames(records, profileRecs, tagRecs, securityRecs);
+        collectAndResolveParameterNames(records, referenceRecords, profileRecs, tagRecs, securityRecs);
 
         // Grab the ids for all the code-systems, and upsert any misses
         List<ResourceTokenValueRec> systemMisses = new ArrayList<>();
@@ -886,6 +941,11 @@ public abstract class ResourceReferenceDAO implements IResourceReferenceDAO, Aut
         cache.resolveTokenValues(tagRecs, valueMisses);
         cache.resolveTokenValues(securityRecs, valueMisses);
         upsertCommonTokenValues(valueMisses);
+
+        // Resolve all the LOGICAL_RESOURCE_IDENT records we need as reference targets
+        List<ResourceReferenceValueRec> referenceMisses = new ArrayList<>();
+        logicalResourceIdentCache.resolveReferenceValues(referenceRecords, referenceMisses);
+        upsertLogicalResourceIdents(referenceMisses);
 
         // Process all the common canonical values
         List<ResourceProfileRec> canonicalMisses = new ArrayList<>();
@@ -904,6 +964,18 @@ public abstract class ResourceReferenceDAO implements IResourceReferenceDAO, Aut
             insertSystemResourceTokenRefs(entry.getKey(), entry.getValue());
         }
 
+        // Split reference records by resource type
+        Map<String,List<ResourceReferenceValueRec>> referenceRecordMap = new HashMap<>();
+        for (ResourceReferenceValueRec rtv: referenceRecords) {
+            List<ResourceReferenceValueRec> list = referenceRecordMap.computeIfAbsent(rtv.getResourceType(), k -> { return new ArrayList<>(); });
+            list.add(rtv);
+        }
+
+        // process each list of reference values by resource type
+        for (Map.Entry<String, List<ResourceReferenceValueRec>> entry: referenceRecordMap.entrySet()) {
+            insertRefValues(entry.getKey(), entry.getValue());
+        }
+        
         // Split profile values by resource type
         Map<String,List<ResourceProfileRec>> profileMap = new HashMap<>();
         for (ResourceProfileRec rtv: profileRecs) {
@@ -945,15 +1017,17 @@ public abstract class ResourceReferenceDAO implements IResourceReferenceDAO, Aut
      * Build a unique list of parameter names then sort before resolving the ids. This reduces
      * the chance we'll get a deadlock under high concurrency conditions
      * @param records
+     * @param referenceRecords
      * @param profileRecs
      * @param tagRecs
      * @param securityRecs
      */
-    private void collectAndResolveParameterNames(Collection<ResourceTokenValueRec> records, Collection<ResourceProfileRec> profileRecs,
+    private void collectAndResolveParameterNames(Collection<ResourceTokenValueRec> records, Collection<ResourceReferenceValueRec> referenceRecords, Collection<ResourceProfileRec> profileRecs,
         Collection<ResourceTokenValueRec> tagRecs, Collection<ResourceTokenValueRec> securityRecs) throws FHIRPersistenceException {
 
         List<ResourceRefRec> recList = new ArrayList<>();
         recList.addAll(records);
+        recList.addAll(referenceRecords);
         recList.addAll(profileRecs);
         recList.addAll(tagRecs);
         recList.addAll(securityRecs);
@@ -1021,4 +1095,145 @@ public abstract class ResourceReferenceDAO implements IResourceReferenceDAO, Aut
      * @throws FHIRPersistenceDataAccessException
      */
     protected abstract int readOrAddParameterNameId(String parameterName) throws FHIRPersistenceDBConnectException, FHIRPersistenceDataAccessException;
+
+    protected void upsertLogicalResourceIdents(List<ResourceReferenceValueRec> unresolved) throws FHIRPersistenceException {
+        // Build a unique set of logical_resource_ident keys
+        Set<LogicalResourceIdentValue> keys = unresolved.stream().map(v -> new LogicalResourceIdentValue(v.getRefResourceTypeId(), v.getRefLogicalId())).collect(Collectors.toSet());
+        List<LogicalResourceIdentValue> missing = new ArrayList<>(keys);
+        // Sort the list in logicalId,resourceTypeId  order
+        missing.sort((a,b) -> {
+            int result = a.getLogicalId().compareTo(b.getLogicalId());
+            if (result == 0) {
+                result = Integer.compare(a.getResourceTypeId(), b.getResourceTypeId());
+            }
+            return result;
+        });
+        addMissingLogicalResourceIdents(missing);
+
+        // Now fetch all the identity records we just created so that we can 
+        // process the unresolved list of ResourceReferenceValueRec records
+        Map<LogicalResourceIdentKey,LogicalResourceIdentValue> lrIdentMap = new HashMap<>();
+        fetchLogicalResourceIdentIds(lrIdentMap, missing);
+
+        // Now we can use the map to find the logical_resource_id for each of the unresolved
+        // ResourceReferenceValueRec records
+        for (ResourceReferenceValueRec rec: unresolved) {
+            LogicalResourceIdentKey key = new LogicalResourceIdentKey(rec.getRefResourceTypeId(), rec.getRefLogicalId());
+            LogicalResourceIdentValue val = lrIdentMap.get(key);
+            if (val != null) {
+                rec.setRefLogicalResourceId(val.getLogicalResourceId());
+            } else {
+                // Shouldn't happen, but be defensive in case someone breaks something
+                throw new FHIRPersistenceException("logical_resource_idents still missing after upsert");
+            }
+        }
+    }
+
+
+    /**
+     * Build and prepare a statement to fetch the code_system_id and code_system_name
+     * from the code_systems table for all the given (unresolved) code system values
+     * @param values
+     * @return
+     * @throws SQLException
+     */
+    protected PreparedStatement buildLogicalResourceIdentSelectStatement(List<LogicalResourceIdentValue> values) throws SQLException {
+        StringBuilder query = new StringBuilder();
+        query.append("SELECT lri.resource_type_id, lri.logical_id, lri.logical_resource_id ");
+        query.append("  FROM logical_resource_ident AS lri ");
+        query.append("  JOIN (VALUES ");
+        for (int i=0; i<values.size(); i++) {
+            if (i > 0) {
+                query.append(",");
+            }
+            query.append("(?,?)");
+        }
+        query.append(") AS v(resource_type_id, logical_id) ");
+        query.append(" ON (lri.resource_type_id = v.resource_type_id AND lri.logical_id = v.logical_id)");
+        PreparedStatement ps = connection.prepareStatement(query.toString());
+        // bind the parameter values
+        int param = 1;
+        for (LogicalResourceIdentValue val: values) {
+            ps.setInt(param++, val.getResourceTypeId());
+            ps.setString(param++, val.getLogicalId());
+        }
+
+        if (logger.isLoggable(Level.FINE)) {
+            String params = String.join(",", values.stream().map(v -> "(" + v.getResourceTypeId() + "," + v.getLogicalId() + ")").collect(Collectors.toList()));
+            logger.fine("ident fetch: " + query.toString() + "; params: " + params);
+        }
+
+        return ps;
+    }
+
+    /**
+     * These logical_resource_ident values weren't found in the database, so we need to try and add them.
+     * We have to deal with concurrency here - there's a chance another thread could also
+     * be trying to add them. To avoid deadlocks, it's important to do any inserts in a
+     * consistent order. At the end, we should be able to read back values for each entry
+     * @param missing
+     */
+    protected void addMissingLogicalResourceIdents(List<LogicalResourceIdentValue> missing) throws FHIRPersistenceException {
+
+        // simplified implementation which handles inserts individually
+        final String nextVal = translator.nextValue(schemaName, "fhir_sequence");
+        StringBuilder insert = new StringBuilder();
+        insert.append("INSERT INTO logical_resource_ident (resource_type_id, logical_id, logical_resource_id) VALUES (?,?,");
+        insert.append(nextVal); // next sequence value
+        insert.append(")");
+
+        logger.fine(() -> "ident insert: " + insert.toString());
+        try (PreparedStatement ps = connection.prepareStatement(insert.toString())) {
+            for (LogicalResourceIdentKey value: missing) {
+                ps.setInt(1, value.getResourceTypeId());
+                ps.setString(2, value.getLogicalId());
+                try {
+                    ps.executeUpdate();
+                } catch (SQLException x) {
+                    if (getTranslator().isDuplicate(x)) {
+                        // do nothing
+                    } else {
+                        throw x;
+                    }
+                }
+            }
+        } catch (SQLException x) {
+            logger.log(Level.SEVERE, "logical_resource_ident insert failed: " + insert.toString(), x);
+            throw new FHIRPersistenceException("logical_resource_ident insert failed");
+        }
+    }
+
+    private void fetchLogicalResourceIdentIds(Map<LogicalResourceIdentKey, LogicalResourceIdentValue> lrIdentMap, List<LogicalResourceIdentValue> unresolved) throws FHIRPersistenceException {
+
+        int resultCount = 0;
+        final int maxValuesPerStatement = 512;
+        int offset = 0;
+        while (offset < unresolved.size()) {
+            int remaining = unresolved.size() - offset;
+            int subSize = Math.min(remaining, maxValuesPerStatement);
+            List<LogicalResourceIdentValue> sub = unresolved.subList(offset, offset+subSize); // remember toIndex is exclusive
+            offset += subSize; // set up for the next iteration
+            try (PreparedStatement ps = buildLogicalResourceIdentSelectStatement(sub)) {
+                ResultSet rs = ps.executeQuery();
+                // We can't rely on the order of result rows matching the order of the in-list,
+                // so we have to go back to our map to look up each LogicalResourceIdentValue
+                while (rs.next()) {
+                    resultCount++;
+                    final int resourceTypeId = rs.getInt(1);
+                    final String logicalId = rs.getString(2);
+                    LogicalResourceIdentKey key = new LogicalResourceIdentKey(resourceTypeId, logicalId);
+                    LogicalResourceIdentValue identValue = new LogicalResourceIdentValue(resourceTypeId, logicalId);
+                    identValue.setLogicalResourceId(rs.getLong(3));
+                    lrIdentMap.put(key, identValue);
+                }
+            } catch (SQLException x) {
+                logger.log(Level.SEVERE, "logical resource ident fetch failed", x);
+                throw new FHIRPersistenceException("logical resource ident fetch failed");
+            }
+        }
+        // quick check to make sure we got everything we expected
+        if (resultCount < unresolved.size()) {
+            throw new FHIRPersistenceException("logical_resource_ident fetch did not fetch everything expected");
+        }
+    }
 }

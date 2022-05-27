@@ -6,6 +6,7 @@
  
 package com.ibm.fhir.persistence.jdbc.dao.impl;
 
+import java.time.Instant;
 import java.util.logging.Logger;
 
 import com.ibm.fhir.persistence.exception.FHIRPersistenceException;
@@ -79,7 +80,9 @@ public class ParameterTransportVisitor implements ExtractedParameterValueVisitor
     @Override
     public void visit(DateParmVal dateParameter) throws FHIRPersistenceException {
         Integer compositeId = this.currentCompositeParameterName != null ? this.compositeIdCounter : null;
-        adapter.dateValue(dateParameter.getName(), dateParameter.getValueDateStart(), dateParameter.getValueDateEnd(), compositeId, dateParameter.isWholeSystem());
+        Instant dateStart = dateParameter.getValueDateStart().toInstant();
+        Instant dateEnd = dateParameter.getValueDateEnd().toInstant();
+        adapter.dateValue(dateParameter.getName(), dateStart, dateEnd, compositeId, dateParameter.isWholeSystem());
     }
 
     @Override

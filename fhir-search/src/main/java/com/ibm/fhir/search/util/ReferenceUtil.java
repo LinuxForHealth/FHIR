@@ -140,7 +140,7 @@ public class ReferenceUtil {
                         version = Integer.parseInt(tokens[3]);
                     }
                 }
-            } else if (value != null && value.startsWith(HTTP) || value.startsWith(HTTPS) || value.startsWith(URN)) {
+            } else if (isAbsolute(value)) {
                 // - Absolute reference. We only know the type if it is given by the type field
                 referenceType = ReferenceType.LITERAL_ABSOLUTE;
                 if (refType != null) {
@@ -163,6 +163,15 @@ public class ReferenceUtil {
         }
 
         return new ReferenceValue(targetResourceType, value, referenceType, version);
+    }
+
+    /**
+     * Does the given value appear to be an absolute reference?
+     * @param value
+     * @return
+     */
+    public static boolean isAbsolute(String value) {
+        return value != null && value.startsWith(HTTP) || value.startsWith(HTTPS) || value.startsWith(URN);
     }
 
     /**

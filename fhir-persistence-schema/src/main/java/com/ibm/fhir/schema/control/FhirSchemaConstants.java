@@ -188,6 +188,8 @@ public class FhirSchemaConstants {
 
     // View suffix to overlay the new common_token_values and resource_token_refs tables
     public static final String TOKEN_VALUES_V = "TOKEN_VALUES_V";
+    public static final String REF_VALUES = "REF_VALUES";
+    public static final String REF_VALUES_V = "REF_VALUES_V";
 
     public static final String LOGICAL_RESOURCE_COMPARTMENTS = "LOGICAL_RESOURCE_COMPARTMENTS";
     public static final String COMPARTMENT_LOGICAL_RESOURCE_ID = "COMPARTMENT_LOGICAL_RESOURCE_ID";

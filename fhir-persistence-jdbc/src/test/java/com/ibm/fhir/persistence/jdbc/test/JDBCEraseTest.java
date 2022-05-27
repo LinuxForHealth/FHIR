@@ -23,6 +23,7 @@ import com.ibm.fhir.persistence.jdbc.cache.NameIdCache;
 import com.ibm.fhir.persistence.jdbc.dao.api.ICommonTokenValuesCache;
 import com.ibm.fhir.persistence.jdbc.impl.FHIRPersistenceJDBCImpl;
 import com.ibm.fhir.persistence.jdbc.test.util.DerbyInitializer;
+import com.ibm.fhir.persistence.jdbc.test.util.PersistenceTestSupport;
 import com.ibm.fhir.persistence.test.common.AbstractEraseTest;
 
 /**
@@ -30,54 +31,28 @@ import com.ibm.fhir.persistence.test.common.AbstractEraseTest;
  */
 public class JDBCEraseTest extends AbstractEraseTest {
 
-    private Properties testProps;
-
-    private PoolConnectionProvider connectionPool;
-
-    private FHIRPersistenceJDBCCache cache;
-
-    public JDBCEraseTest() throws Exception {
-        this.testProps = TestUtil.readTestProperties("test.jdbc.properties");
-    }
+    // Container to hide the instantiation of the persistence impl used for tests
+    private PersistenceTestSupport testSupport;
 
     @Override
     public void bootstrapDatabase() throws Exception {
-        DerbyInitializer derbyInit;
-        String dbDriverName = this.testProps.getProperty("dbDriverName");
-        if (dbDriverName != null && dbDriverName.contains("derby")) {
-            derbyInit = new DerbyInitializer(this.testProps);
-            IConnectionProvider cp = derbyInit.getConnectionProvider(false);
-            this.connectionPool = new PoolConnectionProvider(cp, 1);
-            ICommonTokenValuesCache rrc = new CommonTokenValuesCacheImpl(100, 100, 100);
-            cache = new FHIRPersistenceJDBCCacheImpl(new NameIdCache<Integer>(), new IdNameCache<Integer>(), new NameIdCache<Integer>(), rrc);
-        }
+        testSupport = new PersistenceTestSupport();
     }
 
     @Override
     public FHIRPersistence getPersistenceImpl() throws Exception {
-        if (this.connectionPool == null) {
-            throw new IllegalStateException("Database not bootstrapped");
-        }
-        return new FHIRPersistenceJDBCImpl(this.testProps, this.connectionPool, cache);
+        return testSupport.getPersistenceImpl();
     }
 
     @Override
     protected void shutdownPools() throws Exception {
-        // Mark the pool as no longer in use. This allows the pool to check for
-        // lingering open connections/transactions.
-        if (this.connectionPool != null) {
-            this.connectionPool.close();
+        if (testSupport != null) {
+            testSupport.shutdown();
         }
     }
 
     @Override
     protected void debugLocks() {
-        // Exception running a query. Let's dump the lock table
-        try (Connection c = connectionPool.getConnection()) {
-            DerbyMaster.dumpLockInfo(c);
-        } catch (SQLException x) {
-            // just log the error...things are already bad if this method has been called
-            logger.severe("dumpLockInfo - connection failure: " + x.getMessage());
-        }
+        testSupport.debugLocks();
     }
 }

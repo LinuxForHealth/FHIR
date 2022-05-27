@@ -1,5 +1,5 @@
 /*
- * (C) Copyright IBM Corp. 2020, 2021
+ * (C) Copyright IBM Corp. 2020, 2022
  *
  * SPDX-License-Identifier: Apache-2.0
  */
@@ -12,6 +12,7 @@ import java.util.logging.Logger;
 import com.ibm.fhir.persistence.jdbc.FHIRPersistenceJDBCCache;
 import com.ibm.fhir.persistence.jdbc.dao.api.ICommonTokenValuesCache;
 import com.ibm.fhir.persistence.jdbc.dao.api.IIdNameCache;
+import com.ibm.fhir.persistence.jdbc.dao.api.ILogicalResourceIdentCache;
 import com.ibm.fhir.persistence.jdbc.dao.api.INameIdCache;
 
 /**
@@ -28,6 +29,8 @@ public class FHIRPersistenceJDBCCacheImpl implements FHIRPersistenceJDBCCache {
 
     private final ICommonTokenValuesCache resourceReferenceCache;
 
+    private final ILogicalResourceIdentCache logicalResourceIdentCache;
+
     // flag to allow one lucky caller to get the opportunity to prefill
     private final AtomicBoolean needToPrefillFlag = new AtomicBoolean(true);
 
@@ -37,13 +40,15 @@ public class FHIRPersistenceJDBCCacheImpl implements FHIRPersistenceJDBCCache {
      * @param resourceTypeNameCache
      * @param parameterNameCache
      * @param resourceReferenceCache
+     * @param logicalResourceIdentCache
      */
     public FHIRPersistenceJDBCCacheImpl(INameIdCache<Integer> resourceTypeCache, IIdNameCache<Integer> resourceTypeNameCache,
-            INameIdCache<Integer> parameterNameCache, ICommonTokenValuesCache resourceReferenceCache) {
+            INameIdCache<Integer> parameterNameCache, ICommonTokenValuesCache resourceReferenceCache, ILogicalResourceIdentCache logicalResourceIdentCache) {
         this.resourceTypeCache = resourceTypeCache;
         this.resourceTypeNameCache = resourceTypeNameCache;
         this.parameterNameCache = parameterNameCache;
         this.resourceReferenceCache = resourceReferenceCache;
+        this.logicalResourceIdentCache = logicalResourceIdentCache;
     }
 
     /**
@@ -77,12 +82,18 @@ public class FHIRPersistenceJDBCCacheImpl implements FHIRPersistenceJDBCCache {
     }
 
     @Override
+    public ILogicalResourceIdentCache getLogicalResourceIdentCache() {
+        return logicalResourceIdentCache;
+    }
+
+    @Override
     public void transactionCommitted() {
         logger.fine("Transaction committed - updating cache shared maps");
         resourceTypeCache.updateSharedMaps();
         resourceTypeNameCache.updateSharedMaps();
         parameterNameCache.updateSharedMaps();
         resourceReferenceCache.updateSharedMaps();
+        logicalResourceIdentCache.updateSharedMaps();
     }
 
     @Override
@@ -92,6 +103,7 @@ public class FHIRPersistenceJDBCCacheImpl implements FHIRPersistenceJDBCCache {
         resourceTypeNameCache.clearLocalMaps();
         parameterNameCache.clearLocalMaps();
         resourceReferenceCache.clearLocalMaps();
+        logicalResourceIdentCache.clearLocalMaps();
     }
 
     @Override

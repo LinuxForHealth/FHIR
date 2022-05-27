@@ -178,16 +178,16 @@ public class FHIRResourceDAOFactory {
         final ResourceReferenceDAO rrd;
         switch (flavor.getType()) {
         case DB2:
-            rrd = new Db2ResourceReferenceDAO(new Db2Translator(), connection, schemaName, cache.getResourceReferenceCache(), adminSchemaName, cache.getParameterNameCache());
+            rrd = new Db2ResourceReferenceDAO(new Db2Translator(), connection, schemaName, cache.getResourceReferenceCache(), adminSchemaName, cache.getParameterNameCache(), cache.getLogicalResourceIdentCache());
             break;
         case DERBY:
-            rrd = new DerbyResourceReferenceDAO(new DerbyTranslator(), connection, schemaName, cache.getResourceReferenceCache(), cache.getParameterNameCache());
+            rrd = new DerbyResourceReferenceDAO(new DerbyTranslator(), connection, schemaName, cache.getResourceReferenceCache(), cache.getParameterNameCache(), cache.getLogicalResourceIdentCache());
             break;
         case POSTGRESQL:
-            rrd = new PostgresResourceReferenceDAO(new PostgresTranslator(), connection, schemaName, cache.getResourceReferenceCache(), cache.getParameterNameCache());
+            rrd = new PostgresResourceReferenceDAO(new PostgresTranslator(), connection, schemaName, cache.getResourceReferenceCache(), cache.getParameterNameCache(), cache.getLogicalResourceIdentCache());
             break;
         case CITUS:
-            rrd = new CitusResourceReferenceDAO(new CitusTranslator(), connection, schemaName, cache.getResourceReferenceCache(), cache.getParameterNameCache());
+            rrd = new CitusResourceReferenceDAO(new CitusTranslator(), connection, schemaName, cache.getResourceReferenceCache(), cache.getParameterNameCache(), cache.getLogicalResourceIdentCache());
             break;
         default:
             throw new IllegalArgumentException("Unsupported database type: " + flavor.getType().name());

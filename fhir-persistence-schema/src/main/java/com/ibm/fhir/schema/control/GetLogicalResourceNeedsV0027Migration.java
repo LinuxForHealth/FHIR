@@ -35,14 +35,15 @@ public class GetLogicalResourceNeedsV0027Migration implements IDatabaseSupplier<
 
     @Override
     public Boolean run(IDatabaseTranslator translator, Connection c) {
-        Boolean result = false;
-        final String tableName = DataDefinitionUtil.getQualifiedName(schemaName, "LOGICAL_RESOURCES");
+        Boolean result = true;
+        final String tableName = DataDefinitionUtil.getQualifiedName(schemaName, "LOGICAL_RESOURCE_IDENT");
         final String SQL = "SELECT 1 FROM " + tableName + " " + translator.limit("1");
 
         try (Statement s = c.createStatement()) {
             ResultSet rs = s.executeQuery(SQL);
             if (rs.next()) {
-                result = true;
+                // logical_resource_ident already contains data, so no need to migrate
+                result = false;
             }
         } catch (SQLException x) {
             throw translator.translate(x);

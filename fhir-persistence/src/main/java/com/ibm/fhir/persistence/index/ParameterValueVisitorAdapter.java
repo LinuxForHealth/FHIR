@@ -7,7 +7,7 @@
 package com.ibm.fhir.persistence.index;
 
 import java.math.BigDecimal;
-import java.sql.Timestamp;
+import java.time.Instant;
 
 /**
  * Used by a parameter value visitor to translate the parameter values
@@ -39,7 +39,7 @@ public interface ParameterValueVisitorAdapter {
      * @param compositeId
      * @param wholeSystem
      */
-    void dateValue(String name, Timestamp valueDateStart, Timestamp valueDateEnd, Integer compositeId, boolean wholeSystem);
+    void dateValue(String name, Instant valueDateStart, Instant valueDateEnd, Integer compositeId, boolean wholeSystem);
 
     /**
      * @param name
