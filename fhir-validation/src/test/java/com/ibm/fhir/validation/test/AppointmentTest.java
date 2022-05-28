@@ -1,11 +1,12 @@
 /*
- * (C) Copyright IBM Corp. 2019
+ * (C) Copyright IBM Corp. 2019, 2022
  *
  * SPDX-License-Identifier: Apache-2.0
  */
 package com.ibm.fhir.validation.test;
 
 import static com.ibm.fhir.model.type.String.string;
+import static org.testng.Assert.fail;
 
 import java.time.ZoneOffset;
 import java.util.ArrayList;
@@ -44,9 +45,9 @@ import com.ibm.fhir.validation.FHIRValidator;
 
 /**
  * Demonstrates the Creation of an Appointment and Subsequent validation against the specification.
- * 
+ *
  * Further, shows how to add ID/META inline.
- * 
+ *
  * @author pbastide
  *
  */
@@ -55,11 +56,11 @@ public class AppointmentTest {
     @Test
     public void testAppointment() {
         Appointment appointment = buildAppointment();
-        checkForIssuesWithValidation(appointment, false, false);
+        checkForIssuesWithValidation(appointment, true, false);
     }
 
     /**
-     * builds a simple appointment 
+     * builds a simple appointment
      * @return
      */
     public Appointment buildAppointment() {
@@ -70,46 +71,53 @@ public class AppointmentTest {
                 .versionId(Id.of("1"))
                 .lastUpdated(Instant.now(ZoneOffset.UTC))
                 .build();
-    
+
         // Identify as generated
         Narrative narrative =
                 Narrative.builder()
                     .div(Xhtml.of("<div xmlns=\"http://www.w3.org/1999/xhtml\">loaded from the datastore</div>"))
                     .status(NarrativeStatus.GENERATED)
                     .build();
-        
+
         // Build the participant details
         List<CodeableConcept> types = Arrays.asList(getCodeableConcept(Collections.emptyList(),"doctor"));
         Reference actor = Reference.builder().display(string("Practitioner/my-docs-id")).build();
         List<Appointment.Participant> participants = Arrays.asList(getAppointmentParticipant(types, actor));
-        
+
         return Appointment.builder().id(id)
                 .meta(meta)
                 .text(narrative).status(AppointmentStatus.PROPOSED)
+                .specialty(CodeableConcept.builder()
+                        .coding(Coding.builder()
+                                .system(Uri.of("http://snomed.info/sct"))
+                                .code(Code.of("419192003"))
+                                .display("Internal Medicine")
+                                .build())
+                        .build())
                 .participant(participants)
                 .build();
     }
-    
+
     /**
-     * builds an appointment participant. 
-     * 
+     * builds an appointment participant.
+     *
      * @param types
      * @param actor
      * @return
      */
     public Appointment.Participant getAppointmentParticipant(List<CodeableConcept> types,
-        Reference actor) {        
-        
+        Reference actor) {
+
         return Appointment.Participant.builder()
                 .type(types)
                 .actor(actor)
                 .required(ParticipantRequired.REQUIRED)
                 .status(ParticipationStatus.ACCEPTED).build();
     }
-    
+
     /**
-     * if youw ant to get more sophisticated and add to the input, you could do something like this. 
-     * 
+     * if youw ant to get more sophisticated and add to the input, you could do something like this.
+     *
      * @param appointment
      * @param identifiers
      * @param status
@@ -145,7 +153,7 @@ public class AppointmentTest {
         List<String> slots, String dateTime, String comment, String patientInstruction,
         List<String> basedOns, List<Appointment.Participant> participants,
         List<Period> requestedPeriods) throws FHIRException {
-        
+
         Appointment.Builder builder = appointment.toBuilder();
 
         if (identifiers != null) {
@@ -282,7 +290,6 @@ public class AppointmentTest {
         return builder.build();
     }
 
-    
 
     public CodeableConcept getCodeableConcept(List<Coding> codings, String text) {
         CodeableConcept.Builder builder = CodeableConcept.builder();
@@ -327,22 +334,21 @@ public class AppointmentTest {
 
     /**
      * Code to check your resource is valid.
-     * 
+     *
      * @param resource
      * @param failOnValidationException
      * @param failOnWarning
      */
     public static void checkForIssuesWithValidation(Resource resource,
-        boolean failOnValidationException,
-        boolean failOnWarning) {
+            boolean failOnValidationException,
+            boolean failOnWarning) {
 
         List<Issue> issues = Collections.emptyList();
         try {
             issues = FHIRValidator.validator().validate(resource);
         } catch (Exception e) {
             if (failOnValidationException) {
-                System.out.println("Unable to validate the resource");
-                // System.exit(-3);
+                fail("Unable to validate the resource");
             }
         }
 
@@ -366,13 +372,11 @@ public class AppointmentTest {
             System.out.println("count = [" + issues.size() + "]");
 
             if (nonWarning > 0) {
-                System.out.println("Fail on Errors " + nonWarning);
-                // System.exit(-1);
+                fail("Fail on Errors " + nonWarning);
             }
 
             if (failOnWarning && allOtherIssues > 0) {
-                System.out.println("Fail on Warnings " + allOtherIssues);
-                // System.exit(-2);
+                fail("Fail on Warnings " + allOtherIssues);
             }
         } else {
             System.out.println("Passed with no issues in validation");

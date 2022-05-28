@@ -1,5 +1,5 @@
 /*
- * (C) Copyright IBM Corp. 2020, 2021
+ * (C) Copyright IBM Corp. 2020, 2022
  *
  * SPDX-License-Identifier: Apache-2.0
  */
@@ -396,7 +396,7 @@ public class FHIRTermService {
      * @param coding
      *     the coding to lookup
      * @return
-     *     the outcome of the lookup
+     *     the outcome of the lookup; null if a CodeSystem was not found for the system and version in the coding
      */
     public LookupOutcome lookup(Coding coding) {
         return lookup(coding, LookupParameters.EMPTY);
@@ -410,7 +410,7 @@ public class FHIRTermService {
      * @param parameters
      *     the lookup parameters
      * @return
-     *     the outcome of the lookup
+     *     the outcome of the lookup; null if a CodeSystem was not found for the system and version in the coding
      */
     public LookupOutcome lookup(Coding coding, LookupParameters parameters) {
         if (!LookupParameters.EMPTY.equals(parameters)) {
@@ -975,7 +975,25 @@ public class FHIRTermService {
             boolean result = ValueSetSupport.validateCode(valueSet, coding);
             if (result) {
                 LookupOutcome outcome = lookup(coding);
-                return validateDisplay(null, coding, outcome);
+                if (outcome != null || coding.getDisplay() == null) {
+                    return validateDisplay(null, coding, outcome);
+                }
+
+                // lookup outcome was null and we have a non-null display, so include a message in the response
+                StringBuilder message = new StringBuilder()
+                        .append("Unable to validate display value '")
+                        .append(coding.getDisplay().getValue())
+                        .append("' for code '")
+                        .append(coding.getCode().getValue())      // if code was null, result would have been false
+                        .append("' in system '")
+                        .append(coding.getSystem().getValue());   // if system was null, result would have been false
+
+                if (coding.getVersion() != null) {
+                    message.append("' version '").append(coding.getVersion().getValue());
+                }
+                message.append("'");
+
+                return buildValidationOutcome(true, message.toString());
             }
         }
 
@@ -1031,11 +1049,29 @@ public class FHIRTermService {
             throw new UnsupportedOperationException("Validation parameters are not supported");
         }
         boolean result = ValueSetSupport.validateCode(valueSet, coding);
+        StringBuilder message = new StringBuilder();
+
         if (result) {
             LookupOutcome outcome = lookup(coding);
-            return validateDisplay(null, coding, outcome);
+            if (outcome != null || coding.getDisplay() == null) {
+                return validateDisplay(null, coding, outcome);
+            }
+
+            // lookup outcome was null and we have a non-null display, so include a message in the response
+            message = new StringBuilder()
+                    .append("Unable to validate display value '")
+                    .append(coding.getDisplay().getValue())
+                    .append("' for code '")
+                    .append(coding.getCode().getValue())      // if code was null, result would have been false
+                    .append("' in system '")
+                    .append(coding.getSystem().getValue());   // if system was null, result would have been false
+
+            if (coding.getVersion() != null) {
+                message.append("' version '").append(coding.getVersion().getValue());
+            }
+            message.append("'");
         } else {
-            StringBuilder message = new StringBuilder()
+            message = new StringBuilder()
                     .append("Code '")
                     .append(coding.getCode() == null ? null : coding.getCode().getValue())
                     .append("' in system '")
@@ -1044,9 +1080,9 @@ public class FHIRTermService {
                     .append(valueSet.getUrl() == null ? null : valueSet.getUrl().getValue())
                     .append(" and version=")
                     .append(valueSet.getVersion() == null ? null : valueSet.getVersion().getValue());
-
-            return buildValidationOutcome(false, message.toString());
         }
+
+        return buildValidationOutcome(result, message.toString());
     }
 
     /**
