@@ -73,5 +73,4 @@ public class TokenParameter extends SearchParameterValue {
     public void setRefVersionId(Integer refVersionId) {
         this.refVersionId = refVersionId;
     }
-
 }

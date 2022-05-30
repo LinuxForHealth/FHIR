@@ -16,6 +16,8 @@ import java.time.Instant;
 public interface ParameterValueVisitorAdapter {
 
     /**
+     * Process a string parameter
+     * 
      * @param name
      * @param valueString
      * @param compositeId
@@ -24,6 +26,8 @@ public interface ParameterValueVisitorAdapter {
     void stringValue(String name, String valueString, Integer compositeId, boolean wholeSystem);
 
     /**
+     * Process a number parameter
+     * 
      * @param name
      * @param valueNumber
      * @param valueNumberLow
@@ -33,6 +37,8 @@ public interface ParameterValueVisitorAdapter {
     void numberValue(String name, BigDecimal valueNumber, BigDecimal valueNumberLow, BigDecimal valueNumberHigh, Integer compositeId);
 
     /**
+     * Process a date parameter
+     * 
      * @param name
      * @param valueDateStart
      * @param valueDateEnd
@@ -42,6 +48,8 @@ public interface ParameterValueVisitorAdapter {
     void dateValue(String name, Instant valueDateStart, Instant valueDateEnd, Integer compositeId, boolean wholeSystem);
 
     /**
+     * Process a token parameter
+     * 
      * @param name
      * @param valueSystem
      * @param valueCode
@@ -50,6 +58,8 @@ public interface ParameterValueVisitorAdapter {
     void tokenValue(String name, String valueSystem, String valueCode, Integer compositeId);
 
     /**
+     * Process a tag parameter
+     * 
      * @param name
      * @param valueSystem
      * @param valueCode
@@ -59,6 +69,8 @@ public interface ParameterValueVisitorAdapter {
     void tagValue(String name, String valueSystem, String valueCode, boolean wholeSystem);
 
     /**
+     * Process a profile parameter
+     * 
      * @param name
      * @param url
      * @param version
@@ -68,6 +80,8 @@ public interface ParameterValueVisitorAdapter {
     void profileValue(String name, String url, String version, String fragment, boolean wholeSystem);
 
     /**
+     * Process a security parameter
+     * 
      * @param name
      * @param valueSystem
      * @param valueCode
@@ -76,6 +90,8 @@ public interface ParameterValueVisitorAdapter {
     void securityValue(String name, String valueSystem, String valueCode, boolean wholeSystem);
     
     /**
+     * Process a quantity parameter
+     * 
      * @param name
      * @param valueSystem
      * @param valueCode
@@ -88,6 +104,8 @@ public interface ParameterValueVisitorAdapter {
         Integer compositeId);
 
     /**
+     * Process a location parameter
+     * 
      * @param name
      * @param valueLatitude
      * @param valueLongitude
@@ -96,6 +114,8 @@ public interface ParameterValueVisitorAdapter {
     void locationValue(String name, Double valueLatitude, Double valueLongitude, Integer compositeId);
 
     /**
+     * Process a reference parameter
+     * 
      * @param name
      * @param refResourceType
      * @param refLogicalId

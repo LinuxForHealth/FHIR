@@ -262,6 +262,7 @@ public class Main {
             throw new FHIRPersistenceException("cache init failed", x);
         }
     }
+
     /**
      * Create a new consumer
      * @return
@@ -282,6 +283,9 @@ public class Main {
         return consumer;
     }
 
+    /**
+     * Set things up to talk to a PostgreSQL database
+     */
     private void configureForPostgres() {
         this.translator = new PostgresTranslator();
         try {

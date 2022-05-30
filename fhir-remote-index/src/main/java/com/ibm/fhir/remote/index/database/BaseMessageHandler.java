@@ -44,6 +44,7 @@ public abstract class BaseMessageHandler implements IMessageHandler {
     private SecureRandom random = new SecureRandom();
 
     private final long maxReadyWaitMs;
+
     /**
      * Protected constructor
      * @param maxReadyWaitMs the max time in ms to wait for the upstream transaction to make the data ready
@@ -283,6 +284,8 @@ public abstract class BaseMessageHandler implements IMessageHandler {
     }
 
     /**
+     * Process the given LocationParameter p
+     * 
      * @param tenantId
      * @param requestShard
      * @param resourceType
@@ -293,6 +296,8 @@ public abstract class BaseMessageHandler implements IMessageHandler {
     protected abstract void process(String tenantId, String requestShard, String resourceType, String logicalId, long logicalResourceId, LocationParameter p) throws FHIRPersistenceException;
 
     /**
+     * Process the given TokenParameter p
+     * 
      * @param tenantId
      * @param requestShard
      * @param resourceType
@@ -303,6 +308,7 @@ public abstract class BaseMessageHandler implements IMessageHandler {
     protected abstract void process(String tenantId, String requestShard, String resourceType, String logicalId, long logicalResourceId, TokenParameter p) throws FHIRPersistenceException;
 
     /**
+     * Process the given TagParameter p
      * 
      * @param tenantId
      * @param requestShard
@@ -315,6 +321,7 @@ public abstract class BaseMessageHandler implements IMessageHandler {
     protected abstract void process(String tenantId, String requestShard, String resourceType, String logicalId, long logicalResourceId, TagParameter p) throws FHIRPersistenceException;
 
     /**
+     * Process the given ProfileParameter p
      * 
      * @param tenantId
      * @param requestShard
@@ -327,6 +334,7 @@ public abstract class BaseMessageHandler implements IMessageHandler {
     protected abstract void process(String tenantId, String requestShard, String resourceType, String logicalId, long logicalResourceId, ProfileParameter p) throws FHIRPersistenceException;
 
     /**
+     * Proces the given SecurityParameter p
      * 
      * @param tenantId
      * @param requestShard
@@ -339,6 +347,8 @@ public abstract class BaseMessageHandler implements IMessageHandler {
     protected abstract void process(String tenantId, String requestShard, String resourceType, String logicalId, long logicalResourceId, SecurityParameter p) throws FHIRPersistenceException;
 
     /**
+     * Process the given QuantityParameter p
+     * 
      * @param tenantId
      * @param requestShard
      * @param resourceType
@@ -349,6 +359,8 @@ public abstract class BaseMessageHandler implements IMessageHandler {
     protected abstract void process(String tenantId, String requestShard, String resourceType, String logicalId, long logicalResourceId, QuantityParameter p) throws FHIRPersistenceException;
 
     /**
+     * Process the given NumberParameter p
+     * 
      * @param tenantId
      * @param requestShard
      * @param resourceType
@@ -359,6 +371,8 @@ public abstract class BaseMessageHandler implements IMessageHandler {
     protected abstract void process(String tenantId, String requestShard, String resourceType, String logicalId, long logicalResourceId, NumberParameter p) throws FHIRPersistenceException;
 
     /**
+     * Process the given DateParameter p
+     * 
      * @param tenantId
      * @param requestShard
      * @param resourceType
@@ -369,6 +383,7 @@ public abstract class BaseMessageHandler implements IMessageHandler {
     protected abstract void process(String tenantId, String requestShard, String resourceType, String logicalId, long logicalResourceId, DateParameter p) throws FHIRPersistenceException;
 
     /**
+     * Process the given ReferenceParameter p
      * 
      * @param tenantId
      * @param requestShard
@@ -392,7 +407,8 @@ public abstract class BaseMessageHandler implements IMessageHandler {
 
     /**
      * Tell the persistence layer to commit the current transaction, or perform a rollback
-     * if setRollbackOnly() has been called
+     * if setRollbackOnly() has been called.
+     * 
      * @throws FHIRPersistenceException
      */
     protected abstract void endTransaction() throws FHIRPersistenceException;

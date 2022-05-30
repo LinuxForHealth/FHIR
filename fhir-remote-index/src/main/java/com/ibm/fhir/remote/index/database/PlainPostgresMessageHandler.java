@@ -378,6 +378,14 @@ public class PlainPostgresMessageHandler extends BaseMessageHandler {
         return result;
     }
 
+    /**
+     * Get the LogicalReosurceIdentValue we've assigned for the given (resourceType, logicalId)
+     * tuple. The returned value may not yet have the actual logical_resource_id yet - we fetch
+     * these values later and create new database records as necessary
+     * @param resourceType
+     * @param logicalId
+     * @return
+     */
     private LogicalResourceIdentValue lookupLogicalResourceIdentValue(String resourceType, String logicalId) {
         LogicalResourceIdentKey key = new LogicalResourceIdentKey(resourceType, logicalId);
         LogicalResourceIdentValue result = this.logicalResourceIdentMap.get(key);
@@ -393,6 +401,13 @@ public class PlainPostgresMessageHandler extends BaseMessageHandler {
         return result;
     }
 
+    /**
+     * Get the CommonCanonicalValue we've assigned for the given url value.
+     * The returned value may not yet have the actual canonical_id yet - we fetch
+     * these values later and create new database records as necessary.
+     * @param url
+     * @return
+     */
     private CommonCanonicalValue lookupCommonCanonicalValue(String url) {
         CommonCanonicalValueKey key = new CommonCanonicalValueKey(FIXED_SHARD, url);
         CommonCanonicalValue result = this.commonCanonicalValueMap.get(key);
@@ -500,6 +515,12 @@ public class PlainPostgresMessageHandler extends BaseMessageHandler {
         }
     }
 
+    /**
+     * Fetch all the code_system_id values for the given list of CodeSystemValue objects.
+     * @param unresolved
+     * @return
+     * @throws FHIRPersistenceException
+     */
     private List<CodeSystemValue> fetchCodeSystemIds(List<CodeSystemValue> unresolved) throws FHIRPersistenceException {
         // track which values aren't yet in the database
         List<CodeSystemValue> missing = new ArrayList<>();
@@ -624,7 +645,13 @@ public class PlainPostgresMessageHandler extends BaseMessageHandler {
         }
         return new PreparedStatementWrapper(statementText, ps);
     }
-    
+
+    /**
+     * Fetch the common_token_value_id values for the given list of CommonTokenValue objects.
+     * @param unresolved
+     * @return
+     * @throws FHIRPersistenceException
+     */
     private List<CommonTokenValue> fetchCommonTokenValueIds(List<CommonTokenValue> unresolved) throws FHIRPersistenceException {
         // track which values aren't yet in the database
         List<CommonTokenValue> missing = new ArrayList<>();
@@ -738,6 +765,12 @@ public class PlainPostgresMessageHandler extends BaseMessageHandler {
         }
     }
 
+    /**
+     * Fetch the common_canonical_id values for the given list of CommonCanonicalValue objects.
+     * @param unresolved
+     * @return
+     * @throws FHIRPersistenceException
+     */
     private List<CommonCanonicalValue> fetchCanonicalIds(List<CommonCanonicalValue> unresolved) throws FHIRPersistenceException {
         // track which values aren't yet in the database
         List<CommonCanonicalValue> missing = new ArrayList<>();
@@ -893,6 +926,12 @@ public class PlainPostgresMessageHandler extends BaseMessageHandler {
         }
     }
 
+    /**
+     * Fetch the parameter_name_id for the given parameterName value
+     * @param parameterName
+     * @return
+     * @throws SQLException
+     */
     private Integer getParameterNameIdFromDatabase(String parameterName) throws SQLException {
         String SQL = "SELECT parameter_name_id FROM parameter_names WHERE parameter_name = ?";
         try (PreparedStatement ps = connection.prepareStatement(SQL)) {
@@ -1168,6 +1207,12 @@ public class PlainPostgresMessageHandler extends BaseMessageHandler {
         }
     }
 
+    /**
+     * Fetch logical_resource_id values for the given list of LogicalResourceIdent objects.
+     * @param unresolved
+     * @return
+     * @throws FHIRPersistenceException
+     */
     private List<LogicalResourceIdentValue> fetchLogicalResourceIdentIds(List<LogicalResourceIdentValue> unresolved) throws FHIRPersistenceException {
         // track which values aren't yet in the database
         List<LogicalResourceIdentValue> missing = new ArrayList<>();
@@ -1217,6 +1262,4 @@ public class PlainPostgresMessageHandler extends BaseMessageHandler {
         // Return the list of CodeSystemValues which don't yet have a database entry
         return missing;
     }
-    
-    
 }

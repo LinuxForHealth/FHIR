@@ -19,6 +19,10 @@ public class LogicalResourceValue {
     private final int versionId;
     private final Timestamp lastUpdated;
     private final String parameterHash;
+
+    /**
+     * Builder for fluent creation of LogicalResourceValue objects
+     */
     public static class Builder {
         private short shardKey;
         private long logicalResourceId;
@@ -28,30 +32,71 @@ public class LogicalResourceValue {
         private Timestamp lastUpdated;
         private String parameterHash;
 
+        /**
+         * Set the shardKey
+         * @param shardKey
+         * @return
+         */
         public Builder withShardKey(short shardKey) {
             this.shardKey = shardKey;
             return this;
         }
+
+        /**
+         * Set the logicalResourceId value
+         * @param logicalResourceId
+         * @return
+         */
         public Builder withLogicalResourceId(long logicalResourceId) {
             this.logicalResourceId = logicalResourceId;
             return this;
         }
+
+        /**
+         * Set the resourceType value
+         * @param resourceType
+         * @return
+         */
         public Builder withResourceType(String resourceType) {
             this.resourceType = resourceType;
             return this;
         }
+
+        /**
+         * Set the logicalId value
+         * @param logicalId
+         * @return
+         */
         public Builder withLogicalId(String logicalId) {
             this.logicalId = logicalId;
             return this;
         }
+
+        /**
+         * Set the versionId value
+         * @param versionId
+         * @return
+         */
         public Builder withVersionId(int versionId) {
             this.versionId = versionId;
             return this;
         }
+
+        /**
+         * Set the lastUpdated value
+         * @param lastUpdated
+         * @return
+         */
         public Builder withLastUpdated(Timestamp lastUpdated) {
             this.lastUpdated = lastUpdated;
             return this;
         }
+
+        /**
+         * Set the parameterHash value
+         * @param parameterHash
+         * @return
+         */
         public Builder withParameterHash(String parameterHash) {
             this.parameterHash = parameterHash;
             return this;
@@ -67,7 +112,7 @@ public class LogicalResourceValue {
     }
 
     /**
-     * Factor function to create a fresh instance of a {@link Builder}
+     * Factory function to create a fresh instance of a {@link Builder}
      * @return
      */
     public static Builder builder() {
@@ -75,7 +120,8 @@ public class LogicalResourceValue {
     }
 
     /**
-     * Public constructor
+     * Canonical constructor
+     * 
      * @param shardKey
      * @param logicalResourceId
      * @param resourceType

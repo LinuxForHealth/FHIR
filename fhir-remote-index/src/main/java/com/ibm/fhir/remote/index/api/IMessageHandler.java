@@ -16,6 +16,11 @@ import com.ibm.fhir.persistence.exception.FHIRPersistenceException;
  */
 public interface IMessageHandler {
 
+    /**
+     * Ask the handler to process the list of messages.
+     * @param messages
+     * @throws FHIRPersistenceException
+     */
     void process(List<String> messages) throws FHIRPersistenceException;
 
     /**

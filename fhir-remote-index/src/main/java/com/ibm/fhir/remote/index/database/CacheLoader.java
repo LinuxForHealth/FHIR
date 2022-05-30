@@ -30,6 +30,12 @@ public class CacheLoader {
         this.cache = cache;
     }
 
+    /**
+     * Read records from the database using the given connection and apply the
+     * values to the configured cache object.
+     * @param connection
+     * @throws FHIRPersistenceException
+     */
     public void apply(Connection connection) throws FHIRPersistenceException {
         // load the static list of resource types
         List<ResourceTypeValue> resourceTypes = new ArrayList<>();

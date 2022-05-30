@@ -255,6 +255,15 @@ public class PlainPostgresParameterBatch {
         }
     }
 
+    /**
+     * Add a string parameter value to the batch statement
+     * @param logicalResourceId
+     * @param parameterNameId
+     * @param strValue
+     * @param strValueLower
+     * @param compositeId
+     * @throws SQLException
+     */
     public void addString(long logicalResourceId, int parameterNameId, String strValue, String strValueLower, Integer compositeId) throws SQLException {
         if (strings == null) {
             final String tablePrefix = resourceType.toLowerCase();
@@ -271,6 +280,16 @@ public class PlainPostgresParameterBatch {
         stringCount++;
     }
 
+    /**
+     * Add a number parameter value to the batch statement
+     * @param logicalResourceId
+     * @param parameterNameId
+     * @param value
+     * @param valueLow
+     * @param valueHigh
+     * @param compositeId
+     * @throws SQLException
+     */
     public void addNumber(long logicalResourceId, int parameterNameId, BigDecimal value, BigDecimal valueLow, BigDecimal valueHigh, Integer compositeId) throws SQLException {
         if (numbers == null) {
             final String tablePrefix = resourceType.toLowerCase();
@@ -287,6 +306,15 @@ public class PlainPostgresParameterBatch {
         numberCount++;
     }
 
+    /**
+     * Add a date parameter value to the batch statement
+     * @param logicalResourceId
+     * @param parameterNameId
+     * @param dateStart
+     * @param dateEnd
+     * @param compositeId
+     * @throws SQLException
+     */
     public void addDate(long logicalResourceId, int parameterNameId, Timestamp dateStart, Timestamp dateEnd, Integer compositeId) throws SQLException {
         if (dates == null) {
             final String tablePrefix = resourceType.toLowerCase();
@@ -304,6 +332,18 @@ public class PlainPostgresParameterBatch {
         dateCount++;
     }
 
+    /**
+     * Add a quantity parameter value to the batch statement
+     * @param logicalResourceId
+     * @param parameterNameId
+     * @param codeSystemId
+     * @param valueCode
+     * @param valueNumber
+     * @param valueNumberLow
+     * @param valueNumberHigh
+     * @param compositeId
+     * @throws SQLException
+     */
     public void addQuantity(long logicalResourceId, int parameterNameId, Integer codeSystemId, String valueCode, BigDecimal valueNumber, BigDecimal valueNumberLow, BigDecimal valueNumberHigh, Integer compositeId) throws SQLException {
         if (quantities == null) {
             final String tablePrefix = resourceType.toLowerCase();
@@ -323,6 +363,16 @@ public class PlainPostgresParameterBatch {
         quantityCount++;
     }
 
+    /**
+     * Add a location parameter value to the batch statement
+     * 
+     * @param logicalResourceId
+     * @param parameterNameId
+     * @param lat
+     * @param lng
+     * @param compositeId
+     * @throws SQLException
+     */
     public void addLocation(long logicalResourceId, int parameterNameId, Double lat, Double lng, Integer compositeId) throws SQLException {
         if (locations == null) {
             final String tablePrefix = resourceType.toLowerCase();
@@ -339,6 +389,16 @@ public class PlainPostgresParameterBatch {
         locationCount++;
     }
 
+    /**
+     * Add a token parameter value to the batch statement
+     * 
+     * @param logicalResourceId
+     * @param parameterNameId
+     * @param commonTokenValueId
+     * @param refVersionId
+     * @param compositeId
+     * @throws SQLException
+     */
     public void addResourceTokenRef(long logicalResourceId, int parameterNameId, long commonTokenValueId, Integer refVersionId, Integer compositeId) throws SQLException {
         if (resourceTokenRefs == null) {
             final String tablePrefix = resourceType.toLowerCase();
@@ -354,6 +414,13 @@ public class PlainPostgresParameterBatch {
         resourceTokenRefCount++;
     }
 
+    /**
+     * Add a tag parameter value to the batch statement
+     * 
+     * @param logicalResourceId
+     * @param commonTokenValueId
+     * @throws SQLException
+     */
     public void addTag(long logicalResourceId, long commonTokenValueId) throws SQLException {
         if (tags == null) {
             final String tablePrefix = resourceType.toLowerCase();
@@ -366,6 +433,15 @@ public class PlainPostgresParameterBatch {
         tagCount++;
     }
 
+    /**
+     * Add a profile parameter value to the batch statement
+     * 
+     * @param logicalResourceId
+     * @param canonicalId
+     * @param version
+     * @param fragment
+     * @throws SQLException
+     */
     public void addProfile(long logicalResourceId, long canonicalId, String version, String fragment) throws SQLException {
         if (profiles == null) {
             final String tablePrefix = resourceType.toLowerCase();
@@ -380,6 +456,12 @@ public class PlainPostgresParameterBatch {
         profileCount++;
     }
 
+    /**
+     * Add a security parameter value to the batch statement
+     * @param logicalResourceId
+     * @param commonTokenValueId
+     * @throws SQLException
+     */
     public void addSecurity(long logicalResourceId, long commonTokenValueId) throws SQLException {
         if (tags == null) {
             final String tablePrefix = resourceType.toLowerCase();
@@ -394,6 +476,8 @@ public class PlainPostgresParameterBatch {
     }
 
     /**
+     * Add a reference parameter value to the batch statement
+     * 
      * @param logicalResourceId
      * @param refLogicalResourceId
      * @param refVersionId
