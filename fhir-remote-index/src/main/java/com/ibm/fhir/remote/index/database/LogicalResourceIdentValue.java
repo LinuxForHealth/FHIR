@@ -12,24 +12,70 @@ import java.util.Objects;
  * A DTO representing a record from logical_resource_ident
  */
 public class LogicalResourceIdentValue implements Comparable<LogicalResourceIdentValue> {
+    private final int resourceTypeId;
     private final String resourceType;
     private final String logicalId;
     private Long logicalResourceId;
-    private Integer resourceTypeId;
 
+    @Override
+    public String toString() {
+        StringBuilder result = new StringBuilder();
+        result.append("'");
+        result.append(resourceType);
+        result.append("/");
+        result.append(logicalId);
+        result.append("'");
+        result.append(" => ");
+        result.append(resourceTypeId);
+        result.append("/");
+        result.append(logicalResourceId);
+        return result.toString();
+    }
+
+    /**
+     * Builder for fluent creation of LogicalResourceIdentValue objects
+     */
     public static class Builder {
+        private int resourceTypeId;
         private String resourceType;
         private String logicalId;
         private Long logicalResourceId;
 
+        /**
+         * Set the resourceTypeId
+         * @param resourceTypeId
+         * @return
+         */
+        public Builder withResourceTypeId(int resourceTypeId) {
+            this.resourceTypeId = resourceTypeId;
+            return this;
+        }
+
+        /**
+         * Set the logicalResourceId
+         * @param logicalResourceId
+         * @return
+         */
         public Builder withLogicalResourceId(long logicalResourceId) {
             this.logicalResourceId = logicalResourceId;
             return this;
         }
+
+        /**
+         * Set the resourceType
+         * @param resourceType
+         * @return
+         */
         public Builder withResourceType(String resourceType) {
             this.resourceType = resourceType;
             return this;
         }
+
+        /**
+         * Set the logicalId
+         * @param logicalId
+         * @return
+         */
         public Builder withLogicalId(String logicalId) {
             this.logicalId = logicalId;
             return this;
@@ -40,7 +86,7 @@ public class LogicalResourceIdentValue implements Comparable<LogicalResourceIden
          * @return
          */
         public LogicalResourceIdentValue build() {
-            return new LogicalResourceIdentValue(resourceType, logicalId, logicalResourceId);
+            return new LogicalResourceIdentValue(resourceTypeId, resourceType, logicalId, logicalResourceId);
         }
     }
 
@@ -54,11 +100,13 @@ public class LogicalResourceIdentValue implements Comparable<LogicalResourceIden
 
     /**
      * Public constructor
+     * @param resourceTypeId
      * @param resourceType
      * @param logicalId
      * @param logicalResourceId
      */
-    public LogicalResourceIdentValue(String resourceType, String logicalId, Long logicalResourceId) {
+    public LogicalResourceIdentValue(int resourceTypeId, String resourceType, String logicalId, Long logicalResourceId) {
+        this.resourceTypeId = resourceTypeId;
         this.resourceType = resourceType;
         this.logicalId = Objects.requireNonNull(logicalId);
         this.logicalResourceId = logicalResourceId;
@@ -107,12 +155,5 @@ public class LogicalResourceIdentValue implements Comparable<LogicalResourceIden
      */
     public Integer getResourceTypeId() {
         return resourceTypeId;
-    }
-
-    /**
-     * @param resourceTypeId the resourceTypeId to set
-     */
-    public void setResourceTypeId(Integer resourceTypeId) {
-        this.resourceTypeId = resourceTypeId;
     }
 }

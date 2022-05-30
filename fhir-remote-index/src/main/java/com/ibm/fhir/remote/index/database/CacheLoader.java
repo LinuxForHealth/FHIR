@@ -10,25 +10,41 @@ import java.sql.Connection;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
+import java.util.ArrayList;
+import java.util.List;
 
 import com.ibm.fhir.persistence.exception.FHIRPersistenceException;
-import com.ibm.fhir.remote.index.api.IdentityCache;
+import com.ibm.fhir.remote.index.cache.IdentityCacheImpl;
 
 /**
  * Preload the cache
  */
 public class CacheLoader {
-    private final IdentityCache cache;
+    private final IdentityCacheImpl cache;
 
     /**
      * Public constructor
      * @param cache
      */
-    public CacheLoader(IdentityCache cache) {
+    public CacheLoader(IdentityCacheImpl cache) {
         this.cache = cache;
     }
 
     public void apply(Connection connection) throws FHIRPersistenceException {
+        // load the static list of resource types
+        List<ResourceTypeValue> resourceTypes = new ArrayList<>();
+        final String SELECT_RESOURCE_TYPES = "SELECT resource_type, resource_type_id FROM resource_types";
+        try (PreparedStatement ps = connection.prepareStatement(SELECT_RESOURCE_TYPES)) {
+            ResultSet rs = ps.executeQuery();
+            while (rs.next()) {
+                resourceTypes.add(new ResourceTypeValue(rs.getString(1), rs.getInt(2)));
+            }
+        } catch (SQLException x) {
+            throw new FHIRPersistenceException("fetch parameter names failed", x);
+        }
+        cache.init(resourceTypes);
+
+        // also seed the cache with all the parameter_names we know so far
         final String SQL = "SELECT parameter_name, parameter_name_id FROM parameter_names";
         try (PreparedStatement ps = connection.prepareStatement(SQL)) {
             ResultSet rs = ps.executeQuery();

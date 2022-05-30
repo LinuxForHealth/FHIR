@@ -319,7 +319,7 @@ public class PlainPostgresMessageHandler extends BaseMessageHandler {
 
     @Override
     protected void process(String tenantId, String requestShard, String resourceType, String logicalId, long logicalResourceId, ReferenceParameter p) throws FHIRPersistenceException {
-        logger.info("Processing reference parameter value:" + p.toString());
+        logger.fine(() -> "Processing reference parameter value:" + p.toString());
         ParameterNameValue parameterNameValue = getParameterNameId(p);
         LogicalResourceIdentValue lriv = lookupLogicalResourceIdentValue(p.getResourceType(), p.getLogicalId());
         this.batchedParameterValues.add(new BatchReferenceParameter(requestShard, resourceType, logicalId, logicalResourceId, parameterNameValue, p, lriv));
@@ -383,6 +383,7 @@ public class PlainPostgresMessageHandler extends BaseMessageHandler {
         LogicalResourceIdentValue result = this.logicalResourceIdentMap.get(key);
         if (result == null) {
             result = LogicalResourceIdentValue.builder()
+                    .withResourceTypeId(identityCache.getResourceTypeId(resourceType))
                     .withResourceType(resourceType)
                     .withLogicalId(logicalId)
                     .build();
@@ -1100,9 +1101,8 @@ public class PlainPostgresMessageHandler extends BaseMessageHandler {
      */
     private PreparedStatement buildLogicalResourceIdentSelectStatement(List<LogicalResourceIdentValue> values) throws SQLException {
         StringBuilder query = new StringBuilder();
-        query.append("SELECT rt.resource_type, lri.logical_id, rt.resource_type_id, lri.logical_resource_id ");
+        query.append("SELECT rt.resource_type, lri.logical_id, lri.logical_resource_id ");
         query.append("  FROM logical_resource_ident AS lri ");
-        query.append("  JOIN resource_types AS rt ON (lri.resource_type_id = rt.resource_type_id) ");
         query.append("  JOIN (VALUES ");
         for (int i=0; i<values.size(); i++) {
             if (i > 0) {
@@ -1110,15 +1110,17 @@ public class PlainPostgresMessageHandler extends BaseMessageHandler {
             }
             query.append("(?,?)");
         }
-        query.append(") AS v(resource_type, logical_id) ");
-        query.append(" ON (rt.resource_type = v.resource_type AND lri.logical_id = v.logical_id)");
+        query.append(") AS v(resource_type_id, logical_id) ");
+        query.append("    ON (lri.resource_type_id = v.resource_type_id AND lri.logical_id = v.logical_id)");
+        query.append("  JOIN resource_types AS rt ON (rt.resource_type_id = v.resource_type_id)"); // convenient to get the resource type name here
         PreparedStatement ps = connection.prepareStatement(query.toString());
         // bind the parameter values
         int param = 1;
         for (LogicalResourceIdentValue val: values) {
-            ps.setString(param++, val.getResourceType());
+            ps.setInt(param++, val.getResourceTypeId());
             ps.setString(param++, val.getLogicalId());
         }
+        logger.fine(() -> "logicalResourceIdents: " + query.toString());
         return ps;
     }
 
@@ -1144,6 +1146,9 @@ public class PlainPostgresMessageHandler extends BaseMessageHandler {
         try (PreparedStatement ps = connection.prepareStatement(insert.toString())) {
             int count = 0;
             for (LogicalResourceIdentValue value: missing) {
+                if (value.getResourceTypeId() == null) {
+                    logger.severe("bad value: " + value);
+                }
                 ps.setInt(1, value.getResourceTypeId());
                 ps.setString(2, value.getLogicalId());
                 ps.addBatch();
@@ -1183,8 +1188,7 @@ public class PlainPostgresMessageHandler extends BaseMessageHandler {
                     LogicalResourceIdentKey key = new LogicalResourceIdentKey(rs.getString(1), rs.getString(2));
                     LogicalResourceIdentValue csv = this.logicalResourceIdentMap.get(key);
                     if (csv != null) {
-                        csv.setResourceTypeId(rs.getInt(3));
-                        csv.setLogicalResourceId(rs.getLong(4));
+                        csv.setLogicalResourceId(rs.getLong(3));
                     } else {
                         // can't really happen, but be defensive
                         throw new FHIRPersistenceException("logical resource ident query returned an unexpected value");

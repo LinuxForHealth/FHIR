@@ -399,7 +399,7 @@ public class PlainPostgresParameterBatch {
      * @param refVersionId
      */
     public void addReference(long logicalResourceId, int parameterNameId, long refLogicalResourceId, Integer refVersionId) throws SQLException {
-        logger.info("Adding reference: parameterNameId:" + parameterNameId + " refLogicalResourceId:" + refLogicalResourceId + " refVersionId:" + refVersionId);
+        logger.fine(() -> "Adding reference: parameterNameId:" + parameterNameId + " refLogicalResourceId:" + refLogicalResourceId + " refVersionId:" + refVersionId);
         if (refs == null) {
             final String tablePrefix = resourceType.toLowerCase();
             final String insertString = "INSERT INTO " + tablePrefix + "_ref_values (parameter_name_id, logical_resource_id, ref_logical_resource_id, ref_version_id) VALUES (?,?,?,?)";

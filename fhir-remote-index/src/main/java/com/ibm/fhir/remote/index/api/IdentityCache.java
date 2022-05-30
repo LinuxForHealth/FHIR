@@ -48,4 +48,12 @@ public interface IdentityCache {
      * @return
      */
     Long getCommonCanonicalValueId(short shardKey, String url);
+
+    /**
+     * Get the database resource_type_id value for the given resourceType value
+     * @param resourceType
+     * @return
+     * @throws IllegalArgumentException if resourceType is not a valid resource type name
+     */
+    int getResourceTypeId(String resourceType);
 }

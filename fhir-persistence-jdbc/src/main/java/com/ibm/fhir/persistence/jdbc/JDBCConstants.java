@@ -119,6 +119,9 @@ public class JDBCConstants {
     // Default code_system_id value
     public static final String DEFAULT_TOKEN_SYSTEM = "default-token-system";
 
+    // Default resource type for references without a resource type
+    public static final String RESOURCE = "Resource";
+
     /**
      * This Calendar object is not thread-safe! Use CalendarHelper#getCalendarForUTC() instead.
      */

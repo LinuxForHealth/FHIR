@@ -134,8 +134,13 @@ public class ParameterTransportVisitor implements ExtractedParameterValueVisitor
             logger.warning("Invalid reference parameter type: '" + resourceType + "." + rpv.getName() + "' type=" + refValue.getType().name());
             throw new IllegalArgumentException("Invalid reference parameter value. See server log for details.");
         }
+
         if (refResourceType == null) {
-            refResourceType = JDBCConstants.DEFAULT_TOKEN_SYSTEM;
+            // Prior to V0027, references without a target resource type would be assigned the
+            // DEFAULT_TOKEN_SYSTEM (having a valid system makes queries faster). For V0027,
+            // all reference values get an entry in logical_resource_ident so in order to use
+            // a valid resource type we use "Resource" instead.
+            refResourceType = JDBCConstants.RESOURCE;
         }
         adapter.referenceValue(rpv.getName(), refResourceType, refLogicalId, refVersion, compositeId);
     }

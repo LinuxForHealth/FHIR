@@ -7,6 +7,7 @@
 package com.ibm.fhir.remote.index.cache;
 
 import java.time.Duration;
+import java.util.Collection;
 import java.util.concurrent.ConcurrentHashMap;
 
 import com.github.benmanes.caffeine.cache.Cache;
@@ -14,6 +15,7 @@ import com.github.benmanes.caffeine.cache.Caffeine;
 import com.ibm.fhir.remote.index.api.IdentityCache;
 import com.ibm.fhir.remote.index.database.CommonCanonicalValueKey;
 import com.ibm.fhir.remote.index.database.CommonTokenValueKey;
+import com.ibm.fhir.remote.index.database.ResourceTypeValue;
 
 /**
  * Implementation of a cache we use to reduce the number of databases accesses
@@ -21,6 +23,7 @@ import com.ibm.fhir.remote.index.database.CommonTokenValueKey;
  */
 public class IdentityCacheImpl implements IdentityCache {
     private final ConcurrentHashMap<String, Integer> parameterNames = new ConcurrentHashMap<>();
+    private final ConcurrentHashMap<String, Integer> resourceTypes = new ConcurrentHashMap<>();
     private final Cache<String, Integer> codeSystemCache;
     private final Cache<CommonTokenValueKey, Long> commonTokenValueCache;
     private final Cache<CommonCanonicalValueKey, Long> commonCanonicalValueCache;
@@ -45,6 +48,16 @@ public class IdentityCacheImpl implements IdentityCache {
                 .maximumSize(maxCommonCanonicalCacheSize)
                 .expireAfterWrite(commonCanonicalCacheDuration)
                 .build();
+    }
+
+    /**
+     * Initialize the cache
+     * @param resourceTypeValues the complete list of resource types
+     */
+    public void init(Collection<ResourceTypeValue> resourceTypeValues) {
+        for (ResourceTypeValue rtv: resourceTypeValues) {
+            resourceTypes.put(rtv.getResourceType(), rtv.getResourceTypeId());
+        }
     }
 
     @Override
@@ -72,5 +85,14 @@ public class IdentityCacheImpl implements IdentityCache {
     @Override
     public Long getCommonCanonicalValueId(short shardKey, String url) {
         return commonCanonicalValueCache.get(new CommonCanonicalValueKey(shardKey, url), k -> NULL_LONG);
+    }
+
+    @Override
+    public int getResourceTypeId(String resourceType) {
+        Integer resourceTypeId = resourceTypes.get(resourceType);
+        if (resourceTypeId == null) {
+            throw new IllegalArgumentException("Not a valid resource type: " + resourceType);
+        }
+        return resourceTypeId;
     }
 }
