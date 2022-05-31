@@ -2,13 +2,17 @@
     "resourceType": "StructureDefinition",
     "id": "Subscription",
     "meta": {
-        "lastUpdated": "2022-04-23T22:21:35.043Z"
+        "lastUpdated": "2022-05-28T12:47:40.239+10:00"
     },
     "text": {
         "status": "empty",
         "div": "<div xmlns=\"http://www.w3.org/1999/xhtml\">Redacted for size</div>"
     },
     "extension": [
+        {
+            "url": "http://hl7.org/fhir/StructureDefinition/structuredefinition-category",
+            "valueString": "Foundation.Other"
+        },
         {
             "url": "http://hl7.org/fhir/StructureDefinition/structuredefinition-standards-status",
             "valueCode": "trial-use"
@@ -24,18 +28,14 @@
         {
             "url": "http://hl7.org/fhir/StructureDefinition/structuredefinition-wg",
             "valueCode": "fhir"
-        },
-        {
-            "url": "http://hl7.org/fhir/StructureDefinition/structuredefinition-category",
-            "valueString": "Foundation.Other"
         }
     ],
     "url": "http://hl7.org/fhir/StructureDefinition/Subscription",
-    "version": "4.3.0-cibuild",
+    "version": "4.3.0",
     "name": "Subscription",
     "status": "draft",
     "experimental": false,
-    "date": "2022-04-23T22:21:35Z",
+    "date": "2022-05-28T12:47:40+10:00",
     "publisher": "Health Level Seven International (FHIR Infrastructure)",
     "contact": [
         {
@@ -56,7 +56,7 @@
         }
     ],
     "description": "The subscription resource is used to define a push-based subscription from a server to another system. Once a subscription is registered with the server, the server checks every resource that is created or updated, and if the resource matches the given criteria, it sends a message on the defined \"channel\" so that another system can take an appropriate action.",
-    "fhirVersion": "4.3.0-cibuild",
+    "fhirVersion": "4.3.0",
     "mapping": [
         {
             "identity": "rim",
@@ -536,7 +536,7 @@
                     ],
                     "strength": "required",
                     "description": "The status of a subscription.",
-                    "valueSet": "http://hl7.org/fhir/ValueSet/subscription-status|4.3.0-cibuild"
+                    "valueSet": "http://hl7.org/fhir/ValueSet/subscription-status|4.3.0"
                 },
                 "mapping": [
                     {
@@ -930,7 +930,7 @@
                     ],
                     "strength": "required",
                     "description": "The type of method used to execute a subscription.",
-                    "valueSet": "http://hl7.org/fhir/ValueSet/subscription-channel-type|4.3.0-cibuild"
+                    "valueSet": "http://hl7.org/fhir/ValueSet/subscription-channel-type|4.3.0"
                 }
             },
             {
@@ -1009,7 +1009,7 @@
                     ],
                     "strength": "required",
                     "description": "BCP 13 (RFCs 2045, 2046, 2047, 4288, 4289 and 2049)",
-                    "valueSet": "http://hl7.org/fhir/ValueSet/mimetypes|4.3.0-cibuild"
+                    "valueSet": "http://hl7.org/fhir/ValueSet/mimetypes|4.3.0"
                 }
             },
             {
@@ -1099,7 +1099,7 @@
                     ],
                     "strength": "required",
                     "description": "The status of a subscription.",
-                    "valueSet": "http://hl7.org/fhir/ValueSet/subscription-status|4.3.0-cibuild"
+                    "valueSet": "http://hl7.org/fhir/ValueSet/subscription-status|4.3.0"
                 },
                 "mapping": [
                     {
@@ -1252,7 +1252,7 @@
                     ],
                     "strength": "required",
                     "description": "The type of method used to execute a subscription.",
-                    "valueSet": "http://hl7.org/fhir/ValueSet/subscription-channel-type|4.3.0-cibuild"
+                    "valueSet": "http://hl7.org/fhir/ValueSet/subscription-channel-type|4.3.0"
                 }
             },
             {
@@ -1301,7 +1301,7 @@
                     ],
                     "strength": "required",
                     "description": "BCP 13 (RFCs 2045, 2046, 2047, 4288, 4289 and 2049)",
-                    "valueSet": "http://hl7.org/fhir/ValueSet/mimetypes|4.3.0-cibuild"
+                    "valueSet": "http://hl7.org/fhir/ValueSet/mimetypes|4.3.0"
                 }
             },
             {

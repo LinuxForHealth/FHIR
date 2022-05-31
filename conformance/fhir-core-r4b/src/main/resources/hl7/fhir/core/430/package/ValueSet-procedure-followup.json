@@ -2,7 +2,7 @@
     "resourceType": "ValueSet",
     "id": "procedure-followup",
     "meta": {
-        "lastUpdated": "2022-04-23T22:21:35.043Z",
+        "lastUpdated": "2022-05-28T12:47:40.239+10:00",
         "profile": [
             "http://hl7.org/fhir/StructureDefinition/shareablevalueset"
         ]
@@ -28,7 +28,7 @@
             "value": "urn:oid:2.16.840.1.113883.4.642.3.429"
         }
     ],
-    "version": "4.3.0-cibuild",
+    "version": "4.3.0",
     "name": "ProcedureFollowUpCodes(SNOMEDCT)",
     "title": "Procedure Follow up Codes (SNOMED CT)",
     "status": "draft",
@@ -86,8 +86,8 @@
         ]
     },
     "expansion": {
-        "identifier": "urn:uuid:791f8ebf-7add-45b5-aa1d-6fb24d9c1932",
-        "timestamp": "2022-04-23T22:23:26Z",
+        "identifier": "urn:uuid:182eb99f-94d8-4633-a4b7-37777c75018f",
+        "timestamp": "2022-05-28T12:49:24+10:00",
         "total": 10,
         "parameter": [
             {

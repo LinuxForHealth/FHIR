@@ -2,13 +2,17 @@
     "resourceType": "StructureDefinition",
     "id": "StructureMap",
     "meta": {
-        "lastUpdated": "2022-04-23T22:21:35.043Z"
+        "lastUpdated": "2022-05-28T12:47:40.239+10:00"
     },
     "text": {
         "status": "empty",
         "div": "<div xmlns=\"http://www.w3.org/1999/xhtml\">Redacted for size</div>"
     },
     "extension": [
+        {
+            "url": "http://hl7.org/fhir/StructureDefinition/structuredefinition-category",
+            "valueString": "Foundation.Conformance"
+        },
         {
             "url": "http://hl7.org/fhir/StructureDefinition/structuredefinition-standards-status",
             "valueCode": "trial-use"
@@ -24,18 +28,14 @@
         {
             "url": "http://hl7.org/fhir/StructureDefinition/structuredefinition-wg",
             "valueCode": "fhir"
-        },
-        {
-            "url": "http://hl7.org/fhir/StructureDefinition/structuredefinition-category",
-            "valueString": "Foundation.Conformance"
         }
     ],
     "url": "http://hl7.org/fhir/StructureDefinition/StructureMap",
-    "version": "4.3.0-cibuild",
+    "version": "4.3.0",
     "name": "StructureMap",
     "status": "draft",
     "experimental": false,
-    "date": "2022-04-23T22:21:35Z",
+    "date": "2022-05-28T12:47:40+10:00",
     "publisher": "Health Level Seven International (FHIR Infrastructure)",
     "contact": [
         {
@@ -56,7 +56,7 @@
         }
     ],
     "description": "A Map of relationships between 2 structures that can be used to transform data.",
-    "fhirVersion": "4.3.0-cibuild",
+    "fhirVersion": "4.3.0",
     "mapping": [
         {
             "identity": "rim",
@@ -766,7 +766,7 @@
                     ],
                     "strength": "required",
                     "description": "The lifecycle status of an artifact.",
-                    "valueSet": "http://hl7.org/fhir/ValueSet/publication-status|4.3.0-cibuild"
+                    "valueSet": "http://hl7.org/fhir/ValueSet/publication-status|4.3.0"
                 },
                 "mapping": [
                     {
@@ -1411,7 +1411,7 @@
                     ],
                     "strength": "required",
                     "description": "How the referenced structure is used in this mapping.",
-                    "valueSet": "http://hl7.org/fhir/ValueSet/map-model-mode|4.3.0-cibuild"
+                    "valueSet": "http://hl7.org/fhir/ValueSet/map-model-mode|4.3.0"
                 }
             },
             {
@@ -1780,7 +1780,7 @@
                     ],
                     "strength": "required",
                     "description": "If this is the default rule set to apply for the source type, or this combination of types.",
-                    "valueSet": "http://hl7.org/fhir/ValueSet/map-group-type-mode|4.3.0-cibuild"
+                    "valueSet": "http://hl7.org/fhir/ValueSet/map-group-type-mode|4.3.0"
                 }
             },
             {
@@ -2083,7 +2083,7 @@
                     ],
                     "strength": "required",
                     "description": "Mode for this instance of data.",
-                    "valueSet": "http://hl7.org/fhir/ValueSet/map-input-mode|4.3.0-cibuild"
+                    "valueSet": "http://hl7.org/fhir/ValueSet/map-input-mode|4.3.0"
                 }
             },
             {
@@ -2855,7 +2855,7 @@
                     ],
                     "strength": "required",
                     "description": "If field is a list, how to manage the source.",
-                    "valueSet": "http://hl7.org/fhir/ValueSet/map-source-list-mode|4.3.0-cibuild"
+                    "valueSet": "http://hl7.org/fhir/ValueSet/map-source-list-mode|4.3.0"
                 }
             },
             {
@@ -3236,7 +3236,7 @@
                     ],
                     "strength": "required",
                     "description": "How to interpret the context.",
-                    "valueSet": "http://hl7.org/fhir/ValueSet/map-context-type|4.3.0-cibuild"
+                    "valueSet": "http://hl7.org/fhir/ValueSet/map-context-type|4.3.0"
                 }
             },
             {
@@ -3340,7 +3340,7 @@
                     ],
                     "strength": "required",
                     "description": "If field is a list, how to manage the production.",
-                    "valueSet": "http://hl7.org/fhir/ValueSet/map-target-list-mode|4.3.0-cibuild"
+                    "valueSet": "http://hl7.org/fhir/ValueSet/map-target-list-mode|4.3.0"
                 }
             },
             {
@@ -3413,7 +3413,7 @@
                     ],
                     "strength": "required",
                     "description": "How data is copied/created.",
-                    "valueSet": "http://hl7.org/fhir/ValueSet/map-transform|4.3.0-cibuild"
+                    "valueSet": "http://hl7.org/fhir/ValueSet/map-transform|4.3.0"
                 }
             },
             {
@@ -4115,7 +4115,7 @@
                     ],
                     "strength": "required",
                     "description": "The lifecycle status of an artifact.",
-                    "valueSet": "http://hl7.org/fhir/ValueSet/publication-status|4.3.0-cibuild"
+                    "valueSet": "http://hl7.org/fhir/ValueSet/publication-status|4.3.0"
                 },
                 "mapping": [
                     {
@@ -4444,7 +4444,7 @@
                     ],
                     "strength": "required",
                     "description": "How the referenced structure is used in this mapping.",
-                    "valueSet": "http://hl7.org/fhir/ValueSet/map-model-mode|4.3.0-cibuild"
+                    "valueSet": "http://hl7.org/fhir/ValueSet/map-model-mode|4.3.0"
                 }
             },
             {
@@ -4572,7 +4572,7 @@
                     ],
                     "strength": "required",
                     "description": "If this is the default rule set to apply for the source type, or this combination of types.",
-                    "valueSet": "http://hl7.org/fhir/ValueSet/map-group-type-mode|4.3.0-cibuild"
+                    "valueSet": "http://hl7.org/fhir/ValueSet/map-group-type-mode|4.3.0"
                 }
             },
             {
@@ -4664,7 +4664,7 @@
                     ],
                     "strength": "required",
                     "description": "Mode for this instance of data.",
-                    "valueSet": "http://hl7.org/fhir/ValueSet/map-input-mode|4.3.0-cibuild"
+                    "valueSet": "http://hl7.org/fhir/ValueSet/map-input-mode|4.3.0"
                 }
             },
             {
@@ -4999,7 +4999,7 @@
                     ],
                     "strength": "required",
                     "description": "If field is a list, how to manage the source.",
-                    "valueSet": "http://hl7.org/fhir/ValueSet/map-source-list-mode|4.3.0-cibuild"
+                    "valueSet": "http://hl7.org/fhir/ValueSet/map-source-list-mode|4.3.0"
                 }
             },
             {
@@ -5141,7 +5141,7 @@
                     ],
                     "strength": "required",
                     "description": "How to interpret the context.",
-                    "valueSet": "http://hl7.org/fhir/ValueSet/map-context-type|4.3.0-cibuild"
+                    "valueSet": "http://hl7.org/fhir/ValueSet/map-context-type|4.3.0"
                 }
             },
             {
@@ -5200,7 +5200,7 @@
                     ],
                     "strength": "required",
                     "description": "If field is a list, how to manage the production.",
-                    "valueSet": "http://hl7.org/fhir/ValueSet/map-target-list-mode|4.3.0-cibuild"
+                    "valueSet": "http://hl7.org/fhir/ValueSet/map-target-list-mode|4.3.0"
                 }
             },
             {
@@ -5243,7 +5243,7 @@
                     ],
                     "strength": "required",
                     "description": "How data is copied/created.",
-                    "valueSet": "http://hl7.org/fhir/ValueSet/map-transform|4.3.0-cibuild"
+                    "valueSet": "http://hl7.org/fhir/ValueSet/map-transform|4.3.0"
                 }
             },
             {

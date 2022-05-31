@@ -2,7 +2,7 @@
     "resourceType": "ValueSet",
     "id": "benefit-network",
     "meta": {
-        "lastUpdated": "2022-04-23T22:21:35.043Z",
+        "lastUpdated": "2022-05-28T12:47:40.239+10:00",
         "profile": [
             "http://hl7.org/fhir/StructureDefinition/shareablevalueset"
         ]
@@ -28,7 +28,7 @@
             "value": "urn:oid:2.16.840.1.113883.4.642.3.608"
         }
     ],
-    "version": "4.3.0-cibuild",
+    "version": "4.3.0",
     "name": "NetworkTypeCodes",
     "title": "Network Type Codes",
     "status": "draft",
@@ -54,8 +54,8 @@
         ]
     },
     "expansion": {
-        "identifier": "urn:uuid:8c3e1e58-8d17-449f-9657-51379b2fa343",
-        "timestamp": "2022-04-23T22:23:26Z",
+        "identifier": "urn:uuid:0f5761b9-94b1-4740-93d4-25114318a826",
+        "timestamp": "2022-05-28T12:49:24+10:00",
         "total": 2,
         "parameter": [
             {
@@ -68,7 +68,7 @@
             },
             {
                 "name": "version",
-                "valueUri": "http://terminology.hl7.org/CodeSystem/benefit-network|4.3.0-cibuild"
+                "valueUri": "http://terminology.hl7.org/CodeSystem/benefit-network|4.3.0"
             }
         ],
         "contains": [

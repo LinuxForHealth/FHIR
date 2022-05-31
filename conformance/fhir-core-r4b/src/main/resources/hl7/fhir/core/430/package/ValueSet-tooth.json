@@ -2,7 +2,7 @@
     "resourceType": "ValueSet",
     "id": "tooth",
     "meta": {
-        "lastUpdated": "2022-04-23T22:21:35.043Z",
+        "lastUpdated": "2022-05-28T12:47:40.239+10:00",
         "profile": [
             "http://hl7.org/fhir/StructureDefinition/shareablevalueset"
         ]
@@ -28,7 +28,7 @@
             "value": "urn:oid:2.16.840.1.113883.4.642.3.540"
         }
     ],
-    "version": "4.3.0-cibuild",
+    "version": "4.3.0",
     "name": "OralSiteCodes",
     "title": "Oral Site Codes",
     "status": "draft",
@@ -54,8 +54,8 @@
         ]
     },
     "expansion": {
-        "identifier": "urn:uuid:ae40a81a-0ac0-48a3-be58-ab1cc1c31d8e",
-        "timestamp": "2022-04-23T22:23:26Z",
+        "identifier": "urn:uuid:e32d13cc-d3fd-4011-aa71-baad58753e92",
+        "timestamp": "2022-05-28T12:49:24+10:00",
         "total": 41,
         "parameter": [
             {
@@ -68,7 +68,7 @@
             },
             {
                 "name": "version",
-                "valueUri": "http://terminology.hl7.org/CodeSystem/ex-tooth|4.3.0-cibuild"
+                "valueUri": "http://terminology.hl7.org/CodeSystem/ex-tooth|4.3.0"
             }
         ],
         "contains": [

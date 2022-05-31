@@ -2,7 +2,7 @@
     "resourceType": "ValueSet",
     "id": "basic-resource-type",
     "meta": {
-        "lastUpdated": "2022-04-23T22:21:35.043Z",
+        "lastUpdated": "2022-05-28T12:47:40.239+10:00",
         "profile": [
             "http://hl7.org/fhir/StructureDefinition/shareablevalueset"
         ]
@@ -28,7 +28,7 @@
             "value": "urn:oid:2.16.840.1.113883.4.642.3.138"
         }
     ],
-    "version": "4.3.0-cibuild",
+    "version": "4.3.0",
     "name": "BasicResourceTypes",
     "title": "Basic Resource Types",
     "status": "draft",
@@ -53,8 +53,8 @@
         ]
     },
     "expansion": {
-        "identifier": "urn:uuid:105723b4-8af9-4042-a8e8-10cc5153fb1e",
-        "timestamp": "2022-04-23T22:23:26Z",
+        "identifier": "urn:uuid:d26023b2-62ae-4aa1-a5ca-945b21ec2b62",
+        "timestamp": "2022-05-28T12:49:24+10:00",
         "total": 16,
         "parameter": [
             {
@@ -67,7 +67,7 @@
             },
             {
                 "name": "version",
-                "valueUri": "http://terminology.hl7.org/CodeSystem/basic-resource-type|4.3.0-cibuild"
+                "valueUri": "http://terminology.hl7.org/CodeSystem/basic-resource-type|4.3.0"
             }
         ],
         "contains": [

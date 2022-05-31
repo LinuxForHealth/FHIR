@@ -2,7 +2,7 @@
     "resourceType": "StructureDefinition",
     "id": "Age",
     "meta": {
-        "lastUpdated": "2022-04-23T22:21:35.043Z"
+        "lastUpdated": "2022-05-28T12:47:40.239+10:00"
     },
     "text": {
         "status": "empty",
@@ -15,11 +15,11 @@
         }
     ],
     "url": "http://hl7.org/fhir/StructureDefinition/Age",
-    "version": "4.3.0-cibuild",
+    "version": "4.3.0",
     "name": "Age",
     "status": "draft",
     "experimental": false,
-    "date": "2022-04-23T22:21:35Z",
+    "date": "2022-05-28T12:47:40+10:00",
     "publisher": "HL7 FHIR Standard",
     "contact": [
         {
@@ -32,7 +32,7 @@
         }
     ],
     "description": "Base StructureDefinition for Age Type: A duration of time during which an organism (or a process) has existed.",
-    "fhirVersion": "4.3.0-cibuild",
+    "fhirVersion": "4.3.0",
     "mapping": [
         {
             "identity": "rim",
@@ -151,7 +151,7 @@
                         "extension": [
                             {
                                 "url": "http://hl7.org/fhir/StructureDefinition/structuredefinition-fhir-type",
-                                "valueUrl": "string"
+                                "valueUrl": "id"
                             }
                         ],
                         "code": "http://hl7.org/fhirpath/System.String"
@@ -311,7 +311,7 @@
                         }
                     ],
                     "strength": "required",
-                    "valueSet": "http://hl7.org/fhir/ValueSet/quantity-comparator|4.3.0-cibuild"
+                    "valueSet": "http://hl7.org/fhir/ValueSet/quantity-comparator|4.3.0"
                 },
                 "mapping": [
                     {

@@ -2,13 +2,17 @@
     "resourceType": "StructureDefinition",
     "id": "TestScript",
     "meta": {
-        "lastUpdated": "2022-04-23T22:21:35.043Z"
+        "lastUpdated": "2022-05-28T12:47:40.239+10:00"
     },
     "text": {
         "status": "empty",
         "div": "<div xmlns=\"http://www.w3.org/1999/xhtml\">Redacted for size</div>"
     },
     "extension": [
+        {
+            "url": "http://hl7.org/fhir/StructureDefinition/structuredefinition-category",
+            "valueString": "Specialized.Quality Reporting &amp; Testing"
+        },
         {
             "url": "http://hl7.org/fhir/StructureDefinition/structuredefinition-standards-status",
             "valueCode": "trial-use"
@@ -24,18 +28,14 @@
         {
             "url": "http://hl7.org/fhir/StructureDefinition/structuredefinition-wg",
             "valueCode": "fhir"
-        },
-        {
-            "url": "http://hl7.org/fhir/StructureDefinition/structuredefinition-category",
-            "valueString": "Specialized.Quality Reporting &amp; Testing"
         }
     ],
     "url": "http://hl7.org/fhir/StructureDefinition/TestScript",
-    "version": "4.3.0-cibuild",
+    "version": "4.3.0",
     "name": "TestScript",
     "status": "draft",
     "experimental": false,
-    "date": "2022-04-23T22:21:35Z",
+    "date": "2022-05-28T12:47:40+10:00",
     "publisher": "Health Level Seven International (FHIR Infrastructure)",
     "contact": [
         {
@@ -56,7 +56,7 @@
         }
     ],
     "description": "A structured set of tests against a FHIR server or client implementation to determine compliance against the FHIR specification.",
-    "fhirVersion": "4.3.0-cibuild",
+    "fhirVersion": "4.3.0",
     "mapping": [
         {
             "identity": "rim",
@@ -762,7 +762,7 @@
                     ],
                     "strength": "required",
                     "description": "The lifecycle status of an artifact.",
-                    "valueSet": "http://hl7.org/fhir/ValueSet/publication-status|4.3.0-cibuild"
+                    "valueSet": "http://hl7.org/fhir/ValueSet/publication-status|4.3.0"
                 },
                 "mapping": [
                     {
@@ -3787,7 +3787,7 @@
                     ],
                     "strength": "required",
                     "description": "A list of all the concrete types defined in this version of the FHIR specification - Data Types and Resource Types.",
-                    "valueSet": "http://hl7.org/fhir/ValueSet/defined-types|4.3.0-cibuild"
+                    "valueSet": "http://hl7.org/fhir/ValueSet/defined-types|4.3.0"
                 }
             },
             {
@@ -3904,7 +3904,7 @@
                     ],
                     "strength": "required",
                     "description": "BCP 13 (RFCs 2045, 2046, 2047, 4288, 4289 and 2049)",
-                    "valueSet": "http://hl7.org/fhir/ValueSet/mimetypes|4.3.0-cibuild"
+                    "valueSet": "http://hl7.org/fhir/ValueSet/mimetypes|4.3.0"
                 }
             },
             {
@@ -3957,7 +3957,7 @@
                     ],
                     "strength": "required",
                     "description": "BCP 13 (RFCs 2045, 2046, 2047, 4288, 4289 and 2049)",
-                    "valueSet": "http://hl7.org/fhir/ValueSet/mimetypes|4.3.0-cibuild"
+                    "valueSet": "http://hl7.org/fhir/ValueSet/mimetypes|4.3.0"
                 }
             },
             {
@@ -4063,7 +4063,7 @@
                     ],
                     "strength": "required",
                     "description": "The allowable request method or HTTP operation codes.",
-                    "valueSet": "http://hl7.org/fhir/ValueSet/http-operations|4.3.0-cibuild"
+                    "valueSet": "http://hl7.org/fhir/ValueSet/http-operations|4.3.0"
                 }
             },
             {
@@ -4817,7 +4817,7 @@
                     ],
                     "strength": "required",
                     "description": "The direction to use for assertions.",
-                    "valueSet": "http://hl7.org/fhir/ValueSet/assert-direction-codes|4.3.0-cibuild"
+                    "valueSet": "http://hl7.org/fhir/ValueSet/assert-direction-codes|4.3.0"
                 }
             },
             {
@@ -4965,7 +4965,7 @@
                     ],
                     "strength": "required",
                     "description": "BCP 13 (RFCs 2045, 2046, 2047, 4288, 4289 and 2049)",
-                    "valueSet": "http://hl7.org/fhir/ValueSet/mimetypes|4.3.0-cibuild"
+                    "valueSet": "http://hl7.org/fhir/ValueSet/mimetypes|4.3.0"
                 }
             },
             {
@@ -5136,7 +5136,7 @@
                     ],
                     "strength": "required",
                     "description": "The type of operator to use for assertions.",
-                    "valueSet": "http://hl7.org/fhir/ValueSet/assert-operator-codes|4.3.0-cibuild"
+                    "valueSet": "http://hl7.org/fhir/ValueSet/assert-operator-codes|4.3.0"
                 }
             },
             {
@@ -5211,7 +5211,7 @@
                     ],
                     "strength": "required",
                     "description": "The allowable request method or HTTP operation codes.",
-                    "valueSet": "http://hl7.org/fhir/ValueSet/http-operations|4.3.0-cibuild"
+                    "valueSet": "http://hl7.org/fhir/ValueSet/http-operations|4.3.0"
                 }
             },
             {
@@ -5290,7 +5290,7 @@
                     ],
                     "strength": "required",
                     "description": "A list of all the concrete types defined in this version of the FHIR specification - Data Types and Resource Types.",
-                    "valueSet": "http://hl7.org/fhir/ValueSet/defined-types|4.3.0-cibuild"
+                    "valueSet": "http://hl7.org/fhir/ValueSet/defined-types|4.3.0"
                 }
             },
             {
@@ -5333,7 +5333,7 @@
                     ],
                     "strength": "required",
                     "description": "The response code to expect in the response.",
-                    "valueSet": "http://hl7.org/fhir/ValueSet/assert-response-code-types|4.3.0-cibuild"
+                    "valueSet": "http://hl7.org/fhir/ValueSet/assert-response-code-types|4.3.0"
                 }
             },
             {
@@ -6568,7 +6568,7 @@
                     ],
                     "strength": "required",
                     "description": "The lifecycle status of an artifact.",
-                    "valueSet": "http://hl7.org/fhir/ValueSet/publication-status|4.3.0-cibuild"
+                    "valueSet": "http://hl7.org/fhir/ValueSet/publication-status|4.3.0"
                 },
                 "mapping": [
                     {
@@ -7551,7 +7551,7 @@
                     ],
                     "strength": "required",
                     "description": "A list of all the concrete types defined in this version of the FHIR specification - Data Types and Resource Types.",
-                    "valueSet": "http://hl7.org/fhir/ValueSet/defined-types|4.3.0-cibuild"
+                    "valueSet": "http://hl7.org/fhir/ValueSet/defined-types|4.3.0"
                 }
             },
             {
@@ -7623,7 +7623,7 @@
                     ],
                     "strength": "required",
                     "description": "BCP 13 (RFCs 2045, 2046, 2047, 4288, 4289 and 2049)",
-                    "valueSet": "http://hl7.org/fhir/ValueSet/mimetypes|4.3.0-cibuild"
+                    "valueSet": "http://hl7.org/fhir/ValueSet/mimetypes|4.3.0"
                 }
             },
             {
@@ -7661,7 +7661,7 @@
                     ],
                     "strength": "required",
                     "description": "BCP 13 (RFCs 2045, 2046, 2047, 4288, 4289 and 2049)",
-                    "valueSet": "http://hl7.org/fhir/ValueSet/mimetypes|4.3.0-cibuild"
+                    "valueSet": "http://hl7.org/fhir/ValueSet/mimetypes|4.3.0"
                 }
             },
             {
@@ -7722,7 +7722,7 @@
                     ],
                     "strength": "required",
                     "description": "The allowable request method or HTTP operation codes.",
-                    "valueSet": "http://hl7.org/fhir/ValueSet/http-operations|4.3.0-cibuild"
+                    "valueSet": "http://hl7.org/fhir/ValueSet/http-operations|4.3.0"
                 }
             },
             {
@@ -7996,7 +7996,7 @@
                     ],
                     "strength": "required",
                     "description": "The direction to use for assertions.",
-                    "valueSet": "http://hl7.org/fhir/ValueSet/assert-direction-codes|4.3.0-cibuild"
+                    "valueSet": "http://hl7.org/fhir/ValueSet/assert-direction-codes|4.3.0"
                 }
             },
             {
@@ -8084,7 +8084,7 @@
                     ],
                     "strength": "required",
                     "description": "BCP 13 (RFCs 2045, 2046, 2047, 4288, 4289 and 2049)",
-                    "valueSet": "http://hl7.org/fhir/ValueSet/mimetypes|4.3.0-cibuild"
+                    "valueSet": "http://hl7.org/fhir/ValueSet/mimetypes|4.3.0"
                 }
             },
             {
@@ -8180,7 +8180,7 @@
                     ],
                     "strength": "required",
                     "description": "The type of operator to use for assertions.",
-                    "valueSet": "http://hl7.org/fhir/ValueSet/assert-operator-codes|4.3.0-cibuild"
+                    "valueSet": "http://hl7.org/fhir/ValueSet/assert-operator-codes|4.3.0"
                 }
             },
             {
@@ -8225,7 +8225,7 @@
                     ],
                     "strength": "required",
                     "description": "The allowable request method or HTTP operation codes.",
-                    "valueSet": "http://hl7.org/fhir/ValueSet/http-operations|4.3.0-cibuild"
+                    "valueSet": "http://hl7.org/fhir/ValueSet/http-operations|4.3.0"
                 }
             },
             {
@@ -8274,7 +8274,7 @@
                     ],
                     "strength": "required",
                     "description": "A list of all the concrete types defined in this version of the FHIR specification - Data Types and Resource Types.",
-                    "valueSet": "http://hl7.org/fhir/ValueSet/defined-types|4.3.0-cibuild"
+                    "valueSet": "http://hl7.org/fhir/ValueSet/defined-types|4.3.0"
                 }
             },
             {
@@ -8302,7 +8302,7 @@
                     ],
                     "strength": "required",
                     "description": "The response code to expect in the response.",
-                    "valueSet": "http://hl7.org/fhir/ValueSet/assert-response-code-types|4.3.0-cibuild"
+                    "valueSet": "http://hl7.org/fhir/ValueSet/assert-response-code-types|4.3.0"
                 }
             },
             {

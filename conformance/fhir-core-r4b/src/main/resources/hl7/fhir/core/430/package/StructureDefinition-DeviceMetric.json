@@ -2,13 +2,17 @@
     "resourceType": "StructureDefinition",
     "id": "DeviceMetric",
     "meta": {
-        "lastUpdated": "2022-04-23T22:21:35.043Z"
+        "lastUpdated": "2022-05-28T12:47:40.239+10:00"
     },
     "text": {
         "status": "empty",
         "div": "<div xmlns=\"http://www.w3.org/1999/xhtml\">Redacted for size</div>"
     },
     "extension": [
+        {
+            "url": "http://hl7.org/fhir/StructureDefinition/structuredefinition-category",
+            "valueString": "Base.Entities"
+        },
         {
             "url": "http://hl7.org/fhir/StructureDefinition/structuredefinition-standards-status",
             "valueCode": "trial-use"
@@ -24,18 +28,14 @@
         {
             "url": "http://hl7.org/fhir/StructureDefinition/structuredefinition-wg",
             "valueCode": "dev"
-        },
-        {
-            "url": "http://hl7.org/fhir/StructureDefinition/structuredefinition-category",
-            "valueString": "Base.Entities"
         }
     ],
     "url": "http://hl7.org/fhir/StructureDefinition/DeviceMetric",
-    "version": "4.3.0-cibuild",
+    "version": "4.3.0",
     "name": "DeviceMetric",
     "status": "draft",
     "experimental": false,
-    "date": "2022-04-23T22:21:35Z",
+    "date": "2022-05-28T12:47:40+10:00",
     "publisher": "Health Level Seven International (Health Care Devices)",
     "contact": [
         {
@@ -56,7 +56,7 @@
         }
     ],
     "description": "Describes a measurement, calculation or setting capability of a medical device.",
-    "fhirVersion": "4.3.0-cibuild",
+    "fhirVersion": "4.3.0",
     "mapping": [
         {
             "identity": "w5",
@@ -724,7 +724,7 @@
                     ],
                     "strength": "required",
                     "description": "Describes the operational status of the DeviceMetric.",
-                    "valueSet": "http://hl7.org/fhir/ValueSet/metric-operational-status|4.3.0-cibuild"
+                    "valueSet": "http://hl7.org/fhir/ValueSet/metric-operational-status|4.3.0"
                 }
             },
             {
@@ -766,7 +766,7 @@
                     ],
                     "strength": "required",
                     "description": "Describes the typical color of representation.",
-                    "valueSet": "http://hl7.org/fhir/ValueSet/metric-color|4.3.0-cibuild"
+                    "valueSet": "http://hl7.org/fhir/ValueSet/metric-color|4.3.0"
                 }
             },
             {
@@ -808,7 +808,7 @@
                     ],
                     "strength": "required",
                     "description": "Describes the category of the metric.",
-                    "valueSet": "http://hl7.org/fhir/ValueSet/metric-category|4.3.0-cibuild"
+                    "valueSet": "http://hl7.org/fhir/ValueSet/metric-category|4.3.0"
                 },
                 "mapping": [
                     {
@@ -1054,7 +1054,7 @@
                     ],
                     "strength": "required",
                     "description": "Describes the type of a metric calibration.",
-                    "valueSet": "http://hl7.org/fhir/ValueSet/metric-calibration-type|4.3.0-cibuild"
+                    "valueSet": "http://hl7.org/fhir/ValueSet/metric-calibration-type|4.3.0"
                 }
             },
             {
@@ -1096,7 +1096,7 @@
                     ],
                     "strength": "required",
                     "description": "Describes the state of a metric calibration.",
-                    "valueSet": "http://hl7.org/fhir/ValueSet/metric-calibration-state|4.3.0-cibuild"
+                    "valueSet": "http://hl7.org/fhir/ValueSet/metric-calibration-state|4.3.0"
                 }
             },
             {
@@ -1298,7 +1298,7 @@
                     ],
                     "strength": "required",
                     "description": "Describes the operational status of the DeviceMetric.",
-                    "valueSet": "http://hl7.org/fhir/ValueSet/metric-operational-status|4.3.0-cibuild"
+                    "valueSet": "http://hl7.org/fhir/ValueSet/metric-operational-status|4.3.0"
                 }
             },
             {
@@ -1325,7 +1325,7 @@
                     ],
                     "strength": "required",
                     "description": "Describes the typical color of representation.",
-                    "valueSet": "http://hl7.org/fhir/ValueSet/metric-color|4.3.0-cibuild"
+                    "valueSet": "http://hl7.org/fhir/ValueSet/metric-color|4.3.0"
                 }
             },
             {
@@ -1352,7 +1352,7 @@
                     ],
                     "strength": "required",
                     "description": "Describes the category of the metric.",
-                    "valueSet": "http://hl7.org/fhir/ValueSet/metric-category|4.3.0-cibuild"
+                    "valueSet": "http://hl7.org/fhir/ValueSet/metric-category|4.3.0"
                 },
                 "mapping": [
                     {
@@ -1417,7 +1417,7 @@
                     ],
                     "strength": "required",
                     "description": "Describes the type of a metric calibration.",
-                    "valueSet": "http://hl7.org/fhir/ValueSet/metric-calibration-type|4.3.0-cibuild"
+                    "valueSet": "http://hl7.org/fhir/ValueSet/metric-calibration-type|4.3.0"
                 }
             },
             {
@@ -1444,7 +1444,7 @@
                     ],
                     "strength": "required",
                     "description": "Describes the state of a metric calibration.",
-                    "valueSet": "http://hl7.org/fhir/ValueSet/metric-calibration-state|4.3.0-cibuild"
+                    "valueSet": "http://hl7.org/fhir/ValueSet/metric-calibration-state|4.3.0"
                 }
             },
             {

@@ -12,7 +12,7 @@
         }
     ],
     "url": "http://hl7.org/fhir/StructureDefinition/request-doNotPerform",
-    "version": "4.3.0-cibuild",
+    "version": "4.3.0",
     "name": "doNotPerform",
     "title": "Do Not Perfom",
     "status": "draft",
@@ -30,7 +30,7 @@
         }
     ],
     "description": "If true indicates that the request is asking for the specified action to not occur.",
-    "fhirVersion": "4.3.0-cibuild",
+    "fhirVersion": "4.3.0",
     "mapping": [
         {
             "identity": "rim",
@@ -108,7 +108,7 @@
                         "extension": [
                             {
                                 "url": "http://hl7.org/fhir/StructureDefinition/structuredefinition-fhir-type",
-                                "valueUrl": "string"
+                                "valueUrl": "id"
                             }
                         ],
                         "code": "http://hl7.org/fhirpath/System.String"

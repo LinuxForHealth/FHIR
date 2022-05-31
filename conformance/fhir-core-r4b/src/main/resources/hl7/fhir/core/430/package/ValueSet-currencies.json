@@ -2,7 +2,7 @@
     "resourceType": "ValueSet",
     "id": "currencies",
     "meta": {
-        "lastUpdated": "2022-04-23T22:21:35.043Z",
+        "lastUpdated": "2022-05-28T12:47:40.239+10:00",
         "profile": [
             "http://hl7.org/fhir/StructureDefinition/shareablevalueset"
         ]
@@ -32,12 +32,12 @@
             "value": "urn:oid:2.16.840.1.113883.4.642.3.1025"
         }
     ],
-    "version": "4.3.0-cibuild",
+    "version": "4.3.0",
     "name": "Currencies",
     "title": "CurrencyCode",
     "status": "active",
     "experimental": false,
-    "date": "2022-04-23T22:21:35Z",
+    "date": "2022-05-28T12:47:40+10:00",
     "publisher": "HL7 International - FHIR-Infrastructure",
     "contact": [
         {
@@ -58,8 +58,8 @@
         ]
     },
     "expansion": {
-        "identifier": "urn:uuid:305a4ce2-09d7-4d98-91cd-b8a15984c5a4",
-        "timestamp": "2022-04-23T22:23:08Z",
+        "identifier": "urn:uuid:2b188b34-a540-434e-874c-b1403edd2ffb",
+        "timestamp": "2022-05-28T12:49:07+10:00",
         "total": 182,
         "parameter": [
             {
@@ -409,10 +409,10 @@
             {
                 "system": "urn:iso:std:iso:4217",
                 "code": "CNY",
-                "display": "Renminbi (Chinese) yuan[8]",
+                "display": "Renminbi (Chinese) yuan",
                 "designation": [
                     {
-                        "value": "Renminbi (Chinese) yuan[8]"
+                        "value": "Renminbi (Chinese) yuan"
                     }
                 ]
             },
@@ -429,10 +429,10 @@
             {
                 "system": "urn:iso:std:iso:4217",
                 "code": "COU",
-                "display": "Unidad de Valor Real (UVR) (funds code)[9]",
+                "display": "Unidad de Valor Real (UVR) (funds code)",
                 "designation": [
                     {
-                        "value": "Unidad de Valor Real (UVR) (funds code)[9]"
+                        "value": "Unidad de Valor Real (UVR) (funds code)"
                     }
                 ]
             },
@@ -1039,10 +1039,10 @@
             {
                 "system": "urn:iso:std:iso:4217",
                 "code": "MNT",
-                "display": "Mongolian tC6grC6g",
+                "display": "Mongolian tugrik",
                 "designation": [
                     {
-                        "value": "Mongolian tC6grC6g"
+                        "value": "Mongolian tugrik"
                     }
                 ]
             },
@@ -1159,10 +1159,10 @@
             {
                 "system": "urn:iso:std:iso:4217",
                 "code": "NIO",
-                "display": "Nicaraguan cC3rdoba",
+                "display": "Nicaraguan Cordoba Oro",
                 "designation": [
                     {
-                        "value": "Nicaraguan cC3rdoba"
+                        "value": "Nicaraguan Cordoba Oro"
                     }
                 ]
             },
@@ -1239,10 +1239,10 @@
             {
                 "system": "urn:iso:std:iso:4217",
                 "code": "PHP",
-                "display": "Philippine piso[13]",
+                "display": "Philippine peso",
                 "designation": [
                     {
-                        "value": "Philippine piso[13]"
+                        "value": "Philippine peso"
                     }
                 ]
             },
@@ -1269,10 +1269,10 @@
             {
                 "system": "urn:iso:std:iso:4217",
                 "code": "PYG",
-                "display": "Paraguayan guaranC-",
+                "display": "Paraguayan guaraní",
                 "designation": [
                     {
-                        "value": "Paraguayan guaranC-"
+                        "value": "Paraguayan guaraní"
                     }
                 ]
             },

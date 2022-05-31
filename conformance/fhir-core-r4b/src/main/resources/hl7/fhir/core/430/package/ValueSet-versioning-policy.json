@@ -2,7 +2,7 @@
     "resourceType": "ValueSet",
     "id": "versioning-policy",
     "meta": {
-        "lastUpdated": "2022-04-24T09:21:35.043+11:00",
+        "lastUpdated": "2022-05-28T13:47:40.239+11:00",
         "profile": [
             "http://hl7.org/fhir/StructureDefinition/shareablevalueset"
         ]
@@ -32,7 +32,7 @@
             "value": "urn:oid:2.16.840.1.113883.4.642.3.190"
         }
     ],
-    "version": "4.3.0-cibuild",
+    "version": "4.3.0",
     "name": "ResourceVersionPolicy",
     "title": "ResourceVersionPolicy",
     "status": "active",
@@ -63,8 +63,8 @@
         ]
     },
     "expansion": {
-        "identifier": "urn:uuid:7d7c1a16-66fd-47cf-99a9-5b6a338b74fd",
-        "timestamp": "2022-04-23T22:23:07Z",
+        "identifier": "urn:uuid:24c4ac24-407f-4e84-ab87-3f3a6e687c64",
+        "timestamp": "2022-05-28T12:49:05+10:00",
         "total": 3,
         "parameter": [
             {
@@ -77,7 +77,7 @@
             },
             {
                 "name": "version",
-                "valueUri": "http://hl7.org/fhir/versioning-policy|4.3.0-cibuild"
+                "valueUri": "http://hl7.org/fhir/versioning-policy|4.3.0"
             }
         ],
         "contains": [

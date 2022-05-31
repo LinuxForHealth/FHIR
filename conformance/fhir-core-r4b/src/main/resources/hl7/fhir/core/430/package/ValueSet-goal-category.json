@@ -2,7 +2,7 @@
     "resourceType": "ValueSet",
     "id": "goal-category",
     "meta": {
-        "lastUpdated": "2022-04-23T22:21:35.043Z",
+        "lastUpdated": "2022-05-28T12:47:40.239+10:00",
         "profile": [
             "http://hl7.org/fhir/StructureDefinition/shareablevalueset"
         ]
@@ -28,7 +28,7 @@
             "value": "urn:oid:2.16.840.1.113883.4.642.3.275"
         }
     ],
-    "version": "4.3.0-cibuild",
+    "version": "4.3.0",
     "name": "GoalCategory",
     "status": "draft",
     "experimental": true,
@@ -52,8 +52,8 @@
         ]
     },
     "expansion": {
-        "identifier": "urn:uuid:97011b1f-6903-4bb2-8a4c-d3ec4104875d",
-        "timestamp": "2022-04-23T22:23:26Z",
+        "identifier": "urn:uuid:4f0ae826-8dde-426a-a147-af2581b9893d",
+        "timestamp": "2022-05-28T12:49:24+10:00",
         "total": 5,
         "parameter": [
             {
@@ -66,7 +66,7 @@
             },
             {
                 "name": "version",
-                "valueUri": "http://terminology.hl7.org/CodeSystem/goal-category|4.3.0-cibuild"
+                "valueUri": "http://terminology.hl7.org/CodeSystem/goal-category|4.3.0"
             }
         ],
         "contains": [

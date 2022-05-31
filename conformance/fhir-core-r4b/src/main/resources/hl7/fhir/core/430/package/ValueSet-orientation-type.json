@@ -2,7 +2,7 @@
     "resourceType": "ValueSet",
     "id": "orientation-type",
     "meta": {
-        "lastUpdated": "2022-04-24T09:21:35.043+11:00",
+        "lastUpdated": "2022-05-28T13:47:40.239+11:00",
         "profile": [
             "http://hl7.org/fhir/StructureDefinition/shareablevalueset"
         ]
@@ -28,7 +28,7 @@
             "value": "urn:oid:2.16.840.1.113883.4.642.3.987"
         }
     ],
-    "version": "4.3.0-cibuild",
+    "version": "4.3.0",
     "name": "orientationType",
     "title": "orientationType",
     "status": "draft",
@@ -59,8 +59,8 @@
         ]
     },
     "expansion": {
-        "identifier": "urn:uuid:cef63159-f797-4917-8595-a6e6a31a2b30",
-        "timestamp": "2022-04-23T22:23:07Z",
+        "identifier": "urn:uuid:e23f5dcf-f256-4f26-8e71-ac08ba3bfb14",
+        "timestamp": "2022-05-28T12:49:05+10:00",
         "total": 2,
         "parameter": [
             {
@@ -73,7 +73,7 @@
             },
             {
                 "name": "version",
-                "valueUri": "http://hl7.org/fhir/orientation-type|4.3.0-cibuild"
+                "valueUri": "http://hl7.org/fhir/orientation-type|4.3.0"
             }
         ],
         "contains": [

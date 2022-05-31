@@ -12,7 +12,7 @@
         }
     ],
     "url": "http://hl7.org/fhir/StructureDefinition/allergyintolerance-certainty",
-    "version": "4.3.0-cibuild",
+    "version": "4.3.0",
     "name": "certainty",
     "title": "certainty",
     "status": "draft",
@@ -113,7 +113,7 @@
                         "extension": [
                             {
                                 "url": "http://hl7.org/fhir/StructureDefinition/structuredefinition-fhir-type",
-                                "valueUrl": "string"
+                                "valueUrl": "id"
                             }
                         ],
                         "code": "http://hl7.org/fhirpath/System.String"

@@ -12,15 +12,15 @@
         }
     ],
     "url": "http://hl7.org/fhir/StructureDefinition/usagecontext-group",
-    "version": "4.3.0-cibuild",
+    "version": "4.3.0",
     "name": "group",
     "title": "Context Group",
     "status": "draft",
     "experimental": false,
-    "date": "2022-04-23T22:21:35Z",
+    "date": "2022-05-28T12:47:40+10:00",
     "publisher": "HL7",
     "description": "Defines the group in which this usage context is a member. Multiple groups are \"OR'ed\", contexts within a group are \"AND'ed\".",
-    "fhirVersion": "4.3.0-cibuild",
+    "fhirVersion": "4.3.0",
     "mapping": [
         {
             "identity": "rim",
@@ -96,7 +96,7 @@
                         "extension": [
                             {
                                 "url": "http://hl7.org/fhir/StructureDefinition/structuredefinition-fhir-type",
-                                "valueUrl": "string"
+                                "valueUrl": "id"
                             }
                         ],
                         "code": "http://hl7.org/fhirpath/System.String"

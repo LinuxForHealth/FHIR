@@ -12,7 +12,7 @@
         }
     ],
     "url": "http://hl7.org/fhir/StructureDefinition/elementdefinition-equivalence",
-    "version": "4.3.0-cibuild",
+    "version": "4.3.0",
     "name": "equivalence",
     "status": "draft",
     "experimental": false,
@@ -29,7 +29,7 @@
         }
     ],
     "description": "The level of equivalence between the element containing the mapping and the element mapped to.",
-    "fhirVersion": "4.3.0-cibuild",
+    "fhirVersion": "4.3.0",
     "mapping": [
         {
             "identity": "rim",
@@ -111,7 +111,7 @@
                         "extension": [
                             {
                                 "url": "http://hl7.org/fhir/StructureDefinition/structuredefinition-fhir-type",
-                                "valueUrl": "string"
+                                "valueUrl": "id"
                             }
                         ],
                         "code": "http://hl7.org/fhirpath/System.String"
@@ -256,7 +256,7 @@
                         }
                     ],
                     "strength": "required",
-                    "valueSet": "http://hl7.org/fhir/ValueSet/concept-map-equivalence|4.3.0-cibuild"
+                    "valueSet": "http://hl7.org/fhir/ValueSet/concept-map-equivalence|4.3.0"
                 },
                 "mapping": [
                     {
@@ -318,7 +318,7 @@
                         }
                     ],
                     "strength": "required",
-                    "valueSet": "http://hl7.org/fhir/ValueSet/concept-map-equivalence|4.3.0-cibuild"
+                    "valueSet": "http://hl7.org/fhir/ValueSet/concept-map-equivalence|4.3.0"
                 }
             }
         ]

@@ -2,7 +2,7 @@
     "resourceType": "ValueSet",
     "id": "immunization-origin",
     "meta": {
-        "lastUpdated": "2022-04-23T22:21:35.043Z",
+        "lastUpdated": "2022-05-28T12:47:40.239+10:00",
         "profile": [
             "http://hl7.org/fhir/StructureDefinition/shareablevalueset"
         ]
@@ -28,7 +28,7 @@
             "value": "urn:oid:2.16.840.1.113883.4.642.3.296"
         }
     ],
-    "version": "4.3.0-cibuild",
+    "version": "4.3.0",
     "name": "ImmunizationOriginCodes",
     "title": "Immunization Origin Codes",
     "status": "draft",
@@ -71,8 +71,8 @@
         ]
     },
     "expansion": {
-        "identifier": "urn:uuid:4f2f546e-11d0-4ffa-a96b-f0a15719848d",
-        "timestamp": "2022-04-23T22:23:26Z",
+        "identifier": "urn:uuid:d22850c2-4648-4b1a-ac12-4342d99ee7d6",
+        "timestamp": "2022-05-28T12:49:24+10:00",
         "total": 4,
         "parameter": [
             {
@@ -85,7 +85,7 @@
             },
             {
                 "name": "version",
-                "valueUri": "http://terminology.hl7.org/CodeSystem/immunization-origin|4.3.0-cibuild"
+                "valueUri": "http://terminology.hl7.org/CodeSystem/immunization-origin|4.3.0"
             }
         ],
         "contains": [

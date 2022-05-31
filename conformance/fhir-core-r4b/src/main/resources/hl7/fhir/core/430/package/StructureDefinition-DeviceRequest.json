@@ -2,13 +2,17 @@
     "resourceType": "StructureDefinition",
     "id": "DeviceRequest",
     "meta": {
-        "lastUpdated": "2022-04-23T22:21:35.043Z"
+        "lastUpdated": "2022-05-28T12:47:40.239+10:00"
     },
     "text": {
         "status": "empty",
         "div": "<div xmlns=\"http://www.w3.org/1999/xhtml\">Redacted for size</div>"
     },
     "extension": [
+        {
+            "url": "http://hl7.org/fhir/StructureDefinition/structuredefinition-category",
+            "valueString": "Clinical.Request &amp; Response"
+        },
         {
             "url": "http://hl7.org/fhir/StructureDefinition/structuredefinition-standards-status",
             "valueCode": "trial-use"
@@ -24,18 +28,14 @@
         {
             "url": "http://hl7.org/fhir/StructureDefinition/structuredefinition-wg",
             "valueCode": "oo"
-        },
-        {
-            "url": "http://hl7.org/fhir/StructureDefinition/structuredefinition-category",
-            "valueString": "Clinical.Request &amp; Response"
         }
     ],
     "url": "http://hl7.org/fhir/StructureDefinition/DeviceRequest",
-    "version": "4.3.0-cibuild",
+    "version": "4.3.0",
     "name": "DeviceRequest",
     "status": "draft",
     "experimental": false,
-    "date": "2022-04-23T22:21:35Z",
+    "date": "2022-05-28T12:47:40+10:00",
     "publisher": "Health Level Seven International (Orders and Observations)",
     "contact": [
         {
@@ -56,7 +56,7 @@
         }
     ],
     "description": "Represents a request for a patient to employ a medical device. The device may be an implantable device, or an external assistive device, such as a walker.",
-    "fhirVersion": "4.3.0-cibuild",
+    "fhirVersion": "4.3.0",
     "mapping": [
         {
             "identity": "workflow",
@@ -848,7 +848,7 @@
                     ],
                     "strength": "required",
                     "description": "Codes representing the status of the request.",
-                    "valueSet": "http://hl7.org/fhir/ValueSet/request-status|4.3.0-cibuild"
+                    "valueSet": "http://hl7.org/fhir/ValueSet/request-status|4.3.0"
                 },
                 "mapping": [
                     {
@@ -913,7 +913,7 @@
                     ],
                     "strength": "required",
                     "description": "The kind of diagnostic request.",
-                    "valueSet": "http://hl7.org/fhir/ValueSet/request-intent|4.3.0-cibuild"
+                    "valueSet": "http://hl7.org/fhir/ValueSet/request-intent|4.3.0"
                 },
                 "mapping": [
                     {
@@ -974,7 +974,7 @@
                     ],
                     "strength": "required",
                     "description": "Identifies the level of importance to be assigned to actioning the request.",
-                    "valueSet": "http://hl7.org/fhir/ValueSet/request-priority|4.3.0-cibuild"
+                    "valueSet": "http://hl7.org/fhir/ValueSet/request-priority|4.3.0"
                 },
                 "mapping": [
                     {
@@ -2350,7 +2350,7 @@
                     ],
                     "strength": "required",
                     "description": "Codes representing the status of the request.",
-                    "valueSet": "http://hl7.org/fhir/ValueSet/request-status|4.3.0-cibuild"
+                    "valueSet": "http://hl7.org/fhir/ValueSet/request-status|4.3.0"
                 },
                 "mapping": [
                     {
@@ -2400,7 +2400,7 @@
                     ],
                     "strength": "required",
                     "description": "The kind of diagnostic request.",
-                    "valueSet": "http://hl7.org/fhir/ValueSet/request-intent|4.3.0-cibuild"
+                    "valueSet": "http://hl7.org/fhir/ValueSet/request-intent|4.3.0"
                 },
                 "mapping": [
                     {
@@ -2446,7 +2446,7 @@
                     ],
                     "strength": "required",
                     "description": "Identifies the level of importance to be assigned to actioning the request.",
-                    "valueSet": "http://hl7.org/fhir/ValueSet/request-priority|4.3.0-cibuild"
+                    "valueSet": "http://hl7.org/fhir/ValueSet/request-priority|4.3.0"
                 },
                 "mapping": [
                     {

@@ -12,7 +12,7 @@
         }
     ],
     "url": "http://hl7.org/fhir/StructureDefinition/data-absent-reason",
-    "version": "4.3.0-cibuild",
+    "version": "4.3.0",
     "name": "Data Absent Reason",
     "title": "Why value is missing",
     "status": "draft",
@@ -30,7 +30,7 @@
         }
     ],
     "description": "Provides a reason why the expected value or elements in the element that is extended are missing.",
-    "fhirVersion": "4.3.0-cibuild",
+    "fhirVersion": "4.3.0",
     "mapping": [
         {
             "identity": "rim",
@@ -112,7 +112,7 @@
                         "extension": [
                             {
                                 "url": "http://hl7.org/fhir/StructureDefinition/structuredefinition-fhir-type",
-                                "valueUrl": "string"
+                                "valueUrl": "id"
                             }
                         ],
                         "code": "http://hl7.org/fhirpath/System.String"
@@ -257,7 +257,7 @@
                         }
                     ],
                     "strength": "required",
-                    "valueSet": "http://hl7.org/fhir/ValueSet/data-absent-reason|4.3.0-cibuild"
+                    "valueSet": "http://hl7.org/fhir/ValueSet/data-absent-reason|4.3.0"
                 },
                 "mapping": [
                     {
@@ -319,7 +319,7 @@
                         }
                     ],
                     "strength": "required",
-                    "valueSet": "http://hl7.org/fhir/ValueSet/data-absent-reason|4.3.0-cibuild"
+                    "valueSet": "http://hl7.org/fhir/ValueSet/data-absent-reason|4.3.0"
                 }
             }
         ]

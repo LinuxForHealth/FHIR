@@ -2,7 +2,7 @@
     "resourceType": "ValueSet",
     "id": "condition-category",
     "meta": {
-        "lastUpdated": "2022-04-23T22:21:35.043Z",
+        "lastUpdated": "2022-05-28T12:47:40.239+10:00",
         "profile": [
             "http://hl7.org/fhir/StructureDefinition/shareablevalueset"
         ]
@@ -28,7 +28,7 @@
             "value": "urn:oid:2.16.840.1.113883.4.642.3.162"
         }
     ],
-    "version": "4.3.0-cibuild",
+    "version": "4.3.0",
     "name": "ConditionCategoryCodes",
     "title": "Condition Category Codes",
     "status": "draft",
@@ -53,8 +53,8 @@
         ]
     },
     "expansion": {
-        "identifier": "urn:uuid:7581f481-8e24-4391-b388-2f155a03673f",
-        "timestamp": "2022-04-23T22:23:26Z",
+        "identifier": "urn:uuid:2df17429-554b-4edd-a46a-7027424b3f8a",
+        "timestamp": "2022-05-28T12:49:24+10:00",
         "total": 2,
         "parameter": [
             {
@@ -67,7 +67,7 @@
             },
             {
                 "name": "version",
-                "valueUri": "http://terminology.hl7.org/CodeSystem/condition-category|4.3.0-cibuild"
+                "valueUri": "http://terminology.hl7.org/CodeSystem/condition-category|4.3.0"
             }
         ],
         "contains": [

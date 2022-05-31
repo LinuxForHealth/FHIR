@@ -2,7 +2,7 @@
     "resourceType": "StructureDefinition",
     "id": "ResearchElementDefinition",
     "meta": {
-        "lastUpdated": "2022-04-23T22:21:35.043Z"
+        "lastUpdated": "2022-05-28T12:47:40.239+10:00"
     },
     "text": {
         "status": "empty",
@@ -27,11 +27,11 @@
         }
     ],
     "url": "http://hl7.org/fhir/StructureDefinition/ResearchElementDefinition",
-    "version": "4.3.0-cibuild",
+    "version": "4.3.0",
     "name": "ResearchElementDefinition",
     "status": "draft",
     "experimental": false,
-    "date": "2022-04-23T22:21:35Z",
+    "date": "2022-05-28T12:47:40+10:00",
     "publisher": "Health Level Seven International (Clinical Decision Support)",
     "contact": [
         {
@@ -53,7 +53,7 @@
     ],
     "description": "The ResearchElementDefinition resource describes a \"PICO\" element that knowledge (evidence, assertion, recommendation) is about.",
     "purpose": "Need to be able to define and reuse the definition of individual elements of a research question.",
-    "fhirVersion": "4.3.0-cibuild",
+    "fhirVersion": "4.3.0",
     "mapping": [
         {
             "identity": "workflow",
@@ -817,7 +817,7 @@
                     ],
                     "strength": "required",
                     "description": "The lifecycle status of an artifact.",
-                    "valueSet": "http://hl7.org/fhir/ValueSet/publication-status|4.3.0-cibuild"
+                    "valueSet": "http://hl7.org/fhir/ValueSet/publication-status|4.3.0"
                 },
                 "mapping": [
                     {
@@ -1758,7 +1758,7 @@
                     ],
                     "strength": "required",
                     "description": "The possible types of research elements (E.g. Population, Exposure, Outcome).",
-                    "valueSet": "http://hl7.org/fhir/ValueSet/research-element-type|4.3.0-cibuild"
+                    "valueSet": "http://hl7.org/fhir/ValueSet/research-element-type|4.3.0"
                 }
             },
             {
@@ -1800,7 +1800,7 @@
                     ],
                     "strength": "required",
                     "description": "The possible types of variables for exposures or outcomes (E.g. Dichotomous, Continuous, Descriptive).",
-                    "valueSet": "http://hl7.org/fhir/ValueSet/variable-type|4.3.0-cibuild"
+                    "valueSet": "http://hl7.org/fhir/ValueSet/variable-type|4.3.0"
                 }
             },
             {
@@ -2118,7 +2118,7 @@
                     ],
                     "strength": "required",
                     "description": "Unified Code for Units of Measure (UCUM).",
-                    "valueSet": "http://hl7.org/fhir/ValueSet/ucum-units|4.3.0-cibuild"
+                    "valueSet": "http://hl7.org/fhir/ValueSet/ucum-units|4.3.0"
                 }
             },
             {
@@ -2262,7 +2262,7 @@
                     ],
                     "strength": "required",
                     "description": "Possible group measure aggregates (E.g. Mean, Median).",
-                    "valueSet": "http://hl7.org/fhir/ValueSet/group-measure|4.3.0-cibuild"
+                    "valueSet": "http://hl7.org/fhir/ValueSet/group-measure|4.3.0"
                 }
             },
             {
@@ -2406,7 +2406,7 @@
                     ],
                     "strength": "required",
                     "description": "Possible group measure aggregates (E.g. Mean, Median).",
-                    "valueSet": "http://hl7.org/fhir/ValueSet/group-measure|4.3.0-cibuild"
+                    "valueSet": "http://hl7.org/fhir/ValueSet/group-measure|4.3.0"
                 }
             }
         ]
@@ -2635,7 +2635,7 @@
                     ],
                     "strength": "required",
                     "description": "The lifecycle status of an artifact.",
-                    "valueSet": "http://hl7.org/fhir/ValueSet/publication-status|4.3.0-cibuild"
+                    "valueSet": "http://hl7.org/fhir/ValueSet/publication-status|4.3.0"
                 },
                 "mapping": [
                     {
@@ -3231,7 +3231,7 @@
                     ],
                     "strength": "required",
                     "description": "The possible types of research elements (E.g. Population, Exposure, Outcome).",
-                    "valueSet": "http://hl7.org/fhir/ValueSet/research-element-type|4.3.0-cibuild"
+                    "valueSet": "http://hl7.org/fhir/ValueSet/research-element-type|4.3.0"
                 }
             },
             {
@@ -3258,7 +3258,7 @@
                     ],
                     "strength": "required",
                     "description": "The possible types of variables for exposures or outcomes (E.g. Dichotomous, Continuous, Descriptive).",
-                    "valueSet": "http://hl7.org/fhir/ValueSet/variable-type|4.3.0-cibuild"
+                    "valueSet": "http://hl7.org/fhir/ValueSet/variable-type|4.3.0"
                 }
             },
             {
@@ -3365,7 +3365,7 @@
                     ],
                     "strength": "required",
                     "description": "Unified Code for Units of Measure (UCUM).",
-                    "valueSet": "http://hl7.org/fhir/ValueSet/ucum-units|4.3.0-cibuild"
+                    "valueSet": "http://hl7.org/fhir/ValueSet/ucum-units|4.3.0"
                 }
             },
             {
@@ -3449,7 +3449,7 @@
                     ],
                     "strength": "required",
                     "description": "Possible group measure aggregates (E.g. Mean, Median).",
-                    "valueSet": "http://hl7.org/fhir/ValueSet/group-measure|4.3.0-cibuild"
+                    "valueSet": "http://hl7.org/fhir/ValueSet/group-measure|4.3.0"
                 }
             },
             {
@@ -3533,7 +3533,7 @@
                     ],
                     "strength": "required",
                     "description": "Possible group measure aggregates (E.g. Mean, Median).",
-                    "valueSet": "http://hl7.org/fhir/ValueSet/group-measure|4.3.0-cibuild"
+                    "valueSet": "http://hl7.org/fhir/ValueSet/group-measure|4.3.0"
                 }
             }
         ]

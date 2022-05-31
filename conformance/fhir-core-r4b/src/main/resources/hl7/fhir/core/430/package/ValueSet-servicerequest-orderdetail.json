@@ -2,7 +2,7 @@
     "resourceType": "ValueSet",
     "id": "servicerequest-orderdetail",
     "meta": {
-        "lastUpdated": "2022-04-23T22:21:35.043Z",
+        "lastUpdated": "2022-05-28T12:47:40.239+10:00",
         "profile": [
             "http://hl7.org/fhir/StructureDefinition/shareablevalueset"
         ]
@@ -28,7 +28,7 @@
             "value": "urn:oid:2.16.840.1.113883.4.642.3.435"
         }
     ],
-    "version": "4.3.0-cibuild",
+    "version": "4.3.0",
     "name": "ServiceRequestOrderDetailsCodes",
     "title": "Service Request Order Details Codes",
     "status": "draft",
@@ -101,8 +101,8 @@
         ]
     },
     "expansion": {
-        "identifier": "urn:uuid:7e560226-bec3-4bf4-b16c-f25c6b232fc5",
-        "timestamp": "2022-04-23T22:23:26Z",
+        "identifier": "urn:uuid:b249e202-5cee-49cb-bcd6-39ca13216820",
+        "timestamp": "2022-05-28T12:49:24+10:00",
         "total": 5,
         "parameter": [
             {

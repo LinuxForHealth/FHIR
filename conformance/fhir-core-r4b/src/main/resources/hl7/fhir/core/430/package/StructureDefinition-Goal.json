@@ -2,13 +2,17 @@
     "resourceType": "StructureDefinition",
     "id": "Goal",
     "meta": {
-        "lastUpdated": "2022-04-23T22:21:35.043Z"
+        "lastUpdated": "2022-05-28T12:47:40.239+10:00"
     },
     "text": {
         "status": "empty",
         "div": "<div xmlns=\"http://www.w3.org/1999/xhtml\">Redacted for size</div>"
     },
     "extension": [
+        {
+            "url": "http://hl7.org/fhir/StructureDefinition/structuredefinition-category",
+            "valueString": "Clinical.Care Provision"
+        },
         {
             "url": "http://hl7.org/fhir/StructureDefinition/structuredefinition-standards-status",
             "valueCode": "trial-use"
@@ -24,18 +28,14 @@
         {
             "url": "http://hl7.org/fhir/StructureDefinition/structuredefinition-wg",
             "valueCode": "pc"
-        },
-        {
-            "url": "http://hl7.org/fhir/StructureDefinition/structuredefinition-category",
-            "valueString": "Clinical.Care Provision"
         }
     ],
     "url": "http://hl7.org/fhir/StructureDefinition/Goal",
-    "version": "4.3.0-cibuild",
+    "version": "4.3.0",
     "name": "Goal",
     "status": "draft",
     "experimental": false,
-    "date": "2022-04-23T22:21:35Z",
+    "date": "2022-05-28T12:47:40+10:00",
     "publisher": "Health Level Seven International (Patient Care)",
     "contact": [
         {
@@ -56,7 +56,7 @@
         }
     ],
     "description": "Describes the intended objective(s) for a patient, group or organization care, for example, weight loss, restoring an activity of daily living, obtaining herd immunity via immunization, meeting a process improvement objective, etc.",
-    "fhirVersion": "4.3.0-cibuild",
+    "fhirVersion": "4.3.0",
     "mapping": [
         {
             "identity": "v2",
@@ -585,7 +585,7 @@
                     ],
                     "strength": "required",
                     "description": "Codes that reflect the current state of a goal and whether the goal is still being targeted.",
-                    "valueSet": "http://hl7.org/fhir/ValueSet/goal-status|4.3.0-cibuild"
+                    "valueSet": "http://hl7.org/fhir/ValueSet/goal-status|4.3.0"
                 },
                 "mapping": [
                     {
@@ -1618,7 +1618,7 @@
                     ],
                     "strength": "required",
                     "description": "Codes that reflect the current state of a goal and whether the goal is still being targeted.",
-                    "valueSet": "http://hl7.org/fhir/ValueSet/goal-status|4.3.0-cibuild"
+                    "valueSet": "http://hl7.org/fhir/ValueSet/goal-status|4.3.0"
                 },
                 "mapping": [
                     {

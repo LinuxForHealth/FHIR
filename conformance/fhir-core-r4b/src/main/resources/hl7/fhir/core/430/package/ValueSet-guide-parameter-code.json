@@ -2,7 +2,7 @@
     "resourceType": "ValueSet",
     "id": "guide-parameter-code",
     "meta": {
-        "lastUpdated": "2022-04-24T09:21:35.043+11:00",
+        "lastUpdated": "2022-05-28T13:47:40.239+11:00",
         "profile": [
             "http://hl7.org/fhir/StructureDefinition/shareablevalueset"
         ]
@@ -28,7 +28,7 @@
             "value": "urn:oid:2.16.840.1.113883.4.642.3.996"
         }
     ],
-    "version": "4.3.0-cibuild",
+    "version": "4.3.0",
     "name": "GuideParameterCode",
     "title": "GuideParameterCode",
     "status": "draft",
@@ -59,8 +59,8 @@
         ]
     },
     "expansion": {
-        "identifier": "urn:uuid:f9af84d0-4e51-4df7-b826-80c5466d14d6",
-        "timestamp": "2022-04-23T22:23:07Z",
+        "identifier": "urn:uuid:e11eb595-23dd-42ee-a2aa-787152cf0260",
+        "timestamp": "2022-05-28T12:49:05+10:00",
         "total": 10,
         "parameter": [
             {
@@ -73,7 +73,7 @@
             },
             {
                 "name": "version",
-                "valueUri": "http://hl7.org/fhir/guide-parameter-code|4.3.0-cibuild"
+                "valueUri": "http://hl7.org/fhir/guide-parameter-code|4.3.0"
             }
         ],
         "contains": [

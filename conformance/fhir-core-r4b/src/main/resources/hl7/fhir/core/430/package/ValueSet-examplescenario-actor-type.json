@@ -2,7 +2,7 @@
     "resourceType": "ValueSet",
     "id": "examplescenario-actor-type",
     "meta": {
-        "lastUpdated": "2022-04-24T09:21:35.043+11:00",
+        "lastUpdated": "2022-05-28T13:47:40.239+11:00",
         "profile": [
             "http://hl7.org/fhir/StructureDefinition/shareablevalueset"
         ]
@@ -28,7 +28,7 @@
             "value": "urn:oid:2.16.840.1.113883.4.642.3.858"
         }
     ],
-    "version": "4.3.0-cibuild",
+    "version": "4.3.0",
     "name": "ExampleScenarioActorType",
     "title": "ExampleScenarioActorType",
     "status": "draft",
@@ -59,8 +59,8 @@
         ]
     },
     "expansion": {
-        "identifier": "urn:uuid:1bb21a64-4a60-42ce-a60c-6b3faf995574",
-        "timestamp": "2022-04-23T22:23:07Z",
+        "identifier": "urn:uuid:cf7ae34a-3eac-4ea5-93fc-7db4401ebb96",
+        "timestamp": "2022-05-28T12:49:05+10:00",
         "total": 2,
         "parameter": [
             {
@@ -73,7 +73,7 @@
             },
             {
                 "name": "version",
-                "valueUri": "http://hl7.org/fhir/examplescenario-actor-type|4.3.0-cibuild"
+                "valueUri": "http://hl7.org/fhir/examplescenario-actor-type|4.3.0"
             }
         ],
         "contains": [

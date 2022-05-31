@@ -2,7 +2,7 @@
     "resourceType": "ValueSet",
     "id": "specimen-processing-procedure",
     "meta": {
-        "lastUpdated": "2022-04-23T22:21:35.043Z",
+        "lastUpdated": "2022-05-28T12:47:40.239+10:00",
         "profile": [
             "http://hl7.org/fhir/StructureDefinition/shareablevalueset"
         ]
@@ -28,7 +28,7 @@
             "value": "urn:oid:2.16.840.1.113883.4.642.3.469"
         }
     ],
-    "version": "4.3.0-cibuild",
+    "version": "4.3.0",
     "name": "SpecimenProcessingProcedure",
     "status": "draft",
     "experimental": true,
@@ -52,8 +52,8 @@
         ]
     },
     "expansion": {
-        "identifier": "urn:uuid:83a51318-c5de-4643-8598-802c69e5bd56",
-        "timestamp": "2022-04-23T22:23:26Z",
+        "identifier": "urn:uuid:86f7deab-0e4d-4ba4-b642-ad5c8ba06cfd",
+        "timestamp": "2022-05-28T12:49:24+10:00",
         "total": 8,
         "parameter": [
             {

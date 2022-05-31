@@ -12,7 +12,7 @@
         }
     ],
     "url": "http://hl7.org/fhir/StructureDefinition/patient-interpreterRequired",
-    "version": "4.3.0-cibuild",
+    "version": "4.3.0",
     "name": "interpreterRequired",
     "title": "interpreterRequired",
     "status": "draft",
@@ -97,7 +97,7 @@
                         "extension": [
                             {
                                 "url": "http://hl7.org/fhir/StructureDefinition/structuredefinition-fhir-type",
-                                "valueUrl": "string"
+                                "valueUrl": "id"
                             }
                         ],
                         "code": "http://hl7.org/fhirpath/System.String"

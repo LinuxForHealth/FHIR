@@ -2,7 +2,7 @@
     "resourceType": "ValueSet",
     "id": "nutrient-code",
     "meta": {
-        "lastUpdated": "2022-04-23T22:21:35.043Z",
+        "lastUpdated": "2022-05-28T12:47:40.239+10:00",
         "profile": [
             "http://hl7.org/fhir/StructureDefinition/shareablevalueset"
         ]
@@ -28,7 +28,7 @@
             "value": "urn:oid:2.16.840.1.113883.4.642.3.386"
         }
     ],
-    "version": "4.3.0-cibuild",
+    "version": "4.3.0",
     "name": "NutrientModifierCodes",
     "title": "Nutrient Modifier Codes",
     "status": "draft",
@@ -84,8 +84,8 @@
                 "valueBoolean": true
             }
         ],
-        "identifier": "urn:uuid:9a2c595d-8ee1-4869-ac62-f8fb47137cfd",
-        "timestamp": "2022-04-23T22:23:26Z",
+        "identifier": "urn:uuid:7ece208b-4061-4d5f-820b-3a5d1bd5e411",
+        "timestamp": "2022-05-28T12:49:24+10:00",
         "total": 620,
         "parameter": [
             {

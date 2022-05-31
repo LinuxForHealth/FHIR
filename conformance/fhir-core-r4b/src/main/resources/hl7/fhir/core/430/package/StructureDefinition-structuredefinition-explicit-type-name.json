@@ -12,7 +12,7 @@
         }
     ],
     "url": "http://hl7.org/fhir/StructureDefinition/structuredefinition-explicit-type-name",
-    "version": "4.3.0-cibuild",
+    "version": "4.3.0",
     "name": "explicit-type-name",
     "status": "draft",
     "experimental": false,
@@ -105,7 +105,7 @@
                         "extension": [
                             {
                                 "url": "http://hl7.org/fhir/StructureDefinition/structuredefinition-fhir-type",
-                                "valueUrl": "string"
+                                "valueUrl": "id"
                             }
                         ],
                         "code": "http://hl7.org/fhirpath/System.String"

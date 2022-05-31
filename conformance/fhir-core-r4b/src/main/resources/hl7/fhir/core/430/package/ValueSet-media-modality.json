@@ -2,14 +2,10 @@
     "resourceType": "ValueSet",
     "id": "media-modality",
     "meta": {
-        "lastUpdated": "2022-04-23T22:21:35.043Z",
+        "lastUpdated": "2022-05-28T12:47:40.239+10:00",
         "profile": [
             "http://hl7.org/fhir/StructureDefinition/shareablevalueset"
         ]
-    },
-    "text": {
-        "status": "empty",
-        "div": "<div xmlns=\"http://www.w3.org/1999/xhtml\">Redacted for size</div>"
     },
     "extension": [
         {
@@ -32,7 +28,7 @@
             "value": "urn:oid:2.16.840.1.113883.4.642.3.1001"
         }
     ],
-    "version": "4.3.0-cibuild",
+    "version": "4.3.0",
     "name": "MediaModality",
     "title": "Media Modality",
     "status": "draft",
@@ -59,6 +55,966 @@
             },
             {
                 "system": "http://terminology.hl7.org/CodeSystem/media-modality"
+            }
+        ]
+    },
+    "expansion": {
+        "identifier": "urn:uuid:f33d502b-6367-4023-9c12-71b3da887bfa",
+        "timestamp": "2022-05-27T11:59:40.945Z",
+        "parameter": [
+            {
+                "name": "expansion-source",
+                "valueUri": "ValueSet/media-modality"
+            },
+            {
+                "name": "limitedExpansion",
+                "valueBoolean": true
+            },
+            {
+                "name": "includeDesignations",
+                "valueBoolean": true
+            },
+            {
+                "name": "excludeNested",
+                "valueBoolean": true
+            },
+            {
+                "name": "expansion-source",
+                "valueUri": "ValueSet/dicom-cid-29-AcquisitionModality"
+            },
+            {
+                "name": "limitedExpansion",
+                "valueBoolean": true
+            },
+            {
+                "name": "includeDesignations",
+                "valueBoolean": true
+            },
+            {
+                "name": "excludeNested",
+                "valueBoolean": true
+            },
+            {
+                "name": "version",
+                "valueUri": "http://dicom.nema.org/resources/ontology/DCM|2022.1.20220124"
+            },
+            {
+                "name": "version",
+                "valueUri": "http://terminology.hl7.org/CodeSystem/media-modality|4.3.0"
+            }
+        ],
+        "contains": [
+            {
+                "extension": [
+                    {
+                        "url": "http://hl7.org/fhir/StructureDefinition/valueset-definition",
+                        "valueString": "An acquisition device, process or method that performs bone mineral densitometry by X-Ray, including dual-energy X-Ray absorptiometry (DXA) and morphometric X-Ray absorptiometry (MXA)."
+                    }
+                ],
+                "system": "http://dicom.nema.org/resources/ontology/DCM",
+                "code": "BMD",
+                "display": "Bone Mineral Densitometry",
+                "designation": [
+                    {
+                        "value": "Bone Mineral Densitometry"
+                    }
+                ]
+            },
+            {
+                "extension": [
+                    {
+                        "url": "http://hl7.org/fhir/StructureDefinition/valueset-definition",
+                        "valueString": "An acquisition device, process or method that performs electrooculography."
+                    }
+                ],
+                "system": "http://dicom.nema.org/resources/ontology/DCM",
+                "code": "EOG",
+                "display": "Electrooculography",
+                "designation": [
+                    {
+                        "value": "Electrooculography"
+                    }
+                ]
+            },
+            {
+                "extension": [
+                    {
+                        "url": "http://hl7.org/fhir/StructureDefinition/valueset-definition",
+                        "valueString": "An acquisition device, process or method that performs slide microscopy."
+                    }
+                ],
+                "system": "http://dicom.nema.org/resources/ontology/DCM",
+                "code": "SM",
+                "display": "Slide Microscopy",
+                "designation": [
+                    {
+                        "value": "Slide Microscopy"
+                    }
+                ]
+            },
+            {
+                "extension": [
+                    {
+                        "url": "http://hl7.org/fhir/StructureDefinition/valueset-definition",
+                        "valueString": "An acquisition device, process or method that performs ophthalmic photography."
+                    }
+                ],
+                "system": "http://dicom.nema.org/resources/ontology/DCM",
+                "code": "OP",
+                "display": "Ophthalmic Photography",
+                "designation": [
+                    {
+                        "value": "Ophthalmic Photography"
+                    }
+                ]
+            },
+            {
+                "extension": [
+                    {
+                        "url": "http://hl7.org/fhir/StructureDefinition/valueset-definition",
+                        "valueString": "An acquisition device, process or method that performs electrocardiography."
+                    }
+                ],
+                "system": "http://dicom.nema.org/resources/ontology/DCM",
+                "code": "ECG",
+                "display": "Electrocardiography",
+                "designation": [
+                    {
+                        "value": "Electrocardiography"
+                    }
+                ]
+            },
+            {
+                "extension": [
+                    {
+                        "url": "http://hl7.org/fhir/StructureDefinition/valueset-definition",
+                        "valueString": "An acquisition device, process or method that performs general microscopy."
+                    }
+                ],
+                "system": "http://dicom.nema.org/resources/ontology/DCM",
+                "code": "GM",
+                "display": "General Microscopy",
+                "designation": [
+                    {
+                        "value": "General Microscopy"
+                    }
+                ]
+            },
+            {
+                "extension": [
+                    {
+                        "url": "http://hl7.org/fhir/StructureDefinition/valueset-definition",
+                        "valueString": "An acquisition device, process or method that performs X-Ray angiography."
+                    }
+                ],
+                "system": "http://dicom.nema.org/resources/ontology/DCM",
+                "code": "XA",
+                "display": "X-Ray Angiography",
+                "designation": [
+                    {
+                        "value": "X-Ray Angiography"
+                    }
+                ]
+            },
+            {
+                "extension": [
+                    {
+                        "url": "http://hl7.org/fhir/StructureDefinition/valueset-definition",
+                        "valueString": "An acquisition device, process or method that performs photography with an external camera."
+                    }
+                ],
+                "system": "http://dicom.nema.org/resources/ontology/DCM",
+                "code": "XC",
+                "display": "External-camera Photography",
+                "designation": [
+                    {
+                        "value": "External-camera Photography"
+                    }
+                ]
+            },
+            {
+                "extension": [
+                    {
+                        "url": "http://hl7.org/fhir/StructureDefinition/valueset-definition",
+                        "valueString": "An acquisition device, process or method that performs imaging of the surface of the skin using epiluminescence microscopy."
+                    }
+                ],
+                "system": "http://dicom.nema.org/resources/ontology/DCM",
+                "code": "DMS",
+                "display": "Dermoscopy",
+                "designation": [
+                    {
+                        "value": "Dermoscopy"
+                    }
+                ]
+            },
+            {
+                "extension": [
+                    {
+                        "url": "http://hl7.org/fhir/StructureDefinition/valueset-definition",
+                        "valueString": "An acquisition device, process or method that performs intravascular ultrasound."
+                    }
+                ],
+                "system": "http://dicom.nema.org/resources/ontology/DCM",
+                "code": "IVUS",
+                "display": "Intravascular Ultrasound",
+                "designation": [
+                    {
+                        "value": "Intravascular Ultrasound"
+                    }
+                ]
+            },
+            {
+                "extension": [
+                    {
+                        "url": "http://hl7.org/fhir/StructureDefinition/valueset-definition",
+                        "valueString": "An acquisition device, process or method that performs computed radiography."
+                    }
+                ],
+                "system": "http://dicom.nema.org/resources/ontology/DCM",
+                "code": "CR",
+                "display": "Computed Radiography",
+                "designation": [
+                    {
+                        "value": "Computed Radiography"
+                    }
+                ]
+            },
+            {
+                "extension": [
+                    {
+                        "url": "http://hl7.org/fhir/StructureDefinition/valueset-definition",
+                        "valueString": "An acquisition device, process or method that performs computed tomography."
+                    }
+                ],
+                "system": "http://dicom.nema.org/resources/ontology/DCM",
+                "code": "CT",
+                "display": "Computed Tomography",
+                "designation": [
+                    {
+                        "value": "Computed Tomography"
+                    }
+                ]
+            },
+            {
+                "extension": [
+                    {
+                        "url": "http://hl7.org/fhir/StructureDefinition/valueset-definition",
+                        "valueString": "An acquisition device, process or method that performs optical surface scanning."
+                    }
+                ],
+                "system": "http://dicom.nema.org/resources/ontology/DCM",
+                "code": "OSS",
+                "display": "Optical Surface Scanner",
+                "designation": [
+                    {
+                        "value": "Optical Surface Scanner"
+                    }
+                ]
+            },
+            {
+                "extension": [
+                    {
+                        "url": "http://hl7.org/fhir/StructureDefinition/valueset-definition",
+                        "valueString": "An acquisition device, process or method that performs thermography."
+                    }
+                ],
+                "system": "http://dicom.nema.org/resources/ontology/DCM",
+                "code": "TG",
+                "display": "Thermography",
+                "designation": [
+                    {
+                        "value": "Thermography"
+                    }
+                ]
+            },
+            {
+                "extension": [
+                    {
+                        "url": "http://hl7.org/fhir/StructureDefinition/valueset-definition",
+                        "valueString": "An acquisition device, process or method that performs lensometry."
+                    }
+                ],
+                "system": "http://dicom.nema.org/resources/ontology/DCM",
+                "code": "LEN",
+                "display": "Lensometry",
+                "designation": [
+                    {
+                        "value": "Lensometry"
+                    }
+                ]
+            },
+            {
+                "extension": [
+                    {
+                        "url": "http://hl7.org/fhir/StructureDefinition/valueset-definition",
+                        "valueString": "An acquisition device, process or method that creates en face tomography images of the eye based on light and optical principles. Tomography based on other principles, such as ultrasound, is excluded."
+                    }
+                ],
+                "system": "http://dicom.nema.org/resources/ontology/DCM",
+                "code": "OPTENF",
+                "display": "Ophthalmic Tomography En Face",
+                "designation": [
+                    {
+                        "value": "Ophthalmic Tomography En Face"
+                    }
+                ]
+            },
+            {
+                "extension": [
+                    {
+                        "url": "http://hl7.org/fhir/StructureDefinition/valueset-definition",
+                        "valueString": "An acquisition device, process or method that records hemodynamic waveforms."
+                    }
+                ],
+                "system": "http://dicom.nema.org/resources/ontology/DCM",
+                "code": "HD",
+                "display": "Hemodynamic Waveform",
+                "designation": [
+                    {
+                        "value": "Hemodynamic Waveform"
+                    }
+                ]
+            },
+            {
+                "extension": [
+                    {
+                        "url": "http://hl7.org/fhir/StructureDefinition/valueset-definition",
+                        "valueString": "An acquisition device, process or method that uses an interferometric, non-invasive optical tomographic technique to image 2D slices and 3D volumes of tissue using visible and near visible frequencies."
+                    }
+                ],
+                "system": "http://dicom.nema.org/resources/ontology/DCM",
+                "code": "OCT",
+                "display": "Optical Coherence Tomography",
+                "designation": [
+                    {
+                        "value": "Optical Coherence Tomography"
+                    }
+                ]
+            },
+            {
+                "extension": [
+                    {
+                        "url": "http://hl7.org/fhir/StructureDefinition/valueset-definition",
+                        "valueString": "An acquisition device, process or method that performs ultrasound bone densitometry."
+                    }
+                ],
+                "system": "http://dicom.nema.org/resources/ontology/DCM",
+                "code": "BDUS",
+                "display": "Ultrasound Bone Densitometry",
+                "designation": [
+                    {
+                        "value": "Ultrasound Bone Densitometry"
+                    }
+                ]
+            },
+            {
+                "extension": [
+                    {
+                        "url": "http://hl7.org/fhir/StructureDefinition/valueset-definition",
+                        "valueString": "An acquisition device, process or method that performs diaphanography."
+                    }
+                ],
+                "system": "http://dicom.nema.org/resources/ontology/DCM",
+                "code": "DG",
+                "display": "Diaphanography",
+                "designation": [
+                    {
+                        "value": "Diaphanography"
+                    }
+                ]
+            },
+            {
+                "extension": [
+                    {
+                        "url": "http://hl7.org/fhir/StructureDefinition/valueset-definition",
+                        "valueString": "An acquisition device, process or method that performs positron emission tomography (PET)."
+                    }
+                ],
+                "system": "http://dicom.nema.org/resources/ontology/DCM",
+                "code": "PT",
+                "display": "Positron emission tomography",
+                "designation": [
+                    {
+                        "value": "Positron emission tomography"
+                    }
+                ]
+            },
+            {
+                "extension": [
+                    {
+                        "url": "http://hl7.org/fhir/StructureDefinition/valueset-definition",
+                        "valueString": "An acquisition device, process or method that performs cardiac electrophysiology."
+                    }
+                ],
+                "system": "http://dicom.nema.org/resources/ontology/DCM",
+                "code": "EPS",
+                "display": "Cardiac Electrophysiology",
+                "designation": [
+                    {
+                        "value": "Cardiac Electrophysiology"
+                    }
+                ]
+            },
+            {
+                "extension": [
+                    {
+                        "url": "http://hl7.org/fhir/StructureDefinition/valueset-definition",
+                        "valueString": "An acquisition device, process or method that performs laser surface scanning."
+                    }
+                ],
+                "system": "http://dicom.nema.org/resources/ontology/DCM",
+                "code": "LS",
+                "display": "Laser Scan",
+                "designation": [
+                    {
+                        "value": "Laser Scan"
+                    }
+                ]
+            },
+            {
+                "extension": [
+                    {
+                        "url": "http://hl7.org/fhir/StructureDefinition/valueset-definition",
+                        "valueString": "An acquisition device, process or method that performs panoramic X-Rays."
+                    }
+                ],
+                "system": "http://dicom.nema.org/resources/ontology/DCM",
+                "code": "PX",
+                "display": "Panoramic X-Ray",
+                "designation": [
+                    {
+                        "value": "Panoramic X-Ray"
+                    }
+                ]
+            },
+            {
+                "extension": [
+                    {
+                        "url": "http://hl7.org/fhir/StructureDefinition/valueset-definition",
+                        "valueString": "An acquisition device, process or method that measures corneal topography, corneal or retinal thickness, and other similar parameters that are typically displayed as maps."
+                    }
+                ],
+                "system": "http://dicom.nema.org/resources/ontology/DCM",
+                "code": "OPM",
+                "display": "Ophthalmic Mapping",
+                "designation": [
+                    {
+                        "value": "Ophthalmic Mapping"
+                    }
+                ]
+            },
+            {
+                "extension": [
+                    {
+                        "url": "http://hl7.org/fhir/StructureDefinition/valueset-definition",
+                        "valueString": "An acquisition device, process or method that performs B-scan volume analysis of tomography images of the eye based on light and optical principles. Tomography based on other principles, such as ultrasound, is excluded."
+                    }
+                ],
+                "system": "http://dicom.nema.org/resources/ontology/DCM",
+                "code": "OPTBSV",
+                "display": "Ophthalmic Tomography B-scan Volume Analysis",
+                "designation": [
+                    {
+                        "value": "Ophthalmic Tomography B-scan Volume Analysis"
+                    }
+                ]
+            },
+            {
+                "extension": [
+                    {
+                        "url": "http://hl7.org/fhir/StructureDefinition/valueset-definition",
+                        "valueString": "An acquisition device, process or method that measures visual fields and perform visual perimetry."
+                    }
+                ],
+                "system": "http://dicom.nema.org/resources/ontology/DCM",
+                "code": "OPV",
+                "display": "Ophthalmic Visual Field",
+                "designation": [
+                    {
+                        "value": "Ophthalmic Visual Field"
+                    }
+                ]
+            },
+            {
+                "extension": [
+                    {
+                        "url": "http://hl7.org/fhir/StructureDefinition/valueset-definition",
+                        "valueString": "An acquisition device, process or method that performs digital radiography."
+                    }
+                ],
+                "system": "http://dicom.nema.org/resources/ontology/DCM",
+                "code": "DX",
+                "display": "Digital Radiography",
+                "designation": [
+                    {
+                        "value": "Digital Radiography"
+                    }
+                ]
+            },
+            {
+                "extension": [
+                    {
+                        "url": "http://hl7.org/fhir/StructureDefinition/valueset-definition",
+                        "valueString": "An acquisition device, process or method that performs tomography of the eye that is based on light and optical principles. Tomography based on other principles, such as ultrasound, is excluded."
+                    }
+                ],
+                "system": "http://dicom.nema.org/resources/ontology/DCM",
+                "code": "OPT",
+                "display": "Ophthalmic Tomography",
+                "designation": [
+                    {
+                        "value": "Ophthalmic Tomography"
+                    }
+                ]
+            },
+            {
+                "extension": [
+                    {
+                        "url": "http://hl7.org/fhir/StructureDefinition/valueset-definition",
+                        "valueString": "An acquisition device, process or method that performs mammography."
+                    }
+                ],
+                "system": "http://dicom.nema.org/resources/ontology/DCM",
+                "code": "MG",
+                "display": "Mammography",
+                "designation": [
+                    {
+                        "value": "Mammography"
+                    }
+                ]
+            },
+            {
+                "extension": [
+                    {
+                        "url": "http://hl7.org/fhir/StructureDefinition/valueset-definition",
+                        "valueString": "An acquisition device, process or method that performs ultrasound."
+                    }
+                ],
+                "system": "http://dicom.nema.org/resources/ontology/DCM",
+                "code": "US",
+                "display": "Ultrasound",
+                "designation": [
+                    {
+                        "value": "Ultrasound"
+                    }
+                ]
+            },
+            {
+                "extension": [
+                    {
+                        "url": "http://hl7.org/fhir/StructureDefinition/valueset-definition",
+                        "valueString": "An acquisition device, process or method that performs electromyography."
+                    }
+                ],
+                "system": "http://dicom.nema.org/resources/ontology/DCM",
+                "code": "EMG",
+                "display": "Electromyography",
+                "designation": [
+                    {
+                        "value": "Electromyography"
+                    }
+                ]
+            },
+            {
+                "extension": [
+                    {
+                        "url": "http://hl7.org/fhir/StructureDefinition/valueset-definition",
+                        "valueString": "An acquisition device, process or method that performs intravascular optical coherence tomography"
+                    }
+                ],
+                "system": "http://dicom.nema.org/resources/ontology/DCM",
+                "code": "IVOCT",
+                "display": "Intravascular Optical Coherence Tomography",
+                "designation": [
+                    {
+                        "value": "Intravascular Optical Coherence Tomography"
+                    }
+                ]
+            },
+            {
+                "extension": [
+                    {
+                        "url": "http://hl7.org/fhir/StructureDefinition/valueset-definition",
+                        "valueString": "An acquisition device, process or method that performs magnetic resonance imaging."
+                    }
+                ],
+                "system": "http://dicom.nema.org/resources/ontology/DCM",
+                "code": "MR",
+                "display": "Magnetic Resonance",
+                "designation": [
+                    {
+                        "value": "Magnetic Resonance"
+                    }
+                ]
+            },
+            {
+                "extension": [
+                    {
+                        "url": "http://hl7.org/fhir/StructureDefinition/valueset-definition",
+                        "valueString": "An acquisition device, process or method that performs intra-oral radiography."
+                    }
+                ],
+                "system": "http://dicom.nema.org/resources/ontology/DCM",
+                "code": "IO",
+                "display": "Intra-oral Radiography",
+                "designation": [
+                    {
+                        "value": "Intra-oral Radiography"
+                    }
+                ]
+            },
+            {
+                "extension": [
+                    {
+                        "url": "http://hl7.org/fhir/StructureDefinition/valueset-definition",
+                        "valueString": "An acquisition device, process or method that performs electroencephalography."
+                    }
+                ],
+                "system": "http://dicom.nema.org/resources/ontology/DCM",
+                "code": "EEG",
+                "display": "Electroencephalography",
+                "designation": [
+                    {
+                        "value": "Electroencephalography"
+                    }
+                ]
+            },
+            {
+                "extension": [
+                    {
+                        "url": "http://hl7.org/fhir/StructureDefinition/valueset-definition",
+                        "valueString": "An acquisition device, process or method that performs radiotherapy imaging; includes portal imaging."
+                    }
+                ],
+                "system": "http://dicom.nema.org/resources/ontology/DCM",
+                "code": "RTIMAGE",
+                "display": "RT Image",
+                "designation": [
+                    {
+                        "value": "RT Image"
+                    }
+                ]
+            },
+            {
+                "extension": [
+                    {
+                        "url": "http://hl7.org/fhir/StructureDefinition/valueset-definition",
+                        "valueString": "An acquisition device, process or method that measures visual acuity."
+                    }
+                ],
+                "system": "http://dicom.nema.org/resources/ontology/DCM",
+                "code": "VA",
+                "display": "Visual Acuity",
+                "designation": [
+                    {
+                        "value": "Visual Acuity"
+                    }
+                ]
+            },
+            {
+                "extension": [
+                    {
+                        "url": "http://hl7.org/fhir/StructureDefinition/valueset-definition",
+                        "valueString": "A device, process or method that produces waveforms of electrical signals from the patient’s respiratory system."
+                    }
+                ],
+                "system": "http://dicom.nema.org/resources/ontology/DCM",
+                "code": "RESP",
+                "display": "Respiratory Waveform",
+                "designation": [
+                    {
+                        "value": "Respiratory Waveform"
+                    }
+                ]
+            },
+            {
+                "extension": [
+                    {
+                        "url": "http://hl7.org/fhir/StructureDefinition/valueset-definition",
+                        "valueString": "An acquisition device, process or method that records images during endoscopy."
+                    }
+                ],
+                "system": "http://dicom.nema.org/resources/ontology/DCM",
+                "code": "ES",
+                "display": "Endoscopy",
+                "designation": [
+                    {
+                        "value": "Endoscopy"
+                    }
+                ]
+            },
+            {
+                "extension": [
+                    {
+                        "url": "http://hl7.org/fhir/StructureDefinition/valueset-definition",
+                        "valueString": "An acquisition device, process or method that measures autorefraction."
+                    }
+                ],
+                "system": "http://dicom.nema.org/resources/ontology/DCM",
+                "code": "AR",
+                "display": "Autorefraction",
+                "designation": [
+                    {
+                        "value": "Autorefraction"
+                    }
+                ]
+            },
+            {
+                "extension": [
+                    {
+                        "url": "http://hl7.org/fhir/StructureDefinition/valueset-definition",
+                        "valueString": "A device or sensor measuring the orientation of the patient’s body."
+                    }
+                ],
+                "system": "http://dicom.nema.org/resources/ontology/DCM",
+                "code": "POS",
+                "display": "Position Sensor",
+                "designation": [
+                    {
+                        "value": "Position Sensor"
+                    }
+                ]
+            },
+            {
+                "extension": [
+                    {
+                        "url": "http://hl7.org/fhir/StructureDefinition/valueset-definition",
+                        "valueString": "An acquisition device, process or method that performs radiographic imaging (conventional film/screen)."
+                    }
+                ],
+                "system": "http://dicom.nema.org/resources/ontology/DCM",
+                "code": "RG",
+                "display": "Radiographic imaging",
+                "designation": [
+                    {
+                        "value": "Radiographic imaging"
+                    }
+                ]
+            },
+            {
+                "extension": [
+                    {
+                        "url": "http://hl7.org/fhir/StructureDefinition/valueset-definition",
+                        "valueString": "An acquisition device, process or method that performs radiofluoroscopy."
+                    }
+                ],
+                "system": "http://dicom.nema.org/resources/ontology/DCM",
+                "code": "RF",
+                "display": "Radiofluoroscopy",
+                "designation": [
+                    {
+                        "value": "Radiofluoroscopy"
+                    }
+                ]
+            },
+            {
+                "extension": [
+                    {
+                        "url": "http://hl7.org/fhir/StructureDefinition/valueset-definition",
+                        "valueString": "An acquisition device, process or method that performs keratometry."
+                    }
+                ],
+                "system": "http://dicom.nema.org/resources/ontology/DCM",
+                "code": "KER",
+                "display": "Keratometry",
+                "designation": [
+                    {
+                        "value": "Keratometry"
+                    }
+                ]
+            },
+            {
+                "extension": [
+                    {
+                        "url": "http://hl7.org/fhir/StructureDefinition/valueset-definition",
+                        "valueString": "An acquisition device, process or method that measures the axial length of the eye."
+                    }
+                ],
+                "system": "http://dicom.nema.org/resources/ontology/DCM",
+                "code": "OAM",
+                "display": "Ophthalmic Axial Measurements",
+                "designation": [
+                    {
+                        "value": "Ophthalmic Axial Measurements"
+                    }
+                ]
+            },
+            {
+                "extension": [
+                    {
+                        "url": "http://hl7.org/fhir/StructureDefinition/valueset-definition",
+                        "valueString": "An acquisition device, process or method that performs nuclear medicine imaging."
+                    }
+                ],
+                "system": "http://dicom.nema.org/resources/ontology/DCM",
+                "code": "NM",
+                "display": "Nuclear Medicine",
+                "designation": [
+                    {
+                        "value": "Nuclear Medicine"
+                    }
+                ]
+            },
+            {
+                "extension": [
+                    {
+                        "url": "http://hl7.org/fhir/StructureDefinition/valueset-definition",
+                        "valueString": "An acquisition device, process or method that performs biomagnetic imaging."
+                    }
+                ],
+                "system": "http://dicom.nema.org/resources/ontology/DCM",
+                "code": "BI",
+                "display": "Biomagnetic Imaging",
+                "designation": [
+                    {
+                        "value": "Biomagnetic Imaging"
+                    }
+                ]
+            },
+            {
+                "extension": [
+                    {
+                        "url": "http://hl7.org/fhir/StructureDefinition/valueset-definition",
+                        "valueString": "An acquisition device, process or method that records subjective refraction."
+                    }
+                ],
+                "system": "http://dicom.nema.org/resources/ontology/DCM",
+                "code": "SRF",
+                "display": "Subjective Refraction",
+                "designation": [
+                    {
+                        "value": "Subjective Refraction"
+                    }
+                ]
+            },
+            {
+                "extension": [
+                    {
+                        "url": "http://hl7.org/fhir/StructureDefinition/valueset-definition",
+                        "valueString": "A diagram. Often used in diagnostic reports"
+                    }
+                ],
+                "system": "http://terminology.hl7.org/CodeSystem/media-modality",
+                "code": "diagram",
+                "display": "Diagram",
+                "designation": [
+                    {
+                        "value": "Diagram"
+                    }
+                ]
+            },
+            {
+                "extension": [
+                    {
+                        "url": "http://hl7.org/fhir/StructureDefinition/valueset-definition",
+                        "valueString": "A digital record of a fax document"
+                    }
+                ],
+                "system": "http://terminology.hl7.org/CodeSystem/media-modality",
+                "code": "fax",
+                "display": "Fax",
+                "designation": [
+                    {
+                        "value": "Fax"
+                    }
+                ]
+            },
+            {
+                "extension": [
+                    {
+                        "url": "http://hl7.org/fhir/StructureDefinition/valueset-definition",
+                        "valueString": "A digital scan of a document. This is reserved for when there is not enough metadata to create a document reference"
+                    }
+                ],
+                "system": "http://terminology.hl7.org/CodeSystem/media-modality",
+                "code": "scan",
+                "display": "Scanned Document",
+                "designation": [
+                    {
+                        "value": "Scanned Document"
+                    }
+                ]
+            },
+            {
+                "extension": [
+                    {
+                        "url": "http://hl7.org/fhir/StructureDefinition/valueset-definition",
+                        "valueString": "A retinal image used for identification purposes"
+                    }
+                ],
+                "system": "http://terminology.hl7.org/CodeSystem/media-modality",
+                "code": "retina",
+                "display": "Retina Scan",
+                "designation": [
+                    {
+                        "value": "Retina Scan"
+                    }
+                ]
+            },
+            {
+                "extension": [
+                    {
+                        "url": "http://hl7.org/fhir/StructureDefinition/valueset-definition",
+                        "valueString": "A finger print scan used for identification purposes"
+                    }
+                ],
+                "system": "http://terminology.hl7.org/CodeSystem/media-modality",
+                "code": "fingerprint",
+                "display": "Fingerprint",
+                "designation": [
+                    {
+                        "value": "Fingerprint"
+                    }
+                ]
+            },
+            {
+                "extension": [
+                    {
+                        "url": "http://hl7.org/fhir/StructureDefinition/valueset-definition",
+                        "valueString": "An iris scan used for identification purposes"
+                    }
+                ],
+                "system": "http://terminology.hl7.org/CodeSystem/media-modality",
+                "code": "iris",
+                "display": "Iris Scan",
+                "designation": [
+                    {
+                        "value": "Iris Scan"
+                    }
+                ]
+            },
+            {
+                "extension": [
+                    {
+                        "url": "http://hl7.org/fhir/StructureDefinition/valueset-definition",
+                        "valueString": "A palm scan used for identification purposes"
+                    }
+                ],
+                "system": "http://terminology.hl7.org/CodeSystem/media-modality",
+                "code": "palm",
+                "display": "Palm Scan",
+                "designation": [
+                    {
+                        "value": "Palm Scan"
+                    }
+                ]
+            },
+            {
+                "extension": [
+                    {
+                        "url": "http://hl7.org/fhir/StructureDefinition/valueset-definition",
+                        "valueString": "A face scan used for identification purposes"
+                    }
+                ],
+                "system": "http://terminology.hl7.org/CodeSystem/media-modality",
+                "code": "face",
+                "display": "Face Scan",
+                "designation": [
+                    {
+                        "value": "Face Scan"
+                    }
+                ]
             }
         ]
     }

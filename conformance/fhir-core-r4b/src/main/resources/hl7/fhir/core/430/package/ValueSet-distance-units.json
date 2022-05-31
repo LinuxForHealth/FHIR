@@ -2,7 +2,7 @@
     "resourceType": "ValueSet",
     "id": "distance-units",
     "meta": {
-        "lastUpdated": "2022-04-23T22:21:35.043Z",
+        "lastUpdated": "2022-05-28T12:47:40.239+10:00",
         "profile": [
             "http://hl7.org/fhir/StructureDefinition/shareablevalueset"
         ]
@@ -28,12 +28,12 @@
             "value": "urn:oid:2.16.840.1.113883.4.642.3.62"
         }
     ],
-    "version": "4.3.0-cibuild",
+    "version": "4.3.0",
     "name": "CommonUCUMCodesForDistance",
     "title": "Common UCUM Codes for Distance",
     "status": "draft",
     "experimental": false,
-    "date": "2022-04-23T22:21:35Z",
+    "date": "2022-05-28T12:47:40+10:00",
     "publisher": "FHIR Project team",
     "contact": [
         {
@@ -77,8 +77,8 @@
         ]
     },
     "expansion": {
-        "identifier": "urn:uuid:227bb6f9-0455-4ed7-aef2-c09f8ec6d486",
-        "timestamp": "2022-04-23T22:23:26Z",
+        "identifier": "urn:uuid:272c94b0-6cd6-4795-8569-ea0a03fc962c",
+        "timestamp": "2022-05-28T12:49:24+10:00",
         "total": 5,
         "parameter": [
             {

@@ -2,7 +2,7 @@
     "resourceType": "ValueSet",
     "id": "coverage-class",
     "meta": {
-        "lastUpdated": "2022-04-23T22:21:35.043Z",
+        "lastUpdated": "2022-05-28T12:47:40.239+10:00",
         "profile": [
             "http://hl7.org/fhir/StructureDefinition/shareablevalueset"
         ]
@@ -28,7 +28,7 @@
             "value": "urn:oid:2.16.840.1.113883.4.642.3.1009"
         }
     ],
-    "version": "4.3.0-cibuild",
+    "version": "4.3.0",
     "name": "CoverageClassCodes",
     "title": "Coverage Class Codes",
     "status": "draft",
@@ -54,8 +54,8 @@
         ]
     },
     "expansion": {
-        "identifier": "urn:uuid:136083a8-a3f4-43b4-855e-ba20ef913405",
-        "timestamp": "2022-04-23T22:23:26Z",
+        "identifier": "urn:uuid:a8b2ec69-e2e6-47c8-b693-b4f7484a7af0",
+        "timestamp": "2022-05-28T12:49:24+10:00",
         "total": 11,
         "parameter": [
             {
@@ -68,7 +68,7 @@
             },
             {
                 "name": "version",
-                "valueUri": "http://terminology.hl7.org/CodeSystem/coverage-class|4.3.0-cibuild"
+                "valueUri": "http://terminology.hl7.org/CodeSystem/coverage-class|4.3.0"
             }
         ],
         "contains": [

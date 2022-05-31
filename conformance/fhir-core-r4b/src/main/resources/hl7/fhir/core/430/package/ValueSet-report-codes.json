@@ -2,14 +2,10 @@
     "resourceType": "ValueSet",
     "id": "report-codes",
     "meta": {
-        "lastUpdated": "2022-04-23T22:21:35.043Z",
+        "lastUpdated": "2022-05-28T12:47:40.239+10:00",
         "profile": [
             "http://hl7.org/fhir/StructureDefinition/shareablevalueset"
         ]
-    },
-    "text": {
-        "status": "empty",
-        "div": "<div xmlns=\"http://www.w3.org/1999/xhtml\">Redacted for size</div>"
     },
     "extension": [
         {
@@ -24,7 +20,7 @@
             "value": "urn:oid:2.16.840.1.113883.4.642.3.233"
         }
     ],
-    "version": "4.3.0-cibuild",
+    "version": "4.3.0",
     "name": "LOINCDiagnosticReportCodes",
     "title": "LOINC Diagnostic Report Codes",
     "status": "draft",

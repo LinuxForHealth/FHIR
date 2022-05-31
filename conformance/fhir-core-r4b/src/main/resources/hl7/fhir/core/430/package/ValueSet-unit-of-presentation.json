@@ -2,7 +2,7 @@
     "resourceType": "ValueSet",
     "id": "unit-of-presentation",
     "meta": {
-        "lastUpdated": "2022-04-24T09:21:35.043+11:00",
+        "lastUpdated": "2022-05-28T13:47:40.239+11:00",
         "profile": [
             "http://hl7.org/fhir/StructureDefinition/shareablevalueset"
         ]
@@ -28,7 +28,7 @@
             "value": "urn:oid:2.16.840.1.113883.4.642.3.1586"
         }
     ],
-    "version": "4.3.0-cibuild",
+    "version": "4.3.0",
     "name": "UnitOfPresentation",
     "title": "UnitOfPresentation",
     "status": "draft",
@@ -59,8 +59,8 @@
         ]
     },
     "expansion": {
-        "identifier": "urn:uuid:89e3f5c0-1653-4117-bfc0-3682940a3dda",
-        "timestamp": "2022-04-23T22:23:26Z",
+        "identifier": "urn:uuid:6af4d6f1-1e1d-4c57-b805-2b520650e317",
+        "timestamp": "2022-05-28T12:49:24+10:00",
         "total": 56,
         "parameter": [
             {
@@ -73,7 +73,7 @@
             },
             {
                 "name": "version",
-                "valueUri": "http://hl7.org/fhir/unit-of-presentation|4.3.0-cibuild"
+                "valueUri": "http://hl7.org/fhir/unit-of-presentation|4.3.0"
             }
         ],
         "contains": [

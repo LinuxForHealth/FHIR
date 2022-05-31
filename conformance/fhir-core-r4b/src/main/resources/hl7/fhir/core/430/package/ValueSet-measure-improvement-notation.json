@@ -2,7 +2,7 @@
     "resourceType": "ValueSet",
     "id": "measure-improvement-notation",
     "meta": {
-        "lastUpdated": "2022-04-24T09:21:35.043+11:00",
+        "lastUpdated": "2022-05-28T13:47:40.239+11:00",
         "profile": [
             "http://hl7.org/fhir/StructureDefinition/shareablevalueset"
         ]
@@ -28,7 +28,7 @@
             "value": "urn:oid:2.16.840.1.113883.4.642.3.1236"
         }
     ],
-    "version": "4.3.0-cibuild",
+    "version": "4.3.0",
     "name": "MeasureImprovementNotation",
     "title": "MeasureImprovementNotation",
     "status": "draft",
@@ -59,8 +59,8 @@
         ]
     },
     "expansion": {
-        "identifier": "urn:uuid:021b7106-7d0e-4f2a-b699-816149eea223",
-        "timestamp": "2022-04-23T22:23:26Z",
+        "identifier": "urn:uuid:bf1c3b60-d1cd-4a1d-b193-3f8a952e5ca8",
+        "timestamp": "2022-05-28T12:49:24+10:00",
         "total": 2,
         "parameter": [
             {
@@ -73,7 +73,7 @@
             },
             {
                 "name": "version",
-                "valueUri": "http://terminology.hl7.org/CodeSystem/measure-improvement-notation|4.3.0-cibuild"
+                "valueUri": "http://terminology.hl7.org/CodeSystem/measure-improvement-notation|4.3.0"
             }
         ],
         "contains": [

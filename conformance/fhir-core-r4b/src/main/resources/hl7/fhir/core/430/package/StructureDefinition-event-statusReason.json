@@ -12,7 +12,7 @@
         }
     ],
     "url": "http://hl7.org/fhir/StructureDefinition/event-statusReason",
-    "version": "4.3.0-cibuild",
+    "version": "4.3.0",
     "name": "statusReason",
     "title": "Reason for current status",
     "status": "draft",
@@ -30,7 +30,7 @@
         }
     ],
     "description": "Captures the reason for the current state of the resource.",
-    "fhirVersion": "4.3.0-cibuild",
+    "fhirVersion": "4.3.0",
     "mapping": [
         {
             "identity": "workflow",
@@ -147,7 +147,7 @@
                         "extension": [
                             {
                                 "url": "http://hl7.org/fhir/StructureDefinition/structuredefinition-fhir-type",
-                                "valueUrl": "string"
+                                "valueUrl": "id"
                             }
                         ],
                         "code": "http://hl7.org/fhirpath/System.String"
@@ -287,7 +287,8 @@
                             "valueString": "StatusReason"
                         }
                     ],
-                    "strength": "example"
+                    "strength": "example",
+                    "description": "Codes identifying the reason for the current state of an event."
                 },
                 "mapping": [
                     {
@@ -353,7 +354,8 @@
                             "valueString": "StatusReason"
                         }
                     ],
-                    "strength": "example"
+                    "strength": "example",
+                    "description": "Codes identifying the reason for the current state of an event."
                 }
             }
         ]

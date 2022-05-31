@@ -2,13 +2,17 @@
     "resourceType": "StructureDefinition",
     "id": "ActivityDefinition",
     "meta": {
-        "lastUpdated": "2022-04-23T22:21:35.043Z"
+        "lastUpdated": "2022-05-28T12:47:40.239+10:00"
     },
     "text": {
         "status": "empty",
         "div": "<div xmlns=\"http://www.w3.org/1999/xhtml\">Redacted for size</div>"
     },
     "extension": [
+        {
+            "url": "http://hl7.org/fhir/StructureDefinition/structuredefinition-category",
+            "valueString": "Specialized.Definitional Artifacts"
+        },
         {
             "url": "http://hl7.org/fhir/StructureDefinition/structuredefinition-standards-status",
             "valueCode": "trial-use"
@@ -24,18 +28,14 @@
         {
             "url": "http://hl7.org/fhir/StructureDefinition/structuredefinition-wg",
             "valueCode": "cds"
-        },
-        {
-            "url": "http://hl7.org/fhir/StructureDefinition/structuredefinition-category",
-            "valueString": "Specialized.Definitional Artifacts"
         }
     ],
     "url": "http://hl7.org/fhir/StructureDefinition/ActivityDefinition",
-    "version": "4.3.0-cibuild",
+    "version": "4.3.0",
     "name": "ActivityDefinition",
     "status": "draft",
     "experimental": false,
-    "date": "2022-04-23T22:21:35Z",
+    "date": "2022-05-28T12:47:40+10:00",
     "publisher": "Health Level Seven International (Clinical Decision Support)",
     "contact": [
         {
@@ -56,7 +56,7 @@
         }
     ],
     "description": "This resource allows for the definition of some activity to be performed, independent of a particular patient, practitioner, or other performance context.",
-    "fhirVersion": "4.3.0-cibuild",
+    "fhirVersion": "4.3.0",
     "mapping": [
         {
             "identity": "workflow",
@@ -822,7 +822,7 @@
                     ],
                     "strength": "required",
                     "description": "The lifecycle status of an artifact.",
-                    "valueSet": "http://hl7.org/fhir/ValueSet/publication-status|4.3.0-cibuild"
+                    "valueSet": "http://hl7.org/fhir/ValueSet/publication-status|4.3.0"
                 },
                 "mapping": [
                     {
@@ -1826,7 +1826,7 @@
                     ],
                     "strength": "required",
                     "description": "The kind of activity the definition is describing.",
-                    "valueSet": "http://hl7.org/fhir/ValueSet/request-resource-types|4.3.0-cibuild"
+                    "valueSet": "http://hl7.org/fhir/ValueSet/request-resource-types|4.3.0"
                 },
                 "mapping": [
                     {
@@ -1965,7 +1965,7 @@
                     ],
                     "strength": "required",
                     "description": "Codes indicating the degree of authority/intentionality associated with a request.",
-                    "valueSet": "http://hl7.org/fhir/ValueSet/request-intent|4.3.0-cibuild"
+                    "valueSet": "http://hl7.org/fhir/ValueSet/request-intent|4.3.0"
                 },
                 "mapping": [
                     {
@@ -2013,7 +2013,7 @@
                     ],
                     "strength": "required",
                     "description": "Identifies the level of importance to be assigned to actioning the request.",
-                    "valueSet": "http://hl7.org/fhir/ValueSet/request-priority|4.3.0-cibuild"
+                    "valueSet": "http://hl7.org/fhir/ValueSet/request-priority|4.3.0"
                 },
                 "mapping": [
                     {
@@ -2371,7 +2371,7 @@
                     ],
                     "strength": "required",
                     "description": "The type of participant in the activity.",
-                    "valueSet": "http://hl7.org/fhir/ValueSet/action-participant-type|4.3.0-cibuild"
+                    "valueSet": "http://hl7.org/fhir/ValueSet/action-participant-type|4.3.0"
                 },
                 "mapping": [
                     {
@@ -3271,7 +3271,7 @@
                     ],
                     "strength": "required",
                     "description": "The lifecycle status of an artifact.",
-                    "valueSet": "http://hl7.org/fhir/ValueSet/publication-status|4.3.0-cibuild"
+                    "valueSet": "http://hl7.org/fhir/ValueSet/publication-status|4.3.0"
                 },
                 "mapping": [
                     {
@@ -3945,7 +3945,7 @@
                     ],
                     "strength": "required",
                     "description": "The kind of activity the definition is describing.",
-                    "valueSet": "http://hl7.org/fhir/ValueSet/request-resource-types|4.3.0-cibuild"
+                    "valueSet": "http://hl7.org/fhir/ValueSet/request-resource-types|4.3.0"
                 },
                 "mapping": [
                     {
@@ -4039,7 +4039,7 @@
                     ],
                     "strength": "required",
                     "description": "Codes indicating the degree of authority/intentionality associated with a request.",
-                    "valueSet": "http://hl7.org/fhir/ValueSet/request-intent|4.3.0-cibuild"
+                    "valueSet": "http://hl7.org/fhir/ValueSet/request-intent|4.3.0"
                 },
                 "mapping": [
                     {
@@ -4072,7 +4072,7 @@
                     ],
                     "strength": "required",
                     "description": "Identifies the level of importance to be assigned to actioning the request.",
-                    "valueSet": "http://hl7.org/fhir/ValueSet/request-priority|4.3.0-cibuild"
+                    "valueSet": "http://hl7.org/fhir/ValueSet/request-priority|4.3.0"
                 },
                 "mapping": [
                     {
@@ -4219,7 +4219,7 @@
                     ],
                     "strength": "required",
                     "description": "The type of participant in the activity.",
-                    "valueSet": "http://hl7.org/fhir/ValueSet/action-participant-type|4.3.0-cibuild"
+                    "valueSet": "http://hl7.org/fhir/ValueSet/action-participant-type|4.3.0"
                 },
                 "mapping": [
                     {

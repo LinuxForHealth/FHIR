@@ -2,7 +2,7 @@
     "resourceType": "ValueSet",
     "id": "directness",
     "meta": {
-        "lastUpdated": "2022-04-24T09:21:35.043+11:00",
+        "lastUpdated": "2022-05-28T13:47:40.239+11:00",
         "profile": [
             "http://hl7.org/fhir/StructureDefinition/shareablevalueset"
         ]
@@ -28,7 +28,7 @@
             "value": "urn:oid:2.16.840.1.113883.4.642.3.1458"
         }
     ],
-    "version": "4.3.0-cibuild",
+    "version": "4.3.0",
     "name": "EvidenceDirectness",
     "title": "EvidenceDirectness",
     "status": "draft",
@@ -59,8 +59,8 @@
         ]
     },
     "expansion": {
-        "identifier": "urn:uuid:c100ca3f-b980-42c0-b5e6-8da8fd1c770e",
-        "timestamp": "2022-04-23T22:23:26Z",
+        "identifier": "urn:uuid:41cd402d-633f-478f-baf3-8d68602bf952",
+        "timestamp": "2022-05-28T12:49:24+10:00",
         "total": 4,
         "parameter": [
             {
@@ -73,7 +73,7 @@
             },
             {
                 "name": "version",
-                "valueUri": "http://terminology.hl7.org/CodeSystem/directness|4.3.0-cibuild"
+                "valueUri": "http://terminology.hl7.org/CodeSystem/directness|4.3.0"
             }
         ],
         "contains": [

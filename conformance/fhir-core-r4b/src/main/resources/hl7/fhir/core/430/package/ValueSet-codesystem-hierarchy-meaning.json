@@ -2,7 +2,7 @@
     "resourceType": "ValueSet",
     "id": "codesystem-hierarchy-meaning",
     "meta": {
-        "lastUpdated": "2022-04-24T09:21:35.043+11:00",
+        "lastUpdated": "2022-05-28T13:47:40.239+11:00",
         "profile": [
             "http://hl7.org/fhir/StructureDefinition/shareablevalueset"
         ]
@@ -32,7 +32,7 @@
             "value": "urn:oid:2.16.840.1.113883.4.642.3.784"
         }
     ],
-    "version": "4.3.0-cibuild",
+    "version": "4.3.0",
     "name": "CodeSystemHierarchyMeaning",
     "title": "CodeSystemHierarchyMeaning",
     "status": "active",
@@ -63,8 +63,8 @@
         ]
     },
     "expansion": {
-        "identifier": "urn:uuid:1437b6c3-5fb6-42c2-a4ed-0aeda34f0a7b",
-        "timestamp": "2022-04-23T22:23:07Z",
+        "identifier": "urn:uuid:c2805a41-d7e3-4795-b93e-40d3404fe779",
+        "timestamp": "2022-05-28T12:49:05+10:00",
         "total": 4,
         "parameter": [
             {
@@ -77,7 +77,7 @@
             },
             {
                 "name": "version",
-                "valueUri": "http://hl7.org/fhir/codesystem-hierarchy-meaning|4.3.0-cibuild"
+                "valueUri": "http://hl7.org/fhir/codesystem-hierarchy-meaning|4.3.0"
             }
         ],
         "contains": [

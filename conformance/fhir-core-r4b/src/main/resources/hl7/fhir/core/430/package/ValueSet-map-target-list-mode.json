@@ -2,7 +2,7 @@
     "resourceType": "ValueSet",
     "id": "map-target-list-mode",
     "meta": {
-        "lastUpdated": "2022-04-24T09:21:35.043+11:00",
+        "lastUpdated": "2022-05-28T13:47:40.239+11:00",
         "profile": [
             "http://hl7.org/fhir/StructureDefinition/shareablevalueset"
         ]
@@ -28,7 +28,7 @@
             "value": "urn:oid:2.16.840.1.113883.4.642.3.685"
         }
     ],
-    "version": "4.3.0-cibuild",
+    "version": "4.3.0",
     "name": "StructureMapTargetListMode",
     "title": "StructureMapTargetListMode",
     "status": "draft",
@@ -59,8 +59,8 @@
         ]
     },
     "expansion": {
-        "identifier": "urn:uuid:c7dff9d0-2ff5-4d92-8525-d908639e5c4c",
-        "timestamp": "2022-04-23T22:23:07Z",
+        "identifier": "urn:uuid:c434262b-d88b-4a1d-b231-3053aa6e4e5f",
+        "timestamp": "2022-05-28T12:49:05+10:00",
         "total": 4,
         "parameter": [
             {
@@ -73,7 +73,7 @@
             },
             {
                 "name": "version",
-                "valueUri": "http://hl7.org/fhir/map-target-list-mode|4.3.0-cibuild"
+                "valueUri": "http://hl7.org/fhir/map-target-list-mode|4.3.0"
             }
         ],
         "contains": [

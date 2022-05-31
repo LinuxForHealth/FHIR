@@ -12,7 +12,7 @@
         }
     ],
     "url": "http://hl7.org/fhir/StructureDefinition/relative-date",
-    "version": "4.3.0-cibuild",
+    "version": "4.3.0",
     "name": "Relative Date Criteria",
     "title": "Relative Date Criteria",
     "status": "draft",
@@ -30,7 +30,7 @@
         }
     ],
     "description": "Specifies that a date is relative to some event. The event happens [Duration] after [Event].",
-    "fhirVersion": "4.3.0-cibuild",
+    "fhirVersion": "4.3.0",
     "mapping": [
         {
             "identity": "rim",
@@ -111,7 +111,7 @@
                         "extension": [
                             {
                                 "url": "http://hl7.org/fhir/StructureDefinition/structuredefinition-fhir-type",
-                                "valueUrl": "string"
+                                "valueUrl": "id"
                             }
                         ],
                         "code": "http://hl7.org/fhirpath/System.String"
@@ -245,7 +245,7 @@
                         "extension": [
                             {
                                 "url": "http://hl7.org/fhir/StructureDefinition/structuredefinition-fhir-type",
-                                "valueUrl": "string"
+                                "valueUrl": "id"
                             }
                         ],
                         "code": "http://hl7.org/fhirpath/System.String"
@@ -440,7 +440,7 @@
                         "extension": [
                             {
                                 "url": "http://hl7.org/fhir/StructureDefinition/structuredefinition-fhir-type",
-                                "valueUrl": "string"
+                                "valueUrl": "id"
                             }
                         ],
                         "code": "http://hl7.org/fhirpath/System.String"
@@ -575,7 +575,7 @@
                         }
                     ],
                     "strength": "required",
-                    "valueSet": "http://hl7.org/fhir/ValueSet/action-relationship-type|4.3.0-cibuild"
+                    "valueSet": "http://hl7.org/fhir/ValueSet/action-relationship-type|4.3.0"
                 },
                 "mapping": [
                     {
@@ -643,7 +643,7 @@
                         "extension": [
                             {
                                 "url": "http://hl7.org/fhir/StructureDefinition/structuredefinition-fhir-type",
-                                "valueUrl": "string"
+                                "valueUrl": "id"
                             }
                         ],
                         "code": "http://hl7.org/fhirpath/System.String"
@@ -896,6 +896,9 @@
                         "code": "CodeableConcept"
                     },
                     {
+                        "code": "CodeableReference"
+                    },
+                    {
                         "code": "Coding"
                     },
                     {
@@ -930,6 +933,9 @@
                     },
                     {
                         "code": "Ratio"
+                    },
+                    {
+                        "code": "RatioRange"
                     },
                     {
                         "code": "Reference"
@@ -969,9 +975,6 @@
                     },
                     {
                         "code": "Dosage"
-                    },
-                    {
-                        "code": "Meta"
                     }
                 ],
                 "constraint": [
@@ -1102,7 +1105,7 @@
                         }
                     ],
                     "strength": "required",
-                    "valueSet": "http://hl7.org/fhir/ValueSet/action-relationship-type|4.3.0-cibuild"
+                    "valueSet": "http://hl7.org/fhir/ValueSet/action-relationship-type|4.3.0"
                 }
             },
             {

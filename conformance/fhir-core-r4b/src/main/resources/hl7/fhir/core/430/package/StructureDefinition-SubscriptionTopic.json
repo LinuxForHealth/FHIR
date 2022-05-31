@@ -2,13 +2,17 @@
     "resourceType": "StructureDefinition",
     "id": "SubscriptionTopic",
     "meta": {
-        "lastUpdated": "2022-04-23T22:21:35.043Z"
+        "lastUpdated": "2022-05-28T12:47:40.239+10:00"
     },
     "text": {
         "status": "empty",
         "div": "<div xmlns=\"http://www.w3.org/1999/xhtml\">Redacted for size</div>"
     },
     "extension": [
+        {
+            "url": "http://hl7.org/fhir/StructureDefinition/structuredefinition-category",
+            "valueString": "Foundation.Other"
+        },
         {
             "url": "http://hl7.org/fhir/StructureDefinition/structuredefinition-standards-status",
             "valueCode": "draft"
@@ -24,18 +28,14 @@
         {
             "url": "http://hl7.org/fhir/StructureDefinition/structuredefinition-wg",
             "valueCode": "fhir"
-        },
-        {
-            "url": "http://hl7.org/fhir/StructureDefinition/structuredefinition-category",
-            "valueString": "Foundation.Other"
         }
     ],
     "url": "http://hl7.org/fhir/StructureDefinition/SubscriptionTopic",
-    "version": "4.3.0-cibuild",
+    "version": "4.3.0",
     "name": "SubscriptionTopic",
     "status": "draft",
     "experimental": false,
-    "date": "2022-04-23T22:21:35Z",
+    "date": "2022-05-28T12:47:40+10:00",
     "publisher": "Health Level Seven International (FHIR Infrastructure)",
     "contact": [
         {
@@ -56,7 +56,7 @@
         }
     ],
     "description": "Describes a stream of resource state changes identified by trigger criteria and annotated with labels useful to filter projections from this topic.",
-    "fhirVersion": "4.3.0-cibuild",
+    "fhirVersion": "4.3.0",
     "mapping": [
         {
             "identity": "workflow",
@@ -783,7 +783,7 @@
                     ],
                     "strength": "required",
                     "description": "The lifecycle status of an artifact.",
-                    "valueSet": "http://hl7.org/fhir/ValueSet/publication-status|4.3.0-cibuild"
+                    "valueSet": "http://hl7.org/fhir/ValueSet/publication-status|4.3.0"
                 },
                 "mapping": [
                     {
@@ -1636,7 +1636,7 @@
                     ],
                     "strength": "required",
                     "description": "FHIR RESTful interaction used to filter a resource-based SubscriptionTopic trigger.",
-                    "valueSet": "http://hl7.org/fhir/ValueSet/interaction-trigger|4.3.0-cibuild"
+                    "valueSet": "http://hl7.org/fhir/ValueSet/interaction-trigger|4.3.0"
                 }
             },
             {
@@ -1877,7 +1877,7 @@
                     ],
                     "strength": "required",
                     "description": "Behavior a server can exhibit when a criteria state does not exist (e.g., state prior to a create or after a delete).",
-                    "valueSet": "http://hl7.org/fhir/ValueSet/subscriptiontopic-cr-behavior|4.3.0-cibuild"
+                    "valueSet": "http://hl7.org/fhir/ValueSet/subscriptiontopic-cr-behavior|4.3.0"
                 }
             },
             {
@@ -1951,7 +1951,7 @@
                     ],
                     "strength": "required",
                     "description": "Behavior a server can exhibit when a criteria state does not exist (e.g., state prior to a create or after a delete).",
-                    "valueSet": "http://hl7.org/fhir/ValueSet/subscriptiontopic-cr-behavior|4.3.0-cibuild"
+                    "valueSet": "http://hl7.org/fhir/ValueSet/subscriptiontopic-cr-behavior|4.3.0"
                 }
             },
             {
@@ -2658,7 +2658,7 @@
                     ],
                     "strength": "required",
                     "description": "Operator to apply to filter label.",
-                    "valueSet": "http://hl7.org/fhir/ValueSet/subscription-search-modifier|4.3.0-cibuild"
+                    "valueSet": "http://hl7.org/fhir/ValueSet/subscription-search-modifier|4.3.0"
                 },
                 "mapping": [
                     {
@@ -3184,7 +3184,7 @@
                     ],
                     "strength": "required",
                     "description": "The lifecycle status of an artifact.",
-                    "valueSet": "http://hl7.org/fhir/ValueSet/publication-status|4.3.0-cibuild"
+                    "valueSet": "http://hl7.org/fhir/ValueSet/publication-status|4.3.0"
                 },
                 "mapping": [
                     {
@@ -3661,7 +3661,7 @@
                     ],
                     "strength": "required",
                     "description": "FHIR RESTful interaction used to filter a resource-based SubscriptionTopic trigger.",
-                    "valueSet": "http://hl7.org/fhir/ValueSet/interaction-trigger|4.3.0-cibuild"
+                    "valueSet": "http://hl7.org/fhir/ValueSet/interaction-trigger|4.3.0"
                 }
             },
             {
@@ -3721,7 +3721,7 @@
                     ],
                     "strength": "required",
                     "description": "Behavior a server can exhibit when a criteria state does not exist (e.g., state prior to a create or after a delete).",
-                    "valueSet": "http://hl7.org/fhir/ValueSet/subscriptiontopic-cr-behavior|4.3.0-cibuild"
+                    "valueSet": "http://hl7.org/fhir/ValueSet/subscriptiontopic-cr-behavior|4.3.0"
                 }
             },
             {
@@ -3765,7 +3765,7 @@
                     ],
                     "strength": "required",
                     "description": "Behavior a server can exhibit when a criteria state does not exist (e.g., state prior to a create or after a delete).",
-                    "valueSet": "http://hl7.org/fhir/ValueSet/subscriptiontopic-cr-behavior|4.3.0-cibuild"
+                    "valueSet": "http://hl7.org/fhir/ValueSet/subscriptiontopic-cr-behavior|4.3.0"
                 }
             },
             {
@@ -4020,7 +4020,7 @@
                     ],
                     "strength": "required",
                     "description": "Operator to apply to filter label.",
-                    "valueSet": "http://hl7.org/fhir/ValueSet/subscription-search-modifier|4.3.0-cibuild"
+                    "valueSet": "http://hl7.org/fhir/ValueSet/subscription-search-modifier|4.3.0"
                 },
                 "mapping": [
                     {

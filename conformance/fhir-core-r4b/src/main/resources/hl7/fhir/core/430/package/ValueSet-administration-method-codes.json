@@ -2,7 +2,7 @@
     "resourceType": "ValueSet",
     "id": "administration-method-codes",
     "meta": {
-        "lastUpdated": "2022-04-23T22:21:35.043Z",
+        "lastUpdated": "2022-05-28T12:47:40.239+10:00",
         "profile": [
             "http://hl7.org/fhir/StructureDefinition/shareablevalueset"
         ]
@@ -28,12 +28,12 @@
             "value": "urn:oid:2.16.840.1.113883.4.642.3.97"
         }
     ],
-    "version": "4.3.0-cibuild",
+    "version": "4.3.0",
     "name": "SNOMEDCTAdministrationMethodCodes",
     "title": "SNOMED CT Administration Method Codes",
     "status": "draft",
     "experimental": true,
-    "date": "2022-04-23T22:21:35Z",
+    "date": "2022-05-28T12:47:40+10:00",
     "publisher": "FHIR Project team",
     "contact": [
         {
@@ -68,8 +68,8 @@
                 "valueBoolean": true
             }
         ],
-        "identifier": "urn:uuid:96d7f786-a3aa-4786-80f9-aba80218a51e",
-        "timestamp": "2022-04-23T22:23:26Z",
+        "identifier": "urn:uuid:ff7f4352-5c9a-4522-8f4a-fc7f3c27a81b",
+        "timestamp": "2022-05-28T12:49:24+10:00",
         "total": 64,
         "parameter": [
             {

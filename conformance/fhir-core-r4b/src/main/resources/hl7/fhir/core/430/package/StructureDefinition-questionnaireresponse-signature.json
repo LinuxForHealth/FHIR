@@ -12,7 +12,7 @@
         }
     ],
     "url": "http://hl7.org/fhir/StructureDefinition/questionnaireresponse-signature",
-    "version": "4.3.0-cibuild",
+    "version": "4.3.0",
     "name": "signature",
     "status": "draft",
     "experimental": false,
@@ -113,7 +113,7 @@
                         "extension": [
                             {
                                 "url": "http://hl7.org/fhir/StructureDefinition/structuredefinition-fhir-type",
-                                "valueUrl": "string"
+                                "valueUrl": "id"
                             }
                         ],
                         "code": "http://hl7.org/fhirpath/System.String"

@@ -2,13 +2,17 @@
     "resourceType": "StructureDefinition",
     "id": "MeasureReport",
     "meta": {
-        "lastUpdated": "2022-04-23T22:21:35.043Z"
+        "lastUpdated": "2022-05-28T12:47:40.239+10:00"
     },
     "text": {
         "status": "empty",
         "div": "<div xmlns=\"http://www.w3.org/1999/xhtml\">Redacted for size</div>"
     },
     "extension": [
+        {
+            "url": "http://hl7.org/fhir/StructureDefinition/structuredefinition-category",
+            "valueString": "Specialized.Quality Reporting &amp; Testing"
+        },
         {
             "url": "http://hl7.org/fhir/StructureDefinition/structuredefinition-standards-status",
             "valueCode": "trial-use"
@@ -24,18 +28,14 @@
         {
             "url": "http://hl7.org/fhir/StructureDefinition/structuredefinition-wg",
             "valueCode": "cqi"
-        },
-        {
-            "url": "http://hl7.org/fhir/StructureDefinition/structuredefinition-category",
-            "valueString": "Specialized.Quality Reporting &amp; Testing"
         }
     ],
     "url": "http://hl7.org/fhir/StructureDefinition/MeasureReport",
-    "version": "4.3.0-cibuild",
+    "version": "4.3.0",
     "name": "MeasureReport",
     "status": "draft",
     "experimental": false,
-    "date": "2022-04-23T22:21:35Z",
+    "date": "2022-05-28T12:47:40+10:00",
     "publisher": "Health Level Seven International (Clinical Quality Information)",
     "contact": [
         {
@@ -56,7 +56,7 @@
         }
     ],
     "description": "The MeasureReport resource contains the results of the calculation of a measure; and optionally a reference to the resources involved in that calculation.",
-    "fhirVersion": "4.3.0-cibuild",
+    "fhirVersion": "4.3.0",
     "mapping": [
         {
             "identity": "rim",
@@ -590,7 +590,7 @@
                     ],
                     "strength": "required",
                     "description": "The status of the measure report (e.g. complete, pending, or error)",
-                    "valueSet": "http://hl7.org/fhir/ValueSet/measure-report-status|4.3.0-cibuild"
+                    "valueSet": "http://hl7.org/fhir/ValueSet/measure-report-status|4.3.0"
                 },
                 "mapping": [
                     {
@@ -646,7 +646,7 @@
                     ],
                     "strength": "required",
                     "description": "The type of the measure report: individual, patient listing, or summary",
-                    "valueSet": "http://hl7.org/fhir/ValueSet/measure-report-type|4.3.0-cibuild"
+                    "valueSet": "http://hl7.org/fhir/ValueSet/measure-report-type|4.3.0"
                 },
                 "mapping": [
                     {
@@ -923,7 +923,7 @@
                     ],
                     "strength": "required",
                     "description": "The improvement notation of the measure report (e.g. increase or decrease)",
-                    "valueSet": "http://hl7.org/fhir/ValueSet/measure-improvement-notation|4.3.0-cibuild"
+                    "valueSet": "http://hl7.org/fhir/ValueSet/measure-improvement-notation|4.3.0"
                 },
                 "mapping": [
                     {
@@ -2685,7 +2685,7 @@
                     ],
                     "strength": "required",
                     "description": "The status of the measure report (e.g. complete, pending, or error)",
-                    "valueSet": "http://hl7.org/fhir/ValueSet/measure-report-status|4.3.0-cibuild"
+                    "valueSet": "http://hl7.org/fhir/ValueSet/measure-report-status|4.3.0"
                 },
                 "mapping": [
                     {
@@ -2726,7 +2726,7 @@
                     ],
                     "strength": "required",
                     "description": "The type of the measure report: individual, patient listing, or summary",
-                    "valueSet": "http://hl7.org/fhir/ValueSet/measure-report-type|4.3.0-cibuild"
+                    "valueSet": "http://hl7.org/fhir/ValueSet/measure-report-type|4.3.0"
                 },
                 "mapping": [
                     {
@@ -2913,7 +2913,7 @@
                     ],
                     "strength": "required",
                     "description": "The improvement notation of the measure report (e.g. increase or decrease)",
-                    "valueSet": "http://hl7.org/fhir/ValueSet/measure-improvement-notation|4.3.0-cibuild"
+                    "valueSet": "http://hl7.org/fhir/ValueSet/measure-improvement-notation|4.3.0"
                 },
                 "mapping": [
                     {

@@ -2,13 +2,17 @@
     "resourceType": "StructureDefinition",
     "id": "ImplementationGuide",
     "meta": {
-        "lastUpdated": "2022-04-23T22:21:35.043Z"
+        "lastUpdated": "2022-05-28T12:47:40.239+10:00"
     },
     "text": {
         "status": "empty",
         "div": "<div xmlns=\"http://www.w3.org/1999/xhtml\">Redacted for size</div>"
     },
     "extension": [
+        {
+            "url": "http://hl7.org/fhir/StructureDefinition/structuredefinition-category",
+            "valueString": "Foundation.Conformance"
+        },
         {
             "url": "http://hl7.org/fhir/StructureDefinition/structuredefinition-standards-status",
             "valueCode": "trial-use"
@@ -24,18 +28,14 @@
         {
             "url": "http://hl7.org/fhir/StructureDefinition/structuredefinition-wg",
             "valueCode": "fhir"
-        },
-        {
-            "url": "http://hl7.org/fhir/StructureDefinition/structuredefinition-category",
-            "valueString": "Foundation.Conformance"
         }
     ],
     "url": "http://hl7.org/fhir/StructureDefinition/ImplementationGuide",
-    "version": "4.3.0-cibuild",
+    "version": "4.3.0",
     "name": "ImplementationGuide",
     "status": "draft",
     "experimental": false,
-    "date": "2022-04-23T22:21:35Z",
+    "date": "2022-05-28T12:47:40+10:00",
     "publisher": "Health Level Seven International (FHIR Infrastructure)",
     "contact": [
         {
@@ -57,7 +57,7 @@
     ],
     "description": "A set of rules of how a particular interoperability or standards problem is solved - typically through the use of FHIR resources. This resource is used to gather all the parts of an implementation guide into a logical whole and to publish a computable definition of all the parts.",
     "purpose": "An implementation guide is able to define default profiles that must apply to any use of a resource, so validation services may need to take one or more implementation guide resources when validating.",
-    "fhirVersion": "4.3.0-cibuild",
+    "fhirVersion": "4.3.0",
     "mapping": [
         {
             "identity": "rim",
@@ -724,7 +724,7 @@
                     ],
                     "strength": "required",
                     "description": "The lifecycle status of an artifact.",
-                    "valueSet": "http://hl7.org/fhir/ValueSet/publication-status|4.3.0-cibuild"
+                    "valueSet": "http://hl7.org/fhir/ValueSet/publication-status|4.3.0"
                 },
                 "mapping": [
                     {
@@ -1153,7 +1153,7 @@
                     ],
                     "strength": "required",
                     "description": "The license that applies to an Implementation Guide (using an SPDX license Identifiers, or 'not-open-source'). The binding is required but new SPDX license Identifiers are allowed to be used (https://spdx.org/licenses/).",
-                    "valueSet": "http://hl7.org/fhir/ValueSet/spdx-license|4.3.0-cibuild"
+                    "valueSet": "http://hl7.org/fhir/ValueSet/spdx-license|4.3.0"
                 }
             },
             {
@@ -1200,7 +1200,7 @@
                     ],
                     "strength": "required",
                     "description": "All published FHIR Versions.",
-                    "valueSet": "http://hl7.org/fhir/ValueSet/FHIR-version|4.3.0-cibuild"
+                    "valueSet": "http://hl7.org/fhir/ValueSet/FHIR-version|4.3.0"
                 }
             },
             {
@@ -1680,7 +1680,7 @@
                     ],
                     "strength": "required",
                     "description": "One of the resource types defined as part of this version of FHIR.",
-                    "valueSet": "http://hl7.org/fhir/ValueSet/resource-types|4.3.0-cibuild"
+                    "valueSet": "http://hl7.org/fhir/ValueSet/resource-types|4.3.0"
                 }
             },
             {
@@ -2369,7 +2369,7 @@
                     ],
                     "strength": "required",
                     "description": "All published FHIR Versions.",
-                    "valueSet": "http://hl7.org/fhir/ValueSet/FHIR-version|4.3.0-cibuild"
+                    "valueSet": "http://hl7.org/fhir/ValueSet/FHIR-version|4.3.0"
                 }
             },
             {
@@ -2781,7 +2781,7 @@
                     ],
                     "strength": "required",
                     "description": "A code that indicates how the page is generated.",
-                    "valueSet": "http://hl7.org/fhir/ValueSet/guide-page-generation|4.3.0-cibuild"
+                    "valueSet": "http://hl7.org/fhir/ValueSet/guide-page-generation|4.3.0"
                 }
             },
             {
@@ -3018,7 +3018,7 @@
                     ],
                     "strength": "required",
                     "description": "Code of parameter that is input to the guide.",
-                    "valueSet": "http://hl7.org/fhir/ValueSet/guide-parameter-code|4.3.0-cibuild"
+                    "valueSet": "http://hl7.org/fhir/ValueSet/guide-parameter-code|4.3.0"
                 }
             },
             {
@@ -4303,7 +4303,7 @@
                     ],
                     "strength": "required",
                     "description": "The lifecycle status of an artifact.",
-                    "valueSet": "http://hl7.org/fhir/ValueSet/publication-status|4.3.0-cibuild"
+                    "valueSet": "http://hl7.org/fhir/ValueSet/publication-status|4.3.0"
                 },
                 "mapping": [
                     {
@@ -4582,7 +4582,7 @@
                     ],
                     "strength": "required",
                     "description": "The license that applies to an Implementation Guide (using an SPDX license Identifiers, or 'not-open-source'). The binding is required but new SPDX license Identifiers are allowed to be used (https://spdx.org/licenses/).",
-                    "valueSet": "http://hl7.org/fhir/ValueSet/spdx-license|4.3.0-cibuild"
+                    "valueSet": "http://hl7.org/fhir/ValueSet/spdx-license|4.3.0"
                 }
             },
             {
@@ -4614,7 +4614,7 @@
                     ],
                     "strength": "required",
                     "description": "All published FHIR Versions.",
-                    "valueSet": "http://hl7.org/fhir/ValueSet/FHIR-version|4.3.0-cibuild"
+                    "valueSet": "http://hl7.org/fhir/ValueSet/FHIR-version|4.3.0"
                 }
             },
             {
@@ -4732,7 +4732,7 @@
                     ],
                     "strength": "required",
                     "description": "One of the resource types defined as part of this version of FHIR.",
-                    "valueSet": "http://hl7.org/fhir/ValueSet/resource-types|4.3.0-cibuild"
+                    "valueSet": "http://hl7.org/fhir/ValueSet/resource-types|4.3.0"
                 }
             },
             {
@@ -4895,7 +4895,7 @@
                     ],
                     "strength": "required",
                     "description": "All published FHIR Versions.",
-                    "valueSet": "http://hl7.org/fhir/ValueSet/FHIR-version|4.3.0-cibuild"
+                    "valueSet": "http://hl7.org/fhir/ValueSet/FHIR-version|4.3.0"
                 }
             },
             {
@@ -5051,7 +5051,7 @@
                     ],
                     "strength": "required",
                     "description": "A code that indicates how the page is generated.",
-                    "valueSet": "http://hl7.org/fhir/ValueSet/guide-page-generation|4.3.0-cibuild"
+                    "valueSet": "http://hl7.org/fhir/ValueSet/guide-page-generation|4.3.0"
                 }
             },
             {
@@ -5107,7 +5107,7 @@
                     ],
                     "strength": "required",
                     "description": "Code of parameter that is input to the guide.",
-                    "valueSet": "http://hl7.org/fhir/ValueSet/guide-parameter-code|4.3.0-cibuild"
+                    "valueSet": "http://hl7.org/fhir/ValueSet/guide-parameter-code|4.3.0"
                 }
             },
             {

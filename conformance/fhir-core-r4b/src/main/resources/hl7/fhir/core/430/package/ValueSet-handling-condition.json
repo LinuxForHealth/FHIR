@@ -2,7 +2,7 @@
     "resourceType": "ValueSet",
     "id": "handling-condition",
     "meta": {
-        "lastUpdated": "2022-04-24T09:21:35.043+11:00",
+        "lastUpdated": "2022-05-28T13:47:40.239+11:00",
         "profile": [
             "http://hl7.org/fhir/StructureDefinition/shareablevalueset"
         ]
@@ -28,7 +28,7 @@
             "value": "urn:oid:2.16.840.1.113883.4.642.3.854"
         }
     ],
-    "version": "4.3.0-cibuild",
+    "version": "4.3.0",
     "name": "HandlingConditionSet",
     "title": "HandlingConditionSet",
     "status": "draft",
@@ -59,8 +59,8 @@
         ]
     },
     "expansion": {
-        "identifier": "urn:uuid:6aca7c53-e59e-4481-8700-e22e72d39827",
-        "timestamp": "2022-04-23T22:23:26Z",
+        "identifier": "urn:uuid:2e9c3c5e-fc85-4aa1-babe-5ff134268cb1",
+        "timestamp": "2022-05-28T12:49:24+10:00",
         "total": 3,
         "parameter": [
             {
@@ -73,7 +73,7 @@
             },
             {
                 "name": "version",
-                "valueUri": "http://terminology.hl7.org/CodeSystem/handling-condition|4.3.0-cibuild"
+                "valueUri": "http://terminology.hl7.org/CodeSystem/handling-condition|4.3.0"
             }
         ],
         "contains": [

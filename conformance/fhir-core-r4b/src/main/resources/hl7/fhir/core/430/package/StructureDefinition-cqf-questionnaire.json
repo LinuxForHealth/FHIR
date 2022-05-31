@@ -20,7 +20,7 @@
         }
     ],
     "url": "http://hl7.org/fhir/StructureDefinition/cqf-questionnaire",
-    "version": "4.3.0-cibuild",
+    "version": "4.3.0",
     "name": "CQF-Questionnaire",
     "status": "draft",
     "experimental": false,
@@ -873,7 +873,7 @@
                     ],
                     "strength": "required",
                     "description": "The lifecycle status of an artifact.",
-                    "valueSet": "http://hl7.org/fhir/ValueSet/publication-status|4.3.0-cibuild"
+                    "valueSet": "http://hl7.org/fhir/ValueSet/publication-status|4.3.0"
                 },
                 "mapping": [
                     {
@@ -981,7 +981,7 @@
                     ],
                     "strength": "required",
                     "description": "One of the resource types defined as part of this version of FHIR.",
-                    "valueSet": "http://hl7.org/fhir/ValueSet/resource-types|4.3.0-cibuild"
+                    "valueSet": "http://hl7.org/fhir/ValueSet/resource-types|4.3.0"
                 },
                 "mapping": [
                     {
@@ -2096,7 +2096,7 @@
                     ],
                     "strength": "required",
                     "description": "Distinguishes groups from questions and display text and indicates data type for questions.",
-                    "valueSet": "http://hl7.org/fhir/ValueSet/item-type|4.3.0-cibuild"
+                    "valueSet": "http://hl7.org/fhir/ValueSet/item-type|4.3.0"
                 },
                 "mapping": [
                     {
@@ -2366,7 +2366,7 @@
                     ],
                     "strength": "required",
                     "description": "The criteria by which a question is enabled.",
-                    "valueSet": "http://hl7.org/fhir/ValueSet/questionnaire-enable-operator|4.3.0-cibuild"
+                    "valueSet": "http://hl7.org/fhir/ValueSet/questionnaire-enable-operator|4.3.0"
                 },
                 "mapping": [
                     {
@@ -2499,7 +2499,7 @@
                     ],
                     "strength": "required",
                     "description": "Controls how multiple enableWhen values are interpreted -  whether all or any must be true.",
-                    "valueSet": "http://hl7.org/fhir/ValueSet/questionnaire-enable-behavior|4.3.0-cibuild"
+                    "valueSet": "http://hl7.org/fhir/ValueSet/questionnaire-enable-behavior|4.3.0"
                 },
                 "mapping": [
                     {

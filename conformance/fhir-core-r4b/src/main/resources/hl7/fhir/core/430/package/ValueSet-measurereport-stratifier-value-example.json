@@ -2,7 +2,7 @@
     "resourceType": "ValueSet",
     "id": "measurereport-stratifier-value-example",
     "meta": {
-        "lastUpdated": "2022-04-23T22:21:35.043Z",
+        "lastUpdated": "2022-05-28T12:47:40.239+10:00",
         "profile": [
             "http://hl7.org/fhir/StructureDefinition/shareablevalueset"
         ]
@@ -28,7 +28,7 @@
             "value": "urn:oid:2.16.840.1.113883.4.642.3.0"
         }
     ],
-    "version": "4.3.0-cibuild",
+    "version": "4.3.0",
     "name": "MeasureReportStratifierValueExample",
     "title": "MeasureReportStratifierValueExample",
     "status": "draft",
@@ -43,8 +43,8 @@
         ]
     },
     "expansion": {
-        "identifier": "urn:uuid:85e30014-79dd-4a30-bc58-e2edf8fa62e8",
-        "timestamp": "2022-04-23T22:23:26Z",
+        "identifier": "urn:uuid:5542e549-4366-46f1-a282-c7e10ddf6abd",
+        "timestamp": "2022-05-28T12:49:24+10:00",
         "total": 4,
         "parameter": [
             {
@@ -57,7 +57,7 @@
             },
             {
                 "name": "version",
-                "valueUri": "http://terminology.hl7.org/CodeSystem/measurereport-stratifier-value-example|4.3.0-cibuild"
+                "valueUri": "http://terminology.hl7.org/CodeSystem/measurereport-stratifier-value-example|4.3.0"
             }
         ],
         "contains": [

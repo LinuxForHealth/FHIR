@@ -2,7 +2,7 @@
     "resourceType": "StructureDefinition",
     "id": "Narrative",
     "meta": {
-        "lastUpdated": "2022-04-23T22:21:35.043Z"
+        "lastUpdated": "2022-05-28T12:47:40.239+10:00"
     },
     "text": {
         "status": "empty",
@@ -19,11 +19,11 @@
         }
     ],
     "url": "http://hl7.org/fhir/StructureDefinition/Narrative",
-    "version": "4.3.0-cibuild",
+    "version": "4.3.0",
     "name": "Narrative",
     "status": "active",
     "experimental": false,
-    "date": "2022-04-23T22:21:35Z",
+    "date": "2022-05-28T12:47:40+10:00",
     "publisher": "HL7 FHIR Standard",
     "contact": [
         {
@@ -36,7 +36,7 @@
         }
     ],
     "description": "Base StructureDefinition for Narrative Type: A human-readable summary of the resource conveying the essential clinical and business information for the resource.",
-    "fhirVersion": "4.3.0-cibuild",
+    "fhirVersion": "4.3.0",
     "mapping": [
         {
             "identity": "rim",
@@ -118,7 +118,7 @@
                         "extension": [
                             {
                                 "url": "http://hl7.org/fhir/StructureDefinition/structuredefinition-fhir-type",
-                                "valueUrl": "string"
+                                "valueUrl": "id"
                             }
                         ],
                         "code": "http://hl7.org/fhirpath/System.String"
@@ -233,7 +233,7 @@
                         }
                     ],
                     "strength": "required",
-                    "valueSet": "http://hl7.org/fhir/ValueSet/narrative-status|4.3.0-cibuild"
+                    "valueSet": "http://hl7.org/fhir/ValueSet/narrative-status|4.3.0"
                 },
                 "mapping": [
                     {
@@ -347,7 +347,7 @@
                         }
                     ],
                     "strength": "required",
-                    "valueSet": "http://hl7.org/fhir/ValueSet/narrative-status|4.3.0-cibuild"
+                    "valueSet": "http://hl7.org/fhir/ValueSet/narrative-status|4.3.0"
                 },
                 "mapping": [
                     {

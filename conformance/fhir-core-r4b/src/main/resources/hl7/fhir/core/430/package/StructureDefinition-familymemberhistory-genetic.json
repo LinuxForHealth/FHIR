@@ -20,7 +20,7 @@
         }
     ],
     "url": "http://hl7.org/fhir/StructureDefinition/familymemberhistory-genetic",
-    "version": "4.3.0-cibuild",
+    "version": "4.3.0",
     "name": "Family member history for genetics analysis",
     "status": "draft",
     "experimental": false,
@@ -832,7 +832,7 @@
                     ],
                     "strength": "required",
                     "description": "A code that identifies the status of the family history record.",
-                    "valueSet": "http://hl7.org/fhir/ValueSet/history-status|4.3.0-cibuild"
+                    "valueSet": "http://hl7.org/fhir/ValueSet/history-status|4.3.0"
                 },
                 "mapping": [
                     {

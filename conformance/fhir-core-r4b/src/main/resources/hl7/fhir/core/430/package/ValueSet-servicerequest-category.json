@@ -2,7 +2,7 @@
     "resourceType": "ValueSet",
     "id": "servicerequest-category",
     "meta": {
-        "lastUpdated": "2022-04-23T22:21:35.043Z",
+        "lastUpdated": "2022-05-28T12:47:40.239+10:00",
         "profile": [
             "http://hl7.org/fhir/StructureDefinition/shareablevalueset"
         ]
@@ -28,7 +28,7 @@
             "value": "urn:oid:2.16.840.1.113883.4.642.3.434"
         }
     ],
-    "version": "4.3.0-cibuild",
+    "version": "4.3.0",
     "name": "ServiceRequestCategoryCodes",
     "title": "Service Request Category Codes",
     "status": "draft",
@@ -76,8 +76,8 @@
         ]
     },
     "expansion": {
-        "identifier": "urn:uuid:955a92aa-170d-43be-ae5c-a2a054a00672",
-        "timestamp": "2022-04-23T22:23:26Z",
+        "identifier": "urn:uuid:eda666af-13c9-4023-8d05-c345671968f6",
+        "timestamp": "2022-05-28T12:49:24+10:00",
         "total": 5,
         "parameter": [
             {

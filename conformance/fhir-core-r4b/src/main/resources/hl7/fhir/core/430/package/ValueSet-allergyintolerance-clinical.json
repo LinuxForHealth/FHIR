@@ -2,7 +2,7 @@
     "resourceType": "ValueSet",
     "id": "allergyintolerance-clinical",
     "meta": {
-        "lastUpdated": "2022-04-23T22:21:35.043Z",
+        "lastUpdated": "2022-05-28T12:47:40.239+10:00",
         "profile": [
             "http://hl7.org/fhir/StructureDefinition/shareablevalueset"
         ]
@@ -28,7 +28,7 @@
             "value": "urn:oid:2.16.840.1.113883.4.642.3.1372"
         }
     ],
-    "version": "4.3.0-cibuild",
+    "version": "4.3.0",
     "name": "AllergyIntoleranceClinicalStatusCodes",
     "title": "AllergyIntolerance Clinical Status Codes",
     "status": "draft",
@@ -53,8 +53,8 @@
         ]
     },
     "expansion": {
-        "identifier": "urn:uuid:21c4dcf2-3610-4746-adc2-bc0a8b2f13fb",
-        "timestamp": "2022-04-23T22:23:26Z",
+        "identifier": "urn:uuid:96ea6fe0-af60-4026-b4a4-81de956aef8c",
+        "timestamp": "2022-05-28T12:49:24+10:00",
         "total": 3,
         "parameter": [
             {
@@ -67,7 +67,7 @@
             },
             {
                 "name": "version",
-                "valueUri": "http://terminology.hl7.org/CodeSystem/allergyintolerance-clinical|4.3.0-cibuild"
+                "valueUri": "http://terminology.hl7.org/CodeSystem/allergyintolerance-clinical|4.3.0"
             }
         ],
         "contains": [
