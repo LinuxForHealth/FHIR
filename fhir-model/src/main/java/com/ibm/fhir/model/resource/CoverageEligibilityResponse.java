@@ -71,7 +71,7 @@ public class CoverageEligibilityResponse extends DomainResource {
         bindingName = "EligibilityResponseStatus",
         strength = BindingStrength.Value.REQUIRED,
         description = "A code specifying the state of the resource instance.",
-        valueSet = "http://hl7.org/fhir/ValueSet/fm-status|4.3.0-cibuild"
+        valueSet = "http://hl7.org/fhir/ValueSet/fm-status|4.3.0"
     )
     @Required
     private final EligibilityResponseStatus status;
@@ -80,7 +80,7 @@ public class CoverageEligibilityResponse extends DomainResource {
         bindingName = "EligibilityResponsePurpose",
         strength = BindingStrength.Value.REQUIRED,
         description = "A code specifying the types of information being requested.",
-        valueSet = "http://hl7.org/fhir/ValueSet/eligibilityresponse-purpose|4.3.0-cibuild"
+        valueSet = "http://hl7.org/fhir/ValueSet/eligibilityresponse-purpose|4.3.0"
     )
     @Required
     private final List<EligibilityResponsePurpose> purpose;
@@ -104,7 +104,7 @@ public class CoverageEligibilityResponse extends DomainResource {
         bindingName = "RemittanceOutcome",
         strength = BindingStrength.Value.REQUIRED,
         description = "The outcome of the processing.",
-        valueSet = "http://hl7.org/fhir/ValueSet/remittance-outcome|4.3.0-cibuild"
+        valueSet = "http://hl7.org/fhir/ValueSet/remittance-outcome|4.3.0"
     )
     @Required
     private final RemittanceOutcome outcome;

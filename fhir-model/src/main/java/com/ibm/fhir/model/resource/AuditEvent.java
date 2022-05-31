@@ -185,7 +185,7 @@ public class AuditEvent extends DomainResource {
         bindingName = "AuditEventAction",
         strength = BindingStrength.Value.REQUIRED,
         description = "DICOM Audit Event Action",
-        valueSet = "http://hl7.org/fhir/ValueSet/audit-event-action|4.3.0-cibuild"
+        valueSet = "http://hl7.org/fhir/ValueSet/audit-event-action|4.3.0"
     )
     private final AuditEventAction action;
     private final Period period;
@@ -197,7 +197,7 @@ public class AuditEvent extends DomainResource {
         bindingName = "AuditEventOutcome",
         strength = BindingStrength.Value.REQUIRED,
         description = "DICOM Audit Event Outcome",
-        valueSet = "http://hl7.org/fhir/ValueSet/audit-event-outcome|4.3.0-cibuild"
+        valueSet = "http://hl7.org/fhir/ValueSet/audit-event-outcome|4.3.0"
     )
     private final AuditEventOutcome outcome;
     @Summary
@@ -1805,7 +1805,7 @@ public class AuditEvent extends DomainResource {
                 bindingName = "AuditEventAgentNetworkType",
                 strength = BindingStrength.Value.REQUIRED,
                 description = "DICOM Audit Event Network Type",
-                valueSet = "http://hl7.org/fhir/ValueSet/network-type|4.3.0-cibuild"
+                valueSet = "http://hl7.org/fhir/ValueSet/network-type|4.3.0"
             )
             private final AuditEventAgentNetworkType type;
 

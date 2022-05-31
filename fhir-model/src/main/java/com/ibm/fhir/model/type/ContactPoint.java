@@ -38,7 +38,7 @@ public class ContactPoint extends Element {
     @Binding(
         bindingName = "ContactPointSystem",
         strength = BindingStrength.Value.REQUIRED,
-        valueSet = "http://hl7.org/fhir/ValueSet/contact-point-system|4.3.0-cibuild"
+        valueSet = "http://hl7.org/fhir/ValueSet/contact-point-system|4.3.0"
     )
     private final ContactPointSystem system;
     @Summary
@@ -47,7 +47,7 @@ public class ContactPoint extends Element {
     @Binding(
         bindingName = "ContactPointUse",
         strength = BindingStrength.Value.REQUIRED,
-        valueSet = "http://hl7.org/fhir/ValueSet/contact-point-use|4.3.0-cibuild"
+        valueSet = "http://hl7.org/fhir/ValueSet/contact-point-use|4.3.0"
     )
     private final ContactPointUse use;
     @Summary

@@ -148,7 +148,7 @@ public class StructureMap extends DomainResource {
         bindingName = "PublicationStatus",
         strength = BindingStrength.Value.REQUIRED,
         description = "The lifecycle status of an artifact.",
-        valueSet = "http://hl7.org/fhir/ValueSet/publication-status|4.3.0-cibuild"
+        valueSet = "http://hl7.org/fhir/ValueSet/publication-status|4.3.0"
     )
     @Required
     private final PublicationStatus status;
@@ -1392,7 +1392,7 @@ public class StructureMap extends DomainResource {
             bindingName = "StructureMapModelMode",
             strength = BindingStrength.Value.REQUIRED,
             description = "How the referenced structure is used in this mapping.",
-            valueSet = "http://hl7.org/fhir/ValueSet/map-model-mode|4.3.0-cibuild"
+            valueSet = "http://hl7.org/fhir/ValueSet/map-model-mode|4.3.0"
         )
         @Required
         private final StructureMapModelMode mode;
@@ -1790,7 +1790,7 @@ public class StructureMap extends DomainResource {
             bindingName = "StructureMapGroupTypeMode",
             strength = BindingStrength.Value.REQUIRED,
             description = "If this is the default rule set to apply for the source type, or this combination of types.",
-            valueSet = "http://hl7.org/fhir/ValueSet/map-group-type-mode|4.3.0-cibuild"
+            valueSet = "http://hl7.org/fhir/ValueSet/map-group-type-mode|4.3.0"
         )
         @Required
         private final StructureMapGroupTypeMode typeMode;
@@ -2300,7 +2300,7 @@ public class StructureMap extends DomainResource {
                 bindingName = "StructureMapInputMode",
                 strength = BindingStrength.Value.REQUIRED,
                 description = "Mode for this instance of data.",
-                valueSet = "http://hl7.org/fhir/ValueSet/map-input-mode|4.3.0-cibuild"
+                valueSet = "http://hl7.org/fhir/ValueSet/map-input-mode|4.3.0"
             )
             @Required
             private final StructureMapInputMode mode;
@@ -3249,7 +3249,7 @@ public class StructureMap extends DomainResource {
                     bindingName = "StructureMapSourceListMode",
                     strength = BindingStrength.Value.REQUIRED,
                     description = "If field is a list, how to manage the source.",
-                    valueSet = "http://hl7.org/fhir/ValueSet/map-source-list-mode|4.3.0-cibuild"
+                    valueSet = "http://hl7.org/fhir/ValueSet/map-source-list-mode|4.3.0"
                 )
                 private final StructureMapSourceListMode listMode;
                 @Summary
@@ -4106,7 +4106,7 @@ public class StructureMap extends DomainResource {
                     bindingName = "StructureMapContextType",
                     strength = BindingStrength.Value.REQUIRED,
                     description = "How to interpret the context.",
-                    valueSet = "http://hl7.org/fhir/ValueSet/map-context-type|4.3.0-cibuild"
+                    valueSet = "http://hl7.org/fhir/ValueSet/map-context-type|4.3.0"
                 )
                 private final StructureMapContextType contextType;
                 @Summary
@@ -4118,7 +4118,7 @@ public class StructureMap extends DomainResource {
                     bindingName = "StructureMapTargetListMode",
                     strength = BindingStrength.Value.REQUIRED,
                     description = "If field is a list, how to manage the production.",
-                    valueSet = "http://hl7.org/fhir/ValueSet/map-target-list-mode|4.3.0-cibuild"
+                    valueSet = "http://hl7.org/fhir/ValueSet/map-target-list-mode|4.3.0"
                 )
                 private final List<StructureMapTargetListMode> listMode;
                 @Summary
@@ -4128,7 +4128,7 @@ public class StructureMap extends DomainResource {
                     bindingName = "StructureMapTransform",
                     strength = BindingStrength.Value.REQUIRED,
                     description = "How data is copied/created.",
-                    valueSet = "http://hl7.org/fhir/ValueSet/map-transform|4.3.0-cibuild"
+                    valueSet = "http://hl7.org/fhir/ValueSet/map-transform|4.3.0"
                 )
                 private final StructureMapTransform transform;
                 @Summary

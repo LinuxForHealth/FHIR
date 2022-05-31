@@ -18861,6 +18861,10 @@ public class FHIRXMLParser extends FHIRAbstractParser {
                     position = checkElementOrder("defaultValue[x]", 19, position, false);
                     builder.defaultValue(parseCodeableConcept("defaultValueCodeableConcept", reader, -1));
                     break;
+                case "defaultValueCodeableReference":
+                    position = checkElementOrder("defaultValue[x]", 19, position, false);
+                    builder.defaultValue(parseCodeableReference("defaultValueCodeableReference", reader, -1));
+                    break;
                 case "defaultValueCoding":
                     position = checkElementOrder("defaultValue[x]", 19, position, false);
                     builder.defaultValue(parseCoding("defaultValueCoding", reader, -1));
@@ -18908,6 +18912,10 @@ public class FHIRXMLParser extends FHIRAbstractParser {
                 case "defaultValueRatio":
                     position = checkElementOrder("defaultValue[x]", 19, position, false);
                     builder.defaultValue(parseRatio("defaultValueRatio", reader, -1));
+                    break;
+                case "defaultValueRatioRange":
+                    position = checkElementOrder("defaultValue[x]", 19, position, false);
+                    builder.defaultValue(parseRatioRange("defaultValueRatioRange", reader, -1));
                     break;
                 case "defaultValueReference":
                     position = checkElementOrder("defaultValue[x]", 19, position, false);
@@ -18960,10 +18968,6 @@ public class FHIRXMLParser extends FHIRAbstractParser {
                 case "defaultValueDosage":
                     position = checkElementOrder("defaultValue[x]", 19, position, false);
                     builder.defaultValue(parseDosage("defaultValueDosage", reader, -1));
-                    break;
-                case "defaultValueMeta":
-                    position = checkElementOrder("defaultValue[x]", 19, position, false);
-                    builder.defaultValue(parseMeta("defaultValueMeta", reader, -1));
                     break;
                 case "meaningWhenMissing":
                     position = checkElementOrder("meaningWhenMissing", 20, position, false);
@@ -19069,6 +19073,10 @@ public class FHIRXMLParser extends FHIRAbstractParser {
                     position = checkElementOrder("fixed[x]", 22, position, false);
                     builder.fixed(parseCodeableConcept("fixedCodeableConcept", reader, -1));
                     break;
+                case "fixedCodeableReference":
+                    position = checkElementOrder("fixed[x]", 22, position, false);
+                    builder.fixed(parseCodeableReference("fixedCodeableReference", reader, -1));
+                    break;
                 case "fixedCoding":
                     position = checkElementOrder("fixed[x]", 22, position, false);
                     builder.fixed(parseCoding("fixedCoding", reader, -1));
@@ -19116,6 +19124,10 @@ public class FHIRXMLParser extends FHIRAbstractParser {
                 case "fixedRatio":
                     position = checkElementOrder("fixed[x]", 22, position, false);
                     builder.fixed(parseRatio("fixedRatio", reader, -1));
+                    break;
+                case "fixedRatioRange":
+                    position = checkElementOrder("fixed[x]", 22, position, false);
+                    builder.fixed(parseRatioRange("fixedRatioRange", reader, -1));
                     break;
                 case "fixedReference":
                     position = checkElementOrder("fixed[x]", 22, position, false);
@@ -19168,10 +19180,6 @@ public class FHIRXMLParser extends FHIRAbstractParser {
                 case "fixedDosage":
                     position = checkElementOrder("fixed[x]", 22, position, false);
                     builder.fixed(parseDosage("fixedDosage", reader, -1));
-                    break;
-                case "fixedMeta":
-                    position = checkElementOrder("fixed[x]", 22, position, false);
-                    builder.fixed(parseMeta("fixedMeta", reader, -1));
                     break;
                 case "patternBase64Binary":
                     position = checkElementOrder("pattern[x]", 23, position, false);
@@ -19269,6 +19277,10 @@ public class FHIRXMLParser extends FHIRAbstractParser {
                     position = checkElementOrder("pattern[x]", 23, position, false);
                     builder.pattern(parseCodeableConcept("patternCodeableConcept", reader, -1));
                     break;
+                case "patternCodeableReference":
+                    position = checkElementOrder("pattern[x]", 23, position, false);
+                    builder.pattern(parseCodeableReference("patternCodeableReference", reader, -1));
+                    break;
                 case "patternCoding":
                     position = checkElementOrder("pattern[x]", 23, position, false);
                     builder.pattern(parseCoding("patternCoding", reader, -1));
@@ -19316,6 +19328,10 @@ public class FHIRXMLParser extends FHIRAbstractParser {
                 case "patternRatio":
                     position = checkElementOrder("pattern[x]", 23, position, false);
                     builder.pattern(parseRatio("patternRatio", reader, -1));
+                    break;
+                case "patternRatioRange":
+                    position = checkElementOrder("pattern[x]", 23, position, false);
+                    builder.pattern(parseRatioRange("patternRatioRange", reader, -1));
                     break;
                 case "patternReference":
                     position = checkElementOrder("pattern[x]", 23, position, false);
@@ -19368,10 +19384,6 @@ public class FHIRXMLParser extends FHIRAbstractParser {
                 case "patternDosage":
                     position = checkElementOrder("pattern[x]", 23, position, false);
                     builder.pattern(parseDosage("patternDosage", reader, -1));
-                    break;
-                case "patternMeta":
-                    position = checkElementOrder("pattern[x]", 23, position, false);
-                    builder.pattern(parseMeta("patternMeta", reader, -1));
                     break;
                 case "example":
                     position = checkElementOrder("example", 24, position, true);
@@ -19813,6 +19825,10 @@ public class FHIRXMLParser extends FHIRAbstractParser {
                     position = checkElementOrder("value[x]", 3, position, false);
                     builder.value(parseCodeableConcept("valueCodeableConcept", reader, -1));
                     break;
+                case "valueCodeableReference":
+                    position = checkElementOrder("value[x]", 3, position, false);
+                    builder.value(parseCodeableReference("valueCodeableReference", reader, -1));
+                    break;
                 case "valueCoding":
                     position = checkElementOrder("value[x]", 3, position, false);
                     builder.value(parseCoding("valueCoding", reader, -1));
@@ -19860,6 +19876,10 @@ public class FHIRXMLParser extends FHIRAbstractParser {
                 case "valueRatio":
                     position = checkElementOrder("value[x]", 3, position, false);
                     builder.value(parseRatio("valueRatio", reader, -1));
+                    break;
+                case "valueRatioRange":
+                    position = checkElementOrder("value[x]", 3, position, false);
+                    builder.value(parseRatioRange("valueRatioRange", reader, -1));
                     break;
                 case "valueReference":
                     position = checkElementOrder("value[x]", 3, position, false);
@@ -19912,10 +19932,6 @@ public class FHIRXMLParser extends FHIRAbstractParser {
                 case "valueDosage":
                     position = checkElementOrder("value[x]", 3, position, false);
                     builder.value(parseDosage("valueDosage", reader, -1));
-                    break;
-                case "valueMeta":
-                    position = checkElementOrder("value[x]", 3, position, false);
-                    builder.value(parseMeta("valueMeta", reader, -1));
                     break;
                 default:
                     if (!ignoringUnrecognizedElements) {
@@ -25377,6 +25393,10 @@ public class FHIRXMLParser extends FHIRAbstractParser {
                     position = checkElementOrder("value[x]", 1, position, false);
                     builder.value(parseCodeableConcept("valueCodeableConcept", reader, -1));
                     break;
+                case "valueCodeableReference":
+                    position = checkElementOrder("value[x]", 1, position, false);
+                    builder.value(parseCodeableReference("valueCodeableReference", reader, -1));
+                    break;
                 case "valueCoding":
                     position = checkElementOrder("value[x]", 1, position, false);
                     builder.value(parseCoding("valueCoding", reader, -1));
@@ -25424,6 +25444,10 @@ public class FHIRXMLParser extends FHIRAbstractParser {
                 case "valueRatio":
                     position = checkElementOrder("value[x]", 1, position, false);
                     builder.value(parseRatio("valueRatio", reader, -1));
+                    break;
+                case "valueRatioRange":
+                    position = checkElementOrder("value[x]", 1, position, false);
+                    builder.value(parseRatioRange("valueRatioRange", reader, -1));
                     break;
                 case "valueReference":
                     position = checkElementOrder("value[x]", 1, position, false);
@@ -25476,10 +25500,6 @@ public class FHIRXMLParser extends FHIRAbstractParser {
                 case "valueDosage":
                     position = checkElementOrder("value[x]", 1, position, false);
                     builder.value(parseDosage("valueDosage", reader, -1));
-                    break;
-                case "valueMeta":
-                    position = checkElementOrder("value[x]", 1, position, false);
-                    builder.value(parseMeta("valueMeta", reader, -1));
                     break;
                 default:
                     if (!ignoringUnrecognizedElements) {

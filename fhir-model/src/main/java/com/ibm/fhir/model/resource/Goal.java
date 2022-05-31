@@ -90,7 +90,7 @@ public class Goal extends DomainResource {
         bindingName = "GoalLifecycleStatus",
         strength = BindingStrength.Value.REQUIRED,
         description = "Codes that reflect the current state of a goal and whether the goal is still being targeted.",
-        valueSet = "http://hl7.org/fhir/ValueSet/goal-status|4.3.0-cibuild"
+        valueSet = "http://hl7.org/fhir/ValueSet/goal-status|4.3.0"
     )
     @Required
     private final GoalLifecycleStatus lifecycleStatus;

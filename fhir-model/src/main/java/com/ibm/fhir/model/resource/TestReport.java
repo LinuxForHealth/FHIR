@@ -77,7 +77,7 @@ public class TestReport extends DomainResource {
         bindingName = "TestReportStatus",
         strength = BindingStrength.Value.REQUIRED,
         description = "The current status of the test script execution.",
-        valueSet = "http://hl7.org/fhir/ValueSet/report-status-codes|4.3.0-cibuild"
+        valueSet = "http://hl7.org/fhir/ValueSet/report-status-codes|4.3.0"
     )
     @Required
     private final TestReportStatus status;
@@ -90,7 +90,7 @@ public class TestReport extends DomainResource {
         bindingName = "TestReportResult",
         strength = BindingStrength.Value.REQUIRED,
         description = "The overall execution result of the TestScript.",
-        valueSet = "http://hl7.org/fhir/ValueSet/report-result-codes|4.3.0-cibuild"
+        valueSet = "http://hl7.org/fhir/ValueSet/report-result-codes|4.3.0"
     )
     @Required
     private final TestReportResult result;
@@ -916,7 +916,7 @@ public class TestReport extends DomainResource {
             bindingName = "TestReportParticipantType",
             strength = BindingStrength.Value.REQUIRED,
             description = "The type of participant.",
-            valueSet = "http://hl7.org/fhir/ValueSet/report-participant-type|4.3.0-cibuild"
+            valueSet = "http://hl7.org/fhir/ValueSet/report-participant-type|4.3.0"
         )
         @Required
         private final TestReportParticipantType type;
@@ -1817,7 +1817,7 @@ public class TestReport extends DomainResource {
                     bindingName = "TestReportActionResult",
                     strength = BindingStrength.Value.REQUIRED,
                     description = "The result of the execution of an individual action.",
-                    valueSet = "http://hl7.org/fhir/ValueSet/report-action-result-codes|4.3.0-cibuild"
+                    valueSet = "http://hl7.org/fhir/ValueSet/report-action-result-codes|4.3.0"
                 )
                 @Required
                 private final TestReportActionResult result;
@@ -2141,7 +2141,7 @@ public class TestReport extends DomainResource {
                     bindingName = "TestReportActionResult",
                     strength = BindingStrength.Value.REQUIRED,
                     description = "The result of the execution of an individual action.",
-                    valueSet = "http://hl7.org/fhir/ValueSet/report-action-result-codes|4.3.0-cibuild"
+                    valueSet = "http://hl7.org/fhir/ValueSet/report-action-result-codes|4.3.0"
                 )
                 @Required
                 private final TestReportActionResult result;

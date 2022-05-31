@@ -550,7 +550,7 @@ public class Linkage extends DomainResource {
             bindingName = "LinkageType",
             strength = BindingStrength.Value.REQUIRED,
             description = "Used to distinguish different roles a resource can play within a set of linked resources.",
-            valueSet = "http://hl7.org/fhir/ValueSet/linkage-type|4.3.0-cibuild"
+            valueSet = "http://hl7.org/fhir/ValueSet/linkage-type|4.3.0"
         )
         @Required
         private final LinkageType type;

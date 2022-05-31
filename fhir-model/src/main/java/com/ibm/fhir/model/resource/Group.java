@@ -73,7 +73,7 @@ public class Group extends DomainResource {
         bindingName = "GroupType",
         strength = BindingStrength.Value.REQUIRED,
         description = "Types of resources that are part of group.",
-        valueSet = "http://hl7.org/fhir/ValueSet/group-type|4.3.0-cibuild"
+        valueSet = "http://hl7.org/fhir/ValueSet/group-type|4.3.0"
     )
     @Required
     private final GroupType type;

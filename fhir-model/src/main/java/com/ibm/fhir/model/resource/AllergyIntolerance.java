@@ -81,7 +81,7 @@ public class AllergyIntolerance extends DomainResource {
         bindingName = "AllergyIntoleranceClinicalStatus",
         strength = BindingStrength.Value.REQUIRED,
         description = "The clinical status of the allergy or intolerance.",
-        valueSet = "http://hl7.org/fhir/ValueSet/allergyintolerance-clinical|4.3.0-cibuild"
+        valueSet = "http://hl7.org/fhir/ValueSet/allergyintolerance-clinical|4.3.0"
     )
     private final CodeableConcept clinicalStatus;
     @Summary
@@ -89,7 +89,7 @@ public class AllergyIntolerance extends DomainResource {
         bindingName = "AllergyIntoleranceVerificationStatus",
         strength = BindingStrength.Value.REQUIRED,
         description = "Assertion about certainty associated with a propensity, or potential risk, of a reaction to the identified substance.",
-        valueSet = "http://hl7.org/fhir/ValueSet/allergyintolerance-verification|4.3.0-cibuild"
+        valueSet = "http://hl7.org/fhir/ValueSet/allergyintolerance-verification|4.3.0"
     )
     private final CodeableConcept verificationStatus;
     @Summary
@@ -97,7 +97,7 @@ public class AllergyIntolerance extends DomainResource {
         bindingName = "AllergyIntoleranceType",
         strength = BindingStrength.Value.REQUIRED,
         description = "Identification of the underlying physiological mechanism for a Reaction Risk.",
-        valueSet = "http://hl7.org/fhir/ValueSet/allergy-intolerance-type|4.3.0-cibuild"
+        valueSet = "http://hl7.org/fhir/ValueSet/allergy-intolerance-type|4.3.0"
     )
     private final AllergyIntoleranceType type;
     @Summary
@@ -105,7 +105,7 @@ public class AllergyIntolerance extends DomainResource {
         bindingName = "AllergyIntoleranceCategory",
         strength = BindingStrength.Value.REQUIRED,
         description = "Category of an identified substance associated with allergies or intolerances.",
-        valueSet = "http://hl7.org/fhir/ValueSet/allergy-intolerance-category|4.3.0-cibuild"
+        valueSet = "http://hl7.org/fhir/ValueSet/allergy-intolerance-category|4.3.0"
     )
     private final List<AllergyIntoleranceCategory> category;
     @Summary
@@ -113,7 +113,7 @@ public class AllergyIntolerance extends DomainResource {
         bindingName = "AllergyIntoleranceCriticality",
         strength = BindingStrength.Value.REQUIRED,
         description = "Estimate of the potential clinical harm, or seriousness, of a reaction to an identified substance.",
-        valueSet = "http://hl7.org/fhir/ValueSet/allergy-intolerance-criticality|4.3.0-cibuild"
+        valueSet = "http://hl7.org/fhir/ValueSet/allergy-intolerance-criticality|4.3.0"
     )
     private final AllergyIntoleranceCriticality criticality;
     @Summary
@@ -1180,7 +1180,7 @@ public class AllergyIntolerance extends DomainResource {
             bindingName = "AllergyIntoleranceSeverity",
             strength = BindingStrength.Value.REQUIRED,
             description = "Clinical assessment of the severity of a reaction event as a whole, potentially considering multiple different manifestations.",
-            valueSet = "http://hl7.org/fhir/ValueSet/reaction-event-severity|4.3.0-cibuild"
+            valueSet = "http://hl7.org/fhir/ValueSet/reaction-event-severity|4.3.0"
         )
         private final AllergyIntoleranceSeverity severity;
         @Binding(

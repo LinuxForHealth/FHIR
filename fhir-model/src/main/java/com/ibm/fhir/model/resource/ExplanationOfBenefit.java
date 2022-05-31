@@ -99,7 +99,7 @@ public class ExplanationOfBenefit extends DomainResource {
         bindingName = "ExplanationOfBenefitStatus",
         strength = BindingStrength.Value.REQUIRED,
         description = "A code specifying the state of the resource instance.",
-        valueSet = "http://hl7.org/fhir/ValueSet/explanationofbenefit-status|4.3.0-cibuild"
+        valueSet = "http://hl7.org/fhir/ValueSet/explanationofbenefit-status|4.3.0"
     )
     @Required
     private final ExplanationOfBenefitStatus status;
@@ -124,7 +124,7 @@ public class ExplanationOfBenefit extends DomainResource {
         bindingName = "Use",
         strength = BindingStrength.Value.REQUIRED,
         description = "Complete, proposed, exploratory, other.",
-        valueSet = "http://hl7.org/fhir/ValueSet/claim-use|4.3.0-cibuild"
+        valueSet = "http://hl7.org/fhir/ValueSet/claim-use|4.3.0"
     )
     @Required
     private final Use use;
@@ -187,7 +187,7 @@ public class ExplanationOfBenefit extends DomainResource {
         bindingName = "RemittanceOutcome",
         strength = BindingStrength.Value.REQUIRED,
         description = "The result of the claim processing.",
-        valueSet = "http://hl7.org/fhir/ValueSet/remittance-outcome|4.3.0-cibuild"
+        valueSet = "http://hl7.org/fhir/ValueSet/remittance-outcome|4.3.0"
     )
     @Required
     private final RemittanceOutcome outcome;
@@ -12240,7 +12240,7 @@ public class ExplanationOfBenefit extends DomainResource {
             bindingName = "NoteType",
             strength = BindingStrength.Value.REQUIRED,
             description = "The presentation types of notes.",
-            valueSet = "http://hl7.org/fhir/ValueSet/note-type|4.3.0-cibuild"
+            valueSet = "http://hl7.org/fhir/ValueSet/note-type|4.3.0"
         )
         private final NoteType type;
         private final String text;

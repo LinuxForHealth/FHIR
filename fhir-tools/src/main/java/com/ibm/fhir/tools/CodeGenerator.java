@@ -1378,8 +1378,8 @@ public class CodeGenerator {
             }
 
             if (isXhtml(structureDefinition)) {
-                cb.field(mods("private", "static", "final"), "java.lang.String", "DIV_OPEN", quote("<div xmlns=\\\"http://www.w3.org/1999/xhtml\\\">")).newLine();
-                cb.field(mods("private", "static", "final"), "java.lang.String", "DIV_CLOSE", quote("</div>")).newLine();
+                cb.field(mods("public", "static", "final"), "java.lang.String", "DIV_OPEN", quote("<div xmlns=\\\"http://www.w3.org/1999/xhtml\\\">")).newLine();
+                cb.field(mods("public", "static", "final"), "java.lang.String", "DIV_CLOSE", quote("</div>")).newLine();
             }
 
             List<JsonObject> elementDefinitions = getElementDefinitions(structureDefinition, path);

@@ -2068,7 +2068,7 @@ public class HealthcareService extends DomainResource {
             bindingName = "DaysOfWeek",
             strength = BindingStrength.Value.REQUIRED,
             description = "The days of the week.",
-            valueSet = "http://hl7.org/fhir/ValueSet/days-of-week|4.3.0-cibuild"
+            valueSet = "http://hl7.org/fhir/ValueSet/days-of-week|4.3.0"
         )
         private final List<DaysOfWeek> daysOfWeek;
         private final Boolean allDay;

@@ -80,7 +80,7 @@ public class MedicationDispense extends DomainResource {
         bindingName = "MedicationDispenseStatus",
         strength = BindingStrength.Value.REQUIRED,
         description = "Describes the lifecycle of the dispense.",
-        valueSet = "http://hl7.org/fhir/ValueSet/medicationdispense-status|4.3.0-cibuild"
+        valueSet = "http://hl7.org/fhir/ValueSet/medicationdispense-status|4.3.0"
     )
     @Required
     private final MedicationDispenseStatus status;

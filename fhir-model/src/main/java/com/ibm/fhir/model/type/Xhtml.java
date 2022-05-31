@@ -21,9 +21,9 @@ import org.owasp.encoder.Encode;
  */
 @Generated("com.ibm.fhir.tools.CodeGenerator")
 public class Xhtml extends Element {
-    private static final java.lang.String DIV_OPEN = "<div xmlns=\"http://www.w3.org/1999/xhtml\">";
+    public static final java.lang.String DIV_OPEN = "<div xmlns=\"http://www.w3.org/1999/xhtml\">";
 
-    private static final java.lang.String DIV_CLOSE = "</div>";
+    public static final java.lang.String DIV_CLOSE = "</div>";
 
     @Required
     private final java.lang.String value;
@@ -35,7 +35,7 @@ public class Xhtml extends Element {
 
     /**
      * Actual xhtml
-     * 
+     *
      * @return
      *     An immutable object of type {@link java.lang.String} that is non-null.
      */
@@ -55,7 +55,7 @@ public class Xhtml extends Element {
 
     /**
      * Factory method for creating Xhtml objects from an XHTML java.lang.String
-     * 
+     *
      * @param value
      *     A java.lang.String with valid XHTML content, not null
      */
@@ -66,7 +66,7 @@ public class Xhtml extends Element {
 
     /**
      * Factory method for creating Xhtml objects from an XHTML java.lang.String
-     * 
+     *
      * @param value
      *     A java.lang.String with valid XHTML content, not null
      */
@@ -77,10 +77,10 @@ public class Xhtml extends Element {
 
     /**
      * Factory method for creating Xhtml objects from a plain text string
-     * 
+     *
      * <p>This method will automatically encode the passed string for use within XHTML,
      * then wrap it in an XHTML {@code <div>} element with a namespace of {@code http://www.w3.org/1999/xhtml}
-     * 
+     *
      * @param plainText
      *     The text to encode and wrap for use within a Narrative, not null
      */
@@ -116,8 +116,8 @@ public class Xhtml extends Element {
             return false;
         }
         Xhtml other = (Xhtml) obj;
-        return Objects.equals(id, other.id) && 
-            Objects.equals(extension, other.extension) && 
+        return Objects.equals(id, other.id) &&
+            Objects.equals(extension, other.extension) &&
             Objects.equals(value, other.value);
     }
 
@@ -125,8 +125,8 @@ public class Xhtml extends Element {
     public int hashCode() {
         int result = hashCode;
         if (result == 0) {
-            result = Objects.hash(id, 
-                extension, 
+            result = Objects.hash(id,
+                extension,
                 value);
             hashCode = result;
         }
@@ -151,10 +151,10 @@ public class Xhtml extends Element {
 
         /**
          * unique id for the element within a resource (for internal references)
-         * 
+         *
          * @param id
          *     xml:id (or equivalent in JSON)
-         * 
+         *
          * @return
          *     A reference to this Builder instance
          */
@@ -164,19 +164,19 @@ public class Xhtml extends Element {
         }
 
         /**
-         * May be used to represent additional information that is not part of the basic definition of the resource. To make the 
-         * use of extensions safe and manageable, there is a strict set of governance applied to the definition and use of 
-         * extensions. Though any implementer can define an extension, there is a set of requirements that SHALL be met as part 
+         * May be used to represent additional information that is not part of the basic definition of the resource. To make the
+         * use of extensions safe and manageable, there is a strict set of governance applied to the definition and use of
+         * extensions. Though any implementer can define an extension, there is a set of requirements that SHALL be met as part
          * of the definition of the extension.
-         * 
+         *
          * <p>Adds new element(s) to the existing list.
          * If any of the elements are null, calling {@link #build()} will fail.
-         * 
+         *
          * <p>This element is prohibited.
-         * 
+         *
          * @param extension
          *     Additional content defined by implementations
-         * 
+         *
          * @return
          *     A reference to this Builder instance
          */
@@ -186,22 +186,22 @@ public class Xhtml extends Element {
         }
 
         /**
-         * May be used to represent additional information that is not part of the basic definition of the resource. To make the 
-         * use of extensions safe and manageable, there is a strict set of governance applied to the definition and use of 
-         * extensions. Though any implementer can define an extension, there is a set of requirements that SHALL be met as part 
+         * May be used to represent additional information that is not part of the basic definition of the resource. To make the
+         * use of extensions safe and manageable, there is a strict set of governance applied to the definition and use of
+         * extensions. Though any implementer can define an extension, there is a set of requirements that SHALL be met as part
          * of the definition of the extension.
-         * 
+         *
          * <p>Replaces the existing list with a new one containing elements from the Collection.
          * If any of the elements are null, calling {@link #build()} will fail.
-         * 
+         *
          * <p>This element is prohibited.
-         * 
+         *
          * @param extension
          *     Additional content defined by implementations
-         * 
+         *
          * @return
          *     A reference to this Builder instance
-         * 
+         *
          * @throws NullPointerException
          *     If the passed collection is null
          */
@@ -212,12 +212,12 @@ public class Xhtml extends Element {
 
         /**
          * Actual xhtml
-         * 
+         *
          * <p>This element is required.
-         * 
+         *
          * @param value
          *     Actual xhtml
-         * 
+         *
          * @return
          *     A reference to this Builder instance
          */
@@ -228,12 +228,12 @@ public class Xhtml extends Element {
 
         /**
          * Build the {@link Xhtml}
-         * 
+         *
          * <p>Required elements:
          * <ul>
          * <li>value</li>
          * </ul>
-         * 
+         *
          * @return
          *     An immutable object of type {@link Xhtml}
          * @throws IllegalStateException

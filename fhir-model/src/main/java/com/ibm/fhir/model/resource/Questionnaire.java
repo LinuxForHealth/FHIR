@@ -220,7 +220,7 @@ public class Questionnaire extends DomainResource {
         bindingName = "PublicationStatus",
         strength = BindingStrength.Value.REQUIRED,
         description = "The lifecycle status of an artifact.",
-        valueSet = "http://hl7.org/fhir/ValueSet/publication-status|4.3.0-cibuild"
+        valueSet = "http://hl7.org/fhir/ValueSet/publication-status|4.3.0"
     )
     @Required
     private final PublicationStatus status;
@@ -231,7 +231,7 @@ public class Questionnaire extends DomainResource {
         bindingName = "ResourceType",
         strength = BindingStrength.Value.REQUIRED,
         description = "One of the resource types defined as part of this version of FHIR.",
-        valueSet = "http://hl7.org/fhir/ValueSet/resource-types|4.3.0-cibuild"
+        valueSet = "http://hl7.org/fhir/ValueSet/resource-types|4.3.0"
     )
     private final List<ResourceTypeCode> subjectType;
     @Summary
@@ -1653,7 +1653,7 @@ public class Questionnaire extends DomainResource {
             bindingName = "QuestionnaireItemType",
             strength = BindingStrength.Value.REQUIRED,
             description = "Distinguishes groups from questions and display text and indicates data type for questions.",
-            valueSet = "http://hl7.org/fhir/ValueSet/item-type|4.3.0-cibuild"
+            valueSet = "http://hl7.org/fhir/ValueSet/item-type|4.3.0"
         )
         @Required
         private final QuestionnaireItemType type;
@@ -1662,7 +1662,7 @@ public class Questionnaire extends DomainResource {
             bindingName = "EnableWhenBehavior",
             strength = BindingStrength.Value.REQUIRED,
             description = "Controls how multiple enableWhen values are interpreted -  whether all or any must be true.",
-            valueSet = "http://hl7.org/fhir/ValueSet/questionnaire-enable-behavior|4.3.0-cibuild"
+            valueSet = "http://hl7.org/fhir/ValueSet/questionnaire-enable-behavior|4.3.0"
         )
         private final EnableWhenBehavior enableBehavior;
         private final Boolean required;
@@ -2689,7 +2689,7 @@ public class Questionnaire extends DomainResource {
                 bindingName = "QuestionnaireItemOperator",
                 strength = BindingStrength.Value.REQUIRED,
                 description = "The criteria by which a question is enabled.",
-                valueSet = "http://hl7.org/fhir/ValueSet/questionnaire-enable-operator|4.3.0-cibuild"
+                valueSet = "http://hl7.org/fhir/ValueSet/questionnaire-enable-operator|4.3.0"
             )
             @Required
             private final QuestionnaireItemOperator operator;
