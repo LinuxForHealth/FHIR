@@ -766,7 +766,7 @@
                         }
                     }
                 ],
-                "_defaultValueBoolean": {
+                "_defaultValueCanonical": {
                     "extension": [
                         {
                             "url": "http://hl7.org/fhir/StructureDefinition/data-absent-reason",
@@ -790,7 +790,7 @@
                         }
                     ]
                 },
-                "_fixedBoolean": {
+                "_fixedCanonical": {
                     "extension": [
                         {
                             "url": "http://hl7.org/fhir/StructureDefinition/data-absent-reason",
@@ -798,7 +798,7 @@
                         }
                     ]
                 },
-                "_patternBoolean": {
+                "_patternCanonical": {
                     "extension": [
                         {
                             "url": "http://hl7.org/fhir/StructureDefinition/data-absent-reason",
@@ -816,7 +816,7 @@
                                 }
                             ]
                         },
-                        "_valueBoolean": {
+                        "_valueCanonical": {
                             "extension": [
                                 {
                                     "url": "http://hl7.org/fhir/StructureDefinition/data-absent-reason",
@@ -1278,7 +1278,7 @@
                         }
                     }
                 ],
-                "_defaultValueBoolean": {
+                "_defaultValueCanonical": {
                     "extension": [
                         {
                             "url": "http://hl7.org/fhir/StructureDefinition/data-absent-reason",
@@ -1302,7 +1302,7 @@
                         }
                     ]
                 },
-                "_fixedBoolean": {
+                "_fixedCanonical": {
                     "extension": [
                         {
                             "url": "http://hl7.org/fhir/StructureDefinition/data-absent-reason",
@@ -1310,7 +1310,7 @@
                         }
                     ]
                 },
-                "_patternBoolean": {
+                "_patternCanonical": {
                     "extension": [
                         {
                             "url": "http://hl7.org/fhir/StructureDefinition/data-absent-reason",
@@ -1328,7 +1328,7 @@
                                 }
                             ]
                         },
-                        "_valueBoolean": {
+                        "_valueCanonical": {
                             "extension": [
                                 {
                                     "url": "http://hl7.org/fhir/StructureDefinition/data-absent-reason",
