@@ -2,7 +2,6 @@
 layout: post
 title: Bring your own Persistence Layer
 description: Learn how to build and test a persistence layer for the IBM FHIR Server
-date:   2021-06-01
 permalink: /BringYourOwnPersistence/
 ---
 
@@ -84,7 +83,7 @@ You might also want to set up `fhir-persistence-jdbc` to use an example.
 ### Implementing the FHIRPersistence Interface
 As described [above](#interfaces), implementing your own persistence layer boils down to configuring the server to use your own FHIRPersistenceFactory and returning your own implementation of FHIRPersistence. The REST layer processes HTTP requests and distills them into one or more calls to this instance. Parameters are passed via a combination of the passed FHIRPersistenceContext and the ThreadLocal FHIRRequestContext.
 
-Although the HL7 FHIR specification [doesn't strictly require all servers to support versioning](https://www.hl7.org/fhir/R4/http.html#versions), the IBM FHIR Server is built to be version-aware. This means that all FHIRPersistence implementations should implement the `vread` and `history` interactions.
+Although the HL7 FHIR specification [doesn't strictly require all servers to support versioning](https://hl7.org/fhir/R4B/http.html#versions), the IBM FHIR Server is built to be version-aware. This means that all FHIRPersistence implementations should implement the `vread` and `history` interactions.
 Similarly, the IBM FHIR Server was written for read/write datastores and so `create` and `update` should be supported as well.
 If you have a use case for a read-only or non-version-aware server, please contact us and consider contributing the necessary modifications to the server to make this supported.
 
@@ -140,12 +139,12 @@ In addition to setting the MultiResourceResult success indicator and the resourc
 The FHIRPersistence also supports whole system `_history`. If supported, `isChangesSupported` must return true, and `changes` must be implemented to return a list of ResourceChangeLogRecord DTOs.
 
 #### Search
-The [FHIR Search specification](https://www.hl7.org/fhir/R4/search.html) is sprawling and difficult to implement in its entirety. At the persistence layer, search requests will include a FHIRPersistenceContext with an embedded FHIRSearchContext and a Class object to indicate the resource type(s) to search on.
+The [FHIR Search specification](https://hl7.org/fhir/R4B/search.html) is sprawling and difficult to implement in its entirety. At the persistence layer, search requests will include a FHIRPersistenceContext with an embedded FHIRSearchContext and a Class object to indicate the resource type(s) to search on.
 A Class of `com.ibm.fhir.model.type.Resource` is passed for searches performed at the "whole-system" level.
 
 The query parameters passed in the HTTP request are parsed at the REST layer and passed to the persistence layer in the form of a FHIRSearchContext.
 The FHIRSearchContext separates "return" parameters (like `_include`, `_revinclude`, `_sort`, etc.) from search parameters and makes them available through dedicated getters.
-Each search parameter is parsed into a QueryParameter and a QueryParameterValue. [Compartment](https://www.hl7.org/fhir/R4/compartmentdefinition.html) searches are converted into [chained parameters](https://www.hl7.org/fhir/R4/search.html#chaining), which are represented through nested QueryParameter objects within the outermost QueryParameter.
+Each search parameter is parsed into a QueryParameter and a QueryParameterValue. [Compartment](https://hl7.org/fhir/R4B/compartmentdefinition.html) searches are converted into [chained parameters](https://hl7.org/fhir/R4B/search.html#chaining), which are represented through nested QueryParameter objects within the outermost QueryParameter.
 Check `com.ibm.fhir.search.util.SearchUtil.parseQueryParameters()` for more information.
 
 FHIRSearchContext extends FHIRPagingContext and provides the requested page size and page number to return.
@@ -157,7 +156,7 @@ On failure, set `MultiResourceResult.success` to false and set `MultiResourceRes
 
 #### Extended Operations
 
-The IBM FHIR Server supports [extended operations](https://www.hl7.org/fhir/operations.html). The IBM FHIR Server has some operations which use custom persistence interactions: 
+The IBM FHIR Server supports [extended operations](https://hl7.org/fhir/R4B/operations.html). The IBM FHIR Server has some operations which use custom persistence interactions:
 
 | Operation Name | Interfaces to implement |
 |----------------|-------------------------|

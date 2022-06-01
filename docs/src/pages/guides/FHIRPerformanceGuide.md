@@ -1,9 +1,6 @@
 ---
 layout: post
 title:  IBM FHIR Server Performance Guide
-description: IBM FHIR Server Performance Guide
-Copyright: years 2020, 2021
-lastupdated: "2020-06-01"
 permalink: /FHIRServerPerformanceGuide/
 ---
 
@@ -484,7 +481,7 @@ Avoiding these unnecessary updates is important for two reasons:
 1. ingestion performance (each update performs work in the database)
 2. database size (each version of each resource is stored in the database)
 
-The HL7 FHIR specification defines experimental support for both [conditional create](https://www.hl7.org/fhir/R4/http.html#ccreate) and [conditional update](https://www.hl7.org/fhir/R4/http.html#cond-update) and the IBM FHIR server implements each of these. However, this approach suffers multiple issues:
+The HL7 FHIR specification defines experimental support for both [conditional create](https://hl7.org/fhir/R4B/http.html#ccreate) and [conditional update](https://hl7.org/fhir/R4B/http.html#cond-update) and the IBM FHIR server implements each of these. However, this approach suffers multiple issues:
 1. each update must perform a search which can be more costly than simply performing read before the update
 2. conditional requests require intricate locking techniques to avoid race conditions and the currently-implemented approach has [significant limitations](https://github.com/IBM/FHIR/issues/2051)
 
@@ -495,7 +492,7 @@ Two resources will be considered equivalent based on the following criteria:
 * the server-assigned fields (`Resource.meta.lastUpdated` and `Resource.meta.versionId`) are ignored
 * the value of all other fields in the resource must be equivalent
 
-When the update is skipped, the response will contain a Location header that points to the *existing* resource version (e.g. `[base]/Patient/1234/_history/1`) instead of a newly created instance of this resource (`[base]/Patient/1234/_history/2`) and the response body will be sent according to the client's [return preference](https://www.hl7.org/fhir/R4/http.html#ops).
+When the update is skipped, the response will contain a Location header that points to the *existing* resource version (e.g. `[base]/Patient/1234/_history/1`) instead of a newly created instance of this resource (`[base]/Patient/1234/_history/2`) and the response body will be sent according to the client's [return preference](https://hl7.org/fhir/R4B/http.html#ops).
 If the client indicates a return preference of OperationOutcome and the update is skipped on the server, the response will contain an informational issue to indicate this case.
 
 To opt out of this optimization, users can force the server to perform an update by setting an
@@ -606,11 +603,11 @@ In most cases the history queries will execute very quickly. Performance will be
 **Omitting the count**
 
 For search queries with low specificity, the response time is dominated by the "count query" that is used to determine how many total results match the query.
-The IBM FHIR Server supports skipping this step when clients set a query parameter named `_total` to the value of `none` as described at https://www.hl7.org/fhir/search.html#total.
+The IBM FHIR Server supports skipping this step when clients set a query parameter named `_total` to the value of `none` as described at https://hl7.org/fhir/R4B/search.html#total.
 
 **Resource subsetting**
 
-For search queries that return lots of data (e.g. ones that return large resources such as Patient resources that embed a profile picture), the response time can be dominated by the network between the client and the server. By default, a FHIR search response bundle will contain the entire contents of each resource being returned. However, it is possible to request the server to return a subset of each resource through either the [`_summary`](https://www.hl7.org/fhir/search.html#summary) or [`_elements`](https://www.hl7.org/fhir/search.html#elements) parameters.
+For search queries that return lots of data (e.g. ones that return large resources such as Patient resources that embed a profile picture), the response time can be dominated by the network between the client and the server. By default, a FHIR search response bundle will contain the entire contents of each resource being returned. However, it is possible to request the server to return a subset of each resource through either the [`_summary`](https://hl7.org/fhir/R4B/search.html#summary) or [`_elements`](https://hl7.org/fhir/R4B/search.html#elements) parameters.
 
 **Predicate Order**
 

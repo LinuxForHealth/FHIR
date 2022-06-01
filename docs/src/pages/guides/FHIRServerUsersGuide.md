@@ -1,9 +1,6 @@
 ---
 layout: post
 title:  IBM FHIR Server User's Guide
-description: IBM FHIR Server User's Guide
-Copyright: years 2017, 2022
-lastupdated: "2022-02-09"
 permalink: /FHIRServerUsersGuide/
 ---
 
@@ -46,8 +43,8 @@ This FHIR server is intended to be a common component for providing FHIR capabil
 ## 2.1 Installing a new server
 0.  Prereqs: The IBM FHIR Server requires Java 11 and has been tested with OpenJDK 11. To install Java on your system, we recommend downloading and installing OpenJDK 11 from https://adoptium.net/.
 
-1.  To install the IBM FHIR Server, build or download the `fhir-install` zip installer (e.g. `fhir-server-distribution.zip` or `fhir-install-4.0.0-rc1-20191014-1610`).
-The Maven build creates the zip package under `fhir-install/target`. Alternatively, releases will be made available from the [Releases tab](https://github.com/ibm/fhir/releases).
+1.  To install the IBM FHIR Server, build or download the `fhir-install` zip installer.
+The Maven build creates the zip package under `fhir-install/target`. Alternatively, releases are available from the [Releases tab](https://github.com/ibm/fhir/releases).
 
 2.  Unzip the `.zip` package into a clean directory (referred to as `fhir-installer` here):
     ```
@@ -513,7 +510,7 @@ You can modify the default server implementation by taking advantage of the IBM 
  * Resource validation:  FHIRPath-based validation of FHIR resources on create or update with the ability to extend the system with custom constraints.
 
 ## 4.1 Extended operations
-In addition to the standard REST API (create, update, search, and so forth), the IBM FHIR Server supports the FHIR operations framework as described in the [FHIR specification](https://www.hl7.org/fhir/r4/operations.html).
+In addition to the standard REST API (create, update, search, and so forth), the IBM FHIR Server supports the [FHIR operations framework](https://hl7.org/fhir/R4B/operations.html).
 
 ### 4.1.1 Packaged operations
 The FHIR team provides implementations for the standard `$validate`, `$document`, `$everything`, `$expand`, `$lookup`, `$subsumes`, `$closure`, `$export`, `$import`, `$convert`, `$apply` and `$translate` operations, as well as a custom operation named `$healthcheck`, which queries the configured persistence layer to report its health.
@@ -527,15 +524,9 @@ The `$validate` operation checks whether the attached content would be acceptabl
 * If a profile is specified via the optional `profile` parameter, the $validate operation will validate a resource against the base specification and the specified profile only. It will not validate against any other profiles asserted in the `Resource.meta.profile` element.
 * If the `profile` parameter is not specified, but the `mode` parameter is specified, and the `mode` parameter value is either `create` or `update`, the $validate operation will validate a resource against the base specification and any profiles asserted in its `Resource.meta.profile` element, but will do so based on profile configuration properties specified in the `fhirServer/resources/<resourceType>/profiles` section of the `fhir-server-config.json` file (see the [Configuration properties reference](#51-configuration-properties-reference) for configuration details).
 
+https://hl7.org/fhir/R4B/resource-operation-validate.html
 
-https://www.hl7.org/fhir/r4/resource-operations.html#validate
-
-#### 4.1.1.2 $document
-The `$document` operation generates a fully bundled document from a composition resource.
-
-https://www.hl7.org/fhir/r4/composition-operations.html#document
-
-#### 4.1.1.3 $healthcheck
+#### 4.1.1.2 $healthcheck
 The `$healthcheck` operation returns the health of the FHIR server and its datastore. In the default JDBC persistence layer, this operation creates a connection to the configured database and return its status. The operations returns `200 OK` when healthy. Otherwise, it returns an HTTP error code and an `OperationOutcome` with one or more issues.
 
 ### 4.1.2 Custom operations
@@ -550,10 +541,10 @@ To contribute an operation:
 
 4. Restart the FHIR server. Changes to custom operations require a server restart, because the server discovers and instantiates operations during server startup only.
 
-After you register your operation with the server, it is available via HTTP POST at `[base]/api/1/$<yourCode>`, where `<yourCode>` is the value of your OperationDefinition's [code](https://www.hl7.org/fhir/r4/operationdefinition-definitions.html#OperationDefinition.code).
+After you register your operation with the server, it is available via HTTP POST at `[base]/api/1/$<yourCode>`, where `<yourCode>` is the value of your OperationDefinition's [code](https://hl7.org/fhir/R4B/operationdefinition-definitions.html#OperationDefinition.code).
 
 ## 4.2 Notification Service
-The FHIR server provides a notification service that publishes notifications about persistence events, specifically _create_, _update_, and _delete_ operations. The notification service can be used by other Healthcare components to trigger specific actions that need to occur as resources are being updated in the FHIR server datastore.
+The FHIR server provides a notification service that publishes notifications about persistence events, specifically _create_, _update_, and _delete_ operations. The notification service can be used by other components to trigger specific actions that need to occur as resources are being updated in the FHIR server datastore.
 
 The notification service supports two implementations: WebSocket and Kafka.
 
@@ -737,7 +728,7 @@ To implement a persistence interceptor, complete the following steps:
 
 ## 4.4 Registry resources
 The IBM FHIR Server includes a dynamic registry of conformance resources.
-The registry pre-packages all [FHIR Definitions from the specification](https://www.hl7.org/fhir/R4/downloads.html)
+The server pre-packages conformance artifacts from [HL7 FHIR version 4.3.0](https://hl7.org/fhir/R4B/downloads.html)
 and uses a Java ServiceLoader to discover additional registry resource providers on the classpath.
 
 The server consults this registry for:
@@ -746,7 +737,7 @@ The server consults this registry for:
 * ValueSet and CodeSystem resources for terminology operations.
 * And more.
 
-One common technique for extending FHIR with a set of conformance resources is to build or reference an [Implementation Guide](https://www.hl7.org/fhir/implementationguide.html).
+One common technique for extending FHIR with a set of conformance resources is to build or reference an [Implementation Guide](https://hl7.org/fhir/R4B/implementationguide.html).
 
 The IBM FHIR Server includes a [PackageRegistryResourceProvider](https://ibm.github.io/FHIR/guides/FHIRValidationGuide#making-profiles-available-to-the-fhir-registry-component-fhirregistry) for registering implementation guide resources.
 
@@ -963,7 +954,7 @@ The following processing rules apply for the use of local references within a re
 2.  Local references will only be recognized for local identifiers associated with request bundle entries with a request method of `POST` or `PUT`.
 3.  `POST` requests will be processed before `PUT` requests.
 4.  <a id="order-dependency-rule"></a>There is no order dependency within a request bundle for bundle entries defining local identifiers and bundle entries which reference those local identifiers via local references.
-5.  <a id="relative-reference-rule"></a>If a resource in a request bundle entry contains a field of type `Reference` having a value which is a relative URL, and if that bundle entry has a local identifier (`fullUrl`) which is an absolute URL conforming to the FHIR specification's [RESTful URL definition](https://www.hl7.org/fhir/references.html#regex), then the FHIR server will attempt to resolve the local reference as follows, based on the [FHIR specification](https://www.hl7.org/fhir/bundle.html#references):
+5.  <a id="relative-reference-rule"></a>If a resource in a request bundle entry contains a field of type `Reference` having a value which is a relative URL, and if that bundle entry has a local identifier (`fullUrl`) which is an absolute URL conforming to the FHIR specification's [RESTful URL definition](https://hl7.org/fhir/R4B/references.html#regex), then the FHIR server will attempt to resolve the local reference as follows, based on the [FHIR specification](https://hl7.org/fhir/R4B/bundle.html#references):
     - it will extract the FHIR base URL from the local identifier and append the local reference to it
     - it will then try to resolve the reference within the request bundle using the updated local reference
 
@@ -1127,7 +1118,7 @@ In the above example, even though the `Patient` request entry is a conditional c
 }
 ```
 
-In this example, we demonstrate the [relative reference processing rule](#relative-reference-rule). The local identifiers for the request bundle entries (`https://fhirserver1:9443/fhir-server/api/v4/Patient/new` and `https://fhirserver1:9443/fhir-server/api/v4/Observation/new`) are absolute URLs that conform to the FHIR specification's [RESTful URL definition](https://www.hl7.org/fhir/references.html#regex) . When the FHIR server attempts to resolve the `Observation` request entry's `subject` reference (`Patient/new`), it will apply the processing rule for relative references, since the reference is a relative URL. The `subject` reference will be modified to be the original local reference (`Patient/new`) appended to the FHIR base URL extracted from the `Observation` entry's local identifier (`https://fhirserver1:9443/fhir-server/api/v4/`). The resulting local reference  (`https://fhirserver1:9443/fhir-server/api/v4/Patient/new`) will then be a valid reference  to the `Patient` request bundle entry.
+In this example, we demonstrate the [relative reference processing rule](#relative-reference-rule). The local identifiers for the request bundle entries (`https://fhirserver1:9443/fhir-server/api/v4/Patient/new` and `https://fhirserver1:9443/fhir-server/api/v4/Observation/new`) are absolute URLs that conform to the FHIR specification's [RESTful URL definition](https://hl7.org/fhir/R4B/references.html#regex) . When the FHIR server attempts to resolve the `Observation` request entry's `subject` reference (`Patient/new`), it will apply the processing rule for relative references, since the reference is a relative URL. The `subject` reference will be modified to be the original local reference (`Patient/new`) appended to the FHIR base URL extracted from the `Observation` entry's local identifier (`https://fhirserver1:9443/fhir-server/api/v4/`). The resulting local reference  (`https://fhirserver1:9443/fhir-server/api/v4/Patient/new`) will then be a valid reference  to the `Patient` request bundle entry.
 
 ## 4.9 Multi-tenancy
 The FHIR server includes features that allow a single instance of the server to simultaneously support multiple tenants. A tenant is defined as a group of one or more FHIR REST API consumers that share a FHIR server configuration along with one or more data stores associated with that configuration. A tenant could be a single application using the FHIR REST API, or it could be a group of applications belonging to a single customer. The main idea behind multi-tenancy is that each tenant can experience its own customized FHIR server runtime behavior and its data can be physically isolated from other tenants' data for increased security and privacy.
@@ -1626,7 +1617,7 @@ Because the IBM FHIR Server's notifications feature is implemented as a persiste
 ## 4.11 Audit logging service
 The Audit logging service pushes FHIR server audit events for FHIR operations in [Cloud Auditing Data Federation (CADF)](https://www.dmtf.org/standards/cadf) standard format to a Kafka backend, such as *IBM Cloud Event Streams service*.
 
-There is early support for the [FHIR Standard: AuditEvent format](https://www.hl7.org/fhir/auditevent.html).
+There is early support for the [FHIR Standard: AuditEvent format](https://hl7.org/fhir/R4B/auditevent.html).
 
 ### 4.11.1 CADF audit log entry
 
@@ -2746,7 +2737,7 @@ SMART on FHIR applications should use the `.well-known/smart-configuration` endp
 but the entries in the Capability Statement are needed for backwards compatibility.
 
 ### 5.3.3 SMART App Launch
-To support [SMART App Launch](https://www.hl7.org/fhir/smart-app-launch), the IBM FHIR Server can be used with a SMART-enabled authorization server. For an example of a SMART-enabled Authorization Server, see the [Alvearie Keycloak extensions for FHIR](https://github.com/Alvearie/keycloak-extensions-for-fhir).
+To support [SMART App Launch](https://hl7.org/fhir/smart-app-launch), the IBM FHIR Server can be used with a SMART-enabled authorization server. For an example of a SMART-enabled Authorization Server, see the [Alvearie Keycloak extensions for FHIR](https://github.com/Alvearie/keycloak-extensions-for-fhir).
 
 The OAuth configuration described in the previous sections will restrict API access to clients with a valid access token.
 However, SMART defines additional access controls via OAuth 2.0 scopes and context parameters.

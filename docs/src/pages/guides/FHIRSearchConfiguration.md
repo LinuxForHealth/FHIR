@@ -1,13 +1,11 @@
 ---
 layout: default
 title: Search Configuration Overview
-date:   2021-11-08
 permalink: /FHIRSearchConfiguration/
-markdown: kramdown
 ---
 
 # IBM FHIR Server - Search Configuration Overview
-The [FHIR Specification](https://www.hl7.org/fhir/r4/search.html) defines a set of searchable fields for each resource type. The IBM FHIR Server supports searching via both specification-defined search parameters and tenant-specific search parameters.
+The [FHIR Specification](https://hl7.org/fhir/R4B/search.html) defines a set of searchable fields for each resource type. The IBM FHIR Server supports searching via both specification-defined search parameters and tenant-specific search parameters.
 
 Specifically, the IBM FHIR Server supports searching on additional fields, including:
 * fields that are defined in the base specification, which are not configured for search; and
@@ -15,7 +13,7 @@ Specifically, the IBM FHIR Server supports searching on additional fields, inclu
 
 The IBM FHIR Server allows deployers to define search parameters on a tenant-specific basis. This allows each tenant to share an instance of the IBM FHIR Server while maintaining the ability to have their own set of search parameters. Additionally, specification-defined search parameters can be filtered out in order to avoid the cost of extracting and storing the corresponding indices.
 
-Tenant search parameters are defined via a [Bundle](https://www.hl7.org/fhir/r4/bundle.html) of [SearchParameter](https://www.hl7.org/fhir/r4/searchparameter.html) resources that define the additional search parameters which describe the searchable field and define the FHIRPath expression for extraction.  For example, a tenant that extends the `Patient` resource type with the `favorite-color` extension, enables search on `favorite-color` by defining a SearchParameter as part of this bundle.
+Tenant search parameters are defined via a [Bundle](https://hl7.org/fhir/R4B/bundle.html) of [SearchParameter](https://hl7.org/fhir/R4B/searchparameter.html) resources that define the additional search parameters which describe the searchable field and define the FHIRPath expression for extraction.  For example, a tenant that extends the `Patient` resource type with the `favorite-color` extension, enables search on `favorite-color` by defining a SearchParameter as part of this bundle.
 
 ## 1 Configuration
 Since IBM FHIR Server 4.10.0, *all* SearchParameter definitions are loaded from the `fhir-registry` by the `fhir-search` module during server startup.
@@ -36,7 +34,7 @@ To configure tenant-specific search parameters, create a file called `extension-
 If a tenant-specific extension-search-parameters.json file does not exist, the server falls back to the default `extension-search-parameters.json` file found at `${server.config.dir}/config/default/extension-search-parameters.json`. For performance reasons, we recommend having an `extension-search-parameters.json` for each tenant.
 
 #### 1.2 SearchParameter details
-The `fhir-search` module requires that the [expression](https://www.hl7.org/fhir/r4/searchparameter-definitions.html#SearchParameter.expression), [type](https://www.hl7.org/fhir/r4/searchparameter-definitions.html#SearchParameter.type) and [code](https://www.hl7.org/fhir/r4/searchparameter-definitions.html#SearchParameter.code) be set, as in the following example:
+The `fhir-search` module requires that the [expression](https://hl7.org/fhir/R4B/searchparameter-definitions.html#SearchParameter.expression), [type](https://hl7.org/fhir/R4B/searchparameter-definitions.html#SearchParameter.type) and [code](https://hl7.org/fhir/R4B/searchparameter-definitions.html#SearchParameter.code) be set, as in the following example:
 ```json
 {
   "fullUrl": "http://ibm.com/fhir/SearchParameter/Patient-favorite-color",
@@ -194,11 +192,11 @@ Filtered search parameters are handled exactly the same as undefined search para
 
 #### 1.2.2 Compartment search considerations with filtering
 For each compartment type, the rules for determining if a resource is a member of a compartment of that type, and thus if that resource should be returned on an associated compartment search, are based on inclusion criteria. Inclusion criteria is one or more search parameters whose value is a reference to the compartment resource type. These membership rules are defined by the FHIR specification for the following compartments:
-- [Device](https://www.hl7.org/fhir/R4/compartmentdefinition-device.html)
-- [Encounter](https://www.hl7.org/fhir/R4/compartmentdefinition-encounter.html)
-- [Patient](https://www.hl7.org/fhir/R4/compartmentdefinition-patient.html)
-- [Practitioner](https://www.hl7.org/fhir/R4/compartmentdefinition-practitioner.html)
-- [RelatedPerson](https://www.hl7.org/fhir/R4/compartmentdefinition-relatedperson.html)
+- [Device](https://hl7.org/fhir/R4B/compartmentdefinition-device.html)
+- [Encounter](https://hl7.org/fhir/R4B/compartmentdefinition-encounter.html)
+- [Patient](https://hl7.org/fhir/R4B/compartmentdefinition-patient.html)
+- [Practitioner](https://hl7.org/fhir/R4B/compartmentdefinition-practitioner.html)
+- [RelatedPerson](https://hl7.org/fhir/R4B/compartmentdefinition-relatedperson.html)
 
 For example, for the `Patient` compartment, to determine if an `Observation` is a member, the inclusion criteria search parameters are `subject` and `performer`. If the `Observation` resource fields associated with these search parameters reference a `Patient` resource, the `Observation` resource is a member of that `Patient` compartment.
 
