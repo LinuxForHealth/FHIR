@@ -2,30 +2,33 @@
 layout: post
 title:  Conformance
 description: Notes on the Conformance of the IBM FHIR Server
-date:   2022-02-15
+date:   2022-05-31
 permalink: /conformance/
 ---
 
 # Conformance to the HL7 FHIR Specification
-The IBM FHIR Server aims to be a conformant implementation of the HL7 FHIR specification, version 4.0.1 (R4). However, the FHIR specification is very broad and not all implementations are expected to implement every feature. We prioritize performance and configurability over spec coverage.
+The IBM FHIR Server aims to be a conformant implementation of the HL7 FHIR specification. However, the FHIR specification is very broad and not all implementations are expected to implement every feature. We prioritize performance and configurability over spec coverage.
 
 ## Capability statement
-The HL7 FHIR specification defines [an interaction](https://www.hl7.org/fhir/R4/http.html#capabilities) for retrieving a machine-readable description of the server's capabilities via the `[base]/metadata` endpoint. The IBM FHIR Server implements this interaction and generates a `CapabilityStatement` resource based on the current server configuration. While the `CapabilityStatement` resource is ideal for certain uses, this markdown document provides a human-readable summary of important details, with a special focus on limitations of the current implementation and deviations from the specification.
+The HL7 FHIR specification defines [an interaction](https://hl7.org/fhir/R4B/http.html#capabilities) for retrieving a machine-readable description of the server's capabilities via the `[base]/metadata` endpoint. The IBM FHIR Server implements this interaction and generates a `CapabilityStatement` resource based on the combination of request headers and server configuration. The `CapabilityStatement` is suited for programatic use, whereas this document provides a human-readable summary with a focus on limitations, extensions, and deviations from the specification.
 
-The IBM FHIR Server supports only version 4.0.1 of the specification.
+## FHIR Versions
+As of version 5.0.0, the IBM FHIR Server supports all resource types from HL7 FHIR version 4.3.0 (R4B). Because this version of FHIR is almost entirely backwards compatible with version 4.0.1 (R4), we are able to serve as an R4-compliant server for [almost all](#unsupported-R4-resource-types) R4 resource types from the same server endpoints.
+
+Clients can request a specific FHIR version by using the specification-defined [`fhirVersion` MIME-type parameter](https://hl7.org/fhir/R4B/http.html#version-parameter) in their HTTP headers (`Content-Type` and `Accept`). The server will use version 4.0 by default, but can be configured to default to 4.3 instead.
+
+For most resource-level interactions, the behavior is the same in either version.
+However, for system-level interactions like whole-system search and whole-system history, extended operations like $export and $retrieve-index, or even just retrieving the server capabilities, the set of resource types included in the response will depend on the fhirVersion of the request.
 
 ## FHIR HTTP API
-The HL7 FHIR specification is more than just a data format. It defines an [HTTP API](https://www.hl7.org/fhir/R4/http.html) for creating, reading, updating, deleting, and searching over FHIR resources. The IBM FHIR Server implements the full API for every resource defined in the specification, with the following exceptions:
-* whole-system history is not conformant to the HL7 FHIR specification; we chose not to include the resource in the history response bundle
-* there are parts of the FHIR search specification which are not fully implemented as documented in the following section
+The HL7 FHIR specification is more than just a data format. It defines an [HTTP API](https://hl7.org/fhir/R4B/http.html) for creating, reading, updating, deleting, and searching over FHIR resources.
 
-The IBM FHIR Server implements a linear versioning scheme for resources and fully implements the `vread` and `history-instance` interactions, as well as version-aware updates.
+The IBM FHIR Server implements a linear versioning scheme for resources, fully implements `vread` and `history` interactions, and supports version-aware updates.
 
-By default, the IBM FHIR Server allows all supported API interactions (`create`, `read`, `vread`, `history`, `search`, `update`, `patch`, `delete`). However, it is possible to configure which of these interactions are allowed on a per resource basis through a set of interaction rules. See the [user guide](https://ibm.github.io/FHIR/guides/FHIRServerUsersGuide#412-fhir-rest-api) for details.
+By default, the IBM FHIR Server allows all supported API interactions (`create`, `read`, `vread`, `history`, `search`, `update`, `patch`, and `delete`). However, it is possible to configure which of these interactions are allowed on a per-resource-type basis. See the [user guide](https://ibm.github.io/FHIR/guides/FHIRServerUsersGuide#412-fhir-rest-api) for details.
 
 ### HTTP Headers
-
-The IBM FHIR Server supports headers to modify the behavior of interactions according to the HL7 FHIR specification [HTTP API summary](https://www.hl7.org/fhir/http.html#summary) with the following changes/additions:
+The IBM FHIR Server supports headers to modify the behavior of interactions according to the HL7 FHIR specification [HTTP API summary](https://hl7.org/fhir/R4B/http.html#summary) with the following changes/additions:
 
 | Interaction    | Path         | Verb          | Header                    | Description |
 | -------------- | ------------ | ------------- | ------------------------- | ----------- |
@@ -34,10 +37,9 @@ The IBM FHIR Server supports headers to modify the behavior of interactions acco
 | _any_          | _any_        | _any_         | X-FHIR-TENANT-ID          | Custom support for multi-tenancy                  |
 | _any_          | _any_        | _any_         | X-FHIR-DSID               | Custom support for multiple datasources           |
 
-
 In addition to the content negotiation headers required in the FHIR specification, the IBM FHIR Server supports two client preferences via the `Prefer` header:
-* [return preference](https://www.hl7.org/fhir/http.html#ops)
-* [handling preference](https://www.hl7.org/fhir/search.html#errors)
+* [return preference](https://hl7.org/fhir/R4B/http.html#ops)
+* [handling preference](https://hl7.org/fhir/R4B/search.html#errors)
 
 The default return preference is `minimal`.
 The default handling preference is configurable via the server's `fhirServer/core/defaultHandling` config property, but defaults to `strict`.
@@ -48,9 +50,9 @@ For example, to ask the server to be lenient in processing a given request, but 
 Prefer: return=OperationOutcome, handling=lenient
 ```
 
-In `lenient` mode, the client must [check the self uri](https://www.hl7.org/fhir/search.html#conformance) of a search response to determine which parameters were used in computing the response.
+In `lenient` mode, the client must [check the self uri](https://hl7.org/fhir/R4B/search.html#conformance) of a search response to determine which parameters were used in computing the response.
 
-Note: In addition to controlling whether or not the server returns an error for unexpected search parameters, the handling preference is also used to control whether or not the server will return an error for unexpected elements in the JSON representation of a Resource as defined at https://www.hl7.org/fhir/json.html.
+Note: In addition to controlling whether or not the server returns an error for unexpected search parameters, the handling preference is also used to control whether or not the server will return an error for unexpected elements in the JSON representation of a Resource as defined at https://hl7.org/fhir/R4B/json.html.
 
 The IBM FHIR Server supports conditional create-on-update using the `If-None-Match` header. This IBM FHIR Server-specific feature allows clients to use a `PUT` (update) interaction which behaves as follows:
 
@@ -122,7 +124,7 @@ The whole system history interaction can be used to obtain a list of changes (cr
     curl -k -u '<username>:<password>' 'https://<host>:<port>/fhir-server/api/v4/_history'
 ```
 
-The response is a history bundle as described by the [FHIR specification](https://www.hl7.org/fhir/http.html#history) with one exception. Whereas the specification requires each entry in the history bundle to contain the full contents of the resource (at least for entries with a `entry.request.method` of PUT or POST), clients can specify the HTTP header value `Prefer: return=minimal` in which case the whole-system history response bundle contains only references to the resources. This allows clients to decide which resources they actually need to read (and can do so in parallel to further improve throughput).
+The response is a history bundle as described by the [FHIR specification](https://hl7.org/fhir/R4B/http.html#history) with one exception. Whereas the specification requires each entry in the history bundle to contain the full contents of the resource (at least for entries with a `entry.request.method` of PUT or POST), clients can specify the HTTP header value `Prefer: return=minimal` in which case the whole-system history response bundle contains only references to the resources. This allows clients to decide which resources they actually need to read (and can do so in parallel to further improve throughput).
 
 There are three possible traversal paths through the data which are requested using the `_sort` request parameter:
 
@@ -132,7 +134,7 @@ There are three possible traversal paths through the data which are requested us
 
 Option 1 is useful for users interested in finding the most recent changes that have been applied to the server. Option 2 is useful for system-to-system synchronization because it represents the change history of the server. Option 3 is also useful for system-to-system synchronization cases, but guarantees uniqueness across pages when following the `next` links (versus option 2 which may repeat entries at the time window boundary when multiple resources share the same modification timestamp).
 
-The `_since` and `_before` search parameters can be used to specify a time range filter. They are both defined as [instant](https://www.hl7.org/fhir/datatypes.html#instant) datatypes which must include a time specified to at least second accuracy and include a timezone.  To return all changes that have occurred since a known point in time, use both `_since` and `_sort=_lastUpdated` query parameters:
+The `_since` and `_before` search parameters can be used to specify a time range filter. They are both defined as [instant](https://hl7.org/fhir/R4B/datatypes.html#instant) datatypes which must include a time specified to at least second accuracy and include a timezone.  To return all changes that have occurred since a known point in time, use both `_since` and `_sort=_lastUpdated` query parameters:
 
 ```
     curl -k -u '<username>:<password>' 'https://<host>:<port>/fhir-server/api/v4/_history?_since=2021-02-21T00:00:00Z&_sort=_lastUpdated'
@@ -223,9 +225,9 @@ The IBM FHIR Server supports all search parameter types defined in the specifica
 * `Special` (Location-near)
 
 ### Search parameters
-Search parameters defined in the specification can be found by browsing the R4 FHIR specification by resource type. For example, to find the search parameters for the Patient resource, navigate to https://www.hl7.org/fhir/R4/patient.html and scroll to the Search Parameters section near the end of the page.
+Search parameters defined in the specification can be found by browsing the FHIR specification by resource type. For example, to find the search parameters for the Patient resource, navigate to https://hl7.org/fhir/R4B/patient.html and scroll to the Search Parameters section near the end of the page.
 
-In addition, the following search parameters are supported on all resources:
+In addition, the following search parameters are supported on all resource types:
 * `_id`
 * `_lastUpdated`
 * `_tag`
@@ -270,7 +272,7 @@ Custom search parameters are search parameters that are not defined in the FHIR 
 For information on how to specify custom search parameters, see [FHIRSearchConfiguration.md](https://ibm.github.io/FHIR/guides/FHIRSearchConfiguration).
 
 ### Search modifiers
-FHIR search modifiers are described at https://www.hl7.org/fhir/R4/search.html#modifiers and vary by search parameter type. The IBM FHIR Server implements a subset of the spec-defined search modifiers that is defined in the following table:
+FHIR search modifiers are described at https://hl7.org/fhir/R4B/search.html#modifiers and vary by search parameter type. The IBM FHIR Server implements a subset of the spec-defined search modifiers that is defined in the following table:
 
 |FHIR Search Parameter Type|Supported Modifiers|"Default" search behavior when no Modifier or Prefix is present|
 |--------------------------|-------------------|---------------------------------------------------------------|
@@ -278,9 +280,9 @@ FHIR search modifiers are described at https://www.hl7.org/fhir/R4/search.html#m
 |Reference                 |`:[type]`,`:missing`,`:identifier` |exact match search and targets are implicitly added|
 |URI                       |`:below`,`:above`,`:missing`       |exact match search|
 |Token                     |`:missing`,`:not`,`:of-type`,`:in`,`:not-in`,`:text`,`:above`,`:below`       |exact match search|
-|Number                    |`:missing`                         |implicit range search (see http://hl7.org/fhir/R4/search.html#number)|
-|Date                      |`:missing`                         |implicit range search (see https://www.hl7.org/fhir/search.html#date)|
-|Quantity                  |`:missing`                         |implicit range search (see http://hl7.org/fhir/R4/search.html#quantity)|
+|Number                    |`:missing`                         |implicit range search (see https://hl7.org/fhir/R4B/search.html#number)|
+|Date                      |`:missing`                         |implicit range search (see https://hl7.org/fhir/R4B/search.html#date)|
+|Quantity                  |`:missing`                         |implicit range search (see https://hl7.org/fhir/R4B/search.html#quantity)|
 |Composite                 |`:missing`                         |processes each parameter component according to its type|
 |Special (near)            | none                              |searches a bounding area according to the value of the `fhirServer/search/useBoundingRadius` property|
 
@@ -295,7 +297,7 @@ The `:in` and `:not-in` modifiers for Token search parameters are supported, wit
 * The referenced value set must exist in the FHIR registry and must be expandable.
 
 ### Search prefixes
-FHIR search prefixes are described at https://www.hl7.org/fhir/R4/search.html#prefix.
+FHIR search prefixes are described at https://hl7.org/fhir/R4B/search.html#prefix.
 
 As defined in the specification, the following prefixes are supported for Number, Date, and Quantity search parameters:
 * `eq`
@@ -308,7 +310,7 @@ As defined in the specification, the following prefixes are supported for Number
 * `eb`
 * `ap`
 
-For range targets (parameter values extracted from Range, Date/Period, and DateTime elements without fractional seconds), the prefixes are interpreted as according to https://www.hl7.org/fhir/R4/search.html#prefix.
+For range targets (parameter values extracted from Range, Date/Period, and DateTime elements without fractional seconds), the prefixes are interpreted as according to https://hl7.org/fhir/R4B/search.html#prefix.
 
 For example, a search like `Observation?date=2018-10-29T12:00:00Z` would *not* match an Observation with an effectivePeriod of `start=2018-10-29` and `end=2018-10-30` because "the search range does not fully contain the range of the target value." Similarly, a search like `range=5||mg` would not match a range value with `low = 1 mg` and `high = 10 mg`. To obtain all range values which contain a specific value, use the `ap` prefix which is defined to match when "the range of the search value overlaps with the range of the target value."
 
@@ -375,7 +377,7 @@ The following table describes how the FHIR server performs a token search, based
 |code system not specified             |Search is performed to match on unmodified search parameter token value OR normalized search parameter value|
 
 ### Searching on Number
-For fields of type `decimal`, the IBM FHIR Server computes an implicit range when the query parameter value has a prefix of `eq` (the default), `ne`, or `ap`. The computed range is based on the number of significant figures passed in the query string and further information can be found at https://www.hl7.org/fhir/R4/search.html#number.
+For fields of type `decimal`, the IBM FHIR Server computes an implicit range when the query parameter value has a prefix of `eq` (the default), `ne`, or `ap`. The computed range is based on the number of significant figures passed in the query string and further information can be found at https://hl7.org/fhir/R4B/search.html#number.
 For searches with the `ap` prefix, we use the range `[implicitLowerBound - searchQueryValue * .1, implicitUpperBound + searchQueryValue * .1)` to ensure that the `ap` range is broader than the implicit range of `eq`.
 
 ### Searching on Quantity
@@ -392,7 +394,7 @@ The IBM FHIR Server does not consider the `Quantity.comparator` field as part of
 ### Searching on URI
 URI searches on the IBM FHIR Server are case-sensitive with "exact-match" semantics. The `above` and `below` prefixes can be used to perform path-based matching that is based on the `/` delimiter.
 
-There is one exception to the statement above. The `url` search parameter, which is defined in the base FHIR specification on definitional resource types as a URI search parameter, is actually treated as a canonical search parameter of type REFERENCE, as documented in the [FHIR specification](http://hl7.org/fhir/R4/references.html#canonical). The following section of this document describes how the IBM FHIR Server processes canonical reference searches.
+There is one exception to the statement above. The `url` search parameter, which is defined in the base FHIR specification on definitional resource types as a URI search parameter, is actually treated as a canonical search parameter of type REFERENCE, as documented in the [FHIR specification](http://hl7.org/fhir/R4B/references.html#canonical). The following section of this document describes how the IBM FHIR Server processes canonical reference searches.
 
 ### Searching on Reference
 Reference searches on the IBM FHIR Server support search on elements of type Reference and on elements of type canonical.
@@ -423,7 +425,7 @@ Elements of type Reference may contain a versioned reference, such as `Patient/1
 
 **Search on Elements of Type Canonical:**
 
-Canonical searches search against elements of type canonical which contain a reference to a canonical URL. The canonical reference is to a resource's defined element `url` which is the URL that always identifies the resource across all contexts of use. The list of resource types that have a canonical URL and are allowed to be the target of a canonical reference are documented in the [FHIR specification](http://hl7.org/fhir/R4/references.html#canonical). A canonical reference can optionally contain a version, delimited by the `|` character (i.e. `http://example.org/fhir/ValueSet/123|1.0.0`). The version is a reference to a resource’s business version - the indexed `version` element value (not to be confused with a resource’s `meta.versionId` element).
+Canonical searches search against elements of type canonical which contain a reference to a canonical URL. The canonical reference is to a resource's defined element `url` which is the URL that always identifies the resource across all contexts of use. The list of resource types that have a canonical URL and are allowed to be the target of a canonical reference are documented in the [FHIR specification](http://hl7.org/fhir/R4B/references.html#canonical). A canonical reference can optionally contain a version, delimited by the `|` character (i.e. `http://example.org/fhir/ValueSet/123|1.0.0`). The version is a reference to a resource’s business version - the indexed `version` element value (not to be confused with a resource’s `meta.versionId` element).
 
 When a resource which contains a canonical element is indexed for search, the reference contained in the canonical element will be parsed into the URL part and the version part (if specified). These values will be stored separately and compared against during canonical searches as described below.
 
@@ -452,9 +454,9 @@ Positional Search uses [UCUM units](https://unitsofmeasure.org/ucum.html) of dis
 Note, the use of the surrounding bracket, such as `[mi_us]` is optional; `mi_us` is also valid.
 
 ## Batch/transaction support
-The IBM FHIR Server implements the HL7 FHIR [batch/transaction](https://www.hl7.org/fhir/http.html#transaction) endpoint. We support the batch/transaction processing rules as defined in the specification and we support resolving and replacing both:
-* literal references to [bundle-local identities](https://www.hl7.org/fhir/bundle.html#bundle-unique) for creates and updates in batch and transaction bundles; and
-* [conditional literal references](https://www.hl7.org/fhir/http.html#trules) for creates and updates in a transaction bundle.
+The IBM FHIR Server implements the HL7 FHIR [batch/transaction](https://hl7.org/fhir/R4B/http.html#transaction) endpoint. We support the batch/transaction processing rules as defined in the specification and we support resolving and replacing both:
+* literal references to [bundle-local identities](https://hl7.org/fhir/R4B/bundle.html#bundle-unique) for creates and updates in batch and transaction bundles; and
+* [conditional literal references](https://hl7.org/fhir/R4B/http.html#trules) for creates and updates in a transaction bundle.
 
 One discrepency from the specification is that, during reference replacement, we *do not* replace string matches of the fullUrl within
 > elements of type uri, url, oid, uuid, and <a href="" & <img src="" in the narrative
@@ -462,7 +464,7 @@ One discrepency from the specification is that, during reference replacement, we
 We've opened the following issue on the specification to request this requirement to be relaxed in future versions of the specification:  https://jira.hl7.org/browse/FHIR-36032
 
 ## Extended operations
-The HL7 FHIR specification also defines a mechanism for extending the base API with [extended operations](https://www.hl7.org/fhir/R4/operations.html).
+The HL7 FHIR specification also defines a mechanism for extending the base API with [extended operations](https://hl7.org/fhir/R4B/operations.html).
 The IBM FHIR Server implements a handful of extended operations and provides extension points for users to extend the server with their own.
 
 Operations are invoked via HTTP POST.
@@ -478,36 +480,52 @@ System operations are invoked at `[base]/$[operation]`
 
 |Operation|Short Description|Notes|
 |---------|-----------------|-----|
-| [$convert](https://hl7.org/fhir/R4/resource-operation-convert.html) | Takes a resource in one form and returns it in another | Converts between JSON and XML but *not* between FHIR versions |
+| [$convert](https://hl7.org/fhir/R4B/resource-operation-convert.html) | Takes a resource in one form and returns it in another | Converts between JSON and XML but *not* between FHIR versions |
 | [$export](https://hl7.org/fhir/uv/bulkdata/STU1/OperationDefinition-export.html) | Export data from the server | exports to an S3-compatible data store; see the [user guide](https://ibm.github.io/FHIR/guides/FHIRServerUsersGuide#4101-bulk-data-export) for config info |
 | [$import](https://github.com/smart-on-fhir/bulk-import/blob/main/import.md) | Import FHIR Resources from a source| see the [user guide](https://ibm.github.io/FHIR/guides/FHIRServerUsersGuide#4101-bulk-data-export) for config info. This implementation is based on the proposed operation.|
 | [$healthcheck](https://github.com/IBM/FHIR/blob/main/operation/fhir-operation-healthcheck/src/main/resources/healthcheck.json) | Check the health of the server | Checks for a valid connection to the database |
-| [$versions](https://hl7.org/fhir/capabilitystatement-operation-versions.html) | Returns the list of supported FHIR versions | |
+| [$versions](https://hl7.org/fhir/R4B/capabilitystatement-operation-versions.html) | Returns the list of supported FHIR versions | |
 
 ### Type operations
 Type operations are invoked at `[base]/[resourceType]/$[operation]`
 
 |Operation|Type|Short Description|Notes|
 |---------|----|-----------------|-----|
-| [$validate](https://hl7.org/fhir/R4/operation-resource-validate.html) | * | Validate a passed resource instance | Uses fhir-validate |
+| [$validate](https://hl7.org/fhir/R4B/operation-resource-validate.html) | * | Validate a passed resource instance | Uses fhir-validate |
 | [$export](https://hl7.org/fhir/uv/bulkdata/OperationDefinition-patient-export.html) | Patient | Obtain a set of resources pertaining to all patients | exports to an S3-compatible data store; see the [user guide](https://ibm.github.io/FHIR/guides/FHIRServerUsersGuide/#410-bulk-data-operations) for config info |
-| [$document](https://hl7.org/fhir/R4/operation-composition-document.html) | Composition | Generate a document | Prototype-level implementation |
-| [$apply](https://hl7.org/fhir/R4/operation-plandefinition-apply.html) | PlanDefinition | Applies a PlanDefinition to a given context | A prototype implementation that performs naive conversion |
-| [$everything](https://www.hl7.org/fhir/operation-patient-everything.html) | Patient | Obtain all resources pertaining to a patient | Current implementation supports obtaining all resources for a patient up to an aggregate total of 10,000 resources (at which point it is recommended to use the `$export` operation). This implementation does not currently support using the `_since` and `_count` query parameters. Pagination is not currently supported. If there is no nominated patient and the context is not associated with a single patient record, an error will be returned indicating the patient cannot be determined for the request. The resource types returned can be configured. If a server has restricted down the list of supported resource types, only those resource types will be returned. Use of the `start` and `end` query parameters will not work if the `date` search parameter was filtered out for a resource type in the server configuration file. |
+| [$document](https://hl7.org/fhir/R4B/operation-composition-document.html) | Composition | Generate a document | Prototype-level implementation |
+| [$apply](https://hl7.org/fhir/R4B/operation-plandefinition-apply.html) | PlanDefinition | Applies a PlanDefinition to a given context | A prototype implementation that performs naive conversion |
+| [$everything](https://hl7.org/fhir/R4B/operation-patient-everything.html) | Patient | Obtain all resources pertaining to a patient | Current implementation supports obtaining all resources for a patient up to an aggregate total of 10,000 resources (at which point it is recommended to use the `$export` operation). This implementation does not currently support using the `_since` and `_count` query parameters. Pagination is not currently supported. If there is no nominated patient and the context is not associated with a single patient record, an error will be returned indicating the patient cannot be determined for the request. The resource types returned can be configured. If a server has restricted down the list of supported resource types, only those resource types will be returned. Use of the `start` and `end` query parameters will not work if the `date` search parameter was filtered out for a resource type in the server configuration file. |
 
 ### Instance operations
 Instance operations are invoked at `[base]/[resourceType]/[id]/$[operation]`
 
 |Operation|Type|Short Description|Notes|
 |---------|----|-----------------|-----|
-| [$validate](https://hl7.org/fhir/R4/operation-resource-validate.html) | * | Validate a resource instance | Uses fhir-validate |
+| [$validate](https://hl7.org/fhir/R4B/operation-resource-validate.html) | * | Validate a resource instance | Uses fhir-validate |
 | [$export](https://hl7.org/fhir/uv/bulkdata/OperationDefinition-group-export.html) | Group | Obtain a set resources pertaining to patients in a specific Group | Only supports static membership; does not resolve inclusion/exclusion criteria |
-| [$document](https://hl7.org/fhir/R4/operation-composition-document.html) | Composition | Generate a document | Prototype-level implementation |
-| [$apply](https://hl7.org/fhir/R4/operation-plandefinition-apply.html) | PlanDefinition | Applies a PlanDefinition to a given context | A prototype implementation that performs naive conversion |
-| [$everything](https://www.hl7.org/fhir/operation-patient-everything.html) | Patient | Obtain all resources pertaining to a patient | Current implementation supports obtaining all resources for a patient up to an aggregate total of 10,000 resources (at which point it is recommended to use the `$export` operation). This implementation does not currently support using the `_since` and `_count` query parameters. Pagination is not currently supported. The resource types returned can be configured. If a server has restricted down the list of supported resource types, only those resource types will be returned. Use of the `start` and `end` query parameters will not work if the `date` search parameter was filtered out for a resource type in the server configuration file. |
+| [$document](https://hl7.org/fhir/R4B/operation-composition-document.html) | Composition | Generate a document | Prototype-level implementation |
+| [$apply](https://hl7.org/fhir/R4B/operation-plandefinition-apply.html) | PlanDefinition | Applies a PlanDefinition to a given context | A prototype implementation that performs naive conversion |
+| [$everything](https://hl7.org/fhir/R4B/operation-patient-everything.html) | Patient | Obtain all resources pertaining to a patient | Current implementation supports obtaining all resources for a patient up to an aggregate total of 10,000 resources (at which point it is recommended to use the `$export` operation). This implementation does not currently support using the `_since` and `_count` query parameters. Pagination is not currently supported. The resource types returned can be configured. If a server has restricted down the list of supported resource types, only those resource types will be returned. Use of the `start` and `end` query parameters will not work if the `date` search parameter was filtered out for a resource type in the server configuration file. |
 
-## HL7 FHIR R4 (v4.0.1) errata
-We add information here as we find issues with the artifacts provided with this version of the specification.
+## Unsupported R4 resource types
+With the introduction of support for HL7 R4B in IBM FHIR Server 5.0.0, we no longer support FHIR 4.0.1 resource types that have been removed or drastically changed in 4.3.0. This set of resource types is discussed at https://hl7.org/fhir/R4B/history.html but repeated here for convenience:
+* Evidence
+* EvidenceVariable
+* MedicinalProductAuthorization
+* MedicinalProductContraindication
+* MedicinalProductIndication
+* MedicinalProductInteraction
+* MedicinalproductManufactured
+* MedicinalproductPackaged
+* MedicinalproductPharmaceutical
+* MedicinalproductUndesirableEffect
+* SubstanceAmount
+* SubstanceNucleicAcid
+* SubstancePolymer
+* SubstanceProtein
+* SubstanceReferenceInformation
+* SubstanceSourceMaterial
 
 ---
 
