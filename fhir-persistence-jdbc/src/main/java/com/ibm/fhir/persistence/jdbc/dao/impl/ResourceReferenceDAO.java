@@ -925,7 +925,11 @@ public abstract class ResourceReferenceDAO implements IResourceReferenceDAO, Aut
     @Override
     public void persist(Collection<ResourceTokenValueRec> records, Collection<ResourceReferenceValueRec> referenceRecords, Collection<ResourceProfileRec> profileRecs, Collection<ResourceTokenValueRec> tagRecs, Collection<ResourceTokenValueRec> securityRecs) throws FHIRPersistenceException {
 
-        collectAndResolveParameterNames(records, referenceRecords, profileRecs, tagRecs, securityRecs);
+        boolean gotSomething = collectAndResolveParameterNames(records, referenceRecords, profileRecs, tagRecs, securityRecs);
+        if (!gotSomething) {
+            // nothing to do
+            return;
+        }
 
         // Grab the ids for all the code-systems, and upsert any misses
         List<ResourceTokenValueRec> systemMisses = new ArrayList<>();
@@ -1021,8 +1025,9 @@ public abstract class ResourceReferenceDAO implements IResourceReferenceDAO, Aut
      * @param profileRecs
      * @param tagRecs
      * @param securityRecs
+     * @return true if we processed one or more records
      */
-    private void collectAndResolveParameterNames(Collection<ResourceTokenValueRec> records, Collection<ResourceReferenceValueRec> referenceRecords, Collection<ResourceProfileRec> profileRecs,
+    private boolean collectAndResolveParameterNames(Collection<ResourceTokenValueRec> records, Collection<ResourceReferenceValueRec> referenceRecords, Collection<ResourceProfileRec> profileRecs,
         Collection<ResourceTokenValueRec> tagRecs, Collection<ResourceTokenValueRec> securityRecs) throws FHIRPersistenceException {
 
         List<ResourceRefRec> recList = new ArrayList<>();
@@ -1047,6 +1052,7 @@ public abstract class ResourceReferenceDAO implements IResourceReferenceDAO, Aut
         for (ResourceRefRec rec: recList) {
             rec.setParameterNameId(getParameterNameId(rec.getParameterName()));
         }
+        return recList.size() > 0;
     }
 
     @Override
@@ -1097,6 +1103,10 @@ public abstract class ResourceReferenceDAO implements IResourceReferenceDAO, Aut
     protected abstract int readOrAddParameterNameId(String parameterName) throws FHIRPersistenceDBConnectException, FHIRPersistenceDataAccessException;
 
     protected void upsertLogicalResourceIdents(List<ResourceReferenceValueRec> unresolved) throws FHIRPersistenceException {
+        if (unresolved.isEmpty()) {
+            return;
+        }
+
         // Build a unique set of logical_resource_ident keys
         Set<LogicalResourceIdentValue> keys = unresolved.stream().map(v -> new LogicalResourceIdentValue(v.getRefResourceTypeId(), v.getRefLogicalId())).collect(Collectors.toSet());
         List<LogicalResourceIdentValue> missing = new ArrayList<>(keys);

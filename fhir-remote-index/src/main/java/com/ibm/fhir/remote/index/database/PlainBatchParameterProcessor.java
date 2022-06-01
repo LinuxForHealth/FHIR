@@ -123,6 +123,13 @@ public class PlainBatchParameterProcessor implements BatchParameterProcessor {
         }
     }
 
+    /**
+     * Get the DAO used to batch parameter inserts for the given resourceType.
+     * This method also tracks the unique set of resource types seen for a
+     * collection of messages.
+     * @param resourceType
+     * @return
+     */
     private PlainPostgresParameterBatch getParameterBatchDao(String resourceType) {
         resourceTypesInBatch.add(resourceType);
         PlainPostgresParameterBatch dao = daoMap.get(resourceType);

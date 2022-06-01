@@ -91,7 +91,7 @@ public class CitusAdapter extends PostgresAdapter {
 
         final DistributionType distributionType = distributionContext.getDistributionType();
         final String distributionColumnName = distributionContext.getDistributionColumnName();
-        if (identity != null && distributionType == DistributionType.DISTRIBUTED) {
+        if (identity != null && (distributionType == DistributionType.DISTRIBUTED || distributionType == DistributionType.REFERENCE)) {
             logger.warning("Citus: Ignoring IDENTITY columns on distributed table: '" + name + "." + identity.getColumnName());
             identity = null;
         }
@@ -171,12 +171,16 @@ public class CitusAdapter extends PostgresAdapter {
     @Override
     public void applyDistributionRules(String schemaName, String tableName, DistributionContext distributionContext) {
         // Apply the distribution rules. Tables without distribution rules are created
-        // only on Citus controller nodes and never distributed to the worker nodes. All
-        // the distribution changes are implemented in one transaction, which makes it much
-        // more efficient.
+        // only on Citus controller nodes and never distributed to the worker nodes.
+        final String fullName = DataDefinitionUtil.getQualifiedName(schemaName, tableName);
+        CitusDistributionCheckDAO distributionCheck = new CitusDistributionCheckDAO(schemaName, tableName);
+        if (runStatement(distributionCheck)) {
+            logger.info("Table '" + fullName + "' is already distributed");
+            return;
+        }
+
         final DistributionType distributionType = distributionContext.getDistributionType();
         final String distributionColumnName = distributionContext.getDistributionColumnName();
-        final String fullName = DataDefinitionUtil.getQualifiedName(schemaName, tableName);
         if (distributionType == DistributionType.REFERENCE) {
             // A table that is fully replicated for each worker node
             logger.info("Citus: distributing reference table '" + fullName + "'");

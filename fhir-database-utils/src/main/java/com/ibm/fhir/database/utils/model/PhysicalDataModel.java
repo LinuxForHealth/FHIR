@@ -141,19 +141,52 @@ public class PhysicalDataModel implements IDataModel {
 
     /**
      * Make a pass over all the objects and apply any distribution rules they
-     * may have (e.g. for Citus)
+     * may have (e.g. for Citus). We have to process a large number of tables,
+     * which can cause shared memory issues for Citus if we try and do this in
+     * a single transaction, hence the need for a transactionSupplier
      * @param target
      */
-    public void applyDistributionRules(ISchemaAdapter target) {
+    public void applyDistributionRules(ISchemaAdapter target, Supplier<ITransaction> transactionSupplier) {
 
+        // takes a long time, so track progress
+        int total = allObjects.size() * 2;
+        int count = 0;
+        int objectsPerMessage = total / 100; // 1% increments
+        int nextCount = objectsPerMessage;
         // make a first pass to apply reference rules
         for (IDatabaseObject obj: allObjects) {
-            obj.applyDistributionRules(target, 0);
+            try (ITransaction tx = transactionSupplier.get()) {
+                try {
+                    obj.applyDistributionRules(target, 0);
+                    
+                    if (++count >= nextCount) {
+                        int pc = 100 * nextCount / total;
+                        logger.info("Progress: [" + pc + "% complete]");
+                        nextCount += objectsPerMessage;
+                    }
+                } catch (RuntimeException x) {
+                    tx.setRollbackOnly();
+                    throw x;
+                }                    
+            }
         }
         
         // and another pass to apply sharding rules
         for (IDatabaseObject obj: allObjects) {
-            obj.applyDistributionRules(target, 1);
+            try (ITransaction tx = transactionSupplier.get()) {
+                try {
+                    obj.applyDistributionRules(target, 1);
+
+                    if (++count >= nextCount) {
+                        int pc = 100 * nextCount / total;
+                        logger.info("Progress: [" + pc + "% complete]");
+                        nextCount += objectsPerMessage;
+                    }
+                } catch (RuntimeException x) {
+                    tx.setRollbackOnly();
+                    throw x;
+                }                    
+            }
         }
     }
 
@@ -300,12 +333,42 @@ public class PhysicalDataModel implements IDataModel {
      * @param v
      * @param tagGroup
      * @param tag
+     * @param transactionSupplier
      */
-    public void visit(DataModelVisitor v, final String tagGroup, final String tag) {
-        // visit just the matching subset of objects
-        this.allObjects.stream()
-            .filter(obj -> tag == null || obj.getTags().get(tagGroup) != null && tag.equals(obj.getTags().get(tagGroup)))
-            .forEach(obj -> obj.visit(v));
+    public void visit(DataModelVisitor v, final String tagGroup, final String tag, Supplier<ITransaction> transactionSupplier) {
+        // visit just the matching subset of objects. If a transactionSupplier has been provided, we break up the
+        // operation into multiple transactions to avoid transaction size limitations (e.g. with Citus FK creation)
+        if (transactionSupplier != null) {
+            ITransaction tx = transactionSupplier.get();
+            try {
+                int count = 0;
+                for (IDatabaseObject obj: allObjects) {
+                    if (tag == null || obj.getTags().get(tagGroup) != null && tag.equals(obj.getTags().get(tagGroup))) {
+                        if (++count == 10) {
+                            // commit the current transaction and start a fresh one
+                            tx.close();
+                            tx = transactionSupplier.get();
+                            count = 0;
+                        }
+
+                        try {
+                            obj.visit(v);
+                        } catch (RuntimeException x) {
+                            tx.setRollbackOnly();
+                            throw x;
+                        }
+                    }
+                    
+                }
+            } finally {
+                tx.close();
+            }
+        } else {
+            // the old way, which will visit everything in the scope of one transaction
+            this.allObjects.stream()
+                .filter(obj -> tag == null || obj.getTags().get(tagGroup) != null && tag.equals(obj.getTags().get(tagGroup)))
+                .forEach(obj -> obj.visit(v));
+        }
     }
 
     /**

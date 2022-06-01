@@ -105,6 +105,10 @@ public abstract class BaseMessageHandler implements IMessageHandler {
                 } else {
                     throw x;
                 }
+            } catch (Throwable t) {
+                setRollbackOnly();
+                logger.log(Level.SEVERE, "batch failed", t);
+                throw t;
             } finally {
                 endTransaction();
             }
@@ -157,8 +161,8 @@ public abstract class BaseMessageHandler implements IMessageHandler {
      */
     private void processMessages(List<RemoteIndexMessage> messages) throws FHIRPersistenceException {
         // We need to do a quick scan of all the messages to make sure that
-        // the logical resource records for each already exist. If prepare
-        // returns false, it means one of two things:
+        // the logical resource records for each already exist. If the check
+        // returns anything in the notReady list, it means one of two things:
         // 1. we received the message before the server transaction committed
         // 2. the server transaction failed/rolled back, so we'll never be ready
         long timeoutTime = System.nanoTime() + this.maxReadyWaitMs * 1000000;

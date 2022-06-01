@@ -66,12 +66,12 @@ public class PlainSchemaAdapter implements ISchemaAdapter {
 
     @Override
     public void createTable(String schemaName, String name, String tenantColumnName, List<ColumnBase> columns, PrimaryKeyDef primaryKey, IdentityDef identity,
-        String tablespaceName, List<With> withs, List<CheckConstraint> checkConstraints, DistributionType distributionRules) {
+        String tablespaceName, List<With> withs, List<CheckConstraint> checkConstraints, DistributionType distributionType, String distributionColumnName) {
         databaseAdapter.createTable(schemaName, name, tenantColumnName, columns, primaryKey, identity, tablespaceName, withs, checkConstraints, null);
     }
 
     @Override
-    public void applyDistributionRules(String schemaName, String tableName, DistributionType distributionRules) {
+    public void applyDistributionRules(String schemaName, String tableName, DistributionType distributionType, String distributionColumnName) {
         databaseAdapter.applyDistributionRules(schemaName, tableName, null);
     }
 
@@ -112,13 +112,13 @@ public class PlainSchemaAdapter implements ISchemaAdapter {
 
     @Override
     public void createUniqueIndex(String schemaName, String tableName, String indexName, String tenantColumnName, List<OrderedColumnDef> indexColumns,
-        List<String> includeColumns, DistributionType distributionRules) {
+        List<String> includeColumns, DistributionType distributionType, String distributionColumnName) {
         databaseAdapter.createUniqueIndex(schemaName, tableName, indexName, tenantColumnName, indexColumns, includeColumns, null);
     }
 
     @Override
     public void createUniqueIndex(String schemaName, String tableName, String indexName, String tenantColumnName, List<OrderedColumnDef> indexColumns,
-        DistributionType distributionRules) {
+        DistributionType distributionType, String distributionColumnName) {
         databaseAdapter.createUniqueIndex(schemaName, tableName, indexName, tenantColumnName, indexColumns, null);
     }
 

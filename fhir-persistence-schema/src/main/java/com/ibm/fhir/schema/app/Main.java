@@ -352,9 +352,9 @@ public class Main {
         this.connectionPool = new PoolConnectionProvider(cp, this.maxConnectionPoolSize);
         this.transactionProvider = new SimpleTransactionProvider(this.connectionPool);
 
-//        if (this.dbType == DbType.CITUS) {
-//            connectionPool.setNewConnectionHandler(Main::configureCitusConnection);
-//        }
+        if (this.dbType == DbType.CITUS) {
+            connectionPool.setNewConnectionHandler(Main::configureCitusConnection);
+        }
     }
 
     /**
@@ -532,7 +532,8 @@ public class Main {
             gen.buildDatabaseSpecificArtifactsPostgres(pdm);
             break;
         case CITUS:
-            gen.buildDatabaseSpecificArtifactsCitus(pdm);
+            gen.buildDatabaseSpecificArtifactsPostgres(pdm);
+            // gen.buildDatabaseSpecificArtifactsCitus(pdm);
             break;
         default:
             throw new IllegalStateException("Unsupported db type: " + dbType);
@@ -765,32 +766,18 @@ public class Main {
      */
     private void applyDistributionRules(PhysicalDataModel pdm, SchemaType schemaType) {
         if (dbType == DbType.CITUS) {
-            try (ITransaction tx = TransactionFactory.openTransaction(connectionPool)) {
-                try {
-                    ISchemaAdapter schemaAdapter = getSchemaAdapter(getDataSchemaType(), dbType, connectionPool);
-                    pdm.applyDistributionRules(schemaAdapter);
-                } catch (RuntimeException x) {
-                    tx.setRollbackOnly();
-                    throw x;
-                }
-            }
+            ISchemaAdapter schemaAdapter = getSchemaAdapter(getDataSchemaType(), dbType, connectionPool);
+            pdm.applyDistributionRules(schemaAdapter, () -> TransactionFactory.openTransaction(connectionPool));
         }
 
-        final boolean includeForeignKeys = schemaType != SchemaType.DISTRIBUTED;
-        if (!includeForeignKeys) {
+        final boolean includedForeignKeys = schemaType != SchemaType.DISTRIBUTED;
+        if (!includedForeignKeys) {
             // Now that all the tables have been distributed, it should be safe
             // to apply the FK constraints
-            try (ITransaction tx = TransactionFactory.openTransaction(connectionPool)) {
-                try {
-                    final String tenantColumnName = isMultitenant() ? "mt_id" : null;
-                    ISchemaAdapter adapter = getSchemaAdapter(getDataSchemaType(), dbType, connectionPool);
-                    AddForeignKey adder = new AddForeignKey(adapter, tenantColumnName);
-                    pdm.visit(adder, FhirSchemaGenerator.SCHEMA_GROUP_TAG, FhirSchemaGenerator.FHIRDATA_GROUP);
-                } catch (RuntimeException x) {
-                    tx.setRollbackOnly();
-                    throw x;
-                }
-            }
+            final String tenantColumnName = isMultitenant() ? "mt_id" : null;
+            ISchemaAdapter adapter = getSchemaAdapter(getDataSchemaType(), dbType, connectionPool);
+            AddForeignKey adder = new AddForeignKey(adapter, tenantColumnName);
+            pdm.visit(adder, FhirSchemaGenerator.SCHEMA_GROUP_TAG, FhirSchemaGenerator.FHIRDATA_GROUP, () -> TransactionFactory.openTransaction(connectionPool));
         }        
     }
 
@@ -963,7 +950,7 @@ public class Main {
 
                 Set<Table> referencedTables = new HashSet<>();
                 DropForeignKey dropper = new DropForeignKey(adapter, referencedTables);
-                pdm.visit(dropper, tagGroup, tag);
+                pdm.visit(dropper, tagGroup, tag, null);
             } catch (Exception x) {
                 c.rollback();
                 throw x;
@@ -2234,6 +2221,7 @@ public class Main {
                     break;
                 case CITUS:
                     translator = new CitusTranslator();
+                    dataSchemaType = SchemaType.DISTRIBUTED; // by default
                     break;
                 case DB2:
                     dataSchemaType = SchemaType.MULTITENANT;

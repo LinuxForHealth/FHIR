@@ -1044,6 +1044,7 @@ public class FhirSchemaGenerator {
         // because it makes it very easy to find the most recent changes to resources associated with
         // a given patient (for example).
         Table tbl = Table.builder(schemaName, tableName)
+                .setCreate(false) // V0027 no longer used
                 .setVersion(FhirSchemaVersion.V0027.vid()) // V0027: add support for distribution/sharding
                 .setTenantColumnName(MT_ID)
                 .setDistributionType(DistributionType.DISTRIBUTED) // V0027 support for sharding
@@ -1066,6 +1067,11 @@ public class FhirSchemaGenerator {
                     }
                     if (priorVersion < FhirSchemaVersion.V0020.vid()) {
                         statements.add(new PostgresFillfactorSettingDAO(schemaName, tableName, FhirSchemaConstants.PG_FILLFACTOR_VALUE));
+                    }
+                    if (priorVersion < FhirSchemaVersion.V0027.vid()) {
+                        // This table is never used and the FK_LOGICAL_RESOURCE_COMPARTMENTS_COMP FK
+                        // causes issues with Citus distribution, so it's time for it to go
+                        statements.add(new DropTable(schemaName, tableName));
                     }
                     return statements;
                 })

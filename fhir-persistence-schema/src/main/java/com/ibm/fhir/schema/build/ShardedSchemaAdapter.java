@@ -33,24 +33,24 @@ import com.ibm.fhir.database.utils.model.With;
 public class ShardedSchemaAdapter extends FhirSchemaAdapter {
 
     // The distribution column to add to each table marked as distributed
-    final String distributionColumnName;
+    final String shardColumnName;
 
     /**
      * @param databaseAdapter
      */
-    public ShardedSchemaAdapter(IDatabaseAdapter databaseAdapter, String distributionColumnName) {
+    public ShardedSchemaAdapter(IDatabaseAdapter databaseAdapter, String shardColumnName) {
         super(databaseAdapter);
-        this.distributionColumnName = distributionColumnName;
+        this.shardColumnName = shardColumnName;
     }
 
     @Override
     public void createTable(String schemaName, String name, String tenantColumnName, List<ColumnBase> columns, PrimaryKeyDef primaryKey, IdentityDef identity,
-        String tablespaceName, List<With> withs, List<CheckConstraint> checkConstraints, DistributionType distributionType) {
+        String tablespaceName, List<With> withs, List<CheckConstraint> checkConstraints, DistributionType distributionType, String distributionColumnName) {
         // If the table is distributed, we need to inject the distribution column into the columns list. This same
         // column will need to be injected into each of the index definitions
         List<ColumnBase> actualColumns = new ArrayList<>();
         if (distributionType == DistributionType.DISTRIBUTED) {
-            ColumnBase distributionColumn = new SmallIntColumn(distributionColumnName, false, null);
+            ColumnBase distributionColumn = new SmallIntColumn(shardColumnName, false, null);
             actualColumns.add(distributionColumn);
             if (primaryKey != null) {
                 // we need to alter the primary so it includes the distribution column
@@ -62,37 +62,37 @@ public class ShardedSchemaAdapter extends FhirSchemaAdapter {
         }
 
         actualColumns.addAll(columns);
-        DistributionContext dc = new DistributionContext(distributionType, distributionColumnName);
+        DistributionContext dc = new DistributionContext(distributionType, shardColumnName);
         databaseAdapter.createTable(schemaName, name, tenantColumnName, actualColumns, primaryKey, identity, tablespaceName, withs, checkConstraints, dc);
     }
 
     @Override
     public void createUniqueIndex(String schemaName, String tableName, String indexName, String tenantColumnName, List<OrderedColumnDef> indexColumns,
-        List<String> includeColumns, DistributionType distributionType) {
+        List<String> includeColumns, DistributionType distributionType, String distributionColumnName) {
         
         List<OrderedColumnDef> actualColumns = new ArrayList<>(indexColumns);
         if (distributionType == DistributionType.DISTRIBUTED) {
             // inject the distribution column into the index definition
-            actualColumns.add(new OrderedColumnDef(this.distributionColumnName, null, null));
+            actualColumns.add(new OrderedColumnDef(this.shardColumnName, null, null));
         }
 
         // Create the index using the modified set of index columns
-        DistributionContext dc = new DistributionContext(distributionType, distributionColumnName);
+        DistributionContext dc = new DistributionContext(distributionType, shardColumnName);
         databaseAdapter.createUniqueIndex(schemaName, tableName, indexName, tenantColumnName, actualColumns, includeColumns, dc);
     }
 
     @Override
     public void createUniqueIndex(String schemaName, String tableName, String indexName, String tenantColumnName, List<OrderedColumnDef> indexColumns,
-        DistributionType distributionType) {
+        DistributionType distributionType, String distributionColumnName) {
 
         List<OrderedColumnDef> actualColumns = new ArrayList<>(indexColumns);
         if (distributionType == DistributionType.DISTRIBUTED) {
             // inject the distribution column into the index definition
-            actualColumns.add(new OrderedColumnDef(this.distributionColumnName, null, null));
+            actualColumns.add(new OrderedColumnDef(this.shardColumnName, null, null));
         }
 
         // Create the index using the modified set of index columns
-        DistributionContext dc = new DistributionContext(distributionType, distributionColumnName);
+        DistributionContext dc = new DistributionContext(distributionType, shardColumnName);
         databaseAdapter.createUniqueIndex(schemaName, tableName, indexName, tenantColumnName, actualColumns, dc);
     }
 
@@ -118,7 +118,7 @@ public class ShardedSchemaAdapter extends FhirSchemaAdapter {
         // can be based on the original PK definition without the extra sharding column.
         List<String> newCols = new ArrayList<>(columns);
         if (distributionType == DistributionType.DISTRIBUTED && !targetIsReference) {
-            newCols.add(distributionColumnName);
+            newCols.add(shardColumnName);
         }
         databaseAdapter.createForeignKeyConstraint(constraintName, schemaName, name, targetSchema, targetTable, targetColumnName, tenantColumnName, newCols, enforced);
     }

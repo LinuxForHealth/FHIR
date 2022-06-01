@@ -30,7 +30,10 @@ import org.apache.kafka.common.PartitionInfo;
 import com.ibm.fhir.database.utils.api.IConnectionProvider;
 import com.ibm.fhir.database.utils.api.IDatabaseTranslator;
 import com.ibm.fhir.database.utils.api.SchemaType;
+import com.ibm.fhir.database.utils.citus.CitusTranslator;
+import com.ibm.fhir.database.utils.citus.ConfigureConnectionDAO;
 import com.ibm.fhir.database.utils.common.JdbcConnectionProvider;
+import com.ibm.fhir.database.utils.model.DbType;
 import com.ibm.fhir.database.utils.postgres.PostgresPropertyAdapter;
 import com.ibm.fhir.database.utils.postgres.PostgresTranslator;
 import com.ibm.fhir.database.utils.thread.ThreadHandler;
@@ -84,6 +87,7 @@ public class Main {
     private SchemaType schemaType = SchemaType.PLAIN;
     private IDatabaseTranslator translator;
     private IConnectionProvider connectionProvider;
+    private DbType dbType = DbType.POSTGRESQL;
     
     /**
      * Parse the given command line arguments
@@ -106,6 +110,13 @@ public class Main {
                     loadDatabaseProperties(args[a++]);
                 } else {
                     throw new IllegalArgumentException("Missing value for --database-properties");
+                }
+                break;
+            case "--db-type":
+                if (a < args.length && !args[a].startsWith("--")) {
+                    this.dbType = DbType.from(args[a++]);
+                } else {
+                    throw new IllegalArgumentException("Missing value for --db-type");
                 }
                 break;
             case "--topic-name":
@@ -309,13 +320,18 @@ public class Main {
         try {
             // Each handler gets a dedicated database connection so we don't have
             // to deal with contention when grabbing connections from a pool
+            Connection c = connectionProvider.getConnection();
+            if (this.dbType == DbType.CITUS) {
+                configureCitusConnection(c);
+            }
+            
             switch (schemaType) {
             case SHARDED:
-                return new ShardedPostgresMessageHandler(connectionProvider.getConnection(), getSchemaName(), identityCache, maxReadyTimeMs);
+                return new ShardedPostgresMessageHandler(c, getSchemaName(), identityCache, maxReadyTimeMs);
             case PLAIN:
-                return new PlainPostgresMessageHandler(connectionProvider.getConnection(), getSchemaName(), identityCache, maxReadyTimeMs);                
+                return new PlainPostgresMessageHandler(c, getSchemaName(), identityCache, maxReadyTimeMs);                
             case DISTRIBUTED:
-                return new DistributedPostgresMessageHandler(connectionProvider.getConnection(), getSchemaName(), identityCache, maxReadyTimeMs);                
+                return new DistributedPostgresMessageHandler(c, getSchemaName(), identityCache, maxReadyTimeMs);                
             default:
                 throw new FHIRPersistenceException("Schema type not supported: " + schemaType.name());
             }
@@ -323,6 +339,16 @@ public class Main {
             throw new FHIRPersistenceException("get connection failed", x);
         }
     }
+
+    /**
+     * Configure the connection by setting local properties required for Citus
+     * @param c
+     */
+    private static void configureCitusConnection(Connection c) {
+        logger.info("Citus: Configuring new database connection");
+        ConfigureConnectionDAO dao = new ConfigureConnectionDAO();
+        dao.run(new CitusTranslator(), c);
+     }
 
     /**
      * Get the partitions for the named topic to check if the topic actually exists

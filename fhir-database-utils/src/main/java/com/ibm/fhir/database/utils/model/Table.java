@@ -52,13 +52,16 @@ public class Table extends BaseObject {
     // The rules to distribute the table in a distributed RDBMS implementation (Citus)
     private final DistributionType distributionType;
 
-    // If set, overrides the column used to distribute the data in a sharded database
+    // If set, overrides the column used to distribute the data in a distributed database
     private final String distributionColumnName;
 
     // The With parameters on the table
     private final List<With> withs;
     
     private final List<CheckConstraint> checkConstraints = new ArrayList<>();
+
+    // Do we still want to create this table?
+    private final boolean create;
 
     /**
      * Public constructor
@@ -82,13 +85,14 @@ public class Table extends BaseObject {
      * @param checkConstraints
      * @param distributionType
      * @param distributionColumnName
+     * @param create
      */
     public Table(String schemaName, String name, int version, String tenantColumnName, 
             Collection<ColumnBase> columns, PrimaryKeyDef pk,
             IdentityDef identity, Collection<IndexDef> indexes, Collection<ForeignKeyConstraint> fkConstraints,
             SessionVariableDef accessControlVar, Tablespace tablespace, List<IDatabaseObject> dependencies, Map<String,String> tags,
             Collection<GroupPrivilege> privileges, List<Migration> migrations, List<With> withs, List<CheckConstraint> checkConstraints,
-            DistributionType distributionType, String distributionColumnName) {
+            DistributionType distributionType, String distributionColumnName, boolean create) {
         super(schemaName, name, DatabaseObjectType.TABLE, version, migrations);
         this.tenantColumnName = tenantColumnName;
         this.columns.addAll(columns);
@@ -102,6 +106,7 @@ public class Table extends BaseObject {
         this.checkConstraints.addAll(checkConstraints);
         this.distributionType = distributionType;
         this.distributionColumnName = distributionColumnName;
+        this.create = create;
 
         // Adds all dependencies which aren't null.
         // The only circumstances where it is null is when it is self referencial (an FK on itself).
@@ -145,14 +150,19 @@ public class Table extends BaseObject {
 
     @Override
     public void apply(ISchemaAdapter target, SchemaApplyContext context) {
+        if (!create) {
+            // Skip creation for tables we no longer want
+            return;
+        }
+
         final String tsName = this.tablespace == null ? null : this.tablespace.getName();
         target.createTable(getSchemaName(), getObjectName(), this.tenantColumnName, this.columns, 
             this.primaryKey, this.identity, tsName, this.withs, this.checkConstraints,
-            this.distributionType);
+            this.distributionType, this.distributionColumnName);
 
         // Now add any indexes associated with this table
         for (IndexDef idx: this.indexes) {
-            idx.apply(getSchemaName(), getObjectName(), this.tenantColumnName, target, this.distributionType);
+            idx.apply(getSchemaName(), getObjectName(), this.tenantColumnName, target, this.distributionType, this.distributionColumnName);
         }
 
         if (context.isIncludeForeignKeys()) {
@@ -272,6 +282,9 @@ public class Table extends BaseObject {
         // Allows the standard distribution column to be overridden
         private String distributionColumnName;
 
+        // Do we still want to create this table
+        private boolean create = true;
+
         /**
          * Private constructor to force creation through factory method
          * @param schemaName
@@ -298,6 +311,16 @@ public class Table extends BaseObject {
          */
         public Builder setTablespace(Tablespace ts) {
             this.tablespace = ts;
+            return this;
+        }
+
+        /**
+         * Setter for the create flag
+         * @param ts
+         * @return
+         */
+        public Builder setCreate(boolean flag) {
+            this.create = flag;
             return this;
         }
 
@@ -826,7 +849,7 @@ public class Table extends BaseObject {
             // through the constructor
             return new Table(getSchemaName(), getObjectName(), this.version, this.tenantColumnName, buildColumns(), this.primaryKey, this.identity, this.indexes.values(),
                     enabledFKConstraints, this.accessControlVar, this.tablespace, allDependencies, tags, privileges, migrations, withs, checkConstraints, distributionType,
-                    distributionColumnName);
+                    distributionColumnName, create);
         }
 
         /**
@@ -968,8 +991,10 @@ public class Table extends BaseObject {
 
     @Override
     public void visit(DataModelVisitor v) {
-        v.visited(this);
-        this.fkConstraints.forEach(fk -> v.visited(this, fk));
+        if (this.create) {
+            v.visited(this);
+            this.fkConstraints.forEach(fk -> v.visited(this, fk));
+        }
     }
 
     @Override
@@ -981,12 +1006,17 @@ public class Table extends BaseObject {
 
     @Override
     public void applyDistributionRules(ISchemaAdapter target, int pass) {
+        if (!this.create) {
+            // skip if we no longer create this table
+            return;
+        }
+
         // make sure all the reference tables are distributed first before
-        // we attempt to shard anything
+        // we attempt to distribute any of the sharded (DISTRIBUTED) tables
         if (pass == 0 && this.distributionType == DistributionType.REFERENCE) {
-            target.applyDistributionRules(getSchemaName(), getObjectName(), this.distributionType);
+            target.applyDistributionRules(getSchemaName(), getObjectName(), this.distributionType, null);
         } else if (pass == 1 && this.distributionType == DistributionType.DISTRIBUTED) {
-            target.applyDistributionRules(getSchemaName(), getObjectName(), this.distributionType);
+            target.applyDistributionRules(getSchemaName(), getObjectName(), this.distributionType, this.distributionColumnName);
         }
     }
 }

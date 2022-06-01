@@ -72,12 +72,12 @@ public class IndexDef {
      * @param distributionRules
      */
     public void apply(String schemaName, String tableName, String tenantColumnName, ISchemaAdapter target,
-            DistributionType distributionType) {
+            DistributionType distributionType, String distributionColumn) {
         if (includeColumns != null && includeColumns.size() > 0) {
-            target.createUniqueIndex(schemaName, tableName, indexName, tenantColumnName, indexColumns, includeColumns, distributionType);
+            target.createUniqueIndex(schemaName, tableName, indexName, tenantColumnName, indexColumns, includeColumns, distributionType, distributionColumn);
         }
         else if (unique) {
-            target.createUniqueIndex(schemaName, tableName, indexName, tenantColumnName, indexColumns, distributionType);
+            target.createUniqueIndex(schemaName, tableName, indexName, tenantColumnName, indexColumns, distributionType, distributionColumn);
         }
         else {
             target.createIndex(schemaName, tableName, indexName, tenantColumnName, indexColumns, distributionType);

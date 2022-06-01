@@ -69,19 +69,21 @@ public interface ISchemaAdapter {
      * @param tablespaceName
      * @param withs
      * @param checkConstraints
-     * @param distributionRules
+     * @param distributionType
+     * @param distributionColumnName
      */
     public void createTable(String schemaName, String name, String tenantColumnName, List<ColumnBase> columns,
             PrimaryKeyDef primaryKey, IdentityDef identity, String tablespaceName, List<With> withs, List<CheckConstraint> checkConstraints,
-            DistributionType distributionRules);
+            DistributionType distributionType, String distributionColumnName);
 
     /**
      * Apply any distribution rules configured for the named table
      * @param schemaName
      * @param tableName
-     * @param distributionRules
+     * @param distributionType
+     * @param distributionColumnName
      */
-    public void applyDistributionRules(String schemaName, String tableName, DistributionType distributionRules);
+    public void applyDistributionRules(String schemaName, String tableName, DistributionType distributionType, String distributionColumnName);
 
     /**
      * Add a new column to an existing table
@@ -157,10 +159,12 @@ public interface ISchemaAdapter {
      * @param tenantColumnName
      * @param indexColumns
      * @param includeColumns
-     * @param distributionRules
+     * @param distributionType
+     * @param distributionColumnName
      */
     public void createUniqueIndex(String schemaName, String tableName, String indexName, String tenantColumnName,
-            List<OrderedColumnDef> indexColumns, List<String> includeColumns, DistributionType distributionRules);
+            List<OrderedColumnDef> indexColumns, List<String> includeColumns, 
+            DistributionType distributionType, String distributionColumnName);
 
     /**
      * Create a unique index
@@ -170,9 +174,10 @@ public interface ISchemaAdapter {
      * @param tenantColumnName
      * @param indexColumns
      * @param distributionRules
+     * @param distributionColumnName
      */
     public void createUniqueIndex(String schemaName, String tableName, String indexName, String tenantColumnName,
-            List<OrderedColumnDef> indexColumns, DistributionType distributionRules);
+            List<OrderedColumnDef> indexColumns, DistributionType distributionType, String distributionColumnName);
 
     /**
      * Create an index on the named schema.table object

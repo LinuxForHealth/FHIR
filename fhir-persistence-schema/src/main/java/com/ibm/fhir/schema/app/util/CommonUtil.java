@@ -43,6 +43,7 @@ import com.ibm.fhir.schema.control.FhirSchemaConstants;
 public final class CommonUtil {
     // Random generator for new tenant keys and salts
     private static final SecureRandom random = new SecureRandom();
+    private static final String DEFAULT_DISTRIBUTION_COLUMN = "LOGICAL_RESOURCE_ID";
 
     /**
      * Set up the logger using the log.dir system property
@@ -149,7 +150,7 @@ public final class CommonUtil {
         case MULTITENANT:
             return new FhirSchemaAdapter(dbAdapter);
         case DISTRIBUTED:
-            return new DistributedSchemaAdapter(dbAdapter);
+            return new DistributedSchemaAdapter(dbAdapter, DEFAULT_DISTRIBUTION_COLUMN);
         case SHARDED:
             return new ShardedSchemaAdapter(dbAdapter, FhirSchemaConstants.SHARD_KEY);
         default:
@@ -171,7 +172,7 @@ public final class CommonUtil {
         case MULTITENANT:
             return new FhirSchemaAdapter(dbAdapter);
         case DISTRIBUTED:
-            return new DistributedSchemaAdapter(dbAdapter);
+            return new DistributedSchemaAdapter(dbAdapter, DEFAULT_DISTRIBUTION_COLUMN);
         case SHARDED:
             return new ShardedSchemaAdapter(dbAdapter, FhirSchemaConstants.SHARD_KEY);
         default:

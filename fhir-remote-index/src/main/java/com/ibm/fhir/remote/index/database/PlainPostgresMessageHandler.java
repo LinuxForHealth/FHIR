@@ -58,6 +58,7 @@ import com.ibm.fhir.remote.index.batch.BatchTokenParameter;
  * the plain (non-sharded) schema variant.
  */
 public class PlainPostgresMessageHandler extends BaseMessageHandler {
+    private static final String CLASSNAME = PlainPostgresMessageHandler.class.getName();
     private static final Logger logger = Logger.getLogger(PlainPostgresMessageHandler.class.getName());
     private static final short FIXED_SHARD = 0;
 
@@ -206,6 +207,7 @@ public class PlainPostgresMessageHandler extends BaseMessageHandler {
     private void publishCachedValues() {
         // all the unresolvedParameterNames should be resolved at this point
         for (ParameterNameValue pnv: this.unresolvedParameterNames) {
+            logger.fine(() -> "Adding parameter-name to cache: '" + pnv.getParameterName() + "' -> " + pnv.getParameterNameId());
             identityCache.addParameterName(pnv.getParameterName(), pnv.getParameterNameId());
         }
     }
@@ -217,6 +219,7 @@ public class PlainPostgresMessageHandler extends BaseMessageHandler {
         // the last step before the current transaction is committed,
         // Process the token values so that we can establish
         // any entries we need for common_token_values
+        logger.fine("pushBatch: resolving all ids");
         resolveLogicalResourceIdents();
         resolveParameterNames();
         resolveCodeSystems();
@@ -226,10 +229,14 @@ public class PlainPostgresMessageHandler extends BaseMessageHandler {
         // Now that all the lookup values should've been resolved, we can go ahead
         // and push the parameters to the JDBC batch insert statements via the
         // batchProcessor
+        logger.fine("pushBatch: processing collected parameters");
         for (BatchParameterValue v: this.batchedParameterValues) {
             v.apply(batchProcessor);
         }
+
+        logger.fine("pushBatch: executing final batch statements");
         batchProcessor.pushBatch();
+        logger.fine("pushBatch completed");
     }
 
     /**
@@ -909,20 +916,34 @@ public class PlainPostgresMessageHandler extends BaseMessageHandler {
         // values we still need to resolve. The most important point here is
         // to do this in a sorted order to avoid deadlock issues because this
         // could be happening across multiple consumer threads at the same time.
+        logger.fine("resolveParameterNames: sorting unresolved names");
         Collections.sort(this.unresolvedParameterNames, (a,b) -> {
             return a.getParameterName().compareTo(b.getParameterName());
         });
 
         try {
             for (ParameterNameValue pnv: this.unresolvedParameterNames) {
+                logger.finer(() -> "fetching parameter_name_id for '" + pnv.getParameterName() + "'");
                 Integer parameterNameId = getParameterNameIdFromDatabase(pnv.getParameterName());
                 if (parameterNameId == null) {
                     parameterNameId = createParameterName(pnv.getParameterName());
+                    if (logger.isLoggable(Level.FINER)) {
+                        logger.finer("assigned parameter_name_id '" + pnv.getParameterName() + "' = " + parameterNameId);
+                    }
+
+                    if (parameterNameId == null) {
+                        // be defensive
+                        throw new FHIRPersistenceException("parameter_name_id not assigned for '" + pnv.getParameterName());
+                    }
+                } else if (logger.isLoggable(Level.FINER)) {
+                    logger.finer("read parameter_name_id '" + pnv.getParameterName() + "' = " + parameterNameId);
                 }
                 pnv.setParameterNameId(parameterNameId);
             }
         } catch (SQLException x) {
             throw new FHIRPersistenceException("error resolving parameter names", x);
+        } finally {
+            logger.exiting(CLASSNAME, "resolveParameterNames");
         }
     }
 
@@ -1114,21 +1135,25 @@ public class PlainPostgresMessageHandler extends BaseMessageHandler {
      * @throws FHIRPersistenceException
      */
     private void resolveLogicalResourceIdents() throws FHIRPersistenceException {
+        logger.fine("resolveLogicalResourceIdents: fetching ids for unresolved LogicalResourceIdent records");
         // identify which values aren't yet in the database
         List<LogicalResourceIdentValue> missing = fetchLogicalResourceIdentIds(unresolvedLogicalResourceIdents);
 
         if (!missing.isEmpty()) {
+            logger.fine("resolveLogicalResourceIdents: add missing LogicalResourceIdent records");
             addMissingLogicalResourceIdents(missing);
         }
 
         // All the previously missing values should now be in the database. We need to fetch them again,
         // possibly having to use multiple queries
+        logger.fine("resolveLogicalResourceIdents: fetch ids for missing LogicalResourceIdent records");
         List<LogicalResourceIdentValue> bad = fetchLogicalResourceIdentIds(missing);
 
         if (!bad.isEmpty()) {
             // shouldn't happen, but let's protected against it anyway
             throw new FHIRPersistenceException("Failed to create all logical_resource_ident values");
         }
+        logger.fine("resolveLogicalResourceIdents: all resolved");
     }
 
     /**

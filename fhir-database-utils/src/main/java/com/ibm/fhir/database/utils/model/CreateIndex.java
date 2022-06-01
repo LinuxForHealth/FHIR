@@ -34,6 +34,7 @@ public class CreateIndex extends BaseObject {
 
     // Distribution rules if the associated table is distributed
     private final DistributionType distributionType;
+    private final String distributionColumnName;
 
     /**
      * Protected constructor. Use the Builder to create instance.
@@ -43,12 +44,14 @@ public class CreateIndex extends BaseObject {
      * @param distributionType
      */
     protected CreateIndex(String schemaName, String versionTrackingName, String tableName, int version, IndexDef indexDef, String tenantColumnName,
-            DistributionType distributionType) {
+            DistributionType distributionType, String distributionColumnName) {
         super(schemaName, versionTrackingName, DatabaseObjectType.INDEX, version);
         this.tableName = tableName;
         this.indexDef = indexDef;
         this.tenantColumnName = tenantColumnName;
         this.distributionType = distributionType;
+        this.distributionColumnName = distributionColumnName;
+        
     }
     
     /**
@@ -95,7 +98,7 @@ public class CreateIndex extends BaseObject {
     @Override
     public void apply(ISchemaAdapter target, SchemaApplyContext context) {
         long start = System.nanoTime();
-        indexDef.apply(getSchemaName(), getTableName(), tenantColumnName, target, distributionType);
+        indexDef.apply(getSchemaName(), getTableName(), tenantColumnName, target, distributionType, distributionColumnName);
         
         if (logger.isLoggable(Level.FINE)) {
             long end = System.nanoTime();
@@ -162,6 +165,7 @@ public class CreateIndex extends BaseObject {
 
         // Set if the table is distributed
         private DistributionType distributionType = DistributionType.NONE;
+        private String distributionColumnName;
 
         /**
          * @param schemaName the schemaName to set
@@ -201,6 +205,16 @@ public class CreateIndex extends BaseObject {
          */
         public Builder setDistributionType(DistributionType dt) {
             this.distributionType = dt;
+            return this;
+        }
+
+        /**
+         * Setter for distributionColumnName
+         * @param distributionColumnName
+         * @return
+         */
+        public Builder setDistributionColumnName(String distributionColumnName) {
+            this.distributionColumnName = distributionColumnName;
             return this;
         }
 
@@ -258,7 +272,7 @@ public class CreateIndex extends BaseObject {
             }
             
             return new CreateIndex(schemaName, versionTrackingName, tableName, version,
-                new IndexDef(indexName, indexCols, unique), tenantColumnName, distributionType);
+                new IndexDef(indexName, indexCols, unique), tenantColumnName, distributionType, distributionColumnName);
         }
         
         /**
