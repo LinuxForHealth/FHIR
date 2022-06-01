@@ -15,6 +15,7 @@ import com.github.benmanes.caffeine.cache.Caffeine;
 import com.ibm.fhir.remote.index.api.IdentityCache;
 import com.ibm.fhir.remote.index.database.CommonCanonicalValueKey;
 import com.ibm.fhir.remote.index.database.CommonTokenValueKey;
+import com.ibm.fhir.remote.index.database.LogicalResourceIdentKey;
 import com.ibm.fhir.remote.index.database.ResourceTypeValue;
 
 /**
@@ -27,6 +28,7 @@ public class IdentityCacheImpl implements IdentityCache {
     private final Cache<String, Integer> codeSystemCache;
     private final Cache<CommonTokenValueKey, Long> commonTokenValueCache;
     private final Cache<CommonCanonicalValueKey, Long> commonCanonicalValueCache;
+    private final Cache<LogicalResourceIdentKey, Long> logicalResourceIdentCache;
     private static final Integer NULL_INT = null;
     private static final Long NULL_LONG = null;
 
@@ -35,7 +37,8 @@ public class IdentityCacheImpl implements IdentityCache {
      */
     public IdentityCacheImpl(int maxCodeSystemCacheSize, Duration codeSystemCacheDuration,
         long maxCommonTokenCacheSize, Duration commonTokenCacheDuration,
-        long maxCommonCanonicalCacheSize, Duration commonCanonicalCacheDuration) {
+        long maxCommonCanonicalCacheSize, Duration commonCanonicalCacheDuration,
+        long maxLogicalResourceIdentCacheSize, Duration logicalResourceIdentCacheDuration) {
         codeSystemCache = Caffeine.newBuilder()
                 .maximumSize(maxCodeSystemCacheSize)
                 .expireAfterWrite(codeSystemCacheDuration)
@@ -47,6 +50,10 @@ public class IdentityCacheImpl implements IdentityCache {
         commonCanonicalValueCache = Caffeine.newBuilder()
                 .maximumSize(maxCommonCanonicalCacheSize)
                 .expireAfterWrite(commonCanonicalCacheDuration)
+                .build();
+        logicalResourceIdentCache = Caffeine.newBuilder()
+                .maximumSize(maxLogicalResourceIdentCacheSize)
+                .expireAfterWrite(logicalResourceIdentCacheDuration)
                 .build();
     }
 
@@ -94,5 +101,30 @@ public class IdentityCacheImpl implements IdentityCache {
             throw new IllegalArgumentException("Not a valid resource type: " + resourceType);
         }
         return resourceTypeId;
+    }
+
+    @Override
+    public void addCommonCanonicalValue(short shardKey, String url, long commonCanonicalValueId) {
+        this.commonCanonicalValueCache.put(new CommonCanonicalValueKey(shardKey, url), commonCanonicalValueId);
+    }
+
+    @Override
+    public void addCommonTokenValue(short shardKey, String codeSystem, String tokenValue, long commonTokenValueId) {
+        this.commonTokenValueCache.put(new CommonTokenValueKey(shardKey, codeSystem, tokenValue), commonTokenValueId);
+    }
+
+    @Override
+    public void addCodeSystem(String codeSystem, int codeSystemId) {
+        this.codeSystemCache.put(codeSystem, codeSystemId);
+    }
+
+    @Override
+    public Long getLogicalResourceIdentId(String resourceType, String logicalId) {
+        return logicalResourceIdentCache.get(new LogicalResourceIdentKey(resourceType, logicalId), k -> NULL_LONG);
+    }
+
+    @Override
+    public void addLogicalResourceIdent(String resourceType, String logicalId, long logicalResourceId) {
+        logicalResourceIdentCache.put(new LogicalResourceIdentKey(resourceType, logicalId), logicalResourceId);
     }
 }

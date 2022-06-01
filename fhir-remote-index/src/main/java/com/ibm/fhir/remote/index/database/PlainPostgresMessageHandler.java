@@ -170,7 +170,7 @@ public class PlainPostgresMessageHandler extends BaseMessageHandler {
                 // any values from parameter_names, code_systems and common_token_values
                 // are now committed to the database, so we can publish their record ids
                 // to the shared cache which makes them accessible from other threads 
-                publishCachedValues();
+                publishValuesToCache();
             } else {
                 // something went wrong...try to roll back the transaction before we close
                 // everything
@@ -188,27 +188,40 @@ public class PlainPostgresMessageHandler extends BaseMessageHandler {
         } catch (SQLException x) {
             throw new FHIRPersistenceException("commit failed", x);
         } finally {
-            if (!committed) {
-                // The maps may contain ids that were not committed to the database so
-                // we should clean them out in case we decide to reuse this consumer
-                this.logicalResourceIdentMap.clear();
-                this.parameterNameMap.clear();
-                this.codeSystemValueMap.clear();
-                this.commonTokenValueMap.clear();
-                this.commonCanonicalValueMap.clear();
-            }
+            // always clear these maps because otherwise they could grow unbounded. Values
+            // are cached by the identityCache
+            this.logicalResourceIdentMap.clear();
+            this.parameterNameMap.clear();
+            this.codeSystemValueMap.clear();
+            this.commonTokenValueMap.clear();
+            this.commonCanonicalValueMap.clear();
         }
     }
 
     /**
      * After the transaction has been committed, we can publish certain values to the
-     * shared identity caches
+     * shared identity caches allowing them to be used by other threads
      */
-    private void publishCachedValues() {
-        // all the unresolvedParameterNames should be resolved at this point
+    private void publishValuesToCache() {
         for (ParameterNameValue pnv: this.unresolvedParameterNames) {
             logger.fine(() -> "Adding parameter-name to cache: '" + pnv.getParameterName() + "' -> " + pnv.getParameterNameId());
             identityCache.addParameterName(pnv.getParameterName(), pnv.getParameterNameId());
+        }
+
+        for (CommonCanonicalValue value: this.unresolvedCanonicalValues) {
+            identityCache.addCommonCanonicalValue(FIXED_SHARD, value.getUrl(), value.getCanonicalId());
+        }
+
+        for (CodeSystemValue value: this.unresolvedSystemValues) {
+            identityCache.addCodeSystem(value.getCodeSystem(), value.getCodeSystemId());
+        }
+
+        for (CommonTokenValue value: this.unresolvedTokenValues) {
+            identityCache.addCommonTokenValue(FIXED_SHARD, value.getCodeSystemValue().getCodeSystem(), value.getTokenValue(), value.getCommonTokenValueId());
+        }
+
+        for (LogicalResourceIdentValue value: this.unresolvedLogicalResourceIdents) {
+            identityCache.addLogicalResourceIdent(value.getResourceType(), value.getLogicalId(), value.getLogicalResourceId());
         }
     }
 
@@ -386,7 +399,7 @@ public class PlainPostgresMessageHandler extends BaseMessageHandler {
     }
 
     /**
-     * Get the LogicalReosurceIdentValue we've assigned for the given (resourceType, logicalId)
+     * Get the LogicalResourceIdentValue we've assigned for the given (resourceType, logicalId)
      * tuple. The returned value may not yet have the actual logical_resource_id yet - we fetch
      * these values later and create new database records as necessary
      * @param resourceType
@@ -403,7 +416,15 @@ public class PlainPostgresMessageHandler extends BaseMessageHandler {
                     .withLogicalId(logicalId)
                     .build();
             this.logicalResourceIdentMap.put(key, result);
-            this.unresolvedLogicalResourceIdents.add(result);
+
+            // see if we can find the logical_resource_id from the cache
+            Long logicalResourceId = identityCache.getLogicalResourceIdentId(resourceType, logicalId);
+            if (logicalResourceId != null) {
+                result.setLogicalResourceId(logicalResourceId);
+            } else {
+                // Add to the unresolved list to look up later
+                this.unresolvedLogicalResourceIdents.add(result);
+            }
         }
         return result;
     }

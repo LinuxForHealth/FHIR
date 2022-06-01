@@ -262,10 +262,13 @@ public class Main {
     private void initIdentityCache() throws FHIRPersistenceException {
         logger.info("Initializing identity cache");
         identityCache = new IdentityCacheImpl(
-            1000, Duration.ofSeconds(3600), 
-            10000, Duration.ofSeconds(3600),
-            1000, Duration.ofSeconds(3600));
+            1000, Duration.ofSeconds(86400),     // code systems
+            10000, Duration.ofSeconds(86400),    // common token values
+            1000, Duration.ofSeconds(86400),     // common canonical values
+            100000, Duration.ofSeconds(86400));  // logical resource idents
         CacheLoader loader = new CacheLoader(identityCache);
+
+        // prefill the cache
         try (Connection connection = connectionProvider.getConnection()) {
             loader.apply(connection);
             connection.commit();

@@ -35,7 +35,9 @@ public class ConfigureConnectionDAO implements IDatabaseStatement {
 
     @Override
     public void run(IDatabaseTranslator translator, Connection c) {
-        final String SQL = "SET LOCAL citus.multi_shard_modify_mode TO 'sequential'";
+        // we need this behavior for all transactions on this connection, so
+        // we use SET SESSION instead of SET LOCAL
+        final String SQL = "SET SESSION citus.multi_shard_modify_mode TO 'sequential'";
 
         try (Statement s = c.createStatement()) {
             s.executeUpdate(SQL);
