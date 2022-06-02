@@ -27,14 +27,14 @@ public interface FHIRClient {
 
     /**
      * Specifies the default mimetype to be used by the FHIRClient instance when invoking
-     * FHIR REST APIs.   If not specified a value of "application/fhir+json" will be used.
+     * FHIR REST APIs.  If not specified a value of "application/fhir+json; fhirVersion=4.3" will be used.
      */
     public static final String PROPNAME_DEFAULT_MIMETYPE    = "fhirclient.default.mimetype";
 
     /**
      * Indicates whether OAuth 2.0 should be used when invoking REST API requests.
-     * Valid values are "true" and "false" (the default).   If enabled, then the authorizeURL, tokenURL and grantType properties
-     * are required as well.
+     * Valid values are "true" and "false" (the default).  If enabled, then fhirclient.oAuth2.accessToken
+     * is required as well.
      */
     public static final String PROPNAME_OAUTH2_ENABLED    = "fhirclient.oAuth2.enabled";
 
@@ -45,7 +45,7 @@ public interface FHIRClient {
 
     /**
      * Indicates whether Basic Authentication should be used when invoking REST API requests.
-     * Valid values are "true" and "false" (the default).   If enabled, then the username and password properties
+     * Valid values are "true" and "false" (the default).  If enabled, then the username and password properties
      * are required as well.
      */
     public static final String PROPNAME_BASIC_AUTH_ENABLED    = "fhirclient.basicauth.enabled";
@@ -61,9 +61,9 @@ public interface FHIRClient {
     public static final String PROPNAME_CLIENT_PASSWORD       = "fhirclient.basicauth.password";
 
     /**
-     * Indicates whether Client Certificate-based Authentication should be used when invoking REST API requests.
-     * Valid values are "true" and "false" (the default).  If enabled, then the rest of the "clientauth"-related properties
-     * are required as well.
+     * Indicates whether client certificate-based authentication should be used when invoking REST API requests.
+     * Valid values are "true" and "false" (the default).  If enabled, then the keystore properties
+     * are required.
      */
     public static final String PROPNAME_CLIENT_AUTH_ENABLED   = "fhirclient.clientauth.enabled";
 

@@ -45,6 +45,7 @@ import com.ibm.fhir.client.FHIRResponse;
 import com.ibm.fhir.config.FHIRConfiguration;
 import com.ibm.fhir.core.FHIRMediaType;
 import com.ibm.fhir.core.FHIRUtilities;
+import com.ibm.fhir.core.FHIRVersionParam;
 import com.ibm.fhir.core.HTTPReturnPreference;
 import com.ibm.fhir.model.resource.Bundle;
 import com.ibm.fhir.model.resource.Parameters;
@@ -67,7 +68,7 @@ public class FHIRClientImpl implements FHIRClient {
     private Client client = null;
     private Properties clientProperties = null;
     private String baseEndpointURL = null;
-    private String defaultMimeType = FHIRMediaType.APPLICATION_FHIR_JSON;
+    private String defaultMimeType = FHIRMediaType.APPLICATION_FHIR_JSON + "; fhirVersion=" + FHIRVersionParam.VERSION_43.value();
 
     private boolean basicAuthEnabled = false;
     private String basicAuthUsername = null;
