@@ -208,6 +208,14 @@ public class Table extends BaseObject {
     }
 
     @Override
+    protected void grantGroupPrivileges(ISchemaAdapter target, Set<Privilege> group, String toUser) {
+        if (create) {
+            // only issue the grant if we have created this object
+            super.grantGroupPrivileges(target, group, toUser);
+        }
+    }
+
+    @Override
     public void drop(ISchemaAdapter target) {
         if (this.accessControlVar != null) {
             target.deactivateRowAccessControl(getSchemaName(), getObjectName());
