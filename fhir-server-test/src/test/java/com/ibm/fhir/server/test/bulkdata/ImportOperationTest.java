@@ -174,7 +174,9 @@ public class ImportOperationTest extends FHIRServerTestBase {
             // 200 mean export is finished
             status = response.getStatus();
 
-            assertTrue(status == Response.Status.OK.getStatusCode() || status == Response.Status.ACCEPTED.getStatusCode());
+            if (status != Response.Status.OK.getStatusCode() && status != Response.Status.ACCEPTED.getStatusCode()) {
+                fail("Unexpected " + status + " response from " + statusUrl + ": " + response.readEntity(String.class));
+            }
 
             Thread.sleep(5000);
             totalTime += 5000;

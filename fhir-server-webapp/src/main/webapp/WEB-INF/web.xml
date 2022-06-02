@@ -11,11 +11,6 @@
             <param-name>javax.ws.rs.Application</param-name>
             <param-value>com.ibm.fhir.server.FHIRApplication</param-value>
         </init-param>
-        <init-param>
-            <!-- Shouldn't be required any more, but kept for backwards-compatibility -->
-            <param-name>org.apache.cxf.jaxrs.mediaTypeCheck.strict</param-name>
-            <param-value>false</param-value>
-        </init-param>
         <load-on-startup>1</load-on-startup>
     </servlet>
 

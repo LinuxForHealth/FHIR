@@ -4,7 +4,7 @@
 #
 # SPDX-License-Identifier: Apache-2.0
 ###############################################################################
-set -e
+set -ex
 
 if [[ -z "${WORKSPACE}" ]]; then
     echo "ERROR: WORKSPACE environment variable not set!"
@@ -16,14 +16,14 @@ CONFIG="${WORKSPACE}/build/docker/fhir-server/volumes/config"
 rm -rf $CONFIG/* 2> /dev/null
 mkdir -p $CONFIG
 
-BULKDATA="${WORKSPACE}/build/docker/fhir-server/volumes/bulkdata"
+BULKDATA="${WORKSPACE}/build/docker/fhir-server/volumes/bulkdata/"
 mkdir -p ${BULKDATA}
 cp ${WORKSPACE}/fhir-server-test/src/test/resources/testdata/import-operation/test-import.ndjson ${BULKDATA}
 cp ${WORKSPACE}/fhir-server-test/src/test/resources/testdata/import-operation/test-import-skip.ndjson ${BULKDATA}
 cp ${WORKSPACE}/fhir-server-test/src/test/resources/testdata/import-operation/test-import-neg.ndjson ${BULKDATA}
 cp ${WORKSPACE}/fhir-server-test/src/test/resources/testdata/import-operation/test-import-mismatch.ndjson ${BULKDATA}
 
-S3_BULKDATA="${WORKSPACE}/build/docker/minio/miniodata/fhirbulkdata"
+S3_BULKDATA="${WORKSPACE}/build/docker/minio/miniodata/fhirbulkdata/"
 mkdir -p ${S3_BULKDATA}
 cp ${WORKSPACE}/fhir-server-test/src/test/resources/testdata/import-operation/test-import.ndjson ${S3_BULKDATA}
 cp ${WORKSPACE}/fhir-server-test/src/test/resources/testdata/import-operation/test-import-skip.ndjson ${S3_BULKDATA}

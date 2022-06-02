@@ -4,9 +4,10 @@
 # SPDX-License-Identifier: Apache-2.0
 # ----------------------------------------------------------------------------
 
-# CICD Note: If there are issues with the CICD, it's worth checking the release, and setting the previous release
-# such as minio/minio:RELEASE.2021-08-31T05-46-54Z 
-FROM minio/minio
+# CI/CD Note: This used to use "latest" but occassionally MinIO would break us.
+# We should try to keep it recent, but lets continue pinning to a particular version.
+# RELEASE.2022-06-03T01-40-53Z is not working.
+FROM minio/minio:RELEASE.2022-05-26T05-48-41Z
 
 # Indicate that we expect to connect to the minio service on port 9000
 EXPOSE 9000

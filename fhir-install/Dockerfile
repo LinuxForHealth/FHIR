@@ -16,6 +16,7 @@ COPY target/fhir-server-distribution.zip /tmp/
 RUN unzip -qq /tmp/fhir-server-distribution.zip -d /tmp && \
     /tmp/fhir-server-dist/install-fhir.sh /opt/ol/wlp && \
     mv /tmp/fhir-server-dist/tools /opt/ibm-fhir-server/tools
+COPY src/main/docker/ibm-fhir-server/bootstrap.properties /opt/ol/wlp/usr/servers/defaultServer/
 COPY src/main/docker/ibm-fhir-server/bootstrap.sh /opt/ibm-fhir-server/
 
 # ----------------------------------------------------------------------------
