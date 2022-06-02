@@ -12,7 +12,7 @@
             <param-value>com.ibm.fhir.server.FHIRApplication</param-value>
         </init-param>
         <init-param>
-            <!-- Required to avoid conflict between CXF and FHIR interpretation of the _type query param -->
+            <!-- Shouldn't be required any more, but kept for backwards-compatibility -->
             <param-name>org.apache.cxf.jaxrs.mediaTypeCheck.strict</param-name>
             <param-value>false</param-value>
         </init-param>

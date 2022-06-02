@@ -46,9 +46,15 @@ public class FHIRVersionRequestFilter implements ContainerRequestFilter {
         FHIRVersionParam fhirVersion;
 
         switch (requestContext.getMethod()) {
-        case HttpMethod.POST:
         case HttpMethod.PUT:
             fhirVersion = getFhirVersionFromContentTypeHeader(requestContext);
+            break;
+        case HttpMethod.POST:
+            if (requestContext.getUriInfo().getPath().endsWith("_search")) {
+                fhirVersion = getFhirVersionFromAcceptHeader(requestContext);
+            } else {
+                fhirVersion = getFhirVersionFromContentTypeHeader(requestContext);
+            }
             break;
         case HttpMethod.GET:
         default:
